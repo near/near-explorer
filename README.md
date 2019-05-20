@@ -1,2 +1,3 @@
-# explorer
-NEAR blockchain explorer
+# NEAR Blockchain Explorer
+
+In development.
