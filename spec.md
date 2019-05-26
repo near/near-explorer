@@ -40,6 +40,67 @@ Redux for managing data flow in the frontend.
 Store received blocks in the local db.
 Can start with sqlite db if there is good ORM.
 
+### Structure of the project
+
+The project should have three parts:
+ - Frontend, React
+ - Backend, Node (for example Next.js for both frontend and backend). This backend works with database to provide data to frontend.
+ - NodeSync, job that connected to the node, and syncs it's state into the database.
+
+ Additionally we can have an extra end point for telemetry from the other nodes directly to the explorer.
+
+### Database structure
+
+Tables:
+    - Block -- describes block, note that there can be skips in the height and forks will be different height. The best block at any time is block with largest weight.
+        - pk
+        - hash
+        - height
+        - prev_hash
+        - timestamp
+        - weight
+        - author_pk -- pk for Account that authored
+        - List<AccountId> -- list of approvals (if we need to look up on this, we can split it into separate table)
+    - Chunk -- part of the block that belongs to some shard.
+        - pk
+        - hash
+        - block_pk
+        - shard_id
+        - author_pk -- pk for Account that authored
+    - Transaction -- includes both transactions and receipts
+        - pk
+        - hash
+        - originator
+        - destination
+        - kind: SendMoney, FunctionCall, Receipt
+    - TransactionToBlock -- described N - to - 1 relation between Transactions and Blocks. Tx can be in multiple blocks because of forks.
+        - pk -- pk of this specific tx in the block.
+        - transaction_pk -- transaction pk 
+        - block_pk -- block pk that this tx was included
+        - status -- transaction status (Completed or Failed). Unknown wouldn't make it here
+    - TransactionToTransaction -- describes 1 - to - N relation between transactions.
+        - parent_pk -- pk of parent transaction or receipt in the block.
+        - child_pk -- pk of child receipt.
+    - Account -- Same data structure for accounts and contracts.
+        - pk
+        - account_id
+        - balance
+        - stake
+        - last_block_index
+        - bytes -- how many bytes this account / contracts takes.
+        - code -- byte code of the account.
+    - AccessKey -- access keys for accounts
+        - pk
+        - account_pk
+        - 
+    - Node
+        - ip address -- can be empty
+        - moniker -- can be empty
+        - account_id -- can be empty
+        - node_id - public key that is used to identify the node
+        - last_seen - timestamp
+        - last_height - last height known
+
 ## Near RPC reference
 
 Standard JSON RPC 2.0 is used across the board.
@@ -58,43 +119,128 @@ Result:
         "chain_id": "test-chain-nmZGf",
         "rpc_addr": "0.0.0.0:3030",
         "sync_info": {
-            "latest_block_hash": [
-                155,
-                184,
-                255,
-                47,
-                47,
-                105,
-                85,
-                83,
-                49,
-                209,
-                81,
-                156,
-                30,
-                108,
+            "latest_block_hash": "ugvtXLvad6DMGIYOf/NpgHt2AWbnhooTH53kp2GwB+w=",
+            "latest_block_height": 17034,
+            "latest_block_time": "2019-05-26T04:50:11.150214Z",
+            "latest_state_root": "PHvWhgQjY37IOAiaUgnpDiZKwlcfzu+c585hGuIS5Qo=",
+            "syncing": false
+        }
+    }
+}
+```
+
+### Query
+`query(path: string, data: bytes)`: queries information in the state machine / database. Where `path` can be
+    - `account/<account_id>` - returns view of account information, e.g. `{"amount": 1000000, "nonce": 102, "account_id": "test.near"}`
+    - `access_key/<account_id>` - returns all access keys for given account.
+    - `access_key/<account_id>/<public_key>` - returns details about access key for given account with this public key. If there is no such access key, returns nothing.
+    - `contract/<account_id>` - returns full state of the contract (might be expensive if contract has large state).
+    - `call/<account_id>/<method name>` - calls `<method name>` in contract `<account_id>` as view function with `data` as parameters.
+
+`http post http://127.0.0.1:3030/ jsonrpc=2.0 method=query params:="[\"account/test.near\",[]]" id="dontcare"`
+```
+{
+    "id": "dontcare",
+    "jsonrpc": "2.0",
+    "result": {
+        "code": 0,
+        "codespace": "",
+        "height": 0,
+        "index": -1,
+        "info": "",
+        "key": "YWNjb3VudC90ZXN0Lm5lYXI=",
+        "log": "exists",
+        "proof": [],
+        "value": "eyJhY2NvdW50X2lkIjoidGVzdC5uZWFyIiwibm9uY2UiOjAsImFtb3VudCI6MTAwMDAwMDAwMDAwMCwic3Rha2UiOjUwMDAwMDAwLCJwdWJsaWNfa2V5cyI6W1sxNjIsMTIyLDE0MCwyMTksMTcyLDEwNSw4MCw3OCwxOTAsMTY1LDI1NSwxNDAsMTExLDQzLDIyLDE0OSwyMTEsMTUyLDIyNywyMjcsNjcsMjIyLDIzNCw3Nyw5NiwxNTYsNjYsMjMsMTcyLDk2LDc2LDEzN11dLCJjb2RlX2hhc2giOiJBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBPSJ9"
+    }
+}
+```
+Where `value` is base64 encoded JSON of the account status:
+`'{"account_id":"test.near","nonce":0,"amount":1000000000000,"stake":50000000,"public_keys":[[162,122,140,219,172,105,80,78,190,165,255,140,111,43,22,149,211,152,227,227,67,222,234,77,96,156,66,23,172,96,76,137]],"code_hash":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="}'`.
+Note, this is Tendermint-like compatibility, that should be refactored.
+
+### Block
+`block(height: u64)`: returns block for given height. If there was re-org, this may differ.
+
+`http post http://127.0.0.1:3030/ jsonrpc=2.0 method=block params:="[1000]" id="dontcare"`
+```
+{
+    "id": "dontcare",
+    "jsonrpc": "2.0",
+    "result": {
+        "header": {
+            "approval_mask": [],
+            "approval_sigs": [],
+            "hash": [
+                152,
+                72,
+                70,
+                145,
+                206,
+                4,
+                234,
+                230,
+                138,
+                61,
+                51,
+                245,
+                104,
+                247,
+                229,
+                226,
                 0,
-                180,
-                240,
-                80,
-                187,
-                241,
-                35,
-                130,
-                79,
-                248,
-                147,
-                11,
-                244,
-                108,
-                210,
-                193,
-                150,
-                106
+                81,
+                99,
+                179,
+                159,
+                164,
+                118,
+                40,
+                82,
+                168,
+                190,
+                157,
+                36,
+                107,
+                207,
+                247
             ],
-            "latest_block_height": 617,
-            "latest_block_time": "2019-05-23T06:38:11.297633Z",
-            "latest_state_root": [
+            "height": 1000,
+            "prev_hash": [
+                201,
+                21,
+                255,
+                187,
+                50,
+                174,
+                160,
+                138,
+                224,
+                60,
+                191,
+                52,
+                52,
+                222,
+                223,
+                83,
+                205,
+                87,
+                192,
+                50,
+                228,
+                37,
+                212,
+                147,
+                229,
+                187,
+                189,
+                160,
+                162,
+                118,
+                238,
+                248
+            ],
+            "prev_state_root": [
                 60,
                 123,
                 214,
@@ -128,42 +274,115 @@ Result:
                 229,
                 10
             ],
-            "syncing": false
-        }
+            "signature": [
+                171,
+                152,
+                134,
+                58,
+                164,
+                127,
+                171,
+                95,
+                167,
+                221,
+                67,
+                138,
+                89,
+                210,
+                250,
+                97,
+                192,
+                29,
+                6,
+                101,
+                15,
+                210,
+                52,
+                187,
+                15,
+                184,
+                173,
+                173,
+                31,
+                60,
+                59,
+                61,
+                73,
+                12,
+                54,
+                21,
+                7,
+                159,
+                75,
+                124,
+                212,
+                67,
+                90,
+                225,
+                77,
+                129,
+                255,
+                232,
+                120,
+                242,
+                217,
+                238,
+                13,
+                36,
+                230,
+                17,
+                37,
+                222,
+                76,
+                193,
+                123,
+                177,
+                195,
+                5
+            ],
+            "timestamp": 1558593531626085000,
+            "total_weight": {
+                "num": 1000
+            },
+            "tx_root": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        },
+        "transactions": []
     }
 }
 ```
-
-### Query
-`query(path: string, data: bytes)`: queries information in the state machine / database. Where `path` can be
-    - `account/<name>` - returns view of account information, e.g. `{"amount": 1000000, "nonce": 102, "account_id": "test.near"}`
-    - `contract/<name>/<method name>` - calls `<method name>` in contract `<name>` as view function with `data` as parameters.
-    - `contract/<name>` - returns full state of the contract (might be expensive if contract has large state).
-
-`http post http://127.0.0.1:3030/ jsonrpc=2.0 method=query params:="[\"account/test.near\",[]]" id="dontcare"`
-```
-{
-    "id": "dontcare",
-    "jsonrpc": "2.0",
-    "result": {
-        "code": 0,
-        "codespace": "",
-        "height": 0,
-        "index": -1,
-        "info": "",
-        "key": "YWNjb3VudC90ZXN0Lm5lYXI=",
-        "log": "exists",
-        "proof": [],
-        "value": "eyJhY2NvdW50X2lkIjoidGVzdC5uZWFyIiwibm9uY2UiOjAsImFtb3VudCI6MTAwMDAwMDAwMDAwMCwic3Rha2UiOjUwMDAwMDAwLCJwdWJsaWNfa2V5cyI6W1sxNjIsMTIyLDE0MCwyMTksMTcyLDEwNSw4MCw3OCwxOTAsMTY1LDI1NSwxNDAsMTExLDQzLDIyLDE0OSwyMTEsMTUyLDIyNywyMjcsNjcsMjIyLDIzNCw3Nyw5NiwxNTYsNjYsMjMsMTcyLDk2LDc2LDEzN11dLCJjb2RlX2hhc2giOiJBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBPSJ9"
-    }
-}
-```
-Where `value` is base64 encoded JSON of the account status:
-`'{"account_id":"test.near","nonce":0,"amount":1000000000000,"stake":50000000,"public_keys":[[162,122,140,219,172,105,80,78,190,165,255,140,111,43,22,149,211,152,227,227,67,222,234,77,96,156,66,23,172,96,76,137]],"code_hash":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="}'`.
-Note, this is Tendermint-like compatibility, that should be refactored.
-
-### Block
-`block(height: u64)`: returns block for given height. If there was re-org, this may differ.
 
 ### Transaction Status
 `tx_status(hash: bytes)`: queries status of the transaction by hash, returns FinalTransactionResult that includes status, logs and result: `{"status": "Completed", "logs": [{"hash": "<hash>", "lines": [], "receipts": [], "result": null}]}`.
