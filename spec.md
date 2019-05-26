@@ -131,12 +131,13 @@ Result:
 ```
 
 ### Query
-`query(path: string, data: bytes)`: queries information in the state machine / database. Where `path` can be
-    - `account/<account_id>` - returns view of account information, e.g. `{"amount": 1000000, "nonce": 102, "account_id": "test.near"}`
-    - `access_key/<account_id>` - returns all access keys for given account.
-    - `access_key/<account_id>/<public_key>` - returns details about access key for given account with this public key. If there is no such access key, returns nothing.
-    - `contract/<account_id>` - returns full state of the contract (might be expensive if contract has large state).
-    - `call/<account_id>/<method name>` - calls `<method name>` in contract `<account_id>` as view function with `data` as parameters.
+`query(path: string, data: bytes)`: queries information in the state machine / database. Where `path` can be:
+
+- `account/<account_id>` - returns view of account information, e.g. `{"amount": 1000000, "nonce": 102, "account_id": "test.near"}`
+- `access_key/<account_id>` - returns all access keys for given account.
+- `access_key/<account_id>/<public_key>` - returns details about access key for given account with this public key. If there is no such access key, returns nothing.
+- `contract/<account_id>` - returns full state of the contract (might be expensive if contract has large state).
+- `call/<account_id>/<method name>` - calls `<method name>` in contract `<account_id>` as view function with `data` as parameters.
 
 `http post http://127.0.0.1:3030/ jsonrpc=2.0 method=query params:="[\"account/test.near\",[]]" id="dontcare"`
 ```
