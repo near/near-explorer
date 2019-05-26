@@ -52,54 +52,55 @@ The project should have three parts:
 ### Database structure
 
 Tables:
-    - Block -- describes block, note that there can be skips in the height and forks will be different height. The best block at any time is block with largest weight.
-        - pk
-        - hash
-        - height
-        - prev_hash
-        - timestamp
-        - weight
-        - author_pk -- pk for Account that authored
-        - List<AccountId> -- list of approvals (if we need to look up on this, we can split it into separate table)
-    - Chunk -- part of the block that belongs to some shard.
-        - pk
-        - hash
-        - block_pk
-        - shard_id
-        - author_pk -- pk for Account that authored
-    - Transaction -- includes both transactions and receipts
-        - pk
-        - hash
-        - originator
-        - destination
-        - kind: SendMoney, FunctionCall, Receipt
-    - TransactionToBlock -- described N - to - 1 relation between Transactions and Blocks. Tx can be in multiple blocks because of forks.
-        - pk -- pk of this specific tx in the block.
-        - transaction_pk -- transaction pk 
-        - block_pk -- block pk that this tx was included
-        - status -- transaction status (Completed or Failed). Unknown wouldn't make it here
-    - TransactionToTransaction -- describes 1 - to - N relation between transactions.
-        - parent_pk -- pk of parent transaction or receipt in the block.
-        - child_pk -- pk of child receipt.
-    - Account -- Same data structure for accounts and contracts.
-        - pk
-        - account_id
-        - balance
-        - stake
-        - last_block_index
-        - bytes -- how many bytes this account / contracts takes.
-        - code -- byte code of the account.
-    - AccessKey -- access keys for accounts
-        - pk
-        - account_pk
-        - 
-    - Node
-        - ip address -- can be empty
-        - moniker -- can be empty
-        - account_id -- can be empty
-        - node_id - public key that is used to identify the node
-        - last_seen - timestamp
-        - last_height - last height known
+
+- Block -- describes block, note that there can be skips in the height and forks will be different height. The best block at any time is block with largest weight.
+    - pk
+    - hash
+    - height
+    - prev_hash
+    - timestamp
+    - weight
+    - author_pk -- pk for Account that authored
+    - List<AccountId> -- list of approvals (if we need to look up on this, we can split it into separate table)
+- Chunk -- part of the block that belongs to some shard.
+    - pk
+    - hash
+    - block_pk
+    - shard_id
+    - author_pk -- pk for Account that authored
+- Transaction -- includes both transactions and receipts
+    - pk
+    - hash
+    - originator
+    - destination
+    - kind: SendMoney, FunctionCall, Receipt
+- TransactionToBlock -- described N - to - 1 relation between Transactions and Blocks. Tx can be in multiple blocks because of forks.
+    - pk -- pk of this specific tx in the block.
+    - transaction_pk -- transaction pk 
+    - block_pk -- block pk that this tx was included
+    - status -- transaction status (Completed or Failed). Unknown wouldn't make it here
+- TransactionToTransaction -- describes 1 - to - N relation between transactions.
+    - parent_pk -- pk of parent transaction or receipt in the block.
+    - child_pk -- pk of child receipt.
+- Account -- Same data structure for accounts and contracts.
+    - pk
+    - account_id
+    - balance
+    - stake
+    - last_block_index
+    - bytes -- how many bytes this account / contracts takes.
+    - code -- byte code of the account.
+- AccessKey -- access keys for accounts
+    - pk
+    - account_pk
+    - 
+- Node
+    - ip address -- can be empty
+    - moniker -- can be empty
+    - account_id -- can be empty
+    - node_id - public key that is used to identify the node
+    - last_seen - timestamp
+    - last_height - last height known
 
 ## Near RPC reference
 
