@@ -4,10 +4,11 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => (
   <Container fluid="true" className="near-main-container">
-    <Row className="footer-container">
+    <Row className="footer-container" noGutters="true">
       <Col className="align-self-center" md="auto">
         <img className="near-logo" src="/static/near.svg" />
       </Col>
+      <Col className="footer-nav-margin" md="auto" />
       <Col className="align-self-center footer-link" md="auto">
         © 2019 NEAR Inc. All Rights Reserved.
         <br />
@@ -43,6 +44,10 @@ const Footer = () => (
 
       .footer-link {
         line-height: 20px;
+      }
+
+      .footer-nav-margin {
+        width: 30px;
       }
     `}</style>
   </Container>

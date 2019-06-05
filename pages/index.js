@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import Header from "../components/Header";
+import Dashboard from "../components/Dashboard";
 import Footer from "../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -12,6 +13,7 @@ export default () => (
       <title>Near -- dashboard</title>
     </Head>
     <Header />
+    <Dashboard />
     <Footer />
     <style jsx global>{`
       body {

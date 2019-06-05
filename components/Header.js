@@ -75,7 +75,7 @@ const Header = () => (
         text="Help"
       />
       <HeaderNavItem
-        link="https://github.com/nearprotocol/debugger/issues"
+        link="https://github.com/nearprotocol/near-explorer/issues"
         imgLink="/static/icon-issues.svg"
         text="Issues"
       />
@@ -100,8 +100,10 @@ const Header = () => (
       }
 
       .near-main-container {
-        padding-left: 200px;
-        padding-right: 200px;
+        width: 80%;
+        margin: 0 auto;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
 
       .header-nav-network {
