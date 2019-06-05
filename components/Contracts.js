@@ -4,12 +4,12 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import Content from "./Content";
 
-const Dashboard = () => (
-  <Content title="Dashboard">
+const Contracts = () => (
+  <Content title="Contracts">
     <Row>
       <Col>Hello</Col>
     </Row>
   </Content>
 );
 
-export default Dashboard;
+export default Contracts;

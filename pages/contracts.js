@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import Header from "../components/Header";
-import Dashboard from "../components/Dashboard";
+import Contracts from "../components/Contracts";
 import Footer from "../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,10 +10,10 @@ export default () => (
   <div>
     <Head>
       <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
-      <title>Near Explorer | Dashboard</title>
+      <title>Near Explorer | Contracts</title>
     </Head>
     <Header />
-    <Dashboard />
+    <Contracts />
     <Footer />
     <style jsx global>{`
       body {
