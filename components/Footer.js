@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => (
-  <Container>
+  <Container fluid="true" className="near-main-container">
     <Row className="footer-container">
       <Col className="align-self-center" md="auto">
         <img className="near-logo" src="/static/near.svg" />
@@ -32,6 +32,8 @@ const Footer = () => (
         font-weight: 300;
         line-height: 40px;
         color: #999999;
+        margin-left: 0;
+        margin-right: 0;
       }
 
       a {
