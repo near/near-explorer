@@ -79,6 +79,15 @@ const Header = () => (
         imgLink="/static/icon-issues.svg"
         text="Issues"
       />
+
+      <Col className="align-self-center" md="auto">
+        <span className="header-nav-network" />
+        <a className="header-nav-link">
+          <img src="/static/icon-nodes.svg" className="header-icon" />
+          <span className="header-nav-item">Testnet One</span>
+          <i className="arrow-down" />
+        </a>
+      </Col>
     </Row>
     <style jsx global>{`
       .header-container {
@@ -93,6 +102,20 @@ const Header = () => (
       .near-main-container {
         padding-left: 200px;
         padding-right: 200px;
+      }
+
+      .header-nav-network {
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 12px;
+      }
+
+      .arrow-down {
+        border: solid #8dd4bd;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 3px;
+        transform: rotate(45deg);
+        margin-right: 25px;
       }
     `}</style>
   </Container>

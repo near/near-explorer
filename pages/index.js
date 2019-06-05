@@ -13,5 +13,10 @@ export default () => (
     </Head>
     <Header />
     <Footer />
+    <style jsx global>{`
+      body {
+        background-color: #f8f8f8;
+      }
+    `}</style>
   </div>
 );
