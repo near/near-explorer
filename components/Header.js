@@ -26,14 +26,15 @@ const HeaderNavItem = props => (
       }
 
       .header-nav-item {
-        color: white;
-        font-weight: 500;
-        font-size: 15px;
+        color: #ffffff;
         padding-left: 0px;
         padding-right: 25px;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
         text-decoration: none;
         text-transform: uppercase;
+        font-family: BentonSans;
+        font-size: 14px;
+        font-weight: 500;
       }
     `}</style>
   </Col>
@@ -43,27 +44,27 @@ const Header = () => (
   <Container fluid="true" className="near-main-container">
     <Row className="header-container" noGutters="true">
       <Col className="align-self-center" md="auto">
-        <img className="near-main-logo" src="/static/explorer.png" />
+        <img className="near-main-logo" src="/static/images/explorer.png" />
       </Col>
 
       <HeaderNavItem
         link="index"
-        imgLink="/static/icon-home.svg"
+        imgLink="/static/images/icon-home.svg"
         text="Dashboard"
       />
       <HeaderNavItem
         link="contracts"
-        imgLink="/static/icon-contract.svg"
+        imgLink="/static/images/icon-contract.svg"
         text="Contracts"
       />
       <HeaderNavItem
         link="transactions"
-        imgLink="/static/icon-transactions.svg"
+        imgLink="/static/images/icon-transactions.svg"
         text="Transactions"
       />
       <HeaderNavItem
         link="blocks"
-        imgLink="/static/icon-blocks.svg"
+        imgLink="/static/images/icon-blocks.svg"
         text="Blocks"
       />
 
@@ -71,25 +72,30 @@ const Header = () => (
 
       <HeaderNavItem
         link="http://near.chat/"
-        imgLink="/static/icon-help.svg"
+        imgLink="/static/images/icon-help.svg"
         text="Help"
       />
       <HeaderNavItem
         link="https://github.com/nearprotocol/near-explorer/issues"
-        imgLink="/static/icon-issues.svg"
+        imgLink="/static/images/icon-issues.svg"
         text="Issues"
       />
 
       <Col className="align-self-center" md="auto">
         <span className="header-nav-network" />
         <a className="header-nav-link">
-          <img src="/static/icon-nodes.svg" className="header-icon" />
+          <img src="/static/images/icon-nodes.svg" className="header-icon" />
           <span className="header-nav-item">Testnet One</span>
           <i className="arrow-down" />
         </a>
       </Col>
     </Row>
     <style jsx global>{`
+      @font-face {
+        font-family: "BentonSans";
+        src: url("/static/fonts/BentonSans-Medium.otf") format("opentype");
+      }
+
       .header-container {
         background-color: #24272a;
       }

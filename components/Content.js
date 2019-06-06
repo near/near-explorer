@@ -29,12 +29,36 @@ const Content = props => (
       {props.children}
     </Container>
     <style jsx global>{`
+      @font-face {
+        font-family: "BwSeidoRound";
+        font-weight: 500;
+        src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Medium.otf")
+          format("opentype");
+      }
+
+      @font-face {
+        font-family: "BwSeidoRound";
+        font-weight: 300;
+        src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Light.otf")
+          format("opentype");
+      }
+
+      @font-face {
+        font-family: "BwSeidoRound";
+        font-weight: 400;
+        src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Regular.otf")
+          format("opentype");
+      }
+
       .content-container {
         background: white;
       }
 
       .content-title {
-        font-size: 50px;
+        font-family: BwSeidoRound;
+        font-size: 48px;
+        font-weight: 500;
+        color: #24272a;
       }
 
       .content-title-total {

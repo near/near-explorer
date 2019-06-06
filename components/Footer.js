@@ -6,7 +6,7 @@ const Footer = () => (
   <Container fluid="true" className="near-main-container">
     <Row className="footer-container" noGutters="true">
       <Col className="align-self-center" md="auto">
-        <img className="near-logo" src="/static/near.svg" />
+        <img className="near-logo" src="/static/images/near.svg" />
       </Col>
       <Col className="footer-nav-margin" md="auto" />
       <Col className="align-self-center footer-link" md="auto">
@@ -22,7 +22,10 @@ const Footer = () => (
       </Col>
       <Col className="text-right">
         <a href="http://near.chat" target="_blank">
-          <img className="help-image" src="/static/need-help-footer.png" />
+          <img
+            className="help-image"
+            src="/static/images/need-help-footer.png"
+          />
         </a>
       </Col>
     </Row>
