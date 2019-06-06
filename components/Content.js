@@ -8,7 +8,24 @@ const Content = props => (
           <br />
           <p className="content-title">{props.title}</p>
         </Col>
+        {props.count !== undefined ? (
+          <Col className="text-right">
+            <br />
+            <span className="content-title">
+              {parseInt(props.count).toLocaleString()}
+            </span>
+            &nbsp;&nbsp;
+            <span className="content-title-total">total</span>
+          </Col>
+        ) : null}
       </Row>
+      {props.title.toLowerCase() !== "dashboard" ? (
+        <Row>
+          <Col>
+            <hr className="content-title-margin" />
+          </Col>
+        </Row>
+      ) : null}
       {props.children}
     </Container>
     <style jsx global>{`
@@ -18,6 +35,16 @@ const Content = props => (
 
       .content-title {
         font-size: 50px;
+      }
+
+      .content-title-total {
+        font-size: 50px;
+        color: rgba(0, 0, 0, 0.4);
+      }
+
+      .content-title-margin {
+        margin-top: -5px !important;
+        border-top: 4px solid rgba(0, 0, 0, 0.1);
       }
     `}</style>
   </Container>
