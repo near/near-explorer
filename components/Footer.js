@@ -32,8 +32,8 @@ const Footer = () => (
     <style jsx global>{`
       .footer-container {
         background-color: #f8f8f8;
+        font-family: BentonSans;
         font-size: 12px;
-        font-weight: 300;
         line-height: 40px;
         color: #999999;
         margin-left: 0;

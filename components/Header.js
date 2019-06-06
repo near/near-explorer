@@ -118,7 +118,7 @@ const Header = () => (
       }
 
       .arrow-down {
-        border: solid #8dd4bd;
+        border: solid #a7e6d7;
         border-width: 0 2px 2px 0;
         display: inline-block;
         padding: 3px;
