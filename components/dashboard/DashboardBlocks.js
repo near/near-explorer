@@ -9,12 +9,24 @@ const EmptyRow = () => (
 );
 
 const DashboardBlocksBlock = props => (
-  <Card className="dashboard-blocks-block">
-    <Card.Title className="dashboard-blocks-block-title">
-      #{props.blockNumber}
-    </Card.Title>
-    <Card.Body>Hello</Card.Body>
+  <Col>
+    <Link href={"block/" + props.blockNumber}>
+      <a className="dashboard-blocks-block-link">
+        <Card className="dashboard-blocks-block">
+          <Card.Title className="dashboard-blocks-block-title">
+            #{props.blockNumber}
+          </Card.Title>
+          <Card.Body className="dashboard-blocks-block-content">
+            Hello
+          </Card.Body>
+        </Card>
+      </a>
+    </Link>
     <style jsx global>{`
+      .dashboard-blocks-block-link:hover {
+        text-decoration: none;
+      }
+
       .dashboard-blocks-block {
         padding: 10px;
         border-radius: 5px;
@@ -27,8 +39,12 @@ const DashboardBlocksBlock = props => (
         font-weight: 500;
         color: #24272a;
       }
+
+      .dashboard-blocks-block-content {
+        padding: 0 !important;
+      }
     `}</style>
-  </Card>
+  </Col>
 );
 
 const DashboardBlocks = () => (
@@ -60,12 +76,8 @@ const DashboardBlocks = () => (
     <EmptyRow />
     <Row>
       <Col md="auto" />
-      <Col>
-        <DashboardBlocksBlock blockNumber="6066099" />
-      </Col>
-      <Col>
-        <DashboardBlocksBlock blockNumber="6066098" />
-      </Col>
+      <DashboardBlocksBlock blockNumber="6066099" />
+      <DashboardBlocksBlock blockNumber="6066098" />
     </Row>
     <EmptyRow />
     <Row>
