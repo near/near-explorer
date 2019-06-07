@@ -32,6 +32,10 @@ const DashboardBlocksBlock = props => (
       </a>
     </Link>
     <style jsx global>{`
+      .dashboard-blocks-block-link {
+        cursor: pointer;
+      }
+
       .dashboard-blocks-block-link:hover {
         text-decoration: none;
       }
@@ -86,9 +90,9 @@ const DashboardBlocks = () => (
           <g
             fill="none"
             stroke="#CCC"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
           >
             <path d="m1 1h27v27h-27z" />
             <circle cx="22" cy="22" r="12" />
@@ -162,7 +166,7 @@ const DashboardBlocks = () => (
             blockHeight="15489"
             witness="vlad.near"
           />
-          <Col>
+          <Col xs="6">
             <Link href="blocks">
               <a className="dashboard-footer">View All</a>
             </Link>
@@ -186,10 +190,8 @@ const DashboardBlocks = () => (
 
       .dashboard-footer {
         width: 100px;
-        border-radius: 30px;
         background-color: #f8f8f8;
         display: block;
-        padding: 8px 0;
         text-align: center;
         text-decoration: none;
         font-family: BentonSans;
@@ -198,6 +200,8 @@ const DashboardBlocks = () => (
         font-weight: bold;
         text-transform: uppercase;
         margin-top: 20px;
+        border-radius: 30px;
+        padding: 8px 0;
       }
 
       .gutter-4.row {

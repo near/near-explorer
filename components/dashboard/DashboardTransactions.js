@@ -23,11 +23,11 @@ const DashboardTransactions = () => (
         >
           <g
             fill="none"
-            fill-rule="evenodd"
+            fillRule="evenodd"
             stroke="#CCC"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
           >
             <path d="M7 19h18M7 25l-6-6 6-6M19 7H1M19 1l6 6-6 6" />
           </g>

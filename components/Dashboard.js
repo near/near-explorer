@@ -18,10 +18,9 @@ const Dashboard = () => (
   <Content title="Dashboard">
     <DashboardHeader />
     <Row>
-      <Col md="7">
+      <Col md="8">
         <DashboardTransactions />
       </Col>
-      <Col md="1" />
       <Col md="4">
         <DashboardBlocks />
       </Col>
@@ -38,21 +37,6 @@ const Dashboard = () => (
     <EmptyRow />
     <EmptyRow />
     <style jsx global>{`
-      .dashboard-footer {
-        width: 100px;
-        border-radius: 30px;
-        background-color: #f8f8f8;
-        display: block;
-        padding: 8px 0;
-        text-align: center;
-        text-decoration: none;
-        font-family: BentonSans;
-        font-size: 14px;
-        color: #0072ce;
-        font-weight: bold;
-        text-transform: uppercase;
-      }
-
       .dashboard-footer:hover {
         text-decoration: none;
       }
