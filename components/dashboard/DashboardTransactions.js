@@ -32,7 +32,7 @@ const DashboardTransactions = () => (
             <path d="M7 19h18M7 25l-6-6 6-6M19 7H1M19 1l6 6-6 6" />
           </g>
         </svg>
-        &nbsp;&nbsp; Recent Transactions
+        &nbsp; Recent Transactions
       </Col>
     </Row>
     <EmptyRow />
@@ -53,8 +53,8 @@ const DashboardTransactions = () => (
     <Row>
       <Col md="auto" />
       <Col>
-        <Link href="transactions">
-          <a className="dashboard-transactions-footer">View All</a>
+        <Link href="blocks">
+          <a className="dashboard-footer">View All</a>
         </Link>
       </Col>
     </Row>
@@ -67,7 +67,7 @@ const DashboardTransactions = () => (
         color: #24272a;
       }
 
-      .dashboard-transactions-footer {
+      .dashboard-footer {
         width: 100px;
         border-radius: 30px;
         background-color: #f8f8f8;
@@ -82,7 +82,7 @@ const DashboardTransactions = () => (
         text-transform: uppercase;
       }
 
-      .dashboard-transactions-footer:hover {
+      .dashboard-footer:hover {
         text-decoration: none;
       }
     `}</style>
