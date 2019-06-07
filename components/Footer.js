@@ -13,19 +13,22 @@ const Footer = () => (
         © 2019 NEAR Inc. All Rights Reserved.
         <br />
         <Link href="terms-of-service">
-          <a>Terms of Service</a>
+          <a className="footer-link-href">Terms of Service</a>
         </Link>
         &nbsp;|&nbsp;
         <Link href="privacy-policy">
-          <a>Privacy Policy</a>
+          <a className="footer-link-href">Privacy Policy</a>
         </Link>
       </Col>
       <Col className="text-right">
-        <a href="http://near.chat" target="_blank">
-          <img
-            className="help-image"
-            src="/static/images/need-help-footer.png"
-          />
+        <a className="footer-help-link" href="http://near.chat" target="_blank">
+          <img className="help-image" src="/static/images/footer-nearkat.svg" />
+          <div className="footer-help my-auto">
+            <span className="need-help-contact">Need Help?</span>
+            <span className="need-help-contact need-help-contact-bottom">
+              Contact Support
+            </span>
+          </div>
         </a>
       </Col>
     </Row>
@@ -40,7 +43,7 @@ const Footer = () => (
         margin-right: 0;
       }
 
-      a {
+      .footer-link-href {
         color: #999999;
         text-decoration: underline;
       }
@@ -51,6 +54,41 @@ const Footer = () => (
 
       .footer-nav-margin {
         width: 30px;
+      }
+
+      .footer-help {
+        background-color: #ffffff;
+        width: 250px;
+        height: 100px;
+        display: table-cell;
+        text-align: left;
+        padding-left: 50px;
+        line-height: 1px;
+        padding-top: 25px;
+      }
+
+      .help-image {
+        width: 90px;
+        position: relative;
+        right: -50px;
+      }
+
+      .need-help-contact {
+        font-family: BwSeidoRound;
+        font-size: 18px;
+        font-weight: 900;
+        line-height: 1.33;
+        color: #999999;
+        text-decoration: none !important;
+      }
+
+      .footer-help-link:hover {
+        text-decoration: none !important;
+      }
+
+      .need-help-contact-bottom {
+        color: #0072ce !important;
+        display: block;
       }
     `}</style>
   </Container>
