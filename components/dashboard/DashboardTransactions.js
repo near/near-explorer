@@ -2,11 +2,17 @@ import Link from "next/link";
 
 import { Row, Col } from "react-bootstrap";
 
+import DashboardTransactionsRow from "./DashboardTransactionsRow";
+
+const EmptyRow = () => (
+  <Row>
+    <Col>&nbsp;</Col>
+  </Row>
+);
+
 const DashboardTransactions = () => (
   <div>
-    <Row>
-      <Col>&nbsp;</Col>
-    </Row>
+    <EmptyRow />
     <Row noGutters="true">
       <Col className="dashboard-transactions-title">
         <svg
@@ -29,19 +35,20 @@ const DashboardTransactions = () => (
         &nbsp;&nbsp; Recent Transactions
       </Col>
     </Row>
-    <Row>
-      <Col className="dashboard-transactions-content-box">&nbsp;</Col>
-    </Row>
+    <EmptyRow />
+    <DashboardTransactionsRow
+      txType="Call"
+      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
+      txId="1234567890"
+      contractName="NameOfContract"
+      username="username"
+    />
     <style jsx global>{`
       .dashboard-transactions-title {
         font-family: BwSeidoRound;
         font-size: 24px;
         font-weight: 500;
         color: #24272a;
-      }
-
-      .dashboard-transactions-content-box {
-        border-left: 4px solid black;
       }
     `}</style>
   </div>
