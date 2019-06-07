@@ -130,6 +130,23 @@ Result:
 }
 ```
 
+### Send transaction (async)
+
+`broadcast_tx_async`: sends transaction and returns right away with the hash of the transaction in base58.
+
+`http post http://127.0.0.1:3030/ jsonrpc=2.0 method=broadcast_tx_async params:="[<base 58 of the SignedTransaction>]" id="dontcare"`
+
+### Send transaction (wait until done)
+
+`broadcast_tx_commit`: sends transaction and returns only until transaction fully gets executed (including receipts). Has timeout of 5 (?) seconds.
+
+`http post http://127.0.0.1:3030/ jsonrpc=2.0 method=broadcast_tx_async params:="[<base 58 of the SignedTransaction>]" id="dontcare"`
+
+Result (`FinalTransactionResult`):
+```
+TODO
+```
+
 ### Query
 `query(path: string, data: bytes)`: queries information in the state machine / database. Where `path` can be:
 
@@ -157,7 +174,7 @@ Result:
     }
 }
 ```
-Where `value` is base64 encoded JSON of the account status:
+Where `value` is base58 encoded JSON of the account status:
 `'{"account_id":"test.near","nonce":0,"amount":1000000000000,"stake":50000000,"public_keys":[[162,122,140,219,172,105,80,78,190,165,255,140,111,43,22,149,211,152,227,227,67,222,234,77,96,156,66,23,172,96,76,137]],"code_hash":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="}'`.
 Note, this is Tendermint-like compatibility, that should be refactored.
 
