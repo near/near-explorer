@@ -8,6 +8,12 @@ import DashboardHeader from "./dashboard/DashboardHeader";
 import DashboardTransactions from "./dashboard/DashboardTransactions";
 import DashboardBlocks from "./dashboard/DashboardBlocks";
 
+const EmptyRow = () => (
+  <Row>
+    <Col>&nbsp;</Col>
+  </Row>
+);
+
 const Dashboard = () => (
   <Content title="Dashboard">
     <DashboardHeader />
@@ -20,6 +26,42 @@ const Dashboard = () => (
         <DashboardBlocks />
       </Col>
     </Row>
+    <Row noGutters="true">
+      <Col md="auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Col>
+      <Col md="8">
+        <Link href="transactions">
+          <a className="dashboard-footer">View All</a>
+        </Link>
+      </Col>
+      <Col>
+        <Link href="transactions">
+          <a className="dashboard-footer">View All</a>
+        </Link>
+      </Col>
+    </Row>
+    <EmptyRow />
+    <EmptyRow />
+    <EmptyRow />
+    <style jsx global>{`
+      .dashboard-footer {
+        width: 100px;
+        border-radius: 30px;
+        background-color: #f8f8f8;
+        display: block;
+        padding: 8px 0;
+        text-align: center;
+        text-decoration: none;
+        font-family: BentonSans;
+        font-size: 14px;
+        color: #0072ce;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .dashboard-footer:hover {
+        text-decoration: none;
+      }
+    `}</style>
   </Content>
 );
 

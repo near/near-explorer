@@ -50,40 +50,68 @@ const DashboardTransactions = () => (
       contractName="NameOfContract"
       username="username"
     />
-    <Row>
-      <Col md="auto" />
-      <Col>
-        <Link href="blocks">
-          <a className="dashboard-footer">View All</a>
-        </Link>
-      </Col>
-    </Row>
-    <EmptyRow />
+    <DashboardTransactionsRow
+      txType="Call"
+      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
+      txId="1234567890"
+      contractName="NameOfContract"
+      username="username"
+    />
+    <DashboardTransactionsRow
+      txType="Staked"
+      txMsg="10 tokens MlGfMAO..."
+      txId="454567890"
+      contractName="NameOfContract"
+      username="username"
+    />
+    <DashboardTransactionsRow
+      txType="ContractDeployed"
+      txMsg="NameOfContract"
+      txId="4522267890"
+      contractName="NameOfContract"
+      username="username"
+    />
+    <DashboardTransactionsRow
+      txType="Call"
+      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
+      txId="1234567890"
+      contractName="NameOfContract"
+      username="username"
+    />
+    <DashboardTransactionsRow
+      txType="Call"
+      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
+      txId="1234567890"
+      contractName="NameOfContract"
+      username="username"
+    />
+    <DashboardTransactionsRow
+      txType="Staked"
+      txMsg="10 tokens MlGfMAO..."
+      txId="454567890"
+      contractName="NameOfContract"
+      username="username"
+    />
+    <DashboardTransactionsRow
+      txType="ContractDeployed"
+      txMsg="NameOfContract"
+      txId="4522267890"
+      contractName="NameOfContract"
+      username="username"
+    />
+    <DashboardTransactionsRow
+      txType="Call"
+      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
+      txId="1234567890"
+      contractName="NameOfContract"
+      username="username"
+    />
     <style jsx global>{`
       .dashboard-transactions-title {
         font-family: BwSeidoRound;
         font-size: 24px;
         font-weight: 500;
         color: #24272a;
-      }
-
-      .dashboard-footer {
-        width: 100px;
-        border-radius: 30px;
-        background-color: #f8f8f8;
-        display: block;
-        padding: 8px 0;
-        text-align: center;
-        text-decoration: none;
-        font-family: BentonSans;
-        font-size: 14px;
-        color: #0072ce;
-        font-weight: bold;
-        text-transform: uppercase;
-      }
-
-      .dashboard-footer:hover {
-        text-decoration: none;
       }
     `}</style>
   </div>

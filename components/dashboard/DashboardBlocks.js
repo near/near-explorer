@@ -17,7 +17,10 @@ const DashboardBlocksBlock = props => (
             #{props.blockNumber}
           </Card.Title>
           <Card.Body className="dashboard-blocks-block-content">
-            Hello
+            <p className="dashboard-blocks-block-content-p">254</p>
+            <p className="dashboard-blocks-block-content-p">15489</p>
+            <p className="dashboard-blocks-block-content-p">@vlad.near</p>
+            <p className="dashboard-blocks-block-content-p-footer">Hello</p>
           </Card.Body>
         </Card>
       </a>
@@ -42,6 +45,21 @@ const DashboardBlocksBlock = props => (
 
       .dashboard-blocks-block-content {
         padding: 0 !important;
+      }
+
+      .dashboard-blocks-block-content-p {
+        line-height: 8px;
+        font-family: BentonSans;
+        font-size: 14px;
+        color: #999999;
+      }
+
+      .dashboard-blocks-block-content-p-footer {
+        font-family: BentonSans;
+        font-size: 14px;
+        font-weight: 500;
+        color: #0072ce;
+        margin-bottom: 0;
       }
     `}</style>
   </Col>
@@ -74,19 +92,32 @@ const DashboardBlocks = () => (
       </Col>
     </Row>
     <EmptyRow />
-    <Row>
-      <Col md="auto" />
+    <Row noGutters="true">
+      <Col md="1" />
       <DashboardBlocksBlock blockNumber="6066099" />
+      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
       <DashboardBlocksBlock blockNumber="6066098" />
     </Row>
     <EmptyRow />
-    <Row>
-      <Col md="auto" />
-      <Col>
-        <Link href="transactions">
-          <a className="dashboard-footer">View All</a>
-        </Link>
-      </Col>
+    <Row noGutters="true">
+      <Col md="1" />
+      <DashboardBlocksBlock blockNumber="6066099" />
+      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
+      <DashboardBlocksBlock blockNumber="6066098" />
+    </Row>
+    <EmptyRow />
+    <Row noGutters="true">
+      <Col md="1" />
+      <DashboardBlocksBlock blockNumber="6066099" />
+      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
+      <DashboardBlocksBlock blockNumber="6066098" />
+    </Row>
+    <EmptyRow />
+    <Row noGutters="true">
+      <Col md="1" />
+      <DashboardBlocksBlock blockNumber="6066099" />
+      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
+      <DashboardBlocksBlock blockNumber="6066098" />
     </Row>
     <EmptyRow />
     <style jsx global>{``}</style>
