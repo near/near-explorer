@@ -4,12 +4,19 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = () => (
   <Container fluid="true" className="near-main-container">
-    <Row className="footer-container" noGutters="true">
-      <Col className="align-self-center" md="auto">
+    <Row className="footer-container">
+      <Col
+        className="align-self-center text-md-left text-center"
+        xs="12"
+        md="2"
+      >
         <img className="near-logo" src="/static/images/near.svg" />
       </Col>
-      <Col className="footer-nav-margin" md="auto" />
-      <Col className="align-self-center footer-link" md="auto">
+      <Col
+        className="align-self-center footer-link text-md-left text-center"
+        xs="12"
+        md="7"
+      >
         © 2019 NEAR Inc. All Rights Reserved.
         <br />
         <Link href="terms-of-service">
@@ -20,7 +27,7 @@ const Footer = () => (
           <a className="footer-link-href">Privacy Policy</a>
         </Link>
       </Col>
-      <Col className="text-right">
+      <Col className="text-right d-none d-sm-block" md="3">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
           <img className="help-image" src="/static/images/footer-nearkat.svg" />
           <div className="footer-help my-auto">
@@ -39,8 +46,12 @@ const Footer = () => (
         font-size: 12px;
         line-height: 40px;
         color: #999999;
-        margin-left: 0;
-        margin-right: 0;
+      }
+
+      .footer-container > .col-12 {
+        min-height: 70px;
+        padding-top: 20px;
+        padding-bottom: 25px;
       }
 
       .footer-link-href {
