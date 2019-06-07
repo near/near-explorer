@@ -33,11 +33,6 @@ const Dashboard = () => (
           <a className="dashboard-footer">View All</a>
         </Link>
       </Col>
-      <Col>
-        <Link href="transactions">
-          <a className="dashboard-footer">View All</a>
-        </Link>
-      </Col>
     </Row>
     <EmptyRow />
     <EmptyRow />

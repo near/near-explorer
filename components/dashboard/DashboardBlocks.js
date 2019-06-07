@@ -9,7 +9,7 @@ const EmptyRow = () => (
 );
 
 const DashboardBlocksBlock = props => (
-  <Col>
+  <Col xs="6" className="pr-0">
     <Link href={"block/" + props.blockNumber}>
       <a className="dashboard-blocks-block-link">
         <Card className="dashboard-blocks-block">
@@ -40,6 +40,7 @@ const DashboardBlocksBlock = props => (
         padding: 10px;
         border-radius: 5px;
         border: solid 4px #e6e6e6;
+        margin-top: 15px;
       }
 
       .dashboard-blocks-block-title {
@@ -74,8 +75,8 @@ const DashboardBlocksBlock = props => (
 const DashboardBlocks = () => (
   <div>
     <EmptyRow />
-    <Row noGutters="true">
-      <Col className="dashboard-transactions-title">
+    <Row>
+      <Col xs="2">
         <svg
           width="26"
           height="26"
@@ -94,87 +95,111 @@ const DashboardBlocks = () => (
             <path d="m30.49 30.49 6.51 6.51" />
           </g>
         </svg>
-        &nbsp; Recent Blocks
+      </Col>
+      <Col className="dashboard-transactions-title px-0">Recent Blocks</Col>
+    </Row>
+    <Row>
+      <Col xs="2">
+        <div className="dashboard-blocks-hr-parent">
+          <div className="dashboard-blocks-hr" />
+        </div>
+      </Col>
+      <Col className="px-0">
+        <Row>
+          <DashboardBlocksBlock
+            blockNumber="6066099"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <DashboardBlocksBlock
+            blockNumber="6066098"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <DashboardBlocksBlock
+            blockNumber="6066099"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <DashboardBlocksBlock
+            blockNumber="6066098"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <DashboardBlocksBlock
+            blockNumber="6066099"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <DashboardBlocksBlock
+            blockNumber="6066098"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <DashboardBlocksBlock
+            blockNumber="6066099"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <DashboardBlocksBlock
+            blockNumber="6066098"
+            blockHash="1a2b3c4d5e6f"
+            transactionsCount="254"
+            blockHeight="15489"
+            witness="vlad.near"
+          />
+          <Col>
+            <Link href="blocks">
+              <a className="dashboard-footer">View All</a>
+            </Link>
+          </Col>
+        </Row>
       </Col>
     </Row>
     <EmptyRow />
-    <Row noGutters="true">
-      <Col md="1" />
-      <DashboardBlocksBlock
-        blockNumber="6066099"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock
-        blockNumber="6066098"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-    </Row>
-    <EmptyRow />
-    <Row noGutters="true">
-      <Col md="1" />
-      <DashboardBlocksBlock
-        blockNumber="6066099"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock
-        blockNumber="6066098"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-    </Row>
-    <EmptyRow />
-    <Row noGutters="true">
-      <Col md="1" />
-      <DashboardBlocksBlock
-        blockNumber="6066099"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock
-        blockNumber="6066098"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-    </Row>
-    <EmptyRow />
-    <Row noGutters="true">
-      <Col md="1" />
-      <DashboardBlocksBlock
-        blockNumber="6066099"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-      <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock
-        blockNumber="6066098"
-        blockHash="1a2b3c4d5e6f"
-        transactionsCount="254"
-        blockHeight="15489"
-        witness="vlad.near"
-      />
-    </Row>
-    <EmptyRow />
-    <style jsx global>{``}</style>
+    <style jsx global>{`
+      .dashboard-blocks-hr-parent {
+        width: 26px;
+        height: 100%;
+      }
+
+      .dashboard-blocks-hr {
+        border: solid 3px #f8f8f8;
+        width: 1px;
+        height: 100%;
+        margin: 0 auto;
+      }
+
+      .dashboard-footer {
+        width: 100px;
+        border-radius: 30px;
+        background-color: #f8f8f8;
+        display: block;
+        padding: 8px 0;
+        text-align: center;
+        text-decoration: none;
+        font-family: BentonSans;
+        font-size: 14px;
+        color: #0072ce;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-top: 20px;
+      }
+    `}</style>
   </div>
 );
 
