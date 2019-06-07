@@ -61,6 +61,14 @@ const Dashboard = () => (
       .dashboard-footer:hover {
         text-decoration: none;
       }
+
+      a {
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: none;
+      }
     `}</style>
   </Content>
 );

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Row, Col, Card, CardGroup } from "react-bootstrap";
 
 const DashboardCard = props => (
@@ -72,12 +74,16 @@ const DashboardHeader = () => (
           cls="border-right-0"
           format="true"
         />
-        <DashboardCard
-          title="Accounts"
-          imgLink="/static/images/icon-m-user.svg"
-          text="2113478"
-          format="true"
-        />
+        <Link href="accounts">
+          <a>
+            <DashboardCard
+              title="Accounts"
+              imgLink="/static/images/icon-m-user.svg"
+              text="2113478"
+              format="true"
+            />
+          </a>
+        </Link>
       </CardGroup>
     </Col>
   </Row>
