@@ -59,18 +59,19 @@ const Footer = () => (
       .footer-help {
         background-color: #ffffff;
         width: 250px;
-        height: 100px;
+        height: 80px;
         display: table-cell;
         text-align: left;
         padding-left: 50px;
         line-height: 1px;
-        padding-top: 25px;
+        padding-top: 20px;
       }
 
       .help-image {
         width: 90px;
         position: relative;
         right: -50px;
+        top: -20px;
       }
 
       .need-help-contact {
