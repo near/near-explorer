@@ -43,6 +43,13 @@ const DashboardTransactions = () => (
       contractName="NameOfContract"
       username="username"
     />
+    <DashboardTransactionsRow
+      txType="Sent"
+      txMsg="125 N to @jake.near"
+      txId="21234567890"
+      contractName="NameOfContract"
+      username="username"
+    />
     <style jsx global>{`
       .dashboard-transactions-title {
         font-family: BwSeidoRound;

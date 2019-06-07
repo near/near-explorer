@@ -11,7 +11,7 @@ const Dashboard = () => (
   <Content title="Dashboard">
     <DashboardHeader />
     <Row>
-      <Col>
+      <Col md="7">
         <DashboardTransactions />
       </Col>
     </Row>
