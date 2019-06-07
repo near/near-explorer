@@ -17,10 +17,16 @@ const DashboardBlocksBlock = props => (
             #{props.blockNumber}
           </Card.Title>
           <Card.Body className="dashboard-blocks-block-content">
-            <p className="dashboard-blocks-block-content-p">254</p>
-            <p className="dashboard-blocks-block-content-p">15489</p>
-            <p className="dashboard-blocks-block-content-p">@vlad.near</p>
-            <p className="dashboard-blocks-block-content-p-footer">Hello</p>
+            <p className="dashboard-blocks-block-content-p">
+              {props.transactionsCount}
+            </p>
+            <p className="dashboard-blocks-block-content-p">
+              {props.blockHeight}
+            </p>
+            <p className="dashboard-blocks-block-content-p">@{props.witness}</p>
+            <p className="dashboard-blocks-block-content-p-footer">
+              {props.blockHash.substring(0, 7)}...
+            </p>
           </Card.Body>
         </Card>
       </a>
@@ -94,30 +100,78 @@ const DashboardBlocks = () => (
     <EmptyRow />
     <Row noGutters="true">
       <Col md="1" />
-      <DashboardBlocksBlock blockNumber="6066099" />
+      <DashboardBlocksBlock
+        blockNumber="6066099"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
       <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock blockNumber="6066098" />
+      <DashboardBlocksBlock
+        blockNumber="6066098"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
     </Row>
     <EmptyRow />
     <Row noGutters="true">
       <Col md="1" />
-      <DashboardBlocksBlock blockNumber="6066099" />
+      <DashboardBlocksBlock
+        blockNumber="6066099"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
       <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock blockNumber="6066098" />
+      <DashboardBlocksBlock
+        blockNumber="6066098"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
     </Row>
     <EmptyRow />
     <Row noGutters="true">
       <Col md="1" />
-      <DashboardBlocksBlock blockNumber="6066099" />
+      <DashboardBlocksBlock
+        blockNumber="6066099"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
       <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock blockNumber="6066098" />
+      <DashboardBlocksBlock
+        blockNumber="6066098"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
     </Row>
     <EmptyRow />
     <Row noGutters="true">
       <Col md="1" />
-      <DashboardBlocksBlock blockNumber="6066099" />
+      <DashboardBlocksBlock
+        blockNumber="6066099"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
       <Col md="auto">&nbsp;&nbsp;&nbsp;</Col>
-      <DashboardBlocksBlock blockNumber="6066098" />
+      <DashboardBlocksBlock
+        blockNumber="6066098"
+        blockHash="1a2b3c4d5e6f"
+        transactionsCount="254"
+        blockHeight="15489"
+        witness="vlad.near"
+      />
     </Row>
     <EmptyRow />
     <style jsx global>{``}</style>
