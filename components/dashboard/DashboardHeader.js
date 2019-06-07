@@ -81,6 +81,7 @@ const DashboardHeader = () => (
               imgLink="/static/images/icon-m-user.svg"
               text="2113478"
               format="true"
+              cls="pr-0"
             />
           </a>
         </Link>

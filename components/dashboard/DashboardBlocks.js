@@ -9,7 +9,7 @@ const EmptyRow = () => (
 );
 
 const DashboardBlocksBlock = props => (
-  <Col xs="6" className="pr-0">
+  <Col xs="6">
     <Link href={"block/" + props.blockNumber}>
       <a className="dashboard-blocks-block-link">
         <Card className="dashboard-blocks-block">
@@ -38,9 +38,9 @@ const DashboardBlocksBlock = props => (
 
       .dashboard-blocks-block {
         padding: 10px;
-        border-radius: 5px;
+        border-radius: 8px;
         border: solid 4px #e6e6e6;
-        margin-top: 15px;
+        margin-top: 8px;
       }
 
       .dashboard-blocks-block-title {
@@ -76,7 +76,7 @@ const DashboardBlocks = () => (
   <div>
     <EmptyRow />
     <Row>
-      <Col xs="2">
+      <Col xs="1">
         <svg
           width="26"
           height="26"
@@ -96,16 +96,16 @@ const DashboardBlocks = () => (
           </g>
         </svg>
       </Col>
-      <Col className="dashboard-transactions-title px-0">Recent Blocks</Col>
+      <Col className="dashboard-transactions-title">Recent Blocks</Col>
     </Row>
     <Row>
-      <Col xs="2">
+      <Col xs="1">
         <div className="dashboard-blocks-hr-parent">
           <div className="dashboard-blocks-hr" />
         </div>
       </Col>
-      <Col className="px-0">
-        <Row>
+      <Col>
+        <Row className="gutter-4">
           <DashboardBlocksBlock
             blockNumber="6066099"
             blockHash="1a2b3c4d5e6f"
@@ -198,6 +198,16 @@ const DashboardBlocks = () => (
         font-weight: bold;
         text-transform: uppercase;
         margin-top: 20px;
+      }
+
+      .gutter-4.row {
+        margin-right: -4px;
+        margin-left: -4px;
+      }
+      .gutter-4 > [class^="col-"],
+      .gutter-4 > [class^=" col-"] {
+        padding-right: 4px;
+        padding-left: 4px;
       }
     `}</style>
   </div>

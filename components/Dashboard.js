@@ -17,7 +17,7 @@ const EmptyRow = () => (
 const Dashboard = () => (
   <Content title="Dashboard">
     <DashboardHeader />
-    <Row noGutters="true">
+    <Row>
       <Col md="7">
         <DashboardTransactions />
       </Col>
