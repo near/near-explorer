@@ -50,12 +50,40 @@ const DashboardTransactions = () => (
       contractName="NameOfContract"
       username="username"
     />
+    <Row>
+      <Col md="auto" />
+      <Col>
+        <Link href="transactions">
+          <a className="dashboard-transactions-footer">View All</a>
+        </Link>
+      </Col>
+    </Row>
+    <EmptyRow />
     <style jsx global>{`
       .dashboard-transactions-title {
         font-family: BwSeidoRound;
         font-size: 24px;
         font-weight: 500;
         color: #24272a;
+      }
+
+      .dashboard-transactions-footer {
+        width: 100px;
+        border-radius: 30px;
+        background-color: #f8f8f8;
+        display: block;
+        padding: 8px 0;
+        text-align: center;
+        text-decoration: none;
+        font-family: BentonSans;
+        font-size: 14px;
+        color: #0072ce;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .dashboard-transactions-footer:hover {
+        text-decoration: none;
       }
     `}</style>
   </div>
