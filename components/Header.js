@@ -1,9 +1,14 @@
 import Link from "next/link";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Dropdown } from "react-bootstrap";
 
 const HeaderNavItem = props => (
-  <Col className="align-self-center" md="auto">
+  <Col
+    className={`align-self-center d-none d-sm-block ${
+      props.cls !== undefined ? props.cls : ""
+    }`}
+    md="auto"
+  >
     <Link href={props.link}>
       <a className="header-nav-link">
         <img src={props.imgLink} className="header-icon" />
@@ -21,14 +26,12 @@ const HeaderNavItem = props => (
       }
 
       .header-icon {
-        width: 24px !important;
-        margin-right: 15px;
+        width: 20px !important;
+        margin-right: 8px;
       }
 
       .header-nav-item {
         color: #ffffff;
-        padding-left: 0px;
-        padding-right: 25px;
         letter-spacing: 2px;
         text-decoration: none;
         text-transform: uppercase;
@@ -42,8 +45,8 @@ const HeaderNavItem = props => (
 
 const Header = () => (
   <Container fluid="true" className="near-main-container">
-    <Row className="header-container" noGutters="true">
-      <Col className="align-self-center" md="auto">
+    <Row className="header-container">
+      <Col md="auto" xs="6" className="pl-0  d-none d-sm-block ">
         <img className="near-main-logo" src="/static/images/explorer.png" />
       </Col>
 
@@ -51,6 +54,7 @@ const Header = () => (
         link="index"
         imgLink="/static/images/icon-home.svg"
         text="Dashboard"
+        cls="pl-0"
       />
       <HeaderNavItem
         link="contracts"
@@ -68,26 +72,34 @@ const Header = () => (
         text="Blocks"
       />
 
-      <Col />
-
       <HeaderNavItem
         link="http://near.chat/"
         imgLink="/static/images/icon-help.svg"
         text="Help"
+        cls="ml-auto"
       />
       <HeaderNavItem
         link="https://github.com/nearprotocol/near-explorer/issues"
         imgLink="/static/images/icon-issues.svg"
         text="Issues"
+        cls="pl-0"
       />
 
-      <Col className="align-self-center" md="auto">
-        <span className="header-nav-network" />
-        <a className="header-nav-link">
-          <img src="/static/images/icon-nodes.svg" className="header-icon" />
-          <span className="header-nav-item">Testnet One</span>
-          <i className="arrow-down" />
-        </a>
+      <Col className="align-self-center d-none d-sm-block px-0" md="auto">
+        <span className="header-nav-network-border" />
+      </Col>
+
+      <Col className="align-self-center mb-3 mt-3" md="auto" xs="12">
+        <Dropdown>
+          <Dropdown.Toggle variant="dark" className="header-nav-network">
+            <img src="/static/images/icon-nodes.svg" className="header-icon" />
+            <span className="header-nav-item">Testnet One</span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item>Testnet One</Dropdown.Item>
+            <Dropdown.Item>Testnet Two</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Col>
     </Row>
     <style jsx global>{`
@@ -102,28 +114,24 @@ const Header = () => (
 
       .near-main-logo {
         width: 220px !important;
-        margin-right: 10px;
       }
 
       .near-main-container {
-        width: 80%;
-        margin: 0 auto;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
+        width: 88%;
+      }
+
+      .header-nav-network-border {
+        border: solid 1px #979797;
       }
 
       .header-nav-network {
-        border-left: 1px solid rgba(255, 255, 255, 0.5);
-        padding: 12px;
+        width: 100%;
+        text-align: left;
       }
 
-      .arrow-down {
-        border: solid #a7e6d7;
-        border-width: 0 2px 2px 0;
-        display: inline-block;
-        padding: 3px;
-        transform: rotate(45deg);
-        margin-right: 25px;
+      .header-nav-network:after {
+        float: right;
+        margin-top: 0.5em;
       }
     `}</style>
   </Container>
