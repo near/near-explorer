@@ -14,7 +14,7 @@ const DashboardTransactions = () => (
   <div>
     <EmptyRow />
     <Row noGutters="true">
-      <Col className="dashboard-transactions-title">
+      <Col xs="1" md="1">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="26"
@@ -32,8 +32,8 @@ const DashboardTransactions = () => (
             <path d="M7 19h18M7 25l-6-6 6-6M19 7H1M19 1l6 6-6 6" />
           </g>
         </svg>
-        &nbsp; Recent Transactions
       </Col>
+      <Col className="dashboard-transactions-title">Recent Transactions</Col>
     </Row>
     <EmptyRow />
     <DashboardTransactionsRow
@@ -106,6 +106,14 @@ const DashboardTransactions = () => (
       contractName="NameOfContract"
       username="username"
     />
+    <Row>
+      <Col xs="1" md="1" />
+      <Col xs="6">
+        <Link href="transactions">
+          <a className="dashboard-footer">View All</a>
+        </Link>
+      </Col>
+    </Row>
     <style jsx global>{`
       .dashboard-transactions-title {
         font-family: BwSeidoRound;

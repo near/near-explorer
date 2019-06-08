@@ -94,10 +94,15 @@ const Header = () => (
           <Dropdown.Toggle variant="dark" className="header-nav-network">
             <img src="/static/images/icon-nodes.svg" className="header-icon" />
             <span className="header-nav-item">Testnet One</span>
+            <span className="header-nav-caret" />
           </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item>Testnet One</Dropdown.Item>
-            <Dropdown.Item>Testnet Two</Dropdown.Item>
+          <Dropdown.Menu className="header-nav-item-dropdown-menu">
+            <Dropdown.Item className="header-nav-item-dropdown">
+              Testnet One
+            </Dropdown.Item>
+            <Dropdown.Item className="header-nav-item-dropdown">
+              Testnet Two
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Col>
@@ -132,6 +137,53 @@ const Header = () => (
       .header-nav-network:after {
         float: right;
         margin-top: 0.5em;
+      }
+
+      .header-nav-caret {
+        position: relative;
+      }
+
+      .dropdown.show .header-nav-caret:before,
+      .dropdown.show .header-nav-caret:after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-width: 7px 8px;
+        border-style: solid;
+        border-color: transparent;
+        z-index: 1001;
+      }
+      .dropdown.show .header-nav-caret:before {
+        bottom: -17px;
+        right: 10px;
+        border-bottom-color: #ccc;
+      }
+      .dropdown.show .header-nav-caret:after {
+        bottom: -17px;
+        right: 10px;
+        border-bottom-color: #fff;
+      }
+
+      .header-nav-item-dropdown-menu {
+        padding: 12px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+      }
+
+      .header-nav-item-dropdown {
+        font-family: BentonSans;
+        font-size: 14px;
+        letter-spacing: 1.8px;
+        color: #0072ce;
+        text-transform: uppercase;
+        padding: 6px 40px 6px 6px;
+        border-radius: 3px;
+      }
+
+      .header-nav-item-dropdown:hover {
+        background-color: #e6e6e6;
       }
     `}</style>
   </Container>

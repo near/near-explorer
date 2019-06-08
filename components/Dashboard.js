@@ -18,19 +18,11 @@ const Dashboard = () => (
   <Content title="Dashboard">
     <DashboardHeader />
     <Row>
-      <Col md="8">
+      <Col md="8" className="pr-0">
         <DashboardTransactions />
       </Col>
       <Col md="4">
         <DashboardBlocks />
-      </Col>
-    </Row>
-    <Row noGutters="true">
-      <Col md="auto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Col>
-      <Col md="8">
-        <Link href="transactions">
-          <a className="dashboard-footer">View All</a>
-        </Link>
       </Col>
     </Row>
     <EmptyRow />

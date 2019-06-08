@@ -51,36 +51,44 @@ const TransactionImage = {
 
 const DashboardTransactionRow = props => (
   <Row noGutters="true">
-    <Col md="auto">
+    <Col xs="1" md="1">
       <div className="dashboard-transaction-row-img">
         {TransactionImage[props.txType]}
       </div>
     </Col>
-    <Col>
-      <Row>
-        <Col className="dashboard-transaction-row-title">
-          {props.txType}: {props.txMsg}
+    <Col className="dashboard-transaction-row pl-0" xs="11" md="11">
+      <Row noGutters="true">
+        <Col xs="8">
+          <Row>
+            <Col className="dashboard-transaction-row-title">
+              {props.txType}: {props.txMsg}
+            </Col>
+          </Row>
+          <Row>
+            <Col className="dashboard-transaction-row-content">
+              {props.contractName} by @{props.username}
+            </Col>
+          </Row>
+        </Col>
+        <Col className="ml-auto text-right" xs="3" md="auto">
+          <Row>
+            <Col className="dashboard-transaction-txid d-none d-sm-block">
+              {props.txId.substring(0, 7)}...
+            </Col>
+          </Row>
+          <Row>
+            <Col className="dashboard-transaction-timer">Hello</Col>
+          </Row>
         </Col>
       </Row>
-      <Row>
-        <Col className="dashboard-transaction-row-content">
-          {props.contractName} by @{props.username}
-        </Col>
-      </Row>
-      <hr />
-    </Col>
-    <Col md="auto">
-      <Row>
-        <Col className="dashboard-transaction-txid">
-          {props.txId.substring(0, 7)}...
-        </Col>
-      </Row>
-      <Row>
-        <Col className="dashboard-transaction-timer">Hello</Col>
-      </Row>
-      <hr />
     </Col>
     <style jsx global>{`
+      .dashboard-transaction-row {
+        border-bottom: 2px solid #f8f8f8;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+      }
+
       .dashboard-transaction-row-img {
         width: 24px;
         height: 24px;

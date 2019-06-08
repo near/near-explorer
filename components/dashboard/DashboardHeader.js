@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Row, Col, Card, CardGroup } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 
 const DashboardCard = props => (
   <Card
@@ -45,42 +45,48 @@ const DashboardCard = props => (
 );
 
 const DashboardHeader = () => (
-  <Row>
-    <Col>
-      <CardGroup>
-        <DashboardCard
-          title="Nodes Online"
-          imgLink="/static/images/icon-m-node-online.svg"
-          text="1162/2356"
-        />
-        <DashboardCard
-          title="Block Height"
-          imgLink="/static/images/icon-m-height.svg"
-          text="6083793"
-          format="true"
-        />
-        <DashboardCard
-          title="Tps/Max"
-          imgLink="/static/images/icon-m-tps.svg"
-          text="27/748"
-        />
-        <DashboardCard
-          title="Last Day Tx"
-          imgLink="/static/images/icon-m-transaction.svg"
-          text="2477500"
-          format="true"
-        />
-        <Link href="accounts">
-          <a>
-            <DashboardCard
-              title="Accounts"
-              imgLink="/static/images/icon-m-user.svg"
-              text="2113478"
-              format="true"
-            />
-          </a>
-        </Link>
-      </CardGroup>
+  <Row noGutters="true">
+    <Col xs="12" md="3">
+      <DashboardCard
+        title="Nodes Online"
+        imgLink="/static/images/icon-m-node-online.svg"
+        text="1162/2356"
+      />
+    </Col>
+    <Col xs="12" md="3">
+      <DashboardCard
+        title="Block Height"
+        imgLink="/static/images/icon-m-height.svg"
+        text="6083793"
+        format="true"
+      />
+    </Col>
+    <Col xs="12" md="2">
+      <DashboardCard
+        title="Tps/Max"
+        imgLink="/static/images/icon-m-tps.svg"
+        text="27/748"
+      />
+    </Col>
+    <Col xs="12" md="2">
+      <DashboardCard
+        title="Last Day Tx"
+        imgLink="/static/images/icon-m-transaction.svg"
+        text="2477500"
+        format="true"
+      />
+    </Col>
+    <Col xs="12" md="2">
+      <Link href="accounts">
+        <a>
+          <DashboardCard
+            title="Accounts"
+            imgLink="/static/images/icon-m-user.svg"
+            text="2113478"
+            format="true"
+          />
+        </a>
+      </Link>
     </Col>
   </Row>
 );
