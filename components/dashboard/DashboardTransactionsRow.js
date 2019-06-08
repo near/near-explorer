@@ -1,4 +1,8 @@
+import { Component } from "react";
+
 import { Row, Col } from "react-bootstrap";
+
+import * as moment from "moment";
 
 const TransactionImage = {
   Call: (
@@ -49,86 +53,139 @@ const TransactionImage = {
   )
 };
 
-const DashboardTransactionRow = props => (
-  <Row noGutters="true">
-    <Col xs="1" md="1">
-      <div className="dashboard-transaction-row-img">
-        {TransactionImage[props.txType]}
-      </div>
-    </Col>
-    <Col className="dashboard-transaction-row pl-0" xs="11" md="11">
+moment.relativeTimeThreshold("ss", 1);
+moment.updateLocale("en", {
+  relativeTime: {
+    past: input => {
+      return input === "just now" ? input : input + " ago";
+    },
+    s: "just now",
+    future: "in %s",
+    ss: "%ds",
+    m: "1m",
+    mm: "%dm",
+    h: "1hr",
+    hh: "%dhr",
+    d: "1d",
+    dd: "%dd",
+    M: "1m",
+    MM: "%dm",
+    y: "1y",
+    yy: "%dy"
+  }
+});
+
+class DashboardTransactionRow extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      created: props.created === undefined ? new Date() : props.created,
+      createdStr: ""
+    };
+
+    this.tick = this.tick.bind(this);
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.tick(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  tick() {
+    this.setState({
+      createdStr: moment(this.state.created).fromNow()
+    });
+  }
+
+  render() {
+    return (
       <Row noGutters="true">
-        <Col xs="8">
-          <Row>
-            <Col className="dashboard-transaction-row-title">
-              {props.txType}: {props.txMsg}
+        <Col xs="1" md="1">
+          <div className="dashboard-transaction-row-img">
+            {TransactionImage[this.props.txType]}
+          </div>
+        </Col>
+        <Col className="dashboard-transaction-row pl-0" xs="11" md="11">
+          <Row noGutters="true">
+            <Col xs="8">
+              <Row>
+                <Col className="dashboard-transaction-row-title">
+                  {this.props.txType}: {this.props.txMsg}
+                </Col>
+              </Row>
+              <Row>
+                <Col className="dashboard-transaction-row-content">
+                  {this.props.contractName} by @{this.props.username}
+                </Col>
+              </Row>
             </Col>
-          </Row>
-          <Row>
-            <Col className="dashboard-transaction-row-content">
-              {props.contractName} by @{props.username}
+            <Col className="ml-auto text-right" xs="3" md="auto">
+              <Row>
+                <Col className="dashboard-transaction-txid d-none d-sm-block">
+                  {this.props.txId.substring(0, 7)}...
+                </Col>
+              </Row>
+              <Row>
+                <Col className="dashboard-transaction-timer">
+                  {this.state.createdStr}
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Col>
-        <Col className="ml-auto text-right" xs="3" md="auto">
-          <Row>
-            <Col className="dashboard-transaction-txid d-none d-sm-block">
-              {props.txId.substring(0, 7)}...
-            </Col>
-          </Row>
-          <Row>
-            <Col className="dashboard-transaction-timer">Hello</Col>
-          </Row>
-        </Col>
+        <style jsx global>{`
+          .dashboard-transaction-row {
+            border-bottom: 2px solid #f8f8f8;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+          }
+
+          .dashboard-transaction-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
+
+          .dashboard-transaction-row-title {
+            font-family: BentonSans;
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
+
+          .dashboard-transaction-row-content {
+            font-family: BentonSans;
+            font-size: 12px;
+            font-weight: 500;
+            color: #999999;
+          }
+
+          .dashboard-transaction-txid {
+            font-family: BentonSans;
+            font-size: 14px;
+            font-weight: 500;
+            color: #0072ce;
+          }
+
+          .dashboard-transaction-timer {
+            font-family: BentonSans;
+            font-size: 12px;
+            font-weight: 500;
+            color: #999999;
+          }
+        `}</style>
       </Row>
-    </Col>
-    <style jsx global>{`
-      .dashboard-transaction-row {
-        border-bottom: 2px solid #f8f8f8;
-        margin-bottom: 15px;
-        padding-bottom: 8px;
-      }
-
-      .dashboard-transaction-row-img {
-        width: 24px;
-        height: 24px;
-        border: solid 2px #f8f8f8;
-        background-color: #ffffff;
-        border-radius: 50%;
-        margin-right: 8px;
-        text-align: center;
-        line-height: 1.1;
-      }
-
-      .dashboard-transaction-row-title {
-        font-family: BentonSans;
-        font-size: 14px;
-        font-weight: 500;
-        color: #24272a;
-      }
-
-      .dashboard-transaction-row-content {
-        font-family: BentonSans;
-        font-size: 12px;
-        font-weight: 500;
-        color: #999999;
-      }
-
-      .dashboard-transaction-txid {
-        font-family: BentonSans;
-        font-size: 14px;
-        font-weight: 500;
-        color: #0072ce;
-      }
-
-      .dashboard-transaction-timer {
-        font-family: BentonSans;
-        font-size: 12px;
-        font-weight: 500;
-        color: #999999;
-      }
-    `}</style>
-  </Row>
-);
+    );
+  }
+}
 
 export default DashboardTransactionRow;
