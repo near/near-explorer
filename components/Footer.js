@@ -29,13 +29,22 @@ const Footer = () => (
       </Col>
       <Col className="text-right d-none d-sm-block" md="3">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
-          <img className="help-image" src="/static/images/footer-nearkat.svg" />
-          <div className="footer-help my-auto">
-            <span className="need-help-contact">Need Help?</span>
-            <span className="need-help-contact need-help-contact-bottom">
-              Contact Support
-            </span>
-          </div>
+          <Row noGutters="true">
+            <Col md="2">
+              <img
+                className="help-image img-responsive"
+                src="/static/images/footer-nearkat.svg"
+              />
+            </Col>
+            <Col md="10" className="align-self-center">
+              <div className="footer-help">
+                <span className="need-help-contact">Need Help?</span>
+                <span className="need-help-contact need-help-contact-bottom">
+                  Contact Support
+                </span>
+              </div>
+            </Col>
+          </Row>
         </a>
       </Col>
     </Row>
@@ -69,20 +78,16 @@ const Footer = () => (
 
       .footer-help {
         background-color: #ffffff;
-        width: 250px;
         height: 80px;
-        display: table-cell;
         text-align: left;
-        padding-left: 50px;
         line-height: 1px;
-        padding-top: 20px;
+        padding: 8% 20% 8%;
       }
 
       .help-image {
-        width: 90px;
+        margin-top: -50%;
         position: relative;
-        right: -50px;
-        top: -20px;
+        z-index: 2;
       }
 
       .need-help-contact {
