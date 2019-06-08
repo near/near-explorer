@@ -52,26 +52,22 @@ const DashboardHeader = () => (
           title="Nodes Online"
           imgLink="/static/images/icon-m-node-online.svg"
           text="1162/2356"
-          cls="border-right-0"
         />
         <DashboardCard
           title="Block Height"
           imgLink="/static/images/icon-m-height.svg"
           text="6083793"
-          cls="border-right-0"
           format="true"
         />
         <DashboardCard
           title="Tps/Max"
           imgLink="/static/images/icon-m-tps.svg"
           text="27/748"
-          cls="border-right-0"
         />
         <DashboardCard
           title="Last Day Tx"
           imgLink="/static/images/icon-m-transaction.svg"
           text="2477500"
-          cls="border-right-0"
           format="true"
         />
         <Link href="accounts">
@@ -81,7 +77,6 @@ const DashboardHeader = () => (
               imgLink="/static/images/icon-m-user.svg"
               text="2113478"
               format="true"
-              cls="pr-0"
             />
           </a>
         </Link>

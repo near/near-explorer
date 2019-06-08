@@ -6,7 +6,9 @@ const Content = props => (
       <Row>
         <Col>
           <br />
-          <p className="content-title">{props.title}</p>
+          <p className="content-title text-md-left text-center">
+            {props.title}
+          </p>
         </Col>
         {props.count !== undefined ? (
           <Col className="text-right">
