@@ -1,5 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 
+import Timer from "../utils/Timer";
+
 const TransactionImage = {
   Call: (
     <svg
@@ -70,14 +72,17 @@ const DashboardTransactionRow = props => (
             </Col>
           </Row>
         </Col>
-        <Col className="ml-auto text-right" xs="3" md="auto">
+        <Col className="ml-auto text-right" xs="4" md="auto">
           <Row>
             <Col className="dashboard-transaction-txid d-none d-sm-block">
               {props.txId.substring(0, 7)}...
             </Col>
           </Row>
           <Row>
-            <Col className="dashboard-transaction-timer">Hello</Col>
+            <Col className="dashboard-transaction-timer">
+              {props.status !== undefined ? props.status : "Completed"}{" "}
+              <Timer time={props.created} />
+            </Col>
           </Row>
         </Col>
       </Row>

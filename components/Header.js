@@ -1,6 +1,8 @@
 import Link from "next/link";
 
-import { Container, Row, Col, Dropdown } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
+
+import HeaderDropdownNav from "./HeaderDropdownNav";
 
 const HeaderNavItem = props => (
   <Col
@@ -90,21 +92,7 @@ const Header = () => (
       </Col>
 
       <Col className="align-self-center mb-3 mt-3" md="auto" xs="12">
-        <Dropdown>
-          <Dropdown.Toggle variant="dark" className="header-nav-network">
-            <img src="/static/images/icon-nodes.svg" className="header-icon" />
-            <span className="header-nav-item">Testnet One</span>
-            <span className="header-nav-caret" />
-          </Dropdown.Toggle>
-          <Dropdown.Menu className="header-nav-item-dropdown-menu">
-            <Dropdown.Item className="header-nav-item-dropdown">
-              Testnet One
-            </Dropdown.Item>
-            <Dropdown.Item className="header-nav-item-dropdown">
-              Testnet Two
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        <HeaderDropdownNav />
       </Col>
     </Row>
     <style jsx global>{`
