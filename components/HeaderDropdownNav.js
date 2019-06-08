@@ -15,15 +15,13 @@ class HeaderDropdownNav extends Component {
     this.state = {
       network: "Testnet One"
     };
-
-    this.selectNetwork = this.selectNetwork.bind(this);
   }
 
-  selectNetwork(e) {
+  selectNetwork = e => {
     this.setState({
       network: e.target.innerHTML
     });
-  }
+  };
 
   render() {
     return (
