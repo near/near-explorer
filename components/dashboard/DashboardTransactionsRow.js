@@ -2,7 +2,7 @@ import { Component } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import * as moment from "moment";
+import Moment from "../utils/Moment";
 
 const TransactionImage = {
   Call: (
@@ -53,28 +53,6 @@ const TransactionImage = {
   )
 };
 
-moment.relativeTimeThreshold("ss", 1);
-moment.updateLocale("en", {
-  relativeTime: {
-    past: input => {
-      return input === "just now" ? input : input + " ago";
-    },
-    s: "just now",
-    future: "in %s",
-    ss: "%ds",
-    m: "1m",
-    mm: "%dm",
-    h: "1hr",
-    hh: "%dhr",
-    d: "1d",
-    dd: "%dd",
-    M: "1m",
-    MM: "%dm",
-    y: "1y",
-    yy: "%dy"
-  }
-});
-
 class DashboardTransactionRow extends Component {
   constructor(props) {
     super(props);
@@ -97,7 +75,7 @@ class DashboardTransactionRow extends Component {
 
   tick() {
     this.setState({
-      createdStr: moment(this.state.created).fromNow()
+      createdStr: Moment(this.state.created).fromNow()
     });
   }
 
@@ -123,7 +101,7 @@ class DashboardTransactionRow extends Component {
                 </Col>
               </Row>
             </Col>
-            <Col className="ml-auto text-right" xs="3" md="auto">
+            <Col className="ml-auto text-right" xs="4" md="auto">
               <Row>
                 <Col className="dashboard-transaction-txid d-none d-sm-block">
                   {this.props.txId.substring(0, 7)}...
@@ -131,6 +109,9 @@ class DashboardTransactionRow extends Component {
               </Row>
               <Row>
                 <Col className="dashboard-transaction-timer">
+                  {this.props.status !== undefined
+                    ? this.props.status
+                    : "Completed"}{" "}
                   {this.state.createdStr}
                 </Col>
               </Row>
