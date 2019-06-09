@@ -61,16 +61,14 @@ const DashboardBlocks = () => (
                   />
                 );
               })}
+              <Col xs="6">
+                <Link href="blocks">
+                  <a className="dashboard-footer">View All</a>
+                </Link>
+              </Col>
             </Row>
           )}
         </DataConsumer>
-      </Col>
-    </Row>
-    <Row>
-      <Col xs="6">
-        <Link href="blocks">
-          <a className="dashboard-footer">View All</a>
-        </Link>
       </Col>
     </Row>
     <EmptyRow />
