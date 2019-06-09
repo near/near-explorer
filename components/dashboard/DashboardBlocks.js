@@ -48,16 +48,16 @@ const DashboardBlocks = () => (
         <DataConsumer>
           {context => (
             <Row className="gutter-4">
-              {context.blocks.map((block, index) => {
+              {context.blocks.map(block => {
                 return (
                   <DashboardBlocksBlock
-                    key={context.blocks[index].blockNumber}
-                    blockNumber={context.blocks[index].blockNumber}
-                    blockHash={context.blocks[index].blockHash}
-                    transactionsCount={context.blocks[index].transactionsCount}
-                    blockHeight={context.blocks[index].blockHeight}
-                    witness={context.blocks[index].witness}
-                    created={context.blocks[index].created}
+                    key={block.blockNumber}
+                    blockNumber={block.blockNumber}
+                    blockHash={block.blockHash}
+                    transactionsCount={block.transactionsCount}
+                    blockHeight={block.blockHeight}
+                    witness={block.witness}
+                    created={block.created}
                   />
                 );
               })}

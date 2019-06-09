@@ -20,16 +20,18 @@ class DataProvider extends Component {
   }
 
   componentWillMount() {
-    this.updateNetwork(0);
+    this.updateNetwork(this.state.networks[0]);
   }
 
-  updateNetwork = index => {
+  updateNetwork = network => {
     this.setState({
-      currentNetwork: this.state.networks[index]
+      currentNetwork: network
     });
 
     // To simulate network call.
     setTimeout(() => {
+      const index = this.state.networks.indexOf(network);
+
       this.setState({
         details: {
           nodesOnline: (index + 1) * 100,

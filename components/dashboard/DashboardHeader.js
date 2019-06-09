@@ -33,6 +33,7 @@ const DashboardCard = props => (
       .dashboard-card-title-img {
         width: 12px !important;
         margin-right: 8px;
+        margin-top: -3px;
       }
 
       .dashboard-card-text {
