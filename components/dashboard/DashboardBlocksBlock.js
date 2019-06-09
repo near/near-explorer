@@ -14,12 +14,16 @@ const DashboardBlocksBlock = props => (
           </Card.Title>
           <Card.Body className="dashboard-blocks-block-content">
             <p className="dashboard-blocks-block-content-p">
+              <img src="/static/images/icon-m-transaction.svg" />
               {props.transactionsCount}
             </p>
             <p className="dashboard-blocks-block-content-p">
+              <img src="/static/images/icon-m-height.svg" />
               {props.blockHeight}
             </p>
-            <p className="dashboard-blocks-block-content-p">@{props.witness}</p>
+            <p className="dashboard-blocks-block-content-p">
+              <img src="/static/images/icon-m-user.svg" />@{props.witness}
+            </p>
             <Row noGutters="true">
               <Col md="7" xs="7">
                 <span className="dashboard-blocks-block-content-p-footer">
@@ -68,6 +72,12 @@ const DashboardBlocksBlock = props => (
         font-family: BentonSans;
         font-size: 14px;
         color: #999999;
+      }
+
+      .dashboard-blocks-block-content-p > img {
+        width: 12px;
+        margin-right: 5px;
+        margin-top: -4px;
       }
 
       .dashboard-blocks-block-content-p-footer {
