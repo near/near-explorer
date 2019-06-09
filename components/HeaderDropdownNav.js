@@ -23,9 +23,9 @@ const HeaderDropdownNav = () => (
           {context.networks.map((network, index) => {
             return (
               <HeaderDropdownItem
-                key={index}
+                key={network}
                 title={network}
-                onClick={() => context.updateNetwork(network)}
+                onClick={() => context.updateNetwork(index)}
               />
             );
           })}
