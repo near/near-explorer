@@ -19,7 +19,6 @@
     {
       "transactionsCount": 200,
       "blockHeight": 154,
-      "witness": "robin.near",
       "blockNumber": 60612,
       "blockHash": "22222222",
       "created": "2019-01-20"

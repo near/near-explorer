@@ -15,8 +15,8 @@ const EmptyRow = () => (
 const DashboardTransactions = () => (
   <div>
     <EmptyRow />
-    <Row noGutters="true">
-      <Col xs="1" className="dashboard-transactions-icon-col">
+    <Row>
+      <Col xs="1" md="auto" className="dashboard-transactions-icon-col">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="26"
@@ -85,7 +85,13 @@ const DashboardTransactions = () => (
         padding-top: 15px;
       }
 
-      @media (max-width: 768px) {
+      @media (max-width: 499px) {
+        .dashboard-transactions-border {
+          margin-left: -3.5%;
+        }
+      }
+
+      @media (min-width: 500px) {
         .dashboard-transactions-border {
           margin-left: -4.5%;
         }
