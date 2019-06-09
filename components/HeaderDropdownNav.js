@@ -2,48 +2,37 @@ import { Component } from "react";
 
 import { Dropdown } from "react-bootstrap";
 
+import { DataConsumer } from "./utils/DataProvider";
+
 const HeaderDropdownItem = props => (
   <Dropdown.Item className="header-nav-item-dropdown" onClick={props.onClick}>
     {props.title}
   </Dropdown.Item>
 );
 
-class HeaderDropdownNav extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      network: "Testnet One"
-    };
-  }
-
-  selectNetwork = e => {
-    this.setState({
-      network: e.target.innerHTML
-    });
-  };
-
-  render() {
-    return (
+const HeaderDropdownNav = () => (
+  <DataConsumer>
+    {context => (
       <Dropdown>
         <Dropdown.Toggle variant="dark" className="header-nav-network">
           <img src="/static/images/icon-nodes.svg" className="header-icon" />
-          <span className="header-nav-item">{this.state.network}</span>
+          <span className="header-nav-item">{context.currentNetwork}</span>
           <span className="header-nav-caret" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="header-nav-item-dropdown-menu">
-          <HeaderDropdownItem
-            title="Testnet One"
-            onClick={this.selectNetwork}
-          />
-          <HeaderDropdownItem
-            title="Testnet Two"
-            onClick={this.selectNetwork}
-          />
+          {context.networks.map((network, index) => {
+            return (
+              <HeaderDropdownItem
+                key={index}
+                title={network}
+                onClick={() => context.updateNetwork(index)}
+              />
+            );
+          })}
         </Dropdown.Menu>
       </Dropdown>
-    );
-  }
-}
+    )}
+  </DataConsumer>
+);
 
 export default HeaderDropdownNav;
