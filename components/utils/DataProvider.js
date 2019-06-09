@@ -17,7 +17,56 @@ class DataProvider extends Component {
         tpsMax: "25/748",
         lastDayTx: "2477500",
         accounts: 2113478
-      }
+      },
+      blocks: [
+        {
+          transactionsCount: 200,
+          blockHeight: 154,
+          witness: "vlad.near",
+          blockNumber: 60611,
+          blockHash: "11111111",
+          created: "2019-01-19"
+        },
+        {
+          transactionsCount: 200,
+          blockHeight: 154,
+          witness: "vlad.near",
+          blockNumber: 60612,
+          blockHash: "22222222",
+          created: "2019-01-20"
+        },
+        {
+          transactionsCount: 200,
+          blockHeight: 154,
+          witness: "vlad.near",
+          blockNumber: 60613,
+          blockHash: "3333333",
+          created: "2019-03-21"
+        },
+        {
+          transactionsCount: 200,
+          blockHeight: 154,
+          witness: "vlad.near",
+          blockNumber: 60614,
+          blockHash: "444444444444",
+          created: "2019-05-19"
+        },
+        {
+          transactionsCount: 200,
+          blockHeight: 154,
+          witness: "vlad.near",
+          blockNumber: 60615,
+          blockHash: "5555555555555",
+          created: "2019-05-29"
+        },
+        {
+          transactionsCount: 200,
+          blockHeight: 154,
+          witness: "vlad.near",
+          blockNumber: 60616,
+          blockHash: "66666666666"
+        }
+      ]
     };
   }
 
@@ -42,7 +91,7 @@ class DataProvider extends Component {
           lastDayTx: "2477500"
         }
       });
-    }, 2000);
+    }, 500);
   };
 
   render() {

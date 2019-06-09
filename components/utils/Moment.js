@@ -16,8 +16,8 @@ Moment.updateLocale("en", {
     hh: "%dhr",
     d: "1d",
     dd: "%dd",
-    M: "1m",
-    MM: "%dm",
+    M: "1M",
+    MM: "%d mths",
     y: "1y",
     yy: "%dy"
   }
