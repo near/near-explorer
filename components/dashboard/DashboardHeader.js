@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Row, Col, Card } from "react-bootstrap";
 
+import { DataConsumer } from "../utils/DataProvider";
+
 const DashboardCard = props => (
   <Card
     className={`text-center ${props.cls}`}
@@ -45,50 +47,56 @@ const DashboardCard = props => (
 );
 
 const DashboardHeader = () => (
-  <Row noGutters="true">
-    <Col xs="12" md="3">
-      <DashboardCard
-        title="Nodes Online"
-        imgLink="/static/images/icon-m-node-online.svg"
-        text="1162/2356"
-      />
-    </Col>
-    <Col xs="12" md="3">
-      <DashboardCard
-        title="Block Height"
-        imgLink="/static/images/icon-m-height.svg"
-        text="6083793"
-        format="true"
-      />
-    </Col>
-    <Col xs="12" md="2">
-      <DashboardCard
-        title="Tps/Max"
-        imgLink="/static/images/icon-m-tps.svg"
-        text="27/748"
-      />
-    </Col>
-    <Col xs="12" md="2">
-      <DashboardCard
-        title="Last Day Tx"
-        imgLink="/static/images/icon-m-transaction.svg"
-        text="2477500"
-        format="true"
-      />
-    </Col>
-    <Col xs="12" md="2">
-      <Link href="accounts">
-        <a>
+  <DataConsumer>
+    {context => (
+      <Row noGutters="true">
+        <Col xs="12" md="3">
           <DashboardCard
-            title="Accounts"
-            imgLink="/static/images/icon-m-user.svg"
-            text="2113478"
+            title="Nodes Online"
+            imgLink="/static/images/icon-m-node-online.svg"
+            text={`${context.details.nodesOnline}/${
+              context.details.totalNodes
+            }`}
+          />
+        </Col>
+        <Col xs="12" md="3">
+          <DashboardCard
+            title="Block Height"
+            imgLink="/static/images/icon-m-height.svg"
+            text={`${context.details.blockHeight}`}
             format="true"
           />
-        </a>
-      </Link>
-    </Col>
-  </Row>
+        </Col>
+        <Col xs="12" md="2">
+          <DashboardCard
+            title="Tps/Max"
+            imgLink="/static/images/icon-m-tps.svg"
+            text={`${context.details.tpsMax}`}
+          />
+        </Col>
+        <Col xs="12" md="2">
+          <DashboardCard
+            title="Last Day Tx"
+            imgLink="/static/images/icon-m-transaction.svg"
+            text={`${context.details.lastDayTx}`}
+            format="true"
+          />
+        </Col>
+        <Col xs="12" md="2">
+          <Link href="accounts">
+            <a>
+              <DashboardCard
+                title="Accounts"
+                imgLink="/static/images/icon-m-user.svg"
+                text={`${context.details.accounts}`}
+                format="true"
+              />
+            </a>
+          </Link>
+        </Col>
+      </Row>
+    )}
+  </DataConsumer>
 );
 
 export default DashboardHeader;
