@@ -22,7 +22,14 @@ const DashboardBlocksBlock = props => (
               {props.blockHeight}
             </p>
             <p className="dashboard-blocks-block-content-p">
-              <img src="/static/images/icon-m-user.svg" />@{props.witness}
+              <img
+                style={{ float: "left" }}
+                src="/static/images/icon-m-user.svg"
+              />
+              <span className="d-none d-sm-block">@{props.witness}</span>
+              <span className="d-sm-none">
+                @{props.witness ? props.witness.substring(0, 7) : null}..
+              </span>
             </p>
             <Row noGutters="true">
               <Col md="7" xs="7">

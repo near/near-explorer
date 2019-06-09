@@ -15,8 +15,8 @@ const EmptyRow = () => (
 const DashboardTransactions = () => (
   <div>
     <EmptyRow />
-    <Row noGutters="true">
-      <Col xs="1" md="1">
+    <Row>
+      <Col xs="1" md="auto" className="dashboard-transactions-icon-col">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="26"
@@ -35,34 +35,44 @@ const DashboardTransactions = () => (
           </g>
         </svg>
       </Col>
-      <Col className="dashboard-transactions-title">Recent Transactions</Col>
+      <Col className="px-md-0 dashboard-transactions-title">
+        Recent Transactions
+      </Col>
     </Row>
-    <EmptyRow />
-    <DataConsumer>
-      {context => (
-        <div>
-          {context.transactions.map(transaction => {
-            return (
-              <DashboardTransactionsRow
-                key={transaction.txId}
-                txType={transaction.txType}
-                txMsg={transaction.txMsg}
-                txId={transaction.txId}
-                contractName={transaction.contractName}
-                username={transaction.username}
-                created={transaction.created}
-              />
-            );
-          })}
-        </div>
-      )}
-    </DataConsumer>
     <Row>
-      <Col xs="1" md="1" />
-      <Col xs="6">
-        <Link href="transactions">
-          <a className="dashboard-footer">View All</a>
-        </Link>
+      <Col xs="1" md="auto" className="pr-0">
+        <div className="dashboard-blocks-hr-parent">
+          <div className="dashboard-blocks-hr" />
+        </div>
+      </Col>
+      <Col className="px-0 dashboard-transactions-border">
+        <DataConsumer>
+          {context => (
+            <div>
+              {context.transactions.map(transaction => {
+                return (
+                  <DashboardTransactionsRow
+                    key={transaction.txId}
+                    txType={transaction.txType}
+                    txMsg={transaction.txMsg}
+                    txId={transaction.txId}
+                    contractName={transaction.contractName}
+                    username={transaction.username}
+                    created={transaction.created}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </DataConsumer>
+        <Row noGutters="true">
+          <Col xs="1" className="dashboard-transactions-icon-col" />
+          <Col xs="6">
+            <Link href="transactions">
+              <a className="dashboard-footer">View All</a>
+            </Link>
+          </Col>
+        </Row>
       </Col>
     </Row>
     <style jsx global>{`
@@ -71,6 +81,50 @@ const DashboardTransactions = () => (
         font-size: 24px;
         font-weight: 500;
         color: #24272a;
+      }
+
+      .dashboard-transactions-border {
+        padding-top: 15px;
+      }
+
+      @media (max-width: 499px) {
+        .dashboard-transactions-border {
+          margin-left: -3.5%;
+        }
+      }
+
+      @media (min-width: 500px) {
+        .dashboard-transactions-border {
+          margin-left: -4.5%;
+        }
+      }
+
+      @media (min-width: 680px) {
+        .dashboard-transactions-border {
+          margin-left: -5.4%;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .dashboard-transactions-border {
+          margin-left: -5.4%;
+        }
+      }
+
+      @media (min-width: 992px) {
+        .dashboard-transactions-icon-col {
+          flex: 0 0 5%;
+        }
+
+        .dashboard-transactions-border {
+          margin-left: -3.75%;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .dashboard-transactions-border {
+          margin-left: -3.23%;
+        }
       }
     `}</style>
   </div>
