@@ -35,7 +35,9 @@ const DashboardTransactions = () => (
           </g>
         </svg>
       </Col>
-      <Col className="dashboard-transactions-title">Recent Transactions</Col>
+      <Col className="px-md-0 dashboard-transactions-title">
+        Recent Transactions
+      </Col>
     </Row>
     <Row>
       <Col xs="1" md="auto" className="pr-0">
