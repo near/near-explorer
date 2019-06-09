@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Row, Col, Card } from "react-bootstrap";
 
+import { DataConsumer } from "../utils/DataProvider";
+
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
 const EmptyRow = () => (
@@ -43,69 +45,30 @@ const DashboardBlocks = () => (
         </div>
       </Col>
       <Col>
-        <Row className="gutter-4">
-          <DashboardBlocksBlock
-            blockNumber="6066099"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <DashboardBlocksBlock
-            blockNumber="6066098"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <DashboardBlocksBlock
-            blockNumber="6066099"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <DashboardBlocksBlock
-            blockNumber="6066098"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <DashboardBlocksBlock
-            blockNumber="6066099"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <DashboardBlocksBlock
-            blockNumber="6066098"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <DashboardBlocksBlock
-            blockNumber="6066099"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <DashboardBlocksBlock
-            blockNumber="6066098"
-            blockHash="1a2b3c4d5e6f"
-            transactionsCount="254"
-            blockHeight="15489"
-            witness="vlad.near"
-          />
-          <Col xs="6">
-            <Link href="blocks">
-              <a className="dashboard-footer">View All</a>
-            </Link>
-          </Col>
-        </Row>
+        <DataConsumer>
+          {context => (
+            <Row className="gutter-4">
+              {context.blocks.map(block => {
+                return (
+                  <DashboardBlocksBlock
+                    key={block.blockNumber}
+                    blockNumber={block.blockNumber}
+                    blockHash={block.blockHash}
+                    transactionsCount={block.transactionsCount}
+                    blockHeight={block.blockHeight}
+                    witness={block.witness}
+                    created={block.created}
+                  />
+                );
+              })}
+              <Col xs="6">
+                <Link href="blocks">
+                  <a className="dashboard-footer">View All</a>
+                </Link>
+              </Col>
+            </Row>
+          )}
+        </DataConsumer>
       </Col>
     </Row>
     <EmptyRow />

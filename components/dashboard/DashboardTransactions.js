@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { Row, Col } from "react-bootstrap";
 
+import { DataConsumer } from "../utils/DataProvider";
+
 import DashboardTransactionsRow from "./DashboardTransactionsRow";
 
 const EmptyRow = () => (
@@ -36,76 +38,25 @@ const DashboardTransactions = () => (
       <Col className="dashboard-transactions-title">Recent Transactions</Col>
     </Row>
     <EmptyRow />
-    <DashboardTransactionsRow
-      txType="Call"
-      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
-      txId="1234567890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="Sent"
-      txMsg="125 N to @jake.near"
-      txId="21234567890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="Call"
-      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
-      txId="1234567890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="Staked"
-      txMsg="10 tokens MlGfMAO..."
-      txId="454567890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="ContractDeployed"
-      txMsg="NameOfContract"
-      txId="4522267890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="Call"
-      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
-      txId="1234567890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="Call"
-      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
-      txId="1234567890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="Staked"
-      txMsg="10 tokens MlGfMAO..."
-      txId="454567890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="ContractDeployed"
-      txMsg="NameOfContract"
-      txId="4522267890"
-      contractName="NameOfContract"
-      username="username"
-    />
-    <DashboardTransactionsRow
-      txType="Call"
-      txMsg="transfer {to: 'bob.near', tokens: '1000'}"
-      txId="1234567890"
-      contractName="NameOfContract"
-      username="username"
-    />
+    <DataConsumer>
+      {context => (
+        <div>
+          {context.transactions.map(transaction => {
+            return (
+              <DashboardTransactionsRow
+                key={transaction.txId}
+                txType={transaction.txType}
+                txMsg={transaction.txMsg}
+                txId={transaction.txId}
+                contractName={transaction.contractName}
+                username={transaction.username}
+                created={transaction.created}
+              />
+            );
+          })}
+        </div>
+      )}
+    </DataConsumer>
     <Row>
       <Col xs="1" md="1" />
       <Col xs="6">
