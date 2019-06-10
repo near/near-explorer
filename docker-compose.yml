@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  wamp:
+    build: ./wamp
+    environment:
+      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
+      - WAMP_NEAR_EXPLORER_FRONTEND_SECRET=front
+    ports:
+      - 8080:8080
+
+  backend:
+    build: ./backend
+    network_mode: host  # TODO: implement WAMP URL configuration
+    environment:
+      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
+
+  frontend:
+    build: ./
+    network_mode: host  # TODO: implement WAMP URL configuration
+    environment:
+      - WAMP_NEAR_EXPLORER_FRONTEND_SECRET=front
