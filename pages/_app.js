@@ -3,12 +3,18 @@ import App, { Container } from "next/app";
 import DataProvider from "../components/utils/DataProvider";
 
 class NearExplorer extends App {
+  static async getInitialProps(ctx) {
+    return {
+      dataProviderProps: await DataProvider.getInitialProps(ctx)
+    };
+  }
+
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, dataProviderProps, pageProps } = this.props;
 
     return (
       <Container>
-        <DataProvider>
+        <DataProvider {...dataProviderProps}>
           <Component {...pageProps} />
         </DataProvider>
       </Container>

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Row, Col, Card } from "react-bootstrap";
 
+import hexstring from "../utils/hexstring";
 import Timer from "../utils/Timer";
 
 const DashboardBlocksBlock = props => (
@@ -28,13 +29,13 @@ const DashboardBlocksBlock = props => (
               />
               <span className="d-none d-sm-block">@{props.witness}</span>
               <span className="d-sm-none">
-                @{props.witness ? props.witness.substring(0, 7) : null}..
+                {props.witness ? `@${props.witness}` : null}..
               </span>
             </p>
             <Row noGutters="true">
               <Col md="7" xs="7">
                 <span className="dashboard-blocks-block-content-p-footer">
-                  {props.blockHash.substring(0, 6)}...
+                  {hexstring(props.blockHash.slice(0, 3))}...
                 </span>
               </Col>
               <Col md="5" xs="5" className="align-self-center text-right">

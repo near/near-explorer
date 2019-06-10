@@ -1,0 +1,44 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "db/development-database.sqlite",
+    "dialectOptions": {
+      "mode": 1
+    }
+  },
+  "development-migration": {
+    "dialect": "sqlite",
+    "storage": "db/development-database.sqlite",
+    "dialectOptions": {
+      "mode": 6
+    }
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": "db/test-database.sqlite",
+    "dialectOptions": {
+      "mode": 1
+    }
+  },
+  "test-migration": {
+    "dialect": "sqlite",
+    "storage": "db/test-database.sqlite",
+    "dialectOptions": {
+      "mode": 6
+    }
+  },
+  "production": {
+    "dialect": "sqlite",
+    "storage": "db/production-database.sqlite",
+    "dialectOptions": {
+      "mode": 1
+    }
+  },
+  "production-migration": {
+    "dialect": "sqlite",
+    "storage": "db/production-database.sqlite",
+    "dialectOptions": {
+      "mode": 6
+    }
+  }
+}
