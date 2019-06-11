@@ -1,0 +1,29 @@
+{
+  "name": "near-explorer-backend",
+  "version": "0.0.1",
+  "description": "NEAR blockchain explorer backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nearprotocol/near-explorer.git"
+  },
+  "author": "Near Inc <hello@nearprotocol.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nearprotocol/near-explorer/issues"
+  },
+  "homepage": "https://github.com/nearprotocol/near-explorer#readme",
+  "dependencies": {
+    "autobahn": "19.4.1",
+    "sequelize": "^5.8.7",
+    "sqlite3": "^4.0.8",
+    "ws": "^7.0.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^5.4.0"
+  }
+}

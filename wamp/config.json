@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "controller": {},
+  "workers": [
+    {
+      "type": "router",
+      "realms": [
+        {
+          "name": "near-explorer",
+          "roles": [
+            {
+              "name": "near-explorer-backend",
+              "permissions": [
+                {
+                  "uri": "",
+                  "match": "prefix",
+                  "allow": {
+                    "call": true,
+                    "register": true,
+                    "publish": true,
+                    "subscribe": true
+                  },
+                  "disclose": {
+                    "caller": false,
+                    "publisher": false
+                  },
+                  "cache": true
+                }
+              ]
+            },
+            {
+              "name": "near-explorer-frontend",
+              "permissions": [
+                {
+                  "uri": "",
+                  "match": "prefix",
+                  "allow": {
+                    "call": true,
+                    "register": false,
+                    "publish": false,
+                    "subscribe": true
+                  },
+                  "disclose": {
+                    "caller": false,
+                    "publisher": false
+                  },
+                  "cache": true
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "transports": [
+        {
+          "type": "web",
+          "endpoint": {
+            "type": "tcp",
+            "port": 8080
+          },
+          "paths": {
+            "ws": {
+              "type": "websocket",
+              "serializers": ["json"],
+              "auth": {
+                "ticket": {
+                  "type": "static",
+                  "principals": {
+                    "near-explorer-backend": {
+                      "ticket": "${WAMP_NEAR_EXPLORER_BACKEND_SECRET}",
+                      "role": "near-explorer-backend"
+                    },
+                    "near-explorer-frontend": {
+                      "ticket": "${WAMP_NEAR_EXPLORER_FRONTEND_SECRET}",
+                      "role": "near-explorer-frontend"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
