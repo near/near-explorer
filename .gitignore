@@ -59,6 +59,7 @@ typings/
 
 # next.js build output
 .next
+next-env.d.ts
 
 # backend ignores
 backend/db

@@ -77,7 +77,7 @@ export async function subscribe(
   topic: string,
   handler: autobahn.SubscribeHandler,
   options?: autobahn.ISubscribeOptions
-): autobahn.ISubscription {
+): Promise<autobahn.ISubscription> {
   subscriptions[topic] = [handler, options];
   const session = await getWampSession();
   return await session.subscribe(topic, handler, options);
@@ -88,7 +88,7 @@ export async function call<TResult>(
   args?: any[] | any,
   kwargs?: any,
   options?: autobahn.ICallOptions
-): TResult {
+): Promise<TResult> {
   if (procedure[0] === ".") {
     procedure = "com.nearprotocol.explorer" + procedure;
   }
