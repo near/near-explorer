@@ -29,7 +29,10 @@ const DashboardBlocksBlock = props => (
               />
               <span className="d-none d-sm-block">@{props.witness}</span>
               <span className="d-sm-none">
-                {props.witness ? `@${props.witness}` : null}..
+                @
+                {props.witness.length > 9
+                  ? `${props.witness.substring(0, 7)}..`
+                  : props.witness}
               </span>
             </p>
             <Row noGutters="true">
