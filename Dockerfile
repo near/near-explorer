@@ -26,6 +26,7 @@ RUN chown nobody: .
 USER nobody
 ENV HOME=/tmp
 COPY --from=node-modules /near-explorer/frontend/node_modules ./node_modules
+COPY ./static ./static
 COPY --from=build /near-explorer/frontend/.next ./.next
 
 EXPOSE 3000
