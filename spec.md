@@ -77,6 +77,7 @@ Tables:
     - transcation_hash -- transaction hash included in the given block
     - block_hash -- block hash that this tx was included
     - status -- transaction status (Completed or Failed). Unknown wouldn't make it here
+    - logs -- log from executing transaction
 - Account -- Same data structure for accounts and contracts.
     - account_id (primary key, all account ids [a-zA-Z0-9.-_@])
     - balance (u128)
