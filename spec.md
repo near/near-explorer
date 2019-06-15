@@ -54,51 +54,46 @@ The project should have three parts:
 Tables:
 
 - Block -- describes block, note that there can be skips in the height and forks will be different height. The best block at any time is block with largest weight.
-    - pk
-    - hash
+    - hash (primary key)
     - height
     - prev_hash
     - timestamp
-    - weight
-    - author_pk -- pk for Account that authored
+    - weight (u128)
+    - author_id -- Account ID that authored
     - List<AccountId> -- list of approvals (if we need to look up on this, we can split it into separate table)
 - Chunk -- part of the block that belongs to some shard.
-    - pk
-    - hash
+    - hash (primary key)
     - block_pk
     - shard_id
     - author_pk -- pk for Account that authored
 - Transaction -- includes both transactions and receipts
-    - pk
-    - hash
+    - hash (primary key)
     - originator
     - destination
-    - kind: SendMoney, FunctionCall, Receipt
+    - kind: SendMoneyTransaction, CreateAccountTransaction, SignedTransaction, DeployContractTransaction, FunctionCallTransaction, StakeTransaction, SwapKeyTransaction, AddKeyTransaction, DeleteKeyTransaction, Receipt
+    - args -- JSON of the transaction's arguments
+    - parent_hash - can be NULL
 - TransactionToBlock -- described N - to - 1 relation between Transactions and Blocks. Tx can be in multiple blocks because of forks.
-    - pk -- pk of this specific tx in the block.
-    - transaction_pk -- transaction pk 
-    - block_pk -- block pk that this tx was included
+    - transcation_hash -- transaction hash included in the given block
+    - block_hash -- block hash that this tx was included
     - status -- transaction status (Completed or Failed). Unknown wouldn't make it here
-- TransactionToTransaction -- describes 1 - to - N relation between transactions.
-    - parent_pk -- pk of parent transaction or receipt in the block.
-    - child_pk -- pk of child receipt.
 - Account -- Same data structure for accounts and contracts.
-    - pk
-    - account_id
-    - balance
-    - stake
+    - account_id (primary key, all account ids [a-zA-Z0-9.-_@])
+    - balance (u128)
+    - stake (u128)
     - last_block_index
     - bytes -- how many bytes this account / contracts takes.
     - code -- byte code of the account.
 - AccessKey -- access keys for accounts
-    - pk
-    - account_pk
-    - 
+    - account_id (owner of the access key)
+    - contract_id (different account_id as well)
+    - method_name (can be NULL)
+    - amount (u128)
 - Node
     - ip address -- can be empty
-    - moniker -- can be empty
-    - account_id -- can be empty
-    - node_id - public key that is used to identify the node
+    - moniker -- custom name of the node, can be empty
+    - account_id -- account used on this node, can be empty
+    - node_id - public key (base58) that is used to identify the node
     - last_seen - timestamp
     - last_height - last height known
 
