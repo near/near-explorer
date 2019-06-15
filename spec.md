@@ -63,20 +63,18 @@ Tables:
     - List<AccountId> -- list of approvals (if we need to look up on this, we can split it into separate table)
 - Chunk -- part of the block that belongs to some shard.
     - hash (primary key)
-    - block_pk
+    - block_hash
     - shard_id
-    - author_pk -- pk for Account that authored
-- Transaction -- includes both transactions and receipts
+    - author_id -- Account ID that authored
+- Transaction -- includes both transactions and receipts.
     - hash (primary key)
     - originator
     - destination
     - kind: SendMoneyTransaction, CreateAccountTransaction, SignedTransaction, DeployContractTransaction, FunctionCallTransaction, StakeTransaction, SwapKeyTransaction, AddKeyTransaction, DeleteKeyTransaction, Receipt
     - args -- JSON of the transaction's arguments
     - parent_hash - can be NULL
-- TransactionToBlock -- described N - to - 1 relation between Transactions and Blocks. Tx can be in multiple blocks because of forks.
-    - transcation_hash -- transaction hash included in the given block
-    - block_hash -- block hash that this tx was included
-    - status -- transaction status (Completed or Failed). Unknown wouldn't make it here
+    - chunk_hash -- chunk hash that this tx was included
+    - status -- transaction status (Completed or Failed). Unknown wouldn't make it here.
     - logs -- log from executing transaction
 - Account -- Same data structure for accounts and contracts.
     - account_id (primary key, all account ids [a-zA-Z0-9.-_@])
