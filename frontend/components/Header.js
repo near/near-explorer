@@ -63,7 +63,6 @@ const Header = () => (
         link="index"
         imgLink="/static/images/icon-home.svg"
         text="Dashboard"
-        cls="pl-0"
       />
       <HeaderNavItem
         link="contracts"
@@ -91,10 +90,9 @@ const Header = () => (
         link="https://github.com/nearprotocol/near-explorer/issues"
         imgLink="/static/images/icon-issues.svg"
         text="Issues"
-        cls="pl-0"
       />
 
-      <Col className="align-self-center d-none d-sm-block px-0" md="auto">
+      <Col className="align-self-center d-none d-sm-block" md="auto">
         <span className="header-nav-network-border" />
       </Col>
 
@@ -117,7 +115,7 @@ const Header = () => (
       }
 
       .near-main-container {
-        width: 88%;
+        width: 100%;
       }
 
       .header-nav-network-border {
