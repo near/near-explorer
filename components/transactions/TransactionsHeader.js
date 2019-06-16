@@ -8,6 +8,7 @@ import Search from "../utils/Search";
 const TransactionsFilterByType = () => (
   <Col
     md="auto"
+    xs="3"
     className="align-self-center transactions-filter-by-type-border"
   >
     <Row>
@@ -17,7 +18,7 @@ const TransactionsFilterByType = () => (
           <img src="/static/images/icon-arrow-down.svg" />
         </div>
       </Col>
-      <Col className="align-self-center text-right">
+      <Col className="align-self-center text-right d-none d-sm-block">
         <span className="transactions-filter-by-type-text">Filter by type</span>
       </Col>
     </Row>
@@ -45,13 +46,13 @@ const TransactionsFilterByType = () => (
 const TransactionsHeader = props => (
   <Row>
     <TransactionsFilterByType />
-    <Col md="auto" className="align-self-center">
+    <Col md="auto" xs="3" className="align-self-center">
       <span className="search-header-start">
         {props.start}-{props.stop}
       </span>
       <span className="search-header-total"> of {props.total} Total</span>
     </Col>
-    <Col md="4" className="ml-auto align-self-center">
+    <Col md="4" xs="6" className="ml-auto align-self-center">
       <Search text="Search transactions and receipts..." />
     </Col>
     <style jsx global>{`

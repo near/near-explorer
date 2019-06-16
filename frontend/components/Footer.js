@@ -5,13 +5,13 @@ import { Container, Row, Col } from "react-bootstrap";
 const Footer = () => (
   <Container fluid="true" className="near-main-container">
     <Row className="footer-container">
-      <Col className="align-self-center text-center" xs="12" md="1">
+      <Col className="align-self-center text-center px-0" xs="12" md="2">
         <img className="near-logo" src="/static/images/near.svg" />
       </Col>
       <Col
-        className="align-self-center footer-link text-md-left text-center"
+        className="align-self-center footer-link text-md-left text-center pl-0"
         xs="12"
-        md="9"
+        md="auto"
       >
         © 2019 NEAR Inc. All Rights Reserved.
         <br />
@@ -23,7 +23,7 @@ const Footer = () => (
           <a className="footer-link-href">Privacy Policy</a>
         </Link>
       </Col>
-      <Col className="text-right d-none d-sm-block" md="2">
+      <Col className="text-right d-none d-sm-block ml-auto" md="2">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
           <Row noGutters="true">
             <Col md="2">

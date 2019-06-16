@@ -8,16 +8,16 @@ import GetTransactionIcon from "../utils/GetTransactionIcon";
 
 const TransactionsRow = props => (
   <Row className="transaction-row mx-0">
-    <Col md="auto" className="pr-0">
+    <Col md="auto" xs="1" className="pr-0">
       {GetTransactionIcon[props.txn.txType]}
     </Col>
-    <Col md="auto" className="pr-0">
+    <Col md="auto" xs="1" className="pr-0">
       <img
         src="/static/images/icon-arrow-right.svg"
         style={{ width: "10px" }}
       />
     </Col>
-    <Col md="7">
+    <Col md="7" xs="6">
       <Row>
         <Col className="transaction-row-title">{props.txn.txMsg}</Col>
       </Row>
@@ -27,7 +27,7 @@ const TransactionsRow = props => (
         </Col>
       </Row>
     </Col>
-    <Col md="3" className="ml-auto text-right">
+    <Col md="3" xs="4" className="ml-auto text-right">
       <Row>
         <Col className="transaction-row-txid">
           {props.txn.txId !== undefined

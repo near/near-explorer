@@ -3,16 +3,27 @@ import { Row, Col } from "react-bootstrap";
 const Search = props => (
   <div className="search">
     <Row noGutters="true">
-      <Col md="1" className="align-self-center">
+      <Col md="1" xs="2" className="align-self-center">
         <img src="/static/images/icon-search.svg" className="search-icon" />
       </Col>
-      <Col md="11" className="align-self-center">
-        <input
-          type="text"
-          className="search-text"
-          placeholder={props.text}
-          onChange={props.handler}
-        />
+      <Col md="11" xs="10" className="align-self-center">
+        <div className="d-none d-sm-block">
+          <input
+            type="text"
+            className="search-text"
+            placeholder={props.text}
+            onChange={props.handler}
+          />
+        </div>
+        <div className="d-block d-sm-none">
+          <input
+            type="text"
+            className="search-text"
+            placeholder={`${props.text.substring(0, 17)}..`}
+            title={props.text}
+            onChange={props.handler}
+          />
+        </div>
       </Col>
     </Row>
     <style jsx global>{`
