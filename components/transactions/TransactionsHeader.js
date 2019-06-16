@@ -30,7 +30,6 @@ const TransactionsFilterByType = () => (
       .transactions-filter-by-type {
         border-radius: 25px;
         border: solid 2px #e6e6e6;
-        background-color: #f8f8f8;
         padding: 4px 14px;
         color: #999999;
       }
