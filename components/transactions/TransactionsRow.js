@@ -4,11 +4,12 @@ import { Row, Col } from "react-bootstrap";
 
 import { DataConsumer } from "../utils/DataProvider";
 import Timer from "../utils/Timer";
+import GetTransactionIcon from "../utils/GetTransactionIcon";
 
 const TransactionsRow = props => (
   <Row className="transaction-row mx-0">
     <Col md="auto" className="pr-0">
-      Icon
+      {GetTransactionIcon[props.txn.txType]}
     </Col>
     <Col md="auto" className="pr-0">
       <img
