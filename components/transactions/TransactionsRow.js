@@ -7,7 +7,11 @@ import Timer from "../utils/Timer";
 import GetTransactionIcon from "../utils/GetTransactionIcon";
 
 const TransactionsRow = props => (
-  <Row className="transaction-row mx-0">
+  <Row
+    className={`transaction-row mx-0 ${
+      props.cls === undefined ? "" : props.cls
+    }`}
+  >
     <Col md="auto" xs="1" className="pr-0">
       {GetTransactionIcon[props.txn.txType]}
     </Col>
@@ -50,6 +54,10 @@ const TransactionsRow = props => (
         padding-top: 10px;
         padding-bottom: 10px;
         border-top: solid 2px #f8f8f8;
+      }
+
+      .transaction-row-bottom {
+        border-bottom: solid 2px #f8f8f8;
       }
 
       .transaction-row-title {
