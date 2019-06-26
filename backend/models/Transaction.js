@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "Transaction",
     {
       hash: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING, // base58
         allowNull: false,
         primaryKey: true
       },
@@ -18,6 +18,28 @@ module.exports = (sequelize, DataTypes) => {
       },
       kind: {
         type: DataTypes.STRING,
+        allowNull: false
+      },
+      args: {
+        type: DataTypes.JSON,
+        allowNull: false
+      },
+      parentHash: {
+        field: "parent_hash",
+        type: DataTypes.STRING, // base58
+        allowNull: false
+      },
+      chunkHash: {
+        field: "chunk_hash",
+        type: DataTypes.STRING, // base58
+        allowNull: false
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      logs: {
+        type: DataTypes.TEXT,
         allowNull: false
       }
     },
