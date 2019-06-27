@@ -4,17 +4,17 @@ module.exports = (sequelize, DataTypes) => {
     "Block",
     {
       hash: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING, // base58
         allowNull: false,
         primaryKey: true
       },
       height: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         allowNull: false
       },
       prevHash: {
         field: "prev_hash",
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING, // base58
         allowNull: false
       },
       timestamp: {
@@ -25,8 +25,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      authorPk: {
-        field: "author_pk",
+      authorId: {
+        field: "author_id",
         type: DataTypes.STRING,
         allowNull: false
       },

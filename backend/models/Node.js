@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       nodeId: {
         field: "node_id",
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING, // base58
         allowNull: false,
         primaryKey: true
       },

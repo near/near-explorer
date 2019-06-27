@@ -4,13 +4,13 @@ module.exports = (sequelize, DataTypes) => {
     "Chunk",
     {
       hash: {
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING, // base58
         allowNull: false,
         primaryKey: true
       },
       blockHash: {
         field: "block_hash",
-        type: DataTypes.BLOB,
+        type: DataTypes.STRING, // base58
         allowNull: false
       },
       shardId: {
@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      authorPk: {
-        field: "author_pk",
+      authorId: {
+        field: "author_id",
         type: DataTypes.STRING,
         allowNull: false
       }
