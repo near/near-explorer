@@ -16,7 +16,7 @@ services:
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
 
   frontend:
-    build: ./
+    build: ./frontend
     network_mode: host  # TODO: implement WAMP URL configuration
     environment:
       - WAMP_NEAR_EXPLORER_FRONTEND_SECRET=front
