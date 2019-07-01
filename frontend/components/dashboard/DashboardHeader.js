@@ -55,8 +55,8 @@ const DashboardHeader = () => (
           <DashboardCard
             title="Nodes Online"
             imgLink="/static/images/icon-m-node-online.svg"
-            text={`${context.details.nodesOnline}/${
-              context.details.totalNodes
+            text={`${context.details.onlineNodesCount}/${
+              context.details.totalNodesCount
             }`}
           />
         </Col>
@@ -64,7 +64,7 @@ const DashboardHeader = () => (
           <DashboardCard
             title="Block Height"
             imgLink="/static/images/icon-m-height.svg"
-            text={`${context.details.blockHeight}`}
+            text={`${context.details.lastBlockHeight}`}
             format="true"
           />
         </Col>
@@ -79,7 +79,7 @@ const DashboardHeader = () => (
           <DashboardCard
             title="Last Day Tx"
             imgLink="/static/images/icon-m-transaction.svg"
-            text={`${context.details.lastDayTx}`}
+            text={`${context.details.lastDayTxCount}`}
             format="true"
           />
         </Col>
@@ -89,7 +89,7 @@ const DashboardHeader = () => (
               <DashboardCard
                 title="Accounts"
                 imgLink="/static/images/icon-m-user.svg"
-                text={`${context.details.accounts}`}
+                text={`${context.details.accountsCount}`}
                 format="true"
               />
             </a>

@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       parentHash: {
         field: "parent_hash",
         type: DataTypes.STRING, // base58
-        allowNull: false
+        allowNull: true
       },
       chunkHash: {
         field: "chunk_hash",

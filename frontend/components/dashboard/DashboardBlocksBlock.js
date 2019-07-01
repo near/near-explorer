@@ -7,11 +7,11 @@ import Timer from "../utils/Timer";
 
 const DashboardBlocksBlock = props => (
   <Col xs="6">
-    <Link href={"block/" + props.blockNumber}>
+    <Link href={"block/" + props.blockHash}>
       <a className="dashboard-blocks-block-link">
         <Card className="dashboard-blocks-block">
           <Card.Title className="dashboard-blocks-block-title">
-            #{props.blockNumber}
+            #{props.blockHeight}
           </Card.Title>
           <Card.Body className="dashboard-blocks-block-content">
             <p className="dashboard-blocks-block-content-p">
@@ -27,23 +27,23 @@ const DashboardBlocksBlock = props => (
                 style={{ float: "left" }}
                 src="/static/images/icon-m-user.svg"
               />
-              <span className="d-none d-sm-block">@{props.witness}</span>
+              <span className="d-none d-sm-block">@{props.blockAuthorId}</span>
               <span className="d-sm-none">
                 @
-                {props.witness.length > 9
-                  ? `${props.witness.substring(0, 7)}..`
-                  : props.witness}
+                {props.blockAuthorId.length > 9
+                  ? `${props.blockAuthorId.substring(0, 7)}..`
+                  : props.blockAuthorId}
               </span>
             </p>
             <Row noGutters="true">
               <Col md="7" xs="7">
                 <span className="dashboard-blocks-block-content-p-footer">
-                  {hexstring(props.blockHash.slice(0, 3))}...
+                  {props.blockHash.slice(0, 6)}...
                 </span>
               </Col>
               <Col md="5" xs="5" className="align-self-center text-right">
                 <span className="dashboard-blocks-block-timer">
-                  <Timer time={props.created} />
+                  <Timer time={props.blockTimestamp} />
                 </span>
               </Col>
             </Row>

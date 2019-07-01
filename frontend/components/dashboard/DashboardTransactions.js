@@ -52,13 +52,13 @@ const DashboardTransactions = () => (
               {context.transactions.map(transaction => {
                 return (
                   <DashboardTransactionsRow
-                    key={transaction.txId}
-                    txType={transaction.txType}
-                    txMsg={transaction.txMsg}
-                    txId={transaction.txId}
-                    contractName={transaction.contractName}
-                    username={transaction.username}
-                    created={transaction.created}
+                    key={transaction.hash}
+                    txHash={transaction.hash}
+                    txKind={transaction.kind}
+                    txArgs={transaction.args}
+                    txOriginator={transaction.originator}
+                    txStatus={transaction.status}
+                    blockTimestamp={transaction.blockTimestamp}
                   />
                 );
               })}
