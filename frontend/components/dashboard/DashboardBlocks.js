@@ -51,13 +51,12 @@ const DashboardBlocks = () => (
               {context.blocks.map(block => {
                 return (
                   <DashboardBlocksBlock
-                    key={block.blockNumber}
-                    blockNumber={block.blockNumber}
-                    blockHash={block.blockHash}
+                    key={block.hash}
+                    blockHash={block.hash}
+                    blockHeight={block.height}
+                    blockAuthorId={block.authorId}
+                    blockTimestamp={block.timestamp}
                     transactionsCount={block.transactionsCount}
-                    blockHeight={block.blockHeight}
-                    witness={block.witness}
-                    created={block.created}
                   />
                 );
               })}

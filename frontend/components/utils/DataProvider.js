@@ -2,8 +2,6 @@ import React, { Component } from "react";
 
 import { call } from "../../api";
 
-import * as dummyData from "./dummyData.json";
-
 const DataContext = React.createContext();
 
 class DataProvider extends Component {
@@ -17,18 +15,20 @@ class DataProvider extends Component {
       updateNetwork: this.updateNetwork,
       details: this.props.details,
       blocks: this.props.blocks,
-      transactions: dummyData.transactions
+      transactions: this.props.transactions
     };
   }
 
   static async getInitialProps(ctx) {
-    const [details, blocks] = await Promise.all([
+    const [details, blocks, transactions] = await Promise.all([
       DataProvider.getDetails(),
-      DataProvider.getBlocksInfo()
+      DataProvider.getBlocksInfo(),
+      DataProvider.getTransactionsInfo()
     ]);
     return {
       details,
-      blocks
+      blocks,
+      transactions
     };
   }
 
@@ -37,10 +37,14 @@ class DataProvider extends Component {
   }
 
   static async getBlocksInfo() {
-    let blocks;
     try {
-      blocks = await call(".select", [
-        "SELECT hash, height, timestamp, list_of_approvals as listOfApprovals FROM blocks LIMIT 10"
+      return await call(".select", [
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, COUNT(transactions.hash) as transactionsCount FROM blocks
+          LEFT JOIN chunks ON chunks.block_hash = blocks.hash
+          LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
+          GROUP BY blocks.hash
+          ORDER BY blocks.height DESC
+          LIMIT 10`
       ]);
     } catch (error) {
       console.error(
@@ -49,28 +53,24 @@ class DataProvider extends Component {
       );
       throw error;
     }
-    return blocks.map((block, index) => {
-      return {
-        blockHash: block.hash.data,
-        blockHeight: block.height,
-        created: block.timestamp,
-        witness: block.listOfApprovals,
-
-        // TODO: expose this info from the backend:
-        transactionsCount: 200,
-        blockNumber: 60611 + index
-      };
-    });
   }
 
   static async getDetails() {
-    let details;
     try {
-      details = await call(".select", [
-        `SELECT nodes.totalNodes, transactions.lastDayTx FROM
-          (SELECT COUNT(*) as totalNodes FROM nodes) as nodes,
-          (SELECT COUNT(*) as lastDayTx FROM transactions) as transactions` // TODO: fix the lastDayTx
+      const details = await call(".select", [
+        `SELECT accounts.accountsCount, nodes.totalNodesCount, online_nodes.onlineNodesCount, transactions.lastDayTxCount, last_block.lastBlockHeight FROM ` +
+        `  (SELECT COUNT(*) as accountsCount FROM accounts) as accounts, ` +
+        `  (SELECT COUNT(*) as totalNodesCount FROM nodes) as nodes,` +
+        `  (SELECT COUNT(*) as onlineNodesCount FROM nodes WHERE last_seen > "2019-01-01") as online_nodes, ` + // TODO: Fix the date checking
+        `  (SELECT COUNT(*) as lastDayTxCount FROM transactions) as transactions, ` + // TODO: fix the lastDayTx
+          `  (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block`
       ]);
+      return {
+        ...details[0],
+
+        // TODO: expose this info from the backend:
+        tpsMax: "25/748"
+      };
     } catch (error) {
       console.error(
         "DataProvider.getDetails failed to fetch data due to:",
@@ -78,15 +78,22 @@ class DataProvider extends Component {
       );
       throw error;
     }
-    return {
-      ...details[0],
+  }
 
-      // TODO: expose this info from the backend:
-      nodesOnline: 100,
-      blockHeight: 2,
-      accounts: 200,
-      tpsMax: "25/748"
-    };
+  static async getTransactionsInfo() {
+    try {
+      return await call(".select", [
+        `SELECT transactions.hash, transactions.originator, transactions.kind, transactions.args, transactions.status, blocks.timestamp as blockTimestamp FROM transactions
+          LEFT JOIN chunks ON chunks.hash = transactions.chunk_hash
+          LEFT JOIN blocks ON blocks.hash = chunks.block_hash`
+      ]);
+    } catch (error) {
+      console.error(
+        "DataProvider.getTransactionsInfo failed to fetch data due to:",
+        error
+      );
+      throw error;
+    }
   }
 
   updateNetwork = index => {

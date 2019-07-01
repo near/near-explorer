@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import Timer from "../utils/Timer";
 
 const TransactionImage = {
-  Call: (
+  FunctionCall: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="12"
@@ -17,7 +17,7 @@ const TransactionImage = {
       />
     </svg>
   ),
-  Sent: (
+  SendMoney: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="12"
@@ -27,7 +27,7 @@ const TransactionImage = {
       <path fill="#8FD6BD" fillRule="evenodd" d="M6 0v6L0 0v12l6-6v6l6-6z" />
     </svg>
   ),
-  Staked: (
+  Stake: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="12"
@@ -39,7 +39,7 @@ const TransactionImage = {
       </g>
     </svg>
   ),
-  ContractDeployed: (
+  DeployContract: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="12"
@@ -55,7 +55,7 @@ const DashboardTransactionRow = props => (
   <Row noGutters="true">
     <Col xs="1" className="dashboard-transactions-icon-col">
       <div className="dashboard-transaction-row-img">
-        {TransactionImage[props.txType]}
+        {TransactionImage[props.txKind]}
       </div>
     </Col>
     <Col className="dashboard-transaction-row pl-0" xs="11" md="11">
@@ -63,25 +63,25 @@ const DashboardTransactionRow = props => (
         <Col xs="8">
           <Row>
             <Col className="dashboard-transaction-row-title">
-              {props.txType}: {props.txMsg}
+              {props.txKind}: {props.txArgs}
             </Col>
           </Row>
           <Row>
             <Col className="dashboard-transaction-row-content">
-              {props.contractName} by @{props.username}
+              by @{props.txOriginator}
             </Col>
           </Row>
         </Col>
         <Col className="ml-auto text-right" xs="4" md="auto">
           <Row>
             <Col className="dashboard-transaction-txid d-none d-sm-block">
-              {props.txId.substring(0, 7)}...
+              {props.txHash.substring(0, 7)}...
             </Col>
           </Row>
           <Row>
             <Col className="dashboard-transaction-timer">
-              {props.status !== undefined ? props.status : "Completed"}{" "}
-              <Timer time={props.created} />
+              {`${props.txStatus} `}
+              <Timer time={props.blockTimestamp} />
             </Col>
           </Row>
         </Col>
