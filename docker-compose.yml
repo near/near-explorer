@@ -11,12 +11,15 @@ services:
 
   backend:
     build: ./backend
-    network_mode: host  # TODO: implement WAMP URL configuration
     environment:
+      - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
 
   frontend:
     build: ./frontend
-    network_mode: host  # TODO: implement WAMP URL configuration
     environment:
+      - WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws
+      - WAMP_NEAR_EXPLORER_INTERNAL_URL=ws://wamp:8080/ws
       - WAMP_NEAR_EXPLORER_FRONTEND_SECRET=front
+    ports:
+      - 3000:3000

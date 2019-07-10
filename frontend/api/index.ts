@@ -1,19 +1,27 @@
+import getConfig from 'next/config';
+
 import autobahn from "autobahn";
 
-// TODO: Implement auto-configuration on deploy
-// (keep in mind both browser and server-side rendering)
-const wsuri = "ws://localhost:8080/ws";
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
+
+let wampNearExplorerUrl: string, wampNearExplorerSecret: string;
+
+if (typeof window === 'undefined') {
+  wampNearExplorerUrl = serverRuntimeConfig.wampNearExplorerUrl;
+  wampNearExplorerSecret = serverRuntimeConfig.wampNearExplorerFrontendSecret;
+} else {
+  wampNearExplorerUrl = publicRuntimeConfig.wampNearExplorerUrl;
+  wampNearExplorerSecret = publicRuntimeConfig.wampNearExplorerFrontendSecret;
+}
 
 const wamp = new autobahn.Connection({
-  url: wsuri,
+  url: wampNearExplorerUrl,
   realm: "near-explorer",
   authmethods: ["ticket"],
   authid: "near-explorer-frontend",
   onchallenge: (_session, method, _extra) => {
     if (method === "ticket") {
-      // TODO: Implement auto-configuration on deploy
-      // (keep in mind both browser and server-side rendering)
-      return "front";
+      return wampNearExplorerSecret;
     }
     throw "unsupported challenge method";
   }
