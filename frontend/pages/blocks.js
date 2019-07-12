@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import Header from "../components/Header";
-import Accounts from "../components/Accounts";
+import Blocks from "../components/Blocks";
 import Footer from "../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,7 +13,7 @@ export default () => (
       <title>Near Explorer | Blocks</title>
     </Head>
     <Header />
-    <Accounts />
+    <Blocks />
     <Footer />
     <style jsx global>{`
       body {

@@ -21,7 +21,7 @@ const Transactions = () => (
     ))}
     <EmptyRow />
     <TransactionsFooter start="1" stop="10" total="254" />
-    <EmptyRow />
+    <EmptyRow rows="5" />
   </Content>
 );
 
