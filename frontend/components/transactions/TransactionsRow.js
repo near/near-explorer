@@ -13,7 +13,7 @@ const TransactionsRow = props => (
     }`}
   >
     <Col md="auto" xs="1" className="pr-0">
-      {GetTransactionIcon[props.txn.txType]}
+      {GetTransactionIcon[props.txn.kind]}
     </Col>
     <Col md="auto" xs="1" className="pr-0">
       <img
@@ -23,19 +23,17 @@ const TransactionsRow = props => (
     </Col>
     <Col md="7" xs="6">
       <Row>
-        <Col className="transaction-row-title">{props.txn.txMsg}</Col>
+        <Col className="transaction-row-title">{props.txn.args}</Col>
       </Row>
       <Row>
-        <Col className="transaction-row-text">
-          {props.txn.contractName} by {props.txn.username}
-        </Col>
+        <Col className="transaction-row-text">by {props.txn.originator}</Col>
       </Row>
     </Col>
     <Col md="3" xs="4" className="ml-auto text-right">
       <Row>
         <Col className="transaction-row-txid">
-          {props.txn.txId !== undefined
-            ? `${props.txn.txId.substring(0, 7)}...`
+          {props.txn.hash !== undefined
+            ? `${props.txn.hash.substring(0, 7)}...`
             : null}
         </Col>
       </Row>
@@ -45,7 +43,7 @@ const TransactionsRow = props => (
             {props.txn.status}
           </span>
           &nbsp;&nbsp;
-          <Timer time={props.txn.created} />
+          <Timer time={props.txn.blockTimestamp} />
         </Col>
       </Row>
     </Col>
