@@ -1,0 +1,12 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="12"
+  height="12"
+  viewBox="0 0 18 18"
+>
+  <path
+    fill="#999"
+    fillRule="evenodd"
+    d="M0 9l6 6L9 0 0 9zm9 9l9-9-6-6-3 15z"
+  />
+</svg>

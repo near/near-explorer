@@ -7,7 +7,7 @@ const DashboardTransactionRow = props => (
   <Row noGutters="true">
     <Col xs="1" className="dashboard-transactions-icon-col">
       <div className="dashboard-transaction-row-img">
-        {GetTransactionIcon[props.txType]}
+        {GetTransactionIcon[props.txKind]}
       </div>
     </Col>
     <Col className="dashboard-transaction-row pl-0" xs="11" md="11">

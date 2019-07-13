@@ -44,7 +44,7 @@ class DataProvider extends Component {
           LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
           GROUP BY blocks.hash
           ORDER BY blocks.height DESC
-          LIMIT 10`
+          LIMIT 6`
       ]);
     } catch (error) {
       console.error(
@@ -86,7 +86,9 @@ class DataProvider extends Component {
       return await call(".select", [
         `SELECT transactions.hash, transactions.originator, transactions.kind, transactions.args, transactions.status, blocks.timestamp as blockTimestamp FROM transactions
           LEFT JOIN chunks ON chunks.hash = transactions.chunk_hash
-          LEFT JOIN blocks ON blocks.hash = chunks.block_hash`
+          LEFT JOIN blocks ON blocks.hash = chunks.block_hash
+          ORDER BY blocks.height DESC
+          LIMIT 10`
       ]);
     } catch (error) {
       console.error(
