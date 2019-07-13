@@ -7,27 +7,25 @@ import { DataConsumer } from "../utils/DataProvider";
 const DashboardCard = props => (
   <Card className={`${props.cls}`} style={{ border: "solid 4px #e6e6e6" }}>
     <Card.Body>
-      <Card.Text>
-        <Row noGutters="true">
-          <Col
-            xs="auto"
-            md="12"
-            className="dashboard-card-title align-self-center text-left text-md-center"
-          >
-            <img src={props.imgLink} className="dashboard-card-title-img" />
-            {props.title}
-          </Col>
-          <Col
-            xs="auto"
-            md="12"
-            className="ml-auto dashboard-card-text align-self-center text-right text-md-center"
-          >
-            {props.format !== undefined
-              ? parseInt(props.text).toLocaleString()
-              : props.text}
-          </Col>
-        </Row>
-      </Card.Text>
+      <Row noGutters="true">
+        <Col
+          xs="auto"
+          md="12"
+          className="dashboard-card-title align-self-center text-left text-md-center"
+        >
+          <img src={props.imgLink} className="dashboard-card-title-img" />
+          {props.title}
+        </Col>
+        <Col
+          xs="auto"
+          md="12"
+          className="ml-auto dashboard-card-text align-self-center text-right text-md-center"
+        >
+          {props.format !== undefined
+            ? parseInt(props.text).toLocaleString()
+            : props.text}
+        </Col>
+      </Row>
     </Card.Body>
     <style jsx global>{`
       .dashboard-card-title {

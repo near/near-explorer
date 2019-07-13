@@ -65,6 +65,7 @@ class DataProvider extends Component {
         `  (SELECT COUNT(*) as lastDayTxCount FROM transactions) as transactions, ` + // TODO: fix the lastDayTx
           `  (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block`
       ]);
+
       return {
         ...details[0],
 

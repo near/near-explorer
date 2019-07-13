@@ -15,6 +15,7 @@ const Transactions = () => (
     <EmptyRow />
     {dummyData.transactions.map((value, index, arr) => (
       <TransactionsRow
+        key={index}
         txn={value}
         cls={`${arr.length - 1 === index ? "transaction-row-bottom" : ""}`}
       />

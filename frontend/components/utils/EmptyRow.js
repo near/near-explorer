@@ -11,7 +11,7 @@ const renderRows = count => {
 
   const rows = [];
   for (let i = 0; i < count; ++i) {
-    rows.push(<ERow />);
+    rows.push(<ERow key={i} />);
   }
   return rows;
 };
