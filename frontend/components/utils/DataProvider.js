@@ -85,7 +85,9 @@ class DataProvider extends Component {
       return await call(".select", [
         `SELECT transactions.hash, transactions.originator, transactions.kind, transactions.args, transactions.status, blocks.timestamp as blockTimestamp FROM transactions
           LEFT JOIN chunks ON chunks.hash = transactions.chunk_hash
-          LEFT JOIN blocks ON blocks.hash = chunks.block_hash`
+          LEFT JOIN blocks ON blocks.hash = chunks.block_hash
+          ORDER BY blockTimestamp DESC
+          LIMIT 10`
       ]);
     } catch (error) {
       console.error(
