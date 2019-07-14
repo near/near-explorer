@@ -19,7 +19,7 @@ const Blocks = () => (
         context.blocks.map((block, index) => (
           <BlocksRow
             key={block.hash}
-            txn={block}
+            block={block}
             cls={`${
               context.blocks.length - 1 === index
                 ? "transaction-row-bottom"

@@ -19,7 +19,7 @@ const BlocksRow = props => (
     </Col>
     <Col md="7" xs="6">
       <Row>
-        <Col className="transaction-row-title">#{props.txn.height}</Col>
+        <Col className="transaction-row-title">#{props.block.height}</Col>
       </Row>
       <Row>
         <Col className="transaction-row-text">
@@ -30,15 +30,15 @@ const BlocksRow = props => (
                 style={{ width: "12px" }}
               />
               &nbsp;&nbsp;&nbsp;&nbsp;
-              {props.txn.transactionsCount}
+              {props.block.transactionsCount}
             </Col>
-            <Col md="auto">
+            <Col md="auto" className="pl-0">
               <img
                 src="/static/images/icon-m-user.svg"
                 style={{ width: "12px" }}
               />
               &nbsp;&nbsp;&nbsp;&nbsp;
-              {props.txn.authorId}
+              {props.block.authorId}
             </Col>
           </Row>
         </Col>
@@ -47,8 +47,8 @@ const BlocksRow = props => (
     <Col md="3" xs="4" className="ml-auto text-right">
       <Row>
         <Col className="transaction-row-txid">
-          {props.txn.hash !== undefined
-            ? `${props.txn.hash.substring(0, 7)}...`
+          {props.block.hash !== undefined
+            ? `${props.block.hash.substring(0, 7)}...`
             : null}
         </Col>
       </Row>
@@ -56,7 +56,7 @@ const BlocksRow = props => (
         <Col className="transaction-row-timer">
           <span className="transaction-row-timer-status">Completed</span>
           &nbsp;&nbsp;
-          <Timer time={props.txn.timestamp} />
+          <Timer time={props.block.timestamp} />
         </Col>
       </Row>
     </Col>
