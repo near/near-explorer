@@ -5,7 +5,7 @@ import { Row, Col, Card } from "react-bootstrap";
 import { DataConsumer } from "../utils/DataProvider";
 
 const DashboardCard = props => (
-  <Card className={`${props.cls}`} style={{ border: "solid 4px #e6e6e6" }}>
+  <Card className={props.cls} style={{ border: "solid 4px #e6e6e6" }}>
     <Card.Body>
       <Row noGutters="true">
         <Col
