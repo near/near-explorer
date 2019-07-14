@@ -16,7 +16,7 @@ const HeaderDropdownNav = () => (
       <Dropdown>
         <Dropdown.Toggle variant="dark" className="header-nav-network">
           <img src="/static/images/icon-nodes.svg" className="header-icon" />
-          <span className="header-nav-item">{context.currentNetwork}</span>
+          <span className="header-nav-item">{context.network}</span>
           <span className="header-nav-caret" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="header-nav-item-dropdown-menu">
