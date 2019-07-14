@@ -99,6 +99,22 @@ const Footer = props => {
           color: #999999;
           text-transform: uppercase;
         }
+
+        .search-header-start {
+          font-family: BentonSans;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 1.4px;
+        }
+
+        .search-header-total {
+          font-family: BentonSans;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 1.4px;
+          color: #999999;
+          text-transform: uppercase;
+        }
       `}</style>
     </Col>
   );

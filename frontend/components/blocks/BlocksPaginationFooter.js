@@ -2,11 +2,11 @@ import Link from "next/link";
 
 import { Row, Col } from "react-bootstrap";
 
-import Footer from "../utils/Footer";
+import Pagination from "../utils/Pagination";
 
 const BlocksFooter = props => (
   <Row>
-    <Footer />
+    <Pagination />
   </Row>
 );
 
