@@ -7,10 +7,7 @@ import Timer from "../utils/Timer";
 
 const DashboardBlocksBlock = props => (
   <Col xs="6">
-    <Link
-      href={`blocks?block=${props.blockNumber}`}
-      as={`blocks/${props.blockNumber}`}
-    >
+    <Link href="/block/[hash]" as={`/block/${props.blockHash}`}>
       <a className="dashboard-blocks-block-link">
         <Card className="dashboard-blocks-block">
           <Card.Title className="dashboard-blocks-block-title">

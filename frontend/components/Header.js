@@ -60,22 +60,22 @@ const Header = () => (
       </Col>
 
       <HeaderNavItem
-        link="index"
+        link="/index"
         imgLink="/static/images/icon-home.svg"
         text="Dashboard"
       />
       <HeaderNavItem
-        link="contracts"
+        link="/contracts"
         imgLink="/static/images/icon-contract.svg"
         text="Contracts"
       />
       <HeaderNavItem
-        link="transactions"
+        link="/transactions"
         imgLink="/static/images/icon-transactions.svg"
         text="Transactions"
       />
       <HeaderNavItem
-        link="blocks"
+        link="/blocks"
         imgLink="/static/images/icon-blocks.svg"
         text="Blocks"
       />
