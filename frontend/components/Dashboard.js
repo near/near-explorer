@@ -8,11 +8,7 @@ import DashboardHeader from "./dashboard/DashboardHeader";
 import DashboardTransactions from "./dashboard/DashboardTransactions";
 import DashboardBlocks from "./dashboard/DashboardBlocks";
 
-const EmptyRow = () => (
-  <Row>
-    <Col>&nbsp;</Col>
-  </Row>
-);
+import EmptyRow from "./utils/EmptyRow";
 
 const Dashboard = () => (
   <Content title="Dashboard">

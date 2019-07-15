@@ -2,15 +2,10 @@ import Link from "next/link";
 
 import { Row, Col } from "react-bootstrap";
 
+import EmptyRow from "../utils/EmptyRow";
 import { DataConsumer } from "../utils/DataProvider";
 
 import DashboardTransactionsRow from "./DashboardTransactionsRow";
-
-const EmptyRow = () => (
-  <Row>
-    <Col>&nbsp;</Col>
-  </Row>
-);
 
 const DashboardTransactions = () => (
   <div>

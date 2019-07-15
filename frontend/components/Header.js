@@ -48,28 +48,34 @@ const HeaderNavItem = props => (
 const Header = () => (
   <Container fluid="true" className="near-main-container">
     <Row className="header-container">
+      <Col xs="2" className="px-0 d-md-none align-self-center">
+        <img
+          className="near-main-logo-mobile"
+          src="/static/images/near_icon_wht.svg"
+        />
+      </Col>
+
       <Col md="auto" xs="6" className="pl-0  d-none d-sm-block ">
         <img className="near-main-logo" src="/static/images/explorer.png" />
       </Col>
 
       <HeaderNavItem
-        link="index"
+        link="/index"
         imgLink="/static/images/icon-home.svg"
         text="Dashboard"
-        cls="pl-0"
       />
       <HeaderNavItem
-        link="contracts"
+        link="/contracts"
         imgLink="/static/images/icon-contract.svg"
         text="Contracts"
       />
       <HeaderNavItem
-        link="transactions"
+        link="/transactions"
         imgLink="/static/images/icon-transactions.svg"
         text="Transactions"
       />
       <HeaderNavItem
-        link="blocks"
+        link="/blocks"
         imgLink="/static/images/icon-blocks.svg"
         text="Blocks"
       />
@@ -84,14 +90,13 @@ const Header = () => (
         link="https://github.com/nearprotocol/near-explorer/issues"
         imgLink="/static/images/icon-issues.svg"
         text="Issues"
-        cls="pl-0"
       />
 
-      <Col className="align-self-center d-none d-sm-block px-0" md="auto">
+      <Col className="align-self-center d-none d-sm-block" md="auto">
         <span className="header-nav-network-border" />
       </Col>
 
-      <Col className="align-self-center mb-3 mt-3" md="auto" xs="12">
+      <Col className="align-self-center mb-3 mt-3" md="auto" xs="10">
         <HeaderDropdownNav />
       </Col>
     </Row>
@@ -110,7 +115,7 @@ const Header = () => (
       }
 
       .near-main-container {
-        width: 88%;
+        width: 100%;
       }
 
       .header-nav-network-border {

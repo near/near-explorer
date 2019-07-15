@@ -5,20 +5,27 @@ import { Row, Col, Card } from "react-bootstrap";
 import { DataConsumer } from "../utils/DataProvider";
 
 const DashboardCard = props => (
-  <Card
-    className={`text-center ${props.cls}`}
-    style={{ border: "solid 4px #e6e6e6" }}
-  >
+  <Card className={props.cls} style={{ border: "solid 4px #e6e6e6" }}>
     <Card.Body>
-      <Card.Title className="dashboard-card-title">
-        <img src={props.imgLink} className="dashboard-card-title-img" />
-        {props.title}
-      </Card.Title>
-      <Card.Text className="dashboard-card-text">
-        {props.format !== undefined
-          ? parseInt(props.text).toLocaleString()
-          : props.text}
-      </Card.Text>
+      <Row noGutters="true">
+        <Col
+          xs="auto"
+          md="12"
+          className="dashboard-card-title align-self-center text-left text-md-center"
+        >
+          <img src={props.imgLink} className="dashboard-card-title-img" />
+          {props.title}
+        </Col>
+        <Col
+          xs="auto"
+          md="12"
+          className="ml-auto dashboard-card-text align-self-center text-right text-md-center"
+        >
+          {props.format !== undefined
+            ? parseInt(props.text).toLocaleString()
+            : props.text}
+        </Col>
+      </Row>
     </Card.Body>
     <style jsx global>{`
       .dashboard-card-title {
@@ -41,7 +48,6 @@ const DashboardCard = props => (
         font-size: 24px;
         font-weight: 500;
         color: #24272a;
-        margin-top: -10px;
       }
     `}</style>
   </Card>

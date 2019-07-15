@@ -203,7 +203,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "bob.near",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
@@ -225,7 +225,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "",
-    kind: "Stake",
+    kind: "Staked",
     args: { tokens: "10" },
     status: "Completed",
     logs: ""
@@ -236,7 +236,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "bob.near",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
@@ -247,7 +247,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "bob.near",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
@@ -269,7 +269,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "",
-    kind: "Stake",
+    kind: "Staked",
     args: { tokens: "10" },
     status: "Completed",
     logs: ""
@@ -280,7 +280,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "bob.near",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
@@ -291,7 +291,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "bob.near",
-    kind: "SendMoney",
+    kind: "Sent",
     args: { to: "jake.near", tokens: "15" },
     status: "Completed",
     logs: ""
@@ -302,7 +302,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "bob.near",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
@@ -324,7 +324,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
@@ -335,7 +335,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
@@ -346,7 +346,7 @@ async function init() {
     chunkHash: "69a3a6811111199",
     originator: "username.goes.here",
     destination: "",
-    kind: "FunctionCall",
+    kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
     logs: ""
