@@ -1,19 +1,17 @@
 import Head from "next/head";
 
-import Header from "../components/Header";
-import Accounts from "../components/Accounts";
-import Footer from "../components/Footer";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default () => (
+const Transactions = (props) => (
   <div>
     <Head>
       <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
-      <title>Near Explorer | Accounts</title>
+      <title>Near Explorer | Transactions</title>
     </Head>
     <Header />
-    <Accounts />
     <Footer />
     <style jsx global>{`
       body {
@@ -22,3 +20,9 @@ export default () => (
     `}</style>
   </div>
 );
+
+Transactions.getInitialProps = async ({ query: { hash }}) => {
+  console.log(hash);
+}
+
+export default Transactions;
