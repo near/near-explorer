@@ -1,8 +1,8 @@
 import Head from "next/head";
 
-import Header from "../components/Header";
-import Contracts from "../components/Contracts";
-import Footer from "../components/Footer";
+import Header from "../../components/Header";
+import Contracts from "../../components/Contracts";
+import Footer from "../../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 

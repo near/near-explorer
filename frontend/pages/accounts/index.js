@@ -1,8 +1,8 @@
 import Head from "next/head";
 
-import Header from "../components/Header";
-import Accounts from "../components/Accounts";
-import Footer from "../components/Footer";
+import Header from "../../components/Header";
+import Accounts from "../../components/Accounts";
+import Footer from "../../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
