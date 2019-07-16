@@ -17,10 +17,8 @@ const Blocks = {
         }
       ]);
     } catch (error) {
-      console.error(
-        "DataProvider.getBlocksInfo[] failed to fetch data due to:",
-        error
-      );
+      console.error("DataProvider.getBlocksInfo[] failed to fetch data due to:");
+      console.error(error);
       throw error;
     }
   }

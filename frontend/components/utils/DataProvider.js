@@ -15,10 +15,8 @@ const getBlocksInfo = async () => {
         LIMIT 6`
     ]);
   } catch (error) {
-    console.error(
-      "DataProvider.getBlocksInfo failed to fetch data due to:",
-      error
-    );
+    console.error("DataProvider.getBlocksInfo failed to fetch data due to:");
+    console.error(error);
     throw error;
   }
 };
@@ -41,10 +39,8 @@ const getDetails = async () => {
       tpsMax: "25/748"
     };
   } catch (error) {
-    console.error(
-      "DataProvider.getDetails failed to fetch data due to:",
-      error
-    );
+    console.error("DataProvider.getDetails failed to fetch data due to:");
+    console.error(error);
     throw error;
   }
 };
@@ -59,10 +55,8 @@ const getTransactionsInfo = async () => {
         LIMIT 10`
     ]);
   } catch (error) {
-    console.error(
-      "DataProvider.getTransactionsInfo failed to fetch data due to:",
-      error
-    );
+    console.error("DataProvider.getTransactionsInfo failed to fetch data due to:");
+    console.error(error);
     throw error;
   }
 };
