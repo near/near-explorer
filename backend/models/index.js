@@ -26,6 +26,9 @@ const sequelizeReadOnly = new Sequelize(
     ...config,
     dialectOptions: {
       ...config.dialectOptions,
+      // Set SQLITE_OPEN_READONLY mode. Read more:
+      // * http://www.sqlite.org/c3ref/open.html
+      // * http://www.sqlite.org/c3ref/c_open_autoproxy.html
       mode: 1
     },
     logging: false
