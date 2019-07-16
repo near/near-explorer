@@ -1,18 +1,7 @@
-import getConfig from 'next/config';
-
 import autobahn from "autobahn";
 
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
-
-let wampNearExplorerUrl: string, wampNearExplorerSecret: string;
-
-if (typeof window === 'undefined') {
-  wampNearExplorerUrl = serverRuntimeConfig.wampNearExplorerUrl;
-  wampNearExplorerSecret = serverRuntimeConfig.wampNearExplorerFrontendSecret;
-} else {
-  wampNearExplorerUrl = publicRuntimeConfig.wampNearExplorerUrl;
-  wampNearExplorerSecret = publicRuntimeConfig.wampNearExplorerFrontendSecret;
-}
+let wampNearExplorerUrl = process.env.WAMP_NEAR_EXPLORER_URL || '';
+let wampNearExplorerSecret = process.env.WAMP_NEAR_EXPLORER_FRONTEND_SECRET || '';
 
 const wamp = new autobahn.Connection({
   url: wampNearExplorerUrl,
