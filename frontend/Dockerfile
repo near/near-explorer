@@ -25,11 +25,12 @@ FROM mhart/alpine-node:slim-12
 WORKDIR /near-explorer/frontend
 RUN chown nobody: .
 USER nobody
-ENV HOME=/tmp
+ENV HOME=/tmp \
+    PORT=3000
+EXPOSE 3000
 COPY --from=node-modules /near-explorer/frontend/node_modules ./node_modules
 COPY ./static ./static
 COPY --from=build /near-explorer/frontend/next.config.js ./
 COPY --from=build /near-explorer/frontend/.next ./.next
 
-EXPOSE 3000
-CMD ["./node_modules/.bin/next", "start", "--port", "3000"]
+CMD ["/bin/sh", "-c", "exec ./node_modules/.bin/next start --port $PORT"]
