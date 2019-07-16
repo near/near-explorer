@@ -13,12 +13,21 @@ module.exports = withCSS({
 
     return config;
   },
-  env: {
-    WAMP_NEAR_EXPLORER_URL:
+  serverRuntimeConfig: {
+    wampNearExplorerUrl:
+      process.env.WAMP_NEAR_EXPLORER_INTERNAL_URL ||
       process.env.WAMP_NEAR_EXPLORER_URL ||
       defaultWampNearExplorerUrl,
-    WAMP_NEAR_EXPLORER_FRONTEND_SECRET:
+    wampNearExplorerFrontendSecret:
+      process.env.WAMP_NEAR_EXPLORER_INTERNAL_FRONTEND_SECRET ||
       process.env.WAMP_NEAR_EXPLORER_FRONTEND_SECRET ||
       defaultWampNearExplorerFrontendSecret
   },
+  publicRuntimeConfig: {
+    wampNearExplorerUrl:
+      process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
+    wampNearExplorerFrontendSecret:
+      process.env.WAMP_NEAR_EXPLORER_FRONTEND_SECRET ||
+      defaultWampNearExplorerFrontendSecret
+  }
 });
