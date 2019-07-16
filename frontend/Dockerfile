@@ -21,11 +21,11 @@ RUN npm run build
 FROM mhart/alpine-node:slim-12
 
 WORKDIR /near-explorer/frontend
-ENV HOME=/tmp
+ENV HOME=/tmp \
+    PORT=3000
 COPY --from=build /near-explorer/frontend/production_node_modules ./node_modules
 COPY --from=build /near-explorer/frontend/static ./static
 COPY --from=build /near-explorer/frontend/next.config.js ./
 COPY --from=build /near-explorer/frontend/.next ./.next
 
-EXPOSE 3000
-CMD ["./node_modules/.bin/next", "start", "--port", "3000"]
+CMD ["/bin/sh", "-c", "exec ./node_modules/.bin/next start --port $PORT"]

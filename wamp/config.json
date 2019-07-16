@@ -56,7 +56,7 @@
           "type": "web",
           "endpoint": {
             "type": "tcp",
-            "port": 8080
+            "port": "$WAMP_NEAR_EXPLORER_PORT"
           },
           "paths": {
             "ws": {
