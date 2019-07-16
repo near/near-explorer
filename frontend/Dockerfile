@@ -1,8 +1,8 @@
 FROM mhart/alpine-node:12 AS build
 
 WORKDIR /near-explorer/frontend
-RUN chown -R nobody: ..
-USER nobody
+#RUN chown -R nobody: ..
+#USER nobody
 ENV HOME=/tmp
 COPY ./package.json ./package-lock.json ./
 RUN npm install --prod && \
@@ -12,9 +12,9 @@ RUN npm install --prod && \
 COPY ./ ./
 
 # XXX: render.com always copies files as owned by UID 1000, GID 1000
-USER root
-RUN chown nobody: .
-USER nobody
+#USER root
+#RUN chown nobody: .
+#USER nobody
 
 RUN npm run build
 
