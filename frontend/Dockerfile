@@ -1,35 +1,31 @@
-FROM mhart/alpine-node:12 AS node-modules
-
-WORKDIR /near-explorer/frontend
-RUN chown nobody: .
-USER nobody
-ENV HOME=/tmp
-COPY ./package.json ./package-lock.json ./
-RUN npm clean-install --prod
-
-
 FROM mhart/alpine-node:12 AS build
 
 WORKDIR /near-explorer/frontend
-RUN chown nobody: .
-USER nobody
+#RUN chown -R nobody: ..
+#USER nobody
 ENV HOME=/tmp
 COPY ./package.json ./package-lock.json ./
-RUN npm clean-install
+RUN npm install --prod && \
+    cp -a node_modules ../production_node_modules && \
+    npm install
+
 COPY ./ ./
+
+# XXX: render.com always copies files as owned by UID 1000, GID 1000
+#USER root
+#RUN chown nobody: .
+#USER nobody
+
 RUN npm run build
 
 
 FROM mhart/alpine-node:slim-12
 
 WORKDIR /near-explorer/frontend
-RUN chown nobody: .
-USER nobody
 ENV HOME=/tmp \
     PORT=3000
-EXPOSE 3000
-COPY --from=node-modules /near-explorer/frontend/node_modules ./node_modules
-COPY ./static ./static
+COPY --from=build /near-explorer/production_node_modules ./node_modules
+COPY --from=build /near-explorer/frontend/static ./static
 COPY --from=build /near-explorer/frontend/next.config.js ./
 COPY --from=build /near-explorer/frontend/.next ./.next
 
