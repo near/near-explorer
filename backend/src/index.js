@@ -7,9 +7,9 @@ const models = require("../models");
 
 const nearRpcUrl = process.env.NEAR_RPC_URL || "https://rpc.nearprotocol.com";
 const nearRpc = new nearlib.providers.JsonRpcProvider(nearRpcUrl);
-const syncFetchQueueSize = 1000;
-const syncSaveQueueSize = 10;
-const bulkDbUpdateSize = 10;
+const syncFetchQueueSize = process.env.NEAR_SYNC_FETCH_QUEUE_SIZE || 1000;
+const syncSaveQueueSize = process.env.NEAR_SYNC_SAVE_QUEUE_SIZE || 10;
+const bulkDbUpdateSize = process.env.NEAR_SYNC_BULK_DB_UPDATE_SIZE || 10;
 
 const wamp = new autobahn.Connection({
   realm: "near-explorer",
@@ -198,9 +198,11 @@ async function main() {
   //syncFullNearcoreState();
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
-  setTimeout(() => {
-    setInterval(syncNewNearcoreState, 1000);
-  }, 10000);
+  const regularSyncNewNearcoreState = async () => {
+    await syncNewNearcoreState();
+    setTimeout(regularSyncNewNearcoreState, 1000);
+  };
+  setTimeout(regularSyncNewNearcoreState, 10000);
 
   setupWamp();
 }
