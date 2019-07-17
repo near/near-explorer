@@ -26,7 +26,7 @@ async function main() {
     await session.register(
       "com.nearprotocol.explorer.select",
       async ([query, replacements]) => {
-        return await models.sequelize.query(query, {
+        return await models.sequelizeReadOnly.query(query, {
           replacements,
           type: models.Sequelize.QueryTypes.SELECT
         });

@@ -1,9 +1,3 @@
-if (process.env.NODE_ENV) {
-  process.env.NODE_ENV += "-migration";
-} else {
-  process.env.NODE_ENV = "development-migration";
-}
-
 const models = require("./models");
 
 async function init() {
