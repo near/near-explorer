@@ -20,10 +20,10 @@
   "dependencies": {
     "autobahn": "19.4.1",
     "bs58": "^4.0.1",
-    "nearlib": "frol/nearlib#nightshade-extended-rpc-api",
-    "sequelize": "^5.9.0",
+    "nearlib": "github:frol/nearlib#nightshade-extended-rpc-api",
+    "sequelize": "^5.10.1",
     "sqlite3": "^4.0.9",
-    "ws": "^7.0.1"
+    "ws": "^7.1.0"
   },
   "devDependencies": {
     "sequelize-cli": "^5.5.0"
