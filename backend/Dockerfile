@@ -14,4 +14,4 @@ RUN mkdir ./db && \
     chown -R nobody: .
 
 USER nobody
-CMD ["npm", "run", "start"]
+CMD ["/bin/sh", "-c", "npx sequelize-cli db:migrate && exec npm run start"]
