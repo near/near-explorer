@@ -36,7 +36,7 @@ const getDetails = async () => {
       ...details[0],
 
       // TODO: expose this info from the backend:
-      tpsMax: "25/748"
+      tpsMax: "?/?"
     };
   } catch (error) {
     console.error("DataProvider.getDetails failed to fetch data due to:");
@@ -55,7 +55,9 @@ const getTransactionsInfo = async () => {
         LIMIT 10`
     ]);
   } catch (error) {
-    console.error("DataProvider.getTransactionsInfo failed to fetch data due to:");
+    console.error(
+      "DataProvider.getTransactionsInfo failed to fetch data due to:"
+    );
     console.error(error);
     throw error;
   }
