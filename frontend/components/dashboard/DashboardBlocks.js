@@ -43,26 +43,26 @@ const DashboardBlocks = () => (
         <DataConsumer>
           {context => (
             <Row className="gutter-4">
-              {context.blocks.map(block => {
-                return (
-                  <DashboardBlocksBlock
-                    key={block.hash}
-                    blockHash={block.hash}
-                    blockHeight={block.height}
-                    blockAuthorId={block.authorId}
-                    blockTimestamp={block.timestamp}
-                    transactionsCount={block.transactionsCount}
-                  />
-                );
-              })}
-              <Col xs="6">
-                <Link href="blocks">
-                  <a className="dashboard-footer">View All</a>
-                </Link>
-              </Col>
+              {context.blocks.map(block => (
+                <DashboardBlocksBlock
+                  key={block.hash}
+                  blockHash={block.hash}
+                  blockHeight={block.height}
+                  blockAuthorId={block.authorId}
+                  blockTimestamp={block.timestamp}
+                  transactionsCount={block.transactionsCount}
+                />
+              ))}
             </Row>
           )}
         </DataConsumer>
+        <Row>
+          <Col xs="6">
+            <Link href="blocks">
+              <a className="dashboard-footer">View All</a>
+            </Link>
+          </Col>
+        </Row>
       </Col>
     </Row>
     <EmptyRow />

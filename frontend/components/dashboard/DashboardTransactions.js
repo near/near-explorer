@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import EmptyRow from "../utils/EmptyRow";
 import { DataConsumer } from "../utils/DataProvider";
@@ -12,53 +12,36 @@ const DashboardTransactions = () => (
     <EmptyRow />
     <Row>
       <Col xs="1" md="auto" className="dashboard-transactions-icon-col">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="26"
-          height="26"
-          viewBox="0 0 26 26"
-        >
-          <g
-            fill="none"
-            fillRule="evenodd"
-            stroke="#CCC"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-          >
-            <path d="M7 19h18M7 25l-6-6 6-6M19 7H1M19 1l6 6-6 6" />
-          </g>
-        </svg>
+        <img
+          src="/static/images/icon-transactions.svg"
+          style={{ width: "22px" }}
+        />
       </Col>
       <Col className="px-md-0 dashboard-transactions-title">
         Recent Transactions
       </Col>
     </Row>
     <Row>
-      <Col xs="1" md="auto" className="pr-0">
+      <Col xs="1" md="1" className="pr-0">
         <div className="dashboard-blocks-hr-parent">
           <div className="dashboard-blocks-hr" />
         </div>
       </Col>
-      <Col className="px-0 dashboard-transactions-border">
+      <Col xs="11" md="11" className="px-0 dashboard-transactions-border">
         <DataConsumer>
-          {context => (
-            <div>
-              {context.transactions.map(transaction => {
-                return (
-                  <DashboardTransactionsRow
-                    key={transaction.hash}
-                    txHash={transaction.hash}
-                    txKind={transaction.kind}
-                    txArgs={transaction.args}
-                    txOriginator={transaction.originator}
-                    txStatus={transaction.status}
-                    blockTimestamp={transaction.blockTimestamp}
-                  />
-                );
-              })}
-            </div>
-          )}
+          {ctx =>
+            ctx.transactions.map(transaction => (
+              <DashboardTransactionsRow
+                key={transaction.hash}
+                txHash={transaction.hash}
+                txKind={transaction.kind}
+                txArgs={transaction.args}
+                txOriginator={transaction.originator}
+                txStatus={transaction.status}
+                blockTimestamp={transaction.blockTimestamp}
+              />
+            ))
+          }
         </DataConsumer>
         <Row noGutters="true">
           <Col xs="1" className="dashboard-transactions-icon-col" />
@@ -79,46 +62,46 @@ const DashboardTransactions = () => (
       }
 
       .dashboard-transactions-border {
-        padding-top: 15px;
+        padding-top: 15px !important;
       }
 
       @media (max-width: 499px) {
         .dashboard-transactions-border {
-          margin-left: -3.5%;
+          margin-left: -3.5% !important;
         }
       }
 
       @media (min-width: 500px) {
         .dashboard-transactions-border {
-          margin-left: -4.5%;
+          margin-left: -4.5% !important;
         }
       }
 
       @media (min-width: 680px) {
         .dashboard-transactions-border {
-          margin-left: -5.4%;
+          margin-left: -5.4% !important;
         }
       }
 
       @media (min-width: 768px) {
         .dashboard-transactions-border {
-          margin-left: -5.4%;
+          margin-left: -5.4% !important;
         }
       }
 
       @media (min-width: 992px) {
         .dashboard-transactions-icon-col {
-          flex: 0 0 5%;
+          flex: 0 0 5% !important;
         }
 
         .dashboard-transactions-border {
-          margin-left: -3.75%;
+          margin-left: -3.75% !important;
         }
       }
 
       @media (min-width: 1200px) {
         .dashboard-transactions-border {
-          margin-left: -3.23%;
+          margin-left: -6.23% !important;
         }
       }
     `}</style>
