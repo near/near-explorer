@@ -13,7 +13,7 @@ const DashboardTransactions = () => (
     <Row>
       <Col xs="1" md="auto" className="dashboard-transactions-icon-col">
         <img
-          src="/static/images/icon-transactions.svg"
+          src="/static/images/icon-t-transactions.svg"
           style={{ width: "22px" }}
         />
       </Col>
