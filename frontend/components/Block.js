@@ -126,7 +126,7 @@ const Block = ({ block }) => {
                 text={block.hash}
                 textCls="block-card-parent-hash-text"
                 textLink={true}
-                cls="block-card-no-side-border block-card-no-bottom-border"
+                cls="block-card-parent-hash block-card-no-border"
               />
             </Col>
           </Row>
@@ -150,6 +150,10 @@ const Block = ({ block }) => {
 
         .block-card-parent-hash-text:hover {
           color: #6ad1e3;
+        }
+
+        .block-card-parent-hash {
+          background-color: #f8f8f8;
         }
 
         .block-card-no-border {
