@@ -94,8 +94,9 @@ const Block = ({ block }) => {
               <BlockCard
                 title="Author"
                 imgLink="/static/images/icon-m-user.svg"
-                text={block.authorId}
+                text={`@${block.authorId}`}
                 cls="block-card-no-side-border block-card-no-top-border"
+                textCls="block-card-author-text"
               />
             </Col>
           </Row>
@@ -138,6 +139,10 @@ const Block = ({ block }) => {
           font-size: 18px;
           font-weight: 500;
           color: #4a4f54;
+        }
+
+        .block-card-author-text {
+          color: #0072ce;
         }
 
         .block-card-parent-hash-text {
