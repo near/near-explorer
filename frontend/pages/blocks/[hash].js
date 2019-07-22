@@ -1,17 +1,21 @@
 import Head from "next/head";
 
+import BlockApi from "../../components/api/Blocks";
+
 import Header from "../../components/Header";
+import Block from "../../components/Block";
 import Footer from "../../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Block = (props) => (
+const BlockPage = (props) => (
   <div>
     <Head>
       <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
-      <title>Near Explorer | Blocks</title>
+      <title>Near Explorer | Block</title>
     </Head>
     <Header />
+    <Block block={props}/>
     <Footer />
     <style jsx global>{`
       body {
@@ -21,8 +25,12 @@ const Block = (props) => (
   </div>
 );
 
-Block.getInitialProps = async ({ query: { hash }}) => {
-  console.log(hash);
+BlockPage.getInitialProps = async ({ query: { hash }}) => {
+  try {
+    return await BlockApi.getBlockInfo(hash);
+  } catch (err) {
+    return {};
+  }
 }
 
-export default Block;
+export default BlockPage;

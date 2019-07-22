@@ -11,7 +11,7 @@ import DashboardBlocks from "./dashboard/DashboardBlocks";
 import EmptyRow from "./utils/EmptyRow";
 
 const Dashboard = () => (
-  <Content title="Dashboard">
+  <Content title="Dashboard" border={false}>
     <DashboardHeader />
     <Row noGutters="true">
       <Col md="8">

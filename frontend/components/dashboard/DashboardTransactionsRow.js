@@ -12,10 +12,11 @@ const DashboardTransactionRow = props => (
     </Col>
     <Col className="dashboard-transaction-row pl-0" xs="11" md="11">
       <Row noGutters="true">
-        <Col xs="8">
+        <Col md="9" xs="8">
           <Row>
             <Col className="dashboard-transaction-row-title">
-              {props.txKind}: {props.txArgs}
+              {props.txKind}:{" "}
+              <span style={{ wordWrap: "break-word" }}>{props.txArgs}</span>
             </Col>
           </Row>
           <Row>

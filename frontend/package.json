@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "start:dev": "env WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws WAMP_NEAR_EXPLORER_FRONTEND_SECRET=Uitoo4Xe next"
   },
   "repository": {
     "type": "git",

@@ -21,7 +21,7 @@ const Content = props => (
           </Col>
         ) : null}
       </Row>
-      {props.title.toLowerCase() !== "dashboard" ? (
+      {props.border !== false ? (
         <Row>
           <Col>
             <hr className="content-title-margin" />

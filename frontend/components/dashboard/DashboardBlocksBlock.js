@@ -43,7 +43,9 @@ const DashboardBlocksBlock = props => (
               </Col>
               <Col md="5" xs="5" className="align-self-center text-right">
                 <span className="dashboard-blocks-block-timer">
-                  <Timer time={props.blockTimestamp} />
+                  <Timer
+                    time={parseInt(props.blockTimestamp.substring(0, 13))}
+                  />
                 </span>
               </Col>
             </Row>
