@@ -68,6 +68,13 @@ function setupWamp() {
   wamp.open();
 }
 
+function toBase58(input) {
+  if (typeof input === "string") {
+    return input;
+  }
+  return bs58.encode(Buffer.from(input));
+}
+
 async function saveBlocks(blocksInfo) {
   try {
     await models.sequelize.transaction(async transaction => {
@@ -75,9 +82,9 @@ async function saveBlocks(blocksInfo) {
         await models.Block.bulkCreate(
           blocksInfo.map(blockInfo => {
             return {
-              hash: bs58.encode(Buffer.from(blockInfo.header.hash)),
+              hash: toBase58(blockInfo.header.hash),
               height: blockInfo.header.height,
-              prevHash: bs58.encode(Buffer.from(blockInfo.header.prev_hash)),
+              prevHash: toBase58(blockInfo.header.prev_hash),
               timestamp: blockInfo.header.timestamp,
               weight: blockInfo.header.total_weight.num,
               authorId: "n/a", // TODO
@@ -89,9 +96,10 @@ async function saveBlocks(blocksInfo) {
         // XXX: Chunks are not 1-to-1 matching with Blocks, but they are not ready in nearcore, yet.
         await models.Chunk.bulkCreate(
           blocksInfo.map(blockInfo => {
+            const hash = toBase58(blockInfo.header.hash);
             return {
-              hash: bs58.encode(Buffer.from(blockInfo.header.hash)),
-              blockHash: bs58.encode(Buffer.from(blockInfo.header.hash)),
+              hash,
+              blockHash: hash,
               shardId: "n/a",
               authorId: "n/a"
             };
@@ -107,13 +115,13 @@ async function saveBlocks(blocksInfo) {
                   const kind = Object.keys(tx.body)[0];
                   const args = tx.body[kind];
                   return {
-                    hash: bs58.encode(Buffer.from(tx.hash)),
+                    hash: toBase58(tx.hash),
                     originator: args.originator,
                     destination: "n/a", // TODO
                     kind,
                     args,
                     parentHash: null, // TODO
-                    chunkHash: blockInfo.hash, // TODO: use real chunk hash instead of block hash
+                    chunkHash: toBase58(blockInfo.header.hash), // TODO: use real chunk hash instead of block hash
                     status: "Completed", // TODO
                     logs: "" // TODO
                   };
