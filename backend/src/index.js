@@ -30,7 +30,10 @@ const wamp = new autobahn.Connection({
       return process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
     }
     throw "WAMP authentication error: unsupported challenge method";
-  }
+  },
+  retry_if_unreachable: true,
+  max_retries: Number.MAX_SAFE_INTEGER,
+  max_retry_delay: 10
 });
 
 function setupWamp() {
