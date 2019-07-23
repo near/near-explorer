@@ -1,4 +1,4 @@
-import getConfig from 'next/config';
+import getConfig from "next/config";
 
 import autobahn from "autobahn";
 
@@ -6,7 +6,7 @@ const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
 let wampNearExplorerUrl: string, wampNearExplorerSecret: string;
 
-if (typeof window === 'undefined') {
+if (typeof window === "undefined") {
   wampNearExplorerUrl = serverRuntimeConfig.wampNearExplorerUrl;
   wampNearExplorerSecret = serverRuntimeConfig.wampNearExplorerFrontendSecret;
 } else {
@@ -24,7 +24,10 @@ const wamp = new autobahn.Connection({
       return wampNearExplorerSecret;
     }
     throw "unsupported challenge method";
-  }
+  },
+  retry_if_unreachable: true,
+  max_retries: Number.MAX_SAFE_INTEGER,
+  max_retry_delay: 10
 });
 
 interface IPromisePair {
