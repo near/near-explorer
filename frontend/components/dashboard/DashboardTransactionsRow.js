@@ -34,7 +34,7 @@ const DashboardTransactionRow = props => (
           <Row>
             <Col className="dashboard-transaction-timer">
               {`${props.txStatus} `}
-              <Timer time={props.blockTimestamp} />
+              <Timer time={parseInt(props.blockTimestamp.substring(0, 13))} />
             </Col>
           </Row>
         </Col>
