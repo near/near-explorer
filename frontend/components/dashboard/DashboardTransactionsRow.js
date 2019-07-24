@@ -1,7 +1,53 @@
+import mustache from "mustache";
 import { Row, Col } from "react-bootstrap";
 
 import Timer from "../utils/Timer";
 import GetTransactionIcon from "../utils/GetTransactionIcon";
+
+const prettifyTransaction = (kind, args) => {
+  if (kind === "AddKey") {
+    try {
+      args = JSON.parse(args);
+    } catch (err) {
+      console.log(err);
+      return args;
+    }
+
+    return mustache.render(
+      `
+      {{#access_key}}Access key for contract: "{{access_key.contract_id}}"{{/access_key}}
+      {{^access_key}}New Key Created: {{new_key}}{{/access_key}}
+    `,
+      args
+    );
+  } else if (kind === "CreateAccount") {
+    try {
+      args = JSON.parse(args);
+    } catch (err) {
+      console.log(err);
+      return args;
+    }
+
+    return mustache.render(
+      `New Account Created: @{{new_account_id}}, balance: {{amount}}`,
+      args
+    );
+  } else if (kind === "FunctionCall") {
+    try {
+      args = JSON.parse(args);
+    } catch (err) {
+      console.log(err);
+      return args;
+    }
+
+    return mustache.render(
+      `Call: Called method in contract "{{contract_id}}"`,
+      args
+    );
+  }
+
+  return args;
+};
 
 const DashboardTransactionRow = props => (
   <Row noGutters="true">
@@ -15,8 +61,9 @@ const DashboardTransactionRow = props => (
         <Col md="9" xs="8">
           <Row>
             <Col className="dashboard-transaction-row-title">
-              {props.txKind}:{" "}
-              <span style={{ wordWrap: "break-word" }}>{props.txArgs}</span>
+              <span style={{ wordWrap: "break-word" }}>
+                {prettifyTransaction(props.txKind, props.txArgs)}
+              </span>
             </Col>
           </Row>
           <Row>
