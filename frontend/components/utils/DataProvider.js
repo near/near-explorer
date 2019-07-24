@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import mustache from "mustache";
 
 import { call } from "../../api";
 
@@ -81,12 +82,59 @@ const DataProvider = props => {
     updateNetwork(0);
   }, []);
 
+  const processTransactions = transactions => {
+    for (let transaction of transactions) {
+      let args;
+      try {
+        args = JSON.parse(transaction.args);
+      } catch (err) {
+        transaction.msg = `${transaction.kind}: ${transaction.args}`;
+        continue;
+      }
+
+      switch (transaction.kind) {
+        case "AddKey":
+          transaction.msg = mustache.render(
+            `
+              {{#access_key}}Access key for contract: "{{access_key.contract_id}}"{{/access_key}}
+              {{^access_key}}New Key Created: {{new_key}}{{/access_key}}
+            `,
+            args
+          );
+          break;
+
+        case "CreateAccount":
+          transaction.msg = mustache.render(
+            `New Account Created: @{{new_account_id}}, balance: {{amount}}`,
+            args
+          );
+          break;
+
+        case "FunctionCall":
+          transaction.msg = mustache.render(
+            `Call: Called method in contract "{{contract_id}}"`,
+            args
+          );
+          break;
+
+        default:
+          transaction.msg = `${transaction.kind}: ${JSON.stringify(
+            transaction.args
+          )}`;
+      }
+    }
+
+    setTransactions(transactions);
+  };
+
   const updateNetwork = index => {
     setNetwork(networks[index]);
 
     getBlocksInfo().then(blocks => setBlocks(blocks));
     getDetails().then(details => setDetails(details));
-    getTransactionsInfo().then(transactions => setTransactions(transactions));
+    getTransactionsInfo().then(transactions =>
+      processTransactions(transactions)
+    );
   };
 
   return (
