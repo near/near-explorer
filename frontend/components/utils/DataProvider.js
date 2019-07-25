@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import mustache from "mustache";
 
 import { call } from "../../api";
 
@@ -94,27 +93,21 @@ const DataProvider = props => {
 
       switch (transaction.kind) {
         case "AddKey":
-          transaction.msg = mustache.render(
-            `
-              {{#access_key}}Access key for contract: "{{access_key.contract_id}}"{{/access_key}}
-              {{^access_key}}New Key Created: {{new_key}}{{/access_key}}
-            `,
-            args
-          );
+          transaction.msg = args.access_key
+            ? `Access key for contract: "${args.access_key.contract_id}"`
+            : `New Key Created: ${new_key}`;
           break;
 
         case "CreateAccount":
-          transaction.msg = mustache.render(
-            `New Account Created: @{{new_account_id}}, balance: {{amount}}`,
-            args
-          );
+          transaction.msg = `New Account Created: @${
+            args.new_account_id
+          }, balance: ${args.amount}`;
           break;
 
         case "FunctionCall":
-          transaction.msg = mustache.render(
-            `Call: Called method in contract "{{contract_id}}"`,
-            args
-          );
+          transaction.msg = `Call: Called method in contract "${
+            args.contract_id
+          }"`;
           break;
 
         default:

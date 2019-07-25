@@ -24,7 +24,6 @@
     "autobahn": "19.4.1",
     "bootstrap": "^4.3.1",
     "moment": "^2.24.0",
-    "mustache": "^3.0.1",
     "next": "^9.0.2",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
