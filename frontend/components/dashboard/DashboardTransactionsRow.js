@@ -4,16 +4,14 @@ import FunctionCall from "./transaction/FunctionCall";
 import TransactionRow from "./transaction/transaction";
 
 const DashboardTransactionRow = props => {
-  switch (props.txKind) {
-    case "AddKey":
-      return <AddKey {...props} />;
-    case "CreateAccount":
-      return <CreateAccount {...props} />;
-    case "FunctionCall":
-      return <FunctionCall {...props} />;
-    default:
-      return <TransactionRow {...props} />;
-  }
+  const components = {
+    AddKey,
+    CreateAccount,
+    FunctionCall
+  };
+
+  const Component = components[props.txKind] || TransactionRow;
+  return <Component {...props} />;
 };
 
 export default DashboardTransactionRow;
