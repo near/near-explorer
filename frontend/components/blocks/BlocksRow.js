@@ -56,7 +56,7 @@ const BlocksRow = props => (
         <Col className="transaction-row-timer">
           <span className="transaction-row-timer-status">Completed</span>
           &nbsp;&nbsp;
-          <Timer time={props.block.timestamp} />
+          <Timer time={parseInt(props.block.timestamp.substring(0, 13))} />
         </Col>
       </Row>
     </Col>

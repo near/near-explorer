@@ -1,6 +1,7 @@
 import AddKey from "./transaction/AddKey";
 import CreateAccount from "./transaction/CreateAccount";
 import FunctionCall from "./transaction/FunctionCall";
+import TransactionRow from "./transaction/transaction";
 
 const DashboardTransactionRow = props => {
   switch (props.txKind) {
@@ -11,7 +12,7 @@ const DashboardTransactionRow = props => {
     case "FunctionCall":
       return <FunctionCall {...props} />;
     default:
-      return null;
+      return <TransactionRow {...props} />;
   }
 };
 
