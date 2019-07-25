@@ -8,7 +8,7 @@ const DataContext = React.createContext();
 const getBlocksInfo = async () => {
   try {
     return await call(".select", [
-      `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, COUNT(transactions.hash) as transactionsCount FROM blocks
+      `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount FROM blocks
         LEFT JOIN chunks ON chunks.block_hash = blocks.hash
         LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
         GROUP BY blocks.hash

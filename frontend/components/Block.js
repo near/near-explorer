@@ -124,7 +124,7 @@ const Block = ({ block }) => {
             <Col md="12">
               <BlockCard
                 title="Parent Hash"
-                text={block.hash}
+                text={block.prevHash}
                 textCls="block-card-parent-hash-text"
                 textLink={true}
                 cls="block-card-parent-hash block-card-no-border"
