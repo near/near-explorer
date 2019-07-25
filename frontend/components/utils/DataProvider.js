@@ -7,7 +7,7 @@ const DataContext = React.createContext();
 const getBlocksInfo = async () => {
   try {
     return await call(".select", [
-      `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, COUNT(transactions.hash) as transactionsCount FROM blocks
+      `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount FROM blocks
         LEFT JOIN chunks ON chunks.block_hash = blocks.hash
         LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
         GROUP BY blocks.hash
@@ -81,12 +81,53 @@ const DataProvider = props => {
     updateNetwork(0);
   }, []);
 
+  const processTransactions = transactions => {
+    for (let transaction of transactions) {
+      let args;
+      try {
+        args = JSON.parse(transaction.args);
+      } catch (err) {
+        transaction.msg = `${transaction.kind}: ${transaction.args}`;
+        continue;
+      }
+
+      switch (transaction.kind) {
+        case "AddKey":
+          transaction.msg = args.access_key
+            ? `Access key for contract: "${args.access_key.contract_id}"`
+            : `New Key Created: ${new_key}`;
+          break;
+
+        case "CreateAccount":
+          transaction.msg = `New Account Created: @${
+            args.new_account_id
+          }, balance: ${args.amount}`;
+          break;
+
+        case "FunctionCall":
+          transaction.msg = `Call: Called method in contract "${
+            args.contract_id
+          }"`;
+          break;
+
+        default:
+          transaction.msg = `${transaction.kind}: ${JSON.stringify(
+            transaction.args
+          )}`;
+      }
+    }
+
+    setTransactions(transactions);
+  };
+
   const updateNetwork = index => {
     setNetwork(networks[index]);
 
     getBlocksInfo().then(blocks => setBlocks(blocks));
     getDetails().then(details => setDetails(details));
-    getTransactionsInfo().then(transactions => setTransactions(transactions));
+    getTransactionsInfo().then(transactions =>
+      processTransactions(transactions)
+    );
   };
 
   return (

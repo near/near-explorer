@@ -23,10 +23,10 @@ const TransactionsRow = props => (
     </Col>
     <Col md="7" xs="6">
       <Row>
-        <Col className="transaction-row-title">{props.txn.args}</Col>
+        <Col className="transaction-row-title">{props.txn.msg}</Col>
       </Row>
       <Row>
-        <Col className="transaction-row-text">by {props.txn.originator}</Col>
+        <Col className="transaction-row-text">by @{props.txn.originator}</Col>
       </Row>
     </Col>
     <Col md="3" xs="4" className="ml-auto text-right">
@@ -43,7 +43,7 @@ const TransactionsRow = props => (
             {props.txn.status}
           </span>
           &nbsp;&nbsp;
-          <Timer time={props.txn.blockTimestamp} />
+          <Timer time={parseInt(props.txn.blockTimestamp.substring(0, 13))} />
         </Col>
       </Row>
     </Col>

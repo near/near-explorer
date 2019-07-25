@@ -36,6 +36,7 @@ const DashboardTransactions = () => (
                 txHash={transaction.hash}
                 txKind={transaction.kind}
                 txArgs={transaction.args}
+                txMsg={transaction.msg}
                 txOriginator={transaction.originator}
                 txStatus={transaction.status}
                 blockTimestamp={transaction.blockTimestamp}

@@ -20,13 +20,13 @@ const Transactions = () => {
       <TransactionsHeader />
       <EmptyRow />
       <DataConsumer>
-        {context =>
-          context.transactions.map((transaction, index) => (
+        {ctx =>
+          ctx.transactions.map((transaction, index) => (
             <TransactionsRow
               key={transaction.hash}
               txn={transaction}
               cls={`${
-                context.transactions.length - 1 === index
+                ctx.transactions.length - 1 === index
                   ? "transaction-row-bottom"
                   : ""
               }`}
