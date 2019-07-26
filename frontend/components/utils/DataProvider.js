@@ -102,9 +102,10 @@ const processTransactions = transactions => {
   return transactions;
 };
 
-const networks = ["Testnet One", "Testnet Two"];
+const networks = ["Testnet One"];
 
 const DataProvider = props => {
+  console.log("data provider is rendered");
   const [network, setNetwork] = useState(networks[0]);
   const [details, setDetails] = useState(props.details);
   const [blocks, setBlocks] = useState(props.blocks);
@@ -112,8 +113,7 @@ const DataProvider = props => {
   const [pagination, setPagination] = useState({
     newBlocks: 0,
     headerHidden: true,
-    count: 15,
-    total: 0
+    count: 15
   });
 
   const updateNetwork = index => {
@@ -122,7 +122,7 @@ const DataProvider = props => {
     getBlocksInfo().then(blocks => setBlocks(blocks));
     getDetails().then(details => setDetails(details));
     getTransactionsInfo().then(transactions =>
-      processTransactions(transactions)
+      setTransactions(processTransactions(transactions))
     );
   };
 

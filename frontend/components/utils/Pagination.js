@@ -1,15 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
 import EmptyRow from "./EmptyRow";
-import { DataContext } from "./DataProvider";
+import { DataContext, DataConsumer } from "./DataProvider";
 
 const Footer = props => {
-  const [hidden, setHidden] = useState(false);
-
-  const ctx = useContext(DataContext);
-
   useEffect(() => {
     const ele = document.getElementById(props.elementId);
     const isAtBottom = () => {
@@ -23,45 +19,57 @@ const Footer = props => {
         await props.getNextBatch();
 
         // Add the listener again.
-        // document.addEventListener('scroll', onScroll);
+        document.addEventListener("scroll", onScroll);
       }
     };
     document.addEventListener("scroll", onScroll);
 
-    setHidden(false);
-  }, [ctx.pagination.newBlocks]);
+    return () => {
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, [props.getNextBatch]);
 
   return (
-    <div style={{ display: ctx.pagination.headerHidden ? "none" : "default" }}>
-      <EmptyRow />
-      <Row>
-        <Col className="pagination-header">
-          <Row style={{ paddingTop: "5px", paddingBottom: "5px" }}>
-            <Col md="auto">&nbsp;</Col>
-            <Col md="auto">
-              <span className="pagination-content">
-                {ctx.pagination.newBlocks} new blocks. Refresh or{" "}
-              </span>
-              <span className="pagination-content-link">
-                click here to view.
-              </span>
-            </Col>
-            <Col md="auto" className="ml-auto">
-              <span
-                className="pagination-close"
-                onClick={() =>
-                  ctx.setPagination(pagination => {
-                    return { ...pagination, headerHidden: true };
-                  })
-                }
-              >
-                Ignore this
-              </span>
-            </Col>
-            <Col md="auto">&nbsp;</Col>
-          </Row>
-        </Col>
-      </Row>
+    <div>
+      <DataConsumer>
+        {ctx => (
+          <div
+            style={{
+              display: ctx.pagination.headerHidden ? "none" : "default"
+            }}
+          >
+            <EmptyRow />
+            <Row>
+              <Col className="pagination-header">
+                <Row style={{ paddingTop: "5px", paddingBottom: "5px" }}>
+                  <Col md="auto">&nbsp;</Col>
+                  <Col md="auto">
+                    <span className="pagination-content">
+                      {ctx.pagination.newBlocks} new blocks. Refresh or{" "}
+                    </span>
+                    <span className="pagination-content-link">
+                      click here to view.
+                    </span>
+                  </Col>
+                  <Col md="auto" className="ml-auto">
+                    <span
+                      className="pagination-close"
+                      onClick={() =>
+                        ctx.setPagination(pagination => {
+                          return { ...pagination, headerHidden: true };
+                        })
+                      }
+                    >
+                      Ignore this
+                    </span>
+                  </Col>
+                  <Col md="auto">&nbsp;</Col>
+                </Row>
+              </Col>
+            </Row>
+          </div>
+        )}
+      </DataConsumer>
       <style jsx global>{`
         .pagination-header {
           background-color: rgba(106, 209, 227, 0.15);

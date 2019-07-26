@@ -11,21 +11,20 @@ import Footer from "../../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Index = ({ blocks, total }) => {
+const Index = ({ blocks, total, start, stop }) => {
   const ctx = useContext(DataContext);
 
   useEffect(() => {
-    if (blocks.length > 0) {
-      ctx.setPagination(pagination => {
-        return {
-          ...pagination,
-          total: total,
-          start: blocks[0].height,
-          stop: blocks[blocks.length - 1].height
-        };
-      });
-      ctx.setBlocks(blocks);
-    }
+    ctx.setBlocks(blocks);
+    ctx.setPagination(pagination => {
+      return {
+        ...pagination,
+        total,
+        start,
+        stop
+      };
+    });
+    console.log("set");
   }, []);
 
   return (
@@ -47,17 +46,24 @@ const Index = ({ blocks, total }) => {
 };
 
 Index.getInitialProps = async () => {
+  let start = 0;
+  let stop = 0;
   let total = 0;
   let blocks = [];
 
   try {
     blocks = await BlocksApi.getLatestBlocksInfo();
     total = await BlocksApi.getTotal();
+
+    if (blocks.length > 0) {
+      start = blocks[0].height;
+      stop = blocks[blocks.length - 1].height;
+    }
   } catch (err) {
     console.log(err);
   }
 
-  return { blocks, total };
+  return { blocks, total, start, stop };
 };
 
 export default Index;

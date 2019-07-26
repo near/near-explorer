@@ -6,7 +6,7 @@ import { Row, Col } from "react-bootstrap";
 
 import BlocksApi from "./api/Blocks";
 
-import { DataContext } from "./utils/DataProvider";
+import { DataContext, DataConsumer } from "./utils/DataProvider";
 
 import Content from "./Content";
 import BlocksPaginationHeader from "./blocks/BlocksPaginationHeader";
@@ -17,8 +17,6 @@ import EmptyRow from "./utils/EmptyRow";
 import Pagination from "./utils/Pagination";
 
 const Blocks = () => {
-  const ctx = useContext(DataContext);
-
   const constructBlock = (block, index, length) => {
     return (
       <BlocksRow
@@ -29,20 +27,21 @@ const Blocks = () => {
     );
   };
 
-  const getNextBatch = async () => {
-    console.log(ctx.pagination);
+  const getNextBatch = async ctx => {
     try {
       const blocks = await BlocksApi.getPreviousBlocks(
         ctx.pagination.stop,
         ctx.pagination.count
       );
 
-      ctx.setBlocks(blocks_ => {
-        blocks_.push(...blocks);
+      const stop = blocks[blocks.length - 1].height;
+
+      ctx.setBlocks(_blocks => {
+        _blocks.push(...blocks);
         return _blocks;
       });
       ctx.setPagination(pagination => {
-        return { ...pagination, stop: blocks[blocks.length - 1].height };
+        return { ...pagination, stop };
       });
     } catch (err) {
       console.log(err);
@@ -50,26 +49,34 @@ const Blocks = () => {
   };
 
   return (
-    <Content title="Blocks" count={ctx.pagination.total}>
-      <BlocksPaginationHeader />
-      <Pagination
-        elementId="blocks-pagination-content"
-        getNextBatch={getNextBatch}
-      />
-      <EmptyRow />
-      <div id="blocks-pagination-content">
-        {ctx.blocks.map((block, index) => (
-          <BlocksRow
-            key={block.hash}
-            block={block}
-            cls={`${
-              ctx.blocks.length - 1 === index ? "transaction-row-bottom" : ""
-            }`}
+    <DataConsumer>
+      {ctx => (
+        <Content title="Blocks" count={ctx.pagination.total}>
+          <BlocksPaginationHeader />
+          <Pagination
+            elementId="blocks-pagination-content"
+            getNextBatch={() => getNextBatch(ctx)}
           />
-        ))}
-      </div>
-      <EmptyRow rows="5" />
-    </Content>
+          <EmptyRow />
+          <div id="blocks-pagination-content">
+            {ctx.blocks
+              ? ctx.blocks.map((block, index) => (
+                  <BlocksRow
+                    key={block.hash}
+                    block={block}
+                    cls={`${
+                      ctx.blocks.length - 1 === index
+                        ? "transaction-row-bottom"
+                        : ""
+                    }`}
+                  />
+                ))
+              : null}
+          </div>
+          <EmptyRow rows="5" />
+        </Content>
+      )}
+    </DataConsumer>
   );
 };
 
