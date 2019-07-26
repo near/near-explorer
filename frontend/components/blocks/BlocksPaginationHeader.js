@@ -7,12 +7,14 @@ import Search from "../utils/Search";
 import Pagination from "../utils/Pagination";
 
 const BlocksHeader = props => (
-  <Row>
+  <div>
+    <Row>
+      <Col md="4" xs="6" className="ml-auto align-self-center">
+        <Search text="Search blocks..." />
+      </Col>
+    </Row>
     <Pagination />
-    <Col md="4" xs="6" className="ml-auto align-self-center">
-      <Search text="Search blocks..." />
-    </Col>
-  </Row>
+  </div>
 );
 
 export default BlocksHeader;

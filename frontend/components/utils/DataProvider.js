@@ -63,62 +63,59 @@ const getTransactionsInfo = async () => {
   }
 };
 
-const DataProvider = props => {
-  const networks = ["Testnet One", "Testnet Two"];
+const processTransactions = transactions => {
+  for (let transaction of transactions) {
+    let args;
+    try {
+      args = JSON.parse(transaction.args);
+    } catch (err) {
+      transaction.msg = `${transaction.kind}: ${transaction.args}`;
+      continue;
+    }
 
-  const [network, setNetwork] = useState(null);
+    switch (transaction.kind) {
+      case "AddKey":
+        transaction.msg = args.access_key
+          ? `Access key for contract: "${args.access_key.contract_id}"`
+          : `New Key Created: ${new_key}`;
+        break;
+
+      case "CreateAccount":
+        transaction.msg = `New Account Created: @${
+          args.new_account_id
+        }, balance: ${args.amount}`;
+        break;
+
+      case "FunctionCall":
+        transaction.msg = `Call: Called method in contract "${
+          args.contract_id
+        }"`;
+        break;
+
+      default:
+        transaction.msg = `${transaction.kind}: ${JSON.stringify(
+          transaction.args
+        )}`;
+    }
+  }
+
+  return transactions;
+};
+
+const networks = ["Testnet One", "Testnet Two"];
+
+const DataProvider = props => {
+  const [network, setNetwork] = useState(networks[0]);
   const [details, setDetails] = useState(props.details);
   const [blocks, setBlocks] = useState(props.blocks);
   const [transactions, setTransactions] = useState(props.transactions);
   const [pagination, setPagination] = useState({
+    new: 0,
     count: 10,
     start: 1,
     stop: 10,
     total: 100 // TODO: need to get this value.
   });
-
-  useEffect(() => {
-    updateNetwork(0);
-  }, []);
-
-  const processTransactions = transactions => {
-    for (let transaction of transactions) {
-      let args;
-      try {
-        args = JSON.parse(transaction.args);
-      } catch (err) {
-        transaction.msg = `${transaction.kind}: ${transaction.args}`;
-        continue;
-      }
-
-      switch (transaction.kind) {
-        case "AddKey":
-          transaction.msg = args.access_key
-            ? `Access key for contract: "${args.access_key.contract_id}"`
-            : `New Key Created: ${new_key}`;
-          break;
-
-        case "CreateAccount":
-          transaction.msg = `New Account Created: @${
-            args.new_account_id
-          }, balance: ${args.amount}`;
-          break;
-
-        case "FunctionCall":
-          transaction.msg = `Call: Called method in contract "${
-            args.contract_id
-          }"`;
-          break;
-
-        default:
-          transaction.msg = `${transaction.kind}: ${JSON.stringify(
-            transaction.args
-          )}`;
-      }
-    }
-
-    setTransactions(transactions);
-  };
 
   const updateNetwork = index => {
     setNetwork(networks[index]);
@@ -158,11 +155,11 @@ DataProvider.getInitialProps = async () => {
   return {
     details,
     blocks,
-    transactions
+    transactions: processTransactions(transactions)
   };
 };
 
 const DataConsumer = DataContext.Consumer;
 
 export default DataProvider;
-export { DataConsumer };
+export { DataConsumer, DataContext };

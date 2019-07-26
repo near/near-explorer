@@ -42,8 +42,7 @@ const BlocksRow = props => (
                     src="/static/images/icon-m-user.svg"
                     style={{ width: "12px" }}
                   />
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  {props.block.authorId}
+                  &nbsp;&nbsp;&nbsp;&nbsp; @{props.block.authorId}
                 </Col>
               </Row>
             </Col>

@@ -32,8 +32,6 @@ const Blocks = () => {
               }`}
             />
           ))}
-          <EmptyRow />
-          <BlocksPaginationFooter />
           <EmptyRow rows="5" />
         </Content>
       )}
