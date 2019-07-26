@@ -11,7 +11,7 @@ import Footer from "../../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Index = ({ blocks }) => {
+const Index = ({ blocks, total }) => {
   const ctx = useContext(DataContext);
 
   useEffect(() => {
@@ -19,6 +19,7 @@ const Index = ({ blocks }) => {
       ctx.setPagination(pagination => {
         return {
           ...pagination,
+          total: total,
           start: blocks[0].height,
           stop: blocks[blocks.length - 1].height
         };
@@ -46,15 +47,17 @@ const Index = ({ blocks }) => {
 };
 
 Index.getInitialProps = async () => {
+  let total = 0;
   let blocks = [];
 
   try {
     blocks = await BlocksApi.getLatestBlocksInfo();
+    total = await BlocksApi.getTotal();
   } catch (err) {
     console.log(err);
   }
 
-  return { blocks };
+  return { blocks, total };
 };
 
 export default Index;

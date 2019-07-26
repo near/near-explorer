@@ -1,6 +1,19 @@
 import { call } from "../../api";
 
 const Blocks = {
+  getTotal: async () => {
+    try {
+      const _ = await call(".select", [
+        `SELECT COUNT(blocks.hash) AS total FROM blocks`
+      ]);
+      return _[0].total;
+    } catch (error) {
+      console.error("DataProvider.getTotal failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  },
+
   getLatestBlocksInfo: async (limit = 15) => {
     try {
       return await call(".select", [

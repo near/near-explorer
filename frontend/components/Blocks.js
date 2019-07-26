@@ -36,8 +36,11 @@ const Blocks = () => {
         ctx.pagination.stop,
         ctx.pagination.count
       );
-      console.log(blocks);
-      ctx.blocks.push(...blocks);
+
+      ctx.setBlocks(blocks_ => {
+        blocks_.push(...blocks);
+        return _blocks;
+      });
       ctx.setPagination(pagination => {
         return { ...pagination, stop: blocks[blocks.length - 1].height };
       });
