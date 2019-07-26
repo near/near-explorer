@@ -40,30 +40,51 @@ function setupWamp() {
   wamp.onopen = async session => {
     console.log("WAMP connection is established. Waiting for commands...");
 
-    await session.register(
-      "com.nearprotocol.explorer.node-telemetry",
-      async ([nodeInfo]) => {
-        // TODO: verify signature
-        return await models.Node.upsert({
-          nodeId: nodeInfo.node_id,
-          moniker: nodeInfo.account_id,
-          accountId: nodeInfo.account_id,
-          ipAddress: nodeInfo.ip_address,
-          lastSeen: Date.now(),
-          lastHeight: nodeInfo.latest_block_height
-        });
-      }
-    );
+    try {
+      await session.register(
+        "com.nearprotocol.explorer.node-telemetry",
+        async ([nodeInfo]) => {
+          // TODO: verify signature
+          return await models.Node.upsert({
+            nodeId: nodeInfo.node_id,
+            moniker: nodeInfo.account_id,
+            accountId: nodeInfo.account_id,
+            ipAddress: nodeInfo.ip_address,
+            lastSeen: Date.now(),
+            lastHeight: nodeInfo.latest_block_height
+          });
+        }
+      );
+    } catch (error) {
+      console.error(
+        "Failed to register .node-telemetry handler due to:",
+        error
+      );
+      wamp.close();
+      setTimeout(() => {
+        wamp.open();
+      }, 1000);
+      return;
+    }
 
-    await session.register(
-      "com.nearprotocol.explorer.select",
-      async ([query, replacements]) => {
-        return await models.sequelizeReadOnly.query(query, {
-          replacements,
-          type: models.Sequelize.QueryTypes.SELECT
-        });
-      }
-    );
+    try {
+      await session.register(
+        "com.nearprotocol.explorer.select",
+        async ([query, replacements]) => {
+          return await models.sequelizeReadOnly.query(query, {
+            replacements,
+            type: models.Sequelize.QueryTypes.SELECT
+          });
+        }
+      );
+    } catch (error) {
+      console.error("Failed to register .select handler due to:", error);
+      wamp.close();
+      setTimeout(() => {
+        wamp.open();
+      }, 1000);
+      return;
+    }
 
     // This is an example of sending an event
     /*
