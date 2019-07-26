@@ -4,7 +4,6 @@ import { Row, Col } from "react-bootstrap";
 
 import { DataConsumer } from "../utils/DataProvider";
 import Search from "../utils/Search";
-import Pagination from "../utils/Pagination";
 
 const BlocksHeader = props => (
   <div>
@@ -13,7 +12,6 @@ const BlocksHeader = props => (
         <Search text="Search blocks..." />
       </Col>
     </Row>
-    <Pagination />
   </div>
 );
 

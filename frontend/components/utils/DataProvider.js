@@ -12,7 +12,7 @@ const getBlocksInfo = async () => {
         LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
         GROUP BY blocks.hash
         ORDER BY blocks.height DESC
-        LIMIT 6`
+        LIMIT 15`
     ]);
   } catch (error) {
     console.error("DataProvider.getBlocksInfo failed to fetch data due to:");
@@ -110,11 +110,10 @@ const DataProvider = props => {
   const [blocks, setBlocks] = useState(props.blocks);
   const [transactions, setTransactions] = useState(props.transactions);
   const [pagination, setPagination] = useState({
-    new: 0,
-    count: 10,
-    start: 1,
-    stop: 10,
-    total: 100 // TODO: need to get this value.
+    newBlocks: 0,
+    headerHidden: true,
+    count: 15,
+    total: 0
   });
 
   const updateNetwork = index => {
@@ -135,6 +134,7 @@ const DataProvider = props => {
         updateNetwork,
         details,
         blocks,
+        setBlocks,
         transactions,
         pagination,
         setPagination

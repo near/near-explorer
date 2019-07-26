@@ -11,11 +11,28 @@ const Footer = props => {
   const ctx = useContext(DataContext);
 
   useEffect(() => {
+    const ele = document.getElementById(props.elementId);
+    const isAtBottom = () => {
+      return ele.getBoundingClientRect().bottom <= window.innerHeight;
+    };
+    const onScroll = async () => {
+      if (isAtBottom()) {
+        document.removeEventListener("scroll", onScroll);
+
+        // load the next set.
+        await props.getNextBatch();
+
+        // Add the listener again.
+        // document.addEventListener('scroll', onScroll);
+      }
+    };
+    document.addEventListener("scroll", onScroll);
+
     setHidden(false);
-  }, [ctx.pagination.new]);
+  }, [ctx.pagination.newBlocks]);
 
   return (
-    <div style={{ display: hidden ? "none" : "default" }}>
+    <div style={{ display: ctx.pagination.headerHidden ? "none" : "default" }}>
       <EmptyRow />
       <Row>
         <Col className="pagination-header">
@@ -23,7 +40,7 @@ const Footer = props => {
             <Col md="auto">&nbsp;</Col>
             <Col md="auto">
               <span className="pagination-content">
-                {ctx.pagination.new} new blocks. Refresh or{" "}
+                {ctx.pagination.newBlocks} new blocks. Refresh or{" "}
               </span>
               <span className="pagination-content-link">
                 click here to view.
@@ -32,7 +49,11 @@ const Footer = props => {
             <Col md="auto" className="ml-auto">
               <span
                 className="pagination-close"
-                onClick={() => setHidden(true)}
+                onClick={() =>
+                  ctx.setPagination(pagination => {
+                    return { ...pagination, headerHidden: true };
+                  })
+                }
               >
                 Ignore this
               </span>

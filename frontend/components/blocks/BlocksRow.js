@@ -71,6 +71,10 @@ const BlocksRow = props => (
             border-top: solid 2px #f8f8f8;
           }
 
+          .transaction-row:hover {
+            background: rgba(0, 0, 0, 0.1);
+          }
+
           .transaction-row-bottom {
             border-bottom: solid 2px #f8f8f8;
           }
