@@ -25,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       lastSeen: {
         field: "last_seen",
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         allowNull: false
       },
       lastHeight: {
         field: "last_height",
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         allowNull: false
       }
     },

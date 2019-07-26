@@ -43,7 +43,7 @@ const TransactionsRow = props => (
             {props.txn.status}
           </span>
           &nbsp;&nbsp;
-          <Timer time={parseInt(props.txn.blockTimestamp.substring(0, 13))} />
+          <Timer time={props.txn.blockTimestamp} />
         </Col>
       </Row>
     </Col>

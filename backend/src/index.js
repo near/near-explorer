@@ -39,6 +39,22 @@ const wamp = new autobahn.Connection({
 function setupWamp() {
   wamp.onopen = async session => {
     console.log("WAMP connection is established. Waiting for commands...");
+
+    await session.register(
+      "com.nearprotocol.explorer.node-telemetry",
+      async ([nodeInfo]) => {
+        // TODO: verify signature
+        return await models.Node.upsert({
+          nodeId: nodeInfo.node_id,
+          moniker: nodeInfo.account_id,
+          accountId: nodeInfo.account_id,
+          ipAddress: nodeInfo.ip_address,
+          lastSeen: Date.now(),
+          lastHeight: nodeInfo.latest_block_height
+        });
+      }
+    );
+
     await session.register(
       "com.nearprotocol.explorer.select",
       async ([query, replacements]) => {
@@ -88,7 +104,7 @@ async function saveBlocks(blocksInfo) {
               hash: toBase58(blockInfo.header.hash),
               height: blockInfo.header.height,
               prevHash: toBase58(blockInfo.header.prev_hash),
-              timestamp: blockInfo.header.timestamp,
+              timestamp: parseInt(blockInfo.header.timestamp / 1000000),
               weight: blockInfo.header.total_weight.num,
               authorId: "n/a", // TODO
               listOfApprovals: "n/a" // TODO
@@ -153,7 +169,7 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
     //console.debug(`Syncing the block #${syncingBlockHeight}...`);
     requests.push(
       nearRpc.block(syncingBlockHeight).catch(e => {
-        console.error(
+        console.warn(
           `Something went wrong while fetching block #${syncingBlockHeight}: `,
           e
         );
@@ -191,7 +207,7 @@ async function syncNewNearcoreState() {
   const nodeStatus = await nearRpc.status();
   let latestBlockHeight = nodeStatus.sync_info.latest_block_height;
   if (typeof latestBlockHeight !== "number") {
-    console.error(
+    console.warn(
       "The latest block height is unknown. The received node status is:",
       nodeStatus
     );
@@ -258,9 +274,21 @@ async function syncMissingNearcoreState() {
 }
 
 async function syncFullNearcoreState() {
-  await syncNewNearcoreState();
-  await syncMissingNearcoreState();
-  await syncOldNearcoreState();
+  try {
+    await syncNewNearcoreState();
+  } catch (error) {
+    console.warn("Syncing new Nearcore state crashed due to:", error);
+  }
+  try {
+    await syncMissingNearcoreState();
+  } catch (error) {
+    console.warn("Syncing missing Nearcore state crashed due to:", error);
+  }
+  try {
+    await syncOldNearcoreState();
+  } catch (error) {
+    console.warn("Syncing old Nearcore state crashed due to:", error);
+  }
 }
 
 async function main() {
@@ -268,7 +296,11 @@ async function main() {
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {
-    await syncNewNearcoreState();
+    try {
+      await syncNewNearcoreState();
+    } catch (error) {
+      console.warn("Regular syncing new Nearcore state crashed due to:", error);
+    }
     setTimeout(
       regularSyncNewNearcoreState,
       regularSyncNewNearcoreStateInterval
@@ -280,7 +312,14 @@ async function main() {
   );
 
   const regularSyncMissingNearcoreState = async () => {
-    await syncMissingNearcoreState();
+    try {
+      await syncMissingNearcoreState();
+    } catch (error) {
+      console.warn(
+        "Regular syncing missing Nearcore state crashed due to:",
+        error
+      );
+    }
     setTimeout(
       regularSyncMissingNearcoreState,
       regularSyncMissingNearcoreStateInterval

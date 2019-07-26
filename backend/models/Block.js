@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       timestamp: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         allowNull: false
       },
       weight: {
