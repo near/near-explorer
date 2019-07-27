@@ -6,7 +6,7 @@ import { DataConsumer } from "../utils/DataProvider";
 import Timer from "../utils/Timer";
 
 const BlocksRow = props => (
-  <Link href="/blocks/[hash]" as={`/blocks/${props.block.hash}`}>
+  <Link href="/blocks/[hash]" as={`/blocks/${props.block.hash}`} prefetch>
     <a style={{ textDecoration: "none" }}>
       <Row
         className={`transaction-row mx-0 ${
