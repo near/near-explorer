@@ -11,7 +11,7 @@ const HeaderNavItem = props => (
     }`}
     md="auto"
   >
-    <Link href={props.link}>
+    <Link href={props.link} prefetch>
       <a className="header-nav-link">
         <img src={props.imgLink} className="header-icon" />
         <span className="header-nav-item">{props.text}</span>

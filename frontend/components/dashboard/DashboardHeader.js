@@ -55,14 +55,14 @@ const DashboardCard = props => (
 
 const DashboardHeader = () => (
   <DataConsumer>
-    {context => (
+    {ctx => (
       <Row noGutters="true">
         <Col xs="12" md="3">
           <DashboardCard
             title="Nodes Online"
             imgLink="/static/images/icon-m-node-online.svg"
-            text={`${context.details.onlineNodesCount}/${
-              context.details.totalNodesCount
+            text={`${ctx.details.onlineNodesCount}/${
+              ctx.details.totalNodesCount
             }`}
           />
         </Col>
@@ -70,7 +70,7 @@ const DashboardHeader = () => (
           <DashboardCard
             title="Block Height"
             imgLink="/static/images/icon-m-height.svg"
-            text={`${context.details.lastBlockHeight}`}
+            text={`${ctx.details.lastBlockHeight}`}
             format="true"
           />
         </Col>
@@ -78,14 +78,14 @@ const DashboardHeader = () => (
           <DashboardCard
             title="Tps/Max"
             imgLink="/static/images/icon-m-tps.svg"
-            text={`${context.details.tpsMax}`}
+            text={`${ctx.details.tpsMax}`}
           />
         </Col>
         <Col xs="12" md="2">
           <DashboardCard
             title="Last Day Tx"
             imgLink="/static/images/icon-m-transaction.svg"
-            text={`${context.details.lastDayTxCount}`}
+            text={`${ctx.details.lastDayTxCount}`}
             format="true"
           />
         </Col>
@@ -95,7 +95,7 @@ const DashboardHeader = () => (
               <DashboardCard
                 title="Accounts"
                 imgLink="/static/images/icon-m-user.svg"
-                text={`${context.details.accountsCount}`}
+                text={`${ctx.details.accountsCount}`}
                 format="true"
               />
             </a>
