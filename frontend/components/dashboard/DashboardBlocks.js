@@ -41,9 +41,9 @@ const DashboardBlocks = () => (
       </Col>
       <Col>
         <DataConsumer>
-          {context => (
+          {ctx => (
             <Row className="gutter-4">
-              {context.blocks.map(block => (
+              {ctx.blocks.slice(0, 8).map(block => (
                 <DashboardBlocksBlock
                   key={block.hash}
                   blockHash={block.hash}

@@ -51,7 +51,7 @@ const Blocks = () => {
   return (
     <DataConsumer>
       {ctx => (
-        <Content title="Blocks" count={ctx.pagination.total}>
+        <Content title="Blocks">
           <BlocksPaginationHeader />
           <Pagination
             elementId="blocks-pagination-content"
