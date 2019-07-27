@@ -1,6 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 
-const Search = props => (
+const Search = ({ text, handler }) => (
   <div className="search">
     <Row noGutters="true">
       <Col md="1" xs="2" className="align-self-center">
@@ -11,17 +11,17 @@ const Search = props => (
           <input
             type="text"
             className="search-text"
-            placeholder={props.text}
-            onChange={props.handler}
+            placeholder={text}
+            onChange={e => handler(e.target.value)}
           />
         </div>
         <div className="d-block d-sm-none">
           <input
             type="text"
             className="search-text"
-            placeholder={`${props.text.substring(0, 17)}..`}
-            title={props.text}
-            onChange={props.handler}
+            placeholder={`${text.substring(0, 17)}..`}
+            title={text}
+            onChange={e => handler(e.target.value)}
           />
         </div>
       </Col>

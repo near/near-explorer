@@ -1,6 +1,29 @@
 import { call } from "../../api";
 
 const Blocks = {
+  searchBlocks: async (keyword, limit = 15) => {
+    try {
+      return await call(".select", [
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
+          FROM blocks
+          LEFT JOIN chunks ON chunks.block_hash = blocks.hash
+          LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
+          WHERE blocks.height LIKE :keyword
+          GROUP BY blocks.hash
+          ORDER BY blocks.height DESC
+          LIMIT :limit`,
+        {
+          keyword: `${keyword}%`,
+          limit: limit
+        }
+      ]);
+    } catch (error) {
+      console.error("Blocks.searchBlocks failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  },
+
   getTotal: async () => {
     try {
       const _ = await call(".select", [
