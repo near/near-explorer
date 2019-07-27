@@ -59,7 +59,9 @@ Index.getInitialProps = async () => {
       stop = blocks[blocks.length - 1].height;
     }
   } catch (err) {
-    console.log(err);
+    console.error("Blocks.Index.getInitialProps failed to fetch data due to:");
+    console.error(err);
+    throw error;
   }
 
   return { blocks, total, start, stop };
