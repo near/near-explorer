@@ -7,7 +7,7 @@ import Timer from "../utils/Timer";
 
 const DashboardBlocksBlock = props => (
   <Col xs="6">
-    <Link href="/blocks/[hash]" as={`/blocks/${props.blockHash}`}>
+    <Link href="/blocks/[hash]" as={`/blocks/${props.blockHash}`} prefetch>
       <a className="dashboard-blocks-block-link">
         <Card className="dashboard-blocks-block">
           <Card.Title className="dashboard-blocks-block-title">

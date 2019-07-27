@@ -9,12 +9,11 @@ import BlocksApi from "./api/Blocks";
 import { DataContext, DataConsumer } from "./utils/DataProvider";
 
 import Content from "./Content";
-import BlocksPaginationHeader from "./blocks/BlocksPaginationHeader";
+import BlocksHeader from "./blocks/BlocksHeader";
 import BlocksRow from "./blocks/BlocksRow";
-import BlocksPaginationFooter from "./blocks/BlocksPaginationFooter";
 
 import EmptyRow from "./utils/EmptyRow";
-import Pagination from "./utils/Pagination";
+import Pagination, { PaginationSpinner } from "./utils/Pagination";
 
 const Blocks = () => {
   const constructBlock = (block, index, length) => {
@@ -53,7 +52,7 @@ const Blocks = () => {
     <DataConsumer>
       {ctx => (
         <Content title="Blocks">
-          <BlocksPaginationHeader />
+          <BlocksHeader />
           <Pagination
             elementId="blocks-pagination-content"
             getNextBatch={() => getNextBatch(ctx)}
@@ -74,6 +73,7 @@ const Blocks = () => {
                 ))
               : null}
           </div>
+          <PaginationSpinner hidden={false} />
           <EmptyRow rows="5" />
         </Content>
       )}

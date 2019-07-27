@@ -1,11 +1,11 @@
 import { useEffect, useContext } from "react";
 
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 
 import EmptyRow from "./EmptyRow";
 import { DataContext, DataConsumer } from "./DataProvider";
 
-const Footer = props => {
+const Pagination = props => {
   useEffect(() => {
     const ele = document.getElementById(props.elementId);
     const isAtBottom = () => {
@@ -100,4 +100,18 @@ const Footer = props => {
   );
 };
 
-export default Footer;
+const PaginationSpinner = ({ hidden }) => (
+  <div style={{ display: hidden ? "none" : "default" }}>
+    <EmptyRow />
+    <Row>
+      <Col md="auto" className="mx-auto">
+        <Spinner animation="grow" />
+        <Spinner animation="grow" />
+        <Spinner animation="grow" />
+      </Col>
+    </Row>
+  </div>
+);
+
+export default Pagination;
+export { PaginationSpinner };
