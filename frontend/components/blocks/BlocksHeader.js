@@ -1,24 +1,30 @@
+import { useContext } from "react";
+
 import { Row, Col } from "react-bootstrap";
 
-import { DataConsumer } from "../utils/DataProvider";
+import { DataConsumer, DataContext } from "../utils/DataProvider";
 import Search from "../utils/Search";
 
 import BlocksApi from "../api/Blocks";
 
 const BlocksHeader = props => {
+  const ctx = useContext(DataContext);
+
   const search = async text => {
-    const blocks = await BlocksApi.searchBlocks(text);
-    console.log(blocks);
+    let blocks;
+    if (text === null || text === undefined || text.trim().length === 0) {
+      blocks = await BlocksApi.getLatestBlocksInfo();
+    } else {
+      blocks = await BlocksApi.searchBlocks(text);
+    }
+
+    ctx.setBlocks(blocks);
   };
 
   return (
     <Row>
       <Col md="auto" className="align-self-center pagination-total">
-        <DataConsumer>
-          {ctx =>
-            ctx.pagination.total ? ctx.pagination.total.toLocaleString() : 0
-          }
-        </DataConsumer>
+        {ctx.pagination.total ? ctx.pagination.total.toLocaleString() : 0}
         &nbsp;Total
       </Col>
       <Col md="4" xs="6" className="ml-auto align-self-center">

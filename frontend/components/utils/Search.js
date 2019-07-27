@@ -5,6 +5,14 @@ import { Row, Col } from "react-bootstrap";
 const Search = ({ text, handler }) => {
   const [state, setState] = useState("");
 
+  const onChange = _state => {
+    setState(_state);
+
+    if (_state === null || _state === undefined || _state.trim().length === 0) {
+      handler(null);
+    }
+  };
+
   const onSubmit = e => {
     e.preventDefault();
     handler(state);
@@ -24,7 +32,7 @@ const Search = ({ text, handler }) => {
                 className="search-text"
                 value={state}
                 placeholder={text}
-                onChange={e => setState(e.target.value)}
+                onChange={e => onChange(e.target.value)}
               />
             </form>
           </div>
