@@ -1,21 +1,28 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
+import { DataContext } from "./DataProvider";
+
 const Search = ({ text, handler }) => {
-  const [state, setState] = useState("");
+  const ctx = useContext(DataContext);
 
-  const onChange = _state => {
-    setState(_state);
+  const onChange = state => {
+    ctx.setPagination(pagination => {
+      return {
+        ...pagination,
+        search: state
+      };
+    });
 
-    if (_state === null || _state === undefined || _state.trim().length === 0) {
+    if (state === null || state === undefined || state.trim().length === 0) {
       handler(null);
     }
   };
 
   const onSubmit = e => {
     e.preventDefault();
-    handler(state);
+    handler(ctx.pagination.search);
   };
 
   return (
@@ -30,7 +37,7 @@ const Search = ({ text, handler }) => {
               <input
                 type="text"
                 className="search-text"
-                value={state}
+                value={ctx.pagination.search ? ctx.pagination.search : ""}
                 placeholder={text}
                 onChange={e => onChange(e.target.value)}
               />

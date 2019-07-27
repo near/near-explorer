@@ -28,10 +28,22 @@ const Blocks = () => {
 
   const getNextBatch = async ctx => {
     try {
-      const blocks = await BlocksApi.getPreviousBlocks(
-        ctx.pagination.stop,
-        ctx.pagination.count
-      );
+      let blocks = [];
+      if (ctx.pagination.search) {
+        blocks = await BlocksApi.searchBlocks(
+          ctx.pagination.search,
+          ctx.pagination.stop
+        );
+      } else {
+        blocks = await BlocksApi.getPreviousBlocks(
+          ctx.pagination.stop,
+          ctx.pagination.count
+        );
+      }
+
+      if (blocks.length === 0) {
+        return;
+      }
 
       const stop = blocks[blocks.length - 1].height;
 

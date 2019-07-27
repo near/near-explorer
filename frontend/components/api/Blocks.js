@@ -1,19 +1,20 @@
 import { call } from "../../api";
 
 const Blocks = {
-  searchBlocks: async (keyword, limit = 15) => {
+  searchBlocks: async (keyword, height = -1, limit = 15) => {
     try {
       return await call(".select", [
         `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
           FROM blocks
           LEFT JOIN chunks ON chunks.block_hash = blocks.hash
           LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
-          WHERE blocks.height LIKE :keyword
+          WHERE blocks.height LIKE :keyword AND blocks.height < :height
           GROUP BY blocks.hash
           ORDER BY blocks.height DESC
           LIMIT :limit`,
         {
           keyword: `${keyword}%`,
+          height: height === -1 ? "MAX(blocks.height)" : height,
           limit: limit
         }
       ]);

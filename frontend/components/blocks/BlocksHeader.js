@@ -19,6 +19,16 @@ const BlocksHeader = props => {
     }
 
     ctx.setBlocks(blocks);
+
+    if (blocks.length > 0) {
+      ctx.setPagination(pagination => {
+        return {
+          ...pagination,
+          start: blocks[0].height,
+          stop: blocks[blocks.length - 1].height
+        };
+      });
+    }
   };
 
   return (
