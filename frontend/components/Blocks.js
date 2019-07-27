@@ -1,5 +1,4 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
 
 import { useEffect, useState, useContext } from "react";
 
