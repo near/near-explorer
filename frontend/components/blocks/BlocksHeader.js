@@ -7,8 +7,6 @@ import BlocksApi from "../api/Blocks";
 
 const BlocksHeader = props => {
   const search = async text => {
-    console.log("search", text);
-
     const blocks = await BlocksApi.searchBlocks(text);
     console.log(blocks);
   };
