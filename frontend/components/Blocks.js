@@ -44,7 +44,8 @@ const Blocks = () => {
         return { ...pagination, stop };
       });
     } catch (err) {
-      console.log(err);
+      console.error("Blocks.getNextBatch failed to fetch data due to:");
+      console.error(err);
     }
   };
 

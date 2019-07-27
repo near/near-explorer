@@ -8,7 +8,7 @@ const Blocks = {
       ]);
       return _[0].total;
     } catch (error) {
-      console.error("DataProvider.getTotal failed to fetch data due to:");
+      console.error("Blocks.getTotal failed to fetch data due to:");
       console.error(error);
       throw error;
     }
@@ -29,9 +29,7 @@ const Blocks = {
         }
       ]);
     } catch (error) {
-      console.error(
-        "DataProvider.getBlocksInfo[] failed to fetch data due to:"
-      );
+      console.error("Blocks.getBlocksInfo[] failed to fetch data due to:");
       console.error(error);
       throw error;
     }
@@ -52,14 +50,13 @@ const Blocks = {
 
       return block[0];
     } catch (error) {
-      console.error("DataProvider.getBlockInfo failed to fetch data due to:");
+      console.error("Blocks.getBlockInfo failed to fetch data due to:");
       console.error(error);
       throw error;
     }
   },
 
   getPreviousBlocks: async (lastBlockHeight, limit = 15) => {
-    console.log(lastBlockHeight);
     try {
       return await call(".select", [
         `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
@@ -76,9 +73,7 @@ const Blocks = {
         }
       ]);
     } catch (error) {
-      console.error(
-        "DataProvider.getPreviousBlocks failed to fetch data due to:"
-      );
+      console.error("Blocks.getPreviousBlocks failed to fetch data due to:");
       console.error(error);
       throw error;
     }
