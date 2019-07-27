@@ -9,6 +9,9 @@ const Pagination = props => {
   useEffect(() => {
     const ele = document.getElementById(props.elementId);
     const isAtBottom = () => {
+      if (ele === null || ele === undefined) {
+        return false;
+      }
       return ele.getBoundingClientRect().bottom <= window.innerHeight;
     };
     const onScroll = async () => {

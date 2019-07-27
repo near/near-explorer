@@ -1,8 +1,10 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
-import { useEffect, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 
 import { Row, Col } from "react-bootstrap";
+import LoadingOverlay from "react-loading-overlay";
 
 import BlocksApi from "./api/Blocks";
 
@@ -16,6 +18,8 @@ import EmptyRow from "./utils/EmptyRow";
 import Pagination, { PaginationSpinner } from "./utils/Pagination";
 
 const Blocks = () => {
+  const [loading, setLoading] = useState(false);
+
   const constructBlock = (block, index, length) => {
     return (
       <BlocksRow
@@ -28,6 +32,8 @@ const Blocks = () => {
 
   const getNextBatch = async ctx => {
     try {
+      setLoading(true);
+
       let blocks = [];
       if (ctx.pagination.search) {
         blocks = await BlocksApi.searchBlocks(
@@ -58,6 +64,8 @@ const Blocks = () => {
       console.error("Blocks.getNextBatch failed to fetch data due to:");
       console.error(err);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -70,21 +78,23 @@ const Blocks = () => {
             getNextBatch={() => getNextBatch(ctx)}
           />
           <EmptyRow />
-          <div id="blocks-pagination-content">
-            {ctx.blocks
-              ? ctx.blocks.map((block, index) => (
-                  <BlocksRow
-                    key={block.hash}
-                    block={block}
-                    cls={`${
-                      ctx.blocks.length - 1 === index
-                        ? "transaction-row-bottom"
-                        : ""
-                    }`}
-                  />
-                ))
-              : null}
-          </div>
+          <LoadingOverlay active={loading} spinner text="Loading blocks...">
+            <div id="blocks-pagination-content">
+              {ctx.blocks
+                ? ctx.blocks.map((block, index) => (
+                    <BlocksRow
+                      key={block.hash}
+                      block={block}
+                      cls={`${
+                        ctx.blocks.length - 1 === index
+                          ? "transaction-row-bottom"
+                          : ""
+                      }`}
+                    />
+                  ))
+                : null}
+            </div>
+          </LoadingOverlay>
           <PaginationSpinner hidden={false} />
           <EmptyRow rows="5" />
         </Content>
