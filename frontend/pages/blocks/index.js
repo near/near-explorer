@@ -24,7 +24,6 @@ const Index = ({ blocks, total, start, stop }) => {
         stop
       };
     });
-    console.log("set");
   }, []);
 
   return (

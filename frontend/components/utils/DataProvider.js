@@ -105,7 +105,6 @@ const processTransactions = transactions => {
 const networks = ["Testnet One"];
 
 const DataProvider = props => {
-  console.log("data provider is rendered");
   const [network, setNetwork] = useState(networks[0]);
   const [details, setDetails] = useState(props.details);
   const [blocks, setBlocks] = useState(props.blocks);
