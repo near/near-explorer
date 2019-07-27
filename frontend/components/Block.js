@@ -104,7 +104,7 @@ const Block = ({ block }) => {
             <Col md="4">
               <BlockCard
                 title="Created"
-                text={moment(parseInt(block.timestamp.substring(0, 13))).format(
+                text={moment(block.timestamp).format(
                   "MMMM DD, YYYY [at] h:mm:ssa"
                 )}
                 textCls="block-card-created-text"
