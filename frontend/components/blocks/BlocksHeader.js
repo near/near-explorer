@@ -41,7 +41,7 @@ const BlocksHeader = ({ setLoading }) => {
         {ctx.pagination.total ? ctx.pagination.total.toLocaleString() : 0}
         &nbsp;Total
       </Col>
-      <Col md="4" xs="6" className="ml-auto align-self-center">
+      <Col md="5" xs="6" className="ml-auto align-self-center">
         <Search text="Search blocks..." handler={search} />
       </Col>
       <style jsx global>{`
