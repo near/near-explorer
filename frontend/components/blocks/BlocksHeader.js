@@ -7,10 +7,12 @@ import Search from "../utils/Search";
 
 import BlocksApi from "../api/Blocks";
 
-const BlocksHeader = props => {
+const BlocksHeader = ({ setLoading }) => {
   const ctx = useContext(DataContext);
 
   const search = async text => {
+    setLoading(true);
+
     let blocks;
     if (text === null || text === undefined || text.trim().length === 0) {
       blocks = await BlocksApi.getLatestBlocksInfo();
@@ -29,6 +31,8 @@ const BlocksHeader = props => {
         };
       });
     }
+
+    setLoading(false);
   };
 
   return (

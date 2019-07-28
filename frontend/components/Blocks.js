@@ -1,18 +1,15 @@
-import Link from "next/link";
-
-import { useEffect, useState, useContext } from "react";
+import { useState } from "react";
 
 import { Row, Col } from "react-bootstrap";
 import LoadingOverlay from "react-loading-overlay";
 
 import BlocksApi from "./api/Blocks";
 
-import { DataContext, DataConsumer } from "./utils/DataProvider";
-
 import Content from "./Content";
 import BlocksHeader from "./blocks/BlocksHeader";
 import BlocksRow from "./blocks/BlocksRow";
 
+import { DataContext, DataConsumer } from "./utils/DataProvider";
 import EmptyRow from "./utils/EmptyRow";
 import Pagination, { PaginationSpinner } from "./utils/Pagination";
 
@@ -30,9 +27,9 @@ const Blocks = () => {
   };
 
   const getNextBatch = async ctx => {
-    try {
-      setLoading(true);
+    setLoading(true);
 
+    try {
       let blocks = [];
       if (ctx.pagination.search) {
         blocks = await BlocksApi.searchBlocks(
@@ -71,7 +68,7 @@ const Blocks = () => {
     <DataConsumer>
       {ctx => (
         <Content title="Blocks">
-          <BlocksHeader />
+          <BlocksHeader setLoading={setLoading} />
           <Pagination
             elementId="blocks-pagination-content"
             getNextBatch={() => getNextBatch(ctx)}

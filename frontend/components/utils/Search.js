@@ -28,9 +28,6 @@ const Search = ({ text, handler }) => {
   return (
     <div className="search">
       <Row noGutters="true">
-        <Col md="1" xs="2" className="align-self-center">
-          <img src="/static/images/icon-search.svg" className="search-icon" />
-        </Col>
         <Col md="11" xs="10" className="align-self-center">
           <div className="d-none d-sm-block">
             <form onSubmit={onSubmit}>
@@ -49,9 +46,16 @@ const Search = ({ text, handler }) => {
               className="search-text"
               placeholder={`${text.substring(0, 17)}..`}
               title={text}
-              onInput={e => handler(e.target.value)}
+              onChange={e => handler(e.target.value)}
             />
           </div>
+        </Col>
+        <Col md="1" xs="2" className="align-self-center text-right">
+          <img
+            src="/static/images/icon-search.svg"
+            className="search-icon"
+            onClick={onSubmit}
+          />
         </Col>
       </Row>
       <style jsx global>{`
@@ -60,10 +64,16 @@ const Search = ({ text, handler }) => {
           border: solid 2px #e6e6e6;
           background-color: #f8f8f8;
           padding: 4px 14px;
+          transition: all 0.3s;
+        }
+
+        .search:focus-within {
+          box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.2);
         }
 
         .search-icon {
           width: 14px;
+          cursor: pointer;
         }
 
         .search-text {
