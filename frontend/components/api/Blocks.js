@@ -101,6 +101,49 @@ const Blocks = {
       console.error(error);
       throw error;
     }
+  },
+
+  getNextBlocks: async (lastBlockHeight, limit = 15) => {
+    try {
+      return await call(".select", [
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
+          FROM blocks
+          LEFT JOIN chunks ON chunks.block_hash = blocks.hash
+          LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
+          WHERE blocks.height > :height
+          GROUP BY blocks.hash
+          ORDER BY blocks.height DESC
+          LIMIT :limit`,
+        {
+          height: lastBlockHeight,
+          limit: limit
+        }
+      ]);
+    } catch (error) {
+      console.error("Blocks.getNextBlocks failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  },
+
+  getNextBlocksCount: async lastBlockHeight => {
+    try {
+      const blocks = await call(".select", [
+        `SELECT COUNT(blocks.hash) as count
+          FROM blocks
+          WHERE blocks.height > :height
+          ORDER BY blocks.height DESC`,
+        {
+          height: lastBlockHeight
+        }
+      ]);
+
+      return blocks[0].count;
+    } catch (error) {
+      console.error("Blocks.getNextBlocksCount failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
   }
 };
 
