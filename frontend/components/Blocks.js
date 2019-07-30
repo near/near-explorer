@@ -114,10 +114,24 @@ const Blocks = () => {
     );
   };
 
+  const ctx = useContext(DataContext);
+
+  const checkForNewBlocks = async () => {
+    try {
+      const count = await BlocksApi.getNextBlocksCount(ctx.pagination.start);
+      return `${count} new blocks`;
+    } catch (err) {
+      console.error("Blocks.checkForNewBlocks failed to fetch data due to:");
+      console.error(err);
+    }
+
+    return null;
+  };
+
   return (
     <Content title="Blocks">
       <BlocksHeader setLoading={setLoading} />
-      <Pagination />
+      <Pagination checkForNew={checkForNewBlocks} />
       <EmptyRow />
       <BlocksOverlay loading={loading} setLoading={setLoading} />
       <PaginationSpinner hidden={false} />
