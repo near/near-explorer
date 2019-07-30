@@ -18,7 +18,7 @@ const processTransactions = transactions => {
       case "AddKey":
         transaction.msg = args.access_key
           ? `Access key for contract: "${args.access_key.contract_id}"`
-          : `New Key Created: ${new_key}`;
+          : `New Key Created: ${args.new_key}`;
         break;
 
       case "CreateAccount":
