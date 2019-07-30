@@ -33,6 +33,10 @@ const processTransactions = transactions => {
         }"`;
         break;
 
+      case "SendMoney":
+        transaction.msg = `Sent: ${args.amount} Ⓝ to @${args.receiver}`;
+        break;
+
       default:
         transaction.msg = `${transaction.kind}: ${JSON.stringify(
           transaction.args
