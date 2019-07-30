@@ -19,6 +19,7 @@ const Index = ({ blocks, total, start, stop }) => {
     ctx.setPagination(pagination => {
       return {
         ...pagination,
+        search: "",
         total,
         start,
         stop
