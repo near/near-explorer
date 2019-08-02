@@ -179,6 +179,9 @@ async function saveBlocks(blocksInfo) {
 }
 
 async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
+  if (topBlockHeight < bottomBlockHeight) {
+    return;
+  }
   console.log(
     `Syncing Nearcore blocks from ${topBlockHeight} down to ${bottomBlockHeight}...`
   );
