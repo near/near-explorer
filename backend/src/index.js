@@ -36,65 +36,44 @@ const wamp = new autobahn.Connection({
   max_retry_delay: 10
 });
 
+const wampHandlers = {};
+
+wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
+  // TODO: verify signature
+  return await models.Node.upsert({
+    nodeId: nodeInfo.node_id,
+    moniker: nodeInfo.account_id,
+    accountId: nodeInfo.account_id,
+    ipAddress: nodeInfo.ip_address,
+    lastSeen: Date.now(),
+    lastHeight: nodeInfo.latest_block_height
+  });
+};
+
+wampHandlers["select"] = async ([query, replacements]) => {
+  return await models.sequelizeReadOnly.query(query, {
+    replacements,
+    type: models.Sequelize.QueryTypes.SELECT
+  });
+};
+
 function setupWamp() {
   wamp.onopen = async session => {
     console.log("WAMP connection is established. Waiting for commands...");
 
-    try {
-      await session.register(
-        "com.nearprotocol.explorer.node-telemetry",
-        async ([nodeInfo]) => {
-          // TODO: verify signature
-          return await models.Node.upsert({
-            nodeId: nodeInfo.node_id,
-            moniker: nodeInfo.account_id,
-            accountId: nodeInfo.account_id,
-            ipAddress: nodeInfo.ip_address,
-            lastSeen: Date.now(),
-            lastHeight: nodeInfo.latest_block_height
-          });
-        }
-      );
-    } catch (error) {
-      console.error(
-        "Failed to register .node-telemetry handler due to:",
-        error
-      );
-      wamp.close();
-      setTimeout(() => {
-        wamp.open();
-      }, 1000);
-      return;
+    for (const [name, handler] of Object.entries(wampHandlers)) {
+      const uri = `com.nearprotocol.explorer.${name}`;
+      try {
+        await session.register(uri, handler);
+      } catch (error) {
+        console.error(`Failed to register "${uri}" handler due to:`, error);
+        wamp.close();
+        setTimeout(() => {
+          wamp.open();
+        }, 1000);
+        return;
+      }
     }
-
-    try {
-      await session.register(
-        "com.nearprotocol.explorer.select",
-        async ([query, replacements]) => {
-          return await models.sequelizeReadOnly.query(query, {
-            replacements,
-            type: models.Sequelize.QueryTypes.SELECT
-          });
-        }
-      );
-    } catch (error) {
-      console.error("Failed to register .select handler due to:", error);
-      wamp.close();
-      setTimeout(() => {
-        wamp.open();
-      }, 1000);
-      return;
-    }
-
-    // This is an example of sending an event
-    /*
-    let counter = 0;
-    setInterval(async () => {
-      await session.publish("com.nearprotocol.explorer.oncounter", [counter]);
-      console.log("published to 'oncounter' with counter " + counter);
-      counter += 1;
-    }, 1000);
-    */
   };
 
   wamp.onclose = reason => {
