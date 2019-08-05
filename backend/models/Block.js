@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       prevHash: {
-        field: "prev_hash",
         type: DataTypes.STRING, // base58
         allowNull: false
       },
@@ -26,17 +25,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       authorId: {
-        field: "author_id",
         type: DataTypes.STRING,
         allowNull: false
       },
       listOfApprovals: {
-        field: "list_of_approvals",
         type: DataTypes.STRING,
         allowNull: false
       }
     },
     {
+      underscored: true,
       tableName: "blocks",
       timestamps: false
     }

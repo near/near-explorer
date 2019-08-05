@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
     "Node",
     {
       ipAddress: {
-        field: "ip_address",
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -13,29 +12,26 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       accountId: {
-        field: "account_id",
         type: DataTypes.STRING,
         allowNull: false
       },
       nodeId: {
-        field: "node_id",
         type: DataTypes.STRING, // base58
         allowNull: false,
         primaryKey: true
       },
       lastSeen: {
-        field: "last_seen",
         type: DataTypes.BIGINT,
         allowNull: false
       },
       lastHeight: {
-        field: "last_height",
         type: DataTypes.BIGINT,
         allowNull: false
       }
     },
     {
       tableName: "nodes",
+      underscored: true,
       timestamps: false
     }
   );

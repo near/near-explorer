@@ -25,12 +25,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       parentHash: {
-        field: "parent_hash",
         type: DataTypes.STRING, // base58
         allowNull: true
       },
       chunkHash: {
-        field: "chunk_hash",
         type: DataTypes.STRING, // base58
         allowNull: false
       },
@@ -45,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "transactions",
+      underscored: true,
       timestamps: false
     }
   );

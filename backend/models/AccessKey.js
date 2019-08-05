@@ -4,17 +4,14 @@ module.exports = (sequelize, DataTypes) => {
     "AccessKey",
     {
       accountId: {
-        field: "account_id",
         type: DataTypes.STRING,
         allowNull: false
       },
       contractId: {
-        field: "contract_id",
         type: DataTypes.STRING,
         allowNull: false
       },
       methodName: {
-        field: "method_name",
         type: DataTypes.STRING,
         allowNull: true
       },
@@ -25,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "access_keys",
+      underscored: true,
       timestamps: false
     }
   );

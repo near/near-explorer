@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
     "Account",
     {
       accountId: {
-        field: "account_id",
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true
@@ -18,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       lastBlockIndex: {
-        field: "last_block_index",
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -33,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "accounts",
+      underscored: true,
       timestamps: false
     }
   );
