@@ -157,6 +157,59 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
+class Result {
+  contructor() {
+    this.value = undefined;
+    this.error = undefined;
+  }
+
+  isError() {
+    return typeof this.error !== "undefined";
+  }
+}
+
+function promiseResult(promise) {
+  // Convert a promise to an always-resolving promise of Result type.
+  return new Promise(resolve => {
+    const payload = new Result();
+    promise
+      .then(result => {
+        payload.value = result;
+      })
+      .catch(error => {
+        payload.error = error;
+      })
+      .then(() => {
+        resolve(payload);
+      });
+  });
+}
+
+async function saveBlocksFromRequests(requests) {
+  const responses = await Promise.all(requests.map(([_, req]) => req));
+  const blocks = responses.flatMap((blockResult, index) => {
+    const blockHeight = requests[index][0];
+    if (blockResult.isError()) {
+      const { error } = blockResult;
+      if (error.type === "system") {
+        console.log(
+          `A system error was catched while fetching the block #${blockHeight}: `,
+          error.message
+        );
+      } else {
+        console.warn(
+          `Something went wrong while fetching the block #${blockHeight}: `,
+          error
+        );
+      }
+      return [];
+    }
+    return [blockResult.value];
+  });
+
+  return await saveBlocks(blocks);
+}
+
 async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
   if (topBlockHeight < bottomBlockHeight) {
     return;
@@ -170,28 +223,19 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
 
   while (syncingBlockHeight >= bottomBlockHeight) {
     //console.debug(`Syncing the block #${syncingBlockHeight}...`);
-    requests.push(
-      nearRpc.block(syncingBlockHeight).catch(e => {
-        console.warn(
-          `Something went wrong while fetching block #${syncingBlockHeight}: `,
-          e
-        );
-        return null;
-      })
-    );
+    requests.push([
+      syncingBlockHeight,
+      promiseResult(nearRpc.block(syncingBlockHeight))
+    ]);
     --syncingBlockHeight;
     if (requests.length > syncFetchQueueSize) {
-      let blocks = await Promise.all(requests.splice(0, bulkDbUpdateSize));
-      blocks = blocks.filter(response => response !== null);
-      saves.push(saveBlocks(blocks));
+      saves.push(saveBlocksFromRequests(requests.splice(0, bulkDbUpdateSize)));
     }
     if (saves.length > syncSaveQueueSize) {
       await saves.shift();
     }
   }
-  let blocks = await Promise.all(requests);
-  blocks = blocks.filter(response => response !== null);
-  saves.push(saveBlocks(blocks));
+  saves.push(saveBlocksFromRequests(requests));
   await Promise.all(saves);
 }
 
