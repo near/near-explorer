@@ -6,9 +6,10 @@ class Timer extends Component {
   constructor(props) {
     super(props);
 
+    const time = props.time === undefined ? new Date() : props.time;
     this.state = {
-      time: props.time === undefined ? new Date() : props.time,
-      timeStr: ""
+      time,
+      timeStr: this.formatTime(time)
     };
   }
 
@@ -20,9 +21,13 @@ class Timer extends Component {
     clearInterval(this.timer);
   }
 
+  formatTime(time) {
+    return Moment(time).fromNow();
+  }
+
   tick = () => {
-    this.setState({
-      timeStr: Moment(this.state.time).fromNow()
+    this.setState(({ time }) => {
+      return { timeStr: this.formatTime(time) };
     });
   };
 
