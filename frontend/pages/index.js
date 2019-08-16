@@ -42,16 +42,15 @@ const Index = ({ blocks, details, transactions }) => {
 };
 
 Index.getInitialProps = async () => {
-  const [details, blocks, transactions] = await Promise.all([
-    DetailsApi.getDetails(),
-    BlocksApi.getLatestBlocksInfo(),
-    TransactionsApi.getLatestTransactionsInfo()
-  ]);
-
+  const details = DetailsApi.getDetails().catch(() => null);
+  const blocks = BlocksApi.getLatestBlocksInfo().catch(() => null);
+  const transactions = TransactionsApi.getLatestTransactionsInfo().catch(
+    () => null
+  );
   return {
-    details,
-    blocks,
-    transactions
+    details: await details,
+    blocks: await blocks,
+    transactions: await transactions
   };
 };
 

@@ -19,10 +19,6 @@ const DashboardBlocksBlock = props => (
               {props.transactionsCount}
             </p>
             <p className="dashboard-blocks-block-content-p">
-              <img src="/static/images/icon-m-height.svg" />
-              {props.blockHeight}
-            </p>
-            <p className="dashboard-blocks-block-content-p">
               <img
                 style={{ float: "left" }}
                 src="/static/images/icon-m-user.svg"

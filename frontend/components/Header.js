@@ -60,7 +60,7 @@ const Header = () => (
       </Col>
 
       <HeaderNavItem
-        link="/index"
+        link="/"
         imgLink="/static/images/icon-home.svg"
         text="Dashboard"
       />

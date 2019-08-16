@@ -2,10 +2,9 @@ import Link from "next/link";
 
 import { Container, Row, Col } from "react-bootstrap";
 
+import TransactionsRow from "../transactions/TransactionsRow";
 import EmptyRow from "../utils/EmptyRow";
 import { DataConsumer } from "../utils/DataProvider";
-
-import DashboardTransactionsRow from "./DashboardTransactionsRow";
 
 const DashboardTransactions = () => (
   <div>
@@ -27,19 +26,19 @@ const DashboardTransactions = () => (
           <div className="dashboard-blocks-hr" />
         </div>
       </Col>
-      <Col xs="11" md="11" className="px-0 dashboard-transactions-border">
+      <Col xs="11" md="11" className="px-0 dashboard-transactions-list">
         <DataConsumer>
           {ctx =>
-            ctx.transactions.map(transaction => (
-              <DashboardTransactionsRow
+            ctx.transactions.map((transaction, index) => (
+              <TransactionsRow
                 key={transaction.hash}
-                txHash={transaction.hash}
-                txKind={transaction.kind}
-                txArgs={transaction.args}
-                txMsg={transaction.msg}
-                txOriginator={transaction.originator}
-                txStatus={transaction.status}
-                blockTimestamp={transaction.blockTimestamp}
+                viewMode="compact"
+                txn={transaction}
+                className={
+                  ctx.transactions.length - 1 === index
+                    ? "transaction-row-bottom"
+                    : ""
+                }
               />
             ))
           }
@@ -62,46 +61,47 @@ const DashboardTransactions = () => (
         color: #24272a;
       }
 
-      .dashboard-transactions-border {
+      .dashboard-transactions-list {
         padding-top: 15px !important;
       }
 
       @media (max-width: 499px) {
-        .dashboard-transactions-border {
+        .dashboard-transactions-list {
           margin-left: -3.5% !important;
         }
       }
 
       @media (min-width: 500px) {
-        .dashboard-transactions-border {
+        .dashboard-transactions-list {
           margin-left: -4.5% !important;
         }
       }
 
       @media (min-width: 680px) {
-        .dashboard-transactions-border {
+        .dashboard-transactions-list {
           margin-left: -5.4% !important;
         }
       }
 
       @media (min-width: 768px) {
-        .dashboard-transactions-border {
+        .dashboard-transactions-list {
           margin-left: -5.4% !important;
         }
       }
 
       @media (min-width: 992px) {
-        .dashboard-transactions-icon-col {
+        .dashboard-transactions-icon-col,
+        .dashboard-transactions-list .transactions-icon-col {
           flex: 0 0 5% !important;
         }
 
-        .dashboard-transactions-border {
+        .dashboard-transactions-list {
           margin-left: -3.75% !important;
         }
       }
 
       @media (min-width: 1200px) {
-        .dashboard-transactions-border {
+        .dashboard-transactions-list {
           margin-left: -6.23% !important;
         }
       }

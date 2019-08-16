@@ -2,10 +2,15 @@ const autobahn = require("autobahn");
 
 const models = require("../models");
 
+const {
+  wampNearExplorerUrl,
+  wampNearExplorerBackendSecret
+} = require("./config");
+
 const wampHandlers = {};
 
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
-  // TODO: verify signature
+  // TODO: verify the signature
   return await models.Node.upsert({
     nodeId: nodeInfo.node_id,
     moniker: nodeInfo.account_id,
@@ -28,7 +33,7 @@ function setupWamp() {
     realm: "near-explorer",
     transports: [
       {
-        url: process.env.WAMP_NEAR_EXPLORER_URL || "ws://localhost:8080/ws",
+        url: wampNearExplorerUrl,
         type: "websocket"
       }
     ],
@@ -36,7 +41,7 @@ function setupWamp() {
     authid: "near-explorer-backend",
     onchallenge: (session, method, extra) => {
       if (method === "ticket") {
-        return process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
+        return wampNearExplorerBackendSecret;
       }
       throw "WAMP authentication error: unsupported challenge method";
     },

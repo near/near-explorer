@@ -6,3 +6,8 @@ exports.regularSyncNewNearcoreStateInterval =
   process.env.NEAR_REGULAR_SYNC_NEW_NEARCORE_STATE_INTERVAL || 1000;
 exports.regularSyncMissingNearcoreStateInterval =
   process.env.NEAR_REGULAR_SYNC_MISSING_NEARCORE_STATE_INTERVAL || 60000;
+
+exports.wampNearExplorerUrl =
+  process.env.WAMP_NEAR_EXPLORER_URL || "ws://localhost:8080/ws";
+exports.wampNearExplorerBackendSecret =
+  process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
