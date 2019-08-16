@@ -53,8 +53,12 @@ const Transactions = {
           ORDER BY blocks.height DESC
           LIMIT 10`
       ]);
-
-      return processTransactions(transactions);
+      transactions.forEach(transaction => {
+        try {
+          transaction.args = JSON.parse(transaction.args);
+        } catch {}
+      });
+      return transactions;
     } catch (error) {
       console.error(
         "Transactions.getTransactionsInfo failed to fetch data due to:"
