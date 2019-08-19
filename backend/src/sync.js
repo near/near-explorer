@@ -1,18 +1,14 @@
 const bs58 = require("bs58");
 
-const nearlib = require("nearlib");
-
 const models = require("../models");
 
 const {
-  nearRpcUrl,
   syncFetchQueueSize,
   syncSaveQueueSize,
   bulkDbUpdateSize
 } = require("./config");
+const { nearRpc } = require("./near");
 const { toBase58, Result } = require("./utils");
-
-const nearRpc = new nearlib.providers.JsonRpcProvider(nearRpcUrl);
 
 async function saveBlocks(blocksInfo) {
   try {

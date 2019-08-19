@@ -6,6 +6,7 @@ const {
   wampNearExplorerUrl,
   wampNearExplorerBackendSecret
 } = require("./config");
+const { nearRpc } = require("./near");
 
 const wampHandlers = {};
 
@@ -26,6 +27,10 @@ wampHandlers["select"] = async ([query, replacements]) => {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT
   });
+};
+
+wampHandlers["nearcore-query"] = async ([path, data]) => {
+  return await nearRpc.query(path, data);
 };
 
 function setupWamp() {
