@@ -2,9 +2,7 @@ import Head from "next/head";
 
 import { useEffect, useContext } from "react";
 
-import Header from "../components/Header";
 import Dashboard from "../components/Dashboard";
-import Footer from "../components/Footer";
 
 import { DataContext } from "../components/utils/DataProvider";
 
@@ -24,20 +22,12 @@ const Index = ({ blocks, details, transactions }) => {
   }, []);
 
   return (
-    <div>
+    <>
       <Head>
-        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
         <title>Near Explorer | Dashboard</title>
       </Head>
-      <Header />
       <Dashboard />
-      <Footer />
-      <style jsx global>{`
-        body {
-          background-color: #f8f8f8;
-        }
-      `}</style>
-    </div>
+    </>
   );
 };
 

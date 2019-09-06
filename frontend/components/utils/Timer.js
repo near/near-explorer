@@ -1,8 +1,6 @@
-import { Component } from "react";
-
 import Moment from "./Moment";
 
-class Timer extends Component {
+class Timer extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -19,6 +17,14 @@ class Timer extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
+  }
+
+  componentDidUpdate() {
+    const time = this.props.time === undefined ? new Date() : this.props.time;
+    this.setState({
+      time,
+      timeStr: this.formatTime(time)
+    });
   }
 
   formatTime(time) {
