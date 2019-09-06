@@ -104,16 +104,6 @@ const BlocksOverlay = ({ loading, setLoading }) => {
 const Blocks = () => {
   const [loading, setLoading] = useState(false);
 
-  const constructBlock = (block, index, length) => {
-    return (
-      <BlocksRow
-        key={block.hash}
-        block={block}
-        cls={`${length - 1 === index ? "transaction-row-bottom" : ""}`}
-      />
-    );
-  };
-
   return (
     <Content title="Blocks">
       <BlocksHeader setLoading={setLoading} />

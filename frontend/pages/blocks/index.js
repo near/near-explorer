@@ -5,9 +5,7 @@ import { useContext, useEffect } from "react";
 import BlocksApi from "../../components/api/Blocks";
 import { DataContext } from "../../components/utils/DataProvider";
 
-import Header from "../../components/Header";
 import Blocks from "../../components/Blocks";
-import Footer from "../../components/Footer";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -28,20 +26,12 @@ const Index = ({ blocks, total, start, stop }) => {
   }, []);
 
   return (
-    <div>
+    <>
       <Head>
-        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
         <title>Near Explorer | Blocks</title>
       </Head>
-      <Header />
       <Blocks />
-      <Footer />
-      <style jsx global>{`
-        body {
-          background-color: #f8f8f8;
-        }
-      `}</style>
-    </div>
+    </>
   );
 };
 

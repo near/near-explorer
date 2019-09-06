@@ -58,13 +58,17 @@ const DashboardHeader = () => (
     {ctx => (
       <Row noGutters="true">
         <Col xs="12" md="3">
-          <DashboardCard
-            title="Nodes Online"
-            imgLink="/static/images/icon-m-node-online.svg"
-            text={`${ctx.details.onlineNodesCount}/${
-              ctx.details.totalNodesCount
-            }`}
-          />
+          <Link href="/nodes">
+            <a>
+              <DashboardCard
+                title="Nodes Online"
+                imgLink="/static/images/icon-m-node-online.svg"
+                text={`${ctx.details.onlineNodesCount}/${
+                  ctx.details.totalNodesCount
+                }`}
+              />
+            </a>
+          </Link>
         </Col>
         <Col xs="12" md="3">
           <DashboardCard
