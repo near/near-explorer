@@ -2,14 +2,26 @@ import getConfig from "next/config";
 
 import autobahn from "autobahn";
 
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
+interface IPromisePair {
+  resolve: (value?: autobahn.Session) => void;
+  reject: (value?: string) => void;
+}
+
+const awaitingOnSession: Array<IPromisePair> = [];
+
+const subscriptions: Record<
+  string,
+  [autobahn.SubscribeHandler, autobahn.ISubscribeOptions | undefined]
+> = {};
 
 let wampNearExplorerUrl: string, wampNearExplorerSecret: string;
 
 if (typeof window === "undefined") {
+  const { serverRuntimeConfig } = getConfig();
   wampNearExplorerUrl = serverRuntimeConfig.wampNearExplorerUrl;
   wampNearExplorerSecret = serverRuntimeConfig.wampNearExplorerFrontendSecret;
 } else {
+  const { publicRuntimeConfig } = getConfig();
   wampNearExplorerUrl = publicRuntimeConfig.wampNearExplorerUrl;
   wampNearExplorerSecret = publicRuntimeConfig.wampNearExplorerFrontendSecret;
 }
@@ -29,18 +41,6 @@ const wamp = new autobahn.Connection({
   max_retries: Number.MAX_SAFE_INTEGER,
   max_retry_delay: 10
 });
-
-interface IPromisePair {
-  resolve: (value?: autobahn.Session) => void;
-  reject: (value?: string) => void;
-}
-
-const awaitingOnSession: Array<IPromisePair> = [];
-
-const subscriptions: Record<
-  string,
-  [autobahn.SubscribeHandler, autobahn.ISubscribeOptions | undefined]
-> = {};
 
 // Establish and handle concurrent requests to establish WAMP connection.
 function getWampSession(): Promise<autobahn.Session> {
