@@ -97,12 +97,12 @@ export async function subscribe(
   return await session.subscribe(topic, handler, options);
 }
 
-export async function call<TResult>(
+export async function call(
   procedure: string,
   args?: any[] | any,
   kwargs?: any,
   options?: autobahn.ICallOptions
-): Promise<TResult> {
+): Promise<unknown> {
   if (procedure[0] === ".") {
     procedure = "com.nearprotocol.explorer" + procedure;
   }

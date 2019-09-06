@@ -33,31 +33,33 @@ export default class extends React.Component {
   render() {
     return (
       <Content title="Nodes">
-        {this.state.nodes && (
-          <Row>
-            <Col md="auto" className="align-self-center pagination-total">
-              {`${this.state.nodes.length.toLocaleString()} Total`}
-            </Col>
-            <style jsx global>{`
-              .pagination-total {
-                font-size: 12px;
-                font-weight: 500;
-                letter-spacing: 1.38px;
-                color: #999999;
-                text-transform: uppercase;
-                margin-bottom: 1.5em;
-                padding-top: 5px;
-                padding-bottom: 5px;
-              }
-            `}</style>
-          </Row>
-        )}
-
         <LoadingOverlay
           active={this.state.loading}
           spinner
           text="Loading nodes..."
         >
+          {this.state.nodes && (
+            <div>
+              <Row>
+                <Col md="auto" className="align-self-center pagination-total">
+                  {`${this.state.nodes.length.toLocaleString()} Total`}
+                </Col>
+              </Row>
+              <style jsx>{`
+                div :global(.pagination-total) {
+                  font-size: 12px;
+                  font-weight: 500;
+                  letter-spacing: 1.38px;
+                  color: #999999;
+                  text-transform: uppercase;
+                  margin-bottom: 1.5em;
+                  padding-top: 5px;
+                  padding-bottom: 5px;
+                }
+              `}</style>
+            </div>
+          )}
+
           <FlipMove
             duration={1000}
             staggerDurationBy={0}
