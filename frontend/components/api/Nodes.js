@@ -4,7 +4,9 @@ const Nodes = {
   getNodesInfo: async () => {
     try {
       return await call(".select", [
-        `SELECT ip_address, moniker, account_id, node_id, last_seen, last_height FROM nodes ORDER BY last_seen DESC`
+        `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, last_seen as lastSeen, last_height as lastHeight
+          FROM nodes
+          ORDER BY lastSeen DESC`
       ]);
     } catch (error) {
       console.error("Nodes.getNodesInfo[] failed to fetch data due to:");

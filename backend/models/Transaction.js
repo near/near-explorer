@@ -8,36 +8,32 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true
       },
-      originator: {
+      blockHash: {
+        type: DataTypes.STRING, // base58
+        allowNull: false
+      },
+      nonce: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      signerId: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      destination: {
+      signerPublicKey: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      kind: {
+      signature: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      args: {
+      receiverId: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      actions: {
         type: DataTypes.JSON,
-        allowNull: false
-      },
-      parentHash: {
-        type: DataTypes.STRING, // base58
-        allowNull: true
-      },
-      chunkHash: {
-        type: DataTypes.STRING, // base58
-        allowNull: false
-      },
-      status: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      logs: {
-        type: DataTypes.TEXT,
         allowNull: false
       }
     },

@@ -5,8 +5,8 @@ import { Row, Col } from "react-bootstrap";
 import { DataConsumer } from "./utils/DataProvider";
 
 import Content from "./Content";
+import ActionRow from "./transactions/ActionRow";
 import TransactionsHeader from "./transactions/TransactionsHeader";
-import TransactionsRow from "./transactions/TransactionsRow";
 import TransactionsPaginationFooter from "./transactions/TransactionsPaginationFooter";
 import EmptyRow from "./utils/EmptyRow";
 
@@ -21,17 +21,20 @@ const Transactions = () => {
       <EmptyRow />
       <DataConsumer>
         {ctx =>
-          ctx.transactions.map((transaction, index) => (
-            <TransactionsRow
-              key={transaction.hash}
-              txn={transaction}
-              cls={`${
-                ctx.transactions.length - 1 === index
-                  ? "transaction-row-bottom"
-                  : ""
-              }`}
-            />
-          ))
+          ctx.transactions.flatMap((transaction, transactionIndex) =>
+            transaction.actions.map((action, actionIndex) => (
+              <ActionRow
+                key={transaction.hash + actionIndex}
+                txn={transaction}
+                cls={`${
+                  ctx.transactions.length - 1 === transactionIndex &&
+                  ctx.actions.length - 1 === actionIndex
+                    ? "transaction-row-bottom"
+                    : ""
+                }`}
+              />
+            ))
+          )
         }
       </DataConsumer>
       <EmptyRow />

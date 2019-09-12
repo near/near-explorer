@@ -5,11 +5,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       hash: {
         type: DataTypes.STRING, // base58
-        allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        allowNull: false
       },
       height: {
         type: DataTypes.BIGINT,
+        unique: true,
         allowNull: false
       },
       prevHash: {
@@ -20,15 +21,23 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BIGINT,
         allowNull: false
       },
-      weight: {
-        type: DataTypes.STRING,
+      totalWeight: {
+        type: DataTypes.BIGINT,
         allowNull: false
       },
-      authorId: {
-        type: DataTypes.STRING,
+      totalSupply: {
+        type: DataTypes.BIGINT,
         allowNull: false
       },
-      listOfApprovals: {
+      gasLimit: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      gasUsed: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      gasPrice: {
         type: DataTypes.STRING,
         allowNull: false
       }

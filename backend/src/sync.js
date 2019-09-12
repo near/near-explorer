@@ -1,5 +1,3 @@
-const bs58 = require("bs58");
-
 const models = require("../models");
 
 const {
@@ -8,7 +6,7 @@ const {
   bulkDbUpdateSize
 } = require("./config");
 const { nearRpc } = require("./near");
-const { toBase58, Result } = require("./utils");
+const { Result } = require("./utils");
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -17,27 +15,46 @@ async function saveBlocks(blocksInfo) {
         await models.Block.bulkCreate(
           blocksInfo.map(blockInfo => {
             return {
-              hash: toBase58(blockInfo.header.hash),
+              hash: blockInfo.header.hash,
               height: blockInfo.header.height,
-              prevHash: toBase58(blockInfo.header.prev_hash),
+              prevHash: blockInfo.header.prev_hash,
               timestamp: parseInt(blockInfo.header.timestamp / 1000000),
-              weight: blockInfo.header.total_weight.num,
-              authorId: "n/a", // TODO
-              listOfApprovals: "n/a" // TODO
+              totalWeight: blockInfo.header.total_weight,
+              totalSupply: blockInfo.header.total_supply || "",
+              gasLimit: blockInfo.header.gas_limit || 0,
+              gasUsed: blockInfo.header.gas_used || 0,
+              gasPrice: blockInfo.header.gas_price || "0"
             };
           })
         );
 
-        // XXX: Chunks are not 1-to-1 matching with Blocks, but they are not ready in nearcore, yet.
         await models.Chunk.bulkCreate(
-          blocksInfo.map(blockInfo => {
-            const hash = toBase58(blockInfo.header.hash);
-            return {
-              hash,
-              blockHash: hash,
-              shardId: "n/a",
-              authorId: "n/a"
-            };
+          blocksInfo.flatMap(blockInfo => {
+            let { chunks } = blockInfo;
+            if (chunks === undefined) {
+              chunks = [
+                {
+                  shard_id: 0,
+                  signature: "",
+                  gas_limit: 0,
+                  gas_used: 0,
+                  gas_price: "0",
+                  height_created: 0,
+                  height_included: 0
+                }
+              ];
+            }
+            return chunks.map(chunkInfo => {
+              return {
+                blockHash: blockInfo.header.hash,
+                shardId: chunkInfo.shard_id,
+                signature: chunkInfo.signature,
+                gasLimit: chunkInfo.gas_limit,
+                gasUsed: chunkInfo.gas_used,
+                heightCreated: chunkInfo.height_created,
+                heightIncluded: chunkInfo.height_included
+              };
+            });
           })
         );
 
@@ -45,20 +62,17 @@ async function saveBlocks(blocksInfo) {
           blocksInfo
             .filter(blockInfo => blockInfo.transactions.length > 0)
             .map(blockInfo => {
-              models.Transaction.bulkCreate(
+              return models.Transaction.bulkCreate(
                 blockInfo.transactions.map(tx => {
-                  const kind = Object.keys(tx.body)[0];
-                  const args = tx.body[kind];
                   return {
-                    hash: toBase58(tx.hash),
-                    originator: args.originator,
-                    destination: "n/a", // TODO
-                    kind,
-                    args,
-                    parentHash: null, // TODO
-                    chunkHash: toBase58(blockInfo.header.hash), // TODO: use real chunk hash instead of block hash
-                    status: "Completed", // TODO
-                    logs: "" // TODO
+                    hash: tx.hash,
+                    nonce: tx.nonce,
+                    blockHash: blockInfo.header.hash,
+                    signerId: tx.signer_id,
+                    signerPublicKey: tx.signer_public_key || tx.public_key,
+                    signature: tx.signature,
+                    receiverId: tx.receiver_id,
+                    actions: tx.actions
                   };
                 })
               );
@@ -102,10 +116,12 @@ async function saveBlocksFromRequests(requests) {
           error.message
         );
       } else {
-        console.warn(
-          `Something went wrong while fetching the block #${blockHeight}: `,
-          error
-        );
+        if (!error.message.includes("Not Found")) {
+          console.warn(
+            `Something went wrong while fetching the block #${blockHeight}: `,
+            error
+          );
+        }
       }
       return [];
     }
@@ -226,6 +242,8 @@ async function syncMissingNearcoreState() {
 }
 
 async function syncFullNearcoreState() {
+  await models.sequelize.sync();
+
   try {
     await syncNewNearcoreState();
   } catch (error) {

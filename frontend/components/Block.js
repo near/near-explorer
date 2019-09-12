@@ -90,15 +90,6 @@ const Block = ({ block }) => {
                 cls="block-card-no-top-border"
               />
             </Col>
-            <Col md="7">
-              <BlockCard
-                title="Author"
-                imgLink="/static/images/icon-m-user.svg"
-                text={`@${block.authorId}`}
-                cls="block-card-no-side-border block-card-no-top-border"
-                textCls="block-card-author-text"
-              />
-            </Col>
           </Row>
           <Row noGutters="true">
             <Col md="4">

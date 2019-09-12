@@ -48,7 +48,6 @@ const DashboardBlocks = () => (
                   key={block.hash}
                   blockHash={block.hash}
                   blockHeight={block.height}
-                  blockAuthorId={block.authorId}
                   blockTimestamp={block.timestamp}
                   transactionsCount={block.transactionsCount}
                 />

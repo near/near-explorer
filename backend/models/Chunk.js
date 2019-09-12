@@ -3,21 +3,34 @@ module.exports = (sequelize, DataTypes) => {
   const Chunk = sequelize.define(
     "Chunk",
     {
-      hash: {
-        type: DataTypes.STRING, // base58
-        allowNull: false,
-        primaryKey: true
-      },
       blockHash: {
         type: DataTypes.STRING, // base58
+        primaryKey: true,
         allowNull: false
       },
       shardId: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        allowNull: false
+      },
+      signature: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      authorId: {
-        type: DataTypes.STRING,
+      gasLimit: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      gasUsed: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      heightCreated: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
+      heightIncluded: {
+        type: DataTypes.BIGINT,
         allowNull: false
       }
     },
