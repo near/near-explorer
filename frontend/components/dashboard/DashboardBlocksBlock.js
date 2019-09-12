@@ -7,7 +7,7 @@ import Timer from "../utils/Timer";
 
 const DashboardBlocksBlock = props => (
   <Col xs="6">
-    <Link href="/blocks/[hash]" as={`/blocks/${props.blockHash}`} prefetch>
+    <Link href="/blocks/[hash]" as={`/blocks/${props.blockHash}`}>
       <a className="dashboard-blocks-block-link">
         <Card className="dashboard-blocks-block">
           <Card.Title className="dashboard-blocks-block-title">
@@ -17,19 +17,6 @@ const DashboardBlocksBlock = props => (
             <p className="dashboard-blocks-block-content-p">
               <img src="/static/images/icon-m-transaction.svg" />
               {props.transactionsCount}
-            </p>
-            <p className="dashboard-blocks-block-content-p">
-              <img
-                style={{ float: "left" }}
-                src="/static/images/icon-m-user.svg"
-              />
-              <span className="d-none d-sm-block">@{props.blockAuthorId}</span>
-              <span className="d-sm-none">
-                @
-                {props.blockAuthorId.length > 9
-                  ? `${props.blockAuthorId.substring(0, 7)}..`
-                  : props.blockAuthorId}
-              </span>
             </p>
             <Row noGutters="true">
               <Col md="7" xs="7">

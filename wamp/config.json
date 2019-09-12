@@ -29,7 +29,7 @@
               ]
             },
             {
-              "name": "near-explorer-frontend",
+              "name": "anonymous",
               "permissions": [
                 {
                   "uri": "",
@@ -63,16 +63,16 @@
               "type": "websocket",
               "serializers": ["json"],
               "auth": {
+                "anonymous": {
+                  "type": "static",
+                  "role": "anonymous"
+                },
                 "ticket": {
                   "type": "static",
                   "principals": {
                     "near-explorer-backend": {
                       "ticket": "${WAMP_NEAR_EXPLORER_BACKEND_SECRET}",
                       "role": "near-explorer-backend"
-                    },
-                    "near-explorer-frontend": {
-                      "ticket": "${WAMP_NEAR_EXPLORER_FRONTEND_SECRET}",
-                      "role": "near-explorer-frontend"
                     }
                   }
                 }

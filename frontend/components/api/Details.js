@@ -18,18 +18,15 @@ const Details = {
           (SELECT COUNT(*) as onlineNodesCount FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000) as online_nodes,
           (
             SELECT COUNT(*) as lastDayTxCount FROM transactions
-              LEFT JOIN chunks ON chunks.hash = transactions.chunk_hash
-              LEFT JOIN blocks ON blocks.hash = chunks.block_hash
+              LEFT JOIN blocks ON blocks.hash = transactions.block_hash
               WHERE blocks.timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000
           ) as transactions,
           (SELECT COUNT(transactions.hash) as tx_per_second, (blocks.timestamp / 1000) as second FROM transactions
-              LEFT JOIN chunks ON chunks.hash = transactions.chunk_hash
-              LEFT JOIN blocks ON blocks.hash = chunks.block_hash
+              LEFT JOIN blocks ON blocks.hash = transactions.block_hash
               GROUP BY second
           ) as max_transactions_per_second,
           (SELECT COUNT(transactions.hash) as tx_last_10_seconds FROM transactions
-              LEFT JOIN chunks ON chunks.hash = transactions.chunk_hash
-              LEFT JOIN blocks ON blocks.hash = chunks.block_hash
+              LEFT JOIN blocks ON blocks.hash = transactions.block_hash
               WHERE blocks.timestamp > (strftime('%s','now') - 10) * 1000
           ) as transactions_per_second,
           (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block`

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import TransactionsRow from "../transactions/TransactionsRow";
+import ActionRow from "../transactions/ActionRow";
 import EmptyRow from "../utils/EmptyRow";
 import { DataConsumer } from "../utils/DataProvider";
 
@@ -29,18 +29,22 @@ const DashboardTransactions = () => (
       <Col xs="11" md="11" className="px-0 dashboard-transactions-list">
         <DataConsumer>
           {ctx =>
-            ctx.transactions.map((transaction, index) => (
-              <TransactionsRow
-                key={transaction.hash}
-                viewMode="compact"
-                txn={transaction}
-                className={
-                  ctx.transactions.length - 1 === index
-                    ? "transaction-row-bottom"
-                    : ""
-                }
-              />
-            ))
+            ctx.transactions.flatMap((transaction, transactionIndex) =>
+              transaction.actions.map((action, actionIndex) => (
+                <ActionRow
+                  key={transaction.hash + actionIndex}
+                  viewMode="compact"
+                  action={action}
+                  txn={transaction}
+                  className={
+                    ctx.transactions.length - 1 === transactionIndex &&
+                    transaction.actions.length - 1 === actionIndex
+                      ? "transaction-row-bottom"
+                      : ""
+                  }
+                />
+              ))
+            )
           }
         </DataConsumer>
         <Row noGutters="true">

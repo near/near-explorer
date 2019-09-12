@@ -69,13 +69,13 @@ export default class extends React.Component {
               this.state.nodes.map(node => {
                 return (
                   <NodeRow
-                    key={node.node_id}
-                    ipAddress={node.ip_address}
+                    key={node.nodeId}
+                    ipAddress={node.ipAddress}
                     moniker={node.moniker}
-                    accountId={node.account_id}
-                    nodeId={node.node_id}
-                    lastSeen={node.last_seen}
-                    lastHeight={node.last_height}
+                    accountId={node.accountId}
+                    nodeId={node.nodeId}
+                    lastSeen={node.lastSeen}
+                    lastHeight={node.lastHeight}
                   />
                 );
               })}

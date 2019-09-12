@@ -14,29 +14,19 @@ const subscriptions: Record<
   [autobahn.SubscribeHandler, autobahn.ISubscribeOptions | undefined]
 > = {};
 
-let wampNearExplorerUrl: string, wampNearExplorerSecret: string;
+let wampNearExplorerUrl: string;
 
 if (typeof window === "undefined") {
   const { serverRuntimeConfig } = getConfig();
   wampNearExplorerUrl = serverRuntimeConfig.wampNearExplorerUrl;
-  wampNearExplorerSecret = serverRuntimeConfig.wampNearExplorerFrontendSecret;
 } else {
   const { publicRuntimeConfig } = getConfig();
   wampNearExplorerUrl = publicRuntimeConfig.wampNearExplorerUrl;
-  wampNearExplorerSecret = publicRuntimeConfig.wampNearExplorerFrontendSecret;
 }
 
 const wamp = new autobahn.Connection({
   url: wampNearExplorerUrl,
   realm: "near-explorer",
-  authmethods: ["ticket"],
-  authid: "near-explorer-frontend",
-  onchallenge: (_session, method, _extra) => {
-    if (method === "ticket") {
-      return wampNearExplorerSecret;
-    }
-    throw "unsupported challenge method";
-  },
   retry_if_unreachable: true,
   max_retries: Number.MAX_SAFE_INTEGER,
   max_retry_delay: 10

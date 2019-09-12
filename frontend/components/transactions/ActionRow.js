@@ -4,30 +4,36 @@ import { Row, Col } from "react-bootstrap";
 
 import { DataConsumer } from "../utils/DataProvider";
 import Timer from "../utils/Timer";
-import transactionIcons from "./TransactionIcons";
+import actionIcons from "./ActionIcons";
 
-import TransactionMessage from "./TransactionMessage";
+import ActionMessage from "./ActionMessage";
 
-const TransactionsRow = props => {
-  const TransactionIcon = transactionIcons[props.txn.kind];
+const ActionRow = props => {
+  let actionKind, actionArgs;
+  if (typeof props.action === "string") {
+    actionKind = props.action;
+    actionArgs = {};
+  } else {
+    actionKind = Object.keys(props.action);
+    actionArgs = props.action[actionKind];
+  }
+  const ActionIcon = actionIcons[actionKind];
   const viewMode = props.viewMode || "sparse";
   return (
     <Row
       noGutters="true"
-      className={`transaction-${viewMode}-row mx-0 ${
+      className={`action-${viewMode}-row mx-0 ${
         props.className === undefined ? "" : props.className
       }`}
     >
       {viewMode === "compact" ? (
-        <Col xs="1" className="transactions-icon-col">
-          <div className="transaction-row-img">
-            {TransactionIcon && <TransactionIcon />}
-          </div>
+        <Col xs="1" className="actions-icon-col">
+          <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
         </Col>
       ) : (
         <>
           <Col md="auto" xs="1" className="pr-0">
-            {TransactionIcon}
+            {ActionIcon}
           </Col>
           <Col md="auto" xs="1" className="pr-0">
             <img
@@ -37,31 +43,32 @@ const TransactionsRow = props => {
           </Col>
         </>
       )}
-      <Col md="11" xs="11" className="transaction-row-details">
+      <Col md="11" xs="11" className="action-row-details">
         <Row noGutters="true">
           <Col md="8" xs="7">
             <Row noGutters="true">
-              <Col className="transaction-row-title">
-                <TransactionMessage txn={props.txn} />
+              <Col className="action-row-title">
+                <ActionMessage
+                  actionKind={actionKind}
+                  actionArgs={actionArgs}
+                />
               </Col>
             </Row>
             <Row noGutters="true">
-              <Col className="transaction-row-text">
-                by @{props.txn.originator}
-              </Col>
+              <Col className="action-row-text">by @{props.txn.signerId}</Col>
             </Row>
           </Col>
           <Col md="4" xs="5" className="ml-auto text-right">
             <Row>
-              <Col className="transaction-row-txid">
+              <Col className="action-row-txid">
                 {props.txn.hash !== undefined
                   ? `${props.txn.hash.substring(0, 7)}...`
                   : null}
               </Col>
             </Row>
             <Row>
-              <Col className="transaction-row-timer">
-                <span className="transaction-row-timer-status">
+              <Col className="action-row-timer">
+                <span className="action-row-timer-status">
                   {props.txn.status}
                 </span>
                 &nbsp;&nbsp;
@@ -72,19 +79,19 @@ const TransactionsRow = props => {
         </Row>
       </Col>
       <style jsx global>{`
-        .transaction-sparse-row {
+        .action-sparse-row {
           padding-top: 10px;
           padding-bottom: 10px;
           border-top: solid 2px #f8f8f8;
         }
 
-        .transaction-compact-row .transaction-row-details {
+        .action-compact-row .action-row-details {
           border-bottom: 2px solid #f8f8f8;
           margin-bottom: 15px;
           padding-bottom: 8px;
         }
 
-        .transaction-row-img {
+        .action-row-img {
           width: 24px;
           height: 24px;
           border: solid 2px #f8f8f8;
@@ -95,11 +102,11 @@ const TransactionsRow = props => {
           line-height: 1.1;
         }
 
-        .transaction-row-bottom {
+        .action-row-bottom {
           border-bottom: solid 2px #f8f8f8;
         }
 
-        .transaction-row-title {
+        .action-row-title {
           font-family: BentonSans;
           font-size: 14px;
           font-weight: 500;
@@ -107,7 +114,7 @@ const TransactionsRow = props => {
           color: #24272a;
         }
 
-        .transaction-row-text {
+        .action-row-text {
           font-family: BentonSans;
           font-size: 12px;
           font-weight: 500;
@@ -115,7 +122,7 @@ const TransactionsRow = props => {
           color: #999999;
         }
 
-        .transaction-row-txid {
+        .action-row-txid {
           font-family: BentonSans;
           font-size: 14px;
           font-weight: 500;
@@ -123,14 +130,14 @@ const TransactionsRow = props => {
           color: #0072ce;
         }
 
-        .transaction-row-timer {
+        .action-row-timer {
           font-family: BentonSans;
           font-size: 12px;
           color: #999999;
           font-weight: 100;
         }
 
-        .transaction-row-timer-status {
+        .action-row-timer-status {
           font-weight: 500;
         }
       `}</style>
@@ -138,4 +145,4 @@ const TransactionsRow = props => {
   );
 };
 
-export default TransactionsRow;
+export default ActionRow;

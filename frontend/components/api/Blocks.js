@@ -4,15 +4,12 @@ const Blocks = {
   searchBlocks: async (keyword, height = -1, limit = 15) => {
     try {
       return await call(".select", [
-        `SELECT blocks_subquery.*, COUNT(transactions.hash) as transactionsCount FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash FROM blocks
-              ORDER BY blocks.height DESC LIMIT 15
-          ) as blocks_subquery
-          LEFT JOIN chunks ON chunks.block_hash = blocks_subquery.hash
-          LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
+          FROM blocks
+          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           WHERE blocks.height LIKE :keyword AND blocks.height < :height
-          GROUP BY blocks_subquery.hash
-          ORDER BY blocks_subquery.height DESC`,
+          GROUP BY blocks.hash
+          ORDER BY blocks.height DESC`,
         {
           keyword: `${keyword}%`,
           height: height === -1 ? "MAX(blocks.height)" : height,
@@ -42,14 +39,12 @@ const Blocks = {
   getLatestBlocksInfo: async (limit = 15) => {
     try {
       return await call(".select", [
-        `SELECT blocks_subquery.*, COUNT(transactions.hash) as transactionsCount FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash FROM blocks
-              ORDER BY blocks.height DESC LIMIT 15
-          ) as blocks_subquery
-          LEFT JOIN chunks ON chunks.block_hash = blocks_subquery.hash
-          LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
-          GROUP BY blocks_subquery.hash
-          ORDER BY blocks_subquery.height DESC`,
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
+          FROM blocks
+          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
+          GROUP BY blocks.hash
+          ORDER BY blocks.height DESC
+          LIMIT :limit`,
         {
           limit
         }
@@ -64,10 +59,9 @@ const Blocks = {
   getBlockInfo: async hash => {
     try {
       const block = await call(".select", [
-        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
           FROM blocks
-          LEFT JOIN chunks ON chunks.block_hash = blocks.hash
-          LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
+          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           WHERE blocks.hash = :hash`,
         {
           hash
@@ -85,10 +79,9 @@ const Blocks = {
   getPreviousBlocks: async (lastBlockHeight, limit = 15) => {
     try {
       return await call(".select", [
-        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.author_id as authorId, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
           FROM blocks
-          LEFT JOIN chunks ON chunks.block_hash = blocks.hash
-          LEFT JOIN transactions ON transactions.chunk_hash = chunks.hash
+          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           WHERE blocks.height < :height
           GROUP BY blocks.hash
           ORDER BY blocks.height DESC
