@@ -5,7 +5,7 @@ export default async function(req, res) {
     await call(".node-telemetry", [
       {
         ...req.body,
-        ip_address: req.socket.remoteAddress
+        ip_address: req.headers["x-forwarded-for"] || req.socket.remoteAddress
       }
     ]);
   } catch (error) {
