@@ -25,7 +25,8 @@ const Transactions = () => {
             transaction.actions.map((action, actionIndex) => (
               <ActionRow
                 key={transaction.hash + actionIndex}
-                txn={transaction}
+                transaction={transaction}
+                action={action}
                 cls={`${
                   ctx.transactions.length - 1 === transactionIndex &&
                   ctx.actions.length - 1 === actionIndex

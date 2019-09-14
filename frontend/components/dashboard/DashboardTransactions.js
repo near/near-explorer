@@ -34,8 +34,8 @@ const DashboardTransactions = () => (
                 <ActionRow
                   key={transaction.hash + actionIndex}
                   viewMode="compact"
+                  transaction={transaction}
                   action={action}
-                  txn={transaction}
                   className={
                     ctx.transactions.length - 1 === transactionIndex &&
                     transaction.actions.length - 1 === actionIndex

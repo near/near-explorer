@@ -1,33 +1,30 @@
+import { formatNEAR } from "../utils/Balance";
+
 const transactionMessageRenderers = {
-  CreateAccount: ({ actionArgs }) =>
-    `New Account Created: @${actionArgs.new_account_id}, balance: ${
-      actionArgs.amount
-    }`,
-  DeleteAccount: ({ actionArgs }) =>
-    `Account Deleted: ${actionArgs.account_id}`,
-  DeployContract: ({ actionArgs }) =>
-    `Contract Deployed: ${actionArgs.contract_id}`,
-  FunctionCall: ({ actionArgs }) =>
-    `Call: Called method in contract "${actionArgs.contract_id}"`,
-  Transfer: ({ actionArgs }) =>
-    `Transfered ${actionArgs.amount} N to @${actionArgs.receiver}`,
-  Stake: ({ actionArgs }) =>
-    `Staked: ${actionArgs.amount} N ${actionArgs.public_key.substring(
-      0,
-      7
-    )}...`,
-  AddKey: ({ actionArgs }) => {
+  CreateAccount: ({ transaction: { signerId } }) =>
+    `New Account Created: @${signerId}`,
+  DeleteAccount: ({ transaction: { signerId } }) =>
+    `Account Deleted: @${signerId}`,
+  DeployContract: ({ transaction: { signerId } }) =>
+    `Contract Deployed: ${signerId}`,
+  FunctionCall: ({ transaction: { receiverId } }) =>
+    `Call: Called method in contract "${receiverId}"`,
+  Transfer: ({ transaction: { receiverId }, actionArgs: { deposit } }) =>
+    `Transfered ${formatNEAR(deposit)} Ⓝ to @${receiverId}`,
+  Stake: ({ actionArgs: { stake, public_key } }) =>
+    `Staked: ${formatNEAR(stake)} Ⓝ ${public_key.substring(0, 15)}...`,
+  AddKey: ({ transaction: { receiverId }, actionArgs }) => {
     return actionArgs.access_key
-      ? `Access key for contract: "${actionArgs.access_key.contract_id}"`
-      : `New Key Created: ${actionArgs.new_key}`;
+      ? `Access key for contract: "${receiverId}"`
+      : `New Key Created: ${actionArgs.publicKey}`;
   },
-  DeleteKey: ({ actionArgs }) => `Key Deleted: ${actionArgs.cur_key}`
+  DeleteKey: ({ actionArgs: { public_key } }) => `Key Deleted: ${public_key}`
 };
 
 export default props => {
-  const messageRenderer = transactionMessageRenderers[props.actionKind];
-  if (messageRenderer === undefined) {
+  const MessageRenderer = transactionMessageRenderers[props.actionKind];
+  if (MessageRenderer === undefined) {
     return `${props.actionKind}: ${JSON.stringify(props.actionArgs)}`;
   }
-  return messageRenderer(props);
+  return <MessageRenderer {...props} />;
 };

@@ -4,7 +4,8 @@ const Transactions = {
   getLatestTransactionsInfo: async () => {
     try {
       const transactions = await call(".select", [
-        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.actions, blocks.timestamp as blockTimestamp FROM transactions
+        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, blocks.timestamp as blockTimestamp
+          FROM transactions
           LEFT JOIN blocks ON blocks.hash = transactions.block_hash
           ORDER BY blocks.height DESC
           LIMIT 10`
