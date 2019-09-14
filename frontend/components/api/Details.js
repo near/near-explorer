@@ -5,14 +5,13 @@ const Details = {
     try {
       const details = await call(".select", [
         `SELECT
-          accounts.accountsCount,
+          total_accounts.accountsCount,
           nodes.totalNodesCount,
           online_nodes.onlineNodesCount,
           transactions.lastDayTxCount,
           last_block.lastBlockHeight,
           ((transactions_per_second.tx_last_10_seconds + 9) / 10) as transactionsPerSecond
         FROM
-          (SELECT COUNT(*) as accountsCount FROM accounts) as accounts,
           (SELECT COUNT(*) as totalNodesCount FROM nodes) as nodes,
           (SELECT COUNT(*) as onlineNodesCount FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000) as online_nodes,
           (
@@ -24,7 +23,8 @@ const Details = {
               LEFT JOIN blocks ON blocks.hash = transactions.block_hash
               WHERE blocks.timestamp > (strftime('%s','now') - 10) * 1000
           ) as transactions_per_second,
-          (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block`
+          (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block,
+          (SELECT COUNT(DISTINCT signer_id) as accountsCount FROM transactions) as total_accounts`
       ]);
       return details[0];
     } catch (error) {
