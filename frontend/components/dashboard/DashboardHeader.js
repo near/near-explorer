@@ -80,11 +80,9 @@ const DashboardHeader = () => (
         </Col>
         <Col xs="12" md="2">
           <DashboardCard
-            title="Tps/Max"
+            title="Tps"
             imgLink="/static/images/icon-m-tps.svg"
-            text={`${ctx.details.transactionsPerSecond} / ${
-              ctx.details.maxTransactionsPerSecond
-            }`}
+            text={ctx.details.transactionsPerSecond}
           />
         </Col>
         <Col xs="12" md="2">
