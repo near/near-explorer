@@ -9,13 +9,14 @@ import actionIcons from "./ActionIcons";
 import ActionMessage from "./ActionMessage";
 
 const ActionRow = props => {
+  const { transaction, action } = props;
   let actionKind, actionArgs;
-  if (typeof props.action === "string") {
-    actionKind = props.action;
+  if (typeof action === "string") {
+    actionKind = action;
     actionArgs = {};
   } else {
-    actionKind = Object.keys(props.action);
-    actionArgs = props.action[actionKind];
+    actionKind = Object.keys(action)[0];
+    actionArgs = action[actionKind];
   }
   const ActionIcon = actionIcons[actionKind];
   const viewMode = props.viewMode || "sparse";
@@ -49,30 +50,31 @@ const ActionRow = props => {
             <Row noGutters="true">
               <Col className="action-row-title">
                 <ActionMessage
+                  transaction={transaction}
                   actionKind={actionKind}
                   actionArgs={actionArgs}
                 />
               </Col>
             </Row>
             <Row noGutters="true">
-              <Col className="action-row-text">by @{props.txn.signerId}</Col>
+              <Col className="action-row-text">by @{transaction.signerId}</Col>
             </Row>
           </Col>
           <Col md="4" xs="5" className="ml-auto text-right">
             <Row>
               <Col className="action-row-txid">
-                {props.txn.hash !== undefined
-                  ? `${props.txn.hash.substring(0, 7)}...`
+                {transaction.hash !== undefined
+                  ? `${transaction.hash.substring(0, 7)}...`
                   : null}
               </Col>
             </Row>
             <Row>
               <Col className="action-row-timer">
                 <span className="action-row-timer-status">
-                  {props.txn.status}
+                  {transaction.status}
                 </span>
                 &nbsp;&nbsp;
-                <Timer time={props.txn.blockTimestamp} />
+                <Timer time={transaction.blockTimestamp} />
               </Col>
             </Row>
           </Col>
