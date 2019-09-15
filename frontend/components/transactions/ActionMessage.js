@@ -1,12 +1,12 @@
 import { formatNEAR } from "../utils/Balance";
 
 const transactionMessageRenderers = {
-  CreateAccount: ({ transaction: { signerId } }) =>
-    `New Account Created: @${signerId}`,
-  DeleteAccount: ({ transaction: { signerId } }) =>
-    `Account Deleted: @${signerId}`,
-  DeployContract: ({ transaction: { signerId } }) =>
-    `Contract Deployed: ${signerId}`,
+  CreateAccount: ({ transaction: { receiverId } }) =>
+    `New Account Created: @${receiverId}`,
+  DeleteAccount: ({ transaction: { receiverId } }) =>
+    `Account Deleted: @${receiverId}`,
+  DeployContract: ({ transaction: { receiverId } }) =>
+    `Contract Deployed: ${receiverId}`,
   FunctionCall: ({ transaction: { receiverId } }) =>
     `Call: Called method in contract "${receiverId}"`,
   Transfer: ({ transaction: { receiverId }, actionArgs: { deposit } }) =>
@@ -14,11 +14,17 @@ const transactionMessageRenderers = {
   Stake: ({ actionArgs: { stake, public_key } }) =>
     `Staked: ${formatNEAR(stake)} Ⓝ ${public_key.substring(0, 15)}...`,
   AddKey: ({ transaction: { receiverId }, actionArgs }) => {
-    return actionArgs.access_key
-      ? `Access key for contract: "${receiverId}"`
-      : `New Key Created: ${actionArgs.publicKey}`;
+    return typeof actionArgs.access_key.permission === "object"
+      ? `Access key for contract: "${
+          actionArgs.access_key.permission.FunctionCall.receiver_id
+        }"`
+      : `New Key Added for @${receiverId}: ${actionArgs.public_key.substring(
+          0,
+          15
+        )}...`;
   },
-  DeleteKey: ({ actionArgs: { public_key } }) => `Key Deleted: ${public_key}`
+  DeleteKey: ({ actionArgs: { public_key } }) =>
+    `Key Deleted: ${public_key.substring(0, 15)}...`
 };
 
 export default props => {

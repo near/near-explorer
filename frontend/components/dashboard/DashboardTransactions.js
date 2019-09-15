@@ -30,20 +30,22 @@ const DashboardTransactions = () => (
         <DataConsumer>
           {ctx =>
             ctx.transactions.flatMap((transaction, transactionIndex) =>
-              transaction.actions.map((action, actionIndex) => (
-                <ActionRow
-                  key={transaction.hash + actionIndex}
-                  viewMode="compact"
-                  transaction={transaction}
-                  action={action}
-                  className={
-                    ctx.transactions.length - 1 === transactionIndex &&
-                    transaction.actions.length - 1 === actionIndex
-                      ? "transaction-row-bottom"
-                      : ""
-                  }
-                />
-              ))
+              transaction.actions
+                .reverse()
+                .map((action, actionIndex) => (
+                  <ActionRow
+                    key={transaction.hash + actionIndex}
+                    viewMode="compact"
+                    transaction={transaction}
+                    action={action}
+                    className={
+                      ctx.transactions.length - 1 === transactionIndex &&
+                      transaction.actions.length - 1 === actionIndex
+                        ? "transaction-row-bottom"
+                        : ""
+                    }
+                  />
+                ))
             )
           }
         </DataConsumer>

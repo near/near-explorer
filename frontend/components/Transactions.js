@@ -22,19 +22,21 @@ const Transactions = () => {
       <DataConsumer>
         {ctx =>
           ctx.transactions.flatMap((transaction, transactionIndex) =>
-            transaction.actions.map((action, actionIndex) => (
-              <ActionRow
-                key={transaction.hash + actionIndex}
-                transaction={transaction}
-                action={action}
-                cls={`${
-                  ctx.transactions.length - 1 === transactionIndex &&
-                  ctx.actions.length - 1 === actionIndex
-                    ? "transaction-row-bottom"
-                    : ""
-                }`}
-              />
-            ))
+            transaction.actions
+              .reverse()
+              .map((action, actionIndex) => (
+                <ActionRow
+                  key={transaction.hash + actionIndex}
+                  transaction={transaction}
+                  action={action}
+                  cls={`${
+                    ctx.transactions.length - 1 === transactionIndex &&
+                    ctx.actions.length - 1 === actionIndex
+                      ? "transaction-row-bottom"
+                      : ""
+                  }`}
+                />
+              ))
           )
         }
       </DataConsumer>
