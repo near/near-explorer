@@ -4,10 +4,12 @@ const Blocks = {
   searchBlocks: async (keyword, height = -1, limit = 15) => {
     try {
       return await call(".select", [
-        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
-          FROM blocks
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+          FROM (
+            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash FROM blocks
+            WHERE blocks.height LIKE :keyword AND blocks.height < :height
+          ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
-          WHERE blocks.height LIKE :keyword AND blocks.height < :height
           GROUP BY blocks.hash
           ORDER BY blocks.height DESC`,
         {
@@ -39,12 +41,15 @@ const Blocks = {
   getLatestBlocksInfo: async (limit = 15) => {
     try {
       return await call(".select", [
-        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
-          FROM blocks
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+          FROM (
+            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash FROM blocks
+            ORDER BY blocks.height DESC
+            LIMIT :limit
+          ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           GROUP BY blocks.hash
-          ORDER BY blocks.height DESC
-          LIMIT :limit`,
+          ORDER BY blocks.height DESC`,
         {
           limit
         }
@@ -59,10 +64,13 @@ const Blocks = {
   getBlockInfo: async hash => {
     try {
       const block = await call(".select", [
-        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
-          FROM blocks
-          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
-          WHERE blocks.hash = :hash`,
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+          FROM (
+            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash
+            FROM blocks
+            WHERE blocks.hash = :hash
+          ) as blocks
+          LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
         {
           hash
         }
@@ -79,13 +87,17 @@ const Blocks = {
   getPreviousBlocks: async (lastBlockHeight, limit = 15) => {
     try {
       return await call(".select", [
-        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.hash) as transactionsCount
-          FROM blocks
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+          FROM (
+            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash
+            FROM blocks
+            WHERE blocks.height < :height
+            ORDER BY blocks.height DESC
+            LIMIT :limit
+          ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
-          WHERE blocks.height < :height
           GROUP BY blocks.hash
-          ORDER BY blocks.height DESC
-          LIMIT :limit`,
+          ORDER BY blocks.height DESC`,
         {
           height: lastBlockHeight,
           limit
