@@ -50,7 +50,7 @@ class NearExplorer extends App {
           <>
             <script
               async
-              src="https://www.googletagmanager.com/gtag/js?id=UA-100373569-14"
+              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
             />
             <script
               dangerouslySetInnerHTML={{
