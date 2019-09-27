@@ -55,7 +55,6 @@ class NearExplorer extends App {
             <script
               dangerouslySetInnerHTML={{
                 __html: `
-                alert(1);
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
                   gtag('js', new Date());
