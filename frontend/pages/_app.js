@@ -1,4 +1,5 @@
-import App, { Container } from "next/app";
+import App from "next/app";
+import getConfig from "next/config";
 import Head from "next/head";
 
 import Header from "../components/Header";
@@ -22,9 +23,12 @@ class NearExplorer extends App {
 
   render() {
     const { Component, pageProps } = this.props;
+    const {
+      publicRuntimeConfig: { googleAnalytics }
+    } = getConfig();
 
     return (
-      <Container>
+      <>
         <Head>
           <link
             rel="shortcut icon"
@@ -42,7 +46,27 @@ class NearExplorer extends App {
             background-color: #f8f8f8;
           }
         `}</style>
-      </Container>
+        {googleAnalytics ? (
+          <>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=UA-100373569-14"
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                alert(1);
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+
+                  gtag('config', '${googleAnalytics}');
+                `
+              }}
+            />
+          </>
+        ) : null}
+      </>
     );
   }
 }

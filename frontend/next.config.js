@@ -2,7 +2,6 @@
 const withCSS = require("@zeit/next-css");
 
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
-const defaultWampNearExplorerFrontendSecret = "front";
 
 module.exports = withCSS({
   webpack(config, options) {
@@ -17,17 +16,11 @@ module.exports = withCSS({
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_INTERNAL_URL ||
       process.env.WAMP_NEAR_EXPLORER_URL ||
-      defaultWampNearExplorerUrl,
-    wampNearExplorerFrontendSecret:
-      process.env.WAMP_NEAR_EXPLORER_INTERNAL_FRONTEND_SECRET ||
-      process.env.WAMP_NEAR_EXPLORER_FRONTEND_SECRET ||
-      defaultWampNearExplorerFrontendSecret
+      defaultWampNearExplorerUrl
   },
   publicRuntimeConfig: {
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
-    wampNearExplorerFrontendSecret:
-      process.env.WAMP_NEAR_EXPLORER_FRONTEND_SECRET ||
-      defaultWampNearExplorerFrontendSecret
+    googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS
   }
 });
