@@ -7,9 +7,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-14.04, ubuntu-18.04]
-        node: [6, 8, 10]
+        os: [ubuntu-18.04]
+        node: [10]
     steps:
+      - uses: actions/checkout@v1
       - name: Run unit tests
         run: cd frontend && npm install && npm run test
 
@@ -18,8 +19,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-14.04, ubuntu-18.04]
-        node: [6, 8, 10]
+        os: [ubuntu-18.04]
+        node: [10]
     steps:
+      - uses: actions/checkout@v1
       - name: Run unit tests
         run: cd backend && npm install && npm run test
