@@ -1,0 +1,27 @@
+name: Run Tests
+on: [push]
+
+jobs:
+  frontend-test:
+    name: Frontend testing
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node: [10]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run unit tests
+        run: cd frontend && npm install && npm run test
+
+  backend-test:
+    name: Backend testing
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node: [10]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run unit tests
+        run: cd backend && npm install && npm run test
