@@ -1,0 +1,14 @@
+name: Run Tests
+on: [push]
+
+jobs:
+  build:
+    name: Testing
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-14.04, ubuntu-18.04]
+        node: [6, 8, 10]
+    steps:
+      - name: Run unit tests
+        run: cd frontend && npm install && npm run test
