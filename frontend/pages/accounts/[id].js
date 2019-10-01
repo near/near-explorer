@@ -8,14 +8,16 @@ import Account from "../../components/Account";
 import Content from "../../components/Content";
 import Transactions from "../../components/transactions/Transactions";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 const AccountPage = props => (
   <>
     <Head>
       <title>Near Explorer | Account</title>
     </Head>
-    <Content title={`Account: @${props.id}`} border={false}>
+    <Content
+      title={`Account: @${props.id}`}
+      border={false}
+      style={{ paddingBottom: "1em" }}
+    >
       {props.err ? (
         `Information is not available at the moment. Please, check if the account name is correct or try later.`
       ) : (
@@ -34,11 +36,6 @@ const AccountPage = props => (
     >
       <Transactions account={props.id} />
     </Content>
-    <style jsx global>{`
-      .account-transactions-title {
-        font-size: 0.5em;
-      }
-    `}</style>
   </>
 );
 

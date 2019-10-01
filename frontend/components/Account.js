@@ -3,7 +3,6 @@ import Link from "next/link";
 import moment from "moment";
 import { Row, Col, Card } from "react-bootstrap";
 
-import EmptyRow from "./utils/EmptyRow";
 import Balance from "./utils/Balance";
 
 const AccountCard = props => (
@@ -11,7 +10,7 @@ const AccountCard = props => (
     <Card.Body>
       <Row noGutters="true">
         <Col xs="auto" md="12" className="account-card-title align-self-center">
-          {props.imgLink !== undefined ? (
+          {props.imgLink ? (
             <img src={props.imgLink} className="account-card-title-img" />
           ) : null}
           {props.title}
@@ -19,23 +18,9 @@ const AccountCard = props => (
         <Col
           xs="auto"
           md="12"
-          className={`ml-auto account-card-text align-self-center ${
-            props.textCls !== undefined ? props.textCls : ""
-          }`}
+          className="ml-auto account-card-text align-self-center"
         >
-          {props.textLink === true ? (
-            <Link href={`/accounts/${props.text}`}>
-              <a className={props.textCls}>
-                {props.format !== undefined
-                  ? parseInt(props.text).toLocaleString()
-                  : props.text}
-              </a>
-            </Link>
-          ) : props.format !== undefined ? (
-            parseInt(props.text).toLocaleString()
-          ) : (
-            props.text
-          )}
+          {props.text}
         </Col>
       </Row>
     </Card.Body>
@@ -113,7 +98,6 @@ const Account = ({ account }) => {
           </Row>
         </Col>
       </Row>
-      <EmptyRow rows="1" />
       <style jsx global>{`
         .account-card-created-text {
           font-size: 18px;

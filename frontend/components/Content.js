@@ -6,6 +6,7 @@ const Content = props => {
     <Container
       className={`content-container content-${size} near-main-container`}
       fluid="true"
+      style={props.style}
     >
       <Container>
         <Row>

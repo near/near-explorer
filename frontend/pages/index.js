@@ -10,8 +10,6 @@ import BlocksApi from "../components/api/Blocks";
 import DetailsApi from "../components/api/Details";
 import TransactionsApi from "../components/api/Transactions";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 const Index = ({ blocks, details, transactions }) => {
   const ctx = useContext(DataContext);
 

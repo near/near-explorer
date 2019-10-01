@@ -6,6 +6,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import DataProvider from "../components/utils/DataProvider";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+
 class NearExplorer extends App {
   static async getInitialProps(appContext) {
     // WARNING: Do not remove this getInitialProps implementation as it
