@@ -1,6 +1,7 @@
 import Head from "next/head";
 
-import Transactions from "../../components/Transactions";
+import Content from "../../components/Content";
+import Transactions from "../../components/transactions/Transactions";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -9,6 +10,8 @@ export default () => (
     <Head>
       <title>Near Explorer | Transactions</title>
     </Head>
-    <Transactions />
+    <Content title="Transactions">
+      <Transactions />
+    </Content>
   </>
 );
