@@ -62,10 +62,7 @@ const ActionRow = props => {
             </Row>
             <Row>
               <Col className="action-row-timer">
-                <span className="action-row-timer-status">
-                  {transaction.status}
-                </span>
-                &nbsp;&nbsp;
+                <span className="action-row-timer-status">{`Completed`}</span>{" "}
                 <Timer time={transaction.blockTimestamp} />
               </Col>
             </Row>

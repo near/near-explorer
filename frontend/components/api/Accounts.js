@@ -18,7 +18,6 @@ const Accounts = {
         ])
       ]);
 
-      console.log(rpcAccountResponse, accountResponse);
       return { id, ...rpcAccountResponse, ...accountResponse[0] };
     } catch (error) {
       console.error("Accounts.getAccountInfo failed to fetch data due to:");

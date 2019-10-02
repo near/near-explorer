@@ -12,8 +12,6 @@ import TransactionsPaginationFooter from "./TransactionsPaginationFooter";
 const Transactions = ({ transactions }) => {
   return (
     <>
-      <TransactionsHeader />
-      <EmptyRow />
       {transactions.flatMap((transaction, transactionIndex) =>
         transaction.actions
           .reverse()

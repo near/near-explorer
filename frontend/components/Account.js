@@ -74,9 +74,13 @@ const Account = ({ account }) => {
                 imgLink="/static/images/icon-m-transaction.svg"
                 text={
                   <>
-                    <span>&uarr;{account.outTransactionsCount}</span>
+                    <span>
+                      &uarr;{account.outTransactionsCount.toLocaleString()}
+                    </span>
                     &nbsp;&nbsp;
-                    <span>&darr;{account.inTransactionsCount}</span>
+                    <span>
+                      &darr;{account.inTransactionsCount.toLocaleString()}
+                    </span>
                   </>
                 }
               />
@@ -85,14 +89,14 @@ const Account = ({ account }) => {
               <AccountCard
                 title="Staked"
                 imgLink="/static/images/icon-m-filter.svg"
-                text={account.staked}
+                text={<Balance amount={account.staked} />}
               />
             </Col>
             <Col md="3">
               <AccountCard
                 title="Storage"
                 imgLink="/static/images/icon-m-block.svg"
-                text={`${account.storage_usage} / ${account.storage_paid_at}`}
+                text={`${account.storage_usage.toLocaleString()} / ${account.storage_paid_at.toLocaleString()}`}
               />
             </Col>
           </Row>

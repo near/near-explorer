@@ -19,7 +19,9 @@ const convertToShow = amount => {
 };
 
 export const formatNEAR = amount => {
-  if (amount.length < NOMINATION - 5) {
+  if (amount === "0") {
+    return "0";
+  } else if (amount.length < NOMINATION - 5) {
     return "<0.00001";
   } else if (amount.length <= NOMINATION) {
     let zeros = "0".repeat(NOMINATION);
