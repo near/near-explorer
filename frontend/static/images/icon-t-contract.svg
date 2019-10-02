@@ -1,8 +1,1 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="12"
-  height="12"
-  viewBox="0 0 12 12"
->
-  <path fill="#F0EC74" fillRule="evenodd" d="M0 0v12h12V4H8V0z" />
-</svg>
+<svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg"><path d="m12 0h-12v18h18v-12h-6z" fill="#f0ec73"/></svg>

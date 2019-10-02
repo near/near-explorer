@@ -1,14 +1,24 @@
 import { call } from "../../api";
 
 const Transactions = {
-  getLatestTransactionsInfo: async () => {
+  getTransactions: async props => {
+    const { signerId, receiverId } = props || {};
+    const whereClause = [];
+    if (signerId) {
+      whereClause.push(`signerId = :signerId`);
+    }
+    if (receiverId) {
+      whereClause.push(`receiverId = :receiverId`);
+    }
     try {
       const transactions = await call(".select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, blocks.timestamp as blockTimestamp
           FROM transactions
           LEFT JOIN blocks ON blocks.hash = transactions.block_hash
+          ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
           ORDER BY blocks.height DESC
-          LIMIT 10`
+          LIMIT 10`,
+        props
       ]);
       transactions.forEach(transaction => {
         try {
@@ -23,6 +33,9 @@ const Transactions = {
       console.error(error);
       throw error;
     }
+  },
+  getLatestTransactionsInfo: async () => {
+    return Transactions.getTransactions();
   }
 };
 

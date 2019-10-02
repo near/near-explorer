@@ -2,8 +2,6 @@ import Head from "next/head";
 
 import Accounts from "../../components/Accounts";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 export default () => (
   <>
     <Head>

@@ -4,8 +4,6 @@ import BlockApi from "../../components/api/Blocks";
 
 import Block from "../../components/Block";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 const BlockPage = (props) => (
   <>
     <Head>
