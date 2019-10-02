@@ -28,7 +28,7 @@ jobs:
       - name: Build Project
         run: cd frontend && npm run build
       - name: Run Cypress
-        run: cd frontend && cpm run test:ci
+        run: cd frontend && npm run test:ci
         env:
           CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
 
