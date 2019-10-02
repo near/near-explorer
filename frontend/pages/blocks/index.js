@@ -7,8 +7,6 @@ import { DataContext } from "../../components/utils/DataProvider";
 
 import Blocks from "../../components/Blocks";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 const Index = ({ blocks, total, start, stop }) => {
   const ctx = useContext(DataContext);
 

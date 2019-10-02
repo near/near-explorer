@@ -27,23 +27,15 @@ const ActionRow = props => {
         props.className === undefined ? "" : props.className
       }`}
     >
-      {viewMode === "compact" ? (
-        <Col xs="1" className="actions-icon-col">
-          <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
-        </Col>
-      ) : (
-        <>
-          <Col md="auto" xs="1" className="pr-0">
-            {ActionIcon}
-          </Col>
-          <Col md="auto" xs="1" className="pr-0">
-            <img
-              src="/static/images/icon-arrow-right.svg"
-              style={{ width: "10px" }}
-            />
-          </Col>
-        </>
-      )}
+      <Col xs="1" className="actions-icon-col">
+        <span className="action-row-img">{ActionIcon && <ActionIcon />}</span>
+        {viewMode === "sparse" ? (
+          <img
+            src="/static/images/icon-arrow-right.svg"
+            className="action-row-toggler"
+          />
+        ) : null}
+      </Col>
       <Col md="11" xs="11" className="action-row-details">
         <Row noGutters="true">
           <Col md="8" xs="7">
@@ -70,10 +62,7 @@ const ActionRow = props => {
             </Row>
             <Row>
               <Col className="action-row-timer">
-                <span className="action-row-timer-status">
-                  {transaction.status}
-                </span>
-                &nbsp;&nbsp;
+                <span className="action-row-timer-status">{`Completed`}</span>{" "}
                 <Timer time={transaction.blockTimestamp} />
               </Col>
             </Row>
@@ -93,7 +82,7 @@ const ActionRow = props => {
           padding-bottom: 8px;
         }
 
-        .action-row-img {
+        .action-compact-row .action-row-img {
           width: 24px;
           height: 24px;
           border: solid 2px #f8f8f8;
@@ -102,6 +91,25 @@ const ActionRow = props => {
           margin-right: 8px;
           text-align: center;
           line-height: 1.1;
+        }
+
+        .action-sparse-row .action-row-img {
+          margin: 10px 10px 10px 20px;
+        }
+
+        .action-sparse-row .action-row-img svg {
+          height: 20px;
+          width: 20px;
+        }
+
+        .action-compact-row .action-row-img svg {
+          height: 12px;
+          width: 12px;
+        }
+
+        .action-sparse-row .action-row-toggler {
+          width: 10px;
+          margin: 10px;
         }
 
         .action-row-bottom {
