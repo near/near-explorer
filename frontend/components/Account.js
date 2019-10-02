@@ -94,7 +94,7 @@ const Account = ({ account }) => {
             </Col>
             <Col md="3">
               <AccountCard
-                title="Storage"
+                title="Storage (Used / Paid)"
                 imgLink="/static/images/icon-m-block.svg"
                 text={`${account.storage_usage.toLocaleString()} / ${account.storage_paid_at.toLocaleString()}`}
               />
