@@ -1,8 +1,8 @@
 import Head from "next/head";
 
-import Nodes from "../../components/Nodes";
+import Nodes from "../../components/nodes/Nodes";
 
-const Index = ({ nodes, total }) => {
+const Index = props => {
   return (
     <>
       <Head>

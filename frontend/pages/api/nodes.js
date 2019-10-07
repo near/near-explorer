@@ -1,4 +1,4 @@
-import { call } from "../../api";
+import { call } from "../../libraries/explorer-wamp";
 
 export default async function(req, res) {
   try {

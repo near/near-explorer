@@ -1,17 +1,15 @@
 import { useState, useContext, useEffect } from "react";
 
-import { Row, Col } from "react-bootstrap";
 import LoadingOverlay from "react-loading-overlay";
 
-import BlocksApi from "./api/Blocks";
+import BlocksApi from "../../libraries/explorer-wamp/Blocks";
 
-import Content from "./Content";
-import BlocksHeader from "./blocks/BlocksHeader";
-import BlocksRow from "./blocks/BlocksRow";
-
-import { DataContext, DataConsumer } from "./utils/DataProvider";
-import EmptyRow from "./utils/EmptyRow";
-import Pagination, { PaginationSpinner } from "./utils/Pagination";
+import Content from "../utils/Content";
+import { DataContext, DataConsumer } from "../utils/DataProvider";
+import EmptyRow from "../utils/EmptyRow";
+import Pagination, { PaginationSpinner } from "../utils/Pagination";
+import BlocksHeader from "./BlocksHeader";
+import BlocksRow from "./BlocksRow";
 
 const BlocksOverlay = ({ loading, setLoading }) => {
   const getNextBatch = async pagination => {

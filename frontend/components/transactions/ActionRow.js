@@ -1,11 +1,7 @@
-import Link from "next/link";
-
 import { Row, Col } from "react-bootstrap";
 
-import { DataConsumer } from "../utils/DataProvider";
 import Timer from "../utils/Timer";
 import actionIcons from "./ActionIcons";
-
 import ActionMessage from "./ActionMessage";
 
 const ActionRow = props => {

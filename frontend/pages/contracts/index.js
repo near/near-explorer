@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import Contracts from "../../components/Contracts";
+import Contracts from "../../components/contracts/Contracts";
 
 export default () => (
   <>

@@ -2,13 +2,13 @@ import Head from "next/head";
 
 import { useEffect, useContext } from "react";
 
-import Dashboard from "../components/Dashboard";
+import Dashboard from "../components/dashboard/Dashboard";
 
 import { DataContext } from "../components/utils/DataProvider";
 
-import BlocksApi from "../components/api/Blocks";
-import DetailsApi from "../components/api/Details";
-import TransactionsApi from "../components/api/Transactions";
+import BlocksApi from "../libraries/explorer-wamp/Blocks";
+import DetailsApi from "../libraries/explorer-wamp/Details";
+import TransactionsApi from "../libraries/explorer-wamp/Transactions";
 
 const Index = ({ blocks, details, transactions }) => {
   const ctx = useContext(DataContext);

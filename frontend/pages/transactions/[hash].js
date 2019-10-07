@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-const Transactions = (props) => (
+const Transactions = props => (
   <>
     <Head>
       <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
@@ -9,8 +9,8 @@ const Transactions = (props) => (
   </>
 );
 
-Transactions.getInitialProps = async ({ query: { hash }}) => {
+Transactions.getInitialProps = async ({ query: { hash } }) => {
   console.log(hash);
-}
+};
 
 export default Transactions;

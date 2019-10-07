@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 import ActionRow from "../transactions/ActionRow";
 import EmptyRow from "../utils/EmptyRow";

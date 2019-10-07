@@ -1,8 +1,6 @@
-import { Component } from "react";
-
 import { Dropdown } from "react-bootstrap";
 
-import { DataConsumer } from "./utils/DataProvider";
+import { DataConsumer } from "./DataProvider";
 
 const HeaderDropdownItem = props => (
   <Dropdown.Item className="header-nav-item-dropdown" onClick={props.onClick}>

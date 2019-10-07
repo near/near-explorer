@@ -1,4 +1,4 @@
-import { call } from "../../api";
+import { call } from ".";
 
 const Blocks = {
   searchBlocks: async (keyword, height = -1, limit = 15) => {

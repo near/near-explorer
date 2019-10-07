@@ -1,9 +1,6 @@
-import Link from "next/link";
-
-import moment from "moment";
 import { Row, Col, Card } from "react-bootstrap";
 
-import Balance from "./utils/Balance";
+import Balance from "../utils/Balance";
 
 const AccountCard = props => (
   <Card className={`account-card ${props.cls || ""}`}>

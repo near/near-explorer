@@ -2,10 +2,10 @@ import Head from "next/head";
 
 import { useContext, useEffect } from "react";
 
-import BlocksApi from "../../components/api/Blocks";
-import { DataContext } from "../../components/utils/DataProvider";
+import BlocksApi from "../../libraries/explorer-wamp/Blocks";
 
-import Blocks from "../../components/Blocks";
+import Blocks from "../../components/blocks/Blocks";
+import { DataContext } from "../../components/utils/DataProvider";
 
 const Index = ({ blocks, total, start, stop }) => {
   const ctx = useContext(DataContext);

@@ -2,10 +2,11 @@ import { Row, Col } from "react-bootstrap";
 import FlipMove from "react-flip-move";
 import LoadingOverlay from "react-loading-overlay";
 
-import Content from "./Content";
-import NodesApi from "./api/Nodes";
+import NodesApi from "../../libraries/explorer-wamp/Nodes";
 
-import NodeRow from "./nodes/NodeRow";
+import Content from "../utils/Content";
+
+import NodeRow from "./NodeRow";
 
 export default class extends React.Component {
   state = { loading: true, nodes: null };

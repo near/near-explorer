@@ -2,10 +2,10 @@ import { useContext } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import { DataConsumer, DataContext } from "../utils/DataProvider";
-import Search from "../utils/Search";
+import BlocksApi from "../../libraries/explorer-wamp/Blocks";
 
-import BlocksApi from "../api/Blocks";
+import { DataContext } from "../utils/DataProvider";
+import Search from "../utils/Search";
 
 const BlocksHeader = ({ setLoading }) => {
   const ctx = useContext(DataContext);

@@ -1,4 +1,4 @@
-import { call } from "../../api";
+import { call } from ".";
 
 const Accounts = {
   getAccountInfo: async id => {

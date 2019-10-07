@@ -1,4 +1,4 @@
-import TransactionsApi from "../api/Transactions";
+import TransactionsApi from "../../libraries/explorer-wamp/Transactions";
 
 import TransactionsList from "./TransactionsList";
 

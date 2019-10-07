@@ -1,4 +1,4 @@
-import { call } from "../../api";
+import { call } from ".";
 
 const Transactions = {
   getTransactions: async props => {

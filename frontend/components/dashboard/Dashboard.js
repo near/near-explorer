@@ -1,14 +1,11 @@
-import Link from "next/link";
-
 import { Row, Col } from "react-bootstrap";
 
-import Content from "./Content";
+import Content from "../utils/Content";
+import EmptyRow from "../utils/EmptyRow";
 
-import DashboardHeader from "./dashboard/DashboardHeader";
-import DashboardTransactions from "./dashboard/DashboardTransactions";
-import DashboardBlocks from "./dashboard/DashboardBlocks";
-
-import EmptyRow from "./utils/EmptyRow";
+import DashboardHeader from "./DashboardHeader";
+import DashboardTransactions from "./DashboardTransactions";
+import DashboardBlocks from "./DashboardBlocks";
 
 const Dashboard = () => (
   <Content title="Dashboard" border={false}>

@@ -1,12 +1,10 @@
 import Head from "next/head";
 
-import { Row, Col } from "react-bootstrap";
+import AccountApi from "../../libraries/explorer-wamp/Accounts";
 
-import AccountApi from "../../components/api/Accounts";
-
-import Account from "../../components/Account";
-import Content from "../../components/Content";
+import Account from "../../components/accounts/Account";
 import Transactions from "../../components/transactions/Transactions";
+import Content from "../../components/utils/Content";
 
 const AccountPage = props => (
   <>

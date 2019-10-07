@@ -1,8 +1,6 @@
-import Link from "next/link";
+import { Row, Col } from "react-bootstrap";
 
-import { Container, Row, Col } from "react-bootstrap";
-
-import Content from "./Content";
+import Content from "../utils/Content";
 
 const Accounts = () => (
   <Content title="Accounts" count="2113478">

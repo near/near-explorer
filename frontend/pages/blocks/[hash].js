@@ -1,10 +1,10 @@
 import Head from "next/head";
 
-import BlockApi from "../../components/api/Blocks";
+import BlockApi from "../../libraries/explorer-wamp/Blocks";
 
-import Block from "../../components/Block";
+import Block from "../../components/blocks/Block";
 
-const BlockPage = (props) => (
+const BlockPage = props => (
   <>
     <Head>
       <title>Near Explorer | Block</title>
@@ -13,12 +13,12 @@ const BlockPage = (props) => (
   </>
 );
 
-BlockPage.getInitialProps = async ({ query: { hash }}) => {
+BlockPage.getInitialProps = async ({ query: { hash } }) => {
   try {
     return await BlockApi.getBlockInfo(hash);
   } catch (err) {
     return {};
   }
-}
+};
 
 export default BlockPage;

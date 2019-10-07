@@ -1,4 +1,4 @@
-import { call } from "../../api";
+import { call } from ".";
 
 const Nodes = {
   getNodesInfo: async () => {

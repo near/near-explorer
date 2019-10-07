@@ -2,8 +2,8 @@ import App from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../components/utils/Header";
+import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";

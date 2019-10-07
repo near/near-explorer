@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { Row, Col, Card } from "react-bootstrap";
 
-import hexstring from "../utils/hexstring";
 import Timer from "../utils/Timer";
 
 const DashboardBlocksBlock = props => (

@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import Accounts from "../../components/Accounts";
+import Accounts from "../../components/accounts/Accounts";
 
 export default () => (
   <>

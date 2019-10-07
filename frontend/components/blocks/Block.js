@@ -3,8 +3,8 @@ import Link from "next/link";
 import moment from "moment";
 import { Row, Col, Card } from "react-bootstrap";
 
-import Content from "./Content";
-import EmptyRow from "./utils/EmptyRow";
+import Content from "../utils/Content";
+import EmptyRow from "../utils/EmptyRow";
 
 const BlockCard = props => (
   <Card
