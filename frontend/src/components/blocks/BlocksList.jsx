@@ -6,7 +6,6 @@ import BlocksRow from "./BlocksRow";
 
 export default class extends React.Component {
   componentDidMount() {
-    console.log("BLOCKS LIST DID MOUNT");
     this._blockLoader = document.getElementById("block-loader");
     document.addEventListener("scroll", this._onScroll);
 
@@ -24,7 +23,6 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log("BLOCKS LIST RENDER");
     const { blocks } = this.props;
 
     return (
@@ -82,7 +80,6 @@ export default class extends React.Component {
   };
 
   _getNextBatch = async pagination => {
-    console.log("GET NEXT BATCH", pagination);
     this.props.setLoading(true);
 
     let blocks = [];
