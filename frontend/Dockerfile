@@ -25,7 +25,7 @@ WORKDIR /near-explorer/frontend
 ENV HOME=/tmp \
     PORT=3000
 COPY --from=build /near-explorer/production_node_modules ./node_modules
-COPY --from=build /near-explorer/frontend/static ./static
+COPY --from=build /near-explorer/frontend/public ./public
 COPY --from=build /near-explorer/frontend/next.config.js ./
 COPY --from=build /near-explorer/frontend/.next ./.next
 
