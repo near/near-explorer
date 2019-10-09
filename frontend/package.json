@@ -24,27 +24,25 @@
     "autobahn": "19.7.3",
     "bootstrap": "^4.3.1",
     "moment": "^2.24.0",
-    "next": "^9.0.5",
-    "react": "^16.9.0",
-    "react-bootstrap": "^1.0.0-beta.12",
-    "react-dom": "^16.9.0",
+    "next": "^9.1.0",
+    "react": "^16.10.2",
+    "react-bootstrap": "^1.0.0-beta.14",
+    "react-dom": "^16.10.2",
     "react-flip-move": "^3.0.3",
     "react-loading-overlay": "^1.0.1",
-    "styled-components": "^4.3.2"
+    "styled-components": "^4.4.0"
   },
   "devDependencies": {
-    "@svgr/webpack": "^4.3.2",
+    "@svgr/webpack": "^4.3.3",
     "@types/autobahn": "^18.10.0",
-    "@types/node": "^12.7.4",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
-    "@zeit/next-typescript": "^1.1.1",
-    "autoprefixer": "^9.6.1",
+    "@types/node": "^12.7.11",
+    "@types/react": "^16.9.5",
+    "@types/react-dom": "^16.9.1",
+    "autoprefixer": "^9.6.4",
     "file-loader": "^3.0.1",
-    "fork-ts-checker-webpack-plugin": "^1.5.0",
     "postcss-easy-import": "^3.0.0",
     "postcss-url": "^8.0.0",
-    "typescript": "^3.6.2",
+    "typescript": "^3.6.3",
     "url-loader": "^1.1.2"
   }
 }
