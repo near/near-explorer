@@ -1,17 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ActionMessage /> renders AddKey 1`] = `"New key added for @receiver.test: ed25519:BgXFiJS..."`;
+exports[`<ActionMessage /> renders AddKey 1`] = `
+Array [
+  "New key added for ",
+  <a
+    className="account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    @receiver.test
+  </a>,
+  ": ed25519:BgXFiJS...",
+]
+`;
 
-exports[`<ActionMessage /> renders CreateAccount 1`] = `"New account created: @receiver.test"`;
+exports[`<ActionMessage /> renders CreateAccount 1`] = `
+Array [
+  "New account created: ",
+  <a
+    className="account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    @receiver.test
+  </a>,
+]
+`;
 
-exports[`<ActionMessage /> renders DeleteAccount 1`] = `"Account deleted: @receiver.test"`;
+exports[`<ActionMessage /> renders DeleteAccount 1`] = `
+Array [
+  "Account deleted: ",
+  <a
+    className="account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    @receiver.test
+  </a>,
+]
+`;
 
 exports[`<ActionMessage /> renders DeleteKey 1`] = `"Key deleted: ed25519:BgXFiJS..."`;
 
 exports[`<ActionMessage /> renders DeployContract 1`] = `"Contract deployed: receiver.test"`;
 
-exports[`<ActionMessage /> renders FunctionCall 1`] = `"Called method in contract: \\"receiver.test\\""`;
+exports[`<ActionMessage /> renders FunctionCall 1`] = `
+Array [
+  "Called method in contract: ",
+  <a
+    className="account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    @receiver.test
+  </a>,
+]
+`;
 
 exports[`<ActionMessage /> renders Stake 1`] = `"Staked: <0.00001 Ⓝ ed25519:BgXFiJS..."`;
 
-exports[`<ActionMessage /> renders Transfer 1`] = `"Transferred <0.00001 Ⓝ to @receiver.test"`;
+exports[`<ActionMessage /> renders Transfer 1`] = `
+Array [
+  "Transferred <0.00001 Ⓝ to ",
+  <a
+    className="account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    @receiver.test
+  </a>,
+]
+`;
