@@ -1,3 +1,7 @@
+// @ts-ignore
+// babel-plugin-inline-react-svg breaks without this "useless" import
+import React from "react";
+
 import CreateAccount from "../../../public/static/images/icon-t-acct.svg";
 import DeleteAccount from "../../../public/static/images/icon-t-key-delete.svg";
 import DeployContract from "../../../public/static/images/icon-t-contract.svg";
