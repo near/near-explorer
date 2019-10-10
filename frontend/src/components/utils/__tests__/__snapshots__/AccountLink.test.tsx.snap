@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AccountLink /> renders 1`] = `
+<a
+  className="account-link"
+  href="/accounts/test"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+>
+  @test
+</a>
+`;

@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
+import AccountLink from "../utils/AccountLink";
 import Timer from "../utils/Timer";
 import actionIcons from "./ActionIcons";
 import ActionMessage from "./ActionMessage";
@@ -63,7 +64,7 @@ export default class extends React.Component<Props, State> {
               </Row>
               <Row noGutters={true}>
                 <Col className="action-row-text">
-                  by @{transaction.signerId}
+                  by <AccountLink accountId={transaction.signerId} />
                 </Col>
               </Row>
             </Col>
@@ -138,12 +139,28 @@ export default class extends React.Component<Props, State> {
             color: #24272a;
           }
 
+          .action-row-title a {
+            color: #666;
+          }
+
+          .action-row-title a:hover {
+            color: #24272a;
+          }
+
           .action-row-text {
             font-family: BentonSans;
             font-size: 12px;
             font-weight: 500;
             line-height: 1.5;
             color: #999999;
+          }
+
+          .action-row-text a {
+            color: #999999;
+          }
+
+          .action-row-text a:hover {
+            color: #24272a;
           }
 
           .action-row-txid {

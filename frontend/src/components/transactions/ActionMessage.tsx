@@ -1,3 +1,4 @@
+import AccountLink from "../utils/AccountLink";
 import { formatNEAR } from "../utils/Balance";
 
 import * as T from "./types";
@@ -31,36 +32,56 @@ interface TransactionMessageRenderers {
 
 const transactionMessageRenderers: TransactionMessageRenderers = {
   CreateAccount: ({ transaction: { receiverId } }: Props<T.CreateAccount>) => (
-    <>{`New account created: @${receiverId}`}</>
+    <>
+      {"New account created: "}
+      <AccountLink accountId={receiverId} />
+    </>
   ),
   DeleteAccount: ({ transaction: { receiverId } }: Props<T.DeleteAccount>) => (
-    <>{`Account deleted: @${receiverId}`}</>
+    <>
+      {"Account deleted: "}
+      <AccountLink accountId={receiverId} />
+    </>
   ),
   DeployContract: ({
     transaction: { receiverId }
   }: Props<T.DeployContract>) => <>{`Contract deployed: ${receiverId}`}</>,
   FunctionCall: ({ transaction: { receiverId } }: Props<T.FunctionCall>) => (
-    <>{`Called method in contract: "${receiverId}"`}</>
+    <>
+      {"Called method in contract: "}
+      <AccountLink accountId={receiverId} />
+    </>
   ),
   Transfer: ({
     transaction: { receiverId },
     actionArgs: { deposit }
   }: Props<T.Transfer>) => (
-    <>{`Transferred ${formatNEAR(deposit)} Ⓝ to @${receiverId}`}</>
+    <>
+      {`Transferred ${formatNEAR(deposit)} Ⓝ to `}
+      <AccountLink accountId={receiverId} />
+    </>
   ),
   Stake: ({ actionArgs: { stake, public_key } }: Props<T.Stake>) => (
     <>{`Staked: ${formatNEAR(stake)} Ⓝ ${public_key.substring(0, 15)}...`}</>
   ),
   AddKey: ({ transaction: { receiverId }, actionArgs }: Props<T.AddKey>) => (
     <>
-      {typeof actionArgs.access_key.permission === "object"
-        ? `Access key added for contract: "${
-            actionArgs.access_key.permission.FunctionCall.receiver_id
-          }"`
-        : `New key added for @${receiverId}: ${actionArgs.public_key.substring(
-            0,
-            15
-          )}...`}
+      {typeof actionArgs.access_key.permission === "object" ? (
+        <>
+          {"Access key added for contract: "}
+          <AccountLink
+            accountId={
+              actionArgs.access_key.permission.FunctionCall.receiver_id
+            }
+          />
+        </>
+      ) : (
+        <>
+          {"New key added for "}
+          <AccountLink accountId={receiverId} />
+          {`: ${actionArgs.public_key.substring(0, 15)}...`}
+        </>
+      )}
     </>
   ),
   DeleteKey: ({ actionArgs: { public_key } }: Props<T.DeleteKey>) => (

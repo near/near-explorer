@@ -8,10 +8,10 @@ exports[`<ActionRow /> renders compact 1`] = `
     className="actions-icon-col col-1"
   >
     <div
-      className="jsx-2818130875 action-row-img"
+      className="jsx-2315684868 action-row-img"
     >
       <svg
-        className="jsx-2818130875"
+        className="jsx-2315684868"
         viewBox="0 0 18 18"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -37,7 +37,15 @@ exports[`<ActionRow /> renders compact 1`] = `
           <div
             className="action-row-title col"
           >
-            New account created: @receiver.test
+            New account created: 
+            <a
+              className="account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @receiver.test
+            </a>
           </div>
         </div>
         <div
@@ -46,8 +54,15 @@ exports[`<ActionRow /> renders compact 1`] = `
           <div
             className="action-row-text col"
           >
-            by @
-            signer.test
+            by 
+            <a
+              className="account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @signer.test
+            </a>
           </div>
         </div>
       </div>
@@ -70,7 +85,7 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-2818130875 action-row-timer-status"
+              className="jsx-2315684868 action-row-timer-status"
             >
               Completed
             </span>
@@ -94,10 +109,10 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     className="actions-icon-col col-1"
   >
     <div
-      className="jsx-2818130875 action-row-img"
+      className="jsx-2315684868 action-row-img"
     >
       <svg
-        className="jsx-2818130875"
+        className="jsx-2315684868"
         viewBox="0 0 18 18"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -108,7 +123,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
       </svg>
     </div>
     <img
-      className="jsx-2818130875 action-row-toggler"
+      className="jsx-2315684868 action-row-toggler"
       src="/static/images/icon-arrow-right.svg"
     />
   </div>
@@ -127,7 +142,15 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
           <div
             className="action-row-title col"
           >
-            New account created: @receiver.test
+            New account created: 
+            <a
+              className="account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @receiver.test
+            </a>
           </div>
         </div>
         <div
@@ -136,8 +159,15 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
           <div
             className="action-row-text col"
           >
-            by @
-            signer.test
+            by 
+            <a
+              className="account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @signer.test
+            </a>
           </div>
         </div>
       </div>
@@ -160,7 +190,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-2818130875 action-row-timer-status"
+              className="jsx-2315684868 action-row-timer-status"
             >
               Completed
             </span>
