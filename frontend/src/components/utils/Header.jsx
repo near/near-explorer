@@ -8,10 +8,12 @@ export default () => (
   <Container fluid="true" className="near-main-container">
     <Row className="header-container">
       <Col xs="2" className="px-0 d-md-none align-self-center">
-        <img
-          className="near-main-logo-mobile"
-          src="/static/images/near_icon_wht.svg"
-        />
+        <Link href="/">
+          <img
+            className="near-main-logo-mobile"
+            src="/static/images/near_icon_wht.svg"
+          />
+        </Link>
       </Col>
 
       <Col md="auto" xs="6" className="pl-0  d-none d-sm-block ">
@@ -73,6 +75,7 @@ export default () => (
 
       .near-main-logo {
         width: 220px !important;
+        cursor: pointer;
       }
 
       .near-main-container {
