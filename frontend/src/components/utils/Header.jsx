@@ -1,4 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
+import Link from "next/link";
 
 import HeaderDropdownNav from "./HeaderDropdownNav";
 import HeaderNavItem from "./HeaderNavItem";
@@ -14,7 +15,9 @@ export default () => (
       </Col>
 
       <Col md="auto" xs="6" className="pl-0  d-none d-sm-block ">
-        <img className="near-main-logo" src="/static/images/explorer.png" />
+        <Link href="/">
+          <img className="near-main-logo" src="/static/images/explorer.png" />
+        </Link>
       </Col>
 
       <HeaderNavItem
