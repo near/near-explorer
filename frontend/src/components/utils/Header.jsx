@@ -9,16 +9,20 @@ export default () => (
     <Row className="header-container">
       <Col xs="2" className="px-0 d-md-none align-self-center">
         <Link href="/">
-          <img
-            className="near-main-logo-mobile"
-            src="/static/images/near_icon_wht.svg"
-          />
+          <a>
+            <img
+              className="near-main-logo-mobile"
+              src="/static/images/near_icon_wht.svg"
+            />
+          </a>
         </Link>
       </Col>
 
       <Col md="auto" xs="6" className="pl-0  d-none d-sm-block ">
         <Link href="/">
-          <img className="near-main-logo" src="/static/images/explorer.png" />
+          <a>
+            <img className="near-main-logo" src="/static/images/explorer.png" />
+          </a>
         </Link>
       </Col>
 
@@ -75,7 +79,6 @@ export default () => (
 
       .near-main-logo {
         width: 220px !important;
-        cursor: pointer;
       }
 
       .near-main-container {
