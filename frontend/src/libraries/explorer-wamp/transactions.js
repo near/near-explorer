@@ -45,5 +45,5 @@ export async function getTransactions(filters) {
 }
 
 export async function getLatestTransactionsInfo() {
-  return getTransactions();
+  return getTransactions({});
 }
