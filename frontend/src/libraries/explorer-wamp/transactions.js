@@ -4,10 +4,10 @@ export async function getTransactions(filters) {
   const { signerId, receiverId, transactionHash, blockHash } = filters;
   const whereClause = [];
   if (signerId) {
-    whereClause.push(`transactions.signerId = :signerId`);
+    whereClause.push(`transactions.signer_id = :signerId`);
   }
   if (receiverId) {
-    whereClause.push(`transactions.receiverId = :receiverId`);
+    whereClause.push(`transactions.receiver_id = :receiverId`);
   }
   if (transactionHash) {
     whereClause.push(`transactions.hash = :transactionHash`);
