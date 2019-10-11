@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardCell /> renders 1`] = `
+<div
+  className="card-cell  card"
+>
+  <div
+    className="card-body"
+  >
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="card-cell-title align-self-center col-md-12 col-auto"
+      >
+        title
+      </div>
+      <div
+        className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+      >
+        text
+      </div>
+    </div>
+  </div>
+</div>
+`;

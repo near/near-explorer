@@ -25,7 +25,8 @@ export default class extends React.PureComponent {
   fetchTransactions = async () => {
     const transactions = await TransactionsApi.getTransactions({
       signerId: this.props.account,
-      receiverId: this.props.account
+      receiverId: this.props.account,
+      blockHash: this.props.blockHash
     });
     this.setState({ transactions });
   };
