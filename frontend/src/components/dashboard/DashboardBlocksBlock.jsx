@@ -17,7 +17,7 @@ export default props => (
               <img src="/static/images/icon-m-transaction.svg" />
               {props.transactionsCount}
             </p>
-            <Row noGutters="true">
+            <Row noGutters>
               <Col md="7" xs="7">
                 <span className="dashboard-blocks-block-content-p-footer">
                   {props.blockHash.slice(0, 6)}...

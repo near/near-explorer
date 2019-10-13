@@ -1,9 +1,20 @@
+import React from "react";
+
 import * as TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
 import TransactionsList from "./TransactionsList";
 
-export default class extends React.PureComponent {
-  state = {
+export interface Props {
+  accountId?: string;
+  blockHash?: string;
+}
+
+export interface State {
+  transactions: TransactionsApi.Transaction[] | null;
+}
+
+export default class extends React.PureComponent<Props, State> {
+  state: State = {
     transactions: null
   };
 
@@ -16,16 +27,17 @@ export default class extends React.PureComponent {
   }
 
   render() {
-    if (this.state.transactions === null) {
+    const { transactions } = this.state;
+    if (transactions === null) {
       return null;
     }
-    return <TransactionsList transactions={this.state.transactions} />;
+    return <TransactionsList transactions={transactions} />;
   }
 
   fetchTransactions = async () => {
     const transactions = await TransactionsApi.getTransactions({
-      signerId: this.props.account,
-      receiverId: this.props.account,
+      signerId: this.props.accountId,
+      receiverId: this.props.accountId,
       blockHash: this.props.blockHash
     });
     this.setState({ transactions });

@@ -5,7 +5,7 @@ import HeaderDropdownNav from "./HeaderDropdownNav";
 import HeaderNavItem from "./HeaderNavItem";
 
 export default () => (
-  <Container fluid="true" className="near-main-container">
+  <Container fluid className="near-main-container">
     <Row className="header-container">
       <Col xs="2" className="px-0 d-md-none align-self-center">
         <Link href="/">
@@ -71,6 +71,42 @@ export default () => (
       @font-face {
         font-family: "BentonSans";
         src: url("/static/fonts/BentonSans-Medium.otf") format("opentype");
+      }
+
+      @font-face {
+        font-family: "BwSeidoRound";
+        font-weight: 500;
+        src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Medium.otf")
+          format("opentype");
+      }
+
+      @font-face {
+        font-family: "BwSeidoRound";
+        font-weight: 300;
+        src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Light.otf")
+          format("opentype");
+      }
+
+      @font-face {
+        font-family: "BwSeidoRound";
+        font-weight: 400;
+        src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Regular.otf")
+          format("opentype");
+      }
+
+      h1,
+      h2 {
+        font-family: BwSeidoRound;
+        font-weight: 500;
+        color: #24272a;
+      }
+
+      h1 {
+        font-size: 48px;
+      }
+
+      h2 {
+        font-size: 24px;
       }
 
       .header-container {

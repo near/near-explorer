@@ -32,12 +32,8 @@ export default class extends React.Component {
         text="Loading blocks..."
       >
         <div id="block-loader">
-          {blocks.map((block, index) => (
-            <BlocksRow
-              key={block.hash}
-              block={block}
-              cls={blocks.length - 1 === index ? "transaction-row-bottom" : ""}
-            />
+          {blocks.map(block => (
+            <BlocksRow key={block.hash} block={block} />
           ))}
         </div>
       </LoadingOverlay>

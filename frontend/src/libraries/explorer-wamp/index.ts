@@ -87,15 +87,15 @@ export async function subscribe(
   return await session.subscribe(topic, handler, options);
 }
 
-export async function call(
+export async function call<T>(
   procedure: string,
   args?: any[] | any,
   kwargs?: any,
   options?: autobahn.ICallOptions
-): Promise<unknown> {
+): Promise<T> {
   if (procedure[0] === ".") {
     procedure = "com.nearprotocol.explorer" + procedure;
   }
   const session = await getWampSession();
-  return await session.call(procedure, args, kwargs, options);
+  return (await session.call(procedure, args, kwargs, options)) as T;
 }

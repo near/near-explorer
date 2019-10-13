@@ -14,7 +14,7 @@ export default ({ block }) => {
               <CardCell
                 title="Transactions"
                 imgLink="/static/images/icon-m-transaction.svg"
-                text={block.transactionsCount}
+                text={block.transactionsCount.toLocaleString()}
                 className="border-0"
               />
             </Col>

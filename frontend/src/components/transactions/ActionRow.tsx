@@ -2,16 +2,19 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
+import TransactionLink from "../utils/TransactionLink";
 import Timer from "../utils/Timer";
 import actionIcons from "./ActionIcons";
 import ActionMessage from "./ActionMessage";
-import * as T from "./types";
+import * as T from "../../libraries/explorer-wamp/transactions";
+
+export type ViewMode = "sparse" | "compact";
 
 export interface Props {
-  viewMode: "sparse" | "compact";
-  className: string;
-  transaction: T.Transaction;
   action: T.Action | keyof T.Action;
+  transaction: T.Transaction;
+  viewMode: ViewMode;
+  className: string;
 }
 
 export interface State {}
@@ -37,11 +40,8 @@ export default class extends React.Component<Props, State> {
 
     const ActionIcon = actionIcons[actionKind];
     return (
-      <Row
-        noGutters={true}
-        className={`action-${viewMode}-row mx-0 ${className}`}
-      >
-        <Col xs="1" className="actions-icon-col">
+      <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
+        <Col xs="auto" className="actions-icon-col">
           <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
           {viewMode === "sparse" ? (
             <img
@@ -50,10 +50,10 @@ export default class extends React.Component<Props, State> {
             />
           ) : null}
         </Col>
-        <Col md="11" xs="11" className="action-row-details">
-          <Row noGutters={true}>
+        <Col className="action-row-details">
+          <Row noGutters>
             <Col md="8" xs="7">
-              <Row noGutters={true}>
+              <Row noGutters>
                 <Col className="action-row-title">
                   <ActionMessage
                     transaction={transaction}
@@ -62,7 +62,7 @@ export default class extends React.Component<Props, State> {
                   />
                 </Col>
               </Row>
-              <Row noGutters={true}>
+              <Row noGutters>
                 <Col className="action-row-text">
                   by <AccountLink accountId={transaction.signerId} />
                 </Col>
@@ -71,7 +71,7 @@ export default class extends React.Component<Props, State> {
             <Col md="4" xs="5" className="ml-auto text-right">
               <Row>
                 <Col className="action-row-txid">
-                  {`${transaction.hash.substring(0, 7)}...`}
+                  <TransactionLink transactionHash={transaction.hash} />
                 </Col>
               </Row>
               <Row>

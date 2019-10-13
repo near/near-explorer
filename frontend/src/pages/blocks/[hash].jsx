@@ -1,5 +1,9 @@
 import Head from "next/head";
 
+import React from "react";
+
+import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+
 import * as BlockApi from "../../libraries/explorer-wamp/blocks";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
@@ -21,18 +25,16 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Block</title>
         </Head>
-        <Content title={`Block #${this.props.height}`} border={false}>
+        <Content
+          title={<h1>{`Block #${this.props.height}`}</h1>}
+          border={false}
+        >
           <BlockDetails block={this.props} />
         </Content>
         <Content
           size="medium"
-          icon={
-            <img
-              src="/static/images/icon-t-transactions.svg"
-              style={{ width: "22px", marginTop: "5px" }}
-            />
-          }
-          title={`Transactions`}
+          icon={<TransactionIcon style={{ width: "22px" }} />}
+          title={<h2>Transactions</h2>}
         >
           <Transactions blockHash={this.props.hash} />
         </Content>

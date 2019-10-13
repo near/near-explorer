@@ -1,14 +1,17 @@
 import renderer from "react-test-renderer";
 
-import ActionRow from "../ActionRow";
+import ActionsList from "../ActionsList";
 
 import { TRANSACTIONS } from "./common";
 
-describe("<ActionRow />", () => {
+describe("<ActionsList />", () => {
   it("renders sparsely by default", () => {
     expect(
       renderer.create(
-        <ActionRow transaction={TRANSACTIONS[0]} action={"CreateAccount"} />
+        <ActionsList
+          transaction={TRANSACTIONS[0]}
+          actions={TRANSACTIONS[0].actions}
+        />
       )
     ).toMatchSnapshot();
   });
@@ -16,10 +19,10 @@ describe("<ActionRow />", () => {
   it("renders compact", () => {
     expect(
       renderer.create(
-        <ActionRow
+        <ActionsList
           viewMode="compact"
           transaction={TRANSACTIONS[0]}
-          action={"CreateAccount"}
+          actions={TRANSACTIONS[0].actions}
         />
       )
     ).toMatchSnapshot();

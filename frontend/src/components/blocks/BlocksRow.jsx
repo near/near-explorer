@@ -66,10 +66,6 @@ const BlocksRow = props => (
             background: rgba(0, 0, 0, 0.1);
           }
 
-          .transaction-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
           .transaction-row-title {
             font-family: BentonSans;
             font-size: 14px;

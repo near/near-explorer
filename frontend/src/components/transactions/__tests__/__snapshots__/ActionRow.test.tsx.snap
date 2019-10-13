@@ -5,7 +5,7 @@ exports[`<ActionRow /> renders compact 1`] = `
   className="action-compact-row mx-0  row no-gutters"
 >
   <div
-    className="actions-icon-col col-1"
+    className="actions-icon-col col-auto"
   >
     <div
       className="jsx-2315684868 action-row-img"
@@ -23,7 +23,7 @@ exports[`<ActionRow /> renders compact 1`] = `
     </div>
   </div>
   <div
-    className="action-row-details col-md-11 col-11"
+    className="action-row-details col"
   >
     <div
       className="row no-gutters"
@@ -75,7 +75,14 @@ exports[`<ActionRow /> renders compact 1`] = `
           <div
             className="action-row-txid col"
           >
-            BvJeW6g...
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
           </div>
         </div>
         <div
@@ -106,7 +113,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
   className="action-sparse-row mx-0  row no-gutters"
 >
   <div
-    className="actions-icon-col col-1"
+    className="actions-icon-col col-auto"
   >
     <div
       className="jsx-2315684868 action-row-img"
@@ -128,7 +135,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     />
   </div>
   <div
-    className="action-row-details col-md-11 col-11"
+    className="action-row-details col"
   >
     <div
       className="row no-gutters"
@@ -180,7 +187,14 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
           <div
             className="action-row-txid col"
           >
-            BvJeW6g...
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
           </div>
         </div>
         <div
