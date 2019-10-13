@@ -1,6 +1,10 @@
+import React from "react";
+
 import Link from "next/link";
 
 import { Row, Col } from "react-bootstrap";
+
+import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
@@ -8,26 +12,11 @@ export default ({ blocks }) => (
   <>
     <Row>
       <Col xs="1">
-        <svg
-          width="26"
-          height="26"
-          viewBox="0 0 38 38"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g
-            fill="none"
-            stroke="#CCC"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-          >
-            <path d="m1 1h27v27h-27z" />
-            <circle cx="22" cy="22" r="12" />
-            <path d="m30.49 30.49 6.51 6.51" />
-          </g>
-        </svg>
+        <IconBlocks className="dashboard-blocks-icon" />
       </Col>
-      <Col className="dashboard-transactions-title">Recent Blocks</Col>
+      <Col className="dashboard-blocks-title">
+        <h2>Recent Blocks</h2>
+      </Col>
     </Row>
     <Row>
       <Col xs="1">
@@ -57,6 +46,15 @@ export default ({ blocks }) => (
       </Col>
     </Row>
     <style jsx global>{`
+      .dashboard-blocks-icon {
+        width: 22px;
+        margin-top: 6px;
+      }
+
+      .dashboard-blocks-icon g {
+        stroke: #aaa;
+      }
+
       .dashboard-blocks-hr-parent {
         width: 26px;
         height: 100%;

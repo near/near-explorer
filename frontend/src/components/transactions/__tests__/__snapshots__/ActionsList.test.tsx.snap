@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ActionsList /> renders compact 1`] = `null`;
+
+exports[`<ActionsList /> renders sparsely by default 1`] = `null`;

@@ -2,6 +2,8 @@ import App from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 
+import { Container } from "react-bootstrap";
+
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
@@ -40,12 +42,28 @@ export default class extends App {
         </Head>
         <DataProvider>
           <Header />
-          <Component {...pageProps} />
+          <div className="page">
+            <Container>
+              <Component {...pageProps} />
+            </Container>
+          </div>
           <Footer />
         </DataProvider>
         <style jsx global>{`
           body {
             background-color: #f8f8f8;
+          }
+
+          a {
+            text-decoration: none;
+          }
+
+          a:hover {
+            text-decoration: none;
+          }
+
+          .page {
+            background: white;
           }
         `}</style>
         {googleAnalytics ? (

@@ -11,7 +11,6 @@ import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardTransactions from "../components/dashboard/DashboardTransactions";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import Content from "../components/utils/Content";
-import { DataContext } from "../components/utils/DataProvider";
 
 export default class extends React.Component {
   static async getInitialProps() {
@@ -32,9 +31,9 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Dashboard</title>
         </Head>
-        <Content title="Dashboard" border={false}>
+        <Content title={<h1>Dashboard</h1>} border={false}>
           <DashboardHeader {...this.props.details} />
-          <Row noGutters="true" className="dashboard-section">
+          <Row noGutters className="dashboard-section">
             <Col md="8">
               <DashboardTransactions transactions={this.props.transactions} />
             </Col>
@@ -45,18 +44,6 @@ export default class extends React.Component {
           <style jsx global>{`
             .dashboard-section {
               margin-top: 1.5em;
-            }
-
-            .dashboard-footer:hover {
-              text-decoration: none;
-            }
-
-            a {
-              text-decoration: none;
-            }
-
-            a:hover {
-              text-decoration: none;
             }
           `}</style>
         </Content>

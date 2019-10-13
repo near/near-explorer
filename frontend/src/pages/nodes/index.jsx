@@ -10,7 +10,7 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Nodes</title>
         </Head>
-        <Content title="Nodes">
+        <Content title={<h1>Nodes</h1>}>
           <Nodes />
         </Content>
       </>

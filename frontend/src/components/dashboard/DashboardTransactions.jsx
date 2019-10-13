@@ -1,48 +1,31 @@
 import Link from "next/link";
 
+import React from "react";
+
+import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+
 import { Row, Col } from "react-bootstrap";
 
-import ActionRow from "../transactions/ActionRow";
+import Content from "../utils/Content";
+import TransactionsList from "../transactions/TransactionsList";
 
 export default ({ transactions }) => (
-  <>
-    <Row>
-      <Col xs="1" md="auto" className="dashboard-transactions-icon-col">
-        <img
-          src="/static/images/icon-t-transactions.svg"
-          style={{ width: "22px" }}
-        />
-      </Col>
-      <Col className="px-md-0 dashboard-transactions-title">
-        Recent Transactions
-      </Col>
-    </Row>
-    <Row>
-      <Col xs="1" md="1" className="pr-0">
+  <Content
+    title={<h2>Recent Transactions</h2>}
+    icon={<TransactionIcon style={{ width: "22px" }} />}
+    size="medium"
+    border={false}
+    className="dashboard-transactions"
+  >
+    <Row className="px-0">
+      <Col xs="1" className="pr-0">
         <div className="dashboard-blocks-hr-parent">
           <div className="dashboard-blocks-hr" />
         </div>
       </Col>
-      <Col xs="11" md="11" className="px-0 dashboard-transactions-list">
-        {transactions.flatMap((transaction, transactionIndex) =>
-          transaction.actions
-            .reverse()
-            .map((action, actionIndex) => (
-              <ActionRow
-                key={transaction.hash + actionIndex}
-                viewMode="compact"
-                transaction={transaction}
-                action={action}
-                className={
-                  transactions.length - 1 === transactionIndex &&
-                  transaction.actions.length - 1 === actionIndex
-                    ? "transaction-row-bottom"
-                    : ""
-                }
-              />
-            ))
-        )}
-        <Row noGutters="true">
+      <Col xs="11" className="px-0 dashboard-transactions-list">
+        <TransactionsList transactions={transactions} viewMode="compact" />
+        <Row noGutters>
           <Col xs="1" className="dashboard-transactions-icon-col" />
           <Col xs="6">
             <Link href="transactions">
@@ -53,11 +36,9 @@ export default ({ transactions }) => (
       </Col>
     </Row>
     <style jsx global>{`
-      .dashboard-transactions-title {
-        font-family: BwSeidoRound;
-        font-size: 24px;
-        font-weight: 500;
-        color: #24272a;
+      .dashboard-transactions,
+      .dashboard-transactions .content-header {
+        padding: 0;
       }
 
       .dashboard-transactions-list {
@@ -105,5 +86,5 @@ export default ({ transactions }) => (
         }
       }
     `}</style>
-  </>
+  </Content>
 );

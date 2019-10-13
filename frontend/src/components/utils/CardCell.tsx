@@ -10,7 +10,7 @@ export interface Props {
 export default ({ title, imgLink, text, className }: Props) => (
   <Card className={`card-cell ${className || ""}`}>
     <Card.Body>
-      <Row noGutters={true}>
+      <Row noGutters>
         <Col xs="auto" md="12" className="card-cell-title align-self-center">
           {imgLink && <img src={imgLink} className="card-cell-title-img" />}
           {title}

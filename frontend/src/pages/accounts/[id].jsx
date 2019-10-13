@@ -1,5 +1,9 @@
 import Head from "next/head";
 
+import React from "react";
+
+import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+
 import * as AccountApi from "../../libraries/explorer-wamp/accounts";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
@@ -21,11 +25,7 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Account</title>
         </Head>
-        <Content
-          title={`Account: @${this.props.id}`}
-          border={false}
-          style={{ paddingBottom: "1em" }}
-        >
+        <Content title={<h1>{`Account: @${this.props.id}`}</h1>} border={false}>
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
@@ -34,15 +34,10 @@ export default class extends React.Component {
         </Content>
         <Content
           size="medium"
-          icon={
-            <img
-              src="/static/images/icon-t-transactions.svg"
-              style={{ width: "22px", marginTop: "5px" }}
-            />
-          }
-          title={`Transactions`}
+          icon={<TransactionIcon style={{ width: "22px" }} />}
+          title={<h2>Transactions</h2>}
         >
-          <Transactions account={this.props.id} />
+          <Transactions accountId={this.props.id} />
         </Content>
       </>
     );

@@ -1,7 +1,7 @@
 import AccountLink from "../utils/AccountLink";
 import { formatNEAR } from "../utils/Balance";
 
-import * as T from "./types";
+import * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props<A> {
   actionKind: keyof TransactionMessageRenderers;

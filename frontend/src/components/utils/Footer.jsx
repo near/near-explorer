@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 
 export default () => (
-  <Container fluid="true" className="near-main-container">
+  <Container fluid className="near-main-container">
     <Row className="footer-container">
       <Col className="align-self-center text-center px-0" xs="12" md="2">
         <img className="near-logo" src="/static/images/near.svg" />
@@ -25,7 +25,7 @@ export default () => (
       </Col>
       <Col className="text-right d-none d-sm-block ml-auto" md="2">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
-          <Row noGutters="true">
+          <Row noGutters>
             <Col md="2">
               <img
                 className="help-image img-responsive"

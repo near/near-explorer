@@ -2,12 +2,7 @@ import renderer from "react-test-renderer";
 
 import ActionMessage from "../ActionMessage";
 
-const TRANSACTION = {
-  hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
-  signerId: "signer.test",
-  receiverId: "receiver.test",
-  blockTimestamp: +new Date(2019, 1, 1)
-};
+import { TRANSACTIONS } from "./common";
 
 describe("<ActionMessage />", () => {
   it("renders CreateAccount", () => {
@@ -16,7 +11,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"CreateAccount"}
           actionArgs={{}}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
@@ -28,7 +23,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"DeleteAccount"}
           actionArgs={{}}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
@@ -40,7 +35,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"DeployContract"}
           actionArgs={{}}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
@@ -52,7 +47,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"FunctionCall"}
           actionArgs={{}}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
@@ -64,7 +59,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"Transfer"}
           actionArgs={{ deposit: "1" }}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
@@ -79,7 +74,7 @@ describe("<ActionMessage />", () => {
             stake: "1",
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx"
           }}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
@@ -94,7 +89,7 @@ describe("<ActionMessage />", () => {
             access_key: {},
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx"
           }}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
@@ -108,7 +103,7 @@ describe("<ActionMessage />", () => {
           actionArgs={{
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx"
           }}
-          transaction={TRANSACTION}
+          transaction={TRANSACTIONS[0]}
         />
       )
     ).toMatchSnapshot();
