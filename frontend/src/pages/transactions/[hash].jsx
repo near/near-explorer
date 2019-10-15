@@ -1,16 +1,52 @@
 import Head from "next/head";
 
+import React from "react";
+
+import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+
+import * as TransactionApi from "../../libraries/explorer-wamp/transactions";
+
+import ActionsList from "../../components/transactions/ActionsList";
+import TransactionDetails from "../../components/transactions/TransactionDetails";
+import Content from "../../components/utils/Content";
+
 export default class extends React.Component {
   static async getInitialProps({ query: { hash } }) {
-    return { hash };
+    try {
+      return await TransactionApi.getTransactionInfo(hash);
+    } catch (err) {
+      return { hash, err };
+    }
   }
 
   render() {
+    const { hash } = this.props;
     return (
       <>
         <Head>
-          <title>Near Explorer | Transactions</title>
+          <title>Near Explorer | Transaction</title>
         </Head>
+        <Content
+          title={
+            <h1>{`Transaction: ${hash.substring(0, 7)}...${hash.substring(
+              hash.length - 4
+            )}`}</h1>
+          }
+          border={false}
+        >
+          {this.props.err ? (
+            `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
+          ) : (
+            <TransactionDetails transaction={this.props} />
+          )}
+        </Content>
+        <Content
+          size="medium"
+          icon={<TransactionIcon style={{ width: "22px" }} />}
+          title={<h2>Actions</h2>}
+        >
+          <ActionsList actions={this.props.actions} transaction={this.props} />
+        </Content>
       </>
     );
   }
