@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   frontend-test:
-    name: Frontend testing
+    name: Frontend unit testing
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -13,6 +13,24 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run unit tests
         run: cd frontend && npm install && npm run test
+
+  frontend-e2e-test:
+    name: Frontend e2e testing
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node: [10]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Packages
+        run: cd frontend && npm install
+      - name: Build Project
+        run: cd frontend && npm run build
+      - name: Run Cypress
+        run: cd frontend && npm run test:ci
+        env:
+          CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
 
   backend-test:
     name: Backend testing

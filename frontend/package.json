@@ -8,6 +8,16 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "e2e:test": "npm start & cypress run",
+    "e2e": "cypress run",
+    "e2e:chrome": "cypress run --browser chrome",
+    "e2e:record": "cypress run --record",
+    "e2e:record:parallel": "cypress run --record --parallel",
+    "cy:verify": "cypress verify",
+    "cy:version": "cypress version",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:ci": "start-server-and-test start:dev 3000 cy:run",
     "start:dev": "env WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws next"
   },
   "repository": {
@@ -53,6 +63,10 @@
     "postcss-url": "^8.0.0",
     "react-test-renderer": "^16.10.2",
     "typescript": "^3.6.3",
-    "url-loader": "^1.1.2"
+    "url-loader": "^1.1.2",
+    "wait-on": "^3.3.0",
+    "cypress": "^3.4.1",
+    "cypress-cucumber-preprocessor": "^1.16.0",
+    "start-server-and-test": "^1.10.2"
   }
 }
