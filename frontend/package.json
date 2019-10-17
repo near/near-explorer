@@ -16,7 +16,7 @@
     "cy:verify": "cypress verify",
     "cy:version": "cypress version",
     "cy:open": "cypress open",
-    "cy:run": "npm cypress run --record --key $CYPRESS_DASHBOARD_KEY",
+    "cy:run": "cypress run --record --key $CYPRESS_DASHBOARD_KEY",
     "test:ci": "start-server-and-test start:dev 3000 cy:run",
     "start:dev": "env WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws next"
   },
