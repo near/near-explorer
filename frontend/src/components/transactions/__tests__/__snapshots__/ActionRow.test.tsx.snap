@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ActionRow /> renders compact 1`] = `
+<div
+  className="action-compact-row mx-0  row no-gutters"
+>
+  <div
+    className="actions-icon-col col-auto"
+  >
+    <div
+      className="jsx-2315684868 action-row-img"
+    >
+      <svg
+        className="jsx-2315684868"
+        viewBox="0 0 18 18"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.26 9l-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
+          fill="#0071ce"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="action-row-details col"
+  >
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="col-md-8 col-7"
+      >
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="action-row-title col"
+          >
+            New account created: 
+            <a
+              className="account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @receiver.test
+            </a>
+          </div>
+        </div>
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="action-row-text col"
+          >
+            by 
+            <a
+              className="account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @signer.test
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="action-row-txid col"
+          >
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="action-row-timer col"
+          >
+            <span
+              className="jsx-2315684868 action-row-timer-status"
+            >
+              Completed
+            </span>
+             
+            <span>
+              1s ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ActionRow /> renders sparsely by default 1`] = `
+<div
+  className="action-sparse-row mx-0  row no-gutters"
+>
+  <div
+    className="actions-icon-col col-auto"
+  >
+    <div
+      className="jsx-2315684868 action-row-img"
+    >
+      <svg
+        className="jsx-2315684868"
+        viewBox="0 0 18 18"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M11.26 9l-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
+          fill="#0071ce"
+        />
+      </svg>
+    </div>
+    <img
+      className="jsx-2315684868 action-row-toggler"
+      src="/static/images/icon-arrow-right.svg"
+    />
+  </div>
+  <div
+    className="action-row-details col"
+  >
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="col-md-8 col-7"
+      >
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="action-row-title col"
+          >
+            New account created: 
+            <a
+              className="account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @receiver.test
+            </a>
+          </div>
+        </div>
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="action-row-text col"
+          >
+            by 
+            <a
+              className="account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @signer.test
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="action-row-txid col"
+          >
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="action-row-timer col"
+          >
+            <span
+              className="jsx-2315684868 action-row-timer-status"
+            >
+              Completed
+            </span>
+             
+            <span>
+              1s ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

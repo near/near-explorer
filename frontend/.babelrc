@@ -1,6 +1,4 @@
 {
-  "presets": [
-    "next/babel",
-    "@zeit/next-typescript/babel"
-  ]
+  "plugins": ["inline-react-svg"],
+  "presets": ["next/babel"]
 }
