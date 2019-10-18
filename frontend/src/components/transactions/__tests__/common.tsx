@@ -24,6 +24,35 @@ export const TRANSACTIONS: T.Transaction[] = [
           public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx"
         } as T.AddKey
       } as T.Action
+    ],
+    receipts: [
+      {
+        hash: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+        result: {
+          logs: [],
+          receipts: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
+          result: null,
+          status: "Completed"
+        }
+      },
+      {
+        hash: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
+        result: {
+          logs: ["LOG: Counter is now: 1"],
+          receipts: ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp"],
+          result: "",
+          status: "Completed"
+        }
+      },
+      {
+        hash: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp",
+        result: {
+          logs: [],
+          receipts: [],
+          result: "",
+          status: "Completed"
+        }
+      }
     ]
   },
 
@@ -43,6 +72,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           method_name: "addMessage"
         }
       } as T.Action
-    ]
+    ],
+    receipts: []
   }
 ];

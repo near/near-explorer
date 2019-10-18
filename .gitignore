@@ -62,3 +62,6 @@ typings/
 
 # backend ignores
 backend/db
+
+# frontend ignores
+frontend/cypress/videos

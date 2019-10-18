@@ -59,7 +59,23 @@ export interface Actions {
   actions: (Action | keyof Action)[];
 }
 
-export type Transaction = TransactionInfo & Actions;
+export interface ReceiptResult {
+  logs: string[];
+  receipts: string[];
+  result: string | null;
+  status: "Completed";
+}
+
+export interface Receipt {
+  hash: string;
+  result: ReceiptResult;
+}
+
+export interface Receipts {
+  receipts?: Receipt[];
+}
+
+export type Transaction = TransactionInfo & Actions & Receipts;
 
 export interface FilterArgs {
   signerId?: string;
@@ -122,5 +138,23 @@ export async function getLatestTransactionsInfo(): Promise<Transaction[]> {
 export async function getTransactionInfo(
   transactionHash: string
 ): Promise<Transaction | null> {
-  return (await getTransactions({ transactionHash, limit: 1 }))[0] || null;
+  try {
+    const [transactionInfo, transactionExtraInfo] = await Promise.all([
+      getTransactions({ transactionHash, limit: 1 }).then(it => it[0] || null),
+      call<any>(".nearcore-tx", [transactionHash])
+    ]);
+
+    if (transactionInfo === null) {
+      return null;
+    }
+    const transaction = transactionInfo;
+    transaction.receipts = transactionExtraInfo.transactions as Receipt[];
+    return transaction;
+  } catch (error) {
+    console.error(
+      "Transactions.getTransactionInfo failed to fetch data due to:"
+    );
+    console.error(error);
+    throw error;
+  }
 }
