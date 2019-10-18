@@ -15,7 +15,12 @@ export interface DeleteAccount {}
 
 export interface DeployContract {}
 
-export interface FunctionCall {}
+export interface FunctionCall {
+  args: string;
+  deposit: string;
+  gas: number;
+  method_name: string;
+}
 
 export interface Transfer {
   deposit: string;
@@ -51,7 +56,7 @@ interface StringActions {
 }
 
 export interface Actions {
-  actions: Action[];
+  actions: (Action | keyof Action)[];
 }
 
 export type Transaction = TransactionInfo & Actions;
@@ -61,7 +66,8 @@ export interface FilterArgs {
   receiverId?: string;
   transactionHash?: string;
   blockHash?: string;
-  limit?: number;
+  reversed?: boolean;
+  limit: number;
 }
 
 export async function getTransactions(
@@ -81,9 +87,6 @@ export async function getTransactions(
   if (blockHash) {
     whereClause.push(`transactions.block_hash = :blockHash`);
   }
-  if (!filters.limit) {
-    filters.limit = 10;
-  }
   try {
     const transactions = await call<
       (TransactionInfo & (StringActions | Actions))[]
@@ -92,7 +95,7 @@ export async function getTransactions(
         FROM transactions
         LEFT JOIN blocks ON blocks.hash = transactions.block_hash
         ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-        ORDER BY blocks.height DESC
+        ORDER BY blocks.height ${filters.reversed ? "DESC" : ""}
         LIMIT :limit`,
       filters
     ]);
@@ -113,7 +116,7 @@ export async function getTransactions(
 }
 
 export async function getLatestTransactionsInfo(): Promise<Transaction[]> {
-  return getTransactions({});
+  return getTransactions({ reversed: true, limit: 10 });
 }
 
 export async function getTransactionInfo(

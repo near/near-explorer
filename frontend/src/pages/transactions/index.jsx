@@ -11,7 +11,7 @@ export default class extends React.Component {
           <title>Near Explorer | Transactions</title>
         </Head>
         <Content title={<h1>Transactions</h1>}>
-          <Transactions />
+          <Transactions reversed />
         </Content>
       </>
     );

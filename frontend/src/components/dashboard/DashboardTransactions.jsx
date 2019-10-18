@@ -24,7 +24,11 @@ export default ({ transactions }) => (
         </div>
       </Col>
       <Col xs="11" className="px-0 dashboard-transactions-list">
-        <TransactionsList transactions={transactions} viewMode="compact" />
+        <TransactionsList
+          transactions={transactions}
+          viewMode="compact"
+          reversed
+        />
         <Row noGutters>
           <Col xs="1" className="dashboard-transactions-icon-col" />
           <Col xs="6">
