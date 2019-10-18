@@ -37,7 +37,7 @@ export default class extends React.Component {
           icon={<TransactionIcon style={{ width: "22px" }} />}
           title={<h2>Transactions</h2>}
         >
-          <Transactions accountId={this.props.id} />
+          <Transactions accountId={this.props.id} reversed />
         </Content>
       </>
     );

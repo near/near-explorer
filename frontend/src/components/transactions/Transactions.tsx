@@ -7,6 +7,8 @@ import TransactionsList from "./TransactionsList";
 export interface Props {
   accountId?: string;
   blockHash?: string;
+  reversed: boolean;
+  limit: number;
 }
 
 export interface State {
@@ -14,6 +16,11 @@ export interface State {
 }
 
 export default class extends React.PureComponent<Props, State> {
+  static defaultProps = {
+    reversed: false,
+    limit: 50
+  };
+
   state: State = {
     transactions: null
   };
@@ -22,8 +29,10 @@ export default class extends React.PureComponent<Props, State> {
     this.fetchTransactions();
   }
 
-  componentDidUpdate() {
-    this.fetchTransactions();
+  componentDidUpdate(prevProps: Props) {
+    if (this.props !== prevProps) {
+      this.fetchTransactions();
+    }
   }
 
   render() {
@@ -31,14 +40,21 @@ export default class extends React.PureComponent<Props, State> {
     if (transactions === null) {
       return null;
     }
-    return <TransactionsList transactions={transactions} />;
+    return (
+      <TransactionsList
+        transactions={transactions}
+        reversed={this.props.reversed}
+      />
+    );
   }
 
   fetchTransactions = async () => {
     const transactions = await TransactionsApi.getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
-      blockHash: this.props.blockHash
+      blockHash: this.props.blockHash,
+      reversed: this.props.reversed,
+      limit: this.props.limit
     });
     this.setState({ transactions });
   };
