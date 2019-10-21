@@ -33,6 +33,10 @@ wampHandlers["nearcore-query"] = async ([path, data]) => {
   return await nearRpc.query(path, data);
 };
 
+wampHandlers["nearcore-tx"] = async ([transactionHash]) => {
+  return await nearRpc.sendJsonRpc("tx", [transactionHash]);
+};
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
