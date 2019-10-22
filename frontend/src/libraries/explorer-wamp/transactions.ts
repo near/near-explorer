@@ -82,7 +82,7 @@ export interface FilterArgs {
   receiverId?: string;
   transactionHash?: string;
   blockHash?: string;
-  reversed?: boolean;
+  tail?: boolean;
   limit: number;
 }
 
@@ -111,10 +111,13 @@ export async function getTransactions(
         FROM transactions
         LEFT JOIN blocks ON blocks.hash = transactions.block_hash
         ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-        ORDER BY blocks.height ${filters.reversed ? "DESC" : ""}
+        ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
         LIMIT :limit`,
       filters
     ]);
+    if (filters.tail) {
+      transactions.reverse();
+    }
     transactions.forEach(transaction => {
       transaction.status = "Completed";
       try {
@@ -132,7 +135,7 @@ export async function getTransactions(
 }
 
 export async function getLatestTransactionsInfo(): Promise<Transaction[]> {
-  return getTransactions({ reversed: true, limit: 10 });
+  return getTransactions({ tail: true, limit: 10 });
 }
 
 export async function getTransactionInfo(
