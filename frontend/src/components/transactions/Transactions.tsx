@@ -53,7 +53,7 @@ export default class extends React.PureComponent<Props, State> {
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
-      reversed: this.props.reversed,
+      tail: this.props.reversed,
       limit: this.props.limit
     });
     this.setState({ transactions });
