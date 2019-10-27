@@ -45,15 +45,6 @@ Array [
               9uZxS2c...
             </div>
           </div>
-          <div
-            className="row"
-          >
-            <div
-              className="receipt-row-status col"
-            >
-              Completed
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -86,7 +77,7 @@ Array [
               className="receipt-row-text col"
             >
               <pre
-                className="jsx-1146029612"
+                className="jsx-1640205511"
               >
                 LOG: Counter is now: 1
               </pre>
@@ -103,15 +94,6 @@ Array [
               className="receipt-row-receipt-hash col"
             >
               A8HaLh5...
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="receipt-row-status col"
-            >
-              Completed
             </div>
           </div>
         </div>
@@ -159,15 +141,6 @@ Array [
               className="receipt-row-receipt-hash col"
             >
               A5oSQ6z...
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="receipt-row-status col"
-            >
-              Completed
             </div>
           </div>
         </div>

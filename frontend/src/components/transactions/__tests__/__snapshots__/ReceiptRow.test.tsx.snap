@@ -44,15 +44,6 @@ exports[`<ReceiptRow /> renders 1`] = `
             9uZxS2c...
           </div>
         </div>
-        <div
-          className="row"
-        >
-          <div
-            className="receipt-row-status col"
-          >
-            Completed
-          </div>
-        </div>
       </div>
     </div>
   </div>
