@@ -128,7 +128,29 @@ async function saveBlocksFromRequests(requests) {
     return [blockResult.value];
   });
 
-  return await saveBlocks(blocks);
+  const transactionsByBlock = await Promise.all(
+    blocks.map(async block => {
+      try {
+        const detailedChunks = await Promise.all(
+          block.chunks.map(chunk => nearRpc.chunk(chunk.chunk_hash))
+        );
+        return detailedChunks.map(chunk => chunk.transactions);
+      } catch (error) {
+        throw error;
+        return null;
+      }
+    })
+  );
+
+  const blocksWithTransactions = blocks.flatMap((block, i) => {
+    const transactions = transactionsByBlock[i];
+    if (transactions === null) {
+      return [];
+    }
+    block.transactions = transactions.flatMap(it => it);
+    return [block];
+  });
+  return await saveBlocks(blocksWithTransactions);
 }
 
 async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {

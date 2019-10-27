@@ -9,7 +9,7 @@ export interface Props {
 export default ({ receipts }: Props) => (
   <>
     {receipts.map(receipt => (
-      <ReceiptRow key={receipt.hash} receipt={receipt} />
+      <ReceiptRow key={receipt.id} receipt={receipt} />
     ))}
   </>
 );

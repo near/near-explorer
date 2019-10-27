@@ -59,16 +59,26 @@ export interface Actions {
   actions: (Action | keyof Action)[];
 }
 
-export interface ReceiptResult {
+export interface ReceiptSuccessValue {
+  SuccessValue: string | null;
+}
+
+export interface ReceiptFailure {
+  Failure: any;
+}
+
+export type ReceiptStatus = ReceiptSuccessValue | ReceiptFailure | string;
+
+export interface ReceiptOutcome {
   logs: string[];
-  receipts: string[];
-  result: string | null;
-  status: "Completed";
+  receipt_ids: string[];
+  status: ReceiptStatus;
+  gas_burnt: number;
 }
 
 export interface Receipt {
-  hash: string;
-  result: ReceiptResult;
+  id: string;
+  outcome: ReceiptOutcome;
 }
 
 export interface Receipts {
@@ -142,16 +152,24 @@ export async function getTransactionInfo(
   transactionHash: string
 ): Promise<Transaction | null> {
   try {
-    const [transactionInfo, transactionExtraInfo] = await Promise.all([
+    let [transactionInfo, transactionExtraInfo] = await Promise.all([
       getTransactions({ transactionHash, limit: 1 }).then(it => it[0] || null),
       call<any>(".nearcore-tx", [transactionHash])
     ]);
 
     if (transactionInfo === null) {
-      return null;
+      transactionInfo = {
+        status: transactionExtraInfo.status,
+        hash: transactionExtraInfo.transaction.id,
+        signerId: "",
+        receiverId: "",
+        blockHash: "",
+        blockTimestamp: 0,
+        actions: []
+      };
     }
     const transaction = transactionInfo;
-    transaction.receipts = transactionExtraInfo.transactions as Receipt[];
+    transaction.receipts = transactionExtraInfo.receipts as Receipt[];
     return transaction;
   } catch (error) {
     console.error(

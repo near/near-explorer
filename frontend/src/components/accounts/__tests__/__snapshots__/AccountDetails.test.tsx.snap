@@ -77,7 +77,7 @@ exports[`<AccountDetails /> renders 1`] = `
       </div>
     </div>
     <div
-      className="col-md-3"
+      className="col-md-2"
     >
       <div
         className="card-cell  card"
@@ -95,7 +95,7 @@ exports[`<AccountDetails /> renders 1`] = `
                 className="jsx-3005147464 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
-              Staked
+              Locked
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -108,7 +108,7 @@ exports[`<AccountDetails /> renders 1`] = `
       </div>
     </div>
     <div
-      className="col-md-3"
+      className="col-md-4"
     >
       <div
         className="card-cell  card"

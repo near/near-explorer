@@ -27,30 +27,30 @@ export const TRANSACTIONS: T.Transaction[] = [
     ],
     receipts: [
       {
-        hash: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-        result: {
+        id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+        outcome: {
           logs: [],
-          receipts: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
-          result: null,
-          status: "Completed"
+          receipt_ids: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
+          status: { SuccessValue: null },
+          gas_burnt: 0
         }
       },
       {
-        hash: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
-        result: {
+        id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
+        outcome: {
           logs: ["LOG: Counter is now: 1"],
-          receipts: ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp"],
-          result: "",
-          status: "Completed"
+          receipt_ids: ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp"],
+          status: { SuccessValue: "" },
+          gas_burnt: 0
         }
       },
       {
-        hash: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp",
-        result: {
+        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp",
+        outcome: {
           logs: [],
-          receipts: [],
-          result: "",
-          status: "Completed"
+          receipt_ids: [],
+          status: { SuccessValue: "" },
+          gas_burnt: 0
         }
       }
     ]
@@ -66,11 +66,12 @@ export const TRANSACTIONS: T.Transaction[] = [
     actions: [
       {
         FunctionCall: {
+          result: "",
           args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
           deposit: "0",
           gas: 2000000,
           method_name: "addMessage"
-        }
+        } as T.FunctionCall
       } as T.Action
     ],
     receipts: []
