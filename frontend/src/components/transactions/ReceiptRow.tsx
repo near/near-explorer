@@ -13,30 +13,49 @@ export default class extends React.Component<Props, State> {
   render() {
     const { receipt } = this.props;
 
+    let statusInfo;
+    if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
+      const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
+      if (SuccessValue === null) {
+        statusInfo = "No result";
+      } else if (SuccessValue.length === 0) {
+        statusInfo = "Empty result";
+      } else {
+        statusInfo = (
+          <>
+            <i>Result: </i>
+            <pre>{SuccessValue}</pre>
+          </>
+        );
+      }
+    } else {
+      if ("Failure" in (receipt.outcome.status as T.ReceiptFailure)) {
+        const { Failure } = receipt.outcome.status as T.ReceiptFailure;
+        statusInfo = (
+          <>
+            <i>Failure: </i>
+            <pre>{JSON.stringify(Failure, null, 2)}</pre>
+          </>
+        );
+      } else {
+        statusInfo = <i>{receipt.outcome.status}</i>;
+      }
+    }
+
     return (
       <Row noGutters className="receipt-row mx-0">
         <Col className="receipt-row-details">
           <Row noGutters>
             <Col md="8" xs="7">
               <Row noGutters>
-                <Col className="receipt-row-title">
-                  {receipt.result.result === null ? (
-                    "No result"
-                  ) : receipt.result.result.length === 0 ? (
-                    "Empty result"
-                  ) : (
-                    <>
-                      <i>Result:</i> <pre>{receipt.result.result}</pre>
-                    </>
-                  )}
-                </Col>
+                <Col className="receipt-row-title">{statusInfo}</Col>
               </Row>
               <Row noGutters>
                 <Col className="receipt-row-text">
-                  {receipt.result.logs.length === 0 ? (
+                  {receipt.outcome.logs.length === 0 ? (
                     "No logs"
                   ) : (
-                    <pre>{receipt.result.logs.join("\n")}</pre>
+                    <pre>{receipt.outcome.logs.join("\n")}</pre>
                   )}
                 </Col>
               </Row>
@@ -44,12 +63,7 @@ export default class extends React.Component<Props, State> {
             <Col md="4" xs="5" className="ml-auto text-right">
               <Row>
                 <Col className="receipt-row-receipt-hash">
-                  {`${receipt.hash.substr(0, 7)}...`}
-                </Col>
-              </Row>
-              <Row>
-                <Col className="receipt-row-status">
-                  {receipt.result.status}
+                  {`${receipt.id.substr(0, 7)}...`}
                 </Col>
               </Row>
             </Col>
@@ -85,7 +99,6 @@ export default class extends React.Component<Props, State> {
             font-size: 14px;
             font-weight: 500;
             line-height: 1.29;
-            color: #0072ce;
           }
 
           .receipt-row-status {

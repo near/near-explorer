@@ -41,20 +41,27 @@ export default class extends React.Component {
             <TransactionDetails transaction={this.props} />
           )}
         </Content>
-        <Content
-          size="medium"
-          icon={<TransactionIcon style={{ width: "22px" }} />}
-          title={<h2>Actions</h2>}
-        >
-          <ActionsList actions={this.props.actions} transaction={this.props} />
-        </Content>
-        <Content
-          size="medium"
-          icon={<TransactionIcon style={{ width: "22px" }} />}
-          title={<h2>Receipts</h2>}
-        >
-          <ReceiptsList receipts={this.props.receipts} />
-        </Content>
+        {this.props.actions && (
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Actions</h2>}
+          >
+            <ActionsList
+              actions={this.props.actions}
+              transaction={this.props}
+            />
+          </Content>
+        )}
+        {this.props.receipts && (
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Receipts</h2>}
+          >
+            <ReceiptsList receipts={this.props.receipts} />
+          </Content>
+        )}
       </>
     );
   }

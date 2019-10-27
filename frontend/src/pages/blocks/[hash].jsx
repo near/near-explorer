@@ -15,7 +15,7 @@ export default class extends React.Component {
     try {
       return await BlockApi.getBlockInfo(hash);
     } catch (err) {
-      return {};
+      return { hash, err };
     }
   }
 
@@ -26,18 +26,30 @@ export default class extends React.Component {
           <title>Near Explorer | Block</title>
         </Head>
         <Content
-          title={<h1>{`Block #${this.props.height}`}</h1>}
+          title={
+            <h1>{`Block ${
+              this.props.height
+                ? `#${this.props.height}`
+                : `${this.props.hash.substring(0, 7)}...`
+            }`}</h1>
+          }
           border={false}
         >
-          <BlockDetails block={this.props} />
+          {this.props.err ? (
+            `Information is not available at the moment. Please, check if the block hash is correct or try later.`
+          ) : (
+            <BlockDetails block={this.props} />
+          )}
         </Content>
-        <Content
-          size="medium"
-          icon={<TransactionIcon style={{ width: "22px" }} />}
-          title={<h2>Transactions</h2>}
-        >
-          <Transactions blockHash={this.props.hash} />
-        </Content>
+        {!this.props.err ? (
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Transactions</h2>}
+          >
+            <Transactions blockHash={this.props.hash} />
+          </Content>
+        ) : null}
       </>
     );
   }

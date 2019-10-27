@@ -37,14 +37,14 @@ export default ({ account }: Props) => {
             }
           />
         </Col>
-        <Col md="3">
+        <Col md="2">
           <CardCell
-            title="Staked"
+            title="Locked"
             imgLink="/static/images/icon-m-filter.svg"
-            text={<Balance amount={account.staked} />}
+            text={<Balance amount={account.locked} />}
           />
         </Col>
-        <Col md="3">
+        <Col md="4">
           <CardCell
             title="Storage (Used / Paid)"
             imgLink="/static/images/icon-m-block.svg"

@@ -73,9 +73,12 @@ export async function getBlockInfo(hash) {
       {
         hash
       }
-    ]);
+    ]).then(it => (it[0].hash !== null ? it[0] : null));
 
-    return block[0];
+    if (block === null) {
+      throw new Error("block not found");
+    }
+    return block;
   } catch (error) {
     console.error("Blocks.getBlockInfo failed to fetch data due to:");
     console.error(error);

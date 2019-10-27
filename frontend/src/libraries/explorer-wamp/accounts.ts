@@ -11,7 +11,7 @@ interface AccountStats {
 
 interface AccountInfo {
   amount: string;
-  staked: string;
+  locked: string;
   storageUsage: number;
   storagePaidAt: number;
 }
@@ -38,7 +38,7 @@ export async function getAccountInfo(id: string): Promise<Account> {
     return {
       id,
       amount: accountInfo.amount,
-      staked: accountInfo.staked,
+      locked: accountInfo.locked,
       storageUsage: accountInfo.storage_usage,
       storagePaidAt: accountInfo.storage_paid_at,
       ...accountStats[0]
