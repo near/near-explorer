@@ -64,7 +64,7 @@ function setupWamp() {
     console.log("WAMP connection is established. Waiting for commands...");
 
     for (const [name, handler] of Object.entries(wampHandlers)) {
-      const uri = `${wampNearNetworkName}.${name}`;
+      const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${name}`;
       try {
         await session.register(uri, handler);
       } catch (error) {

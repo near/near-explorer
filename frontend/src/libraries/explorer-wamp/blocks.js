@@ -3,7 +3,7 @@ import { ExplorerApi } from ".";
 export default class BlocksApi extends ExplorerApi {
   async searchBlocks(keyword, height = -1, limit = 15) {
     try {
-      return await this.call(".select", [
+      return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash FROM blocks
@@ -27,7 +27,7 @@ export default class BlocksApi extends ExplorerApi {
 
   async getTotal() {
     try {
-      return await this.call(".select", [
+      return await this.call("select", [
         `SELECT COUNT(blocks.hash) AS total FROM blocks`
       ]).then(it => it[0].total);
     } catch (error) {
@@ -39,7 +39,7 @@ export default class BlocksApi extends ExplorerApi {
 
   async getLatestBlocksInfo(limit = 15) {
     try {
-      return await this.call(".select", [
+      return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash FROM blocks
@@ -62,7 +62,7 @@ export default class BlocksApi extends ExplorerApi {
 
   async getBlockInfo(hash) {
     try {
-      const block = await this.call(".select", [
+      const block = await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash
@@ -88,7 +88,7 @@ export default class BlocksApi extends ExplorerApi {
 
   async getPreviousBlocks(lastBlockHeight, limit = 15) {
     try {
-      return await this.call(".select", [
+      return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash

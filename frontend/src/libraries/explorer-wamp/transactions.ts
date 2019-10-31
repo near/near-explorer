@@ -115,7 +115,7 @@ export default class TransactionsApi extends ExplorerApi {
     try {
       const transactions = await this.call<
         (TransactionInfo & (StringActions | Actions))[]
-      >(".select", [
+      >("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
         FROM transactions
         LEFT JOIN blocks ON blocks.hash = transactions.block_hash
@@ -167,7 +167,7 @@ export default class TransactionsApi extends ExplorerApi {
           actions: []
         };
       } else {
-        const transactionExtraInfo = await this.call<any>(".nearcore-tx", [
+        const transactionExtraInfo = await this.call<any>("nearcore-tx", [
           transactionHash,
           transactionInfo.signerId
         ]);

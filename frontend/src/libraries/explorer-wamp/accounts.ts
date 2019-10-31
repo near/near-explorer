@@ -22,8 +22,8 @@ export default class AccountApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
       const [accountInfo, accountStats] = await Promise.all([
-        this.call<any>(".nearcore-query", [`account/${id}`, ""]),
-        this.call<AccountStats[]>(".select", [
+        this.call<any>("nearcore-query", [`account/${id}`, ""]),
+        this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
             (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
               WHERE signer_id = :id) as outTransactionsCount,

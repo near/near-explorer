@@ -105,7 +105,7 @@ export class ExplorerApi {
     handler: autobahn.SubscribeHandler,
     options?: autobahn.ISubscribeOptions
   ): Promise<autobahn.ISubscription> {
-    topic = this.apiPrefix + topic;
+    topic = `com.nearprotocol.${this.apiPrefix}.explorer.${topic}`;
     ExplorerApi.subscriptions[topic] = [handler, options];
     const session = await ExplorerApi.getWampSession();
     return await session.subscribe(topic, handler, options);
@@ -117,7 +117,7 @@ export class ExplorerApi {
     kwargs?: any,
     options?: autobahn.ICallOptions
   ): Promise<T> {
-    procedure = this.apiPrefix + procedure;
+    procedure = `com.nearprotocol.${this.apiPrefix}.explorer.${procedure}`;
     const session = await ExplorerApi.getWampSession();
     return (await session.call(procedure, args, kwargs, options)) as T;
   }

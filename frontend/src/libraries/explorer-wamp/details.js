@@ -3,7 +3,7 @@ import { ExplorerApi } from ".";
 export default class DetailsApi extends ExplorerApi {
   async getDetails() {
     try {
-      return await this.call(".select", [
+      return await this.call("select", [
         `SELECT
           total_accounts.accountsCount,
           nodes.totalNodesCount,
