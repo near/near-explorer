@@ -1,6 +1,6 @@
 import React from "react";
 
-import * as TransactionsApi from "../../libraries/explorer-wamp/transactions";
+import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import TransactionsList from "./TransactionsList";
 
@@ -12,7 +12,7 @@ export interface Props {
 }
 
 export interface State {
-  transactions: TransactionsApi.Transaction[] | null;
+  transactions: T.Transaction[] | null;
 }
 
 export default class extends React.PureComponent<Props, State> {
@@ -24,6 +24,15 @@ export default class extends React.PureComponent<Props, State> {
   state: State = {
     transactions: null
   };
+
+  _transactionsApi: TransactionsApi | null;
+
+  constructor(props: Props) {
+    super(props);
+
+    // TODO: Design ExplorerApi to handle server-side rendering gracefully.
+    this._transactionsApi = null;
+  }
 
   componentDidMount() {
     this.fetchTransactions();
@@ -49,7 +58,10 @@ export default class extends React.PureComponent<Props, State> {
   }
 
   fetchTransactions = async () => {
-    const transactions = await TransactionsApi.getTransactions({
+    if (this._transactionsApi === null) {
+      this._transactionsApi = new TransactionsApi();
+    }
+    const transactions = await this._transactionsApi.getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,

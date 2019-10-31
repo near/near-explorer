@@ -1,6 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 
-import * as BlocksApi from "../../libraries/explorer-wamp/blocks";
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import Search from "../utils/Search";
 
@@ -10,9 +10,9 @@ export default ({ setLoading, setBlocks, pagination, setPagination }) => {
 
     let blocks;
     if (text === null || text === undefined || text.trim().length === 0) {
-      blocks = await BlocksApi.getLatestBlocksInfo();
+      blocks = await new BlocksApi().getLatestBlocksInfo();
     } else {
-      blocks = await BlocksApi.searchBlocks(text);
+      blocks = await new BlocksApi().searchBlocks(text);
     }
 
     setBlocks(() => blocks);

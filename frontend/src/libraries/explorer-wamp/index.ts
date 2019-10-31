@@ -7,95 +7,118 @@ interface IPromisePair {
   reject: (value?: string) => void;
 }
 
-const awaitingOnSession: Array<IPromisePair> = [];
+export class ExplorerApi {
+  static awaitingOnSession: Array<IPromisePair> = [];
 
-const subscriptions: Record<
-  string,
-  [autobahn.SubscribeHandler, autobahn.ISubscribeOptions | undefined]
-> = {};
+  static subscriptions: Record<
+    string,
+    [autobahn.SubscribeHandler, autobahn.ISubscribeOptions | undefined]
+  > = {};
 
-let wampNearExplorerUrl: string;
+  static wamp: autobahn.Connection;
 
-if (typeof window === "undefined") {
-  const { serverRuntimeConfig } = getConfig();
-  wampNearExplorerUrl = serverRuntimeConfig.wampNearExplorerUrl;
-} else {
-  const { publicRuntimeConfig } = getConfig();
-  wampNearExplorerUrl = publicRuntimeConfig.wampNearExplorerUrl;
-}
+  apiPrefix: string;
 
-const wamp = new autobahn.Connection({
-  url: wampNearExplorerUrl,
-  realm: "near-explorer",
-  retry_if_unreachable: true,
-  max_retries: Number.MAX_SAFE_INTEGER,
-  max_retry_delay: 10
-});
+  constructor(apiPrefixSource?: any) {
+    const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 
-// Establish and handle concurrent requests to establish WAMP connection.
-function getWampSession(): Promise<autobahn.Session> {
-  return new Promise(
-    (
-      resolve: (value?: autobahn.Session) => void,
-      reject: (value?: string) => void
-    ) => {
-      if (wamp.transport.info.type === "websocket") {
-        // The connection is open/opening
-        if (wamp.session && wamp.session.isOpen) {
-          // Resolve the established session as it is ready
-          resolve(wamp.session);
-        } else {
-          // Push the promise resolvers on a queue
-          awaitingOnSession.push({ resolve, reject });
-        }
+    if (ExplorerApi.wamp === undefined) {
+      let wampNearExplorerUrl: string;
+      if (typeof window === "undefined") {
+        wampNearExplorerUrl = serverRuntimeConfig.wampNearExplorerUrl;
       } else {
-        // Establish new session
-        awaitingOnSession.push({ resolve, reject });
-
-        wamp.onopen = session => {
-          Object.entries(subscriptions).forEach(([topic, [handler, options]]) =>
-            session.subscribe(topic, handler, options)
-          );
-          while (awaitingOnSession.length > 0) {
-            awaitingOnSession.pop()!.resolve(session);
-          }
-        };
-
-        wamp.onclose = reason => {
-          while (awaitingOnSession.length > 0) {
-            awaitingOnSession.pop()!.reject(reason);
-          }
-          return false;
-        };
-
-        wamp.open();
+        wampNearExplorerUrl = publicRuntimeConfig.wampNearExplorerUrl;
       }
+
+      ExplorerApi.wamp = new autobahn.Connection({
+        url: wampNearExplorerUrl,
+        realm: "near-explorer",
+        retry_if_unreachable: true,
+        max_retries: Number.MAX_SAFE_INTEGER,
+        max_retry_delay: 10
+      });
     }
-  );
-}
 
-export async function subscribe(
-  topic: string,
-  handler: autobahn.SubscribeHandler,
-  options?: autobahn.ISubscribeOptions
-): Promise<autobahn.ISubscription> {
-  if (topic[0] === ".") {
-    topic = "com.nearprotocol.explorer" + topic;
-  }
-  subscriptions[topic] = [handler, options];
-  const session = await getWampSession();
-  return await session.subscribe(topic, handler, options);
-}
+    if (apiPrefixSource === undefined) {
+      this.apiPrefix = location.host;
+    } else if (typeof apiPrefixSource === "string") {
+      this.apiPrefix = apiPrefixSource;
+    } else if ("socket" in apiPrefixSource) {
+      this.apiPrefix = apiPrefixSource.headers.host;
+    } else {
+      throw Error(
+        `Unknown apiPrefixSource ${apiPrefixSource} (of type ${typeof apiPrefixSource})`
+      );
+    }
 
-export async function call<T>(
-  procedure: string,
-  args?: any[] | any,
-  kwargs?: any,
-  options?: autobahn.ICallOptions
-): Promise<T> {
-  if (procedure[0] === ".") {
-    procedure = "com.nearprotocol.explorer" + procedure;
+    const { nearNetworkAliases } = publicRuntimeConfig;
+    if (this.apiPrefix in nearNetworkAliases) {
+      this.apiPrefix = nearNetworkAliases[this.apiPrefix].name;
+    }
   }
-  const session = await getWampSession();
-  return (await session.call(procedure, args, kwargs, options)) as T;
+
+  // Establish and handle concurrent requests to establish WAMP connection.
+  static getWampSession(): Promise<autobahn.Session> {
+    return new Promise(
+      (
+        resolve: (value?: autobahn.Session) => void,
+        reject: (value?: string) => void
+      ) => {
+        if (ExplorerApi.wamp.transport.info.type === "websocket") {
+          // The connection is open/opening
+          if (ExplorerApi.wamp.session && ExplorerApi.wamp.session.isOpen) {
+            // Resolve the established session as it is ready
+            resolve(ExplorerApi.wamp.session);
+          } else {
+            // Push the promise resolvers on a queue
+            ExplorerApi.awaitingOnSession.push({ resolve, reject });
+          }
+        } else {
+          // Establish new session
+          ExplorerApi.awaitingOnSession.push({ resolve, reject });
+
+          ExplorerApi.wamp.onopen = session => {
+            Object.entries(ExplorerApi.subscriptions).forEach(
+              ([topic, [handler, options]]) =>
+                session.subscribe(topic, handler, options)
+            );
+            while (ExplorerApi.awaitingOnSession.length > 0) {
+              ExplorerApi.awaitingOnSession.pop()!.resolve(session);
+            }
+          };
+
+          ExplorerApi.wamp.onclose = reason => {
+            while (ExplorerApi.awaitingOnSession.length > 0) {
+              ExplorerApi.awaitingOnSession.pop()!.reject(reason);
+            }
+            return false;
+          };
+
+          ExplorerApi.wamp.open();
+        }
+      }
+    );
+  }
+
+  async subscribe(
+    topic: string,
+    handler: autobahn.SubscribeHandler,
+    options?: autobahn.ISubscribeOptions
+  ): Promise<autobahn.ISubscription> {
+    topic = this.apiPrefix + topic;
+    ExplorerApi.subscriptions[topic] = [handler, options];
+    const session = await ExplorerApi.getWampSession();
+    return await session.subscribe(topic, handler, options);
+  }
+
+  async call<T>(
+    procedure: string,
+    args?: any[] | any,
+    kwargs?: any,
+    options?: autobahn.ICallOptions
+  ): Promise<T> {
+    procedure = this.apiPrefix + procedure;
+    const session = await ExplorerApi.getWampSession();
+    return (await session.call(procedure, args, kwargs, options)) as T;
+  }
 }
