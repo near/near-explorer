@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TransactionDetails /> renders 1`] = `
+<div
+  className="jsx-2526461550 transaction-info-container"
+>
+  <div
+    className="row no-gutters"
+  >
+    <div
+      className="col-md-5"
+    >
+      <div
+        className="card-cell border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              <img
+                className="jsx-3005147464 card-cell-title-img"
+                src="/static/images/icon-m-user.svg"
+              />
+              Signed by
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <a
+                className="account-link"
+                href="/accounts/signer.test"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                @signer.test
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-5"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              <img
+                className="jsx-3005147464 card-cell-title-img"
+                src="/static/images/icon-m-user.svg"
+              />
+              Receiver
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <a
+                className="account-link"
+                href="/accounts/receiver.test"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                @receiver.test
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-2"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              <img
+                className="jsx-3005147464 card-cell-title-img"
+                src="/static/images/icon-m-filter.svg"
+              />
+              Status
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              Completed
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="border-0 row no-gutters"
+  >
+    <div
+      className="col-md-4"
+    >
+      <div
+        className="card-cell border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Created
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              February 01, 2019 at 12:00:00am
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-8"
+    >
+      <div
+        className="card-cell border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Hash
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="row no-gutters"
+  >
+    <div
+      className="col-md-12"
+    >
+      <div
+        className="card-cell transaction-card-block-hash border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Block Hash
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <a
+                className="block-link"
+                href="/blocks/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

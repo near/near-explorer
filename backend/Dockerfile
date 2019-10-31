@@ -14,4 +14,4 @@ RUN mkdir ./db && \
     chown -R nobody: .
 
 USER nobody
-CMD ["/bin/sh", "-c", "exec npm run start"]
+CMD ["/bin/sh", "-c", "if stat -t .env-* >/dev/null 2>&1 ; then for env in .env-*; do source \"$env\" && npm run start & done ; wait ; else exec npm run start ; fi"]

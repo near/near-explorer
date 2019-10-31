@@ -4,16 +4,16 @@ import React from "react";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import * as AccountApi from "../../libraries/explorer-wamp/accounts";
+import AccountsApi from "../../libraries/explorer-wamp/accounts";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
 export default class extends React.Component {
-  static async getInitialProps({ query: { id } }) {
+  static async getInitialProps({ req, query: { id } }) {
     try {
-      return await AccountApi.getAccountInfo(id);
+      return await new AccountsApi(req).getAccountInfo(id);
     } catch (err) {
       return { id, err };
     }
@@ -37,7 +37,7 @@ export default class extends React.Component {
           icon={<TransactionIcon style={{ width: "22px" }} />}
           title={<h2>Transactions</h2>}
         >
-          <Transactions accountId={this.props.id} />
+          <Transactions accountId={this.props.id} reversed />
         </Content>
       </>
     );

@@ -2,23 +2,30 @@ import { Row, Col } from "react-bootstrap";
 import FlipMove from "react-flip-move";
 import LoadingOverlay from "react-loading-overlay";
 
-import * as NodesApi from "../../libraries/explorer-wamp/nodes";
+import NodesApi from "../../libraries/explorer-wamp/nodes";
 
 import NodeRow from "./NodeRow";
 
 export default class extends React.Component {
   state = { loading: true, nodes: null };
 
+  constructor(props) {
+    super(props);
+
+    this._nodesApi = new NodesApi();
+  }
+
   componentDidMount() {
     this.regularFetchInfo();
   }
+
   componentWillUnmount() {
     clearTimeout(this.timer);
     this.timer = false;
   }
 
   fetchInfo = async () => {
-    const nodes = await NodesApi.getNodesInfo();
+    const nodes = await this._nodesApi.getNodesInfo();
     await this.setState({ loading: false, nodes });
   };
 

@@ -3,6 +3,7 @@ const autobahn = require("autobahn");
 const models = require("../models");
 
 const {
+  wampNearNetworkName,
   wampNearExplorerUrl,
   wampNearExplorerBackendSecret
 } = require("./config");
@@ -33,6 +34,10 @@ wampHandlers["nearcore-query"] = async ([path, data]) => {
   return await nearRpc.query(path, data);
 };
 
+wampHandlers["nearcore-tx"] = async ([transactionHash, accountId]) => {
+  return await nearRpc.sendJsonRpc("tx", [transactionHash, accountId]);
+};
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
@@ -59,7 +64,7 @@ function setupWamp() {
     console.log("WAMP connection is established. Waiting for commands...");
 
     for (const [name, handler] of Object.entries(wampHandlers)) {
-      const uri = `com.nearprotocol.explorer.${name}`;
+      const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${name}`;
       try {
         await session.register(uri, handler);
       } catch (error) {

@@ -1,8 +1,8 @@
-import { call } from "../../libraries/explorer-wamp";
+import { ExplorerApi } from "../../libraries/explorer-wamp";
 
 export default async function(req, res) {
   try {
-    await call(".node-telemetry", [
+    await new ExplorerApi(req).call("node-telemetry", [
       {
         ...req.body,
         ip_address: req.headers["x-forwarded-for"] || req.socket.remoteAddress

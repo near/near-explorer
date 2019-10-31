@@ -1,17 +1,23 @@
 import LoadingOverlay from "react-loading-overlay";
 
-import * as BlocksApi from "../../libraries/explorer-wamp/blocks";
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import BlocksRow from "./BlocksRow";
 
 export default class extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this._blocksApi = new BlocksApi();
+  }
+
   componentDidMount() {
     this._blockLoader = document.getElementById("block-loader");
     document.addEventListener("scroll", this._onScroll);
 
     this._loadBlocks();
 
-    BlocksApi.getTotal().then(total => {
+    this._blocksApi.getTotal().then(total => {
       this.props.setPagination(pagination => {
         return { ...pagination, total };
       });
@@ -60,7 +66,7 @@ export default class extends React.Component {
   _loadBlocks = async () => {
     let blocks;
     if (this.props.pagination.stop === null) {
-      blocks = await BlocksApi.getLatestBlocksInfo();
+      blocks = await this._blocksApi.getLatestBlocksInfo();
     } else {
       blocks = await this._getNextBatch(this.props.pagination);
     }
@@ -81,12 +87,12 @@ export default class extends React.Component {
     let blocks = [];
     try {
       if (pagination.search) {
-        blocks = await BlocksApi.searchBlocks(
+        blocks = await this._blocksApi.searchBlocks(
           pagination.search,
           pagination.stop
         );
       } else {
-        blocks = await BlocksApi.getPreviousBlocks(
+        blocks = await this._blocksApi.getPreviousBlocks(
           pagination.stop,
           pagination.count
         );

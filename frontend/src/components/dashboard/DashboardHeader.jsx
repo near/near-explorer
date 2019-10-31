@@ -67,9 +67,9 @@ export default ({
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">Filter 1</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Filter 2</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Filter 3</Dropdown.Item>
+            <Dropdown.Item href="#/action-1">Accounts</Dropdown.Item>
+            <Dropdown.Item href="#/action-2">Transactions</Dropdown.Item>
+            <Dropdown.Item href="#/action-3">Blocks</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Col>
@@ -79,7 +79,7 @@ export default ({
             <InputGroup.Text id="search" className="search-icon">🔎</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            placeholder="Search by Address, Hash, Block, Token, Ens"
+            placeholder="Search by account name, TX hash, or block number"
             aria-label="Search"
             aria-describedby="search"
             className="border-left-0 search-field pl-0"
