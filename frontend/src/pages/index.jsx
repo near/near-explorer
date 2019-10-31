@@ -3,9 +3,9 @@ import Head from "next/head";
 import { useEffect, useContext } from "react";
 import { Row, Col } from "react-bootstrap";
 
-import * as BlocksApi from "../libraries/explorer-wamp/blocks";
-import * as DetailsApi from "../libraries/explorer-wamp/details";
-import * as TransactionsApi from "../libraries/explorer-wamp/transactions";
+import BlocksApi from "../libraries/explorer-wamp/blocks";
+import DetailsApi from "../libraries/explorer-wamp/details";
+import TransactionsApi from "../libraries/explorer-wamp/transactions";
 
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardTransactions from "../components/dashboard/DashboardTransactions";
@@ -13,11 +13,13 @@ import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import Content from "../components/utils/Content";
 
 export default class extends React.Component {
-  static async getInitialProps() {
+  static async getInitialProps({ req }) {
     const ignoreErr = promise => promise.catch(() => null);
-    const details = ignoreErr(DetailsApi.getDetails());
-    const blocks = ignoreErr(BlocksApi.getLatestBlocksInfo());
-    const transactions = ignoreErr(TransactionsApi.getLatestTransactionsInfo());
+    const details = ignoreErr(new DetailsApi(req).getDetails());
+    const blocks = ignoreErr(new BlocksApi(req).getLatestBlocksInfo());
+    const transactions = ignoreErr(
+      new TransactionsApi(req).getLatestTransactionsInfo()
+    );
     return {
       details: await details,
       blocks: await blocks,

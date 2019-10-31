@@ -4,7 +4,7 @@ import React from "react";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import * as TransactionApi from "../../libraries/explorer-wamp/transactions";
+import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
 import ActionsList from "../../components/transactions/ActionsList";
 import ReceiptsList from "../../components/transactions/ReceiptsList";
@@ -12,9 +12,9 @@ import TransactionDetails from "../../components/transactions/TransactionDetails
 import Content from "../../components/utils/Content";
 
 export default class extends React.Component {
-  static async getInitialProps({ query: { hash } }) {
+  static async getInitialProps({ req, query: { hash } }) {
     try {
-      return await TransactionApi.getTransactionInfo(hash);
+      return await new TransactionsApi(req).getTransactionInfo(hash);
     } catch (err) {
       return { hash, err };
     }

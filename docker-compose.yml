@@ -6,13 +6,13 @@ services:
     environment:
       - WAMP_NEAR_EXPLORER_PORT=8080
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
-      - WAMP_NEAR_EXPLORER_FRONTEND_SECRET=front
     ports:
       - 8080:8080
 
   backend:
     build: ./backend
     environment:
+      - NEAR_RPC_URL=https://rpc.nearprotocol.com
       - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
 
@@ -22,6 +22,5 @@ services:
       - PORT=3000
       - WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws
       - WAMP_NEAR_EXPLORER_INTERNAL_URL=ws://wamp:8080/ws
-      - WAMP_NEAR_EXPLORER_FRONTEND_SECRET=front
     ports:
       - 3000:3000

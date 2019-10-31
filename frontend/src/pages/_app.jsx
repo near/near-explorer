@@ -10,6 +10,10 @@ import DataProvider from "../components/utils/DataProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const {
+  publicRuntimeConfig: { nearNetworks, nearNetworkAliases, googleAnalytics }
+} = getConfig();
+
 export default class extends App {
   static async getInitialProps(appContext) {
     // WARNING: Do not remove this getInitialProps implementation as it
@@ -22,14 +26,21 @@ export default class extends App {
     // > `<App>` with `getInitialProps`.
     //
     // https://github.com/zeit/next.js#runtime-configuration
-    return { ...(await App.getInitialProps(appContext)) };
+
+    let currentNearNetwork;
+    if (typeof window === "undefined") {
+      currentNearNetwork = nearNetworkAliases[appContext.ctx.req.headers.host];
+    } else {
+      currentNearNetwork = nearNetworkAliases[window.location.host];
+    }
+    return {
+      currentNearNetwork,
+      ...(await App.getInitialProps({ ...appContext, currentNearNetwork }))
+    };
   }
 
   render() {
     const { Component, pageProps } = this.props;
-    const {
-      publicRuntimeConfig: { googleAnalytics }
-    } = getConfig();
 
     return (
       <>
@@ -40,7 +51,10 @@ export default class extends App {
             href="/static/favicon.ico"
           />
         </Head>
-        <DataProvider>
+        <DataProvider
+          currentNearNetwork={this.props.currentNearNetwork}
+          nearNetworks={nearNetworks}
+        >
           <Header />
           <div className="page">
             <Container>

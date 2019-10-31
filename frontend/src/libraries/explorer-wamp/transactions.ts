@@ -1,4 +1,4 @@
-import { call } from ".";
+import { ExplorerApi } from ".";
 
 export interface TransactionInfo {
   hash: string;
@@ -96,86 +96,90 @@ export interface FilterArgs {
   limit: number;
 }
 
-export async function getTransactions(
-  filters: FilterArgs
-): Promise<Transaction[]> {
-  const { signerId, receiverId, transactionHash, blockHash } = filters;
-  const whereClause = [];
-  if (signerId) {
-    whereClause.push(`transactions.signer_id = :signerId`);
-  }
-  if (receiverId) {
-    whereClause.push(`transactions.receiver_id = :receiverId`);
-  }
-  if (transactionHash) {
-    whereClause.push(`transactions.hash = :transactionHash`);
-  }
-  if (blockHash) {
-    whereClause.push(`transactions.block_hash = :blockHash`);
-  }
-  try {
-    const transactions = await call<
-      (TransactionInfo & (StringActions | Actions))[]
-    >(".select", [
-      `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
-        FROM transactions
-        LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-        ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-        ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
-        LIMIT :limit`,
-      filters
-    ]);
-    if (filters.tail) {
-      transactions.reverse();
+export default class TransactionsApi extends ExplorerApi {
+  async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
+    const { signerId, receiverId, transactionHash, blockHash } = filters;
+    const whereClause = [];
+    if (signerId) {
+      whereClause.push(`transactions.signer_id = :signerId`);
     }
-    transactions.forEach(transaction => {
-      transaction.status = "Completed";
-      try {
-        transaction.actions = JSON.parse(transaction.actions as string);
-      } catch {}
-    });
-    return transactions as Transaction[];
-  } catch (error) {
-    console.error(
-      "Transactions.getTransactionsInfo failed to fetch data due to:"
-    );
-    console.error(error);
-    throw error;
-  }
-}
-
-export async function getLatestTransactionsInfo(): Promise<Transaction[]> {
-  return getTransactions({ tail: true, limit: 10 });
-}
-
-export async function getTransactionInfo(
-  transactionHash: string
-): Promise<Transaction | null> {
-  try {
-    let [transactionInfo, transactionExtraInfo] = await Promise.all([
-      getTransactions({ transactionHash, limit: 1 }).then(it => it[0] || null),
-      call<any>(".nearcore-tx", [transactionHash])
-    ]);
-
-    if (transactionInfo === null) {
-      transactionInfo = {
-        status: transactionExtraInfo.status,
-        hash: transactionExtraInfo.transaction.id,
-        signerId: "",
-        receiverId: "",
-        blockHash: "",
-        blockTimestamp: 0,
-        actions: []
-      };
+    if (receiverId) {
+      whereClause.push(`transactions.receiver_id = :receiverId`);
     }
-    const transaction = transactionInfo;
-    transaction.receipts = transactionExtraInfo.receipts as Receipt[];
-    return transaction;
-  } catch (error) {
-    console.error(
-      "Transactions.getTransactionInfo failed to fetch data due to:"
-    );
-    console.error(error);
-    throw error;
+    if (transactionHash) {
+      whereClause.push(`transactions.hash = :transactionHash`);
+    }
+    if (blockHash) {
+      whereClause.push(`transactions.block_hash = :blockHash`);
+    }
+    try {
+      const transactions = await this.call<
+        (TransactionInfo & (StringActions | Actions))[]
+      >("select", [
+        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
+          FROM transactions
+          LEFT JOIN blocks ON blocks.hash = transactions.block_hash
+          ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
+          ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
+          LIMIT :limit`,
+        filters
+      ]);
+      if (filters.tail) {
+        transactions.reverse();
+      }
+      transactions.forEach(transaction => {
+        transaction.status = "Completed";
+        try {
+          transaction.actions = JSON.parse(transaction.actions as string);
+        } catch {}
+      });
+      return transactions as Transaction[];
+    } catch (error) {
+      console.error(
+        "Transactions.getTransactionsInfo failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getLatestTransactionsInfo(): Promise<Transaction[]> {
+    return this.getTransactions({ tail: true, limit: 10 });
+  }
+
+  async getTransactionInfo(
+    transactionHash: string
+  ): Promise<Transaction | null> {
+    try {
+      let transactionInfo = await this.getTransactions({
+        transactionHash,
+        limit: 1
+      }).then(it => it[0] || null);
+
+      if (transactionInfo === null) {
+        transactionInfo = {
+          status: "Not started",
+          hash: transactionHash,
+          signerId: "",
+          receiverId: "",
+          blockHash: "",
+          blockTimestamp: 0,
+          actions: []
+        };
+      } else {
+        const transactionExtraInfo = await this.call<any>("nearcore-tx", [
+          transactionHash,
+          transactionInfo.signerId
+        ]);
+        transactionInfo.receipts = transactionExtraInfo.receipts as Receipt[];
+      }
+      return transactionInfo;
+    } catch (error) {
+      console.error(
+        "Transactions.getTransactionInfo failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
   }
 }

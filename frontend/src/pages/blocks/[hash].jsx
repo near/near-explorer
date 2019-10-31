@@ -4,16 +4,16 @@ import React from "react";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import * as BlockApi from "../../libraries/explorer-wamp/blocks";
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
 export default class extends React.Component {
-  static async getInitialProps({ query: { hash } }) {
+  static async getInitialProps({ req, query: { hash } }) {
     try {
-      return await BlockApi.getBlockInfo(hash);
+      return await new BlocksApi(req).getBlockInfo(hash);
     } catch (err) {
       return { hash, err };
     }
