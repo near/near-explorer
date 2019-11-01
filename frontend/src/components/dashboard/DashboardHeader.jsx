@@ -3,18 +3,70 @@ import Link from "next/link";
 import {Button, Col, Dropdown, FormControl, InputGroup, Row} from "react-bootstrap";
 
 import CardCell from "../utils/CardCell";
+// import AccountApi from "../../libraries/explorer-wamp/accounts";
 
 export class DashboardHeader extends React.Component {
+
+  // account;
+
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      searchFilterValue: 'ALL FILTERS',
+      searchValue: ''
+    };
+
+    // this.account = new AccountApi();
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleFilterSelect = this.handleFilterSelect.bind(this);
+    this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
   }
 
-  handleClick() {
+  async handleClick() {
 
     console.log('click');
+
+    // try {
+    //
+    //   await this.account.queryAccount(
+    //     this.state.searchValue
+    //   );
+    // } catch (e) {
+    //
+    //   console.error(e);
+    // }
+  }
+
+  handleFilterSelect(eventKey) {
+
+    switch (eventKey) {
+      case '1':
+        this.setState({
+          searchFilterValue: 'Accounts'
+        });
+        break;
+      case '2':
+        this.setState({
+          searchFilterValue: 'Transactions'
+        });
+        break;
+      case '3':
+        this.setState({
+          searchFilterValue: 'Blocks'
+        });
+        break;
+      default:
+        this.setState({
+          searchFilterValue: 'ALL FILTERS'
+        });
+        break;
+    }
+  }
+
+  handleSearchValueChange(event) {
+
+    this.setState({searchValue: event.target.value});
   }
 
   render() {
@@ -78,14 +130,19 @@ export class DashboardHeader extends React.Component {
         <Row className="search-box" noGutters>
           <Col className="p-3" xs="12" md="2">
             <Dropdown className="d-flex flex-column">
-              <Dropdown.Toggle className="search-box-filter-button" variant="outline-info" id="all-filters-button">
-                ALL FILTERS
+              <Dropdown.Toggle
+                className="search-box-filter-button"
+                variant="outline-info"
+                id="all-filters-button"
+              >
+                {this.state.searchFilterValue}
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Accounts</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Transactions</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Blocks</Dropdown.Item>
+                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='1'>Accounts</Dropdown.Item>
+                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='2'>Transactions</Dropdown.Item>
+                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='3'>Blocks</Dropdown.Item>
+                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='4'>All filters</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -98,6 +155,7 @@ export class DashboardHeader extends React.Component {
                 placeholder="Search by account name, TX hash, or block number"
                 aria-label="Search"
                 aria-describedby="search"
+                onChange={this.handleSearchValueChange}
                 className="border-left-0 search-field pl-0"
               />
             </InputGroup>
