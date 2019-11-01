@@ -7,10 +7,10 @@ import BlocksApi from "../libraries/explorer-wamp/blocks";
 import DetailsApi from "../libraries/explorer-wamp/details";
 import TransactionsApi from "../libraries/explorer-wamp/transactions";
 
-import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardTransactions from "../components/dashboard/DashboardTransactions";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import Content from "../components/utils/Content";
+import {DashboardHeader} from "../components/dashboard/DashboardHeader";
 
 export default class extends React.Component {
   static async getInitialProps({ req }) {
