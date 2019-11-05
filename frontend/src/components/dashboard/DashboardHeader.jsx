@@ -12,12 +12,10 @@ export class DashboardHeader extends React.Component {
     super(props);
 
     this.state = {
-      searchFilterValue: 'ALL FILTERS',
       searchValue: ''
     };
 
     this.handleClick = this.handleClick.bind(this);
-    this.handleFilterSelect = this.handleFilterSelect.bind(this);
     this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
   }
 
@@ -49,40 +47,17 @@ export class DashboardHeader extends React.Component {
 
     try {
 
-      await new TransactionsApi(this.props.req).getTransactionInfo(
+      const tx = await new TransactionsApi(this.props.req).getTransactionInfo(
         this.state.searchValue
       );
 
-      console.log('transaction');
+      if (tx.signerId) {
+
+        console.log('transaction', tx);
+      }
     } catch (e) {
 
       // console.error(e);
-    }
-  }
-
-  handleFilterSelect(eventKey) {
-
-    switch (eventKey) {
-      case '1':
-        this.setState({
-          searchFilterValue: 'Accounts'
-        });
-        break;
-      case '2':
-        this.setState({
-          searchFilterValue: 'Transactions'
-        });
-        break;
-      case '3':
-        this.setState({
-          searchFilterValue: 'Blocks'
-        });
-        break;
-      default:
-        this.setState({
-          searchFilterValue: 'ALL FILTERS'
-        });
-        break;
     }
   }
 
@@ -150,25 +125,7 @@ export class DashboardHeader extends React.Component {
           </Col>
         </Row>
         <Row className="search-box" noGutters>
-          <Col className="p-3" xs="12" md="2">
-            <Dropdown className="d-flex flex-column">
-              <Dropdown.Toggle
-                className="search-box-filter-button"
-                variant="outline-info"
-                id="all-filters-button"
-              >
-                {this.state.searchFilterValue}
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='1'>Accounts</Dropdown.Item>
-                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='2'>Transactions</Dropdown.Item>
-                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='3'>Blocks</Dropdown.Item>
-                <Dropdown.Item onSelect={this.handleFilterSelect} eventKey='4'>All filters</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-          <Col className="p-3" xs="12" md="8">
+          <Col className="p-3" xs="12" md="10">
             <InputGroup>
               <InputGroup.Prepend>
                 <InputGroup.Text id="search" className="search-icon">🔎</InputGroup.Text>
