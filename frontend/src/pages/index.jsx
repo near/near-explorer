@@ -1,7 +1,6 @@
 import Head from "next/head";
 
-import { useEffect, useContext } from "react";
-import { Row, Col } from "react-bootstrap";
+import {Row, Col} from "react-bootstrap";
 
 import BlocksApi from "../libraries/explorer-wamp/blocks";
 import DetailsApi from "../libraries/explorer-wamp/details";
@@ -13,17 +12,20 @@ import Content from "../components/utils/Content";
 import {DashboardHeader} from "../components/dashboard/DashboardHeader";
 
 export default class extends React.Component {
-  static async getInitialProps({ req }) {
+  static async getInitialProps({req}) {
     const ignoreErr = promise => promise.catch(() => null);
     const details = ignoreErr(new DetailsApi(req).getDetails());
     const blocks = ignoreErr(new BlocksApi(req).getLatestBlocksInfo());
+
     const transactions = ignoreErr(
       new TransactionsApi(req).getLatestTransactionsInfo()
     );
+
     return {
       details: await details,
       blocks: await blocks,
-      transactions: await transactions
+      transactions: await transactions,
+      req: req
     };
   }
 
@@ -34,13 +36,13 @@ export default class extends React.Component {
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content title={<h1>Dashboard</h1>} border={false}>
-          <DashboardHeader {...this.props.details} />
+          <DashboardHeader {...this.props} />
           <Row noGutters className="dashboard-section">
             <Col md="8">
-              <DashboardTransactions transactions={this.props.transactions} />
+              <DashboardTransactions transactions={this.props.transactions}/>
             </Col>
             <Col md="4">
-              <DashboardBlocks blocks={this.props.blocks} />
+              <DashboardBlocks blocks={this.props.blocks}/>
             </Col>
           </Row>
           <style jsx global>{`

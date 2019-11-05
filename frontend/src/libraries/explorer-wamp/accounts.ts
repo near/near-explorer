@@ -19,6 +19,7 @@ interface AccountInfo {
 export type Account = AccountId & AccountStats & AccountInfo;
 
 export default class AccountApi extends ExplorerApi {
+
   async getAccountInfo(id: string): Promise<Account> {
     try {
       const [accountInfo, accountStats] = await Promise.all([
@@ -39,7 +40,7 @@ export default class AccountApi extends ExplorerApi {
       return {
         id,
         amount: accountInfo.amount,
-        locилиked: accountInfo.locked,
+        locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
         ...accountStats[0]

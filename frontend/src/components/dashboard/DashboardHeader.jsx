@@ -1,22 +1,20 @@
 import Link from "next/link";
-
 import {Button, Col, Dropdown, FormControl, InputGroup, Row} from "react-bootstrap";
 
 import CardCell from "../utils/CardCell";
-// import AccountApi from "../../libraries/explorer-wamp/accounts";
+import AccountApi from "../../libraries/explorer-wamp/accounts";
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
+import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
 export class DashboardHeader extends React.Component {
 
-  // account;
-
   constructor(props) {
     super(props);
+
     this.state = {
       searchFilterValue: 'ALL FILTERS',
       searchValue: ''
     };
-
-    // this.account = new AccountApi();
 
     this.handleClick = this.handleClick.bind(this);
     this.handleFilterSelect = this.handleFilterSelect.bind(this);
@@ -25,17 +23,41 @@ export class DashboardHeader extends React.Component {
 
   async handleClick() {
 
-    console.log('click');
+    try {
 
-    // try {
-    //
-    //   await this.account.queryAccount(
-    //     this.state.searchValue
-    //   );
-    // } catch (e) {
-    //
-    //   console.error(e);
-    // }
+      await new AccountApi(this.props.req).queryAccount(
+        this.state.searchValue
+      );
+
+      console.log('account');
+    } catch (e) {
+
+      // console.error(e);
+    }
+
+    try {
+
+      await new BlocksApi(this.props.req).getBlockInfo(
+        this.state.searchValue
+      );
+
+      console.log('block');
+    } catch (e) {
+
+      // console.error(e);
+    }
+
+    try {
+
+      await new TransactionsApi(this.props.req).getTransactionInfo(
+        this.state.searchValue
+      );
+
+      console.log('transaction');
+    } catch (e) {
+
+      // console.error(e);
+    }
   }
 
   handleFilterSelect(eventKey) {
@@ -77,7 +99,7 @@ export class DashboardHeader extends React.Component {
       transactionsPerSecond,
       lastDayTxCount,
       accountsCount
-    } = this.props;
+    } = this.props.details;
 
     return (
       <div className="dashboard-info-container">
