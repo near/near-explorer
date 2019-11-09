@@ -6,6 +6,8 @@ import AccountApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
+import Router from 'next/router'
+
 export class DashboardHeader extends React.Component {
 
   constructor(props) {
@@ -23,11 +25,11 @@ export class DashboardHeader extends React.Component {
 
     try {
 
-      await new AccountApi(this.props.req).queryAccount(
+      await new AccountApi().queryAccount(
         this.state.searchValue
       );
 
-      console.log('account');
+      return Router.push('/accounts/' + this.state.searchValue);
     } catch (e) {
 
       // console.error(e);
@@ -35,11 +37,11 @@ export class DashboardHeader extends React.Component {
 
     try {
 
-      await new BlocksApi(this.props.req).getBlockInfo(
+      await new BlocksApi().getBlockInfo(
         this.state.searchValue
       );
 
-      console.log('block');
+      return Router.push('/blocks/' + this.state.searchValue);
     } catch (e) {
 
       // console.error(e);
@@ -47,18 +49,20 @@ export class DashboardHeader extends React.Component {
 
     try {
 
-      const tx = await new TransactionsApi(this.props.req).getTransactionInfo(
+      const tx = await new TransactionsApi().getTransactionInfo(
         this.state.searchValue
       );
 
       if (tx.signerId) {
 
-        console.log('transaction', tx);
+        return Router.push('/transactions/' + this.state.searchValue);
       }
     } catch (e) {
 
       // console.error(e);
     }
+
+    alert('Nothing found!');
   }
 
   handleSearchValueChange(event) {

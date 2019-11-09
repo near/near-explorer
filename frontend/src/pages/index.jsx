@@ -24,8 +24,7 @@ export default class extends React.Component {
     return {
       details: await details,
       blocks: await blocks,
-      transactions: await transactions,
-      req: req
+      transactions: await transactions
     };
   }
 
