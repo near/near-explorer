@@ -11,11 +11,10 @@ export default class extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this._nodesApi = new NodesApi();
   }
 
   componentDidMount() {
+    this._nodesApi = new NodesApi();
     this.regularFetchInfo();
   }
 
