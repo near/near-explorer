@@ -85,7 +85,12 @@ async function init() {
     timestamp: "2019-01-19 00:00:00",
     weight: "1",
     authorId: "vlad.near",
-    listOfApprovals: ""
+    listOfApprovals: "",
+    totalSupply: 10000000000,
+    gasLimit: 10000000,
+    gasUsed: 10000000,
+    gasPrice: 10,
+    totalWeight: 10,
   });
   await models.Block.create({
     hash: "69a3a6811111194",
@@ -94,7 +99,12 @@ async function init() {
     timestamp: "2019-01-19 00:01:00",
     weight: "1",
     authorId: "vlad.near",
-    listOfApprovals: ""
+    listOfApprovals: "",
+    totalSupply: 10000000000,
+    gasLimit: 10000000,
+    gasUsed: 10000000,
+    gasPrice: 10,
+    totalWeight: 10,
   });
 
   await models.Block.create({
@@ -104,7 +114,12 @@ async function init() {
     timestamp: "2019-01-19 00:02:00",
     weight: "1",
     authorId: "vlad.near",
-    listOfApprovals: ""
+    listOfApprovals: "",
+    totalSupply: 10000000000,
+    gasLimit: 10000000,
+    gasUsed: 10000000,
+    gasPrice: 10,
+    totalWeight: 10,
   });
 
   await models.Block.create({
@@ -114,7 +129,12 @@ async function init() {
     timestamp: "2019-01-19 00:03:00",
     weight: "1",
     authorId: "vlad.near",
-    listOfApprovals: ""
+    listOfApprovals: "",
+    totalSupply: 10000000000,
+    gasLimit: 10000000,
+    gasUsed: 10000000,
+    gasPrice: 10,
+    totalWeight: 10,
   });
 
   await models.Block.create({
@@ -124,7 +144,12 @@ async function init() {
     timestamp: "2019-01-19 00:04:00",
     weight: "1",
     authorId: "vlad.near",
-    listOfApprovals: ""
+    listOfApprovals: "",
+    totalSupply: 10000000000,
+    gasLimit: 10000000,
+    gasUsed: 10000000,
+    gasPrice: 10,
+    totalWeight: 10,
   });
 
   await models.Block.create({
@@ -134,7 +159,12 @@ async function init() {
     timestamp: "2019-01-19 00:05:00",
     weight: "1",
     authorId: "vlad.near",
-    listOfApprovals: ""
+    listOfApprovals: "",
+    totalSupply: 10000000000,
+    gasLimit: 10000000,
+    gasUsed: 10000000,
+    gasPrice: 10,
+    totalWeight: 10,
   });
   await models.Block.create({
     hash: "69a3a6811111199",
@@ -143,7 +173,12 @@ async function init() {
     timestamp: "2019-01-19 00:06:00",
     weight: "1",
     authorId: "vlad.near",
-    listOfApprovals: ""
+    listOfApprovals: "",
+    totalSupply: 10000000000,
+    gasLimit: 10000000,
+    gasUsed: 10000000,
+    gasPrice: 10,
+    totalWeight: 10,
   });
 
   console.log("Initializing dummy chunks...");
@@ -151,43 +186,78 @@ async function init() {
     hash: "69a3a6811111193",
     blockHash: "69a3a6811111193",
     shardId: "shard1",
-    authorId: "alice.near"
+    authorId: "alice.near",
+    gasLimit: 100,
+    gasUsed: 100,
+    heightCreated: 100,
+    heightIncluded: 100,
+    signature: '0x0'
   });
   await models.Chunk.create({
     hash: "69a3a6811111194",
     blockHash: "69a3a6811111194",
     shardId: "shard1",
-    authorId: "alice.near"
+    authorId: "alice.near",
+    gasLimit: 100,
+    gasUsed: 100,
+    heightCreated: 100,
+    heightIncluded: 100,
+    signature: '0x0'
   });
   await models.Chunk.create({
     hash: "69a3a6811111195",
     blockHash: "69a3a6811111195",
     shardId: "shard1",
-    authorId: "alice.near"
+    authorId: "alice.near",
+    gasLimit: 100,
+    gasUsed: 100,
+    heightCreated: 100,
+    heightIncluded: 100,
+    signature: '0x0'
   });
   await models.Chunk.create({
     hash: "69a3a6811111196",
     blockHash: "69a3a6811111196",
     shardId: "shard1",
-    authorId: "alice.near"
+    authorId: "alice.near",
+    gasLimit: 100,
+    gasUsed: 100,
+    heightCreated: 100,
+    heightIncluded: 100,
+    signature: '0x0'
   });
   await models.Chunk.create({
     hash: "69a3a6811111197",
     blockHash: "69a3a6811111197",
     shardId: "shard1",
-    authorId: "alice.near"
+    authorId: "alice.near",
+    gasLimit: 100,
+    gasUsed: 100,
+    heightCreated: 100,
+    heightIncluded: 100,
+    signature: '0x0'
   });
   await models.Chunk.create({
     hash: "69a3a6811111198",
     blockHash: "69a3a6811111198",
     shardId: "shard1",
-    authorId: "alice.near"
+    authorId: "alice.near",
+    gasLimit: 100,
+    gasUsed: 100,
+    heightCreated: 100,
+    heightIncluded: 100,
+    signature: '0x0'
   });
   await models.Chunk.create({
     hash: "69a3a6811111199",
     blockHash: "69a3a6811111199",
     shardId: "shard1",
-    authorId: "alice.near"
+    authorId: "alice.near",
+    gasLimit: 100,
+    gasUsed: 100,
+    heightCreated: 100,
+    heightIncluded: 100,
+    signature: '0x0'
   });
 
   console.log("Initializing dummy transactions...");
@@ -200,7 +270,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb2222",
@@ -211,7 +288,14 @@ async function init() {
     kind: "DeployContract",
     args: { name: "NameOfContract" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb3333",
@@ -222,7 +306,14 @@ async function init() {
     kind: "Staked",
     args: { tokens: "10" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb4444",
@@ -233,7 +324,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb5555",
@@ -244,7 +342,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb6666",
@@ -255,7 +360,14 @@ async function init() {
     kind: "DeployContract",
     args: { name: "NameOfContract" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb7777",
@@ -266,7 +378,14 @@ async function init() {
     kind: "Staked",
     args: { tokens: "10" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb8888",
@@ -277,7 +396,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehb9999",
@@ -288,7 +414,14 @@ async function init() {
     kind: "Sent",
     args: { to: "jake.near", tokens: "15" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehc0000",
@@ -299,7 +432,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehc1111",
@@ -310,7 +450,14 @@ async function init() {
     kind: "CreateAccount",
     args: { name: "erik.near" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehc2222",
@@ -321,7 +468,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehc3333",
@@ -332,7 +486,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehc4444",
@@ -343,7 +504,14 @@ async function init() {
     kind: "Call",
     args: { name: "NameOfContract", to: "bob.near", tokens: "1000" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
   await models.Transaction.create({
     hash: "TMuA6YqfCeX8Ehc5555",
@@ -354,7 +522,14 @@ async function init() {
     kind: "Receipt",
     args: { name: "NameOfContract" },
     status: "Completed",
-    logs: ""
+    logs: "",
+    nonce: 2,
+    signerId: '123',
+    signerPublicKey: '123123asd',
+    signature: '123123asdaf',
+    receiverId: '123ase',
+    actions: {},
+    blockHash: '123lkqljlda'
   });
 }
 
