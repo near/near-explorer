@@ -49,7 +49,7 @@ exports[`<ActionMessage /> renders DeployContract 1`] = `"Contract deployed: rec
 
 exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
-  "Called method in contract: ",
+  "Called method: method_name in contract: ",
   <a
     className="account-link"
     href="/accounts/receiver.test"
