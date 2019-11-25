@@ -60,7 +60,7 @@ $ npm run build
 $ npm run start
 ```
 
-Also, there is a common comman to run the release bundle against the deployed Explorer backend:
+Also, there is a common command to run the release bundle against the deployed Explorer backend:
 
 ```
 $ npm run start:production-wamp
@@ -73,6 +73,16 @@ To run the type check and unit tests, use the following command:
 ```
 $ npm run test
 ```
+
+TIP: Some tests are snapshot-based, so some changes may require to update the
+snapshots; to do that you review the reported diffs and once you are sure that
+those changes are legit, run the following command:
+
+```
+$ npm run test -- --updateSnapshot
+```
+
+, and commit those changes in the snapshots together with your PR.
 
 To run end-to-end testing against the local WAMP router:
 
