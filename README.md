@@ -25,18 +25,6 @@ $ docker-compose up
 
 NOTE: You may want to run them in background, so just add `--detach` flag.
 
-Initialize database:
-
-```
-$ docker-compose exec backend npx sequelize-cli db:migrate --env development-migration
-```
-
-Load some dummy data (just for the development):
-
-```
-$ docker-compose exec backend node loadDummyData.js
-```
-
 Now you can reach the services:
 
 -   http://localhost:3000/ -- frontend
