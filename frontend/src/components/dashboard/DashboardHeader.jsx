@@ -15,7 +15,7 @@ import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
 import Router from "next/router";
 
-export class DashboardHeader extends React.Component {
+export default class DashboardHeader extends React.Component {
   state = {
     searchValue: ""
   };
@@ -25,19 +25,24 @@ export class DashboardHeader extends React.Component {
 
     const { searchValue } = this.state;
 
-    const [block, transaction, account] = await Promise.all([
-      new BlocksApi().getBlockInfo(searchValue).catch(() => {}),
-      new TransactionsApi().getTransactionInfo(searchValue).catch(() => {}),
-      new AccountApi().queryAccount(searchValue).catch(() => {})
-    ]);
+    const blockPromise = new BlocksApi()
+      .getBlockInfo(searchValue)
+      .catch(() => {});
+    const transactionPromise = new TransactionsApi()
+      .getTransactionInfo(searchValue)
+      .catch(() => {});
+    const accountPromise = new AccountApi()
+      .queryAccount(searchValue)
+      .catch(() => {});
 
-    if (block) {
+    if (await blockPromise) {
       return Router.push("/blocks/" + searchValue);
     }
+    const transaction = await transactionPromise;
     if (transaction && transaction.signerId) {
       return Router.push("/transactions/" + searchValue);
     }
-    if (account) {
+    if (await accountPromise) {
       return Router.push("/accounts/" + searchValue);
     }
 
