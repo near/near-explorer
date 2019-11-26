@@ -1,7 +1,6 @@
 import { ExplorerApi } from ".";
 
 export default class BlocksApi extends ExplorerApi {
-
   async searchBlocks(keyword, height = -1, limit = 15) {
     try {
       return await this.call("select", [

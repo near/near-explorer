@@ -19,7 +19,6 @@ interface AccountInfo {
 export type Account = AccountId & AccountStats & AccountInfo;
 
 export default class AccountApi extends ExplorerApi {
-
   async getAccountInfo(id: string): Promise<Account> {
     try {
       const [accountInfo, accountStats] = await Promise.all([
@@ -53,7 +52,6 @@ export default class AccountApi extends ExplorerApi {
   }
 
   async queryAccount(id: string) {
-
     return this.call<any>("nearcore-query", [`account/${id}`, ""]);
   }
 }
