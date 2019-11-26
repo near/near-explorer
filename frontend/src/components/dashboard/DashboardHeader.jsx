@@ -1,74 +1,52 @@
 import Link from "next/link";
-import {Button, Col, Dropdown, FormControl, InputGroup, Row} from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Dropdown,
+  FormControl,
+  InputGroup,
+  Row
+} from "react-bootstrap";
 
 import CardCell from "../utils/CardCell";
 import AccountApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
-import Router from 'next/router'
+import Router from "next/router";
 
 export class DashboardHeader extends React.Component {
+  state = {
+    searchValue: ""
+  };
 
-  constructor(props) {
-    super(props);
+  handleSearch = async event => {
+    event.preventDefault();
 
-    this.state = {
-      searchValue: ''
-    };
+    const { searchValue } = this.state;
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handleSearchValueChange = this.handleSearchValueChange.bind(this);
-  }
+    const [block, transaction, account] = await Promise.all([
+      new BlocksApi().getBlockInfo(searchValue).catch(() => {}),
+      new TransactionsApi().getTransactionInfo(searchValue).catch(() => {}),
+      new AccountApi().queryAccount(searchValue).catch(() => {})
+    ]);
 
-  async handleClick() {
-
-    try {
-
-      await new AccountApi().queryAccount(
-        this.state.searchValue
-      );
-
-      return Router.push('/accounts/' + this.state.searchValue);
-    } catch (e) {
-
-      // console.error(e);
+    if (block) {
+      return Router.push("/blocks/" + searchValue);
+    }
+    if (transaction && transaction.signerId) {
+      return Router.push("/transactions/" + searchValue);
+    }
+    if (account) {
+      return Router.push("/accounts/" + searchValue);
     }
 
-    try {
+    alert("Nothing found!");
+  };
 
-      await new BlocksApi().getBlockInfo(
-        this.state.searchValue
-      );
-
-      return Router.push('/blocks/' + this.state.searchValue);
-    } catch (e) {
-
-      // console.error(e);
-    }
-
-    try {
-
-      const tx = await new TransactionsApi().getTransactionInfo(
-        this.state.searchValue
-      );
-
-      if (tx.signerId) {
-
-        return Router.push('/transactions/' + this.state.searchValue);
-      }
-    } catch (e) {
-
-      // console.error(e);
-    }
-
-    alert('Nothing found!');
-  }
-
-  handleSearchValueChange(event) {
-
-    this.setState({searchValue: event.target.value});
-  }
+  handleSearchValueChange = event => {
+    this.setState({ searchValue: event.target.value });
+  };
 
   render() {
     const {
@@ -128,59 +106,68 @@ export class DashboardHeader extends React.Component {
             </Link>
           </Col>
         </Row>
-        <Row className="search-box" noGutters>
-          <Col className="p-3" xs="12" md="10">
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text id="search" className="search-icon">🔎</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl
-                placeholder="Search by account name, TX hash, or block number"
-                aria-label="Search"
-                aria-describedby="search"
-                onChange={this.handleSearchValueChange}
-                className="border-left-0 search-field pl-0"
-              />
-            </InputGroup>
-          </Col>
-          <Col className="p-3 d-flex flex-column" xs="12" md="2">
-            <Button variant="info" className="button-search" onClick={this.handleClick}>Search</Button>
-          </Col>
-        </Row>
+        <form onSubmit={this.handleSearch}>
+          <Row className="search-box" noGutters>
+            <Col className="p-3" xs="12" md="10">
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="search">
+                    <img
+                      src="/static/images/icon-search.svg"
+                      className="search-icon"
+                    />
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  placeholder="Search by Account ID, Transaction hash, or Block hash"
+                  aria-label="Search"
+                  aria-describedby="search"
+                  onChange={this.handleSearchValueChange}
+                  className="border-left-0 search-field pl-0"
+                />
+              </InputGroup>
+            </Col>
+            <Col className="p-3 d-flex flex-column" xs="12" md="2">
+              <Button type="submit" variant="info" className="button-search">
+                Search
+              </Button>
+            </Col>
+          </Row>
+        </form>
         <style jsx global>{`
-      .dashboard-info-container {
-        border: solid 4px #e6e6e6;
-        border-radius: 4px;
-      }
+          .dashboard-info-container {
+            border: solid 4px #e6e6e6;
+            border-radius: 4px;
+          }
 
-      .dashboard-info-container > .row:first-of-type .card-cell-text {
-        font-size: 24px;
-      }
-      
-      .search-box {
-        border-top: 2px solid #e6e6e6;
-        background: #f8f8f8;
-      }
-      .search-box-filter-button {
-        border-radius: 25px;
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-      .search-icon {
-        background: white;
-        border-right: 0;
-        border-radius: 25px;
-      }
-      .search-field {
-        border-radius: 25px;
-        outline:none;
-        box-shadow: none!important;
-        border-color: rgb(199, 210, 221) !important;
-      }
-      .button-search {
-        border-radius: 25px;
-      }
-    `}</style>
+          .dashboard-info-container > .row:first-of-type .card-cell-text {
+            font-size: 24px;
+          }
+
+          .search-box {
+            border-top: 2px solid #e6e6e6;
+            background: #f8f8f8;
+          }
+          .search-box-filter-button {
+            border-radius: 25px;
+            padding-left: 20px;
+            padding-right: 20px;
+          }
+          .search-box .input-group-text {
+            background: white;
+            border-right: 0;
+            border-radius: 25px 0 0 25px;
+          }
+          .search-field {
+            border-radius: 25px;
+            outline: none;
+            box-shadow: none !important;
+            border-color: rgb(199, 210, 221) !important;
+          }
+          .button-search {
+            border-radius: 25px;
+          }
+        `}</style>
       </div>
     );
   }
