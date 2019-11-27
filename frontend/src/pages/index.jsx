@@ -1,6 +1,6 @@
 import Head from "next/head";
+import FlipMove from "react-flip-move";
 
-import { useEffect, useContext } from "react";
 import { Row, Col } from "react-bootstrap";
 
 import BlocksApi from "../libraries/explorer-wamp/blocks";
@@ -14,18 +14,37 @@ import Content from "../components/utils/Content";
 
 export default class extends React.Component {
   static async getInitialProps({ req }) {
-    const ignoreErr = promise => promise.catch(() => null);
-    const details = ignoreErr(new DetailsApi(req).getDetails());
-    const blocks = ignoreErr(new BlocksApi(req).getLatestBlocksInfo());
-    const transactions = ignoreErr(
-      new TransactionsApi(req).getLatestTransactionsInfo()
-    );
+    const details = new DetailsApi(req).getDetails().catch(() => null);
+    const blocks = new BlocksApi(req).getLatestBlocksInfo().catch(() => null);
+    const transactions = new TransactionsApi(req)
+      .getLatestTransactionsInfo()
+      .catch(() => null);
     return {
       details: await details,
       blocks: await blocks,
       transactions: await transactions
     };
   }
+
+  // componentDidMount() {
+  //   this.regularFetchInfo();
+  // }
+
+  // componentWillUnmount() {
+  //   clearTimeout(this.timer);
+  //   this.timer = false;
+  // }
+
+  // fetchInfo = async () => {
+
+  // };
+
+  // regularFetchInfo = async () => {
+  //   await this.fetchInfo();
+  //   if (this.timer !== false) {
+  //     this.timer = setTimeout(this.regularFetchInfo, 10000);
+  //   }
+  // };
 
   render() {
     return (
