@@ -22,7 +22,7 @@ export default class AccountApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
       const [accountInfo, accountStats] = await Promise.all([
-        this.call<any>("nearcore-query", [`account/${id}`, ""]),
+        this.queryAccount(id),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
             (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
@@ -49,5 +49,9 @@ export default class AccountApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async queryAccount(id: string) {
+    return this.call<any>("nearcore-query", [`account/${id}`, ""]);
   }
 }
