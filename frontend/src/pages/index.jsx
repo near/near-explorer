@@ -7,10 +7,10 @@ import BlocksApi from "../libraries/explorer-wamp/blocks";
 import DetailsApi from "../libraries/explorer-wamp/details";
 import TransactionsApi from "../libraries/explorer-wamp/transactions";
 
+import Content from "../components/utils/Content";
+import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardTransactions from "../components/dashboard/DashboardTransactions";
-import DashboardBlocks from "../components/dashboard/DashboardBlocks";
-import Content from "../components/utils/Content";
 
 export default class extends React.Component {
   static async getInitialProps({ req }) {
@@ -53,7 +53,7 @@ export default class extends React.Component {
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content title={<h1>Dashboard</h1>} border={false}>
-          <DashboardHeader {...this.props.details} />
+          <DashboardHeader {...this.props} />
           <Row noGutters className="dashboard-section">
             <Col md="8">
               <DashboardTransactions transactions={this.props.transactions} />
