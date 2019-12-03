@@ -1,11 +1,11 @@
 import Link from "next/link";
-import React, { Component } from "react";
+import React from "react";
 
 import { Row, Col, Card } from "react-bootstrap";
 
 import Timer from "../utils/Timer";
 
-export default class extends Component {
+export default class extends React.Component {
   render() {
     const {
       blockHash,
@@ -14,7 +14,7 @@ export default class extends Component {
       transactionsCount
     } = this.props;
     return (
-      <Col xs="6" md="12">
+      <Col xs="12" md="12">
         <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
           <a className="dashboard-blocks-block-link">
             <Card className="dashboard-blocks-block">

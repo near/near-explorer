@@ -8,6 +8,7 @@ import { Row, Col } from "react-bootstrap";
 
 import Content from "../utils/Content";
 import ActionsList from "../transactions/ActionsList";
+import ActionRow, { ViewMode } from "../transactions/ActionRow";
 
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "react-flip-move";
@@ -43,15 +44,25 @@ export default class extends Component {
   render() {
     const { transactions } = this.state;
     let reserved = true;
-    let actions = transactions.map(transaction => (
-      <ActionsList
-        key={transaction.hash}
-        actions={transaction.actions}
-        transaction={transaction}
-        viewMode="compact"
-        reversed={true}
-      />
-    ));
+    let actions = transactions.map(transaction =>
+      transaction.actions.map((action, actionIndex) => (
+        <ActionRow
+          key={transaction.hash + actionIndex}
+          action={action}
+          transaction={transaction}
+          viewMode="compact"
+        />
+      ))
+    );
+    // (
+    //   <ActionsList
+    //     key={transaction.hash}
+    //     actions={transaction.actions}
+    //     transaction={transaction}
+    //     viewMode="compact"
+    //     reversed={true}
+    //   />
+    // )
 
     if (reserved) actions.reverse();
 

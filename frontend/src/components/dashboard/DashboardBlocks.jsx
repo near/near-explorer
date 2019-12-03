@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ import DashboardBlocksBlock from "./DashboardBlocksBlock";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import FlipMove from "react-flip-move";
 
-export default class extends Component {
+export default class extends React.Component {
   state = {
     blocks: this.props.blocks
   };
@@ -56,7 +56,7 @@ export default class extends Component {
               <div className="dashboard-blocks-hr" />
             </div>
           </Col>
-          <Col>
+          <Col xs="10">
             <FlipMove duration={1000} staggerDurationBy={0}>
               {blocks.slice(0, 8).map(block => (
                 <DashboardBlocksBlock

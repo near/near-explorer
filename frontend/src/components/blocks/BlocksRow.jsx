@@ -6,7 +6,7 @@ import { Row, Col } from "react-bootstrap";
 
 import Timer from "../utils/Timer";
 
-class BlocksRow extends PureComponent {
+export default class extends React.PureComponent {
   render() {
     const { block } = this.props;
     return (
@@ -114,5 +114,3 @@ class BlocksRow extends PureComponent {
     );
   }
 }
-
-export default BlocksRow;
