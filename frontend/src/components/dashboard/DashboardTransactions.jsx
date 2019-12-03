@@ -70,9 +70,9 @@ export default class extends Component {
             </div>
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
-            <FlipMove duration={1000} staggerDurationBy={0}>
-              {actions}
-            </FlipMove>
+            {/* <FlipMove duration={1000} staggerDurationBy={0}> */}
+            {actions}
+            {/* </FlipMove> */}
             <Row noGutters>
               <Col xs="1" className="dashboard-transactions-icon-col" />
               <Col xs="6">
