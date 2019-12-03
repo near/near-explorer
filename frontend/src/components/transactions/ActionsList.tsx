@@ -23,7 +23,5 @@ export default ({ actions, transaction, viewMode, reversed }: Props) => {
     actionRows.reverse();
   }
 
-  // return <>{actionRows}</>;
-
-  return <li>action</li>;
+  return <>{actionRows}</>;
 };

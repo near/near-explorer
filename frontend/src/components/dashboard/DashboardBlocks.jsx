@@ -22,7 +22,7 @@ export default class extends React.Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer);
-    this.timer = false;
+    this.timer = null;
   }
 
   fetchInfo = async () => {
@@ -34,7 +34,7 @@ export default class extends React.Component {
 
   regularFetchInfo = async () => {
     await this.fetchInfo();
-    if (this.timer !== false) {
+    if (this.timer !== null) {
       this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
   };

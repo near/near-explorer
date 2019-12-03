@@ -7,7 +7,6 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import { Row, Col } from "react-bootstrap";
 
 import Content from "../utils/Content";
-import ActionsList from "../transactions/ActionsList";
 import ActionRow, { ViewMode } from "../transactions/ActionRow";
 
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
@@ -24,7 +23,7 @@ export default class extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timer);
-    this.timer = false;
+    this.timer = null;
   }
 
   fetchInfo = async () => {
@@ -36,7 +35,7 @@ export default class extends Component {
 
   regularFetchInfo = async () => {
     await this.fetchInfo();
-    if (this.timer !== false) {
+    if (this.timer !== null) {
       this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
   };
@@ -54,17 +53,10 @@ export default class extends Component {
         />
       ))
     );
-    // (
-    //   <ActionsList
-    //     key={transaction.hash}
-    //     actions={transaction.actions}
-    //     transaction={transaction}
-    //     viewMode="compact"
-    //     reversed={true}
-    //   />
-    // )
 
-    if (reserved) actions.reverse();
+    if (reserved) {
+      actions.reverse();
+    }
 
     return (
       <Content
@@ -81,9 +73,9 @@ export default class extends Component {
             </div>
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
-            {/* <FlipMove duration={1000} staggerDurationBy={0}> */}
-            {actions}
-            {/* </FlipMove> */}
+            <FlipMove duration={1000} staggerDurationBy={0}>
+              {actions}
+            </FlipMove>
             <Row noGutters>
               <Col xs="1" className="dashboard-transactions-icon-col" />
               <Col xs="6">

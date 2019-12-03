@@ -20,7 +20,7 @@ export default class extends React.Component {
   componentWillUnmount() {
     document.removeEventListener("scroll", this._onScroll);
     clearTimeout(this.timer);
-    this.timer = false;
+    this.timer = null;
   }
 
   render() {
@@ -65,7 +65,7 @@ export default class extends React.Component {
 
   _regularLoadBlocks = async () => {
     await this._getTopBlocks();
-    if (this.timer !== false) {
+    if (this.timer !== null) {
       this.timer = setTimeout(this._regularLoadBlocks, 10000);
     }
   };
