@@ -1,5 +1,4 @@
 import Head from "next/head";
-import FlipMove from "react-flip-move";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -25,26 +24,6 @@ export default class extends React.Component {
       transactions: await transactions
     };
   }
-
-  // componentDidMount() {
-  //   this.regularFetchInfo();
-  // }
-
-  // componentWillUnmount() {
-  //   clearTimeout(this.timer);
-  //   this.timer = false;
-  // }
-
-  // fetchInfo = async () => {
-
-  // };
-
-  // regularFetchInfo = async () => {
-  //   await this.fetchInfo();
-  //   if (this.timer !== false) {
-  //     this.timer = setTimeout(this.regularFetchInfo, 10000);
-  //   }
-  // };
 
   render() {
     return (
