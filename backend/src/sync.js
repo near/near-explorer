@@ -64,6 +64,15 @@ async function saveBlocks(blocksInfo) {
             .map(blockInfo => {
               return models.Transaction.bulkCreate(
                 blockInfo.transactions.map(tx => {
+                  const actions = tx.actions.map(action => {
+                    if (typeof action === "string") {
+                      return { [action]: {} };
+                    }
+                    if (action.DeployContract !== undefined) {
+                      delete action.DeployContract.code;
+                    }
+                    return action;
+                  });
                   return {
                     hash: tx.hash,
                     nonce: tx.nonce,
@@ -72,7 +81,7 @@ async function saveBlocks(blocksInfo) {
                     signerPublicKey: tx.signer_public_key || tx.public_key,
                     signature: tx.signature,
                     receiverId: tx.receiver_id,
-                    actions: tx.actions
+                    actions
                   };
                 })
               );
@@ -132,7 +141,18 @@ async function saveBlocksFromRequests(requests) {
     blocks.map(async block => {
       try {
         const detailedChunks = await Promise.all(
-          block.chunks.map(chunk => nearRpc.chunk(chunk.chunk_hash))
+          block.chunks.map(async chunk => {
+            try {
+              return await nearRpc.chunk(chunk.chunk_hash);
+            } catch (error) {
+              console.error(
+                "Failed to fetch a detailed chunk info: ",
+                error,
+                chunk
+              );
+              throw error;
+            }
+          })
         );
         return detailedChunks.map(chunk => chunk.transactions);
       } catch (error) {
