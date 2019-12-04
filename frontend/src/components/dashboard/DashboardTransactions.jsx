@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import React, { Component } from "react";
+import React from "react";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
@@ -12,7 +12,7 @@ import ActionRow, { ViewMode } from "../transactions/ActionRow";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "react-flip-move";
 
-export default class extends Component {
+export default class extends React.Component {
   state = {
     transactions: this.props.transactions
   };
