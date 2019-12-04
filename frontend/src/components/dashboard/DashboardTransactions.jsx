@@ -43,16 +43,18 @@ export default class extends React.Component {
   render() {
     const { transactions } = this.state;
     let reserved = true;
-    let actions = transactions.map(transaction =>
-      transaction.actions.map((action, actionIndex) => (
-        <ActionRow
-          key={transaction.hash + actionIndex}
-          action={action}
-          transaction={transaction}
-          viewMode="compact"
-        />
-      ))
-    );
+    let actions = transactions
+      .slice(0, 10)
+      .map(transaction =>
+        transaction.actions.map((action, actionIndex) => (
+          <ActionRow
+            key={transaction.hash + actionIndex}
+            action={action}
+            transaction={transaction}
+            viewMode="compact"
+          />
+        ))
+      );
 
     if (reserved) {
       actions.reverse();

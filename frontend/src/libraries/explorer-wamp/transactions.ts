@@ -144,7 +144,7 @@ export default class TransactionsApi extends ExplorerApi {
   }
 
   async getLatestTransactionsInfo(): Promise<Transaction[]> {
-    return this.getTransactions({ tail: true, limit: 10 });
+    return this.getTransactions({ tail: true, limit: 15 });
   }
 
   async getTransactionInfo(

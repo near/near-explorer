@@ -3,14 +3,14 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "react-flip-move";
 
-import ActionRow, { ViewMode } from "../transactions/ActionRow";
+// import ActionRow, { ViewMode } from "../transactions/ActionRow";
+import TransactionsList from "./TransactionsList";
 
 export interface Props {
   accountId?: string;
   blockHash?: string;
   reversed: boolean;
   limit: number;
-  viewMode?: ViewMode;
 }
 
 export interface State {
@@ -19,8 +19,8 @@ export interface State {
 
 export default class extends React.Component<Props, State> {
   static defaultProps = {
-    reversed: true,
-    limit: 50
+    reversed: false,
+    limit: 15
   };
 
   state: State = {
@@ -35,10 +35,11 @@ export default class extends React.Component<Props, State> {
 
     // TODO: Design ExplorerApi to handle server-side rendering gracefully.
     this._transactionsApi = null;
-    this.timer = 0;
+    this.timer = null;
   }
 
   componentDidMount() {
+    this.timer = setTimeout(this.regularFetchInfo, 0);
     this.regularFetchInfo();
   }
 
@@ -48,13 +49,17 @@ export default class extends React.Component<Props, State> {
   }
 
   regularFetchInfo = async () => {
-    await this.fetchTransactions();
+    if (this.state.transactions === null) {
+      await this.fetchTransactions();
+    } else {
+      await this.fetchInfo();
+    }
     if (this.timer !== null) {
       this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
   };
 
-  fetchTransactions = async () => {
+  fetchInfo = async () => {
     if (this._transactionsApi === null) {
       this._transactionsApi = new TransactionsApi();
     }
@@ -64,30 +69,31 @@ export default class extends React.Component<Props, State> {
     this.setState({ transactions });
   };
 
+  fetchTransactions = async () => {
+    if (this._transactionsApi === null) {
+      this._transactionsApi = new TransactionsApi();
+    }
+    const transactions = await this._transactionsApi.getTransactions({
+      signerId: this.props.accountId,
+      receiverId: this.props.accountId,
+      blockHash: this.props.blockHash,
+      tail: this.props.reversed,
+      limit: this.props.limit
+    });
+    this.setState({ transactions });
+  };
+
   render() {
     const { transactions } = this.state;
     if (transactions === null) {
       return null;
     }
-    let reserved = true;
-    let actions = transactions.map(transaction =>
-      transaction.actions.map((action, actionIndex) => (
-        <ActionRow
-          key={transaction.hash + actionIndex}
-          action={action}
-          transaction={transaction}
-          viewMode="compact"
-        />
-      ))
-    );
-
-    if (reserved) {
-      actions.reverse();
-    }
-
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        {actions}
+        <TransactionsList
+          transactions={transactions}
+          reversed={this.props.reversed}
+        />
       </FlipMove>
     );
   }
