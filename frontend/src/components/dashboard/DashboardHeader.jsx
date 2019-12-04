@@ -12,7 +12,7 @@ import Router from "next/router";
 export default class DashboardHeader extends React.Component {
   state = {
     searchValue: "",
-    lastBlockHeight: this.props.details.lastBlockHeight
+    details: this.props.details
   };
 
   handleSearch = async event => {
@@ -59,7 +59,7 @@ export default class DashboardHeader extends React.Component {
 
   fetchInfo = async () => {
     const details = await new DetailsApi().getDetails().catch(() => null);
-    this.setState({ lastBlockHeight: details.lastBlockHeight });
+    this.setState({ details });
   };
 
   regularFetchInfo = async () => {
@@ -75,10 +75,9 @@ export default class DashboardHeader extends React.Component {
       totalNodesCount,
       transactionsPerSecond,
       lastDayTxCount,
-      accountsCount
-    } = this.props.details;
-
-    const { lastBlockHeight } = this.state;
+      accountsCount,
+      lastBlockHeight
+    } = this.state.details;
 
     return (
       <div className="dashboard-info-container">
