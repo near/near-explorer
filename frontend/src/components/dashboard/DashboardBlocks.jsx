@@ -13,7 +13,7 @@ import FlipMove from "react-flip-move";
 
 export default class extends React.Component {
   state = {
-    blocks: this.props.blocks
+    blocks: this.props.blocks.slice(0, 8)
   };
 
   componentDidMount() {

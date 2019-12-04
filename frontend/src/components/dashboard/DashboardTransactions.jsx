@@ -7,14 +7,13 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import { Row, Col } from "react-bootstrap";
 
 import Content from "../utils/Content";
-import ActionRow, { ViewMode } from "../transactions/ActionRow";
-
+import TransactionsList from "../transactions/TransactionsList";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "react-flip-move";
 
 export default class extends React.Component {
   state = {
-    transactions: this.props.transactions
+    transactions: this.props.transactions.slice(0, 10)
   };
 
   componentDidMount() {
@@ -27,9 +26,10 @@ export default class extends React.Component {
   }
 
   fetchInfo = async () => {
-    const transactions = await new TransactionsApi()
+    const txs = await new TransactionsApi()
       .getLatestTransactionsInfo()
       .catch(() => null);
+    let transactions = txs.slice(0, 10);
     this.setState({ transactions });
   };
 
@@ -42,24 +42,6 @@ export default class extends React.Component {
 
   render() {
     const { transactions } = this.state;
-    let reserved = true;
-    let actions = transactions
-      .slice(0, 10)
-      .map(transaction =>
-        transaction.actions.map((action, actionIndex) => (
-          <ActionRow
-            key={transaction.hash + actionIndex}
-            action={action}
-            transaction={transaction}
-            viewMode="compact"
-          />
-        ))
-      );
-
-    if (reserved) {
-      actions.reverse();
-    }
-
     return (
       <Content
         title={<h2>Recent Transactions</h2>}
@@ -76,7 +58,11 @@ export default class extends React.Component {
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
             <FlipMove duration={1000} staggerDurationBy={0}>
-              {actions}
+              <TransactionsList
+                transactions={transactions}
+                viewMode="compact"
+                reversed
+              />
             </FlipMove>
             <Row noGutters>
               <Col xs="1" className="dashboard-transactions-icon-col" />
