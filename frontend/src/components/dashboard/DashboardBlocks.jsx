@@ -57,17 +57,19 @@ export default class extends React.Component {
             </div>
           </Col>
           <Col xs="10">
-            <FlipMove duration={1000} staggerDurationBy={0}>
-              {blocks.map(block => (
-                <DashboardBlocksBlock
-                  key={block.hash}
-                  blockHash={block.hash}
-                  blockHeight={block.height}
-                  blockTimestamp={block.timestamp}
-                  transactionsCount={block.transactionsCount}
-                />
-              ))}
-            </FlipMove>
+            <Row>
+              <FlipMove duration={1000} staggerDurationBy={0}>
+                {blocks.map(block => (
+                  <DashboardBlocksBlock
+                    key={block.hash}
+                    blockHash={block.hash}
+                    blockHeight={block.height}
+                    blockTimestamp={block.timestamp}
+                    transactionsCount={block.transactionsCount}
+                  />
+                ))}
+              </FlipMove>
+            </Row>
             <Row>
               <Col xs="6">
                 <Link href="blocks">

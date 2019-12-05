@@ -14,24 +14,22 @@ export default class extends React.Component {
       transactionsCount
     } = this.props;
     return (
-      <Col xs="12" md="12">
+      <Col xs="12">
         <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
           <a className="dashboard-blocks-block-link">
             <Card className="dashboard-blocks-block">
               <Card.Title className="dashboard-blocks-block-title">
                 #{blockHeight}
               </Card.Title>
-              <Col>
-                <span className="dashboard-blocks-block-content-p-footer">
-                  {blockHash.slice(0, 12)}...
-                </span>
-              </Col>
               <Card.Body className="dashboard-blocks-block-content">
+                <p className="dashboard-blocks-block-content-p">
+                  <img src="/static/images/icon-m-transaction.svg" />
+                  {transactionsCount}
+                </p>
                 <Row noGutters>
-                  <Col>
-                    <span className="dashboard-blocks-block-content-p">
-                      <img src="/static/images/icon-m-transaction.svg" />
-                      {transactionsCount}
+                  <Col md="7" xs="7">
+                    <span className="dashboard-blocks-block-content-p-footer">
+                      {blockHash.slice(0, 6)}...
                     </span>
                   </Col>
                   <Col md="5" xs="5" className="align-self-center text-right">
