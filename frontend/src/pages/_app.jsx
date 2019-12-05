@@ -7,11 +7,12 @@ import { Container } from "react-bootstrap";
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
+import { getNearNetwork } from "../libraries/config";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const {
-  publicRuntimeConfig: { nearNetworks, nearNetworkAliases, googleAnalytics }
+  publicRuntimeConfig: { nearNetworks, googleAnalytics }
 } = getConfig();
 
 export default class extends App {
@@ -29,9 +30,9 @@ export default class extends App {
 
     let currentNearNetwork;
     if (typeof window === "undefined") {
-      currentNearNetwork = nearNetworkAliases[appContext.ctx.req.headers.host];
+      currentNearNetwork = getNearNetwork(appContext.ctx.req.headers.host);
     } else {
-      currentNearNetwork = nearNetworkAliases[window.location.host];
+      currentNearNetwork = getNearNetwork(window.location.host);
     }
     return {
       currentNearNetwork,
