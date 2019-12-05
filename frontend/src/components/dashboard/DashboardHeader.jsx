@@ -28,6 +28,9 @@ export default class DashboardHeader extends React.Component {
     const blockPromise = new BlocksApi()
       .getBlockInfo(searchValue)
       .catch(() => {});
+    const blockHeightPromise = new BlocksApi()
+      .searchBlocks(searchValue)
+      .catch(() => {});
     const transactionPromise = new TransactionsApi()
       .getTransactionInfo(searchValue)
       .catch(() => {});
@@ -38,6 +41,9 @@ export default class DashboardHeader extends React.Component {
     if (await blockPromise) {
       return Router.push("/blocks/" + searchValue);
     }
+    if (await blockHeightPromise) {
+      return;
+    }
     const transaction = await transactionPromise;
     if (transaction && transaction.signerId) {
       return Router.push("/transactions/" + searchValue);
@@ -46,7 +52,7 @@ export default class DashboardHeader extends React.Component {
       return Router.push("/accounts/" + searchValue);
     }
 
-    alert("Nothing found!");
+    alert("Result not found!");
   };
 
   handleSearchValueChange = event => {
