@@ -48,26 +48,10 @@ export default class extends React.Component<Props, State> {
   }
 
   regularFetchInfo = async () => {
-    if (this.state.transactions === null) {
-      // first time to fetch data
-      await this.fetchTransactions();
-    } else {
-      // later time
-      await this.fetchLatestTransactions();
-    }
+    await this.fetchTransactions();
     if (this.timer !== null) {
       this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
-  };
-
-  fetchLatestTransactions = async () => {
-    if (this._transactionsApi === null) {
-      this._transactionsApi = new TransactionsApi();
-    }
-    const transactions = await new TransactionsApi()
-      .getLatestTransactionsInfo()
-      .catch(() => null);
-    this.setState({ transactions });
   };
 
   fetchTransactions = async () => {
