@@ -3,7 +3,6 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "react-flip-move";
 
-// import ActionRow, { ViewMode } from "../transactions/ActionRow";
 import TransactionsList from "./TransactionsList";
 
 export interface Props {
@@ -50,16 +49,18 @@ export default class extends React.Component<Props, State> {
 
   regularFetchInfo = async () => {
     if (this.state.transactions === null) {
+      // first time to fetch data
       await this.fetchTransactions();
     } else {
-      await this.fetchInfo();
+      // later time
+      await this.fetchLatestTransactions();
     }
     if (this.timer !== null) {
       this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
   };
 
-  fetchInfo = async () => {
+  fetchLatestTransactions = async () => {
     if (this._transactionsApi === null) {
       this._transactionsApi = new TransactionsApi();
     }

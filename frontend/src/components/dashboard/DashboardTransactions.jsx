@@ -13,7 +13,7 @@ import FlipMove from "react-flip-move";
 
 export default class extends React.Component {
   state = {
-    transactions: this.props.transactions.slice(0, 10)
+    transactions: this.props.transactions
   };
 
   componentDidMount() {
@@ -26,10 +26,9 @@ export default class extends React.Component {
   }
 
   fetchInfo = async () => {
-    const txs = await new TransactionsApi()
-      .getLatestTransactionsInfo()
+    const transactions = await new TransactionsApi()
+      .getLatestTransactionsInfo(10)
       .catch(() => null);
-    let transactions = txs.slice(0, 10);
     this.setState({ transactions });
   };
 

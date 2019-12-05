@@ -13,7 +13,7 @@ import FlipMove from "react-flip-move";
 
 export default class extends React.Component {
   state = {
-    blocks: this.props.blocks.slice(0, 8)
+    blocks: this.props.blocks
   };
 
   componentDidMount() {
@@ -27,7 +27,7 @@ export default class extends React.Component {
 
   fetchInfo = async () => {
     const blocks = await new BlocksApi()
-      .getLatestBlocksInfo()
+      .getLatestBlocksInfo(8)
       .catch(() => null);
     this.setState({ blocks });
   };
@@ -58,7 +58,7 @@ export default class extends React.Component {
           </Col>
           <Col xs="10">
             <FlipMove duration={1000} staggerDurationBy={0}>
-              {blocks.slice(0, 8).map(block => (
+              {blocks.map(block => (
                 <DashboardBlocksBlock
                   key={block.hash}
                   blockHash={block.hash}
