@@ -2,6 +2,18 @@ name: Run Tests
 on: [push]
 
 jobs:
+  codestyle:
+    name: Code Style
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node: [10]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run code formatting check
+        run: npm install && npm run fmt:check
+
   frontend-test:
     name: Frontend unit testing
     runs-on: ${{ matrix.os }}
