@@ -27,7 +27,7 @@ export default class extends React.Component<Props, State> {
   };
 
   _transactionsApi: TransactionsApi | null;
-  timer: any;
+  timer: ReturnType<typeof setTimeout> | null;
 
   constructor(props: Props) {
     super(props);
@@ -39,11 +39,10 @@ export default class extends React.Component<Props, State> {
 
   componentDidMount() {
     this.timer = setTimeout(this.regularFetchInfo, 0);
-    this.regularFetchInfo();
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
+    clearTimeout(this.timer!);
     this.timer = null;
   }
 
