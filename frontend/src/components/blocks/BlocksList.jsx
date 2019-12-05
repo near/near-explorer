@@ -5,13 +5,9 @@ import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import BlocksRow from "./BlocksRow";
 
 export default class extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._blocksApi = new BlocksApi();
-  }
-
   componentDidMount() {
+    this._blocksApi = new BlocksApi();
+
     this._blockLoader = document.getElementById("block-loader");
     document.addEventListener("scroll", this._onScroll);
 
