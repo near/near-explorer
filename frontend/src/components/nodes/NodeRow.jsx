@@ -11,6 +11,10 @@ export default class extends React.PureComponent {
       ipAddress,
       lastSeen,
       lastHeight
+      // isValidator
+      //   agentName
+      //   agentVersion
+      //   agentBuild
     } = this.props;
     return (
       <Row className="node-row mx-0">

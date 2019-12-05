@@ -72,6 +72,20 @@ export default class extends React.Component {
           {this.state.nodes &&
             this.state.nodes.map(node => {
               return (
+                //display more attributes
+                // <NodeRow
+                //   key={node.nodeId}
+                //   ipAddress={node.ipAddress}
+                //   moniker={node.moniker}
+                //   accountId={node.accountId}
+                //   nodeId={node.nodeId}
+                //   lastSeen={node.lastSeen}
+                //   lastHeight={node.lastHeight}
+                //   isValidator={node.isValidator}
+                //   agentName={node.agentName}
+                //   agentVersion={node.agentVersion}
+                //   agentBuild={node.agentBuild}
+                // />
                 <NodeRow
                   key={node.nodeId}
                   ipAddress={node.ipAddress}

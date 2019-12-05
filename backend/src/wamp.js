@@ -23,6 +23,24 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   });
 };
 
+// new Telemetry Data
+wampHandlers["new-node-telemetry"] = async ([nodeInfo]) => {
+  return await models.Node.upsert({
+    agentName: nodeInfo.agent.name,
+    agentVersion: nodeInfo.agent.agentVersion,
+    agentBuild: nodeInfo.agent.build,
+    nodeId: nodeInfo.chain.node_id,
+    moniker: nodeInfo.account_id,
+    accountId: nodeInfo.chain.account_id,
+    peerCount: nodeInfo.chain.num_peers,
+    isValidator: nodeInfo.chain.is_validator,
+    lastHash: nodeInfo.chain.lastest_block_hash,
+    lastHeight: nodeInfo.chain.latest_block_height,
+    ipAddress: nodeInfo.ip_address,
+    lastSeen: Date.now()
+  });
+};
+
 wampHandlers["select"] = async ([query, replacements]) => {
   return await models.sequelizeReadOnly.query(query, {
     replacements,
