@@ -5,6 +5,10 @@
     "lint-staged": "^8.1.7",
     "prettier": "1.17.1"
   },
+  "scripts": {
+    "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
+    "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
