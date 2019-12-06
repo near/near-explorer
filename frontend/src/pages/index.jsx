@@ -14,9 +14,9 @@ import DashboardTransactions from "../components/dashboard/DashboardTransactions
 export default class extends React.Component {
   static async getInitialProps({ req }) {
     const details = new DetailsApi(req).getDetails().catch(() => null);
-    const blocks = new BlocksApi(req).getLatestBlocksInfo().catch(() => null);
+    const blocks = new BlocksApi(req).getLatestBlocksInfo(8).catch(() => null);
     const transactions = new TransactionsApi(req)
-      .getLatestTransactionsInfo()
+      .getLatestTransactionsInfo(10)
       .catch(() => null);
     return {
       details: await details,
@@ -26,19 +26,20 @@ export default class extends React.Component {
   }
 
   render() {
+    const { details, transactions, blocks } = this.props;
     return (
       <>
         <Head>
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content title={<h1>Dashboard</h1>} border={false}>
-          <DashboardHeader {...this.props} />
+          <DashboardHeader details={details} />
           <Row noGutters className="dashboard-section">
             <Col md="8">
-              <DashboardTransactions transactions={this.props.transactions} />
+              <DashboardTransactions transactions={transactions} />
             </Col>
             <Col md="4">
-              <DashboardBlocks blocks={this.props.blocks} />
+              <DashboardBlocks blocks={blocks} />
             </Col>
           </Row>
           <style jsx global>{`

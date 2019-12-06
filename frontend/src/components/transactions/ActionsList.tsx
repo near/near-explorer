@@ -1,3 +1,4 @@
+import React from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import ActionRow, { ViewMode } from "./ActionRow";
@@ -9,19 +10,22 @@ export interface Props {
   reversed?: boolean;
 }
 
-export default ({ actions, transaction, viewMode, reversed }: Props) => {
-  let actionRows = actions.map((action, actionIndex) => (
-    <ActionRow
-      key={transaction.hash + actionIndex}
-      action={action}
-      transaction={transaction}
-      viewMode={viewMode}
-    />
-  ));
+export default class extends React.Component<Props> {
+  render() {
+    const { actions, transaction, viewMode, reversed } = this.props;
+    let actionRows = actions.map((action, actionIndex) => (
+      <ActionRow
+        key={transaction.hash + actionIndex}
+        action={action}
+        transaction={transaction}
+        viewMode={viewMode}
+      />
+    ));
 
-  if (reversed) {
-    actionRows.reverse();
+    if (reversed) {
+      actionRows.reverse();
+    }
+
+    return <>{actionRows}</>;
   }
-
-  return <>{actionRows}</>;
-};
+}
