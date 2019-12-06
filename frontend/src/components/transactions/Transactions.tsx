@@ -1,6 +1,7 @@
 import React from "react";
 
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
+import FlipMove from "react-flip-move";
 
 import TransactionsList from "./TransactionsList";
 
@@ -15,10 +16,10 @@ export interface State {
   transactions: T.Transaction[] | null;
 }
 
-export default class extends React.PureComponent<Props, State> {
+export default class extends React.Component<Props, State> {
   static defaultProps = {
     reversed: false,
-    limit: 50
+    limit: 15
   };
 
   state: State = {
@@ -26,36 +27,31 @@ export default class extends React.PureComponent<Props, State> {
   };
 
   _transactionsApi: TransactionsApi | null;
+  timer: ReturnType<typeof setTimeout> | null;
 
   constructor(props: Props) {
     super(props);
 
     // TODO: Design ExplorerApi to handle server-side rendering gracefully.
     this._transactionsApi = null;
+    this.timer = null;
   }
 
   componentDidMount() {
-    this.fetchTransactions();
+    this.timer = setTimeout(this.regularFetchInfo, 0);
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props !== prevProps) {
-      this.fetchTransactions();
-    }
+  componentWillUnmount() {
+    clearTimeout(this.timer!);
+    this.timer = null;
   }
 
-  render() {
-    const { transactions } = this.state;
-    if (transactions === null) {
-      return null;
+  regularFetchInfo = async () => {
+    await this.fetchTransactions();
+    if (this.timer !== null) {
+      this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
-    return (
-      <TransactionsList
-        transactions={transactions}
-        reversed={this.props.reversed}
-      />
-    );
-  }
+  };
 
   fetchTransactions = async () => {
     if (this._transactionsApi === null) {
@@ -70,4 +66,19 @@ export default class extends React.PureComponent<Props, State> {
     });
     this.setState({ transactions });
   };
+
+  render() {
+    const { transactions } = this.state;
+    if (transactions === null) {
+      return null;
+    }
+    return (
+      <FlipMove duration={1000} staggerDurationBy={0}>
+        <TransactionsList
+          transactions={transactions}
+          reversed={this.props.reversed}
+        />
+      </FlipMove>
+    );
+  }
 }

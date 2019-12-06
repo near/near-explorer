@@ -1,3 +1,4 @@
+import React from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import ActionsList from "./ActionsList";
@@ -9,20 +10,23 @@ export interface Props {
   reversed?: boolean;
 }
 
-export default ({ transactions, viewMode, reversed }: Props) => {
-  let actions = transactions.map(transaction => (
-    <ActionsList
-      key={transaction.hash}
-      actions={transaction.actions}
-      transaction={transaction}
-      viewMode={viewMode}
-      reversed={reversed}
-    />
-  ));
+export default class extends React.Component<Props> {
+  render() {
+    const { transactions, viewMode, reversed } = this.props;
+    let actions = transactions.map(transaction => (
+      <ActionsList
+        key={transaction.hash}
+        actions={transaction.actions}
+        transaction={transaction}
+        viewMode={viewMode}
+        reversed={reversed}
+      />
+    ));
 
-  if (reversed) {
-    actions.reverse();
+    if (reversed) {
+      actions.reverse();
+    }
+
+    return <>{actions}</>;
   }
-
-  return <>{actions}</>;
-};
+}

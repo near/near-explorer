@@ -1,23 +1,18 @@
 import Link from "next/link";
-import {
-  Button,
-  Col,
-  Dropdown,
-  FormControl,
-  InputGroup,
-  Row
-} from "react-bootstrap";
+import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import CardCell from "../utils/CardCell";
 import AccountApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
+import DetailsApi from "../../libraries/explorer-wamp/details";
 
 import Router from "next/router";
 
 export default class DashboardHeader extends React.Component {
   state = {
-    searchValue: ""
+    searchValue: "",
+    details: this.props.details
   };
 
   handleSearch = async event => {
@@ -53,15 +48,36 @@ export default class DashboardHeader extends React.Component {
     this.setState({ searchValue: event.target.value });
   };
 
+  componentDidMount() {
+    this.regularFetchInfo();
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    this.timer = null;
+  }
+
+  fetchInfo = async () => {
+    const details = await new DetailsApi().getDetails().catch(() => null);
+    this.setState({ details });
+  };
+
+  regularFetchInfo = async () => {
+    await this.fetchInfo();
+    if (this.timer !== null) {
+      this.timer = setTimeout(this.regularFetchInfo, 10000);
+    }
+  };
+
   render() {
     const {
       onlineNodesCount,
       totalNodesCount,
-      lastBlockHeight,
       transactionsPerSecond,
       lastDayTxCount,
-      accountsCount
-    } = this.props.details;
+      accountsCount,
+      lastBlockHeight
+    } = this.state.details;
 
     return (
       <div className="dashboard-info-container">
