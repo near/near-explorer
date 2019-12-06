@@ -2,6 +2,8 @@ import getConfig from "next/config";
 
 import autobahn from "autobahn";
 
+import { getNearNetwork } from "../config";
+
 interface IPromisePair {
   resolve: (value?: autobahn.Session) => void;
   reject: (value?: string) => void;
@@ -40,6 +42,11 @@ export class ExplorerApi {
     }
 
     if (apiPrefixSource === undefined) {
+      if (typeof location === "undefined") {
+        throw Error(
+          "DevHint: You must provide `apiPrefixSource` argument to Explorer API constructor if you instantiate it on the server side."
+        );
+      }
       this.apiPrefix = location.host;
     } else if (typeof apiPrefixSource === "string") {
       this.apiPrefix = apiPrefixSource;
@@ -51,10 +58,7 @@ export class ExplorerApi {
       );
     }
 
-    const { nearNetworkAliases } = publicRuntimeConfig;
-    if (this.apiPrefix in nearNetworkAliases) {
-      this.apiPrefix = nearNetworkAliases[this.apiPrefix].name;
-    }
+    this.apiPrefix = getNearNetwork(this.apiPrefix).name;
   }
 
   // Establish and handle concurrent requests to establish WAMP connection.

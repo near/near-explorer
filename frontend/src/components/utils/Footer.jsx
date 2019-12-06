@@ -5,13 +5,13 @@ import { Container, Row, Col } from "react-bootstrap";
 export default () => (
   <Container fluid className="near-main-container">
     <Row className="footer-container">
-      <Col className="align-self-center text-center px-0" xs="12" md="2">
+      <Col className="align-self-center text-center px-0" xs="12" md="3">
         <img className="near-logo" src="/static/images/near.svg" />
       </Col>
       <Col
         className="align-self-center footer-link text-md-left text-center pl-0"
         xs="12"
-        md="auto"
+        md="5"
       >
         © 2019 NEAR Inc. All Rights Reserved.
         <br />
@@ -23,7 +23,7 @@ export default () => (
           <a className="footer-link-href">Privacy Policy</a>
         </Link>
       </Col>
-      <Col className="text-right d-none d-sm-block ml-auto" md="2">
+      <Col className="text-right d-none d-sm-block ml-auto" md="4" lg="2">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
           <Row noGutters>
             <Col md="2">
@@ -32,11 +32,11 @@ export default () => (
                 src="/static/images/footer-nearkat.svg"
               />
             </Col>
-            <Col md="10" className="align-self-center">
+            <Col className="align-self-center">
               <div className="footer-help">
                 <span className="need-help-contact">Need Help?</span>
                 <span className="need-help-contact need-help-contact-bottom">
-                  Contact Support
+                  Contact Us
                 </span>
               </div>
             </Col>
@@ -77,13 +77,14 @@ export default () => (
         height: 80px;
         text-align: left;
         line-height: 1px;
-        padding: 8% 10% 8% 20%;
+        padding: 8% 20%;
       }
 
       .help-image {
         margin-top: -50%;
         position: relative;
         z-index: 2;
+        left: -35px;
       }
 
       .need-help-contact {

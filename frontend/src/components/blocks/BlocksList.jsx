@@ -1,36 +1,26 @@
 import LoadingOverlay from "react-loading-overlay";
-
+import FlipMove from "react-flip-move";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import BlocksRow from "./BlocksRow";
 
 export default class extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this._blocksApi = new BlocksApi();
-  }
-
   componentDidMount() {
+    this._blocksApi = new BlocksApi();
     this._blockLoader = document.getElementById("block-loader");
     document.addEventListener("scroll", this._onScroll);
 
-    this._loadBlocks();
-
-    this._blocksApi.getTotal().then(total => {
-      this.props.setPagination(pagination => {
-        return { ...pagination, total };
-      });
-    });
+    this._regularLoadBlocks();
   }
 
   componentWillUnmount() {
     document.removeEventListener("scroll", this._onScroll);
+    clearTimeout(this.timer);
+    this.timer = null;
   }
 
   render() {
     const { blocks } = this.props;
-
     return (
       <LoadingOverlay
         active={this.props.loading}
@@ -38,9 +28,15 @@ export default class extends React.Component {
         text="Loading blocks..."
       >
         <div id="block-loader">
-          {blocks.map(block => (
-            <BlocksRow key={block.hash} block={block} />
-          ))}
+          <FlipMove
+            duration={1000}
+            staggerDurationBy={0}
+            style={{ minHeight: "300px" }}
+          >
+            {blocks.map(block => (
+              <BlocksRow key={block.hash + block.timestamp} block={block} />
+            ))}
+          </FlipMove>
         </div>
       </LoadingOverlay>
     );
@@ -61,6 +57,32 @@ export default class extends React.Component {
       // Add the listener again.
       document.addEventListener("scroll", this._onScroll);
     }
+  };
+
+  _regularLoadBlocks = async () => {
+    await this._getTopBlocks();
+    if (this.timer !== null) {
+      this.timer = setTimeout(this._regularLoadBlocks, 10000);
+    }
+  };
+
+  _getTopBlocks = async () => {
+    const [blocks, total] = await Promise.all([
+      this._blocksApi.getLatestBlocksInfo(),
+      this._blocksApi.getTotal()
+    ]);
+    this.props.setBlocks(_blocks => {
+      _blocks = blocks;
+      return _blocks;
+    });
+    this.props.setPagination(pagination => {
+      return {
+        ...pagination,
+        stop: blocks[blocks.length - 1].height,
+        start: blocks[0].height,
+        total
+      };
+    });
   };
 
   _loadBlocks = async () => {
