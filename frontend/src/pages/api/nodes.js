@@ -2,7 +2,6 @@ import { ExplorerApi } from "../../libraries/explorer-wamp";
 
 export default async function(req, res) {
   try {
-    // wait to change node-telemetry to new-node-telemetry
     await new ExplorerApi(req).call("node-telemetry", [
       {
         ...req.body,

@@ -12,7 +12,23 @@ const { nearRpc } = require("./near");
 const wampHandlers = {};
 
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
-  // TODO: verify the signature
+  if (nodeInfo.hasOwnProperty("agent")) {
+    return await models.Node.upsert({
+      signature: nodeInfo.signature,
+      agentName: nodeInfo.agent.name,
+      agentVersion: nodeInfo.agent.version,
+      agentBuild: nodeInfo.agent.build,
+      nodeId: nodeInfo.chain.node_id,
+      moniker: nodeInfo.chain.account_id,
+      accountId: nodeInfo.chain.account_id,
+      peerCount: nodeInfo.chain.num_peers,
+      isValidator: nodeInfo.chain.is_validator,
+      lastHash: nodeInfo.chain.lastest_block_hash,
+      lastHeight: nodeInfo.chain.latest_block_height,
+      ipAddress: nodeInfo.ip_address,
+      lastSeen: Date.now()
+    });
+  }
   return await models.Node.upsert({
     nodeId: nodeInfo.node_id,
     moniker: nodeInfo.account_id,
@@ -20,24 +36,6 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     ipAddress: nodeInfo.ip_address,
     lastSeen: Date.now(),
     lastHeight: nodeInfo.latest_block_height
-  });
-};
-
-// new Telemetry Data
-wampHandlers["new-node-telemetry"] = async ([nodeInfo]) => {
-  return await models.Node.upsert({
-    agentName: nodeInfo.agent.name,
-    agentVersion: nodeInfo.agent.agentVersion,
-    agentBuild: nodeInfo.agent.build,
-    nodeId: nodeInfo.chain.node_id,
-    moniker: nodeInfo.account_id,
-    accountId: nodeInfo.chain.account_id,
-    peerCount: nodeInfo.chain.num_peers,
-    isValidator: nodeInfo.chain.is_validator,
-    lastHash: nodeInfo.chain.lastest_block_hash,
-    lastHeight: nodeInfo.chain.latest_block_height,
-    ipAddress: nodeInfo.ip_address,
-    lastSeen: Date.now()
   });
 };
 

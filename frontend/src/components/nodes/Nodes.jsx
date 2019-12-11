@@ -36,17 +36,14 @@ export default class extends React.Component {
   };
 
   render() {
+    const { nodes, loading } = this.state;
     return (
-      <LoadingOverlay
-        active={this.state.loading}
-        spinner
-        text="Loading nodes..."
-      >
-        {this.state.nodes && (
+      <LoadingOverlay active={loading} spinner text="Loading nodes...">
+        {nodes && (
           <div>
             <Row>
               <Col md="auto" className="align-self-center pagination-total">
-                {`${this.state.nodes.length.toLocaleString()} Total`}
+                {`${nodes.length.toLocaleString()} Total`}
               </Col>
             </Row>
             <style jsx>{`
@@ -69,8 +66,8 @@ export default class extends React.Component {
           staggerDurationBy={0}
           style={{ minHeight: "300px" }}
         >
-          {this.state.nodes &&
-            this.state.nodes.map(node => {
+          {nodes &&
+            nodes.map(node => {
               return (
                 //display more attributes
                 // <NodeRow
