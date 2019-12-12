@@ -23,6 +23,7 @@ export default class DashboardHeader extends React.Component {
     const blockPromise = new BlocksApi()
       .getBlockInfo(searchValue)
       .catch(() => {});
+
     const transactionPromise = new TransactionsApi()
       .getTransactionInfo(searchValue)
       .catch(() => {});
@@ -30,8 +31,9 @@ export default class DashboardHeader extends React.Component {
       .queryAccount(searchValue)
       .catch(() => {});
 
-    if (await blockPromise) {
-      return Router.push("/blocks/" + searchValue);
+    const block = await blockPromise;
+    if (block) {
+      return Router.push("/blocks/" + block.hash);
     }
     const transaction = await transactionPromise;
     if (transaction && transaction.signerId) {
@@ -41,7 +43,7 @@ export default class DashboardHeader extends React.Component {
       return Router.push("/accounts/" + searchValue);
     }
 
-    alert("Nothing found!");
+    alert("Result not found!");
   };
 
   handleSearchValueChange = event => {
@@ -140,7 +142,7 @@ export default class DashboardHeader extends React.Component {
                   </InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl
-                  placeholder="Search by Account ID, Transaction hash, or Block hash"
+                  placeholder="Search by Account ID, Transaction hash, Block hash or Block Height"
                   aria-label="Search"
                   aria-describedby="search"
                   onChange={this.handleSearchValueChange}

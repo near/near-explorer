@@ -60,18 +60,18 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getBlockInfo(hash) {
+  async getBlockInfo(blockId) {
     try {
       const block = await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash
             FROM blocks
-            WHERE blocks.hash = :hash
+            WHERE blocks.hash = :blockId OR blocks.height = :blockId
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
         {
-          hash
+          blockId
         }
       ]).then(it => (it[0].hash !== null ? it[0] : null));
 
