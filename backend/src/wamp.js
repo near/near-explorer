@@ -14,28 +14,35 @@ const wampHandlers = {};
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   if (nodeInfo.hasOwnProperty("agent")) {
     return await models.Node.upsert({
-      signature: nodeInfo.signature,
-      agentName: nodeInfo.agent.name,
-      agentVersion: nodeInfo.agent.version,
-      agentBuild: nodeInfo.agent.build,
+      ipAddress: nodeInfo.ip_address,
+      lastSeen: Date.now(),
       nodeId: nodeInfo.chain.node_id,
       moniker: nodeInfo.chain.account_id,
       accountId: nodeInfo.chain.account_id,
+      lastHeight: nodeInfo.chain.latest_block_height,
       peerCount: nodeInfo.chain.num_peers,
       isValidator: nodeInfo.chain.is_validator,
       lastHash: nodeInfo.chain.lastest_block_hash,
-      lastHeight: nodeInfo.chain.latest_block_height,
-      ipAddress: nodeInfo.ip_address,
-      lastSeen: Date.now()
+      signature: nodeInfo.signature,
+      agentName: nodeInfo.agent.name,
+      agentVersion: nodeInfo.agent.version,
+      agentBuild: nodeInfo.agent.build
     });
   }
   return await models.Node.upsert({
+    ipAddress: nodeInfo.ip_address,
+    lastSeen: Date.now(),
     nodeId: nodeInfo.node_id,
     moniker: nodeInfo.account_id,
     accountId: nodeInfo.account_id,
-    ipAddress: nodeInfo.ip_address,
-    lastSeen: Date.now(),
-    lastHeight: nodeInfo.latest_block_height
+    lastHeight: nodeInfo.latest_block_height,
+    peerCount: null,
+    isValidator: null,
+    lastHash: null,
+    signature: null,
+    agentName: null,
+    agentVersion: null,
+    agentBuild: null
   });
 };
 

@@ -25,7 +25,7 @@ export default class extends React.Component {
 
   fetchInfo = async () => {
     const nodes = await this._nodesApi.getNodesInfo();
-    await this.setState({ loading: false, nodes });
+    this.setState({ loading: false, nodes });
   };
 
   regularFetchInfo = async () => {
@@ -69,20 +69,6 @@ export default class extends React.Component {
           {nodes &&
             nodes.map(node => {
               return (
-                //display more attributes
-                // <NodeRow
-                //   key={node.nodeId}
-                //   ipAddress={node.ipAddress}
-                //   moniker={node.moniker}
-                //   accountId={node.accountId}
-                //   nodeId={node.nodeId}
-                //   lastSeen={node.lastSeen}
-                //   lastHeight={node.lastHeight}
-                //   isValidator={node.isValidator}
-                //   agentName={node.agentName}
-                //   agentVersion={node.agentVersion}
-                //   agentBuild={node.agentBuild}
-                // />
                 <NodeRow
                   key={node.nodeId}
                   ipAddress={node.ipAddress}
@@ -91,6 +77,10 @@ export default class extends React.Component {
                   nodeId={node.nodeId}
                   lastSeen={node.lastSeen}
                   lastHeight={node.lastHeight}
+                  isValidator={node.isValidator}
+                  agentName={node.agentName}
+                  agentVersion={node.agentVersion}
+                  agentBuild={node.agentBuild}
                 />
               );
             })}
