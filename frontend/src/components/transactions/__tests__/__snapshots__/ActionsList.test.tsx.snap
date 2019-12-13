@@ -3,16 +3,102 @@
 exports[`<ActionsList /> renders compact 1`] = `
 Array [
   <div
+    className="action-compact-row mx-0 row no-gutters"
+  >
+    <div
+      className="col-auto"
+    >
+      <img
+        className="action-row-img"
+        src="/static/images/icon-m-batch.svg"
+      />
+    </div>
+    <div
+      className="action-row-details col"
+    >
+      <div
+        className="row no-gutters"
+      >
+        <div
+          className="col-md-8 col-7"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="action-row-title col"
+            >
+              Batch Transaction
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="action-row-text col"
+            >
+              by 
+              <a
+                className="account-link"
+                href="/accounts/signer.test"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                @signer.test
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ml-auto text-right col-md-4 col-5"
+        >
+          <div
+            className="row"
+          >
+            <div
+              className="action-row-txid col"
+            >
+              <a
+                className="transaction-link"
+                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                BvJeW6g...
+              </a>
+            </div>
+          </div>
+          <div
+            className="row"
+          >
+            <div
+              className="action-row-timer col"
+            >
+              <span
+                className="action-row-timer-status"
+              >
+                Completed
+              </span>
+               
+              <span>
+                1s ago
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
     className="action-compact-row mx-0  row no-gutters"
   >
     <div
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="action-row-img"
       >
         <svg
-          className="jsx-2315684868"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -49,60 +135,6 @@ Array [
               </a>
             </div>
           </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-2315684868 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -114,10 +146,9 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="action-row-img"
       >
         <svg
-          className="jsx-2315684868"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -154,60 +185,6 @@ Array [
               </a>
             </div>
           </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-2315684868 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -219,10 +196,9 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="action-row-img"
       >
         <svg
-          className="jsx-2315684868"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -258,60 +234,6 @@ Array [
                 @receiver.test
               </a>
               : ed25519:8LXEySy...
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-2315684868 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
             </div>
           </div>
         </div>
@@ -324,16 +246,102 @@ Array [
 exports[`<ActionsList /> renders sparsely by default 1`] = `
 Array [
   <div
+    className="action-sparse-row mx-0 row no-gutters"
+  >
+    <div
+      className="col-auto"
+    >
+      <img
+        className="action-row-img"
+        src="/static/images/icon-m-batch.svg"
+      />
+    </div>
+    <div
+      className="action-row-details col"
+    >
+      <div
+        className="row no-gutters"
+      >
+        <div
+          className="col-md-8 col-7"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="action-row-title col"
+            >
+              Batch Transaction
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="action-row-text col"
+            >
+              by 
+              <a
+                className="account-link"
+                href="/accounts/signer.test"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                @signer.test
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ml-auto text-right col-md-4 col-5"
+        >
+          <div
+            className="row"
+          >
+            <div
+              className="action-row-txid col"
+            >
+              <a
+                className="transaction-link"
+                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                BvJeW6g...
+              </a>
+            </div>
+          </div>
+          <div
+            className="row"
+          >
+            <div
+              className="action-row-timer col"
+            >
+              <span
+                className="action-row-timer-status"
+              >
+                Completed
+              </span>
+               
+              <span>
+                1s ago
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
     className="action-sparse-row mx-0  row no-gutters"
   >
     <div
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="action-row-img"
       >
         <svg
-          className="jsx-2315684868"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -343,10 +351,6 @@ Array [
           />
         </svg>
       </div>
-      <img
-        className="jsx-2315684868 action-row-toggler"
-        src="/static/images/icon-arrow-right.svg"
-      />
     </div>
     <div
       className="action-row-details col"
@@ -374,60 +378,6 @@ Array [
               </a>
             </div>
           </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-2315684868 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -439,10 +389,9 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="action-row-img"
       >
         <svg
-          className="jsx-2315684868"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -452,10 +401,6 @@ Array [
           />
         </svg>
       </div>
-      <img
-        className="jsx-2315684868 action-row-toggler"
-        src="/static/images/icon-arrow-right.svg"
-      />
     </div>
     <div
       className="action-row-details col"
@@ -483,60 +428,6 @@ Array [
               </a>
             </div>
           </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-2315684868 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -548,10 +439,9 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="action-row-img"
       >
         <svg
-          className="jsx-2315684868"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -561,10 +451,6 @@ Array [
           />
         </svg>
       </div>
-      <img
-        className="jsx-2315684868 action-row-toggler"
-        src="/static/images/icon-arrow-right.svg"
-      />
     </div>
     <div
       className="action-row-details col"
@@ -591,60 +477,6 @@ Array [
                 @receiver.test
               </a>
               : ed25519:8LXEySy...
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-2315684868 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
             </div>
           </div>
         </div>

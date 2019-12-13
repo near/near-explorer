@@ -41,14 +41,8 @@ export default class extends React.Component<Props, State> {
     const ActionIcon = actionIcons[actionKind];
     return (
       <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
-        <Col xs="auto" className="actions-icon-col">
+        <Col xs="auto">
           <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
-          {viewMode === "sparse" ? (
-            <img
-              src="/static/images/icon-arrow-right.svg"
-              className="action-row-toggler"
-            />
-          ) : null}
         </Col>
         <Col className="action-row-details">
           <Row noGutters>
@@ -88,6 +82,11 @@ export default class extends React.Component<Props, State> {
             padding-top: 10px;
             padding-bottom: 10px;
             border-top: solid 2px #f8f8f8;
+            font-family: BentonSans;
+          }
+
+          .action-compact-row {
+            font-family: BentonSans;
           }
 
           .action-compact-row .action-row-details {
@@ -110,11 +109,13 @@ export default class extends React.Component<Props, State> {
           .action-sparse-row .action-row-img {
             margin: 10px 10px 10px 20px;
             display: inline;
+            height: 20px;
+            width: 20px;
           }
 
           .action-sparse-row .action-row-img svg {
-            height: 20px;
-            width: 20px;
+            height: 16px;
+            width: 16px;
           }
 
           .action-compact-row .action-row-img svg {
@@ -180,6 +181,10 @@ export default class extends React.Component<Props, State> {
 
           .action-row-timer-status {
             font-weight: 500;
+          }
+
+          .actions-icon-col {
+            margin-left: 30px;
           }
         `}</style>
       </Row>
