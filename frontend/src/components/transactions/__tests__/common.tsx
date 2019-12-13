@@ -5,7 +5,7 @@ export const TRANSACTIONS: T.Transaction[] = [
     hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     signerId: "signer.test",
     receiverId: "receiver.test",
-    status: "Completed",
+    status: "SuccessValue",
     blockHash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
     actions: [
@@ -60,7 +60,7 @@ export const TRANSACTIONS: T.Transaction[] = [
     hash: "222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     signerId: "signer2.test",
     receiverId: "receiver2.test",
-    status: "Completed",
+    status: "SuccessValue",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
     actions: [

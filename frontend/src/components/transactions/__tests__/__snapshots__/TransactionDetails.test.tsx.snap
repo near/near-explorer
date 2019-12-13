@@ -105,7 +105,7 @@ exports[`<TransactionDetails /> renders 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              Completed
+              Succeeded
             </div>
           </div>
         </div>

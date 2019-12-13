@@ -6,6 +6,7 @@ import moment from "../../libraries/moment";
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
+import ExecutionStatus from "../utils/ExecutionStatus";
 
 export interface Props {
   transaction: Transaction;
@@ -34,7 +35,7 @@ export default ({ transaction }: Props) => {
           <CardCell
             title="Status"
             imgLink="/static/images/icon-m-filter.svg"
-            text={transaction.status}
+            text={<ExecutionStatus status={transaction.status} />}
           />
         </Col>
       </Row>

@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
+import ExecutionStatus from "../utils/ExecutionStatus";
 import TransactionLink from "../utils/TransactionLink";
 import Timer from "../utils/Timer";
 import actionIcons from "./ActionIcons";
@@ -76,7 +77,9 @@ export default class extends React.Component<Props, State> {
               </Row>
               <Row>
                 <Col className="action-row-timer">
-                  <span className="action-row-timer-status">{`Completed`}</span>{" "}
+                  <span className="action-row-timer-status">
+                    <ExecutionStatus status={transaction.status} />
+                  </span>{" "}
                   <Timer time={transaction.blockTimestamp} />
                 </Col>
               </Row>
