@@ -1,12 +1,18 @@
 import { ExplorerApi } from ".";
 
+export type ExecutionStatus =
+  | "NotStarted"
+  | "Started"
+  | "Failure"
+  | "SuccessValue";
+
 export interface TransactionInfo {
   hash: string;
   signerId: string;
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
-  status: string;
+  status: ExecutionStatus;
 }
 
 export interface CreateAccount {}
@@ -127,12 +133,26 @@ export default class TransactionsApi extends ExplorerApi {
       if (filters.tail) {
         transactions.reverse();
       }
-      transactions.forEach(transaction => {
-        transaction.status = "Completed";
-        try {
-          transaction.actions = JSON.parse(transaction.actions as string);
-        } catch {}
-      });
+      await Promise.all(
+        transactions.map(async transaction => {
+          // TODO: Expose transaction status via transactions list from chunk
+          // RPC, and store it during Explorer synchronization.
+          //
+          // Meanwhile, we query this information in a non-effective manner,
+          // that is making a separate query per transaction to nearcore RPC.
+          const transactionExtraInfo = await this.call<any>("nearcore-tx", [
+            transaction.hash,
+            transaction.signerId
+          ]);
+          transaction.status = Object.keys(
+            transactionExtraInfo.status
+          )[0] as ExecutionStatus;
+
+          try {
+            transaction.actions = JSON.parse(transaction.actions as string);
+          } catch {}
+        })
+      );
       return transactions as Transaction[];
     } catch (error) {
       console.error(
@@ -158,7 +178,7 @@ export default class TransactionsApi extends ExplorerApi {
 
       if (transactionInfo === null) {
         transactionInfo = {
-          status: "Not started",
+          status: "NotStarted",
           hash: transactionHash,
           signerId: "",
           receiverId: "",
