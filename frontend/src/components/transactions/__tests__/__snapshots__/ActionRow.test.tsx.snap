@@ -8,10 +8,17 @@ exports[`<ActionRow /> renders compact 1`] = `
     className="col-auto"
   >
     <div
+<<<<<<< HEAD
       className="jsx-1245096015 action-row-img"
     >
       <svg
         className="jsx-1245096015"
+=======
+      className="jsx-4249051168 action-row-img"
+    >
+      <svg
+        className="jsx-4249051168"
+>>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
         viewBox="0 0 18 18"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -92,7 +99,11 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-timer col"
           >
             <span
+<<<<<<< HEAD
               className="jsx-1245096015 action-row-timer-status"
+=======
+              className="jsx-4249051168 action-row-timer-status"
+>>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
             >
               Completed
             </span>
@@ -116,10 +127,17 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     className="col-auto"
   >
     <div
+<<<<<<< HEAD
       className="jsx-1245096015 action-row-img"
     >
       <svg
         className="jsx-1245096015"
+=======
+      className="jsx-4249051168 action-row-img"
+    >
+      <svg
+        className="jsx-4249051168"
+>>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
         viewBox="0 0 18 18"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -129,6 +147,13 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
         />
       </svg>
     </div>
+<<<<<<< HEAD
+=======
+    <img
+      className="jsx-4249051168 action-row-toggler"
+      src="/static/images/icon-arrow-right.svg"
+    />
+>>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
   </div>
   <div
     className="action-row-details col"
@@ -200,7 +225,11 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-timer col"
           >
             <span
+<<<<<<< HEAD
               className="jsx-1245096015 action-row-timer-status"
+=======
+              className="jsx-4249051168 action-row-timer-status"
+>>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
             >
               Completed
             </span>

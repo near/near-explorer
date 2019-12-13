@@ -45,6 +45,7 @@ export default class extends React.Component<Props> {
         />
       ));
     }
+
     if (reversed && actionRows) {
       actionRows.reverse();
     }

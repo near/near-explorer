@@ -82,9 +82,9 @@ export default class extends React.Component<Props, State> {
             padding-top: 10px;
             padding-bottom: 10px;
             border-top: solid 2px #f8f8f8;
-            font-family: BentonSans;
           }
 
+          .action-sparse-row,
           .action-compact-row {
             font-family: BentonSans;
           }
@@ -107,7 +107,7 @@ export default class extends React.Component<Props, State> {
           }
 
           .action-sparse-row .action-row-img {
-            margin: 10px 10px 10px 20px;
+            margin: 10px;
             display: inline;
             height: 20px;
             width: 20px;
@@ -118,6 +118,10 @@ export default class extends React.Component<Props, State> {
             width: 16px;
           }
 
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
+
           .action-compact-row .action-row-img svg {
             height: 12px;
             width: 12px;
@@ -126,10 +130,6 @@ export default class extends React.Component<Props, State> {
           .action-sparse-row .action-row-toggler {
             width: 10px;
             margin: 10px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
           }
 
           .action-row-title {
