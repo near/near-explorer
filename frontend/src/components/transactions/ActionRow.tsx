@@ -15,6 +15,7 @@ export interface Props {
   transaction: T.Transaction;
   viewMode: ViewMode;
   className: string;
+  batch: boolean;
 }
 
 export interface State {}
@@ -22,11 +23,12 @@ export interface State {}
 export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
-    className: ""
+    className: "",
+    batch: false
   };
 
   render() {
-    const { viewMode, className, transaction, action } = this.props;
+    const { viewMode, className, transaction, action, batch } = this.props;
 
     let actionKind: keyof T.Action;
     let actionArgs: T.Action;
@@ -42,7 +44,14 @@ export default class extends React.Component<Props, State> {
     return (
       <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
         <Col xs="auto" className="actions-icon-col">
-          <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
+          {batch ? (
+            <div className="action-row-img" style={{ marginLeft: "30px" }}>
+              {ActionIcon && <ActionIcon />}
+            </div>
+          ) : (
+            <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
+          )}
+
           {viewMode === "sparse" ? (
             <img
               src="/static/images/icon-arrow-right.svg"
@@ -84,15 +93,20 @@ export default class extends React.Component<Props, State> {
           </Row>
         </Col>
         <style jsx global>{`
-          .action-sparse-row {
+          .action-sparse-row,
+          .action-compact-row {
+            font-family: BentonSans;
+            margin-top: 5px;
+            margin-bottpm: 10px;
+          }
+
+          .action-sparse-row,
+          .action-compact-row {
             padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
+            padding-bottom: 5px;
           }
 
           .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin-bottom: 15px;
             padding-bottom: 8px;
           }
 
@@ -108,13 +122,19 @@ export default class extends React.Component<Props, State> {
           }
 
           .action-sparse-row .action-row-img {
-            margin: 10px 10px 10px 20px;
+            margin: 10px;
             display: inline;
+            height: 20px;
+            width: 20px;
           }
 
           .action-sparse-row .action-row-img svg {
             height: 20px;
             width: 20px;
+          }
+
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
           }
 
           .action-compact-row .action-row-img svg {
@@ -125,10 +145,6 @@ export default class extends React.Component<Props, State> {
           .action-sparse-row .action-row-toggler {
             width: 10px;
             margin: 10px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
           }
 
           .action-row-title {
