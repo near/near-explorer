@@ -98,10 +98,6 @@ export default class extends React.Component<Props, State> {
             font-family: BentonSans;
             margin-top: 5px;
             margin-bottpm: 10px;
-          }
-
-          .action-sparse-row,
-          .action-compact-row {
             padding-top: 10px;
             padding-bottom: 5px;
           }

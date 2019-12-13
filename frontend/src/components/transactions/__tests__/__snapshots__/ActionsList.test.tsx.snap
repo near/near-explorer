@@ -1,7 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ActionsList /> renders compact 1`] = `
-Array [
+<div
+  className="action-row-bottom"
+>
+  <div
+    className="action-compact-row mx-0"
+  >
+    <img
+      className="action-row-img"
+      src="/static/images/icon-m-batch.svg"
+    />
+    Batch Transaction
+  </div>
   <div
     className="action-compact-row mx-0  row no-gutters"
   >
@@ -9,10 +20,15 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="jsx-4249051168 action-row-img"
+        style={
+          Object {
+            "marginLeft": "30px",
+          }
+        }
       >
         <svg
-          className="jsx-2315684868"
+          className="jsx-4249051168"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -93,7 +109,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2315684868 action-row-timer-status"
+                className="jsx-4249051168 action-row-timer-status"
               >
                 Completed
               </span>
@@ -106,7 +122,7 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="action-compact-row mx-0  row no-gutters"
   >
@@ -114,10 +130,15 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="jsx-4249051168 action-row-img"
+        style={
+          Object {
+            "marginLeft": "30px",
+          }
+        }
       >
         <svg
-          className="jsx-2315684868"
+          className="jsx-4249051168"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -198,7 +219,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2315684868 action-row-timer-status"
+                className="jsx-4249051168 action-row-timer-status"
               >
                 Completed
               </span>
@@ -211,7 +232,7 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="action-compact-row mx-0  row no-gutters"
   >
@@ -219,10 +240,15 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="jsx-4249051168 action-row-img"
+        style={
+          Object {
+            "marginLeft": "30px",
+          }
+        }
       >
         <svg
-          className="jsx-2315684868"
+          className="jsx-4249051168"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -304,7 +330,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2315684868 action-row-timer-status"
+                className="jsx-4249051168 action-row-timer-status"
               >
                 Completed
               </span>
@@ -317,12 +343,23 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;
 
 exports[`<ActionsList /> renders sparsely by default 1`] = `
-Array [
+<div
+  className="action-row-bottom"
+>
+  <div
+    className="action-sparse-row mx-0"
+  >
+    <img
+      className="action-row-img"
+      src="/static/images/icon-m-batch.svg"
+    />
+    Batch Transaction
+  </div>
   <div
     className="action-sparse-row mx-0  row no-gutters"
   >
@@ -330,10 +367,15 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="jsx-4249051168 action-row-img"
+        style={
+          Object {
+            "marginLeft": "30px",
+          }
+        }
       >
         <svg
-          className="jsx-2315684868"
+          className="jsx-4249051168"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -344,7 +386,7 @@ Array [
         </svg>
       </div>
       <img
-        className="jsx-2315684868 action-row-toggler"
+        className="jsx-4249051168 action-row-toggler"
         src="/static/images/icon-arrow-right.svg"
       />
     </div>
@@ -418,7 +460,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2315684868 action-row-timer-status"
+                className="jsx-4249051168 action-row-timer-status"
               >
                 Completed
               </span>
@@ -431,7 +473,7 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="action-sparse-row mx-0  row no-gutters"
   >
@@ -439,10 +481,15 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="jsx-4249051168 action-row-img"
+        style={
+          Object {
+            "marginLeft": "30px",
+          }
+        }
       >
         <svg
-          className="jsx-2315684868"
+          className="jsx-4249051168"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -453,7 +500,7 @@ Array [
         </svg>
       </div>
       <img
-        className="jsx-2315684868 action-row-toggler"
+        className="jsx-4249051168 action-row-toggler"
         src="/static/images/icon-arrow-right.svg"
       />
     </div>
@@ -527,7 +574,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2315684868 action-row-timer-status"
+                className="jsx-4249051168 action-row-timer-status"
               >
                 Completed
               </span>
@@ -540,7 +587,7 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
+  </div>
   <div
     className="action-sparse-row mx-0  row no-gutters"
   >
@@ -548,10 +595,15 @@ Array [
       className="actions-icon-col col-auto"
     >
       <div
-        className="jsx-2315684868 action-row-img"
+        className="jsx-4249051168 action-row-img"
+        style={
+          Object {
+            "marginLeft": "30px",
+          }
+        }
       >
         <svg
-          className="jsx-2315684868"
+          className="jsx-4249051168"
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -562,7 +614,7 @@ Array [
         </svg>
       </div>
       <img
-        className="jsx-2315684868 action-row-toggler"
+        className="jsx-4249051168 action-row-toggler"
         src="/static/images/icon-arrow-right.svg"
       />
     </div>
@@ -637,7 +689,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2315684868 action-row-timer-status"
+                className="jsx-4249051168 action-row-timer-status"
               >
                 Completed
               </span>
@@ -650,6 +702,6 @@ Array [
         </div>
       </div>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

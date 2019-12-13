@@ -8,10 +8,10 @@ exports[`<ActionRow /> renders compact 1`] = `
     className="actions-icon-col col-auto"
   >
     <div
-      className="jsx-2315684868 action-row-img"
+      className="jsx-4249051168 action-row-img"
     >
       <svg
-        className="jsx-2315684868"
+        className="jsx-4249051168"
         viewBox="0 0 18 18"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -92,7 +92,7 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-2315684868 action-row-timer-status"
+              className="jsx-4249051168 action-row-timer-status"
             >
               Completed
             </span>
@@ -116,10 +116,10 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     className="actions-icon-col col-auto"
   >
     <div
-      className="jsx-2315684868 action-row-img"
+      className="jsx-4249051168 action-row-img"
     >
       <svg
-        className="jsx-2315684868"
+        className="jsx-4249051168"
         viewBox="0 0 18 18"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -130,7 +130,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
       </svg>
     </div>
     <img
-      className="jsx-2315684868 action-row-toggler"
+      className="jsx-4249051168 action-row-toggler"
       src="/static/images/icon-arrow-right.svg"
     />
   </div>
@@ -204,7 +204,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-2315684868 action-row-timer-status"
+              className="jsx-4249051168 action-row-timer-status"
             >
               Completed
             </span>
