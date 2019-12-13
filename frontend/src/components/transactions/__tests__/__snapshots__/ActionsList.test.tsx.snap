@@ -1,50 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ActionsList /> renders compact 1`] = `
-<div
-  className="action-row-bottom"
->
-  <div
-    className="action-compact-row mx-0"
-  >
-    <img
-      className="action-row-img"
-      src="/static/images/icon-m-batch.svg"
-    />
-    Batch Transaction
-  </div>
+Array [
   <div
     className="action-compact-row mx-0 row no-gutters"
   >
     <div
       className="col-auto"
     >
-<<<<<<< HEAD
       <img
         className="action-row-img"
         src="/static/images/icon-m-batch.svg"
       />
-=======
-      <div
-        className="jsx-4249051168 action-row-img"
-        style={
-          Object {
-            "marginLeft": "30px",
-          }
-        }
-      >
-        <svg
-          className="jsx-4249051168"
-          viewBox="0 0 18 18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M11.26 9l-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
-            fill="#0071ce"
-          />
-        </svg>
-      </div>
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
     </div>
     <div
       className="action-row-details col"
@@ -108,11 +75,7 @@ exports[`<ActionsList /> renders compact 1`] = `
               className="action-row-timer col"
             >
               <span
-<<<<<<< HEAD
                 className="action-row-timer-status"
-=======
-                className="jsx-4249051168 action-row-timer-status"
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
               >
                 Completed
               </span>
@@ -125,7 +88,7 @@ exports[`<ActionsList /> renders compact 1`] = `
         </div>
       </div>
     </div>
-  </div>
+  </div>,
   <div
     className="action-compact-row mx-0  row no-gutters"
   >
@@ -133,21 +96,9 @@ exports[`<ActionsList /> renders compact 1`] = `
       className="actions-icon-col col-auto"
     >
       <div
-<<<<<<< HEAD
         className="action-row-img"
       >
         <svg
-=======
-        className="jsx-4249051168 action-row-img"
-        style={
-          Object {
-            "marginLeft": "30px",
-          }
-        }
-      >
-        <svg
-          className="jsx-4249051168"
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -234,30 +185,10 @@ exports[`<ActionsList /> renders compact 1`] = `
               </a>
             </div>
           </div>
-<<<<<<< HEAD
-=======
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-4249051168 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
         </div>
       </div>
     </div>
-  </div>
+  </div>,
   <div
     className="action-compact-row mx-0  row no-gutters"
   >
@@ -265,21 +196,9 @@ exports[`<ActionsList /> renders compact 1`] = `
       className="actions-icon-col col-auto"
     >
       <div
-<<<<<<< HEAD
         className="action-row-img"
       >
         <svg
-=======
-        className="jsx-4249051168 action-row-img"
-        style={
-          Object {
-            "marginLeft": "30px",
-          }
-        }
-      >
-        <svg
-          className="jsx-4249051168"
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -399,11 +318,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-<<<<<<< HEAD
                 className="action-row-timer-status"
-=======
-                className="jsx-4249051168 action-row-timer-status"
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
               >
                 Completed
               </span>
@@ -416,27 +331,7 @@ Array [
         </div>
       </div>
     </div>
-<<<<<<< HEAD
   </div>,
-=======
-  </div>
-</div>
-`;
-
-exports[`<ActionsList /> renders sparsely by default 1`] = `
-<div
-  className="action-row-bottom"
->
-  <div
-    className="action-sparse-row mx-0"
-  >
-    <img
-      className="action-row-img"
-      src="/static/images/icon-m-batch.svg"
-    />
-    Batch Transaction
-  </div>
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
   <div
     className="action-sparse-row mx-0  row no-gutters"
   >
@@ -444,21 +339,9 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
       className="actions-icon-col col-auto"
     >
       <div
-<<<<<<< HEAD
         className="action-row-img"
       >
         <svg
-=======
-        className="jsx-4249051168 action-row-img"
-        style={
-          Object {
-            "marginLeft": "30px",
-          }
-        }
-      >
-        <svg
-          className="jsx-4249051168"
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -468,13 +351,6 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
           />
         </svg>
       </div>
-<<<<<<< HEAD
-=======
-      <img
-        className="jsx-4249051168 action-row-toggler"
-        src="/static/images/icon-arrow-right.svg"
-      />
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
     </div>
     <div
       className="action-row-details col"
@@ -502,67 +378,10 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
               </a>
             </div>
           </div>
-<<<<<<< HEAD
-=======
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-4249051168 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
         </div>
       </div>
     </div>
-  </div>
+  </div>,
   <div
     className="action-sparse-row mx-0  row no-gutters"
   >
@@ -570,21 +389,9 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
       className="actions-icon-col col-auto"
     >
       <div
-<<<<<<< HEAD
         className="action-row-img"
       >
         <svg
-=======
-        className="jsx-4249051168 action-row-img"
-        style={
-          Object {
-            "marginLeft": "30px",
-          }
-        }
-      >
-        <svg
-          className="jsx-4249051168"
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -594,13 +401,6 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
           />
         </svg>
       </div>
-<<<<<<< HEAD
-=======
-      <img
-        className="jsx-4249051168 action-row-toggler"
-        src="/static/images/icon-arrow-right.svg"
-      />
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
     </div>
     <div
       className="action-row-details col"
@@ -628,67 +428,10 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
               </a>
             </div>
           </div>
-<<<<<<< HEAD
-=======
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-4249051168 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
         </div>
       </div>
     </div>
-  </div>
+  </div>,
   <div
     className="action-sparse-row mx-0  row no-gutters"
   >
@@ -696,21 +439,9 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
       className="actions-icon-col col-auto"
     >
       <div
-<<<<<<< HEAD
         className="action-row-img"
       >
         <svg
-=======
-        className="jsx-4249051168 action-row-img"
-        style={
-          Object {
-            "marginLeft": "30px",
-          }
-        }
-      >
-        <svg
-          className="jsx-4249051168"
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -720,13 +451,6 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
           />
         </svg>
       </div>
-<<<<<<< HEAD
-=======
-      <img
-        className="jsx-4249051168 action-row-toggler"
-        src="/static/images/icon-arrow-right.svg"
-      />
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
     </div>
     <div
       className="action-row-details col"
@@ -755,66 +479,9 @@ exports[`<ActionsList /> renders sparsely by default 1`] = `
               : ed25519:8LXEySy...
             </div>
           </div>
-<<<<<<< HEAD
-=======
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              by 
-              <a
-                className="account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                @signer.test
-              </a>
-            </div>
-          </div>
-        </div>
-        <div
-          className="ml-auto text-right col-md-4 col-5"
-        >
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-txid col"
-            >
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </div>
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
-            >
-              <span
-                className="jsx-4249051168 action-row-timer-status"
-              >
-                Completed
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
-          </div>
->>>>>>> 72d90109cc37dffc0f80b8ab53b1bf010fdeb254
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </div>,
+]
 `;
