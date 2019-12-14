@@ -50,6 +50,7 @@ export default class extends React.Component {
             <ActionsList
               actions={this.props.actions}
               transaction={this.props}
+              TD
             />
           </Content>
         )}
