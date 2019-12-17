@@ -12,7 +12,7 @@ const Balance = ({ amount }) => {
 };
 
 const convertToShow = amount => {
-  return formatNEAR(amount);
+  return formatNEAR(amount, 5);
 };
 
 export const formatNEAR = amount => {
