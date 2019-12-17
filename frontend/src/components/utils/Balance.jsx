@@ -12,11 +12,11 @@ const Balance = ({ amount }) => {
 };
 
 const convertToShow = amount => {
-  return formatNEAR(amount, 5);
+  return formatNEAR(amount);
 };
 
 export const formatNEAR = amount => {
-  let ret = utils.format.formatNearAmount(amount);
+  let ret = utils.format.formatNearAmount(amount, 5);
   if (ret.startsWith("0.00000")) {
     return "<0.00001";
   }
