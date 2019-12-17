@@ -8,6 +8,7 @@
     "dev": "next",
     "dev:local-wamp": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run dev",
     "dev:production-wamp": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
+    "dev:tatooine": "env 'NEAR_NETWORKS=[{\"name\": \"tatooine\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
     "build": "next build",
     "start": "next start",
     "start:local-wamp": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run start",
