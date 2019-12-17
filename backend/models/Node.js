@@ -27,6 +27,34 @@ module.exports = (sequelize, DataTypes) => {
       lastHeight: {
         type: DataTypes.BIGINT,
         allowNull: false
+      },
+      agentName: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      agentVersion: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      agentBuild: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      peerCount: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      isValidator: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true
+      },
+      lastHash: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      signature: {
+        type: DataTypes.STRING,
+        allowNull: true
       }
     },
     {

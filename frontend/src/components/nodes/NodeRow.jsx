@@ -10,17 +10,19 @@ export default class extends React.PureComponent {
       moniker,
       ipAddress,
       lastSeen,
-      lastHeight
+      lastHeight,
+      isValidator,
+      agentName,
+      agentVersion,
+      agentBuild
     } = this.props;
+    //TODO: Display on the list new information
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
-          <img src="/static/images/icon-m-block.svg" />
-        </Col>
-        <Col md="auto" xs="1" className="pr-0">
           <img
             src="/static/images/icon-m-block.svg"
-            style={{ width: "20px" }}
+            style={{ width: "15px" }}
           />
         </Col>
         <Col md="7" xs="6">
@@ -46,7 +48,7 @@ export default class extends React.PureComponent {
         <Col md="3" xs="4" className="ml-auto text-right">
           <Row>
             <Col className="node-row-txid" title={nodeId}>
-              {nodeId.substring(0, 20)}...
+              {nodeId.substring(8, 20)}...
             </Col>
           </Row>
           <Row>
