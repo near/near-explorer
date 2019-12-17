@@ -29,14 +29,25 @@ export default class extends React.Component<Props> {
     let batch = false;
 
     if (actions.length === 1) {
-      actionRows = actions.map((action, actionIndex) => (
-        <ActionRow
-          key={transaction.hash + actionIndex}
-          action={action}
-          transaction={transaction}
-          viewMode={viewMode}
-        />
-      ));
+      if (TD) {
+        actionRows = actions.map((action, actionIndex) => (
+          <ActionRowBatch
+            key={transaction.hash + actionIndex}
+            action={action}
+            transaction={transaction}
+            viewMode={viewMode}
+          />
+        ));
+      } else {
+        actionRows = actions.map((action, actionIndex) => (
+          <ActionRow
+            key={transaction.hash + actionIndex}
+            action={action}
+            transaction={transaction}
+            viewMode={viewMode}
+          />
+        ));
+      }
     } else {
       batch = true;
       actionRows = actions.map((action, actionIndex) => (
