@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "transactions",
       underscored: true,
-      timestamps: false,
+      timestamps: true,
       indexes: [{ fields: ["block_hash"] }]
     }
   );

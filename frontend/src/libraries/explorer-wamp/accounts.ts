@@ -1,6 +1,6 @@
 import { ExplorerApi } from ".";
 
-interface AccountId {
+export interface AccountId {
   id: string;
 }
 
@@ -45,7 +45,22 @@ export default class AccountApi extends ExplorerApi {
         ...accountStats[0]
       };
     } catch (error) {
-      console.error("Accounts.getAccountInfo failed to fetch data due to:");
+      console.error("AccountApi.getAccountInfo failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getAccounts(): Promise<AccountId[]> {
+    try {
+      return await this.call("select", [
+        `SELECT DISTINCT receiver_id as id 
+            from transactions 
+            LEFT JOIN blocks ON blocks.hash = transactions.block_hash 
+            ORDER by blocks.height DESC`
+      ]);
+    } catch (error) {
+      console.error("AccountApi.getAccounts failed to fetch data due to:");
       console.error(error);
       throw error;
     }
