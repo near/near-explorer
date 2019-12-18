@@ -1,5 +1,5 @@
 /// Copied from near-wallet project:
-/// https://github.com/nearprotocol/near-wallet/blob/cd32c6ef99dcbcd9e4ab96bef0e65ea25a8bb4a3/src/components/common/Balance.js
+/// https://github.com/nearprotocol/near-wallet/blob/41cb65246134308dd553b532dfb314b45b38b65c/src/components/common/Balance.js
 
 import { utils } from "nearlib";
 
@@ -17,7 +17,7 @@ const convertToShow = amount => {
 
 export const formatNEAR = amount => {
   let ret = utils.format.formatNearAmount(amount, 5);
-  if (ret.startsWith("0.00000")) {
+  if (ret === "0" && amount > 0) {
     return "<0.00001";
   }
   return ret;
