@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Link from "next/link";
 
-import AccountApi from "../../libraries/explorer-wamp/accounts";
+import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import Balance from "../utils/Balance";
 
 export interface Props {
@@ -19,7 +19,7 @@ export default class extends React.Component<Props, State> {
   };
 
   _getDetail = async () => {
-    const detail = await new AccountApi().getAccountInfo(this.props.accountId);
+    const detail = await new AccountsApi().getAccountInfo(this.props.accountId);
     this.setState({ amount: detail.amount });
   };
   componentWillMount() {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import AccountApi, * as A from "../../libraries/explorer-wamp/accounts";
+import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
 import AccountsList from "./AccountsList";
 
@@ -15,7 +15,7 @@ export default class extends React.Component<Props, State> {
     accounts: null
   };
 
-  _accountApi: AccountApi | null;
+  _accountApi: AccountsApi | null;
 
   constructor(props: Props) {
     super(props);
@@ -24,7 +24,7 @@ export default class extends React.Component<Props, State> {
 
   fetchAccounts = async () => {
     if (this._accountApi === null) {
-      this._accountApi = new AccountApi();
+      this._accountApi = new AccountsApi();
     }
     const accounts = await this._accountApi.getAccounts();
     this.setState({ accounts });

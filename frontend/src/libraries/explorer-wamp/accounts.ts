@@ -18,7 +18,7 @@ interface AccountInfo {
 
 export type Account = AccountId & AccountStats & AccountInfo;
 
-export default class AccountApi extends ExplorerApi {
+export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
       const [accountInfo, accountStats] = await Promise.all([
@@ -45,7 +45,7 @@ export default class AccountApi extends ExplorerApi {
         ...accountStats[0]
       };
     } catch (error) {
-      console.error("AccountApi.getAccountInfo failed to fetch data due to:");
+      console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
       console.error(error);
       throw error;
     }
@@ -60,7 +60,7 @@ export default class AccountApi extends ExplorerApi {
             ORDER by blocks.height DESC`
       ]);
     } catch (error) {
-      console.error("AccountApi.getAccounts failed to fetch data due to:");
+      console.error("AccountsApi.getAccounts failed to fetch data due to:");
       console.error(error);
       throw error;
     }
