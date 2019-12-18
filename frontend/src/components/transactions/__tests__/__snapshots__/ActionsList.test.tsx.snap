@@ -143,7 +143,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              Transferred 10 Ⓝ to 
+              Transferred 0.00001 Ⓝ to 
               <a
                 className="account-link"
                 href="/accounts/receiver.test"
@@ -472,7 +472,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              Transferred 10 Ⓝ to 
+              Transferred 0.00001 Ⓝ to 
               <a
                 className="account-link"
                 href="/accounts/receiver.test"
