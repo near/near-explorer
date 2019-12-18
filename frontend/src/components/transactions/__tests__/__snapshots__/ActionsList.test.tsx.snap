@@ -9,7 +9,7 @@ Array [
       className="col-auto"
     >
       <img
-        className="jsx-2067425098 action-row-img"
+        className="jsx-904287114 action-row-img"
         src="/static/images/icon-m-batch.svg"
       />
     </div>
@@ -75,7 +75,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2067425098 action-row-timer-status"
+                className="jsx-904287114 action-row-timer-status"
               >
                 Succeeded
               </span>
@@ -252,7 +252,7 @@ Array [
       className="col-auto"
     >
       <img
-        className="jsx-2067425098 action-row-img"
+        className="jsx-904287114 action-row-img"
         src="/static/images/icon-m-batch.svg"
       />
     </div>
@@ -318,7 +318,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-2067425098 action-row-timer-status"
+                className="jsx-904287114 action-row-timer-status"
               >
                 Succeeded
               </span>
