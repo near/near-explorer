@@ -8,24 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true
       },
-      balance: {
-        type: DataTypes.STRING,
+      transactionHash: {
+        type: DataTypes.STRING, // base58
         allowNull: false
       },
-      stake: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      lastBlockIndex: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      bytes: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      code: {
-        type: DataTypes.STRING,
+      timestamp: {
+        type: DataTypes.BIGINT,
         allowNull: false
       }
     },

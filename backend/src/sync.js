@@ -62,7 +62,8 @@ async function saveBlocks(blocksInfo) {
           blocksInfo
             .filter(blockInfo => blockInfo.transactions.length > 0)
             .map(blockInfo => {
-              return models.Transaction.bulkCreate(
+              const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
+              models.Transaction.bulkCreate(
                 blockInfo.transactions.map(tx => {
                   const actions = tx.actions.map(action => {
                     if (typeof action === "string") {
@@ -85,6 +86,22 @@ async function saveBlocks(blocksInfo) {
                   };
                 })
               );
+              models.Account.bulkCreate(
+                blockInfo.transactions
+                  .filter(tx =>
+                    tx.actions.filter(
+                      action => action.CreateAccount !== undefined
+                    )
+                  )
+                  .map(tx => {
+                    return {
+                      accountId: tx.receiver_id,
+                      transactionHash: tx.hash,
+                      timestamp
+                    };
+                  })
+              );
+              return;
             })
         );
       } catch (error) {
