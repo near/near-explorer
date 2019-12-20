@@ -1,10 +1,7 @@
 /// Copied from near-wallet project:
-/// https://github.com/nearprotocol/near-wallet/blob/cd32c6ef99dcbcd9e4ab96bef0e65ea25a8bb4a3/src/components/common/Balance.js
+/// https://github.com/nearprotocol/near-wallet/blob/41cb65246134308dd553b532dfb314b45b38b65c/src/components/common/Balance.js
 
-// denomination of one near in minimal non divisible units (attoNears)
-// NEAR_NOMINATION is 10 ** 18 one unit
-export const NOMINATION = 18;
-const REG = /(?=(\B)(\d{3})+$)/g;
+import { utils } from "nearlib";
 
 const Balance = ({ amount }) => {
   if (!amount) {
@@ -19,20 +16,11 @@ const convertToShow = amount => {
 };
 
 export const formatNEAR = amount => {
-  if (amount === "0") {
-    return "0";
-  } else if (amount.length < NOMINATION - 5) {
+  let ret = utils.format.formatNearAmount(amount, 5);
+  if (ret === "0" && amount > 0) {
     return "<0.00001";
-  } else if (amount.length <= NOMINATION) {
-    let zeros = "0".repeat(NOMINATION);
-    return "0." + (zeros.substring(amount.length) + amount).slice(0, 5);
-  } else {
-    let len = amount.length - NOMINATION;
-    let numInt =
-      len > 3 ? amount.slice(0, len).replace(REG, ",") : amount.slice(0, len);
-    let numDec = amount.slice(len, amount.length);
-    return numInt + "." + numDec.slice(0, 5);
   }
+  return ret;
 };
 
 export default Balance;
