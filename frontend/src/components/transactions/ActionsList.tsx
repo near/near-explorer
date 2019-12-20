@@ -30,7 +30,6 @@ export default class extends React.Component<Props> {
 
     if (actions.length !== 1) {
       batch = true;
-    } else {
     }
 
     actionRows = actions.map((action, actionIndex) => (
