@@ -16,8 +16,8 @@ export interface Props {
   transaction: T.Transaction;
   viewMode: ViewMode;
   className: string;
-  batch: boolean;
-  detail: boolean;
+  batch?: boolean;
+  detail?: boolean;
 }
 
 export interface State {}
@@ -26,7 +26,8 @@ export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
     className: "",
-    detail: false
+    detail: false,
+    batch: false
   };
 
   render() {
