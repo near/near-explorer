@@ -16,6 +16,8 @@ export interface Props {
   transaction: T.Transaction;
   viewMode: ViewMode;
   className: string;
+  batch: boolean;
+  detail: boolean;
 }
 
 export interface State {}
@@ -23,11 +25,19 @@ export interface State {}
 export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
-    className: ""
+    className: "",
+    detail: false
   };
 
   render() {
-    const { viewMode, className, transaction, action } = this.props;
+    const {
+      viewMode,
+      className,
+      transaction,
+      action,
+      batch,
+      detail
+    } = this.props;
 
     let actionKind: keyof T.Action;
     let actionArgs: T.Action;
@@ -40,47 +50,75 @@ export default class extends React.Component<Props, State> {
     }
 
     const ActionIcon = actionIcons[actionKind];
-    return (
-      <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
-        <Col xs="auto">
-          <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
-        </Col>
-        <Col className="action-row-details">
-          <Row noGutters>
-            <Col md="8" xs="7">
-              <Row noGutters>
-                <Col className="action-row-title">
-                  <ActionMessage
-                    transaction={transaction}
-                    actionKind={actionKind}
-                    actionArgs={actionArgs}
-                  />
-                </Col>
-              </Row>
-              <Row noGutters>
-                <Col className="action-row-text">
-                  by <AccountLink accountId={transaction.signerId} />
-                </Col>
-              </Row>
-            </Col>
-            <Col md="4" xs="5" className="ml-auto text-right">
-              <Row>
-                <Col className="action-row-txid">
-                  <TransactionLink transactionHash={transaction.hash} />
-                </Col>
-              </Row>
-              <Row>
-                <Col className="action-row-timer">
-                  <span className="action-row-timer-status">
-                    <ExecutionStatus status={transaction.status} />
-                  </span>{" "}
-                  <Timer time={transaction.blockTimestamp} />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    );
+    let actionRow;
+    if (detail || batch) {
+      actionRow = (
+        <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
+          <Col xs="auto" className="actions-icon-col">
+            <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
+          </Col>
+          <Col className="action-row-details">
+            <Row noGutters>
+              <Col md="8" xs="7">
+                <Row noGutters>
+                  <Col className="action-row-title">
+                    <ActionMessage
+                      transaction={transaction}
+                      actionKind={actionKind}
+                      actionArgs={actionArgs}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      );
+    } else {
+      actionRow = (
+        <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
+          <Col xs="auto">
+            <div className="action-row-img">{ActionIcon && <ActionIcon />}</div>
+          </Col>
+          <Col className="action-row-details">
+            <Row noGutters>
+              <Col md="8" xs="7">
+                <Row noGutters>
+                  <Col className="action-row-title">
+                    <ActionMessage
+                      transaction={transaction}
+                      actionKind={actionKind}
+                      actionArgs={actionArgs}
+                    />
+                  </Col>
+                </Row>
+                <Row noGutters>
+                  <Col className="action-row-text">
+                    by <AccountLink accountId={transaction.signerId} />
+                  </Col>
+                </Row>
+              </Col>
+              <Col md="4" xs="5" className="ml-auto text-right">
+                <Row>
+                  <Col className="action-row-txid">
+                    <TransactionLink transactionHash={transaction.hash} />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="action-row-timer">
+                    <span className="action-row-timer-status">
+                      <ExecutionStatus status={transaction.status} />
+                    </span>{" "}
+                    <Timer time={transaction.blockTimestamp} />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      );
+    }
+
+    return <>{actionRow}</>;
   }
 }

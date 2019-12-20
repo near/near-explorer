@@ -3,7 +3,6 @@ import { Row, Col } from "react-bootstrap";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import ActionRow, { ViewMode } from "./ActionRow";
-import ActionRowBatch from "./ActionRowBatch";
 
 import AccountLink from "../utils/AccountLink";
 import TransactionLink from "../utils/TransactionLink";
@@ -15,59 +14,42 @@ export interface Props {
   transaction: T.Transaction;
   viewMode?: ViewMode;
   reversed?: boolean;
-  TD?: boolean;
+  detail?: boolean;
 }
 
 export default class extends React.Component<Props> {
   static defaultProps = {
     viewMode: "sparse",
-    TD: false
+    detail: false
   };
 
   render() {
-    const { actions, transaction, viewMode, reversed, TD } = this.props;
+    const { actions, transaction, viewMode, reversed, detail } = this.props;
     let actionRows;
     let batch = false;
 
-    if (actions.length === 1) {
-      if (TD) {
-        actionRows = actions.map((action, actionIndex) => (
-          <ActionRowBatch
-            key={transaction.hash + actionIndex}
-            action={action}
-            transaction={transaction}
-            viewMode={viewMode}
-          />
-        ));
-      } else {
-        actionRows = actions.map((action, actionIndex) => (
-          <ActionRow
-            key={transaction.hash + actionIndex}
-            action={action}
-            transaction={transaction}
-            viewMode={viewMode}
-          />
-        ));
-      }
-    } else {
+    if (actions.length !== 1) {
       batch = true;
-      actionRows = actions.map((action, actionIndex) => (
-        <ActionRowBatch
-          key={transaction.hash + actionIndex}
-          action={action}
-          transaction={transaction}
-          viewMode={viewMode}
-        />
-      ));
+    } else {
     }
 
+    actionRows = actions.map((action, actionIndex) => (
+      <ActionRow
+        key={transaction.hash + actionIndex}
+        action={action}
+        transaction={transaction}
+        viewMode={viewMode}
+        batch={batch}
+        detail={detail}
+      />
+    ));
     if (reversed && actionRows) {
       actionRows.reverse();
     }
 
     return (
       <>
-        {batch && !TD ? (
+        {batch && !detail ? (
           <Row noGutters className={`action-${viewMode}-row mx-0`}>
             <Col xs="auto">
               <img
