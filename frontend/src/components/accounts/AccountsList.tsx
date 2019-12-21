@@ -10,7 +10,11 @@ export default class extends React.Component<Props> {
   render() {
     const { accounts } = this.props;
     let accountRow = accounts.map((account, index) => (
-      <AccountRow key={account.id + index} accountId={account.id} />
+      <AccountRow
+        key={account.id + index}
+        accountId={account.id}
+        timestamp={account.timestamp}
+      />
     ));
     return <>{accountRow}</>;
   }

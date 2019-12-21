@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import Balance from "../utils/Balance";
 
 export interface Props {
   accountId: string;
+  timestamp: any;
 }
 
 export interface State {
@@ -26,8 +28,9 @@ export default class extends React.Component<Props, State> {
     this._getDetail();
   }
   render() {
-    const { accountId } = this.props;
+    const { accountId, timestamp } = this.props;
     const { amount } = this.state;
+    let time = moment(timestamp).format("MM/DD/YYYY");
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
         <a style={{ textDecoration: "none" }}>
@@ -50,7 +53,7 @@ export default class extends React.Component<Props, State> {
                 </Col>
               </Row>
               <Row>
-                <Col className="transaction-row-timer">Created</Col>
+                <Col className="transaction-row-timer">Created {time}</Col>
               </Row>
             </Col>
             <style jsx global>{`

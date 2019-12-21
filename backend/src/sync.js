@@ -87,20 +87,16 @@ async function saveBlocks(blocksInfo) {
                 })
               );
               models.Account.bulkCreate(
-                blockInfo.transactions
-                  .filter(tx =>
-                    tx.actions.filter(
-                      action => action.CreateAccount !== undefined
-                    )
-                  )
-                  .map(tx => {
-                    return {
-                      accountId: tx.receiver_id,
-                      transactionHash: tx.hash,
-                      timestamp
-                    };
-                  })
-              );
+                blockInfo.transactions.map(tx => {
+                  return {
+                    accountId: tx.receiver_id,
+                    transactionHash: tx.hash,
+                    timestamp
+                  };
+                })
+              ).catch(function(err) {
+                console.error(err);
+              });
               return;
             })
         );

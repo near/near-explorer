@@ -2,6 +2,7 @@ import { ExplorerApi } from ".";
 
 export interface AccountId {
   id: string;
+  timestamp: BigInt;
 }
 
 interface AccountStats {
@@ -35,7 +36,6 @@ export default class AccountsApi extends ExplorerApi {
           }
         ])
       ]);
-
       return {
         id,
         amount: accountInfo.amount,
@@ -54,10 +54,7 @@ export default class AccountsApi extends ExplorerApi {
   async getAccounts(): Promise<AccountId[]> {
     try {
       return await this.call("select", [
-        `SELECT DISTINCT receiver_id as id 
-            from transactions 
-            LEFT JOIN blocks ON blocks.hash = transactions.block_hash 
-            ORDER by blocks.height DESC`
+        `SELECT account_id as id, timestamp FROM accounts ORDER BY timestamp DESC`
       ]);
     } catch (error) {
       console.error("AccountsApi.getAccounts failed to fetch data due to:");
