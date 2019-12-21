@@ -30,6 +30,7 @@ export default class extends React.Component<Props, State> {
   render() {
     const { accountId, timestamp } = this.props;
     const { amount } = this.state;
+    console.log(timestamp);
     let time = moment(timestamp).format("MM/DD/YYYY");
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
