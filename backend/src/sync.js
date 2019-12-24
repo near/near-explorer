@@ -63,41 +63,40 @@ async function saveBlocks(blocksInfo) {
             .filter(blockInfo => blockInfo.transactions.length > 0)
             .map(blockInfo => {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
-              models.Transaction.bulkCreate(
-                blockInfo.transactions.map(tx => {
-                  const actions = tx.actions.map(action => {
-                    if (typeof action === "string") {
-                      return { [action]: {} };
-                    }
-                    if (action.DeployContract !== undefined) {
-                      delete action.DeployContract.code;
-                    }
-                    return action;
-                  });
-                  return {
-                    hash: tx.hash,
-                    nonce: tx.nonce,
-                    blockHash: blockInfo.header.hash,
-                    signerId: tx.signer_id,
-                    signerPublicKey: tx.signer_public_key || tx.public_key,
-                    signature: tx.signature,
-                    receiverId: tx.receiver_id,
-                    actions
-                  };
-                })
-              );
-              models.Account.bulkCreate(
-                blockInfo.transactions.map(tx => {
-                  return {
-                    accountId: tx.receiver_id,
-                    transactionHash: tx.hash,
-                    timestamp
-                  };
-                })
-              ).catch(function(err) {
-                console.error(err);
-              });
-              return;
+              return Promise.all([
+                models.Transaction.bulkCreate(
+                  blockInfo.transactions.map(tx => {
+                    const actions = tx.actions.map(action => {
+                      if (typeof action === "string") {
+                        return { [action]: {} };
+                      }
+                      if (action.DeployContract !== undefined) {
+                        delete action.DeployContract.code;
+                      }
+                      return action;
+                    });
+                    return {
+                      hash: tx.hash,
+                      nonce: tx.nonce,
+                      blockHash: blockInfo.header.hash,
+                      signerId: tx.signer_id,
+                      signerPublicKey: tx.signer_public_key || tx.public_key,
+                      signature: tx.signature,
+                      receiverId: tx.receiver_id,
+                      actions
+                    };
+                  })
+                ),
+                models.Account.bulkCreate(
+                  blockInfo.transactions.map(tx => {
+                    return {
+                      accountId: tx.receiver_id,
+                      transactionHash: tx.hash,
+                      timestamp
+                    };
+                  })
+                )
+              ]);
             })
         );
       } catch (error) {
