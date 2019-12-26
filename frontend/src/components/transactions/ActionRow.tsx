@@ -10,11 +10,12 @@ import ActionMessage from "./ActionMessage";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 export type ViewMode = "sparse" | "compact";
-
+export type DetalizationMode = "detailed" | "minimal";
 export interface Props {
   action: T.Action | keyof T.Action;
   transaction: T.Transaction;
   viewMode: ViewMode;
+  detalizationMode: DetalizationMode;
   className: string;
   batch?: boolean;
   detail?: boolean;
@@ -25,19 +26,17 @@ export interface State {}
 export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
-    className: "",
-    detail: false,
-    batch: false
+    detalizationMode: "detailed",
+    className: ""
   };
 
   render() {
     const {
       viewMode,
+      detalizationMode,
       className,
       transaction,
-      action,
-      batch,
-      detail
+      action
     } = this.props;
 
     let actionKind: keyof T.Action;
@@ -52,7 +51,7 @@ export default class extends React.Component<Props, State> {
 
     const ActionIcon = actionIcons[actionKind];
     let actionRow;
-    if (detail || batch) {
+    if (detalizationMode === "minimal") {
       actionRow = (
         <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
           <Col xs="auto" className="actions-icon-col">
@@ -119,7 +118,6 @@ export default class extends React.Component<Props, State> {
         </Row>
       );
     }
-
     return <>{actionRow}</>;
   }
 }

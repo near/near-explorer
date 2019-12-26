@@ -1,7 +1,7 @@
 import React from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
-import ActionsList from "./ActionsList";
+import TransactionAction from "./TransactionAction";
 import { ViewMode } from "./ActionRow";
 
 export interface Props {
@@ -14,7 +14,7 @@ export default class extends React.Component<Props> {
   render() {
     const { transactions, viewMode, reversed } = this.props;
     let actions = transactions.map(transaction => (
-      <ActionsList
+      <TransactionAction
         key={transaction.hash}
         actions={transaction.actions}
         transaction={transaction}
