@@ -14,33 +14,41 @@ export interface Props {
   actions: (T.Action | keyof T.Action)[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
-  detalizationMode?: DetalizationMode;
   reversed?: boolean;
+  detail?: boolean;
 }
 
-export default class extends React.Component<Props> {
+export interface State {
+  batch?: boolean;
+  detalizationMode?: DetalizationMode;
+}
+
+export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
+    detail: false
+  };
+
+  state: State = {
+    batch: false,
     detalizationMode: "detailed"
   };
 
-  render() {
-    const {
-      actions,
-      transaction,
-      viewMode,
-      detalizationMode,
-      reversed
-    } = this.props;
-    let batch = false;
-
-    if (actions.length !== 1) {
-      batch = true;
+  componentDidMount() {
+    if (this.props.actions.length !== 1) {
+      this.setState({ batch: true, detalizationMode: "minimal" });
     }
+    if (this.props.detail) {
+      this.setState({ batch: false, detalizationMode: "minimal" });
+    }
+  }
+
+  render() {
+    const { transaction, viewMode, reversed } = this.props;
 
     return (
       <>
-        {batch ? (
+        {this.state.batch ? (
           <Row noGutters className={`action-${viewMode}-row mx-0`}>
             <Col xs="auto">
               <img
@@ -84,7 +92,7 @@ export default class extends React.Component<Props> {
           actions={transaction.actions}
           transaction={transaction}
           viewMode={viewMode}
-          detalizationMode={detalizationMode}
+          detalizationMode={this.state.detalizationMode}
           reversed={reversed}
         />
         <style jsx global>
