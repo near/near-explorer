@@ -7,7 +7,7 @@ import AccountsList from "./AccountsList";
 export interface Props {}
 
 export interface State {
-  accounts: A.AccountId[] | null;
+  accounts: A.AccountBasicInfo[] | null;
 }
 
 export default class extends React.Component<Props, State> {

@@ -88,13 +88,17 @@ async function saveBlocks(blocksInfo) {
                   })
                 ),
                 models.Account.bulkCreate(
-                  blockInfo.transactions.map(tx => {
-                    return {
-                      accountId: tx.receiver_id,
-                      transactionHash: tx.hash,
-                      timestamp
-                    };
-                  })
+                  blockInfo.transactions
+                    .filter(tx =>
+                      tx.actions.filter(action.CreateAccount !== undefined)
+                    )
+                    .map(tx => {
+                      return {
+                        accountId: tx.receiver_id,
+                        transactionHash: tx.hash,
+                        timestamp
+                      };
+                    })
                 )
               ]);
             })

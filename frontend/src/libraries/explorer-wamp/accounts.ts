@@ -1,6 +1,6 @@
 import { ExplorerApi } from ".";
 
-export interface AccountId {
+export interface AccountBasicInfo {
   id: string;
   timestamp: BigInt;
 }
@@ -17,7 +17,7 @@ interface AccountInfo {
   storagePaidAt: number;
 }
 
-export type Account = AccountId & AccountStats & AccountInfo;
+export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
@@ -51,7 +51,7 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async getAccounts(): Promise<AccountId[]> {
+  async getAccounts(): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
         `SELECT account_id as id, timestamp FROM accounts ORDER BY timestamp DESC`
