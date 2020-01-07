@@ -37,7 +37,11 @@ export default class extends React.Component {
           icon={<TransactionIcon style={{ width: "22px" }} />}
           title={<h2>Transactions</h2>}
         >
+                    {this.props.err ? (
+            `Information is not available at the moment. Please, check if the account name is correct or try later.`
+          ) : (
           <Transactions accountId={this.props.id} reversed />
+          )}
         </Content>
       </>
     );
