@@ -1,4 +1,5 @@
 import { Row, Col } from "react-bootstrap";
+import moment from "moment";
 
 import { Account } from "../../libraries/explorer-wamp/accounts";
 
@@ -10,6 +11,7 @@ export interface Props {
 }
 
 export default ({ account }: Props) => {
+  let timestamp = Number(account.timestamp);
   return (
     <div className="account-info-container">
       <Row noGutters>
@@ -52,6 +54,22 @@ export default ({ account }: Props) => {
           />
         </Col>
       </Row>
+      <Row noGutters className="border-0">
+        <Col md="4">
+          <CardCell
+            title="Created"
+            text={moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")}
+            className="block-card-created account-card-back border-0"
+          />
+        </Col>
+        <Col md="8">
+          <CardCell
+            title="Address"
+            text={account.address}
+            className="block-card-created-text account-card-back border-0"
+          />
+        </Col>
+      </Row>
       <style jsx global>{`
         .account-info-container {
           border: solid 4px #e6e6e6;
@@ -60,6 +78,14 @@ export default ({ account }: Props) => {
 
         .account-info-container > .row:first-of-type .card-cell-text {
           font-size: 24px;
+        }
+
+        .account-info-container > .row {
+          border-bottom: 2px solid #e6e6e6;
+        }
+
+        .account-card-back {
+          background-color: #f8f8f8;
         }
       `}</style>
     </div>

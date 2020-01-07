@@ -3,6 +3,7 @@ import { ExplorerApi } from ".";
 export interface AccountBasicInfo {
   id: string;
   timestamp: BigInt;
+  address: string;
 }
 
 interface AccountStats {
@@ -22,7 +23,7 @@ export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
-      const [accountInfo, accountStats] = await Promise.all([
+      const [accountInfo, accountStats, accountBasic] = await Promise.all([
         this.queryAccount(id),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
@@ -34,14 +35,25 @@ export default class AccountsApi extends ExplorerApi {
           {
             id
           }
+        ]),
+        this.call<AccountBasicInfo>("select", [
+          `SELECT account_id as id, timestamp, transaction_hash as address from accounts
+            WHERE account_id = :id
+          `,
+          {
+            id
+          }
         ])
       ]);
+      console.log(accountBasic);
       return {
         id,
         amount: accountInfo.amount,
         locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
+        address: accountBasic[0].address,
+        timestamp: accountBasic[0].timestamp,
         ...accountStats[0]
       };
     } catch (error) {
@@ -54,7 +66,7 @@ export default class AccountsApi extends ExplorerApi {
   async getAccounts(): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
-        `SELECT account_id as id, timestamp FROM accounts ORDER BY timestamp DESC`
+        `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts ORDER BY timestamp DESC`
       ]);
     } catch (error) {
       console.error("AccountsApi.getAccounts failed to fetch data due to:");

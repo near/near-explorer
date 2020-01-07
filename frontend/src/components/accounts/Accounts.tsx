@@ -30,7 +30,7 @@ export default class extends React.Component<Props, State> {
     this.setState({ accounts });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchAccounts();
   }
 
