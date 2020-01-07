@@ -6,7 +6,7 @@
     "prettier": "1.17.1"
   },
   "scripts": {
-    "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
+    "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}' '**/\\[id\\].jsx'",
     "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}' '**/\\[id\\].jsx'"
   },
   "husky": {
