@@ -3,7 +3,7 @@ import * as A from "../../libraries/explorer-wamp/accounts";
 import AccountRow from "./AccountRow";
 
 export interface Props {
-  accounts: A.AccountId[];
+  accounts: A.AccountBasicInfo[];
 }
 
 export default class extends React.Component<Props> {
