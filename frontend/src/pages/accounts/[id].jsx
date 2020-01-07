@@ -29,8 +29,8 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={this.props} />
-          )}
+              <AccountDetails account={this.props} />
+            )}
         </Content>
         <Content
           size="medium"
@@ -40,8 +40,8 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-          <Transactions accountId={this.props.id} reversed />
-          )}
+              <Transactions accountId={this.props.id} reversed />
+            )}
         </Content>
       </>
     );
