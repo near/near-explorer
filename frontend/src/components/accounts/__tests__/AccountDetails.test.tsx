@@ -16,7 +16,7 @@ describe("<AccountDetails />", () => {
             storagePaidAt: 1,
             inTransactionsCount: 0,
             outTransactionsCount: 0,
-            address: "abcdefg"
+            address: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
           }}
         />
       )
