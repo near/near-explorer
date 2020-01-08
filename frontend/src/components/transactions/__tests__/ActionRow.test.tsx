@@ -8,12 +8,7 @@ describe("<ActionRow />", () => {
   it("renders sparsely by default", () => {
     expect(
       renderer.create(
-        <ActionRow
-          transaction={TRANSACTIONS[0]}
-          action={"CreateAccount"}
-          batch={false}
-          detail={false}
-        />
+        <ActionRow transaction={TRANSACTIONS[0]} action={"CreateAccount"} />
       )
     ).toMatchSnapshot();
   });
@@ -25,8 +20,6 @@ describe("<ActionRow />", () => {
           viewMode="compact"
           transaction={TRANSACTIONS[0]}
           action={"CreateAccount"}
-          batch={false}
-          detail={false}
         />
       )
     ).toMatchSnapshot();

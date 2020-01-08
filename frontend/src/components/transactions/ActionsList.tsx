@@ -1,7 +1,8 @@
 import React from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
-import ActionRow, { ViewMode, DetalizationMode } from "./ActionRow";
+import ActionRow from "./ActionRow";
+import { ViewMode, DetalizationMode } from "./ActionRowBlock";
 
 export interface Props {
   actions: (T.Action | keyof T.Action)[];
@@ -30,7 +31,7 @@ export default class extends React.Component<Props> {
       />
     ));
 
-    if (reversed && actionRows) {
+    if (reversed) {
       actionRows.reverse();
     }
 

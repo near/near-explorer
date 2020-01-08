@@ -2,7 +2,7 @@ import React from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import TransactionAction from "./TransactionAction";
-import { ViewMode } from "./ActionRow";
+import { ViewMode } from "./ActionRowBlock";
 
 export interface Props {
   transactions: T.Transaction[];

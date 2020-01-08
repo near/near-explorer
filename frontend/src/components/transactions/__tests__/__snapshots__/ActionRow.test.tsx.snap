@@ -8,7 +8,7 @@ exports[`<ActionRow /> renders compact 1`] = `
     className="col-auto"
   >
     <div
-      className="action-row-img"
+      className="jsx-2241739532 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -25,7 +25,7 @@ exports[`<ActionRow /> renders compact 1`] = `
     className="action-row-details col"
   >
     <div
-      className="row no-gutters"
+      className="action-row-message row no-gutters"
     >
       <div
         className="col-md-8 col-7"
@@ -91,7 +91,7 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="action-row-timer-status"
+              className="jsx-2241739532 action-row-timer-status"
             >
               Succeeded
             </span>
@@ -115,7 +115,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     className="col-auto"
   >
     <div
-      className="action-row-img"
+      className="jsx-2241739532 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -132,7 +132,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     className="action-row-details col"
   >
     <div
-      className="row no-gutters"
+      className="action-row-message row no-gutters"
     >
       <div
         className="col-md-8 col-7"
@@ -198,7 +198,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="action-row-timer-status"
+              className="jsx-2241739532 action-row-timer-status"
             >
               Succeeded
             </span>
