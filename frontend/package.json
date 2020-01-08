@@ -8,6 +8,7 @@
     "dev": "next",
     "dev:local-wamp": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run dev",
     "dev:production-wamp": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
+    "dev:tatooine": "env 'NEAR_NETWORKS=[{\"name\": \"tatooine\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
     "build": "next build",
     "start": "next start",
     "start:local-wamp": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run start",
@@ -39,6 +40,7 @@
     "autobahn": "19.7.3",
     "bootstrap": "^4.3.1",
     "moment": "^2.24.0",
+    "nearlib": "^0.19.1",
     "next": "^9.1.0",
     "react": "^16.10.2",
     "react-bootstrap": "^1.0.0-beta.14",
@@ -57,6 +59,8 @@
     "autoprefixer": "^9.6.4",
     "babel-jest": "^24.5.0",
     "babel-plugin-inline-react-svg": "^1.1.0",
+    "cypress": "^3.4.1",
+    "cypress-cucumber-preprocessor": "^1.16.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "file-loader": "^3.0.1",
@@ -65,11 +69,9 @@
     "postcss-easy-import": "^3.0.0",
     "postcss-url": "^8.0.0",
     "react-test-renderer": "^16.10.2",
+    "start-server-and-test": "^1.10.2",
     "typescript": "^3.6.3",
     "url-loader": "^1.1.2",
-    "wait-on": "^3.3.0",
-    "cypress": "^3.4.1",
-    "cypress-cucumber-preprocessor": "^1.16.0",
-    "start-server-and-test": "^1.10.2"
+    "wait-on": "^3.3.0"
   }
 }
