@@ -2,7 +2,7 @@ import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
   id: string;
-  timestamp: BigInt;
+  timestamp: number;
   address: string;
 }
 
@@ -35,26 +35,26 @@ export default class AccountsApi extends ExplorerApi {
           {
             id
           }
-        ]),
-        this.call<AccountBasicInfo>("select", [
-          `SELECT account_id as id, timestamp, transaction_hash as address from accounts
+        ]).then(accounts => accounts[0]),
+        this.call<AccountBasicInfo[]>("select", [
+          `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts
             WHERE account_id = :id
           `,
           {
             id
           }
-        ])
+        ]).then(accounts => accounts[0])
       ]);
-      console.log(accountBasic);
+
       return {
         id,
         amount: accountInfo.amount,
         locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
-        address: accountBasic[0].address,
-        timestamp: accountBasic[0].timestamp,
-        ...accountStats[0]
+        address: accountBasic.address,
+        timestamp: accountBasic.timestamp,
+        ...accountStats
       };
     } catch (error) {
       console.error("AccountsApi.getAccountInfo failed to fetch data due to:");

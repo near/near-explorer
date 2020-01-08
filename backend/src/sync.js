@@ -90,7 +90,9 @@ async function saveBlocks(blocksInfo) {
                 models.Account.bulkCreate(
                   blockInfo.transactions
                     .filter(tx =>
-                      tx.actions.filter(action.CreateAccount !== undefined)
+                      tx.actions.some(
+                        action => action.CreateAccount !== undefined
+                      )
                     )
                     .map(tx => {
                       return {

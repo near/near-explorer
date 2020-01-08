@@ -11,7 +11,6 @@ export interface Props {
 }
 
 export default ({ account }: Props) => {
-  let timestamp = Number(account.timestamp);
   return (
     <div className="account-info-container">
       <Row noGutters>
@@ -58,7 +57,9 @@ export default ({ account }: Props) => {
         <Col md="4">
           <CardCell
             title="Created"
-            text={moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")}
+            text={moment(account.timestamp).format(
+              "MMMM DD, YYYY [at] h:mm:ssa"
+            )}
             className="block-card-created account-card-back border-0"
           />
         </Col>
