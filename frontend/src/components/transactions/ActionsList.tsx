@@ -14,14 +14,8 @@ export interface Props {
 
 export default class extends React.Component<Props> {
   render() {
-    const {
-      actions,
-      transaction,
-      viewMode,
-      detalizationMode,
-      reversed
-    } = this.props;
-    let actionRows = actions.map((action, actionIndex) => (
+    const { transaction, viewMode, detalizationMode } = this.props;
+    let actionRows = this.props.actions.map((action, actionIndex) => (
       <ActionRow
         key={transaction.hash + actionIndex}
         action={action}
@@ -31,7 +25,7 @@ export default class extends React.Component<Props> {
       />
     ));
 
-    if (reversed) {
+    if (this.props.reversed) {
       actionRows.reverse();
     }
 

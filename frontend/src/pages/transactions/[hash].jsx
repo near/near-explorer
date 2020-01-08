@@ -6,7 +6,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
-import TransactionAction from "../../components/transactions/TransactionAction";
+import ActionsList from "../../components/transactions/ActionsList";
 import ReceiptsList from "../../components/transactions/ReceiptsList";
 import TransactionDetails from "../../components/transactions/TransactionDetails";
 import Content from "../../components/utils/Content";
@@ -47,10 +47,9 @@ export default class extends React.Component {
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Actions</h2>}
           >
-            <TransactionAction
+            <ActionsList
               actions={this.props.actions}
               transaction={this.props}
-              detail
             />
           </Content>
         )}
