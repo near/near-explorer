@@ -91,7 +91,9 @@ async function saveBlocks(blocksInfo) {
                   blockInfo.transactions
                     .filter(tx =>
                       tx.actions.some(
-                        action => action.CreateAccount !== undefined
+                        action =>
+                          action === "CreateAccount" ||
+                          action.CreateAccount !== undefined
                       )
                     )
                     .map(tx => {
