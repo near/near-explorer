@@ -9,7 +9,7 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             id: "account",
-            timestamp: BigInt(1576888955222),
+            timestamp: BigInt(new Date(2019, 1, 1)),
             amount: "1",
             locked: "1",
             storageUsage: 0,
