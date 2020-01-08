@@ -2,6 +2,7 @@ import React from "react";
 
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "react-flip-move";
+import PaginationSpinner from "../utils/PaginationSpinner";
 
 import TransactionsList from "./TransactionsList";
 
@@ -37,6 +38,12 @@ export default class extends React.Component<Props, State> {
     this.timer = null;
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.accountId !== prevProps.accountId) {
+      this.setState({ transactions: null });
+    }
+  }
+
   componentDidMount() {
     this.timer = setTimeout(this.regularFetchInfo, 0);
   }
@@ -70,7 +77,7 @@ export default class extends React.Component<Props, State> {
   render() {
     const { transactions } = this.state;
     if (transactions === null) {
-      return null;
+      return <PaginationSpinner hidden={false} />;
     }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
