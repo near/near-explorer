@@ -9,7 +9,6 @@ import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
-import FlipMove from "react-flip-move";
 
 export default class extends React.Component {
   state = {
@@ -57,23 +56,15 @@ export default class extends React.Component {
             </div>
           </Col>
           <Col>
-            {blocks && (
-              <FlipMove
-                duration={1000}
-                staggerDurationBy={0}
-                className="row gutter-4"
-              >
-                {blocks.map(block => (
-                  <DashboardBlocksBlock
-                    key={block.hash}
-                    blockHash={block.hash}
-                    blockHeight={block.height}
-                    blockTimestamp={block.timestamp}
-                    transactionsCount={block.transactionsCount}
-                  />
-                ))}
-              </FlipMove>
-            )}
+            {blocks.map(block => (
+              <DashboardBlocksBlock
+                key={block.hash}
+                blockHash={block.hash}
+                blockHeight={block.height}
+                blockTimestamp={block.timestamp}
+                transactionsCount={block.transactionsCount}
+              />
+            ))}
             <Row>
               <Col xs="6">
                 <Link href="blocks">
