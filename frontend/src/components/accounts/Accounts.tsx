@@ -3,6 +3,7 @@ import React from "react";
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
 import AccountsList from "./AccountsList";
+import PaginationSpinner from "../utils/PaginationSpinner";
 
 export interface Props {}
 
@@ -37,7 +38,7 @@ export default class extends React.Component<Props, State> {
   render() {
     const { accounts } = this.state;
     if (accounts === null) {
-      return null;
+      return <PaginationSpinner hidden={false} />;
     }
     return <AccountsList accounts={accounts} />;
   }
