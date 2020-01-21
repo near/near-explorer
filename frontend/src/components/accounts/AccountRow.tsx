@@ -24,7 +24,7 @@ export default class extends React.Component<Props, State> {
     const detail = await new AccountsApi().queryAccount(this.props.accountId);
     this.setState({ amount: detail.amount });
   };
-  componentWillMount() {
+  componentDidMount() {
     this._getDetail();
   }
   render() {
