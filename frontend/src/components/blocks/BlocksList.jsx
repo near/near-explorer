@@ -67,10 +67,7 @@ export default class extends React.Component {
   };
 
   _getTopBlocks = async () => {
-    const [blocks, total] = await Promise.all([
-      this._blocksApi.getLatestBlocksInfo(),
-      this._blocksApi.getTotal()
-    ]);
+    const blocks = await this._blocksApi.getLatestBlocksInfo();
     this.props.setBlocks(_blocks => {
       _blocks = blocks;
       return _blocks;
@@ -79,8 +76,7 @@ export default class extends React.Component {
       return {
         ...pagination,
         stop: blocks[blocks.length - 1].height,
-        start: blocks[0].height,
-        total
+        start: blocks[0].height
       };
     });
   };
