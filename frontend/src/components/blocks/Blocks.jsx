@@ -1,6 +1,5 @@
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-import BlocksHeader from "./BlocksHeader";
 import BlocksList from "./BlocksList";
 
 export default class extends React.Component {
@@ -10,7 +9,6 @@ export default class extends React.Component {
     pagination: {
       start: null,
       stop: null,
-      total: null,
       newBlocks: 0,
       count: 15,
       search: ""
@@ -20,12 +18,6 @@ export default class extends React.Component {
   render() {
     return (
       <>
-        <BlocksHeader
-          setLoading={this._setLoading}
-          setBlocks={this._setBlocks}
-          pagination={this.state.pagination}
-          setPagination={this._setPagination}
-        />
         <BlocksList
           blocks={this.state.blocks}
           pagination={this.state.pagination}
