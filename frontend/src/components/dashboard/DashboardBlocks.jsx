@@ -56,15 +56,17 @@ export default class extends React.Component {
             </div>
           </Col>
           <Col>
-            {blocks.map(block => (
-              <DashboardBlocksBlock
-                key={block.hash}
-                blockHash={block.hash}
-                blockHeight={block.height}
-                blockTimestamp={block.timestamp}
-                transactionsCount={block.transactionsCount}
-              />
-            ))}
+            <Row noGutters>
+              {blocks.map(block => (
+                <DashboardBlocksBlock
+                  key={block.hash}
+                  blockHash={block.hash}
+                  blockHeight={block.height}
+                  blockTimestamp={block.timestamp}
+                  transactionsCount={block.transactionsCount}
+                />
+              ))}
+            </Row>
             <Row>
               <Col xs="6">
                 <Link href="blocks">
