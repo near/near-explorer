@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import CardCell from "../utils/CardCell";
-import AccountApi from "../../libraries/explorer-wamp/accounts";
+import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import DetailsApi from "../../libraries/explorer-wamp/details";
@@ -27,7 +27,7 @@ export default class DashboardHeader extends React.Component {
     const transactionPromise = new TransactionsApi()
       .getTransactionInfo(searchValue)
       .catch(() => {});
-    const accountPromise = new AccountApi()
+    const accountPromise = new AccountsApi()
       .queryAccount(searchValue)
       .catch(() => {});
 

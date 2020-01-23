@@ -1,7 +1,9 @@
 import { ExplorerApi } from ".";
 
-interface AccountId {
+export interface AccountBasicInfo {
   id: string;
+  timestamp: number;
+  address: string;
 }
 
 interface AccountStats {
@@ -16,12 +18,12 @@ interface AccountInfo {
   storagePaidAt: number;
 }
 
-export type Account = AccountId & AccountStats & AccountInfo;
+export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 
-export default class AccountApi extends ExplorerApi {
+export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
-      const [accountInfo, accountStats] = await Promise.all([
+      const [accountInfo, accountStats, accountBasic] = await Promise.all([
         this.queryAccount(id),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
@@ -33,7 +35,15 @@ export default class AccountApi extends ExplorerApi {
           {
             id
           }
-        ])
+        ]).then(accounts => accounts[0]),
+        this.call<AccountBasicInfo[]>("select", [
+          `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts
+            WHERE account_id = :id
+          `,
+          {
+            id
+          }
+        ]).then(accounts => accounts[0])
       ]);
 
       return {
@@ -42,10 +52,24 @@ export default class AccountApi extends ExplorerApi {
         locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
-        ...accountStats[0]
+        address: accountBasic.address,
+        timestamp: accountBasic.timestamp,
+        ...accountStats
       };
     } catch (error) {
-      console.error("Accounts.getAccountInfo failed to fetch data due to:");
+      console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getAccounts(): Promise<AccountBasicInfo[]> {
+    try {
+      return await this.call("select", [
+        `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts ORDER BY timestamp DESC`
+      ]);
+    } catch (error) {
+      console.error("AccountsApi.getAccounts failed to fetch data due to:");
       console.error(error);
       throw error;
     }
