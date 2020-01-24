@@ -3,7 +3,7 @@ import { ExplorerApi } from ".";
 export interface AccountBasicInfo {
   id: string;
   timestamp: number;
-  address: string;
+  address: string | null | undefined;
 }
 
 interface AccountStats {

@@ -64,11 +64,19 @@ export default ({ account }: Props) => {
           />
         </Col>
         <Col md="8">
-          <CardCell
-            title="Address"
-            text={account.address}
-            className="block-card-created-text account-card-back border-0"
-          />
+          {account.address ? (
+            <CardCell
+              title="Address"
+              text={account.address}
+              className="block-card-created-text account-card-back border-0"
+            />
+          ) : (
+            <CardCell
+              title="Address"
+              text="Not disclosed"
+              className="block-card-created-text account-card-back border-0"
+            />
+          )}
         </Col>
       </Row>
       <style jsx global>{`
