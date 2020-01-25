@@ -6,10 +6,10 @@ import { Row, Col } from "react-bootstrap";
 
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
-import DashboardBlocksBlock from "./DashboardBlocksBlock";
-
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
-import FlipMove from "react-flip-move";
+
+import FlipMove from "../utils/FlipMove";
+import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
 export default class extends React.Component {
   state = {

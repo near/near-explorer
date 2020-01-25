@@ -14,7 +14,7 @@ export default class extends React.Component {
       transactionsCount
     } = this.props;
     return (
-      <Col xs="12" xl="6">
+      <Col xs={12} xl={6}>
         <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
           <a className="dashboard-blocks-block-link">
             <Card className="dashboard-blocks-block">
