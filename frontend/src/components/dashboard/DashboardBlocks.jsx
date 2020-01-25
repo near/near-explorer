@@ -6,9 +6,10 @@ import { Row, Col } from "react-bootstrap";
 
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
-import DashboardBlocksBlock from "./DashboardBlocksBlock";
-
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
+
+import FlipMove from "../utils/FlipMove";
+import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
 export default class extends React.Component {
   state = {
@@ -56,7 +57,11 @@ export default class extends React.Component {
             </div>
           </Col>
           <Col>
-            <Row noGutters>
+            <FlipMove
+              duration={1000}
+              staggerDurationBy={0}
+              className="row gutter-4"
+            >
               {blocks.map(block => (
                 <DashboardBlocksBlock
                   key={block.hash}
@@ -66,7 +71,7 @@ export default class extends React.Component {
                   transactionsCount={block.transactionsCount}
                 />
               ))}
-            </Row>
+            </FlipMove>
             <Row>
               <Col xs="6">
                 <Link href="blocks">
