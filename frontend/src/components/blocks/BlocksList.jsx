@@ -1,7 +1,8 @@
 import LoadingOverlay from "react-loading-overlay";
-import FlipMove from "react-flip-move";
+
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
+import FlipMove from "../utils/FlipMove";
 import BlocksRow from "./BlocksRow";
 
 export default class extends React.Component {
