@@ -1,7 +1,7 @@
 import React from "react";
 
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
-import FlipMove from "react-flip-move";
+import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import TransactionsList from "./TransactionsList";

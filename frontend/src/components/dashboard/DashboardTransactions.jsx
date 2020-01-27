@@ -9,7 +9,7 @@ import { Row, Col } from "react-bootstrap";
 import Content from "../utils/Content";
 import TransactionsList from "../transactions/TransactionsList";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import FlipMove from "react-flip-move";
+import FlipMove from "../utils/FlipMove";
 
 export default class extends React.Component {
   state = {

@@ -1,5 +1,5 @@
 import { Row, Col } from "react-bootstrap";
-import FlipMove from "react-flip-move";
+import FlipMove from "../utils/FlipMove";
 import LoadingOverlay from "react-loading-overlay";
 
 import NodesApi from "../../libraries/explorer-wamp/nodes";
