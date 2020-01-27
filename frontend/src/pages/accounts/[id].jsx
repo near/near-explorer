@@ -17,7 +17,22 @@ export default class extends React.Component {
     } catch (err) {
       return { id, err };
     }
-  }
+  };
+
+  state = {
+      id: this.props.id,
+      timestamp: 1577836800000,
+      address: "Not disclosed"
+  };
+
+  _getBasic = async () => {
+    const basic = await new AccountsApi().getAccountBasic(this.props.id);
+    this.setState({ timestamp: basic.timestamp, address: basic.address });
+  };
+
+  componentDidMount() {
+    this._getBasic();
+  };
   
   render() {
     return (
@@ -29,7 +44,7 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={this.props}/>
+            <AccountDetails account={this.props} accountBasic={this.state}/>
           )}
         </Content>
         <Content
