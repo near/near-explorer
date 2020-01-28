@@ -44,14 +44,15 @@ jobs:
         env:
           CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
 
-  backend-test:
-    name: Backend testing
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04]
-        node: [10]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Run unit tests
-        run: cd backend && npm install && npm run test
+# TODO: re-enable the tests once we have some for the backend
+#  backend-test:
+#    name: Backend testing
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ubuntu-18.04]
+#        node: [10]
+#    steps:
+#      - uses: actions/checkout@v1
+#      - name: Run unit tests
+#        run: cd backend && npm install && npm run test
