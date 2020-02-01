@@ -75,23 +75,37 @@ export interface ReceiptFailure {
 
 export type ReceiptStatus = ReceiptSuccessValue | ReceiptFailure | string;
 
-export interface ReceiptOutcome {
+export interface Outcome {
   logs: string[];
   receipt_ids: string[];
   status: ReceiptStatus;
   gas_burnt: number;
 }
 
-export interface Receipt {
+export interface ReceiptOutcome {
   id: string;
-  outcome: ReceiptOutcome;
+  outcome: Outcome;
+  block_hash: string;
 }
 
-export interface Receipts {
-  receipts?: Receipt[];
+export interface ReceiptsOutcomeWrapper {
+  receiptsOutcome?: ReceiptOutcome[];
 }
 
-export type Transaction = TransactionInfo & Actions & Receipts;
+export interface TransactionOutcome {
+  id: string;
+  outcome: Outcome;
+  block_hash: string;
+}
+
+export interface TransactionOutcomeWrapper {
+  transactionOutcome?: TransactionOutcome;
+}
+
+export type Transaction = TransactionInfo &
+  Actions &
+  ReceiptsOutcomeWrapper &
+  TransactionOutcomeWrapper;
 
 export interface FilterArgs {
   signerId?: string;
@@ -191,7 +205,8 @@ export default class TransactionsApi extends ExplorerApi {
           transactionHash,
           transactionInfo.signerId
         ]);
-        transactionInfo.receipts = transactionExtraInfo.receipts as Receipt[];
+        transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
+        transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
       }
       return transactionInfo;
     } catch (error) {

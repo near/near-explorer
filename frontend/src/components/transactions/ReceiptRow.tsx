@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props {
-  receipt: T.Receipt;
+  receipt: T.ReceiptOutcome;
 }
 
 export interface State {}

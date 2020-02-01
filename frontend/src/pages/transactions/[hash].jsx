@@ -53,13 +53,13 @@ export default class extends React.Component {
             />
           </Content>
         )}
-        {this.props.receipts && (
+        {this.props.receiptsOutcome && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Receipts</h2>}
           >
-            <ReceiptsList receipts={this.props.receipts} />
+            <ReceiptsList receipts={this.props.receiptsOutcome} />
           </Content>
         )}
       </>
