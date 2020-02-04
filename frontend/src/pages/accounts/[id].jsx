@@ -25,11 +25,13 @@ export default class extends React.Component {
   };
 
   _getBasic = async () => {
-    const basic = await new AccountsApi().getAccountBasic(this.props.id).catch(() => {});
+    const basic = await new AccountsApi()
+      .getAccountBasic(this.props.id)
+      .catch(() => {});
     if (basic) {
       this.setState({ timestamp: basic.timestamp, address: basic.address });
-    }else {
-      this.setState({timestamp: "genesis time", address: "from genesis"})
+    } else {
+      this.setState({ timestamp: "genesis time", address: "from genesis" });
     }
   };
 
@@ -47,7 +49,7 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={{...this.props, ...this.state}} />
+            <AccountDetails account={{ ...this.props, ...this.state }} />
           )}
         </Content>
         <Content
