@@ -2,20 +2,16 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import moment from "moment";
 
-import {
-  Account,
-  AccountBasicInfo
-} from "../../libraries/explorer-wamp/accounts";
+import { Account } from "../../libraries/explorer-wamp/accounts";
 
 import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
 
 export interface Props {
   account: Account;
-  accountBasic: AccountBasicInfo;
 }
 
-export default ({ account, accountBasic }: Props) => {
+export default ({ account }: Props) => {
   return (
     <div className="account-info-container">
       <Row noGutters>
@@ -62,16 +58,20 @@ export default ({ account, accountBasic }: Props) => {
         <Col md="4">
           <CardCell
             title="Created"
-            text={moment(accountBasic.timestamp).format(
-              "MMMM DD, YYYY [at] h:mm:ssa"
-            )}
+            text={
+              typeof account.timestamp === "number"
+                ? moment(account.timestamp).format(
+                    "MMMM DD, YYYY [at] h:mm:ssa"
+                  )
+                : account.timestamp
+            }
             className="block-card-created account-card-back border-0"
           />
         </Col>
         <Col md="8">
           <CardCell
             title="Address"
-            text={accountBasic.address}
+            text={account.address}
             className="block-card-created-text account-card-back border-0"
           />
         </Col>

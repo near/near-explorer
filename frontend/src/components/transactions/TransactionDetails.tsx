@@ -10,6 +10,7 @@ import CardCell from "../utils/CardCell";
 import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
 import * as T from "../../libraries/explorer-wamp/transactions";
+
 export interface Props {
   transaction: Transaction;
 }
@@ -24,24 +25,18 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    // const action = this.props.transaction.actions.filter(action => action === "FunctionCall" || action === "Transfer")
     this.props.transaction.actions.map(action => {
       let actionKind: keyof T.Action;
-      let actionArgs: T.Action;
+      let actionArgs: any;
       if (typeof action === "string") {
         actionKind = action;
-        actionArgs = {} as T.Action;
+        actionArgs = {};
       } else {
         actionKind = Object.keys(action)[0] as keyof T.Action;
-        actionArgs = action[actionKind] as T.Action;
+        actionArgs = action[actionKind];
       }
-      if (actionKind === "Transfer" || actionKind === "FunctionCall") {
-        const args = JSON.stringify(actionArgs);
-        const index = args.search("deposit") + 10;
-        const pre_deposit = args.slice(index);
-        const index_d = pre_deposit.indexOf('"');
-        const deposit = pre_deposit.slice(0, index_d);
-        this.setState({ deposit });
+      if (actionArgs.hasOwnProperty("deposit")) {
+        this.setState({ deposit: actionArgs.deposit });
       }
     });
   }
@@ -49,12 +44,6 @@ export default class extends React.Component<Props, State> {
   render() {
     const { transaction } = this.props;
     const { deposit } = this.state;
-    let depositShow;
-    if (deposit === "0") {
-      depositShow = "0 Ⓝ";
-    } else {
-      depositShow = <Balance amount={deposit} />;
-    }
     return (
       <div className="transaction-info-container">
         <Row noGutters>
@@ -77,7 +66,7 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Value"
               imgLink="/static/images/icon-m-filter.svg"
-              text={depositShow}
+              text={<Balance amount={deposit} />}
             />
           </Col>
           <Col md="3">
