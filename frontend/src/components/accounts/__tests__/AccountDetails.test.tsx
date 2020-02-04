@@ -18,11 +18,6 @@ describe("<AccountDetails />", () => {
             timestamp: Number(new Date(2019, 1, 1)),
             address: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
           }}
-          accountBasic={{
-            id: "account",
-            timestamp: Number(new Date(2019, 1, 1)),
-            address: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
-          }}
         />
       )
     ).toMatchSnapshot();
