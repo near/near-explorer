@@ -1,7 +1,8 @@
 import LoadingOverlay from "react-loading-overlay";
-import FlipMove from "react-flip-move";
+
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
+import FlipMove from "../utils/FlipMove";
 import BlocksRow from "./BlocksRow";
 
 export default class extends React.Component {
@@ -28,15 +29,17 @@ export default class extends React.Component {
         text="Loading blocks..."
       >
         <div id="block-loader">
-          <FlipMove
-            duration={1000}
-            staggerDurationBy={0}
-            style={{ minHeight: "300px" }}
-          >
-            {blocks.map(block => (
-              <BlocksRow key={block.hash + block.timestamp} block={block} />
-            ))}
-          </FlipMove>
+          {blocks && (
+            <FlipMove
+              duration={1000}
+              staggerDurationBy={0}
+              style={{ minHeight: "300px" }}
+            >
+              {blocks.map(block => (
+                <BlocksRow key={block.hash + block.timestamp} block={block} />
+              ))}
+            </FlipMove>
+          )}
         </div>
       </LoadingOverlay>
     );
@@ -67,10 +70,7 @@ export default class extends React.Component {
   };
 
   _getTopBlocks = async () => {
-    const [blocks, total] = await Promise.all([
-      this._blocksApi.getLatestBlocksInfo(),
-      this._blocksApi.getTotal()
-    ]);
+    const blocks = await this._blocksApi.getLatestBlocksInfo();
     this.props.setBlocks(_blocks => {
       _blocks = blocks;
       return _blocks;
@@ -79,8 +79,7 @@ export default class extends React.Component {
       return {
         ...pagination,
         stop: blocks[blocks.length - 1].height,
-        start: blocks[0].height,
-        total
+        start: blocks[0].height
       };
     });
   };

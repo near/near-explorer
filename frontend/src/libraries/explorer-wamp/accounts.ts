@@ -23,7 +23,7 @@ export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
-      const [accountInfo, accountStats, accountBasic] = await Promise.all([
+      const [accountInfo, accountStats] = await Promise.all([
         this.queryAccount(id),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
@@ -35,29 +35,40 @@ export default class AccountsApi extends ExplorerApi {
           {
             id
           }
-        ]).then(accounts => accounts[0]),
-        this.call<AccountBasicInfo[]>("select", [
-          `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts
-            WHERE account_id = :id
-          `,
-          {
-            id
-          }
         ]).then(accounts => accounts[0])
       ]);
-
       return {
         id,
         amount: accountInfo.amount,
         locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
-        address: accountBasic.address,
-        timestamp: accountBasic.timestamp,
         ...accountStats
       };
     } catch (error) {
       console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getAccountBasic(id: string): Promise<AccountBasicInfo> {
+    try {
+      const accountBasic = await this.call<AccountBasicInfo[]>("select", [
+        `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts
+          WHERE account_id = :id
+        `,
+        {
+          id
+        }
+      ]).then(accounts => accounts[0]);
+      return {
+        id,
+        timestamp: accountBasic.timestamp,
+        address: accountBasic.address
+      };
+    } catch (error) {
+      console.error("AccountsApi.getAccountBasic failed to fetch data due to:");
       console.error(error);
       throw error;
     }

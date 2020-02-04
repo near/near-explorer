@@ -12,7 +12,14 @@ import Router from "next/router";
 export default class DashboardHeader extends React.Component {
   state = {
     searchValue: "",
-    details: this.props.details
+    details: {
+      onlineNodesCount: 0,
+      totalNodesCount: 0,
+      transactionsPerSecond: 0,
+      lastDayTxCount: 0,
+      accountsCount: 0,
+      lastBlockHeight: 0
+    }
   };
 
   handleSearch = async event => {

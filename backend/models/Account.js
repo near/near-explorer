@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       transactionHash: {
         type: DataTypes.STRING, // base58
-        allowNull: false
+        allowNull: true
       },
       timestamp: {
         type: DataTypes.BIGINT,

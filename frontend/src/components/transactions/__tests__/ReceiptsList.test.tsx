@@ -8,7 +8,7 @@ describe("<ReceiptsList />", () => {
   it("renders", () => {
     expect(
       renderer.create(
-        <ReceiptsList receipts={TRANSACTIONS[0].receipts || []} />
+        <ReceiptsList receipts={TRANSACTIONS[0].receiptsOutcome || []} />
       )
     ).toMatchSnapshot();
   });
