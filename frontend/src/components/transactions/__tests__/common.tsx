@@ -25,9 +25,10 @@ export const TRANSACTIONS: T.Transaction[] = [
         } as T.AddKey
       } as T.Action
     ],
-    receipts: [
+    receiptsOutcome: [
       {
         id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         outcome: {
           logs: [],
           receipt_ids: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
@@ -37,6 +38,7 @@ export const TRANSACTIONS: T.Transaction[] = [
       },
       {
         id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
+        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         outcome: {
           logs: ["LOG: Counter is now: 1"],
           receipt_ids: ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp"],
@@ -46,6 +48,7 @@ export const TRANSACTIONS: T.Transaction[] = [
       },
       {
         id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp",
+        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         outcome: {
           logs: [],
           receipt_ids: [],
@@ -53,7 +56,17 @@ export const TRANSACTIONS: T.Transaction[] = [
           gas_burnt: 0
         }
       }
-    ]
+    ],
+    transactionOutcome: {
+      id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+      outcome: {
+        logs: [],
+        receipt_ids: ["9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"],
+        status: { SuccessValue: null },
+        gas_burnt: 0
+      }
+    }
   },
 
   {
@@ -74,6 +87,27 @@ export const TRANSACTIONS: T.Transaction[] = [
         } as T.FunctionCall
       } as T.Action
     ],
-    receipts: []
+    receiptsOutcome: [
+      {
+        id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
+        block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
+        outcome: {
+          logs: ["LOG: Counter is now: 1"],
+          receipt_ids: [],
+          status: { SuccessValue: "" },
+          gas_burnt: 0
+        }
+      }
+    ],
+    transactionOutcome: {
+      id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+      outcome: {
+        logs: [],
+        receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
+        status: { SuccessValue: null },
+        gas_burnt: 0
+      }
+    }
   }
 ];
