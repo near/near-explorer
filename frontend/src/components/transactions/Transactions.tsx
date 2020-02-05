@@ -15,6 +15,7 @@ export interface Props {
 
 export interface State {
   transactions: T.Transaction[] | null;
+  stop: number | null;
 }
 
 export default class extends React.Component<Props, State> {
@@ -24,11 +25,13 @@ export default class extends React.Component<Props, State> {
   };
 
   state: State = {
-    transactions: null
+    transactions: null,
+    stop: null
   };
 
   _transactionsApi: TransactionsApi | null;
   timer: ReturnType<typeof setTimeout> | null;
+  _blockLoader: Element | null;
 
   constructor(props: Props) {
     super(props);
@@ -36,6 +39,7 @@ export default class extends React.Component<Props, State> {
     // TODO: Design ExplorerApi to handle server-side rendering gracefully.
     this._transactionsApi = null;
     this.timer = null;
+    this._blockLoader = null;
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -45,6 +49,10 @@ export default class extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    this._transactionsApi = new TransactionsApi();
+    this._blockLoader = document.getElementById("tx");
+    console.log(document.getElementById("tx"));
+    document.addEventListener("scroll", this._onScroll);
     this.timer = setTimeout(this.regularFetchInfo, 0);
   }
 
@@ -71,7 +79,60 @@ export default class extends React.Component<Props, State> {
       tail: this.props.reversed,
       limit: this.props.limit
     });
-    this.setState({ transactions });
+    this.setState({ transactions, stop: transactions[0].blockHeight });
+  };
+
+  _isAtBottom = () => {
+    return (
+      this._blockLoader &&
+      this._blockLoader.getBoundingClientRect().bottom <= window.innerHeight
+    );
+  };
+
+  _onScroll = async () => {
+    if (this._isAtBottom()) {
+      document.removeEventListener("scroll", this._onScroll);
+
+      await this._loadTransactions();
+
+      // Add the listener again.
+      document.addEventListener("scroll", this._onScroll);
+    }
+  };
+
+  _loadTransactions = async () => {
+    if (this.state.stop === null) {
+      await this.fetchTransactions();
+    } else {
+      await this._getNextBatch(this.state.stop);
+    }
+  };
+
+  _getNextBatch = async (stop: number) => {
+    try {
+      if (this._transactionsApi === null) {
+        this._transactionsApi = new TransactionsApi();
+      }
+      this._transactionsApi
+        .getTransactions({
+          signerId: this.props.accountId,
+          receiverId: this.props.accountId,
+          blockHash: this.props.blockHash,
+          tail: this.props.reversed,
+          limit: this.props.limit,
+          stop
+        })
+        .then(res => console.log(res));
+      // if (transactions.length > 0) {
+      //   this.setState(preState => {
+      //    let _transaction = transactions.push(preState.transactions)
+      //    return {transactions: _transaction}
+      //   })
+      // }
+    } catch (err) {
+      console.error("Blocks.getNextBatch failed to fetch data due to:");
+      console.error(err);
+    }
   };
 
   render() {
@@ -80,12 +141,14 @@ export default class extends React.Component<Props, State> {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <FlipMove duration={1000} staggerDurationBy={0}>
-        <TransactionsList
-          transactions={transactions}
-          reversed={this.props.reversed}
-        />
-      </FlipMove>
+      <div id="tx">
+        <FlipMove duration={1000} staggerDurationBy={0}>
+          <TransactionsList
+            transactions={transactions}
+            reversed={this.props.reversed}
+          />
+        </FlipMove>
+      </div>
     );
   }
 }

@@ -12,6 +12,7 @@ export interface TransactionInfo {
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
+  blockHeight: number;
   status: ExecutionStatus;
 }
 
@@ -114,11 +115,12 @@ export interface FilterArgs {
   blockHash?: string;
   tail?: boolean;
   limit: number;
+  stop?: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
   async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
-    const { signerId, receiverId, transactionHash, blockHash } = filters;
+    const { signerId, receiverId, transactionHash, blockHash, stop } = filters;
     const whereClause = [];
     if (signerId) {
       whereClause.push(`transactions.signer_id = :signerId`);
@@ -132,16 +134,20 @@ export default class TransactionsApi extends ExplorerApi {
     if (blockHash) {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
+    if (stop) {
+      whereClause.push(`blocks.height < :stop`);
+    }
     try {
       const transactions = await this.call<
         (TransactionInfo & (StringActions | Actions))[]
       >("select", [
-        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
-          FROM transactions
-          LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-          ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-          ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
-          LIMIT :limit`,
+        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, 
+          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, blocks.height as blockHeight
+            FROM transactions
+            LEFT JOIN blocks ON blocks.hash = transactions.block_hash
+            ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
+            ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
+            LIMIT :limit`,
         filters
       ]);
       if (filters.tail) {
@@ -198,6 +204,7 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
+          blockHeight: 0,
           actions: []
         };
       } else {
