@@ -50,8 +50,6 @@ export default class extends React.Component<Props, State> {
 
   componentDidMount() {
     this._transactionsApi = new TransactionsApi();
-    this._blockLoader = document.getElementById("tx");
-    console.log(document.getElementById("tx"));
     document.addEventListener("scroll", this._onScroll);
     this.timer = setTimeout(this.regularFetchInfo, 0);
   }
@@ -83,27 +81,32 @@ export default class extends React.Component<Props, State> {
   };
 
   _isAtBottom = () => {
-    return (
-      this._blockLoader &&
-      this._blockLoader.getBoundingClientRect().bottom <= window.innerHeight
-    );
+    if (this._blockLoader !== null) {
+      return (
+        this._blockLoader.getBoundingClientRect().bottom <= window.innerHeight
+      );
+    } else {
+      return false;
+    }
   };
 
   _onScroll = async () => {
-    if (this._isAtBottom()) {
-      document.removeEventListener("scroll", this._onScroll);
-
+    this._blockLoader = document.getElementById("tx");
+    const bottom = this._isAtBottom();
+    if (bottom) {
       await this._loadTransactions();
-
-      // Add the listener again.
       document.addEventListener("scroll", this._onScroll);
     }
+    // Add the listener again.
+    document.addEventListener("scroll", this._onScroll);
   };
 
   _loadTransactions = async () => {
     if (this.state.stop === null) {
+      console.log("first fetch");
       await this.fetchTransactions();
     } else {
+      console.log("get next fetch");
       await this._getNextBatch(this.state.stop);
     }
   };
