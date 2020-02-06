@@ -313,7 +313,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              Called method: addMessage in contract: 
+              Called method: addMessage with args {"text"} in contract: 
               <a
                 className="account-link"
                 href="/accounts/receiver2.test"
