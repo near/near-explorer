@@ -2,7 +2,7 @@ import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
   id: string;
-  timestamp: number;
+  timestamp: number | string;
   address: string;
 }
 

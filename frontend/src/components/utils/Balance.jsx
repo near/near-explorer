@@ -12,6 +12,9 @@ const Balance = ({ amount }) => {
 };
 
 const convertToShow = amount => {
+  if (amount === "0") {
+    return "0";
+  }
   return formatNEAR(amount);
 };
 

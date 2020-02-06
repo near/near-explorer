@@ -49,12 +49,27 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   FunctionCall: ({
     transaction: { receiverId },
     actionArgs
-  }: Props<T.FunctionCall>) => (
-    <>
-      {`Called method: ${actionArgs.method_name} in contract: `}
-      <AccountLink accountId={receiverId} />
-    </>
-  ),
+  }: Props<T.FunctionCall>) => {
+    const args = Buffer.from(actionArgs.args, "base64").toString();
+    let parameter;
+    if (args === "{}") {
+      parameter = "";
+    } else {
+      const argums = args.slice(1, args.length - 1).split(",");
+      parameter = argums.map(ar => {
+        const index = ar.indexOf(":");
+        return ar.slice(0, index);
+      });
+    }
+    return (
+      <>
+        {`Called method: ${
+          actionArgs.method_name
+        } with args {${parameter}} in contract: `}
+        <AccountLink accountId={receiverId} />
+      </>
+    );
+  },
   Transfer: ({
     transaction: { receiverId },
     actionArgs: { deposit }

@@ -46,7 +46,7 @@ describe("<ActionMessage />", () => {
       renderer.create(
         <ActionMessage
           actionKind={"FunctionCall"}
-          actionArgs={{ method_name: "method_name" }}
+          actionArgs={{ method_name: "method_name", args: "e30=" }}
           transaction={TRANSACTIONS[0]}
         />
       )
