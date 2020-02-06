@@ -47,7 +47,7 @@ export default class extends React.Component {
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Transactions</h2>}
           >
-            <Transactions blockHash={this.props.hash} />
+            <Transactions blockHash={this.props.hash} limit={5}/>
           </Content>
         ) : null}
       </>

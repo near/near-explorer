@@ -1,5 +1,4 @@
 import React from "react";
-
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
@@ -15,7 +14,7 @@ export interface Props {
 
 export interface State {
   transactions: T.Transaction[] | null;
-  stop: number | null;
+  stop: number;
 }
 
 export default class extends React.Component<Props, State> {
@@ -26,12 +25,12 @@ export default class extends React.Component<Props, State> {
 
   state: State = {
     transactions: null,
-    stop: null
+    stop: this.props.limit
   };
 
   _transactionsApi: TransactionsApi | null;
   timer: ReturnType<typeof setTimeout> | null;
-  _blockLoader: Element | null;
+  _transactionLoader: Element | null;
 
   constructor(props: Props) {
     super(props);
@@ -39,7 +38,7 @@ export default class extends React.Component<Props, State> {
     // TODO: Design ExplorerApi to handle server-side rendering gracefully.
     this._transactionsApi = null;
     this.timer = null;
-    this._blockLoader = null;
+    this._transactionLoader = null;
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -55,6 +54,7 @@ export default class extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
+    document.removeEventListener("scroll", this._onScroll);
     clearTimeout(this.timer!);
     this.timer = null;
   }
@@ -70,88 +70,57 @@ export default class extends React.Component<Props, State> {
     if (this._transactionsApi === null) {
       this._transactionsApi = new TransactionsApi();
     }
-    const transactions = await this._transactionsApi.getTransactions({
+    const transactions = (await this._transactionsApi.getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
       tail: this.props.reversed,
-      limit: this.props.limit
-    });
-    this.setState({ transactions, stop: transactions[0].blockHeight });
+      limit: this.state.stop
+    })) as T.Transaction[];
+    this.setState({ transactions });
   };
 
   _isAtBottom = () => {
-    if (this._blockLoader !== null) {
-      return (
-        this._blockLoader.getBoundingClientRect().bottom <= window.innerHeight
-      );
-    } else {
-      return false;
-    }
+    return (
+      this._transactionLoader &&
+      this._transactionLoader.getBoundingClientRect().bottom <=
+        window.innerHeight
+    );
   };
 
   _onScroll = async () => {
-    this._blockLoader = document.getElementById("tx");
+    this._transactionLoader = document.querySelector("#tx");
     const bottom = this._isAtBottom();
     if (bottom) {
+      document.removeEventListener("scroll", this._onScroll);
       await this._loadTransactions();
       document.addEventListener("scroll", this._onScroll);
     }
-    // Add the listener again.
-    document.addEventListener("scroll", this._onScroll);
   };
 
   _loadTransactions = async () => {
-    if (this.state.stop === null) {
-      console.log("first fetch");
-      await this.fetchTransactions();
-    } else {
-      console.log("get next fetch");
-      await this._getNextBatch(this.state.stop);
-    }
-  };
-
-  _getNextBatch = async (stop: number) => {
-    try {
-      if (this._transactionsApi === null) {
-        this._transactionsApi = new TransactionsApi();
-      }
-      this._transactionsApi
-        .getTransactions({
-          signerId: this.props.accountId,
-          receiverId: this.props.accountId,
-          blockHash: this.props.blockHash,
-          tail: this.props.reversed,
-          limit: this.props.limit,
-          stop
-        })
-        .then(res => console.log(res));
-      // if (transactions.length > 0) {
-      //   this.setState(preState => {
-      //    let _transaction = transactions.push(preState.transactions)
-      //    return {transactions: _transaction}
-      //   })
-      // }
-    } catch (err) {
-      console.error("Blocks.getNextBatch failed to fetch data due to:");
-      console.error(err);
-    }
+    this.setState({ stop: this.state.stop + this.props.limit });
+    await this.fetchTransactions();
   };
 
   render() {
     const { transactions } = this.state;
+    console.log(this.state.stop);
     if (transactions === null) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <div id="tx">
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <TransactionsList
-            transactions={transactions}
-            reversed={this.props.reversed}
-          />
-        </FlipMove>
-      </div>
+      <>
+        <div id="tx">
+          <FlipMove duration={1000} staggerDurationBy={0}>
+            <TransactionsList
+              transactions={transactions}
+              reversed={this.props.reversed}
+            />
+          </FlipMove>
+        </div>
+        <PaginationSpinner hidden={false} />
+      </>
     );
   }
 }

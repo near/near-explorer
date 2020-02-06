@@ -120,7 +120,7 @@ export interface FilterArgs {
 
 export default class TransactionsApi extends ExplorerApi {
   async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
-    const { signerId, receiverId, transactionHash, blockHash, stop } = filters;
+    const { signerId, receiverId, transactionHash, blockHash } = filters;
     const whereClause = [];
     if (signerId) {
       whereClause.push(`transactions.signer_id = :signerId`);
@@ -134,9 +134,7 @@ export default class TransactionsApi extends ExplorerApi {
     if (blockHash) {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
-    if (stop) {
-      whereClause.push(`blocks.height < :stop`);
-    }
+
     try {
       const transactions = await this.call<
         (TransactionInfo & (StringActions | Actions))[]
