@@ -7,6 +7,7 @@ export const TRANSACTIONS: T.Transaction[] = [
     receiverId: "receiver.test",
     status: "SuccessValue",
     blockHash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
+    blockHeight: 123456,
     blockTimestamp: +new Date(2019, 1, 1),
     actions: [
       "CreateAccount" as keyof T.Action,
@@ -75,6 +76,7 @@ export const TRANSACTIONS: T.Transaction[] = [
     receiverId: "receiver2.test",
     status: "SuccessValue",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
+    blockHeight: 123456,
     blockTimestamp: +new Date(2019, 1, 1),
     actions: [
       {
