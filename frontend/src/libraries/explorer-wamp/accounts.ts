@@ -74,13 +74,33 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async getAccounts(): Promise<AccountBasicInfo[]> {
+  async getAccounts(limit: number): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
-        `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts ORDER BY timestamp DESC`
+        `SELECT account_id as id, timestamp, transaction_hash as address 
+        FROM accounts 
+        ORDER BY timestamp DESC
+        LIMIT :limit`,
+        {
+          limit
+        }
       ]);
     } catch (error) {
       console.error("AccountsApi.getAccounts failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getAccountLength(): Promise<number> {
+    try {
+      return await this.call("select", [
+        `SELECT COUNT(account_id) FROM accounts`
+      ]);
+    } catch (error) {
+      console.error(
+        "AccountsApi.getAccountLength failed to fetch data due to:"
+      );
       console.error(error);
       throw error;
     }
