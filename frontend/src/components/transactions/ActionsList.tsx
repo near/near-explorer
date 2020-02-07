@@ -10,11 +10,12 @@ export interface Props {
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;
   reversed?: boolean;
+  showArg?: boolean;
 }
 
 export default class extends React.Component<Props> {
   render() {
-    const { transaction, viewMode, detalizationMode } = this.props;
+    const { transaction, viewMode, detalizationMode, showArg } = this.props;
     let actionRows = this.props.actions.map((action, actionIndex) => (
       <ActionRow
         key={transaction.hash + actionIndex}
@@ -22,6 +23,7 @@ export default class extends React.Component<Props> {
         transaction={transaction}
         viewMode={viewMode}
         detalizationMode={detalizationMode}
+        showArg={showArg}
       />
     ));
 
