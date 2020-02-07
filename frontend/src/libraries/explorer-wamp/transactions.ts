@@ -119,6 +119,23 @@ export interface FilterArgs {
 }
 
 export default class TransactionsApi extends ExplorerApi {
+  async getTXLength(accountId: string): Promise<number> {
+    try {
+      return await this.call<number>("select", [
+        `SELECT COUNT(transaction.hash) FROM transactions
+        LEFT JOIN blocks ON blocks.hash = transactions.block_hash
+        WHERE transactions.signer_id = :accountId`,
+        {
+          accountId
+        }
+      ]);
+    } catch (error) {
+      console.error("Transactions.getTXLength failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
+
   async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
     const { signerId, receiverId, transactionHash, blockHash } = filters;
     const whereClause = [];

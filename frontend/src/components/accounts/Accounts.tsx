@@ -4,6 +4,7 @@ import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
 import AccountsList from "./AccountsList";
 import PaginationSpinner from "../utils/PaginationSpinner";
+import FlipMove from "../utils/FlipMove";
 
 export interface Props {}
 
@@ -40,6 +41,15 @@ export default class extends React.Component<Props, State> {
     if (accounts === null) {
       return <PaginationSpinner hidden={false} />;
     }
-    return <AccountsList accounts={accounts} />;
+    return (
+      <>
+        <div id="account">
+          <FlipMove duration={1000} staggerDurationBy={0}>
+            <AccountsList accounts={accounts} />
+          </FlipMove>
+        </div>
+        <PaginationSpinner hidden={false} />
+      </>
+    );
   }
 }

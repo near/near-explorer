@@ -15,6 +15,7 @@ export interface Props {
 export interface State {
   transactions: T.Transaction[] | null;
   stop: number;
+  loading: Boolean;
 }
 
 export default class extends React.Component<Props, State> {
@@ -25,7 +26,8 @@ export default class extends React.Component<Props, State> {
 
   state: State = {
     transactions: null,
-    stop: this.props.limit
+    stop: this.props.limit,
+    loading: false
   };
 
   _transactionsApi: TransactionsApi | null;
@@ -51,6 +53,7 @@ export default class extends React.Component<Props, State> {
     this._transactionsApi = new TransactionsApi();
     document.addEventListener("scroll", this._onScroll);
     this.timer = setTimeout(this.regularFetchInfo, 0);
+    this._getLength();
   }
 
   componentWillUnmount() {
@@ -99,13 +102,26 @@ export default class extends React.Component<Props, State> {
   };
 
   _loadTransactions = async () => {
-    this.setState({ stop: this.state.stop + this.props.limit });
+    this.setState({ stop: this.state.stop + this.props.limit, loading: true });
     await this.fetchTransactions();
+    this.setState({ loading: false });
+  };
+
+  _getLength = async () => {
+    let count;
+    if (this._transactionsApi === null) {
+      this._transactionsApi = new TransactionsApi();
+    }
+    if (this.props.accountId) {
+      count = await this._transactionsApi.getTXLength(this.props.accountId);
+      if (count <= this.state.stop) {
+        this.setState({ loading: false });
+      }
+    }
   };
 
   render() {
-    const { transactions } = this.state;
-    console.log(this.state.stop);
+    const { transactions, loading } = this.state;
     if (transactions === null) {
       return <PaginationSpinner hidden={false} />;
     }
@@ -119,7 +135,7 @@ export default class extends React.Component<Props, State> {
             />
           </FlipMove>
         </div>
-        <PaginationSpinner hidden={false} />
+        {loading && <PaginationSpinner hidden={false} />}
       </>
     );
   }
