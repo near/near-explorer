@@ -11,6 +11,8 @@ import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
+const Big = require("big.js");
+
 export interface Props {
   transaction: Transaction;
 }
@@ -25,7 +27,7 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.props.transaction.actions.map(action => {
+    const deposits = this.props.transaction.actions.map(action => {
       let actionKind: keyof T.Action;
       let actionArgs: any;
       if (typeof action === "string") {
@@ -36,9 +38,24 @@ export default class extends React.Component<Props, State> {
         actionArgs = action[actionKind];
       }
       if (actionArgs.hasOwnProperty("deposit")) {
-        this.setState({ deposit: actionArgs.deposit });
+        return actionArgs.deposit;
+      } else {
+        return "0";
       }
     });
+    const IntLengths: Array<number> = deposits.map(dp => dp.length);
+    const max = Math.max(...IntLengths);
+    const bigIntDeposit = deposits
+      .map(dp => new Big(dp))
+      .reduce((current, dp) => dp.plus(current), 0)
+      .c.join("");
+    if (bigIntDeposit.length < max) {
+      const tail = "0".repeat(max - bigIntDeposit.length);
+      const deposit = bigIntDeposit.concat(tail);
+      this.setState({ deposit });
+    } else {
+      this.setState({ deposit: bigIntDeposit });
+    }
   }
 
   render() {
