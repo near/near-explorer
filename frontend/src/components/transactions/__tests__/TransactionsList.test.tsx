@@ -1,13 +1,13 @@
 import renderer from "react-test-renderer";
 
-import TransactionsList from "../TransactionsList";
+import List from "../../utils/List";
 
 import { TRANSACTIONS } from "./common";
 
 describe("<TransactionsList />", () => {
   it("renders", () => {
     expect(
-      renderer.create(<TransactionsList transactions={TRANSACTIONS} />)
+      renderer.create(<List genre="Transaction" lists={TRANSACTIONS} />)
     ).toMatchSnapshot();
   });
 
@@ -18,13 +18,13 @@ describe("<TransactionsList />", () => {
     expect(
       JSON.stringify(
         renderer.create(
-          <TransactionsList transactions={TRANSACTIONS} reversed />
+          <List genre="Transaction" lists={TRANSACTIONS} reversed />
         )
       )
     ).toEqual(
       JSON.stringify(
         renderer.create(
-          <TransactionsList transactions={reversedTransactions} />
+          <List genre="Transaction" lists={reversedTransactions} />
         )
       )
     );
