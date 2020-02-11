@@ -7,7 +7,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import { Row, Col } from "react-bootstrap";
 
 import Content from "../utils/Content";
-import TransactionsList from "../transactions/TransactionsList";
+import List from "../utils/List";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import FlipMove from "../utils/FlipMove";
 
@@ -57,8 +57,9 @@ export default class extends React.Component {
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
             <FlipMove duration={1000} staggerDurationBy={0}>
-              <TransactionsList
-                transactions={transactions}
+              <List
+                lists={transactions}
+                genre="Transaction"
                 viewMode="compact"
                 reversed
               />
