@@ -2,11 +2,11 @@ import React from "react";
 import PaginationSpinner from "./PaginationSpinner";
 import List, { GenreMode } from "./List";
 
-import AccountsApi from "../../libraries/explorer-wamp/accounts";
-import TransactionsApi from "../../libraries/explorer-wamp/transactions";
+import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
+import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props {
-  limit: number;
+  paginationSize: number;
   genre: GenreMode;
   reversed?: boolean;
   accountId?: string;
@@ -16,18 +16,20 @@ export interface Props {
 export interface State {
   lists: any;
   loading: Boolean;
+  lastIndex: number;
 }
 
 //To have: api, lists, getlist function,
 
 export default class extends React.Component<Props, State> {
   static defaultProps = {
-    limit: 15
+    paginationSize: 15
   };
 
   state: State = {
     loading: false,
-    lists: []
+    lists: [],
+    lastIndex: 0
   };
 
   timer: ReturnType<typeof setTimeout> | null;
@@ -51,32 +53,45 @@ export default class extends React.Component<Props, State> {
   }
 
   regularFetchInfo = async () => {
-    if (this.state.lists.length === 0) {
-      await this.fetchAccounts(this.props.limit);
-    } else {
-      await this.fetchAccounts(this.state.lists.length);
+    const count = await this._getLength();
+    if (count && count <= this.state.lists.length) {
+      this.setState({ loading: false });
     }
-
+    if (count) {
+      if (this.state.lists.length === 0) {
+        await this.fetchLists(Math.min(this.props.paginationSize, count));
+      } else {
+        await this.fetchLists(this.state.lists.length);
+      }
+    } else {
+      await this.fetchLists(this.state.lists.length);
+    }
     if (this.timer !== null) {
       this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
   };
 
-  fetchAccounts = async (number: number) => {
-    let lists;
+  fetchLists = async (number: number) => {
     if (this.props.genre === "Account") {
-      lists = await new AccountsApi().getAccounts(number);
+      const lists = (await new AccountsApi().getAccounts(
+        number
+      )) as A.AccountBasicInfo[];
+      if (lists.length > 0) {
+        this.setState({ lists, lastIndex: lists[0].timestamp });
+      }
     }
     if (this.props.genre === "Transaction") {
-      lists = await new TransactionsApi().getTransactions({
+      const lists = (await new TransactionsApi().getTransactions({
         signerId: this.props.accountId,
         receiverId: this.props.accountId,
         blockHash: this.props.blockHash,
         tail: this.props.reversed,
         limit: number
-      });
+      })) as T.Transaction[];
+      if (lists.length > 0) {
+        this.setState({ lists, lastIndex: lists[0].txHeight });
+      }
     }
-    this.setState({ lists });
   };
 
   _isAtBottom = () => {
@@ -88,34 +103,60 @@ export default class extends React.Component<Props, State> {
 
   _onScroll = async () => {
     this._Loader = document.querySelector("#wrapper");
-    const bottom = this._isAtBottom();
+    const count = await this._getLength();
+    const bottom =
+      this._isAtBottom() && count && count > this.state.lists.length;
     if (bottom) {
       document.removeEventListener("scroll", this._onScroll);
-      await this._loadAccounts();
+      await this._loadLists();
       this.setState({ loading: false });
       document.addEventListener("scroll", this._onScroll);
     }
   };
 
-  _loadAccounts = async () => {
-    await Promise.all([
-      this.setState({ loading: true }),
-      this.fetchAccounts(this.state.lists.length + this.props.limit)
-    ]);
+  _loadLists = async () => {
+    await Promise.all([this.setState({ loading: true }), this._addLists()]);
+  };
+
+  _addLists = async () => {
+    if (this.props.genre === "Account") {
+      const _lists = (await new AccountsApi().getAccounts(
+        this.props.paginationSize,
+        this.state.lastIndex
+      )) as A.AccountBasicInfo[];
+      if (_lists.length > 0) {
+        const lists = this.state.lists;
+        const List = _lists.concat(lists);
+        this.setState({ lists: List, lastIndex: lists[0].timestamp });
+      }
+    }
+    if (this.props.genre === "Transaction") {
+      const _lists = (await new TransactionsApi().getTransactions({
+        signerId: this.props.accountId,
+        receiverId: this.props.accountId,
+        blockHash: this.props.blockHash,
+        tail: this.props.reversed,
+        limit: this.props.paginationSize,
+        lastTxHeight: this.state.lastIndex
+      })) as T.Transaction[];
+      if (_lists.length > 0) {
+        const lists = this.state.lists;
+        const List = _lists.concat(lists);
+        this.setState({ lists: List, lastIndex: List[0].txHeight });
+      }
+    }
   };
 
   _getLength = async () => {
-    let count;
     if (this.props.genre === "Account") {
-      count = await new AccountsApi().getAccountLength();
+      const count = await new AccountsApi().getAccountLength();
+      return count;
     }
     if (this.props.genre === "Transaction") {
-      if (this.props.accountId) {
-        count = await new TransactionsApi().getTXLength(this.props.accountId);
-      }
-    }
-    if (count && count <= this.state.lists.length) {
-      this.setState({ loading: false });
+      const count = await new TransactionsApi().getTXLength(
+        this.props.accountId
+      );
+      return count;
     }
   };
 

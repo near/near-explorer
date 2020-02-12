@@ -6,20 +6,20 @@ export interface Props {
   accountId?: string;
   blockHash?: string;
   reversed: boolean;
-  limit: number;
+  paginationSize: number;
 }
 
 export default class extends React.Component<Props> {
   static defaultProps = {
     reversed: false,
-    limit: 15
+    paginationSize: 15
   };
 
   render() {
     return (
       <Pagination
         reversed={this.props.reversed}
-        limit={this.props.limit}
+        paginationSize={this.props.paginationSize}
         genre="Transaction"
         accountId={this.props.accountId}
       />

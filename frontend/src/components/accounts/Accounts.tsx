@@ -3,15 +3,17 @@ import React from "react";
 import Pagination from "../utils/Pagination";
 
 export interface Props {
-  limit: number;
+  paginationSize: number;
 }
 
 export default class extends React.Component<Props> {
   static defaultProps = {
-    limit: 15
+    paginationSize: 15
   };
 
   render() {
-    return <Pagination limit={this.props.limit} genre="Account" />;
+    return (
+      <Pagination paginationSize={this.props.paginationSize} genre="Account" />
+    );
   }
 }

@@ -8,7 +8,7 @@ import Balance from "../utils/Balance";
 
 export interface Props {
   accountId: string;
-  timestamp: any;
+  timestamp: number;
 }
 
 export interface State {

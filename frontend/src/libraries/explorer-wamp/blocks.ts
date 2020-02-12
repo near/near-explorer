@@ -1,7 +1,7 @@
 import { ExplorerApi } from ".";
 
 export default class BlocksApi extends ExplorerApi {
-  async searchBlocks(keyword, height = -1, limit = 15) {
+  async searchBlocks(keyword: string, height = -1, limit = 15) {
     try {
       return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
@@ -25,11 +25,11 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getTotal() {
+  async getTotal(): Promise<number> {
     try {
       return await this.call("select", [
         `SELECT COUNT(blocks.hash) AS total FROM blocks`
-      ]).then(it => it[0].total);
+      ]);
     } catch (error) {
       console.error("Blocks.getTotal failed to fetch data due to:");
       console.error(error);
@@ -60,7 +60,7 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getBlockInfo(blockId) {
+  async getBlockInfo(blockId: string) {
     try {
       const block = await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
@@ -73,7 +73,7 @@ export default class BlocksApi extends ExplorerApi {
         {
           blockId
         }
-      ]).then(it => (it[0].hash !== null ? it[0] : null));
+      ]).then((it: any) => (it[0].hash !== null ? it[0] : null));
 
       if (block === null) {
         throw new Error("block not found");
@@ -86,7 +86,7 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getPreviousBlocks(lastBlockHeight, limit = 15) {
+  async getPreviousBlocks(lastBlockHeight: string, limit = 15) {
     try {
       return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount

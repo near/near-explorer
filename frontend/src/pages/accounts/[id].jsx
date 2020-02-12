@@ -60,7 +60,7 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <Transactions accountId={this.props.id} reversed limit={5} />
+            <Transactions accountId={this.props.id} reversed paginationSize={5} />
           )}
         </Content>
       </>

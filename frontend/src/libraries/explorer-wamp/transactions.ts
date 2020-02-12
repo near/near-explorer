@@ -12,7 +12,7 @@ export interface TransactionInfo {
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
-  blockHeight: number;
+  txHeight: number;
   status: ExecutionStatus;
 }
 
@@ -115,20 +115,20 @@ export interface FilterArgs {
   blockHash?: string;
   tail?: boolean;
   limit: number;
-  stop?: number;
+  lastTxHeight?: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
-  async getTXLength(accountId: string): Promise<number> {
+  async getTXLength(accountId: string = ""): Promise<number> {
     try {
-      return await this.call<number>("select", [
-        `SELECT COUNT(transaction.hash) FROM transactions
+      return await this.call<any>("select", [
+        `SELECT COUNT(transactions.hash) as length FROM transactions
         LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-        WHERE transactions.signer_id = :accountId`,
+        ${accountId === "" ? `` : `WHERE transactions.signer_id = :accountId`}`,
         {
           accountId
         }
-      ]);
+      ]).then(it => it[0].length);
     } catch (error) {
       console.error("Transactions.getTXLength failed to fetch data due to:");
       console.error(error);
@@ -137,7 +137,13 @@ export default class TransactionsApi extends ExplorerApi {
   }
 
   async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
-    const { signerId, receiverId, transactionHash, blockHash } = filters;
+    const {
+      signerId,
+      receiverId,
+      transactionHash,
+      blockHash,
+      lastTxHeight
+    } = filters;
     const whereClause = [];
     if (signerId) {
       whereClause.push(`transactions.signer_id = :signerId`);
@@ -151,17 +157,20 @@ export default class TransactionsApi extends ExplorerApi {
     if (blockHash) {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
+    if (lastTxHeight) {
+      whereClause.push(`transactions.tx_height < :lastTxHeight`);
+    }
 
     try {
       const transactions = await this.call<
         (TransactionInfo & (StringActions | Actions))[]
       >("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, 
-          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, blocks.height as blockHeight
+          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, transactions.tx_height as txHeight
             FROM transactions
             LEFT JOIN blocks ON blocks.hash = transactions.block_hash
             ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-            ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
+            ORDER BY txHeight ${filters.tail ? "DESC" : ""}
             LIMIT :limit`,
         filters
       ]);
@@ -198,7 +207,7 @@ export default class TransactionsApi extends ExplorerApi {
     }
   }
 
-  async getLatestTransactionsInfo(limit: number = 15): Promise<Transaction[]> {
+  async getLatestTransactionsInfo(limit: number = 10): Promise<Transaction[]> {
     return this.getTransactions({ tail: true, limit });
   }
 
@@ -219,7 +228,7 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
-          blockHeight: 0,
+          txHeight: 0,
           actions: []
         };
       } else {

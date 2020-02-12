@@ -2,7 +2,7 @@ import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
   id: string;
-  timestamp: number | string;
+  timestamp: number;
   address: string;
 }
 
@@ -74,15 +74,21 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async getAccounts(limit: number): Promise<AccountBasicInfo[]> {
+  async getAccounts(
+    limit: number,
+    lastTimestamp: number = -1
+  ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
         `SELECT account_id as id, timestamp, transaction_hash as address 
         FROM accounts 
+        WHERE timestamp < :lastTimestamp
         ORDER BY timestamp DESC
         LIMIT :limit`,
         {
-          limit
+          limit,
+          lastTimestamp:
+            lastTimestamp === -1 ? "MAX(accounts.timestamp)" : lastTimestamp
         }
       ]);
     } catch (error) {
@@ -94,9 +100,9 @@ export default class AccountsApi extends ExplorerApi {
 
   async getAccountLength(): Promise<number> {
     try {
-      return await this.call("select", [
-        `SELECT COUNT(account_id) FROM accounts`
-      ]);
+      return await this.call<any>("select", [
+        `SELECT COUNT(account_id) as length FROM accounts`
+      ]).then(it => it[0].length);
     } catch (error) {
       console.error(
         "AccountsApi.getAccountLength failed to fetch data due to:"
