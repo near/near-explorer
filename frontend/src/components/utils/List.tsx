@@ -1,14 +1,16 @@
 import React from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 import * as A from "../../libraries/explorer-wamp/accounts";
+import { BlockInfo } from "../../libraries/explorer-wamp/blocks";
 import AccountRow from "../accounts/AccountRow";
 import TransactionAction from "../transactions/TransactionAction";
+import BlocksRow from "../blocks/BlocksRow";
 import { ViewMode } from "../transactions/ActionRowBlock";
 
-export type GenreMode = "Transaction" | "Account";
+export type GenreMode = "Transaction" | "Account" | "Block";
 
 export interface Props {
-  lists: T.Transaction[] | A.AccountBasicInfo[];
+  lists: T.Transaction[] | A.AccountBasicInfo[] | BlockInfo[];
   genre: GenreMode;
   viewMode?: ViewMode;
   reversed?: boolean;
@@ -41,6 +43,12 @@ export default class extends React.Component<Props> {
           accountId={account.id}
           timestamp={account.timestamp}
         />
+      ));
+    }
+    if (genre === "Block") {
+      const blockLists = lists as BlockInfo[];
+      rows = blockLists.map(block => (
+        <BlocksRow key={block.hash + block.timestamp} block={block} />
       ));
     }
 

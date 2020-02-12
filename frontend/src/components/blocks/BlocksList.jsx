@@ -71,6 +71,7 @@ export default class extends React.Component {
 
   _getTopBlocks = async () => {
     const blocks = await this._blocksApi.getLatestBlocksInfo();
+    console.log(blocks[0]);
     this.props.setBlocks(_blocks => {
       _blocks = blocks;
       return _blocks;

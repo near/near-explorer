@@ -4,6 +4,7 @@ import List, { GenreMode } from "./List";
 
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
+import BlocksApi, { BlockInfo } from "../../libraries/explorer-wamp/blocks";
 
 export interface Props {
   paginationSize: number;
@@ -80,6 +81,12 @@ export default class extends React.Component<Props, State> {
         this.setState({ lists, lastIndex: lists[0].timestamp });
       }
     }
+    if (this.props.genre === "Block") {
+      const lists = (await new BlocksApi().getBlocks(number)) as BlockInfo[];
+      if (lists.length > 0) {
+        this.setState({ lists, lastIndex: lists[lists.length - 1].height });
+      }
+    }
     if (this.props.genre === "Transaction") {
       const lists = (await new TransactionsApi().getTransactions({
         signerId: this.props.accountId,
@@ -130,6 +137,20 @@ export default class extends React.Component<Props, State> {
         this.setState({ lists: List, lastIndex: lists[0].timestamp });
       }
     }
+    if (this.props.genre === "Block") {
+      const _lists = (await new BlocksApi().getBlocks(
+        this.props.paginationSize,
+        this.state.lastIndex
+      )) as BlockInfo[];
+      if (_lists.length > 0) {
+        const lists = this.state.lists;
+        const List = lists.concat(_lists);
+        this.setState({
+          lists: List,
+          lastIndex: lists[lists.length - 1].height
+        });
+      }
+    }
     if (this.props.genre === "Transaction") {
       const _lists = (await new TransactionsApi().getTransactions({
         signerId: this.props.accountId,
@@ -150,6 +171,10 @@ export default class extends React.Component<Props, State> {
   _getLength = async () => {
     if (this.props.genre === "Account") {
       const count = await new AccountsApi().getAccountLength();
+      return count;
+    }
+    if (this.props.genre === "Block") {
+      const count = await new BlocksApi().getBlockLength();
       return count;
     }
     if (this.props.genre === "Transaction") {

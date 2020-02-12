@@ -26,9 +26,7 @@ export default class extends React.Component {
   }
 
   fetchInfo = async () => {
-    const blocks = await new BlocksApi()
-      .getLatestBlocksInfo(8)
-      .catch(() => null);
+    const blocks = await new BlocksApi().getBlocks(8).catch(() => null);
     this.setState({ blocks });
   };
 
