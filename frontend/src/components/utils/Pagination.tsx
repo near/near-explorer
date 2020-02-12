@@ -28,7 +28,7 @@ export default class extends React.Component<Props, State> {
   };
 
   state: State = {
-    loading: false,
+    loading: true,
     lists: [],
     lastIndex: 0
   };
@@ -194,8 +194,8 @@ export default class extends React.Component<Props, State> {
       <>
         <div id="wrapper">
           <List lists={lists} {...this.props} />
+          {loading && <PaginationSpinner hidden={false} />}
         </div>
-        {loading && <PaginationSpinner hidden={false} />}
       </>
     );
   }

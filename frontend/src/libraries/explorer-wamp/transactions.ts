@@ -122,9 +122,13 @@ export default class TransactionsApi extends ExplorerApi {
   async getTXLength(accountId: string = ""): Promise<number> {
     try {
       return await this.call<any>("select", [
-        `SELECT COUNT(transactions.hash) as length FROM transactions
-        LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-        ${accountId === "" ? `` : `WHERE transactions.signer_id = :accountId`}`,
+        `SELECT COUNT(transactions.hash) as length
+          FROM transactions 
+          ${
+            accountId === ""
+              ? ``
+              : `WHERE transactions.receiver_id = :accountId OR transactions.signer_id = :accountId`
+          }`,
         {
           accountId
         }
@@ -142,7 +146,8 @@ export default class TransactionsApi extends ExplorerApi {
       receiverId,
       transactionHash,
       blockHash,
-      lastTxHeight
+      lastTxHeight,
+      limit
     } = filters;
     const whereClause = [];
     if (signerId) {
@@ -172,7 +177,14 @@ export default class TransactionsApi extends ExplorerApi {
             ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
             ORDER BY txHeight ${filters.tail ? "DESC" : ""}
             LIMIT :limit`,
-        filters
+        {
+          limit,
+          signerId,
+          receiverId,
+          transactionHash,
+          blockHash,
+          lastTxHeight
+        }
       ]);
       if (filters.tail) {
         transactions.reverse();
@@ -200,7 +212,7 @@ export default class TransactionsApi extends ExplorerApi {
       return transactions as Transaction[];
     } catch (error) {
       console.error(
-        "Transactions.getTransactionsInfo failed to fetch data due to:"
+        "Transactions.getTransactions failed to fetch data due to:"
       );
       console.error(error);
       throw error;
