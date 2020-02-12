@@ -162,7 +162,6 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { lists, loading } = this.state;
-    console.log(lists);
     if (lists === []) {
       return <PaginationSpinner hidden={false} />;
     }
