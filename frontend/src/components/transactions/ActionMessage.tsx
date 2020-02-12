@@ -7,7 +7,7 @@ export interface Props<A> {
   actionKind: keyof TransactionMessageRenderers;
   actionArgs: A;
   transaction: T.Transaction;
-  showArg?: boolean;
+  showDetails?: boolean;
 }
 
 type AnyAction =
@@ -50,17 +50,17 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   FunctionCall: ({
     transaction: { receiverId },
     actionArgs,
-    showArg
+    showDetails
   }: Props<T.FunctionCall>) => {
     const args = Buffer.from(actionArgs.args, "base64").toString();
     return (
       <>
         {`Called method: '${actionArgs.method_name}' in contract: `}
         <AccountLink accountId={receiverId} />
-        {showArg ? (
-          <pre>
-            <i>Arguments in method: {args}</i>
-          </pre>
+        {showDetails ? (
+          <>
+            Arguments in method: <pre> {args} </pre>
+          </>
         ) : null}
       </>
     );
@@ -111,5 +111,5 @@ export default (props: Props<AnyAction>) => {
       </>
     );
   }
-  return <MessageRenderer {...props as any} showArg={props.showArg} />;
+  return <MessageRenderer {...props as any} showDetails={props.showDetails} />;
 };

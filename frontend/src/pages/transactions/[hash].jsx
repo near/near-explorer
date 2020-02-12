@@ -51,7 +51,7 @@ export default class extends React.Component {
               actions={this.props.actions}
               transaction={this.props}
               detalizationMode="minimal"
-              showArg
+              showDetails
             />
           </Content>
         )}
