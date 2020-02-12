@@ -1,6 +1,6 @@
 import renderer from "react-test-renderer";
 
-import TransactionsList from "../TransactionsList";
+import TransactionsList from "../_TransactionsList";
 
 import { TRANSACTIONS } from "./common";
 
