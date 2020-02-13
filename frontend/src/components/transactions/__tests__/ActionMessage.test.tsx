@@ -53,6 +53,22 @@ describe("<ActionMessage />", () => {
     ).toMatchSnapshot();
   });
 
+  it("renders FunctionCall with details", () => {
+    expect(
+      renderer.create(
+        <ActionMessage
+          actionKind={"FunctionCall"}
+          actionArgs={{
+            method_name: "method_name",
+            args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0="
+          }}
+          transaction={TRANSACTIONS[1]}
+          showDetails
+        />
+      )
+    ).toMatchSnapshot();
+  });
+
   it("renders Transfer", () => {
     expect(
       renderer.create(

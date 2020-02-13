@@ -50,4 +50,16 @@ describe("<ActionsList />", () => {
       )
     );
   });
+
+  it("renders functioncall by default", () => {
+    expect(
+      renderer.create(
+        <ActionsList
+          transaction={TRANSACTIONS[1]}
+          actions={TRANSACTIONS[1].actions}
+          showDetails
+        />
+      )
+    ).toMatchSnapshot();
+  });
 });
