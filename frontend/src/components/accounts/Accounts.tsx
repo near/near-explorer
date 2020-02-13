@@ -11,8 +11,7 @@ export interface Props {
 }
 
 export interface State {
-  accounts: A.AccountBasicInfo[] | null;
-  stop: number;
+  accounts: A.AccountBasicInfo[];
   loading: Boolean;
 }
 
@@ -22,9 +21,8 @@ export default class extends React.Component<Props, State> {
   };
 
   state: State = {
-    accounts: null,
-    loading: false,
-    stop: this.props.limit
+    accounts: [],
+    loading: true
   };
 
   _accountApi: AccountsApi | null;
@@ -61,7 +59,15 @@ export default class extends React.Component<Props, State> {
     if (this._accountApi === null) {
       this._accountApi = new AccountsApi();
     }
-    const accounts = await this._accountApi.getAccounts(this.state.stop);
+    let accounts;
+    if (this.state.accounts.length === 0) {
+      accounts = await this._accountApi.getAccounts(this.props.limit, 0);
+    } else {
+      accounts = await this._accountApi.getAccounts(
+        this.state.accounts.length,
+        0
+      );
+    }
     this.setState({ accounts });
   };
 
@@ -74,18 +80,37 @@ export default class extends React.Component<Props, State> {
 
   _onScroll = async () => {
     this._accountLoader = document.querySelector("#account");
-    const bottom = this._isAtBottom();
-    if (bottom) {
-      document.removeEventListener("scroll", this._onScroll);
-      await this._loadAccounts();
-      document.addEventListener("scroll", this._onScroll);
+    const count = await this._getLength();
+    if (count) {
+      if (count <= this.state.accounts.length) {
+        this.setState({ loading: false });
+      } else {
+        const bottom = this._isAtBottom();
+        if (bottom && count > this.state.accounts.length) {
+          document.removeEventListener("scroll", this._onScroll);
+          await this._loadAccounts();
+          this.setState({ loading: false });
+          document.addEventListener("scroll", this._onScroll);
+        }
+      }
     }
   };
 
   _loadAccounts = async () => {
-    this.setState({ stop: this.state.stop + this.props.limit, loading: true });
-    await this.fetchAccounts();
-    this.setState({ loading: false });
+    await Promise.all([this.setState({ loading: true }), this._addAccounts()]);
+  };
+
+  _addAccounts = async () => {
+    if (this._accountApi === null) {
+      this._accountApi = new AccountsApi();
+    }
+    const accounts = await this._accountApi.getAccounts(
+      this.props.limit,
+      this.state.accounts.length
+    );
+    const _accounts = this.state.accounts;
+    const Accounts = _accounts.concat(accounts);
+    this.setState({ accounts: Accounts });
   };
 
   _getLength = async () => {
@@ -93,14 +118,13 @@ export default class extends React.Component<Props, State> {
       this._accountApi = new AccountsApi();
     }
     const count = await this._accountApi.getAccountLength();
-    if (count <= this.state.stop) {
-      this.setState({ loading: false });
-    }
+    return count;
   };
 
   render() {
     const { accounts, loading } = this.state;
-    if (accounts === null) {
+    console.log(accounts);
+    if (accounts === []) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
