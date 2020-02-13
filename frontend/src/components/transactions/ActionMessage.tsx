@@ -7,6 +7,7 @@ export interface Props<A> {
   actionKind: keyof TransactionMessageRenderers;
   actionArgs: A;
   transaction: T.Transaction;
+  showDetails?: boolean;
 }
 
 type AnyAction =
@@ -48,25 +49,19 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   }: Props<T.DeployContract>) => <>{`Contract deployed: ${receiverId}`}</>,
   FunctionCall: ({
     transaction: { receiverId },
-    actionArgs
+    actionArgs,
+    showDetails
   }: Props<T.FunctionCall>) => {
     const args = Buffer.from(actionArgs.args, "base64").toString();
-    let parameter;
-    if (args === "{}") {
-      parameter = "";
-    } else {
-      const argums = args.slice(1, args.length - 1).split(",");
-      parameter = argums.map(ar => {
-        const index = ar.indexOf(":");
-        return ar.slice(0, index);
-      });
-    }
     return (
       <>
-        {`Called method: ${
-          actionArgs.method_name
-        } with args {${parameter}} in contract: `}
+        {`Called method: '${actionArgs.method_name}' in contract: `}
         <AccountLink accountId={receiverId} />
+        {showDetails ? (
+          <>
+            Arguments in method: <pre> {args} </pre>
+          </>
+        ) : null}
       </>
     );
   },
@@ -116,5 +111,5 @@ export default (props: Props<AnyAction>) => {
       </>
     );
   }
-  return <MessageRenderer {...props as any} />;
+  return <MessageRenderer {...props as any} showDetails={props.showDetails} />;
 };
