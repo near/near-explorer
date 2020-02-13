@@ -1,0 +1,18 @@
+{
+  "name": "near-explorer-cli",
+  "version": "0.1.0",
+  "description": "Command Line Interface to NEAR Explorer Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Near Inc <hello@nearprotocol.com>",
+  "license": "Apache-2.0",
+  "bin": {
+    "near-explorer": "./bin/near-explorer"
+  },
+  "dependencies": {
+    "autobahn": "^20.2.1",
+    "yargs": "^15.1.0"
+  }
+}
