@@ -49,7 +49,7 @@ exports[`<ActionMessage /> renders DeployContract 1`] = `"Contract deployed: rec
 
 exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
-  "Called method: method_name with args {} in contract: ",
+  "Called method: 'method_name' in contract: ",
   <a
     className="account-link"
     href="/accounts/receiver.test"
@@ -58,6 +58,26 @@ Array [
   >
     @receiver.test
   </a>,
+]
+`;
+
+exports[`<ActionMessage /> renders FunctionCall with details 1`] = `
+Array [
+  "Called method: 'method_name' in contract: ",
+  <a
+    className="account-link"
+    href="/accounts/receiver2.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    @receiver2.test
+  </a>,
+  "Arguments in method: ",
+  <pre>
+     
+    {"text":"when ico?"}
+     
+  </pre>,
 ]
 `;
 

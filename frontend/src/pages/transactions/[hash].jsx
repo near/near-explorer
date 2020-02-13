@@ -50,6 +50,8 @@ export default class extends React.Component {
             <ActionsList
               actions={this.props.actions}
               transaction={this.props}
+              detalizationMode="minimal"
+              showDetails
             />
           </Content>
         )}

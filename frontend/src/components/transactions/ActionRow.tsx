@@ -11,6 +11,7 @@ export interface Props {
   viewMode: ViewMode;
   detalizationMode: DetalizationMode;
   className: string;
+  showDetails?: boolean;
 }
 
 export interface State {}
@@ -19,7 +20,8 @@ export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",
-    className: ""
+    className: "",
+    showDetails: false
   };
 
   render() {
@@ -28,7 +30,8 @@ export default class extends React.Component<Props, State> {
       detalizationMode,
       className,
       transaction,
-      action
+      action,
+      showDetails
     } = this.props;
 
     let actionKind: keyof T.Action;
@@ -54,6 +57,7 @@ export default class extends React.Component<Props, State> {
             transaction={transaction}
             actionKind={actionKind}
             actionArgs={actionArgs}
+            showDetails={showDetails}
           />
         }
       />

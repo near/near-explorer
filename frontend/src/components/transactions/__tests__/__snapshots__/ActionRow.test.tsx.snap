@@ -8,7 +8,7 @@ exports[`<ActionRow /> renders compact 1`] = `
     className="col-auto"
   >
     <div
-      className="jsx-2241739532 action-row-img"
+      className="jsx-3871551524 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -91,7 +91,120 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-2241739532 action-row-timer-status"
+              className="jsx-3871551524 action-row-timer-status"
+            >
+              Succeeded
+            </span>
+             
+            <span>
+              1s ago
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ActionRow /> renders functioncall with detail 1`] = `
+<div
+  className="action-sparse-row mx-0  row no-gutters"
+>
+  <div
+    className="col-auto"
+  >
+    <div
+      className="jsx-3871551524 action-row-img"
+    >
+      <svg
+        viewBox="0 0 18 18"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+          fill="#ccc"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    className="action-row-details col"
+  >
+    <div
+      className="action-row-message row no-gutters"
+    >
+      <div
+        className="col-md-8 col-7"
+      >
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="action-row-title col"
+          >
+            Called method: 'incrementCounter' in contract: 
+            <a
+              className="account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @receiver.test
+            </a>
+            Arguments in method: 
+            <pre>
+               
+              {"value":1}
+               
+            </pre>
+          </div>
+        </div>
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="action-row-text col"
+          >
+            by 
+            <a
+              className="account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              @signer.test
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="action-row-txid col"
+          >
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="action-row-timer col"
+          >
+            <span
+              className="jsx-3871551524 action-row-timer-status"
             >
               Succeeded
             </span>
@@ -115,7 +228,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     className="col-auto"
   >
     <div
-      className="jsx-2241739532 action-row-img"
+      className="jsx-3871551524 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -198,7 +311,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-2241739532 action-row-timer-status"
+              className="jsx-3871551524 action-row-timer-status"
             >
               Succeeded
             </span>
