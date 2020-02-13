@@ -37,6 +37,8 @@ SELECT * FROM transactions LEFT JOIN blocks ON blocks.hash = transactions.block_
 SELECT * FROM transactions WHERE signerId = 'test.near' OR receiverId = 'test.near';
 ```
 
+NOTE: You can learn about the DB structure from the models defined in `./backend/models/`.
+
 You can specify `--endpoint` and `--chain-id` if you want to query other backends.
 
 To query `staging` network data running on production NEAR Explorer:
