@@ -37,6 +37,11 @@ SELECT * FROM transactions LEFT JOIN blocks ON blocks.hash = transactions.block_
 SELECT * FROM transactions WHERE signerId = 'test.near' OR receiverId = 'test.near';
 ```
 
+SECURITY NOTE: The API is read-only, so you cannot modify the state (UPDATE, DELETE, DROP, ...).
+However, you still can come up with a complex query which will lead to DoS (deny of service).
+Please, be mindful. We are going to address this in the future generation of NEAR Explorer
+Backend, though, most certainly, there won't be such a freedom as passing raw SQL queries.
+
 NOTE: You can learn about the DB structure from the models defined in `./backend/models/`.
 
 You can specify `--endpoint` and `--chain-id` if you want to query other backends.
