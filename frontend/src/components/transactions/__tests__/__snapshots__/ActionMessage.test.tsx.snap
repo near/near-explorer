@@ -61,6 +61,26 @@ Array [
 ]
 `;
 
+exports[`<ActionMessage /> renders FunctionCall with details 1`] = `
+Array [
+  "Called method: 'method_name' in contract: ",
+  <a
+    className="account-link"
+    href="/accounts/receiver2.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    @receiver2.test
+  </a>,
+  "Arguments in method: ",
+  <pre>
+     
+    {"text":"when ico?"}
+     
+  </pre>,
+]
+`;
+
 exports[`<ActionMessage /> renders Stake 1`] = `"Staked: <0.00001 Ⓝ ed25519:BgXFiJS..."`;
 
 exports[`<ActionMessage /> renders Transfer 1`] = `
