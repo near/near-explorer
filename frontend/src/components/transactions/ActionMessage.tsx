@@ -51,8 +51,16 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     actionArgs
   }: Props<T.FunctionCall>) => {
     const args = Buffer.from(actionArgs.args, "base64").toString();
-    const args_object = JSON.parse(args);
-    let parameter = Object.keys(args_object);
+    let parameter;
+    if (args === "{}") {
+      parameter = "";
+    } else {
+      const argums = args.slice(1, args.length - 1).split(",");
+      parameter = argums.map(ar => {
+        const index = ar.indexOf(":");
+        return ar.slice(0, index);
+      });
+    }
     return (
       <>
         {`Called method: ${
