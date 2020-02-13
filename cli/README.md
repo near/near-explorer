@@ -25,6 +25,18 @@ The common example of querying the production testnet NEAR Explorer:
 $ ./bin/near-explorer query
 ```
 
+Then enter an SQL query. Common SQL queries:
+
+```sql
+SELECT COUNT(*) FROM nodes;
+SELECT COUNT(*) FROM transactons;
+SELECT COUNT(*) FROM blocks;
+SELECT COUNT(*) FROM accounts;
+SELECT * FROM transactions WHERE block_hash = '...';
+SELECT * FROM transactions LEFT JOIN blocks ON blocks.hash = transactions.block_hash ORDER BY blocks.height DESC LIMIT 10;
+SELECT * FROM transactions WHERE signerId = 'test.near' OR receiverId = 'test.near';
+```
+
 You can specify `--endpoint` and `--chain-id` if you want to query other backends.
 
 To query `staging` network data running on production NEAR Explorer:
