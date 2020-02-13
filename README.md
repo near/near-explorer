@@ -38,6 +38,11 @@ A: It is recommended to use `docker-compose` to run all the services and then st
 you want to develop locally (`docker-compose stop frontend`). (Follow the execution instructions
 written in the relevant README file of the subproject)
 
+Q: How to query internal Explorer database from CLI?
+
+A: Having the backend running, you can query it from CLI just like you can do from the frontend.
+To do that, you can use an auxulary tool in the `./cli` folder. See the README there.
+
 Q: How to auto-format the source code on commit?
 
 A: Use `npm install` from the root of the project, so it sets up the git hooks which
