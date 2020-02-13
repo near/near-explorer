@@ -27,6 +27,7 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
+    /* deposits are the deposits from each action. Non-deposit will return "0" */
     const deposits = this.props.transaction.actions.map(action => {
       let actionKind: keyof T.Action;
       let actionArgs: any;
@@ -45,13 +46,19 @@ export default class extends React.Component<Props, State> {
     });
     const IntLengths: Array<number> = deposits.map(dp => dp.length);
     const max = Math.max(...IntLengths);
+    /* big.js for big int calculation is just adding number where the number is not "0", so like what two big int plus,
+      10001000 + 10004000, return [2,0,0,0,5] and the tail "0"s will gone. Remember the total length actual number is with
+      max
+    */
     const bigIntDeposit = deposits
       .map(dp => new Big(dp))
       .reduce((current, dp) => dp.plus(current), 0)
       .c.join("");
+    /* give back string "20005" */
     if (bigIntDeposit.length < max) {
       const tail = "0".repeat(max - bigIntDeposit.length);
       const deposit = bigIntDeposit.concat(tail);
+      /* give back string "20005000" */
       this.setState({ deposit });
     } else {
       this.setState({ deposit: bigIntDeposit });
