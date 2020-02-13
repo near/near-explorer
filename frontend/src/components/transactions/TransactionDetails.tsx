@@ -1,6 +1,8 @@
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
+import BN from "bn.js";
+
 import { Transaction } from "../../libraries/explorer-wamp/transactions";
 import moment from "../../libraries/moment";
 
@@ -11,45 +13,39 @@ import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
-const Big = require("big.js");
-
 export interface Props {
   transaction: Transaction;
 }
 
 export interface State {
-  deposit: string;
+  deposit: BN;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {
-    deposit: "0"
+    deposit: new BN(0)
   };
 
   componentDidMount() {
-    /* deposits are the deposits from each action. Non-deposit will return "0" */
-    const deposits = this.props.transaction.actions.map(action => {
-      let actionKind: keyof T.Action;
-      let actionArgs: any;
-      if (typeof action === "string") {
-        actionKind = action;
-        actionArgs = {};
-      } else {
-        actionKind = Object.keys(action)[0] as keyof T.Action;
-        actionArgs = action[actionKind];
-      }
-      if (actionArgs.hasOwnProperty("deposit")) {
-        return actionArgs.deposit;
-      } else {
-        return "0";
-      }
-    });
-    const bigIntDeposit = deposits
-      .map(dp => new Big(dp))
-      .reduce((current, dp) => dp.plus(current), 0)
-      .toFixed();
-    console.log(bigIntDeposit);
-    this.setState({ deposit: bigIntDeposit });
+    const deposit = this.props.transaction.actions
+      .map(action => {
+        let actionKind: keyof T.Action;
+        let actionArgs: any;
+        if (typeof action === "string") {
+          actionKind = action;
+          actionArgs = {};
+        } else {
+          actionKind = Object.keys(action)[0] as keyof T.Action;
+          actionArgs = action[actionKind];
+        }
+        if (actionArgs.hasOwnProperty("deposit")) {
+          return new BN(actionArgs.deposit);
+        } else {
+          return new BN(0);
+        }
+      })
+      .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
+    this.setState({ deposit });
   }
 
   render() {
@@ -77,7 +73,7 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Value"
               imgLink="/static/images/icon-m-filter.svg"
-              text={<Balance amount={deposit} />}
+              text={<Balance amount={deposit.toString()} />}
             />
           </Col>
           <Col md="3">
