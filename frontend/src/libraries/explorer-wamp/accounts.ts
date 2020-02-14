@@ -2,7 +2,7 @@ import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
   id: string;
-  timestamp: number | string;
+  timestamp: number;
   address: string;
 }
 
@@ -76,18 +76,19 @@ export default class AccountsApi extends ExplorerApi {
 
   async getAccounts(
     limit: number = 15,
-    offset: number = 0
+    lastIndex: number = -1
   ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call<AccountBasicInfo[]>("select", [
         `SELECT account_id as id, timestamp, transaction_hash as address 
-        FROM accounts 
+        FROM accounts
+        WHERE timestamp < :lastIndex
         ORDER BY timestamp DESC
-        LIMIT :limit OFFSET :offset
+        LIMIT :limit 
         `,
         {
           limit,
-          offset
+          lastIndex: lastIndex === -1 ? "MAx(timestamp)" : lastIndex
         }
       ]);
     } catch (error) {

@@ -61,12 +61,9 @@ export default class extends React.Component<Props, State> {
     }
     let accounts;
     if (this.state.accounts.length === 0) {
-      accounts = await this._accountApi.getAccounts(this.props.limit, 0);
+      accounts = await this._accountApi.getAccounts(this.props.limit);
     } else {
-      accounts = await this._accountApi.getAccounts(
-        this.state.accounts.length,
-        0
-      );
+      accounts = await this._accountApi.getAccounts(this.state.accounts.length);
     }
     this.setState({ accounts });
   };
@@ -107,9 +104,10 @@ export default class extends React.Component<Props, State> {
     if (this._accountApi === null) {
       this._accountApi = new AccountsApi();
     }
+    const lastIndex = this.state.accounts[0].timestamp;
     const accounts = await this._accountApi.getAccounts(
       this.props.limit,
-      this.state.accounts.length
+      lastIndex
     );
     const _accounts = this.state.accounts;
     const Accounts = _accounts.concat(accounts);
