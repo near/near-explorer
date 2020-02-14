@@ -81,6 +81,7 @@ export default class extends React.Component<Props, State> {
   _onScroll = async () => {
     this._accountLoader = document.querySelector("#account");
     const count = await this._getLength();
+    console.log(await new AccountsApi().getAccountLength());
     if (count) {
       if (count <= this.state.accounts.length) {
         this.setState({ loading: false });
@@ -123,19 +124,16 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { accounts, loading } = this.state;
-    console.log(accounts);
     if (accounts === []) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <>
-        <div id="account">
-          <FlipMove duration={1000} staggerDurationBy={0}>
-            <AccountsList accounts={accounts} />
-          </FlipMove>
-        </div>
+      <div id="account">
+        <FlipMove duration={1000} staggerDurationBy={0}>
+          <AccountsList accounts={accounts} />
+        </FlipMove>
         {loading && <PaginationSpinner hidden={false} />}
-      </>
+      </div>
     );
   }
 }

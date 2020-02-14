@@ -13,8 +13,7 @@ export interface Props {
 }
 
 export interface State {
-  transactions: T.Transaction[] | null;
-  stop: number;
+  transactions: T.Transaction[];
   loading: Boolean;
 }
 
@@ -25,9 +24,8 @@ export default class extends React.Component<Props, State> {
   };
 
   state: State = {
-    transactions: null,
-    stop: this.props.limit,
-    loading: false
+    transactions: [],
+    loading: true
   };
 
   _transactionsApi: TransactionsApi | null;
@@ -36,8 +34,6 @@ export default class extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    // TODO: Design ExplorerApi to handle server-side rendering gracefully.
     this._transactionsApi = null;
     this.timer = null;
     this._transactionLoader = null;
@@ -45,7 +41,7 @@ export default class extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.accountId !== prevProps.accountId) {
-      this.setState({ transactions: null });
+      this.setState({ transactions: [] });
     }
   }
 
@@ -53,7 +49,6 @@ export default class extends React.Component<Props, State> {
     this._transactionsApi = new TransactionsApi();
     document.addEventListener("scroll", this._onScroll);
     this.timer = setTimeout(this.regularFetchInfo, 0);
-    this._getLength();
   }
 
   componentWillUnmount() {
@@ -73,13 +68,26 @@ export default class extends React.Component<Props, State> {
     if (this._transactionsApi === null) {
       this._transactionsApi = new TransactionsApi();
     }
-    const transactions = (await this._transactionsApi.getTransactions({
-      signerId: this.props.accountId,
-      receiverId: this.props.accountId,
-      blockHash: this.props.blockHash,
-      tail: this.props.reversed,
-      limit: this.state.stop
-    })) as T.Transaction[];
+    let transactions;
+    if (this.state.transactions.length === 0) {
+      transactions = (await this._transactionsApi.getTransactions({
+        signerId: this.props.accountId,
+        receiverId: this.props.accountId,
+        blockHash: this.props.blockHash,
+        tail: this.props.reversed,
+        limit: this.props.limit,
+        offset: 0
+      })) as T.Transaction[];
+    } else {
+      transactions = (await this._transactionsApi.getTransactions({
+        signerId: this.props.accountId,
+        receiverId: this.props.accountId,
+        blockHash: this.props.blockHash,
+        tail: this.props.reversed,
+        limit: this.state.transactions.length,
+        offset: 0
+      })) as T.Transaction[];
+    }
     this.setState({ transactions });
   };
 
@@ -93,50 +101,71 @@ export default class extends React.Component<Props, State> {
 
   _onScroll = async () => {
     this._transactionLoader = document.querySelector("#tx");
-    const bottom = this._isAtBottom();
-    if (bottom) {
-      document.removeEventListener("scroll", this._onScroll);
-      await this._loadTransactions();
-      document.addEventListener("scroll", this._onScroll);
-    }
-  };
-
-  _loadTransactions = async () => {
-    this.setState({ stop: this.state.stop + this.props.limit, loading: true });
-    await this.fetchTransactions();
-    this.setState({ loading: false });
-  };
-
-  _getLength = async () => {
-    let count;
-    if (this._transactionsApi === null) {
-      this._transactionsApi = new TransactionsApi();
-    }
-    if (this.props.accountId) {
-      count = await this._transactionsApi.getTXLength(this.props.accountId);
-      if (count <= this.state.stop) {
+    const count = await this._getLength();
+    console.log(count);
+    if (count) {
+      console.log(count);
+      if (count <= this.state.transactions.length) {
         this.setState({ loading: false });
+      } else {
+        const bottom = this._isAtBottom();
+        if (bottom && count > this.state.transactions.length) {
+          document.removeEventListener("scroll", this._onScroll);
+          await this._loadTransactions();
+          this.setState({ loading: false });
+          document.addEventListener("scroll", this._onScroll);
+        }
       }
     }
   };
 
+  _loadTransactions = async () => {
+    await Promise.all([
+      this.setState({ loading: true }),
+      this._addTransactions()
+    ]);
+  };
+
+  _addTransactions = async () => {
+    if (this._transactionsApi === null) {
+      this._transactionsApi = new TransactionsApi();
+    }
+    const transactions = (await this._transactionsApi.getTransactions({
+      signerId: this.props.accountId,
+      receiverId: this.props.accountId,
+      blockHash: this.props.blockHash,
+      tail: this.props.reversed,
+      limit: this.props.limit,
+      offset: this.state.transactions.length
+    })) as T.Transaction[];
+    const _transactions = this.state.transactions;
+    const Transactions = _transactions.concat(transactions);
+    this.setState({ transactions: Transactions });
+  };
+
+  _getLength = async () => {
+    if (this._transactionsApi === null) {
+      this._transactionsApi = new TransactionsApi();
+    }
+    return await this._transactionsApi.getTXLength(this.props.accountId);
+  };
+
   render() {
     const { transactions, loading } = this.state;
-    if (transactions === null) {
+    console.log(transactions);
+    if (transactions === []) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <>
-        <div id="tx">
-          <FlipMove duration={1000} staggerDurationBy={0}>
-            <TransactionsList
-              transactions={transactions}
-              reversed={this.props.reversed}
-            />
-          </FlipMove>
-        </div>
+      <div id="tx">
+        <FlipMove duration={1000} staggerDurationBy={0}>
+          <TransactionsList
+            transactions={transactions}
+            reversed={this.props.reversed}
+          />
+        </FlipMove>
         {loading && <PaginationSpinner hidden={false} />}
-      </>
+      </div>
     );
   }
 }

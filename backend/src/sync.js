@@ -65,7 +65,7 @@ async function saveBlocks(blocksInfo) {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
                 models.Transaction.bulkCreate(
-                  blockInfo.transactions.map(tx => {
+                  blockInfo.transactions.map((tx, index) => {
                     const actions = tx.actions.map(action => {
                       if (typeof action === "string") {
                         return { [action]: {} };
@@ -83,7 +83,8 @@ async function saveBlocks(blocksInfo) {
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
                       receiverId: tx.receiver_id,
-                      actions
+                      actions,
+                      txHeight: timestamp + blockInfo.header.height + index
                     };
                   })
                 ),

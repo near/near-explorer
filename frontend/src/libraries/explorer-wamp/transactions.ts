@@ -12,7 +12,7 @@ export interface TransactionInfo {
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
-  blockHeight: number;
+  txHeight: number;
   status: ExecutionStatus;
 }
 
@@ -115,20 +115,20 @@ export interface FilterArgs {
   blockHash?: string;
   tail?: boolean;
   limit: number;
-  stop?: number;
+  offset: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
-  async getTXLength(accountId: string): Promise<number> {
+  async getTXLength(accountId: string = ""): Promise<number> {
     try {
-      return await this.call<number>("select", [
-        `SELECT COUNT(transaction.hash) FROM transactions
+      return await this.call<any>("select", [
+        `SELECT COUNT(transaction.hash) as length FROM transactions
         LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-        WHERE transactions.signer_id = :accountId`,
+        WHERE transactions.signer_id = :accountId OR transactions.receiver_id = :accountId`,
         {
-          accountId
+          accountId: accountId === "" ? "" : accountId
         }
-      ]);
+      ]).then(it => it[0].length);
     } catch (error) {
       console.error("Transactions.getTXLength failed to fetch data due to:");
       console.error(error);
@@ -157,12 +157,12 @@ export default class TransactionsApi extends ExplorerApi {
         (TransactionInfo & (StringActions | Actions))[]
       >("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, 
-          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, blocks.height as blockHeight
+          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, transactions.tx_height as txHeight
             FROM transactions
             LEFT JOIN blocks ON blocks.hash = transactions.block_hash
             ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-            ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
-            LIMIT :limit`,
+            ORDER BY txHeight ${filters.tail ? "DESC" : ""}
+            LIMIT :limit OFFSET :offset`,
         filters
       ]);
       if (filters.tail) {
@@ -191,15 +191,18 @@ export default class TransactionsApi extends ExplorerApi {
       return transactions as Transaction[];
     } catch (error) {
       console.error(
-        "Transactions.getTransactionsInfo failed to fetch data due to:"
+        "Transactions.getTransactions failed to fetch data due to:"
       );
       console.error(error);
       throw error;
     }
   }
 
-  async getLatestTransactionsInfo(limit: number = 15): Promise<Transaction[]> {
-    return this.getTransactions({ tail: true, limit });
+  async getLatestTransactionsInfo(
+    limit: number = 10,
+    offset: number = 0
+  ): Promise<Transaction[]> {
+    return this.getTransactions({ tail: true, limit, offset });
   }
 
   async getTransactionInfo(
@@ -208,7 +211,8 @@ export default class TransactionsApi extends ExplorerApi {
     try {
       let transactionInfo = await this.getTransactions({
         transactionHash,
-        limit: 1
+        limit: 1,
+        offset: 0
       }).then(it => it[0] || null);
 
       if (transactionInfo === null) {
@@ -219,7 +223,7 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
-          blockHeight: 0,
+          txHeight: 0,
           actions: []
         };
       } else {
