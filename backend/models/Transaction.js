@@ -35,10 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       actions: {
         type: DataTypes.JSON,
         allowNull: false
-      },
-      txHeight: {
-        type: DataTypes.BIGINT,
-        allowNull: false
       }
     },
     {

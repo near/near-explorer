@@ -80,25 +80,27 @@ export default class extends React.Component<Props, State> {
 
   _onScroll = async () => {
     this._accountLoader = document.querySelector("#account");
-    const count = await this._getLength();
-    console.log(await new AccountsApi().getAccountLength());
-    if (count) {
-      if (count <= this.state.accounts.length) {
-        this.setState({ loading: false });
-      } else {
-        const bottom = this._isAtBottom();
-        if (bottom && count > this.state.accounts.length) {
-          document.removeEventListener("scroll", this._onScroll);
-          await this._loadAccounts();
-          this.setState({ loading: false });
-          document.addEventListener("scroll", this._onScroll);
-        }
-      }
+    const bottom = this._isAtBottom();
+    if (bottom) {
+      document.removeEventListener("scroll", this._onScroll);
+      await this._loadAccounts();
+      this.setState({ loading: false });
+      document.addEventListener("scroll", this._onScroll);
     }
   };
 
   _loadAccounts = async () => {
-    await Promise.all([this.setState({ loading: true }), this._addAccounts()]);
+    const count = await this._getLength();
+    if (count) {
+      if (count <= this.state.accounts.length) {
+        this.setState({ loading: false });
+      } else {
+        await Promise.all([
+          this.setState({ loading: true }),
+          this._addAccounts()
+        ]);
+      }
+    }
   };
 
   _addAccounts = async () => {
@@ -128,12 +130,14 @@ export default class extends React.Component<Props, State> {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <div id="account">
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <AccountsList accounts={accounts} />
-        </FlipMove>
+      <>
+        <div id="account">
+          <FlipMove duration={1000} staggerDurationBy={0}>
+            <AccountsList accounts={accounts} />
+          </FlipMove>
+        </div>
         {loading && <PaginationSpinner hidden={false} />}
-      </div>
+      </>
     );
   }
 }

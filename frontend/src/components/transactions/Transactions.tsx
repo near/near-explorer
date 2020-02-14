@@ -20,7 +20,7 @@ export interface State {
 export default class extends React.Component<Props, State> {
   static defaultProps = {
     reversed: false,
-    limit: 15
+    limit: 5
   };
 
   state: State = {
@@ -101,29 +101,27 @@ export default class extends React.Component<Props, State> {
 
   _onScroll = async () => {
     this._transactionLoader = document.querySelector("#tx");
-    const count = await this._getLength();
-    console.log(count);
-    if (count) {
-      console.log(count);
-      if (count <= this.state.transactions.length) {
-        this.setState({ loading: false });
-      } else {
-        const bottom = this._isAtBottom();
-        if (bottom && count > this.state.transactions.length) {
-          document.removeEventListener("scroll", this._onScroll);
-          await this._loadTransactions();
-          this.setState({ loading: false });
-          document.addEventListener("scroll", this._onScroll);
-        }
-      }
+    const bottom = this._isAtBottom();
+    if (bottom) {
+      document.removeEventListener("scroll", this._onScroll);
+      await this._loadTransactions();
+      this.setState({ loading: false });
+      document.addEventListener("scroll", this._onScroll);
     }
   };
 
   _loadTransactions = async () => {
-    await Promise.all([
-      this.setState({ loading: true }),
-      this._addTransactions()
-    ]);
+    const count = await this._getLength();
+    if (count) {
+      if (count <= this.state.transactions.length) {
+        this.setState({ loading: false });
+      } else {
+        await Promise.all([
+          this.setState({ loading: true }),
+          this._addTransactions()
+        ]);
+      }
+    }
   };
 
   _addTransactions = async () => {
@@ -152,20 +150,22 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { transactions, loading } = this.state;
-    console.log(transactions);
+    console.log(transactions.length);
     if (transactions === []) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <div id="tx">
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <TransactionsList
-            transactions={transactions}
-            reversed={this.props.reversed}
-          />
-        </FlipMove>
+      <>
+        <div id="tx">
+          <FlipMove duration={1000} staggerDurationBy={0}>
+            <TransactionsList
+              transactions={transactions}
+              reversed={this.props.reversed}
+            />
+          </FlipMove>
+        </div>
         {loading && <PaginationSpinner hidden={false} />}
-      </div>
+      </>
     );
   }
 }

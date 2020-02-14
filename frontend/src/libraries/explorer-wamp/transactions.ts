@@ -12,7 +12,6 @@ export interface TransactionInfo {
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
-  txHeight: number;
   status: ExecutionStatus;
 }
 
@@ -120,11 +119,14 @@ export interface FilterArgs {
 
 export default class TransactionsApi extends ExplorerApi {
   async getTXLength(accountId: string = ""): Promise<number> {
+    let whereClause = "";
+    if (accountId) {
+      whereClause = `WHERE transactions.signer_id = :accountId OR transactions.receiver_id = :accountId`;
+    }
     try {
       return await this.call<any>("select", [
-        `SELECT COUNT(transaction.hash) as length FROM transactions
-        LEFT JOIN blocks ON blocks.hash = transactions.block_hash
-        WHERE transactions.signer_id = :accountId OR transactions.receiver_id = :accountId`,
+        `SELECT COUNT(transactions.hash) as length FROM transactions
+        ${whereClause}`,
         {
           accountId: accountId === "" ? "" : accountId
         }
@@ -157,11 +159,11 @@ export default class TransactionsApi extends ExplorerApi {
         (TransactionInfo & (StringActions | Actions))[]
       >("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, 
-          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, transactions.tx_height as txHeight
+          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
             FROM transactions
             LEFT JOIN blocks ON blocks.hash = transactions.block_hash
             ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-            ORDER BY txHeight ${filters.tail ? "DESC" : ""}
+            ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
             LIMIT :limit OFFSET :offset`,
         filters
       ]);
@@ -223,7 +225,6 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
-          txHeight: 0,
           actions: []
         };
       } else {
