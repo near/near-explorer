@@ -14,7 +14,7 @@ import DashboardTransactions from "../components/dashboard/DashboardTransactions
 export default class extends React.Component {
   static async getInitialProps({ req }) {
     const details = new DetailsApi(req).getDetails().catch(() => null);
-    const blocks = new BlocksApi(req).getLatestBlocksInfo(8).catch(() => null);
+    const blocks = new BlocksApi(req).getBlocks(8).catch(() => null);
     const transactions = new TransactionsApi(req)
       .getLatestTransactionsInfo(10)
       .catch(() => null);
