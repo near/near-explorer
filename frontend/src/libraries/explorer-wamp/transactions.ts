@@ -13,6 +13,7 @@ export interface TransactionInfo {
   blockHash: string;
   blockTimestamp: number;
   status: ExecutionStatus;
+  txHeight: number;
 }
 
 export interface CreateAccount {}
@@ -114,7 +115,7 @@ export interface FilterArgs {
   blockHash?: string;
   tail?: boolean;
   limit: number;
-  offset: number;
+  lastIndex?: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
@@ -139,7 +140,13 @@ export default class TransactionsApi extends ExplorerApi {
   }
 
   async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
-    const { signerId, receiverId, transactionHash, blockHash } = filters;
+    const {
+      signerId,
+      receiverId,
+      transactionHash,
+      blockHash,
+      lastIndex
+    } = filters;
     const whereClause = [];
     if (signerId) {
       whereClause.push(`transactions.signer_id = :signerId`);
@@ -153,18 +160,21 @@ export default class TransactionsApi extends ExplorerApi {
     if (blockHash) {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
+    if (lastIndex) {
+      whereClause.push(`transactions.tx_height < :lastIndex`);
+    }
 
     try {
       const transactions = await this.call<
         (TransactionInfo & (StringActions | Actions))[]
       >("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, 
-          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
+          transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, transactions.tx_height as txHeight
             FROM transactions
             LEFT JOIN blocks ON blocks.hash = transactions.block_hash
             ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-            ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
-            LIMIT :limit OFFSET :offset`,
+            ORDER BY transactions.tx_height ${filters.tail ? "DESC" : ""}
+            LIMIT :limit`,
         filters
       ]);
       if (filters.tail) {
@@ -200,11 +210,8 @@ export default class TransactionsApi extends ExplorerApi {
     }
   }
 
-  async getLatestTransactionsInfo(
-    limit: number = 10,
-    offset: number = 0
-  ): Promise<Transaction[]> {
-    return this.getTransactions({ tail: true, limit, offset });
+  async getLatestTransactionsInfo(limit: number = 10): Promise<Transaction[]> {
+    return this.getTransactions({ tail: true, limit });
   }
 
   async getTransactionInfo(
@@ -213,8 +220,7 @@ export default class TransactionsApi extends ExplorerApi {
     try {
       let transactionInfo = await this.getTransactions({
         transactionHash,
-        limit: 1,
-        offset: 0
+        limit: 1
       }).then(it => it[0] || null);
 
       if (transactionInfo === null) {
@@ -225,7 +231,8 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
-          actions: []
+          actions: [],
+          txHeight: 0
         };
       } else {
         const transactionExtraInfo = await this.call<any>("nearcore-tx", [

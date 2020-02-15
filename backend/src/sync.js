@@ -83,7 +83,8 @@ async function saveBlocks(blocksInfo) {
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
                       receiverId: tx.receiver_id,
-                      actions
+                      actions,
+                      txHeight: blockInfo.header.height * 1000 + index
                     };
                   })
                 ),

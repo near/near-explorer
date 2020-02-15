@@ -20,7 +20,7 @@ export interface State {
 export default class extends React.Component<Props, State> {
   static defaultProps = {
     reversed: false,
-    limit: 5
+    limit: 15
   };
 
   state: State = {
@@ -75,8 +75,7 @@ export default class extends React.Component<Props, State> {
         receiverId: this.props.accountId,
         blockHash: this.props.blockHash,
         tail: this.props.reversed,
-        limit: this.props.limit,
-        offset: 0
+        limit: this.props.limit
       })) as T.Transaction[];
     } else {
       transactions = (await this._transactionsApi.getTransactions({
@@ -84,8 +83,7 @@ export default class extends React.Component<Props, State> {
         receiverId: this.props.accountId,
         blockHash: this.props.blockHash,
         tail: this.props.reversed,
-        limit: this.state.transactions.length,
-        offset: 0
+        limit: this.state.transactions.length
       })) as T.Transaction[];
     }
     this.setState({ transactions });
@@ -134,10 +132,10 @@ export default class extends React.Component<Props, State> {
       blockHash: this.props.blockHash,
       tail: this.props.reversed,
       limit: this.props.limit,
-      offset: this.state.transactions.length
+      lastIndex: this.state.transactions[0].txHeight
     })) as T.Transaction[];
     const _transactions = this.state.transactions;
-    const Transactions = _transactions.concat(transactions);
+    const Transactions = transactions.concat(_transactions);
     this.setState({ transactions: Transactions });
   };
 
@@ -150,7 +148,6 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { transactions, loading } = this.state;
-    console.log(transactions.length);
     if (transactions === []) {
       return <PaginationSpinner hidden={false} />;
     }
