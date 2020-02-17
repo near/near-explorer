@@ -162,9 +162,12 @@ export default class TransactionsApi extends ExplorerApi {
             transactionExtraInfo.status
           )[0] as ExecutionStatus;
 
-          try {
-            transaction.actions = JSON.parse(transaction.actions as string);
-          } catch {}
+          // Given we already queried the information from the node, we can use the actions,
+          // since DeployContract.code and FunctionCall.args are stripped away due to their size.
+          //
+          // Once the above TODO is resolved, we should just move this to TransactionInfo method
+          // (i.e. query the information there only for the specific transaction).
+          transaction.actions = transactionExtraInfo.transaction.actions;
         })
       );
       return transactions as Transaction[];

@@ -152,12 +152,46 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             >
               @receiver.test
             </a>
-            Arguments in method: 
-            <pre>
-               
-              {"value":1}
-               
-            </pre>
+            <dl>
+              <dt>
+                Arguments:
+              </dt>
+              <dd>
+                <div>
+                  <div
+                    style={
+                      Object {
+                        "display": "block",
+                        "height": "0px",
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <textarea
+                      className="jsx-3751390317 code-preview"
+                      readOnly={true}
+                    >
+                      {
+  "value": 1
+}
+                    </textarea>
+                  </div>
+                  <div
+                    onClick={[Function]}
+                  >
+                    <div
+                      style={
+                        Object {
+                          "float": "left",
+                        }
+                      }
+                    >
+                      Show more
+                    </div>
+                  </div>
+                </div>
+              </dd>
+            </dl>
           </div>
         </div>
         <div

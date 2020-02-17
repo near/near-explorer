@@ -1,5 +1,8 @@
+import { hexy } from "hexy";
+
 import AccountLink from "../utils/AccountLink";
 import { formatNEAR } from "../utils/Balance";
+import CodePreview from "../utils/CodePreview";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
 
@@ -31,6 +34,13 @@ interface TransactionMessageRenderers {
   DeleteKey: React.FC<Props<T.DeleteKey>>;
 }
 
+const COLLAPSE_ARGS_OPTIONS = {
+  collapseText: "Show more",
+  expandText: "Show less",
+  minHeight: 200,
+  maxHeight: 600
+};
+
 const transactionMessageRenderers: TransactionMessageRenderers = {
   CreateAccount: ({ transaction: { receiverId } }: Props<T.CreateAccount>) => (
     <>
@@ -52,15 +62,36 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     actionArgs,
     showDetails
   }: Props<T.FunctionCall>) => {
-    const args = Buffer.from(actionArgs.args, "base64").toString();
+    let args;
+    if (showDetails) {
+      if (!actionArgs.args) {
+        args = <p>Loading...</p>;
+      } else {
+        const decodedArgs = Buffer.from(actionArgs.args, "base64");
+        let prettyArgs;
+        try {
+          const parsedJSONArgs = JSON.parse(decodedArgs.toString());
+          prettyArgs = JSON.stringify(parsedJSONArgs, null, 2);
+        } catch {
+          prettyArgs = hexy(decodedArgs, { format: "twos" });
+        }
+        args = (
+          <CodePreview collapseOptions={COLLAPSE_ARGS_OPTIONS}>
+            {prettyArgs}
+          </CodePreview>
+        );
+      }
+    }
+
     return (
       <>
         {`Called method: '${actionArgs.method_name}' in contract: `}
         <AccountLink accountId={receiverId} />
         {showDetails ? (
-          <>
-            Arguments in method: <pre> {args} </pre>
-          </>
+          <dl>
+            <dt>Arguments:</dt>
+            <dd>{args}</dd>
+          </dl>
         ) : null}
       </>
     );
