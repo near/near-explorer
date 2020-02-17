@@ -72,6 +72,8 @@ async function saveBlocks(blocksInfo) {
                       }
                       if (action.DeployContract !== undefined) {
                         delete action.DeployContract.code;
+                      } else if (action.FunctionCall !== undefined) {
+                        delete action.FunctionCall.args;
                       }
                       return action;
                     });
