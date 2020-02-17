@@ -39,6 +39,7 @@
     "@zeit/next-css": "^1.0.1",
     "autobahn": "19.7.3",
     "bootstrap": "^4.3.1",
+    "hexy": "^0.3.0",
     "moment": "^2.24.0",
     "nearlib": "^0.19.1",
     "next": "^9.1.0",
@@ -47,6 +48,8 @@
     "react-dom": "^16.10.2",
     "react-flip-move": "^3.0.3",
     "react-loading-overlay": "^1.0.1",
+    "react-motion": "^0.5.2",
+    "react-text-collapse": "^0.5.2",
     "styled-components": "^4.4.0"
   },
   "devDependencies": {
