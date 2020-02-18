@@ -72,12 +72,46 @@ Array [
   >
     @receiver2.test
   </a>,
-  "Arguments in method: ",
-  <pre>
-     
-    {"text":"when ico?"}
-     
-  </pre>,
+  <dl>
+    <dt>
+      Arguments:
+    </dt>
+    <dd>
+      <div>
+        <div
+          style={
+            Object {
+              "display": "block",
+              "height": "0px",
+              "overflow": "hidden",
+            }
+          }
+        >
+          <textarea
+            className="jsx-3751390317 code-preview"
+            readOnly={true}
+          >
+            {
+  "text": "when ico?"
+}
+          </textarea>
+        </div>
+        <div
+          onClick={[Function]}
+        >
+          <div
+            style={
+              Object {
+                "float": "left",
+              }
+            }
+          >
+            Show more
+          </div>
+        </div>
+      </div>
+    </dd>
+  </dl>,
 ]
 `;
 

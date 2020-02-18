@@ -49,3 +49,18 @@ A: Use `npm install` from the root of the project, so it sets up the git hooks w
 automatically run `prettier` on every commit. (We wish we don't need to have the root
 `package.json`, but [husky](https://github.com/typicode/husky/issues/36) does not support
 subpackages nicely)
+
+## Contributing
+
+To contribute to NEAR Explorer, please see [CONTRIBUTING](CONTRIBUTING.md).
+
+Most real-time collaboration happens in a variety of channels on the
+[NEAR Discord server][https://near.chat], with channels dedicated for getting help, community,
+documentation, and all major contribution areas in the NEAR ecosystem. A good place to ask
+for help would be the #general channel.
+
+## License
+
+NEAR Explorer is distributed under the terms of the Apache License (Version 2.0).
+
+See [LICENSE](LICENSE) for details.
