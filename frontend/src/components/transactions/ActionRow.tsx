@@ -14,9 +14,7 @@ export interface Props {
   showDetails?: boolean;
 }
 
-export interface State {}
-
-export default class extends React.Component<Props, State> {
+export default class extends React.Component<Props> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",

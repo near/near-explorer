@@ -141,7 +141,7 @@ export default class TransactionsApi extends ExplorerApi {
       const transactions = await this.call<
         (TransactionInfo & (StringActions | Actions))[]
       >("select", [
-        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
+        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
           FROM transactions
           LEFT JOIN blocks ON blocks.hash = transactions.block_hash
           ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}

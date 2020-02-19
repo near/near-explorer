@@ -9,7 +9,13 @@ describe("<ActionRow />", () => {
   it("renders sparsely by default", () => {
     expect(
       renderer.create(
-        <ActionRow transaction={TRANSACTIONS[0]} action={"CreateAccount"} />
+        <ActionRow
+          transaction={TRANSACTIONS[0]}
+          action={{
+            kind: "CreateAccount",
+            args: {}
+          }}
+        />
       )
     ).toMatchSnapshot();
   });
@@ -20,20 +26,30 @@ describe("<ActionRow />", () => {
         <ActionRow
           viewMode="compact"
           transaction={TRANSACTIONS[0]}
-          action={"CreateAccount"}
+          action={{
+            kind: "AddKey",
+            args: {
+              access_key: {
+                nonce: 0,
+                permission: "FullAccess"
+              },
+              public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx"
+            }
+          }}
         />
       )
     ).toMatchSnapshot();
   });
 
   const actionFunctionCall = {
-    FunctionCall: {
+    kind: "FunctionCall",
+    args: {
       args: "eyJ2YWx1ZSI6MX0=",
       deposit: "1",
       gas: 2000000000000,
       method_name: "incrementCounter"
     }
-  } as T.Action;
+  } as T.ActionWrapper;
 
   it("renders functioncall with detail", () => {
     expect(
