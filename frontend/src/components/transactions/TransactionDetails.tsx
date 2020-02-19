@@ -25,25 +25,17 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    // const deposit = this.props.transaction.actions
-    //   .map(action => {
-    //     let actionKind: keyof T.Action;
-    //     let actionArgs: any;
-    //     if (typeof action === "string") {
-    //       actionKind = action;
-    //       actionArgs = {};
-    //     } else {
-    //       actionKind = Object.keys(action)[0] as keyof T.Action;
-    //       actionArgs = action[actionKind];
-    //     }
-    //     if (actionArgs.hasOwnProperty("deposit")) {
-    //       return new BN(actionArgs.deposit);
-    //     } else {
-    //       return new BN(0);
-    //     }
-    //   })
-    //   .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
-    // this.setState({ deposit });
+    const deposit = this.props.transaction.actions
+      .map(action => {
+        let actionArgs = action.args as any;
+        if (actionArgs.hasOwnProperty("deposit")) {
+          return new BN(actionArgs.deposit);
+        } else {
+          return new BN(0);
+        }
+      })
+      .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
+    this.setState({ deposit });
   }
 
   render() {

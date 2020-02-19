@@ -185,8 +185,7 @@ export default class TransactionsApi extends ExplorerApi {
               _uniformActions.push({ kind: action, args: {} });
             }
           });
-          console.log(_uniformActions);
-          transaction.actions = _actions;
+          transaction.actions = _uniformActions;
         })
       );
       return transactions as Transaction[];

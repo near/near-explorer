@@ -8,10 +8,7 @@ import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 
 export interface Props {
-  actions: ({
-    kind: string;
-    args: T.Action[keyof T.Action];
-  })[];
+  actions: T.ActionWrapper[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
   reversed?: boolean;
