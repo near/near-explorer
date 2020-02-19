@@ -2,8 +2,6 @@ import { Row, Col } from "react-bootstrap";
 import React from "react";
 
 import BN from "bn.js";
-
-import { Transaction } from "../../libraries/explorer-wamp/transactions";
 import moment from "../../libraries/moment";
 
 import AccountLink from "../utils/AccountLink";
@@ -14,7 +12,7 @@ import Balance from "../utils/Balance";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props {
-  transaction: Transaction;
+  transaction: T.Transaction;
 }
 
 export interface State {
@@ -27,25 +25,25 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    const deposit = this.props.transaction.actions
-      .map(action => {
-        let actionKind: keyof T.Action;
-        let actionArgs: any;
-        if (typeof action === "string") {
-          actionKind = action;
-          actionArgs = {};
-        } else {
-          actionKind = Object.keys(action)[0] as keyof T.Action;
-          actionArgs = action[actionKind];
-        }
-        if (actionArgs.hasOwnProperty("deposit")) {
-          return new BN(actionArgs.deposit);
-        } else {
-          return new BN(0);
-        }
-      })
-      .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
-    this.setState({ deposit });
+    // const deposit = this.props.transaction.actions
+    //   .map(action => {
+    //     let actionKind: keyof T.Action;
+    //     let actionArgs: any;
+    //     if (typeof action === "string") {
+    //       actionKind = action;
+    //       actionArgs = {};
+    //     } else {
+    //       actionKind = Object.keys(action)[0] as keyof T.Action;
+    //       actionArgs = action[actionKind];
+    //     }
+    //     if (actionArgs.hasOwnProperty("deposit")) {
+    //       return new BN(actionArgs.deposit);
+    //     } else {
+    //       return new BN(0);
+    //     }
+    //   })
+    //   .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
+    // this.setState({ deposit });
   }
 
   render() {

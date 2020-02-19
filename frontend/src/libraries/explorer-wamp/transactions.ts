@@ -57,12 +57,17 @@ export interface Action {
   DeleteKey: DeleteKey;
 }
 
+export interface ActionWrapper {
+  kind: string;
+  args: Action[keyof Action] | {};
+}
+
 interface StringActions {
   actions: string;
 }
 
 export interface Actions {
-  actions: (Action | keyof Action)[];
+  actions: (ActionWrapper)[];
 }
 
 export interface ReceiptSuccessValue {
@@ -167,7 +172,21 @@ export default class TransactionsApi extends ExplorerApi {
           //
           // Once the above TODO is resolved, we should just move this to TransactionInfo method
           // (i.e. query the information there only for the specific transaction).
-          transaction.actions = transactionExtraInfo.transaction.actions;
+          const _actions = transactionExtraInfo.transaction.actions;
+          let _uniformActions: ActionWrapper[] = [];
+          _actions.map((action: any) => {
+            if (typeof action !== "string") {
+              const kind = Object.keys(action)[0];
+              _uniformActions.push({
+                kind: kind,
+                args: action[kind]
+              });
+            } else {
+              _uniformActions.push({ kind: action, args: {} });
+            }
+          });
+          console.log(_uniformActions);
+          transaction.actions = _actions;
         })
       );
       return transactions as Transaction[];
