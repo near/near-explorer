@@ -102,9 +102,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   }: Props<T.Transfer>) => (
     <>
       {`Transferred `}
-      <span>
-        <Balance amount={deposit} />
-      </span>{" "}
+      <Balance amount={deposit} />
       {` to `}
       <AccountLink accountId={receiverId} />
     </>

@@ -211,21 +211,15 @@ Array [
                   className="action-row-title col"
                 >
                   Transferred 
-                  <span>
-                    <div
-                      className="jsx-3868391398 rough"
-                    >
-                      0.00001
-                       Ⓝ
-                    </div>
-                    <div
-                      className="jsx-3868391398 precise"
-                    >
-                      10000000000000000000
-                       yokto Ⓝ
-                    </div>
-                  </span>
-                   
+                  <div
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                  >
+                    0.00001
+                     Ⓝ
+                  </div>
                    to 
                   <a
                     className="account-link"

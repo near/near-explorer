@@ -119,16 +119,13 @@ exports[`<ActionMessage /> renders Stake 1`] = `
 Array [
   "Staked: ",
   <div
-    className="jsx-3868391398 rough"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
   >
     &lt;0.00001
      Ⓝ
-  </div>,
-  <div
-    className="jsx-3868391398 precise"
-  >
-    1
-     yokto Ⓝ
   </div>,
   " ",
   "with ed25519:BgXFiJS...",
@@ -138,21 +135,15 @@ Array [
 exports[`<ActionMessage /> renders Transfer 1`] = `
 Array [
   "Transferred ",
-  <span>
-    <div
-      className="jsx-3868391398 rough"
-    >
-      &lt;0.00001
-       Ⓝ
-    </div>
-    <div
-      className="jsx-3868391398 precise"
-    >
-      1
-       yokto Ⓝ
-    </div>
-  </span>,
-  " ",
+  <div
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+  >
+    &lt;0.00001
+     Ⓝ
+  </div>,
   " to ",
   <a
     className="account-link"
