@@ -2,7 +2,7 @@
 /// https://github.com/nearprotocol/near-wallet/blob/41cb65246134308dd553b532dfb314b45b38b65c/src/components/common/Balance.js
 
 import { utils } from "nearlib";
-import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Balance = ({ amount }) => {
   if (!amount) {
@@ -14,7 +14,7 @@ const Balance = ({ amount }) => {
       placement={"top"}
       overlay={<Tooltip>{amount} yokto Ⓝ</Tooltip>}
     >
-      <div>{amountShow} Ⓝ</div>
+      <Tooltip>{amountShow} Ⓝ</Tooltip>
     </OverlayTrigger>
   );
 };
