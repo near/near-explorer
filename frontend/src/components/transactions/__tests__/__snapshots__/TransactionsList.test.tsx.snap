@@ -210,7 +210,23 @@ Array [
                 <div
                   className="action-row-title col"
                 >
-                  Transferred 0.00001 Ⓝ to 
+                  Transferred 
+                  <span>
+                    <div
+                      className="jsx-3868391398 rough"
+                    >
+                      0.00001
+                       Ⓝ
+                    </div>
+                    <div
+                      className="jsx-3868391398 precise"
+                    >
+                      10000000000000000000
+                       yokto Ⓝ
+                    </div>
+                  </span>
+                   
+                   to 
                   <a
                     className="account-link"
                     href="/accounts/receiver.test"

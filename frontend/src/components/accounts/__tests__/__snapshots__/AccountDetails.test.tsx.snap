@@ -27,8 +27,18 @@ exports[`<AccountDetails /> renders 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              &lt;0.00001
-               Ⓝ
+              <div
+                className="jsx-3868391398 rough"
+              >
+                &lt;0.00001
+                 Ⓝ
+              </div>
+              <div
+                className="jsx-3868391398 precise"
+              >
+                1
+                 yokto Ⓝ
+              </div>
             </div>
           </div>
         </div>
@@ -100,8 +110,18 @@ exports[`<AccountDetails /> renders 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              &lt;0.00001
-               Ⓝ
+              <div
+                className="jsx-3868391398 rough"
+              >
+                &lt;0.00001
+                 Ⓝ
+              </div>
+              <div
+                className="jsx-3868391398 precise"
+              >
+                1
+                 yokto Ⓝ
+              </div>
             </div>
           </div>
         </div>
