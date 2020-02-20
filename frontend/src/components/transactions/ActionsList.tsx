@@ -5,7 +5,7 @@ import ActionRow from "./ActionRow";
 import { ViewMode, DetalizationMode } from "./ActionRowBlock";
 
 export interface Props {
-  actions: T.ActionWrapper[];
+  actions: T.Action[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;

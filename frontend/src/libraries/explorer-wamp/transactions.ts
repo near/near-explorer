@@ -7,6 +7,7 @@ export type ExecutionStatus =
   | "SuccessValue";
 
 export interface TransactionInfo {
+  actions: Action[];
   hash: string;
   signerId: string;
   receiverId: string;
@@ -46,7 +47,7 @@ export interface DeleteKey {
   public_key: string;
 }
 
-export interface Action {
+export interface RpcAction {
   CreateAccount: CreateAccount;
   DeleteAccount: DeleteAccount;
   DeployContract: DeployContract;
@@ -57,17 +58,9 @@ export interface Action {
   DeleteKey: DeleteKey;
 }
 
-export interface ActionWrapper {
-  kind: string;
-  args: Action[keyof Action] | {};
-}
-
-interface StringActions {
-  actions: string;
-}
-
-export interface Actions {
-  actions: (ActionWrapper)[];
+export interface Action {
+  kind: keyof RpcAction;
+  args: RpcAction[keyof RpcAction] | {};
 }
 
 export interface ReceiptSuccessValue {
@@ -108,7 +101,6 @@ export interface TransactionOutcomeWrapper {
 }
 
 export type Transaction = TransactionInfo &
-  Actions &
   ReceiptsOutcomeWrapper &
   TransactionOutcomeWrapper;
 
@@ -138,9 +130,7 @@ export default class TransactionsApi extends ExplorerApi {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
     try {
-      const transactions = await this.call<
-        (TransactionInfo & (StringActions | Actions))[]
-      >("select", [
+      const transactions = await this.call<TransactionInfo[]>("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
           FROM transactions
           LEFT JOIN blocks ON blocks.hash = transactions.block_hash
@@ -172,26 +162,25 @@ export default class TransactionsApi extends ExplorerApi {
           //
           // Once the above TODO is resolved, we should just move this to TransactionInfo method
           // (i.e. query the information there only for the specific transaction).
-          const _actions = transactionExtraInfo.transaction.actions;
-          let _uniformActions: ActionWrapper[] = [];
-          _actions.map((action: any) => {
-            if (typeof action !== "string") {
-              const kind = Object.keys(action)[0];
-              _uniformActions.push({
-                kind: kind,
-                args: action[kind]
-              });
+          const actions = transactionExtraInfo.transaction.actions;
+
+          transaction.actions = actions.map((action: RpcAction | string) => {
+            if (typeof action === "string") {
+              return { kind: action, args: {} };
             } else {
-              _uniformActions.push({ kind: action, args: {} });
+              const kind = Object.keys(action)[0] as keyof RpcAction;
+              return {
+                kind,
+                args: action[kind]
+              };
             }
           });
-          transaction.actions = _uniformActions;
         })
       );
       return transactions as Transaction[];
     } catch (error) {
       console.error(
-        "Transactions.getTransactionsInfo failed to fetch data due to:"
+        "Transactions.getTransactions failed to fetch data due to:"
       );
       console.error(error);
       throw error;

@@ -49,7 +49,7 @@ describe("<ActionRow />", () => {
       gas: 2000000000000,
       method_name: "incrementCounter"
     }
-  } as T.ActionWrapper;
+  } as T.Action;
 
   it("renders functioncall with detail", () => {
     expect(

@@ -8,7 +8,7 @@ import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 
 export interface Props {
-  actions: T.ActionWrapper[];
+  actions: T.Action[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
   reversed?: boolean;

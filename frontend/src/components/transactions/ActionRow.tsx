@@ -6,7 +6,7 @@ import ActionRowBlock, { ViewMode, DetalizationMode } from "./ActionRowBlock";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props {
-  action: T.ActionWrapper;
+  action: T.Action;
   transaction: T.Transaction;
   viewMode: ViewMode;
   detalizationMode: DetalizationMode;
@@ -31,9 +31,7 @@ export default class extends React.Component<Props> {
       action,
       showDetails
     } = this.props;
-    let actionKind = action.kind as keyof T.Action;
-    let actionArgs = action.args;
-    const ActionIcon = actionIcons[actionKind];
+    const ActionIcon = actionIcons[action.kind];
     return (
       <ActionRowBlock
         viewMode={viewMode}
@@ -44,8 +42,8 @@ export default class extends React.Component<Props> {
         title={
           <ActionMessage
             transaction={transaction}
-            actionKind={actionKind}
-            actionArgs={actionArgs}
+            actionKind={action.kind}
+            actionArgs={action.args}
             showDetails={showDetails}
           />
         }
