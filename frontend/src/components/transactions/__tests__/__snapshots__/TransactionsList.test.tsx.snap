@@ -211,25 +211,15 @@ Array [
                   className="action-row-title col"
                 >
                   Transferred 
-                  <div
-                    className="tooltip bs-tooltip-right"
+                  <span
                     onBlur={[Function]}
                     onFocus={[Function]}
                     onMouseOut={[Function]}
                     onMouseOver={[Function]}
-                    role="tooltip"
-                    x-placement="right"
                   >
-                    <div
-                      className="arrow"
-                    />
-                    <div
-                      className="tooltip-inner"
-                    >
-                      0.00001
-                       Ⓝ
-                    </div>
-                  </div>
+                    0.00001
+                     Ⓝ
+                  </span>
                    to 
                   <a
                     className="account-link"

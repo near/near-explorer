@@ -11,10 +11,10 @@ const Balance = ({ amount }) => {
   let amountShow = convertToShow(amount);
   return (
     <OverlayTrigger
-      placement={"top"}
+      placement={"bottom"}
       overlay={<Tooltip>{amount} yokto Ⓝ</Tooltip>}
     >
-      <Tooltip>{amountShow} Ⓝ</Tooltip>
+      <span>{amountShow} Ⓝ</span>
     </OverlayTrigger>
   );
 };
