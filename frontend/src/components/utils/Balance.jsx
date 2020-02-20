@@ -9,10 +9,11 @@ const Balance = ({ amount }) => {
     throw new Error("amount property should not be null");
   }
   let amountShow = convertToShow(amount);
+  let amountPrecise = formatPreciseNEAR(amount);
   return (
     <OverlayTrigger
       placement={"bottom"}
-      overlay={<Tooltip>{amount} yokto Ⓝ</Tooltip>}
+      overlay={<Tooltip>{amountPrecise} yokto Ⓝ</Tooltip>}
     >
       <span>{amountShow} Ⓝ</span>
     </OverlayTrigger>
@@ -26,7 +27,7 @@ const convertToShow = amount => {
   return formatNEAR(amount);
 };
 
-export const formatNEAR = amount => {
+const formatNEAR = amount => {
   let ret = utils.format.formatNearAmount(amount, 5);
   if (ret === "0" && amount > 0) {
     return "<0.00001";
@@ -34,4 +35,8 @@ export const formatNEAR = amount => {
   return ret;
 };
 
+const formatPreciseNEAR = amount => {
+  const REG = /(?=(\B)(\d{3})+$)/g;
+  return amount.replace(REG, ",");
+};
 export default Balance;
