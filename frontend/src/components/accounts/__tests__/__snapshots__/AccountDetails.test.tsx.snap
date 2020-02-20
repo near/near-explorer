@@ -28,13 +28,23 @@ exports[`<AccountDetails /> renders 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
+                className="tooltip bs-tooltip-right"
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
+                role="tooltip"
+                x-placement="right"
               >
-                &lt;0.00001
-                 Ⓝ
+                <div
+                  className="arrow"
+                />
+                <div
+                  className="tooltip-inner"
+                >
+                  &lt;0.00001
+                   Ⓝ
+                </div>
               </div>
             </div>
           </div>
@@ -108,13 +118,23 @@ exports[`<AccountDetails /> renders 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
+                className="tooltip bs-tooltip-right"
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
+                role="tooltip"
+                x-placement="right"
               >
-                &lt;0.00001
-                 Ⓝ
+                <div
+                  className="arrow"
+                />
+                <div
+                  className="tooltip-inner"
+                >
+                  &lt;0.00001
+                   Ⓝ
+                </div>
               </div>
             </div>
           </div>

@@ -143,13 +143,23 @@ Array [
             >
               Transferred 
               <div
+                className="tooltip bs-tooltip-right"
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
+                role="tooltip"
+                x-placement="right"
               >
-                0.00001
-                 Ⓝ
+                <div
+                  className="arrow"
+                />
+                <div
+                  className="tooltip-inner"
+                >
+                  0.00001
+                   Ⓝ
+                </div>
               </div>
                to 
               <a
@@ -618,13 +628,23 @@ Array [
             >
               Transferred 
               <div
+                className="tooltip bs-tooltip-right"
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
+                role="tooltip"
+                x-placement="right"
               >
-                0.00001
-                 Ⓝ
+                <div
+                  className="arrow"
+                />
+                <div
+                  className="tooltip-inner"
+                >
+                  0.00001
+                   Ⓝ
+                </div>
               </div>
                to 
               <a

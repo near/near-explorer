@@ -119,13 +119,23 @@ exports[`<ActionMessage /> renders Stake 1`] = `
 Array [
   "Staked: ",
   <div
+    className="tooltip bs-tooltip-right"
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseOut={[Function]}
     onMouseOver={[Function]}
+    role="tooltip"
+    x-placement="right"
   >
-    &lt;0.00001
-     Ⓝ
+    <div
+      className="arrow"
+    />
+    <div
+      className="tooltip-inner"
+    >
+      &lt;0.00001
+       Ⓝ
+    </div>
   </div>,
   " ",
   "with ed25519:BgXFiJS...",
@@ -136,13 +146,23 @@ exports[`<ActionMessage /> renders Transfer 1`] = `
 Array [
   "Transferred ",
   <div
+    className="tooltip bs-tooltip-right"
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseOut={[Function]}
     onMouseOver={[Function]}
+    role="tooltip"
+    x-placement="right"
   >
-    &lt;0.00001
-     Ⓝ
+    <div
+      className="arrow"
+    />
+    <div
+      className="tooltip-inner"
+    >
+      &lt;0.00001
+       Ⓝ
+    </div>
   </div>,
   " to ",
   <a
