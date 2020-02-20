@@ -1,7 +1,7 @@
 import { hexy } from "hexy";
 
 import AccountLink from "../utils/AccountLink";
-import { formatNEAR } from "../utils/Balance";
+import Balance from "../utils/Balance";
 import CodePreview from "../utils/CodePreview";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
@@ -101,12 +101,19 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     actionArgs: { deposit }
   }: Props<T.Transfer>) => (
     <>
-      {`Transferred ${formatNEAR(deposit)} Ⓝ to `}
+      {`Transferred `}
+      <span>
+        <Balance amount={deposit} />
+      </span>{" "}
+      {` to `}
       <AccountLink accountId={receiverId} />
     </>
   ),
   Stake: ({ actionArgs: { stake, public_key } }: Props<T.Stake>) => (
-    <>{`Staked: ${formatNEAR(stake)} Ⓝ ${public_key.substring(0, 15)}...`}</>
+    <>
+      {`Staked: `}
+      <Balance amount={stake} /> {`with ${public_key.substring(0, 15)}...`}
+    </>
   ),
   AddKey: ({ transaction: { receiverId }, actionArgs }: Props<T.AddKey>) => (
     <>

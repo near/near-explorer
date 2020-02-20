@@ -8,7 +8,21 @@ const Balance = ({ amount }) => {
     throw new Error("amount property should not be null");
   }
   let amountShow = convertToShow(amount);
-  return <>{amountShow} Ⓝ</>;
+  return (
+    <>
+      <div className="rough">{amountShow} Ⓝ</div>
+      <div className="precise">{amount} yokto Ⓝ</div>
+      <style jsx global>{`
+        .precise {
+          display: none;
+        }
+        .rough:hover + .precise {
+          display: block;
+          color: #20c997;
+        }
+      `}</style>
+    </>
+  );
 };
 
 const convertToShow = amount => {
