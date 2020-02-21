@@ -19,7 +19,6 @@ async function saveBlocks(blocksInfo) {
               height: blockInfo.header.height,
               prevHash: blockInfo.header.prev_hash,
               timestamp: parseInt(blockInfo.header.timestamp / 1000000),
-              totalWeight: blockInfo.header.total_weight,
               totalSupply: blockInfo.header.total_supply || "",
               gasLimit: blockInfo.header.gas_limit || 0,
               gasUsed: blockInfo.header.gas_used || 0,
@@ -137,62 +136,66 @@ function promiseResult(promise) {
 
 async function saveBlocksFromRequests(requests) {
   const responses = await Promise.all(requests.map(([_, req]) => req));
-  const blocks = responses.flatMap((blockResult, index) => {
-    const blockHeight = requests[index][0];
-    if (blockResult.isError()) {
-      const { error } = blockResult;
-      if (error.type === "system") {
-        console.log(
-          `A system error was catched while fetching the block #${blockHeight}: `,
-          error.message
-        );
-      } else {
-        if (!error.message.includes("Not Found")) {
-          console.warn(
-            `Something went wrong while fetching the block #${blockHeight}: `,
-            error
+  let blocks = responses
+    .map((blockResult, index) => {
+      const blockHeight = requests[index][0];
+      if (blockResult.isError()) {
+        const { error } = blockResult;
+        if (error.type === "system") {
+          console.log(
+            `A system error was catched while fetching the block #${blockHeight}: `,
+            error.message
           );
+        } else {
+          if (!error.message.includes("Not Found")) {
+            console.warn(
+              `Something went wrong while fetching the block #${blockHeight}: `,
+              error
+            );
+          }
         }
+        return null;
       }
-      return [];
-    }
-    return [blockResult.value];
-  });
+      return blockResult.value;
+    })
+    .filter(block => block !== null);
 
-  const transactionsByBlock = await Promise.all(
-    blocks.map(async block => {
+  blocks = (await Promise.all(
+    blocks.flatMap(async block => {
       try {
         const detailedChunks = await Promise.all(
           block.chunks.map(async chunk => {
-            try {
-              return await nearRpc.chunk(chunk.chunk_hash);
-            } catch (error) {
-              console.error(
-                "Failed to fetch a detailed chunk info: ",
-                error,
-                chunk
-              );
-              throw error;
+            let fetchError;
+            for (let retries = 5; retries > 0; --retries) {
+              try {
+                return await nearRpc.chunk(chunk.chunk_hash);
+              } catch (error) {
+                fetchError = error;
+                if (error.type === "system") {
+                  continue;
+                }
+                console.error(
+                  "Failed to fetch a detailed chunk info: ",
+                  error,
+                  chunk
+                );
+                throw error;
+              }
             }
+            throw fetchError;
           })
         );
-        return detailedChunks.map(chunk => chunk.transactions);
+        block.transactions = detailedChunks.flatMap(
+          chunk => chunk.transactions
+        );
+        return block;
       } catch (error) {
-        throw error;
         return null;
       }
     })
-  );
+  )).filter(block => block !== null);
 
-  const blocksWithTransactions = blocks.flatMap((block, i) => {
-    const transactions = transactionsByBlock[i];
-    if (transactions === null) {
-      return [];
-    }
-    block.transactions = transactions.flatMap(it => it);
-    return [block];
-  });
-  return await saveBlocks(blocksWithTransactions);
+  return await saveBlocks(blocks);
 }
 
 async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
@@ -225,17 +228,6 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
 }
 
 async function syncNewNearcoreState() {
-  const latestSyncedBlock = await models.Block.findOne({
-    order: [["height", "DESC"]]
-  });
-  let latestSyncedBlockHeight = 0;
-  if (latestSyncedBlock !== null) {
-    latestSyncedBlockHeight = latestSyncedBlock.height;
-    console.debug(`The latest synced block is #${latestSyncedBlockHeight}`);
-  } else {
-    console.debug("There are no synced blocks, yet.");
-  }
-
   const nodeStatus = await nearRpc.status();
   let latestBlockHeight = nodeStatus.sync_info.latest_block_height;
   if (typeof latestBlockHeight !== "number") {
@@ -244,6 +236,18 @@ async function syncNewNearcoreState() {
       nodeStatus
     );
     return;
+  }
+
+  const latestSyncedBlock = await models.Block.findOne({
+    order: [["height", "DESC"]]
+  });
+  let latestSyncedBlockHeight;
+  if (latestSyncedBlock !== null) {
+    latestSyncedBlockHeight = latestSyncedBlock.height;
+    console.debug(`The latest synced block is #${latestSyncedBlockHeight}`);
+  } else {
+    latestSyncedBlockHeight = latestBlockHeight - 10;
+    console.debug("There are no synced blocks, yet.");
   }
 
   await syncNearcoreBlocks(latestBlockHeight, latestSyncedBlockHeight + 1);
@@ -261,6 +265,8 @@ async function syncOldNearcoreState() {
 }
 
 async function syncMissingNearcoreState() {
+  await syncOldNearcoreState();
+
   const latestSyncedBlock = await models.Block.findOne({
     order: [["height", "DESC"]]
   });
@@ -305,27 +311,5 @@ async function syncMissingNearcoreState() {
   );
 }
 
-async function syncFullNearcoreState() {
-  await models.sequelize.sync();
-
-  try {
-    await syncNewNearcoreState();
-  } catch (error) {
-    console.warn("Syncing new Nearcore state crashed due to:", error);
-  }
-  try {
-    await syncMissingNearcoreState();
-  } catch (error) {
-    console.warn("Syncing missing Nearcore state crashed due to:", error);
-  }
-  try {
-    await syncOldNearcoreState();
-  } catch (error) {
-    console.warn("Syncing old Nearcore state crashed due to:", error);
-  }
-}
-
-exports.syncFullNearcoreState = syncFullNearcoreState;
 exports.syncNewNearcoreState = syncNewNearcoreState;
-exports.syncOldNearcoreState = syncOldNearcoreState;
 exports.syncMissingNearcoreState = syncMissingNearcoreState;
