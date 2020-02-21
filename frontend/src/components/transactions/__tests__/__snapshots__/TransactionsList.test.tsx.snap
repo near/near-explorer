@@ -189,66 +189,6 @@ Array [
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M0 18l9-9-9-9zm18-9L9 0v18z"
-                fill="#8dd4bd"
-              />
-            </svg>
-          </div>
-        </div>
-        <div
-          className="action-row-details col"
-        >
-          <div
-            className="action-row-message row no-gutters"
-          >
-            <div
-              className="col-md-8 col-7"
-            >
-              <div
-                className="row no-gutters"
-              >
-                <div
-                  className="action-row-title col"
-                >
-                  Transferred 
-                  <span
-                    onBlur={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                  >
-                    0.00001
-                     Ⓝ
-                  </span>
-                   to 
-                  <a
-                    className="account-link"
-                    href="/accounts/receiver.test"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                  >
-                    @receiver.test
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="action-sparse-row mx-0  row no-gutters"
-      >
-        <div
-          className="col-auto"
-        >
-          <div
-            className="jsx-3871551524 action-row-img"
-          >
-            <svg
-              viewBox="0 0 18 18"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
                 d="M18 18v-3.6L8.92 5.32A4.5 4.5 0 1 0 4.5 9a4.47 4.47 0 0 0 .82-.08L14.4 18zM3 4.5A1.5 1.5 0 1 1 4.5 6 1.5 1.5 0 0 1 3 4.5z"
                 fill="#5ace84"
               />
@@ -386,6 +326,251 @@ Array [
               <span>
                 1s ago
               </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="action-sparse-row mx-0  row no-gutters"
+  >
+    <div
+      className="col-auto"
+    >
+      <div
+        className="jsx-3871551524 action-row-img"
+      >
+        <svg
+          viewBox="0 0 18 18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <style>
+              .cls-1
+              {
+              fill:#ccc
+              }
+            </style>
+          </defs>
+          <title>
+            icon-m-batch
+          </title>
+          <g
+            'data-name'="Layer 2"
+            id="Layer_2"
+          >
+            <g
+              'data-name'="Layer 1"
+              id="Layer_1-2"
+            >
+              <path
+                className="cls-1"
+                d="M9 15.5l-6.5-3.25L0 13.5 9 18l9-4.5-2.5-1.25L9 15.5z"
+              />
+              <path
+                className="cls-1"
+                d="M9 11L2.5 7.75 0 9l9 4.5L18 9l-2.5-1.25L9 11z"
+              />
+              <path
+                className="cls-1"
+                d="M18 4.5L9 0 0 4.5 9 9l9-4.5z"
+              />
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div
+      className="action-row-details col"
+    >
+      <div
+        className="action-row-message row no-gutters"
+      >
+        <div
+          className="col-md-8 col-7"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="action-row-title col"
+            >
+              Batch Transaction
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="action-row-text col"
+            >
+              by 
+              <a
+                className="account-link"
+                href="/accounts/signer2.test"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                @signer2.test
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          className="ml-auto text-right col-md-4 col-5"
+        >
+          <div
+            className="row"
+          >
+            <div
+              className="action-row-txid col"
+            >
+              <a
+                className="transaction-link"
+                href="/transactions/222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVxxx"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                222eW6g...
+              </a>
+            </div>
+          </div>
+          <div
+            className="row"
+          >
+            <div
+              className="action-row-timer col"
+            >
+              <span
+                className="jsx-3871551524 action-row-timer-status"
+              >
+                Succeeded
+              </span>
+               
+              <span>
+                1s ago
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="action-sparse-row mx-0  row no-gutters"
+      >
+        <div
+          className="col-auto"
+        >
+          <div
+            className="jsx-3871551524 action-row-img"
+          >
+            <svg
+              viewBox="0 0 18 18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                fill="#8dd4bd"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          className="action-row-details col"
+        >
+          <div
+            className="action-row-message row no-gutters"
+          >
+            <div
+              className="col-md-8 col-7"
+            >
+              <div
+                className="row no-gutters"
+              >
+                <div
+                  className="action-row-title col"
+                >
+                  Transferred 
+                  <span
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                  >
+                    0.00005
+                     Ⓝ
+                  </span>
+                   to 
+                  <a
+                    className="account-link"
+                    href="/accounts/receiver2.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    @receiver2.test
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="action-sparse-row mx-0  row no-gutters"
+      >
+        <div
+          className="col-auto"
+        >
+          <div
+            className="jsx-3871551524 action-row-img"
+          >
+            <svg
+              viewBox="0 0 18 18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                fill="#8dd4bd"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          className="action-row-details col"
+        >
+          <div
+            className="action-row-message row no-gutters"
+          >
+            <div
+              className="col-md-8 col-7"
+            >
+              <div
+                className="row no-gutters"
+              >
+                <div
+                  className="action-row-title col"
+                >
+                  Transferred 
+                  <span
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                  >
+                    0.00009
+                     Ⓝ
+                  </span>
+                   to 
+                  <a
+                    className="account-link"
+                    href="/accounts/receiver2.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    @receiver2.test
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

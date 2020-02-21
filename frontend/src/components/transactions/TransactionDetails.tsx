@@ -1,7 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
-import { Transaction } from "../../libraries/explorer-wamp/transactions";
+import BN from "bn.js";
 import moment from "../../libraries/moment";
 
 import AccountLink from "../utils/AccountLink";
@@ -12,33 +12,30 @@ import Balance from "../utils/Balance";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props {
-  transaction: Transaction;
+  transaction: T.Transaction;
 }
 
 export interface State {
-  deposit: string;
+  deposit: BN;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {
-    deposit: "0"
+    deposit: new BN(0)
   };
 
   componentDidMount() {
-    this.props.transaction.actions.map(action => {
-      let actionKind: keyof T.Action;
-      let actionArgs: any;
-      if (typeof action === "string") {
-        actionKind = action;
-        actionArgs = {};
-      } else {
-        actionKind = Object.keys(action)[0] as keyof T.Action;
-        actionArgs = action[actionKind];
-      }
-      if (actionArgs.hasOwnProperty("deposit")) {
-        this.setState({ deposit: actionArgs.deposit });
-      }
-    });
+    const deposit = this.props.transaction.actions
+      .map(action => {
+        let actionArgs = action.args as any;
+        if (actionArgs.hasOwnProperty("deposit")) {
+          return new BN(actionArgs.deposit);
+        } else {
+          return new BN(0);
+        }
+      })
+      .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
+    this.setState({ deposit });
   }
 
   render() {
@@ -66,7 +63,7 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Value"
               imgLink="/static/images/icon-m-filter.svg"
-              text={<Balance amount={deposit} />}
+              text={<Balance amount={deposit.toString()} />}
             />
           </Col>
           <Col md="3">

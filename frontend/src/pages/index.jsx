@@ -33,7 +33,7 @@ export default class extends React.Component {
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content title={<h1>Dashboard</h1>} border={false}>
-          <DashboardHeader details={details} />
+          <DashboardHeader />
           <Row noGutters className="dashboard-section">
             <Col md="8">
               <DashboardTransactions transactions={transactions} />
