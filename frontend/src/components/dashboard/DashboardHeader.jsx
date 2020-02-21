@@ -19,7 +19,8 @@ export default class DashboardHeader extends React.Component {
       lastDayTxCount: 0,
       accountsCount: 0,
       lastBlockHeight: 0
-    }
+    },
+    loading: true
   };
 
   handleSearch = async event => {
@@ -68,7 +69,7 @@ export default class DashboardHeader extends React.Component {
 
   fetchInfo = async () => {
     const details = await new DetailsApi().getDetails().catch(() => null);
-    this.setState({ details });
+    this.setState({ details, loading: false });
   };
 
   regularFetchInfo = async () => {
@@ -87,6 +88,7 @@ export default class DashboardHeader extends React.Component {
       accountsCount,
       lastBlockHeight
     } = this.state.details;
+    const { loading } = this.state;
 
     return (
       <div className="dashboard-info-container">
@@ -99,6 +101,7 @@ export default class DashboardHeader extends React.Component {
                   imgLink="/static/images/icon-m-node-online.svg"
                   text={`${onlineNodesCount.toLocaleString()}/${totalNodesCount.toLocaleString()}`}
                   className="border-0"
+                  loading={loading}
                 />
               </a>
             </Link>
@@ -108,6 +111,7 @@ export default class DashboardHeader extends React.Component {
               title="Block Height"
               imgLink="/static/images/icon-m-height.svg"
               text={lastBlockHeight.toLocaleString()}
+              loading={loading}
             />
           </Col>
           <Col xs="12" md="2">
@@ -115,6 +119,7 @@ export default class DashboardHeader extends React.Component {
               title="Tps"
               imgLink="/static/images/icon-m-tps.svg"
               text={transactionsPerSecond.toLocaleString()}
+              loading={loading}
             />
           </Col>
           <Col xs="12" md="2">
@@ -122,6 +127,7 @@ export default class DashboardHeader extends React.Component {
               title="Last Day Tx"
               imgLink="/static/images/icon-m-transaction.svg"
               text={lastDayTxCount.toLocaleString()}
+              loading={loading}
             />
           </Col>
           <Col xs="12" md="2">
@@ -131,6 +137,7 @@ export default class DashboardHeader extends React.Component {
                   title="Accounts"
                   imgLink="/static/images/icon-m-user.svg"
                   text={accountsCount.toLocaleString()}
+                  loading={loading}
                 />
               </a>
             </Link>
