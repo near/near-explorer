@@ -13,7 +13,7 @@ const Balance = ({ amount }) => {
   return (
     <OverlayTrigger
       placement={"bottom"}
-      overlay={<Tooltip>{amountPrecise} yokto Ⓝ</Tooltip>}
+      overlay={<Tooltip>{amountPrecise} yoctoⓃ</Tooltip>}
     >
       <span>{amountShow} Ⓝ</span>
     </OverlayTrigger>
