@@ -21,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BIGINT,
         allowNull: false
       },
-      totalWeight: {
-        type: DataTypes.BIGINT,
-        allowNull: false
-      },
       totalSupply: {
         type: DataTypes.BIGINT,
         allowNull: false

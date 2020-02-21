@@ -1,18 +1,16 @@
+const models = require("../models");
+
 const {
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval
 } = require("./config");
-const {
-  syncFullNearcoreState,
-  syncNewNearcoreState,
-  syncMissingNearcoreState
-} = require("./sync");
+const { syncNewNearcoreState, syncMissingNearcoreState } = require("./sync");
 const { setupWamp } = require("./wamp");
 
 async function main() {
   console.log("Starting NEAR Explorer backend service...");
 
-  syncFullNearcoreState();
+  await models.sequelize.sync();
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {
@@ -26,10 +24,7 @@ async function main() {
       regularSyncNewNearcoreStateInterval
     );
   };
-  setTimeout(
-    regularSyncNewNearcoreState,
-    regularSyncNewNearcoreStateInterval * 10
-  );
+  setTimeout(regularSyncNewNearcoreState, 0);
 
   const regularSyncMissingNearcoreState = async () => {
     try {
