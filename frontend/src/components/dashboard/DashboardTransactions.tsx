@@ -48,7 +48,6 @@ export default class extends React.Component<Props, State> {
     this._transactionsApi
       .getLatestTransactionsInfo(this.state.limit)
       .then(res => {
-        console.log(res);
         this.setState({ transactions: res });
       })
       .catch(err => console.error(err));
