@@ -1,13 +1,14 @@
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Spinner } from "react-bootstrap";
 
 export interface Props {
   className?: string;
   title: React.ReactElement | string;
   imgLink?: string;
   text: React.ReactElement | string;
+  loading?: boolean;
 }
 
-export default ({ title, imgLink, text, className }: Props) => (
+export default ({ title, imgLink, text, className, loading }: Props) => (
   <Card className={`card-cell ${className || ""}`}>
     <Card.Body>
       <Row noGutters>
@@ -20,7 +21,7 @@ export default ({ title, imgLink, text, className }: Props) => (
           md="12"
           className="ml-auto card-cell-text align-self-center"
         >
-          {text}
+          {loading ? <Spinner animation="border" variant="secondary" /> : text}
         </Col>
       </Row>
     </Card.Body>
