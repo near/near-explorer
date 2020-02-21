@@ -105,8 +105,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0
-               Ⓝ
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                0
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -344,8 +351,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              &lt;0.00001
-               Ⓝ
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -583,8 +597,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0.00014
-               Ⓝ
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                0.00014
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>

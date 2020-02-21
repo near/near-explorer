@@ -490,7 +490,17 @@ Array [
                 <div
                   className="action-row-title col"
                 >
-                  Transferred 0.00005 Ⓝ to 
+                  Transferred 
+                  <span
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                  >
+                    0.00005
+                     Ⓝ
+                  </span>
+                   to 
                   <a
                     className="account-link"
                     href="/accounts/receiver2.test"
@@ -540,7 +550,17 @@ Array [
                 <div
                   className="action-row-title col"
                 >
-                  Transferred 0.00009 Ⓝ to 
+                  Transferred 
+                  <span
+                    onBlur={[Function]}
+                    onFocus={[Function]}
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}
+                  >
+                    0.00009
+                     Ⓝ
+                  </span>
+                   to 
                   <a
                     className="account-link"
                     href="/accounts/receiver2.test"

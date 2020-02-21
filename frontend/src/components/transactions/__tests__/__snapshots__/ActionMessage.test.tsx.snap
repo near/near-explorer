@@ -115,11 +115,36 @@ Array [
 ]
 `;
 
-exports[`<ActionMessage /> renders Stake 1`] = `"Staked: <0.00001 Ⓝ ed25519:BgXFiJS..."`;
+exports[`<ActionMessage /> renders Stake 1`] = `
+Array [
+  "Staked: ",
+  <span
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+  >
+    &lt;0.00001
+     Ⓝ
+  </span>,
+  " ",
+  "with ed25519:BgXFiJS...",
+]
+`;
 
 exports[`<ActionMessage /> renders Transfer 1`] = `
 Array [
-  "Transferred <0.00001 Ⓝ to ",
+  "Transferred ",
+  <span
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+  >
+    &lt;0.00001
+     Ⓝ
+  </span>,
+  " to ",
   <a
     className="account-link"
     href="/accounts/receiver.test"
