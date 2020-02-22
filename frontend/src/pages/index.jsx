@@ -3,8 +3,6 @@ import Head from "next/head";
 import { Row, Col } from "react-bootstrap";
 
 import BlocksApi from "../libraries/explorer-wamp/blocks";
-import DetailsApi from "../libraries/explorer-wamp/details";
-import TransactionsApi from "../libraries/explorer-wamp/transactions";
 
 import Content from "../components/utils/Content";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
@@ -13,20 +11,14 @@ import DashboardTransactions from "../components/dashboard/DashboardTransactions
 
 export default class extends React.Component {
   static async getInitialProps({ req }) {
-    const details = new DetailsApi(req).getDetails().catch(() => null);
     const blocks = new BlocksApi(req).getLatestBlocksInfo(8).catch(() => null);
-    const transactions = new TransactionsApi(req)
-      .getLatestTransactionsInfo(10)
-      .catch(() => null);
     return {
-      details: await details,
-      blocks: await blocks,
-      transactions: await transactions
+      blocks: await blocks
     };
   }
 
   render() {
-    const { details, transactions, blocks } = this.props;
+    const { blocks } = this.props;
     return (
       <>
         <Head>
@@ -36,7 +28,7 @@ export default class extends React.Component {
           <DashboardHeader />
           <Row noGutters className="dashboard-section">
             <Col md="8">
-              <DashboardTransactions transactions={transactions} />
+              <DashboardTransactions />
             </Col>
             <Col md="4">
               <DashboardBlocks blocks={blocks} />

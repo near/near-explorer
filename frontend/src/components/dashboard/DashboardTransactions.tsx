@@ -1,35 +1,55 @@
 import Link from "next/link";
-
 import React from "react";
-
-import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
-
 import { Row, Col } from "react-bootstrap";
 
-import Content from "../utils/Content";
+import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 import TransactionsList from "../transactions/TransactionsList";
-import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import FlipMove from "../utils/FlipMove";
+import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
-export default class extends React.Component {
+import Content from "../utils/Content";
+import FlipMove from "../utils/FlipMove";
+import PaginationSpinner from "../utils/PaginationSpinner";
+interface Props {}
+
+interface State {
+  transactions: T.Transaction[];
+  limit: number;
+}
+
+export default class extends React.Component<Props, State> {
   state = {
-    transactions: this.props.transactions
+    transactions: [],
+    limit: 10
   };
 
+  _transactionsApi: TransactionsApi | null;
+  timer: ReturnType<typeof setTimeout> | null;
+
+  constructor(props: Props) {
+    super(props);
+    this._transactionsApi = null;
+    this.timer = null;
+  }
+
   componentDidMount() {
-    this.regularFetchInfo();
+    this.timer = setTimeout(this.regularFetchInfo, 0);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
+    clearTimeout(this.timer!);
     this.timer = null;
   }
 
   fetchInfo = async () => {
-    const transactions = await new TransactionsApi()
-      .getLatestTransactionsInfo(10)
-      .catch(() => null);
-    this.setState({ transactions });
+    if (this._transactionsApi === null) {
+      this._transactionsApi = new TransactionsApi();
+    }
+    this._transactionsApi
+      .getLatestTransactionsInfo(this.state.limit)
+      .then(transactions => {
+        this.setState({ transactions });
+      })
+      .catch(err => console.error(err));
   };
 
   regularFetchInfo = async () => {
@@ -41,10 +61,32 @@ export default class extends React.Component {
 
   render() {
     const { transactions } = this.state;
+    let txShow = <PaginationSpinner hidden={false} />;
+    if (transactions.length > 0) {
+      txShow = (
+        <>
+          <FlipMove duration={1000} staggerDurationBy={0}>
+            <TransactionsList
+              transactions={transactions}
+              viewMode="compact"
+              reversed
+            />
+          </FlipMove>
+          <Row noGutters>
+            <Col xs="1" className="dashboard-transactions-icon-col" />
+            <Col xs="6">
+              <Link href="transactions">
+                <a className="dashboard-footer">View All</a>
+              </Link>
+            </Col>
+          </Row>
+        </>
+      );
+    }
     return (
       <Content
         title={<h2>Recent Transactions</h2>}
-        icon={<TransactionIcon style={{ width: "22px" }} />}
+        icon={<TransactionIcon />}
         size="medium"
         border={false}
         className="dashboard-transactions"
@@ -56,21 +98,7 @@ export default class extends React.Component {
             </div>
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
-            <FlipMove duration={1000} staggerDurationBy={0}>
-              <TransactionsList
-                transactions={transactions}
-                viewMode="compact"
-                reversed
-              />
-            </FlipMove>
-            <Row noGutters>
-              <Col xs="1" className="dashboard-transactions-icon-col" />
-              <Col xs="6">
-                <Link href="transactions">
-                  <a className="dashboard-footer">View All</a>
-                </Link>
-              </Col>
-            </Row>
+            {txShow}
           </Col>
         </Row>
         <style jsx global>{`
