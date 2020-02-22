@@ -14,7 +14,7 @@ export interface Props {
 }
 
 export interface State {
-  transactions: T.Transaction[] | null;
+  transactions: T.Transaction[];
 }
 
 export default class extends React.Component<Props, State> {
@@ -24,7 +24,7 @@ export default class extends React.Component<Props, State> {
   };
 
   state: State = {
-    transactions: null
+    transactions: []
   };
 
   _transactionsApi: TransactionsApi | null;
@@ -40,7 +40,7 @@ export default class extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.accountId !== prevProps.accountId) {
-      this.setState({ transactions: null });
+      this.setState({ transactions: [] });
     }
   }
 
@@ -64,19 +64,21 @@ export default class extends React.Component<Props, State> {
     if (this._transactionsApi === null) {
       this._transactionsApi = new TransactionsApi();
     }
-    const transactions = await this._transactionsApi.getTransactions({
-      signerId: this.props.accountId,
-      receiverId: this.props.accountId,
-      blockHash: this.props.blockHash,
-      tail: this.props.reversed,
-      limit: this.props.limit
-    });
-    this.setState({ transactions });
+    this._transactionsApi
+      .getTransactions({
+        signerId: this.props.accountId,
+        receiverId: this.props.accountId,
+        blockHash: this.props.blockHash,
+        tail: this.props.reversed,
+        limit: this.props.limit
+      })
+      .then(res => this.setState({ transactions: res }))
+      .catch(err => console.error(err));
   };
 
   render() {
     const { transactions } = this.state;
-    if (transactions === null) {
+    if (transactions.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
