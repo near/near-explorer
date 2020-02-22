@@ -1,0 +1,8 @@
+# CODEOWNERS: https://help.github.com/articles/about-codeowners/
+
+/backend/ @frol
+/wamp/ @frol
+
+/cli/ @frol
+
+/frontend/ @frol @icerove

@@ -72,20 +72,79 @@ Array [
   >
     @receiver2.test
   </a>,
-  "Arguments in method: ",
-  <pre>
-     
-    {"text":"when ico?"}
-     
-  </pre>,
+  <dl>
+    <dt>
+      Arguments:
+    </dt>
+    <dd>
+      <div>
+        <div
+          style={
+            Object {
+              "display": "block",
+              "height": "0px",
+              "overflow": "hidden",
+            }
+          }
+        >
+          <textarea
+            className="jsx-3751390317 code-preview"
+            readOnly={true}
+          >
+            {
+  "text": "when ico?"
+}
+          </textarea>
+        </div>
+        <div
+          onClick={[Function]}
+        >
+          <div
+            style={
+              Object {
+                "float": "left",
+              }
+            }
+          >
+            Show more
+          </div>
+        </div>
+      </div>
+    </dd>
+  </dl>,
 ]
 `;
 
-exports[`<ActionMessage /> renders Stake 1`] = `"Staked: <0.00001 Ⓝ ed25519:BgXFiJS..."`;
+exports[`<ActionMessage /> renders Stake 1`] = `
+Array [
+  "Staked: ",
+  <span
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+  >
+    &lt;0.00001
+     Ⓝ
+  </span>,
+  " ",
+  "with ed25519:BgXFiJS...",
+]
+`;
 
 exports[`<ActionMessage /> renders Transfer 1`] = `
 Array [
-  "Transferred <0.00001 Ⓝ to ",
+  "Transferred ",
+  <span
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+  >
+    &lt;0.00001
+     Ⓝ
+  </span>,
+  " to ",
   <a
     className="account-link"
     href="/accounts/receiver.test"

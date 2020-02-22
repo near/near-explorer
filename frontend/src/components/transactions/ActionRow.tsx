@@ -6,7 +6,7 @@ import ActionRowBlock, { ViewMode, DetalizationMode } from "./ActionRowBlock";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props {
-  action: T.Action | keyof T.Action;
+  action: T.Action;
   transaction: T.Transaction;
   viewMode: ViewMode;
   detalizationMode: DetalizationMode;
@@ -14,9 +14,7 @@ export interface Props {
   showDetails?: boolean;
 }
 
-export interface State {}
-
-export default class extends React.Component<Props, State> {
+export default class extends React.Component<Props> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",
@@ -33,18 +31,7 @@ export default class extends React.Component<Props, State> {
       action,
       showDetails
     } = this.props;
-
-    let actionKind: keyof T.Action;
-    let actionArgs: T.Action;
-    if (typeof action === "string") {
-      actionKind = action;
-      actionArgs = {} as T.Action;
-    } else {
-      actionKind = Object.keys(action)[0] as keyof T.Action;
-      actionArgs = action[actionKind] as T.Action;
-    }
-
-    const ActionIcon = actionIcons[actionKind];
+    const ActionIcon = actionIcons[action.kind];
     return (
       <ActionRowBlock
         viewMode={viewMode}
@@ -55,8 +42,8 @@ export default class extends React.Component<Props, State> {
         title={
           <ActionMessage
             transaction={transaction}
-            actionKind={actionKind}
-            actionArgs={actionArgs}
+            actionKind={action.kind}
+            actionArgs={action.args}
             showDetails={showDetails}
           />
         }

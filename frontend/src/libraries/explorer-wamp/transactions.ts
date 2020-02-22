@@ -7,6 +7,7 @@ export type ExecutionStatus =
   | "SuccessValue";
 
 export interface TransactionInfo {
+  actions: Action[];
   hash: string;
   signerId: string;
   receiverId: string;
@@ -46,7 +47,7 @@ export interface DeleteKey {
   public_key: string;
 }
 
-export interface Action {
+export interface RpcAction {
   CreateAccount: CreateAccount;
   DeleteAccount: DeleteAccount;
   DeployContract: DeployContract;
@@ -57,12 +58,9 @@ export interface Action {
   DeleteKey: DeleteKey;
 }
 
-interface StringActions {
-  actions: string;
-}
-
-export interface Actions {
-  actions: (Action | keyof Action)[];
+export interface Action {
+  kind: keyof RpcAction;
+  args: RpcAction[keyof RpcAction] | {};
 }
 
 export interface ReceiptSuccessValue {
@@ -103,7 +101,6 @@ export interface TransactionOutcomeWrapper {
 }
 
 export type Transaction = TransactionInfo &
-  Actions &
   ReceiptsOutcomeWrapper &
   TransactionOutcomeWrapper;
 
@@ -133,10 +130,8 @@ export default class TransactionsApi extends ExplorerApi {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
     try {
-      const transactions = await this.call<
-        (TransactionInfo & (StringActions | Actions))[]
-      >("select", [
-        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.actions, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
+      const transactions = await this.call<TransactionInfo[]>("select", [
+        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
           FROM transactions
           LEFT JOIN blocks ON blocks.hash = transactions.block_hash
           ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
@@ -162,15 +157,30 @@ export default class TransactionsApi extends ExplorerApi {
             transactionExtraInfo.status
           )[0] as ExecutionStatus;
 
-          try {
-            transaction.actions = JSON.parse(transaction.actions as string);
-          } catch {}
+          // Given we already queried the information from the node, we can use the actions,
+          // since DeployContract.code and FunctionCall.args are stripped away due to their size.
+          //
+          // Once the above TODO is resolved, we should just move this to TransactionInfo method
+          // (i.e. query the information there only for the specific transaction).
+          const actions = transactionExtraInfo.transaction.actions;
+
+          transaction.actions = actions.map((action: RpcAction | string) => {
+            if (typeof action === "string") {
+              return { kind: action, args: {} };
+            } else {
+              const kind = Object.keys(action)[0] as keyof RpcAction;
+              return {
+                kind,
+                args: action[kind]
+              };
+            }
+          });
         })
       );
       return transactions as Transaction[];
     } catch (error) {
       console.error(
-        "Transactions.getTransactionsInfo failed to fetch data due to:"
+        "Transactions.getTransactions failed to fetch data due to:"
       );
       console.error(error);
       throw error;
