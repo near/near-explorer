@@ -72,7 +72,7 @@ export default class extends React.Component<Props, State> {
         tail: this.props.reversed,
         limit: this.props.limit
       })
-      .then(res => this.setState({ transactions: res }))
+      .then(transactions => this.setState({ transactions }))
       .catch(err => console.error(err));
   };
 

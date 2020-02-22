@@ -9,6 +9,7 @@ import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions"
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
+import { transactions } from "nearlib";
 
 interface Props {}
 
@@ -47,8 +48,8 @@ export default class extends React.Component<Props, State> {
     }
     this._transactionsApi
       .getLatestTransactionsInfo(this.state.limit)
-      .then(res => {
-        this.setState({ transactions: res });
+      .then(transactions => {
+        this.setState({ transactions });
       })
       .catch(err => console.error(err));
   };
