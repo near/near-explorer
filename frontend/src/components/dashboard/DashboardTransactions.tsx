@@ -9,8 +9,6 @@ import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions"
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
-import { transactions } from "nearlib";
-
 interface Props {}
 
 interface State {
