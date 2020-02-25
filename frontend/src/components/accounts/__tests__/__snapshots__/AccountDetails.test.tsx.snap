@@ -177,7 +177,7 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               <a
                 className="block-link"
-                href="/blocks/undefined"
+                href="/blocks/FMwFGEPnXdZxKP9rJ9d7WPrK4pVtMy31szMioC5RNQgk"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
