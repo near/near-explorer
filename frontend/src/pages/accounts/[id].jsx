@@ -38,10 +38,11 @@ export default class extends React.Component {
   };
 
   _getBlockHash = async () => {
-     new BlocksApi().getBlockInfo(this.props.storagePaidAt)
-     .then(block => this.setState({blockHash: block.hash}))
-    .catch(err => console.error(err))
-  }
+    new BlocksApi()
+      .getBlockInfo(this.props.storagePaidAt)
+      .then(block => this.setState({ blockHash: block.hash }))
+      .catch(err => console.error(err));
+  };
 
   componentDidMount() {
     this._getBasic();
@@ -58,7 +59,10 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={{ ...this.props, ...this.state }} blockHash={this.state.blockHash}/>
+            <AccountDetails
+              account={{ ...this.props, ...this.state }}
+              blockHash={this.state.blockHash}
+            />
           )}
         </Content>
         <Content
