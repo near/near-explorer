@@ -59,9 +59,7 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails
-              account={{ ...this.props, ...this.state }}
-            />
+            <AccountDetails account={{ ...this.props, ...this.state }} />
           )}
         </Content>
         <Content
