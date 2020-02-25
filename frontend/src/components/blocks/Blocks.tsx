@@ -12,7 +12,10 @@ export interface Props {
 
 export interface State {
   blocks: B.BlockInfo[];
-  loading: boolean;
+}
+
+interface CallBack {
+  (myArgument: B.BlockInfo[]): B.BlockInfo[];
 }
 
 export default class extends React.Component<Props, State> {
@@ -21,29 +24,24 @@ export default class extends React.Component<Props, State> {
   };
 
   state: State = {
-    loading: true,
     blocks: []
   };
 
   _blocksApi: BlocksApi | null;
   timer: ReturnType<typeof setTimeout> | null;
-  _blockLoader: Element | null;
 
   constructor(props: Props) {
     super(props);
     this._blocksApi = null;
     this.timer = null;
-    this._blockLoader = null;
   }
 
   componentDidMount() {
     this._blocksApi = new BlocksApi();
-    document.addEventListener("scroll", this._onScroll);
     this.timer = setTimeout(this.regularFetchInfo, 0);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("scroll", this._onScroll);
     clearTimeout(this.timer!);
     this.timer = null;
   }
@@ -68,59 +66,14 @@ export default class extends React.Component<Props, State> {
     this.setState({ blocks });
   };
 
-  _isAtBottom = () => {
-    return (
-      this._blockLoader &&
-      this._blockLoader.getBoundingClientRect().bottom <= window.innerHeight
-    );
-  };
-
-  _onScroll = async () => {
-    this._blockLoader = document.querySelector("#block");
-    const bottom = this._isAtBottom();
-    if (bottom) {
-      document.removeEventListener("scroll", this._onScroll);
-
-      await this._loadBlocks();
-      this.setState({ loading: false });
-
-      document.addEventListener("scroll", this._onScroll);
-    }
-  };
-
-  _loadBlocks = async () => {
-    const count = await this._getLength();
-    if (count) {
-      if (count <= this.state.blocks.length) {
-        this.setState({ loading: false });
-      } else {
-        await Promise.all([
-          this.setState({ loading: true }),
-          this._addBlocks()
-        ]);
-      }
-    }
-  };
-
-  _getLength = async () => {
-    if (this._blocksApi === null) {
-      this._blocksApi = new BlocksApi();
-    }
-    const count = await this._blocksApi.getBlockLength();
-    return count;
-  };
-
-  _addBlocks = async () => {
-    if (this._blocksApi === null) {
-      this._blocksApi = new BlocksApi();
-    }
-    const lastIndex = this.state.blocks[this.state.blocks.length - 1].height;
-    const blocks = await this._blocksApi.getBlocks(this.props.limit, lastIndex);
-    console.log(blocks);
+  setBlocks = (callback: CallBack) => {
+    this.setState(state => {
+      return { ...state, blocks: callback(state.blocks) };
+    });
   };
 
   render() {
-    const { blocks, loading } = this.state;
+    const { blocks } = this.state;
     if (blocks === []) {
       return <PaginationSpinner hidden={false} />;
     }
@@ -128,9 +81,12 @@ export default class extends React.Component<Props, State> {
       <>
         <div id="block" />
         <FlipMove duration={1000} staggerDurationBy={0}>
-          <BlocksList blocks={blocks} />
+          <BlocksList
+            blocks={blocks}
+            setBlocks={this.setBlocks}
+            limit={this.props.limit}
+          />
         </FlipMove>
-        {loading && <PaginationSpinner hidden={false} />}
       </>
     );
   }
