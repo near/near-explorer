@@ -6,16 +6,18 @@ import { Account } from "../../libraries/explorer-wamp/accounts";
 
 import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
+import BlockLink from "../utils/BlockLink";
 
 export interface Props {
   account: Account;
+  blockHash: string;
 }
 
-export default ({ account }: Props) => {
+export default ({ account, blockHash }: Props) => {
   return (
     <div className="account-info-container">
       <Row noGutters>
-        <Col md="3">
+        <Col md="2">
           <CardCell
             title="Ⓝ Balance"
             text={<Balance amount={account.amount} />}
@@ -46,11 +48,22 @@ export default ({ account }: Props) => {
             text={<Balance amount={account.locked} />}
           />
         </Col>
-        <Col md="4">
+        <Col md="3">
           <CardCell
-            title="Storage (Used / Paid)"
+            title="Storage Used (Bytes)"
+            imgLink="/static/images/icon-storage.svg"
+            text={`${account.storageUsage.toLocaleString()} B`}
+          />
+        </Col>
+        <Col md="2">
+          <CardCell
+            title="Last Paid"
             imgLink="/static/images/icon-m-block.svg"
-            text={`${account.storageUsage.toLocaleString()} / ${account.storagePaidAt.toLocaleString()}`}
+            text={
+              <BlockLink blockHash={blockHash}>
+                {account.storagePaidAt}
+              </BlockLink>
+            }
           />
         </Col>
       </Row>

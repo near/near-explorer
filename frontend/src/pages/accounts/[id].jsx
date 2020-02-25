@@ -5,6 +5,7 @@ import React from "react";
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
 import Transactions from "../../components/transactions/Transactions";
@@ -21,7 +22,8 @@ export default class extends React.Component {
 
   state = {
     timestamp: "loading",
-    address: "loading"
+    address: "loading",
+    blockHash: ""
   };
 
   _getBasic = async () => {
@@ -35,8 +37,15 @@ export default class extends React.Component {
     }
   };
 
+  _getBlockHash = async () => {
+     new BlocksApi().getBlockInfo(this.props.storagePaidAt)
+     .then(block => this.setState({blockHash: block.hash}))
+    .catch(err => console.error(err))
+  }
+
   componentDidMount() {
     this._getBasic();
+    this._getBlockHash();
   }
 
   render() {
@@ -49,7 +58,7 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={{ ...this.props, ...this.state }} />
+            <AccountDetails account={{ ...this.props, ...this.state }} blockHash={this.state.blockHash}/>
           )}
         </Content>
         <Content
