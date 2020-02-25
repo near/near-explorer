@@ -23,7 +23,7 @@ export default class extends React.Component {
   state = {
     timestamp: "loading",
     address: "loading",
-    blockHash: ""
+    blockHash: null
   };
 
   _getBasic = async () => {
@@ -61,7 +61,6 @@ export default class extends React.Component {
           ) : (
             <AccountDetails
               account={{ ...this.props, ...this.state }}
-              blockHash={this.state.blockHash}
             />
           )}
         </Content>

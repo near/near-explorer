@@ -14,7 +14,7 @@ export interface Props {
   blockHash: string;
 }
 
-export default ({ account, blockHash }: Props) => {
+export default ({ account }: Props) => {
   return (
     <div className="account-info-container">
       <Row noGutters>
@@ -61,9 +61,13 @@ export default ({ account, blockHash }: Props) => {
             title="Last Paid"
             imgLink="/static/images/icon-m-block.svg"
             text={
-              <BlockLink blockHash={blockHash}>
-                {account.storagePaidAt}
-              </BlockLink>
+              account.blockHash ? (
+                <BlockLink blockHash={account.blockHash}>
+                  #{account.storagePaidAt}
+                </BlockLink>
+              ) : (
+                `#${account.storagePaidAt.toLocaleString()}`
+              )
             }
           />
         </Col>

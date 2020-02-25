@@ -175,14 +175,7 @@ exports[`<AccountDetails /> renders 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="block-link"
-                href="/blocks/FMwFGEPnXdZxKP9rJ9d7WPrK4pVtMy31szMioC5RNQgk"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                1
-              </a>
+              #1
             </div>
           </div>
         </div>

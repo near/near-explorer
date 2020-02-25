@@ -4,6 +4,7 @@ export interface AccountBasicInfo {
   id: string;
   timestamp: number | string;
   address: string;
+  blockHash?: string;
 }
 
 interface AccountStats {
