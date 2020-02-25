@@ -7,6 +7,7 @@ import { Account } from "../../libraries/explorer-wamp/accounts";
 import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
 import BlockLink from "../utils/BlockLink";
+import TransactionLink from "../utils/TransactionLink";
 
 export interface Props {
   account: Account;
@@ -68,7 +69,7 @@ export default ({ account, blockHash }: Props) => {
         </Col>
       </Row>
       <Row noGutters className="border-0">
-        <Col md="4">
+        <Col md="5">
           <CardCell
             title="Created"
             text={
@@ -81,10 +82,14 @@ export default ({ account, blockHash }: Props) => {
             className="block-card-created account-card-back border-0"
           />
         </Col>
-        <Col md="8">
+        <Col md="7">
           <CardCell
-            title="Address"
-            text={account.address}
+            title="Creation Hash"
+            text={
+              <TransactionLink transactionHash={account.address}>
+                {account.address}
+              </TransactionLink>
+            }
             className="block-card-created-text account-card-back border-0"
           />
         </Col>
