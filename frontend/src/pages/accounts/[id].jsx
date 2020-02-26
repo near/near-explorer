@@ -21,15 +21,19 @@ export default class extends React.Component {
 
   state = {
     timestamp: "loading",
-    address: "loading",
+    address: "loading"
   };
 
   _getBasic = async () => {
     new AccountsApi()
       .getAccountBasic(this.props.id)
-      .then(basic =>this.setState({ timestamp: basic.timestamp, address: basic.address }) )
-      .catch(err => {this.setState({ timestamp: "genesis time", address: "from genesis" });
-                      console.error(err)});
+      .then(basic =>
+        this.setState({ timestamp: basic.timestamp, address: basic.address })
+      )
+      .catch(err => {
+        this.setState({ timestamp: "genesis time", address: "from genesis" });
+        console.error(err);
+      });
   };
 
   componentDidMount() {
