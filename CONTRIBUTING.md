@@ -43,10 +43,26 @@ style.
 Please follow the rules to import external and internal libraries and component for backend and fronend:
 
 1. standard JS/node.js library imports (backend only, not applicable to frontend)
-2. generic JS libraries (e.g. `bn.js`, `moment`)
-3. framework imports (`import Head from "next/head"`)
-4. framework core libraries (`import React from "react"`)
-5. external framework libraries (`import { Row, Col } from "react-bootstrap"`)
-6. common internal modules (`import BlocksApi from "../../libraries/explorer-wamp/blocks"`)
-7. local internal modules sorted from higher hierarchy to local scope (`import FlipMove from "../utils/FlipMove"` > `import BlocksList from "./BlocksList"`)
+2. generic JS libraries
+3. framework imports
+4. framework core libraries
+5. external framework libraries
+6. common internal modules
+7. local internal modules sorted from higher hierarchy to local scope
    Also, maintain alphabetical order by a package/module name (the thing after `from` keyword) inside the groups.
+
+Here is an example:
+
+```
+import Link from "next/link";
+
+import React from "react";
+
+import { Row, Col } from "react-bootstrap";
+
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
+
+import FlipMove from "../utils/FlipMove";
+import DashboardBlocksBlock from "./DashboardBlocksBlock";
+import PaginationSpinner from "../utils/PaginationSpinner";
+```
