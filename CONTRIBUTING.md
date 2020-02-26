@@ -78,6 +78,6 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
 ```
 
-### Naming
+### Naming Conventions
 
-We follow [airbnb naming conventions](https://github.com/airbnb/javascript#naming-conventions).
+We follow [AirBnB Style Guide for Naming Conventions](https://github.com/airbnb/javascript#naming-conventions).
