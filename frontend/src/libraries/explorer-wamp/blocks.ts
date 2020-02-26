@@ -4,7 +4,7 @@ export interface BlockInfo {
   hash: string;
   height: number;
   timestamp: number;
-  prevHash?: string;
+  prevHash: string;
   transactionsCount: number;
 }
 

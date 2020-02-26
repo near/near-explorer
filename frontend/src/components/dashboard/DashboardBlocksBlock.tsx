@@ -3,7 +3,7 @@ import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
 
 import Timer from "../utils/Timer";
-import { Props } from "../blocks/BlocksRow";
+import { Props } from "../blocks/BlockDetails";
 
 export default class extends React.Component<Props> {
   render() {
