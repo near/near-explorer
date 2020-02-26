@@ -1,10 +1,17 @@
 import moment from "moment";
+
 import { Row, Col } from "react-bootstrap";
+
+import * as B from "../../libraries/explorer-wamp/blocks";
 
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
 
-export default ({ block }) => {
+export interface Props {
+  block: B.BlockInfo;
+}
+
+export default ({ block }: Props) => {
   return (
     <>
       <Row noGutters>
@@ -37,12 +44,7 @@ export default ({ block }) => {
               />
             </Col>
             <Col md="8">
-              <CardCell
-                title="Hash"
-                text={block.hash}
-                textCls="block-card-created-text"
-                className="border-0"
-              />
+              <CardCell title="Hash" text={block.hash} className="border-0" />
             </Col>
           </Row>
           <Row noGutters>
