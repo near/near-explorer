@@ -1,8 +1,8 @@
 import { Row, Col } from "react-bootstrap";
-import FlipMove from "../utils/FlipMove";
 
 import NodesApi from "../../libraries/explorer-wamp/nodes";
 
+import FlipMove from "../utils/FlipMove";
 import NodeRow from "./NodeRow";
 
 export default class extends React.Component {

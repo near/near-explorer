@@ -1,10 +1,10 @@
 import React from "react";
-import PaginationSpinner from "../utils/PaginationSpinner";
 
-import BlocksList from "./BlocksList";
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
 import FlipMove from "../utils/FlipMove";
+import PaginationSpinner from "../utils/PaginationSpinner";
+import BlocksList from "./BlocksList";
 
 export interface Props {
   limit: number;

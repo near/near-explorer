@@ -1,14 +1,17 @@
-import React from "react";
 import Link from "next/link";
+
+import React from "react";
+
 import { Row, Col } from "react-bootstrap";
 
-import IconBlocks from "../../../public/static/images/icon-blocks.svg";
-
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
+
 import FlipMove from "../utils/FlipMove";
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
 import PaginationSpinner from "../utils/PaginationSpinner";
 import { Props, State } from "../blocks/Blocks";
+
+import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
 export default class extends React.Component<Props, State> {
   static defaultProps = {

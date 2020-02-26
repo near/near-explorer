@@ -1,7 +1,10 @@
-import React from "react";
-import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
-import BlocksRow from "./BlocksRow";
 import InfiniteScroll from "react-infinite-scroll-component";
+
+import React from "react";
+
+import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
+
+import BlocksRow from "./BlocksRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 export interface Props {

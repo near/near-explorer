@@ -1,5 +1,7 @@
 import Link from "next/link";
+
 import React from "react";
+
 import { Row, Col, Card } from "react-bootstrap";
 
 import Timer from "../utils/Timer";
