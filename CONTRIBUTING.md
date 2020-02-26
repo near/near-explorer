@@ -37,3 +37,16 @@ Once Pull Request is ready and reviewed by the code owners, it gets squashed int
 where the commit message should follow
 [Conventional Commits](https://commonwealth.im/near/proposal/discussion/264-the-commit-template)
 style.
+
+## Import Order and Group
+
+Please follow the rules to import external and internal libraries and component for backend and fronend:
+
+1. standard JS/node.js library imports (backend only, not applicable to frontend)
+2. generic JS libraries (e.g. `bn.js`, `moment`)
+3. framework imports (`import Head from "next/head"`)
+4. framework core libraries (`import React from "react"`)
+5. external framework libraries (`import { Row, Col } from "react-bootstrap"`)
+6. common internal modules (`import BlocksApi from "../../libraries/explorer-wamp/blocks"`)
+7. local internal modules sorted from higher hierarchy to local scope (`import FlipMove from "../utils/FlipMove"` > `import BlocksList from "./BlocksList"`)
+   Also, maintain alphabetical order by a package/module name (the thing after `from` keyword) inside the groups.
