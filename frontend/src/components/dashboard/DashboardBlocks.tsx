@@ -1,50 +1,95 @@
-import React from "react";
-
 import Link from "next/link";
 
-import { Row, Col } from "react-bootstrap";
+import React from "react";
 
-import IconBlocks from "../../../public/static/images/icon-blocks.svg";
+import { Row, Col } from "react-bootstrap";
 
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import FlipMove from "../utils/FlipMove";
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
+import PaginationSpinner from "../utils/PaginationSpinner";
+import { Props, State } from "../blocks/Blocks";
 
-export default class extends React.Component {
-  state = {
-    blocks: this.props.blocks
+import IconBlocks from "../../../public/static/images/icon-blocks.svg";
+
+export default class extends React.Component<Props, State> {
+  static defaultProps = {
+    limit: 8
   };
 
-  componentDidMount() {
-    this.regularFetchInfo();
-  }
+  state: State = {
+    blocks: []
+  };
 
-  componentWillUnmount() {
-    clearTimeout(this.timer);
+  _blocksApi: BlocksApi | null;
+  timer: ReturnType<typeof setTimeout> | null;
+
+  constructor(props: Props) {
+    super(props);
+    this._blocksApi = null;
     this.timer = null;
   }
 
-  fetchInfo = async () => {
-    const blocks = await new BlocksApi()
-      .getLatestBlocksInfo(8)
-      .catch(() => null);
-    this.setState({ blocks });
-  };
+  componentDidMount() {
+    this._blocksApi = new BlocksApi();
+    this.timer = setTimeout(this.regularFetchInfo, 0);
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer!);
+    this.timer = null;
+  }
 
   regularFetchInfo = async () => {
-    await this.fetchInfo();
+    await this.getBlocks();
     if (this.timer !== null) {
       this.timer = setTimeout(this.regularFetchInfo, 10000);
     }
   };
+
+  getBlocks = async () => {
+    if (this._blocksApi === null) {
+      this._blocksApi = new BlocksApi();
+    }
+    this._blocksApi
+      .getLatestBlocksInfo(this.props.limit)
+      .then(blocks => this.setState({ blocks }))
+      .catch(err => console.error(err));
+  };
+
   render() {
     const { blocks } = this.state;
+    let blockShow = <PaginationSpinner hidden={false} />;
+    if (blocks.length > 0) {
+      blockShow = (
+        <>
+          <FlipMove
+            duration={1000}
+            staggerDurationBy={0}
+            className="row gutter-4"
+          >
+            {blocks.map(block => (
+              <DashboardBlocksBlock key={block.hash} block={block} />
+            ))}
+          </FlipMove>
+          <Row>
+            <Col xs="6">
+              <Link href="blocks">
+                <a className="dashboard-footer">View All</a>
+              </Link>
+            </Col>
+          </Row>
+        </>
+      );
+    }
     return (
       <>
         <Row>
           <Col xs="1">
-            <IconBlocks className="dashboard-blocks-icon" />
+            <div className="dashboard-blocks-icon">
+              <IconBlocks />
+            </div>
           </Col>
           <Col className="dashboard-blocks-title">
             <h2>Recent Blocks</h2>
@@ -56,30 +101,7 @@ export default class extends React.Component {
               <div className="dashboard-blocks-hr" />
             </div>
           </Col>
-          <Col>
-            <FlipMove
-              duration={1000}
-              staggerDurationBy={0}
-              className="row gutter-4"
-            >
-              {blocks.map(block => (
-                <DashboardBlocksBlock
-                  key={block.hash}
-                  blockHash={block.hash}
-                  blockHeight={block.height}
-                  blockTimestamp={block.timestamp}
-                  transactionsCount={block.transactionsCount}
-                />
-              ))}
-            </FlipMove>
-            <Row>
-              <Col xs="6">
-                <Link href="blocks">
-                  <a className="dashboard-footer">View All</a>
-                </Link>
-              </Col>
-            </Row>
-          </Col>
+          <Col>{blockShow}</Col>
         </Row>
         <style jsx global>{`
           .dashboard-blocks-icon {

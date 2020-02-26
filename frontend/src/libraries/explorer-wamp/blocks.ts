@@ -1,7 +1,15 @@
 import { ExplorerApi } from ".";
 
+export interface BlockInfo {
+  hash: string;
+  height: number;
+  timestamp: number;
+  prevHash: string;
+  transactionsCount: number;
+}
+
 export default class BlocksApi extends ExplorerApi {
-  async searchBlocks(keyword, height = -1, limit = 15) {
+  async searchBlocks(keyword: string, height = -1, limit = 15) {
     try {
       return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
@@ -25,24 +33,14 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getTotal() {
-    try {
-      return await this.call("select", [
-        `SELECT COUNT(blocks.hash) AS total FROM blocks`
-      ]).then(it => it[0].total);
-    } catch (error) {
-      console.error("Blocks.getTotal failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
-  }
-
-  async getLatestBlocksInfo(limit = 15) {
+  async getBlocks(limit = 15, lastHeight: number = -1): Promise<BlockInfo[]> {
     try {
       return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash FROM blocks
+            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
+            FROM blocks
+            WHERE blocks.height < :lastHeight
             ORDER BY blocks.height DESC
             LIMIT :limit
           ) as blocks
@@ -50,19 +48,24 @@ export default class BlocksApi extends ExplorerApi {
           GROUP BY blocks.hash
           ORDER BY blocks.height DESC`,
         {
-          limit
+          limit,
+          lastHeight: lastHeight === -1 ? "MAX(blocks.height)" : lastHeight
         }
       ]);
     } catch (error) {
-      console.error("Blocks.getBlocksInfo[] failed to fetch data due to:");
+      console.error("Blocks.getBlocks failed to fetch data due to:");
       console.error(error);
       throw error;
     }
   }
 
-  async getBlockInfo(blockId) {
+  async getLatestBlocksInfo(limit: number = 8): Promise<BlockInfo[]> {
+    return this.getBlocks(limit);
+  }
+
+  async getBlockInfo(blockId: string): Promise<BlockInfo> {
     try {
-      const block = await this.call("select", [
+      const block = await this.call<any>("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash
@@ -81,32 +84,6 @@ export default class BlocksApi extends ExplorerApi {
       return block;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
-  }
-
-  async getPreviousBlocks(lastBlockHeight, limit = 15) {
-    try {
-      return await this.call("select", [
-        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
-          FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash
-            FROM blocks
-            WHERE blocks.height < :height
-            ORDER BY blocks.height DESC
-            LIMIT :limit
-          ) as blocks
-          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
-          GROUP BY blocks.hash
-          ORDER BY blocks.height DESC`,
-        {
-          height: lastBlockHeight,
-          limit
-        }
-      ]);
-    } catch (error) {
-      console.error("Blocks.getPreviousBlocks failed to fetch data due to:");
       console.error(error);
       throw error;
     }
