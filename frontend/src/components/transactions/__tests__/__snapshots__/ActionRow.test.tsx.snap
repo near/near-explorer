@@ -15,8 +15,8 @@ exports[`<ActionRow /> renders compact 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M11.26 9l-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
-          fill="#0071ce"
+          d="M18 18v-3.6L8.92 5.32A4.5 4.5 0 1 0 4.5 9a4.47 4.47 0 0 0 .82-.08L14.4 18zM3 4.5A1.5 1.5 0 1 1 4.5 6 1.5 1.5 0 0 1 3 4.5z"
+          fill="#5ace84"
         />
       </svg>
     </div>
@@ -36,7 +36,7 @@ exports[`<ActionRow /> renders compact 1`] = `
           <div
             className="action-row-title col"
           >
-            New account created: 
+            New key added for 
             <a
               className="account-link"
               href="/accounts/receiver.test"
@@ -45,6 +45,7 @@ exports[`<ActionRow /> renders compact 1`] = `
             >
               @receiver.test
             </a>
+            : ed25519:8LXEySy...
           </div>
         </div>
         <div
@@ -152,12 +153,46 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             >
               @receiver.test
             </a>
-            Arguments in method: 
-            <pre>
-               
-              {"value":1}
-               
-            </pre>
+            <dl>
+              <dt>
+                Arguments:
+              </dt>
+              <dd>
+                <div>
+                  <div
+                    style={
+                      Object {
+                        "display": "block",
+                        "height": "0px",
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <textarea
+                      className="jsx-3751390317 code-preview"
+                      readOnly={true}
+                    >
+                      {
+  "value": 1
+}
+                    </textarea>
+                  </div>
+                  <div
+                    onClick={[Function]}
+                  >
+                    <div
+                      style={
+                        Object {
+                          "float": "left",
+                        }
+                      }
+                    >
+                      Show more
+                    </div>
+                  </div>
+                </div>
+              </dd>
+            </dl>
           </div>
         </div>
         <div

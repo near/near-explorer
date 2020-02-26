@@ -14,7 +14,6 @@ export interface Props {
 
 export interface State {
   transactions: T.Transaction[];
-  loading: Boolean;
 }
 
 export default class extends React.Component<Props, State> {
@@ -24,8 +23,7 @@ export default class extends React.Component<Props, State> {
   };
 
   state: State = {
-    transactions: [],
-    loading: true
+    transactions: []
   };
 
   _transactionsApi: TransactionsApi | null;
@@ -47,12 +45,10 @@ export default class extends React.Component<Props, State> {
 
   componentDidMount() {
     this._transactionsApi = new TransactionsApi();
-    document.addEventListener("scroll", this._onScroll);
     this.timer = setTimeout(this.regularFetchInfo, 0);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("scroll", this._onScroll);
     clearTimeout(this.timer!);
     this.timer = null;
   }
@@ -68,87 +64,21 @@ export default class extends React.Component<Props, State> {
     if (this._transactionsApi === null) {
       this._transactionsApi = new TransactionsApi();
     }
-    let transactions;
-    if (this.state.transactions.length === 0) {
-      transactions = (await this._transactionsApi.getTransactions({
+    this._transactionsApi
+      .getTransactions({
         signerId: this.props.accountId,
         receiverId: this.props.accountId,
         blockHash: this.props.blockHash,
         tail: this.props.reversed,
         limit: this.props.limit
-      })) as T.Transaction[];
-    } else {
-      transactions = (await this._transactionsApi.getTransactions({
-        signerId: this.props.accountId,
-        receiverId: this.props.accountId,
-        blockHash: this.props.blockHash,
-        tail: this.props.reversed,
-        limit: this.state.transactions.length
-      })) as T.Transaction[];
-    }
-    this.setState({ transactions });
-  };
-
-  _isAtBottom = () => {
-    return (
-      this._transactionLoader &&
-      this._transactionLoader.getBoundingClientRect().bottom <=
-        window.innerHeight
-    );
-  };
-
-  _onScroll = async () => {
-    this._transactionLoader = document.querySelector("#tx");
-    const bottom = this._isAtBottom();
-    if (bottom) {
-      document.removeEventListener("scroll", this._onScroll);
-      await this._loadTransactions();
-      this.setState({ loading: false });
-      document.addEventListener("scroll", this._onScroll);
-    }
-  };
-
-  _loadTransactions = async () => {
-    const count = await this._getLength();
-    if (count) {
-      if (count <= this.state.transactions.length) {
-        this.setState({ loading: false });
-      } else {
-        await Promise.all([
-          this.setState({ loading: true }),
-          this._addTransactions()
-        ]);
-      }
-    }
-  };
-
-  _addTransactions = async () => {
-    if (this._transactionsApi === null) {
-      this._transactionsApi = new TransactionsApi();
-    }
-    const transactions = (await this._transactionsApi.getTransactions({
-      signerId: this.props.accountId,
-      receiverId: this.props.accountId,
-      blockHash: this.props.blockHash,
-      tail: this.props.reversed,
-      limit: this.props.limit,
-      lastIndex: this.state.transactions[0].txHeight
-    })) as T.Transaction[];
-    const _transactions = this.state.transactions;
-    const Transactions = transactions.concat(_transactions);
-    this.setState({ transactions: Transactions });
-  };
-
-  _getLength = async () => {
-    if (this._transactionsApi === null) {
-      this._transactionsApi = new TransactionsApi();
-    }
-    return await this._transactionsApi.getTXLength(this.props.accountId);
+      })
+      .then(transactions => this.setState({ transactions }))
+      .catch(err => console.error(err));
   };
 
   render() {
-    const { transactions, loading } = this.state;
-    if (transactions === []) {
+    const { transactions } = this.state;
+    if (transactions.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
@@ -161,7 +91,6 @@ export default class extends React.Component<Props, State> {
             />
           </FlipMove>
         </div>
-        {loading && <PaginationSpinner hidden={false} />}
       </>
     );
   }

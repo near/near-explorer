@@ -1,0 +1,169 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BlockDetails /> renders 1`] = `
+<div
+  className="row no-gutters"
+>
+  <div
+    className="block-info-container col"
+  >
+    <div
+      className="block-info-header row no-gutters"
+    >
+      <div
+        className="col-md-3"
+      >
+        <div
+          className="card-cell border-0 card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="card-cell-title align-self-center col-md-12 col-auto"
+              >
+                <img
+                  className="jsx-3005147464 card-cell-title-img"
+                  src="/static/images/icon-m-transaction.svg"
+                />
+                Transactions
+              </div>
+              <div
+                className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              >
+                3
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-md-2"
+      >
+        <div
+          className="card-cell  card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="card-cell-title align-self-center col-md-12 col-auto"
+              >
+                <img
+                  className="jsx-3005147464 card-cell-title-img"
+                  src="/static/images/icon-m-size.svg"
+                />
+                Size
+              </div>
+              <div
+                className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              >
+                TODO
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="border-0 row no-gutters"
+    >
+      <div
+        className="col-md-4"
+      >
+        <div
+          className="card-cell block-card-created border-0 card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="card-cell-title align-self-center col-md-12 col-auto"
+              >
+                Created
+              </div>
+              <div
+                className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              >
+                February 01, 2019 at 12:00:00am
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-md-8"
+      >
+        <div
+          className="card-cell border-0 card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="card-cell-title align-self-center col-md-12 col-auto"
+              >
+                Hash
+              </div>
+              <div
+                className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              >
+                EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="col-md-12"
+      >
+        <div
+          className="card-cell block-card-parent-hash border-0 card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="card-cell-title align-self-center col-md-12 col-auto"
+              >
+                Parent Hash
+              </div>
+              <div
+                className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              >
+                <a
+                  className="block-link"
+                  href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,40 +1,37 @@
 import Link from "next/link";
+
 import React from "react";
 
 import { Row, Col, Card } from "react-bootstrap";
 
 import Timer from "../utils/Timer";
+import { Props } from "../blocks/BlockDetails";
 
-export default class extends React.Component {
+export default class extends React.Component<Props> {
   render() {
-    const {
-      blockHash,
-      blockHeight,
-      blockTimestamp,
-      transactionsCount
-    } = this.props;
+    const { block } = this.props;
     return (
       <Col xs={12} xl={6}>
-        <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
+        <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`}>
           <a className="dashboard-blocks-block-link">
             <Card className="dashboard-blocks-block">
               <Card.Title className="dashboard-blocks-block-title">
-                #{blockHeight}
+                #{block.height}
               </Card.Title>
               <Card.Body className="dashboard-blocks-block-content">
                 <p className="dashboard-blocks-block-content-p">
                   <img src="/static/images/icon-m-transaction.svg" />
-                  {transactionsCount}
+                  {block.transactionsCount}
                 </p>
                 <Row noGutters>
                   <Col md="7" xs="7">
                     <span className="dashboard-blocks-block-content-p-footer">
-                      {blockHash.slice(0, 6)}...
+                      {block.hash.slice(0, 6)}...
                     </span>
                   </Col>
                   <Col md="5" xs="5" className="align-self-center text-right">
                     <span className="dashboard-blocks-block-timer">
-                      <Timer time={blockTimestamp} />
+                      <Timer time={block.timestamp} />
                     </span>
                   </Col>
                 </Row>

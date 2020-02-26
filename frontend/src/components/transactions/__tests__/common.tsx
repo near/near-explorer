@@ -1,6 +1,7 @@
 import * as T from "../../../libraries/explorer-wamp/transactions";
 
 export const TRANSACTIONS: T.Transaction[] = [
+  // no action has deposit
   {
     hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     signerId: "signer.test",
@@ -10,21 +11,20 @@ export const TRANSACTIONS: T.Transaction[] = [
     txHeight: 123456,
     blockTimestamp: +new Date(2019, 1, 1),
     actions: [
-      "CreateAccount" as keyof T.Action,
       {
-        Transfer: {
-          deposit: "10000000000000000000"
-        } as T.Transfer
-      } as T.Action,
+        kind: "CreateAccount",
+        args: {}
+      },
       {
-        AddKey: {
+        kind: "AddKey",
+        args: {
           access_key: {
             nonce: 0,
             permission: "FullAccess"
           },
           public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx"
-        } as T.AddKey
-      } as T.Action
+        }
+      }
     ],
     receiptsOutcome: [
       {
@@ -69,7 +69,7 @@ export const TRANSACTIONS: T.Transaction[] = [
       }
     }
   },
-
+  //one deposit with small amount
   {
     hash: "222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     signerId: "signer2.test",
@@ -80,14 +80,60 @@ export const TRANSACTIONS: T.Transaction[] = [
     blockTimestamp: +new Date(2019, 1, 1),
     actions: [
       {
-        FunctionCall: {
+        kind: "FunctionCall",
+        args: {
           result: "",
           args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
-          deposit: "0",
+          deposit: "100000",
           gas: 2000000,
           method_name: "addMessage"
-        } as T.FunctionCall
-      } as T.Action
+        }
+      }
+    ],
+    receiptsOutcome: [
+      {
+        id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
+        block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
+        outcome: {
+          logs: ["LOG: Counter is now: 1"],
+          receipt_ids: [],
+          status: { SuccessValue: "" },
+          gas_burnt: 0
+        }
+      }
+    ],
+    transactionOutcome: {
+      id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+      outcome: {
+        logs: [],
+        receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
+        status: { SuccessValue: null },
+        gas_burnt: 0
+      }
+    }
+  },
+  //multi deposit with huge amount
+  {
+    hash: "222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVxxx",
+    signerId: "signer2.test",
+    receiverId: "receiver2.test",
+    status: "SuccessValue",
+    blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
+    blockTimestamp: +new Date(2019, 1, 1),
+    actions: [
+      {
+        kind: "Transfer",
+        args: {
+          deposit: "50000000000000000000"
+        }
+      },
+      {
+        kind: "Transfer",
+        args: {
+          deposit: "90000000000000000000"
+        }
+      }
     ],
     receiptsOutcome: [
       {

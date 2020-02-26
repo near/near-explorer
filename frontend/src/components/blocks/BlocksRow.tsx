@@ -1,12 +1,19 @@
-import React from "react";
-
 import Link from "next/link";
+
+import React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
+import * as B from "../../libraries/explorer-wamp/blocks";
+
 import Timer from "../utils/Timer";
 
-export default class extends React.PureComponent {
+export interface Props {
+  block: B.BlockInfo;
+  cls?: string;
+}
+
+export default class extends React.PureComponent<Props> {
   render() {
     const { block } = this.props;
     return (
