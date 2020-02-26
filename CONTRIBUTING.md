@@ -38,22 +38,33 @@ where the commit message should follow
 [Conventional Commits](https://commonwealth.im/near/proposal/discussion/264-the-commit-template)
 style.
 
-## Import Order and Group
+## Code Style
 
-Please follow the rules to import external and internal libraries and component for backend and fronend:
+We use [prettier](https://prettier.io/) with the default config to ensure the code style for NEAR Explorer. We check for the code style on CI. However, we have some extra rules to make our code base even more consistent.
 
-1. standard JS/node.js library imports (backend only, not applicable to frontend)
+### Imports Ordering and Grouping
+
+We use the following order to group our imports:
+
+1. standard JS/node.js library imports
 2. generic JS libraries
 3. framework imports
 4. framework core libraries
 5. external framework libraries
 6. common internal modules
-7. local internal modules sorted from higher hierarchy to local scope
-   Also, maintain alphabetical order by a package/module name (the thing after `from` keyword) inside the groups.
+7. local internal modules (sorted from higher hierarchy to local scope)
 
-Here is an example:
+We maintain alphabetical order by a package/module name (the thing after `from` keyword) inside each group.
 
-```
+Here is an artificial example:
+
+```javascript
+import url from "url";
+
+import BN from "bn.js";
+import moment from "moment";
+
+import Head from "next/head";
 import Link from "next/link";
 
 import React from "react";
@@ -63,6 +74,10 @@ import { Row, Col } from "react-bootstrap";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import FlipMove from "../utils/FlipMove";
-import DashboardBlocksBlock from "./DashboardBlocksBlock";
 import PaginationSpinner from "../utils/PaginationSpinner";
+import DashboardBlocksBlock from "./DashboardBlocksBlock";
 ```
+
+### Naming
+
+We follow [airbnb naming conventions](https://github.com/airbnb/javascript#naming-conventions).
