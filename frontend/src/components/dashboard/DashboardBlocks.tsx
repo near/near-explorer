@@ -5,11 +5,9 @@ import { Row, Col } from "react-bootstrap";
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
-
 import FlipMove from "../utils/FlipMove";
-
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
-
+import PaginationSpinner from "../utils/PaginationSpinner";
 import { Props, State } from "../blocks/Blocks";
 
 export default class extends React.Component<Props, State> {
@@ -59,11 +57,42 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { blocks } = this.state;
+    let blockShow = <PaginationSpinner hidden={false} />;
+    if (blocks.length > 0) {
+      blockShow = (
+        <>
+          <FlipMove
+            duration={1000}
+            staggerDurationBy={0}
+            className="row gutter-4"
+          >
+            {blocks.map(block => (
+              <DashboardBlocksBlock
+                key={block.hash}
+                blockHash={block.hash}
+                blockHeight={block.height}
+                blockTimestamp={block.timestamp}
+                transactionsCount={block.transactionsCount}
+              />
+            ))}
+          </FlipMove>
+          <Row>
+            <Col xs="6">
+              <Link href="blocks">
+                <a className="dashboard-footer">View All</a>
+              </Link>
+            </Col>
+          </Row>
+        </>
+      );
+    }
     return (
       <>
         <Row>
           <Col xs="1">
-            <IconBlocks />
+            <div className="dashboard-blocks-icon">
+              <IconBlocks />
+            </div>
           </Col>
           <Col className="dashboard-blocks-title">
             <h2>Recent Blocks</h2>
@@ -75,30 +104,7 @@ export default class extends React.Component<Props, State> {
               <div className="dashboard-blocks-hr" />
             </div>
           </Col>
-          <Col>
-            <FlipMove
-              duration={1000}
-              staggerDurationBy={0}
-              className="row gutter-4"
-            >
-              {blocks.map(block => (
-                <DashboardBlocksBlock
-                  key={block.hash}
-                  blockHash={block.hash}
-                  blockHeight={block.height}
-                  blockTimestamp={block.timestamp}
-                  transactionsCount={block.transactionsCount}
-                />
-              ))}
-            </FlipMove>
-            <Row>
-              <Col xs="6">
-                <Link href="blocks">
-                  <a className="dashboard-footer">View All</a>
-                </Link>
-              </Col>
-            </Row>
-          </Col>
+          <Col>{blockShow}</Col>
         </Row>
         <style jsx global>{`
           .dashboard-blocks-icon {
