@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BlockDetails /> renders 1`] = `
+<div
+  className="col-xl-6 col-12"
+>
+  <a
+    className="jsx-1776142549 dashboard-blocks-block-link"
+    href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    <div
+      className="dashboard-blocks-block card"
+    >
+      <div
+        className="dashboard-blocks-block-title card-title h5"
+      >
+        #
+        12345
+      </div>
+      <div
+        className="dashboard-blocks-block-content card-body"
+      >
+        <p
+          className="jsx-1776142549 dashboard-blocks-block-content-p"
+        >
+          <img
+            className="jsx-1776142549"
+            src="/static/images/icon-m-transaction.svg"
+          />
+          3
+        </p>
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="col-md-7 col-7"
+          >
+            <span
+              className="jsx-1776142549 dashboard-blocks-block-content-p-footer"
+            >
+              EVvWW1
+              ...
+            </span>
+          </div>
+          <div
+            className="align-self-center text-right col-md-5 col-5"
+          >
+            <span
+              className="jsx-1776142549 dashboard-blocks-block-timer"
+            >
+              <span>
+                1s ago
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>
+`;
