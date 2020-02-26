@@ -1,17 +1,17 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
 import moment from "moment";
+
+import React from "react";
+
+import { Row, Col } from "react-bootstrap";
 
 import { Account } from "../../libraries/explorer-wamp/accounts";
 
 import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
-import BlockLink from "../utils/BlockLink";
 import TransactionLink from "../utils/TransactionLink";
 
 export interface Props {
   account: Account;
-  blockHash: string;
 }
 
 export default ({ account }: Props) => {
@@ -60,15 +60,7 @@ export default ({ account }: Props) => {
           <CardCell
             title="Last Paid"
             imgLink="/static/images/icon-m-block.svg"
-            text={
-              account.blockHash ? (
-                <BlockLink blockHash={account.blockHash}>
-                  #{account.storagePaidAt}
-                </BlockLink>
-              ) : (
-                `#${account.storagePaidAt.toLocaleString()}`
-              )
-            }
+            text={`#${account.storagePaidAt.toLocaleString()}`}
           />
         </Col>
       </Row>
