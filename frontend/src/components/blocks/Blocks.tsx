@@ -63,7 +63,9 @@ export default class extends React.Component<Props, State> {
     } else {
       blocks = await this._blocksApi.getBlocks(this.state.blocks.length);
     }
-    this.setState({ blocks });
+    if (blocks.length > 0) {
+      this.setState({ blocks });
+    }
   };
 
   setBlocks = (callback: CallBack) => {
