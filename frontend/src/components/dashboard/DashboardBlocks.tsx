@@ -67,13 +67,7 @@ export default class extends React.Component<Props, State> {
             className="row gutter-4"
           >
             {blocks.map(block => (
-              <DashboardBlocksBlock
-                key={block.hash}
-                blockHash={block.hash}
-                blockHeight={block.height}
-                blockTimestamp={block.timestamp}
-                transactionsCount={block.transactionsCount}
-              />
+              <DashboardBlocksBlock key={block.hash} block={block} />
             ))}
           </FlipMove>
           <Row>

@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import * as B from "../../libraries/explorer-wamp/blocks";
 import Timer from "../utils/Timer";
 
-interface Props {
+export interface Props {
   block: B.BlockInfo;
   cls?: string;
 }
