@@ -55,7 +55,7 @@ subpackages nicely)
 To contribute to NEAR Explorer, please see [CONTRIBUTING](CONTRIBUTING.md).
 
 Most real-time collaboration happens in a variety of channels on the
-[NEAR Discord server][https://near.chat], with channels dedicated for getting help, community,
+[NEAR Discord server](https://near.chat), with channels dedicated for getting help, community,
 documentation, and all major contribution areas in the NEAR ecosystem. A good place to ask
 for help would be the #general channel.
 

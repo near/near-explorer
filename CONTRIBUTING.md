@@ -37,3 +37,47 @@ Once Pull Request is ready and reviewed by the code owners, it gets squashed int
 where the commit message should follow
 [Conventional Commits](https://commonwealth.im/near/proposal/discussion/264-the-commit-template)
 style.
+
+## Code Style
+
+We use [prettier](https://prettier.io/) with the default config to ensure the code style for NEAR Explorer. We check for the code style on CI. However, we have some extra rules to make our code base even more consistent.
+
+### Imports Ordering and Grouping
+
+We use the following order to group our imports:
+
+1. standard JS/node.js library imports
+2. generic JS libraries
+3. framework imports
+4. framework core libraries
+5. external framework libraries
+6. common internal modules
+7. local internal modules (sorted from higher hierarchy to local scope)
+
+We maintain alphabetical order by a package/module name (the thing after `from` keyword) inside each group.
+
+Here is an artificial example:
+
+```javascript
+import url from "url";
+
+import BN from "bn.js";
+import moment from "moment";
+
+import Head from "next/head";
+import Link from "next/link";
+
+import React from "react";
+
+import { Row, Col } from "react-bootstrap";
+
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
+
+import FlipMove from "../utils/FlipMove";
+import PaginationSpinner from "../utils/PaginationSpinner";
+import DashboardBlocksBlock from "./DashboardBlocksBlock";
+```
+
+### Naming Conventions
+
+We follow [AirBnB Style Guide for Naming Conventions](https://github.com/airbnb/javascript#naming-conventions).
