@@ -1,73 +1,43 @@
 import Link from "next/link";
+
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
-import TransactionsList from "../transactions/TransactionsList";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
-interface Props {}
+import autoRefreshHandler from "../utils/autoRefreshHandler";
 
-interface State {
-  transactions: T.Transaction[];
-  limit: number;
+import TransactionsList from "../transactions/TransactionsList";
+
+import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+
+interface Props {
+  Lists: T.Transaction[];
 }
 
-export default class extends React.Component<Props, State> {
-  state = {
-    transactions: [],
-    limit: 10
-  };
+const count = 10;
 
-  _transactionsApi: TransactionsApi | null;
-  timer: ReturnType<typeof setTimeout> | null;
+const fetchTxs = async () => {
+  return await new TransactionsApi().getLatestTransactionsInfo(count);
+};
 
-  constructor(props: Props) {
-    super(props);
-    this._transactionsApi = null;
-    this.timer = null;
-  }
-
-  componentDidMount() {
-    this.timer = setTimeout(this.regularFetchInfo, 0);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer!);
-    this.timer = null;
-  }
-
-  fetchInfo = async () => {
-    if (this._transactionsApi === null) {
-      this._transactionsApi = new TransactionsApi();
-    }
-    this._transactionsApi
-      .getLatestTransactionsInfo(this.state.limit)
-      .then(transactions => {
-        this.setState({ transactions });
-      })
-      .catch(err => console.error(err));
-  };
-
-  regularFetchInfo = async () => {
-    await this.fetchInfo();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
+class DashboardTransactions extends React.Component<Props> {
+  static defaultProps = {
+    Lists: []
   };
 
   render() {
-    const { transactions } = this.state;
+    const { Lists } = this.props;
     let txShow = <PaginationSpinner hidden={false} />;
-    if (transactions.length > 0) {
+    if (Lists.length > 0) {
       txShow = (
         <>
           <FlipMove duration={1000} staggerDurationBy={0}>
             <TransactionsList
-              transactions={transactions}
+              transactions={Lists}
               viewMode="compact"
               reversed
             />
@@ -156,3 +126,5 @@ export default class extends React.Component<Props, State> {
     );
   }
 }
+
+export default autoRefreshHandler(DashboardTransactions, fetchTxs);

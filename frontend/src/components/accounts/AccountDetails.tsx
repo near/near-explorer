@@ -1,6 +1,7 @@
+import moment from "moment";
+
 import React from "react";
 import { Row, Col } from "react-bootstrap";
-import moment from "moment";
 
 import { Account } from "../../libraries/explorer-wamp/accounts";
 

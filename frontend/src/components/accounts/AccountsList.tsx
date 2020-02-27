@@ -1,5 +1,7 @@
 import React from "react";
+
 import * as A from "../../libraries/explorer-wamp/accounts";
+
 import AccountRow from "./AccountRow";
 
 export interface Props {

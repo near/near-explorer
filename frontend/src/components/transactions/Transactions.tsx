@@ -65,13 +65,15 @@ export default class extends React.Component<Props, State> {
       this._transactionsApi = new TransactionsApi();
     }
     this._transactionsApi
-      .getTransactions({
-        signerId: this.props.accountId,
-        receiverId: this.props.accountId,
-        blockHash: this.props.blockHash,
-        tail: this.props.reversed,
-        limit: this.props.limit
-      })
+      .getTransactions(
+        {
+          signerId: this.props.accountId,
+          receiverId: this.props.accountId,
+          blockHash: this.props.blockHash,
+          tail: this.props.reversed
+        },
+        this.props.limit
+      )
       .then(transactions => this.setState({ transactions }))
       .catch(err => console.error(err));
   };

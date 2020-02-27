@@ -110,11 +110,13 @@ export interface FilterArgs {
   transactionHash?: string;
   blockHash?: string;
   tail?: boolean;
-  limit: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
-  async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
+  async getTransactions(
+    filters: FilterArgs,
+    limit: number = 15
+  ): Promise<Transaction[]> {
     const { signerId, receiverId, transactionHash, blockHash } = filters;
     const whereClause = [];
     if (signerId) {
@@ -137,7 +139,10 @@ export default class TransactionsApi extends ExplorerApi {
           ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
           ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
           LIMIT :limit`,
-        filters
+        {
+          filters,
+          limit
+        }
       ]);
       if (filters.tail) {
         transactions.reverse();
@@ -187,19 +192,18 @@ export default class TransactionsApi extends ExplorerApi {
     }
   }
 
-  async getLatestTransactionsInfo(limit: number = 15): Promise<Transaction[]> {
-    return this.getTransactions({ tail: true, limit });
+  async getLatestTransactionsInfo(limit: number = 10): Promise<Transaction[]> {
+    return this.getTransactions({ tail: true }, limit);
   }
 
   async getTransactionInfo(
     transactionHash: string
   ): Promise<Transaction | null> {
     try {
-      let transactionInfo = await this.getTransactions({
-        transactionHash,
-        limit: 1
-      }).then(it => it[0] || null);
-
+      let transactionInfo = await this.getTransactions(
+        { transactionHash },
+        1
+      ).then(it => it[0] || null);
       if (transactionInfo === null) {
         transactionInfo = {
           status: "NotStarted",

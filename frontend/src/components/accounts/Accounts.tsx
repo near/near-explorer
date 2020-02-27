@@ -3,16 +3,17 @@ import React from "react";
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
-
-import AccountsList from "./AccountsList";
 import PaginationSpinner from "../utils/PaginationSpinner";
+import AccountsList from "./AccountsList";
 
 export interface Props {
   Lists: A.AccountBasicInfo[];
 }
 
+const count = 15;
+
 const fetchAccounts = async () => {
-  return await new AccountsApi().getAccounts();
+  return await new AccountsApi().getAccounts(count);
 };
 
 class Accounts extends React.Component<Props> {

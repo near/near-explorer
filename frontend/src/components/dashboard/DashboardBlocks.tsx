@@ -1,67 +1,35 @@
 import Link from "next/link";
 
 import React from "react";
-
 import { Row, Col } from "react-bootstrap";
 
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
+import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
-import DashboardBlocksBlock from "./DashboardBlocksBlock";
 import PaginationSpinner from "../utils/PaginationSpinner";
-import { Props, State } from "../blocks/Blocks";
+
+import DashboardBlocksBlock from "./DashboardBlocksBlock";
+
+import { Props } from "../blocks/Blocks";
 
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
-export default class extends React.Component<Props, State> {
+const count = 8;
+
+const fetchBlocks = async () => {
+  return await new BlocksApi().getLatestBlocksInfo(count);
+};
+
+class DashboardBlocks extends React.Component<Props> {
   static defaultProps = {
-    limit: 8
-  };
-
-  state: State = {
-    blocks: []
-  };
-
-  _blocksApi: BlocksApi | null;
-  timer: ReturnType<typeof setTimeout> | null;
-
-  constructor(props: Props) {
-    super(props);
-    this._blocksApi = null;
-    this.timer = null;
-  }
-
-  componentDidMount() {
-    this._blocksApi = new BlocksApi();
-    this.timer = setTimeout(this.regularFetchInfo, 0);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer!);
-    this.timer = null;
-  }
-
-  regularFetchInfo = async () => {
-    await this.getBlocks();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
-  };
-
-  getBlocks = async () => {
-    if (this._blocksApi === null) {
-      this._blocksApi = new BlocksApi();
-    }
-    this._blocksApi
-      .getLatestBlocksInfo(this.props.limit)
-      .then(blocks => this.setState({ blocks }))
-      .catch(err => console.error(err));
+    Lists: []
   };
 
   render() {
-    const { blocks } = this.state;
+    const { Lists } = this.props;
     let blockShow = <PaginationSpinner hidden={false} />;
-    if (blocks.length > 0) {
+    if (Lists.length > 0) {
       blockShow = (
         <>
           <FlipMove
@@ -69,7 +37,7 @@ export default class extends React.Component<Props, State> {
             staggerDurationBy={0}
             className="row gutter-4"
           >
-            {blocks.map(block => (
+            {Lists.map(block => (
               <DashboardBlocksBlock key={block.hash} block={block} />
             ))}
           </FlipMove>
@@ -155,3 +123,5 @@ export default class extends React.Component<Props, State> {
     );
   }
 }
+
+export default autoRefreshHandler(DashboardBlocks, fetchBlocks);
