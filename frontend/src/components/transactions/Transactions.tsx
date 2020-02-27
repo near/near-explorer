@@ -1,8 +1,10 @@
 import React from "react";
 
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
+
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
+import autoRefreshHandler from "../utils/autoRefreshHandler";
 
 import TransactionsList from "./TransactionsList";
 
@@ -10,33 +12,14 @@ export interface Props {
   accountId?: string;
   blockHash?: string;
   reversed: boolean;
-  limit: number;
+  count: number;
 }
 
-export interface State {
-  transactions: T.Transaction[];
-}
-
-export default class extends React.Component<Props, State> {
+export default class extends React.Component<Props> {
   static defaultProps = {
     reversed: false,
-    limit: 15
+    count: 15
   };
-
-  state: State = {
-    transactions: []
-  };
-
-  _transactionsApi: TransactionsApi | null;
-  timer: ReturnType<typeof setTimeout> | null;
-
-  constructor(props: Props) {
-    super(props);
-
-    // TODO: Design ExplorerApi to handle server-side rendering gracefully.
-    this._transactionsApi = null;
-    this.timer = null;
-  }
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.accountId !== prevProps.accountId) {
@@ -44,51 +27,44 @@ export default class extends React.Component<Props, State> {
     }
   }
 
-  componentDidMount() {
-    this.timer = setTimeout(this.regularFetchInfo, 0);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer!);
-    this.timer = null;
-  }
-
-  regularFetchInfo = async () => {
-    await this.fetchTransactions();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
+  fetchTransactions = async () => {
+    return await new TransactionsApi().getTransactions(
+      {
+        signerId: this.props.accountId,
+        receiverId: this.props.accountId,
+        blockHash: this.props.blockHash,
+        tail: this.props.reversed
+      },
+      this.props.count
+    );
   };
 
-  fetchTransactions = async () => {
-    if (this._transactionsApi === null) {
-      this._transactionsApi = new TransactionsApi();
-    }
-    this._transactionsApi
-      .getTransactions(
-        {
-          signerId: this.props.accountId,
-          receiverId: this.props.accountId,
-          blockHash: this.props.blockHash,
-          tail: this.props.reversed
-        },
-        this.props.limit
-      )
-      .then(transactions => this.setState({ transactions }))
-      .catch(err => console.error(err));
+  autoRefreshTransactions = autoRefreshHandler(TxList, this.fetchTransactions);
+
+  render() {
+    return <this.autoRefreshTransactions />;
+  }
+}
+
+interface TxListProps {
+  Lists: T.Transaction[];
+  reversed: boolean;
+}
+
+class TxList extends React.Component<TxListProps> {
+  static defaultProps = {
+    Lists: [],
+    reversed: true // have to keep it to true, otherwise will be false forever
   };
 
   render() {
-    const { transactions } = this.state;
-    if (transactions.length === 0) {
+    const { Lists, reversed } = this.props;
+    if (Lists.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        <TransactionsList
-          transactions={transactions}
-          reversed={this.props.reversed}
-        />
+        <TransactionsList transactions={Lists} reversed={reversed} />
       </FlipMove>
     );
   }
