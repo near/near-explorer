@@ -74,10 +74,16 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async getAccounts(): Promise<AccountBasicInfo[]> {
+  async getAccounts(limit: number = 15): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
-        `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts ORDER BY timestamp DESC`
+        `SELECT account_id as id, timestamp, transaction_hash as address 
+        FROM accounts 
+        ORDER BY timestamp DESC
+        Limit :limit`,
+        {
+          limit
+        }
       ]);
     } catch (error) {
       console.error("AccountsApi.getAccounts failed to fetch data due to:");

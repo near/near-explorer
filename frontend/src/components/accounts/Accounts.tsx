@@ -2,44 +2,31 @@ import React from "react";
 
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
+import autoRefreshHandler from "../utils/autoRefreshHandler";
+
 import AccountsList from "./AccountsList";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-export interface Props {}
-
-export interface State {
-  accounts: A.AccountBasicInfo[] | null;
+export interface Props {
+  Lists: A.AccountBasicInfo[];
 }
 
-export default class extends React.Component<Props, State> {
-  state: State = {
-    accounts: null
+const fetchAccounts = async () => {
+  return await new AccountsApi().getAccounts();
+};
+
+class Accounts extends React.Component<Props> {
+  static defaultProps = {
+    Lists: []
   };
-
-  _accountApi: AccountsApi | null;
-
-  constructor(props: Props) {
-    super(props);
-    this._accountApi = null;
-  }
-
-  fetchAccounts = async () => {
-    if (this._accountApi === null) {
-      this._accountApi = new AccountsApi();
-    }
-    const accounts = await this._accountApi.getAccounts();
-    this.setState({ accounts });
-  };
-
-  componentDidMount() {
-    this.fetchAccounts();
-  }
 
   render() {
-    const { accounts } = this.state;
-    if (accounts === null) {
+    const { Lists } = this.props;
+    if (Lists.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
-    return <AccountsList accounts={accounts} />;
+    return <AccountsList accounts={Lists} />;
   }
 }
+
+export default autoRefreshHandler(Accounts, fetchAccounts);
