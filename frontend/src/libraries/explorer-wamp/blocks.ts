@@ -6,6 +6,8 @@ export interface BlockInfo {
   timestamp: number;
   prevHash: string;
   transactionsCount: number;
+  gasPrice: number;
+  gasUsed: number;
 }
 
 export default class BlocksApi extends ExplorerApi {
@@ -68,7 +70,8 @@ export default class BlocksApi extends ExplorerApi {
       const block = await this.call<any>("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash
+            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, 
+                  blocks.gas_price as gasPrice, blocks.gas_used as gasUsed
             FROM blocks
             WHERE blocks.hash = :blockId OR blocks.height = :blockId
           ) as blocks
