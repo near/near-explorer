@@ -22,7 +22,7 @@ async function saveBlocks(blocksInfo) {
               totalSupply: blockInfo.header.total_supply || "",
               gasLimit: blockInfo.header.gas_limit || 0,
               gasUsed: blockInfo.header.gas_used || 0,
-              gasPrice: blockInfo.header.gas_price || "0"
+              gasPrice: blockInfo.header.gas_price || 0
             };
           })
         );
@@ -33,11 +33,11 @@ async function saveBlocks(blocksInfo) {
             if (chunks === undefined) {
               chunks = [
                 {
+                  blockHash: "",
                   shard_id: 0,
                   signature: "",
                   gas_limit: 0,
                   gas_used: 0,
-                  gas_price: "0",
                   height_created: 0,
                   height_included: 0
                 }

@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       gasPrice: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         allowNull: false
       }
     },
