@@ -2,7 +2,7 @@
 
 exports[`<AccountDetails /> renders 1`] = `
 <div
-  className="jsx-2328313923 account-info-container"
+  className="jsx-1455372711 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -66,14 +66,14 @@ exports[`<AccountDetails /> renders 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-2328313923"
+                className="jsx-1455372711"
               >
                 ↑
                 0
               </span>
                 
               <span
-                className="jsx-2328313923"
+                className="jsx-1455372711"
               >
                 ↓
                 0
