@@ -12,7 +12,6 @@ export interface Props {
 }
 
 export default ({ block }: Props) => {
-  console.log(block);
   return (
     <>
       <Row noGutters>
