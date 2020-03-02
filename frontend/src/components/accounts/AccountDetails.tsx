@@ -32,6 +32,11 @@ export default class extends React.Component<Props, State> {
       .catch(err => console.error(err));
   };
 
+  componentDidUpdate(preProps: Props) {
+    if (this.props.account !== preProps.account) {
+      this.fetchBlockHash(this.props.account.storagePaidAt.toString());
+    }
+  }
   componentDidMount() {
     this.fetchBlockHash(this.props.account.storagePaidAt.toString());
   }
