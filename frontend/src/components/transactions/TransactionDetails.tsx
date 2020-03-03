@@ -109,9 +109,9 @@ export default class extends React.Component<Props, State> {
           </Col>
           <Col md="4">
             <CardCell
-              title="Gas Used"
+              title="Gas Used (bytes)"
               imgLink="/static/images/icon-m-size.svg"
-              text={<Balance amount={gasUsed.toString()} />}
+              text={gasUsed.toLocaleString()}
             />
           </Col>
           <Col md="4">
