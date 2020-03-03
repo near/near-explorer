@@ -59,7 +59,7 @@ exports[`<BlockDetails /> renders 1`] = `
                   className="jsx-3005147464 card-cell-title-img"
                   src="/static/images/icon-m-size.svg"
                 />
-                Gas Used (bytes)
+                Gas Used
               </div>
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"

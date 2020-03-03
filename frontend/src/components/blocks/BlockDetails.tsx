@@ -27,7 +27,7 @@ export default ({ block }: Props) => {
             </Col>
             <Col md="4">
               <CardCell
-                title="Gas Used (bytes)"
+                title="Gas Used"
                 imgLink="/static/images/icon-m-size.svg"
                 text={block.gasUsed.toLocaleString()}
               />
