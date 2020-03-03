@@ -44,6 +44,7 @@ export default class extends React.Component<Props, State> {
   render() {
     const { account } = this.props;
     const { storagePaidAtBlockHash } = this.state;
+    const message = "from genesis" || "loading";
     return (
       <div className="account-info-container">
         <Row noGutters>
@@ -119,9 +120,13 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Creation Hash"
               text={
-                <TransactionLink transactionHash={account.address}>
-                  {account.address}
-                </TransactionLink>
+                account.address === message ? (
+                  message
+                ) : (
+                  <TransactionLink transactionHash={account.address}>
+                    {account.address}
+                  </TransactionLink>
+                )
               }
               className="block-card-created-text account-card-back border-0"
             />
