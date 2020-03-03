@@ -17,14 +17,18 @@ export interface Props {
 
 export interface State {
   deposit: BN;
+  totalFee: BN;
+  gasUsed: BN;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {
-    deposit: new BN(0)
+    deposit: new BN(0),
+    totalFee: new BN(0),
+    gasUsed: new BN(0)
   };
 
-  componentDidMount() {
+  setDeposit = () => {
     const deposit = this.props.transaction.actions
       .map(action => {
         let actionArgs = action.args as any;
@@ -36,11 +40,31 @@ export default class extends React.Component<Props, State> {
       })
       .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
     this.setState({ deposit });
+  };
+
+  setTotalFee = () => {
+    const price = new BN(this.props.transaction.gasPrice);
+    const txFee = this.props.transaction.transactionOutcome
+      ? new BN(this.props.transaction.transactionOutcome.outcome.gas_burnt)
+      : new BN(0);
+    const receiptFee = this.props.transaction.receiptsOutcome
+      ? this.props.transaction.receiptsOutcome
+          .map(receipt => new BN(receipt.outcome.gas_burnt))
+          .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
+      : new BN(0);
+    const gasUsed = txFee.add(receiptFee);
+    const totalFee = gasUsed.mul(price);
+    this.setState({ totalFee, gasUsed });
+  };
+
+  componentDidMount() {
+    this.setDeposit();
+    this.setTotalFee();
   }
 
   render() {
     const { transaction } = this.props;
-    const { deposit } = this.state;
+    const { deposit, totalFee, gasUsed } = this.state;
     return (
       <div className="transaction-info-container">
         <Row noGutters>
@@ -69,8 +93,34 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title="Status"
-              imgLink="/static/images/icon-m-filter.svg"
+              imgLink="/static/images/icon-t-status.svg"
               text={<ExecutionStatus status={transaction.status} />}
+            />
+          </Col>
+        </Row>
+        <Row noGutters>
+          <Col md="4">
+            <CardCell
+              title="Total Gas Cost"
+              imgLink="/static/images/icon-m-size.svg"
+              text={<Balance amount={totalFee.toString()} />}
+              className="border-0"
+            />
+          </Col>
+          <Col md="4">
+            <CardCell
+              title="Gas Used"
+              imgLink="/static/images/icon-m-size.svg"
+              text={<Balance amount={gasUsed.toString()} />}
+            />
+          </Col>
+          <Col md="4">
+            <CardCell
+              title="Gas Price"
+              imgLink="/static/images/icon-m-filter.svg"
+              text={
+                <Balance amount={new BN(transaction.gasPrice).toString()} />
+              }
             />
           </Col>
         </Row>
