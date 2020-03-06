@@ -22,7 +22,7 @@ async function saveBlocks(blocksInfo) {
               totalSupply: blockInfo.header.total_supply || "",
               gasLimit: blockInfo.header.gas_limit || 0,
               gasUsed: blockInfo.header.gas_used || 0,
-              gasPrice: blockInfo.header.gas_price || 0
+              gasPrice: blockInfo.header.gas_price || "0"
             };
           })
         );
@@ -30,19 +30,6 @@ async function saveBlocks(blocksInfo) {
         await models.Chunk.bulkCreate(
           blocksInfo.flatMap(blockInfo => {
             let { chunks } = blockInfo;
-            if (chunks === undefined) {
-              chunks = [
-                {
-                  blockHash: "",
-                  shard_id: 0,
-                  signature: "",
-                  gas_limit: 0,
-                  gas_used: 0,
-                  height_created: 0,
-                  height_included: 0
-                }
-              ];
-            }
             return chunks.map(chunkInfo => {
               return {
                 blockHash: blockInfo.header.hash,

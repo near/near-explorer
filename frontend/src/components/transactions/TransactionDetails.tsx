@@ -1,15 +1,17 @@
+import BN from "bn.js";
+import moment from "../../libraries/moment";
+
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
-import BN from "bn.js";
-import moment from "../../libraries/moment";
+import * as T from "../../libraries/explorer-wamp/transactions";
 
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
 import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
-import * as T from "../../libraries/explorer-wamp/transactions";
+import Gas from "../utils/Gas";
 
 export interface Props {
   transaction: T.Transaction;
@@ -17,14 +19,14 @@ export interface Props {
 
 export interface State {
   deposit: BN;
-  totalFee: BN;
+  transactionFee: BN;
   gasUsed: BN;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {
     deposit: new BN(0),
-    totalFee: new BN(0),
+    transactionFee: new BN(0),
     gasUsed: new BN(0)
   };
 
@@ -43,18 +45,18 @@ export default class extends React.Component<Props, State> {
   };
 
   setTotalFee = () => {
-    const price = new BN(this.props.transaction.gasPrice);
-    const txFee = this.props.transaction.transactionOutcome
+    const gasPrice = new BN(this.props.transaction.gasPrice);
+    const gasBurntByTx = this.props.transaction.transactionOutcome
       ? new BN(this.props.transaction.transactionOutcome.outcome.gas_burnt)
       : new BN(0);
-    const receiptFee = this.props.transaction.receiptsOutcome
+    const gasBurntByReceipts = this.props.transaction.receiptsOutcome
       ? this.props.transaction.receiptsOutcome
           .map(receipt => new BN(receipt.outcome.gas_burnt))
           .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
       : new BN(0);
-    const gasUsed = txFee.add(receiptFee);
-    const totalFee = gasUsed.mul(price);
-    this.setState({ totalFee, gasUsed });
+    const gasUsed = gasBurntByTx.add(gasBurntByReceipts);
+    const transactionFee = gasUsed.mul(gasPrice);
+    this.setState({ transactionFee, gasUsed });
   };
 
   componentDidMount() {
@@ -64,7 +66,7 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { transaction } = this.props;
-    const { deposit, totalFee, gasUsed } = this.state;
+    const { deposit, transactionFee, gasUsed } = this.state;
     return (
       <div className="transaction-info-container">
         <Row noGutters>
@@ -103,7 +105,7 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Total Gas Cost"
               imgLink="/static/images/icon-m-size.svg"
-              text={<Balance amount={totalFee.toString()} />}
+              text={<Balance amount={transactionFee.toString()} />}
               className="border-0"
             />
           </Col>
@@ -111,16 +113,14 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Gas Used"
               imgLink="/static/images/icon-m-size.svg"
-              text={gasUsed.toLocaleString()}
+              text={<Gas gas={gasUsed} />}
             />
           </Col>
           <Col md="4">
             <CardCell
               title="Gas Price"
               imgLink="/static/images/icon-m-filter.svg"
-              text={
-                <Balance amount={new BN(transaction.gasPrice).toString()} />
-              }
+              text={<Balance amount={transaction.gasPrice} />}
             />
           </Col>
         </Row>

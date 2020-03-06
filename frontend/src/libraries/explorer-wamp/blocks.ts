@@ -6,7 +6,7 @@ export interface BlockInfo {
   timestamp: number;
   prevHash: string;
   transactionsCount: number;
-  gasPrice: number;
+  gasPrice: string;
   gasUsed: number;
 }
 

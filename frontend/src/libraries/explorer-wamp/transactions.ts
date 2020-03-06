@@ -14,7 +14,7 @@ export interface TransactionInfo {
   blockHash: string;
   blockTimestamp: number;
   status: ExecutionStatus;
-  gasPrice: number;
+  gasPrice: string;
 }
 
 export interface CreateAccount {}
@@ -211,7 +211,7 @@ export default class TransactionsApi extends ExplorerApi {
           blockHash: "",
           blockTimestamp: 0,
           actions: [],
-          gasPrice: 0
+          gasPrice: "0"
         };
       } else {
         const transactionExtraInfo = await this.call<any>("nearcore-tx", [
