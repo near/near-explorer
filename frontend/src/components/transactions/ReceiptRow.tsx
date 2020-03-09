@@ -38,7 +38,8 @@ export default class extends React.Component<Props, State> {
           </>
         );
       } else {
-        statusInfo = <i>{receipt.outcome.status}</i>;
+        console.log(receipt.outcome.status);
+        statusInfo = <i>Failure</i>;
       }
     }
 
