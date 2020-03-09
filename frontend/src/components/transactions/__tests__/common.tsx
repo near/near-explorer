@@ -9,7 +9,7 @@ export const TRANSACTIONS: T.Transaction[] = [
     status: "SuccessValue",
     blockHash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    gasPrice: 5000,
+    gasPrice: "5000",
     actions: [
       {
         kind: "CreateAccount",
@@ -77,7 +77,7 @@ export const TRANSACTIONS: T.Transaction[] = [
     status: "SuccessValue",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    gasPrice: 5000,
+    gasPrice: "5000",
     actions: [
       {
         kind: "FunctionCall",
@@ -121,7 +121,7 @@ export const TRANSACTIONS: T.Transaction[] = [
     status: "SuccessValue",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    gasPrice: 5000,
+    gasPrice: "5000",
     actions: [
       {
         kind: "Transfer",
