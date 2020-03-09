@@ -13,7 +13,7 @@ describe("<BlockDetails />", () => {
             hash: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
             prevHash: "EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu",
             height: 12345,
-            gasPrice: 5000,
+            gasPrice: "5000",
             gasUsed: 0
           }}
         />
