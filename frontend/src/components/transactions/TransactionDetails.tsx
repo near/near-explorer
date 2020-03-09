@@ -21,13 +21,15 @@ export interface State {
   deposit: BN;
   transactionFee: BN;
   gasUsed: BN;
+  gasAttached: BN;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {
     deposit: new BN(0),
     transactionFee: new BN(0),
-    gasUsed: new BN(0)
+    gasUsed: new BN(0),
+    gasAttached: new BN(0)
   };
 
   setDeposit = () => {
@@ -44,6 +46,26 @@ export default class extends React.Component<Props, State> {
     this.setState({ deposit });
   };
 
+  setAttachedGas = () => {
+    const gasAttached = this.props.transaction.actions
+      .map(action => {
+        let actionArgs = action.args as any;
+        if (actionArgs.hasOwnProperty("gas")) {
+          return new BN(actionArgs.gas);
+        } else {
+          return new BN(0);
+        }
+      })
+      .reduce(
+        (accumulator, currentgas) => accumulator.add(currentgas),
+        new BN(0)
+      );
+    if (gasAttached.gt(new BN(0))) {
+      return gasAttached;
+    }
+    return new BN(-1);
+  };
+
   setTotalFee = () => {
     const gasPrice = new BN(this.props.transaction.gasPrice);
     const gasBurntByTx = this.props.transaction.transactionOutcome
@@ -56,7 +78,11 @@ export default class extends React.Component<Props, State> {
       : new BN(0);
     const gasUsed = gasBurntByTx.add(gasBurntByReceipts);
     const transactionFee = gasUsed.mul(gasPrice);
-    this.setState({ transactionFee, gasUsed });
+    let gasAttached = this.setAttachedGas();
+    if (gasAttached.lt(new BN(0))) {
+      gasAttached = gasUsed;
+    }
+    this.setState({ transactionFee, gasUsed, gasAttached });
   };
 
   componentDidMount() {
@@ -66,7 +92,7 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { transaction } = this.props;
-    const { deposit, transactionFee, gasUsed } = this.state;
+    const { deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
       <div className="transaction-info-container">
         <Row noGutters>
@@ -101,7 +127,7 @@ export default class extends React.Component<Props, State> {
           </Col>
         </Row>
         <Row noGutters>
-          <Col md="4">
+          <Col md="3">
             <CardCell
               title="Total Gas Cost"
               imgLink="/static/images/icon-m-size.svg"
@@ -109,18 +135,25 @@ export default class extends React.Component<Props, State> {
               className="border-0"
             />
           </Col>
-          <Col md="4">
+          <Col md="3">
+            <CardCell
+              title="Gas Price"
+              imgLink="/static/images/icon-m-filter.svg"
+              text={<Balance amount={transaction.gasPrice} />}
+            />
+          </Col>
+          <Col md="3">
             <CardCell
               title="Gas Used"
               imgLink="/static/images/icon-m-size.svg"
               text={<Gas gas={gasUsed} />}
             />
           </Col>
-          <Col md="4">
+          <Col md="3">
             <CardCell
-              title="Gas Price"
-              imgLink="/static/images/icon-m-filter.svg"
-              text={<Balance amount={transaction.gasPrice} />}
+              title="Attached Gas"
+              imgLink="/static/images/icon-m-size.svg"
+              text={<Gas gas={gasAttached} />}
             />
           </Col>
         </Row>
