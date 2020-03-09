@@ -1,13 +1,13 @@
 import BN from "bn.js";
 
-interface Gas {
+interface Props {
   gas: BN;
 }
 
 const MGAS = new BN(10 ** 6);
 const TGAS = new BN(10 ** 12);
 
-export default ({ gas }: Gas) => {
+export default ({ gas }: Props) => {
   let gasShow;
   if (gas > TGAS) {
     const tgas = gas.div(TGAS).toString();
@@ -16,7 +16,7 @@ export default ({ gas }: Gas) => {
     const mgas = gas.div(MGAS).toString();
     gasShow = `${mgas} Mgas`;
   } else {
-    gasShow = gas.toString;
+    gasShow = gas.toString();
   }
   return <>{gasShow}</>;
 };
