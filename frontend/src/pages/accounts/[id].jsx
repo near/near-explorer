@@ -31,7 +31,7 @@ export default class extends React.Component {
         this.setState({ timestamp: basic.timestamp, address: basic.address })
       )
       .catch(err => {
-        this.setState({ timestamp: "genesis time", address: "from genesis" });
+        this.setState({ timestamp: "", address: "" });
         console.error(err);
       });
   };

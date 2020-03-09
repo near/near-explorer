@@ -119,9 +119,13 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Creation Hash"
               text={
-                <TransactionLink transactionHash={account.address}>
-                  {account.address}
-                </TransactionLink>
+                account.address === "" ? (
+                  ""
+                ) : (
+                  <TransactionLink transactionHash={account.address}>
+                    {account.address}
+                  </TransactionLink>
+                )
               }
               className="block-card-created-text account-card-back border-0"
             />
