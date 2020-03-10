@@ -76,4 +76,4 @@ class Nodes extends React.Component<Props> {
   }
 }
 
-export default autoRefreshHandler(Nodes, fetchNodes);
+export default autoRefreshHandler(Nodes, fetchNodes, count);

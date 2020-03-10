@@ -127,4 +127,4 @@ class DashboardTransactions extends React.Component<Props> {
   }
 }
 
-export default autoRefreshHandler(DashboardTransactions, fetchTxs);
+export default autoRefreshHandler(DashboardTransactions, fetchTxs, count);

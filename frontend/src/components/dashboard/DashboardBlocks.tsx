@@ -124,4 +124,4 @@ class DashboardBlocks extends React.Component<Props> {
   }
 }
 
-export default autoRefreshHandler(DashboardBlocks, fetchBlocks);
+export default autoRefreshHandler(DashboardBlocks, fetchBlocks, count);

@@ -3,27 +3,35 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import FlipMove from "../utils/FlipMove";
-import PaginationSpinner from "../utils/PaginationSpinner";
+// import PaginationSpinner from "../utils/PaginationSpinner";
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 
 import TransactionsList from "./TransactionsList";
 
-export interface Props {
+export interface OuterProps {
   accountId?: string;
   blockHash?: string;
   reversed: boolean;
   count: number;
 }
 
-export default class extends React.Component<Props> {
+interface State {
+  update: boolean;
+}
+
+export default class extends React.Component<OuterProps, State> {
   static defaultProps = {
     reversed: false,
     count: 15
   };
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.accountId !== prevProps.accountId) {
-      this.setState({ transactions: [] });
+  state: State = {
+    update: false
+  };
+
+  componentDidUpdate(preProps: any) {
+    if (this.props.accountId !== preProps.accountId) {
+      this.setState({ update: true });
     }
   }
 
@@ -37,29 +45,26 @@ export default class extends React.Component<Props> {
     });
   };
 
-  autoRefreshTransactions = autoRefreshHandler(TxList, this.fetchTransactions);
+  autoRefreshTransactions = autoRefreshHandler(
+    Transactions,
+    this.fetchTransactions,
+    this.state.update,
+    this.props
+  );
 
   render() {
     return <this.autoRefreshTransactions />;
   }
 }
 
-interface TxListProps {
+interface InnerProps {
   items: T.Transaction[];
   reversed: boolean;
 }
 
-class TxList extends React.Component<TxListProps> {
-  static defaultProps = {
-    items: [],
-    reversed: true // have to keep it to true, otherwise will be false forever
-  };
-
+class Transactions extends React.Component<InnerProps> {
   render() {
     const { items, reversed } = this.props;
-    if (items.length === 0) {
-      return <PaginationSpinner hidden={false} />;
-    }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         <TransactionsList transactions={items} reversed={reversed} />

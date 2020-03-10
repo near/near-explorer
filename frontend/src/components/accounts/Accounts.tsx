@@ -3,31 +3,38 @@ import React from "react";
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
-import PaginationSpinner from "../utils/PaginationSpinner";
 import AccountsList from "./AccountsList";
 
-export interface Props {
-  items: A.AccountBasicInfo[];
+export interface OuterProps {
+  count: number;
 }
 
-const count = 15;
+export default class extends React.Component<OuterProps> {
+  static defaultProps = {
+    count: 15
+  };
 
-const fetchAccounts = async () => {
-  return await new AccountsApi().getAccounts(count);
-};
+  fetchAccounts = async () => {
+    return await new AccountsApi().getAccounts(this.props.count);
+  };
 
-class Accounts extends React.Component<Props> {
+  autoRefreshAccounts = autoRefreshHandler(Accounts, this.fetchAccounts);
+
+  render() {
+    return <this.autoRefreshAccounts />;
+  }
+}
+
+interface InnerProps {
+  items: A.AccountBasicInfo[];
+}
+class Accounts extends React.Component<InnerProps> {
   static defaultProps = {
     items: []
   };
 
   render() {
     const { items } = this.props;
-    if (items.length === 0) {
-      return <PaginationSpinner hidden={false} />;
-    }
     return <AccountsList accounts={items} />;
   }
 }
-
-export default autoRefreshHandler(Accounts, fetchAccounts);
