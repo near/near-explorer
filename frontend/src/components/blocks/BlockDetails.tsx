@@ -17,7 +17,7 @@ export default ({ block }: Props) => {
       <Row noGutters>
         <Col className="block-info-container">
           <Row noGutters className="block-info-header">
-            <Col md="3">
+            <Col md="4">
               <CardCell
                 title="Transactions"
                 imgLink="/static/images/icon-m-transaction.svg"
@@ -25,11 +25,18 @@ export default ({ block }: Props) => {
                 className="border-0"
               />
             </Col>
-            <Col md="2">
+            <Col md="4">
               <CardCell
-                title="Size"
+                title="Gas Used"
                 imgLink="/static/images/icon-m-size.svg"
-                text="TODO"
+                text={block.gasUsed.toLocaleString()}
+              />
+            </Col>
+            <Col md="4">
+              <CardCell
+                title="Gas Price"
+                imgLink="/static/images/icon-m-filter.svg"
+                text={block.gasPrice.toLocaleString()}
               />
             </Col>
           </Row>
