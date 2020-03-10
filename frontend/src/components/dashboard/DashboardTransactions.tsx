@@ -15,7 +15,7 @@ import TransactionsList from "../transactions/TransactionsList";
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 interface Props {
-  Lists: T.Transaction[];
+  items: T.Transaction[];
 }
 
 const count = 10;
@@ -26,18 +26,18 @@ const fetchTxs = async () => {
 
 class DashboardTransactions extends React.Component<Props> {
   static defaultProps = {
-    Lists: []
+    items: []
   };
 
   render() {
-    const { Lists } = this.props;
+    const { items } = this.props;
     let txShow = <PaginationSpinner hidden={false} />;
-    if (Lists.length > 0) {
+    if (items.length > 0) {
       txShow = (
         <>
           <FlipMove duration={1000} staggerDurationBy={0}>
             <TransactionsList
-              transactions={Lists}
+              transactions={items}
               viewMode="compact"
               reversed
             />

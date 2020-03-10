@@ -45,24 +45,24 @@ export default class extends React.Component<Props> {
 }
 
 interface TxListProps {
-  Lists: T.Transaction[];
+  items: T.Transaction[];
   reversed: boolean;
 }
 
 class TxList extends React.Component<TxListProps> {
   static defaultProps = {
-    Lists: [],
+    items: [],
     reversed: true // have to keep it to true, otherwise will be false forever
   };
 
   render() {
-    const { Lists, reversed } = this.props;
-    if (Lists.length === 0) {
+    const { items, reversed } = this.props;
+    if (items.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        <TransactionsList transactions={Lists} reversed={reversed} />
+        <TransactionsList transactions={items} reversed={reversed} />
       </FlipMove>
     );
   }

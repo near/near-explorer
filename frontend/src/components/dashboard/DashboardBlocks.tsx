@@ -23,13 +23,13 @@ const fetchBlocks = async () => {
 
 class DashboardBlocks extends React.Component<Props> {
   static defaultProps = {
-    Lists: []
+    items: []
   };
 
   render() {
-    const { Lists } = this.props;
+    const { items } = this.props;
     let blockShow = <PaginationSpinner hidden={false} />;
-    if (Lists.length > 0) {
+    if (items.length > 0) {
       blockShow = (
         <>
           <FlipMove
@@ -37,7 +37,7 @@ class DashboardBlocks extends React.Component<Props> {
             staggerDurationBy={0}
             className="row gutter-4"
           >
-            {Lists.map(block => (
+            {items.map(block => (
               <DashboardBlocksBlock key={block.hash} block={block} />
             ))}
           </FlipMove>

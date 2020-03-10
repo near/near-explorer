@@ -7,7 +7,7 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 import AccountsList from "./AccountsList";
 
 export interface Props {
-  Lists: A.AccountBasicInfo[];
+  items: A.AccountBasicInfo[];
 }
 
 const count = 15;
@@ -18,15 +18,15 @@ const fetchAccounts = async () => {
 
 class Accounts extends React.Component<Props> {
   static defaultProps = {
-    Lists: []
+    items: []
   };
 
   render() {
-    const { Lists } = this.props;
-    if (Lists.length === 0) {
+    const { items } = this.props;
+    if (items.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
-    return <AccountsList accounts={Lists} />;
+    return <AccountsList accounts={items} />;
   }
 }
 

@@ -12,7 +12,7 @@ export default (
     timer: ReturnType<typeof setTimeout> | null;
 
     state = {
-      Lists: []
+      items: []
     };
 
     componentDidMount() {
@@ -25,11 +25,11 @@ export default (
     }
 
     regularFetchInfo = async () => {
-      const Lists = await fetchDataFn();
-      if (Lists.length > 0) {
-        this.setState({ Lists });
+      const items = await fetchDataFn();
+      if (items.length > 0) {
+        this.setState({ items });
       } else {
-        console.error(Lists);
+        console.error(items);
       }
       if (this.timer !== null) {
         this.timer = setTimeout(this.regularFetchInfo, 10000);
@@ -37,7 +37,7 @@ export default (
     };
 
     render() {
-      return <WrappedComponent Lists={this.state.Lists} {...this.props} />;
+      return <WrappedComponent items={this.state.items} {...this.props} />;
     }
   };
 };

@@ -10,7 +10,7 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 import BlocksList from "./BlocksList";
 
 export interface Props {
-  Lists: B.BlockInfo[];
+  items: B.BlockInfo[];
 }
 
 let count = 15;
@@ -22,7 +22,7 @@ const fetchBlocks = async () => {
 
 class Blocks extends React.Component<Props> {
   static defaultProps = {
-    Lists: []
+    items: []
   };
 
   _blocksApi: BlocksApi | null;
@@ -37,15 +37,15 @@ class Blocks extends React.Component<Props> {
   };
 
   render() {
-    const { Lists } = this.props;
-    if (Lists.length === 0) {
+    const { items } = this.props;
+    if (items.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
       <>
         <FlipMove duration={1000} staggerDurationBy={0}>
           {/* <InfiniteScroll
-        dataLength={this.props.Lists.length}
+        dataLength={this.props.items.length}
         next={this.fetchMoreBlocks}
         hasMore={true}
         loader={<PaginationSpinner hidden={false} />}
@@ -55,7 +55,7 @@ class Blocks extends React.Component<Props> {
           </p>
         }
       > */}
-          <BlocksList blocks={Lists} />
+          <BlocksList blocks={items} />
           {/* </InfiniteScroll> */}
         </FlipMove>
       </>

@@ -9,7 +9,7 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 import NodeRow from "./NodeRow";
 
 interface Props {
-  Lists: N.NodeInfo[];
+  items: N.NodeInfo[];
 }
 
 const count = 15;
@@ -20,21 +20,21 @@ const fetchNodes = async () => {
 
 class Nodes extends React.Component<Props> {
   static defaultProps = {
-    Lists: []
+    items: []
   };
 
   render() {
-    const { Lists } = this.props;
-    if (Lists.length === 0) {
+    const { items } = this.props;
+    if (items.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
       <>
-        {Lists && (
+        {items && (
           <div>
             <Row>
               <Col md="auto" className="align-self-center pagination-total">
-                {`${Lists.length.toLocaleString()} Total`}
+                {`${items.length.toLocaleString()} Total`}
               </Col>
             </Row>
             <style jsx>{`
@@ -52,8 +52,8 @@ class Nodes extends React.Component<Props> {
           </div>
         )}
         <FlipMove duration={1000} staggerDurationBy={0}>
-          {Lists &&
-            Lists.map(node => {
+          {items &&
+            items.map(node => {
               return (
                 <NodeRow
                   key={node.nodeId}
