@@ -32,8 +32,8 @@ export default class extends React.Component<Props, State> {
     gasAttached: new BN(0)
   };
 
-  collectDeposit = () => {
-    const deposit = this.props.transaction.actions
+  collectDeposit(actions: T.Action[]): BN {
+    return actions
       .map(action => {
         let actionArgs = action.args as any;
         if (actionArgs.hasOwnProperty("deposit")) {
@@ -43,57 +43,53 @@ export default class extends React.Component<Props, State> {
         }
       })
       .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
-    this.setState({ deposit });
-  };
+  }
 
-  collectAttachedGas = () => {
-    const gasAttached = this.props.transaction.actions
-      .map(action => {
-        let actionArgs = action.args as any;
-        if (actionArgs.hasOwnProperty("gas")) {
-          return new BN(actionArgs.gas);
-        } else {
-          return new BN(0);
-        }
-      })
-      .reduce(
-        (accumulator, currentgas) => accumulator.add(currentgas),
-        new BN(0)
-      );
-    if (gasAttached.gt(new BN(0))) {
-      return gasAttached;
+  collectGasAttached(actions: T.Action[]): BN | null {
+    const gasAttachedActions = actions.filter(action => {
+      return action.args.hasOwnProperty("gas");
+    });
+    if (gasAttachedActions.length === 0) {
+      return null;
     }
-    return new BN(-1);
-  };
+    return gasAttachedActions.reduce(
+      (accumulator, action) =>
+        accumulator.add(new BN((action.args as any).gas.toString())),
+      new BN(0)
+    );
+  }
 
-  collectTotalFee = () => {
-    const gasPrice = new BN(this.props.transaction.gasPrice);
-    const gasBurntByTx = this.props.transaction.transactionOutcome
-      ? new BN(this.props.transaction.transactionOutcome.outcome.gas_burnt)
+  collectGasUsed(transaction: T.Transaction): BN {
+    const gasBurntByTx = transaction.transactionOutcome
+      ? new BN(transaction.transactionOutcome.outcome.gas_burnt)
       : new BN(0);
-    const gasBurntByReceipts = this.props.transaction.receiptsOutcome
-      ? this.props.transaction.receiptsOutcome
+    const gasBurntByReceipts = transaction.receiptsOutcome
+      ? transaction.receiptsOutcome
           .map(receipt => new BN(receipt.outcome.gas_burnt))
           .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
       : new BN(0);
-    const gasUsed = gasBurntByTx.add(gasBurntByReceipts);
+    return gasBurntByTx.add(gasBurntByReceipts);
+  }
+
+  updateComputedValues = () => {
+    const deposit = this.collectDeposit(this.props.transaction.actions);
+    const gasUsed = this.collectGasUsed(this.props.transaction);
+    const gasPrice = new BN(this.props.transaction.gasPrice);
     const transactionFee = gasUsed.mul(gasPrice);
-    let gasAttached = this.collectAttachedGas();
-    if (gasAttached.lt(new BN(0))) {
+    let gasAttached = this.collectGasAttached(this.props.transaction.actions);
+    if (gasAttached === null) {
       gasAttached = gasUsed;
     }
-    this.setState({ transactionFee, gasUsed, gasAttached });
+    this.setState({ deposit, transactionFee, gasUsed, gasAttached });
   };
 
   componentDidMount() {
-    this.collectDeposit();
-    this.collectTotalFee();
+    this.updateComputedValues();
   }
 
   componentDidUpdate(preProps: Props) {
     if (this.props.transaction !== preProps.transaction) {
-      this.collectDeposit();
-      this.collectTotalFee();
+      this.updateComputedValues();
     }
   }
 
