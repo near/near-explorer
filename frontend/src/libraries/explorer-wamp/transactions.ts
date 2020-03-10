@@ -14,6 +14,7 @@ export interface TransactionInfo {
   blockHash: string;
   blockTimestamp: number;
   status: ExecutionStatus;
+  gasPrice: string;
 }
 
 export interface CreateAccount {}
@@ -131,7 +132,8 @@ export default class TransactionsApi extends ExplorerApi {
     }
     try {
       const transactions = await this.call<TransactionInfo[]>("select", [
-        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp
+        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, 
+              transactions.block_hash as blockHash, blocks.timestamp as blockTimestamp, blocks.gas_price as gasPrice
           FROM transactions
           LEFT JOIN blocks ON blocks.hash = transactions.block_hash
           ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
@@ -208,7 +210,8 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
-          actions: []
+          actions: [],
+          gasPrice: "0"
         };
       } else {
         const transactionExtraInfo = await this.call<any>("nearcore-tx", [

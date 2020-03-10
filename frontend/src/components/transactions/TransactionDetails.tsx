@@ -1,15 +1,17 @@
+import BN from "bn.js";
+import moment from "../../libraries/moment";
+
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
-import BN from "bn.js";
-import moment from "../../libraries/moment";
+import * as T from "../../libraries/explorer-wamp/transactions";
 
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
 import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
-import * as T from "../../libraries/explorer-wamp/transactions";
+import Gas from "../utils/Gas";
 
 export interface Props {
   transaction: T.Transaction;
@@ -17,15 +19,21 @@ export interface Props {
 
 export interface State {
   deposit: BN;
+  transactionFee: BN;
+  gasUsed: BN;
+  gasAttached: BN;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {
-    deposit: new BN(0)
+    deposit: new BN(0),
+    transactionFee: new BN(0),
+    gasUsed: new BN(0),
+    gasAttached: new BN(0)
   };
 
-  componentDidMount() {
-    const deposit = this.props.transaction.actions
+  collectDeposit(actions: T.Action[]): BN {
+    return actions
       .map(action => {
         let actionArgs = action.args as any;
         if (actionArgs.hasOwnProperty("deposit")) {
@@ -35,12 +43,59 @@ export default class extends React.Component<Props, State> {
         }
       })
       .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
-    this.setState({ deposit });
+  }
+
+  collectGasAttached(actions: T.Action[]): BN | null {
+    const gasAttachedActions = actions.filter(action => {
+      return action.args.hasOwnProperty("gas");
+    });
+    if (gasAttachedActions.length === 0) {
+      return null;
+    }
+    return gasAttachedActions.reduce(
+      (accumulator, action) =>
+        accumulator.add(new BN((action.args as any).gas.toString())),
+      new BN(0)
+    );
+  }
+
+  collectGasUsed(transaction: T.Transaction): BN {
+    const gasBurntByTx = transaction.transactionOutcome
+      ? new BN(transaction.transactionOutcome.outcome.gas_burnt)
+      : new BN(0);
+    const gasBurntByReceipts = transaction.receiptsOutcome
+      ? transaction.receiptsOutcome
+          .map(receipt => new BN(receipt.outcome.gas_burnt))
+          .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
+      : new BN(0);
+    return gasBurntByTx.add(gasBurntByReceipts);
+  }
+
+  updateComputedValues = () => {
+    const deposit = this.collectDeposit(this.props.transaction.actions);
+    const gasUsed = this.collectGasUsed(this.props.transaction);
+    const gasPrice = new BN(this.props.transaction.gasPrice);
+    const transactionFee = gasUsed.mul(gasPrice);
+    let gasAttached = this.collectGasAttached(this.props.transaction.actions);
+    if (gasAttached === null) {
+      gasAttached = gasUsed;
+    }
+    this.setState({ deposit, transactionFee, gasUsed, gasAttached });
+  };
+
+  componentDidMount() {
+    this.updateComputedValues();
+  }
+
+  componentDidUpdate(preProps: Props) {
+    if (this.props.transaction !== preProps.transaction) {
+      this.updateComputedValues();
+    }
   }
 
   render() {
     const { transaction } = this.props;
-    const { deposit } = this.state;
+    const { deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
       <div className="transaction-info-container">
         <Row noGutters>
@@ -69,8 +124,39 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title="Status"
-              imgLink="/static/images/icon-m-filter.svg"
+              imgLink="/static/images/icon-t-status.svg"
               text={<ExecutionStatus status={transaction.status} />}
+            />
+          </Col>
+        </Row>
+        <Row noGutters>
+          <Col md="3">
+            <CardCell
+              title="Total Gas Cost"
+              imgLink="/static/images/icon-m-size.svg"
+              text={<Balance amount={transactionFee.toString()} />}
+              className="border-0"
+            />
+          </Col>
+          <Col md="3">
+            <CardCell
+              title="Gas Price"
+              imgLink="/static/images/icon-m-filter.svg"
+              text={<Balance amount={transaction.gasPrice} />}
+            />
+          </Col>
+          <Col md="3">
+            <CardCell
+              title="Gas Used"
+              imgLink="/static/images/icon-m-size.svg"
+              text={<Gas gas={gasUsed} />}
+            />
+          </Col>
+          <Col md="3">
+            <CardCell
+              title="Attached Gas"
+              imgLink="/static/images/icon-m-size.svg"
+              text={<Gas gas={gasAttached} />}
             />
           </Col>
         </Row>
