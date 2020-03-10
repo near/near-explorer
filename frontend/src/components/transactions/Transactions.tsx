@@ -28,15 +28,13 @@ export default class extends React.Component<Props> {
   }
 
   fetchTransactions = async () => {
-    return await new TransactionsApi().getTransactions(
-      {
-        signerId: this.props.accountId,
-        receiverId: this.props.accountId,
-        blockHash: this.props.blockHash,
-        tail: this.props.reversed
-      },
-      this.props.count
-    );
+    return await new TransactionsApi().getTransactions({
+      signerId: this.props.accountId,
+      receiverId: this.props.accountId,
+      blockHash: this.props.blockHash,
+      tail: this.props.reversed,
+      limit: this.props.count
+    });
   };
 
   autoRefreshTransactions = autoRefreshHandler(TxList, this.fetchTransactions);

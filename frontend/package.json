@@ -50,6 +50,7 @@
     "react-flip-move": "^3.0.3",
     "react-infinite-scroll-component": "^5.0.4",
     "react-motion": "^0.5.2",
+    "react-refetch": "^3.0.1",
     "react-text-collapse": "^0.5.2",
     "styled-components": "^4.4.0"
   },
