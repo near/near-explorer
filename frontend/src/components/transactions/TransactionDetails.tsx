@@ -32,7 +32,7 @@ export default class extends React.Component<Props, State> {
     gasAttached: new BN(0)
   };
 
-  setDeposit = () => {
+  collectDeposit = () => {
     const deposit = this.props.transaction.actions
       .map(action => {
         let actionArgs = action.args as any;
@@ -46,7 +46,7 @@ export default class extends React.Component<Props, State> {
     this.setState({ deposit });
   };
 
-  setAttachedGas = () => {
+  collectAttachedGas = () => {
     const gasAttached = this.props.transaction.actions
       .map(action => {
         let actionArgs = action.args as any;
@@ -66,7 +66,7 @@ export default class extends React.Component<Props, State> {
     return new BN(-1);
   };
 
-  setTotalFee = () => {
+  collectTotalFee = () => {
     const gasPrice = new BN(this.props.transaction.gasPrice);
     const gasBurntByTx = this.props.transaction.transactionOutcome
       ? new BN(this.props.transaction.transactionOutcome.outcome.gas_burnt)
@@ -78,7 +78,7 @@ export default class extends React.Component<Props, State> {
       : new BN(0);
     const gasUsed = gasBurntByTx.add(gasBurntByReceipts);
     const transactionFee = gasUsed.mul(gasPrice);
-    let gasAttached = this.setAttachedGas();
+    let gasAttached = this.collectAttachedGas();
     if (gasAttached.lt(new BN(0))) {
       gasAttached = gasUsed;
     }
@@ -86,8 +86,15 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.setDeposit();
-    this.setTotalFee();
+    this.collectDeposit();
+    this.collectTotalFee();
+  }
+
+  componentDidUpdate(preProps: Props) {
+    if (this.props.transaction !== preProps.transaction) {
+      this.collectDeposit();
+      this.collectTotalFee();
+    }
   }
 
   render() {
