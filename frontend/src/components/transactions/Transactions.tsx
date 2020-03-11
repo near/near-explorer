@@ -36,6 +36,16 @@ export default class extends React.Component<OuterProps> {
     this.fetchTransactions,
     this.props
   );
+
+  componentDidUpdate(preProps: OuterProps) {
+    if (
+      this.props.accountId !== preProps.accountId ||
+      this.props.blockHash !== preProps.blockHash
+    ) {
+      window.location.reload(true);
+    }
+  }
+
   render() {
     return <this.autoRefreshTransactions />;
   }
