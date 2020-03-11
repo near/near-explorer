@@ -8,21 +8,28 @@ import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
 import NodeRow from "./NodeRow";
 
-interface Props {
+import { OuterProps } from "../accounts/Accounts";
+
+export default class extends React.Component<OuterProps> {
+  static defaultProps = {
+    count: 15
+  };
+
+  fetchNodes = async () => {
+    return await new NodesApi().getNodes(this.props.count);
+  };
+
+  autoRefreshNodes = autoRefreshHandler(Nodes, this.fetchNodes);
+  render() {
+    return <this.autoRefreshNodes />;
+  }
+}
+
+interface InnerProps {
   items: N.NodeInfo[];
 }
 
-const count = 15;
-
-const fetchNodes = async () => {
-  return await new NodesApi().getNodes(count);
-};
-
-class Nodes extends React.Component<Props> {
-  static defaultProps = {
-    items: []
-  };
-
+class Nodes extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
     if (items.length === 0) {
@@ -75,5 +82,3 @@ class Nodes extends React.Component<Props> {
     );
   }
 }
-
-export default autoRefreshHandler(Nodes, fetchNodes, count);

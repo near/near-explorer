@@ -44,28 +44,25 @@ interface InnerProps {
 class DashboardTransactions extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    let txShow = <PaginationSpinner hidden={false} />;
-    if (items.length > 0) {
-      txShow = (
-        <>
-          <FlipMove duration={1000} staggerDurationBy={0}>
-            <TransactionsList
-              transactions={items}
-              viewMode="compact"
-              reversed
-            />
-          </FlipMove>
-          <Row noGutters>
-            <Col xs="1" className="dashboard-transactions-icon-col" />
-            <Col xs="6">
-              <Link href="transactions">
-                <a className="dashboard-footer">View All</a>
-              </Link>
-            </Col>
-          </Row>
-        </>
-      );
+    let txShow;
+    if (items.length === 0) {
+      txShow = <PaginationSpinner hidden={false} />;
     }
+    txShow = (
+      <>
+        <FlipMove duration={1000} staggerDurationBy={0}>
+          <TransactionsList transactions={items} viewMode="compact" reversed />
+        </FlipMove>
+        <Row noGutters>
+          <Col xs="1" className="dashboard-transactions-icon-col" />
+          <Col xs="6">
+            <Link href="transactions">
+              <a className="dashboard-footer">View All</a>
+            </Link>
+          </Col>
+        </Row>
+      </>
+    );
     return (
       <Content
         title={<h2>Recent Transactions</h2>}

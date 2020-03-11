@@ -32,14 +32,13 @@ export interface InnerProps {
 class Blocks extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    let blocksShow = <PaginationSpinner hidden={false} />;
-    if (items.length > 0) {
-      blocksShow = (
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <BlocksList blocks={items} />
-        </FlipMove>
-      );
+    if (items.length === 0) {
+      return <PaginationSpinner hidden={false} />;
     }
-    return <>{blocksShow}</>;
+    return (
+      <FlipMove duration={1000} staggerDurationBy={0}>
+        <BlocksList blocks={items} />
+      </FlipMove>
+    );
   }
 }

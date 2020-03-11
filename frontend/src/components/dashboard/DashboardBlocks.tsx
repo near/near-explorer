@@ -38,27 +38,29 @@ export default class extends React.Component<OuterProps> {
 class DashboardBlocks extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    let blockShow = <PaginationSpinner hidden={false} />;
-    if (items.length > 0) {
-      blockShow = (
-        <>
-          <FlipMove
-            duration={1000}
-            staggerDurationBy={0}
-            className="row gutter-4"
-          >
-            <DashboardBlocksList blocks={items} />
-          </FlipMove>
-          <Row>
-            <Col xs="6">
-              <Link href="blocks">
-                <a className="dashboard-footer">View All</a>
-              </Link>
-            </Col>
-          </Row>
-        </>
-      );
+    let blockShow;
+    if (items.length === 0) {
+      blockShow = <PaginationSpinner hidden={false} />;
     }
+    blockShow = (
+      <>
+        <FlipMove
+          duration={1000}
+          staggerDurationBy={0}
+          className="row gutter-4"
+        >
+          <DashboardBlocksList blocks={items} />
+        </FlipMove>
+        <Row>
+          <Col xs="6">
+            <Link href="blocks">
+              <a className="dashboard-footer">View All</a>
+            </Link>
+          </Col>
+        </Row>
+      </>
+    );
+
     return (
       <>
         <Row>

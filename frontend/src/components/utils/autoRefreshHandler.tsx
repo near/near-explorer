@@ -29,7 +29,7 @@ export default (
     regularFetchInfo = async () => {
       fetchDataFn()
         .then((items: any) => {
-          this.setState({ items, loading: false });
+          this.setState({ items });
         })
         .catch((err: any) => {
           console.error(err);

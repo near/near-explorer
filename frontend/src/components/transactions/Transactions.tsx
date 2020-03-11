@@ -50,14 +50,13 @@ interface InnerProps {
 class Transactions extends React.Component<InnerProps> {
   render() {
     const { items, reversed } = this.props;
-    let txShow = <PaginationSpinner hidden={false} />;
-    if (items.length > 0) {
-      txShow = (
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <TransactionsList transactions={items} reversed={reversed} />
-        </FlipMove>
-      );
+    if (items.length === 0) {
+      return <PaginationSpinner hidden={false} />;
     }
-    return <>{txShow}</>;
+    return (
+      <FlipMove duration={1000} staggerDurationBy={0}>
+        <TransactionsList transactions={items} reversed={reversed} />
+      </FlipMove>
+    );
   }
 }

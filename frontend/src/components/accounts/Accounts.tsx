@@ -33,14 +33,13 @@ interface InnerProps {
 class Accounts extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    let accountsShow = <PaginationSpinner hidden={false} />;
-    if (items.length > 0) {
-      accountsShow = (
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <AccountsList accounts={items} />
-        </FlipMove>
-      );
+    if (items.length === 0) {
+      return <PaginationSpinner hidden={false} />;
     }
-    return <>{accountsShow}</>;
+    return (
+      <FlipMove duration={1000} staggerDurationBy={0}>
+        <AccountsList accounts={items} />
+      </FlipMove>
+    );
   }
 }
