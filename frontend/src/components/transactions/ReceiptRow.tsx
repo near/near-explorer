@@ -12,7 +12,6 @@ export interface State {}
 export default class extends React.Component<Props, State> {
   render() {
     const { receipt } = this.props;
-
     let statusInfo;
     if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
       const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
@@ -37,9 +36,6 @@ export default class extends React.Component<Props, State> {
             <pre>{JSON.stringify(Failure, null, 2)}</pre>
           </>
         );
-      } else {
-        console.log(receipt.outcome.status);
-        statusInfo = <i>Failure</i>;
       }
     }
 

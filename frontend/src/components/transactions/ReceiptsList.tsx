@@ -6,10 +6,17 @@ export interface Props {
   receipts: T.ReceiptOutcome[];
 }
 
-export default ({ receipts }: Props) => (
-  <>
-    {receipts.map(receipt => (
-      <ReceiptRow key={receipt.id} receipt={receipt} />
-    ))}
-  </>
-);
+export default ({ receipts }: Props) => {
+  const status = receipts.map(receipt => {
+    return [receipt.id, receipt.outcome.status];
+  });
+  console.log(receipts);
+  console.log(status);
+  return (
+    <>
+      {receipts.map(receipt => (
+        <ReceiptRow key={receipt.id} receipt={receipt} />
+      ))}
+    </>
+  );
+};
