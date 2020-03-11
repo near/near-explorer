@@ -36,15 +36,13 @@ export default class extends React.Component<OuterProps> {
     this.fetchTransactions,
     this.props
   );
-
   render() {
     return <this.autoRefreshTransactions />;
   }
 }
 
-interface InnerProps {
+interface InnerProps extends OuterProps {
   items: T.Transaction[];
-  reversed: boolean;
 }
 
 class Transactions extends React.Component<InnerProps> {
