@@ -3,7 +3,7 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import FlipMove from "../utils/FlipMove";
-// import PaginationSpinner from "../utils/PaginationSpinner";
+import PaginationSpinner from "../utils/PaginationSpinner";
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 
 import TransactionsList from "./TransactionsList";
@@ -15,25 +15,11 @@ export interface OuterProps {
   count: number;
 }
 
-interface State {
-  update: boolean;
-}
-
-export default class extends React.Component<OuterProps, State> {
+export default class extends React.Component<OuterProps> {
   static defaultProps = {
     reversed: false,
     count: 15
   };
-
-  state: State = {
-    update: false
-  };
-
-  componentDidUpdate(preProps: any) {
-    if (this.props.accountId !== preProps.accountId) {
-      this.setState({ update: true });
-    }
-  }
 
   fetchTransactions = async () => {
     return await new TransactionsApi().getTransactions({
@@ -48,7 +34,6 @@ export default class extends React.Component<OuterProps, State> {
   autoRefreshTransactions = autoRefreshHandler(
     Transactions,
     this.fetchTransactions,
-    this.state.update,
     this.props
   );
 
@@ -65,10 +50,14 @@ interface InnerProps {
 class Transactions extends React.Component<InnerProps> {
   render() {
     const { items, reversed } = this.props;
-    return (
-      <FlipMove duration={1000} staggerDurationBy={0}>
-        <TransactionsList transactions={items} reversed={reversed} />
-      </FlipMove>
-    );
+    let txShow = <PaginationSpinner hidden={false} />;
+    if (items.length > 0) {
+      txShow = (
+        <FlipMove duration={1000} staggerDurationBy={0}>
+          <TransactionsList transactions={items} reversed={reversed} />
+        </FlipMove>
+      );
+    }
+    return <>{txShow}</>;
   }
 }

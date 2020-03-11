@@ -1,10 +1,8 @@
 import React from "react";
-import PaginationSpinner from "./PaginationSpinner";
 
 export default (
   WrappedComponent: React.ComponentType<any>,
   fetchDataFn: Function,
-  update?: boolean,
   props?: any
 ) => {
   return class extends React.Component {
@@ -16,8 +14,7 @@ export default (
     timer: ReturnType<typeof setTimeout> | null;
 
     state = {
-      items: [],
-      loading: false
+      items: []
     };
 
     componentDidMount() {
@@ -30,9 +27,6 @@ export default (
     }
 
     regularFetchInfo = async () => {
-      if (update) {
-        this.setState({ loading: true });
-      }
       fetchDataFn()
         .then((items: any) => {
           this.setState({ items, loading: false });
@@ -46,9 +40,6 @@ export default (
     };
 
     render() {
-      if (this.state.loading) {
-        return <PaginationSpinner hidden={false} />;
-      }
       return <WrappedComponent items={this.state.items} {...props} />;
     }
   };

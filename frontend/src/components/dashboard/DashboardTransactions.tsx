@@ -14,21 +14,34 @@ import TransactionsList from "../transactions/TransactionsList";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-interface Props {
+import { OuterProps } from "../accounts/Accounts";
+
+export default class extends React.Component<OuterProps> {
+  static defaultProps = {
+    count: 10
+  };
+
+  fetchTxs = async () => {
+    return await new TransactionsApi().getLatestTransactionsInfo(
+      this.props.count
+    );
+  };
+
+  autoRefreshDashboardBlocks = autoRefreshHandler(
+    DashboardTransactions,
+    this.fetchTxs
+  );
+
+  render() {
+    return <this.autoRefreshDashboardBlocks />;
+  }
+}
+
+interface InnerProps {
   items: T.Transaction[];
 }
 
-const count = 10;
-
-const fetchTxs = async () => {
-  return await new TransactionsApi().getLatestTransactionsInfo(count);
-};
-
-class DashboardTransactions extends React.Component<Props> {
-  static defaultProps = {
-    items: []
-  };
-
+class DashboardTransactions extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
     let txShow = <PaginationSpinner hidden={false} />;
@@ -126,5 +139,3 @@ class DashboardTransactions extends React.Component<Props> {
     );
   }
 }
-
-export default autoRefreshHandler(DashboardTransactions, fetchTxs, count);

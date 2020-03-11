@@ -9,23 +9,33 @@ import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-import DashboardBlocksBlock from "./DashboardBlocksBlock";
+import DashboardBlocksList from "./DashboardBlocksList";
 
-import { Props } from "../blocks/Blocks";
+import { OuterProps } from "../accounts/Accounts";
+import { InnerProps } from "../blocks/Blocks";
 
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
-const count = 8;
-
-const fetchBlocks = async () => {
-  return await new BlocksApi().getLatestBlocksInfo(count);
-};
-
-class DashboardBlocks extends React.Component<Props> {
+export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    items: []
+    count: 8
   };
 
+  fetchBlocks = async () => {
+    return await new BlocksApi().getLatestBlocksInfo(this.props.count);
+  };
+
+  autoRefreshDashboardBlocks = autoRefreshHandler(
+    DashboardBlocks,
+    this.fetchBlocks
+  );
+
+  render() {
+    return <this.autoRefreshDashboardBlocks />;
+  }
+}
+
+class DashboardBlocks extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
     let blockShow = <PaginationSpinner hidden={false} />;
@@ -37,9 +47,7 @@ class DashboardBlocks extends React.Component<Props> {
             staggerDurationBy={0}
             className="row gutter-4"
           >
-            {items.map(block => (
-              <DashboardBlocksBlock key={block.hash} block={block} />
-            ))}
+            <DashboardBlocksList blocks={items} />
           </FlipMove>
           <Row>
             <Col xs="6">
@@ -123,5 +131,3 @@ class DashboardBlocks extends React.Component<Props> {
     );
   }
 }
-
-export default autoRefreshHandler(DashboardBlocks, fetchBlocks, count);
