@@ -90,7 +90,7 @@ export default class extends React.Component<Props, State> {
               title="Last Paid"
               imgLink="/static/images/icon-m-block.svg"
               text={
-                storagePaidAtBlockHash ? (
+                storagePaidAtBlockHash !== null ? (
                   <BlockLink blockHash={storagePaidAtBlockHash}>
                     {`#${account.storagePaidAt.toLocaleString()}`}
                   </BlockLink>

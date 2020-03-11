@@ -12,7 +12,9 @@ describe("<BlockDetails />", () => {
             timestamp: Number(new Date(2019, 1, 1)),
             hash: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
             prevHash: "EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu",
-            height: 12345
+            height: 12345,
+            gasPrice: "5000",
+            gasUsed: 0
           }}
         />
       )
