@@ -67,7 +67,13 @@ Array [
             <div
               className="receipt-row-title col"
             >
-              Empty result
+              <i>
+                SuccessReceiptId: 
+              </i>
+              <pre>
+                A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp, A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp
+                 
+              </pre>
             </div>
           </div>
           <div

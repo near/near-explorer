@@ -7,11 +7,10 @@ export interface Props {
   receipt: T.ReceiptOutcome;
 }
 
-export interface State {}
-
-export default class extends React.Component<Props, State> {
+export default class extends React.Component<Props> {
   render() {
     const { receipt } = this.props;
+    console.log(receipt.id);
     let statusInfo;
     if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
       const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
