@@ -7,11 +7,6 @@ export interface Props {
 }
 
 export default ({ receipts }: Props) => {
-  const status = receipts.map(receipt => {
-    return [receipt.id, receipt.outcome.status];
-  });
-  console.log(receipts);
-  console.log(status);
   return (
     <>
       {receipts.map(receipt => (

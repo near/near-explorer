@@ -27,16 +27,28 @@ export default class extends React.Component<Props, State> {
           </>
         );
       }
-    } else {
-      if ("Failure" in (receipt.outcome.status as T.ReceiptFailure)) {
-        const { Failure } = receipt.outcome.status as T.ReceiptFailure;
-        statusInfo = (
-          <>
-            <i>Failure: </i>
-            <pre>{JSON.stringify(Failure, null, 2)}</pre>
-          </>
-        );
-      }
+    } else if ("Failure" in (receipt.outcome.status as T.ReceiptFailure)) {
+      const { Failure } = receipt.outcome.status as T.ReceiptFailure;
+      statusInfo = (
+        <>
+          <i>Failure: </i>
+          <pre>{JSON.stringify(Failure, null, 2)}</pre>
+        </>
+      );
+    } else if (
+      "SuccessReceiptId" in (receipt.outcome.status as T.ReceiptSucessId)
+    ) {
+      const ReceiptId = receipt.outcome.receipt_ids;
+      statusInfo = (
+        <>
+          <i>SuccessReceiptId: </i>
+          <pre>
+            {ReceiptId.map(id => {
+              return <>{id} </>;
+            })}
+          </pre>
+        </>
+      );
     }
 
     return (
