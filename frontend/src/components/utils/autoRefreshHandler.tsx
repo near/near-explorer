@@ -29,7 +29,13 @@ export default (
       }
     }
 
-    regularFetchInfo = async () => {
+    componentDidUpdate(preProps: any) {
+      if (this.props !== preProps) {
+        this.setState({ items: [] }, this.fetchInfo);
+      }
+    }
+
+    fetchInfo = () => {
       fetchDataFn()
         .then((items: any) => {
           this.setState({ items });
@@ -37,6 +43,10 @@ export default (
         .catch((err: any) => {
           console.error(err);
         });
+    };
+
+    regularFetchInfo = () => {
+      this.fetchInfo();
       if (this.timer !== null) {
         this.timer = setTimeout(this.regularFetchInfo, 10000);
       }
