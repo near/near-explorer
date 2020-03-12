@@ -5,7 +5,7 @@ import ReceiptRow from "../ReceiptRow";
 import { TRANSACTIONS } from "./common";
 
 describe("<ReceiptRow />", () => {
-  it("renders SucessValue", () => {
+  it("renders SuccessValue", () => {
     expect(
       renderer.create(
         <ReceiptRow
@@ -16,7 +16,7 @@ describe("<ReceiptRow />", () => {
     ).toMatchSnapshot();
   });
 
-  it("renders SucessReceiptId", () => {
+  it("renders SuccessReceiptId", () => {
     expect(
       renderer.create(
         <ReceiptRow

@@ -58,7 +58,7 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
 </div>
 `;
 
-exports[`<ReceiptRow /> renders SucessReceiptId 1`] = `
+exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
 <div
   className="receipt-row mx-0 row no-gutters"
 >
@@ -81,8 +81,7 @@ exports[`<ReceiptRow /> renders SucessReceiptId 1`] = `
               SuccessReceiptId: 
             </i>
             <pre>
-              A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp, A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp
-               
+              A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111
             </pre>
           </div>
         </div>
@@ -118,7 +117,7 @@ exports[`<ReceiptRow /> renders SucessReceiptId 1`] = `
 </div>
 `;
 
-exports[`<ReceiptRow /> renders SucessValue 1`] = `
+exports[`<ReceiptRow /> renders SuccessValue 1`] = `
 <div
   className="receipt-row mx-0 row no-gutters"
 >

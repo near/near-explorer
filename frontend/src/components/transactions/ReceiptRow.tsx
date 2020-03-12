@@ -35,17 +35,13 @@ export default class extends React.Component<Props> {
         </>
       );
     } else if (
-      "SuccessReceiptId" in (receipt.outcome.status as T.ReceiptSucessId)
+      "SuccessReceiptId" in (receipt.outcome.status as T.ReceiptSuccessId)
     ) {
-      const ReceiptId = receipt.outcome.receipt_ids;
+      const { SuccessReceiptId } = receipt.outcome.status as T.ReceiptSuccessId;
       statusInfo = (
         <>
           <i>SuccessReceiptId: </i>
-          <pre>
-            {ReceiptId.map(id => {
-              return <>{id} </>;
-            })}
-          </pre>
+          <pre>{SuccessReceiptId}</pre>
         </>
       );
     }
