@@ -61,21 +61,7 @@ class Nodes extends React.Component<InnerProps> {
         <FlipMove duration={1000} staggerDurationBy={0}>
           {items &&
             items.map(node => {
-              return (
-                <NodeRow
-                  key={node.nodeId}
-                  ipAddress={node.ipAddress}
-                  moniker={node.moniker}
-                  accountId={node.accountId}
-                  nodeId={node.nodeId}
-                  lastSeen={node.lastSeen}
-                  lastHeight={node.lastHeight}
-                  isValidator={node.isValidator}
-                  agentName={node.agentName}
-                  agentVersion={node.agentVersion}
-                  agentBuild={node.agentBuild}
-                />
-              );
+              return <NodeRow key={node.nodeId} node={node} />;
             })}
         </FlipMove>
       </>
