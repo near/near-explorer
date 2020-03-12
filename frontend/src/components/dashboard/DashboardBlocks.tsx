@@ -41,26 +41,26 @@ class DashboardBlocks extends React.Component<InnerProps> {
     let blockShow;
     if (items.length === 0) {
       blockShow = <PaginationSpinner hidden={false} />;
+    } else {
+      blockShow = (
+        <>
+          <FlipMove
+            duration={1000}
+            staggerDurationBy={0}
+            className="row gutter-4"
+          >
+            <DashboardBlocksList blocks={items} />
+          </FlipMove>
+          <Row>
+            <Col xs="6">
+              <Link href="blocks">
+                <a className="dashboard-footer">View All</a>
+              </Link>
+            </Col>
+          </Row>
+        </>
+      );
     }
-    blockShow = (
-      <>
-        <FlipMove
-          duration={1000}
-          staggerDurationBy={0}
-          className="row gutter-4"
-        >
-          <DashboardBlocksList blocks={items} />
-        </FlipMove>
-        <Row>
-          <Col xs="6">
-            <Link href="blocks">
-              <a className="dashboard-footer">View All</a>
-            </Link>
-          </Col>
-        </Row>
-      </>
-    );
-
     return (
       <>
         <Row>

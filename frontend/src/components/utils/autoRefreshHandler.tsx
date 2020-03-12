@@ -22,8 +22,11 @@ export default (
     }
 
     componentWillUnmount() {
-      clearTimeout(this.timer!);
+      const timer = this.timer;
       this.timer = null;
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
     }
 
     regularFetchInfo = async () => {

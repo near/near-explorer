@@ -47,22 +47,27 @@ class DashboardTransactions extends React.Component<InnerProps> {
     let txShow;
     if (items.length === 0) {
       txShow = <PaginationSpinner hidden={false} />;
+    } else {
+      txShow = (
+        <>
+          <FlipMove duration={1000} staggerDurationBy={0}>
+            <TransactionsList
+              transactions={items}
+              viewMode="compact"
+              reversed
+            />
+          </FlipMove>
+          <Row noGutters>
+            <Col xs="1" className="dashboard-transactions-icon-col" />
+            <Col xs="6">
+              <Link href="transactions">
+                <a className="dashboard-footer">View All</a>
+              </Link>
+            </Col>
+          </Row>
+        </>
+      );
     }
-    txShow = (
-      <>
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <TransactionsList transactions={items} viewMode="compact" reversed />
-        </FlipMove>
-        <Row noGutters>
-          <Col xs="1" className="dashboard-transactions-icon-col" />
-          <Col xs="6">
-            <Link href="transactions">
-              <a className="dashboard-footer">View All</a>
-            </Link>
-          </Col>
-        </Row>
-      </>
-    );
     return (
       <Content
         title={<h2>Recent Transactions</h2>}
