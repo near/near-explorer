@@ -1,48 +1,47 @@
+import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import NodesApi from "../../libraries/explorer-wamp/nodes";
+import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
+import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
+import PaginationSpinner from "../utils/PaginationSpinner";
 import NodeRow from "./NodeRow";
 
-export default class extends React.Component {
-  state = { loading: true, nodes: null };
+import { OuterProps } from "../accounts/Accounts";
 
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    this._nodesApi = new NodesApi();
-    this.regularFetchInfo();
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer);
-    this.timer = null;
-  }
-
-  fetchInfo = async () => {
-    const nodes = await this._nodesApi.getNodesInfo();
-    this.setState({ loading: false, nodes });
+export default class extends React.Component<OuterProps> {
+  static defaultProps = {
+    count: 15
   };
 
-  regularFetchInfo = async () => {
-    await this.fetchInfo();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
+  fetchNodes = async () => {
+    return await new NodesApi().getNodes(this.props.count);
   };
 
+  autoRefreshNodes = autoRefreshHandler(Nodes, this.fetchNodes);
   render() {
-    const { nodes, loading } = this.state;
+    return <this.autoRefreshNodes />;
+  }
+}
+
+interface InnerProps {
+  items: N.NodeInfo[];
+}
+
+class Nodes extends React.Component<InnerProps> {
+  render() {
+    const { items } = this.props;
+    if (items.length === 0) {
+      return <PaginationSpinner hidden={false} />;
+    }
     return (
       <>
-        {nodes && (
+        {items && (
           <div>
             <Row>
               <Col md="auto" className="align-self-center pagination-total">
-                {`${nodes.length.toLocaleString()} Total`}
+                {`${items.length.toLocaleString()} Total`}
               </Col>
             </Row>
             <style jsx>{`
@@ -59,14 +58,9 @@ export default class extends React.Component {
             `}</style>
           </div>
         )}
-
-        <FlipMove
-          duration={1000}
-          staggerDurationBy={0}
-          style={{ minHeight: "300px" }}
-        >
-          {nodes &&
-            nodes.map(node => {
+        <FlipMove duration={1000} staggerDurationBy={0}>
+          {items &&
+            items.map(node => {
               return (
                 <NodeRow
                   key={node.nodeId}

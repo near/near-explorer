@@ -2,94 +2,43 @@ import React from "react";
 
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
-import FlipMove from "../utils/FlipMove";
+import autoRefreshHandler from "../utils/autoRefreshHandler";
 import PaginationSpinner from "../utils/PaginationSpinner";
+import FlipMove from "../utils/FlipMove";
 import BlocksList from "./BlocksList";
 
-export interface Props {
-  limit: number;
-}
+import { OuterProps } from "../accounts/Accounts";
 
-export interface State {
-  blocks: B.BlockInfo[];
-}
-
-interface CallBack {
-  (myArgument: B.BlockInfo[]): B.BlockInfo[];
-}
-
-export default class extends React.Component<Props, State> {
+export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    limit: 15
+    count: 15
   };
 
-  state: State = {
-    blocks: []
+  fetchBlocks = async () => {
+    return await new BlocksApi().getBlocks(this.props.count);
   };
 
-  _blocksApi: BlocksApi | null;
-  timer: ReturnType<typeof setTimeout> | null;
-
-  constructor(props: Props) {
-    super(props);
-    this._blocksApi = null;
-    this.timer = null;
-  }
-
-  componentDidMount() {
-    this._blocksApi = new BlocksApi();
-    this.timer = setTimeout(this.regularFetchInfo, 0);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer!);
-    this.timer = null;
-  }
-
-  regularFetchInfo = async () => {
-    await this.getBlocks();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
-  };
-
-  getBlocks = async () => {
-    if (this._blocksApi === null) {
-      this._blocksApi = new BlocksApi();
-    }
-    let blocks;
-    if (this.state.blocks.length === 0) {
-      blocks = await this._blocksApi.getBlocks(this.props.limit);
-    } else {
-      blocks = await this._blocksApi.getBlocks(this.state.blocks.length);
-    }
-    if (blocks.length > 0) {
-      this.setState({ blocks });
-    }
-  };
-
-  setBlocks = (callback: CallBack) => {
-    this.setState(state => {
-      return { ...state, blocks: callback(state.blocks) };
-    });
-  };
+  autoRefreshBlocks = autoRefreshHandler(Blocks, this.fetchBlocks);
 
   render() {
-    const { blocks } = this.state;
-    if (blocks === []) {
+    return <this.autoRefreshBlocks />;
+  }
+}
+
+export interface InnerProps {
+  items: B.BlockInfo[];
+}
+
+class Blocks extends React.Component<InnerProps> {
+  render() {
+    const { items } = this.props;
+    if (items.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <>
-        <div id="block" />
-        <FlipMove duration={1000} staggerDurationBy={0}>
-          <BlocksList
-            blocks={blocks}
-            setBlocks={this.setBlocks}
-            limit={this.props.limit}
-          />
-        </FlipMove>
-      </>
+      <FlipMove duration={1000} staggerDurationBy={0}>
+        <BlocksList blocks={items} />
+      </FlipMove>
     );
   }
 }

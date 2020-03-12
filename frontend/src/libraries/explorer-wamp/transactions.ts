@@ -105,7 +105,7 @@ export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
   TransactionOutcomeWrapper;
 
-export interface FilterArgs {
+export interface QueryArgs {
   signerId?: string;
   receiverId?: string;
   transactionHash?: string;
@@ -115,8 +115,8 @@ export interface FilterArgs {
 }
 
 export default class TransactionsApi extends ExplorerApi {
-  async getTransactions(filters: FilterArgs): Promise<Transaction[]> {
-    const { signerId, receiverId, transactionHash, blockHash } = filters;
+  async getTransactions(queries: QueryArgs): Promise<Transaction[]> {
+    const { signerId, receiverId, transactionHash, blockHash } = queries;
     const whereClause = [];
     if (signerId) {
       whereClause.push(`transactions.signer_id = :signerId`);
@@ -137,11 +137,11 @@ export default class TransactionsApi extends ExplorerApi {
           FROM transactions
           LEFT JOIN blocks ON blocks.hash = transactions.block_hash
           ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-          ORDER BY blocks.height ${filters.tail ? "DESC" : ""}
+          ORDER BY blocks.height ${queries.tail ? "DESC" : ""}
           LIMIT :limit`,
-        filters
+        queries
       ]);
-      if (filters.tail) {
+      if (queries.tail) {
         transactions.reverse();
       }
       await Promise.all(
@@ -189,7 +189,7 @@ export default class TransactionsApi extends ExplorerApi {
     }
   }
 
-  async getLatestTransactionsInfo(limit: number = 15): Promise<Transaction[]> {
+  async getLatestTransactionsInfo(limit: number = 10): Promise<Transaction[]> {
     return this.getTransactions({ tail: true, limit });
   }
 
@@ -201,7 +201,6 @@ export default class TransactionsApi extends ExplorerApi {
         transactionHash,
         limit: 1
       }).then(it => it[0] || null);
-
       if (transactionInfo === null) {
         transactionInfo = {
           status: "NotStarted",

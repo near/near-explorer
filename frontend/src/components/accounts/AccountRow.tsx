@@ -1,9 +1,11 @@
 import moment from "moment";
-import React from "react";
-import { Row, Col } from "react-bootstrap";
 import Link from "next/link";
 
+import React from "react";
+import { Row, Col } from "react-bootstrap";
+
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
+
 import Balance from "../utils/Balance";
 
 export interface Props {

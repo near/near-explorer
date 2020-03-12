@@ -1,67 +1,47 @@
 import Link from "next/link";
 
 import React from "react";
-
 import { Row, Col } from "react-bootstrap";
 
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
+import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
-import DashboardBlocksBlock from "./DashboardBlocksBlock";
 import PaginationSpinner from "../utils/PaginationSpinner";
-import { Props, State } from "../blocks/Blocks";
+
+import DashboardBlocksList from "./DashboardBlocksList";
+
+import { OuterProps } from "../accounts/Accounts";
+import { InnerProps } from "../blocks/Blocks";
 
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
-export default class extends React.Component<Props, State> {
+export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    limit: 8
+    count: 8
   };
 
-  state: State = {
-    blocks: []
+  fetchBlocks = async () => {
+    return await new BlocksApi().getLatestBlocksInfo(this.props.count);
   };
 
-  _blocksApi: BlocksApi | null;
-  timer: ReturnType<typeof setTimeout> | null;
-
-  constructor(props: Props) {
-    super(props);
-    this._blocksApi = null;
-    this.timer = null;
-  }
-
-  componentDidMount() {
-    this._blocksApi = new BlocksApi();
-    this.timer = setTimeout(this.regularFetchInfo, 0);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer!);
-    this.timer = null;
-  }
-
-  regularFetchInfo = async () => {
-    await this.getBlocks();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
-  };
-
-  getBlocks = async () => {
-    if (this._blocksApi === null) {
-      this._blocksApi = new BlocksApi();
-    }
-    this._blocksApi
-      .getLatestBlocksInfo(this.props.limit)
-      .then(blocks => this.setState({ blocks }))
-      .catch(err => console.error(err));
-  };
+  autoRefreshDashboardBlocks = autoRefreshHandler(
+    DashboardBlocks,
+    this.fetchBlocks
+  );
 
   render() {
-    const { blocks } = this.state;
-    let blockShow = <PaginationSpinner hidden={false} />;
-    if (blocks.length > 0) {
+    return <this.autoRefreshDashboardBlocks />;
+  }
+}
+
+class DashboardBlocks extends React.Component<InnerProps> {
+  render() {
+    const { items } = this.props;
+    let blockShow;
+    if (items.length === 0) {
+      blockShow = <PaginationSpinner hidden={false} />;
+    } else {
       blockShow = (
         <>
           <FlipMove
@@ -69,9 +49,7 @@ export default class extends React.Component<Props, State> {
             staggerDurationBy={0}
             className="row gutter-4"
           >
-            {blocks.map(block => (
-              <DashboardBlocksBlock key={block.hash} block={block} />
-            ))}
+            <DashboardBlocksList blocks={items} />
           </FlipMove>
           <Row>
             <Col xs="6">

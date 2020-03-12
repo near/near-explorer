@@ -1,17 +1,14 @@
 import React from "react";
 
-import * as B from "../../libraries/explorer-wamp/blocks";
+import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
-import BlocksRow from "./BlocksRow";
-export interface Props {
-  blocks: B.BlockInfo[];
-}
+import { Props } from "../blocks/BlocksList";
 
 export default class extends React.Component<Props> {
   render() {
     const { blocks } = this.props;
     const blockRow = blocks.map(block => (
-      <BlocksRow key={block.hash} block={block} />
+      <DashboardBlocksBlock key={block.hash} block={block} />
     ));
     return <>{blockRow}</>;
   }

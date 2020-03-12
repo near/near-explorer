@@ -1,73 +1,58 @@
 import Link from "next/link";
+
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
-import TransactionsList from "../transactions/TransactionsList";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
-interface Props {}
+import autoRefreshHandler from "../utils/autoRefreshHandler";
 
-interface State {
-  transactions: T.Transaction[];
-  limit: number;
-}
+import TransactionsList from "../transactions/TransactionsList";
 
-export default class extends React.Component<Props, State> {
-  state = {
-    transactions: [],
-    limit: 10
+import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+
+import { OuterProps } from "../accounts/Accounts";
+
+export default class extends React.Component<OuterProps> {
+  static defaultProps = {
+    count: 10
   };
 
-  _transactionsApi: TransactionsApi | null;
-  timer: ReturnType<typeof setTimeout> | null;
-
-  constructor(props: Props) {
-    super(props);
-    this._transactionsApi = null;
-    this.timer = null;
-  }
-
-  componentDidMount() {
-    this.timer = setTimeout(this.regularFetchInfo, 0);
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.timer!);
-    this.timer = null;
-  }
-
-  fetchInfo = async () => {
-    if (this._transactionsApi === null) {
-      this._transactionsApi = new TransactionsApi();
-    }
-    this._transactionsApi
-      .getLatestTransactionsInfo(this.state.limit)
-      .then(transactions => {
-        this.setState({ transactions });
-      })
-      .catch(err => console.error(err));
+  fetchTxs = async () => {
+    return await new TransactionsApi().getLatestTransactionsInfo(
+      this.props.count
+    );
   };
 
-  regularFetchInfo = async () => {
-    await this.fetchInfo();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
-  };
+  autoRefreshDashboardBlocks = autoRefreshHandler(
+    DashboardTransactions,
+    this.fetchTxs
+  );
 
   render() {
-    const { transactions } = this.state;
-    let txShow = <PaginationSpinner hidden={false} />;
-    if (transactions.length > 0) {
+    return <this.autoRefreshDashboardBlocks />;
+  }
+}
+
+interface InnerProps {
+  items: T.Transaction[];
+}
+
+class DashboardTransactions extends React.Component<InnerProps> {
+  render() {
+    const { items } = this.props;
+    let txShow;
+    if (items.length === 0) {
+      txShow = <PaginationSpinner hidden={false} />;
+    } else {
       txShow = (
         <>
           <FlipMove duration={1000} staggerDurationBy={0}>
             <TransactionsList
-              transactions={transactions}
+              transactions={items}
               viewMode="compact"
               reversed
             />
