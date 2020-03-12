@@ -10,7 +10,7 @@ export interface Props {
 export default class extends React.Component<Props> {
   render() {
     const { receipt } = this.props;
-    console.log(receipt.id);
+
     let statusInfo;
     if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
       const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
