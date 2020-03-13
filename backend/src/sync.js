@@ -75,6 +75,33 @@ async function saveBlocks(blocksInfo) {
                     };
                   })
                 ),
+                blockInfo.transactions.map(tx => {
+                  const transactionHash = tx.hash;
+                  models.Action.bulkCreate(
+                    tx.actions.map((action, index) => {
+                      if (typeof action === "string") {
+                        return {
+                          transactionHash: transactionHash,
+                          actionIndex: index,
+                          actionType: action,
+                          actionArgs: {}
+                        };
+                      }
+                      if (action.DeployContract !== undefined) {
+                        delete action.DeployContract.code;
+                      } else if (action.FunctionCall !== undefined) {
+                        delete action.FunctionCall.args;
+                      }
+                      const type = Object.keys(action)[0];
+                      return {
+                        transactionHash: transactionHash,
+                        actionIndex: index,
+                        actionType: type,
+                        actionArgs: action[type]
+                      };
+                    })
+                  );
+                }),
                 models.Account.bulkCreate(
                   blockInfo.transactions
                     .filter(tx =>

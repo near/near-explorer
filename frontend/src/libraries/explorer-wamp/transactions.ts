@@ -164,6 +164,7 @@ export default class TransactionsApi extends ExplorerApi {
           //
           // Once the above TODO is resolved, we should just move this to TransactionInfo method
           // (i.e. query the information there only for the specific transaction).
+
           const actions = transactionExtraInfo.transaction.actions;
 
           transaction.actions = actions.map((action: RpcAction | string) => {
@@ -230,3 +231,12 @@ export default class TransactionsApi extends ExplorerApi {
     }
   }
 }
+
+// const newactions = await this.call<any>("select",
+// [`SELECT actions.transaction_hash, actions.action_index, actions.action_type as kind, actions.action_args as args
+// FROM actions
+// WHERE actions.transaction_hash = :hash
+// ORDER BY actions.action_index`,
+// {
+//   hash:transaction.hash
+// }])
