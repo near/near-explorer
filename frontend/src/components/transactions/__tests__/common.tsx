@@ -42,13 +42,28 @@ export const TRANSACTIONS: T.Transaction[] = [
         block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         outcome: {
           logs: ["LOG: Counter is now: 1"],
-          receipt_ids: ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp"],
+          receipt_ids: [
+            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
+            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222"
+          ],
+          status: {
+            SuccessReceiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111"
+          },
+          gas_burnt: 0
+        }
+      },
+      {
+        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
+        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+        outcome: {
+          logs: [],
+          receipt_ids: [],
           status: { SuccessValue: "" },
           gas_burnt: 0
         }
       },
       {
-        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp",
+        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
         block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         outcome: {
           logs: [],
@@ -95,9 +110,14 @@ export const TRANSACTIONS: T.Transaction[] = [
         id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
         block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
         outcome: {
-          logs: ["LOG: Counter is now: 1"],
+          logs: [],
           receipt_ids: [],
-          status: { SuccessValue: "" },
+          status: {
+            Failure: {
+              error_message: "Exceeded the prepaid gas.",
+              error_type: "ActionError::FunctionCallError"
+            }
+          },
           gas_burnt: 0
         }
       }

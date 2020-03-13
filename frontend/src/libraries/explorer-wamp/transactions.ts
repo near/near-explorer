@@ -72,7 +72,15 @@ export interface ReceiptFailure {
   Failure: any;
 }
 
-export type ReceiptStatus = ReceiptSuccessValue | ReceiptFailure | string;
+export interface ReceiptSuccessId {
+  SuccessReceiptId: string;
+}
+
+export type ReceiptStatus =
+  | ReceiptSuccessValue
+  | ReceiptFailure
+  | ReceiptSuccessId
+  | string;
 
 export interface Outcome {
   logs: string[];
