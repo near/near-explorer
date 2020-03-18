@@ -52,17 +52,6 @@ async function saveBlocks(blocksInfo) {
               return Promise.all([
                 models.Transaction.bulkCreate(
                   blockInfo.transactions.map(tx => {
-                    const actions = tx.actions.map(action => {
-                      if (typeof action === "string") {
-                        return { [action]: {} };
-                      }
-                      if (action.DeployContract !== undefined) {
-                        delete action.DeployContract.code;
-                      } else if (action.FunctionCall !== undefined) {
-                        delete action.FunctionCall.args;
-                      }
-                      return action;
-                    });
                     return {
                       hash: tx.hash,
                       nonce: tx.nonce,
@@ -70,8 +59,7 @@ async function saveBlocks(blocksInfo) {
                       signerId: tx.signer_id,
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
-                      receiverId: tx.receiver_id,
-                      actions
+                      receiverId: tx.receiver_id
                     };
                   })
                 ),
