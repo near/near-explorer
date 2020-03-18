@@ -22,7 +22,6 @@ export default class extends React.Component {
 
   render() {
     const { hash } = this.props;
-    console.log(this.props)
     return (
       <>
         <Head>
