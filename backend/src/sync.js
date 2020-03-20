@@ -50,26 +50,25 @@ async function saveBlocks(blocksInfo) {
             .map(blockInfo => {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
-                models.Transaction.bulkCreate(
-                  blockInfo.transactions.map(tx => {
-                    return {
-                      hash: tx.hash,
-                      nonce: tx.nonce,
-                      blockHash: blockInfo.header.hash,
-                      signerId: tx.signer_id,
-                      signerPublicKey: tx.signer_public_key || tx.public_key,
-                      signature: tx.signature,
-                      receiverId: tx.receiver_id
-                    };
-                  })
-                ),
                 blockInfo.transactions.map(tx => {
-                  const transactionHash = tx.hash;
+                  models.Transaction.bulkCreate(
+                    tx.map(() => {
+                      return {
+                        hash: tx.hash,
+                        nonce: tx.nonce,
+                        blockHash: blockInfo.header.hash,
+                        signerId: tx.signer_id,
+                        signerPublicKey: tx.signer_public_key || tx.public_key,
+                        signature: tx.signature,
+                        receiverId: tx.receiver_id
+                      };
+                    })
+                  );
                   models.Action.bulkCreate(
                     tx.actions.map((action, index) => {
                       if (typeof action === "string") {
                         return {
-                          transactionHash: transactionHash,
+                          transactionHash: tx.hash,
                           actionIndex: index,
                           actionType: action,
                           actionArgs: {}
@@ -82,7 +81,7 @@ async function saveBlocks(blocksInfo) {
                       }
                       const type = Object.keys(action)[0];
                       return {
-                        transactionHash: transactionHash,
+                        transactionHash: tx.hash,
                         actionIndex: index,
                         actionType: type,
                         actionArgs: action[type]
