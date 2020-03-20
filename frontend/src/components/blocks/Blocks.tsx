@@ -14,18 +14,23 @@ export default class extends React.Component<OuterProps> {
     count: 15
   };
 
-  fetchBlocks = async () => {
-    return await new BlocksApi().getBlocks(this.props.count);
+  fetchBlocks = async (count: number, endTimestamp?: number) => {
+    return await new BlocksApi().getBlocks(count, endTimestamp);
   };
 
-  autoRefreshBlocks = autoRefreshHandler(Blocks, this.fetchBlocks);
+  autoRefreshBlocks = autoRefreshHandler(
+    Blocks,
+    this.fetchBlocks,
+    this.props.count,
+    true
+  );
 
   render() {
     return <this.autoRefreshBlocks />;
   }
 }
 
-export interface InnerProps {
+export interface InnerProps extends OuterProps {
   items: B.BlockInfo[];
 }
 

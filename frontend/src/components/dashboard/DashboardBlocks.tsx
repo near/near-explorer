@@ -27,7 +27,9 @@ export default class extends React.Component<OuterProps> {
 
   autoRefreshDashboardBlocks = autoRefreshHandler(
     DashboardBlocks,
-    this.fetchBlocks
+    this.fetchBlocks,
+    this.props.count,
+    false
   );
 
   render() {

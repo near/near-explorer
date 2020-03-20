@@ -120,11 +120,18 @@ export interface QueryArgs {
   blockHash?: string;
   tail?: boolean;
   limit: number;
+  endTimestamp?: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
   async getTransactions(queries: QueryArgs): Promise<Transaction[]> {
-    const { signerId, receiverId, transactionHash, blockHash } = queries;
+    const {
+      signerId,
+      receiverId,
+      transactionHash,
+      blockHash,
+      endTimestamp
+    } = queries;
     const whereClause = [];
     if (signerId) {
       whereClause.push(`transactions.signer_id = :signerId`);
@@ -137,6 +144,9 @@ export default class TransactionsApi extends ExplorerApi {
     }
     if (blockHash) {
       whereClause.push(`transactions.block_hash = :blockHash`);
+    }
+    if (endTimestamp) {
+      whereClause.push(`blockTimestamp < : endTimestamp`);
     }
     try {
       const transactions = await this.call<TransactionInfo[]>("select", [

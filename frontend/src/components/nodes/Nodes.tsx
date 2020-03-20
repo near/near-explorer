@@ -15,11 +15,17 @@ export default class extends React.Component<OuterProps> {
     count: 15
   };
 
-  fetchNodes = async () => {
-    return await new NodesApi().getNodes(this.props.count);
+  fetchNodes = async (count: number) => {
+    return await new NodesApi().getNodes(count);
   };
 
-  autoRefreshNodes = autoRefreshHandler(Nodes, this.fetchNodes);
+  autoRefreshNodes = autoRefreshHandler(
+    Nodes,
+    this.fetchNodes,
+    this.props.count,
+    true
+  );
+
   render() {
     return <this.autoRefreshNodes />;
   }
@@ -41,7 +47,7 @@ class Nodes extends React.Component<InnerProps> {
           <div>
             <Row>
               <Col md="auto" className="align-self-center pagination-total">
-                {`${items.length.toLocaleString()} Total`}
+                {`${items.length.toLocaleString()} On List`}
               </Col>
             </Row>
             <style jsx>{`

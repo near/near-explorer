@@ -1,8 +1,14 @@
+import InfiniteScroll from "react-infinite-scroll-component";
+
 import React from "react";
+
+import PaginationSpinner from "./PaginationSpinner";
 
 export default (
   WrappedComponent: React.ComponentType<any>,
   fetchDataFn: Function,
+  count: number,
+  scroll: boolean,
   props?: any
 ) => {
   return class extends React.Component {
@@ -14,7 +20,8 @@ export default (
     timer: ReturnType<typeof setTimeout> | null;
 
     state = {
-      items: []
+      items: Array<any>(),
+      count: count
     };
 
     componentDidMount() {
@@ -31,12 +38,12 @@ export default (
 
     componentDidUpdate(preProps: any) {
       if (this.props !== preProps) {
-        this.setState({ items: [] }, this.fetchInfo);
+        this.setState({ items: Array<any>(), count });
       }
     }
 
-    fetchInfo = () => {
-      fetchDataFn()
+    fetchInfo = (count: number) => {
+      fetchDataFn(count)
         .then((items: any) => {
           this.setState({ items });
         })
@@ -46,14 +53,36 @@ export default (
     };
 
     regularFetchInfo = () => {
-      this.fetchInfo();
+      this.fetchInfo(this.state.count);
       if (this.timer !== null) {
         this.timer = setTimeout(this.regularFetchInfo, 10000);
       }
     };
 
+    fetchMoreData = async () => {
+      if (this.state.items.length > 0) {
+        const endTimestamp = this.state.items[this.state.items.length - 1]
+          .timestamp;
+        const newData = await fetchDataFn(count, endTimestamp);
+        const items = this.state.items.concat(newData);
+        this.setState({ items, count: items.length });
+      }
+    };
+
     render() {
-      return <WrappedComponent items={this.state.items} {...props} />;
+      if (this.state.items.length > 0) {
+        return (
+          <InfiniteScroll
+            dataLength={this.state.items.length}
+            next={this.fetchMoreData}
+            hasMore={scroll ? true : false}
+            loader={<PaginationSpinner hidden={false} />}
+          >
+            <WrappedComponent items={this.state.items} {...props} />
+          </InfiniteScroll>
+        );
+      }
+      return <PaginationSpinner hidden={false} />;
     }
   };
 };

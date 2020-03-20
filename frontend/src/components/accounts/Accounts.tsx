@@ -16,20 +16,26 @@ export default class extends React.Component<OuterProps> {
     count: 15
   };
 
-  fetchAccounts = async () => {
-    return await new AccountsApi().getAccounts(this.props.count);
+  fetchAccounts = async (count: number, endTimestamp?: number) => {
+    return await new AccountsApi().getAccounts(count, endTimestamp);
   };
 
-  autoRefreshAccounts = autoRefreshHandler(Accounts, this.fetchAccounts);
+  autoRefreshAccounts = autoRefreshHandler(
+    Accounts,
+    this.fetchAccounts,
+    this.props.count,
+    true
+  );
 
   render() {
     return <this.autoRefreshAccounts />;
   }
 }
 
-interface InnerProps {
+interface InnerProps extends OuterProps {
   items: A.AccountBasicInfo[];
 }
+
 class Accounts extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;

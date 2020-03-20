@@ -21,19 +21,22 @@ export default class extends React.Component<OuterProps> {
     count: 15
   };
 
-  fetchTransactions = async () => {
+  fetchTransactions = async (count: number, endTimestamp?: number) => {
     return await new TransactionsApi().getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
       tail: this.props.reversed,
-      limit: this.props.count
+      limit: count,
+      endTimestamp: endTimestamp
     });
   };
 
   autoRefreshTransactions = autoRefreshHandler(
     Transactions,
     this.fetchTransactions,
+    this.props.count,
+    true,
     this.props
   );
 
