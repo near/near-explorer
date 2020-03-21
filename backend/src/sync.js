@@ -50,30 +50,38 @@ async function saveBlocks(blocksInfo) {
             .map(blockInfo => {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
-                models.Transaction.bulkCreate(
-                  blockInfo.transactions.map(tx => {
-                    const actions = tx.actions.map(action => {
-                      if (typeof action === "string") {
-                        return { [action]: {} };
-                      }
-                      if (action.DeployContract !== undefined) {
-                        delete action.DeployContract.code;
-                      } else if (action.FunctionCall !== undefined) {
-                        delete action.FunctionCall.args;
-                      }
-                      return action;
-                    });
-                    return {
-                      hash: tx.hash,
-                      nonce: tx.nonce,
-                      blockHash: blockInfo.header.hash,
-                      signerId: tx.signer_id,
-                      signerPublicKey: tx.signer_public_key || tx.public_key,
-                      signature: tx.signature,
-                      receiverId: tx.receiver_id,
-                      actions
-                    };
-                  })
+                blockInfo.transactions.map(tx => {
+                  models.Transaction.bulkCreate(
+                    tx.map(() => {
+                      return {
+                        hash: tx.hash,
+                        nonce: tx.nonce,
+                        blockHash: blockInfo.header.hash,
+                        signerId: tx.signer_id,
+                        signerPublicKey: tx.signer_public_key || tx.public_key,
+                        signature: tx.signature,
+                        receiverId: tx.receiver_id
+                      };
+                    })
+                  );
+                }),
+                models.Contract.bulkCreate(
+                  blockInfo.transactions
+                    .filter(tx =>
+                      tx.actions.some(
+                        action =>
+                          action === "DeployContract" ||
+                          action.DeployContract !== undefined
+                      )
+                    )
+                    .map(tx => {
+                      delete action.DeployContract.code;
+                      return {
+                        accountId: tx.receiver_id,
+                        transactionHash: tx.hash,
+                        timestamp
+                      };
+                    })
                 ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
