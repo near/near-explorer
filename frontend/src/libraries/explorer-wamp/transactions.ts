@@ -147,13 +147,13 @@ export default class TransactionsApi extends ExplorerApi {
           ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
           ORDER BY blocks.height ${queries.tail ? "DESC" : ""}
           LIMIT :limit`,
-        queries
+        queries,
       ]);
       if (queries.tail) {
         transactions.reverse();
       }
       await Promise.all(
-        transactions.map(async transaction => {
+        transactions.map(async (transaction) => {
           // TODO: Expose transaction status via transactions list from chunk
           // RPC, and store it during Explorer synchronization.
           //
@@ -161,7 +161,7 @@ export default class TransactionsApi extends ExplorerApi {
           // that is making a separate query per transaction to nearcore RPC.
           const transactionExtraInfo = await this.call<any>("nearcore-tx", [
             transaction.hash,
-            transaction.signerId
+            transaction.signerId,
           ]);
           transaction.status = Object.keys(
             transactionExtraInfo.status
@@ -173,7 +173,6 @@ export default class TransactionsApi extends ExplorerApi {
           // Once the above TODO is resolved, we should just move this to TransactionInfo method
           // (i.e. query the information there only for the specific transaction).
           const actions = transactionExtraInfo.transaction.actions;
-
           transaction.actions = actions.map((action: RpcAction | string) => {
             if (typeof action === "string") {
               return { kind: action, args: {} };
@@ -181,7 +180,7 @@ export default class TransactionsApi extends ExplorerApi {
               const kind = Object.keys(action)[0] as keyof RpcAction;
               return {
                 kind,
-                args: action[kind]
+                args: action[kind],
               };
             }
           });
@@ -207,8 +206,8 @@ export default class TransactionsApi extends ExplorerApi {
     try {
       let transactionInfo = await this.getTransactions({
         transactionHash,
-        limit: 1
-      }).then(it => it[0] || null);
+        limit: 1,
+      }).then((it) => it[0] || null);
       if (transactionInfo === null) {
         transactionInfo = {
           status: "NotStarted",
@@ -218,12 +217,12 @@ export default class TransactionsApi extends ExplorerApi {
           blockHash: "",
           blockTimestamp: 0,
           actions: [],
-          gasPrice: "0"
+          gasPrice: "0",
         };
       } else {
         const transactionExtraInfo = await this.call<any>("nearcore-tx", [
           transactionHash,
-          transactionInfo.signerId
+          transactionInfo.signerId,
         ]);
         transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
@@ -238,3 +237,24 @@ export default class TransactionsApi extends ExplorerApi {
     }
   }
 }
+
+// ActionTable Query FUTURE WORK
+// const actions = await this.call<any>("select", [
+//   `SELECT actions.transaction_hash, actions.action_index, actions.action_type as kind, actions.action_args as args
+// FROM actions
+// WHERE actions.transaction_hash = :hash
+// ORDER BY actions.action_index`,
+//   {
+//     hash: transaction.hash
+//   }
+// ]);
+// transaction.actions = actions.map((action: any) => {
+//   if (typeof action === "string") {
+//     return { kind: action, args: {} };
+//   } else {
+//     return {
+//       kind: action.kind,
+//       args: JSON.parse(action.args)
+//     };
+//   }
+// });
