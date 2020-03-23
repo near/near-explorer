@@ -27,17 +27,17 @@ export default class extends React.Component<Props, State> {
       id: "",
       transactionHash: "",
       timestamp: 0,
-      accessKeys: []
-    }
+      accessKeys: [],
+    },
   };
 
   getContractInfo = async () => {
     new ContractsApi()
       .getContractInfo(this.props.accountId)
-      .then(contractInfo => {
+      .then((contractInfo) => {
         console.log(contractInfo);
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   componentDidMount() {
@@ -45,34 +45,34 @@ export default class extends React.Component<Props, State> {
   }
 
   render() {
+    const { contractInfo } = this.state;
     return (
       <>
         <Row noGutters className="border-0">
-          <Col md="5">
+          <Col md="6">
             <CardCell
-              title="Created"
+              title="Code Hash"
               text={
-                typeof account.timestamp === "number"
-                  ? moment(account.timestamp).format(
-                      "MMMM DD, YYYY [at] h:mm:ssa"
-                    )
-                  : account.timestamp
+                <TransactionLink transactionHash={contractInfo.transactionHash}>
+                  {contractInfo.transactionHash}
+                </TransactionLink>
               }
               className="block-card-created account-card-back border-0"
             />
           </Col>
-          <Col md="7">
+          <Col md="4">
             <CardCell
-              title="Creation Hash"
-              text={
-                account.address === "" ? (
-                  ""
-                ) : (
-                  <TransactionLink transactionHash={account.address}>
-                    {account.address}
-                  </TransactionLink>
-                )
-              }
+              title="Last Updated"
+              text={moment(contractInfo.timestamp).format(
+                "MMMM DD, YYYY [at] h:mm:ssa"
+              )}
+              className="block-card-created-text account-card-back border-0"
+            />
+          </Col>
+          <Col md="2">
+            <CardCell
+              title="Status"
+              text={"Locked"}
               className="block-card-created-text account-card-back border-0"
             />
           </Col>
