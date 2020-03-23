@@ -12,7 +12,9 @@ services:
   backend:
     build: ./backend
     environment:
-      - NEAR_RPC_URL=https://rpc.nearprotocol.com
+      - NEAR_RPC_URL=https://rpc.devnet.nearprotocol.com
+      #- NEAR_RPC_URL=https://rpc.betanet.nearprotocol.com
+      #- NEAR_RPC_URL=https://rpc.nearprotocol.com
       - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
 
