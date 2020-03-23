@@ -50,21 +50,19 @@ async function saveBlocks(blocksInfo) {
             .map(blockInfo => {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
-                blockInfo.transactions.map(tx => {
-                  models.Transaction.bulkCreate(
-                    tx.map(() => {
-                      return {
-                        hash: tx.hash,
-                        nonce: tx.nonce,
-                        blockHash: blockInfo.header.hash,
-                        signerId: tx.signer_id,
-                        signerPublicKey: tx.signer_public_key || tx.public_key,
-                        signature: tx.signature,
-                        receiverId: tx.receiver_id
-                      };
-                    })
-                  );
-                }),
+                models.Transaction.bulkCreate(
+                  blockInfo.transactions.map(tx => {
+                    return {
+                      hash: tx.hash,
+                      nonce: tx.nonce,
+                      blockHash: blockInfo.header.hash,
+                      signerId: tx.signer_id,
+                      signerPublicKey: tx.signer_public_key || tx.public_key,
+                      signature: tx.signature,
+                      receiverId: tx.receiver_id
+                    };
+                  })
+                ),
                 models.Contract.bulkCreate(
                   blockInfo.transactions
                     .filter(tx =>
