@@ -148,7 +148,5 @@ export default (props: Props<AnyAction>) => {
       </>
     );
   }
-  return (
-    <MessageRenderer {...(props as any)} showDetails={props.showDetails} />
-  );
+  return <MessageRenderer {...props as any} showDetails={props.showDetails} />;
 };
