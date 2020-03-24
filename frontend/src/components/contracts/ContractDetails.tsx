@@ -25,8 +25,8 @@ export default class extends React.Component<Props, State> {
     locked: true,
     contractInfo: {
       id: "",
-      transactionHash: "",
-      timestamp: 0,
+      transactionHash: null,
+      timestamp: null,
       accessKeys: [],
     },
   };
@@ -35,7 +35,24 @@ export default class extends React.Component<Props, State> {
     new ContractsApi()
       .getContractInfo(this.props.accountId)
       .then((contractInfo) => {
-        console.log(contractInfo);
+        if (contractInfo.transactionHash !== null) {
+          contractInfo.accessKeys.map((key: any) => {
+            const permission = key["access_key"]["permission"];
+            if (permission === "FullAccess") {
+              this.setState({ locked: false });
+            }
+            return;
+          });
+          this.setState({
+            display: true,
+            contractInfo: {
+              id: contractInfo.id,
+              transactionHash: contractInfo.transactionHash,
+              timestamp: contractInfo.timestamp,
+              accessKeys: contractInfo.accessKeys,
+            },
+          });
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -44,40 +61,58 @@ export default class extends React.Component<Props, State> {
     this.getContractInfo();
   }
 
+  componentDidUpdate(preProps: Props) {
+    if (this.props.accountId !== preProps.accountId) {
+      this.setState({ display: false });
+      this.getContractInfo();
+    }
+  }
   render() {
-    const { contractInfo } = this.state;
+    const { display, locked, contractInfo } = this.state;
     return (
-      <>
-        <Row noGutters className="border-0">
-          <Col md="6">
-            <CardCell
-              title="Code Hash"
-              text={
-                <TransactionLink transactionHash={contractInfo.transactionHash}>
-                  {contractInfo.transactionHash}
-                </TransactionLink>
-              }
-              className="block-card-created account-card-back border-0"
-            />
-          </Col>
-          <Col md="4">
-            <CardCell
-              title="Last Updated"
-              text={moment(contractInfo.timestamp).format(
-                "MMMM DD, YYYY [at] h:mm:ssa"
-              )}
-              className="block-card-created-text account-card-back border-0"
-            />
-          </Col>
-          <Col md="2">
-            <CardCell
-              title="Status"
-              text={"Locked"}
-              className="block-card-created-text account-card-back border-0"
-            />
-          </Col>
-        </Row>
-      </>
+      display && (
+        <>
+          <Row noGutters className="border-0">
+            <Col md="6">
+              <CardCell
+                title="Code Hash"
+                text={
+                  contractInfo.transactionHash !== null ? (
+                    <TransactionLink
+                      transactionHash={contractInfo.transactionHash}
+                    >
+                      {contractInfo.transactionHash}
+                    </TransactionLink>
+                  ) : (
+                    ""
+                  )
+                }
+                className="block-card-created account-card-back border-0"
+              />
+            </Col>
+            <Col md="4">
+              <CardCell
+                title="Last Updated"
+                text={
+                  contractInfo.timestamp !== null
+                    ? moment(contractInfo.timestamp).format(
+                        "MMMM DD, YYYY [at] h:mm:ssa"
+                      )
+                    : ""
+                }
+                className="block-card-created-text account-card-back border-0"
+              />
+            </Col>
+            <Col md="2">
+              <CardCell
+                title="Status"
+                text={locked ? "Locked" : "Unlocked"}
+                className="block-card-created-text account-card-back border-0"
+              />
+            </Col>
+          </Row>
+        </>
+      )
     );
   }
 }

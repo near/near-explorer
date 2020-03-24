@@ -2,8 +2,8 @@ import { ExplorerApi } from ".";
 
 export interface ContractInfo {
   id: string;
-  transactionHash: string;
-  timestamp: number;
+  transactionHash: string | null;
+  timestamp: number | null;
   accessKeys: Array<object>;
 }
 
@@ -18,15 +18,23 @@ export default class ContractsApi extends ExplorerApi {
                     WHERE account_id = :id
                     ORDER BY timestamp`,
           {
-            id
-          }
-        ]).then(contract => contract[0])
+            id,
+          },
+        ]).then((contract) => contract[0] || null),
       ]);
+      if (contractStats === null) {
+        return {
+          id,
+          transactionHash: null,
+          timestamp: null,
+          accessKeys: [],
+        };
+      }
       return {
         id,
         transactionHash: contractStats.transactionHash,
         timestamp: contractStats.timestamp,
-        accessKeys: accessKey.keys
+        accessKeys: accessKey.keys,
       };
     } catch (error) {
       console.error(

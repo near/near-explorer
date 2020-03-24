@@ -100,7 +100,6 @@ async function saveBlocks(blocksInfo) {
                       )
                     )
                     .map((tx) => {
-                      delete action.DeployContract.code;
                       return {
                         accountId: tx.receiver_id,
                         transactionHash: tx.hash,
