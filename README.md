@@ -61,6 +61,6 @@ for help would be the #general channel.
 
 ## License
 
-NEAR Explorer is distributed under the terms of the Apache License (Version 2.0).
+NEAR Explorer is distributed under the terms of both the MIT license and the Apache License (Version 2.0).
 
-See [LICENSE](LICENSE) for details.
+See [LICENSE-MIT](LICENSE-MIT) and [LICENSE-APACHE](LICENSE-APACHE) for details.

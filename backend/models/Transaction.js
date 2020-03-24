@@ -31,10 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       receiverId: {
         type: DataTypes.STRING,
         allowNull: false
-      },
-      actions: {
-        type: DataTypes.JSON,
-        allowNull: false
       }
     },
     {
