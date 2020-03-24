@@ -171,11 +171,10 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
                     <textarea
                       className="jsx-3751390317 code-preview"
                       readOnly={true}
-                    >
-                      {
-  "value": 1
-}
-                    </textarea>
+                      value="{
+  \\"value\\": 1
+}"
+                    />
                   </div>
                   <div
                     onClick={[Function]}

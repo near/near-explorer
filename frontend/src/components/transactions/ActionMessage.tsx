@@ -76,9 +76,10 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
           prettyArgs = hexy(decodedArgs, { format: "twos" });
         }
         args = (
-          <CodePreview collapseOptions={COLLAPSE_ARGS_OPTIONS}>
-            {prettyArgs}
-          </CodePreview>
+          <CodePreview
+            collapseOptions={COLLAPSE_ARGS_OPTIONS}
+            value={prettyArgs}
+          />
         );
       }
     }
@@ -147,5 +148,7 @@ export default (props: Props<AnyAction>) => {
       </>
     );
   }
-  return <MessageRenderer {...props as any} showDetails={props.showDetails} />;
+  return (
+    <MessageRenderer {...(props as any)} showDetails={props.showDetails} />
+  );
 };
