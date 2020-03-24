@@ -7,7 +7,7 @@ export default class extends React.PureComponent {
     const time = props.time === undefined ? new Date() : props.time;
     this.state = {
       time,
-      timeStr: this.formatTime(time)
+      timeStr: this.formatTime(time),
     };
   }
 
@@ -19,13 +19,13 @@ export default class extends React.PureComponent {
     clearInterval(this.timer);
   }
 
-  componentDidUpdate() {
-    const time = this.props.time === undefined ? new Date() : this.props.time;
-    this.setState({
-      time,
-      timeStr: this.formatTime(time)
-    });
-  }
+  // componentDidUpdate() {
+  //   const time = this.props.time === undefined ? new Date() : this.props.time;
+  //   this.setState({
+  //     time,
+  //     timeStr: this.formatTime(time)
+  //   });
+  // }
 
   formatTime(time) {
     return Moment(time).fromNow();

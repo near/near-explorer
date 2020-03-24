@@ -12,19 +12,19 @@ import { OuterProps } from "../accounts/Accounts";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15
+    count: 15,
   };
 
-  fetchNodes = async (count: number) => {
-    return await new NodesApi().getNodes(count);
+  fetchNodes = async (count: number, endTimestamp?: number) => {
+    return await new NodesApi().getNodes(count, endTimestamp);
   };
 
-  autoRefreshNodes = autoRefreshHandler(
-    Nodes,
-    this.fetchNodes,
-    this.props.count,
-    true
-  );
+  config = {
+    fetchDataFn: this.fetchNodes,
+    count: this.props.count,
+  };
+
+  autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
 
   render() {
     return <this.autoRefreshNodes />;
@@ -66,7 +66,7 @@ class Nodes extends React.Component<InnerProps> {
         )}
         <FlipMove duration={1000} staggerDurationBy={0}>
           {items &&
-            items.map(node => {
+            items.map((node) => {
               return (
                 <NodeRow
                   key={node.nodeId}
@@ -74,7 +74,7 @@ class Nodes extends React.Component<InnerProps> {
                   moniker={node.moniker}
                   accountId={node.accountId}
                   nodeId={node.nodeId}
-                  lastSeen={node.lastSeen}
+                  lastSeen={node.timestamp}
                   lastHeight={node.lastHeight}
                   isValidator={node.isValidator}
                   agentName={node.agentName}

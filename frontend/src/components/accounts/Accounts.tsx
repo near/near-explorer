@@ -13,19 +13,19 @@ export interface OuterProps {
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15
+    count: 15,
   };
 
   fetchAccounts = async (count: number, endTimestamp?: number) => {
     return await new AccountsApi().getAccounts(count, endTimestamp);
   };
 
-  autoRefreshAccounts = autoRefreshHandler(
-    Accounts,
-    this.fetchAccounts,
-    this.props.count,
-    true
-  );
+  config = {
+    fetchDataFn: this.fetchAccounts,
+    count: this.props.count,
+  };
+
+  autoRefreshAccounts = autoRefreshHandler(Accounts, this.config);
 
   render() {
     return <this.autoRefreshAccounts />;

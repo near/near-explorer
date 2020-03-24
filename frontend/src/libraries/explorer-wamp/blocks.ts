@@ -25,8 +25,8 @@ export default class BlocksApi extends ExplorerApi {
         {
           keyword: `${keyword}%`,
           height: height === -1 ? "MAX(blocks.height)" : height,
-          limit
-        }
+          limit,
+        },
       ]);
     } catch (error) {
       console.error("Blocks.searchBlocks failed to fetch data due to:");
@@ -35,25 +35,24 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getBlocks(limit = 15, endTimestamp: number = -1): Promise<BlockInfo[]> {
+  async getBlocks(limit = 15, endTimestamp?: number): Promise<BlockInfo[]> {
     try {
       return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
             FROM blocks
-            WHERE blocks.timestamp < :endTimestamp
+            ${endTimestamp ? `WHERE blocks.timestamp < :endTimestamp` : ""}
             ORDER BY blocks.height DESC
             LIMIT :limit
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           GROUP BY blocks.hash
-          ORDER BY blocks.height DESC`,
+          ORDER BY blocks.timestamp DESC`,
         {
           limit,
-          endTimestamp:
-            endTimestamp === -1 ? "MAX(blocks.height)" : endTimestamp
-        }
+          endTimestamp,
+        },
       ]);
     } catch (error) {
       console.error("Blocks.getBlocks failed to fetch data due to:");
@@ -78,9 +77,9 @@ export default class BlocksApi extends ExplorerApi {
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
         {
-          blockId
-        }
-      ]).then(it => (it[0].hash !== null ? it[0] : null));
+          blockId,
+        },
+      ]).then((it) => (it[0].hash !== null ? it[0] : null));
 
       if (block === null) {
         throw new Error("block not found");

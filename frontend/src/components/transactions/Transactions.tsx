@@ -11,14 +11,12 @@ import TransactionsList from "./TransactionsList";
 export interface OuterProps {
   accountId?: string;
   blockHash?: string;
-  reversed: boolean;
   count: number;
 }
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    reversed: false,
-    count: 15
+    count: 15,
   };
 
   fetchTransactions = async (count: number, endTimestamp?: number) => {
@@ -26,19 +24,17 @@ export default class extends React.Component<OuterProps> {
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
-      tail: this.props.reversed,
       limit: count,
-      endTimestamp: endTimestamp
+      endTimestamp: endTimestamp,
     });
   };
 
-  autoRefreshTransactions = autoRefreshHandler(
-    Transactions,
-    this.fetchTransactions,
-    this.props.count,
-    true,
-    this.props
-  );
+  config = {
+    fetchDataFn: this.fetchTransactions,
+    count: this.props.count,
+  };
+
+  autoRefreshTransactions = autoRefreshHandler(Transactions, this.config);
 
   render() {
     return <this.autoRefreshTransactions />;
@@ -51,13 +47,13 @@ interface InnerProps extends OuterProps {
 
 class Transactions extends React.Component<InnerProps> {
   render() {
-    const { items, reversed } = this.props;
+    const { items } = this.props;
     if (items.length === 0) {
       return <PaginationSpinner hidden={false} />;
     }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        <TransactionsList transactions={items} reversed={reversed} />
+        <TransactionsList transactions={items} />
       </FlipMove>
     );
   }

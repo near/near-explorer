@@ -18,7 +18,7 @@ import { OuterProps } from "../accounts/Accounts";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 10
+    count: 10,
   };
 
   fetchTxs = async () => {
@@ -27,11 +27,15 @@ export default class extends React.Component<OuterProps> {
     );
   };
 
+  config = {
+    fetchDataFn: this.fetchTxs,
+    count: this.props.count,
+    dashboard: true,
+  };
+
   autoRefreshDashboardBlocks = autoRefreshHandler(
     DashboardTransactions,
-    this.fetchTxs,
-    this.props.count,
-    false
+    this.config
   );
 
   render() {
@@ -53,11 +57,7 @@ class DashboardTransactions extends React.Component<InnerProps> {
       txShow = (
         <>
           <FlipMove duration={1000} staggerDurationBy={0}>
-            <TransactionsList
-              transactions={items}
-              viewMode="compact"
-              reversed
-            />
+            <TransactionsList transactions={items} viewMode="compact" />
           </FlipMove>
           <Row noGutters>
             <Col xs="1" className="dashboard-transactions-icon-col" />

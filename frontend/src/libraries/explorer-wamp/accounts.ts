@@ -33,9 +33,9 @@ export default class AccountsApi extends ExplorerApi {
               WHERE receiver_id = :id) as inTransactionsCount
           `,
           {
-            id
-          }
-        ]).then(accounts => accounts[0])
+            id,
+          },
+        ]).then((accounts) => accounts[0]),
       ]);
       return {
         id,
@@ -43,7 +43,7 @@ export default class AccountsApi extends ExplorerApi {
         locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
-        ...accountStats
+        ...accountStats,
       };
     } catch (error) {
       console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
@@ -59,13 +59,13 @@ export default class AccountsApi extends ExplorerApi {
           WHERE account_id = :id
         `,
         {
-          id
-        }
-      ]).then(accounts => accounts[0]);
+          id,
+        },
+      ]).then((accounts) => accounts[0]);
       return {
         id,
         timestamp: accountBasic.timestamp,
-        address: accountBasic.address
+        address: accountBasic.address,
       };
     } catch (error) {
       console.error("AccountsApi.getAccountBasic failed to fetch data due to:");
@@ -76,19 +76,19 @@ export default class AccountsApi extends ExplorerApi {
 
   async getAccounts(
     limit: number = 15,
-    endTimestamp: number = -1
+    endTimestamp?: number
   ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
         `SELECT account_id as id, timestamp, transaction_hash as address 
         FROM accounts
-        WHERE timestamp < :endTimestamp
+        ${endTimestamp ? `WHERE timestamp < :endTimestamp` : ""}
         ORDER BY timestamp DESC
         Limit :limit`,
         {
           limit,
-          endTimestamp: endTimestamp === -1 ? "MAX(timestamp)" : endTimestamp
-        }
+          endTimestamp,
+        },
       ]);
     } catch (error) {
       console.error("AccountsApi.getAccounts failed to fetch data due to:");

@@ -18,19 +18,20 @@ import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 8
+    count: 8,
   };
 
   fetchBlocks = async () => {
     return await new BlocksApi().getLatestBlocksInfo(this.props.count);
   };
 
-  autoRefreshDashboardBlocks = autoRefreshHandler(
-    DashboardBlocks,
-    this.fetchBlocks,
-    this.props.count,
-    false
-  );
+  config = {
+    fetchDataFn: this.fetchBlocks,
+    count: this.props.count,
+    dashboard: true,
+  };
+
+  autoRefreshDashboardBlocks = autoRefreshHandler(DashboardBlocks, this.config);
 
   render() {
     return <this.autoRefreshDashboardBlocks />;
