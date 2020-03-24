@@ -28,8 +28,8 @@ export default class NodesApi extends ExplorerApi {
                     ORDER BY lastSeen DESC
                     Limit :limit`,
         {
-          limit
-        }
+          limit,
+        },
       ]);
     } catch (error) {
       console.error("Nodes.getNodes failed to fetch data due to:");

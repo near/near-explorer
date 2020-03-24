@@ -18,7 +18,7 @@ import { OuterProps } from "../accounts/Accounts";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 10
+    count: 10,
   };
 
   fetchTxs = async () => {

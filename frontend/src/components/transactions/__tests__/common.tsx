@@ -13,18 +13,18 @@ export const TRANSACTIONS: T.Transaction[] = [
     actions: [
       {
         kind: "CreateAccount",
-        args: {}
+        args: {},
       },
       {
         kind: "AddKey",
         args: {
           access_key: {
             nonce: 0,
-            permission: "FullAccess"
+            permission: "FullAccess",
           },
-          public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx"
-        }
-      }
+          public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx",
+        },
+      },
     ],
     receiptsOutcome: [
       {
@@ -34,8 +34,8 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: [],
           receipt_ids: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
           status: { SuccessValue: null },
-          gas_burnt: 0
-        }
+          gas_burnt: 0,
+        },
       },
       {
         id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
@@ -44,13 +44,13 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: ["LOG: Counter is now: 1"],
           receipt_ids: [
             "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222"
+            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
           ],
           status: {
-            SuccessReceiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111"
+            SuccessReceiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
           },
-          gas_burnt: 0
-        }
+          gas_burnt: 0,
+        },
       },
       {
         id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
@@ -59,8 +59,8 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: [],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
-        }
+          gas_burnt: 0,
+        },
       },
       {
         id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
@@ -69,9 +69,9 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: [],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
-        }
-      }
+          gas_burnt: 0,
+        },
+      },
     ],
     transactionOutcome: {
       id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
@@ -80,9 +80,9 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"],
         status: { SuccessValue: null },
-        gas_burnt: 0
-      }
-    }
+        gas_burnt: 0,
+      },
+    },
   },
   //one deposit with small amount
   {
@@ -101,9 +101,9 @@ export const TRANSACTIONS: T.Transaction[] = [
           args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
           deposit: "100000",
           gas: 2000000,
-          method_name: "addMessage"
-        }
-      }
+          method_name: "addMessage",
+        },
+      },
     ],
     receiptsOutcome: [
       {
@@ -115,12 +115,12 @@ export const TRANSACTIONS: T.Transaction[] = [
           status: {
             Failure: {
               error_message: "Exceeded the prepaid gas.",
-              error_type: "ActionError::FunctionCallError"
-            }
+              error_type: "ActionError::FunctionCallError",
+            },
           },
-          gas_burnt: 0
-        }
-      }
+          gas_burnt: 0,
+        },
+      },
     ],
     transactionOutcome: {
       id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
@@ -129,9 +129,9 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
         status: { SuccessValue: null },
-        gas_burnt: 0
-      }
-    }
+        gas_burnt: 0,
+      },
+    },
   },
   //multi deposit with huge amount
   {
@@ -146,15 +146,15 @@ export const TRANSACTIONS: T.Transaction[] = [
       {
         kind: "Transfer",
         args: {
-          deposit: "50000000000000000000"
-        }
+          deposit: "50000000000000000000",
+        },
       },
       {
         kind: "Transfer",
         args: {
-          deposit: "90000000000000000000"
-        }
-      }
+          deposit: "90000000000000000000",
+        },
+      },
     ],
     receiptsOutcome: [
       {
@@ -164,9 +164,9 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: ["LOG: Counter is now: 1"],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
-        }
-      }
+          gas_burnt: 0,
+        },
+      },
     ],
     transactionOutcome: {
       id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
@@ -175,8 +175,8 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
         status: { SuccessValue: null },
-        gas_burnt: 0
-      }
-    }
-  }
+        gas_burnt: 0,
+      },
+    },
+  },
 ];

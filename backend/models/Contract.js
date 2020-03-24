@@ -5,25 +5,25 @@ module.exports = (sequelize, DataTypes) => {
     {
       accountId: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       transactionHash: {
         type: DataTypes.STRING, // base58
         allowNull: true,
-        primaryKey: true
+        primaryKey: true,
       },
       timestamp: {
         type: DataTypes.BIGINT,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       tableName: "contracts",
       underscored: true,
-      timestamps: false
+      timestamps: false,
     }
   );
-  Contract.associate = function(models) {
+  Contract.associate = function (models) {
     // associations can be defined here
   };
   return Contract;

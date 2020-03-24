@@ -5,11 +5,11 @@ import { Row, Col } from "react-bootstrap";
 export default ({ text, handler, pagination, setPagination }) => {
   const [focus, setFocus] = useState(false);
 
-  const onChange = state => {
-    setPagination(pagination => {
+  const onChange = (state) => {
+    setPagination((pagination) => {
       return {
         ...pagination,
-        search: state
+        search: state,
       };
     });
 
@@ -19,7 +19,7 @@ export default ({ text, handler, pagination, setPagination }) => {
     }
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const keyword = pagination.search;
@@ -62,7 +62,7 @@ export default ({ text, handler, pagination, setPagination }) => {
                   className="search-text"
                   value={pagination.search ? pagination.search : ""}
                   placeholder={text}
-                  onChange={e => onChange(e.target.value)}
+                  onChange={(e) => onChange(e.target.value)}
                 />
               </form>
             </div>
@@ -73,7 +73,7 @@ export default ({ text, handler, pagination, setPagination }) => {
                   className="search-text"
                   placeholder={`${text.substring(0, 17)}..`}
                   title={text}
-                  onChange={e => handler(e.target.value)}
+                  onChange={(e) => handler(e.target.value)}
                 />
               </form>
             </div>

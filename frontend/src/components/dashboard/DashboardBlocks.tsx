@@ -18,7 +18,7 @@ import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 8
+    count: 8,
   };
 
   fetchBlocks = async () => {

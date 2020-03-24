@@ -18,7 +18,7 @@ export interface OuterProps {
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
     reversed: false,
-    count: 15
+    count: 15,
   };
 
   fetchTransactions = async () => {
@@ -27,7 +27,7 @@ export default class extends React.Component<OuterProps> {
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
       tail: this.props.reversed,
-      limit: this.props.count
+      limit: this.props.count,
     });
   };
 

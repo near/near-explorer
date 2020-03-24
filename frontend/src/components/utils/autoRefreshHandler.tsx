@@ -14,7 +14,7 @@ export default (
     timer: ReturnType<typeof setTimeout> | null;
 
     state = {
-      items: []
+      items: [],
     };
 
     componentDidMount() {

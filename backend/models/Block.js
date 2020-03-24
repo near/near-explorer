@@ -6,45 +6,45 @@ module.exports = (sequelize, DataTypes) => {
       hash: {
         type: DataTypes.STRING, // base58
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
       },
       height: {
         type: DataTypes.BIGINT,
         unique: true,
-        allowNull: false
+        allowNull: false,
       },
       prevHash: {
         type: DataTypes.STRING, // base58
-        allowNull: false
+        allowNull: false,
       },
       timestamp: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       totalSupply: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       gasLimit: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       gasUsed: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       gasPrice: {
         type: DataTypes.STRING,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       underscored: true,
       tableName: "blocks",
-      timestamps: false
+      timestamps: false,
     }
   );
-  Block.associate = function(models) {
+  Block.associate = function (models) {
     // associations can be defined here
   };
   return Block;

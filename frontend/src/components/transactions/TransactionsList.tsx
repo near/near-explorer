@@ -13,7 +13,7 @@ export interface Props {
 export default class extends React.Component<Props> {
   render() {
     const { transactions, viewMode, reversed } = this.props;
-    let actions = transactions.map(transaction => (
+    let actions = transactions.map((transaction) => (
       <TransactionAction
         key={transaction.hash}
         actions={transaction.actions}
