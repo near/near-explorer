@@ -3,7 +3,6 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import FlipMove from "../utils/FlipMove";
-import PaginationSpinner from "../utils/PaginationSpinner";
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 
 import TransactionsList from "./TransactionsList";
@@ -48,9 +47,6 @@ interface InnerProps extends OuterProps {
 class Transactions extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    if (items.length === 0) {
-      return <PaginationSpinner hidden={false} />;
-    }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         <TransactionsList transactions={items} />

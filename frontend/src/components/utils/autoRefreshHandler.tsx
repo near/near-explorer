@@ -27,20 +27,20 @@ export default (
       items: Array<any>(),
       itemsLength: config.count,
       display: false,
+      hasMore: true,
     };
 
     componentDidMount() {
-      // this.timer = setTimeout(this.regularFetchInfo, 0);
-      this.fetchInfo(this.state.itemsLength);
+      this.timer = setTimeout(this.regularFetchInfo, 0);
     }
 
-    // componentWillUnmount() {
-    //   const timer = this.timer;
-    //   this.timer = null;
-    //   if (timer !== null) {
-    //     clearTimeout(timer);
-    //   }
-    // }
+    componentWillUnmount() {
+      const timer = this.timer;
+      this.timer = null;
+      if (timer !== null) {
+        clearTimeout(timer);
+      }
+    }
 
     componentDidUpdate(preProps: any) {
       if (this.props !== preProps) {
@@ -48,6 +48,7 @@ export default (
           items: null,
           itemsLength: config.count,
           display: false,
+          hasMore: true,
         });
       }
     }
@@ -56,8 +57,11 @@ export default (
       config
         .fetchDataFn(count)
         .then((items: any) => {
-          console.log(items);
-          this.setState({ items, display: true });
+          if (items.length > 0) {
+            this.setState({ items, display: true });
+          } else {
+            this.setState({ hasMore: false, display: true });
+          }
         })
         .catch((err: any) => {
           console.error(err);
@@ -72,24 +76,32 @@ export default (
     };
 
     fetchMoreData = async () => {
+      if (config.dashboard) {
+        this.setState({ hasMore: false });
+        return;
+      }
       if (this.state.items.length > 0) {
         const endTimestamp = this.state.items[this.state.items.length - 1]
           .timestamp;
-        console.log(endTimestamp);
         const newData = await config.fetchDataFn(config.count, endTimestamp);
-        const items = this.state.items.concat(newData);
-        this.setState({ items, itemsLength: items.length });
+        if (newData.length > 0) {
+          const items = this.state.items.concat(newData);
+          this.setState({ items, itemsLength: items.length });
+        } else {
+          this.setState({ hasMore: false });
+        }
+        return;
       }
     };
 
     render() {
-      console.log(this.state.items);
+      console.log(this.state.hasMore);
       return this.state.display ? (
         <InfiniteScroll
           dataLength={this.state.items.length}
           next={this.fetchMoreData}
-          hasMore={config.dashboard ? false : true}
-          loader={<PaginationSpinner hidden={false} />}
+          hasMore={this.state.hasMore}
+          loader={<p>Loading</p>}
         >
           <WrappedComponent items={this.state.items} {...props} />
         </InfiniteScroll>

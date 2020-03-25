@@ -158,40 +158,42 @@ export default class TransactionsApi extends ExplorerApi {
           LIMIT :limit`,
         queries,
       ]);
-      await Promise.all(
-        transactions.map(async (transaction) => {
-          // TODO: Expose transaction status via transactions list from chunk
-          // RPC, and store it during Explorer synchronization.
-          //
-          // Meanwhile, we query this information in a non-effective manner,
-          // that is making a separate query per transaction to nearcore RPC.
-          const transactionExtraInfo = await this.call<any>("nearcore-tx", [
-            transaction.hash,
-            transaction.signerId,
-          ]);
-          transaction.status = Object.keys(
-            transactionExtraInfo.status
-          )[0] as ExecutionStatus;
+      if (transactions.length > 0) {
+        await Promise.all(
+          transactions.map(async (transaction) => {
+            // TODO: Expose transaction status via transactions list from chunk
+            // RPC, and store it during Explorer synchronization.
+            //
+            // Meanwhile, we query this information in a non-effective manner,
+            // that is making a separate query per transaction to nearcore RPC.
+            const transactionExtraInfo = await this.call<any>("nearcore-tx", [
+              transaction.hash,
+              transaction.signerId,
+            ]);
+            transaction.status = Object.keys(
+              transactionExtraInfo.status
+            )[0] as ExecutionStatus;
 
-          // Given we already queried the information from the node, we can use the actions,
-          // since DeployContract.code and FunctionCall.args are stripped away due to their size.
-          //
-          // Once the above TODO is resolved, we should just move this to TransactionInfo method
-          // (i.e. query the information there only for the specific transaction).
-          const actions = transactionExtraInfo.transaction.actions;
-          transaction.actions = actions.map((action: RpcAction | string) => {
-            if (typeof action === "string") {
-              return { kind: action, args: {} };
-            } else {
-              const kind = Object.keys(action)[0] as keyof RpcAction;
-              return {
-                kind,
-                args: action[kind],
-              };
-            }
-          });
-        })
-      );
+            // Given we already queried the information from the node, we can use the actions,
+            // since DeployContract.code and FunctionCall.args are stripped away due to their size.
+            //
+            // Once the above TODO is resolved, we should just move this to TransactionInfo method
+            // (i.e. query the information there only for the specific transaction).
+            const actions = transactionExtraInfo.transaction.actions;
+            transaction.actions = actions.map((action: RpcAction | string) => {
+              if (typeof action === "string") {
+                return { kind: action, args: {} };
+              } else {
+                const kind = Object.keys(action)[0] as keyof RpcAction;
+                return {
+                  kind,
+                  args: action[kind],
+                };
+              }
+            });
+          })
+        );
+      }
       return transactions as Transaction[];
     } catch (error) {
       console.error(
