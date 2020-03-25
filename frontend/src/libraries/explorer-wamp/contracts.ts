@@ -16,7 +16,7 @@ export default class ContractsApi extends ExplorerApi {
           `SELECT transaction_hash as transactionHash, timestamp
                     from contracts
                     WHERE account_id = :id
-                    ORDER BY timestamp`,
+                    ORDER BY timestamp DESC`,
           {
             id,
           },
