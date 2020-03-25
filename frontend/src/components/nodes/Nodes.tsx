@@ -5,7 +5,7 @@ import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
-import PaginationSpinner from "../utils/PaginationSpinner";
+
 import NodeRow from "./NodeRow";
 
 import { OuterProps } from "../accounts/Accounts";
@@ -38,9 +38,6 @@ interface InnerProps {
 class Nodes extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    if (items.length === 0) {
-      return <PaginationSpinner hidden={false} />;
-    }
     return (
       <>
         {items && (

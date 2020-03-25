@@ -50,26 +50,6 @@ interface InnerProps {
 class DashboardTransactions extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    let txShow;
-    if (items.length === 0) {
-      txShow = <PaginationSpinner hidden={false} />;
-    } else {
-      txShow = (
-        <>
-          <FlipMove duration={1000} staggerDurationBy={0}>
-            <TransactionsList transactions={items} viewMode="compact" />
-          </FlipMove>
-          <Row noGutters>
-            <Col xs="1" className="dashboard-transactions-icon-col" />
-            <Col xs="6">
-              <Link href="transactions">
-                <a className="dashboard-footer">View All</a>
-              </Link>
-            </Col>
-          </Row>
-        </>
-      );
-    }
     return (
       <Content
         title={<h2>Recent Transactions</h2>}
@@ -85,7 +65,17 @@ class DashboardTransactions extends React.Component<InnerProps> {
             </div>
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
-            {txShow}
+            <FlipMove duration={1000} staggerDurationBy={0}>
+              <TransactionsList transactions={items} viewMode="compact" />
+            </FlipMove>
+            <Row noGutters>
+              <Col xs="1" className="dashboard-transactions-icon-col" />
+              <Col xs="6">
+                <Link href="transactions">
+                  <a className="dashboard-footer">View All</a>
+                </Link>
+              </Col>
+            </Row>
           </Col>
         </Row>
         <style jsx global>{`

@@ -7,7 +7,6 @@ import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
-import PaginationSpinner from "../utils/PaginationSpinner";
 
 import DashboardBlocksList from "./DashboardBlocksList";
 
@@ -41,29 +40,6 @@ export default class extends React.Component<OuterProps> {
 class DashboardBlocks extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    let blockShow;
-    if (items.length === 0) {
-      blockShow = <PaginationSpinner hidden={false} />;
-    } else {
-      blockShow = (
-        <>
-          <FlipMove
-            duration={1000}
-            staggerDurationBy={0}
-            className="row gutter-4"
-          >
-            <DashboardBlocksList blocks={items} />
-          </FlipMove>
-          <Row>
-            <Col xs="6">
-              <Link href="blocks">
-                <a className="dashboard-footer">View All</a>
-              </Link>
-            </Col>
-          </Row>
-        </>
-      );
-    }
     return (
       <>
         <Row>
@@ -82,7 +58,22 @@ class DashboardBlocks extends React.Component<InnerProps> {
               <div className="dashboard-blocks-hr" />
             </div>
           </Col>
-          <Col>{blockShow}</Col>
+          <Col>
+            <FlipMove
+              duration={1000}
+              staggerDurationBy={0}
+              className="row gutter-4"
+            >
+              <DashboardBlocksList blocks={items} />
+            </FlipMove>
+            <Row>
+              <Col xs="6">
+                <Link href="blocks">
+                  <a className="dashboard-footer">View All</a>
+                </Link>
+              </Col>
+            </Row>
+          </Col>
         </Row>
         <style jsx global>{`
           .dashboard-blocks-icon {

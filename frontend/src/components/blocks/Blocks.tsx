@@ -3,7 +3,6 @@ import React from "react";
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
-import PaginationSpinner from "../utils/PaginationSpinner";
 import FlipMove from "../utils/FlipMove";
 import BlocksList from "./BlocksList";
 
@@ -37,9 +36,6 @@ export interface InnerProps extends OuterProps {
 class Blocks extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    if (items.length === 0) {
-      return <PaginationSpinner hidden={false} />;
-    }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         <BlocksList blocks={items} />

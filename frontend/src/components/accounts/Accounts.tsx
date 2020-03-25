@@ -3,7 +3,6 @@ import React from "react";
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
-import PaginationSpinner from "../utils/PaginationSpinner";
 import FlipMove from "../utils/FlipMove";
 import AccountsList from "./AccountsList";
 
@@ -39,9 +38,6 @@ interface InnerProps extends OuterProps {
 class Accounts extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    if (items.length === 0) {
-      return <PaginationSpinner hidden={false} />;
-    }
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         <AccountsList accounts={items} />
