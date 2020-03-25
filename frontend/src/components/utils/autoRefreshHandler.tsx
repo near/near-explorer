@@ -95,7 +95,6 @@ export default (
     };
 
     render() {
-      console.log(this.state.hasMore);
       return this.state.display ? (
         <InfiniteScroll
           dataLength={this.state.items.length}
