@@ -10,7 +10,7 @@ import Balance from "../utils/Balance";
 
 export interface Props {
   accountId: string;
-  timestamp: any;
+  createdAt?: number;
 }
 
 export interface State {
@@ -30,9 +30,8 @@ export default class extends React.Component<Props, State> {
     this._getDetail();
   }
   render() {
-    const { accountId, timestamp } = this.props;
+    const { accountId, createdAt } = this.props;
     const { amount } = this.state;
-    let time = moment(timestamp).format("MM/DD/YYYY");
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
         <a style={{ textDecoration: "none" }}>
@@ -55,7 +54,9 @@ export default class extends React.Component<Props, State> {
                 </Col>
               </Row>
               <Row>
-                <Col className="transaction-row-timer">Created {time}</Col>
+                <Col className="transaction-row-timer">
+                  {createdAt && `Created at ${moment(createdAt).format("LLL")}`}
+                </Col>
               </Row>
             </Col>
             <style jsx global>{`

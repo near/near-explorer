@@ -106,11 +106,11 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Created"
               text={
-                typeof account.timestamp === "number"
-                  ? moment(account.timestamp).format(
+                account.createdAtBlockTimestamp
+                  ? moment(account.createdAtBlockTimestamp).format(
                       "MMMM DD, YYYY [at] h:mm:ssa"
                     )
-                  : account.timestamp
+                  : "N/A"
               }
               className="block-card-created account-card-back border-0"
             />
@@ -119,12 +119,14 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Creation Hash"
               text={
-                account.address === "" ? (
-                  ""
-                ) : (
-                  <TransactionLink transactionHash={account.address}>
-                    {account.address}
+                account.createdByTransactionHash ? (
+                  <TransactionLink
+                    transactionHash={account.createdByTransactionHash}
+                  >
+                    {account.createdByTransactionHash}
                   </TransactionLink>
+                ) : (
+                  "N/A"
                 )
               }
               className="block-card-created-text account-card-back border-0"

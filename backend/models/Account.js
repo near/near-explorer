@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true
       },
-      transactionHash: {
+      createdByTransactionHash: {
         type: DataTypes.STRING, // base58
-        allowNull: true
+        allowNull: false
       },
-      timestamp: {
+      createdAtBlockTimestamp: {
         type: DataTypes.BIGINT,
         allowNull: false
       }
