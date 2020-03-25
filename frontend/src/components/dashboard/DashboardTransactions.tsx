@@ -7,7 +7,6 @@ import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions"
 
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
-import PaginationSpinner from "../utils/PaginationSpinner";
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 
 import TransactionsList from "../transactions/TransactionsList";
