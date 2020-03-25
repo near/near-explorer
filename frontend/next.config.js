@@ -11,8 +11,8 @@ if (process.env.NEAR_NETWORKS) {
     {
       name: "localhostnet",
       explorerLink: "http://localhost:3000",
-      aliases: ["localhost:3000", "localhost", "127.0.0.1", "127.0.0.1:3000"]
-    }
+      aliases: ["localhost:3000", "localhost", "127.0.0.1", "127.0.0.1:3000"],
+    },
   ];
 }
 const nearNetworkAliases = {};
@@ -27,23 +27,23 @@ module.exports = withCSS({
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_INTERNAL_URL ||
       process.env.WAMP_NEAR_EXPLORER_URL ||
-      defaultWampNearExplorerUrl
+      defaultWampNearExplorerUrl,
   },
   publicRuntimeConfig: {
     nearNetworks,
     nearNetworkAliases,
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
-    googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS
+    googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
   },
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {
       config.node = {
-        fs: "empty"
+        fs: "empty",
       };
     }
 
     return config;
-  }
+  },
 });

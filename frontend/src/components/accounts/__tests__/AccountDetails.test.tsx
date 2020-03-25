@@ -16,7 +16,7 @@ describe("<AccountDetails />", () => {
             inTransactionsCount: 0,
             outTransactionsCount: 0,
             timestamp: Number(new Date(2019, 1, 1)),
-            address: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+            address: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
           }}
         />
       )

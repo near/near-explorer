@@ -1,6 +1,6 @@
 const { Connection, prompt } = require("./utils");
 
-exports.default = async function(argv) {
+exports.default = async function (argv) {
   let sqlQuery = await prompt("Enter SQL (e.g. `SELECT * FROM nodes`):");
 
   let connection = new Connection(argv.endpoint);
