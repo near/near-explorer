@@ -40,9 +40,6 @@ export default class extends React.PureComponent {
   };
 
   render() {
-    console.log(this.state.time, "  state");
-    console.log(this.props.time, "  props");
-    console.log(this.state.timeStr);
     return <span>{this.state.timeStr}</span>;
   }
 }
