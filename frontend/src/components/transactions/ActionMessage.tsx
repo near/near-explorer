@@ -38,7 +38,7 @@ const COLLAPSE_ARGS_OPTIONS = {
   collapseText: "Show more",
   expandText: "Show less",
   minHeight: 200,
-  maxHeight: 600,
+  maxHeight: 600
 };
 
 const transactionMessageRenderers: TransactionMessageRenderers = {
@@ -55,12 +55,12 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     </>
   ),
   DeployContract: ({
-    transaction: { receiverId },
+    transaction: { receiverId }
   }: Props<T.DeployContract>) => <>{`Contract deployed: ${receiverId}`}</>,
   FunctionCall: ({
     transaction: { receiverId },
     actionArgs,
-    showDetails,
+    showDetails
   }: Props<T.FunctionCall>) => {
     let args;
     if (showDetails) {
@@ -98,7 +98,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   },
   Transfer: ({
     transaction: { receiverId },
-    actionArgs: { deposit },
+    actionArgs: { deposit }
   }: Props<T.Transfer>) => (
     <>
       {`Transferred `}
@@ -135,7 +135,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   ),
   DeleteKey: ({ actionArgs: { public_key } }: Props<T.DeleteKey>) => (
     <>{`Key deleted: ${public_key.substring(0, 15)}...`}</>
-  ),
+  )
 };
 
 export default (props: Props<AnyAction>) => {
@@ -147,7 +147,5 @@ export default (props: Props<AnyAction>) => {
       </>
     );
   }
-  return (
-    <MessageRenderer {...(props as any)} showDetails={props.showDetails} />
-  );
+  return <MessageRenderer {...props as any} showDetails={props.showDetails} />;
 };

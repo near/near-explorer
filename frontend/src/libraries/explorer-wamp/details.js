@@ -24,8 +24,8 @@ export default class DetailsApi extends ExplorerApi {
               WHERE blocks.timestamp > (strftime('%s','now') - 10) * 1000
           ) as transactions_per_second,
           (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block,
-          (SELECT COUNT(DISTINCT signer_id) as accountsCount FROM transactions) as total_accounts`,
-      ]).then((it) => it[0]);
+          (SELECT COUNT(DISTINCT signer_id) as accountsCount FROM transactions) as total_accounts`
+      ]).then(it => it[0]);
     } catch (error) {
       console.error("Details.getDetails failed to fetch data due to:");
       console.error(error);

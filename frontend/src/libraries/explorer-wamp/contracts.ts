@@ -18,23 +18,23 @@ export default class ContractsApi extends ExplorerApi {
                     WHERE account_id = :id
                     ORDER BY timestamp DESC`,
           {
-            id,
-          },
-        ]).then((contract) => contract[0] || null),
+            id
+          }
+        ]).then(contract => contract[0] || null)
       ]);
       if (contractStats === null) {
         return {
           id,
           transactionHash: null,
           timestamp: null,
-          accessKeys: [],
+          accessKeys: []
         };
       }
       return {
         id,
         transactionHash: contractStats.transactionHash,
         timestamp: contractStats.timestamp,
-        accessKeys: accessKey.keys,
+        accessKeys: accessKey.keys
       };
     } catch (error) {
       console.error(

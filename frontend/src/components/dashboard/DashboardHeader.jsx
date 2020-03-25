@@ -18,12 +18,12 @@ export default class DashboardHeader extends React.Component {
       transactionsPerSecond: 0,
       lastDayTxCount: 0,
       accountsCount: 0,
-      lastBlockHeight: 0,
+      lastBlockHeight: 0
     },
-    loading: true,
+    loading: true
   };
 
-  handleSearch = async (event) => {
+  handleSearch = async event => {
     event.preventDefault();
 
     const { searchValue } = this.state;
@@ -54,7 +54,7 @@ export default class DashboardHeader extends React.Component {
     alert("Result not found!");
   };
 
-  handleSearchValueChange = (event) => {
+  handleSearchValueChange = event => {
     this.setState({ searchValue: event.target.value });
   };
 
@@ -86,7 +86,7 @@ export default class DashboardHeader extends React.Component {
       transactionsPerSecond,
       lastDayTxCount,
       accountsCount,
-      lastBlockHeight,
+      lastBlockHeight
     } = this.state.details;
     const { loading } = this.state;
 

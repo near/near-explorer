@@ -25,7 +25,7 @@ export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",
-    className: "",
+    className: ""
   };
 
   render() {
@@ -36,7 +36,7 @@ export default class extends React.Component<Props, State> {
       transaction,
       icon,
       title,
-      children,
+      children
     } = this.props;
 
     return (

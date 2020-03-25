@@ -14,7 +14,7 @@ export default class extends React.PureComponent {
       isValidator,
       agentName,
       agentVersion,
-      agentBuild,
+      agentBuild
     } = this.props;
     //TODO: Display on the list new information
     return (

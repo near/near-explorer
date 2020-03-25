@@ -6,41 +6,41 @@ module.exports = (sequelize, DataTypes) => {
       hash: {
         type: DataTypes.STRING, // base58
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
       },
       blockHash: {
         type: DataTypes.STRING, // base58
-        allowNull: false,
+        allowNull: false
       },
       nonce: {
         type: DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: false
       },
       signerId: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       signerPublicKey: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       signature: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       receiverId: {
         type: DataTypes.STRING,
-        allowNull: false,
-      },
+        allowNull: false
+      }
     },
     {
       tableName: "transactions",
       underscored: true,
       timestamps: false,
-      indexes: [{ fields: ["block_hash"] }],
+      indexes: [{ fields: ["block_hash"] }]
     }
   );
-  Transaction.associate = function (models) {
+  Transaction.associate = function(models) {
     // associations can be defined here
   };
   return Transaction;

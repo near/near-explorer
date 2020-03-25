@@ -6,41 +6,41 @@ module.exports = (sequelize, DataTypes) => {
       blockHash: {
         type: DataTypes.STRING, // base58
         primaryKey: true,
-        allowNull: false,
+        allowNull: false
       },
       shardId: {
         type: DataTypes.BIGINT,
         primaryKey: true,
-        allowNull: false,
+        allowNull: false
       },
       signature: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       gasLimit: {
         type: DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: false
       },
       gasUsed: {
         type: DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: false
       },
       heightCreated: {
         type: DataTypes.BIGINT,
-        allowNull: false,
+        allowNull: false
       },
       heightIncluded: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-      },
+        allowNull: false
+      }
     },
     {
       tableName: "chunks",
       underscored: true,
-      timestamps: false,
+      timestamps: false
     }
   );
-  Chunk.associate = function (models) {
+  Chunk.associate = function(models) {
     // associations can be defined here
   };
   return Chunk;

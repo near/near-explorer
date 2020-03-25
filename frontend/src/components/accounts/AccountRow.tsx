@@ -19,7 +19,7 @@ export interface State {
 
 export default class extends React.Component<Props, State> {
   state: State = {
-    amount: "",
+    amount: ""
   };
 
   _getDetail = async () => {

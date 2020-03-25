@@ -13,7 +13,7 @@ export interface OuterProps {
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15,
+    count: 15
   };
 
   fetchAccounts = async () => {

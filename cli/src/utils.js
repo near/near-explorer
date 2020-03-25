@@ -10,19 +10,19 @@ exports.Connection = class {
       transports: [
         {
           url: wampNearExplorerUrl,
-          type: "websocket",
-        },
+          type: "websocket"
+        }
       ],
       retry_if_unreachable: true,
       max_retries: Number.MAX_SAFE_INTEGER,
-      max_retry_delay: 10,
+      max_retry_delay: 10
     });
   }
 
   open() {
     return new Promise((resolve, reject) => {
-      this.connection.onopen = (session) => resolve(session);
-      this.connection.onclose = (reason) => reject(reason);
+      this.connection.onopen = session => resolve(session);
+      this.connection.onclose = reason => reject(reason);
       this.connection.open();
     });
   }
@@ -33,10 +33,10 @@ exports.Connection = class {
   }
 };
 
-exports.prompt = function (msg) {
+exports.prompt = function(msg) {
   console.log(msg);
-  return new Promise((resolve) => {
-    standard_input.on("data", (data) => {
+  return new Promise(resolve => {
+    standard_input.on("data", data => {
       standard_input.destroy();
       resolve(data);
     });

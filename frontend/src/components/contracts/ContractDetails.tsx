@@ -27,14 +27,14 @@ export default class extends React.Component<Props, State> {
       id: "",
       transactionHash: null,
       timestamp: null,
-      accessKeys: [],
-    },
+      accessKeys: []
+    }
   };
 
   getContractInfo = async () => {
     new ContractsApi()
       .getContractInfo(this.props.accountId)
-      .then((contractInfo) => {
+      .then(contractInfo => {
         if (contractInfo.transactionHash !== null) {
           contractInfo.accessKeys.map((key: any) => {
             const permission = key["access_key"]["permission"];
@@ -49,12 +49,12 @@ export default class extends React.Component<Props, State> {
               id: contractInfo.id,
               transactionHash: contractInfo.transactionHash,
               timestamp: contractInfo.timestamp,
-              accessKeys: contractInfo.accessKeys,
-            },
+              accessKeys: contractInfo.accessKeys
+            }
           });
         }
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   };
 
   componentDidMount() {

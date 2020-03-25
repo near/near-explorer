@@ -10,7 +10,7 @@ export interface Props {
 export default class extends React.Component<Props> {
   render() {
     const { blocks } = this.props;
-    const blockRow = blocks.map((block) => (
+    const blockRow = blocks.map(block => (
       <BlocksRow key={block.hash} block={block} />
     ));
     return <>{blockRow}</>;

@@ -17,7 +17,7 @@ export interface Props {
 export default class extends React.Component<Props> {
   static defaultProps = {
     viewMode: "sparse",
-    reversed: false,
+    reversed: false
   };
 
   render() {

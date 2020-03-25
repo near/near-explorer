@@ -12,7 +12,7 @@ import { OuterProps } from "../accounts/Accounts";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15,
+    count: 15
   };
 
   fetchNodes = async () => {
@@ -60,7 +60,7 @@ class Nodes extends React.Component<InnerProps> {
         )}
         <FlipMove duration={1000} staggerDurationBy={0}>
           {items &&
-            items.map((node) => {
+            items.map(node => {
               return (
                 <NodeRow
                   key={node.nodeId}

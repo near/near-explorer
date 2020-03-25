@@ -6,7 +6,7 @@ const EXECUTION_STATUSES: Record<ExecutionStatus, string> = {
   NotStarted: "Not started",
   Started: "Started",
   Failure: "Failed",
-  SuccessValue: "Succeeded",
+  SuccessValue: "Succeeded"
 };
 
 export interface Props {

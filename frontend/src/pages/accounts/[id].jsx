@@ -22,16 +22,16 @@ export default class extends React.Component {
 
   state = {
     timestamp: "loading",
-    address: "loading",
+    address: "loading"
   };
 
   _getBasic = async () => {
     new AccountsApi()
       .getAccountBasic(this.props.id)
-      .then((basic) =>
+      .then(basic =>
         this.setState({ timestamp: basic.timestamp, address: basic.address })
       )
-      .catch((err) => {
+      .catch(err => {
         this.setState({ timestamp: "", address: "" });
         console.error(err);
       });

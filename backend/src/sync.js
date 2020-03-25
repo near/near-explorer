@@ -3,17 +3,17 @@ const models = require("../models");
 const {
   syncFetchQueueSize,
   syncSaveQueueSize,
-  bulkDbUpdateSize,
+  bulkDbUpdateSize
 } = require("./config");
 const { nearRpc } = require("./near");
 const { Result } = require("./utils");
 
 async function saveBlocks(blocksInfo) {
   try {
-    await models.sequelize.transaction(async (transaction) => {
+    await models.sequelize.transaction(async transaction => {
       try {
         await models.Block.bulkCreate(
-          blocksInfo.map((blockInfo) => {
+          blocksInfo.map(blockInfo => {
             return {
               hash: blockInfo.header.hash,
               height: blockInfo.header.height,
@@ -22,15 +22,15 @@ async function saveBlocks(blocksInfo) {
               totalSupply: blockInfo.header.total_supply || "",
               gasLimit: blockInfo.header.gas_limit || 0,
               gasUsed: blockInfo.header.gas_used || 0,
-              gasPrice: blockInfo.header.gas_price || "0",
+              gasPrice: blockInfo.header.gas_price || "0"
             };
           })
         );
 
         await models.Chunk.bulkCreate(
-          blocksInfo.flatMap((blockInfo) => {
+          blocksInfo.flatMap(blockInfo => {
             let { chunks } = blockInfo;
-            return chunks.map((chunkInfo) => {
+            return chunks.map(chunkInfo => {
               return {
                 blockHash: blockInfo.header.hash,
                 shardId: chunkInfo.shard_id,
@@ -38,7 +38,7 @@ async function saveBlocks(blocksInfo) {
                 gasLimit: chunkInfo.gas_limit,
                 gasUsed: chunkInfo.gas_used,
                 heightCreated: chunkInfo.height_created,
-                heightIncluded: chunkInfo.height_included,
+                heightIncluded: chunkInfo.height_included
               };
             });
           })
@@ -46,12 +46,12 @@ async function saveBlocks(blocksInfo) {
 
         await Promise.all(
           blocksInfo
-            .filter((blockInfo) => blockInfo.transactions.length > 0)
-            .map((blockInfo) => {
+            .filter(blockInfo => blockInfo.transactions.length > 0)
+            .map(blockInfo => {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
                 models.Transaction.bulkCreate(
-                  blockInfo.transactions.map((tx) => {
+                  blockInfo.transactions.map(tx => {
                     return {
                       hash: tx.hash,
                       nonce: tx.nonce,
@@ -59,12 +59,12 @@ async function saveBlocks(blocksInfo) {
                       signerId: tx.signer_id,
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
-                      receiverId: tx.receiver_id,
+                      receiverId: tx.receiver_id
                     };
                   })
                 ),
                 models.Action.bulkCreate(
-                  blockInfo.transactions.flatMap((tx) => {
+                  blockInfo.transactions.flatMap(tx => {
                     const transactionHash = tx.hash;
                     return tx.actions.map((action, index) => {
                       if (typeof action === "string") {
@@ -72,7 +72,7 @@ async function saveBlocks(blocksInfo) {
                           transactionHash,
                           actionIndex: index,
                           actionType: action,
-                          actionArgs: {},
+                          actionArgs: {}
                         };
                       }
                       if (action.DeployContract !== undefined) {
@@ -85,45 +85,45 @@ async function saveBlocks(blocksInfo) {
                         transactionHash,
                         actionIndex: index,
                         actionType: type,
-                        actionArgs: action[type],
+                        actionArgs: action[type]
                       };
                     });
                   })
                 ),
                 models.Contract.bulkCreate(
                   blockInfo.transactions
-                    .filter((tx) =>
+                    .filter(tx =>
                       tx.actions.some(
-                        (action) =>
+                        action =>
                           action === "DeployContract" ||
                           action.DeployContract !== undefined
                       )
                     )
-                    .map((tx) => {
+                    .map(tx => {
                       return {
                         accountId: tx.receiver_id,
                         transactionHash: tx.hash,
-                        timestamp,
+                        timestamp
                       };
                     })
                 ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
-                    .filter((tx) =>
+                    .filter(tx =>
                       tx.actions.some(
-                        (action) =>
+                        action =>
                           action === "CreateAccount" ||
                           action.CreateAccount !== undefined
                       )
                     )
-                    .map((tx) => {
+                    .map(tx => {
                       return {
                         accountId: tx.receiver_id,
                         transactionHash: tx.hash,
-                        timestamp,
+                        timestamp
                       };
                     })
-                ),
+                )
               ]);
             })
         );
@@ -138,13 +138,13 @@ async function saveBlocks(blocksInfo) {
 
 function promiseResult(promise) {
   // Convert a promise to an always-resolving promise of Result type.
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const payload = new Result();
     promise
-      .then((result) => {
+      .then(result => {
         payload.value = result;
       })
-      .catch((error) => {
+      .catch(error => {
         payload.error = error;
       })
       .then(() => {
@@ -177,44 +177,42 @@ async function saveBlocksFromRequests(requests) {
       }
       return blockResult.value;
     })
-    .filter((block) => block !== null);
+    .filter(block => block !== null);
 
-  blocks = (
-    await Promise.all(
-      blocks.flatMap(async (block) => {
-        try {
-          const detailedChunks = await Promise.all(
-            block.chunks.map(async (chunk) => {
-              let fetchError;
-              for (let retries = 5; retries > 0; --retries) {
-                try {
-                  return await nearRpc.chunk(chunk.chunk_hash);
-                } catch (error) {
-                  fetchError = error;
-                  if (error.type === "system") {
-                    continue;
-                  }
-                  console.error(
-                    "Failed to fetch a detailed chunk info: ",
-                    error,
-                    chunk
-                  );
-                  throw error;
+  blocks = (await Promise.all(
+    blocks.flatMap(async block => {
+      try {
+        const detailedChunks = await Promise.all(
+          block.chunks.map(async chunk => {
+            let fetchError;
+            for (let retries = 5; retries > 0; --retries) {
+              try {
+                return await nearRpc.chunk(chunk.chunk_hash);
+              } catch (error) {
+                fetchError = error;
+                if (error.type === "system") {
+                  continue;
                 }
+                console.error(
+                  "Failed to fetch a detailed chunk info: ",
+                  error,
+                  chunk
+                );
+                throw error;
               }
-              throw fetchError;
-            })
-          );
-          block.transactions = detailedChunks.flatMap(
-            (chunk) => chunk.transactions
-          );
-          return block;
-        } catch (error) {
-          return null;
-        }
-      })
-    )
-  ).filter((block) => block !== null);
+            }
+            throw fetchError;
+          })
+        );
+        block.transactions = detailedChunks.flatMap(
+          chunk => chunk.transactions
+        );
+        return block;
+      } catch (error) {
+        return null;
+      }
+    })
+  )).filter(block => block !== null);
 
   return await saveBlocks(blocks);
 }
@@ -234,7 +232,7 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
     //console.debug(`Syncing the block #${syncingBlockHeight}...`);
     requests.push([
       syncingBlockHeight,
-      promiseResult(nearRpc.block(syncingBlockHeight)),
+      promiseResult(nearRpc.block(syncingBlockHeight))
     ]);
     --syncingBlockHeight;
     if (requests.length > syncFetchQueueSize) {
@@ -260,7 +258,7 @@ async function syncNewNearcoreState() {
   }
 
   const latestSyncedBlock = await models.Block.findOne({
-    order: [["height", "DESC"]],
+    order: [["height", "DESC"]]
   });
   let latestSyncedBlockHeight;
   if (latestSyncedBlock !== null) {
@@ -289,7 +287,7 @@ async function syncMissingNearcoreState() {
   await syncOldNearcoreState();
 
   const latestSyncedBlock = await models.Block.findOne({
-    order: [["height", "DESC"]],
+    order: [["height", "DESC"]]
   });
   if (latestSyncedBlock === null) {
     return;
@@ -307,9 +305,9 @@ async function syncMissingNearcoreState() {
     const syncedBlocksCount = await models.Block.count({
       where: {
         height: {
-          [models.Sequelize.Op.between]: [lowHeight, highHeight],
-        },
-      },
+          [models.Sequelize.Op.between]: [lowHeight, highHeight]
+        }
+      }
     });
     if (highHeight - lowHeight + 1 === syncedBlocksCount) {
       return;

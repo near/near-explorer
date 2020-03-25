@@ -147,13 +147,13 @@ export default class TransactionsApi extends ExplorerApi {
           ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
           ORDER BY blocks.height ${queries.tail ? "DESC" : ""}
           LIMIT :limit`,
-        queries,
+        queries
       ]);
       if (queries.tail) {
         transactions.reverse();
       }
       await Promise.all(
-        transactions.map(async (transaction) => {
+        transactions.map(async transaction => {
           // TODO: Expose transaction status via transactions list from chunk
           // RPC, and store it during Explorer synchronization.
           //
@@ -161,7 +161,7 @@ export default class TransactionsApi extends ExplorerApi {
           // that is making a separate query per transaction to nearcore RPC.
           const transactionExtraInfo = await this.call<any>("nearcore-tx", [
             transaction.hash,
-            transaction.signerId,
+            transaction.signerId
           ]);
           transaction.status = Object.keys(
             transactionExtraInfo.status
@@ -180,7 +180,7 @@ export default class TransactionsApi extends ExplorerApi {
               const kind = Object.keys(action)[0] as keyof RpcAction;
               return {
                 kind,
-                args: action[kind],
+                args: action[kind]
               };
             }
           });
@@ -206,8 +206,8 @@ export default class TransactionsApi extends ExplorerApi {
     try {
       let transactionInfo = await this.getTransactions({
         transactionHash,
-        limit: 1,
-      }).then((it) => it[0] || null);
+        limit: 1
+      }).then(it => it[0] || null);
       if (transactionInfo === null) {
         transactionInfo = {
           status: "NotStarted",
@@ -217,12 +217,12 @@ export default class TransactionsApi extends ExplorerApi {
           blockHash: "",
           blockTimestamp: 0,
           actions: [],
-          gasPrice: "0",
+          gasPrice: "0"
         };
       } else {
         const transactionExtraInfo = await this.call<any>("nearcore-tx", [
           transactionHash,
-          transactionInfo.signerId,
+          transactionInfo.signerId
         ]);
         transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;

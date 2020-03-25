@@ -12,7 +12,7 @@ describe("<TransactionsList />", () => {
   });
 
   it("renders reversed", () => {
-    const reversedTransactions = TRANSACTIONS.map((transaction) => {
+    const reversedTransactions = TRANSACTIONS.map(transaction => {
       return { ...transaction, actions: [...transaction.actions].reverse() };
     }).reverse();
     expect(
