@@ -102,8 +102,8 @@ async function saveBlocks(blocksInfo) {
                     .map(tx => {
                       return {
                         accountId: tx.receiver_id,
-                        transactionHash: tx.hash,
-                        timestamp
+                        createdByTransactionHash: tx.hash,
+                        createdAtBlockTimestamp: timestamp
                       };
                     })
                 )
