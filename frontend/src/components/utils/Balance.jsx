@@ -20,14 +20,14 @@ const Balance = ({ amount }) => {
   );
 };
 
-const convertToShow = (amount) => {
+const convertToShow = amount => {
   if (amount === "0") {
     return "0";
   }
   return formatNEAR(amount);
 };
 
-const formatNEAR = (amount) => {
+const formatNEAR = amount => {
   let ret = utils.format.formatNearAmount(amount, 5);
   if (ret === "0" && amount > 0) {
     return "<0.00001";
@@ -35,7 +35,7 @@ const formatNEAR = (amount) => {
   return ret;
 };
 
-const formatPreciseNEAR = (amount) => {
+const formatPreciseNEAR = amount => {
   const REG = /(?=(\B)(\d{3})+$)/g;
   return amount.replace(REG, ",");
 };

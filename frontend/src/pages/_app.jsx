@@ -12,7 +12,7 @@ import { getNearNetwork } from "../libraries/config";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const {
-  publicRuntimeConfig: { nearNetworks, googleAnalytics },
+  publicRuntimeConfig: { nearNetworks, googleAnalytics }
 } = getConfig();
 
 export default class extends App {
@@ -36,7 +36,7 @@ export default class extends App {
     }
     return {
       currentNearNetwork,
-      ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
+      ...(await App.getInitialProps({ ...appContext, currentNearNetwork }))
     };
   }
 
@@ -95,7 +95,7 @@ export default class extends App {
                   gtag('js', new Date());
 
                   gtag('config', '${googleAnalytics}');
-                `,
+                `
               }}
             />
           </>

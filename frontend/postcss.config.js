@@ -4,6 +4,6 @@ module.exports = {
     require("postcss-url")({ url: "inline" }),
     require("autoprefixer")({
       /* ...options */
-    }), // so imports are auto-prefixed too
-  ],
+    }) // so imports are auto-prefixed too
+  ]
 };

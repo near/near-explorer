@@ -10,7 +10,7 @@ import { OuterProps } from "../accounts/Accounts";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15,
+    count: 15
   };
 
   fetchBlocks = async (count: number, endTimestamp?: number) => {
@@ -19,7 +19,7 @@ export default class extends React.Component<OuterProps> {
 
   config = {
     fetchDataFn: this.fetchBlocks,
-    count: this.props.count,
+    count: this.props.count
   };
 
   autoRefreshBlocks = autoRefreshHandler(Blocks, this.config);

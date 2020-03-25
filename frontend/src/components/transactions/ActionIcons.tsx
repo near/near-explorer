@@ -19,5 +19,5 @@ export default {
   Transfer,
   Stake,
   AddKey,
-  DeleteKey,
+  DeleteKey
 };

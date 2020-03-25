@@ -60,7 +60,7 @@ describe("<ActionMessage />", () => {
           actionKind={"FunctionCall"}
           actionArgs={{
             method_name: "method_name",
-            args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
+            args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0="
           }}
           transaction={TRANSACTIONS[1]}
           showDetails
@@ -88,7 +88,7 @@ describe("<ActionMessage />", () => {
           actionKind={"Stake"}
           actionArgs={{
             stake: "1",
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx"
           }}
           transaction={TRANSACTIONS[0]}
         />
@@ -103,7 +103,7 @@ describe("<ActionMessage />", () => {
           actionKind={"AddKey"}
           actionArgs={{
             access_key: {},
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx"
           }}
           transaction={TRANSACTIONS[0]}
         />
@@ -117,7 +117,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"DeleteKey"}
           actionArgs={{
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx"
           }}
           transaction={TRANSACTIONS[0]}
         />

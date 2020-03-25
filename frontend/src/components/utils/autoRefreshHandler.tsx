@@ -27,7 +27,7 @@ export default (
       items: Array<any>(),
       itemsLength: config.count,
       display: false,
-      hasMore: true,
+      hasMore: true
     };
 
     componentDidMount() {
@@ -48,7 +48,7 @@ export default (
           items: null,
           itemsLength: config.count,
           display: false,
-          hasMore: true,
+          hasMore: true
         });
       }
     }

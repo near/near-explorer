@@ -5,28 +5,28 @@ module.exports = (sequelize, DataTypes) => {
     {
       accountId: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       contractId: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       methodName: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: true
       },
       amount: {
         type: DataTypes.STRING,
-        allowNull: false,
-      },
+        allowNull: false
+      }
     },
     {
       tableName: "access_keys",
       underscored: true,
-      timestamps: false,
+      timestamps: false
     }
   );
-  AccessKey.associate = function (models) {
+  AccessKey.associate = function(models) {
     // associations can be defined here
   };
   return AccessKey;

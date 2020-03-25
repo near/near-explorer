@@ -15,7 +15,7 @@ export interface OuterProps {
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15,
+    count: 15
   };
 
   fetchTransactions = async (count: number, endTimestamp?: number) => {
@@ -24,13 +24,13 @@ export default class extends React.Component<OuterProps> {
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
       limit: count,
-      endTimestamp: endTimestamp,
+      endTimestamp: endTimestamp
     });
   };
 
   config = {
     fetchDataFn: this.fetchTransactions,
-    count: this.props.count,
+    count: this.props.count
   };
 
   autoRefreshTransactions = autoRefreshHandler(Transactions, this.config);

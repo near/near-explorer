@@ -6,24 +6,24 @@ module.exports = (sequelize, DataTypes) => {
       accountId: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true,
+        primaryKey: true
       },
       transactionHash: {
         type: DataTypes.STRING, // base58
-        allowNull: true,
+        allowNull: true
       },
       timestamp: {
         type: DataTypes.BIGINT,
-        allowNull: false,
-      },
+        allowNull: false
+      }
     },
     {
       tableName: "accounts",
       underscored: true,
-      timestamps: false,
+      timestamps: false
     }
   );
-  Account.associate = function (models) {
+  Account.associate = function(models) {
     // associations can be defined here
   };
   return Account;

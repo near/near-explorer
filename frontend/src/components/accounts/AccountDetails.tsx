@@ -22,14 +22,14 @@ interface State {
 
 export default class extends React.Component<Props, State> {
   state: State = {
-    storagePaidAtBlockHash: null,
+    storagePaidAtBlockHash: null
   };
 
   fetchBlockHash = async (height: string) => {
     new BlocksApi()
       .getBlockInfo(height)
-      .then((block) => this.setState({ storagePaidAtBlockHash: block.hash }))
-      .catch((err) => console.error(err));
+      .then(block => this.setState({ storagePaidAtBlockHash: block.hash }))
+      .catch(err => console.error(err));
   };
 
   componentDidUpdate(preProps: Props) {

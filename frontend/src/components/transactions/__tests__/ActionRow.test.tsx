@@ -13,7 +13,7 @@ describe("<ActionRow />", () => {
           transaction={TRANSACTIONS[0]}
           action={{
             kind: "CreateAccount",
-            args: {},
+            args: {}
           }}
         />
       )
@@ -31,10 +31,10 @@ describe("<ActionRow />", () => {
             args: {
               access_key: {
                 nonce: 0,
-                permission: "FullAccess",
+                permission: "FullAccess"
               },
-              public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx",
-            },
+              public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx"
+            }
           }}
         />
       )
@@ -47,8 +47,8 @@ describe("<ActionRow />", () => {
       args: "eyJ2YWx1ZSI6MX0=",
       deposit: "1",
       gas: 2000000000000,
-      method_name: "incrementCounter",
-    },
+      method_name: "incrementCounter"
+    }
   } as T.Action;
 
   it("renders functioncall with detail", () => {

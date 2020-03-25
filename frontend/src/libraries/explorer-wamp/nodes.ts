@@ -30,8 +30,8 @@ export default class NodesApi extends ExplorerApi {
                     Limit :limit`,
         {
           limit,
-          endTimestamp,
-        },
+          endTimestamp
+        }
       ]);
     } catch (error) {
       console.error("Nodes.getNodes failed to fetch data due to:");
