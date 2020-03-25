@@ -19,13 +19,15 @@ export default class extends React.PureComponent {
     clearInterval(this.timer);
   }
 
-  // componentDidUpdate() {
-  //   const time = this.props.time === undefined ? new Date() : this.props.time;
-  //   this.setState({
-  //     time,
-  //     timeStr: this.formatTime(time)
-  //   });
-  // }
+  newDate = new Date();
+
+  componentDidUpdate() {
+    const time = this.props.time === undefined ? this.newDate : this.props.time;
+    this.setState({
+      time: time,
+      timeStr: this.formatTime(time)
+    });
+  }
 
   formatTime(time) {
     return Moment(time).fromNow();
@@ -38,6 +40,9 @@ export default class extends React.PureComponent {
   };
 
   render() {
+    console.log(this.state.time, "  state");
+    console.log(this.props.time, "  props");
+    console.log(this.state.timeStr);
     return <span>{this.state.timeStr}</span>;
   }
 }

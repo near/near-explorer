@@ -12,7 +12,7 @@ export interface TransactionInfo {
   signerId: string;
   receiverId: string;
   blockHash: string;
-  blockTimestamp: number;
+  timestamp: number;
   status: ExecutionStatus;
   gasPrice: string;
 }
@@ -223,7 +223,7 @@ export default class TransactionsApi extends ExplorerApi {
           signerId: "",
           receiverId: "",
           blockHash: "",
-          blockTimestamp: 0,
+          timestamp: 0,
           actions: [],
           gasPrice: "0"
         };
