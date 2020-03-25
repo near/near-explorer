@@ -56,6 +56,7 @@ async function saveBlocks(blocksInfo) {
                       hash: tx.hash,
                       nonce: tx.nonce,
                       blockHash: blockInfo.header.hash,
+                      blockTimestamp: timestamp,
                       signerId: tx.signer_id,
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,

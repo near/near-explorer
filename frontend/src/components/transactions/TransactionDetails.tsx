@@ -4,6 +4,7 @@ import moment from "../../libraries/moment";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
+import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import AccountLink from "../utils/AccountLink";
@@ -18,19 +19,15 @@ export interface Props {
 }
 
 export interface State {
-  deposit: BN;
-  transactionFee: BN;
-  gasUsed: BN;
-  gasAttached: BN;
+  block?: B.BlockInfo;
+  deposit?: BN;
+  gasUsed?: BN;
+  gasAttached?: BN;
+  transactionFee?: BN;
 }
 
 export default class extends React.Component<Props, State> {
-  state: State = {
-    deposit: new BN(0),
-    transactionFee: new BN(0),
-    gasUsed: new BN(0),
-    gasAttached: new BN(0)
-  };
+  state: State = {};
 
   collectDeposit(actions: T.Action[]): BN {
     return actions
@@ -71,31 +68,62 @@ export default class extends React.Component<Props, State> {
     return gasBurntByTx.add(gasBurntByReceipts);
   }
 
+  updateBlock = async () => {
+    const block = await new BlocksApi().getBlockInfo(
+      this.props.transaction.blockHash
+    );
+    this.setState({ block });
+  };
+
   updateComputedValues = () => {
     const deposit = this.collectDeposit(this.props.transaction.actions);
     const gasUsed = this.collectGasUsed(this.props.transaction);
-    const gasPrice = new BN(this.props.transaction.gasPrice);
-    const transactionFee = gasUsed.mul(gasPrice);
     let gasAttached = this.collectGasAttached(this.props.transaction.actions);
     if (gasAttached === null) {
       gasAttached = gasUsed;
     }
-    this.setState({ deposit, transactionFee, gasUsed, gasAttached });
+    const stateUpdate: any = { deposit, gasUsed, gasAttached };
+    if (this.state.block) {
+      stateUpdate.transactionFee = gasUsed.mul(
+        new BN(this.state.block.gasPrice)
+      );
+    }
+    this.setState(stateUpdate);
   };
 
   componentDidMount() {
-    this.updateComputedValues();
+    this.updateBlock();
   }
 
-  componentDidUpdate(preProps: Props) {
-    if (this.props.transaction !== preProps.transaction) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    if (
+      this.state.block === undefined ||
+      this.state.block.hash !== this.props.transaction.blockHash
+    ) {
+      if (this.state.transactionFee) {
+        this.setState({
+          deposit: undefined,
+          gasUsed: undefined,
+          gasAttached: undefined,
+          transactionFee: undefined
+        });
+      } else {
+        this.updateBlock();
+      }
+    }
+    if (
+      (this.state.block &&
+        (!prevState.block || this.state.block.hash !== prevState.block.hash)) ||
+      this.props.transaction !== prevProps.transaction ||
+      this.props.transaction.blockHash !== prevProps.transaction.blockHash
+    ) {
       this.updateComputedValues();
     }
   }
 
   render() {
     const { transaction } = this.props;
-    const { deposit, transactionFee, gasUsed, gasAttached } = this.state;
+    const { block, deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
       <div className="transaction-info-container">
         <Row noGutters>
@@ -118,7 +146,7 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Value"
               imgLink="/static/images/icon-m-filter.svg"
-              text={<Balance amount={deposit.toString()} />}
+              text={deposit ? <Balance amount={deposit.toString()} /> : "..."}
             />
           </Col>
           <Col md="3">
@@ -134,7 +162,13 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Total Gas Cost"
               imgLink="/static/images/icon-m-size.svg"
-              text={<Balance amount={transactionFee.toString()} />}
+              text={
+                transactionFee ? (
+                  <Balance amount={transactionFee.toString()} />
+                ) : (
+                  "..."
+                )
+              }
               className="border-0"
             />
           </Col>
@@ -142,21 +176,21 @@ export default class extends React.Component<Props, State> {
             <CardCell
               title="Gas Price"
               imgLink="/static/images/icon-m-filter.svg"
-              text={<Balance amount={transaction.gasPrice} />}
+              text={block ? <Balance amount={block.gasPrice} /> : "..."}
             />
           </Col>
           <Col md="3">
             <CardCell
               title="Gas Used"
               imgLink="/static/images/icon-m-size.svg"
-              text={<Gas gas={gasUsed} />}
+              text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
             />
           </Col>
           <Col md="3">
             <CardCell
               title="Attached Gas"
               imgLink="/static/images/icon-m-size.svg"
-              text={<Gas gas={gasAttached} />}
+              text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
             />
           </Col>
         </Row>
