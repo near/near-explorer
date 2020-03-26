@@ -33,7 +33,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: [],
           receipt_ids: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
           status: { SuccessValue: null },
-          gas_burnt: 0
+          gas_burnt: 100000
         }
       },
       {
@@ -48,7 +48,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           status: {
             SuccessReceiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111"
           },
-          gas_burnt: 0
+          gas_burnt: 999999999
         }
       },
       {
@@ -58,7 +58,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: [],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
+          gas_burnt: 55555555
         }
       },
       {
@@ -68,7 +68,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: [],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
+          gas_burnt: 444444444444
         }
       }
     ],
@@ -79,7 +79,7 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"],
         status: { SuccessValue: null },
-        gas_burnt: 0
+        gas_burnt: 333
       }
     }
   },
@@ -116,7 +116,7 @@ export const TRANSACTIONS: T.Transaction[] = [
               error_type: "ActionError::FunctionCallError"
             }
           },
-          gas_burnt: 0
+          gas_burnt: 222222
         }
       }
     ],
@@ -127,7 +127,7 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
         status: { SuccessValue: null },
-        gas_burnt: 0
+        gas_burnt: 1111111
       }
     }
   },
@@ -161,7 +161,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: ["LOG: Counter is now: 1"],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
+          gas_burnt: 123123123
         }
       }
     ],
@@ -172,7 +172,7 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
         status: { SuccessValue: null },
-        gas_burnt: 0
+        gas_burnt: 456456
       }
     }
   }

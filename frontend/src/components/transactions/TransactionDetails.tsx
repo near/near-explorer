@@ -82,7 +82,7 @@ export default class extends React.Component<Props, State> {
     if (gasAttached === null) {
       gasAttached = gasUsed;
     }
-    const stateUpdate: any = { deposit, gasUsed, gasAttached };
+    const stateUpdate: State = { deposit, gasUsed, gasAttached };
     if (this.state.block) {
       stateUpdate.transactionFee = gasUsed.mul(
         new BN(this.state.block.gasPrice)
@@ -92,14 +92,14 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.updateBlock();
+    // NOTE: This will trigger the rest of the updates with componentDidUpdate
+    this.updateComputedValues();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    if (
-      this.state.block === undefined ||
-      this.state.block.hash !== this.props.transaction.blockHash
-    ) {
+    if (this.state.block === undefined) {
+      this.updateBlock();
+    } else if (this.state.block.hash !== this.props.transaction.blockHash) {
       if (this.state.transactionFee) {
         this.setState({
           deposit: undefined,
@@ -110,10 +110,9 @@ export default class extends React.Component<Props, State> {
       } else {
         this.updateBlock();
       }
-    }
-    if (
-      (this.state.block &&
-        (!prevState.block || this.state.block.hash !== prevState.block.hash)) ||
+    } else if (
+      !prevState.block ||
+      this.state.block.hash !== prevState.block.hash ||
       this.props.transaction !== prevProps.transaction ||
       this.props.transaction.blockHash !== prevProps.transaction.blockHash
     ) {
@@ -160,7 +159,7 @@ export default class extends React.Component<Props, State> {
         <Row noGutters>
           <Col md="3">
             <CardCell
-              title="Total Gas Cost"
+              title="Transaction Fee"
               imgLink="/static/images/icon-m-size.svg"
               text={
                 transactionFee ? (
