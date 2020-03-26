@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       totalSupply: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.STRING,
         allowNull: false
       },
       gasLimit: {
@@ -41,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       underscored: true,
       tableName: "blocks",
-      timestamps: false
+      timestamps: false,
+      indexes: [{ fields: ["height"] }, { fields: ["timestamp"] }]
     }
   );
   Block.associate = function(models) {
