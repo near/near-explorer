@@ -75,11 +75,10 @@ export default class AccountsApi extends ExplorerApi {
   ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
-        `SELECT account_id as id, timestamp, transaction_hash as address 
-        FROM accounts
-        ${endTimestamp ? `WHERE timestamp < :endTimestamp` : ""}
-        ORDER BY timestamp DESC
-        Limit :limit`,
+        `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
+          FROM accounts
+          ${endTimestamp ? `WHERE timestamp < :endTimestamp` : ""}
+          ORDER BY created_at_block_timestamp DESC`,
         {
           limit,
           endTimestamp
