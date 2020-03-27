@@ -19,12 +19,10 @@ export default class extends React.PureComponent {
     clearInterval(this.timer);
   }
 
-  newDate = new Date();
-
   componentDidUpdate() {
-    const time = this.props.time === undefined ? this.newDate : this.props.time;
+    const time = this.props.time === undefined ? new Date() : this.props.time;
     this.setState({
-      time: time,
+      time,
       timeStr: this.formatTime(time)
     });
   }
