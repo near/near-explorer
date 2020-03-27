@@ -9,16 +9,14 @@ export interface CollapseOptions {
 
 export interface Props {
   collapseOptions: CollapseOptions;
-  children: React.ReactNode;
+  value: string;
 }
 
 export default (props: Props) => {
   return (
     <>
       <ReactTextCollapse options={props.collapseOptions}>
-        <textarea readOnly className="code-preview">
-          {props.children}
-        </textarea>
+        <textarea readOnly className="code-preview" value={props.value} />
       </ReactTextCollapse>
       <style jsx>{`
         .code-preview {

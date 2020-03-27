@@ -56,6 +56,7 @@ async function saveBlocks(blocksInfo) {
                       hash: tx.hash,
                       nonce: tx.nonce,
                       blockHash: blockInfo.header.hash,
+                      blockTimestamp: timestamp,
                       signerId: tx.signer_id,
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
@@ -102,8 +103,8 @@ async function saveBlocks(blocksInfo) {
                     .map(tx => {
                       return {
                         accountId: tx.receiver_id,
-                        transactionHash: tx.hash,
-                        timestamp
+                        createdByTransactionHash: tx.hash,
+                        createdAtBlockTimestamp: timestamp
                       };
                     })
                 )

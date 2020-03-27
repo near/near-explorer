@@ -2,8 +2,8 @@ import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
   id: string;
-  timestamp: number | string;
-  address: string;
+  createdByTransactionHash?: string;
+  createdAtBlockTimestamp?: number;
 }
 
 interface AccountStats {
@@ -21,7 +21,7 @@ interface AccountInfo {
 export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 
 export default class AccountsApi extends ExplorerApi {
-  async getAccountInfo(id: string): Promise<Account> {
+  async getAccountInfo(id: string): Promise<AccountStats & AccountInfo> {
     try {
       const [accountInfo, accountStats] = await Promise.all([
         this.queryAccount(id),
@@ -38,7 +38,6 @@ export default class AccountsApi extends ExplorerApi {
         ]).then(accounts => accounts[0])
       ]);
       return {
-        id,
         amount: accountInfo.amount,
         locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
@@ -54,19 +53,15 @@ export default class AccountsApi extends ExplorerApi {
 
   async getAccountBasic(id: string): Promise<AccountBasicInfo> {
     try {
-      const accountBasic = await this.call<AccountBasicInfo[]>("select", [
-        `SELECT account_id as id, timestamp, transaction_hash as address FROM accounts
+      return await this.call<AccountBasicInfo[]>("select", [
+        `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
+          FROM accounts
           WHERE account_id = :id
         `,
         {
           id
         }
       ]).then(accounts => accounts[0]);
-      return {
-        id,
-        timestamp: accountBasic.timestamp,
-        address: accountBasic.address
-      };
     } catch (error) {
       console.error("AccountsApi.getAccountBasic failed to fetch data due to:");
       console.error(error);
@@ -97,7 +92,7 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async queryAccount(id: string) {
+  async queryAccount(id: string): Promise<any> {
     return this.call<any>("nearcore-query", [`account/${id}`, ""]);
   }
 }

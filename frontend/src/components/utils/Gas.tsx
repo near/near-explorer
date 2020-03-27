@@ -9,14 +9,12 @@ const TGAS = new BN(10 ** 12);
 
 export default ({ gas }: Props) => {
   let gasShow;
-  if (gas > TGAS) {
-    const tgas = gas.div(TGAS).toString();
-    gasShow = `${tgas} Tgas`;
-  } else if (gas > MGAS) {
-    const mgas = gas.div(MGAS).toString();
-    gasShow = `${mgas} Mgas`;
+  if (gas.gte(TGAS)) {
+    gasShow = `${gas.div(TGAS).toString()} Tgas`;
+  } else if (gas.gte(MGAS)) {
+    gasShow = `${gas.div(MGAS).toString()} Mgas`;
   } else {
-    gasShow = gas.toString();
+    gasShow = `${gas.toString()} gas`;
   }
   return <>{gasShow}</>;
 };

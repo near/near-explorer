@@ -7,12 +7,15 @@
     "test": "npm run typecheck && jest",
     "dev": "next",
     "dev:local-wamp": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run dev",
-    "dev:production-wamp": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
-    "dev:tatooine": "env 'NEAR_NETWORKS=[{\"name\": \"tatooine\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
+    "dev:production-wamp-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
+    "dev:production-wamp-betanet": "env 'NEAR_NETWORKS=[{\"name\": \"betanet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
+    "dev:production-wamp-devnet": "env 'NEAR_NETWORKS=[{\"name\": \"devnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run dev",
     "build": "next build",
     "start": "next start",
     "start:local-wamp": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run start",
-    "start:production-wamp": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run start",
+    "start:production-wamp-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run start",
+    "start:production-wamp-betanet": "env 'NEAR_NETWORKS=[{\"name\": \"betanet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run start",
+    "start:production-wamp-devnet": "env 'NEAR_NETWORKS=[{\"name\": \"devnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"]}]' WAMP_NEAR_EXPLORER_URL=wss://near-explorer-wamp.onrender.com/ws npm run start",
     "e2e:test": "npm start & cypress run",
     "e2e": "cypress run",
     "e2e:chrome": "cypress run --browser chrome",
@@ -22,7 +25,7 @@
     "cy:version": "cypress version",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "test:ci": "start-server-and-test start:production-wamp 3000 cy:run"
+    "test:ci": "start-server-and-test start:production-wamp-testnet 3000 cy:run"
   },
   "repository": {
     "type": "git",
