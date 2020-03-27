@@ -4,7 +4,8 @@ const dbPrefix =
 module.exports = {
   development: {
     dialect: "sqlite",
-    storage: `db/${dbPrefix || "development"}-database.sqlite`
+    // change db name here
+    storage: `db/${dbPrefix || "development"}-database-1ktx10k.sqlite`
   },
   test: {
     dialect: "sqlite",
