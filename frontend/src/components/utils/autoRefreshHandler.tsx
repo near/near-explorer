@@ -7,6 +7,7 @@ import PaginationSpinner from "./PaginationSpinner";
 interface Config {
   fetchDataFn: Function;
   count: number;
+  categary: string;
   dashboard?: boolean;
 }
 
@@ -81,8 +82,7 @@ export default (
         return;
       }
       if (this.state.items.length > 0) {
-        const endTimestamp = this.state.items[this.state.items.length - 1]
-          .timestamp;
+        const endTimestamp = this.getEndTimestamp(config.categary);
         const newData = await config.fetchDataFn(config.count, endTimestamp);
         if (newData.length > 0) {
           const items = this.state.items.concat(newData);
@@ -92,6 +92,30 @@ export default (
         }
         return;
       }
+    };
+
+    getEndTimestamp = (categary: string) => {
+      let endTimestamp;
+      switch (categary) {
+        case "Account":
+          endTimestamp = this.state.items[this.state.items.length - 1]
+            .createdAtBlockTimestamp;
+          break;
+        case "Block":
+          endTimestamp = this.state.items[this.state.items.length - 1]
+            .timestamp;
+          break;
+        case "Node":
+          endTimestamp = this.state.items[this.state.items.length - 1].lastSeen;
+          break;
+        case "Transaction":
+          endTimestamp = this.state.items[this.state.items.length - 1]
+            .blockTimestamp;
+          break;
+        default:
+          endTimestamp = undefined;
+      }
+      return endTimestamp;
     };
 
     render() {

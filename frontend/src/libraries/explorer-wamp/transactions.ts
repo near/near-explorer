@@ -143,15 +143,28 @@ export default class TransactionsApi extends ExplorerApi {
     if (blockHash) {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
-    if (endTimestamp) {
-      whereClause.push(`blocks.timestamp < :endTimestamp`);
+    let WHEREClause;
+    if (whereClause.length > 0) {
+      if (endTimestamp) {
+        WHEREClause = `WHERE block_timestamp < :endTimestamp AND (${whereClause.join(
+          " OR "
+        )})`;
+      } else {
+        WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
+      }
+    } else {
+      if (endTimestamp) {
+        WHEREClause = `WHERE block_timestamp < :endTimestamp`;
+      } else {
+        WHEREClause = "";
+      }
     }
     try {
       const transactions = await this.call<TransactionInfo[]>("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, 
               transactions.block_hash as blockHash, transactions.block_timestamp as blockTimestamp
           FROM transactions
-          ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
+          ${WHEREClause}
           ORDER BY block_timestamp DESC
           LIMIT :limit`,
         queries

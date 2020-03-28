@@ -21,7 +21,8 @@ export default class extends React.Component<OuterProps> {
 
   config = {
     fetchDataFn: this.fetchNodes,
-    count: this.props.count
+    count: this.props.count,
+    categary: "Node"
   };
 
   autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
@@ -71,7 +72,7 @@ class Nodes extends React.Component<InnerProps> {
                   moniker={node.moniker}
                   accountId={node.accountId}
                   nodeId={node.nodeId}
-                  lastSeen={node.timestamp}
+                  lastSeen={node.lastSeen}
                   lastHeight={node.lastHeight}
                   isValidator={node.isValidator}
                   agentName={node.agentName}

@@ -29,7 +29,8 @@ export default class extends React.Component<OuterProps> {
   config = {
     fetchDataFn: this.fetchTxs,
     count: this.props.count,
-    dashboard: true
+    dashboard: true,
+    categary: "Transaction"
   };
 
   autoRefreshDashboardBlocks = autoRefreshHandler(

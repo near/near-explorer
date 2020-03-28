@@ -30,7 +30,8 @@ export default class extends React.Component<OuterProps> {
 
   config = {
     fetchDataFn: this.fetchTransactions,
-    count: this.props.count
+    count: this.props.count,
+    categary: "Transaction"
   };
 
   autoRefreshTransactions = autoRefreshHandler(Transactions, this.config);
