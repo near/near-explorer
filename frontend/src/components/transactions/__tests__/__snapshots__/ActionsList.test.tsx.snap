@@ -277,11 +277,10 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
                     <textarea
                       className="jsx-3751390317 code-preview"
                       readOnly={true}
-                    >
-                      {
-  "text": "when ico?"
-}
-                    </textarea>
+                      value="{
+  \\"text\\": \\"when ico?\\"
+}"
+                    />
                   </div>
                   <div
                     onClick={[Function]}

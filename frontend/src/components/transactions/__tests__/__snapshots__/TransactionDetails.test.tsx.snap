@@ -172,20 +172,12 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="jsx-3005147464 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Total Gas Cost
+              Transaction Fee
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                0
-                 Ⓝ
-              </span>
+              ...
             </div>
           </div>
         </div>
@@ -215,15 +207,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                &lt;0.00001
-                 Ⓝ
-              </span>
+              ...
             </div>
           </div>
         </div>
@@ -253,7 +237,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0
+              445500 Mgas
             </div>
           </div>
         </div>
@@ -283,7 +267,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0
+              445500 Mgas
             </div>
           </div>
         </div>
@@ -558,20 +542,12 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="jsx-3005147464 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Total Gas Cost
+              Transaction Fee
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                0
-                 Ⓝ
-              </span>
+              ...
             </div>
           </div>
         </div>
@@ -601,15 +577,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                &lt;0.00001
-                 Ⓝ
-              </span>
+              ...
             </div>
           </div>
         </div>
@@ -639,7 +607,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0
+              1 Mgas
             </div>
           </div>
         </div>
@@ -669,7 +637,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0 Tgas
+              2 Mgas
             </div>
           </div>
         </div>
@@ -944,20 +912,12 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="jsx-3005147464 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Total Gas Cost
+              Transaction Fee
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                0
-                 Ⓝ
-              </span>
+              ...
             </div>
           </div>
         </div>
@@ -987,15 +947,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                &lt;0.00001
-                 Ⓝ
-              </span>
+              ...
             </div>
           </div>
         </div>
@@ -1025,7 +977,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0
+              123 Mgas
             </div>
           </div>
         </div>
@@ -1055,7 +1007,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              0
+              123 Mgas
             </div>
           </div>
         </div>

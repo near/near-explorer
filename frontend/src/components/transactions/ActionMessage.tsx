@@ -76,9 +76,10 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
           prettyArgs = hexy(decodedArgs, { format: "twos" });
         }
         args = (
-          <CodePreview collapseOptions={COLLAPSE_ARGS_OPTIONS}>
-            {prettyArgs}
-          </CodePreview>
+          <CodePreview
+            collapseOptions={COLLAPSE_ARGS_OPTIONS}
+            value={prettyArgs}
+          />
         );
       }
     }
