@@ -5,53 +5,32 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as A from "../../libraries/explorer-wamp/accounts";
-import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
 import TransactionLink from "../utils/TransactionLink";
-import BlockLink from "../utils/BlockLink";
 
 export interface Props {
   account: A.Account;
 }
 
-interface State {
-  storagePaidAtBlockHash: string | null;
-}
-
-export default class extends React.Component<Props, State> {
-  state: State = {
-    storagePaidAtBlockHash: null
-  };
-
-  fetchBlockHash = async (height: string) => {
-    new BlocksApi()
-      .getBlockInfo(height)
-      .then(block => this.setState({ storagePaidAtBlockHash: block.hash }))
-      .catch(err => console.error(err));
-  };
-
-  componentDidUpdate(preProps: Props) {
-    if (this.props.account !== preProps.account) {
-      this.fetchBlockHash(this.props.account.storagePaidAt.toString());
-    }
-  }
-  componentDidMount() {
-    this.fetchBlockHash(this.props.account.storagePaidAt.toString());
-  }
-
+export default class extends React.Component<Props> {
   render() {
     const { account } = this.props;
-    const { storagePaidAtBlockHash } = this.state;
     return (
       <div className="account-info-container">
         <Row noGutters>
-          <Col md="2">
+          <Col md="3">
             <CardCell
               title="Ⓝ Balance"
               text={<Balance amount={account.amount} />}
               className="border-0"
+            />
+          </Col>
+          <Col md="3">
+            <CardCell
+              title="Ⓝ Locked"
+              text={<Balance amount={account.locked} />}
             />
           </Col>
           <Col md="3">
@@ -71,33 +50,11 @@ export default class extends React.Component<Props, State> {
               }
             />
           </Col>
-          <Col md="2">
-            <CardCell
-              title="Locked"
-              imgLink="/static/images/icon-m-filter.svg"
-              text={<Balance amount={account.locked} />}
-            />
-          </Col>
           <Col md="3">
             <CardCell
-              title="Storage Used (Bytes)"
+              title="Storage Used"
               imgLink="/static/images/icon-storage.svg"
               text={`${account.storageUsage.toLocaleString()} B`}
-            />
-          </Col>
-          <Col md="2">
-            <CardCell
-              title="Last Paid"
-              imgLink="/static/images/icon-m-block.svg"
-              text={
-                storagePaidAtBlockHash !== null ? (
-                  <BlockLink blockHash={storagePaidAtBlockHash}>
-                    {`#${account.storagePaidAt.toLocaleString()}`}
-                  </BlockLink>
-                ) : (
-                  `#${account.storagePaidAt.toLocaleString()}`
-                )
-              }
             />
           </Col>
         </Row>
