@@ -28,29 +28,6 @@ describe("<ActionsList />", () => {
     ).toMatchSnapshot();
   });
 
-  it("renders reversed", () => {
-    expect(
-      JSON.stringify(
-        renderer.create(
-          <ActionsList
-            transaction={TRANSACTIONS[0]}
-            actions={TRANSACTIONS[0].actions}
-            reversed
-          />
-        )
-      )
-    ).toEqual(
-      JSON.stringify(
-        renderer.create(
-          <ActionsList
-            transaction={TRANSACTIONS[0]}
-            actions={[...TRANSACTIONS[0].actions].reverse()}
-          />
-        )
-      )
-    );
-  });
-
   it("renders functioncall by default", () => {
     expect(
       renderer.create(

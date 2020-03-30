@@ -117,13 +117,19 @@ export interface QueryArgs {
   receiverId?: string;
   transactionHash?: string;
   blockHash?: string;
-  tail?: boolean;
   limit: number;
+  endTimestamp?: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
   async getTransactions(queries: QueryArgs): Promise<Transaction[]> {
-    const { signerId, receiverId, transactionHash, blockHash } = queries;
+    const {
+      signerId,
+      receiverId,
+      transactionHash,
+      blockHash,
+      endTimestamp
+    } = queries;
     const whereClause = [];
     if (signerId) {
       whereClause.push(`transactions.signer_id = :signerId`);
@@ -137,53 +143,68 @@ export default class TransactionsApi extends ExplorerApi {
     if (blockHash) {
       whereClause.push(`transactions.block_hash = :blockHash`);
     }
+    let WHEREClause;
+    if (whereClause.length > 0) {
+      if (endTimestamp) {
+        WHEREClause = `WHERE block_timestamp < :endTimestamp AND (${whereClause.join(
+          " OR "
+        )})`;
+      } else {
+        WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
+      }
+    } else {
+      if (endTimestamp) {
+        WHEREClause = `WHERE block_timestamp < :endTimestamp`;
+      } else {
+        WHEREClause = "";
+      }
+    }
     try {
       const transactions = await this.call<TransactionInfo[]>("select", [
         `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, 
               transactions.block_hash as blockHash, transactions.block_timestamp as blockTimestamp
           FROM transactions
-          ${whereClause.length > 0 ? `WHERE ${whereClause.join(" OR ")}` : ""}
-          ORDER BY block_timestamp ${queries.tail ? "DESC" : ""}
+          ${WHEREClause}
+          ORDER BY block_timestamp DESC
           LIMIT :limit`,
         queries
       ]);
-      if (queries.tail) {
-        transactions.reverse();
-      }
-      await Promise.all(
-        transactions.map(async transaction => {
-          // TODO: Expose transaction status via transactions list from chunk
-          // RPC, and store it during Explorer synchronization.
-          //
-          // Meanwhile, we query this information in a non-effective manner,
-          // that is making a separate query per transaction to nearcore RPC.
-          const transactionExtraInfo = await this.call<any>("nearcore-tx", [
-            transaction.hash,
-            transaction.signerId
-          ]);
-          transaction.status = Object.keys(
-            transactionExtraInfo.status
-          )[0] as ExecutionStatus;
+      if (transactions.length > 0) {
+        await Promise.all(
+          transactions.map(async transaction => {
+            // TODO: Expose transaction status via transactions list from chunk
+            // RPC, and store it during Explorer synchronization.
+            //
+            // Meanwhile, we query this information in a non-effective manner,
+            // that is making a separate query per transaction to nearcore RPC.
+            const transactionExtraInfo = await this.call<any>("nearcore-tx", [
+              transaction.hash,
+              transaction.signerId
+            ]);
+            transaction.status = Object.keys(
+              transactionExtraInfo.status
+            )[0] as ExecutionStatus;
 
-          // Given we already queried the information from the node, we can use the actions,
-          // since DeployContract.code and FunctionCall.args are stripped away due to their size.
-          //
-          // Once the above TODO is resolved, we should just move this to TransactionInfo method
-          // (i.e. query the information there only for the specific transaction).
-          const actions = transactionExtraInfo.transaction.actions;
-          transaction.actions = actions.map((action: RpcAction | string) => {
-            if (typeof action === "string") {
-              return { kind: action, args: {} };
-            } else {
-              const kind = Object.keys(action)[0] as keyof RpcAction;
-              return {
-                kind,
-                args: action[kind]
-              };
-            }
-          });
-        })
-      );
+            // Given we already queried the information from the node, we can use the actions,
+            // since DeployContract.code and FunctionCall.args are stripped away due to their size.
+            //
+            // Once the above TODO is resolved, we should just move this to TransactionInfo method
+            // (i.e. query the information there only for the specific transaction).
+            const actions = transactionExtraInfo.transaction.actions;
+            transaction.actions = actions.map((action: RpcAction | string) => {
+              if (typeof action === "string") {
+                return { kind: action, args: {} };
+              } else {
+                const kind = Object.keys(action)[0] as keyof RpcAction;
+                return {
+                  kind,
+                  args: action[kind]
+                };
+              }
+            });
+          })
+        );
+      }
       return transactions as Transaction[];
     } catch (error) {
       console.error(
@@ -195,7 +216,7 @@ export default class TransactionsApi extends ExplorerApi {
   }
 
   async getLatestTransactionsInfo(limit: number = 10): Promise<Transaction[]> {
-    return this.getTransactions({ tail: true, limit });
+    return this.getTransactions({ limit });
   }
 
   async getTransactionInfo(

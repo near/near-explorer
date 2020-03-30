@@ -11,17 +11,15 @@ export interface Props {
   actions: T.Action[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
-  reversed?: boolean;
 }
 
 export default class extends React.Component<Props> {
   static defaultProps = {
-    viewMode: "sparse",
-    reversed: false
+    viewMode: "sparse"
   };
 
   render() {
-    const { transaction, viewMode, reversed } = this.props;
+    const { transaction, viewMode } = this.props;
 
     if (this.props.actions.length !== 1) {
       return (
@@ -36,7 +34,6 @@ export default class extends React.Component<Props> {
             transaction={transaction}
             viewMode={viewMode}
             detalizationMode="minimal"
-            reversed={reversed}
           />
         </ActionRowBlock>
       );
