@@ -125,6 +125,7 @@ export default (
           next={this.fetchMoreData}
           hasMore={this.state.hasMore}
           loader={<p>Loading</p>}
+          style={{ overflowX: "hidden" }}
         >
           <WrappedComponent items={this.state.items} {...props} />
         </InfiniteScroll>
