@@ -91,23 +91,6 @@ async function saveBlocks(blocksInfo) {
                     });
                   })
                 ),
-                models.Contract.bulkCreate(
-                  blockInfo.transactions
-                    .filter(tx =>
-                      tx.actions.some(
-                        action =>
-                          action === "DeployContract" ||
-                          action.DeployContract !== undefined
-                      )
-                    )
-                    .map(tx => {
-                      return {
-                        accountId: tx.receiver_id,
-                        transactionHash: tx.hash,
-                        timestamp
-                      };
-                    })
-                ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
                     .filter(tx =>
