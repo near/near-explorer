@@ -9,7 +9,6 @@ export interface Props {
   transaction: T.Transaction;
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;
-  reversed?: boolean;
   showDetails?: boolean;
 }
 
@@ -26,10 +25,6 @@ export default class extends React.Component<Props> {
         showDetails={showDetails}
       />
     ));
-
-    if (this.props.reversed) {
-      actionRows.reverse();
-    }
 
     return <>{actionRows}</>;
   }

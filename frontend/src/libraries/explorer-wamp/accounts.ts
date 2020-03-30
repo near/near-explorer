@@ -69,15 +69,23 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async getAccounts(limit: number = 15): Promise<AccountBasicInfo[]> {
+  async getAccounts(
+    limit: number = 15,
+    endTimestamp?: number
+  ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
         `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
           FROM accounts
-          ORDER BY created_at_block_timestamp DESC
-          LIMIT :limit`,
+          ${
+            endTimestamp
+              ? `WHERE created_at_block_timestamp < :endTimestamp`
+              : ""
+          }
+          ORDER BY created_at_block_timestamp DESC`,
         {
-          limit
+          limit,
+          endTimestamp
         }
       ]);
     } catch (error) {

@@ -1,8 +1,19 @@
+import InfiniteScroll from "react-infinite-scroll-component";
+
 import React from "react";
+
+import PaginationSpinner from "./PaginationSpinner";
+
+interface Config {
+  fetchDataFn: Function;
+  count: number;
+  categary: string;
+  dashboard?: boolean;
+}
 
 export default (
   WrappedComponent: React.ComponentType<any>,
-  fetchDataFn: Function,
+  config: Config,
   props?: any
 ) => {
   return class extends React.Component {
@@ -14,7 +25,10 @@ export default (
     timer: ReturnType<typeof setTimeout> | null;
 
     state = {
-      items: []
+      items: Array<any>(),
+      itemsLength: config.count,
+      display: false,
+      hasMore: true
     };
 
     componentDidMount() {
@@ -31,14 +45,24 @@ export default (
 
     componentDidUpdate(preProps: any) {
       if (this.props !== preProps) {
-        this.setState({ items: [] }, this.fetchInfo);
+        this.setState({
+          items: null,
+          itemsLength: config.count,
+          display: false,
+          hasMore: true
+        });
       }
     }
 
-    fetchInfo = () => {
-      fetchDataFn()
+    fetchInfo = (count: number) => {
+      config
+        .fetchDataFn(count)
         .then((items: any) => {
-          this.setState({ items });
+          if (items.length > 0) {
+            this.setState({ items, display: true });
+          } else {
+            this.setState({ hasMore: false, display: true });
+          }
         })
         .catch((err: any) => {
           console.error(err);
@@ -46,14 +70,68 @@ export default (
     };
 
     regularFetchInfo = () => {
-      this.fetchInfo();
+      this.fetchInfo(this.state.itemsLength);
       if (this.timer !== null) {
         this.timer = setTimeout(this.regularFetchInfo, 10000);
       }
     };
 
+    fetchMoreData = async () => {
+      if (config.dashboard) {
+        this.setState({ hasMore: false });
+        return;
+      }
+      if (this.state.items.length > 0) {
+        const endTimestamp = this.getEndTimestamp(config.categary);
+        const newData = await config.fetchDataFn(config.count, endTimestamp);
+        if (newData.length > 0) {
+          const items = this.state.items.concat(newData);
+          this.setState({ items, itemsLength: items.length });
+        } else {
+          this.setState({ hasMore: false });
+        }
+        return;
+      }
+    };
+
+    getEndTimestamp = (categary: string) => {
+      let endTimestamp;
+      switch (categary) {
+        case "Account":
+          endTimestamp = this.state.items[this.state.items.length - 1]
+            .createdAtBlockTimestamp;
+          break;
+        case "Block":
+          endTimestamp = this.state.items[this.state.items.length - 1]
+            .timestamp;
+          break;
+        case "Node":
+          endTimestamp = this.state.items[this.state.items.length - 1].lastSeen;
+          break;
+        case "Transaction":
+          endTimestamp = this.state.items[this.state.items.length - 1]
+            .blockTimestamp;
+          break;
+        default:
+          endTimestamp = undefined;
+      }
+      return endTimestamp;
+    };
+
     render() {
-      return <WrappedComponent items={this.state.items} {...props} />;
+      return this.state.display ? (
+        <InfiniteScroll
+          dataLength={this.state.items.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.hasMore}
+          loader={<p>Loading</p>}
+          style={{ overflowX: "hidden" }}
+        >
+          <WrappedComponent items={this.state.items} {...props} />
+        </InfiniteScroll>
+      ) : (
+        <PaginationSpinner hidden={false} />
+      );
     }
   };
 };

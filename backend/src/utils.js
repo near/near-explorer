@@ -9,4 +9,8 @@ class Result {
   }
 }
 
+function delayFor(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+
 exports.Result = Result;

@@ -6,7 +6,7 @@ const {
   bulkDbUpdateSize
 } = require("./config");
 const { nearRpc } = require("./near");
-const { Result } = require("./utils");
+const { Result, delayFor } = require("./utils");
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -192,6 +192,7 @@ async function saveBlocksFromRequests(requests) {
               } catch (error) {
                 fetchError = error;
                 if (error.type === "system") {
+                  await delayFor(100 + Math.random() * 1000);
                   continue;
                 }
                 console.error(
@@ -236,10 +237,10 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
       promiseResult(nearRpc.block(syncingBlockHeight))
     ]);
     --syncingBlockHeight;
-    if (requests.length > syncFetchQueueSize) {
+    if (requests.length >= syncFetchQueueSize) {
       saves.push(saveBlocksFromRequests(requests.splice(0, bulkDbUpdateSize)));
     }
-    if (saves.length > syncSaveQueueSize) {
+    if (saves.length >= syncSaveQueueSize) {
       await saves.shift();
     }
   }
