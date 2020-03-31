@@ -35,23 +35,23 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getBlocks(limit = 15, lastHeight: number = -1): Promise<BlockInfo[]> {
+  async getBlocks(limit = 15, endTimestamp?: number): Promise<BlockInfo[]> {
     try {
       return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
             FROM blocks
-            WHERE blocks.height < :lastHeight
+            ${endTimestamp ? `WHERE blocks.timestamp < :endTimestamp` : ""}
             ORDER BY blocks.height DESC
             LIMIT :limit
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           GROUP BY blocks.hash
-          ORDER BY blocks.height DESC`,
+          ORDER BY blocks.timestamp DESC`,
         {
           limit,
-          lastHeight: lastHeight === -1 ? "MAX(blocks.height)" : lastHeight
+          endTimestamp
         }
       ]);
     } catch (error) {

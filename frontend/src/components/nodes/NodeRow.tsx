@@ -1,22 +1,17 @@
+import React from "react";
 import { Row, Col } from "react-bootstrap";
+
+import * as N from "../../libraries/explorer-wamp/nodes";
 
 import Timer from "../utils/Timer";
 
-export default class extends React.PureComponent {
+interface Props {
+  node: N.NodeInfo;
+}
+
+export default class extends React.PureComponent<Props> {
   render() {
-    const {
-      nodeId,
-      accountId,
-      moniker,
-      ipAddress,
-      lastSeen,
-      lastHeight,
-      isValidator,
-      agentName,
-      agentVersion,
-      agentBuild
-    } = this.props;
-    //TODO: Display on the list new information
+    const { node } = this.props;
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
@@ -27,35 +22,35 @@ export default class extends React.PureComponent {
         </Col>
         <Col md="7" xs="6">
           <Row>
-            <Col className="node-row-title">{moniker}</Col>
+            <Col className="node-row-title">{node.moniker}</Col>
           </Row>
           <Row>
             <Col className="node-row-text">
               <Row>
-                <Col md="auto">#{lastHeight}</Col>
+                <Col md="auto">#{node.lastHeight}</Col>
                 <Col md="auto" className="pl-0">
                   <img
                     src="/static/images/icon-m-user.svg"
                     style={{ width: "12px" }}
                   />
-                  {` @${accountId}`}
+                  {` @${node.accountId}`}
                 </Col>
-                <Col md="auto">{ipAddress}</Col>
+                <Col md="auto">{node.ipAddress}</Col>
               </Row>
             </Col>
           </Row>
         </Col>
         <Col md="3" xs="4" className="ml-auto text-right">
           <Row>
-            <Col className="node-row-txid" title={nodeId}>
-              {nodeId.substring(8, 20)}...
+            <Col className="node-row-txid" title={node.nodeId}>
+              {node.nodeId.substring(8, 20)}...
             </Col>
           </Row>
           <Row>
             <Col className="node-row-timer">
               <span className="node-row-timer-status">Last seen</span>
               &nbsp;&nbsp;
-              <Timer time={lastSeen} />
+              <Timer time={node.lastSeen} />
             </Col>
           </Row>
         </Col>

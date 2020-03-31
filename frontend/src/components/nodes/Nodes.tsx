@@ -5,7 +5,7 @@ import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
-import PaginationSpinner from "../utils/PaginationSpinner";
+
 import NodeRow from "./NodeRow";
 
 import { OuterProps } from "../accounts/Accounts";
@@ -15,11 +15,18 @@ export default class extends React.Component<OuterProps> {
     count: 15
   };
 
-  fetchNodes = async () => {
-    return await new NodesApi().getNodes(this.props.count);
+  fetchNodes = async (count: number, endTimestamp?: number) => {
+    return await new NodesApi().getNodes(count, endTimestamp);
   };
 
-  autoRefreshNodes = autoRefreshHandler(Nodes, this.fetchNodes);
+  config = {
+    fetchDataFn: this.fetchNodes,
+    count: this.props.count,
+    categary: "Node"
+  };
+
+  autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
+
   render() {
     return <this.autoRefreshNodes />;
   }
@@ -32,16 +39,13 @@ interface InnerProps {
 class Nodes extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    if (items.length === 0) {
-      return <PaginationSpinner hidden={false} />;
-    }
     return (
       <>
         {items && (
           <div>
             <Row>
               <Col md="auto" className="align-self-center pagination-total">
-                {`${items.length.toLocaleString()} Total`}
+                {`${items.length.toLocaleString()} On List`}
               </Col>
             </Row>
             <style jsx>{`
@@ -61,21 +65,7 @@ class Nodes extends React.Component<InnerProps> {
         <FlipMove duration={1000} staggerDurationBy={0}>
           {items &&
             items.map(node => {
-              return (
-                <NodeRow
-                  key={node.nodeId}
-                  ipAddress={node.ipAddress}
-                  moniker={node.moniker}
-                  accountId={node.accountId}
-                  nodeId={node.nodeId}
-                  lastSeen={node.lastSeen}
-                  lastHeight={node.lastHeight}
-                  isValidator={node.isValidator}
-                  agentName={node.agentName}
-                  agentVersion={node.agentVersion}
-                  agentBuild={node.agentBuild}
-                />
-              );
+              return <NodeRow key={node.nodeId} node={node} />;
             })}
         </FlipMove>
       </>
