@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NodeRow /> renders 1`] = `
+<div
+  className="node-row mx-0 row"
+>
+  <div
+    className="pr-0 col-md-auto col-1"
+  >
+    <img
+      className="jsx-3441355254"
+      src="/static/images/icon-m-block.svg"
+      style={
+        Object {
+          "width": "15px",
+        }
+      }
+    />
+  </div>
+  <div
+    className="col-md-7 col-6"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="node-row-title col"
+      >
+        
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="node-row-text col"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-md-auto"
+          >
+            #
+            12345
+          </div>
+          <div
+            className="pl-0 col-md-auto"
+          >
+            <img
+              className="jsx-3441355254"
+              src="/static/images/icon-m-user.svg"
+              style={
+                Object {
+                  "width": "12px",
+                }
+              }
+            />
+             @
+          </div>
+          <div
+            className="col-md-auto"
+          >
+            1.1.1.1
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="ml-auto text-right col-md-3 col-4"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="node-row-txid col"
+        title=""
+      >
+        
+        ...
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="node-row-timer col"
+      >
+        <span
+          className="jsx-3441355254 node-row-timer-status"
+        >
+          Last seen
+        </span>
+          
+        <span>
+          49y ago
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
