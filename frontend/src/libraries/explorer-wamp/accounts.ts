@@ -82,7 +82,8 @@ export default class AccountsApi extends ExplorerApi {
               ? `WHERE created_at_block_timestamp < :endTimestamp`
               : ""
           }
-          ORDER BY created_at_block_timestamp DESC`,
+          ORDER BY created_at_block_timestamp DESC
+          LIMIT :limit`,
         {
           limit,
           endTimestamp

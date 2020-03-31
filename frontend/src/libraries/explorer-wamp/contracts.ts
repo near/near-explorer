@@ -28,7 +28,7 @@ export default class ContractsApi extends ExplorerApi {
         return {
           transactionHash: contractInfo.hash,
           timestamp: contractInfo.block_timestamp,
-          accessKeys
+          accessKeys: accessKeys.keys
         };
       } else {
         return;
@@ -47,7 +47,7 @@ export default class ContractsApi extends ExplorerApi {
       `account/${id}`,
       ""
     ]);
-    return account.hash;
+    return account["code_hash"];
   }
 
   async queryAccessKey(id: string) {
