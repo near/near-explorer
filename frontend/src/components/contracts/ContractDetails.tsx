@@ -20,11 +20,9 @@ interface State {
 }
 
 export default class extends React.Component<Props, State> {
-  state: State = {
-    locked: true
-  };
+  state: State = {};
 
-  getContractInfo = async () => {
+  collectContractInfo = async () => {
     new ContractsApi()
       .getContractInfo(this.props.accountId)
       .then(contractInfo => {
@@ -32,8 +30,9 @@ export default class extends React.Component<Props, State> {
           this.setState({
             transactionHash: contractInfo.transactionHash,
             timestamp: contractInfo.timestamp,
-            locked: contractInfo.accessKeys.some(
-              (key: any) => key["access_key"]["permissions"] === "FullAccess"
+            locked: contractInfo.accessKeys.every(
+              (key: any) =>
+                key["access_key"]["permission"]["FunctionCall"] !== undefined
             )
           });
         }
@@ -43,16 +42,20 @@ export default class extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.getContractInfo();
+    this.collectContractInfo();
   }
 
   componentDidUpdate(preProps: Props) {
     if (this.props.accountId !== preProps.accountId) {
-      this.getContractInfo();
+      this.collectContractInfo();
     }
   }
   render() {
     const { locked, transactionHash, timestamp } = this.state;
+    let lockedShow;
+    if (locked !== undefined) {
+      lockedShow = locked === true ? "Locked" : "UnLocked";
+    }
     return transactionHash ? (
       <>
         <div className="contract-title">
@@ -85,7 +88,7 @@ export default class extends React.Component<Props, State> {
             <Col md="2">
               <CardCell
                 title="Status"
-                text={locked ? "Locked" : "Unlocked"}
+                text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
               />
             </Col>
