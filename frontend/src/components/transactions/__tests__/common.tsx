@@ -9,7 +9,6 @@ export const TRANSACTIONS: T.Transaction[] = [
     status: "SuccessValue",
     blockHash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    gasPrice: "5000",
     actions: [
       {
         kind: "CreateAccount",
@@ -34,7 +33,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: [],
           receipt_ids: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
           status: { SuccessValue: null },
-          gas_burnt: 0
+          gas_burnt: 100000
         }
       },
       {
@@ -42,19 +41,34 @@ export const TRANSACTIONS: T.Transaction[] = [
         block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         outcome: {
           logs: ["LOG: Counter is now: 1"],
-          receipt_ids: ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp"],
-          status: { SuccessValue: "" },
-          gas_burnt: 0
+          receipt_ids: [
+            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
+            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222"
+          ],
+          status: {
+            SuccessReceiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111"
+          },
+          gas_burnt: 999999999
         }
       },
       {
-        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK3dgp",
+        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
         block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         outcome: {
           logs: [],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
+          gas_burnt: 55555555
+        }
+      },
+      {
+        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
+        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+        outcome: {
+          logs: [],
+          receipt_ids: [],
+          status: { SuccessValue: "" },
+          gas_burnt: 444444444444
         }
       }
     ],
@@ -65,7 +79,7 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"],
         status: { SuccessValue: null },
-        gas_burnt: 0
+        gas_burnt: 333
       }
     }
   },
@@ -77,7 +91,6 @@ export const TRANSACTIONS: T.Transaction[] = [
     status: "SuccessValue",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    gasPrice: "5000",
     actions: [
       {
         kind: "FunctionCall",
@@ -95,10 +108,15 @@ export const TRANSACTIONS: T.Transaction[] = [
         id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
         block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
         outcome: {
-          logs: ["LOG: Counter is now: 1"],
+          logs: [],
           receipt_ids: [],
-          status: { SuccessValue: "" },
-          gas_burnt: 0
+          status: {
+            Failure: {
+              error_message: "Exceeded the prepaid gas.",
+              error_type: "ActionError::FunctionCallError"
+            }
+          },
+          gas_burnt: 222222
         }
       }
     ],
@@ -109,7 +127,7 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
         status: { SuccessValue: null },
-        gas_burnt: 0
+        gas_burnt: 1111111
       }
     }
   },
@@ -121,7 +139,6 @@ export const TRANSACTIONS: T.Transaction[] = [
     status: "SuccessValue",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    gasPrice: "5000",
     actions: [
       {
         kind: "Transfer",
@@ -144,7 +161,7 @@ export const TRANSACTIONS: T.Transaction[] = [
           logs: ["LOG: Counter is now: 1"],
           receipt_ids: [],
           status: { SuccessValue: "" },
-          gas_burnt: 0
+          gas_burnt: 123123123
         }
       }
     ],
@@ -155,7 +172,7 @@ export const TRANSACTIONS: T.Transaction[] = [
         logs: [],
         receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
         status: { SuccessValue: null },
-        gas_burnt: 0
+        gas_burnt: 456456
       }
     }
   }

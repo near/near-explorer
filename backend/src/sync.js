@@ -6,7 +6,7 @@ const {
   bulkDbUpdateSize
 } = require("./config");
 const { nearRpc } = require("./near");
-const { Result } = require("./utils");
+const { Result, delayFor } = require("./utils");
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -52,27 +52,43 @@ async function saveBlocks(blocksInfo) {
               return Promise.all([
                 models.Transaction.bulkCreate(
                   blockInfo.transactions.map(tx => {
-                    const actions = tx.actions.map(action => {
+                    return {
+                      hash: tx.hash,
+                      nonce: tx.nonce,
+                      blockHash: blockInfo.header.hash,
+                      blockTimestamp: timestamp,
+                      signerId: tx.signer_id,
+                      signerPublicKey: tx.signer_public_key || tx.public_key,
+                      signature: tx.signature,
+                      receiverId: tx.receiver_id
+                    };
+                  })
+                ),
+                models.Action.bulkCreate(
+                  blockInfo.transactions.flatMap(tx => {
+                    const transactionHash = tx.hash;
+                    return tx.actions.map((action, index) => {
                       if (typeof action === "string") {
-                        return { [action]: {} };
+                        return {
+                          transactionHash,
+                          actionIndex: index,
+                          actionType: action,
+                          actionArgs: {}
+                        };
                       }
                       if (action.DeployContract !== undefined) {
                         delete action.DeployContract.code;
                       } else if (action.FunctionCall !== undefined) {
                         delete action.FunctionCall.args;
                       }
-                      return action;
+                      const type = Object.keys(action)[0];
+                      return {
+                        transactionHash,
+                        actionIndex: index,
+                        actionType: type,
+                        actionArgs: action[type]
+                      };
                     });
-                    return {
-                      hash: tx.hash,
-                      nonce: tx.nonce,
-                      blockHash: blockInfo.header.hash,
-                      signerId: tx.signer_id,
-                      signerPublicKey: tx.signer_public_key || tx.public_key,
-                      signature: tx.signature,
-                      receiverId: tx.receiver_id,
-                      actions
-                    };
                   })
                 ),
                 models.Account.bulkCreate(
@@ -87,8 +103,8 @@ async function saveBlocks(blocksInfo) {
                     .map(tx => {
                       return {
                         accountId: tx.receiver_id,
-                        transactionHash: tx.hash,
-                        timestamp
+                        createdByTransactionHash: tx.hash,
+                        createdAtBlockTimestamp: timestamp
                       };
                     })
                 )
@@ -159,6 +175,7 @@ async function saveBlocksFromRequests(requests) {
               } catch (error) {
                 fetchError = error;
                 if (error.type === "system") {
+                  await delayFor(100 + Math.random() * 1000);
                   continue;
                 }
                 console.error(
@@ -203,10 +220,10 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
       promiseResult(nearRpc.block(syncingBlockHeight))
     ]);
     --syncingBlockHeight;
-    if (requests.length > syncFetchQueueSize) {
+    if (requests.length >= syncFetchQueueSize) {
       saves.push(saveBlocksFromRequests(requests.splice(0, bulkDbUpdateSize)));
     }
-    if (saves.length > syncSaveQueueSize) {
+    if (saves.length >= syncSaveQueueSize) {
       await saves.shift();
     }
   }

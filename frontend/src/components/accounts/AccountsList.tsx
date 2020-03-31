@@ -15,7 +15,7 @@ export default class extends React.Component<Props> {
       <AccountRow
         key={account.id + index}
         accountId={account.id}
-        timestamp={account.timestamp}
+        createdAt={account.createdAtBlockTimestamp}
       />
     ));
     return <>{accountRow}</>;

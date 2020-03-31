@@ -67,7 +67,12 @@ Array [
             <div
               className="receipt-row-title col"
             >
-              Empty result
+              <i>
+                SuccessReceiptId: 
+              </i>
+              <pre>
+                A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111
+              </pre>
             </div>
           </div>
           <div
@@ -94,6 +99,53 @@ Array [
               className="receipt-row-receipt-hash col"
             >
               A8HaLh5...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="receipt-row mx-0 row no-gutters"
+  >
+    <div
+      className="receipt-row-details col"
+    >
+      <div
+        className="row no-gutters"
+      >
+        <div
+          className="col-md-8 col-7"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="receipt-row-title col"
+            >
+              Empty result
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="receipt-row-text col"
+            >
+              No logs
+            </div>
+          </div>
+        </div>
+        <div
+          className="ml-auto text-right col-md-4 col-5"
+        >
+          <div
+            className="row"
+          >
+            <div
+              className="receipt-row-receipt-hash col"
+            >
+              A5oSQ6z...
             </div>
           </div>
         </div>

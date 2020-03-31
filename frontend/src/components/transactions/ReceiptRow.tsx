@@ -7,9 +7,7 @@ export interface Props {
   receipt: T.ReceiptOutcome;
 }
 
-export interface State {}
-
-export default class extends React.Component<Props, State> {
+export default class extends React.Component<Props> {
   render() {
     const { receipt } = this.props;
 
@@ -28,18 +26,24 @@ export default class extends React.Component<Props, State> {
           </>
         );
       }
-    } else {
-      if ("Failure" in (receipt.outcome.status as T.ReceiptFailure)) {
-        const { Failure } = receipt.outcome.status as T.ReceiptFailure;
-        statusInfo = (
-          <>
-            <i>Failure: </i>
-            <pre>{JSON.stringify(Failure, null, 2)}</pre>
-          </>
-        );
-      } else {
-        statusInfo = <i>{receipt.outcome.status}</i>;
-      }
+    } else if ("Failure" in (receipt.outcome.status as T.ReceiptFailure)) {
+      const { Failure } = receipt.outcome.status as T.ReceiptFailure;
+      statusInfo = (
+        <>
+          <i>Failure: </i>
+          <pre>{JSON.stringify(Failure, null, 2)}</pre>
+        </>
+      );
+    } else if (
+      "SuccessReceiptId" in (receipt.outcome.status as T.ReceiptSuccessId)
+    ) {
+      const { SuccessReceiptId } = receipt.outcome.status as T.ReceiptSuccessId;
+      statusInfo = (
+        <>
+          <i>SuccessReceiptId: </i>
+          <pre>{SuccessReceiptId}</pre>
+        </>
+      );
     }
 
     return (

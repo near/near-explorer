@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING, // base58
         allowNull: false
       },
+      blockTimestamp: {
+        type: DataTypes.BIGINT,
+        allowNull: false
+      },
       nonce: {
         type: DataTypes.BIGINT,
         allowNull: false
@@ -31,17 +35,17 @@ module.exports = (sequelize, DataTypes) => {
       receiverId: {
         type: DataTypes.STRING,
         allowNull: false
-      },
-      actions: {
-        type: DataTypes.JSON,
-        allowNull: false
       }
     },
     {
       tableName: "transactions",
       underscored: true,
       timestamps: false,
-      indexes: [{ fields: ["block_hash"] }]
+      indexes: [
+        { fields: ["block_hash"] },
+        { fields: ["signer_id"] },
+        { fields: ["receiver_id"] }
+      ]
     }
   );
   Transaction.associate = function(models) {
