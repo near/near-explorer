@@ -31,13 +31,13 @@ export default class extends React.Component {
     return new AccountsApi()
       .getAccountBasic(this.props.id)
       .then(basic => {
-        if(basic){
+        if (basic) {
           this.setState({
             createdAtBlockTimestamp: basic.createdAtBlockTimestamp,
             createdByTransactionHash: basic.createdByTransactionHash
           });
         }
-        return; 
+        return;
       })
       .catch(err => {
         this.setState({
