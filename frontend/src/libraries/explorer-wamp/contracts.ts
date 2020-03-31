@@ -1,41 +1,38 @@
 import { ExplorerApi } from ".";
 
 export interface ContractInfo {
-  id: string;
-  transactionHash: string | null;
+  transactionHash?: string;
   timestamp: number | null;
   accessKeys: Array<object>;
 }
 
 export default class ContractsApi extends ExplorerApi {
-  async getContractInfo(id: string): Promise<ContractInfo> {
+  async getContractInfo(id: string) {
     try {
-      const [accessKey, contractStats] = await Promise.all([
-        this.queryAccessKey(id),
-        this.call<any>("select", [
-          `SELECT transaction_hash as transactionHash, timestamp
-                    from contracts
-                    WHERE account_id = :id
-                    ORDER BY timestamp DESC`,
-          {
-            id
-          }
-        ]).then(contract => contract[0] || null)
-      ]);
-      if (contractStats === null) {
+      const codeHash = await this.queryCodeHash(id);
+      if (codeHash !== "11111111111111111111111111111111") {
+        const [contractInfo, accessKeys] = await Promise.all([
+          this.call<any>("select", [
+            `SELECT transactions.block_timestamp, transactions.hash 
+            from transactions
+            LEFT JOIN actions ON actions.transaction_hash = transactions.hash
+            WHERE actions.action_type = "DeployContract" AND transactions.receiver_id = :id
+            ORDER BY  transactions.block_timestamp DESC
+            LIMIT 1`,
+            {
+              id
+            }
+          ]).then(info => info[0]),
+          this.queryAccessKey(id)
+        ]);
         return {
-          id,
-          transactionHash: null,
-          timestamp: null,
-          accessKeys: []
+          transactionHash: contractInfo.hash,
+          timestamp: contractInfo.block_timestamp,
+          accessKeys
         };
+      } else {
+        return;
       }
-      return {
-        id,
-        transactionHash: contractStats.transactionHash,
-        timestamp: contractStats.timestamp,
-        accessKeys: accessKey.keys
-      };
     } catch (error) {
       console.error(
         "ContractsApi.getContractInfo failed to fetch data due to:"
@@ -43,6 +40,14 @@ export default class ContractsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async queryCodeHash(id: string) {
+    const account = await this.call<any>("nearcore-query", [
+      `account/${id}`,
+      ""
+    ]);
+    return account.hash;
   }
 
   async queryAccessKey(id: string) {
