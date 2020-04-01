@@ -1,9 +1,10 @@
 import { ExplorerApi } from ".";
 
 export interface ContractInfo {
-  transactionHash?: string;
+  transactionHash: string;
   timestamp: number | null;
   accessKeys: Array<object>;
+  codeHash: string;
 }
 
 export default class ContractsApi extends ExplorerApi {
@@ -26,6 +27,7 @@ export default class ContractsApi extends ExplorerApi {
           this.queryAccessKey(id)
         ]);
         return {
+          codeHash: codeHash,
           transactionHash: contractInfo.hash,
           timestamp: contractInfo.block_timestamp,
           accessKeys: accessKeys.keys

@@ -17,6 +17,7 @@ interface State {
   locked?: boolean;
   transactionHash?: string;
   timestamp?: number;
+  codeHash?: string;
 }
 
 export default class extends React.Component<Props, State> {
@@ -28,6 +29,7 @@ export default class extends React.Component<Props, State> {
       .then(contractInfo => {
         if (contractInfo) {
           this.setState({
+            codeHash: contractInfo.codeHash,
             transactionHash: contractInfo.transactionHash,
             timestamp: contractInfo.timestamp,
             locked: contractInfo.accessKeys.every(
@@ -51,10 +53,19 @@ export default class extends React.Component<Props, State> {
     }
   }
   render() {
-    const { locked, transactionHash, timestamp } = this.state;
+    const { locked, transactionHash, timestamp, codeHash } = this.state;
     let lockedShow;
     if (locked !== undefined) {
-      lockedShow = locked === true ? "Locked" : "UnLocked";
+      lockedShow = locked === true ? "Yes" : "No";
+    }
+    let updated;
+    if (timestamp && transactionHash) {
+      const time = moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa");
+      updated = (
+        <>
+          {time} [<TransactionLink transactionHash={transactionHash} />]{" "}
+        </>
+      );
     }
     return transactionHash ? (
       <>
@@ -67,29 +78,25 @@ export default class extends React.Component<Props, State> {
         </div>
         <div className="contract-info-container">
           <Row noGutters className="border-0">
-            <Col md="6">
-              <CardCell
-                title="Code Hash"
-                text={
-                  <TransactionLink transactionHash={transactionHash}>
-                    {transactionHash}
-                  </TransactionLink>
-                }
-                className="block-card-created account-card-back border-0"
-              />
-            </Col>
             <Col md="4">
               <CardCell
                 title="Last Updated"
-                text={moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")}
+                text={updated ? updated : ""}
                 className="block-card-created-text account-card-back border-0"
               />
             </Col>
             <Col md="2">
               <CardCell
-                title="Status"
+                title="Locked"
                 text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
+              />
+            </Col>
+            <Col md="6">
+              <CardCell
+                title="Code Hash"
+                text={codeHash ? codeHash : ""}
+                className="block-card-created account-card-back border-0"
               />
             </Col>
           </Row>
@@ -120,6 +127,7 @@ export default class extends React.Component<Props, State> {
             border: solid 4px #e6e6e6;
             border-radius: 4px;
             margin: 0 15px;
+            background: #f8f8f8;
           }
         `}</style>
       </>
