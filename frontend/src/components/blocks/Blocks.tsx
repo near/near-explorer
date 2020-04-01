@@ -4,7 +4,7 @@ import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
-import BlocksList from "./BlocksList";
+import BlocksRow from "./BlocksRow";
 
 import { OuterProps } from "../accounts/Accounts";
 
@@ -39,7 +39,8 @@ class Blocks extends React.Component<InnerProps> {
     const { items } = this.props;
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        <BlocksList blocks={items} />
+        {items &&
+          items.map(block => <BlocksRow key={block.hash} block={block} />)}
       </FlipMove>
     );
   }
