@@ -4,12 +4,11 @@ const dbPrefix =
 module.exports = {
   development: {
     dialect: "sqlite",
-    // change db name here
-    storage: `db/${dbPrefix || "development"}-database-1ktx10k.sqlite`
+    storage: `db/${dbPrefix || "development"}-database.sqlite`
   },
   test: {
     dialect: "sqlite",
-    storage: `db/${dbPrefix || "test"}-database.sqlite`
+    storage: `db/${dbPrefix || "test"}-database-1ktx10k.sqlite`
   },
   production: {
     dialect: "sqlite",

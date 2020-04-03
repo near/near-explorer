@@ -74,7 +74,7 @@ async function main() {
 
   await models.sequelize.sync();
   // change DB size here:
-  generateBlocks(100);
+  generateBlocks(500);
 
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");

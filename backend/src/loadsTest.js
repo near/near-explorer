@@ -41,6 +41,7 @@ async function saveBlocks(blocksInfo) {
                   hash: tx.hash,
                   nonce: tx.nonce,
                   blockHash: blockInfo.hash,
+                  blockTimestamp: blockInfo.timestamp,
                   signerId: tx.signer_id,
                   signerPublicKey: tx.public_key,
                   signature: tx.signature,
@@ -87,8 +88,8 @@ async function saveBlocks(blocksInfo) {
                   .map(tx => {
                     return {
                       accountId: tx.receiver_id,
-                      transactionHash: tx.hash,
-                      timestamp: blockInfo.timestamp
+                      createdByTransactionHash: tx.hash,
+                      createdAtBlockTimestamp: blockInfo.timestamp
                     };
                   })
               );
@@ -105,12 +106,8 @@ async function saveBlocks(blocksInfo) {
 
 function generateBlocks(number) {
   let hashMap = Array(number);
-  let signatureMap = Array(number);
   for (i = 0; i < number; i++) {
     hashMap[i] = [...Array(44)]
-      .map(i => (~~(Math.random() * 36)).toString(36))
-      .join("");
-    signatureMap[i] = [...Array(20)]
       .map(i => (~~(Math.random() * 36)).toString(36))
       .join("");
   }
@@ -127,11 +124,11 @@ function generateBlocks(number) {
   let blocks = Array(number);
   for (height = 0; height < number; height++) {
     const transactions = generateTxs();
-    const chunks = generateChunks(height + 400);
+    const chunks = generateChunks(height + 9500);
     blocks[height] = {
       hash: hashMap[height],
       prev_hash: preHashMap[height],
-      height: height + 400,
+      height: height + 9500,
       timestamp: height * 1000,
       total_supply,
       gas_price,
@@ -263,6 +260,9 @@ function generateTxs() {
     ],
     ["DeleteAccount"]
   ];
+  const actionsMap1000 = Array(100)
+    .fill(actionsMap)
+    .flatMap(action => action);
   let transactions = Array(1000);
   for (i = 0; i < 1000; i++) {
     transactions[i] = {
@@ -282,7 +282,7 @@ function generateTxs() {
       signature: [...Array(44)]
         .map(i => (~~(Math.random() * 36)).toString(36))
         .join(""),
-      actions: actionsMap[i % 10]
+      actions: actionsMap1000[i]
     };
   }
   return transactions;
