@@ -4,7 +4,7 @@ import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 import FlipMove from "../utils/FlipMove";
-import AccountsList from "./AccountsList";
+import AccountRow from "./AccountRow";
 
 export interface OuterProps {
   count: number;
@@ -41,7 +41,14 @@ class Accounts extends React.Component<InnerProps> {
     const { items } = this.props;
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        <AccountsList accounts={items} />
+        {items &&
+          items.map((account, index) => (
+            <AccountRow
+              key={account.id + index}
+              accountId={account.id}
+              createdAt={account.createdAtBlockTimestamp}
+            />
+          ))}
       </FlipMove>
     );
   }
