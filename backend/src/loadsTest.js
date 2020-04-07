@@ -124,11 +124,11 @@ function generateBlocks(number) {
   let blocks = Array(number);
   for (height = 0; height < number; height++) {
     const transactions = generateTxs();
-    const chunks = generateChunks(height + 9500);
+    const chunks = generateChunks(height + 20000);
     blocks[height] = {
       hash: hashMap[height],
       prev_hash: preHashMap[height],
-      height: height + 9500,
+      height: height + 20000,
       timestamp: height * 1000,
       total_supply,
       gas_price,
