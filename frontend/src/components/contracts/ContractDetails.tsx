@@ -59,8 +59,10 @@ export default class extends React.Component<Props, State> {
     if (locked !== undefined) {
       lockedShow = locked === true ? "Yes" : "No";
     }
-    console.log(codeHash, lockedShow);
-    return transactionHash ? (
+    if (!transactionHash) {
+      return <></>;
+    }
+    return (
       <>
         <div className="contract-title">
           <img
@@ -140,8 +142,6 @@ export default class extends React.Component<Props, State> {
           }
         `}</style>
       </>
-    ) : (
-      <></>
     );
   }
 }

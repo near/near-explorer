@@ -15,7 +15,7 @@ export default class ContractsApi extends ExplorerApi {
         const [contractInfo, accessKeys] = await Promise.all([
           this.call<any>("select", [
             `SELECT transactions.block_timestamp, transactions.hash 
-            from transactions
+            FROM transactions
             LEFT JOIN actions ON actions.transaction_hash = transactions.hash
             WHERE actions.action_type = "DeployContract" AND transactions.receiver_id = :id
             ORDER BY  transactions.block_timestamp DESC
