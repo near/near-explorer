@@ -1,3 +1,5 @@
+import InfiniteScroll from "react-infinite-scroll-component";
+
 import React from "react";
 
 import PaginationSpinner from "./PaginationSpinner";
@@ -119,12 +121,23 @@ export default (
     };
 
     render() {
-      return this.state.display ? (
+      if (!this.state.display) {
+        return <PaginationSpinner hidden={false} />;
+      }
+      return (
         <>
-          <WrappedComponent items={this.state.items} {...props} />
-          {this.state.hasMore && (
-            <button onClick={this.fetchMoreData}>Load More </button>
-          )}
+          <InfiniteScroll
+            dataLength={this.state.items.length}
+            next={this.fetchMoreData}
+            hasMore={this.state.hasMore}
+            loader={<PaginationSpinner hidden={false} />}
+            style={{ overflowX: "hidden" }}
+          >
+            <WrappedComponent items={this.state.items} {...props} />
+            {this.state.hasMore && (
+              <button onClick={this.fetchMoreData}>Load More </button>
+            )}
+          </InfiniteScroll>
           <style jsx global>{`
             button {
               background-color: #6ad1e3;
@@ -145,8 +158,6 @@ export default (
             }
           `}</style>
         </>
-      ) : (
-        <PaginationSpinner hidden={false} />
       );
     }
   };
