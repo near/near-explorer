@@ -1,5 +1,3 @@
-import InfiniteScroll from "react-infinite-scroll-component";
-
 import React from "react";
 
 import PaginationSpinner from "./PaginationSpinner";
@@ -54,14 +52,27 @@ export default (
       }
     }
 
+    regularFetchInfo = () => {
+      if (config.dashboard) {
+        this.setState({ hasMore: false });
+      }
+      if (this.state.itemsLength > 0) {
+        this.fetchInfo(this.state.itemsLength);
+        if (this.timer !== null) {
+          this.timer = setTimeout(this.regularFetchInfo, 10000);
+        }
+      }
+      return;
+    };
+
     fetchInfo = (count: number) => {
       config
         .fetchDataFn(count)
         .then((items: any) => {
           if (items.length > 0) {
-            this.setState({ items, display: true });
+            this.setState({ items, itemsLength: items.length, display: true });
           } else {
-            this.setState({ hasMore: false, display: true });
+            this.setState({ hasMore: false, display: true, itemsLength: 0 });
           }
         })
         .catch((err: any) => {
@@ -69,19 +80,8 @@ export default (
         });
     };
 
-    regularFetchInfo = () => {
-      this.fetchInfo(this.state.itemsLength);
-      if (this.timer !== null) {
-        this.timer = setTimeout(this.regularFetchInfo, 10000);
-      }
-    };
-
     fetchMoreData = async () => {
-      if (config.dashboard) {
-        this.setState({ hasMore: false });
-        return;
-      }
-      if (this.state.items.length > 0) {
+      if (this.state.itemsLength > 0) {
         const endTimestamp = this.getEndTimestamp(config.categary);
         const newData = await config.fetchDataFn(config.count, endTimestamp);
         if (newData.length > 0) {
@@ -120,15 +120,31 @@ export default (
 
     render() {
       return this.state.display ? (
-        <InfiniteScroll
-          dataLength={this.state.items.length}
-          next={this.fetchMoreData}
-          hasMore={this.state.hasMore}
-          loader={<p>Loading</p>}
-          style={{ overflowX: "hidden" }}
-        >
+        <>
           <WrappedComponent items={this.state.items} {...props} />
-        </InfiniteScroll>
+          {this.state.hasMore && (
+            <button onClick={this.fetchMoreData}>Load More </button>
+          )}
+          <style jsx global>{`
+            button {
+              background-color: #6ad1e3;
+              display: block;
+              text-align: center;
+              text-decoration: none;
+              font-family: BentonSans;
+              font-size: 14px;
+              color: #fff;
+              text-transform: uppercase;
+              margin: 10px;
+              border-radius: 25px;
+              padding: 8px 10px;
+            }
+            button:hover,
+            button:focus {
+              background-color: #17a2b8;
+            }
+          `}</style>
+        </>
       ) : (
         <PaginationSpinner hidden={false} />
       );
