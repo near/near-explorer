@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
       indexes: [
         { fields: ["block_hash"] },
+        { fields: ["block_timestamp"] },
         { fields: ["signer_id"] },
         { fields: ["receiver_id"] }
       ]
