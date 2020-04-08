@@ -51,11 +51,8 @@ export default () => (
         font-size: 12px;
         line-height: 40px;
         color: #999999;
-        position: absolute;
         height: 120px;
         width: 100%;
-        left: 0;
-        bottom: 0;
       }
 
       .footer-container > .col-12 {
