@@ -37,7 +37,6 @@ export default class extends React.Component {
             createdByTransactionHash: basic.createdByTransactionHash
           });
         }
-        return;
       })
       .catch(err => {
         this.setState({

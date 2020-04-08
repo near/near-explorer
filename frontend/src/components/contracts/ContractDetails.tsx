@@ -52,21 +52,14 @@ export default class extends React.Component<Props, State> {
       this.collectContractInfo();
     }
   }
+
   render() {
     const { locked, transactionHash, timestamp, codeHash } = this.state;
     let lockedShow;
     if (locked !== undefined) {
       lockedShow = locked === true ? "Yes" : "No";
     }
-    let updated;
-    if (timestamp && transactionHash) {
-      const time = moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa");
-      updated = (
-        <>
-          {time} [<TransactionLink transactionHash={transactionHash} />]{" "}
-        </>
-      );
-    }
+    console.log(codeHash, lockedShow);
     return transactionHash ? (
       <>
         <div className="contract-title">
@@ -81,18 +74,35 @@ export default class extends React.Component<Props, State> {
             <Col md="4">
               <CardCell
                 title="Last Updated"
-                text={updated ? updated : ""}
-                className="block-card-created-text account-card-back border-0"
+                text={
+                  timestamp
+                    ? moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")
+                    : ""
+                }
+                className="block-card-created-text border-0"
               />
             </Col>
-            <Col md="2">
+            <Col md="8">
               <CardCell
-                title="Locked"
+                title="Transaction Hash"
+                text={
+                  <TransactionLink transactionHash={transactionHash}>
+                    {transactionHash}
+                  </TransactionLink>
+                }
+                className="block-card-created border-0"
+              />
+            </Col>
+          </Row>
+          <Row noGutters className="border-0">
+            <Col md="4">
+              <CardCell
+                title="Locked?"
                 text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
               />
             </Col>
-            <Col md="6">
+            <Col md="8">
               <CardCell
                 title="Code Hash"
                 text={codeHash ? codeHash : ""}
@@ -111,7 +121,6 @@ export default class extends React.Component<Props, State> {
             margin-top: 32px;
             margin-left: 50px;
             background: #ffffff;
-            border: 2px solid #e6e6e6;
             box-sizing: border-box;
             border-radius: 25px;
             font-family: BentonSans;
