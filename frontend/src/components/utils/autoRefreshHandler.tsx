@@ -28,7 +28,8 @@ export default (
       items: Array<any>(),
       itemsLength: config.count,
       display: false,
-      hasMore: true
+      hasMore: true,
+      loading: false
     };
 
     componentDidMount() {
@@ -64,7 +65,6 @@ export default (
           this.timer = setTimeout(this.regularFetchInfo, 10000);
         }
       }
-      return;
     };
 
     fetchInfo = (count: number) => {
@@ -73,26 +73,37 @@ export default (
         .then((items: any) => {
           if (items.length > 0) {
             this.setState({ items, itemsLength: items.length, display: true });
+            if (items.length < config.count) {
+              this.setState({ hasMore: false });
+            }
           } else {
             this.setState({ hasMore: false, display: true, itemsLength: 0 });
           }
         })
-        .catch((err: any) => {
+        .catch((err: Error) => {
           console.error(err);
         });
     };
 
     fetchMoreData = async () => {
+      this.setState({ loading: true });
       if (this.state.itemsLength > 0) {
         const endTimestamp = this.getEndTimestamp(config.categary);
-        const newData = await config.fetchDataFn(config.count, endTimestamp);
-        if (newData.length > 0) {
-          const items = this.state.items.concat(newData);
-          this.setState({ items, itemsLength: items.length });
-        } else {
-          this.setState({ hasMore: false });
-        }
-        return;
+        config
+          .fetchDataFn(config.count, endTimestamp)
+          .then((newData: any) => {
+            if (newData.length > 0) {
+              const items = this.state.items.concat(newData);
+              this.setState({ items, itemsLength: items.length });
+              if (newData.length < config.count) {
+                this.setState({ hasMore: false });
+              }
+            } else {
+              this.setState({ hasMore: false });
+            }
+            this.setState({ loading: false });
+          })
+          .catch((err: Error) => console.error(err));
       }
     };
 
@@ -134,27 +145,29 @@ export default (
             style={{ overflowX: "hidden" }}
           >
             <WrappedComponent items={this.state.items} {...props} />
-            {this.state.hasMore && (
-              <button onClick={this.fetchMoreData}>Load More </button>
-            )}
           </InfiniteScroll>
+          {this.state.hasMore && !this.state.loading && (
+            <>
+              <button onClick={this.fetchMoreData} className="dashboard-footer">
+                Load More{" "}
+              </button>
+            </>
+          )}
           <style jsx global>{`
-            button {
-              background-color: #6ad1e3;
+            .dashboard-footer {
+              width: 100px;
+              background-color: #f8f8f8;
               display: block;
               text-align: center;
               text-decoration: none;
               font-family: BentonSans;
               font-size: 14px;
-              color: #fff;
+              color: #0072ce;
+              font-weight: bold;
               text-transform: uppercase;
-              margin: 10px;
-              border-radius: 25px;
-              padding: 8px 10px;
-            }
-            button:hover,
-            button:focus {
-              background-color: #17a2b8;
+              margin: 20px auto;
+              border-radius: 30px;
+              padding: 8px 0;
             }
           `}</style>
         </>
