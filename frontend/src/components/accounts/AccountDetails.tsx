@@ -59,7 +59,7 @@ export default class extends React.Component<Props> {
           </Col>
         </Row>
         <Row noGutters className="border-0">
-          <Col md="5">
+          <Col md="4">
             <CardCell
               title="Created"
               text={
@@ -72,7 +72,7 @@ export default class extends React.Component<Props> {
               className="block-card-created account-card-back border-0"
             />
           </Col>
-          <Col md="7">
+          <Col md="8">
             <CardCell
               title="Creation Hash"
               text={

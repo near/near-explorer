@@ -56,17 +56,21 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <Header />
-          <div className="page">
-            <Container>
-              <Component {...pageProps} />
-            </Container>
+          <div className="app-wrapper">
+            <Header />
+            <div className="page">
+              <Container>
+                <Component {...pageProps} />
+              </Container>
+            </div>
           </div>
           <Footer />
         </DataProvider>
         <style jsx global>{`
           body {
-            background-color: #f8f8f8;
+            background-color: white;
+            height: 100%;
+            margin: 0;
           }
 
           a {
@@ -79,6 +83,11 @@ export default class extends App {
 
           .page {
             background: white;
+          }
+
+          .app-wrapper {
+            position: relative;
+            min-height: calc(100vh - 120px);
           }
         `}</style>
         {googleAnalytics ? (
