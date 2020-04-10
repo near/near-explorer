@@ -130,7 +130,7 @@ export default class DashboardHeader extends React.Component<State> {
               imgLink="/static/images/icon-m-tps.svg"
               text={
                 details
-                  ? details.transactionsPerSecond !== null
+                  ? details.transactionsPerSecond !== undefined
                     ? details.transactionsPerSecond.toLocaleString()
                     : "N/A"
                   : ""
