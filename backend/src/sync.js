@@ -91,6 +91,33 @@ async function saveBlocks(blocksInfo) {
                     });
                   })
                 ),
+                models.AccessKey.bulkCreate(
+                  blockInfo.transactions
+                    .filter(tx =>
+                      tx.actions.some(
+                        action =>
+                          action === "AddKey" || action.AddKey !== undefined
+                      )
+                    )
+                    .flatMap(tx => {
+                      const accountId = tx.receiver_id;
+                      return tx.actions.map(action => {
+                        let accessKeyType;
+                        if (
+                          action.AddKey.access_key.permission === "FullAccess"
+                        ) {
+                          accessKeyType = "FullAccess";
+                        } else {
+                          accessKeyType = "FunctionCall";
+                        }
+                        return {
+                          accountId,
+                          publicKey: action.AddKey.public_key,
+                          accessKeyType
+                        };
+                      });
+                    })
+                ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
                     .filter(tx =>
