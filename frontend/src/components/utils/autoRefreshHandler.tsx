@@ -50,7 +50,8 @@ export default (
           items: Array<any>(),
           itemsLength: config.count,
           display: false,
-          hasMore: true
+          hasMore: true,
+          loading: false
         });
       }
     }
@@ -141,20 +142,20 @@ export default (
             dataLength={this.state.items.length}
             next={this.fetchMoreData}
             hasMore={this.state.hasMore}
-            loader={<PaginationSpinner hidden={false} />}
+            loader={<></>}
             style={{ overflowX: "hidden" }}
           >
             <WrappedComponent items={this.state.items} {...props} />
           </InfiniteScroll>
           {this.state.hasMore && !this.state.loading && (
             <>
-              <button onClick={this.fetchMoreData} className="dashboard-footer">
+              <button onClick={this.fetchMoreData} className="load-button">
                 Load More{" "}
               </button>
             </>
           )}
           <style jsx global>{`
-            .dashboard-footer {
+            .load-button {
               width: 100px;
               background-color: #f8f8f8;
               display: block;
@@ -168,6 +169,8 @@ export default (
               margin: 20px auto;
               border-radius: 30px;
               padding: 8px 0;
+              cursor: pointer;
+              border: none;
             }
           `}</style>
         </>
