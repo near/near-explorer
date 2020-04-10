@@ -95,14 +95,17 @@ export default (
           .then((newData: any) => {
             if (newData.length > 0) {
               const items = this.state.items.concat(newData);
-              this.setState({ items, itemsLength: items.length });
+              this.setState({
+                items,
+                itemsLength: items.length,
+                loading: false
+              });
               if (newData.length < config.count) {
                 this.setState({ hasMore: false });
               }
             } else {
-              this.setState({ hasMore: false });
+              this.setState({ hasMore: false, loading: false });
             }
-            this.setState({ loading: false });
           })
           .catch((err: Error) => console.error(err));
       }
