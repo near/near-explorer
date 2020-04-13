@@ -36,11 +36,8 @@ export default class DetailsApi extends ExplorerApi {
         blockTimestamp !== null
           ? this.call("select", [
               `
-          SELECT
-            transactions.transactionsPer10Second
-          FROM
-            (SELECT COUNT(*) as transactionsPer10Second FROM transactions
-                WHERE block_timestamp > (:blockTimestamp - 10 * 1000) AND block_timestamp <= :blockTimestamp  ) as transactions
+          SELECT COUNT(*) as transactionsPer10Second FROM transactions
+            WHERE block_timestamp > (:blockTimestamp - 10 * 1000) AND block_timestamp <= :blockTimestamp 
           `,
               {
                 blockTimestamp
