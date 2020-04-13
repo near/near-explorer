@@ -43,7 +43,7 @@ async function saveBlocks(blocksInfo) {
             });
           })
         );
-
+        // TODO: check the status of transactions and filter out the failling transactions in the following table.
         await Promise.all(
           blocksInfo
             .filter(blockInfo => blockInfo.transactions.length > 0)
@@ -92,38 +92,41 @@ async function saveBlocks(blocksInfo) {
                   })
                 ),
                 models.AccessKey.bulkCreate(
-                  blockInfo.transactions
-                    .filter(tx =>
-                      tx.actions.some(action => action.AddKey !== undefined)
-                    )
-                    .flatMap(tx => {
-                      const accountId = tx.receiver_id;
-                      return tx.actions
-                        .filter(action => action.AddKey !== undefined)
-                        .map(action => {
-                          let accessKeyType;
-                          if (
-                            action.AddKey.access_key.permission === "FullAccess"
-                          ) {
-                            accessKeyType = "FullAccess";
-                          } else if (
-                            action.AddKey.access_key.permission.hasOwnProperty(
-                              "FunctionCall"
-                            )
-                          ) {
-                            accessKeyType = "FunctionCall";
-                          } else {
-                            throw new Error(
-                              "permission type is either FullAccess nor FunctionCall"
-                            );
-                          }
-                          return {
-                            accountId,
-                            publicKey: action.AddKey.public_key,
-                            accessKeyType
-                          };
-                        });
-                    })
+                  blockInfo.transactions.flatMap(tx => {
+                    const accountId = tx.receiver_id;
+                    return tx.actions
+                      .filter(action => action.AddKey !== undefined)
+                      .map(action => {
+                        let accessKeyType;
+                        if (
+                          typeof action.AddKey.access_key.permission ===
+                          "string"
+                        ) {
+                          accessKeyType = "FullAccess";
+                        } else if (
+                          action.AddKey.access_key.permission !== undefined
+                        ) {
+                          accessKeyType = Object.keys(
+                            action.a.access_key.permission
+                          )[0];
+                        } else {
+                          throw new Error(
+                            `Unexpected error during access key permission parsing in transaction ${
+                              tx.hash
+                            }: 
+                              the permission type is expected to be a string or an object with a single key, 
+                              but '${JSON.stringify(
+                                action.AddKey.access_key.permission
+                              )}' found.`
+                          );
+                        }
+                        return {
+                          accountId,
+                          publicKey: action.AddKey.public_key,
+                          accessKeyType
+                        };
+                      });
+                  })
                 ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
