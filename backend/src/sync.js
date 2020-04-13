@@ -98,26 +98,18 @@ async function saveBlocks(blocksInfo) {
                       .filter(action => action.AddKey !== undefined)
                       .map(action => {
                         let accessKeyType;
-                        if (
-                          typeof action.AddKey.access_key.permission ===
-                          "string"
-                        ) {
-                          accessKeyType = "FullAccess";
-                        } else if (
-                          action.AddKey.access_key.permission !== undefined
-                        ) {
-                          accessKeyType = Object.keys(
-                            action.a.access_key.permission
-                          )[0];
+                        const permission = action.AddKey.access_key.permission;
+                        if (typeof permission === "string") {
+                          accessKeyType = permission;
+                        } else if (permission !== undefined) {
+                          accessKeyType = Object.keys(permission)[0];
                         } else {
                           throw new Error(
                             `Unexpected error during access key permission parsing in transaction ${
                               tx.hash
                             }: 
                               the permission type is expected to be a string or an object with a single key, 
-                              but '${JSON.stringify(
-                                action.AddKey.access_key.permission
-                              )}' found.`
+                              but '${JSON.stringify(permission)}' found.`
                           );
                         }
                         return {
