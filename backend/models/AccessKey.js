@@ -5,17 +5,15 @@ module.exports = (sequelize, DataTypes) => {
     {
       accountId: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
       },
-      contractId: {
+      publicKey: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
       },
-      methodName: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      amount: {
+      accessKeyType: {
         type: DataTypes.STRING,
         allowNull: false
       }
