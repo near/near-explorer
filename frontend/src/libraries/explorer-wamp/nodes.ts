@@ -7,13 +7,13 @@ export interface NodeInfo {
   nodeId: string;
   lastSeen: number;
   lastHeight: number;
-  lastHash: string | null;
-  signature: string | null;
-  agentName: string | null;
-  agentVersion: string | null;
-  agentBuild: string | null;
-  peerCount: string | null;
-  isValidator: boolean | null;
+  lastHash?: string;
+  signature?: string;
+  agentName?: string;
+  agentVersion?: string;
+  agentBuild?: string;
+  peerCount?: string;
+  isValidator?: boolean;
 }
 
 export default class NodesApi extends ExplorerApi {
