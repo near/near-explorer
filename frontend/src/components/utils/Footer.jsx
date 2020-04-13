@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 
 export default () => (
-  <Container fluid className="near-main-container">
-    <Row className="footer-container">
+  <Container fluid className="footer-container">
+    <Row>
       <Col className="align-self-center text-center px-0" xs="12" md="3">
         <img className="near-logo" src="/static/images/near.svg" />
       </Col>
@@ -51,6 +51,8 @@ export default () => (
         font-size: 12px;
         line-height: 40px;
         color: #999999;
+        height: 120px;
+        width: 100%;
       }
 
       .footer-container > .col-12 {

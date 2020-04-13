@@ -32,9 +32,9 @@ export default () => (
         text="Dashboard"
       />
       <HeaderNavItem
-        link="/contracts"
+        link="/accounts"
         imgLink="/static/images/icon-contract.svg"
-        text="Contracts"
+        text="Accounts"
       />
       <HeaderNavItem
         link="/transactions"

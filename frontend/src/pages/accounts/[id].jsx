@@ -5,6 +5,7 @@ import React from "react";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
+import ContractDetails from "../../components/contracts/ContractDetails";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
@@ -30,10 +31,12 @@ export default class extends React.Component {
     return new AccountsApi()
       .getAccountBasic(this.props.id)
       .then(basic => {
-        this.setState({
-          createdAtBlockTimestamp: basic.createdAtBlockTimestamp,
-          createdByTransactionHash: basic.createdByTransactionHash
-        });
+        if (basic) {
+          this.setState({
+            createdAtBlockTimestamp: basic.createdAtBlockTimestamp,
+            createdByTransactionHash: basic.createdByTransactionHash
+          });
+        }
       })
       .catch(err => {
         this.setState({
@@ -67,6 +70,11 @@ export default class extends React.Component {
             <AccountDetails account={{ ...this.props, ...this.state }} />
           )}
         </Content>
+        {this.props.err ? (
+          `Information is not available at the moment. Please, check if the account name is correct or try later.`
+        ) : (
+          <ContractDetails accountId={this.props.id} />
+        )}
         <Content
           size="medium"
           icon={<TransactionIcon style={{ width: "22px" }} />}

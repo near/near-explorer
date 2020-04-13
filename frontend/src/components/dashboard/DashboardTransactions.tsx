@@ -9,7 +9,7 @@ import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 
-import TransactionsList from "../transactions/TransactionsList";
+import TransactionAction from "../transactions/TransactionAction";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
@@ -66,7 +66,15 @@ class DashboardTransactions extends React.Component<InnerProps> {
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
             <FlipMove duration={1000} staggerDurationBy={0}>
-              <TransactionsList transactions={items} viewMode="compact" />
+              {items &&
+                items.map(transaction => (
+                  <TransactionAction
+                    key={transaction.hash}
+                    actions={transaction.actions}
+                    transaction={transaction}
+                    viewMode={"compact"}
+                  />
+                ))}
             </FlipMove>
             <Row noGutters>
               <Col xs="1" className="dashboard-transactions-icon-col" />

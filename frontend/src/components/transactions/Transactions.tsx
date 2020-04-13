@@ -5,7 +5,7 @@ import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions"
 import FlipMove from "../utils/FlipMove";
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 
-import TransactionsList from "./TransactionsList";
+import TransactionAction from "./TransactionAction";
 
 export interface OuterProps {
   accountId?: string;
@@ -50,7 +50,14 @@ class Transactions extends React.Component<InnerProps> {
     const { items } = this.props;
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        <TransactionsList transactions={items} />
+        {items &&
+          items.map(transaction => (
+            <TransactionAction
+              key={transaction.hash}
+              actions={transaction.actions}
+              transaction={transaction}
+            />
+          ))}
       </FlipMove>
     );
   }

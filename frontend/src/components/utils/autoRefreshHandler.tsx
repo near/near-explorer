@@ -46,7 +46,7 @@ export default (
     componentDidUpdate(preProps: any) {
       if (this.props !== preProps) {
         this.setState({
-          items: null,
+          items: Array<any>(),
           itemsLength: config.count,
           display: false,
           hasMore: true
