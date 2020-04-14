@@ -69,17 +69,29 @@ export default (
     };
 
     fetchInfo = (count: number) => {
+      let newState = this.state;
       config
         .fetchDataFn(count)
         .then((items: any) => {
           if (items.length > 0) {
-            this.setState({ items, itemsLength: items.length, display: true });
+            newState = {
+              ...newState,
+              items,
+              itemsLength: items.length,
+              display: true
+            };
             if (items.length < config.count) {
-              this.setState({ hasMore: false });
+              newState.hasMore = false;
             }
           } else {
-            this.setState({ hasMore: false, display: true, itemsLength: 0 });
+            newState = {
+              ...newState,
+              hasMore: false,
+              display: true,
+              itemsLength: 0
+            };
           }
+          this.setState(newState);
         })
         .catch((err: Error) => {
           console.error(err);
@@ -88,27 +100,28 @@ export default (
 
     fetchMoreData = async () => {
       this.setState({ loading: true });
-      if (this.state.itemsLength > 0) {
-        const endTimestamp = this.getEndTimestamp(config.categary);
-        config
-          .fetchDataFn(config.count, endTimestamp)
-          .then((newData: any) => {
-            if (newData.length > 0) {
-              const items = this.state.items.concat(newData);
-              this.setState({
-                items,
-                itemsLength: items.length,
-                loading: false
-              });
-              if (newData.length < config.count) {
-                this.setState({ hasMore: false });
-              }
-            } else {
-              this.setState({ hasMore: false, loading: false });
+      let newState = this.state;
+      const endTimestamp = this.getEndTimestamp(config.categary);
+      config
+        .fetchDataFn(config.count, endTimestamp)
+        .then((newData: any) => {
+          if (newData.length > 0) {
+            const items = this.state.items.concat(newData);
+            newState = {
+              ...newState,
+              items,
+              itemsLength: items.length,
+              loading: false
+            };
+            if (newData.length < config.count) {
+              newState.hasMore = false;
             }
-          })
-          .catch((err: Error) => console.error(err));
-      }
+          } else {
+            newState = { ...newState, hasMore: false, loading: false };
+          }
+          this.setState(newState);
+        })
+        .catch((err: Error) => console.error(err));
     };
 
     getEndTimestamp = (categary: string) => {
@@ -145,18 +158,25 @@ export default (
             dataLength={this.state.items.length}
             next={this.fetchMoreData}
             hasMore={this.state.hasMore}
-            loader={<></>}
+            loader={
+              this.state.loading ? (
+                <PaginationSpinner hidden={false} />
+              ) : (
+                <>
+                  <button
+                    onClick={this.fetchMoreData}
+                    className="load-button"
+                    style={{ display: this.state.hasMore ? "block" : "none" }}
+                  >
+                    Load More
+                  </button>
+                </>
+              )
+            }
             style={{ overflowX: "hidden" }}
           >
             <WrappedComponent items={this.state.items} {...props} />
           </InfiniteScroll>
-          {this.state.hasMore && !this.state.loading && (
-            <>
-              <button onClick={this.fetchMoreData} className="load-button">
-                Load More{" "}
-              </button>
-            </>
-          )}
           <style jsx global>{`
             .load-button {
               width: 100px;
