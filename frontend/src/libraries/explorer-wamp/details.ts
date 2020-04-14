@@ -32,7 +32,7 @@ export default class DetailsApi extends ExplorerApi {
           (SELECT COUNT(*) as lastDayTxCount FROM transactions
               WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000  ) as Daytransactions
           `
-        ]).then((it: any) => (it.length > 0 ? it[0] : undefined)),
+        ]).then((it: any) => it[0]),
         blockTimestamp !== null
           ? this.call("select", [
               `
