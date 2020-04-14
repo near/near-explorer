@@ -10,7 +10,7 @@ export interface Details {
 }
 
 export default class DetailsApi extends ExplorerApi {
-  async getDetails(): Promise<Details> {
+  async getDetails(): Promise<Details | undefined> {
     try {
       const blockTimestamp = await this.call("select", [
         `SELECT timestamp FROM blocks WHERE timestamp > ((strftime('%s','now') - 30) * 1000 ) ORDER BY timestamp DESC LIMIT 1`
@@ -45,10 +45,12 @@ export default class DetailsApi extends ExplorerApi {
             ]).then((it: any) => Math.ceil(it[0].transactionsPer10Second / 10))
           : undefined
       ]);
-      return {
-        ...detail,
-        transactionsPerSecond: tps
-      } as Details;
+      return detail !== undefined
+        ? ({
+            ...detail,
+            transactionsPerSecond: tps
+          } as Details)
+        : undefined;
     } catch (error) {
       console.error("Details.getDetails failed to fetch data due to:");
       console.error(error);

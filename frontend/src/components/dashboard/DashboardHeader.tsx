@@ -83,7 +83,11 @@ export default class DashboardHeader extends React.Component<State> {
   fetchInfo = async () => {
     new DetailsApi()
       .getDetails()
-      .then(details => this.setState({ details, loading: false }))
+      .then(details => {
+        if (details !== undefined) {
+          this.setState({ details, loading: false });
+        }
+      })
       .catch(err => console.error(err));
   };
 
