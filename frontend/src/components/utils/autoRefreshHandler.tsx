@@ -69,13 +69,12 @@ export default (
     };
 
     fetchInfo = (count: number) => {
-      let newState = this.state;
       config
         .fetchDataFn(count)
         .then((items: any) => {
+          let newState;
           if (items.length > 0) {
             newState = {
-              ...newState,
               items,
               itemsLength: items.length,
               display: true
@@ -85,7 +84,6 @@ export default (
             }
           } else {
             newState = {
-              ...newState,
               hasMore: false,
               display: true,
               itemsLength: 0
@@ -100,15 +98,14 @@ export default (
 
     fetchMoreData = async () => {
       this.setState({ loading: true });
-      let newState = this.state;
       const endTimestamp = this.getEndTimestamp(config.categary);
       config
         .fetchDataFn(config.count, endTimestamp)
         .then((newData: any) => {
+          let newState;
           if (newData.length > 0) {
             const items = this.state.items.concat(newData);
             newState = {
-              ...newState,
               items,
               itemsLength: items.length,
               loading: false
@@ -117,16 +114,16 @@ export default (
               newState.hasMore = false;
             }
           } else {
-            newState = { ...newState, hasMore: false, loading: false };
+            newState = { hasMore: false, loading: false };
           }
           this.setState(newState);
         })
         .catch((err: Error) => console.error(err));
     };
 
-    getEndTimestamp = (categary: string) => {
+    getEndTimestamp = (category: string) => {
       let endTimestamp;
-      switch (categary) {
+      switch (category) {
         case "Account":
           endTimestamp = this.state.items[this.state.items.length - 1]
             .createdAtBlockTimestamp;
