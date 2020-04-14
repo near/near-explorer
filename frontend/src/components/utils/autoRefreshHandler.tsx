@@ -7,7 +7,7 @@ import PaginationSpinner from "./PaginationSpinner";
 interface Config {
   fetchDataFn: Function;
   count: number;
-  categary: string;
+  category: string;
   dashboard?: boolean;
 }
 
@@ -72,7 +72,7 @@ export default (
       config
         .fetchDataFn(count)
         .then((items: any) => {
-          let newState;
+          let newState: any;
           if (items.length > 0) {
             newState = {
               items,
@@ -98,11 +98,11 @@ export default (
 
     fetchMoreData = async () => {
       this.setState({ loading: true });
-      const endTimestamp = this.getEndTimestamp(config.categary);
+      const endTimestamp = this.getEndTimestamp(config.category);
       config
         .fetchDataFn(config.count, endTimestamp)
         .then((newData: any) => {
-          let newState;
+          let newState: any;
           if (newData.length > 0) {
             const items = this.state.items.concat(newData);
             newState = {
