@@ -22,7 +22,7 @@ export default class extends React.Component<OuterProps> {
   config = {
     fetchDataFn: this.fetchNodes,
     count: this.props.count,
-    categary: "Node"
+    category: "Node"
   };
 
   autoRefreshNodes = autoRefreshHandler(Nodes, this.config);

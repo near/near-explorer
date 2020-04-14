@@ -22,7 +22,7 @@ export default class extends React.Component<OuterProps> {
   config = {
     fetchDataFn: this.fetchAccounts,
     count: this.props.count,
-    categary: "Account"
+    category: "Account"
   };
 
   autoRefreshAccounts = autoRefreshHandler(Accounts, this.config);
