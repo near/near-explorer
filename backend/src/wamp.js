@@ -12,37 +12,26 @@ const { nearRpc } = require("./near");
 const wampHandlers = {};
 
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
-  if (nodeInfo.hasOwnProperty("agent")) {
-    return await models.Node.upsert({
-      ipAddress: nodeInfo.ip_address,
-      lastSeen: Date.now(),
-      nodeId: nodeInfo.chain.node_id,
-      moniker: nodeInfo.chain.account_id,
-      accountId: nodeInfo.chain.account_id,
-      lastHeight: nodeInfo.chain.latest_block_height,
-      peerCount: nodeInfo.chain.num_peers,
-      isValidator: nodeInfo.chain.is_validator,
-      lastHash: nodeInfo.chain.lastest_block_hash,
-      signature: nodeInfo.signature,
-      agentName: nodeInfo.agent.name,
-      agentVersion: nodeInfo.agent.version,
-      agentBuild: nodeInfo.agent.build
-    });
+  if (!nodeInfo.hasOwnProperty("agent")) {
+    // This seems to be an old format, and all our nodes should support the new
+    // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
+    // reports.
+    return;
   }
   return await models.Node.upsert({
     ipAddress: nodeInfo.ip_address,
     lastSeen: Date.now(),
-    nodeId: nodeInfo.node_id,
-    moniker: nodeInfo.account_id,
-    accountId: nodeInfo.account_id,
-    lastHeight: nodeInfo.latest_block_height,
-    peerCount: null,
-    isValidator: null,
-    lastHash: null,
-    signature: null,
-    agentName: null,
-    agentVersion: null,
-    agentBuild: null
+    nodeId: nodeInfo.chain.node_id,
+    moniker: nodeInfo.chain.account_id,
+    accountId: nodeInfo.chain.account_id,
+    lastHeight: nodeInfo.chain.latest_block_height,
+    peerCount: nodeInfo.chain.num_peers,
+    isValidator: nodeInfo.chain.is_validator,
+    lastHash: nodeInfo.chain.lastest_block_hash,
+    signature: nodeInfo.signature,
+    agentName: nodeInfo.agent.name,
+    agentVersion: nodeInfo.agent.version,
+    agentBuild: nodeInfo.agent.build
   });
 };
 
