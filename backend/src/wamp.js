@@ -27,11 +27,12 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     lastHeight: nodeInfo.chain.latest_block_height,
     peerCount: nodeInfo.chain.num_peers,
     isValidator: nodeInfo.chain.is_validator,
-    lastHash: nodeInfo.chain.lastest_block_hash,
+    lastHash: nodeInfo.chain.latest_block_hash,
     signature: nodeInfo.signature,
     agentName: nodeInfo.agent.name,
     agentVersion: nodeInfo.agent.version,
-    agentBuild: nodeInfo.agent.build
+    agentBuild: nodeInfo.agent.build,
+    status: nodeInfo.chain.status
   });
 };
 

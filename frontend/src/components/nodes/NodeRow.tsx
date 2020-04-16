@@ -12,35 +12,47 @@ interface Props {
 export default class extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
+    console.log(node);
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
           <img
-            src="/static/images/icon-m-block.svg"
+            src={
+              node.isValidator
+                ? "/static/images/icon-m-node-online.svg"
+                : "/static/images/icon-m-node-online-gray.svg"
+            }
             style={{ width: "15px" }}
           />
         </Col>
-        <Col md="7" xs="6">
+        <Col md="7" xs="7">
           <Row>
-            <Col className="node-row-title">{node.moniker}</Col>
+            <Col className="node-row-title">@{node.accountId}</Col>
+            <Col>node status</Col>
           </Row>
           <Row>
             <Col className="node-row-text">
               <Row>
-                <Col md="auto">#{node.lastHeight}</Col>
-                <Col md="auto" className="pl-0">
+                <Col>
                   <img
-                    src="/static/images/icon-m-user.svg"
+                    src="/static/images/icon-m-size.svg"
                     style={{ width: "12px" }}
                   />
-                  {` @${node.accountId}`}
+                  @{node.agentName} | ver.{node.agentVersion} build{" "}
+                  {node.agentBuild}
                 </Col>
-                <Col md="auto">{node.ipAddress}</Col>
+                <Col>
+                  <img
+                    src="/static/images/icon-m-block.svg"
+                    style={{ width: "12px" }}
+                  />
+                  {node.lastHeight}
+                </Col>
               </Row>
             </Col>
           </Row>
         </Col>
-        <Col md="3" xs="4" className="ml-auto text-right">
+        <Col md="3" xs="3" className="ml-auto text-right">
           <Row>
             <Col className="node-row-txid" title={node.nodeId}>
               {node.nodeId.substring(8, 20)}...
@@ -90,7 +102,7 @@ export default class extends React.PureComponent<Props> {
             font-size: 14px;
             font-weight: 500;
             line-height: 1.29;
-            color: #0072ce;
+            color: #4a4f54;
           }
 
           .node-row-timer {
