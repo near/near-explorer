@@ -1,5 +1,5 @@
 const models = require("../models");
-const moment = require("moment")
+const moment = require("moment");
 
 const {
   syncFetchQueueSize,
@@ -133,7 +133,7 @@ async function saveBlocks(blocksInfo) {
                     .map((tx, index) => {
                       return {
                         accountId: tx.receiver_id,
-                        accountIndex: timestamp * 1000000 + index, 
+                        accountIndex: timestamp * 1000000 + index,
                         createdByTransactionHash: tx.hash,
                         createdAtBlockTimestamp: timestamp
                       };
@@ -151,40 +151,40 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
-async function saveGenesis(time, records){
+async function saveGenesis(time, records) {
   try {
     await models.sequelize.transaction(async transaction => {
       try {
         await Promise.all([
           models.AccessKey.bulkCreate(
             records
-            .filter(record => record.AccessKey !== undefined)
-            .map(record => {
-              let accessKeyType;
-              const permission = record.AccessKey.access_key.permission;
-              if (typeof permission === "string") {
-                accessKeyType = permission;
-              } else if (permission !== undefined) {
-                accessKeyType = Object.keys(permission)[0];
-              } else {
-                throw new Error(
-                  `Unexpected error during access key permission parsing in transaction ${
-                    tx.hash
-                  }: 
+              .filter(record => record.AccessKey !== undefined)
+              .map(record => {
+                let accessKeyType;
+                const permission = record.AccessKey.access_key.permission;
+                if (typeof permission === "string") {
+                  accessKeyType = permission;
+                } else if (permission !== undefined) {
+                  accessKeyType = Object.keys(permission)[0];
+                } else {
+                  throw new Error(
+                    `Unexpected error during access key permission parsing in transaction ${
+                      tx.hash
+                    }: 
                     the permission type is expected to be a string or an object with a single key, 
                     but '${JSON.stringify(permission)}' found.`
-                );
-              }
-              return {
-                accountId: record.AccessKey.account_id,
-                publicKey: record.AccessKey.public_key,
-                accessKeyType
-              };
-            })
+                  );
+                }
+                return {
+                  accountId: record.AccessKey.account_id,
+                  publicKey: record.AccessKey.public_key,
+                  accessKeyType
+                };
+              })
           ),
           models.Account.bulkCreate(
             records
-            .filter(record => record.Account !== undefined)
+              .filter(record => record.Account !== undefined)
               .map((record, index) => {
                 return {
                   accountId: record.Account.account_id,
@@ -400,22 +400,29 @@ async function syncMissingNearcoreState() {
 }
 
 async function syncGenesisState() {
-  const genesisConfig = await nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
-  const genesisTime = moment(genesisConfig.genesis_time).valueOf()
-  const limit = 100
-  let offset = 0, Records = Array(), batchCount;
-  do{
-    let pagination = {offset, limit}
-    console.log(`Sync Genesis Records from ${offset} to ${offset+limit}`)
-    const genesisRecords = await nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_records", [pagination])
-    offset += limit
-    batchCount = genesisRecords.records.length
-    Records = Records.concat(genesisRecords.records)
-  }while(batchCount === limit)
-  console.log(`Final Genesis Records is ${Records.length}`)
-  await saveGenesis(genesisTime, Records)
+  const genesisConfig = await nearRpc.sendJsonRpc(
+    "EXPERIMENTAL_genesis_config"
+  );
+  const genesisTime = moment(genesisConfig.genesis_time).valueOf();
+  const limit = 100;
+  let offset = 0,
+    Records = Array(),
+    batchCount;
+  do {
+    let pagination = { offset, limit };
+    console.log(`Sync Genesis Records from ${offset} to ${offset + limit}`);
+    const genesisRecords = await nearRpc.sendJsonRpc(
+      "EXPERIMENTAL_genesis_records",
+      [pagination]
+    );
+    offset += limit;
+    batchCount = genesisRecords.records.length;
+    Records = Records.concat(genesisRecords.records);
+  } while (batchCount === limit);
+  console.log(`Final Genesis Records is ${Records.length}`);
+  await saveGenesis(genesisTime, Records);
 }
 
 exports.syncNewNearcoreState = syncNewNearcoreState;
 exports.syncMissingNearcoreState = syncMissingNearcoreState;
-exports.syncGenesisState = syncGenesisState
+exports.syncGenesisState = syncGenesisState;

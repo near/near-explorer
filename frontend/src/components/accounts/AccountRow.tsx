@@ -30,7 +30,7 @@ export default class extends React.Component<Props, State> {
   componentDidMount() {
     this._getDetail();
   }
-  
+
   render() {
     const { accountId, createdAt } = this.props;
     const { amount } = this.state;

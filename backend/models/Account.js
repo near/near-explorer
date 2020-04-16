@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true
       },
       accountIndex: {
-        type:DataTypes.BIGINT,
-        allowNull:false
+        type: DataTypes.BIGINT,
+        allowNull: false
       },
       createdByTransactionHash: {
         type: DataTypes.STRING, // base58

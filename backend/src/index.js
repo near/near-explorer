@@ -2,9 +2,13 @@ const models = require("../models");
 
 const {
   regularSyncNewNearcoreStateInterval,
-  regularSyncMissingNearcoreStateInterval,
+  regularSyncMissingNearcoreStateInterval
 } = require("./config");
-const { syncNewNearcoreState, syncMissingNearcoreState, syncGenesisState } = require("./sync");
+const {
+  syncNewNearcoreState,
+  syncMissingNearcoreState,
+  syncGenesisState
+} = require("./sync");
 const { setupWamp } = require("./wamp");
 
 async function main() {
@@ -53,8 +57,6 @@ async function main() {
     regularSyncMissingNearcoreState,
     regularSyncMissingNearcoreStateInterval
   );
-
-
 
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");

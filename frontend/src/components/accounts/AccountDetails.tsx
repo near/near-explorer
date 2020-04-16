@@ -62,7 +62,9 @@ export default class extends React.Component<Props> {
           <Col md="4">
             <CardCell
               title="Created"
-              text={moment(account.createdAtBlockTimestamp).format("MMMM DD, YYYY [at] h:mm:ssa")}
+              text={moment(account.createdAtBlockTimestamp).format(
+                "MMMM DD, YYYY [at] h:mm:ssa"
+              )}
               className="block-card-created account-card-back border-0"
             />
           </Col>
