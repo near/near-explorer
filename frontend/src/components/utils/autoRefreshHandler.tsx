@@ -126,7 +126,7 @@ export default (
       switch (category) {
         case "Account":
           endTimestamp = this.state.items[this.state.items.length - 1]
-            .createdAtBlockTimestamp;
+            .accountIndex;
           break;
         case "Block":
           endTimestamp = this.state.items[this.state.items.length - 1]

@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         primaryKey: true
       },
+      accountIndex: {
+        type:DataTypes.BIGINT,
+        allowNull:false
+      },
       createdByTransactionHash: {
         type: DataTypes.STRING, // base58
         allowNull: false
@@ -20,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       tableName: "accounts",
       underscored: true,
-      timestamps: false
+      timestamps: false,
+      indexes: [{ fields: ["accountIndex"] }]
     }
   );
   Account.associate = function(models) {

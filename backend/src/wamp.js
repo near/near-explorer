@@ -61,6 +61,16 @@ wampHandlers["nearcore-tx"] = async ([transactionHash, accountId]) => {
   return await nearRpc.sendJsonRpc("tx", [transactionHash, accountId]);
 };
 
+wampHandlers["nearcore-EXPERIMENTAL_genesis_records"] = async ([pagination]) => {
+  const genesisRecords =  await nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_records", [pagination])
+  return genesisRecords.records
+}
+
+wampHandlers["nearcore-EXPERIMENTAL_genesis_config"] = async () => {
+  // genesisTime = genesisConfig.genesis_time
+  return await nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
+}
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
