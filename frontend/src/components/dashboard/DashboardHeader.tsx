@@ -1,29 +1,36 @@
 import Link from "next/link";
+import Router from "next/router";
+
+import React from "react";
 import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 
-import CardCell from "../utils/CardCell";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import DetailsApi from "../../libraries/explorer-wamp/details";
+import DetailsApi, * as D from "../../libraries/explorer-wamp/details";
 
-import Router from "next/router";
+import CardCell from "../utils/CardCell";
 
-export default class DashboardHeader extends React.Component {
-  state = {
+interface State {
+  details?: D.Details;
+  searchValue: string;
+  loading: boolean;
+}
+
+export default class DashboardHeader extends React.Component<State> {
+  constructor(props: any) {
+    super(props);
+    this.timer = null;
+  }
+
+  timer: ReturnType<typeof setTimeout> | null;
+
+  state: State = {
     searchValue: "",
-    details: {
-      onlineNodesCount: 0,
-      totalNodesCount: 0,
-      transactionsPerSecond: 0,
-      lastDayTxCount: 0,
-      accountsCount: 0,
-      lastBlockHeight: 0
-    },
     loading: true
   };
 
-  handleSearch = async event => {
+  handleSearch = async (event: any) => {
     event.preventDefault();
 
     const { searchValue } = this.state;
@@ -54,22 +61,34 @@ export default class DashboardHeader extends React.Component {
     alert("Result not found!");
   };
 
-  handleSearchValueChange = event => {
-    this.setState({ searchValue: event.target.value });
+  handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event) {
+      const value = event.target !== null ? event.target.value : "";
+      this.setState({ searchValue: value });
+    }
   };
 
   componentDidMount() {
-    this.regularFetchInfo();
+    this.timer = setTimeout(this.regularFetchInfo, 0);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timer);
+    const timer = this.timer;
     this.timer = null;
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
   }
 
   fetchInfo = async () => {
-    const details = await new DetailsApi().getDetails().catch(() => null);
-    this.setState({ details, loading: false });
+    new DetailsApi()
+      .getDetails()
+      .then(details => {
+        if (details !== undefined) {
+          this.setState({ details, loading: false });
+        }
+      })
+      .catch(err => console.error(err));
   };
 
   regularFetchInfo = async () => {
@@ -80,16 +99,7 @@ export default class DashboardHeader extends React.Component {
   };
 
   render() {
-    const {
-      onlineNodesCount,
-      totalNodesCount,
-      transactionsPerSecond,
-      lastDayTxCount,
-      accountsCount,
-      lastBlockHeight
-    } = this.state.details;
-    const { loading } = this.state;
-
+    const { details, loading } = this.state;
     return (
       <div className="dashboard-info-container">
         <Row noGutters>
@@ -99,7 +109,11 @@ export default class DashboardHeader extends React.Component {
                 <CardCell
                   title="Nodes Online"
                   imgLink="/static/images/icon-m-node-online.svg"
-                  text={`${onlineNodesCount.toLocaleString()}/${totalNodesCount.toLocaleString()}`}
+                  text={
+                    details
+                      ? `${details.onlineNodesCount.toLocaleString()}/${details.totalNodesCount.toLocaleString()}`
+                      : ""
+                  }
                   className="border-0"
                   loading={loading}
                 />
@@ -110,7 +124,7 @@ export default class DashboardHeader extends React.Component {
             <CardCell
               title="Block Height"
               imgLink="/static/images/icon-m-height.svg"
-              text={lastBlockHeight.toLocaleString()}
+              text={details ? details.lastBlockHeight.toLocaleString() : ""}
               loading={loading}
             />
           </Col>
@@ -118,7 +132,13 @@ export default class DashboardHeader extends React.Component {
             <CardCell
               title="Tps"
               imgLink="/static/images/icon-m-tps.svg"
-              text={transactionsPerSecond.toLocaleString()}
+              text={
+                details
+                  ? details.transactionsPerSecond !== undefined
+                    ? details.transactionsPerSecond.toLocaleString()
+                    : "N/A"
+                  : ""
+              }
               loading={loading}
             />
           </Col>
@@ -126,7 +146,7 @@ export default class DashboardHeader extends React.Component {
             <CardCell
               title="Last Day Tx"
               imgLink="/static/images/icon-m-transaction.svg"
-              text={lastDayTxCount.toLocaleString()}
+              text={details ? details.lastDayTxCount.toLocaleString() : ""}
               loading={loading}
             />
           </Col>
@@ -136,7 +156,7 @@ export default class DashboardHeader extends React.Component {
                 <CardCell
                   title="Accounts"
                   imgLink="/static/images/icon-m-user.svg"
-                  text={accountsCount.toLocaleString()}
+                  text={details ? details.accountsCount.toLocaleString() : ""}
                   loading={loading}
                 />
               </a>
