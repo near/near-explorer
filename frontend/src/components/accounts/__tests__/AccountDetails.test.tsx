@@ -17,7 +17,8 @@ describe("<AccountDetails />", () => {
             outTransactionsCount: 0,
             createdAtBlockTimestamp: Number(new Date(2019, 1, 1)),
             createdByTransactionHash:
-              "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+              "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
+            accountIndex: 1234567890
           }}
         />
       )
