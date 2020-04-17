@@ -12,7 +12,6 @@ interface Props {
 export default class extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
-    console.log(node);
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
@@ -27,26 +26,29 @@ export default class extends React.PureComponent<Props> {
         </Col>
         <Col md="7" xs="7">
           <Row>
-            <Col className="node-row-title">@{node.accountId}</Col>
-            <Col>node status</Col>
+            <Col className="node-row-title">
+              @{node.accountId}{" "}
+              <span className="node-status"> {node.status}</span>
+            </Col>
           </Row>
           <Row>
             <Col className="node-row-text">
               <Row>
-                <Col>
+                <Col md={5}>
                   <img
                     src="/static/images/icon-m-size.svg"
                     style={{ width: "12px" }}
                   />
-                  @{node.agentName} | ver.{node.agentVersion} build{" "}
-                  {node.agentBuild}
+                  {`@  ${node.agentName} | ver.  ${node.agentVersion} build  ${
+                    node.agentBuild
+                  }`}
                 </Col>
                 <Col>
                   <img
                     src="/static/images/icon-m-block.svg"
                     style={{ width: "12px" }}
                   />
-                  {node.lastHeight}
+                  {`  ${node.lastHeight}`}
                 </Col>
               </Row>
             </Col>
@@ -114,6 +116,12 @@ export default class extends React.PureComponent<Props> {
 
           .node-row-timer-status {
             font-weight: 500;
+          }
+
+          .node-status {
+            font-size: 12px;
+            line-height: 18px;
+            color: #4a4f54;
           }
         `}</style>
       </Row>
