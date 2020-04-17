@@ -36,7 +36,21 @@ interface InnerProps {
   items: N.NodeInfo[];
 }
 
-class Nodes extends React.Component<InnerProps> {
+interface State {
+  total?: number;
+}
+
+class Nodes extends React.Component<InnerProps, State> {
+  state: State = {};
+
+  getTotal = async () => {
+    new NodesApi().getTotalValidators().then(total => this.setState({ total }));
+  };
+
+  componentDidMount() {
+    this.getTotal();
+  }
+
   render() {
     const { items } = this.props;
     return (
@@ -44,8 +58,16 @@ class Nodes extends React.Component<InnerProps> {
         {items && (
           <div>
             <Row>
+              <Col md="auto" xs="1" className="pr-0">
+                <img
+                  src={"/static/images/icon-m-node-online.svg"}
+                  style={{ width: "12px" }}
+                />
+              </Col>
               <Col md="auto" className="align-self-center pagination-total">
-                {`${items.length.toLocaleString()} On List`}
+                {this.state.total
+                  ? `${this.state.total.toLocaleString()} VALIDATORS`
+                  : ""}
               </Col>
             </Row>
             <style jsx>{`
