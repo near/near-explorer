@@ -133,7 +133,7 @@ async function saveBlocks(blocksInfo) {
                     .map((tx, index) => {
                       return {
                         accountId: tx.receiver_id,
-                        accountIndex: timestamp * 1000000 + index,
+                        accountIndex: index,
                         createdByTransactionHash: tx.hash,
                         createdAtBlockTimestamp: timestamp
                       };
@@ -151,7 +151,7 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
-async function saveGenesis(time, records) {
+async function saveGenesis(time, records, offset) {
   try {
     await models.sequelize.transaction(async transaction => {
       try {
@@ -188,7 +188,7 @@ async function saveGenesis(time, records) {
               .map((record, index) => {
                 return {
                   accountId: record.Account.account_id,
-                  accountIndex: time + index,
+                  accountIndex: index + offset,
                   createdByTransactionHash: "Genesis",
                   createdAtBlockTimestamp: time
                 };
@@ -406,21 +406,22 @@ async function syncGenesisState() {
   const genesisTime = moment(genesisConfig.genesis_time).valueOf();
   const limit = 100;
   let offset = 0,
-    Records = Array(),
     batchCount;
   do {
     let pagination = { offset, limit };
-    console.log(`Sync Genesis Records from ${offset} to ${offset + limit}`);
+    console.log(`Sync Genesis records from ${offset} to ${offset + limit}`);
     const genesisRecords = await nearRpc.sendJsonRpc(
       "EXPERIMENTAL_genesis_records",
       [pagination]
     );
+    await saveGenesis(genesisTime, genesisRecords.records, offset);
     offset += limit;
     batchCount = genesisRecords.records.length;
-    Records = Records.concat(genesisRecords.records);
   } while (batchCount === limit);
-  console.log(`Final Genesis Records is ${Records.length}`);
-  await saveGenesis(genesisTime, Records);
+  console.log(
+    "********************************************************************"
+  );
+  console.log(`Genesis Records are all inserted into database`);
 }
 
 exports.syncNewNearcoreState = syncNewNearcoreState;

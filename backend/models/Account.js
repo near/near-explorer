@@ -25,7 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "accounts",
       underscored: true,
       timestamps: false,
-      indexes: [{ fields: ["accountIndex"] }]
+      indexes: [
+        { fields: ["account_index"] },
+        { fields: ["created_at_block_timestamp"] }
+      ]
     }
   );
   Account.associate = function(models) {

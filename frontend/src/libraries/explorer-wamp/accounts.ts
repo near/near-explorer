@@ -70,8 +70,12 @@ export default class AccountsApi extends ExplorerApi {
         `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, 
           created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
           FROM accounts
-          ${endTimestamp ? `WHERE account_index < :endTimestamp` : ""}
-          ORDER BY account_index DESC
+          ${
+            endTimestamp
+              ? `WHERE (created_at_block_timestamp * 1000000 + account_index) < :endTimestamp`
+              : ""
+          }
+          ORDER BY (created_at_block_timestamp * 1000000 + account_index) DESC
           LIMIT :limit`,
         {
           limit,

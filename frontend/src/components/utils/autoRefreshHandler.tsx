@@ -125,8 +125,11 @@ export default (
       let endTimestamp;
       switch (category) {
         case "Account":
-          endTimestamp = this.state.items[this.state.items.length - 1]
-            .accountIndex;
+          endTimestamp =
+            this.state.items[this.state.items.length - 1]
+              .createdAtBlockTimestamp *
+              1000000 +
+            this.state.items[this.state.items.length - 1].accountIndex;
           break;
         case "Block":
           endTimestamp = this.state.items[this.state.items.length - 1]
@@ -142,6 +145,7 @@ export default (
         default:
           endTimestamp = undefined;
       }
+      console.log(endTimestamp);
       return endTimestamp;
     };
 
