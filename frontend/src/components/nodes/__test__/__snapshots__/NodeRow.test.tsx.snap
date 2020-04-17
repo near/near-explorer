@@ -9,7 +9,7 @@ exports[`<NodeRow /> renders 1`] = `
   >
     <img
       className="jsx-990356129"
-      src="/static/images/icon-m-node-online-gray.svg"
+      src="/static/images/icon-m-node-online.svg"
       style={
         Object {
           "width": "15px",
@@ -33,6 +33,7 @@ exports[`<NodeRow /> renders 1`] = `
           className="jsx-990356129 node-status"
         >
            
+          Sync
         </span>
       </div>
     </div>

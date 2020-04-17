@@ -14,13 +14,14 @@ describe("<NodeRow />", () => {
             nodeId: "",
             lastSeen: 12345,
             lastHeight: 12345,
-            lastHash: null,
-            signature: null,
-            agentName: null,
-            agentVersion: null,
-            agentBuild: null,
-            peerCount: null,
-            isValidator: null
+            lastHash: "null",
+            signature: "null",
+            agentName: "null",
+            agentVersion: "null",
+            agentBuild: "null",
+            peerCount: "0",
+            isValidator: true,
+            status: "Sync"
           }}
         />
       )
