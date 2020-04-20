@@ -400,8 +400,12 @@ async function syncMissingNearcoreState() {
 }
 
 async function syncGenesisState() {
-  const genesisConfig = await nearRpc.sendJsonRpc(
-    "EXPERIMENTAL_genesis_config"
+  const retry = (retries, fn) =>
+    fn().catch(err =>
+      retries > 1 ? retry(retries - 1, fn) : Promise.reject(err)
+    );
+  const genesisConfig = await retry(10, () =>
+    nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
   );
   const genesisTime = moment(genesisConfig.genesis_time).valueOf();
   const limit = 100;
@@ -410,9 +414,9 @@ async function syncGenesisState() {
   do {
     let pagination = { offset, limit };
     console.log(`Sync Genesis records from ${offset} to ${offset + limit}`);
-    const genesisRecords = await nearRpc.sendJsonRpc(
-      "EXPERIMENTAL_genesis_records",
-      [pagination]
+
+    const genesisRecords = await retry(10, () =>
+      nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_records", [pagination])
     );
     await saveGenesis(genesisTime, genesisRecords.records, offset);
     offset += limit;
