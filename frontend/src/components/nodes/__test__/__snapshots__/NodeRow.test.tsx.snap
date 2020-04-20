@@ -33,7 +33,7 @@ exports[`<NodeRow /> renders 1`] = `
           className="jsx-990356129 node-status"
         >
            
-          Sync
+          NoSync
         </span>
       </div>
     </div>
@@ -58,7 +58,7 @@ exports[`<NodeRow /> renders 1`] = `
                 }
               }
             />
-            @  null | ver.  null build  null
+            @  near-rs | ver.  0.4.5 build  6a527109-modified
           </div>
           <div
             className="col"
@@ -72,7 +72,7 @@ exports[`<NodeRow /> renders 1`] = `
                 }
               }
             />
-              12345
+              1889
           </div>
         </div>
       </div>
@@ -105,7 +105,7 @@ exports[`<NodeRow /> renders 1`] = `
         </span>
           
         <span>
-          49y ago
+          1s ago
         </span>
       </div>
     </div>

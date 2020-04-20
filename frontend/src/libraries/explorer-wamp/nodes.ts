@@ -15,25 +15,30 @@ export interface NodeInfo {
   peerCount: string;
   isValidator: boolean;
   status: string;
+  isActive: boolean;
 }
 
 export default class NodesApi extends ExplorerApi {
   async getNodes(limit: number = 15, endTimestamp?: number) {
     try {
-      return await this.call<NodeInfo[]>("select", [
+      const nodes = await this.call<NodeInfo[]>("select", [
         `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
                 last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
                 agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
                 peer_count as peerCount, is_validator as isValidator, status
                     FROM nodes
                     ${endTimestamp ? `WHERE last_seen < :endTimestamp` : ""}
-                    ORDER BY is_validator, last_seen DESC
+                    ORDER BY last_seen, is_validator DESC
                     Limit :limit`,
         {
           limit,
           endTimestamp
         }
       ]);
+      return nodes.map(node => ({
+        ...node,
+        isActive: node.lastSeen > Date.now() - 60 * 1000
+      }));
     } catch (error) {
       console.error("Nodes.getNodes failed to fetch data due to:");
       console.error(error);
@@ -44,7 +49,7 @@ export default class NodesApi extends ExplorerApi {
   async getTotalValidators() {
     try {
       return await this.call("select", [
-        `SELECT COUNT(*) as total from nodes
+        `SELECT COUNT(*) as total FROM nodes
             WHERE is_validator = 1
         `
       ]).then((it: any) => it[0].total);

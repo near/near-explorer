@@ -17,9 +17,11 @@ export default class extends React.PureComponent<Props> {
         <Col md="auto" xs="1" className="pr-0">
           <img
             src={
-              node.isValidator
-                ? "/static/images/icon-m-node-online.svg"
-                : "/static/images/icon-m-node-online-gray.svg"
+              node.isActive
+                ? node.isValidator
+                  ? "/static/images/icon-m-node-online.svg"
+                  : "/static/images/icon-m-node-online-gray.svg"
+                : "/static/images/icon-m-node-offline.svg"
             }
             style={{ width: "15px" }}
           />

@@ -12,16 +12,18 @@ describe("<NodeRow />", () => {
             moniker: "",
             accountId: "",
             nodeId: "",
-            lastSeen: 12345,
-            lastHeight: 12345,
-            lastHash: "null",
-            signature: "null",
-            agentName: "null",
-            agentVersion: "null",
-            agentBuild: "null",
+            lastSeen: Date.now(),
+            lastHeight: 1889,
+            lastHash: "7a4d3SNNb1XGxqhHAKj5nGx8C1R4X8pdt8jobC9z3nup",
+            signature:
+              "ed25519:4n5VzXijHUvgwroD1W6BTysRGKTMdPv6ks32kEUNGyb9recDYRpt2L8Y2Uq5ABPt4LZHFBAv2DPj1CAPGkwqkZg2",
+            agentName: "near-rs",
+            agentVersion: "0.4.5",
+            agentBuild: "6a527109-modified",
             peerCount: "0",
             isValidator: true,
-            status: "Sync"
+            status: "NoSync",
+            isActive: true
           }}
         />
       )
