@@ -145,7 +145,6 @@ export default (
         default:
           endTimestamp = undefined;
       }
-      console.log(endTimestamp);
       return endTimestamp;
     };
 
