@@ -12,17 +12,15 @@ interface Props {
 export default class extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
-    console.log(node);
+    console.log(node.lastSeen);
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
           <img
             src={
-              node.isActive
-                ? node.isValidator
-                  ? "/static/images/icon-m-node-online.svg"
-                  : "/static/images/icon-m-node-online-gray.svg"
-                : "/static/images/icon-m-node-offline.svg"
+              node.isValidator
+                ? "/static/images/icon-m-node-online.svg"
+                : "/static/images/icon-m-node-online-gray.svg"
             }
             style={{ width: "15px" }}
           />

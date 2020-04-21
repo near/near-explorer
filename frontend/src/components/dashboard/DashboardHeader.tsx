@@ -100,7 +100,6 @@ export default class DashboardHeader extends React.Component<State> {
 
   render() {
     const { details, loading } = this.state;
-    console.log(Date.now());
     return (
       <div className="dashboard-info-container">
         <Row noGutters>
