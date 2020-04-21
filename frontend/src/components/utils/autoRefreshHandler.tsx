@@ -63,7 +63,7 @@ export default (
       if (this.state.itemsLength > 0) {
         this.fetchInfo(this.state.itemsLength);
         if (this.timer !== null) {
-          this.timer = setTimeout(this.regularFetchInfo, 1000000);
+          this.timer = setTimeout(this.regularFetchInfo, 10000);
         }
       }
     };
@@ -142,7 +142,6 @@ export default (
         default:
           endTimestamp = undefined;
       }
-      console.log(endTimestamp);
       return endTimestamp;
     };
 

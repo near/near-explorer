@@ -12,7 +12,6 @@ interface Props {
 export default class extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
-    console.log(node.lastSeen);
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">

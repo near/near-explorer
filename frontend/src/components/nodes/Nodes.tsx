@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Button } from "react-bootstrap";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
@@ -11,14 +11,14 @@ import NodeRow from "./NodeRow";
 import { OuterProps } from "../accounts/Accounts";
 
 interface State {
-  validator?: boolean;
+  validator: boolean;
 }
 export default class extends React.Component<OuterProps, State> {
   static defaultProps = {
-    count: 2
+    count: 3
   };
 
-  state: State = {};
+  state: State = { validator: false };
 
   fetchValidatorNodes = () => {
     this.setState({ validator: true });
@@ -28,14 +28,10 @@ export default class extends React.Component<OuterProps, State> {
     this.setState({ validator: false });
   };
 
-  fetchNodes = async (
-    count: number,
-    validatorIndicator: boolean,
-    endTimestamp?: number
-  ) => {
+  fetchNodes = async (count: number, endTimestamp?: number) => {
     return await new NodesApi().getNodes(
       count,
-      validatorIndicator,
+      this.state.validator,
       endTimestamp
     );
   };
@@ -53,9 +49,8 @@ export default class extends React.Component<OuterProps, State> {
       <>
         <div>
           <Row>
-            <Col
-              md="3"
-              xs="12"
+            <Button
+              onClick={this.fetchValidatorNodes}
               className="node-selector pagination-total align-self-center"
             >
               <img
@@ -63,10 +58,9 @@ export default class extends React.Component<OuterProps, State> {
                 style={{ width: "12px", marginRight: "10px" }}
               />
               VALIDATOR NODES
-            </Col>
-            <Col
-              md="3"
-              xs="12"
+            </Button>
+            <Button
+              onClick={this.fetchAllNodes}
               className="node-selector pagination-total align-self-center"
             >
               <img
@@ -74,7 +68,7 @@ export default class extends React.Component<OuterProps, State> {
                 style={{ width: "12px", marginRight: "10px" }}
               />
               ALL NODES
-            </Col>
+            </Button>
           </Row>
           <style jsx global>{`
             .pagination-total {
