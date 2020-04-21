@@ -35,7 +35,7 @@ export default class NodesApi extends ExplorerApi {
         `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
           last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
           agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
-          peer_count as peerCount, is_validator as isValidator
+          peer_count as peerCount, is_validator as isValidator, status
               FROM nodes
               ${whereClause}
               ORDER BY last_seen DESC
