@@ -100,6 +100,7 @@ export default class DashboardHeader extends React.Component<State> {
 
   render() {
     const { details, loading } = this.state;
+    console.log(Date.now());
     return (
       <div className="dashboard-info-container">
         <Row noGutters>
@@ -107,11 +108,11 @@ export default class DashboardHeader extends React.Component<State> {
             <Link href="/nodes">
               <a>
                 <CardCell
-                  title="Nodes Online"
+                  title="Validators/ Online Nodes"
                   imgLink="/static/images/icon-m-node-online.svg"
                   text={
                     details
-                      ? `${details.onlineNodesCount.toLocaleString()}/${details.totalNodesCount.toLocaleString()}`
+                      ? `${details.ValidatorCount.toLocaleString()}/${details.onlineNodesCount.toLocaleString()}`
                       : ""
                   }
                   className="border-0"

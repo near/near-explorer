@@ -58,28 +58,49 @@ class Nodes extends React.Component<InnerProps, State> {
         {items && (
           <div>
             <Row>
-              <Col md="auto" xs="1" className="pr-0">
+              <Col
+                md="3"
+                xs="12"
+                className="node-selector pagination-total align-self-center"
+              >
                 <img
                   src={"/static/images/icon-m-node-online.svg"}
-                  style={{ width: "12px" }}
+                  style={{ width: "12px", marginRight: "10px" }}
                 />
-              </Col>
-              <Col md="auto" className="align-self-center pagination-total">
                 {this.state.total
-                  ? `${this.state.total.toLocaleString()} VALIDATORS`
-                  : ""}
+                  ? `   ${this.state.total.toLocaleString()} VALIDATORS`
+                  : `   0 VALIDATORS`}
+              </Col>
+              <Col
+                md="3"
+                xs="12"
+                className="node-selector pagination-total align-self-center"
+              >
+                <img
+                  src={"/static/images/icon-m-node-online-gray.svg"}
+                  style={{ width: "12px", marginRight: "10px" }}
+                />
+                ALL NODES
               </Col>
             </Row>
-            <style jsx>{`
-              div :global(.pagination-total) {
+            <style jsx global>{`
+              .pagination-total {
                 font-size: 12px;
                 font-weight: 500;
                 letter-spacing: 1.38px;
-                color: #999999;
+                color: #24272a;
                 text-transform: uppercase;
                 margin-bottom: 1.5em;
-                padding-top: 5px;
-                padding-bottom: 5px;
+                padding: 8px;
+              }
+
+              .node-selector {
+                text-align: center;
+                background: #fff;
+                border: 2px solid #e6e6e6;
+                box-sizing: border-box;
+                border-radius: 25px;
+                margin-left: 15px;
               }
             `}</style>
           </div>

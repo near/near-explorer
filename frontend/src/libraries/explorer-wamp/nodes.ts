@@ -28,7 +28,7 @@ export default class NodesApi extends ExplorerApi {
                 peer_count as peerCount, is_validator as isValidator, status
                     FROM nodes
                     ${endTimestamp ? `WHERE last_seen < :endTimestamp` : ""}
-                    ORDER BY last_seen, is_validator DESC
+                    ORDER BY last_seen DESC, is_validator DESC
                     Limit :limit`,
         {
           limit,

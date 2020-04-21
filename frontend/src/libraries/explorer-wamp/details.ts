@@ -2,7 +2,7 @@ import { ExplorerApi } from ".";
 
 export interface Details {
   accountsCount: number;
-  totalNodesCount: number;
+  ValidatorCount: number;
   onlineNodesCount: number;
   lastDayTxCount: number;
   lastBlockHeight: number;
@@ -19,14 +19,16 @@ export default class DetailsApi extends ExplorerApi {
         this.call("select", [
           `
           SELECT
-          nodes.totalNodesCount,
           online_nodes.onlineNodesCount,
+          validator_nodes.ValidatorCount,
           total_accounts.accountsCount,
           last_block.lastBlockHeight,
           Daytransactions.lastDayTxCount
         FROM
-          (SELECT COUNT(*) as totalNodesCount FROM nodes) as nodes,
           (SELECT COUNT(*) as onlineNodesCount FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000) as online_nodes,
+          (SELECT COUNT(*) as ValidatorCount FROM nodes 
+              WHERE last_seen > (strftime('%s','now') - 60) * 1000 AND is_validator = 1
+          ) as validator_nodes,
           (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block,
           (SELECT COUNT(*) as accountsCount FROM accounts) as total_accounts,
           (SELECT COUNT(*) as lastDayTxCount FROM transactions
