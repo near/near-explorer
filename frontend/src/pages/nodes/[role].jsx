@@ -15,7 +15,6 @@ export default class extends React.Component {
       return { role, err }
     }
   }
-
   render() {
     return (
       <>
