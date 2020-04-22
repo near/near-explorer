@@ -27,7 +27,7 @@ exports[`<NodeRow /> renders 1`] = `
         className="node-row-title col"
       >
         @
-        
+        alice
          
         <span
           className="jsx-990356129 node-status"
@@ -86,9 +86,9 @@ exports[`<NodeRow /> renders 1`] = `
     >
       <div
         className="node-row-txid col"
-        title=""
+        title="ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
       >
-        
+        fhgjrkfhurjt
         ...
       </div>
     </div>
@@ -105,7 +105,7 @@ exports[`<NodeRow /> renders 1`] = `
         </span>
           
         <span>
-          1s ago
+          in 1y
         </span>
       </div>
     </div>
