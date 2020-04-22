@@ -9,7 +9,7 @@ exports[`<NodeRow /> renders 1`] = `
   >
     <img
       className="jsx-990356129"
-      src="/static/images/icon-m-node-online.svg"
+      src="/static/images/icon-m-node-validator-status.svg"
       style={
         Object {
           "width": "15px",
@@ -72,7 +72,7 @@ exports[`<NodeRow /> renders 1`] = `
                 }
               }
             />
-              1889
+             1889
           </div>
         </div>
       </div>
