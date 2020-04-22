@@ -18,8 +18,8 @@ export default class extends React.PureComponent<Props> {
           <img
             src={
               node.isValidator
-                ? "/static/images/icon-m-node-online.svg"
-                : "/static/images/icon-m-node-online-gray.svg"
+                ? "/static/images/icon-m-node-validator-status.svg"
+                : "/static/images/icon-m-node-non-validator-status.svg"
             }
             style={{ width: "15px" }}
           />
@@ -48,7 +48,7 @@ export default class extends React.PureComponent<Props> {
                     src="/static/images/icon-m-block.svg"
                     style={{ width: "12px" }}
                   />
-                  {`  ${node.lastHeight}`}
+                  {` ${node.lastHeight}`}
                 </Col>
               </Row>
             </Col>
