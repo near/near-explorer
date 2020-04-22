@@ -15,7 +15,7 @@ interface State {
 }
 export default class extends React.Component<OuterProps, State> {
   static defaultProps = {
-    count: 3
+    count: 15
   };
 
   state: State = { validator: false };
@@ -106,10 +106,7 @@ class Nodes extends React.Component<InnerProps> {
     const { items } = this.props;
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        {items &&
-          items.map(node => {
-            return <NodeRow key={node.nodeId} node={node} />;
-          })}
+        {items && items.map(node => <NodeRow key={node.nodeId} node={node} />)}
       </FlipMove>
     );
   }

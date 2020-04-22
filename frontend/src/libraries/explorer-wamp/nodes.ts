@@ -39,7 +39,7 @@ export default class NodesApi extends ExplorerApi {
               FROM nodes
               ${whereClause}
               ORDER BY last_seen DESC
-              Limit :limit
+              LIMIT :limit
           `,
         {
           limit,

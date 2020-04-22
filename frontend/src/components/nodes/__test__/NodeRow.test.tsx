@@ -9,10 +9,10 @@ describe("<NodeRow />", () => {
         <NodeRow
           node={{
             ipAddress: "1.1.1.1",
-            moniker: "",
-            accountId: "",
-            nodeId: "",
-            lastSeen: Date.now(),
+            moniker: "alice",
+            accountId: "alice",
+            nodeId: "ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf",
+            lastSeen: 1587516758449,
             lastHeight: 1889,
             lastHash: "7a4d3SNNb1XGxqhHAKj5nGx8C1R4X8pdt8jobC9z3nup",
             signature:

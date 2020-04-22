@@ -107,11 +107,11 @@ export default class DashboardHeader extends React.Component<State> {
             <Link href="/nodes">
               <a>
                 <CardCell
-                  title="Validators/ Online Nodes"
+                  title="Nodes Online"
                   imgLink="/static/images/icon-m-node-online.svg"
                   text={
                     details
-                      ? `${details.ValidatorCount.toLocaleString()}/${details.onlineNodesCount.toLocaleString()}`
+                      ? `${details.validatorCount.toLocaleString()}/${details.onlineNodesCount.toLocaleString()}`
                       : ""
                   }
                   className="border-0"
