@@ -1,9 +1,9 @@
 import { ExplorerApi } from ".";
-
 export interface AccountBasicInfo {
   id: string;
-  createdByTransactionHash?: string;
-  createdAtBlockTimestamp?: number;
+  createdByTransactionHash: string;
+  createdAtBlockTimestamp: number;
+  accountIndex: number;
 }
 
 interface AccountStats {
@@ -21,9 +21,9 @@ interface AccountInfo {
 export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 
 export default class AccountsApi extends ExplorerApi {
-  async getAccountInfo(id: string): Promise<AccountStats & AccountInfo> {
+  async getAccountInfo(id: string): Promise<Account> {
     try {
-      const [accountInfo, accountStats] = await Promise.all([
+      const [accountInfo, accountStats, accountBasic] = await Promise.all([
         this.queryAccount(id),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
@@ -35,6 +35,15 @@ export default class AccountsApi extends ExplorerApi {
           {
             id
           }
+        ]).then(accounts => accounts[0]),
+        this.call<AccountBasicInfo[]>("select", [
+          `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
+            FROM accounts
+            WHERE account_id = :id
+          `,
+          {
+            id
+          }
         ]).then(accounts => accounts[0])
       ]);
       return {
@@ -42,28 +51,11 @@ export default class AccountsApi extends ExplorerApi {
         locked: accountInfo.locked,
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
+        ...accountBasic,
         ...accountStats
       };
     } catch (error) {
       console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
-  }
-
-  async getAccountBasic(id: string): Promise<AccountBasicInfo> {
-    try {
-      return await this.call<AccountBasicInfo[]>("select", [
-        `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
-          FROM accounts
-          WHERE account_id = :id
-        `,
-        {
-          id
-        }
-      ]).then(accounts => accounts[0]);
-    } catch (error) {
-      console.error("AccountsApi.getAccountBasic failed to fetch data due to:");
       console.error(error);
       throw error;
     }
@@ -75,14 +67,15 @@ export default class AccountsApi extends ExplorerApi {
   ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
-        `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
+        `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, 
+          created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
           FROM accounts
           ${
             endTimestamp
-              ? `WHERE created_at_block_timestamp < :endTimestamp`
+              ? `WHERE (created_at_block_timestamp * 1000000 + account_index) < :endTimestamp`
               : ""
           }
-          ORDER BY created_at_block_timestamp DESC
+          ORDER BY (created_at_block_timestamp * 1000000 + account_index) DESC
           LIMIT :limit`,
         {
           limit,
@@ -97,6 +90,6 @@ export default class AccountsApi extends ExplorerApi {
   }
 
   async queryAccount(id: string): Promise<any> {
-    return this.call<any>("nearcore-query", [`account/${id}`, ""]);
+    return await this.call<any>("nearcore-query", [`account/${id}`, ""]);
   }
 }

@@ -62,13 +62,9 @@ export default class extends React.Component<Props> {
           <Col md="4">
             <CardCell
               title="Created"
-              text={
-                account.createdAtBlockTimestamp
-                  ? moment(account.createdAtBlockTimestamp).format(
-                      "MMMM DD, YYYY [at] h:mm:ssa"
-                    )
-                  : "N/A"
-              }
+              text={moment(account.createdAtBlockTimestamp).format(
+                "MMMM DD, YYYY [at] h:mm:ssa"
+              )}
               className="block-card-created account-card-back border-0"
             />
           </Col>
@@ -76,14 +72,14 @@ export default class extends React.Component<Props> {
             <CardCell
               title="Creation Hash"
               text={
-                account.createdByTransactionHash ? (
+                account.createdByTransactionHash !== "Genesis" ? (
                   <TransactionLink
                     transactionHash={account.createdByTransactionHash}
                   >
                     {account.createdByTransactionHash}
                   </TransactionLink>
                 ) : (
-                  "N/A"
+                  "from Genesis"
                 )
               }
               className="block-card-created-text account-card-back border-0"
