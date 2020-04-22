@@ -1,5 +1,4 @@
 import React from "react";
-import { Row, Button } from "react-bootstrap";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
@@ -10,30 +9,17 @@ import NodeRow from "./NodeRow";
 
 import { OuterProps } from "../accounts/Accounts";
 
-interface State {
-  validator: boolean;
+interface Props extends OuterProps {
+  role: string;
 }
-export default class extends React.Component<OuterProps, State> {
+export default class extends React.Component<Props> {
   static defaultProps = {
-    count: 15
-  };
-
-  state: State = { validator: false };
-
-  fetchValidatorNodes = () => {
-    this.setState({ validator: true });
-  };
-
-  fetchAllNodes = () => {
-    this.setState({ validator: false });
+    count: 15,
+    role: "validators"
   };
 
   fetchNodes = async (count: number, endTimestamp?: number) => {
-    return await new NodesApi().getNodes(
-      count,
-      this.state.validator,
-      endTimestamp
-    );
+    return await new NodesApi().getNodes(count, this.props.role, endTimestamp);
   };
 
   config = {
@@ -45,55 +31,7 @@ export default class extends React.Component<OuterProps, State> {
   autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
 
   render() {
-    return (
-      <>
-        <div>
-          <Row>
-            <Button
-              onClick={this.fetchValidatorNodes}
-              className="node-selector pagination-total align-self-center"
-            >
-              <img
-                src={"/static/images/icon-m-node-online.svg"}
-                style={{ width: "12px", marginRight: "10px" }}
-              />
-              VALIDATOR NODES
-            </Button>
-            <Button
-              onClick={this.fetchAllNodes}
-              className="node-selector pagination-total align-self-center"
-            >
-              <img
-                src={"/static/images/icon-m-node-online-gray.svg"}
-                style={{ width: "12px", marginRight: "10px" }}
-              />
-              ALL NODES
-            </Button>
-          </Row>
-          <style jsx global>{`
-            .pagination-total {
-              font-size: 12px;
-              font-weight: 500;
-              letter-spacing: 1.38px;
-              color: #24272a;
-              text-transform: uppercase;
-              margin-bottom: 1.5em;
-              padding: 8px;
-            }
-
-            .node-selector {
-              text-align: center;
-              background: #fff;
-              border: 2px solid #e6e6e6;
-              box-sizing: border-box;
-              border-radius: 25px;
-              margin-left: 15px;
-            }
-          `}</style>
-        </div>
-        <this.autoRefreshNodes />
-      </>
-    );
+    return <this.autoRefreshNodes />;
   }
 }
 
