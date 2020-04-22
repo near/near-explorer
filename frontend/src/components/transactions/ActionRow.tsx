@@ -19,7 +19,7 @@ export default class extends React.Component<Props> {
     viewMode: "sparse",
     detalizationMode: "detailed",
     className: "",
-    showDetails: false
+    showDetails: false,
   };
 
   render() {
@@ -29,7 +29,7 @@ export default class extends React.Component<Props> {
       className,
       transaction,
       action,
-      showDetails
+      showDetails,
     } = this.props;
     const ActionIcon = actionIcons[action.kind];
     return (

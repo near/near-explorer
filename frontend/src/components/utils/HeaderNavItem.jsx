@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Col } from "react-bootstrap";
 
-export default props => {
+export default (props) => {
   let link = (
     <a href={props.link} className="header-nav-link">
       <img src={props.imgLink} className="header-icon" />

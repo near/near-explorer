@@ -25,8 +25,8 @@ export default class BlocksApi extends ExplorerApi {
         {
           keyword: `${keyword}%`,
           height: height === -1 ? "MAX(blocks.height)" : height,
-          limit
-        }
+          limit,
+        },
       ]);
     } catch (error) {
       console.error("Blocks.searchBlocks failed to fetch data due to:");
@@ -51,8 +51,8 @@ export default class BlocksApi extends ExplorerApi {
           ORDER BY blocks.timestamp DESC`,
         {
           limit,
-          endTimestamp
-        }
+          endTimestamp,
+        },
       ]);
     } catch (error) {
       console.error("Blocks.getBlocks failed to fetch data due to:");
@@ -77,9 +77,9 @@ export default class BlocksApi extends ExplorerApi {
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
         {
-          blockId
-        }
-      ]).then(it => (it[0].hash !== null ? it[0] : null));
+          blockId,
+        },
+      ]).then((it) => (it[0].hash !== null ? it[0] : null));
 
       if (block === null) {
         throw new Error("block not found");

@@ -6,20 +6,20 @@ module.exports = (sequelize, DataTypes) => {
       accountId: {
         type: DataTypes.STRING,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       accountIndex: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       createdByTransactionHash: {
         type: DataTypes.STRING, // base58
-        allowNull: false
+        allowNull: false,
       },
       createdAtBlockTimestamp: {
         type: DataTypes.BIGINT,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       tableName: "accounts",
@@ -27,11 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
       indexes: [
         { fields: ["account_index"] },
-        { fields: ["created_at_block_timestamp"] }
-      ]
+        { fields: ["created_at_block_timestamp"] },
+      ],
     }
   );
-  Account.associate = function(models) {
+  Account.associate = function (models) {
     // associations can be defined here
   };
   return Account;

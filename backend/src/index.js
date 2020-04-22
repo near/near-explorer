@@ -2,12 +2,12 @@ const models = require("../models");
 
 const {
   regularSyncNewNearcoreStateInterval,
-  regularSyncMissingNearcoreStateInterval
+  regularSyncMissingNearcoreStateInterval,
 } = require("./config");
 const {
   syncNewNearcoreState,
   syncMissingNearcoreState,
-  syncGenesisState
+  syncGenesisState,
 } = require("./sync");
 const { setupWamp } = require("./wamp");
 

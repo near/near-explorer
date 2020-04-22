@@ -21,16 +21,16 @@ export default class ContractsApi extends ExplorerApi {
             ORDER BY  transactions.block_timestamp DESC
             LIMIT 1`,
             {
-              id
-            }
-          ]).then(info => info[0]),
-          this.queryAccessKey(id)
+              id,
+            },
+          ]).then((info) => info[0]),
+          this.queryAccessKey(id),
         ]);
         return {
           codeHash: codeHash,
           transactionHash: contractInfo.hash,
           timestamp: contractInfo.block_timestamp,
-          accessKeys: accessKeys.keys
+          accessKeys: accessKeys.keys,
         };
       } else {
         return;
@@ -47,7 +47,7 @@ export default class ContractsApi extends ExplorerApi {
   async queryCodeHash(id: string) {
     const account = await this.call<any>("nearcore-query", [
       `account/${id}`,
-      ""
+      "",
     ]);
     return account["code_hash"];
   }
