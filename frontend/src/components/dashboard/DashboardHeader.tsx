@@ -111,7 +111,7 @@ export default class DashboardHeader extends React.Component<State> {
                   imgLink="/static/images/icon-m-node-online.svg"
                   text={
                     details
-                      ? `${details.validatorCount.toLocaleString()}/${details.onlineNodesCount.toLocaleString()}`
+                      ? `${details.validatorsCount.toLocaleString()}/${details.onlineNodesCount.toLocaleString()}`
                       : ""
                   }
                   className="border-0"
