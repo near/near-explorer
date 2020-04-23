@@ -49,12 +49,7 @@ export default class extends React.Component<State> {
       <>
         <Row>
           <Link href="/nodes/[role]" as={`/nodes/validators`}>
-            <a
-              style={{
-                textDecoration: "none",
-                marginLeft: "15px",
-              }}
-            >
+            <a>
               <Col className="node-selector pagination-total align-self-center">
                 <img
                   src={"/static/images/icon-m-block.svg"}
@@ -70,12 +65,7 @@ export default class extends React.Component<State> {
             </a>
           </Link>
           <Link href="/nodes/[role]" as={`/nodes/non-validators`}>
-            <a
-              style={{
-                textDecoration: "none",
-                marginLeft: "15px",
-              }}
-            >
+            <a>
               <Col className="node-selector pagination-total align-self-center">
                 <img
                   src={"/static/images/icon-m-block.svg"}
@@ -98,17 +88,22 @@ export default class extends React.Component<State> {
             letter-spacing: 1.38px;
             color: #24272a;
             text-transform: uppercase;
-            margin: 0 0.5em 1.5em;
-            padding: 8px;
+            padding: 10px;
+            text-decoration: none;
           }
 
-          .node-selector {
+          a {
             text-align: center;
             background: #fff;
             border: 2px solid #e6e6e6;
             box-sizing: border-box;
             border-radius: 25px;
             margin-left: 15px;
+          }
+
+          a:active,
+          a:focus {
+            border: 2px solid #0066ff;
           }
         `}</style>
       </>
