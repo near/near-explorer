@@ -17,7 +17,7 @@ import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 8
+    count: 8,
   };
 
   fetchBlocks = async () => {
@@ -28,7 +28,7 @@ export default class extends React.Component<OuterProps> {
     fetchDataFn: this.fetchBlocks,
     count: this.props.count,
     dashboard: true,
-    category: "Block"
+    category: "Block",
   };
 
   autoRefreshDashboardBlocks = autoRefreshHandler(DashboardBlocks, this.config);
@@ -66,7 +66,7 @@ class DashboardBlocks extends React.Component<InnerProps> {
               className="row gutter-4"
             >
               {items &&
-                items.map(block => (
+                items.map((block) => (
                   <DashboardBlocksBlock key={block.hash} block={block} />
                 ))}
             </FlipMove>

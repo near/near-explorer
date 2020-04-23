@@ -33,18 +33,18 @@ export default class AccountsApi extends ExplorerApi {
               WHERE receiver_id = :id) as inTransactionsCount
           `,
           {
-            id
-          }
-        ]).then(accounts => accounts[0]),
+            id,
+          },
+        ]).then((accounts) => accounts[0]),
         this.call<AccountBasicInfo[]>("select", [
           `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
             FROM accounts
             WHERE account_id = :id
           `,
           {
-            id
-          }
-        ]).then(accounts => accounts[0])
+            id,
+          },
+        ]).then((accounts) => accounts[0]),
       ]);
       return {
         amount: accountInfo.amount,
@@ -52,7 +52,7 @@ export default class AccountsApi extends ExplorerApi {
         storageUsage: accountInfo.storage_usage,
         storagePaidAt: accountInfo.storage_paid_at,
         ...accountBasic,
-        ...accountStats
+        ...accountStats,
       };
     } catch (error) {
       console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
@@ -79,8 +79,8 @@ export default class AccountsApi extends ExplorerApi {
           LIMIT :limit`,
         {
           limit,
-          endTimestamp
-        }
+          endTimestamp,
+        },
       ]);
     } catch (error) {
       console.error("AccountsApi.getAccounts failed to fetch data due to:");

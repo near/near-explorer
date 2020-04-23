@@ -1,7 +1,7 @@
 import getConfig from "next/config";
 
 const {
-  publicRuntimeConfig: { nearNetworks, nearNetworkAliases }
+  publicRuntimeConfig: { nearNetworks, nearNetworkAliases },
 } = getConfig();
 
 export interface NearNetwork {

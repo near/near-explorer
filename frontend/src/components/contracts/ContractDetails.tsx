@@ -26,7 +26,7 @@ export default class extends React.Component<Props, State> {
   collectContractInfo = async () => {
     new ContractsApi()
       .getContractInfo(this.props.accountId)
-      .then(contractInfo => {
+      .then((contractInfo) => {
         if (contractInfo) {
           this.setState({
             codeHash: contractInfo.codeHash,
@@ -35,12 +35,12 @@ export default class extends React.Component<Props, State> {
             locked: contractInfo.accessKeys.every(
               (key: any) =>
                 key["access_key"]["permission"]["FunctionCall"] !== undefined
-            )
+            ),
           });
         }
         return;
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   componentDidMount() {

@@ -14,7 +14,7 @@ const sequelize = new Sequelize(
   config.password,
   {
     ...config,
-    logging: false
+    logging: false,
   }
 );
 
@@ -29,24 +29,24 @@ const sequelizeReadOnly = new Sequelize(
       // Set SQLITE_OPEN_READONLY mode. Read more:
       // * http://www.sqlite.org/c3ref/open.html
       // * http://www.sqlite.org/c3ref/c_open_autoproxy.html
-      mode: 1
+      mode: 1,
     },
-    logging: false
+    logging: false,
   }
 );
 
 fs.readdirSync(__dirname)
-  .filter(file => {
+  .filter((file) => {
     return (
       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
     );
   })
-  .forEach(file => {
+  .forEach((file) => {
     const model = sequelize["import"](path.join(__dirname, file));
     db[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }

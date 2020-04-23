@@ -5,7 +5,7 @@ const models = require("../models");
 const {
   wampNearNetworkName,
   wampNearExplorerUrl,
-  wampNearExplorerBackendSecret
+  wampNearExplorerBackendSecret,
 } = require("./config");
 const { nearRpc } = require("./near");
 
@@ -31,14 +31,14 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     signature: nodeInfo.signature,
     agentName: nodeInfo.agent.name,
     agentVersion: nodeInfo.agent.version,
-    agentBuild: nodeInfo.agent.build
+    agentBuild: nodeInfo.agent.build,
   });
 };
 
 wampHandlers["select"] = async ([query, replacements]) => {
   return await models.sequelizeReadOnly.query(query, {
     replacements,
-    type: models.Sequelize.QueryTypes.SELECT
+    type: models.Sequelize.QueryTypes.SELECT,
   });
 };
 
@@ -56,8 +56,8 @@ function setupWamp() {
     transports: [
       {
         url: wampNearExplorerUrl,
-        type: "websocket"
-      }
+        type: "websocket",
+      },
     ],
     authmethods: ["ticket"],
     authid: "near-explorer-backend",
@@ -69,10 +69,10 @@ function setupWamp() {
     },
     retry_if_unreachable: true,
     max_retries: Number.MAX_SAFE_INTEGER,
-    max_retry_delay: 10
+    max_retry_delay: 10,
   });
 
-  wamp.onopen = async session => {
+  wamp.onopen = async (session) => {
     console.log("WAMP connection is established. Waiting for commands...");
 
     for (const [name, handler] of Object.entries(wampHandlers)) {
@@ -90,7 +90,7 @@ function setupWamp() {
     }
   };
 
-  wamp.onclose = reason => {
+  wamp.onclose = (reason) => {
     console.log(
       "WAMP connection has been closed (check WAMP router availability and credentials):",
       reason

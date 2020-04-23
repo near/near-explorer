@@ -29,7 +29,7 @@ export default (
       itemsLength: config.count,
       display: false,
       hasMore: true,
-      loading: false
+      loading: false,
     };
 
     componentDidMount() {
@@ -51,7 +51,7 @@ export default (
           itemsLength: config.count,
           display: false,
           hasMore: true,
-          loading: false
+          loading: false,
         });
       }
     }
@@ -77,7 +77,7 @@ export default (
             newState = {
               items,
               itemsLength: items.length,
-              display: true
+              display: true,
             };
             if (items.length < config.count) {
               newState.hasMore = false;
@@ -86,7 +86,7 @@ export default (
             newState = {
               hasMore: false,
               display: true,
-              itemsLength: 0
+              itemsLength: 0,
             };
           }
           this.setState(newState);
@@ -108,7 +108,7 @@ export default (
             newState = {
               items,
               itemsLength: items.length,
-              loading: false
+              loading: false,
             };
             if (newData.length < config.count) {
               newState.hasMore = false;

@@ -17,7 +17,7 @@ import { OuterProps } from "../accounts/Accounts";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 10
+    count: 10,
   };
 
   fetchTxs = async () => {
@@ -30,7 +30,7 @@ export default class extends React.Component<OuterProps> {
     fetchDataFn: this.fetchTxs,
     count: this.props.count,
     dashboard: true,
-    category: "Transaction"
+    category: "Transaction",
   };
 
   autoRefreshDashboardBlocks = autoRefreshHandler(
@@ -67,7 +67,7 @@ class DashboardTransactions extends React.Component<InnerProps> {
           <Col xs="11" className="px-0 dashboard-transactions-list">
             <FlipMove duration={1000} staggerDurationBy={0}>
               {items &&
-                items.map(transaction => (
+                items.map((transaction) => (
                   <TransactionAction
                     key={transaction.hash}
                     actions={transaction.actions}
