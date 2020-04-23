@@ -27,6 +27,7 @@ export default class extends React.Component {
           .Modal {
             position: fixed;
             left: 35%;
+            top: 35%;
             z-index: 50;
             text-align: left;
             background-color: #fff;

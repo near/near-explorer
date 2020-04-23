@@ -9,16 +9,14 @@ import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import DetailsApi, * as D from "../../libraries/explorer-wamp/details";
 
 import CardCell from "../utils/CardCell";
-import Modal from "../utils/Modal";
 
 interface State {
   details?: D.Details;
   searchValue: string;
   loading: boolean;
-  modalInfo?: string;
 }
 
-export default class DashboardHeader extends React.Component<State> {
+export default class extends React.Component<State> {
   constructor(props: any) {
     super(props);
     this.timer = null;
@@ -108,22 +106,13 @@ export default class DashboardHeader extends React.Component<State> {
   };
 
   render() {
-    const { details, loading, modalInfo } = this.state;
+    const { details, loading } = this.state;
     return (
       <div className="dashboard-info-container">
         <Row noGutters>
           <Col xs="12" md="3">
             <CardCell
-              title={
-                <>
-                  Nodes Online
-                  <img
-                    src="/static/images/icon-info.svg"
-                    className="info"
-                    onClick={() => this.changeModalHandler("Nodes")}
-                  />
-                </>
-              }
+              title={"Nodes Online"}
               imgLink="/static/images/icon-m-node-online.svg"
               text={
                 details
@@ -132,37 +121,28 @@ export default class DashboardHeader extends React.Component<State> {
               }
               className="border-0"
               loading={loading}
+              termDescription={
+                "The number of validating nodes / the total number of online nodes."
+              }
+              href={
+                "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
+              }
             />
           </Col>
           <Col xs="12" md="3">
             <CardCell
-              title={
-                <>
-                  Block Height
-                  <img
-                    src="/static/images/icon-info.svg"
-                    className="info"
-                    onClick={() => this.changeModalHandler("Block Height")}
-                  />
-                </>
-              }
+              title={"Block Height"}
               imgLink="/static/images/icon-m-height.svg"
               text={details ? details.lastBlockHeight.toLocaleString() : ""}
               loading={loading}
+              termDescription={
+                " Most recent block heihgt recorded to the blockchain."
+              }
             />
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title={
-                <>
-                  Tps
-                  <img
-                    src="/static/images/icon-info.svg"
-                    className="info"
-                    onClick={() => this.changeModalHandler("Tps")}
-                  />
-                </>
-              }
+              title={"Tps"}
               imgLink="/static/images/icon-m-tps.svg"
               text={
                 details
@@ -172,40 +152,30 @@ export default class DashboardHeader extends React.Component<State> {
                   : ""
               }
               loading={loading}
+              termDescription={
+                "Average transactions per second (TPS) in the 10 most recent blocks."
+              }
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title={
-                <>
-                  Last Day Tx
-                  <img
-                    src="/static/images/icon-info.svg"
-                    className="info"
-                    onClick={() => this.changeModalHandler("Last Day Tx")}
-                  />
-                </>
-              }
+              title={"Last Day Tx"}
               imgLink="/static/images/icon-m-transaction.svg"
               text={details ? details.lastDayTxCount.toLocaleString() : ""}
               loading={loading}
+              termDescription={"Total transactions in the last 24 hours."}
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title={
-                <>
-                  Accounts
-                  <img
-                    src="/static/images/icon-info.svg"
-                    className="info"
-                    onClick={() => this.changeModalHandler("Accounts")}
-                  />
-                </>
-              }
+              title={"Accounts"}
               imgLink="/static/images/icon-m-user.svg"
               text={details ? details.accountsCount.toLocaleString() : ""}
               loading={loading}
+              termDescription={"Total number of accounts created on this net."}
+              href={"https://docs.nearprotocol.com/docs/concepts/account"}
             />
           </Col>
         </Row>
@@ -237,62 +207,7 @@ export default class DashboardHeader extends React.Component<State> {
             </Col>
           </Row>
         </form>
-        {modalInfo === "Nodes" && (
-          <Modal modalClosed={this.ModalCloseHander}>
-            <h4>Nodes Online</h4>
-            The number of validating nodes / the total number of online nodes.
-            See more details on{" "}
-            <a
-              href="https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
-              target="_blank"
-            >
-              docs
-            </a>
-          </Modal>
-        )}
-        {modalInfo === "Block Height" && (
-          <Modal modalClosed={this.ModalCloseHander}>
-            <h4>Block Height</h4>
-            Most recent block recorded to the blockchain.
-          </Modal>
-        )}
-        {modalInfo === "Tps" && (
-          <Modal modalClosed={this.ModalCloseHander}>
-            <h4>Tps</h4>
-            Average transactions per second (TPS) in the 10 most recent blocks.
-            See more details on{" "}
-            <a
-              href="https://docs.nearprotocol.com/docs/concepts/transaction"
-              target="_blank"
-            >
-              docs
-            </a>
-          </Modal>
-        )}
-        {modalInfo === "Last Day Tx" && (
-          <Modal modalClosed={this.ModalCloseHander}>
-            <h4>Last Day Tx</h4>
-            Total transactions in the last 24 hours. See more details on{" "}
-            <a
-              href="https://docs.nearprotocol.com/docs/concepts/transaction"
-              target="_blank"
-            >
-              docs
-            </a>
-          </Modal>
-        )}
-        {modalInfo === "Accounts" && (
-          <Modal modalClosed={this.ModalCloseHander}>
-            <h4>Accounts</h4>
-            Total number of accounts created. See more details on{" "}
-            <a
-              href="https://docs.nearprotocol.com/docs/concepts/account"
-              target="_blank"
-            >
-              docs
-            </a>
-          </Modal>
-        )}
+
         <style jsx global>{`
           .dashboard-info-container {
             border: solid 4px #e6e6e6;
@@ -307,30 +222,28 @@ export default class DashboardHeader extends React.Component<State> {
             border-top: 2px solid #e6e6e6;
             background: #f8f8f8;
           }
+
           .search-box-filter-button {
             border-radius: 25px;
             padding-left: 20px;
             padding-right: 20px;
           }
+
           .search-box .input-group-text {
             background: white;
             border-right: 0;
             border-radius: 25px 0 0 25px;
           }
+
           .search-field {
             border-radius: 25px;
             outline: none;
             box-shadow: none !important;
             border-color: rgb(199, 210, 221) !important;
           }
+
           .button-search {
             border-radius: 25px;
-          }
-
-          .info {
-            margin-left: 5px;
-            width: 18px;
-            cursor: pointer;
           }
         `}</style>
       </div>

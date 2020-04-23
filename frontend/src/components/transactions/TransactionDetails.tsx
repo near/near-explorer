@@ -31,7 +31,7 @@ export default class extends React.Component<Props, State> {
 
   collectDeposit(actions: T.Action[]): BN {
     return actions
-      .map(action => {
+      .map((action) => {
         let actionArgs = action.args as any;
         if (actionArgs.hasOwnProperty("deposit")) {
           return new BN(actionArgs.deposit);
@@ -43,7 +43,7 @@ export default class extends React.Component<Props, State> {
   }
 
   collectGasAttached(actions: T.Action[]): BN | null {
-    const gasAttachedActions = actions.filter(action => {
+    const gasAttachedActions = actions.filter((action) => {
       return action.args.hasOwnProperty("gas");
     });
     if (gasAttachedActions.length === 0) {
@@ -62,7 +62,7 @@ export default class extends React.Component<Props, State> {
       : new BN(0);
     const gasBurntByReceipts = transaction.receiptsOutcome
       ? transaction.receiptsOutcome
-          .map(receipt => new BN(receipt.outcome.gas_burnt))
+          .map((receipt) => new BN(receipt.outcome.gas_burnt))
           .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
       : new BN(0);
     return gasBurntByTx.add(gasBurntByReceipts);
@@ -105,7 +105,7 @@ export default class extends React.Component<Props, State> {
           deposit: undefined,
           gasUsed: undefined,
           gasAttached: undefined,
-          transactionFee: undefined
+          transactionFee: undefined,
         });
       } else {
         this.updateBlock();
@@ -132,6 +132,8 @@ export default class extends React.Component<Props, State> {
               imgLink="/static/images/icon-m-user.svg"
               text={<AccountLink accountId={transaction.signerId} />}
               className="border-0"
+              termDescription={"Account that signed and sent the transaction."}
+              href={"https://docs.nearprotocol.com/docs/concepts/account"}
             />
           </Col>
           <Col md="3">
@@ -139,6 +141,8 @@ export default class extends React.Component<Props, State> {
               title="Receiver"
               imgLink="/static/images/icon-m-user.svg"
               text={<AccountLink accountId={transaction.receiverId} />}
+              termDescription={"Account receiving the transaction."}
+              href={"https://docs.nearprotocol.com/docs/concepts/account"}
             />
           </Col>
           <Col md="3">
@@ -146,6 +150,11 @@ export default class extends React.Component<Props, State> {
               title="Value"
               imgLink="/static/images/icon-m-filter.svg"
               text={deposit ? <Balance amount={deposit.toString()} /> : "..."}
+              termDescription={`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
+                This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s).`}
+              href={
+                "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
+              }
             />
           </Col>
           <Col md="3">
@@ -153,6 +162,10 @@ export default class extends React.Component<Props, State> {
               title="Status"
               imgLink="/static/images/icon-t-status.svg"
               text={<ExecutionStatus status={transaction.status} />}
+              termDescription={
+                "Current status of the transaction (Pending, Succeeded, Failed)."
+              }
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
         </Row>
@@ -169,6 +182,10 @@ export default class extends React.Component<Props, State> {
                 )
               }
               className="border-0"
+              termDescription={
+                "Total fee paid in NEAR to execute this transaction."
+              }
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col md="3">
@@ -176,6 +193,8 @@ export default class extends React.Component<Props, State> {
               title="Gas Price"
               imgLink="/static/images/icon-m-filter.svg"
               text={block ? <Balance amount={block.gasPrice} /> : "..."}
+              termDescription={"Cost per unit of gas."}
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col md="3">
@@ -183,6 +202,10 @@ export default class extends React.Component<Props, State> {
               title="Gas Used"
               imgLink="/static/images/icon-m-size.svg"
               text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
+              termDescription={
+                "Units of gas required to execute this transaction."
+              }
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col md="3">
@@ -190,6 +213,9 @@ export default class extends React.Component<Props, State> {
               title="Attached Gas"
               imgLink="/static/images/icon-m-size.svg"
               text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
+              termDescription={
+                "Units of gas attached to the transaction (this is often higher than 'Gas Used')."
+              }
             />
           </Col>
         </Row>
@@ -201,6 +227,10 @@ export default class extends React.Component<Props, State> {
                 "MMMM DD, YYYY [at] h:mm:ssa"
               )}
               className="border-0"
+              termDescription={
+                "Timestamp of when this transaction was submitted."
+              }
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col md="8">
@@ -208,6 +238,8 @@ export default class extends React.Component<Props, State> {
               title="Hash"
               text={transaction.hash}
               className="border-0"
+              termDescription={"Unique identifier (hash) of this transaction."}
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
         </Row>
@@ -221,6 +253,9 @@ export default class extends React.Component<Props, State> {
                 </BlockLink>
               }
               className="transaction-card-block-hash border-0"
+              termDescription={
+                "Unique identifier (hash) of the block this transaction was included in."
+              }
             />
           </Col>
         </Row>
