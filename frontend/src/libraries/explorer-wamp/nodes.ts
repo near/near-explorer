@@ -17,6 +17,11 @@ export interface NodeInfo {
   status: string;
 }
 
+export interface NodeStats {
+  validatorsCount: number;
+  nonValidatorsCount: number;
+}
+
 export default class NodesApi extends ExplorerApi {
   async getNodes(
     limit: number = 15,
@@ -58,25 +63,23 @@ export default class NodesApi extends ExplorerApi {
     }
   }
 
-  async getTotalValidatorsAndOther() {
+  async getOnlineNodesStats() {
     try {
-      const [validators, others] = await Promise.all([
-        this.call("select", [
-          `SELECT COUNT(*) as total FROM nodes
-              WHERE is_validator = 1
+      const nodeStats = await this.call("select", [
+        `
+          SELECT
+            validators.validatorsCount,
+            nonValidators.nonValidatorsCount
+          FROM
+          (SELECT COUNT(*) as validatorsCount FROM nodes
+              WHERE is_validator = 1) as validators,
+          (SELECT COUNT(*) as nonValidatorsCount FROM nodes
+              WHERE is_validator = 0) as nonValidators
           `,
-        ]).then((it: any) => it[0].total),
-        this.call("select", [
-          `SELECT COUNT(*) as total FROM nodes
-              WHERE is_validator = 0
-          `,
-        ]).then((it: any) => it[0].total),
-      ]);
-      return [validators, others];
+      ]).then((it: any) => it[0]);
+      return { ...nodeStats } as NodeStats;
     } catch (error) {
-      console.error(
-        "Nodes.getTotalValidatorsAndOthers failed to fetch data due to:"
-      );
+      console.error("Nodes.getOnlineNodesStats failed to fetch data due to:");
       console.error(error);
       throw error;
     }

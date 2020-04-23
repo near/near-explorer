@@ -3,11 +3,10 @@ import Link from "next/link";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import NodesApi from "../../libraries/explorer-wamp/nodes";
+import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
 interface State {
-  validatorsCount?: number;
-  nonValidatorsCount?: number;
+  nodeStats?: N.NodeStats;
 }
 
 export default class extends React.Component<State> {
@@ -39,15 +38,13 @@ export default class extends React.Component<State> {
   };
 
   fetchNodes = async () => {
-    const [
-      validatorsCount,
-      nonValidatorsCount,
-    ] = await new NodesApi().getTotalValidatorsAndOther();
-    this.setState({ validatorsCount, nonValidatorsCount });
+    new NodesApi()
+      .getOnlineNodesStats()
+      .then((nodeStats) => this.setState({ nodeStats }));
   };
 
   render() {
-    const { validatorsCount, nonValidatorsCount } = this.state;
+    const { nodeStats } = this.state;
     return (
       <>
         <Row>
@@ -66,7 +63,9 @@ export default class extends React.Component<State> {
                     marginRight: "10px",
                   }}
                 />
-                {validatorsCount ? `${validatorsCount}  VALIDATOR NODES` : `-`}
+                {nodeStats
+                  ? `${nodeStats.validatorsCount}  Validating`
+                  : `- Validating`}
               </Col>
             </a>
           </Link>
@@ -85,9 +84,9 @@ export default class extends React.Component<State> {
                     marginRight: "10px",
                   }}
                 />
-                {nonValidatorsCount
-                  ? `${nonValidatorsCount}  NON-VALIDATOR NODES`
-                  : `-`}
+                {nodeStats
+                  ? `${nodeStats.nonValidatorsCount}  Non-Validating`
+                  : `- Non-Validating`}
               </Col>
             </a>
           </Link>
