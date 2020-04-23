@@ -16,11 +16,7 @@ export default class extends React.PureComponent<Props> {
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
           <img
-            src={
-              node.isValidator
-                ? "/static/images/icon-m-node-validator-status.svg"
-                : "/static/images/icon-m-node-non-validator-status.svg"
-            }
+            src={"/static/images/icon-m-node-online.svg"}
             style={{ width: "15px" }}
           />
         </Col>
@@ -39,7 +35,7 @@ export default class extends React.PureComponent<Props> {
                     src="/static/images/icon-m-size.svg"
                     style={{ width: "12px" }}
                   />
-                  {`@  ${node.agentName} | ver.  ${node.agentVersion} build  ${node.agentBuild}`}
+                  {`${node.agentName} | ver.${node.agentVersion} build  ${node.agentBuild}`}
                 </Col>
                 <Col>
                   <img

@@ -52,22 +52,38 @@ export default class extends React.Component<State> {
       <>
         <Row>
           <Link href="/nodes/[role]" as={`/nodes/validators`}>
-            <a style={{ textDecoration: "none", marginLeft: "15px" }}>
+            <a
+              style={{
+                textDecoration: "none",
+                marginLeft: "15px",
+              }}
+            >
               <Col className="node-selector pagination-total align-self-center">
                 <img
-                  src={"/static/images/icon-m-node-validator-status.svg"}
-                  style={{ width: "12px", marginRight: "10px" }}
+                  src={"/static/images/icon-m-block.svg"}
+                  style={{
+                    width: "12px",
+                    marginRight: "10px",
+                  }}
                 />
                 {validatorsCount ? `${validatorsCount}  VALIDATOR NODES` : `-`}
               </Col>
             </a>
           </Link>
           <Link href="/nodes/[role]" as={`/nodes/non-validators`}>
-            <a style={{ textDecoration: "none", marginLeft: "15px" }}>
+            <a
+              style={{
+                textDecoration: "none",
+                marginLeft: "15px",
+              }}
+            >
               <Col className="node-selector pagination-total align-self-center">
                 <img
-                  src={"/static/images/icon-m-node-non-validator-status.svg"}
-                  style={{ width: "12px", marginRight: "10px" }}
+                  src={"/static/images/icon-m-block.svg"}
+                  style={{
+                    width: "12px",
+                    marginRight: "10px",
+                  }}
                 />
                 {nonValidatorsCount
                   ? `${nonValidatorsCount}  NON-VALIDATOR NODES`

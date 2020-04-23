@@ -15,7 +15,6 @@ interface Props extends OuterProps {
 export default class extends React.Component<Props> {
   static defaultProps = {
     count: 15,
-    role: "validators",
   };
 
   fetchNodes = async (count: number, endTimestamp?: number) => {

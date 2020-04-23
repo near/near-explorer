@@ -108,7 +108,7 @@ export default class DashboardHeader extends React.Component<State> {
               <a>
                 <CardCell
                   title="Nodes Online"
-                  imgLink="/static/images/icon-m-node-validator-status.svg"
+                  imgLink="/static/images/icon-m-node-online.svg"
                   text={
                     details
                       ? `${details.validatorCount.toLocaleString()}/${details.onlineNodesCount.toLocaleString()}`
