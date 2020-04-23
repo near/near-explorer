@@ -47,8 +47,8 @@ export default class NodesApi extends ExplorerApi {
         {
           limit,
           endTimestamp,
-          validatorIndicator
-        }
+          validatorIndicator,
+        },
       ]);
       return nodes as NodeInfo[];
     } catch (error) {
@@ -64,13 +64,13 @@ export default class NodesApi extends ExplorerApi {
         this.call("select", [
           `SELECT COUNT(*) as total FROM nodes
               WHERE is_validator = 1
-          `
+          `,
         ]).then((it: any) => it[0].total),
         this.call("select", [
           `SELECT COUNT(*) as total FROM nodes
               WHERE is_validator = 0
-          `
-        ]).then((it: any) => it[0].total)
+          `,
+        ]).then((it: any) => it[0].total),
       ]);
       return [validators, others];
     } catch (error) {

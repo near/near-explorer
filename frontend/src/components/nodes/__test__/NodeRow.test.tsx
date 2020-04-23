@@ -22,7 +22,7 @@ describe("<NodeRow />", () => {
             agentBuild: "6a527109-modified",
             peerCount: "0",
             isValidator: true,
-            status: "NoSync"
+            status: "NoSync",
           }}
         />
       )

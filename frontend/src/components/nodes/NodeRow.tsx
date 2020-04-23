@@ -39,9 +39,7 @@ export default class extends React.PureComponent<Props> {
                     src="/static/images/icon-m-size.svg"
                     style={{ width: "12px" }}
                   />
-                  {`@  ${node.agentName} | ver.  ${node.agentVersion} build  ${
-                    node.agentBuild
-                  }`}
+                  {`@  ${node.agentName} | ver.  ${node.agentVersion} build  ${node.agentBuild}`}
                 </Col>
                 <Col>
                   <img

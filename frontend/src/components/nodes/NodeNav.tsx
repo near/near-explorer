@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 import React from "react";
-import { Row, Col, Spinner } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 import NodesApi from "../../libraries/explorer-wamp/nodes";
 
 interface State {
-  validators?: number;
-  others?: number;
+  validatorsCount?: number;
+  nonValidatorsCount?: number;
 }
 
 export default class extends React.Component<State> {
@@ -40,14 +40,14 @@ export default class extends React.Component<State> {
 
   fetchNodes = async () => {
     const [
-      validators,
-      others
+      validatorsCount,
+      nonValidatorsCount,
     ] = await new NodesApi().getTotalValidatorsAndOther();
-    this.setState({ validators, others });
+    this.setState({ validatorsCount, nonValidatorsCount });
   };
 
   render() {
-    const { validators, others } = this.state;
+    const { validatorsCount, nonValidatorsCount } = this.state;
     return (
       <>
         <Row>
@@ -58,11 +58,7 @@ export default class extends React.Component<State> {
                   src={"/static/images/icon-m-node-validator-status.svg"}
                   style={{ width: "12px", marginRight: "10px" }}
                 />
-                {validators ? (
-                  `${validators}  VALIDATOR NODES`
-                ) : (
-                  <Spinner animation="border" variant="secondary" />
-                )}
+                {validatorsCount ? `${validatorsCount}  VALIDATOR NODES` : `-`}
               </Col>
             </a>
           </Link>
@@ -73,11 +69,9 @@ export default class extends React.Component<State> {
                   src={"/static/images/icon-m-node-non-validator-status.svg"}
                   style={{ width: "12px", marginRight: "10px" }}
                 />
-                {others ? (
-                  `${others}  NON-VALIDATOR NODES`
-                ) : (
-                  <Spinner animation="border" variant="secondary" />
-                )}
+                {nonValidatorsCount
+                  ? `${nonValidatorsCount}  NON-VALIDATOR NODES`
+                  : `-`}
               </Col>
             </a>
           </Link>
