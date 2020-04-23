@@ -1,19 +1,20 @@
 const models = require("../models");
+const moment = require("moment");
 
 const {
   syncFetchQueueSize,
   syncSaveQueueSize,
-  bulkDbUpdateSize
+  bulkDbUpdateSize,
 } = require("./config");
 const { nearRpc } = require("./near");
 const { Result, delayFor } = require("./utils");
 
 async function saveBlocks(blocksInfo) {
   try {
-    await models.sequelize.transaction(async transaction => {
+    await models.sequelize.transaction(async (transaction) => {
       try {
         await models.Block.bulkCreate(
-          blocksInfo.map(blockInfo => {
+          blocksInfo.map((blockInfo) => {
             return {
               hash: blockInfo.header.hash,
               height: blockInfo.header.height,
@@ -22,15 +23,15 @@ async function saveBlocks(blocksInfo) {
               totalSupply: blockInfo.header.total_supply || "",
               gasLimit: blockInfo.header.gas_limit || 0,
               gasUsed: blockInfo.header.gas_used || 0,
-              gasPrice: blockInfo.header.gas_price || "0"
+              gasPrice: blockInfo.header.gas_price || "0",
             };
           })
         );
 
         await models.Chunk.bulkCreate(
-          blocksInfo.flatMap(blockInfo => {
+          blocksInfo.flatMap((blockInfo) => {
             let { chunks } = blockInfo;
-            return chunks.map(chunkInfo => {
+            return chunks.map((chunkInfo) => {
               return {
                 blockHash: blockInfo.header.hash,
                 shardId: chunkInfo.shard_id,
@@ -38,7 +39,7 @@ async function saveBlocks(blocksInfo) {
                 gasLimit: chunkInfo.gas_limit,
                 gasUsed: chunkInfo.gas_used,
                 heightCreated: chunkInfo.height_created,
-                heightIncluded: chunkInfo.height_included
+                heightIncluded: chunkInfo.height_included,
               };
             });
           })
@@ -46,12 +47,12 @@ async function saveBlocks(blocksInfo) {
         // TODO: check the status of transactions and filter out the failling transactions in the following table.
         await Promise.all(
           blocksInfo
-            .filter(blockInfo => blockInfo.transactions.length > 0)
-            .map(blockInfo => {
+            .filter((blockInfo) => blockInfo.transactions.length > 0)
+            .map((blockInfo) => {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
                 models.Transaction.bulkCreate(
-                  blockInfo.transactions.map(tx => {
+                  blockInfo.transactions.map((tx) => {
                     return {
                       hash: tx.hash,
                       nonce: tx.nonce,
@@ -60,12 +61,12 @@ async function saveBlocks(blocksInfo) {
                       signerId: tx.signer_id,
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
-                      receiverId: tx.receiver_id
+                      receiverId: tx.receiver_id,
                     };
                   })
                 ),
                 models.Action.bulkCreate(
-                  blockInfo.transactions.flatMap(tx => {
+                  blockInfo.transactions.flatMap((tx) => {
                     const transactionHash = tx.hash;
                     return tx.actions.map((action, index) => {
                       if (typeof action === "string") {
@@ -73,7 +74,7 @@ async function saveBlocks(blocksInfo) {
                           transactionHash,
                           actionIndex: index,
                           actionType: action,
-                          actionArgs: {}
+                          actionArgs: {},
                         };
                       }
                       if (action.DeployContract !== undefined) {
@@ -86,17 +87,17 @@ async function saveBlocks(blocksInfo) {
                         transactionHash,
                         actionIndex: index,
                         actionType: type,
-                        actionArgs: action[type]
+                        actionArgs: action[type],
                       };
                     });
                   })
                 ),
                 models.AccessKey.bulkCreate(
-                  blockInfo.transactions.flatMap(tx => {
+                  blockInfo.transactions.flatMap((tx) => {
                     const accountId = tx.receiver_id;
                     return tx.actions
-                      .filter(action => action.AddKey !== undefined)
-                      .map(action => {
+                      .filter((action) => action.AddKey !== undefined)
+                      .map((action) => {
                         let accessKeyType;
                         const permission = action.AddKey.access_key.permission;
                         if (typeof permission === "string") {
@@ -115,28 +116,29 @@ async function saveBlocks(blocksInfo) {
                         return {
                           accountId,
                           publicKey: action.AddKey.public_key,
-                          accessKeyType
+                          accessKeyType,
                         };
                       });
                   })
                 ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
-                    .filter(tx =>
+                    .filter((tx) =>
                       tx.actions.some(
-                        action =>
+                        (action) =>
                           action === "CreateAccount" ||
                           action.CreateAccount !== undefined
                       )
                     )
-                    .map(tx => {
+                    .map((tx, index) => {
                       return {
                         accountId: tx.receiver_id,
+                        accountIndex: index,
                         createdByTransactionHash: tx.hash,
-                        createdAtBlockTimestamp: timestamp
+                        createdAtBlockTimestamp: timestamp,
                       };
                     })
-                )
+                ),
               ]);
             })
         );
@@ -149,15 +151,68 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
+async function saveGenesis(time, records, offset) {
+  try {
+    await models.sequelize.transaction(async (transaction) => {
+      try {
+        await Promise.all([
+          models.AccessKey.bulkCreate(
+            records
+              .filter((record) => record.AccessKey !== undefined)
+              .map((record) => {
+                let accessKeyType;
+                const permission = record.AccessKey.access_key.permission;
+                if (typeof permission === "string") {
+                  accessKeyType = permission;
+                } else if (permission !== undefined) {
+                  accessKeyType = Object.keys(permission)[0];
+                } else {
+                  throw new Error(
+                    `Unexpected error during access key permission parsing in transaction ${
+                      tx.hash
+                    }: 
+                    the permission type is expected to be a string or an object with a single key, 
+                    but '${JSON.stringify(permission)}' found.`
+                  );
+                }
+                return {
+                  accountId: record.AccessKey.account_id,
+                  publicKey: record.AccessKey.public_key,
+                  accessKeyType,
+                };
+              })
+          ),
+          models.Account.bulkCreate(
+            records
+              .filter((record) => record.Account !== undefined)
+              .map((record, index) => {
+                return {
+                  accountId: record.Account.account_id,
+                  accountIndex: index + offset,
+                  createdByTransactionHash: "Genesis",
+                  createdAtBlockTimestamp: time,
+                };
+              })
+          ),
+        ]);
+      } catch (error) {
+        console.warn("Failed to save Genesis records due to ", error);
+      }
+    });
+  } catch (error) {
+    console.warn("Failed to save Genesis records due to ", error);
+  }
+}
+
 function promiseResult(promise) {
   // Convert a promise to an always-resolving promise of Result type.
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const payload = new Result();
     promise
-      .then(result => {
+      .then((result) => {
         payload.value = result;
       })
-      .catch(error => {
+      .catch((error) => {
         payload.error = error;
       })
       .then(() => {
@@ -190,43 +245,45 @@ async function saveBlocksFromRequests(requests) {
       }
       return blockResult.value;
     })
-    .filter(block => block !== null);
+    .filter((block) => block !== null);
 
-  blocks = (await Promise.all(
-    blocks.flatMap(async block => {
-      try {
-        const detailedChunks = await Promise.all(
-          block.chunks.map(async chunk => {
-            let fetchError;
-            for (let retries = 5; retries > 0; --retries) {
-              try {
-                return await nearRpc.chunk(chunk.chunk_hash);
-              } catch (error) {
-                fetchError = error;
-                if (error.type === "system") {
-                  await delayFor(100 + Math.random() * 1000);
-                  continue;
+  blocks = (
+    await Promise.all(
+      blocks.flatMap(async (block) => {
+        try {
+          const detailedChunks = await Promise.all(
+            block.chunks.map(async (chunk) => {
+              let fetchError;
+              for (let retries = 5; retries > 0; --retries) {
+                try {
+                  return await nearRpc.chunk(chunk.chunk_hash);
+                } catch (error) {
+                  fetchError = error;
+                  if (error.type === "system") {
+                    await delayFor(100 + Math.random() * 1000);
+                    continue;
+                  }
+                  console.error(
+                    "Failed to fetch a detailed chunk info: ",
+                    error,
+                    chunk
+                  );
+                  throw error;
                 }
-                console.error(
-                  "Failed to fetch a detailed chunk info: ",
-                  error,
-                  chunk
-                );
-                throw error;
               }
-            }
-            throw fetchError;
-          })
-        );
-        block.transactions = detailedChunks.flatMap(
-          chunk => chunk.transactions
-        );
-        return block;
-      } catch (error) {
-        return null;
-      }
-    })
-  )).filter(block => block !== null);
+              throw fetchError;
+            })
+          );
+          block.transactions = detailedChunks.flatMap(
+            (chunk) => chunk.transactions
+          );
+          return block;
+        } catch (error) {
+          return null;
+        }
+      })
+    )
+  ).filter((block) => block !== null);
 
   return await saveBlocks(blocks);
 }
@@ -246,7 +303,7 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
     //console.debug(`Syncing the block #${syncingBlockHeight}...`);
     requests.push([
       syncingBlockHeight,
-      promiseResult(nearRpc.block(syncingBlockHeight))
+      promiseResult(nearRpc.block(syncingBlockHeight)),
     ]);
     --syncingBlockHeight;
     if (requests.length >= syncFetchQueueSize) {
@@ -272,7 +329,7 @@ async function syncNewNearcoreState() {
   }
 
   const latestSyncedBlock = await models.Block.findOne({
-    order: [["height", "DESC"]]
+    order: [["height", "DESC"]],
   });
   let latestSyncedBlockHeight;
   if (latestSyncedBlock !== null) {
@@ -301,7 +358,7 @@ async function syncMissingNearcoreState() {
   await syncOldNearcoreState();
 
   const latestSyncedBlock = await models.Block.findOne({
-    order: [["height", "DESC"]]
+    order: [["height", "DESC"]],
   });
   if (latestSyncedBlock === null) {
     return;
@@ -319,9 +376,9 @@ async function syncMissingNearcoreState() {
     const syncedBlocksCount = await models.Block.count({
       where: {
         height: {
-          [models.Sequelize.Op.between]: [lowHeight, highHeight]
-        }
-      }
+          [models.Sequelize.Op.between]: [lowHeight, highHeight],
+        },
+      },
     });
     if (highHeight - lowHeight + 1 === syncedBlocksCount) {
       return;
@@ -344,5 +401,35 @@ async function syncMissingNearcoreState() {
   );
 }
 
+async function syncGenesisState() {
+  const retry = (retries, fn) =>
+    fn().catch((err) =>
+      retries > 1 ? retry(retries - 1, fn) : Promise.reject(err)
+    );
+  const genesisConfig = await retry(10, () =>
+    nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
+  );
+  const genesisTime = moment(genesisConfig.genesis_time).valueOf();
+  const limit = 100;
+  let offset = 0,
+    batchCount;
+  do {
+    let pagination = { offset, limit };
+    console.log(`Sync Genesis records from ${offset} to ${offset + limit}`);
+
+    const genesisRecords = await retry(10, () =>
+      nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_records", [pagination])
+    );
+    await saveGenesis(genesisTime, genesisRecords.records, offset);
+    offset += limit;
+    batchCount = genesisRecords.records.length;
+  } while (batchCount === limit);
+  console.log(
+    "********************************************************************"
+  );
+  console.log(`Genesis Records are all inserted into database`);
+}
+
 exports.syncNewNearcoreState = syncNewNearcoreState;
 exports.syncMissingNearcoreState = syncMissingNearcoreState;
+exports.syncGenesisState = syncGenesisState;

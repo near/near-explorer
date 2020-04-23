@@ -15,7 +15,7 @@ export default (props: Props) => {
     <DataContext.Provider
       value={{
         currentNearNetwork: props.currentNearNetwork,
-        nearNetworks: props.nearNetworks
+        nearNetworks: props.nearNetworks,
       }}
     >
       {props.children}

@@ -15,7 +15,7 @@ export default class extends React.Component<Props> {
   static defaultProps = {
     size: "big",
     border: true,
-    className: ""
+    className: "",
   };
 
   render() {

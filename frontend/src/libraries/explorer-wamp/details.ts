@@ -13,7 +13,7 @@ export default class DetailsApi extends ExplorerApi {
   async getDetails(): Promise<Details | undefined> {
     try {
       const blockTimestamp = await this.call("select", [
-        `SELECT timestamp FROM blocks WHERE timestamp > ((strftime('%s','now') - 30) * 1000 ) ORDER BY timestamp DESC LIMIT 1`
+        `SELECT timestamp FROM blocks WHERE timestamp > ((strftime('%s','now') - 30) * 1000 ) ORDER BY timestamp DESC LIMIT 1`,
       ]).then((it: any) => (it.length > 0 ? it[0].timestamp : null));
       const [detail, tps] = await Promise.all([
         this.call("select", [
@@ -33,7 +33,7 @@ export default class DetailsApi extends ExplorerApi {
           (SELECT COUNT(*) as accountsCount FROM accounts) as total_accounts,
           (SELECT COUNT(*) as lastDayTxCount FROM transactions
               WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000  ) as Daytransactions
-          `
+          `,
         ]).then((it: any) => it[0]),
         blockTimestamp !== null
           ? this.call("select", [
@@ -42,15 +42,15 @@ export default class DetailsApi extends ExplorerApi {
             WHERE block_timestamp > (:blockTimestamp - 10 * 1000) AND block_timestamp <= :blockTimestamp 
           `,
               {
-                blockTimestamp
-              }
+                blockTimestamp,
+              },
             ]).then((it: any) => Math.ceil(it[0].transactionsPer10Second / 10))
-          : undefined
+          : undefined,
       ]);
       return detail !== undefined
         ? ({
             ...detail,
-            transactionsPerSecond: tps
+            transactionsPerSecond: tps,
           } as Details)
         : undefined;
     } catch (error) {

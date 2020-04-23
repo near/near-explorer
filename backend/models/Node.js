@@ -5,70 +5,70 @@ module.exports = (sequelize, DataTypes) => {
     {
       ipAddress: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       moniker: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       accountId: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       nodeId: {
         type: DataTypes.STRING, // base58
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       lastSeen: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       lastHeight: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       agentName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       agentVersion: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       agentBuild: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       peerCount: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       isValidator: {
         type: DataTypes.BOOLEAN,
-        allowNull: false
+        allowNull: false,
       },
       lastHash: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       signature: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       status: {
         type: DataTypes.STRING,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       tableName: "nodes",
       underscored: true,
       timestamps: false,
-      indexes: [{ fields: ["last_seen"] }, { fields: ["is_validator"] }]
+      indexes: [{ fields: ["last_seen"] }, { fields: ["is_validator"] }],
     }
   );
-  Node.associate = function(models) {
+  Node.associate = function (models) {
     // associations can be defined here
   };
   return Node;

@@ -22,41 +22,6 @@ export default class extends React.Component {
     }
   }
 
-  state = {
-    createdAtBlockTimestamp: null,
-    createdByTransactionHash: null
-  };
-
-  _updateBasicAccountInfo = () => {
-    return new AccountsApi()
-      .getAccountBasic(this.props.id)
-      .then(basic => {
-        if (basic) {
-          this.setState({
-            createdAtBlockTimestamp: basic.createdAtBlockTimestamp,
-            createdByTransactionHash: basic.createdByTransactionHash
-          });
-        }
-      })
-      .catch(err => {
-        this.setState({
-          createdAtBlockTimestamp: null,
-          createdByTransactionHash: null
-        });
-        console.error(err);
-      });
-  };
-
-  componentDidMount() {
-    this._updateBasicAccountInfo();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.id != prevProps.id) {
-      this._updateBasicAccountInfo();
-    }
-  }
-
   render() {
     return (
       <>
@@ -67,7 +32,7 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={{ ...this.props, ...this.state }} />
+            <AccountDetails account={{ ...this.props }} />
           )}
         </Content>
         {this.props.err ? (

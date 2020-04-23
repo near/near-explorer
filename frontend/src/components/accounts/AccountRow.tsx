@@ -10,7 +10,7 @@ import Balance from "../utils/Balance";
 
 export interface Props {
   accountId: string;
-  createdAt?: number;
+  createdAt: number;
 }
 
 export interface State {
@@ -19,16 +19,18 @@ export interface State {
 
 export default class extends React.Component<Props, State> {
   state: State = {
-    amount: ""
+    amount: "",
   };
 
   _getDetail = async () => {
     const detail = await new AccountsApi().queryAccount(this.props.accountId);
     this.setState({ amount: detail.amount });
   };
+
   componentDidMount() {
     this._getDetail();
   }
+
   render() {
     const { accountId, createdAt } = this.props;
     const { amount } = this.state;

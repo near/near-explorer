@@ -15,7 +15,7 @@ interface Props extends OuterProps {
 export default class extends React.Component<Props> {
   static defaultProps = {
     count: 15,
-    role: "validators"
+    role: "validators",
   };
 
   fetchNodes = async (count: number, endTimestamp?: number) => {
@@ -25,7 +25,7 @@ export default class extends React.Component<Props> {
   config = {
     fetchDataFn: this.fetchNodes,
     count: this.props.count,
-    category: "Node"
+    category: "Node",
   };
 
   autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
@@ -44,7 +44,8 @@ class Nodes extends React.Component<InnerProps> {
     const { items } = this.props;
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
-        {items && items.map(node => <NodeRow key={node.nodeId} node={node} />)}
+        {items &&
+          items.map((node) => <NodeRow key={node.nodeId} node={node} />)}
       </FlipMove>
     );
   }

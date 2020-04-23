@@ -10,7 +10,7 @@ import { OuterProps } from "../accounts/Accounts";
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15
+    count: 15,
   };
 
   fetchBlocks = async (count: number, endTimestamp?: number) => {
@@ -20,7 +20,7 @@ export default class extends React.Component<OuterProps> {
   config = {
     fetchDataFn: this.fetchBlocks,
     count: this.props.count,
-    category: "Block"
+    category: "Block",
   };
 
   autoRefreshBlocks = autoRefreshHandler(Blocks, this.config);
@@ -40,7 +40,7 @@ class Blocks extends React.Component<InnerProps> {
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         {items &&
-          items.map(block => <BlocksRow key={block.hash} block={block} />)}
+          items.map((block) => <BlocksRow key={block.hash} block={block} />)}
       </FlipMove>
     );
   }

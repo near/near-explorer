@@ -6,29 +6,29 @@ module.exports = (sequelize, DataTypes) => {
       transactionHash: {
         type: DataTypes.STRING, // base58
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       actionIndex: {
         type: DataTypes.BIGINT,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       actionType: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       actionArgs: {
         type: DataTypes.JSON,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       tableName: "actions",
       underscored: true,
-      timestamps: false
+      timestamps: false,
     }
   );
-  Action.associate = function(models) {
+  Action.associate = function (models) {
     // associations can be defined here
   };
   return Action;

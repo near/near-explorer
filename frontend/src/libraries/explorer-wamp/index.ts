@@ -37,7 +37,7 @@ export class ExplorerApi {
         realm: "near-explorer",
         retry_if_unreachable: true,
         max_retries: Number.MAX_SAFE_INTEGER,
-        max_retry_delay: 10
+        max_retry_delay: 10,
       });
     }
 
@@ -81,17 +81,18 @@ export class ExplorerApi {
           // Establish new session
           ExplorerApi.awaitingOnSession.push({ resolve, reject });
 
-          ExplorerApi.wamp.onopen = session => {
-            Object.entries(ExplorerApi.subscriptions).forEach(
-              ([topic, [handler, options]]) =>
-                session.subscribe(topic, handler, options)
+          ExplorerApi.wamp.onopen = (session) => {
+            Object.entries(
+              ExplorerApi.subscriptions
+            ).forEach(([topic, [handler, options]]) =>
+              session.subscribe(topic, handler, options)
             );
             while (ExplorerApi.awaitingOnSession.length > 0) {
               ExplorerApi.awaitingOnSession.pop()!.resolve(session);
             }
           };
 
-          ExplorerApi.wamp.onclose = reason => {
+          ExplorerApi.wamp.onclose = (reason) => {
             while (ExplorerApi.awaitingOnSession.length > 0) {
               ExplorerApi.awaitingOnSession.pop()!.reject(reason);
             }
