@@ -52,7 +52,7 @@ export default class extends React.Component<State> {
             <a className="node-link">
               <Col className="node-selector align-self-center">
                 <img
-                  src={"/static/images/icon-m-block.svg"}
+                  src={"/static/images/icon-m-node-online.svg"}
                   style={{
                     width: "12px",
                     marginRight: "10px",
@@ -68,7 +68,7 @@ export default class extends React.Component<State> {
             <a className="node-link">
               <Col className="node-selector align-self-center">
                 <img
-                  src={"/static/images/icon-m-block.svg"}
+                  src={"/static/images/icon-m-node-online.svg"}
                   style={{
                     width: "12px",
                     marginRight: "10px",
