@@ -27,9 +27,7 @@ export default class extends React.Component<Props> {
                 <>
                   {"Ⓝ Balance"}
                   <TermHelperButton title={"Balance"}>
-                    {
-                      "Total NEAR token balance. This includes the 'Locked' balance. "
-                    }
+                    {"NEAR token that is spendable all the time. "}
                     <a
                       href={
                         "https://docs.nearprotocol.com/docs/concepts/account"
