@@ -24,9 +24,15 @@ export default class extends React.Component {
             background-color: rgba(0, 0, 0, 0.5);
           }
 
+          .close {
+            width: 20px;
+            margin-left: 20px;
+            cursor: pointer;
+          }
+
           .Modal {
             position: fixed;
-            left: 35%;
+            left: calc((100% - 340px) / 2);
             top: 35%;
             z-index: 50;
             text-align: left;
@@ -38,12 +44,6 @@ export default class extends React.Component {
               1px 3px 15px 2px rgba(0, 0, 0, 0.2);
             padding: 25px;
             box-sizing: border-box;
-          }
-
-          .close {
-            width: 20px;
-            margin-left: 20px;
-            cursor: pointer;
           }
         `}</style>
       </>
