@@ -23,6 +23,11 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Ⓝ Balance
+              <img
+                className="jsx-4084825904 info"
+                onClick={[Function]}
+                src="/static/images/icon-info.svg"
+              />
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -57,6 +62,11 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Ⓝ Locked
+              <img
+                className="jsx-4084825904 info"
+                onClick={[Function]}
+                src="/static/images/icon-info.svg"
+              />
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -91,10 +101,15 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3005147464 card-cell-title-img"
+                className="jsx-4084825904 card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
+              <img
+                className="jsx-4084825904 info"
+                onClick={[Function]}
+                src="/static/images/icon-info.svg"
+              />
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -133,10 +148,15 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3005147464 card-cell-title-img"
+                className="jsx-4084825904 card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
+              <img
+                className="jsx-4084825904 info"
+                onClick={[Function]}
+                src="/static/images/icon-info.svg"
+              />
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -167,6 +187,11 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Created
+              <img
+                className="jsx-4084825904 info"
+                onClick={[Function]}
+                src="/static/images/icon-info.svg"
+              />
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -193,6 +218,11 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Creation Hash
+              <img
+                className="jsx-4084825904 info"
+                onClick={[Function]}
+                src="/static/images/icon-info.svg"
+              />
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"

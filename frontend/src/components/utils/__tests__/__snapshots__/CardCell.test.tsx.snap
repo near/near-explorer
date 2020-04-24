@@ -14,6 +14,11 @@ exports[`<CardCell /> renders 1`] = `
         className="card-cell-title align-self-center col-md-12 col-auto"
       >
         title
+        <img
+          className="jsx-4084825904 info"
+          onClick={[Function]}
+          src="/static/images/icon-info.svg"
+        />
       </div>
       <div
         className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
