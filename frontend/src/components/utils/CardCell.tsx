@@ -120,13 +120,25 @@ export default class extends React.Component<Props, State> {
           }
 
           .card-cell a:hover {
-            color: #6ad1e3;
+            color: #4fa2b0;
           }
 
           .info {
+            display: none;
+            vertical-align: text-bottom;
             margin-left: 5px;
             width: 18px;
             cursor: pointer;
+          }
+
+          .card-cell:hover .info {
+            display: inline-block;
+          }
+
+          @media (max-width: 800px) {
+            .info {
+              display: inline-block;
+            }
           }
         `}</style>
       </Card>
