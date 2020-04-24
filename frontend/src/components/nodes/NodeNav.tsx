@@ -49,8 +49,8 @@ export default class extends React.Component<State> {
       <>
         <Row>
           <Link href="/nodes/[role]" as={`/nodes/validators`}>
-            <a>
-              <Col className="node-selector pagination-total align-self-center">
+            <a className="node-link">
+              <Col className="node-selector align-self-center">
                 <img
                   src={"/static/images/icon-m-block.svg"}
                   style={{
@@ -65,8 +65,8 @@ export default class extends React.Component<State> {
             </a>
           </Link>
           <Link href="/nodes/[role]" as={`/nodes/non-validators`}>
-            <a>
-              <Col className="node-selector pagination-total align-self-center">
+            <a className="node-link">
+              <Col className="node-selector align-self-center">
                 <img
                   src={"/static/images/icon-m-block.svg"}
                   style={{
@@ -82,7 +82,7 @@ export default class extends React.Component<State> {
           </Link>
         </Row>
         <style jsx global>{`
-          .pagination-total {
+          .node-selector {
             font-size: 12px;
             font-weight: 500;
             letter-spacing: 1.38px;
@@ -92,7 +92,7 @@ export default class extends React.Component<State> {
             text-decoration: none;
           }
 
-          a {
+          .node-link {
             text-align: center;
             background: #fff;
             border: 2px solid #e6e6e6;
@@ -101,8 +101,8 @@ export default class extends React.Component<State> {
             margin-left: 15px;
           }
 
-          a:active,
-          a:focus {
+          .node-link:active,
+          .node-link:focus {
             border: 2px solid #0066ff;
           }
         `}</style>
