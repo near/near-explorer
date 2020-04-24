@@ -7,6 +7,7 @@ import { Row, Col } from "react-bootstrap";
 import ContractsApi from "../../libraries/explorer-wamp/contracts";
 
 import CardCell from "../utils/CardCell";
+import TermHelperButton from "../utils/TermHelperButton";
 import TransactionLink from "../utils/TransactionLink";
 
 interface Props {
@@ -75,52 +76,80 @@ export default class extends React.Component<Props, State> {
           <Row noGutters className="border-0">
             <Col md="4">
               <CardCell
-                title="Last Updated"
+                title={
+                  <>
+                    {"Last Updated"}
+                    <TermHelperButton title={"Last Updated"}>
+                      {"Latest time the contract deployed. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/roles/developer/quickstart"
+                        }
+                      >
+                        docs
+                      </a>
+                    </TermHelperButton>
+                  </>
+                }
                 text={
                   timestamp
                     ? moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")
                     : ""
                 }
                 className="block-card-created-text border-0"
-                href={
-                  "https://docs.nearprotocol.com/docs/roles/developer/quickstart"
-                }
-                termDescription={"Latest time the contract deployed."}
               />
             </Col>
             <Col md="8">
               <CardCell
-                title="Transaction Hash"
+                title={
+                  <>
+                    {"Transaction Hash"}
+                    <TermHelperButton title={"Transaction Hash"}>
+                      {
+                        "The transaction unique identifier (hash) that the contract is latest deployed. "
+                      }
+                    </TermHelperButton>
+                  </>
+                }
                 text={
                   <TransactionLink transactionHash={transactionHash}>
                     {transactionHash}
                   </TransactionLink>
                 }
                 className="block-card-created border-0"
-                termDescription={
-                  "The transaction unique identifier (hash) that the contract is latest deployed."
-                }
               />
             </Col>
           </Row>
           <Row noGutters className="border-0">
             <Col md="4">
               <CardCell
-                title="Locked?"
+                title={
+                  <>
+                    {"Locked?"}
+                    <TermHelperButton title={"Locked?"}>
+                      {`Locked contract means that there are no access keys allowing the contract code to be re-deployed 
+                (e.g. even a single FullAccess permission access key casts the locked status to "No"). `}
+                    </TermHelperButton>
+                  </>
+                }
                 text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
-                termDescription={`Locked contract means that there are no access keys allowing the contract code to be re-deployed 
-                (e.g. even a single FullAccess permission access key casts the locked status to "No.")`}
               />
             </Col>
             <Col md="8">
               <CardCell
-                title="Code Hash"
+                title={
+                  <>
+                    {"Code Hash"}
+                    <TermHelperButton title={"Code Hash"}>
+                      {
+                        "Checksum (SHA-256 in base58 encoding) of the contract binary. "
+                      }
+                    </TermHelperButton>
+                  </>
+                }
                 text={codeHash ? codeHash : ""}
                 className="block-card-created account-card-back border-0"
-                termDescription={
-                  "Checksum (SHA-256 in base58 encoding) of the contract binary."
-                }
               />
             </Col>
           </Row>

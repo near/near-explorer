@@ -9,6 +9,7 @@ import * as A from "../../libraries/explorer-wamp/accounts";
 import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
 import TransactionLink from "../utils/TransactionLink";
+import TermHelperButton from "../utils/TermHelperButton";
 
 export interface Props {
   account: A.Account;
@@ -22,28 +23,66 @@ export default class extends React.Component<Props> {
         <Row noGutters>
           <Col md="3">
             <CardCell
-              title="Ⓝ Balance"
+              title={
+                <>
+                  {"Ⓝ Balance"}
+                  <TermHelperButton title={"Balance"}>
+                    {
+                      "Total NEAR token balance. This includes the 'Locked' balance. "
+                    }
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/account"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               text={<Balance amount={account.amount} />}
               className="border-0"
-              href={"https://docs.nearprotocol.com/docs/concepts/account"}
-              termDescription={
-                "Total NEAR token balance. This includes the 'Locked' balance."
-              }
             />
           </Col>
           <Col md="3">
             <CardCell
-              title="Ⓝ Locked"
+              title={
+                <>
+                  {"Ⓝ Locked"}
+                  <TermHelperButton title={"Locked"}>
+                    {
+                      "NEAR token balance that is currently staked, and thus not immediately spendable. "
+                    }
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/account"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               text={<Balance amount={account.locked} />}
-              href={"https://docs.nearprotocol.com/docs/concepts/account"}
-              termDescription={
-                "NEAR token balance that is currently staked, and thus not immediately spendable."
-              }
             />
           </Col>
           <Col md="3">
             <CardCell
-              title="Transactions"
+              title={
+                <>
+                  {"Transactions"}
+                  <TermHelperButton title={"Transactions"}>
+                    {"Total transaction sent and received by this account. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/transaction"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               imgLink="/static/images/icon-m-transaction.svg"
               text={
                 <>
@@ -56,38 +95,68 @@ export default class extends React.Component<Props> {
                   </span>
                 </>
               }
-              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
-              termDescription={
-                "Total transaction sent and received by this account."
-              }
             />
           </Col>
           <Col md="3">
             <CardCell
-              title="Storage Used"
+              title={
+                <>
+                  {"Storage Used"}
+                  <TermHelperButton title={"Storage Used"}>
+                    {
+                      "Total blockchain storage (in bytes) used by this account. "
+                    }
+                  </TermHelperButton>
+                </>
+              }
               imgLink="/static/images/icon-storage.svg"
               text={`${account.storageUsage.toLocaleString()} B`}
-              termDescription={
-                "Total blockchain storage (in bytes) used by this account."
-              }
             />
           </Col>
         </Row>
         <Row noGutters className="border-0">
           <Col md="4">
             <CardCell
-              title="Created"
+              title={
+                <>
+                  {"Created"}
+                  <TermHelperButton title={"Created"}>
+                    {"Timestamp of when this account was created. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/account"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               text={moment(account.createdAtBlockTimestamp).format(
                 "MMMM DD, YYYY [at] h:mm:ssa"
               )}
               className="block-card-created account-card-back border-0"
-              href={"https://docs.nearprotocol.com/docs/concepts/account"}
-              termDescription={"Timestamp of when this account was created."}
             />
           </Col>
           <Col md="8">
             <CardCell
-              title="Creation Hash"
+              title={
+                <>
+                  {"Creation Hash"}
+                  <TermHelperButton title={"Creation Hash"}>
+                    {
+                      "Unique identifier (hash) of the transaction that created this account. "
+                    }
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/transaction"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               text={
                 account.createdByTransactionHash !== "Genesis" ? (
                   <TransactionLink
@@ -100,10 +169,6 @@ export default class extends React.Component<Props> {
                 )
               }
               className="block-card-created-text account-card-back border-0"
-              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
-              termDescription={
-                "Unique identifier (hash) of the transaction that created this account."
-              }
             />
           </Col>
         </Row>

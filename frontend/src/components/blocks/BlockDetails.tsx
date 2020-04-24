@@ -6,6 +6,7 @@ import * as B from "../../libraries/explorer-wamp/blocks";
 
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
+import TermHelperButton from "../utils/TermHelperButton";
 
 export interface Props {
   block: B.BlockInfo;
@@ -19,66 +20,116 @@ export default ({ block }: Props) => {
           <Row noGutters className="block-info-header">
             <Col md="4">
               <CardCell
-                title="Transactions"
+                title={
+                  <>
+                    {"Transactions"}
+                    <TermHelperButton title={"Transactions"}>
+                      {"Number of transactions in this block. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </TermHelperButton>
+                  </>
+                }
                 imgLink="/static/images/icon-m-transaction.svg"
                 text={block.transactionsCount.toLocaleString()}
                 className="border-0"
-                href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
-                termDescription={"Number of transactions in this block."}
               />
             </Col>
             <Col md="4">
               <CardCell
-                title="Gas Used"
+                title={
+                  <>
+                    {"Gas Used"}
+                    <TermHelperButton title={"Gas Used"}>
+                      {
+                        "Total units of gas used by transactions in this block. "
+                      }
+                      <a
+                        href={"https://docs.nearprotocol.com/docs/concepts/gas"}
+                      >
+                        docs
+                      </a>
+                    </TermHelperButton>
+                  </>
+                }
                 imgLink="/static/images/icon-m-size.svg"
                 text={block.gasUsed.toLocaleString()}
-                href={"https://docs.nearprotocol.com/docs/concepts/gas"}
-                termDescription={
-                  "Total units of gas used by transactions in this block."
-                }
               />
             </Col>
             <Col md="4">
               <CardCell
-                title="Gas Price"
+                title={
+                  <>
+                    {"Gas Price"}
+                    <TermHelperButton title={"Gas Price"}>
+                      {"Cost per unit of gas. "}
+                      <a
+                        href={"https://docs.nearprotocol.com/docs/concepts/gas"}
+                      >
+                        docs
+                      </a>
+                    </TermHelperButton>
+                  </>
+                }
                 imgLink="/static/images/icon-m-filter.svg"
                 text={block.gasPrice.toLocaleString()}
-                href={"https://docs.nearprotocol.com/docs/concepts/gas"}
-                termDescription={"Cost per unit of gas."}
               />
             </Col>
           </Row>
           <Row noGutters className="border-0">
             <Col md="4">
               <CardCell
-                title="Created"
+                title={
+                  <>
+                    {"Created"}
+                    <TermHelperButton title={"Created"}>
+                      {"Timestamp of when this block finalized. "}
+                    </TermHelperButton>
+                  </>
+                }
                 text={moment(block.timestamp).format(
                   "MMMM DD, YYYY [at] h:mm:ssa"
                 )}
                 className="block-card-created border-0"
-                termDescription={"Timestamp of when this block finalized."}
               />
             </Col>
             <Col md="8">
               <CardCell
-                title="Hash"
+                title={
+                  <>
+                    {"Hash"}
+                    <TermHelperButton title={"Hash"}>
+                      {"Unique identifier (hash) of this block. "}
+                    </TermHelperButton>
+                  </>
+                }
                 text={block.hash}
                 className="border-0"
-                termDescription={"Unique identifier (hash) of this block."}
               />
             </Col>
           </Row>
           <Row noGutters>
             <Col md="12">
               <CardCell
-                title="Parent Hash"
+                title={
+                  <>
+                    {"Parent Hash"}
+                    <TermHelperButton title={"Parent Hash"}>
+                      {"Unique identifier (hash) of previous block. "}
+                    </TermHelperButton>
+                  </>
+                }
                 text={
                   <BlockLink blockHash={block.prevHash}>
                     {block.prevHash}
                   </BlockLink>
                 }
                 className="block-card-parent-hash border-0"
-                termDescription={"Unique identifier (hash) of previous block."}
               />
             </Col>
           </Row>

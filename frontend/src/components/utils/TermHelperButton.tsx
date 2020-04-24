@@ -47,7 +47,7 @@ export default class extends React.Component<Props, State> {
             display: none;
             vertical-align: text-bottom;
             margin-left: 5px;
-            width: 14px;
+            width: 16px;
             cursor: pointer;
           }
 
