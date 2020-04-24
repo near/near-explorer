@@ -43,13 +43,38 @@ export default class extends React.Component<State> {
       .then((nodeStats) => this.setState({ nodeStats }));
   };
 
+  changeValidatorNodeBorder = () => {
+    const validatorDiv = document.getElementById("validator-node");
+    if (validatorDiv) {
+      validatorDiv.style.border = "2px solid #0066ff";
+    }
+    const nonValidatorDiv = document.getElementById("non-validator-node");
+    if (nonValidatorDiv) {
+      nonValidatorDiv.style.border = "2px solid #e6e6e6";
+    }
+  };
+
+  changeNonValidatorNodeBorder = () => {
+    const validatorDiv = document.getElementById("validator-node");
+    if (validatorDiv) {
+      validatorDiv.style.border = "2px solid #e6e6e6";
+    }
+    const nonValidatorDiv = document.getElementById("non-validator-node");
+    if (nonValidatorDiv) {
+      nonValidatorDiv.style.border = "2px solid #0066ff";
+    }
+  };
   render() {
     const { nodeStats } = this.state;
     return (
       <>
         <Row>
           <Link href="/nodes/[role]" as={`/nodes/validators`}>
-            <a className="node-link">
+            <a
+              className="node-link"
+              id="validator-node"
+              onClick={this.changeValidatorNodeBorder}
+            >
               <Col className="node-selector align-self-center">
                 <img
                   src={"/static/images/icon-m-node-online.svg"}
@@ -65,7 +90,11 @@ export default class extends React.Component<State> {
             </a>
           </Link>
           <Link href="/nodes/[role]" as={`/nodes/non-validators`}>
-            <a className="node-link">
+            <a
+              className="node-link"
+              id="non-validator-node"
+              onClick={this.changeNonValidatorNodeBorder}
+            >
               <Col className="node-selector align-self-center">
                 <img
                   src={"/static/images/icon-m-node-online.svg"}
@@ -99,11 +128,6 @@ export default class extends React.Component<State> {
             box-sizing: border-box;
             border-radius: 25px;
             margin-left: 15px;
-          }
-
-          .node-link:active,
-          .node-link:focus {
-            border: 2px solid #0066ff;
           }
         `}</style>
       </>
