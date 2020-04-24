@@ -104,21 +104,24 @@ export default class DashboardHeader extends React.Component<State> {
       <div className="dashboard-info-container">
         <Row noGutters>
           <Col xs="12" md="3">
-            <Link href="/nodes/[role]" as={`/nodes/validators`}>
-              <a>
-                <CardCell
-                  title="Nodes Online"
-                  imgLink="/static/images/icon-m-node-online.svg"
-                  text={
-                    details
-                      ? `${details.validatorsCount.toLocaleString()}/${details.onlineNodesCount.toLocaleString()}`
-                      : ""
-                  }
-                  className="border-0"
-                  loading={loading}
-                />
-              </a>
-            </Link>
+            <CardCell
+              title="Nodes Online"
+              imgLink="/static/images/icon-m-node-online.svg"
+              text={
+                details ? (
+                  <Link href="/nodes/[role]" as={`/nodes/validators`}>
+                    <a style={{ textDecoration: "none", color: "#24272a" }}>
+                      {details.validatorsCount.toLocaleString()}/
+                      {details.onlineNodesCount.toLocaleString()}
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )
+              }
+              className="border-0"
+              loading={loading}
+            />
           </Col>
           <Col xs="12" md="3">
             <CardCell
@@ -151,16 +154,22 @@ export default class DashboardHeader extends React.Component<State> {
             />
           </Col>
           <Col xs="12" md="2">
-            <Link href="accounts">
-              <a>
-                <CardCell
-                  title="Accounts"
-                  imgLink="/static/images/icon-m-user.svg"
-                  text={details ? details.accountsCount.toLocaleString() : ""}
-                  loading={loading}
-                />
-              </a>
-            </Link>
+            <CardCell
+              title="Accounts"
+              imgLink="/static/images/icon-m-user.svg"
+              text={
+                details ? (
+                  <Link href="accounts">
+                    <a style={{ textDecoration: "none", color: "#24272a" }}>
+                      {details.accountsCount.toLocaleString()}
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )
+              }
+              loading={loading}
+            />
           </Col>
         </Row>
         <form onSubmit={this.handleSearch}>
