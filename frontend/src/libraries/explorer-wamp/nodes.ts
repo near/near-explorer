@@ -72,9 +72,9 @@ export default class NodesApi extends ExplorerApi {
             nonValidators.nonValidatorsCount
           FROM
           (SELECT COUNT(*) as validatorsCount FROM nodes
-              WHERE is_validator = 1) as validators,
+              WHERE is_validator = 1 AND last_seen > (strftime('%s','now') - 60) * 1000) as validators,
           (SELECT COUNT(*) as nonValidatorsCount FROM nodes
-              WHERE is_validator = 0) as nonValidators
+              WHERE is_validator = 0 AND last_seen > (strftime('%s','now') - 60) * 1000) as nonValidators
           `,
       ]).then((it: any) => it[0]);
       return { ...nodeStats } as NodeStats;
