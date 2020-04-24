@@ -23,6 +23,8 @@ export default ({ block }: Props) => {
                 imgLink="/static/images/icon-m-transaction.svg"
                 text={block.transactionsCount.toLocaleString()}
                 className="border-0"
+                href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
+                termDescription={"Number of transactions in this block."}
               />
             </Col>
             <Col md="4">
@@ -30,6 +32,10 @@ export default ({ block }: Props) => {
                 title="Gas Used"
                 imgLink="/static/images/icon-m-size.svg"
                 text={block.gasUsed.toLocaleString()}
+                href={"https://docs.nearprotocol.com/docs/concepts/gas"}
+                termDescription={
+                  "Total units of gas used by transactions in this block."
+                }
               />
             </Col>
             <Col md="4">
@@ -37,6 +43,8 @@ export default ({ block }: Props) => {
                 title="Gas Price"
                 imgLink="/static/images/icon-m-filter.svg"
                 text={block.gasPrice.toLocaleString()}
+                href={"https://docs.nearprotocol.com/docs/concepts/gas"}
+                termDescription={"Cost per unit of gas."}
               />
             </Col>
           </Row>
@@ -48,10 +56,16 @@ export default ({ block }: Props) => {
                   "MMMM DD, YYYY [at] h:mm:ssa"
                 )}
                 className="block-card-created border-0"
+                termDescription={"Timestamp of when this block finalized."}
               />
             </Col>
             <Col md="8">
-              <CardCell title="Hash" text={block.hash} className="border-0" />
+              <CardCell
+                title="Hash"
+                text={block.hash}
+                className="border-0"
+                termDescription={"Unique identifier (hash) of this block."}
+              />
             </Col>
           </Row>
           <Row noGutters>
@@ -64,6 +78,7 @@ export default ({ block }: Props) => {
                   </BlockLink>
                 }
                 className="block-card-parent-hash border-0"
+                termDescription={"Unique identifier (hash) of previous block."}
               />
             </Col>
           </Row>

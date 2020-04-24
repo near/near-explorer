@@ -26,7 +26,7 @@ export default class extends React.Component<Props, State> {
   collectContractInfo = async () => {
     new ContractsApi()
       .getContractInfo(this.props.accountId)
-      .then(contractInfo => {
+      .then((contractInfo) => {
         if (contractInfo) {
           this.setState({
             codeHash: contractInfo.codeHash,
@@ -35,12 +35,12 @@ export default class extends React.Component<Props, State> {
             locked: contractInfo.accessKeys.every(
               (key: any) =>
                 key["access_key"]["permission"]["FunctionCall"] !== undefined
-            )
+            ),
           });
         }
         return;
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   componentDidMount() {
@@ -82,6 +82,10 @@ export default class extends React.Component<Props, State> {
                     : ""
                 }
                 className="block-card-created-text border-0"
+                href={
+                  "https://docs.nearprotocol.com/docs/roles/developer/quickstart"
+                }
+                termDescription={"Latest time the contract deployed."}
               />
             </Col>
             <Col md="8">
@@ -93,6 +97,9 @@ export default class extends React.Component<Props, State> {
                   </TransactionLink>
                 }
                 className="block-card-created border-0"
+                termDescription={
+                  "The transaction unique identifier (hash) that the contract is latest deployed."
+                }
               />
             </Col>
           </Row>
@@ -102,6 +109,8 @@ export default class extends React.Component<Props, State> {
                 title="Locked?"
                 text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
+                termDescription={`Locked contract means that there are no access keys allowing the contract code to be re-deployed 
+                (e.g. even a single FullAccess permission access key casts the locked status to "No.")`}
               />
             </Col>
             <Col md="8">
@@ -109,6 +118,9 @@ export default class extends React.Component<Props, State> {
                 title="Code Hash"
                 text={codeHash ? codeHash : ""}
                 className="block-card-created account-card-back border-0"
+                termDescription={
+                  "Checksum (SHA-256 in base58 encoding) of the contract binary."
+                }
               />
             </Col>
           </Row>

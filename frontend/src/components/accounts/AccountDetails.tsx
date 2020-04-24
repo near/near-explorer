@@ -25,12 +25,20 @@ export default class extends React.Component<Props> {
               title="Ⓝ Balance"
               text={<Balance amount={account.amount} />}
               className="border-0"
+              href={"https://docs.nearprotocol.com/docs/concepts/account"}
+              termDescription={
+                "Total NEAR token balance. This includes the 'Locked' balance."
+              }
             />
           </Col>
           <Col md="3">
             <CardCell
               title="Ⓝ Locked"
               text={<Balance amount={account.locked} />}
+              href={"https://docs.nearprotocol.com/docs/concepts/account"}
+              termDescription={
+                "NEAR token balance that is currently staked, and thus not immediately spendable."
+              }
             />
           </Col>
           <Col md="3">
@@ -48,6 +56,10 @@ export default class extends React.Component<Props> {
                   </span>
                 </>
               }
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
+              termDescription={
+                "Total transaction sent and received by this account."
+              }
             />
           </Col>
           <Col md="3">
@@ -55,6 +67,9 @@ export default class extends React.Component<Props> {
               title="Storage Used"
               imgLink="/static/images/icon-storage.svg"
               text={`${account.storageUsage.toLocaleString()} B`}
+              termDescription={
+                "Total blockchain storage (in bytes) used by this account."
+              }
             />
           </Col>
         </Row>
@@ -66,6 +81,8 @@ export default class extends React.Component<Props> {
                 "MMMM DD, YYYY [at] h:mm:ssa"
               )}
               className="block-card-created account-card-back border-0"
+              href={"https://docs.nearprotocol.com/docs/concepts/account"}
+              termDescription={"Timestamp of when this account was created."}
             />
           </Col>
           <Col md="8">
@@ -83,6 +100,10 @@ export default class extends React.Component<Props> {
                 )
               }
               className="block-card-created-text account-card-back border-0"
+              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
+              termDescription={
+                "Unique identifier (hash) of the transaction that created this account."
+              }
             />
           </Col>
         </Row>
