@@ -15,7 +15,7 @@ exports[`<CardCell /> renders 1`] = `
       >
         title
         <img
-          className="jsx-4084825904 info"
+          className="jsx-4009144719 info"
           onClick={[Function]}
           src="/static/images/icon-info.svg"
         />

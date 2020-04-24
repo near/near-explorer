@@ -24,7 +24,7 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Ⓝ Balance
               <img
-                className="jsx-4084825904 info"
+                className="jsx-4009144719 info"
                 onClick={[Function]}
                 src="/static/images/icon-info.svg"
               />
@@ -63,7 +63,7 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Ⓝ Locked
               <img
-                className="jsx-4084825904 info"
+                className="jsx-4009144719 info"
                 onClick={[Function]}
                 src="/static/images/icon-info.svg"
               />
@@ -101,12 +101,12 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4084825904 card-cell-title-img"
+                className="jsx-4009144719 card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
               <img
-                className="jsx-4084825904 info"
+                className="jsx-4009144719 info"
                 onClick={[Function]}
                 src="/static/images/icon-info.svg"
               />
@@ -148,12 +148,12 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4084825904 card-cell-title-img"
+                className="jsx-4009144719 card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
               <img
-                className="jsx-4084825904 info"
+                className="jsx-4009144719 info"
                 onClick={[Function]}
                 src="/static/images/icon-info.svg"
               />
@@ -188,7 +188,7 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Created
               <img
-                className="jsx-4084825904 info"
+                className="jsx-4009144719 info"
                 onClick={[Function]}
                 src="/static/images/icon-info.svg"
               />
@@ -219,7 +219,7 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Creation Hash
               <img
-                className="jsx-4084825904 info"
+                className="jsx-4009144719 info"
                 onClick={[Function]}
                 src="/static/images/icon-info.svg"
               />
