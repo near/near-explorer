@@ -20,7 +20,7 @@ describe("<NodeRow />", () => {
             agentVersion: null,
             agentBuild: null,
             peerCount: null,
-            isValidator: null
+            isValidator: null,
           }}
         />
       )

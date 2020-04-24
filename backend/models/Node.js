@@ -5,65 +5,65 @@ module.exports = (sequelize, DataTypes) => {
     {
       ipAddress: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       moniker: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       accountId: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       nodeId: {
         type: DataTypes.STRING, // base58
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
       },
       lastSeen: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       lastHeight: {
         type: DataTypes.BIGINT,
-        allowNull: false
+        allowNull: false,
       },
       agentName: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
       agentVersion: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
       agentBuild: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
       peerCount: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
       isValidator: {
         type: DataTypes.BOOLEAN,
-        allowNull: true
+        allowNull: true,
       },
       lastHash: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
       },
       signature: {
         type: DataTypes.STRING,
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       tableName: "nodes",
       underscored: true,
-      timestamps: false
+      timestamps: false,
     }
   );
-  Node.associate = function(models) {
+  Node.associate = function (models) {
     // associations can be defined here
   };
   return Node;

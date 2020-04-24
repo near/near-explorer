@@ -15,7 +15,7 @@ export interface OuterProps {
 
 export default class extends React.Component<OuterProps> {
   static defaultProps = {
-    count: 15
+    count: 15,
   };
 
   fetchTransactions = async (count: number, endTimestamp?: number) => {
@@ -24,14 +24,14 @@ export default class extends React.Component<OuterProps> {
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
       limit: count,
-      endTimestamp: endTimestamp
+      endTimestamp: endTimestamp,
     });
   };
 
   config = {
     fetchDataFn: this.fetchTransactions,
     count: this.props.count,
-    category: "Transaction"
+    category: "Transaction",
   };
 
   autoRefreshTransactions = autoRefreshHandler(Transactions, this.config);
@@ -51,7 +51,7 @@ class Transactions extends React.Component<InnerProps> {
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         {items &&
-          items.map(transaction => (
+          items.map((transaction) => (
             <TransactionAction
               key={transaction.hash}
               actions={transaction.actions}
