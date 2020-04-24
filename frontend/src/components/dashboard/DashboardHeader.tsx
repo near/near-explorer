@@ -9,6 +9,7 @@ import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import DetailsApi, * as D from "../../libraries/explorer-wamp/details";
 
 import CardCell from "../utils/CardCell";
+import TermHelperButton from "../utils/TermHelperButton";
 
 interface State {
   details?: D.Details;
@@ -112,7 +113,23 @@ export default class extends React.Component<State> {
         <Row noGutters>
           <Col xs="12" md="3">
             <CardCell
-              title={"Nodes Online"}
+              title={
+                <>
+                  {"Nodes Online"}
+                  <TermHelperButton title={"Nodes Online"}>
+                    {
+                      "The number of validating nodes / the total number of online nodes. "
+                    }
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               imgLink="/static/images/icon-m-node-online.svg"
               text={
                 details
@@ -121,28 +138,42 @@ export default class extends React.Component<State> {
               }
               className="border-0"
               loading={loading}
-              termDescription={
-                "The number of validating nodes / the total number of online nodes."
-              }
-              href={
-                "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
-              }
             />
           </Col>
           <Col xs="12" md="3">
             <CardCell
-              title={"Block Height"}
+              title={
+                <>
+                  {"Block Height"}
+                  <TermHelperButton title={"Block Height"}>
+                    {" Most recent block heihgt recorded to the blockchain. "}
+                  </TermHelperButton>
+                </>
+              }
               imgLink="/static/images/icon-m-height.svg"
               text={details ? details.lastBlockHeight.toLocaleString() : ""}
               loading={loading}
-              termDescription={
-                " Most recent block heihgt recorded to the blockchain."
-              }
             />
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title={"Tps"}
+              title={
+                <>
+                  {"Tps"}
+                  <TermHelperButton title={"Tps"}>
+                    {
+                      "Average transactions per second (TPS) in the 10 most recent blocks. "
+                    }
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/transaction"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>{" "}
+                </>
+              }
               imgLink="/static/images/icon-m-tps.svg"
               text={
                 details
@@ -152,30 +183,50 @@ export default class extends React.Component<State> {
                   : ""
               }
               loading={loading}
-              termDescription={
-                "Average transactions per second (TPS) in the 10 most recent blocks."
-              }
-              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title={"Last Day Tx"}
+              title={
+                <>
+                  {"Last Tpd"}
+                  <TermHelperButton title={"Last Tpd"}>
+                    {"Total transactions in the last 24 hours. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/transaction"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               imgLink="/static/images/icon-m-transaction.svg"
               text={details ? details.lastDayTxCount.toLocaleString() : ""}
               loading={loading}
-              termDescription={"Total transactions in the last 24 hours."}
-              href={"https://docs.nearprotocol.com/docs/concepts/transaction"}
             />
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title={"Accounts"}
+              title={
+                <>
+                  {"Accounts"}
+                  <TermHelperButton title={"Accounts"}>
+                    {"Total number of accounts created on this net. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/account"
+                      }
+                    >
+                      docs
+                    </a>
+                  </TermHelperButton>
+                </>
+              }
               imgLink="/static/images/icon-m-user.svg"
               text={details ? details.accountsCount.toLocaleString() : ""}
               loading={loading}
-              termDescription={"Total number of accounts created on this net."}
-              href={"https://docs.nearprotocol.com/docs/concepts/account"}
             />
           </Col>
         </Row>
@@ -207,7 +258,6 @@ export default class extends React.Component<State> {
             </Col>
           </Row>
         </form>
-
         <style jsx global>{`
           .dashboard-info-container {
             border: solid 4px #e6e6e6;

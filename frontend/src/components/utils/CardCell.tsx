@@ -1,16 +1,12 @@
 import { Row, Col, Card, Spinner } from "react-bootstrap";
 import React from "react";
 
-import Modal from "../utils/Modal";
-
 interface Props {
   className?: string;
-  title: string;
+  title: string | React.ReactElement;
   imgLink?: string;
   text: React.ReactElement | string;
   loading?: boolean;
-  termDescription: string;
-  href?: string;
 }
 
 interface State {
@@ -29,15 +25,7 @@ export default class extends React.Component<Props, State> {
   };
 
   render() {
-    const {
-      className,
-      title,
-      imgLink,
-      text,
-      loading,
-      termDescription,
-      href,
-    } = this.props;
+    const { className, title, imgLink, text, loading } = this.props;
     return (
       <Card className={`card-cell ${className || ""}`}>
         <Card.Body>
@@ -49,11 +37,6 @@ export default class extends React.Component<Props, State> {
             >
               {imgLink && <img src={imgLink} className="card-cell-title-img" />}
               {title}
-              <img
-                src="/static/images/icon-info.svg"
-                className="info"
-                onClick={() => this.changeModalHandler(title)}
-              />
             </Col>
             <Col
               xs="auto"
@@ -67,21 +50,6 @@ export default class extends React.Component<Props, State> {
               )}
             </Col>
           </Row>
-          {this.state.modalInfo && (
-            <Modal modalClosed={this.ModalCloseHander}>
-              <h4>{title}</h4>
-              {termDescription}
-              {"  "}
-              {href ? (
-                <>
-                  See more details on{"  "}
-                  <a href={href} target="_blank">
-                    docs
-                  </a>
-                </>
-              ) : null}
-            </Modal>
-          )}
         </Card.Body>
         <style jsx global>{`
           .card-cell {
@@ -111,34 +79,6 @@ export default class extends React.Component<Props, State> {
             font-size: 18px;
             font-weight: 500;
             color: #24272a;
-          }
-
-          .card-cell a {
-            font-weight: 500;
-            color: #6ad1e3;
-            text-decoration: none !important;
-          }
-
-          .card-cell a:hover {
-            color: #4fa2b0;
-          }
-
-          .info {
-            display: none;
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 18px;
-            cursor: pointer;
-          }
-
-          .card-cell:hover .info {
-            display: inline-block;
-          }
-
-          @media (max-width: 800px) {
-            .info {
-              display: inline-block;
-            }
           }
         `}</style>
       </Card>
