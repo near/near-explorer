@@ -9,7 +9,7 @@ interface Props {
   imgLink?: string;
   text: React.ReactElement | string;
   loading?: boolean;
-  termDescription?: string;
+  termDescription: string;
   href?: string;
 }
 
