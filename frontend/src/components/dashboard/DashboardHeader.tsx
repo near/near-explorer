@@ -27,7 +27,7 @@ export default class extends React.Component<State> {
 
   state: State = {
     searchValue: "",
-    loading: true
+    loading: true,
   };
 
   handleSearch = async (event: any) => {
@@ -83,12 +83,12 @@ export default class extends React.Component<State> {
   fetchInfo = async () => {
     new DetailsApi()
       .getDetails()
-      .then(details => {
+      .then((details) => {
         if (details !== undefined) {
           this.setState({ details, loading: false });
         }
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   };
 
   regularFetchInfo = async () => {

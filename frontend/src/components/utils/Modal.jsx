@@ -4,7 +4,7 @@ export default class extends React.Component {
   render() {
     return (
       <>
-        <div className="backdrop" onClick={this.props.modalClosed}></div>
+        <div className="backdrop" onClick={this.props.modalClosed} />
         <div className="Modal">
           <img
             src="/static/images/icon-close.svg"

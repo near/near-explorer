@@ -32,7 +32,7 @@ export default class extends React.Component<Props, State> {
 
   collectDeposit(actions: T.Action[]): BN {
     return actions
-      .map(action => {
+      .map((action) => {
         let actionArgs = action.args as any;
         if (actionArgs.hasOwnProperty("deposit")) {
           return new BN(actionArgs.deposit);
@@ -44,7 +44,7 @@ export default class extends React.Component<Props, State> {
   }
 
   collectGasAttached(actions: T.Action[]): BN | null {
-    const gasAttachedActions = actions.filter(action => {
+    const gasAttachedActions = actions.filter((action) => {
       return action.args.hasOwnProperty("gas");
     });
     if (gasAttachedActions.length === 0) {
@@ -63,7 +63,7 @@ export default class extends React.Component<Props, State> {
       : new BN(0);
     const gasBurntByReceipts = transaction.receiptsOutcome
       ? transaction.receiptsOutcome
-          .map(receipt => new BN(receipt.outcome.gas_burnt))
+          .map((receipt) => new BN(receipt.outcome.gas_burnt))
           .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
       : new BN(0);
     return gasBurntByTx.add(gasBurntByReceipts);
@@ -106,7 +106,7 @@ export default class extends React.Component<Props, State> {
           deposit: undefined,
           gasUsed: undefined,
           gasAttached: undefined,
-          transactionFee: undefined
+          transactionFee: undefined,
         });
       } else {
         this.updateBlock();
