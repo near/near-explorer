@@ -52,12 +52,12 @@ export default class extends React.Component<Props, State> {
           }
 
           .term-helper:hover .info {
-            display: inline-block;
+            display: block;
           }
 
           @media (max-width: 800px) {
             .info {
-              display: inline-block;
+              display: block;
             }
           }
         `}</style>

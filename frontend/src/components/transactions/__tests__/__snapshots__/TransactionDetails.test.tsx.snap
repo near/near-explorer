@@ -23,15 +23,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -65,15 +69,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -107,15 +115,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Value
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -150,15 +162,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -189,15 +205,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -224,15 +244,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Gas Price
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -259,15 +283,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -294,15 +322,19 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -333,11 +365,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Created
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -364,11 +400,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Hash
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -399,11 +439,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Block Hash
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -448,15 +492,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -490,15 +538,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -532,15 +584,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Value
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -575,15 +631,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -614,15 +674,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -649,15 +713,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Gas Price
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -684,15 +752,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -719,15 +791,19 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -758,11 +834,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Created
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -789,11 +869,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Hash
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -824,11 +908,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Block Hash
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -873,15 +961,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -915,15 +1007,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -957,15 +1053,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Value
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1000,15 +1100,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1039,15 +1143,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1074,15 +1182,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Gas Price
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1109,15 +1221,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1144,15 +1260,19 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-4009144719 card-cell-title-img"
+                className="jsx-3437567303 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1183,11 +1303,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Created
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1214,11 +1338,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Hash
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -1249,11 +1377,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               Block Hash
-              <img
-                className="jsx-4009144719 info"
-                onClick={[Function]}
-                src="/static/images/icon-info.svg"
-              />
+              <div
+                className="term-helper row no-gutters"
+              >
+                <img
+                  className="jsx-652848287 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
