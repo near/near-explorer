@@ -5,13 +5,7 @@ import CardCell from "../CardCell";
 describe("<CardCell />", () => {
   it("renders", () => {
     expect(
-      renderer.create(
-        <CardCell
-          title="title"
-          text="text"
-          termDescription="test for term description"
-        />
-      )
+      renderer.create(<CardCell title="title" text="text" />)
     ).toMatchSnapshot();
   });
 });
