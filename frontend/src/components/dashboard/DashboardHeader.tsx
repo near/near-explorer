@@ -9,7 +9,7 @@ import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import DetailsApi, * as D from "../../libraries/explorer-wamp/details";
 
 import CardCell from "../utils/CardCell";
-import TermHelperButton from "../utils/TermHelperButton";
+import Term from "../utils/Term";
 
 interface State {
   details?: D.Details;
@@ -27,7 +27,7 @@ export default class extends React.Component<State> {
 
   state: State = {
     searchValue: "",
-    loading: true,
+    loading: true
   };
 
   handleSearch = async (event: any) => {
@@ -83,12 +83,12 @@ export default class extends React.Component<State> {
   fetchInfo = async () => {
     new DetailsApi()
       .getDetails()
-      .then((details) => {
+      .then(details => {
         if (details !== undefined) {
           this.setState({ details, loading: false });
         }
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   };
 
   regularFetchInfo = async () => {
@@ -114,21 +114,18 @@ export default class extends React.Component<State> {
           <Col xs="12" md="3">
             <CardCell
               title={
-                <>
-                  {"Nodes Online"}
-                  <TermHelperButton title={"Nodes Online"}>
-                    {
-                      "The number of validating nodes / the total number of online nodes. "
+                <Term title={"Nodes Online"}>
+                  {
+                    "The number of validating nodes / the total number of online nodes. "
+                  }
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
                     }
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-node-online.svg"
               text={
@@ -143,12 +140,9 @@ export default class extends React.Component<State> {
           <Col xs="12" md="3">
             <CardCell
               title={
-                <>
-                  {"Block Height"}
-                  <TermHelperButton title={"Block Height"}>
-                    {" Most recent block heihgt recorded to the blockchain. "}
-                  </TermHelperButton>
-                </>
+                <Term title={"Block Height"}>
+                  {" Most recent block heihgt recorded to the blockchain. "}
+                </Term>
               }
               imgLink="/static/images/icon-m-height.svg"
               text={details ? details.lastBlockHeight.toLocaleString() : ""}
@@ -158,21 +152,18 @@ export default class extends React.Component<State> {
           <Col xs="12" md="2">
             <CardCell
               title={
-                <>
-                  {"Tps"}
-                  <TermHelperButton title={"Tps"}>
-                    {
-                      "Average transactions per second (TPS) in the 10 most recent blocks. "
+                <Term title={"TPS"}>
+                  {
+                    "Average transactions per second (TPS) during the last 10 seconds. "
+                  }
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
                     }
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>{" "}
-                </>
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-tps.svg"
               text={
@@ -188,19 +179,16 @@ export default class extends React.Component<State> {
           <Col xs="12" md="2">
             <CardCell
               title={
-                <>
-                  {"Last Tpd"}
-                  <TermHelperButton title={"Last Tpd"}>
-                    {"Total transactions in the last 24 hours. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"TPD"}>
+                  {"Total transactions in the last 24 hours. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-transaction.svg"
               text={details ? details.lastDayTxCount.toLocaleString() : ""}
@@ -210,19 +198,14 @@ export default class extends React.Component<State> {
           <Col xs="12" md="2">
             <CardCell
               title={
-                <>
-                  {"Accounts"}
-                  <TermHelperButton title={"Accounts"}>
-                    {"Total number of accounts created on this net. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/account"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Accounts"}>
+                  {"Total number of accounts created on this net. "}
+                  <a
+                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-user.svg"
               text={details ? details.accountsCount.toLocaleString() : ""}

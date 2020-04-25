@@ -59,6 +59,17 @@ export default ({ title, imgLink, text, className, loading }: Props) => (
       .card-cell a:hover {
         color: #6ad1e3;
       }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
     `}</style>
   </Card>
 );

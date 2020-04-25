@@ -23,15 +23,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -69,15 +69,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -115,15 +115,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Value
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -162,15 +162,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -205,15 +205,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -244,15 +244,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Gas Price
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -283,15 +283,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -322,15 +322,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -366,10 +366,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               Created
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -401,10 +401,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               Hash
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -440,10 +440,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               Block Hash
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -492,15 +492,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -538,15 +538,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -584,15 +584,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Value
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -631,15 +631,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -674,15 +674,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -713,15 +713,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Gas Price
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -752,15 +752,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -791,15 +791,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -835,10 +835,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               Created
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -870,10 +870,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               Hash
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -909,10 +909,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               Block Hash
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -961,15 +961,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1007,15 +1007,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1053,15 +1053,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Value
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1100,15 +1100,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1143,15 +1143,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1182,15 +1182,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Gas Price
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1221,15 +1221,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1260,15 +1260,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1304,10 +1304,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               Created
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1339,10 +1339,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               Hash
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1378,10 +1378,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               Block Hash
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />

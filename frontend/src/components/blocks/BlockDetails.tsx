@@ -6,7 +6,7 @@ import * as B from "../../libraries/explorer-wamp/blocks";
 
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
-import TermHelperButton from "../utils/TermHelperButton";
+import Term from "../utils/Term";
 
 export interface Props {
   block: B.BlockInfo;
@@ -21,19 +21,16 @@ export default ({ block }: Props) => {
             <Col md="4">
               <CardCell
                 title={
-                  <>
-                    {"Transactions"}
-                    <TermHelperButton title={"Transactions"}>
-                      {"Number of transactions in this block. "}
-                      <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
-                      >
-                        docs
-                      </a>
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Transactions"}>
+                    {"Number of transactions in this block. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/transaction"
+                      }
+                    >
+                      docs
+                    </a>
+                  </Term>
                 }
                 imgLink="/static/images/icon-m-transaction.svg"
                 text={block.transactionsCount.toLocaleString()}
@@ -43,19 +40,12 @@ export default ({ block }: Props) => {
             <Col md="4">
               <CardCell
                 title={
-                  <>
-                    {"Gas Used"}
-                    <TermHelperButton title={"Gas Used"}>
-                      {
-                        "Total units of gas used by transactions in this block. "
-                      }
-                      <a
-                        href={"https://docs.nearprotocol.com/docs/concepts/gas"}
-                      >
-                        docs
-                      </a>
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Gas Used"}>
+                    {"Total units of gas used by transactions in this block. "}
+                    <a href={"https://docs.nearprotocol.com/docs/concepts/gas"}>
+                      docs
+                    </a>
+                  </Term>
                 }
                 imgLink="/static/images/icon-m-size.svg"
                 text={block.gasUsed.toLocaleString()}
@@ -64,17 +54,12 @@ export default ({ block }: Props) => {
             <Col md="4">
               <CardCell
                 title={
-                  <>
-                    {"Gas Price"}
-                    <TermHelperButton title={"Gas Price"}>
-                      {"Cost per unit of gas. "}
-                      <a
-                        href={"https://docs.nearprotocol.com/docs/concepts/gas"}
-                      >
-                        docs
-                      </a>
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Gas Price"}>
+                    {"Cost per unit of gas. "}
+                    <a href={"https://docs.nearprotocol.com/docs/concepts/gas"}>
+                      docs
+                    </a>
+                  </Term>
                 }
                 imgLink="/static/images/icon-m-filter.svg"
                 text={block.gasPrice.toLocaleString()}
@@ -85,12 +70,9 @@ export default ({ block }: Props) => {
             <Col md="4">
               <CardCell
                 title={
-                  <>
-                    {"Created"}
-                    <TermHelperButton title={"Created"}>
-                      {"Timestamp of when this block finalized. "}
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Created"}>
+                    {"Timestamp of when this block finalized. "}
+                  </Term>
                 }
                 text={moment(block.timestamp).format(
                   "MMMM DD, YYYY [at] h:mm:ssa"
@@ -101,12 +83,9 @@ export default ({ block }: Props) => {
             <Col md="8">
               <CardCell
                 title={
-                  <>
-                    {"Hash"}
-                    <TermHelperButton title={"Hash"}>
-                      {"Unique identifier (hash) of this block. "}
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Hash"}>
+                    {"Unique identifier (hash) of this block. "}
+                  </Term>
                 }
                 text={block.hash}
                 className="border-0"
@@ -117,12 +96,9 @@ export default ({ block }: Props) => {
             <Col md="12">
               <CardCell
                 title={
-                  <>
-                    {"Parent Hash"}
-                    <TermHelperButton title={"Parent Hash"}>
-                      {"Unique identifier (hash) of previous block. "}
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Parent Hash"}>
+                    {"Unique identifier (hash) of previous block. "}
+                  </Term>
                 }
                 text={
                   <BlockLink blockHash={block.prevHash}>

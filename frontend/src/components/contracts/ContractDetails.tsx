@@ -7,7 +7,7 @@ import { Row, Col } from "react-bootstrap";
 import ContractsApi from "../../libraries/explorer-wamp/contracts";
 
 import CardCell from "../utils/CardCell";
-import TermHelperButton from "../utils/TermHelperButton";
+import Term from "../utils/Term";
 import TransactionLink from "../utils/TransactionLink";
 
 interface Props {
@@ -27,7 +27,7 @@ export default class extends React.Component<Props, State> {
   collectContractInfo = async () => {
     new ContractsApi()
       .getContractInfo(this.props.accountId)
-      .then((contractInfo) => {
+      .then(contractInfo => {
         if (contractInfo) {
           this.setState({
             codeHash: contractInfo.codeHash,
@@ -36,12 +36,12 @@ export default class extends React.Component<Props, State> {
             locked: contractInfo.accessKeys.every(
               (key: any) =>
                 key["access_key"]["permission"]["FunctionCall"] !== undefined
-            ),
+            )
           });
         }
         return;
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
   };
 
   componentDidMount() {
@@ -77,19 +77,16 @@ export default class extends React.Component<Props, State> {
             <Col md="4">
               <CardCell
                 title={
-                  <>
-                    {"Last Updated"}
-                    <TermHelperButton title={"Last Updated"}>
-                      {"Latest time the contract deployed. "}
-                      <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/roles/developer/quickstart"
-                        }
-                      >
-                        docs
-                      </a>
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Last Updated"}>
+                    {"Latest time the contract deployed. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/roles/developer/quickstart"
+                      }
+                    >
+                      docs
+                    </a>
+                  </Term>
                 }
                 text={
                   timestamp
@@ -102,14 +99,11 @@ export default class extends React.Component<Props, State> {
             <Col md="8">
               <CardCell
                 title={
-                  <>
-                    {"Transaction Hash"}
-                    <TermHelperButton title={"Transaction Hash"}>
-                      {
-                        "The transaction unique identifier (hash) that the contract is latest deployed. "
-                      }
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Transaction Hash"}>
+                    {
+                      "The transaction unique identifier (hash) that the contract is latest deployed. "
+                    }
+                  </Term>
                 }
                 text={
                   <TransactionLink transactionHash={transactionHash}>
@@ -124,13 +118,10 @@ export default class extends React.Component<Props, State> {
             <Col md="4">
               <CardCell
                 title={
-                  <>
-                    {"Locked?"}
-                    <TermHelperButton title={"Locked?"}>
-                      {`Locked contract means that there are no access keys allowing the contract code to be re-deployed 
+                  <Term title={"Locked?"}>
+                    {`Locked contract means that there are no access keys allowing the contract code to be re-deployed 
                 (e.g. even a single FullAccess permission access key casts the locked status to "No"). `}
-                    </TermHelperButton>
-                  </>
+                  </Term>
                 }
                 text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
@@ -139,14 +130,11 @@ export default class extends React.Component<Props, State> {
             <Col md="8">
               <CardCell
                 title={
-                  <>
-                    {"Code Hash"}
-                    <TermHelperButton title={"Code Hash"}>
-                      {
-                        "Checksum (SHA-256 in base58 encoding) of the contract binary. "
-                      }
-                    </TermHelperButton>
-                  </>
+                  <Term title={"Code Hash"}>
+                    {
+                      "Checksum (SHA-256 in base58 encoding) of the contract binary. "
+                    }
+                  </Term>
                 }
                 text={codeHash ? codeHash : ""}
                 className="block-card-created account-card-back border-0"

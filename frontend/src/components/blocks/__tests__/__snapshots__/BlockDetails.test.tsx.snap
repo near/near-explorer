@@ -26,15 +26,15 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 <img
-                  className="jsx-3437567303 card-cell-title-img"
+                  className="jsx-2893410015 card-cell-title-img"
                   src="/static/images/icon-m-transaction.svg"
                 />
                 Transactions
                 <div
-                  className="term-helper row no-gutters"
+                  className="jsx-1104606862 term-helper"
                 >
                   <img
-                    className="jsx-652848287 info"
+                    className="jsx-1104606862 info"
                     onClick={[Function]}
                     src="/static/images/icon-info.svg"
                   />
@@ -65,15 +65,15 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 <img
-                  className="jsx-3437567303 card-cell-title-img"
+                  className="jsx-2893410015 card-cell-title-img"
                   src="/static/images/icon-m-size.svg"
                 />
                 Gas Used
                 <div
-                  className="term-helper row no-gutters"
+                  className="jsx-1104606862 term-helper"
                 >
                   <img
-                    className="jsx-652848287 info"
+                    className="jsx-1104606862 info"
                     onClick={[Function]}
                     src="/static/images/icon-info.svg"
                   />
@@ -104,15 +104,15 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 <img
-                  className="jsx-3437567303 card-cell-title-img"
+                  className="jsx-2893410015 card-cell-title-img"
                   src="/static/images/icon-m-filter.svg"
                 />
                 Gas Price
                 <div
-                  className="term-helper row no-gutters"
+                  className="jsx-1104606862 term-helper"
                 >
                   <img
-                    className="jsx-652848287 info"
+                    className="jsx-1104606862 info"
                     onClick={[Function]}
                     src="/static/images/icon-info.svg"
                   />
@@ -148,10 +148,10 @@ exports[`<BlockDetails /> renders 1`] = `
               >
                 Created
                 <div
-                  className="term-helper row no-gutters"
+                  className="jsx-1104606862 term-helper"
                 >
                   <img
-                    className="jsx-652848287 info"
+                    className="jsx-1104606862 info"
                     onClick={[Function]}
                     src="/static/images/icon-info.svg"
                   />
@@ -183,10 +183,10 @@ exports[`<BlockDetails /> renders 1`] = `
               >
                 Hash
                 <div
-                  className="term-helper row no-gutters"
+                  className="jsx-1104606862 term-helper"
                 >
                   <img
-                    className="jsx-652848287 info"
+                    className="jsx-1104606862 info"
                     onClick={[Function]}
                     src="/static/images/icon-info.svg"
                   />
@@ -222,10 +222,10 @@ exports[`<BlockDetails /> renders 1`] = `
               >
                 Parent Hash
                 <div
-                  className="term-helper row no-gutters"
+                  className="jsx-1104606862 term-helper"
                 >
                   <img
-                    className="jsx-652848287 info"
+                    className="jsx-1104606862 info"
                     onClick={[Function]}
                     src="/static/images/icon-info.svg"
                   />

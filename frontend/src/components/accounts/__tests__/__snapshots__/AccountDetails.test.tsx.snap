@@ -24,10 +24,10 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Ⓝ Balance
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -67,10 +67,10 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Ⓝ Locked
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -109,15 +109,15 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -160,15 +160,15 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-3437567303 card-cell-title-img"
+                className="jsx-2893410015 card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -204,10 +204,10 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Created
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -239,10 +239,10 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               Creation Hash
               <div
-                className="term-helper row no-gutters"
+                className="jsx-1104606862 term-helper"
               >
                 <img
-                  className="jsx-652848287 info"
+                  className="jsx-1104606862 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />

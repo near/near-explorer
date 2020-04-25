@@ -1,12 +1,12 @@
 import renderer from "react-test-renderer";
 
-import TermHelperButton from "../TermHelperButton";
+import Term from "../Term";
 
 describe("<CardCell />", () => {
   it("renders", () => {
     expect(
       renderer.create(
-        <TermHelperButton title={"Nodes Online"}>
+        <Term title={"Nodes Online"}>
           {
             "The number of validating nodes / the total number of online nodes. "
           }
@@ -17,7 +17,7 @@ describe("<CardCell />", () => {
           >
             docs
           </a>
-        </TermHelperButton>
+        </Term>
       )
     ).toMatchSnapshot();
   });

@@ -13,7 +13,7 @@ import CardCell from "../utils/CardCell";
 import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
 import Gas from "../utils/Gas";
-import TermHelperButton from "../utils/TermHelperButton";
+import Term from "../utils/Term";
 
 export interface Props {
   transaction: T.Transaction;
@@ -32,7 +32,7 @@ export default class extends React.Component<Props, State> {
 
   collectDeposit(actions: T.Action[]): BN {
     return actions
-      .map((action) => {
+      .map(action => {
         let actionArgs = action.args as any;
         if (actionArgs.hasOwnProperty("deposit")) {
           return new BN(actionArgs.deposit);
@@ -44,7 +44,7 @@ export default class extends React.Component<Props, State> {
   }
 
   collectGasAttached(actions: T.Action[]): BN | null {
-    const gasAttachedActions = actions.filter((action) => {
+    const gasAttachedActions = actions.filter(action => {
       return action.args.hasOwnProperty("gas");
     });
     if (gasAttachedActions.length === 0) {
@@ -63,7 +63,7 @@ export default class extends React.Component<Props, State> {
       : new BN(0);
     const gasBurntByReceipts = transaction.receiptsOutcome
       ? transaction.receiptsOutcome
-          .map((receipt) => new BN(receipt.outcome.gas_burnt))
+          .map(receipt => new BN(receipt.outcome.gas_burnt))
           .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
       : new BN(0);
     return gasBurntByTx.add(gasBurntByReceipts);
@@ -106,7 +106,7 @@ export default class extends React.Component<Props, State> {
           deposit: undefined,
           gasUsed: undefined,
           gasAttached: undefined,
-          transactionFee: undefined,
+          transactionFee: undefined
         });
       } else {
         this.updateBlock();
@@ -130,19 +130,14 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Signed by"}
-                  <TermHelperButton title={"Signed by"}>
-                    {"Account that signed and sent the transaction. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/account"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Signed by"}>
+                  {"Account that signed and sent the transaction. "}
+                  <a
+                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-user.svg"
               text={<AccountLink accountId={transaction.signerId} />}
@@ -152,19 +147,14 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Receiver"}
-                  <TermHelperButton title={"Receiver"}>
-                    {"Account receiving the transaction. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/account"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Receiver"}>
+                  {"Account receiving the transaction. "}
+                  <a
+                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-user.svg"
               text={<AccountLink accountId={transaction.receiverId} />}
@@ -173,20 +163,17 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Value"}
-                  <TermHelperButton title={"Value"}>
-                    {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
+                <Term title={"Value"}>
+                  {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
                 This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
-                    <a
-                      href={
-                        "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                  <a
+                    href={
+                      "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-filter.svg"
               text={deposit ? <Balance amount={deposit.toString()} /> : "..."}
@@ -195,21 +182,18 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Status"}
-                  <TermHelperButton title={"Status"}>
-                    {
-                      "Current status of the transaction (Pending, Succeeded, Failed). "
+                <Term title={"Status"}>
+                  {
+                    "Current status of the transaction (Pending, Succeeded, Failed). "
+                  }
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
                     }
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-t-status.svg"
               text={<ExecutionStatus status={transaction.status} />}
@@ -220,19 +204,16 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Transaction Fee"}
-                  <TermHelperButton title={"Transaction Fee"}>
-                    {"Total fee paid in NEAR to execute this transaction. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Transaction Fee"}>
+                  {"Total fee paid in NEAR to execute this transaction. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-size.svg"
               text={
@@ -248,19 +229,16 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Gas Price"}
-                  <TermHelperButton title={"Gas Price"}>
-                    {"Cost per unit of gas. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Gas Price"}>
+                  {"Cost per unit of gas. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-filter.svg"
               text={block ? <Balance amount={block.gasPrice} /> : "..."}
@@ -269,19 +247,16 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Gas Used"}
-                  <TermHelperButton title={"Gas Used"}>
-                    {"Units of gas required to execute this transaction. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Gas Used"}>
+                  {"Units of gas required to execute this transaction. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               imgLink="/static/images/icon-m-size.svg"
               text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
@@ -290,14 +265,11 @@ export default class extends React.Component<Props, State> {
           <Col md="3">
             <CardCell
               title={
-                <>
-                  {"Attached Gas"}
-                  <TermHelperButton title={"Attached Gas"}>
-                    {
-                      "Units of gas attached to the transaction (this is often higher than 'Gas Used'). "
-                    }
-                  </TermHelperButton>
-                </>
+                <Term title={"Attached Gas"}>
+                  {
+                    "Units of gas attached to the transaction (this is often higher than 'Gas Used'). "
+                  }
+                </Term>
               }
               imgLink="/static/images/icon-m-size.svg"
               text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
@@ -308,19 +280,16 @@ export default class extends React.Component<Props, State> {
           <Col md="4">
             <CardCell
               title={
-                <>
-                  {"Created"}
-                  <TermHelperButton title={"Created"}>
-                    {"Timestamp of when this transaction was submitted. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Created"}>
+                  {"Timestamp of when this transaction was submitted. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               text={moment(transaction.blockTimestamp).format(
                 "MMMM DD, YYYY [at] h:mm:ssa"
@@ -331,19 +300,16 @@ export default class extends React.Component<Props, State> {
           <Col md="8">
             <CardCell
               title={
-                <>
-                  {"Hash"}
-                  <TermHelperButton title={"Hash"}>
-                    {"Unique identifier (hash) of this transaction. "}
-                    <a
-                      href={
-                        "https://docs.nearprotocol.com/docs/concepts/transaction"
-                      }
-                    >
-                      docs
-                    </a>
-                  </TermHelperButton>
-                </>
+                <Term title={"Hash"}>
+                  {"Unique identifier (hash) of this transaction. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
               }
               text={transaction.hash}
               className="border-0"
@@ -354,14 +320,11 @@ export default class extends React.Component<Props, State> {
           <Col md="12">
             <CardCell
               title={
-                <>
-                  {"Block Hash"}
-                  <TermHelperButton title={"Block Hash"}>
-                    {
-                      "Unique identifier (hash) of the block this transaction was included in. "
-                    }
-                  </TermHelperButton>
-                </>
+                <Term title={"Block Hash"}>
+                  {
+                    "Unique identifier (hash) of the block this transaction was included in. "
+                  }
+                </Term>
               }
               text={
                 <BlockLink blockHash={transaction.blockHash}>
