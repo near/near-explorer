@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CardCell /> renders 1`] = `
+<div
+  className="term-helper row no-gutters"
+>
+  <img
+    className="jsx-652848287 info"
+    onClick={[Function]}
+    src="/static/images/icon-info.svg"
+  />
+</div>
+`;
