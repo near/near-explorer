@@ -17,7 +17,7 @@ export default class extends React.Component {
           <title>Near Explorer | Nodes</title>
         </Head>
         <Content title={<h1>Nodes</h1>}>
-          <NodeNav />
+          <NodeNav role={this.props.role} />
           <Nodes role={this.props.role} />
         </Content>
       </>
