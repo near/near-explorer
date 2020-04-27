@@ -7,6 +7,7 @@ import { Row, Col } from "react-bootstrap";
 import ContractsApi from "../../libraries/explorer-wamp/contracts";
 
 import CardCell from "../utils/CardCell";
+import Term from "../utils/Term";
 import TransactionLink from "../utils/TransactionLink";
 
 interface Props {
@@ -75,7 +76,18 @@ export default class extends React.Component<Props, State> {
           <Row noGutters className="border-0">
             <Col md="4">
               <CardCell
-                title="Last Updated"
+                title={
+                  <Term title={"Last Updated"}>
+                    {"Latest time the contract deployed. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/roles/developer/quickstart"
+                      }
+                    >
+                      docs
+                    </a>
+                  </Term>
+                }
                 text={
                   timestamp
                     ? moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")
@@ -86,7 +98,13 @@ export default class extends React.Component<Props, State> {
             </Col>
             <Col md="8">
               <CardCell
-                title="Transaction Hash"
+                title={
+                  <Term title={"Transaction Hash"}>
+                    {
+                      "The transaction unique identifier (hash) that the contract is latest deployed. "
+                    }
+                  </Term>
+                }
                 text={
                   <TransactionLink transactionHash={transactionHash}>
                     {transactionHash}
@@ -99,14 +117,25 @@ export default class extends React.Component<Props, State> {
           <Row noGutters className="border-0">
             <Col md="4">
               <CardCell
-                title="Locked?"
+                title={
+                  <Term title={"Locked?"}>
+                    {`Locked contract means that there are no access keys allowing the contract code to be re-deployed 
+                (e.g. even a single FullAccess permission access key casts the locked status to "No"). `}
+                  </Term>
+                }
                 text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
               />
             </Col>
             <Col md="8">
               <CardCell
-                title="Code Hash"
+                title={
+                  <Term title={"Code Hash"}>
+                    {
+                      "Checksum (SHA-256 in base58 encoding) of the contract binary. "
+                    }
+                  </Term>
+                }
                 text={codeHash ? codeHash : ""}
                 className="block-card-created account-card-back border-0"
               />

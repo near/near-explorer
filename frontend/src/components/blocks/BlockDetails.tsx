@@ -6,6 +6,7 @@ import * as B from "../../libraries/explorer-wamp/blocks";
 
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
+import Term from "../utils/Term";
 
 export interface Props {
   block: B.BlockInfo;
@@ -19,7 +20,18 @@ export default ({ block }: Props) => {
           <Row noGutters className="block-info-header">
             <Col md="4">
               <CardCell
-                title="Transactions"
+                title={
+                  <Term title={"Transactions"}>
+                    {"Number of transactions in this block. "}
+                    <a
+                      href={
+                        "https://docs.nearprotocol.com/docs/concepts/transaction"
+                      }
+                    >
+                      docs
+                    </a>
+                  </Term>
+                }
                 imgLink="/static/images/icon-m-transaction.svg"
                 text={block.transactionsCount.toLocaleString()}
                 className="border-0"
@@ -27,14 +39,28 @@ export default ({ block }: Props) => {
             </Col>
             <Col md="4">
               <CardCell
-                title="Gas Used"
+                title={
+                  <Term title={"Gas Used"}>
+                    {"Total units of gas used by transactions in this block. "}
+                    <a href={"https://docs.nearprotocol.com/docs/concepts/gas"}>
+                      docs
+                    </a>
+                  </Term>
+                }
                 imgLink="/static/images/icon-m-size.svg"
                 text={block.gasUsed.toLocaleString()}
               />
             </Col>
             <Col md="4">
               <CardCell
-                title="Gas Price"
+                title={
+                  <Term title={"Gas Price"}>
+                    {"Cost per unit of gas. "}
+                    <a href={"https://docs.nearprotocol.com/docs/concepts/gas"}>
+                      docs
+                    </a>
+                  </Term>
+                }
                 imgLink="/static/images/icon-m-filter.svg"
                 text={block.gasPrice.toLocaleString()}
               />
@@ -43,7 +69,11 @@ export default ({ block }: Props) => {
           <Row noGutters className="border-0">
             <Col md="4">
               <CardCell
-                title="Created"
+                title={
+                  <Term title={"Created"}>
+                    {"Timestamp of when this block finalized. "}
+                  </Term>
+                }
                 text={moment(block.timestamp).format(
                   "MMMM DD, YYYY [at] h:mm:ssa"
                 )}
@@ -51,13 +81,25 @@ export default ({ block }: Props) => {
               />
             </Col>
             <Col md="8">
-              <CardCell title="Hash" text={block.hash} className="border-0" />
+              <CardCell
+                title={
+                  <Term title={"Hash"}>
+                    {"Unique identifier (hash) of this block. "}
+                  </Term>
+                }
+                text={block.hash}
+                className="border-0"
+              />
             </Col>
           </Row>
           <Row noGutters>
             <Col md="12">
               <CardCell
-                title="Parent Hash"
+                title={
+                  <Term title={"Parent Hash"}>
+                    {"Unique identifier (hash) of previous block. "}
+                  </Term>
+                }
                 text={
                   <BlockLink blockHash={block.prevHash}>
                     {block.prevHash}

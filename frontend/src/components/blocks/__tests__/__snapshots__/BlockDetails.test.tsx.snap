@@ -26,10 +26,19 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 <img
-                  className="jsx-3005147464 card-cell-title-img"
+                  className="jsx-2893410015 card-cell-title-img"
                   src="/static/images/icon-m-transaction.svg"
                 />
                 Transactions
+                <div
+                  className="jsx-1104606862 term-helper"
+                >
+                  <img
+                    className="jsx-1104606862 info"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
               </div>
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -56,10 +65,19 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 <img
-                  className="jsx-3005147464 card-cell-title-img"
+                  className="jsx-2893410015 card-cell-title-img"
                   src="/static/images/icon-m-size.svg"
                 />
                 Gas Used
+                <div
+                  className="jsx-1104606862 term-helper"
+                >
+                  <img
+                    className="jsx-1104606862 info"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
               </div>
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -86,10 +104,19 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 <img
-                  className="jsx-3005147464 card-cell-title-img"
+                  className="jsx-2893410015 card-cell-title-img"
                   src="/static/images/icon-m-filter.svg"
                 />
                 Gas Price
+                <div
+                  className="jsx-1104606862 term-helper"
+                >
+                  <img
+                    className="jsx-1104606862 info"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
               </div>
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -120,6 +147,15 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 Created
+                <div
+                  className="jsx-1104606862 term-helper"
+                >
+                  <img
+                    className="jsx-1104606862 info"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
               </div>
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -146,6 +182,15 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 Hash
+                <div
+                  className="jsx-1104606862 term-helper"
+                >
+                  <img
+                    className="jsx-1104606862 info"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
               </div>
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -176,6 +221,15 @@ exports[`<BlockDetails /> renders 1`] = `
                 className="card-cell-title align-self-center col-md-12 col-auto"
               >
                 Parent Hash
+                <div
+                  className="jsx-1104606862 term-helper"
+                >
+                  <img
+                    className="jsx-1104606862 info"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
               </div>
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"

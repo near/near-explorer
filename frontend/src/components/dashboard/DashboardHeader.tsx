@@ -10,6 +10,7 @@ import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import DetailsApi, * as D from "../../libraries/explorer-wamp/details";
 
 import CardCell from "../utils/CardCell";
+import Term from "../utils/Term";
 
 interface State {
   details?: D.Details;
@@ -17,7 +18,7 @@ interface State {
   loading: boolean;
 }
 
-export default class DashboardHeader extends React.Component<State> {
+export default class extends React.Component<State> {
   constructor(props: any) {
     super(props);
     this.timer = null;
@@ -98,6 +99,14 @@ export default class DashboardHeader extends React.Component<State> {
     }
   };
 
+  changeModalHandler = (name: string) => {
+    this.setState({ modalInfo: name });
+  };
+
+  ModalCloseHander = () => {
+    this.setState({ modalInfo: undefined });
+  };
+
   render() {
     const { details, loading } = this.state;
     return (
@@ -105,7 +114,20 @@ export default class DashboardHeader extends React.Component<State> {
         <Row noGutters>
           <Col xs="12" md="3">
             <CardCell
-              title="Nodes Online"
+              title={
+                <Term title={"Nodes Online"}>
+                  {
+                    "The number of validating nodes / the total number of online nodes. "
+                  }
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-node-online.svg"
               text={
                 details ? (
@@ -125,7 +147,11 @@ export default class DashboardHeader extends React.Component<State> {
           </Col>
           <Col xs="12" md="3">
             <CardCell
-              title="Block Height"
+              title={
+                <Term title={"Block Height"}>
+                  {" Most recent block heihgt recorded to the blockchain. "}
+                </Term>
+              }
               imgLink="/static/images/icon-m-height.svg"
               text={details ? details.lastBlockHeight.toLocaleString() : ""}
               loading={loading}
@@ -133,7 +159,20 @@ export default class DashboardHeader extends React.Component<State> {
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title="Tps"
+              title={
+                <Term title={"TPS"}>
+                  {
+                    "Average transactions per second (TPS) during the last 10 seconds. "
+                  }
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-tps.svg"
               text={
                 details
@@ -147,7 +186,18 @@ export default class DashboardHeader extends React.Component<State> {
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title="Last Day Tx"
+              title={
+                <Term title={"TPD"}>
+                  {"Total transactions in the last 24 hours. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-transaction.svg"
               text={details ? details.lastDayTxCount.toLocaleString() : ""}
               loading={loading}
@@ -155,11 +205,20 @@ export default class DashboardHeader extends React.Component<State> {
           </Col>
           <Col xs="12" md="2">
             <CardCell
-              title="Accounts"
+              title={
+                <Term title={"Accounts"}>
+                  {"Total number of accounts created on this net. "}
+                  <a
+                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-user.svg"
               text={
                 details ? (
-                  <Link href="accounts">
+                  <Link href="/accounts">
                     <a style={{ textDecoration: "none", color: "#24272a" }}>
                       {details.accountsCount.toLocaleString()}
                     </a>
@@ -214,22 +273,26 @@ export default class DashboardHeader extends React.Component<State> {
             border-top: 2px solid #e6e6e6;
             background: #f8f8f8;
           }
+
           .search-box-filter-button {
             border-radius: 25px;
             padding-left: 20px;
             padding-right: 20px;
           }
+
           .search-box .input-group-text {
             background: white;
             border-right: 0;
             border-radius: 25px 0 0 25px;
           }
+
           .search-field {
             border-radius: 25px;
             outline: none;
             box-shadow: none !important;
             border-color: rgb(199, 210, 221) !important;
           }
+
           .button-search {
             border-radius: 25px;
           }

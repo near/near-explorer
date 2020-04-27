@@ -1,3 +1,4 @@
+import BN from "bn.js";
 import moment from "moment";
 import Link from "next/link";
 
@@ -14,17 +15,16 @@ export interface Props {
 }
 
 export interface State {
-  amount: string;
+  amount?: BN;
 }
 
 export default class extends React.Component<Props, State> {
-  state: State = {
-    amount: "",
-  };
+  state: State = {};
 
   _getDetail = async () => {
     const detail = await new AccountsApi().queryAccount(this.props.accountId);
-    this.setState({ amount: detail.amount });
+    const amount = new BN(detail.amount).add(new BN(detail.locked));
+    this.setState({ amount });
   };
 
   componentDidMount() {
@@ -52,7 +52,7 @@ export default class extends React.Component<Props, State> {
             <Col md="3" xs="4" className="ml-auto text-right">
               <Row>
                 <Col className="transaction-row-txid">
-                  {amount && <Balance amount={amount} />}
+                  {amount ? <Balance amount={amount.toString()} /> : ""}
                 </Col>
               </Row>
               <Row>

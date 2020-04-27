@@ -13,6 +13,7 @@ import CardCell from "../utils/CardCell";
 import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
 import Gas from "../utils/Gas";
+import Term from "../utils/Term";
 
 export interface Props {
   transaction: T.Transaction;
@@ -128,7 +129,16 @@ export default class extends React.Component<Props, State> {
         <Row noGutters>
           <Col md="3">
             <CardCell
-              title="Signed by"
+              title={
+                <Term title={"Signed by"}>
+                  {"Account that signed and sent the transaction. "}
+                  <a
+                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-user.svg"
               text={<AccountLink accountId={transaction.signerId} />}
               className="border-0"
@@ -136,21 +146,55 @@ export default class extends React.Component<Props, State> {
           </Col>
           <Col md="3">
             <CardCell
-              title="Receiver"
+              title={
+                <Term title={"Receiver"}>
+                  {"Account receiving the transaction. "}
+                  <a
+                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-user.svg"
               text={<AccountLink accountId={transaction.receiverId} />}
             />
           </Col>
           <Col md="3">
             <CardCell
-              title="Value"
+              title={
+                <Term title={"Value"}>
+                  {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
+                This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
+                  <a
+                    href={
+                      "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-filter.svg"
               text={deposit ? <Balance amount={deposit.toString()} /> : "..."}
             />
           </Col>
           <Col md="3">
             <CardCell
-              title="Status"
+              title={
+                <Term title={"Status"}>
+                  {
+                    "Current status of the transaction (Pending, Succeeded, Failed). "
+                  }
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-t-status.svg"
               text={<ExecutionStatus status={transaction.status} />}
             />
@@ -159,7 +203,18 @@ export default class extends React.Component<Props, State> {
         <Row noGutters>
           <Col md="3">
             <CardCell
-              title="Transaction Fee"
+              title={
+                <Term title={"Transaction Fee"}>
+                  {"Total fee paid in NEAR to execute this transaction. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-size.svg"
               text={
                 transactionFee ? (
@@ -173,21 +228,49 @@ export default class extends React.Component<Props, State> {
           </Col>
           <Col md="3">
             <CardCell
-              title="Gas Price"
+              title={
+                <Term title={"Gas Price"}>
+                  {"Cost per unit of gas. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-filter.svg"
               text={block ? <Balance amount={block.gasPrice} /> : "..."}
             />
           </Col>
           <Col md="3">
             <CardCell
-              title="Gas Used"
+              title={
+                <Term title={"Gas Used"}>
+                  {"Units of gas required to execute this transaction. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               imgLink="/static/images/icon-m-size.svg"
               text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
             />
           </Col>
           <Col md="3">
             <CardCell
-              title="Attached Gas"
+              title={
+                <Term title={"Attached Gas"}>
+                  {
+                    "Units of gas attached to the transaction (this is often higher than 'Gas Used'). "
+                  }
+                </Term>
+              }
               imgLink="/static/images/icon-m-size.svg"
               text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
             />
@@ -196,7 +279,18 @@ export default class extends React.Component<Props, State> {
         <Row noGutters className="border-0">
           <Col md="4">
             <CardCell
-              title="Created"
+              title={
+                <Term title={"Created"}>
+                  {"Timestamp of when this transaction was submitted. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               text={moment(transaction.blockTimestamp).format(
                 "MMMM DD, YYYY [at] h:mm:ssa"
               )}
@@ -205,7 +299,18 @@ export default class extends React.Component<Props, State> {
           </Col>
           <Col md="8">
             <CardCell
-              title="Hash"
+              title={
+                <Term title={"Hash"}>
+                  {"Unique identifier (hash) of this transaction. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               text={transaction.hash}
               className="border-0"
             />
@@ -214,7 +319,13 @@ export default class extends React.Component<Props, State> {
         <Row noGutters>
           <Col md="12">
             <CardCell
-              title="Block Hash"
+              title={
+                <Term title={"Block Hash"}>
+                  {
+                    "Unique identifier (hash) of the block this transaction was included in. "
+                  }
+                </Term>
+              }
               text={
                 <BlockLink blockHash={transaction.blockHash}>
                   {transaction.blockHash}

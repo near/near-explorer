@@ -32,7 +32,6 @@ export default ({ title, imgLink, text, className, loading }: Props) => (
         border-width: 0 0 0 2px;
         border-radius: 0;
       }
-
       .card-cell-title {
         text-transform: uppercase;
         letter-spacing: 1.8px;
@@ -41,28 +40,35 @@ export default ({ title, imgLink, text, className, loading }: Props) => (
         font-size: 14px;
         font-weight: 500;
       }
-
       .card-cell-title-img {
         width: 12px !important;
         margin-right: 8px;
         margin-top: -3px;
       }
-
       .card-cell-text {
         font-family: BwSeidoRound;
         font-size: 18px;
         font-weight: 500;
         color: #24272a;
       }
-
       .card-cell a {
         font-weight: 500;
         color: #6ad1e3;
         text-decoration: none !important;
       }
-
       .card-cell a:hover {
         color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
       }
     `}</style>
   </Card>
