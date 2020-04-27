@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AccountRow /> renders 1`] = `
+<a
+  href="/accounts/account"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  style={
+    Object {
+      "textDecoration": "none",
+    }
+  }
+>
+  <div
+    className="transaction-row mx-0 row"
+  >
+    <div
+      className="pr-0 col-md-auto col-1"
+    >
+      <img
+        className="jsx-324075529"
+        src="/static/images/icon-t-acct.svg"
+        style={
+          Object {
+            "width": "15px",
+          }
+        }
+      />
+    </div>
+    <div
+      className="col-md-7 col-6"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="transaction-row-title col"
+        >
+          @
+          account
+        </div>
+      </div>
+    </div>
+    <div
+      className="ml-auto text-right col-md-3 col-4"
+    >
+      <div
+        className="row"
+      >
+        <div
+          className="transaction-row-txid col"
+        >
+          
+        </div>
+      </div>
+      <div
+        className="row"
+      >
+        <div
+          className="transaction-row-timer col"
+        >
+          Created at February 1, 2019 12:00 AM
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
+`;
