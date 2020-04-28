@@ -30,37 +30,42 @@ module.exports = (sequelize, DataTypes) => {
       },
       agentName: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       agentVersion: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       agentBuild: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       peerCount: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       isValidator: {
         type: DataTypes.BOOLEAN,
-        allowNull: true,
+        allowNull: false,
       },
       lastHash: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       signature: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {
       tableName: "nodes",
       underscored: true,
       timestamps: false,
+      indexes: [{ fields: ["last_seen"] }, { fields: ["is_validator"] }],
     }
   );
   Node.associate = function (models) {

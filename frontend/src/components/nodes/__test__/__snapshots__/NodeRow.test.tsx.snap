@@ -8,8 +8,8 @@ exports[`<NodeRow /> renders 1`] = `
     className="pr-0 col-md-auto col-1"
   >
     <img
-      className="jsx-3441355254"
-      src="/static/images/icon-m-block.svg"
+      className="jsx-990356129"
+      src="/static/images/icon-m-node-online.svg"
       style={
         Object {
           "width": "15px",
@@ -18,7 +18,7 @@ exports[`<NodeRow /> renders 1`] = `
     />
   </div>
   <div
-    className="col-md-7 col-6"
+    className="col-md-7 col-7"
   >
     <div
       className="row"
@@ -26,7 +26,15 @@ exports[`<NodeRow /> renders 1`] = `
       <div
         className="node-row-title col"
       >
-        
+        @
+        alice
+         
+        <span
+          className="jsx-990356129 node-status"
+        >
+           
+          NoSync
+        </span>
       </div>
     </div>
     <div
@@ -39,45 +47,48 @@ exports[`<NodeRow /> renders 1`] = `
           className="row"
         >
           <div
-            className="col-md-auto"
-          >
-            #
-            12345
-          </div>
-          <div
-            className="pl-0 col-md-auto"
+            className="col-md-5"
           >
             <img
-              className="jsx-3441355254"
-              src="/static/images/icon-m-user.svg"
+              className="jsx-990356129"
+              src="/static/images/icon-m-size.svg"
               style={
                 Object {
                   "width": "12px",
                 }
               }
             />
-             @
+            near-rs | ver.0.4.5 build  6a527109-modified
           </div>
           <div
-            className="col-md-auto"
+            className="col"
           >
-            1.1.1.1
+            <img
+              className="jsx-990356129"
+              src="/static/images/icon-m-block.svg"
+              style={
+                Object {
+                  "width": "12px",
+                }
+              }
+            />
+             1889
           </div>
         </div>
       </div>
     </div>
   </div>
   <div
-    className="ml-auto text-right col-md-3 col-4"
+    className="ml-auto text-right col-md-3 col-3"
   >
     <div
       className="row"
     >
       <div
         className="node-row-txid col"
-        title=""
+        title="ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
       >
-        
+        fhgjrkfhurjt
         ...
       </div>
     </div>
@@ -88,13 +99,13 @@ exports[`<NodeRow /> renders 1`] = `
         className="node-row-timer col"
       >
         <span
-          className="jsx-3441355254 node-row-timer-status"
+          className="jsx-990356129 node-row-timer-status"
         >
           Last seen
         </span>
           
         <span>
-          49y ago
+          in 1y
         </span>
       </div>
     </div>

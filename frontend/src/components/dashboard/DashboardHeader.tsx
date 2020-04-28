@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Router from "next/router";
 
 import React from "react";
@@ -129,9 +130,16 @@ export default class extends React.Component<State> {
               }
               imgLink="/static/images/icon-m-node-online.svg"
               text={
-                details
-                  ? `${details.onlineNodesCount.toLocaleString()}/${details.totalNodesCount.toLocaleString()}`
-                  : ""
+                details ? (
+                  <Link href="/nodes/[role]" as={`/nodes/validators`}>
+                    <a style={{ textDecoration: "none", color: "#24272a" }}>
+                      {details.validatorsCount.toLocaleString()}/
+                      {details.onlineNodesCount.toLocaleString()}
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )
               }
               className="border-0"
               loading={loading}
@@ -208,7 +216,17 @@ export default class extends React.Component<State> {
                 </Term>
               }
               imgLink="/static/images/icon-m-user.svg"
-              text={details ? details.accountsCount.toLocaleString() : ""}
+              text={
+                details ? (
+                  <Link href="/accounts">
+                    <a style={{ textDecoration: "none", color: "#24272a" }}>
+                      {details.accountsCount.toLocaleString()}
+                    </a>
+                  </Link>
+                ) : (
+                  ""
+                )
+              }
               loading={loading}
             />
           </Col>
