@@ -15,10 +15,16 @@ async function saveBlocks(blocksInfo) {
       try {
         await models.Block.bulkCreate(
           blocksInfo.map((blockInfo) => {
+            let prevHash = blockInfo.header.prev_hash;
+            if (
+              (blockInfo.header.prev_hash = "11111111111111111111111111111111")
+            ) {
+              prevHash = "Genesis";
+            }
             return {
               hash: blockInfo.header.hash,
               height: blockInfo.header.height,
-              prevHash: blockInfo.header.prev_hash,
+              prevHash,
               timestamp: parseInt(blockInfo.header.timestamp / 1000000),
               totalSupply: blockInfo.header.total_supply || "",
               gasLimit: blockInfo.header.gas_limit || 0,
@@ -334,7 +340,7 @@ async function syncNewNearcoreState() {
   let latestSyncedBlockHeight;
   if (latestSyncedBlock !== null) {
     latestSyncedBlockHeight = latestSyncedBlock.height;
-    console.debug(`The latest synced block is #${latestSyncedBlockHeight}`);
+    console.debug(`### The latest synced block is #${latestSyncedBlockHeight}`);
   } else {
     latestSyncedBlockHeight = latestBlockHeight - 10;
     console.debug("There are no synced blocks, yet.");
@@ -348,10 +354,19 @@ async function syncOldNearcoreState() {
   let oldestSyncedBlockHeight = 0;
   if (oldestSyncedBlock !== null) {
     oldestSyncedBlockHeight = oldestSyncedBlock.height;
+    console.debug("-------------------------------------------------------");
     console.debug(`The oldest synced block is #${oldestSyncedBlockHeight}`);
   }
-
-  await syncNearcoreBlocks(oldestSyncedBlockHeight - 1, 1);
+  let syncOldBlockHeight = oldestSyncedBlockHeight;
+  const batch = 10000;
+  do {
+    console.debug(
+      `-------The oldest synced block is #${syncOldBlockHeight}-------`
+    );
+    let lowBlockHeight = Math.max(syncOldBlockHeight - batch, 0);
+    await syncNearcoreBlocks(syncOldBlockHeight - 1, lowBlockHeight);
+    syncOldBlockHeight -= batch;
+  } while (syncOldBlockHeight > 0);
 }
 
 async function syncMissingNearcoreState() {
@@ -373,6 +388,9 @@ async function syncMissingNearcoreState() {
     if (lowHeight > highHeight) {
       return;
     }
+    console.debug(
+      `+++++++++Missing Nearcore blocks from ${highHeight} down to ${lowHeight}...+++++++`
+    );
     const syncedBlocksCount = await models.Block.count({
       where: {
         height: {
