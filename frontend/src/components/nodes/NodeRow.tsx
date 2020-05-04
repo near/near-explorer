@@ -9,7 +9,46 @@ interface Props {
   node: N.NodeInfo;
 }
 
-export default class extends React.PureComponent<Props> {
+interface State {
+  statusExplanation?: string;
+}
+
+export default class extends React.PureComponent<Props, State> {
+  state: State = {};
+
+  NodeStatusMessage = (status: string) => {
+    let explanation;
+    switch (status) {
+      case "AwaitingPeers":
+        explanation = "Waiting for peers";
+        break;
+      case "HeaderSync":
+        explanation = "Syncing headers";
+        break;
+      case "BlockSync":
+        explanation = "Syncing blocks";
+        break;
+      case "StateSync":
+        explanation = "Syncing state";
+        break;
+      case "StateSyncDone":
+        explanation = "State sync is done";
+        break;
+      case "BodySync":
+        explanation = "Syncing body";
+        break;
+      case "NoSync":
+      default:
+        explanation = undefined;
+    }
+    return explanation;
+  };
+
+  componentDidMount() {
+    const statusExplanation = this.NodeStatusMessage(this.props.node.status);
+    this.setState({ statusExplanation });
+  }
+
   render() {
     const { node } = this.props;
     return (
@@ -24,7 +63,10 @@ export default class extends React.PureComponent<Props> {
           <Row>
             <Col className="node-row-title">
               @{node.accountId}{" "}
-              <span className="node-status"> {node.status}</span>
+              <span className="node-status">
+                {" "}
+                {this.state.statusExplanation}
+              </span>
             </Col>
           </Row>
           <Row>

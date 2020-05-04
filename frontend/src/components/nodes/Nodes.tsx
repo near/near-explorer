@@ -21,6 +21,12 @@ export default class extends React.Component<Props> {
     return await new NodesApi().getNodes(count, this.props.role, endTimestamp);
   };
 
+  componentDidUpdate(prevProps: any) {
+    if (this.props.role !== prevProps.role) {
+      this.autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
+    }
+  }
+
   config = {
     fetchDataFn: this.fetchNodes,
     count: this.props.count,
