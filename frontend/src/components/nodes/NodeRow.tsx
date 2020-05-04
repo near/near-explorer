@@ -9,48 +9,18 @@ interface Props {
   node: N.NodeInfo;
 }
 
-interface State {
-  statusExplanation?: string;
-}
-
-export default class extends React.PureComponent<Props, State> {
-  state: State = {};
-
-  NodeStatusMessage = (status: string) => {
-    let explanation;
-    switch (status) {
-      case "AwaitingPeers":
-        explanation = "Waiting for peers";
-        break;
-      case "HeaderSync":
-        explanation = "Syncing headers";
-        break;
-      case "BlockSync":
-        explanation = "Syncing blocks";
-        break;
-      case "StateSync":
-        explanation = "Syncing state";
-        break;
-      case "StateSyncDone":
-        explanation = "State sync is done";
-        break;
-      case "BodySync":
-        explanation = "Syncing body";
-        break;
-      case "NoSync":
-      default:
-        explanation = undefined;
-    }
-    return explanation;
-  };
-
-  componentDidMount() {
-    const statusExplanation = this.NodeStatusMessage(this.props.node.status);
-    this.setState({ statusExplanation });
-  }
-
+export default class extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
+    let statusIdentifier = new Map([
+      ["AwaitingPeers", "Waiting for peers"],
+      ["HeaderSync", "Syncing headers"],
+      ["BlockSync", "Syncing blocks"],
+      ["StateSync", "Syncing state"],
+      ["StateSyncDone", "State sync is done"],
+      ["BodySync", "Syncing body"],
+      ["NoSync", ""],
+    ]);
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
@@ -65,7 +35,7 @@ export default class extends React.PureComponent<Props, State> {
               @{node.accountId}{" "}
               <span className="node-status">
                 {" "}
-                {this.state.statusExplanation}
+                {statusIdentifier.get(node.status)}
               </span>
             </Col>
           </Row>
