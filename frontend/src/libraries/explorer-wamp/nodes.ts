@@ -30,7 +30,7 @@ export default class NodesApi extends ExplorerApi {
   ) {
     let whereClause = `WHERE last_seen > (strftime('%s','now') - 60) * 1000 `;
     if (endTimestamp) {
-      whereClause += ` AND last_seen < :endTimestamp`;
+      whereClause += ` AND node_id < :endTimestamp`;
     }
     if (validatorIndicator === "validators") {
       whereClause += ` AND is_validator = 1 `;
@@ -46,7 +46,7 @@ export default class NodesApi extends ExplorerApi {
         peer_count as peerCount, is_validator as isValidator, status
             FROM nodes
             ${whereClause}
-            ORDER BY last_seen DESC
+            ORDER BY node_id DESC
             LIMIT :limit
         `,
         {

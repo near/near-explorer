@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "nodes",
       underscored: true,
       timestamps: false,
-      indexes: [{ fields: ["last_seen"] }, { fields: ["is_validator"] }],
+      indexes: [{ fields: ["node_id"] }, { fields: ["is_validator"] }],
     }
   );
   Node.associate = function (models) {

@@ -136,7 +136,7 @@ export default (
             .timestamp;
           break;
         case "Node":
-          endTimestamp = this.state.items[this.state.items.length - 1].lastSeen;
+          endTimestamp = this.state.items[this.state.items.length - 1].nodeId;
           break;
         case "Transaction":
           endTimestamp = this.state.items[this.state.items.length - 1]
