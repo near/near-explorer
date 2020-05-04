@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       moniker: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       accountId: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       nodeId: {
         type: DataTypes.STRING, // base58

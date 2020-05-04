@@ -32,7 +32,7 @@ export default class extends React.PureComponent<Props> {
         <Col md="7" xs="7">
           <Row>
             <Col className="node-row-title">
-              @{node.accountId}{" "}
+              {node.accountId !== null ? `@${node.accountId}` : ""}{" "}
               <span className="node-status">
                 {" "}
                 {statusIdentifier.get(node.status)}
