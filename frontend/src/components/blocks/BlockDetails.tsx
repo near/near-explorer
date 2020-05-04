@@ -101,7 +101,7 @@ export default ({ block }: Props) => {
                   </Term>
                 }
                 text={
-                  block.prevHash === "Genesis" ? (
+                  block.prevHash === "11111111111111111111111111111111" ? (
                     "Genesis"
                   ) : (
                     <BlockLink blockHash={block.prevHash}>
