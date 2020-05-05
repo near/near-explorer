@@ -1,28 +1,28 @@
 import React from "react";
 
-import Modal from "./Modal";
+import { Modal } from "react-bootstrap";
 
 interface Props {
   title: string;
 }
 
 interface State {
-  modalInfo?: string;
+  isModalShown: boolean;
 }
 
 export default class extends React.Component<Props, State> {
-  state: State = {};
+  state: State = { isModalShown: false };
 
-  changeModalHandler = (name: string) => {
-    this.setState({ modalInfo: name });
+  showModal = () => {
+    this.setState({ isModalShown: true });
   };
 
-  ModalCloseHander = () => {
-    this.setState({ modalInfo: undefined });
+  hideModal = () => {
+    this.setState({ isModalShown: false });
   };
 
   render() {
-    const { title } = this.props;
+    const { title, children } = this.props;
     return (
       <>
         {title}
@@ -30,20 +30,23 @@ export default class extends React.Component<Props, State> {
           <img
             src="/static/images/icon-info.svg"
             className="info"
-            onClick={() => this.changeModalHandler(title)}
+            onClick={this.showModal}
           />
-          {this.state.modalInfo && (
-            <Modal modalClosed={this.ModalCloseHander}>
-              <h4>{title}</h4>
-              {this.props.children}
-            </Modal>
-          )}
+          <Modal
+            centered
+            show={this.state.isModalShown}
+            onHide={this.hideModal}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>{title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>{children}</Modal.Body>
+          </Modal>
           <style jsx global>{`
             .term-helper {
               display: inline-block;
               width: 14px;
               height: 14px;
-              text-transform: none;
             }
 
             .term-helper .info {
