@@ -10,17 +10,17 @@ interface Props {
 }
 
 export default class extends React.PureComponent<Props> {
+  statusIdentifier = new Map([
+    ["AwaitingPeers", "Waiting for peers"],
+    ["HeaderSync", "Syncing headers"],
+    ["BlockSync", "Syncing blocks"],
+    ["StateSync", "Syncing state"],
+    ["StateSyncDone", "State sync is done"],
+    ["BodySync", "Syncing body"],
+    ["NoSync", ""],
+  ]);
   render() {
     const { node } = this.props;
-    let statusIdentifier = new Map([
-      ["AwaitingPeers", "Waiting for peers"],
-      ["HeaderSync", "Syncing headers"],
-      ["BlockSync", "Syncing blocks"],
-      ["StateSync", "Syncing state"],
-      ["StateSyncDone", "State sync is done"],
-      ["BodySync", "Syncing body"],
-      ["NoSync", ""],
-    ]);
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
@@ -32,10 +32,10 @@ export default class extends React.PureComponent<Props> {
         <Col md="7" xs="7">
           <Row>
             <Col className="node-row-title">
-              {node.accountId !== null ? `@${node.accountId}` : ""}{" "}
+              @{node.accountId}{" "}
               <span className="node-status">
                 {" "}
-                {statusIdentifier.get(node.status)}
+                {this.statusIdentifier.get(node.status)}
               </span>
             </Col>
           </Row>

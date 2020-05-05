@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       moniker: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       accountId: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       nodeId: {
         type: DataTypes.STRING, // base58
@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "nodes",
       underscored: true,
       timestamps: false,
-      indexes: [{ fields: ["node_id"] }, { fields: ["is_validator"] }],
+      indexes: [{ fields: ["last_seen"] }, { fields: ["is_validator"] }],
     }
   );
   Node.associate = function (models) {

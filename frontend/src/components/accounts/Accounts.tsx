@@ -15,8 +15,8 @@ export default class extends React.Component<OuterProps> {
     count: 15,
   };
 
-  fetchAccounts = async (count: number, endTimestamp?: number) => {
-    return await new AccountsApi().getAccounts(count, endTimestamp);
+  fetchAccounts = async (count: number, paginationIndexer?: number) => {
+    return await new AccountsApi().getAccounts(count, paginationIndexer);
   };
 
   config = {
