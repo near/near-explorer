@@ -63,7 +63,7 @@ export default class AccountsApi extends ExplorerApi {
 
   async getAccounts(
     limit: number = 15,
-    paginationIndexer?: number
+    endTimestamp?: number
   ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
@@ -71,15 +71,15 @@ export default class AccountsApi extends ExplorerApi {
           created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
           FROM accounts
           ${
-            paginationIndexer
-              ? `WHERE (created_at_block_timestamp * 1000000 + account_index) < :paginationIndexer`
+            endTimestamp
+              ? `WHERE (created_at_block_timestamp * 1000000 + account_index) < :endTimestamp`
               : ""
           }
           ORDER BY (created_at_block_timestamp * 1000000 + account_index) DESC
           LIMIT :limit`,
         {
           limit,
-          paginationIndexer,
+          endTimestamp,
         },
       ]);
     } catch (error) {

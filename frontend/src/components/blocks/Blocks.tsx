@@ -13,8 +13,8 @@ export default class extends React.Component<OuterProps> {
     count: 15,
   };
 
-  fetchBlocks = async (count: number, paginationIndexer?: number) => {
-    return await new BlocksApi().getBlocks(count, paginationIndexer);
+  fetchBlocks = async (count: number, endTimestamp?: number) => {
+    return await new BlocksApi().getBlocks(count, endTimestamp);
   };
 
   config = {
