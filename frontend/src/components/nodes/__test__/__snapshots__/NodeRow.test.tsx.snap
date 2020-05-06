@@ -26,7 +26,8 @@ exports[`<NodeRow /> renders 1`] = `
       <div
         className="node-row-title col"
       >
-        @alice
+        @
+        alice
          
         <span
           className="jsx-990356129 node-status"
