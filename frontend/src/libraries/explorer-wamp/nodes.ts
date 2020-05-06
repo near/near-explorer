@@ -2,8 +2,8 @@ import { ExplorerApi } from ".";
 
 export interface NodeInfo {
   ipAddress: string;
-  moniker?: string;
-  accountId?: string;
+  moniker: string;
+  accountId: string;
   nodeId: string;
   lastSeen: number;
   lastHeight: number;
