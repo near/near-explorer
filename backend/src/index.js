@@ -3,6 +3,7 @@ const models = require("../models");
 const {
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval,
+  regularSyncGenesisStateInterval,
 } = require("./config");
 const {
   syncNewNearcoreState,
@@ -22,6 +23,7 @@ async function main() {
     } catch (error) {
       console.warn("Regular syncing Genesis state crashed due to:", error);
     }
+    setTimeout(regularSyncGenesisState, regularSyncGenesisStateInterval);
   };
   setTimeout(regularSyncGenesisState, 0);
 
