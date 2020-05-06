@@ -26,7 +26,7 @@ export default class NodesApi extends ExplorerApi {
   async getNodes(
     limit: number = 15,
     validatorIndicator: string = "validators",
-    endTimestamp?: number
+    endTimestamp?: string
   ) {
     let whereClause = `WHERE last_seen > (strftime('%s','now') - 60) * 1000 `;
     if (endTimestamp) {
