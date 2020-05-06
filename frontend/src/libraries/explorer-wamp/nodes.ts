@@ -26,11 +26,11 @@ export default class NodesApi extends ExplorerApi {
   async getNodes(
     limit: number = 15,
     validatorIndicator: string = "validators",
-    endTimestamp?: number
+    paginationIndexer?: number
   ) {
     let whereClause = `WHERE last_seen > (strftime('%s','now') - 60) * 1000 `;
-    if (endTimestamp) {
-      whereClause += ` AND node_id < :endTimestamp`;
+    if (paginationIndexer) {
+      whereClause += ` AND node_id < :paginationIndexer`;
     }
     if (validatorIndicator === "validators") {
       whereClause += ` AND is_validator = 1 `;
@@ -51,7 +51,7 @@ export default class NodesApi extends ExplorerApi {
         `,
         {
           limit,
-          endTimestamp,
+          paginationIndexer,
           validatorIndicator,
         },
       ]);
