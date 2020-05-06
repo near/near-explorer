@@ -15,8 +15,11 @@ export default class extends React.Component<OuterProps> {
     count: 15,
   };
 
-  fetchAccounts = async (count: number, endTimestamp?: number) => {
-    return await new AccountsApi().getAccounts(count, endTimestamp);
+  fetchAccounts = async (
+    count: number,
+    paginationIndexer?: A.AccountPagination
+  ) => {
+    return await new AccountsApi().getAccounts(count, paginationIndexer);
   };
 
   config = {
@@ -42,9 +45,9 @@ class Accounts extends React.Component<InnerProps> {
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         {items &&
-          items.map((account, index) => (
+          items.map((account) => (
             <AccountRow
-              key={account.id + index}
+              key={account.id}
               accountId={account.id}
               createdAt={account.createdAtBlockTimestamp}
             />

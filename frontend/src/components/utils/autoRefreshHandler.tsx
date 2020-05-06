@@ -98,9 +98,9 @@ export default (
 
     fetchMoreData = async () => {
       this.setState({ loading: true });
-      const endTimestamp = this.getEndTimestamp(config.category);
+      const paginationIndexer = this.getEndTimestamp(config.category);
       config
-        .fetchDataFn(config.count, endTimestamp)
+        .fetchDataFn(config.count, paginationIndexer)
         .then((newData: any) => {
           let newState: any;
           if (newData.length > 0) {
@@ -122,30 +122,32 @@ export default (
     };
 
     getEndTimestamp = (category: string) => {
-      let endTimestamp;
+      let paginationIndexer;
       switch (category) {
         case "Account":
-          endTimestamp =
-            this.state.items[this.state.items.length - 1]
-              .createdAtBlockTimestamp *
-              1000000 +
-            this.state.items[this.state.items.length - 1].accountIndex;
+          paginationIndexer = {
+            endTimestamp: this.state.items[this.state.items.length - 1]
+              .createdAtBlockTimestamp,
+            accountIndex: this.state.items[this.state.items.length - 1]
+              .accountIndex,
+          };
           break;
         case "Block":
-          endTimestamp = this.state.items[this.state.items.length - 1]
+          paginationIndexer = this.state.items[this.state.items.length - 1]
             .timestamp;
           break;
         case "Node":
-          endTimestamp = this.state.items[this.state.items.length - 1].lastSeen;
+          paginationIndexer = this.state.items[this.state.items.length - 1]
+            .lastSeen;
           break;
         case "Transaction":
-          endTimestamp = this.state.items[this.state.items.length - 1]
+          paginationIndexer = this.state.items[this.state.items.length - 1]
             .blockTimestamp;
           break;
         default:
-          endTimestamp = undefined;
+          paginationIndexer = undefined;
       }
-      return endTimestamp;
+      return paginationIndexer;
     };
 
     render() {
