@@ -35,14 +35,21 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getBlocks(limit = 15, endTimestamp?: number): Promise<BlockInfo[]> {
+  async getBlocks(
+    limit = 15,
+    paginationIndexer?: number
+  ): Promise<BlockInfo[]> {
     try {
       return await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
             FROM blocks
-            ${endTimestamp ? `WHERE blocks.timestamp < :endTimestamp` : ""}
+            ${
+              paginationIndexer
+                ? `WHERE blocks.timestamp < :paginationIndexer`
+                : ""
+            }
             ORDER BY blocks.height DESC
             LIMIT :limit
           ) as blocks
@@ -51,7 +58,7 @@ export default class BlocksApi extends ExplorerApi {
           ORDER BY blocks.timestamp DESC`,
         {
           limit,
-          endTimestamp,
+          paginationIndexer,
         },
       ]);
     } catch (error) {
