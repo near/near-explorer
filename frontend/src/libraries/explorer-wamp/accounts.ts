@@ -77,7 +77,7 @@ export default class AccountsApi extends ExplorerApi {
           FROM accounts
           ${
             paginationIndexer
-              ? `WHERE created_at_block_timestamp < :endTimestamp OR (created_at_block_timestamp = :endTimestamp AND account_index <= :accountIndex)`
+              ? `WHERE created_at_block_timestamp < :endTimestamp OR (created_at_block_timestamp = :endTimestamp AND account_index < :accountIndex)`
               : ""
           }
           ORDER BY created_at_block_timestamp DESC, account_index DESC
