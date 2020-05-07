@@ -18,13 +18,13 @@ export default class extends React.Component<OuterProps> {
     count: 15,
   };
 
-  fetchTransactions = async (count: number, endTimestamp?: number) => {
+  fetchTransactions = async (count: number, paginationIndexer?: number) => {
     return await new TransactionsApi().getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,
       limit: count,
-      endTimestamp: endTimestamp,
+      paginationIndexer: paginationIndexer,
     });
   };
 

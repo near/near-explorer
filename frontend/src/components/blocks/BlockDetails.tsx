@@ -101,9 +101,13 @@ export default ({ block }: Props) => {
                   </Term>
                 }
                 text={
-                  <BlockLink blockHash={block.prevHash}>
-                    {block.prevHash}
-                  </BlockLink>
+                  block.prevHash === "11111111111111111111111111111111" ? (
+                    "Genesis"
+                  ) : (
+                    <BlockLink blockHash={block.prevHash}>
+                      {block.prevHash}
+                    </BlockLink>
+                  )
                 }
                 className="block-card-parent-hash border-0"
               />

@@ -67,6 +67,39 @@ export default class extends App {
           <Footer />
         </DataProvider>
         <style jsx global>{`
+          @font-face {
+            font-family: "BentonSans";
+            font-weight: 500;
+            src: url("/static/fonts/BentonSans-Medium.otf") format("opentype");
+          }
+
+          @font-face {
+            font-family: "BentonSans";
+            font-weight: 300;
+            src: url("/static/fonts/BentonSans-Regular.otf") format("opentype");
+          }
+
+          @font-face {
+            font-family: "BwSeidoRound";
+            font-weight: 500;
+            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Medium.otf")
+              format("opentype");
+          }
+
+          @font-face {
+            font-family: "BwSeidoRound";
+            font-weight: 300;
+            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Light.otf")
+              format("opentype");
+          }
+
+          @font-face {
+            font-family: "BwSeidoRound";
+            font-weight: 400;
+            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Regular.otf")
+              format("opentype");
+          }
+
           body {
             background-color: white;
             height: 100%;
@@ -79,6 +112,28 @@ export default class extends App {
 
           a:hover {
             text-decoration: none;
+          }
+
+          h1,
+          h2,
+          .modal-title {
+            font-family: BwSeidoRound;
+            font-weight: 500;
+            color: #24272a;
+          }
+
+          h1 {
+            font-size: 48px;
+          }
+
+          h2,
+          .modal-title {
+            font-size: 24px;
+          }
+
+          .modal-body {
+            font-family: BentonSans;
+            font-weight: 300;
           }
 
           .page {

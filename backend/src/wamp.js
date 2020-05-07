@@ -28,7 +28,7 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     peerCount: nodeInfo.chain.num_peers,
     isValidator: nodeInfo.chain.is_validator,
     lastHash: nodeInfo.chain.latest_block_hash,
-    signature: nodeInfo.signature,
+    signature: nodeInfo.signature || "",
     agentName: nodeInfo.agent.name,
     agentVersion: nodeInfo.agent.version,
     agentBuild: nodeInfo.agent.build,

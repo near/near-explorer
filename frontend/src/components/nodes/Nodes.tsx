@@ -17,8 +17,12 @@ export default class extends React.Component<Props> {
     count: 15,
   };
 
-  fetchNodes = async (count: number, endTimestamp?: string) => {
-    return await new NodesApi().getNodes(count, this.props.role, endTimestamp);
+  fetchNodes = async (count: number, paginationIndexer?: string) => {
+    return await new NodesApi().getNodes(
+      count,
+      this.props.role,
+      paginationIndexer
+    );
   };
 
   componentDidUpdate(prevProps: any) {
