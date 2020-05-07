@@ -107,9 +107,13 @@ export default class extends React.Component<Props> {
                   </a>
                 </Term>
               }
-              text={moment(account.createdAtBlockTimestamp).format(
-                "MMMM DD, YYYY [at] h:mm:ssa"
-              )}
+              text={
+                account.createdAtBlockTimestamp
+                  ? moment(account.createdAtBlockTimestamp).format(
+                      "MMMM DD, YYYY [at] h:mm:ssa"
+                    )
+                  : ""
+              }
               className="block-card-created account-card-back border-0"
             />
           </Col>
@@ -130,14 +134,18 @@ export default class extends React.Component<Props> {
                 </Term>
               }
               text={
-                account.createdByTransactionHash !== "Genesis" ? (
-                  <TransactionLink
-                    transactionHash={account.createdByTransactionHash}
-                  >
-                    {account.createdByTransactionHash}
-                  </TransactionLink>
+                account.createdByTransactionHash ? (
+                  account.createdByTransactionHash !== "Genesis" ? (
+                    <TransactionLink
+                      transactionHash={account.createdByTransactionHash}
+                    >
+                      {account.createdByTransactionHash}
+                    </TransactionLink>
+                  ) : (
+                    "from Genesis"
+                  )
                 ) : (
-                  "from Genesis"
+                  ""
                 )
               }
               className="block-card-created-text account-card-back border-0"
