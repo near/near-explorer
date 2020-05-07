@@ -137,7 +137,8 @@ export default (
           break;
         case "Node":
           paginationIndexer = this.state.items[this.state.items.length - 1]
-            .lastSeen;
+            .nodeId;
+
           break;
         case "Transaction":
           paginationIndexer = this.state.items[this.state.items.length - 1]
