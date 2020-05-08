@@ -60,13 +60,6 @@ export default class extends React.Component<Props, State> {
               id="validator-node"
             >
               <Col className="node-selector align-self-center">
-                <img
-                  src={"/static/images/icon-m-node-online.svg"}
-                  style={{
-                    width: "12px",
-                    marginRight: "10px",
-                  }}
-                />
                 {nodeStats
                   ? `${nodeStats.validatorsCount}  Validating`
                   : `- Validating`}
@@ -81,13 +74,6 @@ export default class extends React.Component<Props, State> {
               id="non-validator-node"
             >
               <Col className="node-selector align-self-center">
-                <img
-                  src={"/static/images/icon-m-node-online.svg"}
-                  style={{
-                    width: "12px",
-                    marginRight: "10px",
-                  }}
-                />
                 {nodeStats
                   ? `${nodeStats.nonValidatorsCount}  Non-Validating`
                   : `- Non-Validating`}
@@ -113,6 +99,7 @@ export default class extends React.Component<Props, State> {
             box-sizing: border-box;
             border-radius: 25px;
             margin-left: 15px;
+            margin-bottom: 15px;
           }
 
           .node-link:active,

@@ -149,7 +149,15 @@ export default class extends React.Component<State> {
             <CardCell
               title={
                 <Term title={"Block Height"}>
-                  {" Most recent block heihgt recorded to the blockchain. "}
+                  <p>{`The most recent block height recorded to the blockchain.`}</p>
+                  <p>{`The block height is a sequential number of the most recent block in the blockchain.`}</p>
+                  <p>{`For example, a block height of 1000 indicates that up to 1001 blocks may exist in the blockchain (genesis + blocks 0-1000).
+                    In NEAR, there is not guaranteed to be a block for each sequential number, e.g. block 982 does not necessarily exist.`}</p>
+                  <p>
+                    <a href="https://docs.near.org/docs/concepts/overview">
+                      {"Learn more about the key concepts"}
+                    </a>
+                  </p>
                 </Term>
               }
               imgLink="/static/images/icon-m-height.svg"

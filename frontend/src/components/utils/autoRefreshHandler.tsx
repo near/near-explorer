@@ -98,7 +98,7 @@ export default (
 
     fetchMoreData = async () => {
       this.setState({ loading: true });
-      const paginationIndexer = this.getEndTimestamp(config.category);
+      const paginationIndexer = this.getPaginationIndexer(config.category);
       config
         .fetchDataFn(config.count, paginationIndexer)
         .then((newData: any) => {
@@ -121,7 +121,7 @@ export default (
         .catch((err: Error) => console.error(err));
     };
 
-    getEndTimestamp = (category: string) => {
+    getPaginationIndexer = (category: string) => {
       let paginationIndexer;
       switch (category) {
         case "Account":
@@ -138,7 +138,7 @@ export default (
           break;
         case "Node":
           paginationIndexer = this.state.items[this.state.items.length - 1]
-            .lastSeen;
+            .nodeId;
           break;
         case "Transaction":
           paginationIndexer = this.state.items[this.state.items.length - 1]

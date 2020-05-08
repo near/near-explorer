@@ -118,7 +118,7 @@ export interface QueryArgs {
   transactionHash?: string;
   blockHash?: string;
   limit: number;
-  endTimestamp?: number;
+  paginationIndexer?: number;
 }
 
 export default class TransactionsApi extends ExplorerApi {
@@ -128,7 +128,7 @@ export default class TransactionsApi extends ExplorerApi {
       receiverId,
       transactionHash,
       blockHash,
-      endTimestamp,
+      paginationIndexer,
     } = queries;
     const whereClause = [];
     if (signerId) {
@@ -145,16 +145,16 @@ export default class TransactionsApi extends ExplorerApi {
     }
     let WHEREClause;
     if (whereClause.length > 0) {
-      if (endTimestamp) {
-        WHEREClause = `WHERE block_timestamp < :endTimestamp AND (${whereClause.join(
+      if (paginationIndexer) {
+        WHEREClause = `WHERE block_timestamp < :paginationIndexer AND (${whereClause.join(
           " OR "
         )})`;
       } else {
         WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
       }
     } else {
-      if (endTimestamp) {
-        WHEREClause = `WHERE block_timestamp < :endTimestamp`;
+      if (paginationIndexer) {
+        WHEREClause = `WHERE block_timestamp < :paginationIndexer`;
       } else {
         WHEREClause = "";
       }

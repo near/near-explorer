@@ -33,7 +33,7 @@ exports[`<NodeRow /> renders 1`] = `
           className="jsx-990356129 node-status"
         >
            
-          NoSync
+          
         </span>
       </div>
     </div>

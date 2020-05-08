@@ -10,6 +10,15 @@ interface Props {
 }
 
 export default class extends React.PureComponent<Props> {
+  statusIdentifier = new Map([
+    ["AwaitingPeers", "Waiting for peers"],
+    ["HeaderSync", "Syncing headers"],
+    ["BlockSync", "Syncing blocks"],
+    ["StateSync", "Syncing state"],
+    ["StateSyncDone", "State sync is done"],
+    ["BodySync", "Syncing body"],
+    ["NoSync", ""],
+  ]);
   render() {
     const { node } = this.props;
     return (
@@ -24,7 +33,10 @@ export default class extends React.PureComponent<Props> {
           <Row>
             <Col className="node-row-title">
               @{node.accountId}{" "}
-              <span className="node-status"> {node.status}</span>
+              <span className="node-status">
+                {" "}
+                {this.statusIdentifier.get(node.status)}
+              </span>
             </Col>
           </Row>
           <Row>
