@@ -123,7 +123,22 @@ export default class extends App {
           }
 
           h1 {
-            font-size: 48px;
+            font-size: calc(
+              28px + (48 - 28) * ((100vw - 300px) / (1600 - 300))
+            );
+            word-wrap: break-word;
+          }
+
+          @media (max-width: 300px) {
+            h1 {
+              font-size: 28px;
+            }
+          }
+
+          @media (min-width: 1600px) {
+            h1 {
+              font-size: 48px;
+            }
           }
 
           h2,
