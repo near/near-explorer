@@ -18,10 +18,10 @@ export default () => (
         </Link>
       </Col>
 
-      <Col md="auto" xs="6" className="pl-0  d-none d-sm-block ">
+      <Col md="auto" xs="6" className="pl-0  d-none d-md-block ">
         <Link href="/">
           <a>
-            <img className="near-main-logo" src="/static/images/explorer.png" />
+            <img className="near-main-logo" src="/static/images/explorer.svg" />
           </a>
         </Link>
       </Col>
@@ -78,7 +78,8 @@ export default () => (
       }
 
       .near-main-logo {
-        width: 220px !important;
+        width: 210px !important;
+        padding: 15px;
       }
 
       .near-main-container {

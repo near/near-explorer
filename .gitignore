@@ -65,3 +65,6 @@ backend/db
 
 # frontend ignores
 frontend/cypress/videos
+
+# Desktop Services Store
+.DS_Store
