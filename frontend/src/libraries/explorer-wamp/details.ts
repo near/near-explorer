@@ -6,18 +6,13 @@ export interface Details {
   onlineNodesCount: number;
   lastDayTxCount: number;
   lastBlockHeight: number;
-  transactionsPerSecond?: number;
 }
 
 export default class DetailsApi extends ExplorerApi {
-  async getDetails(): Promise<Details | undefined> {
+  async getDetails(): Promise<Details> {
     try {
-      const blockTimestamp = await this.call("select", [
-        `SELECT timestamp FROM blocks WHERE timestamp > ((strftime('%s','now') - 30) * 1000 ) ORDER BY timestamp DESC LIMIT 1`,
-      ]).then((it: any) => (it.length > 0 ? it[0].timestamp : null));
-      const [detail, tps] = await Promise.all([
-        this.call("select", [
-          `
+      return await this.call<[Details]>("select", [
+        `
           SELECT
           online_nodes.onlineNodesCount,
           validator_nodes.validatorsCount,
@@ -34,25 +29,7 @@ export default class DetailsApi extends ExplorerApi {
           (SELECT COUNT(*) as lastDayTxCount FROM transactions
               WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000  ) as Daytransactions
           `,
-        ]).then((it: any) => it[0]),
-        blockTimestamp !== null
-          ? this.call("select", [
-              `
-          SELECT COUNT(*) as transactionsPer10Second FROM transactions
-            WHERE block_timestamp > (:blockTimestamp - 10 * 1000) AND block_timestamp <= :blockTimestamp 
-          `,
-              {
-                blockTimestamp,
-              },
-            ]).then((it: any) => Math.ceil(it[0].transactionsPer10Second / 10))
-          : undefined,
-      ]);
-      return detail !== undefined
-        ? ({
-            ...detail,
-            transactionsPerSecond: tps,
-          } as Details)
-        : undefined;
+      ]).then((it) => it[0]);
     } catch (error) {
       console.error("Details.getDetails failed to fetch data due to:");
       console.error(error);
