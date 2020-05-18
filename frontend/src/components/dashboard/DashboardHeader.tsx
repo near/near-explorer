@@ -165,11 +165,30 @@ export default class extends React.Component<State> {
               loading={loading}
             />
           </Col>
-          <Col xs="12" md="3">
+          <Col xs="12" md="2">
+            <CardCell
+              title={
+                <Term title={"TXs"}>
+                  {"The number of transactions since genesis. "}
+                  <a
+                    href={
+                      "https://docs.nearprotocol.com/docs/concepts/transaction"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
+              imgLink="/static/images/icon-m-transaction.svg"
+              text={details ? details.totalTxCount.toLocaleString() : ""}
+              loading={loading}
+            />
+          </Col>
+          <Col xs="12" md="2">
             <CardCell
               title={
                 <Term title={"TPD"}>
-                  {"Total transactions in the last 24 hours. "}
+                  {"The number of transactions in the last 24 hours. "}
                   <a
                     href={
                       "https://docs.nearprotocol.com/docs/concepts/transaction"
@@ -184,7 +203,7 @@ export default class extends React.Component<State> {
               loading={loading}
             />
           </Col>
-          <Col xs="12" md="3">
+          <Col xs="12" md="2">
             <CardCell
               title={
                 <Term title={"Accounts"}>
