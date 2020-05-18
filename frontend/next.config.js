@@ -1,6 +1,4 @@
 // next.config.js
-const withCSS = require("@zeit/next-css");
-
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
 
 let nearNetworks;
@@ -22,7 +20,7 @@ for (const nearNetwork of nearNetworks) {
   }
 }
 
-module.exports = withCSS({
+module.exports = {
   serverRuntimeConfig: {
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_INTERNAL_URL ||
@@ -46,4 +44,4 @@ module.exports = withCSS({
 
     return config;
   },
-});
+};
