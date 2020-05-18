@@ -20,6 +20,11 @@ interface AccountInfo {
 
 export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 
+export interface AccountPagination {
+  endTimestamp: number;
+  accountIndex: number;
+}
+
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
@@ -63,7 +68,7 @@ export default class AccountsApi extends ExplorerApi {
 
   async getAccounts(
     limit: number = 15,
-    paginationIndexer?: number
+    paginationIndexer?: AccountPagination
   ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
@@ -72,14 +77,14 @@ export default class AccountsApi extends ExplorerApi {
           FROM accounts
           ${
             paginationIndexer
-              ? `WHERE (created_at_block_timestamp * 1000000 + account_index) < :paginationIndexer`
+              ? `WHERE created_at_block_timestamp < :endTimestamp OR (created_at_block_timestamp = :endTimestamp AND account_index < :accountIndex)`
               : ""
           }
-          ORDER BY (created_at_block_timestamp * 1000000 + account_index) DESC
+          ORDER BY created_at_block_timestamp DESC, account_index DESC
           LIMIT :limit`,
         {
           limit,
-          paginationIndexer,
+          ...paginationIndexer,
         },
       ]);
     } catch (error) {

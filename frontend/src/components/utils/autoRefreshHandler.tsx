@@ -125,11 +125,12 @@ export default (
       let paginationIndexer;
       switch (category) {
         case "Account":
-          paginationIndexer =
-            this.state.items[this.state.items.length - 1]
-              .createdAtBlockTimestamp *
-              1000000 +
-            this.state.items[this.state.items.length - 1].accountIndex;
+          paginationIndexer = {
+            endTimestamp: this.state.items[this.state.items.length - 1]
+              .createdAtBlockTimestamp,
+            accountIndex: this.state.items[this.state.items.length - 1]
+              .accountIndex,
+          };
           break;
         case "Block":
           paginationIndexer = this.state.items[this.state.items.length - 1]
@@ -138,7 +139,6 @@ export default (
         case "Node":
           paginationIndexer = this.state.items[this.state.items.length - 1]
             .nodeId;
-
           break;
         case "Transaction":
           paginationIndexer = this.state.items[this.state.items.length - 1]
