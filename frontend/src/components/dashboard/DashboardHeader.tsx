@@ -168,10 +168,8 @@ export default class extends React.Component<State> {
           <Col xs="12" md="2">
             <CardCell
               title={
-                <Term title={"TPS"}>
-                  {
-                    "Average transactions per second (TPS) during the last 10 seconds. "
-                  }
+                <Term title={"TXs"}>
+                  {"The number of transactions since genesis. "}
                   <a
                     href={
                       "https://docs.nearprotocol.com/docs/concepts/transaction"
@@ -181,14 +179,8 @@ export default class extends React.Component<State> {
                   </a>
                 </Term>
               }
-              imgLink="/static/images/icon-m-tps.svg"
-              text={
-                details
-                  ? details.transactionsPerSecond !== undefined
-                    ? details.transactionsPerSecond.toLocaleString()
-                    : "N/A"
-                  : ""
-              }
+              imgLink="/static/images/icon-m-transaction.svg"
+              text={details ? details.totalTxCount.toLocaleString() : ""}
               loading={loading}
             />
           </Col>
@@ -196,7 +188,7 @@ export default class extends React.Component<State> {
             <CardCell
               title={
                 <Term title={"TPD"}>
-                  {"Total transactions in the last 24 hours. "}
+                  {"The number of transactions in the last 24 hours. "}
                   <a
                     href={
                       "https://docs.nearprotocol.com/docs/concepts/transaction"
