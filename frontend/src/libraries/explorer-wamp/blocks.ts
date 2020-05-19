@@ -8,8 +8,8 @@ export interface BlockInfo {
   transactionsCount: number;
   gasPrice: string;
   gasUsed: number;
+  isFinal: boolean;
 }
-
 export default class BlocksApi extends ExplorerApi {
   async searchBlocks(keyword: string, height = -1, limit = 15) {
     try {
@@ -87,15 +87,21 @@ export default class BlocksApi extends ExplorerApi {
           blockId,
         },
       ]).then((it) => (it[0].hash !== null ? it[0] : null));
-
+      const finalHeight = await this.getFinalStats();
+      block.isFinal = block.height <= finalHeight;
       if (block === null) {
         throw new Error("block not found");
       }
-      return block;
+      return block as BlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
       console.error(error);
       throw error;
     }
+  }
+
+  async getFinalStats(): Promise<any> {
+    const finalBlock = await this.call<any>("get-finality-stats");
+    return finalBlock.header.height;
   }
 }
