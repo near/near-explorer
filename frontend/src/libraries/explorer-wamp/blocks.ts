@@ -40,7 +40,7 @@ export default class BlocksApi extends ExplorerApi {
     paginationIndexer?: number
   ): Promise<BlockInfo[]> {
     try {
-      return await this.call("select", [
+      const blocks: BlockInfo[] = await this.call("select", [
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
@@ -61,6 +61,13 @@ export default class BlocksApi extends ExplorerApi {
           paginationIndexer,
         },
       ]);
+      const finalHeight = await this.getFinalStats();
+      if (blocks.length > 0) {
+        blocks.map(
+          (block: any) => (block.isFinal = block.height <= finalHeight)
+        );
+      }
+      return blocks as BlockInfo[];
     } catch (error) {
       console.error("Blocks.getBlocks failed to fetch data due to:");
       console.error(error);
