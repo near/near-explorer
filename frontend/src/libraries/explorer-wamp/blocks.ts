@@ -94,11 +94,14 @@ export default class BlocksApi extends ExplorerApi {
           blockId,
         },
       ]).then((it) => (it[0].hash !== null ? it[0] : null));
-      const finalHeight = await this.getFinalStats();
-      block.isFinal = block.height <= finalHeight;
+
       if (block === null) {
         throw new Error("block not found");
+      } else {
+        const finalHeight = await this.getFinalStats();
+        block.isFinal = block.height <= finalHeight;
       }
+
       return block as BlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
