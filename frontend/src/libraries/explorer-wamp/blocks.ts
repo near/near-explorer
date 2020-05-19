@@ -8,7 +8,7 @@ export interface BlockInfo {
   transactionsCount: number;
   gasPrice: string;
   gasUsed: number;
-  isFinal: boolean;
+  isFinal?: boolean;
 }
 export default class BlocksApi extends ExplorerApi {
   async searchBlocks(keyword: string, height = -1, limit = 15) {
