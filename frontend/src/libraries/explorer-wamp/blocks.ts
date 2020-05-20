@@ -40,8 +40,9 @@ export default class BlocksApi extends ExplorerApi {
     paginationIndexer?: number
   ): Promise<BlockInfo[]> {
     try {
-      const blocks: BlockInfo[] = await this.call("select", [
-        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+      const [blocks, finalHeight] = await Promise.all([
+        this.call<any>("select", [
+          `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
             FROM blocks
@@ -56,12 +57,13 @@ export default class BlocksApi extends ExplorerApi {
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           GROUP BY blocks.hash
           ORDER BY blocks.timestamp DESC`,
-        {
-          limit,
-          paginationIndexer,
-        },
+          {
+            limit,
+            paginationIndexer,
+          },
+        ]),
+        this.queryFinalHeight(),
       ]);
-      const finalHeight = await this.queryFinalHeight();
       for (let i = 0; i < blocks.length; i++) {
         blocks[i].isFinal = blocks[i].height <= finalHeight;
       }
