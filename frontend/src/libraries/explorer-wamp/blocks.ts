@@ -61,11 +61,9 @@ export default class BlocksApi extends ExplorerApi {
           paginationIndexer,
         },
       ]);
-      const finalHeight = await this.getFinalStats();
-      if (blocks.length > 0) {
-        blocks.map(
-          (block: any) => (block.isFinal = block.height <= finalHeight)
-        );
+      const finalHeight = await this.queryFinalHeight();
+      for (let i = 0; i < blocks.length; i++) {
+        blocks[i].isFinal = blocks[i].height <= finalHeight;
       }
       return blocks as BlockInfo[];
     } catch (error) {
@@ -81,8 +79,9 @@ export default class BlocksApi extends ExplorerApi {
 
   async getBlockInfo(blockId: string): Promise<BlockInfo> {
     try {
-      const block = await this.call<any>("select", [
-        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+      const [block, finalHeight] = await Promise.all([
+        this.call<any>("select", [
+          `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, 
                   blocks.gas_price as gasPrice, blocks.gas_used as gasUsed
@@ -90,15 +89,16 @@ export default class BlocksApi extends ExplorerApi {
             WHERE blocks.hash = :blockId OR blocks.height = :blockId
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
-        {
-          blockId,
-        },
-      ]).then((it) => (it[0].hash !== null ? it[0] : null));
+          {
+            blockId,
+          },
+        ]).then((it) => (it[0].hash !== null ? it[0] : null)),
+        this.queryFinalHeight(),
+      ]);
 
       if (block === null) {
         throw new Error("block not found");
       } else {
-        const finalHeight = await this.getFinalStats();
         block.isFinal = block.height <= finalHeight;
       }
 
@@ -110,7 +110,7 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getFinalStats(): Promise<any> {
+  async queryFinalHeight(): Promise<any> {
     const finalBlock = await this.call<any>("get-finality-stats");
     return finalBlock.header.height;
   }

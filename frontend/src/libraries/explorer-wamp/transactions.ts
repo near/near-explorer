@@ -14,6 +14,7 @@ export interface TransactionInfo {
   blockHash: string;
   blockTimestamp: number;
   status: ExecutionStatus;
+  isFinal?: boolean;
 }
 
 export interface CreateAccount {}
@@ -177,14 +178,17 @@ export default class TransactionsApi extends ExplorerApi {
             //
             // Meanwhile, we query this information in a non-effective manner,
             // that is making a separate query per transaction to nearcore RPC.
-            const transactionExtraInfo = await this.call<any>("nearcore-tx", [
-              transaction.hash,
-              transaction.signerId,
+            const [transactionExtraInfo, finalTimestamp] = await Promise.all([
+              this.call<any>("nearcore-tx", [
+                transaction.hash,
+                transaction.signerId,
+              ]),
+              this.queryFinalTimestamp(),
             ]);
             transaction.status = Object.keys(
               transactionExtraInfo.status
             )[0] as ExecutionStatus;
-
+            transaction.isFinal = transaction.blockTimestamp <= finalTimestamp;
             // Given we already queried the information from the node, we can use the actions,
             // since DeployContract.code and FunctionCall.args are stripped away due to their size.
             //
@@ -253,6 +257,11 @@ export default class TransactionsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async queryFinalTimestamp(): Promise<any> {
+    const finalBlock = await this.call<any>("get-finality-stats");
+    return finalBlock.header.timestamp;
   }
 }
 
