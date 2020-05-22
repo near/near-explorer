@@ -26,12 +26,19 @@ export default class ContractsApi extends ExplorerApi {
           ]).then((info) => info[0]),
           this.queryAccessKey(id),
         ]);
-        return {
-          codeHash: codeHash,
-          transactionHash: contractInfo.hash,
-          timestamp: contractInfo.block_timestamp,
-          accessKeys: accessKeys.keys,
-        };
+        if (contractInfo !== undefined) {
+          return {
+            codeHash,
+            transactionHash: contractInfo.hash,
+            timestamp: contractInfo.block_timestamp,
+            accessKeys: accessKeys.keys,
+          };
+        } else {
+          return {
+            codeHash,
+            accessKeys: accessKeys.keys,
+          };
+        }
       } else {
         return;
       }
