@@ -80,7 +80,7 @@ export default ({ block }: Props) => {
                   </Term>
                 }
                 imgLink="/static/images/icon-t-status.svg"
-                text={block.isFinal ? "Finalized" : "Finalizing"}
+                text={block.isFinal ? "Finalized" : "Finalizing..."}
               />
             </Col>
           </Row>
