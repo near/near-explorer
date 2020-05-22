@@ -5,13 +5,18 @@ exports[`<BlockDetails /> renders 1`] = `
   className="col-xl-6 col-12"
 >
   <a
-    className="jsx-1776142549 dashboard-blocks-block-link"
+    className="jsx-3565829549 dashboard-blocks-block-link"
     href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
     onClick={[Function]}
     onMouseEnter={[Function]}
   >
     <div
       className="dashboard-blocks-block card"
+      style={
+        Object {
+          "background": "#fff",
+        }
+      }
     >
       <div
         className="dashboard-blocks-block-title card-title h5"
@@ -23,22 +28,22 @@ exports[`<BlockDetails /> renders 1`] = `
         className="dashboard-blocks-block-content card-body"
       >
         <p
-          className="jsx-1776142549 dashboard-blocks-block-content-p"
+          className="jsx-3565829549 dashboard-blocks-block-content-p"
         >
           <img
-            className="jsx-1776142549"
+            className="jsx-3565829549"
             src="/static/images/icon-m-transaction.svg"
           />
           3
         </p>
         <div
-          className="row no-gutters"
+          className="dashboard-blocks-block-footer row no-gutters"
         >
           <div
             className="col-md-7 col-7"
           >
             <span
-              className="jsx-1776142549 dashboard-blocks-block-content-p-footer"
+              className="jsx-3565829549 dashboard-blocks-block-content-p-footer"
             >
               EVvWW1
               ...
@@ -48,7 +53,7 @@ exports[`<BlockDetails /> renders 1`] = `
             className="align-self-center text-right col-md-5 col-5"
           >
             <span
-              className="jsx-1776142549 dashboard-blocks-block-timer"
+              className="jsx-3565829549 dashboard-blocks-block-timer"
             >
               <span>
                 1s ago
