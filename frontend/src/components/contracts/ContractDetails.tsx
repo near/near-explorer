@@ -29,15 +29,17 @@ export default class extends React.Component<Props, State> {
       .getContractInfo(this.props.accountId)
       .then((contractInfo) => {
         if (contractInfo) {
-          this.setState({
-            codeHash: contractInfo.codeHash,
-            transactionHash: contractInfo.transactionHash,
-            timestamp: contractInfo.timestamp,
-            locked: contractInfo.accessKeys.every(
-              (key: any) =>
-                key["access_key"]["permission"]["FunctionCall"] !== undefined
-            ),
-          });
+          if (contractInfo !== undefined) {
+            this.setState({
+              codeHash: contractInfo.codeHash,
+              transactionHash: contractInfo.transactionHash,
+              timestamp: contractInfo.timestamp,
+              locked: contractInfo.accessKeys.every(
+                (key: any) =>
+                  key["access_key"]["permission"]["FunctionCall"] !== undefined
+              ),
+            });
+          }
         }
         return;
       })

@@ -1,14 +1,16 @@
 import { ExplorerApi } from ".";
 
-export interface ContractInfo {
-  transactionHash: string;
-  timestamp: number | null;
+interface ContractInfo {
+  transactionHash?: string;
+  timestamp?: number;
   accessKeys: Array<object>;
   codeHash: string;
 }
 
+type Contract = ContractInfo | undefined;
+
 export default class ContractsApi extends ExplorerApi {
-  async getContractInfo(id: string) {
+  async getContractInfo(id: string): Promise<Contract> {
     try {
       const codeHash = await this.queryCodeHash(id);
       if (codeHash !== "11111111111111111111111111111111") {
