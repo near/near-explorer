@@ -184,7 +184,7 @@ export default class extends React.Component<Props, State> {
               title={
                 <Term title={"Status"}>
                   {
-                    "Current status of the transaction (Pending, Succeeded, Failed). "
+                    "Current status of the transaction (Pending, Succeeded, Failed/Finalized or non finalized). "
                   }
                   <a
                     href={
@@ -196,7 +196,12 @@ export default class extends React.Component<Props, State> {
                 </Term>
               }
               imgLink="/static/images/icon-t-status.svg"
-              text={<ExecutionStatus status={transaction.status} />}
+              text={
+                <div style={{ fontSize: "21px" }}>
+                  <ExecutionStatus status={transaction.status} />
+                  {transaction.isFinal ? "/Finalized" : "/Finalizing"}
+                </div>
+              }
             />
           </Col>
         </Row>

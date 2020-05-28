@@ -69,9 +69,7 @@ export default ({ block }: Props) => {
               <CardCell
                 title={
                   <Term title={"Status"}>
-                    {
-                      "Current status of the block (finalizing or non-finalizing). "
-                    }
+                    {"Current status of the block (finalizing or finalized). "}
                     <a
                       href={"https://docs.near.org/docs/interaction/rpc#block"}
                     >
