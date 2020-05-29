@@ -51,6 +51,10 @@ wampHandlers["nearcore-tx"] = async ([transactionHash, accountId]) => {
   return await nearRpc.sendJsonRpc("tx", [transactionHash, accountId]);
 };
 
+wampHandlers["get-finality-stats"] = async () => {
+  return await nearRpc.sendJsonRpc("block", { finality: "final" });
+};
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",

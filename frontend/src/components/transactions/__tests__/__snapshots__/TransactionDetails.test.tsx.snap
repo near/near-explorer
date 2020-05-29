@@ -179,7 +179,17 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              Succeeded
+              <div
+                className="jsx-2817089383"
+                style={
+                  Object {
+                    "fontSize": "21px",
+                  }
+                }
+              >
+                Succeeded
+                /Finalizing
+              </div>
             </div>
           </div>
         </div>
@@ -648,7 +658,17 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              Succeeded
+              <div
+                className="jsx-2817089383"
+                style={
+                  Object {
+                    "fontSize": "21px",
+                  }
+                }
+              >
+                Succeeded
+                /Finalizing
+              </div>
             </div>
           </div>
         </div>
@@ -1117,7 +1137,17 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              Succeeded
+              <div
+                className="jsx-2817089383"
+                style={
+                  Object {
+                    "fontSize": "21px",
+                  }
+                }
+              >
+                Succeeded
+                /Finalizing
+              </div>
             </div>
           </div>
         </div>

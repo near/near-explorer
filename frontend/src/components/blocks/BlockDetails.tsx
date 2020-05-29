@@ -18,7 +18,7 @@ export default ({ block }: Props) => {
       <Row noGutters>
         <Col className="block-info-container">
           <Row noGutters className="block-info-header">
-            <Col md="4">
+            <Col md="3">
               <CardCell
                 title={
                   <Term title={"Transactions"}>
@@ -37,7 +37,7 @@ export default ({ block }: Props) => {
                 className="border-0"
               />
             </Col>
-            <Col md="4">
+            <Col md="3">
               <CardCell
                 title={
                   <Term title={"Gas Used"}>
@@ -51,7 +51,7 @@ export default ({ block }: Props) => {
                 text={block.gasUsed.toLocaleString()}
               />
             </Col>
-            <Col md="4">
+            <Col md="3">
               <CardCell
                 title={
                   <Term title={"Gas Price"}>
@@ -63,6 +63,22 @@ export default ({ block }: Props) => {
                 }
                 imgLink="/static/images/icon-m-filter.svg"
                 text={block.gasPrice.toLocaleString()}
+              />
+            </Col>
+            <Col md="3">
+              <CardCell
+                title={
+                  <Term title={"Status"}>
+                    {"Current status of the block (finalizing or finalized). "}
+                    <a
+                      href={"https://docs.near.org/docs/interaction/rpc#block"}
+                    >
+                      docs
+                    </a>
+                  </Term>
+                }
+                imgLink="/static/images/icon-t-status.svg"
+                text={block.isFinal ? "Finalized" : "Finalizing..."}
               />
             </Col>
           </Row>

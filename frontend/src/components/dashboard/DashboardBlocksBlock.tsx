@@ -14,27 +14,47 @@ export default class extends React.Component<Props> {
       <Col xs={12} xl={6}>
         <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`}>
           <a className="dashboard-blocks-block-link">
-            <Card className="dashboard-blocks-block">
+            <Card
+              className="dashboard-blocks-block"
+              style={{ background: block.isFinal ? "#fff" : "#f8f7f8" }}
+            >
               <Card.Title className="dashboard-blocks-block-title">
                 #{block.height}
               </Card.Title>
               <Card.Body className="dashboard-blocks-block-content">
                 <p className="dashboard-blocks-block-content-p">
-                  <img src="/static/images/icon-m-transaction.svg" />
-                  {block.transactionsCount}
+                  {block.isFinal ? (
+                    <>
+                      <img src="/static/images/icon-m-transaction.svg" />
+                      {block.transactionsCount}
+                    </>
+                  ) : (
+                    <div style={{ height: "8px" }}></div>
+                  )}
                 </p>
-                <Row noGutters>
-                  <Col md="7" xs="7">
-                    <span className="dashboard-blocks-block-content-p-footer">
-                      {block.hash.slice(0, 6)}...
+                {block.isFinal ? (
+                  <Row noGutters className="dashboard-blocks-block-footer">
+                    <Col md="7" xs="7">
+                      <span className="dashboard-blocks-block-content-p-footer">
+                        {block.hash.slice(0, 6)}...
+                      </span>
+                    </Col>
+                    <Col md="5" xs="5" className="align-self-center text-right">
+                      <span className="dashboard-blocks-block-timer">
+                        <Timer time={block.timestamp} />
+                      </span>
+                    </Col>
+                  </Row>
+                ) : (
+                  <Row
+                    noGutters
+                    className="dashboard-blocks-block-footer non-finality-back"
+                  >
+                    <span className="non-finality-color dashboard-blocks-block-content-p-footer ">
+                      Finalizing...
                     </span>
-                  </Col>
-                  <Col md="5" xs="5" className="align-self-center text-right">
-                    <span className="dashboard-blocks-block-timer">
-                      <Timer time={block.timestamp} />
-                    </span>
-                  </Col>
-                </Row>
+                  </Row>
+                )}
               </Card.Body>
             </Card>
           </a>
@@ -49,7 +69,7 @@ export default class extends React.Component<Props> {
           }
 
           .dashboard-blocks-block {
-            padding: 10px;
+            padding-top: 10px;
             border-radius: 8px;
             border: solid 4px #e6e6e6;
             margin-top: 8px;
@@ -60,6 +80,7 @@ export default class extends React.Component<Props> {
             font-size: 18px;
             font-weight: 500;
             color: #24272a;
+            margin-left: 10px;
           }
 
           .dashboard-blocks-block-content {
@@ -71,6 +92,7 @@ export default class extends React.Component<Props> {
             font-family: BentonSans;
             font-size: 14px;
             color: #999999;
+            margin-left: 10px;
           }
 
           .dashboard-blocks-block-content-p > img {
@@ -92,6 +114,21 @@ export default class extends React.Component<Props> {
             font-family: BentonSans;
             font-size: 12px;
             color: #999999;
+          }
+
+          .non-finality-back {
+            background: #e6e5e6;
+          }
+
+          .non-finality-color {
+            color: #929192 !important;
+            padding-top: 5px;
+          }
+
+          .dashboard-blocks-block-footer {
+            height: 32px;
+            padding: 0 10px 10px;
+            width: 100%;
           }
         `}</style>
       </Col>
