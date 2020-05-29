@@ -60,7 +60,7 @@ export default class extends React.Component<Props, State> {
     if (locked !== undefined) {
       lockedShow = locked === true ? "Yes" : "No";
     }
-    if (!transactionHash) {
+    if (!codeHash) {
       return <></>;
     }
     return (
@@ -91,7 +91,7 @@ export default class extends React.Component<Props, State> {
                 text={
                   timestamp
                     ? moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")
-                    : ""
+                    : "N/A"
                 }
                 className="block-card-created-text border-0"
               />
@@ -106,9 +106,13 @@ export default class extends React.Component<Props, State> {
                   </Term>
                 }
                 text={
-                  <TransactionLink transactionHash={transactionHash}>
-                    {transactionHash}
-                  </TransactionLink>
+                  transactionHash ? (
+                    <TransactionLink transactionHash={transactionHash}>
+                      {transactionHash}
+                    </TransactionLink>
+                  ) : (
+                    "N/A"
+                  )
                 }
                 className="block-card-created border-0"
               />
