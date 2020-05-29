@@ -24,6 +24,7 @@ async function saveBlocks(blocksInfo) {
               gasLimit: blockInfo.header.gas_limit || 0,
               gasUsed: blockInfo.header.gas_used || 0,
               gasPrice: blockInfo.header.gas_price || "0",
+              author: blockInfo.author,
             };
           })
         );
