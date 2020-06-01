@@ -352,7 +352,6 @@ async function syncOldNearcoreState() {
     oldestSyncedBlockHeight = oldestSyncedBlock.height;
     console.debug(`The oldest synced block is #${oldestSyncedBlockHeight}`);
   }
-  console.log("-------------------------------------------------");
   await syncNearcoreBlocks(oldestSyncedBlockHeight - 1, genesisHeight);
 }
 
