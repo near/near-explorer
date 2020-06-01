@@ -9,6 +9,8 @@ const {
 const { nearRpc } = require("./near");
 const { Result, delayFor } = require("./utils");
 
+let genesisHeight;
+
 async function saveBlocks(blocksInfo) {
   try {
     await models.sequelize.transaction(async (transaction) => {
@@ -350,8 +352,8 @@ async function syncOldNearcoreState() {
     oldestSyncedBlockHeight = oldestSyncedBlock.height;
     console.debug(`The oldest synced block is #${oldestSyncedBlockHeight}`);
   }
-
-  await syncNearcoreBlocks(oldestSyncedBlockHeight - 1, 0);
+  console.log("-------------------------------------------------");
+  await syncNearcoreBlocks(oldestSyncedBlockHeight - 1, genesisHeight);
 }
 
 async function syncMissingNearcoreState() {
@@ -410,6 +412,7 @@ async function syncGenesisState() {
     nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
   );
   const genesisTime = moment(genesisConfig.genesis_time).valueOf();
+  genesisHeight = genesisConfig.genesis_height;
   const limit = 100;
   let offset = 0,
     batchCount;
