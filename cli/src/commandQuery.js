@@ -26,5 +26,5 @@ exports.default = async function (argv) {
   }
 
   console.log("Query result:");
-  console.log(JSON.stringify(result, null, 2));
+  console.log(result);
 };
