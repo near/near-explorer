@@ -13,11 +13,11 @@ RUN apk add --no-cache --virtual=.build-dependencies git && \
     chown nobody: . && \
     apk del .build-dependencies
 COPY ./ ./
-RUN mkdir -p ./db ./services/near-explorer-backend && \
+RUN mkdir ./db && \
     touch /etc/envvars && \
     echo 'export > /etc/envvars; for service in service_*; do if [ -s "$service" ]; then service_path=/etc/$(echo "$service" | sed 's:_:/:g'); mkdir -p "$(dirname "$service_path")"; cp "$service" "$service_path"; chmod +x "$service_path"; fi; done; exec /sbin/runsvdir /etc/service' > /opt/runit-bootstrap && \
     echo -e '#!/bin/sh -e \nsource /etc/envvars && cd /near-explorer/backend && exec npm run start' > ./service_local_run && \
     \
-    chown -R nobody: ./db /etc/service /etc/envvars /etc/service
+    chown nobody: . ./db /etc/service /etc/envvars
 USER nobody
 ENTRYPOINT ["/bin/sh", "-e", "/opt/runit-bootstrap"]
