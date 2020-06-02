@@ -27,7 +27,8 @@ async function saveBlocks(blocksInfo) {
               gasUsed: blockInfo.header.gas_used || 0,
               gasPrice: blockInfo.header.gas_price || "0",
             };
-          })
+          }),
+          { ignoreDuplicates: true }
         );
 
         await models.Chunk.bulkCreate(
@@ -44,7 +45,8 @@ async function saveBlocks(blocksInfo) {
                 heightIncluded: chunkInfo.height_included,
               };
             });
-          })
+          }),
+          { ignoreDuplicates: true }
         );
         // TODO: check the status of transactions and filter out the failling transactions in the following table.
         await Promise.all(
@@ -65,7 +67,8 @@ async function saveBlocks(blocksInfo) {
                       signature: tx.signature,
                       receiverId: tx.receiver_id,
                     };
-                  })
+                  }),
+                  { ignoreDuplicates: true }
                 ),
                 models.Action.bulkCreate(
                   blockInfo.transactions.flatMap((tx) => {
@@ -92,7 +95,8 @@ async function saveBlocks(blocksInfo) {
                         actionArgs: action[type],
                       };
                     });
-                  })
+                  }),
+                  { ignoreDuplicates: true }
                 ),
                 models.AccessKey.bulkCreate(
                   blockInfo.transactions.flatMap((tx) => {
@@ -121,7 +125,8 @@ async function saveBlocks(blocksInfo) {
                           accessKeyType,
                         };
                       });
-                  })
+                  }),
+                  { ignoreDuplicates: true }
                 ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
@@ -139,7 +144,8 @@ async function saveBlocks(blocksInfo) {
                         createdByTransactionHash: tx.hash,
                         createdAtBlockTimestamp: timestamp,
                       };
-                    })
+                    }),
+                  { ignoreDuplicates: true }
                 ),
               ]);
             })
@@ -182,7 +188,8 @@ async function saveGenesis(time, records, offset) {
                   publicKey: record.AccessKey.public_key,
                   accessKeyType,
                 };
-              })
+              }),
+            { ignoreDuplicates: true }
           ),
           models.Account.bulkCreate(
             records
@@ -194,7 +201,8 @@ async function saveGenesis(time, records, offset) {
                   createdByTransactionHash: "Genesis",
                   createdAtBlockTimestamp: time,
                 };
-              })
+              }),
+            { ignoreDuplicates: true }
           ),
         ]);
       } catch (error) {
@@ -264,6 +272,15 @@ async function saveBlocksFromRequests(requests) {
                   if (error.type === "system") {
                     await delayFor(100 + Math.random() * 1000);
                     continue;
+                  }
+                  if (
+                    error.type === "UntypedError" &&
+                    error.message.includes("Not Found")
+                  ) {
+                    console.error(
+                      `The chunk ${chunk.chunk_hash} (from block ${block.header.hash} #${block.header.height} shard id #${chunk.shard_id}) is not found. This usually means that the node does not track the shard, garbage collected the chunk, or was offline during the chunk production. Use another node to sync from, otherwise, Explorer will miss the information for the whole block, including transactions in the block.`
+                    );
+                    throw error;
                   }
                   console.error(
                     "Failed to fetch a detailed chunk info: ",
@@ -410,8 +427,17 @@ async function syncGenesisState() {
   const genesisConfig = await retry(10, () =>
     nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
   );
-  const genesisTime = moment(genesisConfig.genesis_time).valueOf();
+  if (genesisHeight && genesisHeight != genesisConfig.genesis_height) {
+    console.log(
+      `Genesis height has changed from ${genesisHeight} to ${genesisConfig.genesis_height}. \
+      We are resetting the database and shutting down the backend to let it auto-start and \
+      sync from scratch.`
+    );
+    models.resetDatabase();
+    process.exit(0);
+  }
   genesisHeight = genesisConfig.genesis_height;
+  const genesisTime = moment(genesisConfig.genesis_time).valueOf();
   const limit = 100;
   let offset = 0,
     batchCount;

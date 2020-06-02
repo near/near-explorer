@@ -2,7 +2,6 @@
   "name": "near-explorer-backend",
   "version": "0.0.1",
   "description": "NEAR blockchain explorer backend",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "env NODE_ENV=production node src/index.js",

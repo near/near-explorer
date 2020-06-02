@@ -56,4 +56,17 @@ db.sequelize = sequelize;
 db.sequelizeReadOnly = sequelizeReadOnly;
 db.Sequelize = Sequelize;
 
+db.resetDatabase = function resetDatabase() {
+  if (config.dialect !== "sqlite") {
+    console.error(
+      `resetDatabase only supports sqlite dialect, but '${config.dialect}' found. No action is taken.`
+    );
+    return;
+  }
+  fs.renameSync(
+    config.storage,
+    `${config.storage}.${new Date().toISOString().replace(/:/g, "-")}`
+  );
+};
+
 module.exports = db;
