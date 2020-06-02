@@ -15,10 +15,9 @@ RUN apk add --no-cache --virtual=.build-dependencies git && \
 COPY ./ ./
 RUN mkdir -p ./db ./services/near-explorer-backend && \
     touch /etc/envvars && \
-    chown nobody: /etc/envvars && \
-    echo 'export > /etc/envvars && cp -r ./services /tmp/services && find /tmp/services -name run -exec chmod +x {} + && exec /sbin/runsvdir /tmp/services' > /opt/runit-bootstrap && \
-    echo -e '#!/bin/sh\nsource /etc/envvars && cd /near-explorer/backend && exec npm run start' > ./services/near-explorer-backend/run && \
+    echo 'export > /etc/envvars; for service in service_*; do if [ -s "$service" ]; then service_path=/etc/$(echo "$service" | sed 's:_:/:g'); mkdir -p "$(dirname "$service_path")"; cp "$service" "$service_path"; chmod +x "$service_path"; fi; done; exec /sbin/runsvdir /etc/service' > /opt/runit-bootstrap && \
+    echo -e '#!/bin/sh -e \nsource /etc/envvars && cd /near-explorer/backend && exec npm run start' > ./service_local_run && \
     \
-    chown -R nobody: ./db ./services
+    chown -R nobody: ./db /etc/service /etc/envvars /etc/service
 USER nobody
-ENTRYPOINT ["/bin/sh", "/opt/runit-bootstrap"]
+ENTRYPOINT ["/bin/sh", "-e", "/opt/runit-bootstrap"]
