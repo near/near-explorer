@@ -55,6 +55,10 @@ wampHandlers["get-finality-stats"] = async () => {
   return await nearRpc.sendJsonRpc("block", { finality: "final" });
 };
 
+wampHandlers["nearcore-status"] = async () => {
+  return await nearRpc.sendJsonRpc("status");
+};
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
