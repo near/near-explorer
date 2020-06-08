@@ -70,7 +70,6 @@ class DashboardTransactions extends React.Component<InnerProps> {
                 items.map((transaction) => (
                   <TransactionAction
                     key={transaction.hash}
-                    actions={transaction.actions}
                     transaction={transaction}
                     viewMode={"compact"}
                   />

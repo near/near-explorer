@@ -54,7 +54,6 @@ class Transactions extends React.Component<InnerProps> {
           items.map((transaction) => (
             <TransactionAction
               key={transaction.hash}
-              actions={transaction.actions}
               transaction={transaction}
             />
           ))}

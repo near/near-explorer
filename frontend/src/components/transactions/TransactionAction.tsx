@@ -1,5 +1,6 @@
 import React from "react";
-import * as T from "../../libraries/explorer-wamp/transactions";
+import { Row } from "react-bootstrap";
+import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
 
@@ -8,44 +9,65 @@ import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 
 export interface Props {
-  actions: T.Action[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
 }
 
-export default class extends React.Component<Props> {
+interface State {
+  transaction: T.Transaction;
+}
+
+export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
   };
 
-  render() {
-    const { transaction, viewMode } = this.props;
+  state: State = {
+    transaction: this.props.transaction,
+  };
 
-    if (this.props.actions.length !== 1) {
-      return (
-        <ActionRowBlock
-          viewMode={viewMode}
-          transaction={transaction}
-          icon={<BatchTransactionIcon />}
-          title={"Batch Transaction"}
-        >
-          <ActionsList
-            actions={transaction.actions}
-            transaction={transaction}
+  componentDidMount() {
+    new TransactionsApi()
+      .getTransactionStatus(this.props.transaction)
+      .then((transaction) => this.setState({ transaction }));
+  }
+
+  render() {
+    const { viewMode } = this.props;
+    const { transaction } = this.state;
+    if (transaction.actions) {
+      if (transaction.actions.length !== 1) {
+        return (
+          <ActionRowBlock
             viewMode={viewMode}
-            detalizationMode="minimal"
-          />
-        </ActionRowBlock>
+            transaction={transaction}
+            icon={<BatchTransactionIcon />}
+            title={"Batch Transaction"}
+          >
+            <ActionsList
+              actions={transaction.actions}
+              transaction={transaction}
+              viewMode={viewMode}
+              detalizationMode="minimal"
+            />
+          </ActionRowBlock>
+        );
+      }
+      return (
+        <ActionRow
+          action={transaction.actions[0]}
+          transaction={transaction}
+          viewMode={viewMode}
+          detalizationMode="detailed"
+        />
       );
     }
-
     return (
-      <ActionRow
-        action={transaction.actions[0]}
-        transaction={transaction}
-        viewMode={viewMode}
-        detalizationMode="detailed"
-      />
+      <Row noGutters className={`action-${viewMode}-row mx-0 `}>
+        <Row noGutters className="action-row-message">
+          No action found
+        </Row>
+      </Row>
     );
   }
 }

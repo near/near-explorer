@@ -7,13 +7,13 @@ export type ExecutionStatus =
   | "SuccessValue";
 
 export interface TransactionInfo {
-  actions: Action[];
+  actions?: Action[];
   hash: string;
   signerId: string;
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
-  status: ExecutionStatus;
+  status?: ExecutionStatus;
   isFinal?: boolean;
 }
 
@@ -170,45 +170,6 @@ export default class TransactionsApi extends ExplorerApi {
           LIMIT :limit`,
         queries,
       ]);
-      if (transactions.length > 0) {
-        await Promise.all(
-          transactions.map(async (transaction) => {
-            // TODO: Expose transaction status via transactions list from chunk
-            // RPC, and store it during Explorer synchronization.
-            //
-            // Meanwhile, we query this information in a non-effective manner,
-            // that is making a separate query per transaction to nearcore RPC.
-            const [transactionExtraInfo, finalTimestamp] = await Promise.all([
-              this.call<any>("nearcore-tx", [
-                transaction.hash,
-                transaction.signerId,
-              ]),
-              this.queryFinalTimestamp(),
-            ]);
-            transaction.status = Object.keys(
-              transactionExtraInfo.status
-            )[0] as ExecutionStatus;
-            transaction.isFinal = transaction.blockTimestamp <= finalTimestamp;
-            // Given we already queried the information from the node, we can use the actions,
-            // since DeployContract.code and FunctionCall.args are stripped away due to their size.
-            //
-            // Once the above TODO is resolved, we should just move this to TransactionInfo method
-            // (i.e. query the information there only for the specific transaction).
-            const actions = transactionExtraInfo.transaction.actions;
-            transaction.actions = actions.map((action: RpcAction | string) => {
-              if (typeof action === "string") {
-                return { kind: action, args: {} };
-              } else {
-                const kind = Object.keys(action)[0] as keyof RpcAction;
-                return {
-                  kind,
-                  args: action[kind],
-                };
-              }
-            });
-          })
-        );
-      }
       return transactions as Transaction[];
     } catch (error) {
       console.error(
@@ -217,6 +178,42 @@ export default class TransactionsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async getTransactionStatus(transaction: TransactionInfo): Promise<any> {
+    // TODO: Expose transaction status via transactions list from chunk
+    // RPC, and store it during Explorer synchronization.
+    //
+    // Meanwhile, we query this information in a non-effective manner,
+    // that is making a separate query per transaction to nearcore RPC.
+    const [transactionExtraInfo, finalTimestamp] = await Promise.all([
+      this.call<any>("nearcore-tx", [transaction.hash, transaction.signerId]),
+      this.queryFinalTimestamp(),
+    ]);
+    transaction.status = Object.keys(
+      transactionExtraInfo.status
+    )[0] as ExecutionStatus;
+    transaction.isFinal = transaction.blockTimestamp <= finalTimestamp;
+
+    // Given we already queried the information from the node, we can use the actions,
+    // since DeployContract.code and FunctionCall.args are stripped away due to their size.
+    //
+    // Once the above TODO is resolved, we should just move this to TransactionInfo method
+    // (i.e. query the information there only for the specific transaction).
+
+    const actions = transactionExtraInfo.transaction.actions;
+    transaction.actions = actions.map((action: RpcAction | string) => {
+      if (typeof action === "string") {
+        return { kind: action, args: {} };
+      } else {
+        const kind = Object.keys(action)[0] as keyof RpcAction;
+        return {
+          kind,
+          args: action[kind],
+        };
+      }
+    });
+    return transaction as TransactionInfo;
   }
 
   async getLatestTransactionsInfo(limit: number = 10): Promise<Transaction[]> {
@@ -242,10 +239,31 @@ export default class TransactionsApi extends ExplorerApi {
           actions: [],
         };
       } else {
-        const transactionExtraInfo = await this.call<any>("nearcore-tx", [
-          transactionHash,
-          transactionInfo.signerId,
+        const [transactionExtraInfo, finalTimestamp] = await Promise.all([
+          this.call<any>("nearcore-tx", [
+            transactionInfo.hash,
+            transactionInfo.signerId,
+          ]),
+          this.queryFinalTimestamp(),
         ]);
+        transactionInfo.status = Object.keys(
+          transactionExtraInfo.status
+        )[0] as ExecutionStatus;
+        transactionInfo.isFinal =
+          transactionInfo.blockTimestamp <= finalTimestamp;
+        const actions = transactionExtraInfo.transaction.actions;
+        transactionInfo.actions = actions.map((action: RpcAction | string) => {
+          if (typeof action === "string") {
+            return { kind: action, args: {} };
+          } else {
+            const kind = Object.keys(action)[0] as keyof RpcAction;
+            return {
+              kind,
+              args: action[kind],
+            };
+          }
+        });
+
         transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
       }
