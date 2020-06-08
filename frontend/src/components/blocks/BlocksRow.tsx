@@ -16,6 +16,7 @@ export interface Props {
 export default class extends React.PureComponent<Props> {
   render() {
     const { block } = this.props;
+    console.log(block);
     return (
       <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`}>
         <a style={{ textDecoration: "none" }}>
@@ -62,7 +63,7 @@ export default class extends React.PureComponent<Props> {
               <Row>
                 <Col className="transaction-row-timer">
                   <span className="transaction-row-timer-status">
-                    Completed
+                    {block.isFinal ? "Finalized" : "Finalizing"}
                   </span>
                   &nbsp;&nbsp;
                   <Timer time={block.timestamp} />
