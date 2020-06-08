@@ -16,7 +16,6 @@ export interface Props {
 export default class extends React.PureComponent<Props> {
   render() {
     const { block } = this.props;
-    console.log(block);
     return (
       <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`}>
         <a style={{ textDecoration: "none" }}>
