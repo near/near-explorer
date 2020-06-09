@@ -5,7 +5,7 @@ import ActionRow from "./ActionRow";
 import { ViewMode, DetalizationMode } from "./ActionRowBlock";
 
 export interface Props {
-  actions: T.Action[];
+  actions?: T.Action[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;
@@ -15,16 +15,19 @@ export interface Props {
 export default class extends React.Component<Props> {
   render() {
     const { transaction, viewMode, detalizationMode, showDetails } = this.props;
-    let actionRows = this.props.actions.map((action, actionIndex) => (
-      <ActionRow
-        key={transaction.hash + actionIndex}
-        action={action}
-        transaction={transaction}
-        viewMode={viewMode}
-        detalizationMode={detalizationMode}
-        showDetails={showDetails}
-      />
-    ));
+    let actionRows;
+    if (this.props.actions) {
+      actionRows = this.props.actions.map((action, actionIndex) => (
+        <ActionRow
+          key={transaction.hash + actionIndex}
+          action={action}
+          transaction={transaction}
+          viewMode={viewMode}
+          detalizationMode={detalizationMode}
+          showDetails={showDetails}
+        />
+      ));
+    }
 
     return <>{actionRows}</>;
   }
