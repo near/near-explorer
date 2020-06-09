@@ -29,7 +29,7 @@ async function saveBlocks(blocksInfo) {
               gasPrice: blockInfo.header.gas_price || "0",
             };
           }),
-          { ignoreDuplicates: true }
+          { transaction, ignoreDuplicates: true }
         );
 
         await models.Chunk.bulkCreate(
@@ -47,7 +47,7 @@ async function saveBlocks(blocksInfo) {
               };
             });
           }),
-          { ignoreDuplicates: true }
+          { transaction, ignoreDuplicates: true }
         );
         // TODO: check the status of transactions and filter out the failling transactions in the following table.
         await Promise.all(
@@ -69,7 +69,7 @@ async function saveBlocks(blocksInfo) {
                       receiverId: tx.receiver_id,
                     };
                   }),
-                  { ignoreDuplicates: true }
+                  { transaction, ignoreDuplicates: true }
                 ),
                 models.Action.bulkCreate(
                   blockInfo.transactions.flatMap((tx) => {
@@ -97,7 +97,7 @@ async function saveBlocks(blocksInfo) {
                       };
                     });
                   }),
-                  { ignoreDuplicates: true }
+                  { transaction, ignoreDuplicates: true }
                 ),
                 models.AccessKey.bulkCreate(
                   blockInfo.transactions.flatMap((tx) => {
@@ -127,7 +127,7 @@ async function saveBlocks(blocksInfo) {
                         };
                       });
                   }),
-                  { ignoreDuplicates: true }
+                  { transaction, ignoreDuplicates: true }
                 ),
                 models.Account.bulkCreate(
                   blockInfo.transactions
@@ -146,7 +146,7 @@ async function saveBlocks(blocksInfo) {
                         createdAtBlockTimestamp: timestamp,
                       };
                     }),
-                  { ignoreDuplicates: true }
+                  { transaction, ignoreDuplicates: true }
                 ),
               ]);
             })
@@ -190,7 +190,7 @@ async function saveGenesis(time, records, offset) {
                   accessKeyType,
                 };
               }),
-            { ignoreDuplicates: true }
+            { transaction, ignoreDuplicates: true }
           ),
           models.Account.bulkCreate(
             records
@@ -203,7 +203,7 @@ async function saveGenesis(time, records, offset) {
                   createdAtBlockTimestamp: time,
                 };
               }),
-            { ignoreDuplicates: true }
+            { transaction, ignoreDuplicates: true }
           ),
         ]);
       } catch (error) {
