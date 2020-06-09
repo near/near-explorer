@@ -77,19 +77,21 @@ export default class extends React.Component<Props, State> {
   };
 
   updateComputedValues = () => {
-    const deposit = this.collectDeposit(this.props.transaction.actions);
-    const gasUsed = this.collectGasUsed(this.props.transaction);
-    let gasAttached = this.collectGasAttached(this.props.transaction.actions);
-    if (gasAttached === null) {
-      gasAttached = gasUsed;
+    if (this.props.transaction.actions) {
+      const deposit = this.collectDeposit(this.props.transaction.actions);
+      const gasUsed = this.collectGasUsed(this.props.transaction);
+      let gasAttached = this.collectGasAttached(this.props.transaction.actions);
+      if (gasAttached === null) {
+        gasAttached = gasUsed;
+      }
+      const stateUpdate: State = { deposit, gasUsed, gasAttached };
+      if (this.state.block) {
+        stateUpdate.transactionFee = gasUsed.mul(
+          new BN(this.state.block.gasPrice)
+        );
+      }
+      this.setState(stateUpdate);
     }
-    const stateUpdate: State = { deposit, gasUsed, gasAttached };
-    if (this.state.block) {
-      stateUpdate.transactionFee = gasUsed.mul(
-        new BN(this.state.block.gasPrice)
-      );
-    }
-    this.setState(stateUpdate);
   };
 
   componentDidMount() {
@@ -198,7 +200,11 @@ export default class extends React.Component<Props, State> {
               imgLink="/static/images/icon-t-status.svg"
               text={
                 <div style={{ fontSize: "21px" }}>
-                  <ExecutionStatus status={transaction.status} />
+                  {transaction.status ? (
+                    <ExecutionStatus status={transaction.status} />
+                  ) : (
+                    ""
+                  )}
                   {transaction.isFinal ? "/Finalized" : "/Finalizing"}
                 </div>
               }
