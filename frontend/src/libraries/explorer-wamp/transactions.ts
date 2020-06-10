@@ -260,7 +260,7 @@ export default class TransactionsApi extends ExplorerApi {
   }
 
   async queryFinalTimestamp(): Promise<any> {
-    const finalBlock = await this.call<any>("get-finality-stats");
+    const finalBlock = await this.call<any>("nearcore-final-block");
     return finalBlock.header.timestamp;
   }
 }
