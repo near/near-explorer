@@ -17,6 +17,7 @@ export interface Props {
   icon: React.ReactElement;
   title: React.ReactElement | string;
   children?: React.ReactNode;
+  status?: T.ExecutionStatus;
 }
 
 export interface State {}
@@ -36,6 +37,7 @@ export default class extends React.Component<Props, State> {
       transaction,
       icon,
       title,
+      status,
       children,
     } = this.props;
 
@@ -69,11 +71,7 @@ export default class extends React.Component<Props, State> {
                   <Row>
                     <Col className="action-row-timer">
                       <span className="action-row-timer-status">
-                        {transaction.status ? (
-                          <ExecutionStatus status={transaction.status} />
-                        ) : (
-                          ""
-                        )}
+                        {status ? <ExecutionStatus status={status} /> : ""}
                       </span>{" "}
                       <Timer time={transaction.blockTimestamp} />
                     </Col>

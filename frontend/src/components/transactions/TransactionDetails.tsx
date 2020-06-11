@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import React from "react";
 
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
-import * as T from "../../libraries/explorer-wamp/transactions";
+import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
@@ -25,6 +25,7 @@ export interface State {
   gasUsed?: BN;
   gasAttached?: BN;
   transactionFee?: BN;
+  isFinal?: boolean;
 }
 
 export default class extends React.Component<Props, State> {
@@ -77,26 +78,25 @@ export default class extends React.Component<Props, State> {
   };
 
   updateComputedValues = () => {
-    if (this.props.transaction.actions) {
-      const deposit = this.collectDeposit(this.props.transaction.actions);
-      const gasUsed = this.collectGasUsed(this.props.transaction);
-      let gasAttached = this.collectGasAttached(this.props.transaction.actions);
-      if (gasAttached === null) {
-        gasAttached = gasUsed;
-      }
-      const stateUpdate: State = { deposit, gasUsed, gasAttached };
-      if (this.state.block) {
-        stateUpdate.transactionFee = gasUsed.mul(
-          new BN(this.state.block.gasPrice)
-        );
-      }
-      this.setState(stateUpdate);
+    const deposit = this.collectDeposit(this.props.transaction.actions);
+    const gasUsed = this.collectGasUsed(this.props.transaction);
+    let gasAttached = this.collectGasAttached(this.props.transaction.actions);
+    if (gasAttached === null) {
+      gasAttached = gasUsed;
     }
+    const stateUpdate: State = { deposit, gasUsed, gasAttached };
+    if (this.state.block) {
+      stateUpdate.transactionFee = gasUsed.mul(
+        new BN(this.state.block.gasPrice)
+      );
+    }
+    this.setState(stateUpdate);
   };
 
   componentDidMount() {
     // NOTE: This will trigger the rest of the updates with componentDidUpdate
     this.updateComputedValues();
+    this.fetchFinalStamp();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -123,9 +123,23 @@ export default class extends React.Component<Props, State> {
     }
   }
 
+  fetchFinalStamp = async () => {
+    const finalStamp = await new TransactionsApi().queryFinalTimestamp();
+    this.setState({
+      isFinal: this.props.transaction.blockTimestamp <= finalStamp,
+    });
+  };
+
   render() {
     const { transaction } = this.props;
-    const { block, deposit, transactionFee, gasUsed, gasAttached } = this.state;
+    const {
+      block,
+      deposit,
+      transactionFee,
+      gasUsed,
+      gasAttached,
+      isFinal,
+    } = this.state;
     return (
       <div className="transaction-info-container">
         <Row noGutters>
@@ -205,7 +219,7 @@ export default class extends React.Component<Props, State> {
                   ) : (
                     ""
                   )}
-                  {transaction.isFinal ? "/Finalized" : "/Finalizing"}
+                  {isFinal ? "/Finalized" : "/Finalizing"}
                 </div>
               }
             />

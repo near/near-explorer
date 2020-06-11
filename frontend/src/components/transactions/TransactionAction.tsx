@@ -1,5 +1,5 @@
 import React from "react";
-import { Row } from "react-bootstrap";
+
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
@@ -9,12 +9,14 @@ import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 
 export interface Props {
+  actions: T.Action[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
 }
 
 interface State {
-  transaction: T.Transaction;
+  status?: T.ExecutionStatus;
+  isFinal?: boolean;
 }
 
 export default class extends React.Component<Props, State> {
@@ -22,19 +24,30 @@ export default class extends React.Component<Props, State> {
     viewMode: "sparse",
   };
 
-  state: State = {
-    transaction: this.props.transaction,
-  };
+  state: State = {};
 
   componentDidMount() {
-    new TransactionsApi()
-      .getTransactionStatus(this.props.transaction)
-      .then((transaction) => this.setState({ transaction }));
+    this.fetchFinalStamp();
+    this.fetchStatus();
   }
 
+  fetchStatus = async () => {
+    const status = await new TransactionsApi().getTransactionStatus(
+      this.props.transaction
+    );
+    this.setState({ status });
+  };
+
+  fetchFinalStamp = async () => {
+    const finalStamp = await new TransactionsApi().queryFinalTimestamp();
+    this.setState({
+      isFinal: this.props.transaction.blockTimestamp <= finalStamp,
+    });
+  };
+
   render() {
-    const { viewMode } = this.props;
-    const { transaction } = this.state;
+    const { transaction, viewMode } = this.props;
+    const { status } = this.state;
     if (transaction.actions) {
       if (transaction.actions.length !== 1) {
         return (
@@ -43,6 +56,7 @@ export default class extends React.Component<Props, State> {
             transaction={transaction}
             icon={<BatchTransactionIcon />}
             title={"Batch Transaction"}
+            status={status}
           >
             <ActionsList
               actions={transaction.actions}
@@ -59,15 +73,10 @@ export default class extends React.Component<Props, State> {
           transaction={transaction}
           viewMode={viewMode}
           detalizationMode="detailed"
+          status={status}
         />
       );
     }
-    return (
-      <Row noGutters className={`action-${viewMode}-row mx-0 `}>
-        <Row noGutters className="action-row-message">
-          No action found
-        </Row>
-      </Row>
-    );
+    return <></>;
   }
 }
