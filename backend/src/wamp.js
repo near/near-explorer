@@ -51,7 +51,7 @@ wampHandlers["nearcore-tx"] = async ([transactionHash, accountId]) => {
   return await nearRpc.sendJsonRpc("tx", [transactionHash, accountId]);
 };
 
-wampHandlers["get-finality-stats"] = async () => {
+wampHandlers["nearcore-final-block"] = async () => {
   return await nearRpc.sendJsonRpc("block", { finality: "final" });
 };
 

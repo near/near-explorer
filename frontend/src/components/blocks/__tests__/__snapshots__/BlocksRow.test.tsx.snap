@@ -96,7 +96,7 @@ exports[`<BlocksRow /> renders 1`] = `
           <span
             className="jsx-324075529 transaction-row-timer-status"
           >
-            Completed
+            Finalizing
           </span>
             
           <span>
