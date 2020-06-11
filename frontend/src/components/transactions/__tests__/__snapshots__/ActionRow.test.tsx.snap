@@ -94,7 +94,8 @@ exports[`<ActionRow /> renders compact 1`] = `
             <span
               className="jsx-3871551524 action-row-timer-status"
             >
-              Succeeded
+              
+              /Finalizing
             </span>
              
             <span>
@@ -240,7 +241,8 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             <span
               className="jsx-3871551524 action-row-timer-status"
             >
-              Succeeded
+              
+              /Finalizing
             </span>
              
             <span>
@@ -347,7 +349,8 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             <span
               className="jsx-3871551524 action-row-timer-status"
             >
-              Succeeded
+              
+              /Finalizing
             </span>
              
             <span>

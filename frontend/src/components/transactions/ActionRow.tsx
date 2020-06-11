@@ -13,6 +13,7 @@ export interface Props {
   className: string;
   showDetails?: boolean;
   status?: T.ExecutionStatus;
+  isFinal?: boolean;
 }
 
 export default class extends React.Component<Props> {
@@ -32,6 +33,7 @@ export default class extends React.Component<Props> {
       action,
       showDetails,
       status,
+      isFinal,
     } = this.props;
     const ActionIcon = actionIcons[action.kind];
     return (
@@ -50,6 +52,7 @@ export default class extends React.Component<Props> {
           />
         }
         status={status}
+        isFinal={isFinal}
       />
     );
   }

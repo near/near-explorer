@@ -31,6 +31,15 @@ export default class extends React.Component<Props, State> {
     this.fetchStatus();
   }
 
+  componentDidUpdate(prevProps: Props) {
+    if (
+      this.props.transaction.blockTimestamp !==
+      prevProps.transaction.blockTimestamp
+    ) {
+      this.fetchFinalStamp();
+    }
+  }
+
   fetchStatus = async () => {
     const status = await new TransactionsApi().getTransactionStatus(
       this.props.transaction
@@ -47,7 +56,7 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { transaction, viewMode } = this.props;
-    const { status } = this.state;
+    const { status, isFinal } = this.state;
     if (transaction.actions) {
       if (transaction.actions.length !== 1) {
         return (
@@ -57,6 +66,7 @@ export default class extends React.Component<Props, State> {
             icon={<BatchTransactionIcon />}
             title={"Batch Transaction"}
             status={status}
+            isFinal={isFinal}
           >
             <ActionsList
               actions={transaction.actions}
@@ -74,6 +84,7 @@ export default class extends React.Component<Props, State> {
           viewMode={viewMode}
           detalizationMode="detailed"
           status={status}
+          isFinal={isFinal}
         />
       );
     }
