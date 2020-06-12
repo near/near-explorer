@@ -23,6 +23,7 @@ describe("<NodeRow />", () => {
             peerCount: "0",
             isValidator: true,
             status: "NoSync",
+            stake: "47385631274832784434235664",
           }}
         />
       )

@@ -59,6 +59,10 @@ wampHandlers["nearcore-status"] = async () => {
   return await nearRpc.sendJsonRpc("status");
 };
 
+wampHandlers["nearcore-validators"] = async () => {
+  return await nearRpc.sendJsonRpc("validators", [null]);
+};
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",

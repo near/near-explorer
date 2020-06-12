@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import * as N from "../../libraries/explorer-wamp/nodes";
 
 import Timer from "../utils/Timer";
+import Balance from "../utils/Balance";
 
 interface Props {
   node: N.NodeInfo;
@@ -32,7 +33,9 @@ export default class extends React.PureComponent<Props> {
         <Col md="7" xs="7">
           <Row>
             <Col className="node-row-title">
-              @{node.accountId}{" "}
+              @{node.accountId}
+              {"   "}
+              <span>${node.stake && <Balance amount={node.stake} />}</span>
               <span className="node-status">
                 {" "}
                 {this.statusIdentifier.get(node.status)}

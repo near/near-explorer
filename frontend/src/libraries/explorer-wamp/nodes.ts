@@ -15,6 +15,7 @@ export interface NodeInfo {
   peerCount: string;
   isValidator: boolean;
   status: string;
+  stake?: string;
 }
 
 export interface NodeStats {
@@ -39,22 +40,34 @@ export default class NodesApi extends ExplorerApi {
       whereClause += ` AND is_validator = 0 `;
     }
     try {
-      const nodes = await this.call<NodeInfo[]>("select", [
-        `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
-        last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
-        agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
-        peer_count as peerCount, is_validator as isValidator, status
-            FROM nodes
-            ${whereClause}
-            ORDER BY node_id DESC
-            LIMIT :limit
-        `,
-        {
-          limit,
-          paginationIndexer,
-          validatorIndicator,
-        },
+      const [nodes, validators] = await Promise.all([
+        this.call<NodeInfo[]>("select", [
+          `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
+          last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
+          agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
+          peer_count as peerCount, is_validator as isValidator, status
+              FROM nodes
+              ${whereClause}
+              ORDER BY node_id DESC
+              LIMIT :limit
+          `,
+          {
+            limit,
+            paginationIndexer,
+            validatorIndicator,
+          },
+        ]),
+        this.queryValidators(),
       ]);
+
+      nodes.map((node: NodeInfo) => {
+        validators.map((val: any) => {
+          if (val.account_id === node.accountId) {
+            node.stake = val.stake;
+          }
+        });
+      });
+
       return nodes as NodeInfo[];
     } catch (error) {
       console.error("Nodes.getNodes failed to fetch data due to:");
@@ -83,5 +96,10 @@ export default class NodesApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async queryValidators(): Promise<any> {
+    const validators = await this.call<any>("nearcore-validators");
+    return validators.current_validators;
   }
 }

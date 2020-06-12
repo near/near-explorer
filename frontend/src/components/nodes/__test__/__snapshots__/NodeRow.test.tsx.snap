@@ -28,7 +28,21 @@ exports[`<NodeRow /> renders 1`] = `
       >
         @
         alice
-         
+           
+        <span
+          className="jsx-990356129"
+        >
+          $
+          <span
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            47.38563
+             Ⓝ
+          </span>
+        </span>
         <span
           className="jsx-990356129 node-status"
         >
