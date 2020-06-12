@@ -59,13 +59,12 @@ export default class NodesApi extends ExplorerApi {
         ]),
         this.queryValidators(),
       ]);
-
+      let stakeMap = new Map();
+      validators.map((val: any) => {
+        stakeMap.set(val.account_id, val.stake);
+      });
       nodes.map((node: NodeInfo) => {
-        validators.map((val: any) => {
-          if (val.account_id === node.accountId) {
-            node.stake = val.stake;
-          }
-        });
+        node.stake = stakeMap.get(node.accountId);
       });
 
       return nodes as NodeInfo[];
