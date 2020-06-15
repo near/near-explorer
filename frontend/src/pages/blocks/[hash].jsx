@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import React from "react";
+import { Container } from "react-bootstrap";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
@@ -25,30 +26,34 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Block</title>
         </Head>
-        <Content
-          title={
-            <h1>{`Block ${
-              this.props.height
-                ? `#${this.props.height}`
-                : `${this.props.hash.substring(0, 7)}...`
-            }`}</h1>
-          }
-          border={false}
-        >
-          {this.props.err ? (
-            `Information is not available at the moment. Please, check if the block hash is correct or try later.`
-          ) : (
-            <BlockDetails block={this.props} />
-          )}
-        </Content>
-        {!this.props.err ? (
+        <Container>
           <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Transactions</h2>}
+            title={
+              <h1>{`Block ${
+                this.props.height
+                  ? `#${this.props.height}`
+                  : `${this.props.hash.substring(0, 7)}...`
+              }`}</h1>
+            }
+            border={false}
           >
-            <Transactions blockHash={this.props.hash} />
+            {this.props.err ? (
+              `Information is not available at the moment. Please, check if the block hash is correct or try later.`
+            ) : (
+              <BlockDetails block={this.props} />
+            )}
           </Content>
+        </Container>
+        {!this.props.err ? (
+          <Container>
+            <Content
+              size="medium"
+              icon={<TransactionIcon style={{ width: "22px" }} />}
+              title={<h2>Transactions</h2>}
+            >
+              <Transactions blockHash={this.props.hash} />
+            </Content>
+          </Container>
         ) : null}
       </>
     );
