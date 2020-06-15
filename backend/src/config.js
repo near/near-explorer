@@ -5,6 +5,11 @@ exports.syncSaveQueueSize =
   parseInt(process.env.NEAR_SYNC_SAVE_QUEUE_SIZE) || 10;
 exports.bulkDbUpdateSize =
   parseInt(process.env.NEAR_SYNC_BULK_DB_UPDATE_SIZE) || 10;
+exports.backupDbOnReset =
+  (process.env.NEAR_BACKUP_DB_ON_RESET || "TRUE").toUpperCase() !== "FALSE";
+
+exports.regularCheckGenesisInterval =
+  parseInt(process.env.NEAR_REGULAR_CHECK_GENESIS_INTERVAL) || 60000;
 exports.regularSyncNewNearcoreStateInterval =
   parseInt(process.env.NEAR_REGULAR_SYNC_NEW_NEARCORE_STATE_INTERVAL) || 5000;
 exports.regularSyncMissingNearcoreStateInterval =
