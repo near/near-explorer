@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import React from "react";
+import { Container } from "react-bootstrap";
 
 import NodeNav from "../../components/nodes/NodeNav";
 import Nodes from "../../components/nodes/Nodes";
@@ -22,10 +23,12 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Nodes</title>
         </Head>
-        <Content title={<h1>Nodes</h1>}>
-          <NodeNav role={this.props.role} />
-          <Nodes role={this.props.role} />
-        </Content>
+        <Container>
+          <Content title={<h1>Nodes</h1>}>
+            <NodeNav role={this.props.role} />
+            <Nodes role={this.props.role} />
+          </Content>
+        </Container>
       </>
     );
   }

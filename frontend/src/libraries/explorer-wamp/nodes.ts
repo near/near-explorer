@@ -63,8 +63,16 @@ export default class NodesApi extends ExplorerApi {
     }
   }
 
-  async getNodesForMap() {
+  async getNodesForMap(
+    validatorIndicator: string = "validators",
+  ) {
     let whereClause = `WHERE last_seen > (strftime('%s','now') - 60) * 1000 `;
+    if (validatorIndicator === "validators") {
+      whereClause += ` AND is_validator = 1 `;
+    }
+    if (validatorIndicator === "non-validators") {
+      whereClause += ` AND is_validator = 0 `;
+    }
     try {
       const nodes = await this.call<NodeInfo[]>("select", [
         `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
@@ -75,6 +83,9 @@ export default class NodesApi extends ExplorerApi {
             ${whereClause}
             ORDER BY node_id DESC
         `,
+        {
+          validatorIndicator,
+        },
       ]);
       return nodes as NodeInfo[];
     } catch (error) {

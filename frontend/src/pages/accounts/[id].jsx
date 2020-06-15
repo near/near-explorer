@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import React from "react";
+import { Container } from "react-bootstrap";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 
@@ -28,29 +29,31 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Account</title>
         </Head>
-        <Content title={<h1>{`Account: @${this.props.id}`}</h1>} border={false}>
+        <Container>
+          <Content title={<h1>{`Account: @${this.props.id}`}</h1>} border={false}>
+            {this.props.err ? (
+              `Information is not available at the moment. Please, check if the account name is correct or try later.`
+            ) : (
+              <AccountDetails account={{ ...this.props }} />
+            )}
+          </Content>
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={{ ...this.props }} />
+            <ContractDetails accountId={this.props.id} />
           )}
-        </Content>
-        {this.props.err ? (
-          `Information is not available at the moment. Please, check if the account name is correct or try later.`
-        ) : (
-          <ContractDetails accountId={this.props.id} />
-        )}
-        <Content
-          size="medium"
-          icon={<TransactionIcon style={{ width: "22px" }} />}
-          title={<h2>Transactions</h2>}
-        >
-          {this.props.err ? (
-            `Information is not available at the moment. Please, check if the account name is correct or try later.`
-          ) : (
-            <Transactions accountId={this.props.id} count={5} />
-          )}
-        </Content>
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Transactions</h2>}
+          >
+            {this.props.err ? (
+              `Information is not available at the moment. Please, check if the account name is correct or try later.`
+            ) : (
+              <Transactions accountId={this.props.id} count={5} />
+            )}
+          </Content>
+        </Container>
       </>
     );
   }
