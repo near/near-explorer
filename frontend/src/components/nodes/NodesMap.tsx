@@ -18,7 +18,6 @@ export default class extends React.Component<Props> {
   };
 
   fetchNodes = async () => {
-    console.log('fetchData');
     return await new NodesApi().getNodesForMap();
   };
 
@@ -64,10 +63,22 @@ interface IBubble {
 class NodesMap extends React.Component<InnerProps> {
   constructor(props: InnerProps) {
     super(props);
-    this.state = { nodesData: [] };
+    this.state = { 
+      nodesData: [],
+    };
+  }
+
+  async componentDidUpdate(prevProps: any) {
+    if (prevProps.items !== this.props.items) {
+      await this.fetchGeo();
+    }
   }
 
   async componentDidMount() {
+   await this.fetchGeo();
+  }
+  
+  async fetchGeo() {
     const nodes = this.props.items;
     const IPsArray: string[] = [];
     nodes.forEach(item => {
@@ -90,7 +101,7 @@ class NodesMap extends React.Component<InnerProps> {
     geoData = await geoData.json();
     const bubbles: IBubble[] = [];
 
-    nodes.forEach((element:any, index:number) => {
+    nodes.forEach((element: any, index: number) => {
       const bubble: IBubble = {
         latitude: '',
         longitude: '',
@@ -126,12 +137,8 @@ class NodesMap extends React.Component<InnerProps> {
 
     this.setState({ nodesData: bubbles });
   }
-  
- 
 
   render() {
-    console.log("nodes data:", this.state.nodesData);
-    console.log("items data:", this.props.items);
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
