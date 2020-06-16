@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import moment from 'moment';
 import React from "react";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
@@ -57,6 +58,7 @@ interface IBubble {
   build: string;
   nodeId: string;
   blockNr: number;
+  lastSeen: number;
   location: string;
 }
 
@@ -115,6 +117,7 @@ class NodesMap extends React.Component<InnerProps> {
         build: '',
         nodeId: '',
         blockNr: 0,
+        lastSeen: 0,
         location: '',
       };
 
@@ -129,6 +132,7 @@ class NodesMap extends React.Component<InnerProps> {
       bubble.build = element.agentBuild;
       bubble.nodeId = element.nodeId;
       bubble.blockNr = element.lastHeight;
+      bubble.lastSeen = element.lastSeen;
       bubble.radius = 4;
       bubble.fillKey = element.isValidator ? 'validatorBubbleFill' : 'nonValidatorBubbleFill';
 
@@ -137,6 +141,7 @@ class NodesMap extends React.Component<InnerProps> {
 
     this.setState({ nodesData: bubbles });
   }
+
 
   render() {
     return (
@@ -174,7 +179,7 @@ class NodesMap extends React.Component<InnerProps> {
                     `</div>` +
                     `<div>` +
                       `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Last seen' + `</div>` +
-                      `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + '20s ago' + `</div>` +
+                  `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + moment.duration(moment().diff(moment(data.lastSeen))).as('seconds').toFixed() + 's ago' + `</div>` +
                     `</div>` +
                     `<div>` +
                       `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Location' + `</div>` +
