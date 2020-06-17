@@ -204,6 +204,10 @@ class NodesMap extends React.Component<InnerProps> {
               borderWidth: 1,
               borderColor: '#1C1D1F',
               fillOpacity: 0.6,
+              highlightFillOpacity: 1,
+              highlightFillColor: '#8DD4BD',
+              highlightBorderColor: '#8DD4BD',
+              highlightBorderWidth: 2,
               popupTemplate: (data: IBubble) => { // This function should just return a string
                 return `
                 <div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">` +
