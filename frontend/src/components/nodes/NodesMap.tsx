@@ -67,6 +67,7 @@ class NodesMap extends React.Component<InnerProps> {
     super(props);
     this.state = { 
       nodesData: [],
+      nodesType: "validators",
     };
   }
 
@@ -142,11 +143,50 @@ class NodesMap extends React.Component<InnerProps> {
     this.setState({ nodesData: bubbles });
   }
 
+  changeToValidators() {
+    this.setState({
+      nodesType: "validators",
+    });
+  }
+
+  changeToNonValidators() {
+    console.log("change to non");
+    this.setState({
+      nodesType: "non-validators",
+    });
+  }
 
   render() {
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
+          {this.state.nodesType === "validators" ? 
+            <div className="nodesTypeSelector">              
+              <div className="option validator activeValidator" onClick={() => {this.changeToValidators()}}>
+                <div className="circle activeCircle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
+                <div className="optionText">Validating nodes </div>
+                <div className="counter activeCounter">77</div>
+              </div>
+              <div className="option nonValidator" onClick={() => { this.changeToNonValidators() }}>
+                <div className="circle"></div>
+                <div className="optionText">Non-validating nodes </div>
+                <div className="counter">12</div>
+              </div>
+            </div>
+            :
+            <div className="nodesTypeSelector">
+              <div className="option validator" onClick={() => { this.changeToValidators() }}>
+                <div className="circle"></div>
+                <div className="optionText">Validating nodes </div>
+                <div className="counter active">77</div>
+              </div>
+              <div className="option nonValidator activeNonValidator" onClick={() => { this.changeToNonValidators() }}>
+                <div className="circle activeCircle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
+                <div className="optionText">Non-validating nodes </div>
+                <div className="counter activeCounter">12</div>
+              </div>
+            </div>
+          }
           <Datamap
             responsive
             geographyConfig={{
@@ -192,6 +232,102 @@ class NodesMap extends React.Component<InnerProps> {
           />
         </div>
         <style jsx global>{`
+            .nodesTypeSelector {
+              position: absolute;
+              z-index: 100;
+              top: 92px;
+              left: 0;
+              color: white;
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              width: 100%;
+              height: 48px;
+            }
+            .option {
+              cursor: pointer;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              background: #343A40;
+              box-shadow: 0 4px 8px 0 rgba(0,0,0,0.16);
+            }
+            .circle {
+              height: 16px;
+              width: 16px;
+              border: 1px solid #8DD4BD;
+              border-radius: 8px;
+              margin-right: 8px;
+            }
+            .activeCircle {
+              width: 20px;
+              height: 20px;
+              border: none;
+              border-radius: 10px;
+              background-color: #8DD4BD;
+              display: flex;
+              justify-content: center;
+              margin-right: 6px;
+            }
+            .check {
+              margin: 0 0 0 -1px;
+            }
+            .validator {
+              background: #343A40;
+              border-radius: 24px 6px 6px 24px;
+              font-size: 12px;
+              color: #FFFFFF;
+              margin-right: 2px;
+              padding: 16px 16px 16px 16px;
+            }
+            .validator:hover {
+              border: 2px solid #8DD4BD;
+              padding: 14px 14px 14px 14px;
+            }
+            .activeValidator {
+              border: 2px solid #8DD4BD;
+              padding: 14px 14px 14px 12px;
+            }
+            .activeValidator:hover  {
+              padding: 14px 14px 14px 12px;
+            }
+            .nonValidator {
+              padding: 16px 20px 16px 16px;
+              margin-left: 2px;
+              border-radius: 6px 24px 24px 6px;
+            }
+            .nonValidator:hover {
+              border: 2px solid #8DD4BD;
+              padding: 14px 18px 14px 14px;
+            }
+            .activeNonValidator {
+              padding: 14px 18px 14px 12px;
+              border: 2px solid #8DD4BD;
+            }
+            .activeNonValidator:hover {
+              padding: 14px 18px 14px 12px;
+              border: 2px solid #8DD4BD;
+            }
+            .optionText {
+              padding: 2px 0 0;
+              font-family: BwSeidoRound;
+              font-size: 12px;
+              line-height: 12px;
+              font-weight: 700;
+            }
+            .counter {
+              padding: 2px 0 0 4px;
+              font-family: BwSeidoRound;
+              font-size: 12px;
+              line-height: 12px;
+              font-weight: 700;
+              color: white;
+              opacity: 0.4;
+            }
+            .activeCounter {
+              opacity: 1;
+              color: #8DD4BD;
+            }
             .mapWrapper {
               margin: 0 auto;
               max-width: 75%;
