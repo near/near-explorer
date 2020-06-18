@@ -19,7 +19,7 @@ export default class extends React.Component<Props> {
   };
 
   fetchNodes = async () => {
-    return await new NodesApi().getNodesForMap();
+    return await new NodesApi().getDataForMap();
   };
 
   componentDidUpdate(prevProps: any) {
@@ -42,7 +42,7 @@ export default class extends React.Component<Props> {
 }
 
 interface InnerProps {
-  items: N.NodeInfo[];
+  items: N.IMapData[];
 }
 
 interface IBubble {
@@ -72,7 +72,7 @@ class NodesMap extends React.Component<InnerProps> {
   }
 
   async componentDidUpdate(prevProps: any) {
-    if (prevProps.items !== this.props.items) {
+    if (prevProps.items[0].validatingNodes !== this.props.items[0].validatingNodes || prevProps.items[0].nonValidatingNodes !== this.props.items[0].nonValidatingNodes) {
       await this.fetchGeo();
     }
   }
@@ -82,7 +82,8 @@ class NodesMap extends React.Component<InnerProps> {
   }
   
   async fetchGeo() {
-    const nodes = this.props.items;
+    console.log(this.state);
+    const nodes =  this.state.nodesType === "validators" ? this.props.items[0].validatingNodes : this.props.items[0].nonValidatingNodes;
     const IPsArray: string[] = [];
     nodes.forEach(item => {
       IPsArray.push(item.ipAddress);
@@ -146,14 +147,13 @@ class NodesMap extends React.Component<InnerProps> {
   changeToValidators() {
     this.setState({
       nodesType: "validators",
-    });
+    }, () => this.fetchGeo());
   }
 
   changeToNonValidators() {
-    console.log("change to non");
     this.setState({
       nodesType: "non-validators",
-    });
+    }, () => this.fetchGeo());
   }
 
   render() {
@@ -165,12 +165,12 @@ class NodesMap extends React.Component<InnerProps> {
               <div className="option validator activeValidator" onClick={() => {this.changeToValidators()}}>
                 <div className="circle activeCircle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
                 <div className="optionText">Validating nodes </div>
-                <div className="counter activeCounter">77</div>
+                <div className="counter activeCounter">{this.props.items[0].validatingNodes.length}</div>
               </div>
               <div className="option nonValidator" onClick={() => { this.changeToNonValidators() }}>
                 <div className="circle"></div>
                 <div className="optionText">Non-validating nodes </div>
-                <div className="counter">12</div>
+                <div className="counter">{this.props.items[0].nonValidatingNodes.length}</div>
               </div>
             </div>
             :
@@ -178,12 +178,12 @@ class NodesMap extends React.Component<InnerProps> {
               <div className="option validator" onClick={() => { this.changeToValidators() }}>
                 <div className="circle"></div>
                 <div className="optionText">Validating nodes </div>
-                <div className="counter active">77</div>
+                <div className="counter active">{this.props.items[0].validatingNodes.length}</div>
               </div>
               <div className="option nonValidator activeNonValidator" onClick={() => { this.changeToNonValidators() }}>
                 <div className="circle activeCircle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
                 <div className="optionText">Non-validating nodes </div>
-                <div className="counter activeCounter">12</div>
+                <div className="counter activeCounter">{this.props.items[0].nonValidatingNodes.length}</div>
               </div>
             </div>
           }
@@ -197,7 +197,7 @@ class NodesMap extends React.Component<InnerProps> {
             fills={{
               defaultFill: '#1C1D1F',
               validatorBubbleFill: '#8DD4BD',
-              nonValidatorBubbleFill: '#0000ff',
+              nonValidatorBubbleFill: '#8DD4BD',
             }}
             bubbles={this.state.nodesData}
             bubbleOptions={{
