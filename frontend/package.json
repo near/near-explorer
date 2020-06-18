@@ -48,6 +48,7 @@
     "next": "^9.4.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
+    "react-countdown": "^2.2.1",
     "react-datamaps": "^0.4.1",
     "react-dom": "^16.13.1",
     "react-flip-move": "^3.0.3",

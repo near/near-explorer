@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import Countdown from 'react-countdown';
 import dynamic from 'next/dynamic'
 import moment from 'moment';
 import React from "react";
@@ -73,6 +74,10 @@ interface IGeo {
   lat: string;
   lon: string;
   city: string;
+}
+
+const countdownRenderer = ({seconds}) => {
+  return <span className="countdownText">{seconds}s</span>;
 }
 
 class NodesMap extends React.Component<InnerProps, State> {
@@ -168,10 +173,19 @@ class NodesMap extends React.Component<InnerProps, State> {
     }, () => this.fetchGeo());
   }
 
+
   render() {
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
+          <div className="refreshCountdown">
+            Next update 
+            <Countdown 
+              key={Date.now() + 10000}  
+              date={Date.now() + 10000} 
+              renderer = {countdownRenderer}
+            />
+          </div>
           <div className="closeMap">
             <Link href="/nodes/[role]" as={`/nodes/validators`}>
                 <img className="closeIcon" src="/static/images/icon-close-map.svg" />
@@ -253,6 +267,25 @@ class NodesMap extends React.Component<InnerProps, State> {
           />
         </div>
         <style jsx global>{`
+            .refreshCountdown{
+              position: absolute;
+              top: 92px;
+              left: 32px;
+              height: 48px;
+              color: rgba( 255, 255, 255, 0.4);
+              font-family: BwSeidoRound;
+              font-size: 12px;
+              line-height: 12px;
+              font-weight: 700;
+              padding: 19px 20px 17px;
+              background: #343A40;
+              box-shadow: 0 4px 8px 0 rgba(0,0,0,0.16);
+              border-radius: 24px;
+            }
+            .countdownText {
+              margin-left: 4px;
+              color: #F0EC74;
+            }
             .closeMap {
               cursor: pointer;
               position: absolute;
