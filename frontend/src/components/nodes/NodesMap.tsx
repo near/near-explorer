@@ -13,35 +13,12 @@ import { OuterProps } from "../accounts/Accounts";
 
 const Datamap = dynamic(() => import("react-datamaps"), { ssr: false });
 
+const countdownRenderer = ({ seconds }) => {
+  return <span className="countdownText">{seconds}s</span>;
+}
+
 interface Props extends OuterProps {
   role: string;
-}
-export default class extends React.Component<Props> {
-  static defaultProps = {
-    count: 15,
-  };
-
-  fetchNodes = async () => {
-    return await new NodesApi().getDataForMap();
-  };
-
-  componentDidUpdate(prevProps: any) {
-    if (this.props.role !== prevProps.role) {
-      this.autoRefreshNodes = autoRefreshHandler(NodesMap, this.config);
-    }
-  }
-
-  config = {
-    fetchDataFn: this.fetchNodes,
-    count: this.props.count,
-    category: "Node",
-  };
-
-  autoRefreshNodes = autoRefreshHandler(NodesMap, this.config);
-
-  render() {
-    return <this.autoRefreshNodes />;
-  }
 }
 
 interface InnerProps {
@@ -76,8 +53,32 @@ interface IGeo {
   city: string;
 }
 
-const countdownRenderer = ({seconds}) => {
-  return <span className="countdownText">{seconds}s</span>;
+export default class extends React.Component<Props> {
+  static defaultProps = {
+    count: 15,
+  };
+
+  fetchNodes = async () => {
+    return await new NodesApi().getDataForMap();
+  };
+
+  componentDidUpdate(prevProps: any) {
+    if (this.props.role !== prevProps.role) {
+      this.autoRefreshNodes = autoRefreshHandler(NodesMap, this.config);
+    }
+  }
+
+  config = {
+    fetchDataFn: this.fetchNodes,
+    count: this.props.count,
+    category: "Node",
+  };
+
+  autoRefreshNodes = autoRefreshHandler(NodesMap, this.config);
+
+  render() {
+    return <this.autoRefreshNodes />;
+  }
 }
 
 class NodesMap extends React.Component<InnerProps, State> {
