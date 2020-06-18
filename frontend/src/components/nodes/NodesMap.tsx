@@ -62,7 +62,18 @@ interface IBubble {
   location: string;
 }
 
-class NodesMap extends React.Component<InnerProps> {
+interface State {
+  nodesData: [];
+  nodesType: string;
+}
+
+interface IGeo {
+  lat: string;
+  lon: string;
+  city: string;
+}
+
+class NodesMap extends React.Component<InnerProps, State> {
   constructor(props: InnerProps) {
     super(props);
     this.state = { 
@@ -82,7 +93,6 @@ class NodesMap extends React.Component<InnerProps> {
   }
   
   async fetchGeo() {
-    console.log(this.state);
     const nodes =  this.state.nodesType === "validators" ? this.props.items[0].validatingNodes : this.props.items[0].nonValidatingNodes;
     const IPsArray: string[] = [];
     nodes.forEach(item => {
@@ -90,7 +100,7 @@ class NodesMap extends React.Component<InnerProps> {
     });
 
     const url = "http://ip-api.com/batch?fields=status,message,country,city,lat,lon,timezone,query"
-    let geoData = await fetch(url, {
+    const tempGeoData = await fetch(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
@@ -102,7 +112,7 @@ class NodesMap extends React.Component<InnerProps> {
       referrerPolicy: 'no-referrer',
       body: JSON.stringify(IPsArray)
     });
-    geoData = await geoData.json();
+    const geoData: IGeo[] = await tempGeoData.json();
     const bubbles: IBubble[] = [];
 
     nodes.forEach((element: any, index: number) => {
