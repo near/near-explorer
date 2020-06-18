@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import dynamic from 'next/dynamic'
 import moment from 'moment';
 import React from "react";
@@ -170,6 +172,11 @@ class NodesMap extends React.Component<InnerProps, State> {
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
+          <div className="closeMap">
+            <Link href="/nodes/[role]" as={`/nodes/validators`}>
+                <img className="closeIcon" src="/static/images/icon-close-map.svg" />
+            </Link>
+            </div>
           {this.state.nodesType === "validators" ? 
             <div className="nodesTypeSelector">              
               <div className="option validator activeValidator" onClick={() => {this.changeToValidators()}}>
@@ -246,6 +253,21 @@ class NodesMap extends React.Component<InnerProps, State> {
           />
         </div>
         <style jsx global>{`
+            .closeMap {
+              cursor: pointer;
+              position: absolute;
+              top: 92px;
+              right: 32px;
+              z-index: 101;
+              width: 48px;
+              height: 48px;
+              border-radius: 24px;
+              background: #343A40;
+              box-shadow: 0 4px 8px 0 rgba(0,0,0,0.16);
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
             .nodesTypeSelector {
               position: absolute;
               z-index: 100;
