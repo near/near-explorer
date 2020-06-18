@@ -65,7 +65,7 @@ interface IBubble {
 }
 
 interface State {
-  nodesData: [];
+  nodesData: IBubble[];
   nodesType: string;
 }
 
@@ -176,7 +176,7 @@ class NodesMap extends React.Component<InnerProps, State> {
             <Link href="/nodes/[role]" as={`/nodes/validators`}>
                 <img className="closeIcon" src="/static/images/icon-close-map.svg" />
             </Link>
-            </div>
+          </div>
           {this.state.nodesType === "validators" ? 
             <div className="nodesTypeSelector">              
               <div className="option validator activeValidator" onClick={() => {this.changeToValidators()}}>
