@@ -80,6 +80,15 @@ export default class extends React.Component<Props, State> {
               </Col>
             </a>
           </Link>
+          <Link href="/nodes/map" as={`/nodes/map`}>
+            <a
+              className={`node-link`}
+            >
+              <Col className="node-selector align-self-center">
+                Nodes Map
+              </Col>
+            </a>
+          </Link>
         </Row>
         <style jsx global>{`
           .node-selector {
