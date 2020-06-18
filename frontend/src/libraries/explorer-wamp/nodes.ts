@@ -22,6 +22,11 @@ export interface NodeStats {
   nonValidatorsCount: number;
 }
 
+export interface IMapData {
+  validatingNodes: NodeInfo[];
+  nonValidatingNodes: NodeInfo[];
+}
+
 export default class NodesApi extends ExplorerApi {
   async getNodes(
     limit: number = 15,
@@ -115,5 +120,22 @@ export default class NodesApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async getDataForMap() {
+    const finalData: IMapData[] = [];
+    const item: IMapData = {
+      validatingNodes: [],
+      nonValidatingNodes: []
+    }; 
+    
+    let [validators, nonValidators] = await Promise.all([this.getNodesForMap("validators"), this.getNodesForMap("non-validators")]);
+
+    item.validatingNodes = validators;
+    item.nonValidatingNodes = nonValidators;
+
+    finalData.push(item);
+
+    return finalData;
   }
 }
