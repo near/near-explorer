@@ -182,14 +182,10 @@ export default class TransactionsApi extends ExplorerApi {
               },
             ]);
             transaction.actions = actions.map((action: any) => {
-              if (typeof action === "string") {
-                return { kind: action, args: {} };
-              } else {
-                return {
-                  kind: action.kind,
-                  args: JSON.parse(action.args),
-                };
-              }
+              return {
+                kind: action.kind,
+                args: JSON.parse(action.args),
+              };
             });
           })
         );
@@ -217,11 +213,6 @@ export default class TransactionsApi extends ExplorerApi {
     const status = Object.keys(
       transactionExtraInfo.status
     )[0] as ExecutionStatus;
-    // Given we already queried the information from the node, we can use the actions,
-    // since DeployContract.code and FunctionCall.args are stripped away due to their size.
-    //
-    // Once the above TODO is resolved, we should just move this to TransactionInfo method
-    // (i.e. query the information there only for the specific transaction).
     return status;
   }
 
@@ -255,6 +246,19 @@ export default class TransactionsApi extends ExplorerApi {
         transactionInfo.status = Object.keys(
           transactionExtraInfo.status
         )[0] as ExecutionStatus;
+
+        const actions = transactionExtraInfo.transaction.actions;
+        transactionInfo.actions = actions.map((action: RpcAction | string) => {
+          if (typeof action === "string") {
+            return { kind: action, args: {} };
+          } else {
+            const kind = Object.keys(action)[0] as keyof RpcAction;
+            return {
+              kind,
+              args: action[kind],
+            };
+          }
+        });
 
         transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;

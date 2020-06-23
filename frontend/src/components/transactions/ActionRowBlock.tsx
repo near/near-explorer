@@ -73,8 +73,16 @@ export default class extends React.Component<Props, State> {
                   <Row>
                     <Col className="action-row-timer">
                       <span className="action-row-timer-status">
-                        {status ? <ExecutionStatus status={status} /> : ""}
-                        {isFinal ? "/Finalized" : "/Finalizing"}
+                        {status ? (
+                          <ExecutionStatus status={status} />
+                        ) : (
+                          "Fetching Status..."
+                        )}
+                        {isFinal === undefined
+                          ? "/Checking Finality..."
+                          : isFinal === true
+                          ? "/Finalized"
+                          : "/Finalizing"}
                       </span>{" "}
                       <Timer time={transaction.blockTimestamp} />
                     </Col>

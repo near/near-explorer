@@ -57,37 +57,37 @@ export default class extends React.Component<Props, State> {
   render() {
     const { transaction, viewMode } = this.props;
     const { status, isFinal } = this.state;
-    if (transaction.actions) {
-      if (transaction.actions.length !== 1) {
-        return (
-          <ActionRowBlock
-            viewMode={viewMode}
-            transaction={transaction}
-            icon={<BatchTransactionIcon />}
-            title={"Batch Transaction"}
-            status={status}
-            isFinal={isFinal}
-          >
-            <ActionsList
-              actions={transaction.actions}
-              transaction={transaction}
-              viewMode={viewMode}
-              detalizationMode="minimal"
-            />
-          </ActionRowBlock>
-        );
-      }
+    if (!transaction.actions) {
+      return <></>;
+    }
+    if (transaction.actions.length !== 1) {
       return (
-        <ActionRow
-          action={transaction.actions[0]}
-          transaction={transaction}
+        <ActionRowBlock
           viewMode={viewMode}
-          detalizationMode="detailed"
+          transaction={transaction}
+          icon={<BatchTransactionIcon />}
+          title={"Batch Transaction"}
           status={status}
           isFinal={isFinal}
-        />
+        >
+          <ActionsList
+            actions={transaction.actions}
+            transaction={transaction}
+            viewMode={viewMode}
+            detalizationMode="minimal"
+          />
+        </ActionRowBlock>
       );
     }
-    return <></>;
+    return (
+      <ActionRow
+        action={transaction.actions[0]}
+        transaction={transaction}
+        viewMode={viewMode}
+        detalizationMode="detailed"
+        status={status}
+        isFinal={isFinal}
+      />
+    );
   }
 }
