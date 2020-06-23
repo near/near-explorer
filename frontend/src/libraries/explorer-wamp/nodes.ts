@@ -16,6 +16,8 @@ export interface NodeInfo {
   isValidator: boolean;
   status: string;
   stake?: string;
+  expectedBlocks?: number;
+  producedBlocks?: number;
 }
 
 export interface NodeStats {
@@ -59,12 +61,19 @@ export default class NodesApi extends ExplorerApi {
         ]),
         this.queryValidators(),
       ]);
-      let stakeMap = new Map();
+      let validatorMap = new Map();
       validators.map((val: any) => {
-        stakeMap.set(val.account_id, val.stake);
+        validatorMap.set(val.account_id, [
+          val.stake,
+          val.num_expected_blocks,
+          val.num_produced_blocks,
+        ]);
       });
       nodes.map((node: NodeInfo) => {
-        node.stake = stakeMap.get(node.accountId);
+        let validator = validatorMap.get(node.accountId);
+        node.stake = validator[0];
+        node.expectedBlocks = validator[1];
+        node.producedBlocks = validator[2];
       });
 
       return nodes as NodeInfo[];

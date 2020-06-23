@@ -10,6 +10,7 @@ export interface BlockInfo {
   gasUsed: number;
   isFinal?: boolean;
 }
+
 export default class BlocksApi extends ExplorerApi {
   async searchBlocks(keyword: string, height = -1, limit = 15) {
     try {
@@ -115,5 +116,19 @@ export default class BlocksApi extends ExplorerApi {
   async queryFinalHeight(): Promise<any> {
     const finalBlock = await this.call<any>("nearcore-final-block");
     return finalBlock.header.height;
+  }
+
+  async getLatestBlockHeight(): Promise<any> {
+    try {
+      return await this.call<any>("select", [
+        `
+        SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1
+        `,
+      ]).then((it) => it[0]);
+    } catch (error) {
+      console.error("Blocks.getLatestBlockHeight failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
   }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import Timer from "../utils/Timer";
 import Balance from "../utils/Balance";
@@ -10,7 +11,11 @@ interface Props {
   node: N.NodeInfo;
 }
 
-export default class extends React.PureComponent<Props> {
+interface State {
+  blockDiff: number;
+}
+
+export default class extends React.PureComponent<Props, State> {
   statusIdentifier = new Map([
     ["AwaitingPeers", "Waiting for peers"],
     ["HeaderSync", "Syncing headers"],
@@ -20,8 +25,28 @@ export default class extends React.PureComponent<Props> {
     ["BodySync", "Syncing body"],
     ["NoSync", ""],
   ]);
+
+  state: State = { blockDiff: 0 };
+
+  componentDidMount() {
+    new BlocksApi().getLatestBlockHeight().then((lastBlockHeight) =>
+      this.setState({
+        blockDiff: Math.abs(
+          lastBlockHeight.lastBlockHeight - this.props.node.lastHeight
+        ),
+      })
+    );
+  }
+
   render() {
     const { node } = this.props;
+    const { blockDiff } = this.state;
+    let percentage;
+    if (node.producedBlocks && node.expectedBlocks) {
+      percentage = ((node.producedBlocks / node.expectedBlocks) * 100).toFixed(
+        3
+      );
+    }
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
@@ -52,12 +77,29 @@ export default class extends React.PureComponent<Props> {
                   />
                   {`${node.agentName} | ver.${node.agentVersion} build  ${node.agentBuild}`}
                 </Col>
-                <Col>
+                <Col
+                  style={{
+                    color:
+                      blockDiff > 1000
+                        ? "#FF6347"
+                        : blockDiff > 50
+                        ? "#FFA500"
+                        : "inherit",
+                  }}
+                  md={3}
+                >
                   <img
                     src="/static/images/icon-m-block.svg"
                     style={{ width: "12px" }}
                   />
                   {` ${node.lastHeight}`}
+                </Col>
+                <Col>
+                  <img
+                    src="/static/images/icon-storage.svg"
+                    style={{ width: "12px" }}
+                  />
+                  {node.producedBlocks}/{node.expectedBlocks} ({percentage}%)
                 </Col>
               </Row>
             </Col>
