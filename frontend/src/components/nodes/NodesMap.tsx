@@ -95,7 +95,9 @@ class NodesMap extends React.Component<InnerProps, State> {
 
   async componentDidUpdate(prevProps: any) {
     if (prevProps.items[0].validatingNodes !== this.props.items[0].validatingNodes || prevProps.items[0].nonValidatingNodes !== this.props.items[0].nonValidatingNodes) {
-      await this.fetchGeo();
+      this.setState({
+        specialNodes: []
+      }, async () => await this.fetchGeo());
     }
   }
 
