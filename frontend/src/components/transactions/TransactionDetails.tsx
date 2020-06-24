@@ -4,8 +4,9 @@ import moment from "../../libraries/moment";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
+import { RpcConsumer } from "../utils/RpcProvider";
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
-import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
+import * as T from "../../libraries/explorer-wamp/transactions";
 
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
@@ -25,7 +26,6 @@ export interface State {
   gasUsed?: BN;
   gasAttached?: BN;
   transactionFee?: BN;
-  isFinal?: boolean;
 }
 
 export default class extends React.Component<Props, State> {
@@ -96,7 +96,6 @@ export default class extends React.Component<Props, State> {
   componentDidMount() {
     // NOTE: This will trigger the rest of the updates with componentDidUpdate
     this.updateComputedValues();
-    this.fetchFinalStamp();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -123,266 +122,266 @@ export default class extends React.Component<Props, State> {
     }
   }
 
-  fetchFinalStamp = async () => {
-    const finalStamp = await new TransactionsApi().queryFinalTimestamp();
-    this.setState({
-      isFinal: this.props.transaction.blockTimestamp <= finalStamp,
-    });
-  };
-
   render() {
     const { transaction } = this.props;
-    const {
-      block,
-      deposit,
-      transactionFee,
-      gasUsed,
-      gasAttached,
-      isFinal,
-    } = this.state;
+    const { block, deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
-      <div className="transaction-info-container">
-        <Row noGutters>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Signed by"}>
-                  {"Account that signed and sent the transaction. "}
-                  <a
-                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-user.svg"
-              text={<AccountLink accountId={transaction.signerId} />}
-              className="border-0"
-            />
-          </Col>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Receiver"}>
-                  {"Account receiving the transaction. "}
-                  <a
-                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-user.svg"
-              text={<AccountLink accountId={transaction.receiverId} />}
-            />
-          </Col>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Value"}>
-                  {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
+      <RpcConsumer>
+        {(context) => (
+          <div className="transaction-info-container">
+            <Row noGutters>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Signed by"}>
+                      {"Account that signed and sent the transaction. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/account"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-user.svg"
+                  text={<AccountLink accountId={transaction.signerId} />}
+                  className="border-0"
+                />
+              </Col>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Receiver"}>
+                      {"Account receiving the transaction. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/account"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-user.svg"
+                  text={<AccountLink accountId={transaction.receiverId} />}
+                />
+              </Col>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Value"}>
+                      {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
                 This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
-                  <a
-                    href={
-                      "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-filter.svg"
-              text={deposit ? <Balance amount={deposit.toString()} /> : "..."}
-            />
-          </Col>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Status"}>
-                  {
-                    "Current status of the transaction (Pending, Succeeded, Failed/Finalized or non finalized). "
+                      <a
+                        href={
+                          "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
                   }
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-t-status.svg"
-              text={
-                <div style={{ fontSize: "21px" }}>
-                  {transaction.status ? (
-                    <ExecutionStatus status={transaction.status} />
-                  ) : (
-                    ""
+                  imgLink="/static/images/icon-m-filter.svg"
+                  text={
+                    deposit ? <Balance amount={deposit.toString()} /> : "..."
+                  }
+                />
+              </Col>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Status"}>
+                      {
+                        "Current status of the transaction (Pending, Succeeded, Failed/Finalized or non finalized). "
+                      }
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-t-status.svg"
+                  text={
+                    <div style={{ fontSize: "21px" }}>
+                      {transaction.status ? (
+                        <ExecutionStatus status={transaction.status} />
+                      ) : (
+                        "Fetching Status... "
+                      )}
+                      {context.finalStamp === 0
+                        ? "/Checking Finality..."
+                        : transaction.blockTimestamp <= context.finalStamp
+                        ? "/Finalized"
+                        : "/Finalizing"}
+                    </div>
+                  }
+                />
+              </Col>
+            </Row>
+            <Row noGutters>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Transaction Fee"}>
+                      {"Total fee paid in NEAR to execute this transaction. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-size.svg"
+                  text={
+                    transactionFee ? (
+                      <Balance amount={transactionFee.toString()} />
+                    ) : (
+                      "..."
+                    )
+                  }
+                  className="border-0"
+                />
+              </Col>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Gas Price"}>
+                      {"Cost per unit of gas. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-filter.svg"
+                  text={block ? <Balance amount={block.gasPrice} /> : "..."}
+                />
+              </Col>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Gas Used"}>
+                      {"Units of gas required to execute this transaction. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-size.svg"
+                  text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
+                />
+              </Col>
+              <Col md="3">
+                <CardCell
+                  title={
+                    <Term title={"Attached Gas"}>
+                      {
+                        "Units of gas attached to the transaction (this is often higher than 'Gas Used'). "
+                      }
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-size.svg"
+                  text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
+                />
+              </Col>
+            </Row>
+            <Row noGutters className="border-0">
+              <Col md="4">
+                <CardCell
+                  title={
+                    <Term title={"Created"}>
+                      {"Timestamp of when this transaction was submitted. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  text={moment(transaction.blockTimestamp).format(
+                    "MMMM DD, YYYY [at] h:mm:ssa"
                   )}
-                  {isFinal ? "/Finalized" : "/Finalizing"}
-                </div>
-              }
-            />
-          </Col>
-        </Row>
-        <Row noGutters>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Transaction Fee"}>
-                  {"Total fee paid in NEAR to execute this transaction. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-size.svg"
-              text={
-                transactionFee ? (
-                  <Balance amount={transactionFee.toString()} />
-                ) : (
-                  "..."
-                )
-              }
-              className="border-0"
-            />
-          </Col>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Gas Price"}>
-                  {"Cost per unit of gas. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-filter.svg"
-              text={block ? <Balance amount={block.gasPrice} /> : "..."}
-            />
-          </Col>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Gas Used"}>
-                  {"Units of gas required to execute this transaction. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-size.svg"
-              text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
-            />
-          </Col>
-          <Col md="3">
-            <CardCell
-              title={
-                <Term title={"Attached Gas"}>
-                  {
-                    "Units of gas attached to the transaction (this is often higher than 'Gas Used'). "
+                  className="border-0"
+                />
+              </Col>
+              <Col md="8">
+                <CardCell
+                  title={
+                    <Term title={"Hash"}>
+                      {"Unique identifier (hash) of this transaction. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
                   }
-                </Term>
-              }
-              imgLink="/static/images/icon-m-size.svg"
-              text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
-            />
-          </Col>
-        </Row>
-        <Row noGutters className="border-0">
-          <Col md="4">
-            <CardCell
-              title={
-                <Term title={"Created"}>
-                  {"Timestamp of when this transaction was submitted. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              text={moment(transaction.blockTimestamp).format(
-                "MMMM DD, YYYY [at] h:mm:ssa"
-              )}
-              className="border-0"
-            />
-          </Col>
-          <Col md="8">
-            <CardCell
-              title={
-                <Term title={"Hash"}>
-                  {"Unique identifier (hash) of this transaction. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              text={transaction.hash}
-              className="border-0"
-            />
-          </Col>
-        </Row>
-        <Row noGutters>
-          <Col md="12">
-            <CardCell
-              title={
-                <Term title={"Block Hash"}>
-                  {
-                    "Unique identifier (hash) of the block this transaction was included in. "
+                  text={transaction.hash}
+                  className="border-0"
+                />
+              </Col>
+            </Row>
+            <Row noGutters>
+              <Col md="12">
+                <CardCell
+                  title={
+                    <Term title={"Block Hash"}>
+                      {
+                        "Unique identifier (hash) of the block this transaction was included in. "
+                      }
+                    </Term>
                   }
-                </Term>
+                  text={
+                    <BlockLink blockHash={transaction.blockHash}>
+                      {transaction.blockHash}
+                    </BlockLink>
+                  }
+                  className="transaction-card-block-hash border-0"
+                />
+              </Col>
+            </Row>
+            <style jsx global>{`
+              .transaction-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
               }
-              text={
-                <BlockLink blockHash={transaction.blockHash}>
-                  {transaction.blockHash}
-                </BlockLink>
+
+              .transaction-info-container > .row {
+                border-bottom: 2px solid #e6e6e6;
               }
-              className="transaction-card-block-hash border-0"
-            />
-          </Col>
-        </Row>
-        <style jsx global>{`
-          .transaction-info-container {
-            border: solid 4px #e6e6e6;
-            border-radius: 4px;
-          }
 
-          .transaction-info-container > .row {
-            border-bottom: 2px solid #e6e6e6;
-          }
+              .transaction-info-container > .row:last-of-type {
+                border-bottom: 0;
+              }
 
-          .transaction-info-container > .row:last-of-type {
-            border-bottom: 0;
-          }
+              .transaction-info-container > .row:first-of-type .card-cell-text {
+                font-size: 24px;
+              }
 
-          .transaction-info-container > .row:first-of-type .card-cell-text {
-            font-size: 24px;
-          }
-
-          .transaction-card-block-hash {
-            background-color: #f8f8f8;
-          }
-        `}</style>
-      </div>
+              .transaction-card-block-hash {
+                background-color: #f8f8f8;
+              }
+            `}</style>
+          </div>
+        )}
+      </RpcConsumer>
     );
   }
 }
