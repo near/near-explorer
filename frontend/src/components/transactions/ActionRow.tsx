@@ -12,6 +12,8 @@ export interface Props {
   detalizationMode: DetalizationMode;
   className: string;
   showDetails?: boolean;
+  status?: T.ExecutionStatus;
+  isFinal?: boolean;
 }
 
 export default class extends React.Component<Props> {
@@ -30,6 +32,8 @@ export default class extends React.Component<Props> {
       transaction,
       action,
       showDetails,
+      status,
+      isFinal,
     } = this.props;
     const ActionIcon = actionIcons[action.kind];
     return (
@@ -47,6 +51,8 @@ export default class extends React.Component<Props> {
             showDetails={showDetails}
           />
         }
+        status={status}
+        isFinal={isFinal}
       />
     );
   }

@@ -1,5 +1,7 @@
 import React from "react";
-import * as T from "../../libraries/explorer-wamp/transactions";
+
+import { RpcConsumer } from "../utils/RpcProvider";
+import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
 
@@ -13,39 +15,79 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-export default class extends React.Component<Props> {
+interface State {
+  status?: T.ExecutionStatus;
+  isFinal?: boolean;
+}
+
+export default class extends React.Component<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
   };
 
+  state: State = {};
+
+  componentDidMount() {
+    this.fetchStatus();
+  }
+
+  fetchStatus = async () => {
+    const status = await new TransactionsApi().getTransactionStatus(
+      this.props.transaction
+    );
+    this.setState({ status });
+  };
+
   render() {
     const { transaction, viewMode } = this.props;
-
-    if (this.props.actions.length !== 1) {
+    const { status } = this.state;
+    if (!transaction.actions) {
+      return <></>;
+    }
+    if (transaction.actions.length !== 1) {
       return (
-        <ActionRowBlock
-          viewMode={viewMode}
-          transaction={transaction}
-          icon={<BatchTransactionIcon />}
-          title={"Batch Transaction"}
-        >
-          <ActionsList
-            actions={transaction.actions}
-            transaction={transaction}
-            viewMode={viewMode}
-            detalizationMode="minimal"
-          />
-        </ActionRowBlock>
+        <RpcConsumer>
+          {(context) => (
+            <ActionRowBlock
+              viewMode={viewMode}
+              transaction={transaction}
+              icon={<BatchTransactionIcon />}
+              title={"Batch Transaction"}
+              status={status}
+              isFinal={
+                context.finalStamp > 0
+                  ? transaction.blockTimestamp <= context.finalStamp
+                  : undefined
+              }
+            >
+              <ActionsList
+                actions={transaction.actions}
+                transaction={transaction}
+                viewMode={viewMode}
+                detalizationMode="minimal"
+              />
+            </ActionRowBlock>
+          )}
+        </RpcConsumer>
       );
     }
-
     return (
-      <ActionRow
-        action={transaction.actions[0]}
-        transaction={transaction}
-        viewMode={viewMode}
-        detalizationMode="detailed"
-      />
+      <RpcConsumer>
+        {(context) => (
+          <ActionRow
+            action={transaction.actions[0]}
+            transaction={transaction}
+            viewMode={viewMode}
+            detalizationMode="detailed"
+            status={status}
+            isFinal={
+              context.finalStamp > 0
+                ? transaction.blockTimestamp <= context.finalStamp
+                : undefined
+            }
+          />
+        )}
+      </RpcConsumer>
     );
   }
 }

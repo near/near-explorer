@@ -94,7 +94,8 @@ Array [
               <span
                 className="jsx-3871551524 action-row-timer-status"
               >
-                Succeeded
+                Fetching Status...
+                /Checking Finality...
               </span>
                
               <span>
@@ -199,7 +200,8 @@ Array [
               <span
                 className="jsx-3871551524 action-row-timer-status"
               >
-                Succeeded
+                Fetching Status...
+                /Checking Finality...
               </span>
                
               <span>
@@ -346,7 +348,8 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
             <span
               className="jsx-3871551524 action-row-timer-status"
             >
-              Succeeded
+              Fetching Status...
+              /Checking Finality...
             </span>
              
             <span>
@@ -454,7 +457,8 @@ Array [
               <span
                 className="jsx-3871551524 action-row-timer-status"
               >
-                Succeeded
+                Fetching Status...
+                /Checking Finality...
               </span>
                
               <span>
@@ -559,7 +563,8 @@ Array [
               <span
                 className="jsx-3871551524 action-row-timer-status"
               >
-                Succeeded
+                Fetching Status...
+                /Checking Finality...
               </span>
                
               <span>
