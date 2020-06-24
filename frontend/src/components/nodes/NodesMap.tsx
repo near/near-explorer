@@ -14,7 +14,7 @@ import { OuterProps } from "../accounts/Accounts";
 
 const Datamap = dynamic(() => import('./datamaps'), { ssr: false });
 
-const countdownRenderer = ({ seconds }) => {
+const countdownRenderer = ({ seconds }: any) => {
   return <span className="countdownText">{seconds}s</span>;
 }
 

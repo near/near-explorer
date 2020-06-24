@@ -17,7 +17,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./src/components/nodes/Datamaps"],
     "lib": ["dom", "es2015", "es2016"],
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
