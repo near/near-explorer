@@ -11,7 +11,8 @@ import autoRefreshHandler from "../utils/autoRefreshHandler";
 
 import { OuterProps } from "../accounts/Accounts";
 
-const Datamap = dynamic(() => import("react-datamaps"), { ssr: false });
+// const Datamap = dynamic(() => import("react-datamaps"), { ssr: false });
+const Datamap = dynamic(() => import('./datamaps'), { ssr: false });
 
 const countdownRenderer = ({ seconds }) => {
   return <span className="countdownText">{seconds}s</span>;
@@ -174,8 +175,89 @@ class NodesMap extends React.Component<InnerProps, State> {
     }, () => this.fetchGeo());
   }
 
-
   render() {
+    const map = <Datamap
+      responsive
+      geographyConfig={{
+        popupOnHover: false,
+        highlightOnHover: false,
+        borderColor: '#1C1D1F',
+      }}
+      fills={{
+        defaultFill: '#1C1D1F',
+        validatorBubbleFill: '#8DD4BD',
+        nonValidatorBubbleFill: '#8DD4BD',
+      }}
+      bubbles={this.state.nodesData}
+      pins={
+        [{
+          name: 'Hot',
+          latitude: 21.32,
+          longitude: 5.32,
+          radius: 10,
+          fillKey: 'validatorBubbleFill'
+        }, 
+        {
+          name: 'Chilly',
+          latitude: -25.32,
+          longitude: 120.32,
+          radius: 18,
+          fillKey: 'validatorBubbleFill'
+        }, {
+          name: 'Hot again',
+          latitude: 21.32,
+          longitude: -84.32,
+          radius: 8,
+          fillKey: 'validatorBubbleFill'
+        },
+        ]
+      }
+      bubbleOptions={{
+        borderWidth: 1,
+        borderColor: '#1C1D1F',
+        fillOpacity: 0.6,
+        highlightFillOpacity: 1,
+        highlightFillColor: '#8DD4BD',
+        highlightBorderColor: '#8DD4BD',
+        highlightBorderWidth: 2,
+        animate: false,
+        popupTemplate: (data: IBubble) => { // This function should just return a string
+          return `
+                <div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">` +
+            `<div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px">` + `@` + data.name + '</div> ' +
+            `<div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">` +
+            `<div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; white-space: nowrap">` + data.agentName + ' | ver.' + data.version + ' build ' + data.build + `</div>` +
+            `<div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">` + data.nodeId.split(':')[1] + `</div>` +
+            `</div>` +
+            `<div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px; border-radius: 0 0 8px 8px">` +
+            `<div>` +
+            `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Block#' + `</div>` +
+            `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + data.blockNr + `</div>` +
+            `</div>` +
+            `<div>` +
+            `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Last seen' + `</div>` +
+            `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + moment.duration(moment().diff(moment(data.lastSeen))).as('seconds').toFixed() + 's ago' + `</div>` +
+            `</div>` +
+            `<div>` +
+            `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Location' + `</div>` +
+            `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + data.location + `</div>` +
+            `</div>` +
+            `</div>` +
+            `</div>`;
+        },
+      }}
+      pinOptions={{
+        borderWidth: 1,
+        borderColor: '#8DD4BD',
+        fillColor: '#8DD4BD',
+        fillOpacity: 0.6,
+        highlightFillOpacity: 1,
+        highlightFillColor: '#8DD4BD',
+        highlightBorderColor: '#8DD4BD',
+        highlightBorderWidth: 2,
+        radius: 4,
+      }}
+    />;
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
@@ -219,56 +301,75 @@ class NodesMap extends React.Component<InnerProps, State> {
               </div>
             </div>
           }
-          <Datamap
-            responsive
-            geographyConfig={{
-              popupOnHover: false,
-              highlightOnHover: false,
-              borderColor: '#1C1D1F',
-            }}
-            fills={{
-              defaultFill: '#1C1D1F',
-              validatorBubbleFill: '#8DD4BD',
-              nonValidatorBubbleFill: '#8DD4BD',
-            }}
-            bubbles={this.state.nodesData}
-            bubbleOptions={{
-              borderWidth: 1,
-              borderColor: '#1C1D1F',
-              fillOpacity: 0.6,
-              highlightFillOpacity: 1,
-              highlightFillColor: '#8DD4BD',
-              highlightBorderColor: '#8DD4BD',
-              highlightBorderWidth: 2,
-              animate: false,
-              popupTemplate: (data: IBubble) => { // This function should just return a string
-                return `
-                <div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">` +
-                  `<div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px">` + `@` + data.name + '</div> ' +
-                  `<div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">` +
-                    `<div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; white-space: nowrap">` + data.agentName + ' | ver.' + data.version + ' build ' + data.build + `</div>` + 
-                    `<div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">` + data.nodeId.split(':')[1] + `</div>` +
-                  `</div>` +
-                  `<div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px; border-radius: 0 0 8px 8px">` +
-                    `<div>` + 
-                      `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Block#' + `</div>` +
-                      `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + data.blockNr + `</div>` +
-                    `</div>` +
-                    `<div>` +
-                      `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Last seen' + `</div>` +
-                  `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + moment.duration(moment().diff(moment(data.lastSeen))).as('seconds').toFixed() + 's ago' + `</div>` +
-                    `</div>` +
-                    `<div>` +
-                      `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Location' + `</div>` +
-                      `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + data.location + `</div>` +
-                    `</div>` +
-                  `</div>` + 
-                `</div>`;
-              },
-            }}
-          />
+          {map}
         </div>
         <style jsx global>{`
+            .nLetter {
+              .positio: relative;
+              stroke: #24272A !important;
+              stroke-width: 0 !important;
+              animation: rotate 2s linear forwards;
+              transform-origin: top center;
+            }
+            .coin {
+              position: relative;
+              border-radius: 100%;
+            }
+            .coinCircle {
+              position: relative;
+              animation: rotate 2s linear forwards;
+              transform-origin: top center;
+            }
+            @keyframes rotate {
+              0% {
+                transform: rotateY(40deg) scale(0);
+              }
+
+              10% {
+                transform: rotateY(40deg) scale(1);
+              }
+              
+              20% {
+                transform: rotateY(0deg) scale(1);
+              }
+              
+              42% {
+                transform: rotateY(-180deg) scale(1);
+              }
+              
+              75% {
+                transform: rotateY(-360deg) scale(1);
+              }
+              
+              82% {
+                transform: rotateY(-405deg) scale(1);
+              }
+              
+              90% {
+                transform: rotateY(-450deg) scale(1);
+              }
+                
+              100% {
+                transform: rotateY(-450deg) scale(0);
+              }
+            }
+            .leftLine, .rightLine {
+              stroke-dasharray: 14px;
+              stroke-dashoffset: 14px;
+              animation: lineUp 0.5s linear forwards 0.5s;
+            }
+            .rightLine {
+              animation-delay: 0.7s;
+            }
+            @keyframes lineUp {
+              0% {
+                stroke-dashoffset: -14px;
+              }
+              
+              100% {
+                stroke-dashoffset: -42px;
+              }
+            }
             .refreshCountdown{
               position: absolute;
               top: 92px;
