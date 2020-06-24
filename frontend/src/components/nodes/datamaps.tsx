@@ -83,11 +83,6 @@ export default class Datamap extends React.Component<Props> {
         element: this.refs.container
       });
       map.addPlugin('pins', (layer, data, options) => {
-        console.log('add plugin', layer);
-        const self = this;
-        console.log(self);
-        const fillData = options.fillColor;
-        const svg = this.svg;
 
         if (!data || (data && !data.slice)) {
           throw "Datamaps Error - bubbles must be an array";
@@ -96,45 +91,6 @@ export default class Datamap extends React.Component<Props> {
         const pins = layer.selectAll('image.datamaps-pins').data(data, JSON.stringify);
 
         const svgPins = pins.enter().append('g');
-        svgPins.append('circle')
-        .attr('class', 'datamaps-pin')
-        .attr('fill', fillData)
-        .attr('r', options.radius)
-        .attr('cx', (datum) => {
-          let latLng;
-          if (datumHasCoords(datum)) {
-            latLng = map.latLngToXY(datum.latitude, datum.longitude);
-          }
-          if (latLng) return latLng[0];
-        })
-        .attr('cy', (datum) => {
-          let latLng;
-          if (datumHasCoords(datum)) {
-            latLng = map.latLngToXY(datum.latitude, datum.longitude);
-          }
-          if (latLng) return latLng[1];
-        })
-
-        svgPins.append('circle')
-        .attr('class', 'outter')
-        .attr('fill', 'none')
-        .attr('r', options.radius)
-        .attr('stroke', '#8DD4BD')
-        .attr('strokeWidth', 2)
-        .attr('cx', (datum) => {
-          let latLng;
-          if (datumHasCoords(datum)) {
-            latLng = map.latLngToXY(datum.latitude, datum.longitude);
-          }
-          if (latLng) return latLng[0];
-        })
-        .attr('cy', (datum) => {
-          let latLng;
-          if (datumHasCoords(datum)) {
-            latLng = map.latLngToXY(datum.latitude, datum.longitude);
-          }
-          if (latLng) return latLng[1];
-        })
 
         svgPins.append('svg')
           .attr('x', (datum) => {
