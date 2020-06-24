@@ -87,7 +87,7 @@ export default class Datamap extends React.Component<Props> {
         data,
         element: this.refs.container
       });
-      map.addPlugin('pins', (layer, data, options) => {
+      map.addPlugin('pins', (layer: any, data: any) => {
 
         if (!data || (data && !data.slice)) {
           throw "Datamaps Error - pins must be an array";
@@ -97,14 +97,14 @@ export default class Datamap extends React.Component<Props> {
 
         const svgPins = pins.enter().append('g');
         svgPins.append('svg')
-          .attr('x', (datum) => {
+          .attr('x', (datum: any) => {
             let latLng;
             if (datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
             }
             if (latLng) return latLng[0] - 8;
           })
-          .attr('y', (datum) => {
+          .attr('y', (datum: any) => {
             let latLng;
             if (datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
@@ -170,13 +170,13 @@ export default class Datamap extends React.Component<Props> {
         pins.exit()
           .remove();
 
-        function datumHasCoords(datum) {
+        function datumHasCoords(datum: any) {
           return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
         }
 
       });
 
-      map.addPlugin('removedNodes', (layer, data, options) => {
+      map.addPlugin('removedNodes', (layer:any , data:any) => {
 
         if (!data || (data && !data.slice)) {
           throw "Datamaps Error - removedNodes must be an array";
@@ -186,14 +186,14 @@ export default class Datamap extends React.Component<Props> {
 
         removedNodes.enter().append('svg:circle')
           .attr('class', 'datamaps-removedNodes')
-          .attr('cx', (datum) => {
+          .attr('cx', (datum: any) => {
             var latLng;
             if (datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
             }
             if (latLng) return latLng[0];
           })
-          .attr('cy', (datum) => {
+          .attr('cy', (datum: any) => {
             var latLng;
             if (datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
