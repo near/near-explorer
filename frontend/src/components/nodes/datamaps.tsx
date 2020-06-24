@@ -10,6 +10,8 @@ interface Props {
   bubbles: any[];
   pinOptions: object;
   pins: any[];
+  removedNodesOptions: object;
+  removedNodes: any[];
   data: object;
   graticule: boolean;
   height: any;
@@ -72,6 +74,8 @@ export default class Datamap extends React.Component<Props> {
       graticule,
       labels,
       updateChoroplethOptions,
+      removedNodes,
+      removedNodesOptions,
       ...props
     } = this.props;
 
@@ -86,13 +90,12 @@ export default class Datamap extends React.Component<Props> {
       map.addPlugin('pins', (layer, data, options) => {
 
         if (!data || (data && !data.slice)) {
-          throw "Datamaps Error - bubbles must be an array";
+          throw "Datamaps Error - pins must be an array";
         }
 
         const pins = layer.selectAll('image.datamaps-pins').data(data, JSON.stringify);
 
         const svgPins = pins.enter().append('g');
-
         svgPins.append('svg')
           .attr('x', (datum) => {
             let latLng;
@@ -172,6 +175,42 @@ export default class Datamap extends React.Component<Props> {
         }
 
       });
+
+      map.addPlugin('removedNodes', (layer, data, options) => {
+
+        if (!data || (data && !data.slice)) {
+          throw "Datamaps Error - removedNodes must be an array";
+        }
+
+        const removedNodes = layer.selectAll('image.datamaps-removedNodes').data(data, JSON.stringify);
+
+        removedNodes.enter().append('svg:circle')
+          .attr('class', 'datamaps-removedNodes')
+          .attr('cx', (datum) => {
+            var latLng;
+            if (datumHasCoords(datum)) {
+              latLng = map.latLngToXY(datum.latitude, datum.longitude);
+            }
+            if (latLng) return latLng[0];
+          })
+          .attr('cy', (datum) => {
+            var latLng;
+            if (datumHasCoords(datum)) {
+              latLng = map.latLngToXY(datum.latitude, datum.longitude);
+            }
+            if (latLng) return latLng[1];
+          })
+          .attr('r', 4)
+          .attr('opacity', 1)
+          .attr('fill', '#FF585D')
+
+        removedNodes.exit()
+          .remove();
+
+        function datumHasCoords(datum) {
+          return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
+        }
+      });
     } else {
       map.updateChoropleth(data, updateChoroplethOptions);
     }
@@ -188,6 +227,10 @@ export default class Datamap extends React.Component<Props> {
       map.pins(pins, pinOptions);
     }
 
+    if (removedNodes) {
+      map.removedNodes(removedNodes, removedNodesOptions);
+    }
+
     if (graticule) {
       map.graticule();
     }
@@ -196,15 +239,22 @@ export default class Datamap extends React.Component<Props> {
       map.labels();
     }
 
-    d3.selectAll('.group1')
+    d3.selectAll('.datamaps-removedNodes')
       .transition()
       .delay(0)
+      .duration(1000)
+      .attr('r', 12)
+      .attr('opacity', 0)
+
+    d3.selectAll('.group1')
+      .transition()
+      .delay(1200)
       .duration(2000)
       .attr('transform', 'translate(0, -40)')
 
     d3.selectAll('.lake')
       .transition()
-      .delay(0)
+      .delay(1200)
       .duration(1600)
       .attr('rx', 8)
       .attr('ry', 4)

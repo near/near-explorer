@@ -47,7 +47,8 @@ interface IBubble {
 interface State {
   nodesData: IBubble[];
   nodesType: string;
-  specialNodes: IBubble[]; // new nodes / removed nodes
+  newNodes: IBubble[];
+  removedNodes: IBubble[];
 }
 
 interface IGeo {
@@ -90,14 +91,16 @@ class NodesMap extends React.Component<InnerProps, State> {
     this.state = { 
       nodesData: [],
       nodesType: "validators",
-      specialNodes: []
+      newNodes: [],
+      removedNodes: []
     };
   }
 
   async componentDidUpdate(prevProps: any) {
     if (prevProps.items[0].validatingNodes !== this.props.items[0].validatingNodes || prevProps.items[0].nonValidatingNodes !== this.props.items[0].nonValidatingNodes) {
       this.setState({
-        specialNodes: []
+        newNodes: [],
+        removedNodes: []
       }, async () => await this.fetchGeo());
     }
   }
@@ -171,7 +174,8 @@ class NodesMap extends React.Component<InnerProps, State> {
   saveData(nodes: IBubble[]) {
     const oldNodes = this.state.nodesData;
     const newNodes = nodes;
-    const specialNodes: IBubble[] = [];
+    const newAddedNodes: IBubble[] = [];
+    const removedNodes: IBubble[] = [];
 
 
     // check for new added nodes
@@ -183,7 +187,7 @@ class NodesMap extends React.Component<InnerProps, State> {
         }
       }
       if (!wasOld) {
-        specialNodes.push(item);
+        newAddedNodes.push(item);
       }
     });
 
@@ -196,25 +200,28 @@ class NodesMap extends React.Component<InnerProps, State> {
         }
       }
       if (!stillActive) {
-        specialNodes.push(item);
+        removedNodes.push(item);
       }
     });
 
     this.setState({ 
         nodesData: nodes,
-        specialNodes: specialNodes,
+        newNodes: newAddedNodes,
+        removedNodes: removedNodes
       });
   }
 
   changeToValidators() {
     this.setState({
       nodesType: "validators",
+      newNodes: [],
     }, () => this.fetchGeo());
   }
 
   changeToNonValidators() {
     this.setState({
       nodesType: "non-validators",
+      newNodes: [],
     }, () => this.fetchGeo());
   }
 
@@ -232,9 +239,8 @@ class NodesMap extends React.Component<InnerProps, State> {
         nonValidatorBubbleFill: '#8DD4BD',
       }}
       bubbles={this.state.nodesData}
-      pins={
-        this.state.specialNodes
-      }
+      pins={this.state.newNodes}
+      removedNodes={this.state.removedNodes}
       bubbleOptions={{
         borderWidth: 1,
         borderColor: '#1C1D1F',
@@ -277,6 +283,17 @@ class NodesMap extends React.Component<InnerProps, State> {
         highlightFillOpacity: 1,
         highlightFillColor: '#8DD4BD',
         highlightBorderColor: '#8DD4BD',
+        highlightBorderWidth: 2,
+        radius: 4,
+      }}
+      removedNodesOptions={{
+        borderWidth: 1,
+        borderColor: '#FF585D',
+        fillColor: '#FF585D',
+        fillOpacity: 1,
+        highlightFillOpacity: 1,
+        highlightFillColor: '#FF585D',
+        highlightBorderColor: '#FF585D',
         highlightBorderWidth: 2,
         radius: 4,
       }}
@@ -332,7 +349,9 @@ class NodesMap extends React.Component<InnerProps, State> {
               stroke: #24272A !important;
               stroke-width: 0 !important;
               animation: rotate 2s linear forwards;
+              animation-delay: 0.8s;
               transform-origin: top center;
+              transform: scale(0);
             }
             .coin {
               position: relative;
@@ -341,7 +360,9 @@ class NodesMap extends React.Component<InnerProps, State> {
             .coinCircle {
               position: relative;
               animation: rotate 2s linear forwards;
+              animation-delay: 0.8s;
               transform-origin: top center;
+              transform: scale(0);
             }
             @keyframes rotate {
               0% {
@@ -379,10 +400,10 @@ class NodesMap extends React.Component<InnerProps, State> {
             .leftLine, .rightLine {
               stroke-dasharray: 14px;
               stroke-dashoffset: 14px;
-              animation: lineUp 0.5s linear forwards 0.5s;
+              animation: lineUp 0.5s linear forwards 1.8s;
             }
             .rightLine {
-              animation-delay: 0.7s;
+              animation-delay: 2.0s;
             }
             @keyframes lineUp {
               0% {
