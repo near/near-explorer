@@ -1,14 +1,15 @@
+import moment from 'moment';
+
+import dynamic from 'next/dynamic'
 import Link from "next/link";
 
-import Countdown from 'react-countdown';
-import dynamic from 'next/dynamic'
-import moment from 'moment';
 import React from "react";
+
+import Countdown from 'react-countdown';
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
 import autoRefreshHandler from "../utils/autoRefreshHandler";
-
 import { OuterProps } from "../accounts/Accounts";
 
 // const Datamap = dynamic(() => import("react-datamaps"), { ssr: false });
@@ -187,7 +188,6 @@ class NodesMap extends React.Component<InnerProps, State> {
     });
 
     // check for removed nodes
-
     oldNodes.forEach( (item: IBubble) => {
       let stillActive = false;
       for (let i:number = 0; i < newNodes.length; i++) {
@@ -199,7 +199,6 @@ class NodesMap extends React.Component<InnerProps, State> {
         specialNodes.push(item);
       }
     });
-
 
     this.setState({ 
         nodesData: nodes,
