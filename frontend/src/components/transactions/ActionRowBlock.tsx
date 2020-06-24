@@ -17,6 +17,8 @@ export interface Props {
   icon: React.ReactElement;
   title: React.ReactElement | string;
   children?: React.ReactNode;
+  status?: T.ExecutionStatus;
+  isFinal?: boolean;
 }
 
 export interface State {}
@@ -36,6 +38,8 @@ export default class extends React.Component<Props, State> {
       transaction,
       icon,
       title,
+      status,
+      isFinal,
       children,
     } = this.props;
 
@@ -69,7 +73,16 @@ export default class extends React.Component<Props, State> {
                   <Row>
                     <Col className="action-row-timer">
                       <span className="action-row-timer-status">
-                        <ExecutionStatus status={transaction.status} />
+                        {status ? (
+                          <ExecutionStatus status={status} />
+                        ) : (
+                          "Fetching Status..."
+                        )}
+                        {isFinal === undefined
+                          ? "/Checking Finality..."
+                          : isFinal === true
+                          ? "/Finalized"
+                          : "/Finalizing"}
                       </span>{" "}
                       <Timer time={transaction.blockTimestamp} />
                     </Col>
