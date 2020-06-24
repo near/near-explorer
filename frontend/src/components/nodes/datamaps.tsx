@@ -2,18 +2,6 @@ import Datamaps from 'datamaps';
 import * as d3 from 'd3';
 import React from 'react';
 
-
-const MAP_CLEARING_PROPS = [
-  'height', 'scope', 'setProjection', 'width'
-];
-
-const propChangeRequiresMapClear = (oldProps, newProps) => {
-  return MAP_CLEARING_PROPS.some((key) =>
-    oldProps[key] !== newProps[key]
-  );
-};
-
-
 interface Props {
   arc: any[];
   arcOptions: object;
