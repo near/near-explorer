@@ -10,7 +10,6 @@ const { nearRpc } = require("./near");
 const { Result, delayFor } = require("./utils");
 
 let genesisHeight;
-let genesisTime;
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -27,6 +26,7 @@ async function saveBlocks(blocksInfo) {
               gasLimit: blockInfo.header.gas_limit || 0,
               gasUsed: blockInfo.header.gas_used || 0,
               gasPrice: blockInfo.header.gas_price || "0",
+              author: blockInfo.author,
             };
           }),
           { ignoreDuplicates: true }
@@ -428,22 +428,8 @@ async function syncGenesisState() {
   const genesisConfig = await retry(10, () =>
     nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
   );
-  if (
-    (genesisHeight && genesisHeight !== genesisConfig.genesis_height) ||
-    (genesisTime && genesisTime !== genesisConfig.genesis_time)
-  ) {
-    console.log(
-      `Genesis has changed (height ${genesisHeight} -> ${genesisConfig.genesis_height}; \
-      time ${genesisTime} -> ${genesisConfig.genesis_time}). \
-      We are resetting the database and shutting down the backend to let it auto-start and \
-      sync from scratch.`
-    );
-    models.resetDatabase();
-    process.exit(0);
-  }
   genesisHeight = genesisConfig.genesis_height;
-  genesisTime = genesisConfig.genesis_time;
-  const parsedGenesisTime = moment(genesisTime).valueOf();
+  const genesisTime = moment(genesisConfig.genesis_time).valueOf();
   const limit = 100;
   let offset = 0,
     batchCount;
@@ -454,7 +440,7 @@ async function syncGenesisState() {
     const genesisRecords = await retry(10, () =>
       nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_records", [pagination])
     );
-    await saveGenesis(parsedGenesisTime, genesisRecords.records, offset);
+    await saveGenesis(genesisTime, genesisRecords.records, offset);
     offset += limit;
     batchCount = genesisRecords.records.length;
   } while (batchCount === limit);
