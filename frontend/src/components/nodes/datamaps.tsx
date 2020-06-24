@@ -4,27 +4,28 @@ import * as d3 from 'd3';
 import React from 'react';
 
 interface Props {
-  arc: any[];
-  arcOptions: object;
+  arc?: any[];
+  arcOptions?: object;
   bubbleOptions: object;
   bubbles: any[];
   pinOptions: object;
   pins: any[];
   removedNodesOptions: object;
   removedNodes: any[];
-  data: object;
-  graticule: boolean;
-  height: any;
-  labels: boolean;
+  data?: object;
+  graticule?: boolean;
+  height?: any;
+  labels?: boolean;
   responsive: boolean;
-  style: object;
-  updateChoroplethOptions: object;
-  width: any;
+  style?: object;
+  geographyConfig: object;
+  fills: object;
+  updateChoroplethOptions?: object;
+  width?: any;
 }
 
 export default class Datamap extends React.Component<Props> {
-
-
+  map: any;
   constructor(props: Props) {
     super(props);
     this.resizeMap = this.resizeMap.bind(this);
@@ -53,7 +54,7 @@ export default class Datamap extends React.Component<Props> {
   }
 
   clear() {
-    const { container } = this.refs;
+    const { container }: any = this.refs;
 
     for (const child of Array.from(container.childNodes)) {
       container.removeChild(child);
@@ -207,7 +208,7 @@ export default class Datamap extends React.Component<Props> {
         removedNodes.exit()
           .remove();
 
-        function datumHasCoords(datum) {
+        function datumHasCoords(datum: any) {
           return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
         }
       });
