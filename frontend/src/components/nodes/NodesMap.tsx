@@ -46,6 +46,7 @@ interface IBubble {
 interface State {
   nodesData: IBubble[];
   nodesType: string;
+  specialNodes: IBubble[]; // new nodes / removed nodes
 }
 
 interface IGeo {
@@ -88,6 +89,7 @@ class NodesMap extends React.Component<InnerProps, State> {
     this.state = { 
       nodesData: [],
       nodesType: "validators",
+      specialNodes: []
     };
   }
 
@@ -160,7 +162,47 @@ class NodesMap extends React.Component<InnerProps, State> {
       bubbles.push(bubble);
     });
 
-    this.setState({ nodesData: bubbles });
+    this.saveData(bubbles);
+  }
+
+  saveData(nodes: IBubble[]) {
+    const oldNodes = this.state.nodesData;
+    const newNodes = nodes;
+    const specialNodes: IBubble[] = [];
+
+
+    // check for new added nodes
+    newNodes.forEach( (item: IBubble) => {
+      let wasOld = false;
+      for (let i:number = 0; i < oldNodes.length; i++) {
+        if (item.name === oldNodes[i].name) {
+          wasOld = true;
+        }
+      }
+      if (!wasOld) {
+        specialNodes.push(item);
+      }
+    });
+
+    // check for removed nodes
+
+    oldNodes.forEach( (item: IBubble) => {
+      let stillActive = false;
+      for (let i:number = 0; i < newNodes.length; i++) {
+        if (item.name === newNodes[i].name) {
+          stillActive = true;
+        }
+      }
+      if (!stillActive) {
+        specialNodes.push(item);
+      }
+    });
+
+
+    this.setState({ 
+        nodesData: nodes,
+        specialNodes: specialNodes,
+      });
   }
 
   changeToValidators() {
@@ -190,27 +232,7 @@ class NodesMap extends React.Component<InnerProps, State> {
       }}
       bubbles={this.state.nodesData}
       pins={
-        [{
-          name: 'Hot',
-          latitude: 21.32,
-          longitude: 5.32,
-          radius: 10,
-          fillKey: 'validatorBubbleFill'
-        }, 
-        {
-          name: 'Chilly',
-          latitude: -25.32,
-          longitude: 120.32,
-          radius: 18,
-          fillKey: 'validatorBubbleFill'
-        }, {
-          name: 'Hot again',
-          latitude: 21.32,
-          longitude: -84.32,
-          radius: 8,
-          fillKey: 'validatorBubbleFill'
-        },
-        ]
+        this.state.specialNodes
       }
       bubbleOptions={{
         borderWidth: 1,
