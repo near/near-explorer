@@ -1,10 +1,13 @@
 const models = require("../models");
 
 const {
+  backupDbOnReset,
+  regularCheckGenesisInterval,
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval,
   regularSyncGenesisStateInterval,
 } = require("./config");
+const { nearRpc } = require("./near");
 const {
   syncNewNearcoreState,
   syncMissingNearcoreState,
@@ -16,6 +19,34 @@ async function main() {
   console.log("Starting NEAR Explorer backend service...");
 
   await models.sequelize.sync();
+
+  let genesisHeight, genesisTime;
+  const regularCheckGenesis = async () => {
+    try {
+      const genesisConfig = await nearRpc.sendJsonRpc(
+        "EXPERIMENTAL_genesis_config"
+      );
+      if (
+        (genesisHeight && genesisHeight !== genesisConfig.genesis_height) ||
+        (genesisTime && genesisTime !== genesisConfig.genesis_time)
+      ) {
+        console.log(
+          `Genesis has changed (height ${genesisHeight} -> ${genesisConfig.genesis_height}; \
+          time ${genesisTime} -> ${genesisConfig.genesis_time}). \
+          We are resetting the database and shutting down the backend to let it auto-start and \
+          sync from scratch.`
+        );
+        models.resetDatabase({ saveBackup: backupDbOnReset });
+        process.exit(0);
+      }
+      genesisHeight = genesisConfig.genesis_height;
+      genesisTime = genesisConfig.genesis_time;
+    } catch (error) {
+      console.warn("Regular checking Genesis crashed due to:", error);
+    }
+    setTimeout(regularCheckGenesis, regularCheckGenesisInterval);
+  };
+  setTimeout(regularCheckGenesis, 0);
 
   const regularSyncGenesisState = async () => {
     try {

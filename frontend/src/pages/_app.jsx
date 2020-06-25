@@ -2,10 +2,13 @@ import App from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 
+import TransactionsApi from "../libraries/explorer-wamp/transactions";
+import { getNearNetwork } from "../libraries/config";
+
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
-import { getNearNetwork } from "../libraries/config";
+import RpcProvider from "../components/utils/RpcProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -32,15 +35,25 @@ export default class extends App {
     } else {
       currentNearNetwork = getNearNetwork(window.location.host);
     }
+
     return {
       currentNearNetwork,
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
     };
   }
+  state = {};
+
+  fetchFinalStamp = async () => {
+    const finalStamp = await new TransactionsApi().queryFinalTimestamp();
+    this.setState({ finalStamp });
+  };
+
+  componentDidMount() {
+    this.fetchFinalStamp();
+  }
 
   render() {
     const { Component, pageProps } = this.props;
-
     return (
       <>
         <Head>
@@ -54,13 +67,15 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <div className="app-wrapper">
-            <Header />
-            <div className="page">
+          <RpcProvider finalStamp={this.state.finalStamp}>
+            <div className="app-wrapper">
+              <Header />
+              <div className="page">
                 <Component {...pageProps} />
+              </div>
             </div>
-          </div>
-          <Footer />
+            <Footer />
+          </RpcProvider>
         </DataProvider>
         <style jsx global>{`
           @font-face {

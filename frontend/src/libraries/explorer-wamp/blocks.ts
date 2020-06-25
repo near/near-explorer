@@ -113,7 +113,7 @@ export default class BlocksApi extends ExplorerApi {
   }
 
   async queryFinalHeight(): Promise<any> {
-    const finalBlock = await this.call<any>("get-finality-stats");
+    const finalBlock = await this.call<any>("nearcore-final-block");
     return finalBlock.header.height;
   }
 }
