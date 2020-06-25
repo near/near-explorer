@@ -24,6 +24,8 @@ describe("<NodeRow />", () => {
             isValidator: true,
             status: "NoSync",
             stake: "47385631274832784434235664",
+            producedBlocks: 200,
+            expectedBlocks: 300,
           }}
         />
       )

@@ -8,7 +8,7 @@ exports[`<NodeRow /> renders 1`] = `
     className="pr-0 col-md-auto col-1"
   >
     <img
-      className="jsx-990356129"
+      className="jsx-1878504415"
       src="/static/images/icon-m-node-online.svg"
       style={
         Object {
@@ -30,9 +30,9 @@ exports[`<NodeRow /> renders 1`] = `
         alice
            
         <span
-          className="jsx-990356129"
+          className="jsx-1878504415"
         >
-          $
+          Staking 
           <span
             onBlur={[Function]}
             onFocus={[Function]}
@@ -44,7 +44,7 @@ exports[`<NodeRow /> renders 1`] = `
           </span>
         </span>
         <span
-          className="jsx-990356129 node-status"
+          className="jsx-1878504415 node-status"
         >
            
           
@@ -64,7 +64,7 @@ exports[`<NodeRow /> renders 1`] = `
             className="col-md-5"
           >
             <img
-              className="jsx-990356129"
+              className="jsx-1878504415"
               src="/static/images/icon-m-size.svg"
               style={
                 Object {
@@ -75,10 +75,15 @@ exports[`<NodeRow /> renders 1`] = `
             near-rs | ver.0.4.5 build  6a527109-modified
           </div>
           <div
-            className="col"
+            className="col-md-3"
+            style={
+              Object {
+                "color": "#FF6347",
+              }
+            }
           >
             <img
-              className="jsx-990356129"
+              className="jsx-1878504415"
               src="/static/images/icon-m-block.svg"
               style={
                 Object {
@@ -87,6 +92,25 @@ exports[`<NodeRow /> renders 1`] = `
               }
             />
              1889
+          </div>
+          <div
+            className="col"
+          >
+            <img
+              className="jsx-1878504415"
+              src="/static/images/icon-storage.svg"
+              style={
+                Object {
+                  "width": "12px",
+                }
+              }
+            />
+            200
+            /
+            300
+             (
+            66.667
+            %)
           </div>
         </div>
       </div>
@@ -113,7 +137,7 @@ exports[`<NodeRow /> renders 1`] = `
         className="node-row-timer col"
       >
         <span
-          className="jsx-990356129 node-row-timer-status"
+          className="jsx-1878504415 node-row-timer-status"
         >
           Last seen
         </span>
