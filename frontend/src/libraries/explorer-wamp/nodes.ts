@@ -42,9 +42,8 @@ export default class NodesApi extends ExplorerApi {
       whereClause += ` AND is_validator = 0 `;
     }
     try {
-      const [nodes, validators] = await Promise.all([
-        this.call<NodeInfo[]>("select", [
-          `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
+      let nodes = await this.call<NodeInfo[]>("select", [
+        `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
           last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
           agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
           peer_count as peerCount, is_validator as isValidator, status
@@ -53,29 +52,34 @@ export default class NodesApi extends ExplorerApi {
               ORDER BY node_id DESC
               LIMIT :limit
           `,
-          {
-            limit,
-            paginationIndexer,
-            validatorIndicator,
-          },
-        ]),
-        this.queryValidators(),
+        {
+          limit,
+          paginationIndexer,
+          validatorIndicator,
+        },
       ]);
-      let validatorMap = new Map();
-      validators.map((val: any) => {
-        validatorMap.set(val.account_id, [
-          val.stake,
-          val.num_expected_blocks,
-          val.num_produced_blocks,
-        ]);
-      });
-      nodes.map((node: NodeInfo) => {
-        let validator = validatorMap.get(node.accountId);
-        node.stake = validator[0];
-        node.expectedBlocks = validator[1];
-        node.producedBlocks = validator[2];
-      });
 
+      if (validatorIndicator === "validators") {
+        const validators = await new NodesApi().queryValidators();
+        if (validators) {
+          let validatorMap = new Map();
+          validators.map((val: any) => {
+            validatorMap.set(val.account_id, {
+              stake: val.stake,
+              expectedNum: val.num_expected_blocks,
+              producedNum: val.num_produced_blocks,
+            });
+          });
+          nodes.map((node: NodeInfo) => {
+            let validator = validatorMap.get(node.accountId);
+            if (validator) {
+              node.stake = validator.stake;
+              node.expectedBlocks = validator.expectedNum;
+              node.producedBlocks = validator.producedNum;
+            }
+          });
+        }
+      }
       return nodes as NodeInfo[];
     } catch (error) {
       console.error("Nodes.getNodes failed to fetch data due to:");
