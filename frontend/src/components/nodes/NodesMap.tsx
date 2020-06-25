@@ -308,11 +308,11 @@ class NodesMap extends React.Component<InnerProps, State> {
               renderer = {countdownRenderer}
             />
           </div>
-          <div className="closeMap">
-            <Link href="/nodes/[role]" as={`/nodes/validators`}>
+          <Link href="/nodes/[role]" as={`/nodes/validators`}>
+            <div className="closeMap">
                 <img className="closeIcon" src="/static/images/icon-close-map.svg" />
-            </Link>
-          </div>
+            </div>
+          </Link>
           {this.state.nodesType === "validators" ? 
             <div className="nodesTypeSelector">              
               <div className="option validator activeValidator" onClick={() => {this.changeToValidators()}}>
