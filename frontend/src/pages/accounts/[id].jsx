@@ -29,31 +29,31 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Account</title>
         </Head>
-        <Container>
-          <Content title={<h1>{`Account: @${this.props.id}`}</h1>} border={false}>
-            {this.props.err ? (
-              `Information is not available at the moment. Please, check if the account name is correct or try later.`
-            ) : (
-              <AccountDetails account={{ ...this.props }} />
-            )}
-          </Content>
+        <Content title={<h1>{`Account: @${this.props.id}`}</h1>} border={false}>
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <ContractDetails accountId={this.props.id} />
+            <AccountDetails account={{ ...this.props }} />
           )}
-          <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Transactions</h2>}
-          >
-            {this.props.err ? (
-              `Information is not available at the moment. Please, check if the account name is correct or try later.`
-            ) : (
-              <Transactions accountId={this.props.id} count={5} />
-            )}
-          </Content>
-        </Container>
+        </Content>
+        {this.props.err ? (
+          `Information is not available at the moment. Please, check if the account name is correct or try later.`
+        ) : (
+          <Container>
+            <ContractDetails accountId={this.props.id} />
+          </Container>
+        )}
+        <Content
+          size="medium"
+          icon={<TransactionIcon style={{ width: "22px" }} />}
+          title={<h2>Transactions</h2>}
+        >
+          {this.props.err ? (
+            `Information is not available at the moment. Please, check if the account name is correct or try later.`
+          ) : (
+            <Transactions accountId={this.props.id} count={5} />
+          )}
+        </Content>
       </>
     );
   }

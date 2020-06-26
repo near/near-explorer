@@ -1,7 +1,6 @@
 import Head from "next/head";
 
 import React from "react";
-import { Container } from "react-bootstrap";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
@@ -28,48 +27,42 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Transaction</title>
         </Head>
-        <Container>
-          <Content
-            title={
-              <h1>{`Transaction: ${hash.substring(0, 7)}...${hash.substring(
-                hash.length - 4
-              )}`}</h1>
-            }
-            border={false}
-          >
-            {this.props.err ? (
-              `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
-            ) : (
-              <TransactionDetails transaction={this.props} />
-            )}
-          </Content>
-        </Container>
+        <Content
+          title={
+            <h1>{`Transaction: ${hash.substring(0, 7)}...${hash.substring(
+              hash.length - 4
+            )}`}</h1>
+          }
+          border={false}
+        >
+          {this.props.err ? (
+            `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
+          ) : (
+            <TransactionDetails transaction={this.props} />
+          )}
+        </Content>
         {this.props.actions && (
-          <Container>
-            <Content
-              size="medium"
-              icon={<TransactionIcon style={{ width: "22px" }} />}
-              title={<h2>Actions</h2>}
-            >
-              <ActionsList
-                actions={this.props.actions}
-                transaction={this.props}
-                detalizationMode="minimal"
-                showDetails
-              />
-            </Content>
-          </Container>
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Actions</h2>}
+          >
+            <ActionsList
+              actions={this.props.actions}
+              transaction={this.props}
+              detalizationMode="minimal"
+              showDetails
+            />
+          </Content>
         )}
         {this.props.receiptsOutcome && (
-          <Container>
-            <Content
-              size="medium"
-              icon={<TransactionIcon style={{ width: "22px" }} />}
-              title={<h2>Receipts</h2>}
-            >
-              <ReceiptsList receipts={this.props.receiptsOutcome} />
-            </Content>
-          </Container>
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Receipts</h2>}
+          >
+            <ReceiptsList receipts={this.props.receiptsOutcome} />
+          </Content>
         )}
       </>
     );
