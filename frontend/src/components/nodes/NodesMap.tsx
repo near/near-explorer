@@ -110,10 +110,7 @@ class NodesMap extends React.Component<InnerProps, State> {
   
   async fetchGeo() {
     const nodes =  this.state.nodesType === "validators" ? this.props.items[0].validatingNodes : this.props.items[0].nonValidatingNodes;
-    const IPsArray: string[] = [];
-    nodes.forEach(item => {
-      IPsArray.push(item.ipAddress);
-    });
+    const IPsArray = nodes.map(item => item.ipAddress);
 
     const url = "http://ip-api.com/batch?fields=status,message,country,city,lat,lon,timezone,query"
     const tempGeoData = await fetch(url, {
