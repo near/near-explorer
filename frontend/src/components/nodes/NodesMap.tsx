@@ -168,41 +168,22 @@ class NodesMap extends React.Component<InnerProps, State> {
   saveData(nodes: IBubble[]) {
     const oldNodes = this.state.nodesData;
     const newNodes = nodes;
-    const newAddedNodes: IBubble[] = [];
-    const removedNodes: IBubble[] = [];
-
-
-    // check for new added nodes
-    newNodes.forEach( (item: IBubble) => {
-      let wasOld = false;
-      for (let i:number = 0; i < oldNodes.length; i++) {
-        if (item.name === oldNodes[i].name) {
-          wasOld = true;
-        }
-      }
-      if (!wasOld) {
-        newAddedNodes.push(item);
-      }
-    });
-
-    // check for removed nodes
-    oldNodes.forEach( (item: IBubble) => {
-      let stillActive = false;
-      for (let i:number = 0; i < newNodes.length; i++) {
-        if (item.name === newNodes[i].name) {
-          stillActive = true;
-        }
-      }
-      if (!stillActive) {
-        removedNodes.push(item);
-      }
-    });
+    const newAddedNodes: IBubble[] = newNodes.filter(this.compareObjectsArrays(oldNodes));
+    const removedNodes: IBubble[] = oldNodes.filter(this.compareObjectsArrays(newNodes));
 
     this.setState({ 
         nodesData: nodes,
         newNodes: newAddedNodes,
         removedNodes: removedNodes
       });
+  }
+
+  compareObjectsArrays(objectArray: IBubble[]) {
+    return (current: IBubble) => {
+      return objectArray.filter((other) => {
+        return other.nodeId == current.nodeId 
+      }).length == 0;
+    }
   }
 
   changeToValidators() {
