@@ -80,7 +80,7 @@ export default class extends React.Component<Props, State> {
               </Col>
             </a>
           </Link>
-          <Link href="/nodes/map" as={`/nodes/map`}>
+          <Link href="/nodes/map">
             <a
               className="node-link"
             >
