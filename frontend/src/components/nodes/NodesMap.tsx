@@ -308,33 +308,18 @@ class NodesMap extends React.Component<InnerProps, State> {
                 <img className="closeIcon" src="/static/images/icon-close-map.svg" />
             </div>
           </Link>
-          {this.state.nodesType === "validators" ? 
             <div className="nodesTypeSelector">              
-              <div className="option validator activeValidator" onClick={() => {this.changeToValidators()}}>
-                <div className="circle activeCircle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
-                <div className="optionText">Validating nodes </div>
-                <div className="counter activeCounter">{this.props.items[0].validatingNodes.length}</div>
+              <div className={`option validator ${this.state.nodesType === "validators" ? " active" : ""}`} onClick={this.changeToValidators}>
+                <div className="circle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
+                <div className="optionText">Validating nodes</div>
+                <div className="counter">{this.props.items[0].validatingNodes.length}</div>
               </div>
-              <div className="option nonValidator" onClick={() => { this.changeToNonValidators() }}>
-                <div className="circle"></div>
-                <div className="optionText">Non-validating nodes </div>
+              <div className={`option nonValidator ${this.state.nodesType === "non-validators" ? " active" : ""}`}  onClick={this.changeToNonValidators}>
+                <div className="circle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
+                <div className="optionText">Non-validating nodes</div>
                 <div className="counter">{this.props.items[0].nonValidatingNodes.length}</div>
               </div>
             </div>
-            :
-            <div className="nodesTypeSelector">
-              <div className="option validator" onClick={() => { this.changeToValidators() }}>
-                <div className="circle"></div>
-                <div className="optionText">Validating nodes </div>
-                <div className="counter active">{this.props.items[0].validatingNodes.length}</div>
-              </div>
-              <div className="option nonValidator activeNonValidator" onClick={() => { this.changeToNonValidators() }}>
-                <div className="circle activeCircle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
-                <div className="optionText">Non-validating nodes </div>
-                <div className="counter activeCounter">{this.props.items[0].nonValidatingNodes.length}</div>
-              </div>
-            </div>
-          }
           {map}
         </div>
         <style jsx global>{`
