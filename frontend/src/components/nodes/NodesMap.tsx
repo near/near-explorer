@@ -12,7 +12,7 @@ import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 import autoRefreshHandler from "../utils/autoRefreshHandler";
 import { OuterProps } from "../accounts/Accounts";
 
-const Datamap = dynamic(() => import('./datamaps'), { ssr: false });
+const Datamap = dynamic(() => import('./DatamapsExtension'), { ssr: false });
 
 const countdownRenderer = ({ seconds }: any) => {
   return <span className="countdownText">{seconds}s</span>;
