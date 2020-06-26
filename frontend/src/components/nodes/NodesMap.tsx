@@ -171,7 +171,7 @@ class NodesMap extends React.Component<InnerProps, State> {
     const removedNodes: IBubble[] = oldNodes.filter(this.compareObjectsArrays(newNodes));
 
     this.setState({ 
-        nodesData: nodes,
+        nodesData: newNodes,
         newNodes: newAddedNodes,
         removedNodes: removedNodes
       });
