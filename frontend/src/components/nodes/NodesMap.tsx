@@ -165,9 +165,8 @@ class NodesMap extends React.Component<InnerProps, State> {
     this.saveData(bubbles);
   }
 
-  saveData(nodes: IBubble[]) {
+  saveData(newNodes: IBubble[]) {
     const oldNodes = this.state.nodesData;
-    const newNodes = nodes;
     const newAddedNodes: IBubble[] = newNodes.filter(this.compareObjectsArrays(oldNodes));
     const removedNodes: IBubble[] = oldNodes.filter(this.compareObjectsArrays(newNodes));
 
