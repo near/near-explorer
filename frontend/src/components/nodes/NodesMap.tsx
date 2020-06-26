@@ -309,13 +309,13 @@ class NodesMap extends React.Component<InnerProps, State> {
             </div>
           </Link>
             <div className="nodesTypeSelector">              
-              <div className={`option validator ${this.state.nodesType === "validators" ? " active" : ""}`} onClick={this.changeToValidators}>
-                <div className="circle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
+              <div className={`option validator ${this.state.nodesType === "validators" ? " active activeValidator" : ""}`} onClick={() => this.changeToValidators()}>
+                <div className={`${this.state.nodesType === "validators" ? " activeCircle" : "circle"}`}><img className="check" src="/static/images/icon-checkmark.svg" /></div>
                 <div className="optionText">Validating nodes</div>
                 <div className="counter">{this.props.items[0].validatingNodes.length}</div>
               </div>
-              <div className={`option nonValidator ${this.state.nodesType === "non-validators" ? " active" : ""}`}  onClick={this.changeToNonValidators}>
-                <div className="circle"><img className="check" src="/static/images/icon-checkmark.svg" /></div>
+              <div className={`option nonValidator ${this.state.nodesType === "non-validators" ? " active activeNonValidator" : ""}`}  onClick={() => this.changeToNonValidators()}>
+                <div className={`${this.state.nodesType === "validators" ? " circle" : "activeCircle"}`}><img className="check" src="/static/images/icon-checkmark.svg" /></div>
                 <div className="optionText">Non-validating nodes</div>
                 <div className="counter">{this.props.items[0].nonValidatingNodes.length}</div>
               </div>
@@ -438,6 +438,12 @@ class NodesMap extends React.Component<InnerProps, State> {
               justify-content: center;
               width: 100%;
               height: 48px;
+            }
+            .nodesTypeSelector .check {
+              display: none;
+            }
+            .nodesTypeSelector .active .check {
+              display: block;
             }
             .option {
               cursor: pointer;
