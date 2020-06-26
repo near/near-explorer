@@ -126,9 +126,7 @@ class NodesMap extends React.Component<InnerProps, State> {
       body: JSON.stringify(IPsArray)
     });
     const geoData: IGeo[] = await tempGeoData.json();
-    const bubbles: IBubble[] = [];
-
-    nodes.forEach((element: any, index: number) => {
+    const bubbles: IBubble[] = nodes.map((element: any, index: number) => {
       const bubble: IBubble = {
         latitude: '',
         longitude: '',
@@ -161,7 +159,7 @@ class NodesMap extends React.Component<InnerProps, State> {
       bubble.radius = 4;
       bubble.fillKey = element.isValidator ? 'validatorBubbleFill' : 'nonValidatorBubbleFill';
 
-      bubbles.push(bubble);
+      return bubble;
     });
 
     this.saveData(bubbles);
