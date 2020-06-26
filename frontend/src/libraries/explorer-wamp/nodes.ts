@@ -68,38 +68,6 @@ export default class NodesApi extends ExplorerApi {
     }
   }
 
-  async getNodesForMap(
-    validatorIndicator: string = "validators",
-  ) {
-    let whereClause = `WHERE last_seen > (strftime('%s','now') - 60) * 1000 `;
-    if (validatorIndicator === "validators") {
-      whereClause += ` AND is_validator = 1 `;
-    }
-    if (validatorIndicator === "non-validators") {
-      whereClause += ` AND is_validator = 0 `;
-    }
-    try {
-      const nodes = await this.call<NodeInfo[]>("select", [
-        `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
-        last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
-        agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
-        peer_count as peerCount, is_validator as isValidator, status
-            FROM nodes
-            ${whereClause}
-            ORDER BY node_id DESC
-        `,
-        {
-          validatorIndicator,
-        },
-      ]);
-      return nodes as NodeInfo[];
-    } catch (error) {
-      console.error("Nodes.getNodes failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
-  }
-
   async getOnlineNodesStats() {
     try {
       const nodeStats = await this.call("select", [
@@ -129,7 +97,7 @@ export default class NodesApi extends ExplorerApi {
       nonValidatingNodes: []
     }; 
     
-    let [validators, nonValidators] = await Promise.all([this.getNodesForMap("validators"), this.getNodesForMap("non-validators")]);
+    let [validators, nonValidators] = await Promise.all([this.getNodes(2000, "validators"), this.getNodes(2000, "non-validators")]);
 
     item.validatingNodes = validators;
     item.nonValidatingNodes = nonValidators;
