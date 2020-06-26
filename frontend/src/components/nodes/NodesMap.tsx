@@ -225,10 +225,10 @@ class NodesMap extends React.Component<InnerProps, State> {
       geographyConfig={{
         popupOnHover: false,
         highlightOnHover: false,
-        borderColor: '#1C1D1F',
+        borderColor: '#121314',
       }}
       fills={{
-        defaultFill: '#1C1D1F',
+        defaultFill: '#121314',
         validatorBubbleFill: '#8DD4BD',
         nonValidatorBubbleFill: '#8DD4BD',
       }}
