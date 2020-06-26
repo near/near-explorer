@@ -1,7 +1,5 @@
 import Head from "next/head";
 
-import { Container } from "react-bootstrap";
-
 import Blocks from "../../components/blocks/Blocks";
 import Content from "../../components/utils/Content";
 
@@ -12,11 +10,9 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Blocks</title>
         </Head>
-        <Container>
-          <Content title={<h1>Blocks</h1>}>
-            <Blocks />
-          </Content>
-        </Container>
+        <Content title={<h1>Blocks</h1>}>
+          <Blocks />
+        </Content>
       </>
     );
   }
