@@ -112,7 +112,7 @@ export default class Datamap extends React.Component<Props> {
             }
             if (latLng) return latLng[1] - 72;
           })
-          .attr('class', 'coin')
+          .attr('class', 'coin') // yellow circle for coin
           .attr('viewBox', '0 -48 16 128')
           .attr('height', '128px')
           .attr('width', '16px')
@@ -127,7 +127,7 @@ export default class Datamap extends React.Component<Props> {
           .attr('cy', 8)
           .attr('r', 8);
 
-        d3.selectAll('.group1').append('path')
+        d3.selectAll('.group1').append('path') // path for letter 'N' from coin 
           .attr('class', 'nLetter')
           .attr('fill', '#24272A')
           .attr('fill-rule', 'nonzero')
@@ -137,7 +137,7 @@ export default class Datamap extends React.Component<Props> {
           .attr('stroke', '#24272A')
           .attr('strokeWidth', 0)
 
-        d3.selectAll('.coin').append('ellipse')
+        d3.selectAll('.coin').append('ellipse') // elipse that animates under coin
           .attr('class', 'lake')
           .attr('stroke', '#F0EC74')
           .attr('strokeWidth', 1)
@@ -148,7 +148,7 @@ export default class Datamap extends React.Component<Props> {
           .attr('ry', 0)
           .attr('opacity', 1)
 
-        d3.selectAll('.coin').append('line')
+        d3.selectAll('.coin').append('line') // left line from coin animation
           .attr('class', 'leftLine')
           .attr('x1', 6)
           .attr('y1', 14)
@@ -158,7 +158,7 @@ export default class Datamap extends React.Component<Props> {
           .attr('strokeLinecap', 'round')
           .attr('strokeWidth', 3)
 
-        d3.selectAll('.coin').append('line')
+        d3.selectAll('.coin').append('line') // right line from coin animation
           .attr('class', 'rightLine')
           .attr('x1', 11)
           .attr('y1', 10)
@@ -186,7 +186,7 @@ export default class Datamap extends React.Component<Props> {
         const removedNodes = layer.selectAll('image.datamaps-removedNodes').data(data, JSON.stringify);
 
         removedNodes.enter().append('svg:circle')
-          .attr('class', 'datamaps-removedNodes')
+          .attr('class', 'datamaps-removedNodes') // red circle that appears for removed nodes
           .attr('cx', (datum: any) => {
             var latLng;
             if (datumHasCoords(datum)) {
@@ -240,20 +240,20 @@ export default class Datamap extends React.Component<Props> {
       map.labels();
     }
 
-    d3.selectAll('.datamaps-removedNodes')
+    d3.selectAll('.datamaps-removedNodes') // animation for nodes that are removed from map when the new dataset doesn't contain them anymore
       .transition()
       .delay(0)
       .duration(1000)
       .attr('r', 12)
       .attr('opacity', 0)
 
-    d3.selectAll('.group1')
+    d3.selectAll('.group1') // animation that moves the coin up
       .transition()
       .delay(1200)
       .duration(2000)
       .attr('transform', 'translate(0, -40)')
 
-    d3.selectAll('.lake')
+    d3.selectAll('.lake') // animation for ellipse under the coin
       .transition()
       .delay(1200)
       .duration(1600)
