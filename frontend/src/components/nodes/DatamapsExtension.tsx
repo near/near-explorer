@@ -12,6 +12,8 @@ interface Props {
   pins: any[];
   removedNodesOptions: object;
   removedNodes: any[];
+  nodeClustersOptions: object;
+  nodeClusters: any[];
   data?: object;
   graticule?: boolean;
   height?: any;
@@ -63,6 +65,10 @@ export default class Datamap extends React.Component<Props> {
     delete this.map;
   }
 
+  datumHasCoords(datum: any) {
+    return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
+  }
+
   drawMap() {
     const {
       arc,
@@ -77,6 +83,8 @@ export default class Datamap extends React.Component<Props> {
       updateChoroplethOptions,
       removedNodes,
       removedNodesOptions,
+      nodeClusters,
+      nodeClustersOptions,
       ...props
     } = this.props;
 
@@ -100,14 +108,14 @@ export default class Datamap extends React.Component<Props> {
         svgPins.append('svg')
           .attr('x', (datum: any) => {
             let latLng;
-            if (datumHasCoords(datum)) {
+            if (this.datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
             }
             if (latLng) return latLng[0] - 8;
           })
           .attr('y', (datum: any) => {
             let latLng;
-            if (datumHasCoords(datum)) {
+            if (this.datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
             }
             if (latLng) return latLng[1] - 72;
@@ -171,10 +179,6 @@ export default class Datamap extends React.Component<Props> {
         pins.exit()
           .remove();
 
-        function datumHasCoords(datum: any) {
-          return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
-        }
-
       });
 
       map.addPlugin('removedNodes', (layer:any , data:any) => {
@@ -188,15 +192,15 @@ export default class Datamap extends React.Component<Props> {
         removedNodes.enter().append('svg:circle')
           .attr('class', 'datamaps-removedNodes') // red circle that appears for removed nodes
           .attr('cx', (datum: any) => {
-            var latLng;
-            if (datumHasCoords(datum)) {
+            let latLng;
+            if (this.datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
             }
             if (latLng) return latLng[0];
           })
           .attr('cy', (datum: any) => {
-            var latLng;
-            if (datumHasCoords(datum)) {
+            let latLng;
+            if (this.datumHasCoords(datum)) {
               latLng = map.latLngToXY(datum.latitude, datum.longitude);
             }
             if (latLng) return latLng[1];
@@ -207,11 +211,71 @@ export default class Datamap extends React.Component<Props> {
 
         removedNodes.exit()
           .remove();
-
-        function datumHasCoords(datum: any) {
-          return typeof datum !== 'undefined' && typeof datum.latitude !== 'undefined' && typeof datum.longitude !== 'undefined';
-        }
       });
+
+      // add node clusters
+      map.addPlugin('nodeClusters', (layer: any, data: any, options: any) => {
+
+        if (!data || (data && !data.slice)) {
+          throw "Datamaps Error - nodeClusters must be an array";
+        }
+
+        const nodeClusters = layer.selectAll('image.datamaps-nodeClusters').data(data, JSON.stringify);
+
+        nodeClusters.enter().append('svg')
+          .attr('class', 'datamapsNodeClusters')
+          .attr('overflow', 'visible')
+          .attr('height', '16px')
+          .attr('width', '16px')
+          .attr('x', (datum: any) => {
+            let latLng;
+            if (this.datumHasCoords(datum[0])) {
+              latLng = map.latLngToXY(datum[0].latitude, datum[0].longitude);
+            }
+            if (latLng) return latLng[0];
+          })
+          .attr('y', (datum: any) => {
+            let latLng;
+            if (this.datumHasCoords(datum[0])) {
+              latLng = map.latLngToXY(datum[0].latitude, datum[0].longitude);
+            }
+            if (latLng) return latLng[1];
+          })
+          .on('click', () => { // display and hide cluster tooltips
+            const position = d3.mouse(map.options.element);
+            if (!d3.selectAll('.datamaps-hoverover').classed('.clusterVisible')) {
+              d3.selectAll('.datamaps-hoverover').style('display', 'block')
+                .html(options.popupTemplate)
+                .style('top', ((position[1] + 30)) + "px")
+                .style('left', (position[0]) + "px")
+                .classed('.clusterVisible', true)
+            } else {
+              d3.selectAll('.datamaps-hoverover').style('display', 'none')
+                .classed('.clusterVisible', false)
+            }            
+          })
+
+        d3.selectAll('.datamapsNodeClusters').append('circle') // add circle on map for cluster of nodes with same location
+          .attr('cx', 0)
+          .attr('cy', 0)
+          .attr('r', 7)
+          .attr('opacity', 1)
+          .attr('fill', '#8DD4BD')
+
+        d3.selectAll('.datamapsNodeClusters').append('text') 
+          .attr('class', 'clusterNodeText')
+          .attr('x', '0')
+          .attr('y', '3')
+          .attr('fill', '#121314')
+          .text((data: any) => {
+            return data.length <= 9 ? data.length : '9+'
+          })
+
+        nodeClusters.exit()
+          .remove();
+      });
+
+
     } else {
       map.updateChoropleth(data, updateChoroplethOptions);
     }
@@ -230,6 +294,10 @@ export default class Datamap extends React.Component<Props> {
 
     if (removedNodes) {
       map.removedNodes(removedNodes, removedNodesOptions);
+    }
+
+    if (nodeClusters) {
+      map.nodeClusters(nodeClusters, nodeClustersOptions);
     }
 
     if (graticule) {
