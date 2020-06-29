@@ -1,3 +1,4 @@
+import lodash from 'lodash';
 import moment from 'moment';
 
 import dynamic from 'next/dynamic'
@@ -48,6 +49,7 @@ interface State {
   nodesType: string;
   newNodes: IBubble[];
   removedNodes: IBubble[];
+  nodeClusters: any[];
 }
 
 interface IGeo {
@@ -91,7 +93,8 @@ class NodesMap extends React.Component<InnerProps, State> {
       nodesData: [],
       nodesType: "validators",
       newNodes: [],
-      removedNodes: []
+      removedNodes: [],
+      nodeClusters: []
     };
   }
 
@@ -169,11 +172,13 @@ class NodesMap extends React.Component<InnerProps, State> {
     const oldNodes = this.state.nodesData;
     const newAddedNodes: IBubble[] = newNodes.filter(this.compareObjectsArrays(oldNodes));
     const removedNodes: IBubble[] = oldNodes.filter(this.compareObjectsArrays(newNodes));
+    const groupedNodes = this.getNodeClusters(newNodes);
 
     this.setState({ 
         nodesData: newNodes,
         newNodes: newAddedNodes,
-        removedNodes: removedNodes
+        removedNodes: removedNodes,
+        nodeClusters: groupedNodes,
       });
   }
 
@@ -183,6 +188,29 @@ class NodesMap extends React.Component<InnerProps, State> {
         return other.nodeId == current.nodeId 
       }).length == 0;
     }
+  }
+
+  getNodeClusters(nodes: IBubble[]) {
+    // Get clusters of nodes that share the same location. 
+
+    const groupedNodes: any = lodash.groupBy(nodes, (item: IBubble) => {
+      return item.latitude;
+    });
+    lodash.forEach(groupedNodes, (value, key) => { // value is unused but necessary, without it function gets weird behaviour
+      groupedNodes[key] = lodash.groupBy(groupedNodes[key], (item) => {
+        return item.longitude;
+      });
+    });
+
+    const finalArray: any[] = [];
+    Object.keys(groupedNodes).forEach(element => {
+      Object.keys(groupedNodes[element]).forEach( item => {
+        if (groupedNodes[element][item].length > 1) {
+          finalArray.push(groupedNodes[element][item]);
+        }
+      });
+    });
+    return finalArray;
   }
 
   changeToValidators() {
@@ -240,6 +268,7 @@ class NodesMap extends React.Component<InnerProps, State> {
       bubbles={this.state.nodesData}
       pins={this.state.newNodes}
       removedNodes={this.state.removedNodes}
+      nodeClusters={this.state.nodeClusters}
       bubbleOptions={{
         borderWidth: 1,
         borderColor: '#1C1D1F',
@@ -272,6 +301,20 @@ class NodesMap extends React.Component<InnerProps, State> {
         highlightBorderColor: '#FF585D',
         highlightBorderWidth: 2,
         radius: 4,
+      }}
+      nodeClustersOptions={{
+        borderWidth: 1,
+        borderColor: '#1C1D1F',
+        fillColor: '#8DD4BD',
+        fillOpacity: 1,
+        highlightFillOpacity: 1,
+        highlightFillColor: '#8DD4BD',
+        highlightBorderColor: '#8DD4BD',
+        highlightBorderWidth: 2,
+        radius: 6,
+        popupTemplate: () => {
+          return `<div style="color: white">template</div>`
+        }
       }}
     />;
     return (
@@ -517,6 +560,18 @@ class NodesMap extends React.Component<InnerProps, State> {
             }
             .mapBackground {
               background-color: #24272a;
+            }
+            .datamapsNodeClusters {
+              overflow: visible !important;
+              cursor: pointer;
+            }
+            .clusterNodeText {
+              font-family: BwSeidoRound;
+              font-size: 8px;
+              line-height: 12px;
+              font-weight: 700;
+              text-align: center !important;
+              text-anchor: middle !important;
             }
           `}
         </style>
