@@ -249,9 +249,7 @@ class NodesMap extends React.Component<InnerProps, State> {
         highlightBorderColor: '#8DD4BD',
         highlightBorderWidth: 2,
         animate: false,
-        popupTemplate: (data: IBubble) => { // This function should just return a string
-          return this.renderBubbleTooltip(data);
-        },
+        popupTemplate: this.renderBubbleTooltip,
       }}
       pinOptions={{
         borderWidth: 1,
