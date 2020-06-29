@@ -137,7 +137,7 @@ export default class Datamap extends React.Component<Props> {
           .attr('stroke', '#24272A')
           .attr('strokeWidth', 0)
 
-        d3.selectAll('.coin').append('ellipse') // elipse that animates under coin
+        d3.selectAll('.coin').append('ellipse') // ellipse that animates under coin
           .attr('class', 'lake')
           .attr('stroke', '#F0EC74')
           .attr('strokeWidth', 1)
