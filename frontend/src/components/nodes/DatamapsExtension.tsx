@@ -220,7 +220,7 @@ export default class Datamap extends React.Component<Props> {
           throw "Datamaps Error - nodeClusters must be an array";
         }
 
-        const nodeClusters = layer.selectAll('image.datamaps-nodeClusters').data(data, JSON.stringify);
+        const nodeClusters = layer.selectAll('image.datamapsNodeClusters').data(data, JSON.stringify);
 
         nodeClusters.enter().append('svg')
           .attr('class', 'datamapsNodeClusters')
@@ -241,12 +241,12 @@ export default class Datamap extends React.Component<Props> {
             }
             if (latLng) return latLng[1];
           })
-          .on('click', () => { // display and hide cluster tooltips
+          .on('click', (datum: any) => { // display and hide cluster tooltips
             const position = d3.mouse(map.options.element);
             if (!d3.selectAll('.datamaps-hoverover').classed('.clusterVisible')) {
               d3.selectAll('.datamaps-hoverover').style('display', 'block')
-                .html(options.popupTemplate)
-                .style('top', ((position[1] + 30)) + "px")
+                .html(options.popupTemplate(datum))
+                .style('top', ((position[1] + 16)) + "px")
                 .style('left', (position[0]) + "px")
                 .classed('.clusterVisible', true)
             } else {
@@ -261,6 +261,8 @@ export default class Datamap extends React.Component<Props> {
           .attr('r', 7)
           .attr('opacity', 1)
           .attr('fill', '#8DD4BD')
+          .attr('strokeWidth', 2)
+          .attr('stroke', '#1C1D1F')
 
         d3.selectAll('.datamapsNodeClusters').append('text') 
           .attr('class', 'clusterNodeText')
