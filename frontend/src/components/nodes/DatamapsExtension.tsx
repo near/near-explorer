@@ -241,6 +241,9 @@ export default class Datamap extends React.Component<Props> {
             }
             if (latLng) return latLng[1];
           })
+          .attr('id', (datum: any) => {
+            return `A${datum[0].nodeId.split(':')[1]}`; // html ID should start with letter
+          })
           .on('click', (datum: any) => { // display and hide cluster tooltips
             const position = d3.mouse(map.options.element);
             if (!d3.selectAll('.datamaps-hoverover').classed('.clusterVisible')) {
@@ -253,6 +256,9 @@ export default class Datamap extends React.Component<Props> {
               d3.selectAll('.datamaps-hoverover').style('display', 'none')
                 .classed('.clusterVisible', false)
             }            
+          })
+          .on('mouseover', (datum: any) => {
+            d3.select(`#A${datum[0].nodeId.split(':')[1]}`).raise() // bring cluster to front on hover
           })
 
         d3.selectAll('.datamapsNodeClusters').append('circle') // add circle on map for cluster of nodes with same location
