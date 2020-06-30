@@ -132,7 +132,10 @@ export default class extends React.Component<State> {
               text={
                 details ? (
                   <Link href="/nodes/[role]" as={`/nodes/validators`}>
-                    <a style={{ textDecoration: "none", color: "#24272a" }}>
+                    <a
+                      id="node-page"
+                      style={{ textDecoration: "none", color: "#24272a" }}
+                    >
                       {details.validatorsCount.toLocaleString()}/
                       {details.onlineNodesCount.toLocaleString()}
                     </a>
