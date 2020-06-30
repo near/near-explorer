@@ -299,7 +299,7 @@ export default class extends React.Component<State> {
 
           .dashboard-link {
             text-decoration: none;
-            color: #24272a;
+            color: #0072ce !important;
           }
         `}</style>
       </div>
