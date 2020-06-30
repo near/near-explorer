@@ -78,7 +78,7 @@ export default class extends App {
         >
           <RpcProvider
             finalStamp={this.state.finalStamp}
-            lastBlockHeihgt={this.state.lastBlockHeight}
+            lastBlockHeight={this.state.lastBlockHeight}
           >
             <div className="app-wrapper">
               <Header />

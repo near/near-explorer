@@ -63,21 +63,21 @@ export default class NodesApi extends ExplorerApi {
         const validators = await new NodesApi().queryValidators();
         if (validators) {
           let validatorMap = new Map();
-          validators.map((val: any) => {
-            validatorMap.set(val.account_id, {
-              stake: val.stake,
-              expectedNum: val.num_expected_blocks,
-              producedNum: val.num_produced_blocks,
+          for (let i = 0; i < validators.length; i++) {
+            validatorMap.set(validators[i].account_id, {
+              stake: validators[i].stake,
+              expectedNum: validators[i].num_expected_blocks,
+              producedNum: validators[i].num_produced_blocks,
             });
-          });
-          nodes.map((node: NodeInfo) => {
-            let validator = validatorMap.get(node.accountId);
+          }
+          for (let i = 0; i < nodes.length; i++) {
+            let validator = validatorMap.get(nodes[i].accountId);
             if (validator) {
-              node.stake = validator.stake;
-              node.expectedBlocks = validator.expectedNum;
-              node.producedBlocks = validator.producedNum;
+              nodes[i].stake = validator.stake;
+              nodes[i].expectedBlocks = validator.expectedNum;
+              nodes[i].producedBlocks = validator.producedNum;
             }
-          });
+          }
         }
       }
       return nodes as NodeInfo[];

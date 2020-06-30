@@ -24,12 +24,6 @@ export default class extends React.PureComponent<Props> {
 
   render() {
     const { node } = this.props;
-    let percentage: any;
-    if (node.producedBlocks && node.expectedBlocks) {
-      percentage = ((node.producedBlocks / node.expectedBlocks) * 100).toFixed(
-        3
-      );
-    }
     return (
       <RpcConsumer>
         {(context) => (
@@ -65,17 +59,16 @@ export default class extends React.PureComponent<Props> {
                       {`${node.agentName} | ver.${node.agentVersion} build  ${node.agentBuild}`}
                     </Col>
                     <Col
-                      style={{
-                        color:
-                          Math.abs(node.lastHeight - context.lastBlockHeihgt) >
-                          1000
-                            ? "#FF6347"
-                            : Math.abs(
-                                node.lastHeight - context.lastBlockHeihgt
-                              ) > 50
-                            ? "#FFA500"
-                            : "inherit",
-                      }}
+                      className={
+                        Math.abs(node.lastHeight - context.lastBlockHeight) >
+                        1000
+                          ? "text-danger"
+                          : Math.abs(
+                              node.lastHeight - context.lastBlockHeight
+                            ) > 50
+                          ? "text-warning"
+                          : ""
+                      }
                       md={3}
                     >
                       <img
@@ -89,8 +82,12 @@ export default class extends React.PureComponent<Props> {
                         src="/static/images/icon-storage.svg"
                         style={{ width: "12px" }}
                       />
-                      {node.producedBlocks}/{node.expectedBlocks} ({percentage}
-                      %)
+                      {node.producedBlocks && node.expectedBlocks
+                        ? `${node.producedBlocks}/${node.expectedBlocks} (${(
+                            (node.producedBlocks / node.expectedBlocks) *
+                            100
+                          ).toFixed(3)})%`
+                        : null}
                     </Col>
                   </Row>
                 </Col>
