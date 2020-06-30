@@ -192,7 +192,6 @@ class NodesMap extends React.Component<InnerProps, State> {
 
   getNodeClusters(nodes: IBubble[]) {
     // Get clusters of nodes that share the same location. 
-
     const groupedNodes: any = lodash.groupBy(nodes, (item: IBubble) => {
       return item.latitude;
     });
@@ -250,6 +249,38 @@ class NodesMap extends React.Component<InnerProps, State> {
           `</div>` +
         `</div>` +
       `</div>`;
+  }
+
+  renderClusterTooltip(data: IBubble[]) {
+    let htmlString: string = '<div class="clusterTooltipWrapper">';
+    data.forEach( (item: IBubble) => {
+      
+      htmlString += ` 
+        <div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; color: white; background-color: #343A40; max-width: 300px" key="${item.nodeId}">` +
+          `<div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px">` + `@` + item.name + '</div> ' +
+          `<div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">` +
+            `<div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; white-space: nowrap">` + item.agentName + ' | ver.' + item.version + ' build ' + item.build + `</div>` +
+            `<div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">` + item.nodeId.split(':')[1] + `</div>` +
+          `</div>` +
+          `<div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px;">` +
+            `<div>` +
+              `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Block#' + `</div>` +
+              `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + item.blockNr + `</div>` +
+            `</div>` +
+            `<div>` +
+              `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Last seen' + `</div>` +
+              `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + moment.duration(moment().diff(moment(item.lastSeen))).as('seconds').toFixed() + 's ago' + `</div>` +
+            `</div>` +
+            `<div>` +
+              `<div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">` + 'Location' + `</div>` +
+              `<div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">` + item.location + `</div>` +
+            `</div>` +
+          `</div>` +
+        `</div>
+      `;
+    });
+    htmlString += '</div>'
+    return htmlString
   }
 
   render() {
@@ -312,9 +343,7 @@ class NodesMap extends React.Component<InnerProps, State> {
         highlightBorderColor: '#8DD4BD',
         highlightBorderWidth: 2,
         radius: 6,
-        popupTemplate: () => {
-          return `<div style="color: white">template</div>`
-        }
+        popupTemplate: this.renderClusterTooltip
       }}
     />;
     return (
@@ -572,6 +601,27 @@ class NodesMap extends React.Component<InnerProps, State> {
               font-weight: 700;
               text-align: center !important;
               text-anchor: middle !important;
+            }
+            .clusterTooltipWrapper {
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); 
+              border-radius: 8px; 
+              overflow-y: scroll; 
+              max-height: 280px;
+            }
+            .clusterTooltipWrapper::-webkit-scrollbar {
+              width: 8px;
+            }
+
+            .clusterTooltipWrapper::-webkit-scrollbar-track {
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+              border-radius: 10px;
+              background: #24272a;
+            }
+
+            .clusterTooltipWrapper::-webkit-scrollbar-thumb {
+              border-radius: 10px;
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+              background: #343A40;
             }
           `}
         </style>
