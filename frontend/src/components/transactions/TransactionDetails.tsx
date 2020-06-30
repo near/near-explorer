@@ -215,7 +215,7 @@ export default class extends React.Component<Props, State> {
                       {context.finalStamp === 0
                         ? "/Checking Finality..."
                         : transaction.blockTimestamp <= context.finalStamp
-                        ? "/Finalized"
+                        ? ""
                         : "/Finalizing"}
                     </div>
                   }
