@@ -2,8 +2,6 @@ import App from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 
-import { Container } from "react-bootstrap";
-
 import TransactionsApi from "../libraries/explorer-wamp/transactions";
 import { getNearNetwork } from "../libraries/config";
 
@@ -73,9 +71,7 @@ export default class extends App {
             <div className="app-wrapper">
               <Header />
               <div className="page">
-                <Container>
-                  <Component {...pageProps} />
-                </Container>
+                <Component {...pageProps} />
               </div>
             </div>
             <Footer />
