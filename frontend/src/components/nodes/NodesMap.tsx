@@ -255,6 +255,7 @@ class NodesMap extends React.Component<InnerProps, State> {
   }
 
   renderBubbleTooltip(data: IBubble) {
+    // Prettier ruined the entire indentation that i made for this
     return (
       `
       <div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">` +
@@ -311,9 +312,10 @@ class NodesMap extends React.Component<InnerProps, State> {
   renderClusterTooltip(data: IBubble[]) {
     let htmlString: string = '<div class="clusterTooltipWrapper">';
     data.forEach((item: IBubble) => {
+      // Prettier ruined the entire indentation that i made for this
       htmlString +=
         ` 
-        <div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; color: white; background-color: #343A40; max-width: 300px" key="${item.nodeId}">` +
+        <div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; color: white; background-color: #343A40; max-width: 300px; border-bottom: 1px solid rgba(255, 255, 255, 0.16); box-sizing: border-box;" key="${item.nodeId}">` +
         `<div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px">` +
         `@` +
         item.name +
@@ -740,19 +742,18 @@ class NodesMap extends React.Component<InnerProps, State> {
               max-height: 280px;
             }
             .clusterTooltipWrapper::-webkit-scrollbar {
-              width: 8px;
+              width: 4px;
             }
 
             .clusterTooltipWrapper::-webkit-scrollbar-track {
-              -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-              border-radius: 10px;
-              background: #24272a;
+              border-radius: 0 8px 8px 0;
+              background: #343a40;
             }
 
             .clusterTooltipWrapper::-webkit-scrollbar-thumb {
-              border-radius: 10px;
-              -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
-              background: #343a40;
+              border-radius: 8px;
+              background: #121314;
+              width: 6px;
             }
           `}
         </style>
