@@ -169,7 +169,7 @@ export default class Datamap extends React.Component<Props> {
 
       });
 
-      map.addPlugin('removedNodes', (layer:any , data:any) => {
+      map.addPlugin('removedNodes', (layer: any, data: any) => {
 
         if (!data || (data && !data.slice)) {
           throw "Datamaps Error - removedNodes must be an array";
@@ -246,7 +246,7 @@ export default class Datamap extends React.Component<Props> {
             } else {
               d3.selectAll('.datamaps-hoverover').style('display', 'none')
                 .classed('.clusterVisible', false)
-            }            
+            }
           })
           .on('mouseover', (datum: any) => {
             d3.select(`#A${datum[0].nodeId.split(':')[1]}`).raise() // bring cluster to front on hover
@@ -261,7 +261,7 @@ export default class Datamap extends React.Component<Props> {
           .attr('strokeWidth', 2)
           .attr('stroke', '#1C1D1F')
 
-        d3.selectAll('.datamapsNodeClusters').append('text') 
+        d3.selectAll('.datamapsNodeClusters').append('text')
           .attr('class', 'clusterNodeText')
           .attr('x', '0')
           .attr('y', '3')
@@ -313,20 +313,20 @@ export default class Datamap extends React.Component<Props> {
       .attr('rx', 8)
       .attr('ry', 4)
       .attr('opacity', 0)
-      .attr('strokeWidth', 2)  
+      .attr('strokeWidth', 2)
 
   }
 
-    resizeMap() {
-      this.map.resize();
-    }
+  resizeMap() {
+    this.map.resize();
+  }
 
   render() {
     const style = {
       ...this.props.style,
     };
 
-    return <div ref="container" style = { style } />;
+    return <div ref="container" style={style} />;
   }
 
 }
