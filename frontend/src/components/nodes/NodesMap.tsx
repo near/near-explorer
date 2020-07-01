@@ -24,7 +24,7 @@ interface Props extends OuterProps {
 }
 
 interface InnerProps {
-  items: N.IMapData[];
+  items: IMapData[];
 }
 
 interface IBubble {
@@ -58,13 +58,40 @@ interface IGeo {
   city: string;
 }
 
+export interface IMapData {
+  validatingNodes: N.NodeInfo[];
+  nonValidatingNodes: N.NodeInfo[];
+}
+
 export default class extends React.Component<Props> {
   static defaultProps = {
     count: 15,
   };
 
+  async getDataForMap() {
+    const finalData: IMapData[] = [];
+    const item: IMapData = {
+      validatingNodes: [],
+      nonValidatingNodes: [],
+    };
+
+    const nodesApi = new NodesApi();
+
+    let [validators, nonValidators] = await Promise.all([
+      nodesApi.getNodes(2000, "validators"),
+      nodesApi.getNodes(2000, "non-validators"),
+    ]);
+
+    item.validatingNodes = validators;
+    item.nonValidatingNodes = nonValidators;
+
+    finalData.push(item);
+
+    return finalData;
+  }
+
   fetchNodes = async () => {
-    return await new NodesApi().getDataForMap();
+    return await this.getDataForMap();
   };
 
   componentDidUpdate(prevProps: any) {
