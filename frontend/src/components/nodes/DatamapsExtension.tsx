@@ -245,12 +245,15 @@ export default class Datamap extends React.Component<Props> {
             return `A${datum[0].nodeId.split(':')[1]}`; // html ID should start with letter
           })
           .on('click', (datum: any) => { // display and hide cluster tooltips
-            const position = d3.mouse(map.options.element);
+            let latLng;
+            if (this.datumHasCoords(datum[0])) {
+              latLng = map.latLngToXY(datum[0].latitude, datum[0].longitude);
+            }
             if (!d3.selectAll('.datamaps-hoverover').classed('.clusterVisible')) {
               d3.selectAll('.datamaps-hoverover').style('display', 'block')
                 .html(options.popupTemplate(datum))
-                .style('top', ((position[1] + 16)) + "px")
-                .style('left', (position[0]) + "px")
+                .style('top', ((latLng[1] + 16)) + "px")
+                .style('left', (latLng[0]) + "px")
                 .classed('.clusterVisible', true)
             } else {
               d3.selectAll('.datamaps-hoverover').style('display', 'none')
