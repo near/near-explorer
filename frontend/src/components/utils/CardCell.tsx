@@ -31,6 +31,7 @@ export default ({ title, imgLink, text, className, loading }: Props) => (
         border-color: #e6e6e6;
         border-width: 0 0 0 2px;
         border-radius: 0;
+        height: 100%;
       }
       .card-cell-title {
         text-transform: uppercase;

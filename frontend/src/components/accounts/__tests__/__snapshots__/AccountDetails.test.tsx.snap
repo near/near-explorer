@@ -109,7 +109,7 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-2893410015 card-cell-title-img"
+                className="jsx-1276427197 card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
@@ -160,7 +160,7 @@ exports[`<AccountDetails /> renders 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-2893410015 card-cell-title-img"
+                className="jsx-1276427197 card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
