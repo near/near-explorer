@@ -742,7 +742,7 @@ class NodesMap extends React.Component<InnerProps, State> {
               max-height: 280px;
             }
             .clusterTooltipWrapper::-webkit-scrollbar {
-              width: 4px;
+              width: 8px;
             }
 
             .clusterTooltipWrapper::-webkit-scrollbar-track {
@@ -753,7 +753,8 @@ class NodesMap extends React.Component<InnerProps, State> {
             .clusterTooltipWrapper::-webkit-scrollbar-thumb {
               border-radius: 8px;
               background: #121314;
-              width: 6px;
+              border: 2px solid transparent;
+              background-clip: content-box;
             }
           `}
         </style>
