@@ -39,6 +39,7 @@
   "homepage": "https://github.com/nearprotocol/near-explorer#readme",
   "dependencies": {
     "@types/enzyme": "^3.10.3",
+    "@types/react-infinite-scroller": "^1.2.1",
     "autobahn": "19.7.3",
     "bn.js": "^5.1.1",
     "bootstrap": "^4.5.0",
@@ -49,8 +50,9 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
-    "react-flip-move": "^3.0.3",
+    "react-flip-move": "^3.0.4",
     "react-infinite-scroll-component": "^5.0.4",
+    "react-infinite-scroller": "^1.2.4",
     "react-motion": "^0.5.2",
     "react-text-collapse": "^0.5.2",
     "styled-components": "^4.4.0"
