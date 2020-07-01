@@ -81,7 +81,7 @@ export default class extends React.Component<Props, State> {
                         {isFinal === undefined
                           ? "/Checking Finality..."
                           : isFinal === true
-                          ? "/Finalized"
+                          ? ""
                           : "/Finalizing"}
                       </span>{" "}
                       <Timer time={transaction.blockTimestamp} />
