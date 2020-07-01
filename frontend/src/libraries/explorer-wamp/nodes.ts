@@ -94,10 +94,13 @@ export default class NodesApi extends ExplorerApi {
     const finalData: IMapData[] = [];
     const item: IMapData = {
       validatingNodes: [],
-      nonValidatingNodes: []
-    }; 
-    
-    let [validators, nonValidators] = await Promise.all([this.getNodes(2000, "validators"), this.getNodes(2000, "non-validators")]);
+      nonValidatingNodes: [],
+    };
+
+    let [validators, nonValidators] = await Promise.all([
+      this.getNodes(2000, "validators"),
+      this.getNodes(2000, "non-validators"),
+    ]);
 
     item.validatingNodes = validators;
     item.nonValidatingNodes = nonValidators;
