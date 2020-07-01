@@ -4,8 +4,6 @@ import * as d3 from 'd3';
 import React from 'react';
 
 interface Props {
-  arc?: any[];
-  arcOptions?: object;
   bubbleOptions: object;
   bubbles: any[];
   pinOptions: object;
@@ -15,15 +13,10 @@ interface Props {
   nodeClustersOptions: object;
   nodeClusters: any[];
   data?: object;
-  graticule?: boolean;
-  height?: any;
-  labels?: boolean;
   responsive: boolean;
   style?: object;
   geographyConfig: object;
   fills: object;
-  updateChoroplethOptions?: object;
-  width?: any;
 }
 
 export default class Datamap extends React.Component<Props> {
@@ -71,16 +64,11 @@ export default class Datamap extends React.Component<Props> {
 
   drawMap() {
     const {
-      arc,
-      arcOptions,
       bubbles,
       bubbleOptions,
       pins,
       pinOptions,
       data,
-      graticule,
-      labels,
-      updateChoroplethOptions,
       removedNodes,
       removedNodesOptions,
       nodeClusters,
@@ -287,12 +275,6 @@ export default class Datamap extends React.Component<Props> {
       });
 
 
-    } else {
-      map.updateChoropleth(data, updateChoroplethOptions);
-    }
-
-    if (arc) {
-      map.arc(arc, arcOptions);
     }
 
     if (bubbles) {
@@ -309,14 +291,6 @@ export default class Datamap extends React.Component<Props> {
 
     if (nodeClusters) {
       map.nodeClusters(nodeClusters, nodeClustersOptions);
-    }
-
-    if (graticule) {
-      map.graticule();
-    }
-
-    if (labels) {
-      map.labels();
     }
 
     d3.selectAll('.datamaps-removedNodes') // animation for nodes that are removed from map when the new dataset doesn't contain them anymore

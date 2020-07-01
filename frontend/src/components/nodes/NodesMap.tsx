@@ -195,6 +195,7 @@ class NodesMap extends React.Component<InnerProps, State> {
     const groupedNodes: any = lodash.groupBy(nodes, (item: IBubble) => {
       return item.latitude;
     });
+    // @ts-ignore 
     lodash.forEach(groupedNodes, (value, key) => { // value is unused but necessary, without it function gets weird behaviour
       groupedNodes[key] = lodash.groupBy(groupedNodes[key], (item) => {
         return item.longitude;
