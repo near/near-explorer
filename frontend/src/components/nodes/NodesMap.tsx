@@ -610,6 +610,10 @@ class NodesMap extends React.Component<InnerProps, State> {
               justify-content: center;
               align-items: center;
             }
+            .closeMap:hover {
+              transition: all linear 0.1s;
+              opacity: 0.8;
+            }
             .nodesTypeSelector {
               position: absolute;
               z-index: 100;
