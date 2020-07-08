@@ -132,7 +132,7 @@ export default class extends React.Component<State> {
               text={
                 details ? (
                   <Link href="/nodes/[role]" as={`/nodes/validators`}>
-                    <a style={{ textDecoration: "none", color: "#24272a" }}>
+                    <a id="node-page" className="dashboard-link">
                       {details.validatorsCount.toLocaleString()}/
                       {details.onlineNodesCount.toLocaleString()}
                     </a>
@@ -219,7 +219,7 @@ export default class extends React.Component<State> {
               text={
                 details ? (
                   <Link href="/accounts">
-                    <a style={{ textDecoration: "none", color: "#24272a" }}>
+                    <a className="dashboard-link">
                       {details.accountsCount.toLocaleString()}
                     </a>
                   </Link>
@@ -295,6 +295,11 @@ export default class extends React.Component<State> {
 
           .button-search {
             border-radius: 25px;
+          }
+
+          .dashboard-link {
+            text-decoration: none;
+            color: #0072ce !important;
           }
         `}</style>
       </div>
