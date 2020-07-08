@@ -15,6 +15,9 @@ export interface NodeInfo {
   peerCount: string;
   isValidator: boolean;
   status: string;
+  stake?: string;
+  expectedBlocks?: number;
+  producedBlocks?: number;
 }
 
 export interface NodeStats {
@@ -39,22 +42,44 @@ export default class NodesApi extends ExplorerApi {
       whereClause += ` AND is_validator = 0 `;
     }
     try {
-      const nodes = await this.call<NodeInfo[]>("select", [
+      let nodes = await this.call<NodeInfo[]>("select", [
         `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
-        last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
-        agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
-        peer_count as peerCount, is_validator as isValidator, status
-            FROM nodes
-            ${whereClause}
-            ORDER BY node_id DESC
-            LIMIT :limit
-        `,
+          last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
+          agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
+          peer_count as peerCount, is_validator as isValidator, status
+              FROM nodes
+              ${whereClause}
+              ORDER BY node_id DESC
+              LIMIT :limit
+          `,
         {
           limit,
           paginationIndexer,
           validatorIndicator,
         },
       ]);
+
+      if (validatorIndicator === "validators") {
+        const validators = await new NodesApi().queryValidators();
+        if (validators) {
+          let validatorMap = new Map();
+          for (let i = 0; i < validators.length; i++) {
+            validatorMap.set(validators[i].account_id, {
+              stake: validators[i].stake,
+              expectedNum: validators[i].num_expected_blocks,
+              producedNum: validators[i].num_produced_blocks,
+            });
+          }
+          for (let i = 0; i < nodes.length; i++) {
+            let validator = validatorMap.get(nodes[i].accountId);
+            if (validator) {
+              nodes[i].stake = validator.stake;
+              nodes[i].expectedBlocks = validator.expectedNum;
+              nodes[i].producedBlocks = validator.producedNum;
+            }
+          }
+        }
+      }
       return nodes as NodeInfo[];
     } catch (error) {
       console.error("Nodes.getNodes failed to fetch data due to:");
@@ -83,5 +108,10 @@ export default class NodesApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+  }
+
+  async queryValidators(): Promise<any> {
+    const validators = await this.call<any>("nearcore-validators");
+    return validators.current_validators;
   }
 }
