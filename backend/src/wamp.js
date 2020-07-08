@@ -63,6 +63,8 @@ wampHandlers["nearcore-validators"] = async () => {
   return await nearRpc.sendJsonRpc("validators", [null]);
 };
 
+let wamp_session = null;
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
@@ -101,6 +103,8 @@ function setupWamp() {
         return;
       }
     }
+
+    wamp_session = session;
   };
 
   wamp.onclose = (reason) => {
@@ -112,5 +116,17 @@ function setupWamp() {
 
   return wamp;
 }
+
+function wampPublish(topic, args) {
+  if (wamp_session) {
+    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${topic}`;
+    wamp_session.publish(uri, args);
+  } else {
+    // console log not connected
+    console.log("WAMP session is not okay to use to publish");
+  }
+}
+
+exports.wampPublish = wampPublish;
 
 exports.setupWamp = setupWamp;

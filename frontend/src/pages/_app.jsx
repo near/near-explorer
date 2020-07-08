@@ -45,13 +45,14 @@ export default class extends App {
   }
   state = {};
 
-  fetchFinalStamp = async () => {
-    const finalStamp = await new TransactionsApi().queryFinalTimestamp();
-    this.setState({ finalStamp });
-  };
+  // fetchFinalStamp = async () => {
+  //   const finalStamp = await new TransactionsApi().queryFinalTimestamp();
+  //   this.setState({ finalStamp });
+  //   await new TransactionsApi().blocksSub();
+  // };
 
   componentDidMount() {
-    this.fetchFinalStamp();
+    new TransactionsApi().blocksSub();
   }
 
   render() {

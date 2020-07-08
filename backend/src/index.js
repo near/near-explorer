@@ -6,14 +6,18 @@ const {
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval,
   regularSyncGenesisStateInterval,
+  regularQueryRPCInterval,
 } = require("./config");
-const { nearRpc } = require("./near");
+
+const { nearRpc, queryFinalTimestamp } = require("./near");
+
 const {
   syncNewNearcoreState,
   syncMissingNearcoreState,
   syncGenesisState,
 } = require("./sync");
-const { setupWamp } = require("./wamp");
+
+const { setupWamp, wampPublish } = require("./wamp");
 
 async function main() {
   console.log("Starting NEAR Explorer backend service...");
@@ -90,6 +94,19 @@ async function main() {
     regularSyncMissingNearcoreState,
     regularSyncMissingNearcoreStateInterval
   );
+
+  const regularQueryRPC = async () => {
+    try {
+      const finalTimestamp = await queryFinalTimestamp();
+      console.log("------------------------------------");
+      console.log(finalTimestamp);
+      wampPublish("finalTimestamp", [finalTimestamp]);
+    } catch (error) {
+      console.warn("Regular querying RPC crashed due to:", error);
+    }
+    setTimeout(regularQueryRPC, regularQueryRPCInterval);
+  };
+  setTimeout(regularQueryRPC, 0);
 
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");

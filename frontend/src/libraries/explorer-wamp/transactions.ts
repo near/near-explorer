@@ -273,8 +273,16 @@ export default class TransactionsApi extends ExplorerApi {
     }
   }
 
-  async queryFinalTimestamp(): Promise<any> {
-    const finalBlock = await this.call<any>("nearcore-final-block");
-    return finalBlock.header.timestamp;
+  finalTimestamp = function (timestamp: any) {
+    console.log(timestamp);
+  };
+
+  onConsole = function (blocks: any) {
+    console.log(blocks);
+  };
+
+  async blocksSub(): Promise<any> {
+    await this.subscribe("blocks", this.onConsole);
+    await this.subscribe("finalTimestamp", this.finalTimestamp);
   }
 }

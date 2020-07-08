@@ -8,8 +8,10 @@ const {
 } = require("./config");
 const { nearRpc } = require("./near");
 const { Result, delayFor } = require("./utils");
+const { wampPublish } = require("./wamp");
 
 let genesisHeight;
+let blocksInfo = [];
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -232,6 +234,15 @@ function promiseResult(promise) {
   });
 }
 
+function blocksPublish(blocks) {
+  if (blocksInfo.length < 10) {
+    blocksInfo = blocksInfo.concat(blocks);
+  } else {
+    wampPublish("blocks", blocksInfo);
+    blocksInfo = [];
+  }
+}
+
 async function saveBlocksFromRequests(requests) {
   const responses = await Promise.all(requests.map(([_, req]) => req));
   let blocks = responses
@@ -305,6 +316,7 @@ async function saveBlocksFromRequests(requests) {
     )
   ).filter((block) => block !== null);
 
+  blocksPublish(blocks);
   return await saveBlocks(blocks);
 }
 
