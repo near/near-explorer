@@ -117,18 +117,4 @@ export default class BlocksApi extends ExplorerApi {
     const finalBlock = await this.call<any>("nearcore-final-block");
     return finalBlock.header.height;
   }
-
-  async getLatestBlockHeight(): Promise<any> {
-    try {
-      return await this.call<any>("select", [
-        `
-        SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1
-        `,
-      ]).then((it) => it[0].lastBlockHeight);
-    } catch (error) {
-      console.error("Blocks.getLatestBlockHeight failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
-  }
 }

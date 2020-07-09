@@ -98,8 +98,6 @@ async function main() {
   const regularQueryRPC = async () => {
     try {
       const finalTimestamp = await queryFinalTimestamp();
-      console.log("------------------------------------");
-      console.log(finalTimestamp);
       wampPublish("finalTimestamp", [finalTimestamp]);
     } catch (error) {
       console.warn("Regular querying RPC crashed due to:", error);

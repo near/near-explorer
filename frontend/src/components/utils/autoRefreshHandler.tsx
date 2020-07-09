@@ -33,15 +33,7 @@ export default (
     };
 
     componentDidMount() {
-      this.timer = setTimeout(this.regularFetchInfo, 0);
-    }
-
-    componentWillUnmount() {
-      const timer = this.timer;
-      this.timer = null;
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
+      this.regularFetchInfo();
     }
 
     componentDidUpdate(preProps: any) {
@@ -62,9 +54,6 @@ export default (
       }
       if (this.state.itemsLength > 0) {
         this.fetchInfo(this.state.itemsLength);
-        if (this.timer !== null) {
-          this.timer = setTimeout(this.regularFetchInfo, 10000);
-        }
       }
     };
 

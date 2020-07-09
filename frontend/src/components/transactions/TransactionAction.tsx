@@ -55,8 +55,8 @@ export default class extends React.Component<Props, State> {
               title={"Batch Transaction"}
               status={status}
               isFinal={
-                context.finalStamp > 0
-                  ? transaction.blockTimestamp <= context.finalStamp
+                context.finalTimestamp > 0
+                  ? transaction.blockTimestamp <= context.finalTimestamp
                   : undefined
               }
             >
@@ -81,8 +81,8 @@ export default class extends React.Component<Props, State> {
             detalizationMode="detailed"
             status={status}
             isFinal={
-              context.finalStamp > 0
-                ? transaction.blockTimestamp <= context.finalStamp
+              context.finalTimestamp > 0
+                ? transaction.blockTimestamp <= context.finalTimestamp
                 : undefined
             }
           />

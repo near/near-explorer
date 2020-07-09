@@ -4,8 +4,6 @@ import Head from "next/head";
 
 import { Container } from "react-bootstrap";
 
-import TransactionsApi from "../libraries/explorer-wamp/transactions";
-import BlocksApi from "../libraries/explorer-wamp/blocks";
 import { getNearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
@@ -44,17 +42,6 @@ export default class extends App {
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
     };
   }
-  state = {};
-
-  // fetchFinalStamp = async () => {
-  //   const finalStamp = await new TransactionsApi().queryFinalTimestamp();
-  //   this.setState({ finalStamp });
-  //   await new TransactionsApi().blocksSub();
-  // };
-
-  componentDidMount() {
-    new TransactionsApi().blocksSub();
-  }
 
   render() {
     const { Component, pageProps } = this.props;
@@ -71,10 +58,7 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <RpcProvider
-            finalStamp={this.state.finalStamp}
-            lastBlockHeight={this.state.lastBlockHeight}
-          >
+          <RpcProvider>
             <div className="app-wrapper">
               <Header />
               <div className="page">

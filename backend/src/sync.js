@@ -11,7 +11,6 @@ const { Result, delayFor } = require("./utils");
 const { wampPublish } = require("./wamp");
 
 let genesisHeight;
-let blocksInfo = [];
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -235,11 +234,29 @@ function promiseResult(promise) {
 }
 
 function blocksPublish(blocks) {
-  if (blocksInfo.length < 10) {
-    blocksInfo = blocksInfo.concat(blocks);
-  } else {
-    wampPublish("blocks", blocksInfo);
-    blocksInfo = [];
+  if (blocks.length > 0) {
+    wampPublish("blocks", blocks);
+    let accountAmount = 1;
+    let actions = blocks
+      .map((block) =>
+        block.transactions.map((tx) =>
+          tx.actions.map((action) => {
+            if (
+              action === "CreateAccount" ||
+              action.CreateAccount !== undefined
+            ) {
+              return 1;
+            } else {
+              return 0;
+            }
+          })
+        )
+      )
+      .flat();
+    actions = [...actions];
+    if (accountAmount > 0) {
+      wampPublish("accounts", [actions]);
+    }
   }
 }
 
