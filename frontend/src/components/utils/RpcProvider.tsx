@@ -8,9 +8,11 @@ import React, {
 import { ExplorerApi } from "../../libraries/explorer-wamp/index";
 
 const initialState = {
+  finalTimestamp: 0,
   lastBlockHeight: 0,
   newBlockAmount: 0,
   newTransactionAmount: 0,
+  newAccountsAmount: 0,
 };
 
 const reducer = (currentState: any, action: any) => {
