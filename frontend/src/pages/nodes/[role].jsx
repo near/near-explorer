@@ -10,11 +10,6 @@ export default class extends React.Component {
   static async getInitialProps({ query: { role } }) {
     return { role };
   }
-  componentDidUpdate(prevProps) {
-    if (this.props.role !== prevProps.role) {
-      this.forceUpdate();
-    }
-  }
 
   render() {
     return (

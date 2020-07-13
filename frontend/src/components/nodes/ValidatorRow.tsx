@@ -1,17 +1,21 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import * as N from "../../libraries/explorer-wamp/nodes";
 import { RpcConsumer } from "../utils/RpcProvider";
+import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
 import Timer from "../utils/Timer";
 import Balance from "../utils/Balance";
 
 interface Props {
-  node: N.NodeInfo;
+  node: any;
 }
 
-export default class extends React.PureComponent<Props> {
+interface State {
+  nodeInfo?: N.NodeInfo;
+}
+
+export default class extends React.Component<Props, State> {
   statusIdentifier = new Map([
     ["AwaitingPeers", "Waiting for peers"],
     ["HeaderSync", "Syncing headers"],
@@ -22,8 +26,22 @@ export default class extends React.PureComponent<Props> {
     ["NoSync", ""],
   ]);
 
+  state: State = {};
+
+  queryNodeInfo = async () => {
+    let nodeInfo = await new NodesApi().getValidatingInfo(
+      this.props.node.account_id
+    );
+    this.setState({ nodeInfo });
+  };
+
+  componentDidMount() {
+    this.queryNodeInfo();
+  }
+
   render() {
     const { node } = this.props;
+    const { nodeInfo } = this.state;
     return (
       <RpcConsumer>
         {(context) => (
@@ -37,10 +55,14 @@ export default class extends React.PureComponent<Props> {
             <Col md="7" xs="7">
               <Row>
                 <Col className="node-row-title">
-                  @{node.accountId}
+                  @{node.account_id}
+                  {"   "}
+                  <span>
+                    Staking {node.stake ? <Balance amount={node.stake} /> : "-"}
+                  </span>
                   <span className="node-status">
                     {" "}
-                    {this.statusIdentifier.get(node.status)}
+                    {nodeInfo && this.statusIdentifier.get(nodeInfo.status)}
                   </span>
                 </Col>
               </Row>
@@ -52,45 +74,68 @@ export default class extends React.PureComponent<Props> {
                         src="/static/images/icon-m-size.svg"
                         style={{ width: "12px" }}
                       />
-                      {`${node.agentName} | ver.${node.agentVersion} build  ${node.agentBuild}`}
+                      {nodeInfo &&
+                        `${nodeInfo.agentName} | ver.${nodeInfo.agentVersion} build  ${nodeInfo.agentBuild}`}
                     </Col>
-                    <Col
-                      className={
-                        Math.abs(node.lastHeight - context.lastBlockHeight) >
-                        1000
-                          ? "text-danger"
-                          : Math.abs(
-                              node.lastHeight - context.lastBlockHeight
-                            ) > 50
-                          ? "text-warning"
-                          : ""
-                      }
-                      md={3}
-                    >
+                    {nodeInfo && (
+                      <Col
+                        className={
+                          Math.abs(
+                            nodeInfo.lastHeight - context.lastBlockHeight
+                          ) > 1000
+                            ? "text-danger"
+                            : Math.abs(
+                                nodeInfo.lastHeight - context.lastBlockHeight
+                              ) > 50
+                            ? "text-warning"
+                            : ""
+                        }
+                        md={3}
+                      >
+                        <img
+                          src="/static/images/icon-m-block.svg"
+                          style={{ width: "12px" }}
+                        />
+                        {` ${nodeInfo.lastHeight}`}
+                      </Col>
+                    )}
+
+                    <Col>
                       <img
-                        src="/static/images/icon-m-block.svg"
+                        src="/static/images/icon-storage.svg"
                         style={{ width: "12px" }}
                       />
-                      {` ${node.lastHeight}`}
+                      {node.num_produced_blocks && node.num_expected_blocks
+                        ? `${node.num_produced_blocks}/${
+                            node.num_expected_blocks
+                          } (${(
+                            (node.num_produced_blocks /
+                              node.num_expected_blocks) *
+                            100
+                          ).toFixed(3)})%`
+                        : null}
                     </Col>
                   </Row>
                 </Col>
               </Row>
             </Col>
-            <Col md="3" xs="3" className="ml-auto text-right">
-              <Row>
-                <Col className="node-row-txid" title={node.nodeId}>
-                  {node.nodeId.substring(8, 20)}...
-                </Col>
-              </Row>
-              <Row>
-                <Col className="node-row-timer">
-                  <span className="node-row-timer-status">Last seen</span>
-                  &nbsp;&nbsp;
-                  <Timer time={node.lastSeen} />
-                </Col>
-              </Row>
-            </Col>
+            {nodeInfo && (
+              <Col md="3" xs="3" className="ml-auto text-right">
+                <Row>
+                  <Col className="node-row-txid" title={nodeInfo.nodeId}>
+                    {nodeInfo.nodeId.substring(8, 20)}...
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className="node-row-timer">
+                    <span className="node-row-timer-status">Last seen</span>
+                    &nbsp;&nbsp;
+                    <Timer time={nodeInfo.lastSeen} />
+                  </Col>
+                </Row>
+              </Col>
+            )}
+
             <style jsx global>{`
               .node-row {
                 padding-top: 10px;

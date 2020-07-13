@@ -2,60 +2,62 @@ import React from "react";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
-import autoRefreshHandler from "../utils/autoRefreshHandler";
-import FlipMove from "../utils/FlipMove";
-
 import NodeRow from "./NodeRow";
+import ValidatorRow from "./ValidatorRow";
+import PaginationSpinner from "../utils/PaginationSpinner";
 
-import { OuterProps } from "../accounts/Accounts";
-
-interface Props extends OuterProps {
+interface Props {
   role: string;
 }
-export default class extends React.Component<Props> {
-  static defaultProps = {
-    count: 15,
+
+interface State {
+  onlineNodes?: N.NodeInfo[];
+  validators?: any;
+}
+export default class extends React.Component<Props, State> {
+  state: State = {};
+
+  getNonValidatingNodes = async () => {
+    return await new NodesApi().getOnlineNodes();
   };
 
-  fetchNodes = async (count: number, paginationIndexer?: string) => {
-    return await new NodesApi().getNodes(
-      count,
-      this.props.role,
-      paginationIndexer
-    );
+  getNodes = async () => {
+    if (this.props.role === "validators") {
+      let validators = await new NodesApi().queryValidators();
+      this.setState({ validators });
+    }
+    if (this.props.role === "online-nodes") {
+      let onlineNodes = await this.getNonValidatingNodes();
+      this.setState({ onlineNodes });
+    }
   };
 
   componentDidUpdate(prevProps: any) {
     if (this.props.role !== prevProps.role) {
-      this.autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
+      this.getNodes();
     }
   }
 
-  config = {
-    fetchDataFn: this.fetchNodes,
-    count: this.props.count,
-    category: "Node",
-  };
-
-  autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
-
-  render() {
-    return <this.autoRefreshNodes />;
+  componentDidMount() {
+    this.getNodes();
   }
-}
 
-interface InnerProps {
-  items: N.NodeInfo[];
-}
-
-class Nodes extends React.Component<InnerProps> {
   render() {
-    const { items } = this.props;
-    return (
-      <FlipMove duration={1000} staggerDurationBy={0}>
-        {items &&
-          items.map((node) => <NodeRow key={node.nodeId} node={node} />)}
-      </FlipMove>
-    );
+    const { validators, onlineNodes } = this.state;
+    let nodes;
+    if (validators && this.props.role === "validators") {
+      nodes = validators.map((node: any) => (
+        <ValidatorRow key={node.account_id} node={node} />
+      ));
+    }
+    if (onlineNodes && this.props.role === "online-nodes") {
+      nodes = onlineNodes.map((node: N.NodeInfo) => (
+        <NodeRow key={node.nodeId} node={node} />
+      ));
+    }
+    if (!nodes) {
+      return <PaginationSpinner hidden={false} />;
+    }
+    return <>{nodes}</>;
   }
 }

@@ -66,17 +66,17 @@ export default class extends React.Component<Props, State> {
               </Col>
             </a>
           </Link>
-          <Link href="/nodes/[role]" as={`/nodes/non-validators`}>
+          <Link href="/nodes/[role]" as={`/nodes/online-nodes`}>
             <a
               className={`node-link ${
-                role === "non-validators" ? `node-selected` : ""
+                role === "online-nodes" ? `node-selected` : ""
               }`}
               id="non-validator-node"
             >
               <Col className="node-selector align-self-center">
                 {nodeStats
-                  ? `${nodeStats.nonValidatorsCount}  Non-Validating`
-                  : `- Non-Validating`}
+                  ? `${nodeStats.onlineNodesCount} Online-nodes`
+                  : `- Online-nodes`}
               </Col>
             </a>
           </Link>
