@@ -2,7 +2,7 @@ import React from "react";
 
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
-import autoRefreshHandler from "../utils/autoRefreshHandler";
+import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 import AccountRow from "./AccountRow";
 
@@ -28,10 +28,10 @@ export default class extends React.Component<OuterProps> {
     category: "Account",
   };
 
-  autoRefreshAccounts = autoRefreshHandler(Accounts, this.config);
+  AccountsList = ListHandler(Accounts, this.config);
 
   render() {
-    return <this.autoRefreshAccounts />;
+    return <this.AccountsList />;
   }
 }
 

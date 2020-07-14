@@ -2,7 +2,7 @@ import React from "react";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
-import autoRefreshHandler from "../utils/autoRefreshHandler";
+import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 
 import NodeRow from "./NodeRow";
@@ -27,7 +27,7 @@ export default class extends React.Component<Props> {
 
   componentDidUpdate(prevProps: any) {
     if (this.props.role !== prevProps.role) {
-      this.autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
+      this.autoRefreshNodes = ListHandler(Nodes, this.config);
     }
   }
 
@@ -37,7 +37,7 @@ export default class extends React.Component<Props> {
     category: "Node",
   };
 
-  autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
+  autoRefreshNodes = ListHandler(Nodes, this.config);
 
   render() {
     return <this.autoRefreshNodes />;

@@ -3,7 +3,7 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import FlipMove from "../utils/FlipMove";
-import autoRefreshHandler from "../utils/autoRefreshHandler";
+import ListHandler from "../utils/ListHandler";
 
 import TransactionAction from "./TransactionAction";
 
@@ -34,10 +34,10 @@ export default class extends React.Component<OuterProps> {
     category: "Transaction",
   };
 
-  autoRefreshTransactions = autoRefreshHandler(Transactions, this.config);
+  TransactionsList = ListHandler(Transactions, this.config);
 
   render() {
-    return <this.autoRefreshTransactions />;
+    return <this.TransactionsList />;
   }
 }
 

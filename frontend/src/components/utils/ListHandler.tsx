@@ -19,10 +19,7 @@ export default (
   return class extends React.Component {
     constructor(props: any) {
       super(props);
-      this.timer = null;
     }
-
-    timer: ReturnType<typeof setTimeout> | null;
 
     state = {
       items: Array<any>(),
