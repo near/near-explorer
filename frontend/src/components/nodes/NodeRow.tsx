@@ -5,7 +5,6 @@ import * as N from "../../libraries/explorer-wamp/nodes";
 import { RpcConsumer } from "../utils/RpcProvider";
 
 import Timer from "../utils/Timer";
-import Balance from "../utils/Balance";
 
 interface Props {
   node: N.NodeInfo;
