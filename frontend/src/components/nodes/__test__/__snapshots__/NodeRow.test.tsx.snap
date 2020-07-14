@@ -28,21 +28,6 @@ exports[`<NodeRow /> renders 1`] = `
       >
         @
         alice
-           
-        <span
-          className="jsx-1878504415"
-        >
-          Staking 
-          <span
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-          >
-            47.38563
-             Ⓝ
-          </span>
-        </span>
         <span
           className="jsx-1878504415 node-status"
         >
@@ -87,20 +72,6 @@ exports[`<NodeRow /> renders 1`] = `
               }
             />
              1889
-          </div>
-          <div
-            className="col"
-          >
-            <img
-              className="jsx-1878504415"
-              src="/static/images/icon-storage.svg"
-              style={
-                Object {
-                  "width": "12px",
-                }
-              }
-            />
-            200/300 (66.667)%
           </div>
         </div>
       </div>

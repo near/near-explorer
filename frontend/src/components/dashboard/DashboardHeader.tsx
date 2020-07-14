@@ -117,7 +117,7 @@ export default class extends React.Component<State> {
               title={
                 <Term title={"Nodes Online"}>
                   {
-                    "The number of validating nodes / the total number of online nodes. "
+                    "Total number of validating nodes / Total number of online nodes. "
                   }
                   <a
                     href={
