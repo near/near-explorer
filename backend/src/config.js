@@ -18,8 +18,7 @@ exports.regularSyncMissingNearcoreStateInterval =
 exports.regularSyncGenesisStateInterval =
   parseInt(process.env.NEAR_REGULAR_SYNC_GENESIS_STATE_INTERVAL) || 43200000;
 exports.regularQueryRPCInterval =
-  parseInt(process.env.NEAR_REGULAR_SYNC_MISSING_NEARCORE_STATE_INTERVAL) ||
-  10000;
+  parseInt(process.env.NEAR_REGULAR_QUERY_RPC_INTERVAL) || 1000;
 exports.wampNearNetworkName =
   process.env.WAMP_NEAR_NETWORK_NAME || "localhostnet";
 exports.wampNearExplorerUrl =

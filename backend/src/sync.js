@@ -236,7 +236,7 @@ function promiseResult(promise) {
 function blocksPublish(blocks) {
   if (blocks.length > 0) {
     wampPublish("blocks", blocks);
-    let accountAmount = 1;
+    let accountAmount = 0;
     let actions = blocks
       .map((block) =>
         block.transactions.map((tx) =>
