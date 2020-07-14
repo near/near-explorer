@@ -13,6 +13,6 @@ context("Dashboard", () => {
     cy.get("#validator-node").find(".node-selector").contains("Validating");
     cy.get("#non-validator-node")
       .find(".node-selector")
-      .contains("Non-Validating");
+      .contains("Online-nodes");
   });
 });
