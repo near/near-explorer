@@ -8,7 +8,6 @@ const {
 } = require("./config");
 const { nearRpc } = require("./near");
 const { Result, delayFor } = require("./utils");
-const { wampPublish } = require("./wamp");
 
 let genesisHeight;
 
@@ -233,33 +232,6 @@ function promiseResult(promise) {
   });
 }
 
-function blocksPublish(blocks) {
-  if (blocks.length > 0) {
-    wampPublish("blocks", blocks);
-    let accountAmount = 0;
-    let actions = blocks
-      .map((block) =>
-        block.transactions.map((tx) =>
-          tx.actions.map((action) => {
-            if (
-              action === "CreateAccount" ||
-              action.CreateAccount !== undefined
-            ) {
-              return 1;
-            } else {
-              return 0;
-            }
-          })
-        )
-      )
-      .flat();
-    actions = [...actions];
-    if (accountAmount > 0) {
-      wampPublish("accounts", [actions]);
-    }
-  }
-}
-
 async function saveBlocksFromRequests(requests) {
   const responses = await Promise.all(requests.map(([_, req]) => req));
   let blocks = responses
@@ -332,8 +304,6 @@ async function saveBlocksFromRequests(requests) {
       })
     )
   ).filter((block) => block !== null);
-
-  blocksPublish(blocks);
   return await saveBlocks(blocks);
 }
 

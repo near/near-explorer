@@ -7,6 +7,8 @@ const {
   regularSyncMissingNearcoreStateInterval,
   regularSyncGenesisStateInterval,
   regularQueryRPCInterval,
+  regularQueryStatsInterval,
+  wampNearNetworkName,
 } = require("./config");
 
 const { nearRpc, queryFinalTimestamp } = require("./near");
@@ -17,7 +19,7 @@ const {
   syncGenesisState,
 } = require("./sync");
 
-const { setupWamp, wampPublish } = require("./wamp");
+const { setupWamp } = require("./wamp");
 
 async function main() {
   console.log("Starting NEAR Explorer backend service...");
@@ -95,6 +97,21 @@ async function main() {
     regularSyncMissingNearcoreStateInterval
   );
 
+  const wamp = setupWamp();
+  console.log("Starting WAMP worker...");
+  wamp.open();
+
+  const wampPublish = (topic, args) => {
+    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${topic}`;
+    wamp.session.publish(uri, args);
+  };
+
+  const wampCall = async (args) => {
+    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
+    const res = await wamp.session.call(uri, args);
+    return res[0].total;
+  };
+
   const regularQueryRPC = async () => {
     try {
       const finalTimestamp = await queryFinalTimestamp();
@@ -106,9 +123,29 @@ async function main() {
   };
   setTimeout(regularQueryRPC, 0);
 
-  const wamp = setupWamp();
-  console.log("Starting WAMP worker...");
-  wamp.open();
+  const regularCheckDataStats = async () => {
+    try {
+      const lastBlockHeight = await wampCall([
+        `SELECT height as total FROM blocks ORDER BY height DESC LIMIT 1`,
+      ]);
+      const totalBlocks = await wampCall([
+        `SELECT COUNT(*) as total FROM blocks`,
+      ]);
+      const totalTransactions = await wampCall([
+        `SELECT COUNT(*) as total FROM transactions`,
+      ]);
+      const totalAccounts = await wampCall([
+        `SELECT COUNT(*) as total FROM accounts`,
+      ]);
+      wampPublish("dataStats", [
+        { totalBlocks, totalTransactions, totalAccounts, lastBlockHeight },
+      ]);
+    } catch (error) {
+      console.warn("Regular querying data stats crashed due to:", error);
+    }
+    setTimeout(regularCheckDataStats, regularQueryStatsInterval);
+  };
+  setTimeout(regularCheckDataStats, 0);
 }
 
 main();

@@ -10,16 +10,23 @@ import { ExplorerApi } from "../../libraries/explorer-wamp/index";
 const initialState = {
   finalTimestamp: 0,
   lastBlockHeight: 0,
+  totalBlocks: 0,
+  totalTransactions: 0,
+  totalAccounts: 0,
   newBlockAmount: 0,
   newTransactionAmount: 0,
-  newAccountsAmount: 0,
-  clear: () => {},
+  newAccountAmount: 0,
+  clear: (category: string) => {},
 };
 
 const initState = {
   lastBlockHeight: 0,
+  totalBlocks: 0,
+  totalTransactions: 0,
+  totalAccounts: 0,
   newBlockAmount: 0,
   newTransactionAmount: 0,
+  newAccountAmount: 0,
 };
 
 const reducer = (currentState: any, action: any) => {
@@ -32,15 +39,49 @@ const reducer = (currentState: any, action: any) => {
     case "blocks":
       return {
         ...currentState,
-        newBlockAmount: currentState.newBlockAmount + action.blockAmount,
+        totalBlocks: action.totalBlocks,
       };
     case "transactions":
       return {
         ...currentState,
-        newTransactionAmount:
-          currentState.newTransactionAmount + action.transactionAmount,
+        totalTransactions: action.totalTransactions,
       };
-    case "clear":
+    case "accounts":
+      return {
+        ...currentState,
+        totalAccounts: action.totalAccounts,
+      };
+    case "newBlocks":
+      return {
+        ...currentState,
+        newBlockAmount: action.blockAmount + currentState.newBlockAmount,
+      };
+    case "newTransactions":
+      return {
+        ...currentState,
+        newTransactionAmount:
+          action.transactionAmount + currentState.newTransactionAmount,
+      };
+    case "newAccounts":
+      return {
+        ...currentState,
+        newAccountAmount: action.accountAmount + currentState.newAccountAmount,
+      };
+    case "clearBlock":
+      return {
+        ...currentState,
+        newBlockAmount: 0,
+      };
+    case "clearTransaction":
+      return {
+        ...currentState,
+        newTransactionAmount: 0,
+      };
+    case "clearAccount":
+      return {
+        ...currentState,
+        newAccountAmount: 0,
+      };
     default:
       return initState;
   }
@@ -51,19 +92,39 @@ const RpcContext = createContext(initialState);
 export default (props: any) => {
   const [state, dispatchState] = useReducer(reducer, initState);
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
-  const [newAccountsAmount, dispatchAccount] = useState(0);
 
-  const fetchNewBlocks = function (blocks: any) {
-    let lastBlockHeight = blocks[0].header.height;
-    if (state.lastBlockHeight < lastBlockHeight) {
-      dispatchState({ type: "lastBlockHeight", lastBlockHeight });
+  const fetchNewStats = function (stats: any) {
+    let states = stats[0];
+
+    let lastBlockHeight = states.lastBlockHeight;
+    dispatchState({ type: "lastBlockHeight", lastBlockHeight });
+
+    let totalBlocks = states.totalBlocks;
+    dispatchState({ type: "blocks", totalBlocks });
+    if (state.totalBlocks !== 0) {
+      dispatchState({
+        type: "newBlocks",
+        blockAmount: totalBlocks - state.totalBlocks,
+      });
     }
-    let blockAmount = blocks.length;
-    dispatchState({ type: "blocks", blockAmount });
-    let transactionAmount = blocks
-      .map((block: any) => block.transactions.length)
-      .reduce((num: number, current: number) => num + current, 0);
-    dispatchState({ type: "transactions", transactionAmount });
+
+    let totalTransactions = states.totalTransactions;
+    dispatchState({ type: "transactions", totalTransactions });
+    if (state.totalTransactions !== 0) {
+      dispatchState({
+        type: "newTransactions",
+        transactionAmount: totalTransactions - state.totalTransactions,
+      });
+    }
+
+    let totalAccounts = states.totalAccounts;
+    dispatchState({ type: "accounts", totalAccounts });
+    if (state.totalAccounts !== 0) {
+      dispatchState({
+        type: "newAccounts",
+        accountAmount: totalAccounts - state.totalAccounts,
+      });
+    }
   };
 
   const fetchFinalTimestamp = (timestamp: any) => {
@@ -73,28 +134,29 @@ export default (props: any) => {
     }
   };
 
-  const fetchNewAccounts = (accounts: any) => {
-    if (accounts[0][0] !== undefined) {
-      dispatchAccount(newAccountsAmount + accounts[0][0]);
-    }
-  };
-
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("blocks", fetchNewBlocks);
+    new ExplorerApi().subscribe("dataStats", fetchNewStats);
     new ExplorerApi().subscribe("finalTimestamp", fetchFinalTimestamp);
-    new ExplorerApi().subscribe("accounts", fetchNewAccounts);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
 
-  const clear = () => dispatchState({ type: "clear" });
+  const clear = (category: string) => {
+    if (category === "Block") {
+      dispatchState({ type: "clearBlock" });
+    } else if (category === "Transaction") {
+      dispatchState({ type: "clearTransaction" });
+    } else if (category === "Account") {
+      dispatchState({ type: "clearAccount" });
+    }
+  };
 
   const value = {
     finalTimestamp,
     lastBlockHeight: state.lastBlockHeight,
     newBlockAmount: state.newBlockAmount,
     newTransactionAmount: state.newTransactionAmount,
-    newAccountsAmount,
+    newAccountAmount: state.newAccountAmount,
     clear,
   };
   return (

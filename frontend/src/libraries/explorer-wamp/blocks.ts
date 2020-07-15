@@ -8,7 +8,6 @@ export interface BlockInfo {
   transactionsCount: number;
   gasPrice: string;
   gasUsed: number;
-  isFinal?: boolean;
 }
 
 export default class BlocksApi extends ExplorerApi {
@@ -41,9 +40,8 @@ export default class BlocksApi extends ExplorerApi {
     paginationIndexer?: number
   ): Promise<BlockInfo[]> {
     try {
-      const [blocks, finalHeight] = await Promise.all([
-        this.call<any>("select", [
-          `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+      const blocks = await this.call<any>("select", [
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
             FROM blocks
@@ -58,16 +56,12 @@ export default class BlocksApi extends ExplorerApi {
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           GROUP BY blocks.hash
           ORDER BY blocks.timestamp DESC`,
-          {
-            limit,
-            paginationIndexer,
-          },
-        ]),
-        this.queryFinalHeight(),
+        {
+          limit,
+          paginationIndexer,
+        },
       ]);
-      for (let i = 0; i < blocks.length; i++) {
-        blocks[i].isFinal = blocks[i].height <= finalHeight;
-      }
+
       return blocks as BlockInfo[];
     } catch (error) {
       console.error("Blocks.getBlocks failed to fetch data due to:");
@@ -82,9 +76,8 @@ export default class BlocksApi extends ExplorerApi {
 
   async getBlockInfo(blockId: string): Promise<BlockInfo> {
     try {
-      const [block, finalHeight] = await Promise.all([
-        this.call<any>("select", [
-          `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+      const block = await this.call<any>("select", [
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, 
                   blocks.gas_price as gasPrice, blocks.gas_used as gasUsed
@@ -92,17 +85,13 @@ export default class BlocksApi extends ExplorerApi {
             WHERE blocks.hash = :blockId OR blocks.height = :blockId
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
-          {
-            blockId,
-          },
-        ]).then((it) => (it[0].hash !== null ? it[0] : null)),
-        this.queryFinalHeight(),
-      ]);
+        {
+          blockId,
+        },
+      ]).then((it) => (it[0].hash !== null ? it[0] : null));
 
       if (block === null) {
         throw new Error("block not found");
-      } else {
-        block.isFinal = block.height <= finalHeight;
       }
 
       return block as BlockInfo;
