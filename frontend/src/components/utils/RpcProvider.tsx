@@ -13,6 +13,13 @@ const initialState = {
   newBlockAmount: 0,
   newTransactionAmount: 0,
   newAccountsAmount: 0,
+  clear: () => {},
+};
+
+const initState = {
+  lastBlockHeight: 0,
+  newBlockAmount: 0,
+  newTransactionAmount: 0,
 };
 
 const reducer = (currentState: any, action: any) => {
@@ -33,16 +40,16 @@ const reducer = (currentState: any, action: any) => {
         newTransactionAmount:
           currentState.newTransactionAmount + action.transactionAmount,
       };
-
+    case "clear":
     default:
-      return initialState;
+      return initState;
   }
 };
 
 const RpcContext = createContext(initialState);
 
 export default (props: any) => {
-  const [state, dispatchState] = useReducer(reducer, initialState);
+  const [state, dispatchState] = useReducer(reducer, initState);
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
   const [newAccountsAmount, dispatchAccount] = useState(0);
 
@@ -80,12 +87,15 @@ export default (props: any) => {
 
   useEffect(() => Subscription(), [Subscription]);
 
+  const clear = () => dispatchState({ type: "clear" });
+
   const value = {
     finalTimestamp,
     lastBlockHeight: state.lastBlockHeight,
     newBlockAmount: state.newBlockAmount,
     newTransactionAmount: state.newTransactionAmount,
     newAccountsAmount,
+    clear,
   };
   return (
     <RpcContext.Provider value={value}>{props.children}</RpcContext.Provider>

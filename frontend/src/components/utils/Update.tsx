@@ -4,11 +4,20 @@ interface Props {
   count: number;
 }
 export default ({ category, count }: Props) => {
+  if (count === 0) {
+    return null;
+  }
   return (
     <div className="update">
-      <p>
-        {count} new {category}. Refresh or Click to view
-      </p>
+      {count > 1 ? (
+        <p>
+          {count} new {category}s. Refresh or Click to view
+        </p>
+      ) : (
+        <p>
+          {count} new {category}. Refresh or Click to view
+        </p>
+      )}
       <style>{`
       .update{
         width: 100%;
