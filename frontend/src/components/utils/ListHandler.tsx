@@ -144,78 +144,79 @@ export default (
         return <PaginationSpinner hidden={false} />;
       }
       return (
-        <RpcConsumer>
-          {(context) => (
-            <>
-              {" "}
-              {!config.dashboard && (
-                <div
-                  onClick={() => {
-                    this.regularFetchInfo();
-                    context.clear(config.category);
-                  }}
-                >
-                  <Update
-                    count={
-                      config.category === "Block"
-                        ? context.newBlockAmount
-                        : config.category === "Transaction"
-                        ? context.newTransactionAmount
-                        : config.category === "Account"
-                        ? context.newAccountAmount
-                        : 0
-                    }
-                    category={config.category}
-                  />
-                </div>
-              )}
-              <InfiniteScroll
-                dataLength={this.state.items.length}
-                next={this.fetchMoreData}
-                hasMore={this.state.hasMore}
-                loader={
-                  this.state.loading ? (
-                    <PaginationSpinner hidden={false} />
-                  ) : (
-                    <>
-                      <button
-                        onClick={this.fetchMoreData}
-                        className="load-button"
-                        style={{
-                          display: this.state.hasMore ? "block" : "none",
-                        }}
-                      >
-                        Load More
-                      </button>
-                    </>
-                  )
-                }
-                style={{ overflowX: "hidden" }}
-              >
-                <WrappedComponent items={this.state.items} {...props} />
-              </InfiniteScroll>
-              <style jsx global>{`
-                .load-button {
-                  width: 100px;
-                  background-color: #f8f8f8;
-                  display: block;
-                  text-align: center;
-                  text-decoration: none;
-                  font-family: BentonSans;
-                  font-size: 14px;
-                  color: #0072ce;
-                  font-weight: bold;
-                  text-transform: uppercase;
-                  margin: 20px auto;
-                  border-radius: 30px;
-                  padding: 8px 0;
-                  cursor: pointer;
-                  border: none;
-                }
-              `}</style>
-            </>
-          )}
-        </RpcConsumer>
+        <>
+          <RpcConsumer>
+            {(context) => (
+              <>
+                {!config.dashboard && (
+                  <div
+                    onClick={() => {
+                      this.regularFetchInfo();
+                      context.clear(config.category);
+                    }}
+                  >
+                    <Update
+                      count={
+                        config.category === "Block"
+                          ? context.newBlockAmount
+                          : config.category === "Transaction"
+                          ? context.newTransactionAmount
+                          : config.category === "Account"
+                          ? context.newAccountAmount
+                          : 0
+                      }
+                      category={config.category}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </RpcConsumer>
+          <InfiniteScroll
+            dataLength={this.state.items.length}
+            next={this.fetchMoreData}
+            hasMore={this.state.hasMore}
+            loader={
+              this.state.loading ? (
+                <PaginationSpinner hidden={false} />
+              ) : (
+                <>
+                  <button
+                    onClick={this.fetchMoreData}
+                    className="load-button"
+                    style={{
+                      display: this.state.hasMore ? "block" : "none",
+                    }}
+                  >
+                    Load More
+                  </button>
+                </>
+              )
+            }
+            style={{ overflowX: "hidden" }}
+          >
+            <WrappedComponent items={this.state.items} {...props} />
+          </InfiniteScroll>
+          <style jsx global>{`
+            .load-button {
+              width: 100px;
+              background-color: #f8f8f8;
+              display: block;
+              text-align: center;
+              text-decoration: none;
+              font-family: BentonSans;
+              font-size: 14px;
+              color: #0072ce;
+              font-weight: bold;
+              text-transform: uppercase;
+              margin: 20px auto;
+              border-radius: 30px;
+              padding: 8px 0;
+              cursor: pointer;
+              border: none;
+            }
+          `}</style>
+        </>
       );
     }
   };
