@@ -123,24 +123,59 @@ async function main() {
   };
   setTimeout(regularQueryRPC, 0);
 
+  const lastStats = async () => {
+    const lastBlockTimestamp = await wampCall([
+      `SELECT timestamp as total FROM blocks ORDER BY timestamp DESC LIMIT 1`,
+    ]);
+    const lastTxTimestamp = await wampCall([
+      `SELECT block_timestamp as total FROM transactions ORDER BY block_timestamp DESC LIMIT 1`,
+    ]);
+    const lastAccountTimestamp = await wampCall([
+      `SELECT created_at_block_timestamp as total FROM accounts ORDER BY created_at_block_timestamp DESC LIMIT 1`,
+    ]);
+    const lastBlockHeight = await wampCall([
+      `SELECT height as total FROM blocks ORDER BY height DESC LIMIT 1`,
+    ]);
+    return [
+      lastBlockTimestamp,
+      lastTxTimestamp,
+      lastAccountTimestamp,
+      lastBlockHeight,
+    ];
+  };
+
+  const totalStats = async () => {
+    const totalBlocks = await wampCall([
+      `SELECT COUNT(*) as total FROM blocks`,
+    ]);
+    const totalTransactions = await wampCall([
+      `SELECT COUNT(*) as total FROM transactions`,
+    ]);
+    const totalAccounts = await wampCall([
+      `SELECT COUNT(*) as total FROM accounts`,
+    ]);
+    const lastDayTxCount = await wampCall([
+      `SELECT COUNT(*) as total FROM transactions
+      WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
+    ]);
+    return [totalAccounts, totalBlocks, totalTransactions, lastDayTxCount];
+  };
+
   const regularCheckDataStats = async () => {
     try {
-      const lastBlockHeight = await wampCall([
-        `SELECT height as total FROM blocks ORDER BY height DESC LIMIT 1`,
-      ]);
-      const totalBlocks = await wampCall([
-        `SELECT COUNT(*) as total FROM blocks`,
-      ]);
-      const totalTransactions = await wampCall([
-        `SELECT COUNT(*) as total FROM transactions`,
-      ]);
-      const totalAccounts = await wampCall([
-        `SELECT COUNT(*) as total FROM accounts`,
-      ]);
-      const lastDayTxCount = await wampCall([
-        `SELECT COUNT(*) as total FROM transactions
-        WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
-      ]);
+      const [
+        totalAccounts,
+        totalBlocks,
+        totalTransactions,
+        lastDayTxCount,
+      ] = totalStats();
+      const [
+        lastBlockTimestamp,
+        lastTxTimestamp,
+        lastAccountTimestamp,
+        lastBlockHeight,
+      ] = lastStats();
+
       wampPublish("dataStats", [
         {
           totalBlocks,
