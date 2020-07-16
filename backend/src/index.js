@@ -127,31 +127,6 @@ async function main() {
   };
   setTimeout(regularQueryRPC, 0);
 
-  // this function is remained to fetch increment of new Blocks, Txs and Accounts
-  const lastStats = async () => {
-    const [
-      lastBlockTimestamp,
-      lastTxTimestamp,
-      lastAccountTimestamp,
-    ] = await Promise.all([
-      wampCall([
-        `SELECT timestamp as last FROM blocks ORDER BY timestamp DESC LIMIT 1`,
-      ]),
-      wampCall([
-        `SELECT block_timestamp as last FROM transactions ORDER BY block_timestamp DESC LIMIT 1`,
-      ]),
-      wampCall([
-        `SELECT created_at_block_timestamp as last FROM accounts ORDER BY created_at_block_timestamp DESC LIMIT 1`,
-      ]),
-    ]);
-
-    return [
-      lastBlockTimestamp.last,
-      lastTxTimestamp.last,
-      lastAccountTimestamp.last,
-    ];
-  };
-
   const totalStats = async () => {
     const [
       totalBlocks,
