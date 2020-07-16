@@ -2,7 +2,7 @@
 
 context("Dashboard", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit("https://explorer.betanet.near.org");
   });
 
   // https://on.cypress.io/interacting-with-elements
