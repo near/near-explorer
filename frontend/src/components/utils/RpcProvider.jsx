@@ -16,6 +16,10 @@ const RpcContext = createContext({
   lastDayTxCount: 0,
   validatorAmount: 0,
   onlineNodeAmount: 0,
+  newBlocks: 0,
+  newTxs: 0,
+  newAccounts: 0,
+  clear: (category) => {},
 });
 
 const initialState = {
@@ -61,9 +65,50 @@ const reducer = (currentState, action) => {
 export default (props) => {
   const [state, dispatchState] = useReducer(reducer, initialState);
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
-  const [validatorAmount, dispatchVA] = useState(0);
-  const [onlineNodeAmount, dispatchNA] = useState(0);
+  const [validatorAmount, dispatchValidatorAmount] = useState(0);
+  const [onlineNodeAmount, dispatchNodeAmount] = useState(0);
 
+  // this part is for increment for new Blocks, Txs and Accounts.
+  const [currentBlock, dispatchCurrentBlock] = useState(0);
+  const [newBlocks, dispatchNewBlocks] = useState(0);
+
+  const [currentTx, dispatchCurrentTx] = useState(0);
+  const [newTxs, dispatchNewTxs] = useState(0);
+
+  const [currentAccount, dispathchCurrentAccount] = useState(0);
+  const [newAccounts, dispatchNewAccounts] = useState(0);
+
+  // update new blocks
+  useEffect(() => {
+    if (currentBlock === 0 && state.totalBlocks !== 0) {
+      dispatchCurrentBlock(state.totalBlocks);
+    }
+    if (currentBlock !== 0) {
+      dispatchNewBlocks(state.totalBlocks - currentBlock);
+    }
+  }, [state.totalBlocks, currentBlock]);
+
+  //update new txs
+  useEffect(() => {
+    if (currentTx === 0 && state.totalTransactions !== 0) {
+      dispatchCurrentTx(state.totalTransactions);
+    }
+    if (currentTx !== 0) {
+      dispatchNewTxs(state.totalTransactions - currentTx);
+    }
+  }, [state.totalTransactions, currentTx]);
+
+  //update new accounts
+  useEffect(() => {
+    if (currentAccount === 0 && state.totalAccounts !== 0) {
+      dispathchCurrentAccount(state.totalAccounts);
+    }
+    if (currentAccount !== 0) {
+      dispatchNewAccounts(state.totalAccounts - currentAccount);
+    }
+  }, [state.totalAccounts, currentAccount]);
+
+  // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
     // subsceiption data part
     let states = stats[0];
@@ -74,11 +119,21 @@ export default (props) => {
     let lastDayTxCount = states.lastDayTxCount;
 
     // dispatch direct data part
-    dispatchState({ type: "lastBlockHeight", lastBlockHeight });
-    dispatchState({ type: "blocks", totalBlocks });
-    dispatchState({ type: "transactions", totalTransactions });
-    dispatchState({ type: "accounts", totalAccounts });
-    dispatchState({ type: "dayTransactions", lastDayTxCount });
+    if (state.lastBlockHeight !== lastBlockHeight) {
+      dispatchState({ type: "lastBlockHeight", lastBlockHeight });
+    }
+    if (state.totalAccounts !== totalAccounts) {
+      dispatchState({ type: "accounts", totalAccounts });
+    }
+    if (state.totalBlocks !== totalBlocks) {
+      dispatchState({ type: "blocks", totalBlocks });
+    }
+    if (state.totalTransactions !== totalTransactions) {
+      dispatchState({ type: "transactions", totalTransactions });
+    }
+    if (state.lastDayTxCount !== lastDayTxCount) {
+      dispatchState({ type: "dayTransactions", lastDayTxCount });
+    }
   };
 
   const fetchFinalTimestamp = (timestamp) => {
@@ -91,10 +146,10 @@ export default (props) => {
   const fetchNodeInfo = (nodes) => {
     let [validators, onlineNodes] = nodes;
     if (validatorAmount !== validators) {
-      dispatchVA(validators);
+      dispatchValidatorAmount(validators);
     }
     if (onlineNodeAmount !== onlineNodes) {
-      dispatchNA(onlineNodes);
+      dispatchNodeAmount(onlineNodes);
     }
   };
 
@@ -105,6 +160,21 @@ export default (props) => {
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
+
+  const clear = (category) => {
+    if (category === "Block") {
+      dispatchNewBlocks(0);
+      dispatchCurrentBlock(0);
+    }
+    if (category === "Transaction") {
+      dispatchNewTxs(0);
+      dispatchCurrentTx(0);
+    }
+    if (category === "Account") {
+      dispatchNewAccounts(0);
+      dispathchCurrentAccount(0);
+    }
+  };
 
   return (
     <RpcContext.Provider
@@ -117,6 +187,10 @@ export default (props) => {
         totalTransactions: state.totalTransactions,
         totalAccounts: state.totalAccounts,
         lastDayTxCount: state.lastDayTxCount,
+        newBlocks,
+        newTxs,
+        newAccounts,
+        clear,
       }}
     >
       {props.children}
