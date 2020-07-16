@@ -13,7 +13,7 @@ export default () => (
         xs="12"
         md="5"
       >
-        © 2019 NEAR Inc. All Rights Reserved.
+        © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
         <br />
         <Link href="terms-of-service">
           <a className="footer-link-href">Terms of Service</a>
