@@ -22,7 +22,7 @@ export default class extends React.Component<Props> {
                   className="dashboard-blocks-block"
                   style={{
                     background:
-                      block.height <= context.finalTimestamp
+                      block.timestamp <= context.finalTimestamp
                         ? "#fff"
                         : "#f8f7f8",
                   }}
@@ -32,7 +32,7 @@ export default class extends React.Component<Props> {
                   </Card.Title>
                   <Card.Body className="dashboard-blocks-block-content">
                     <>
-                      {block.height <= context.finalTimestamp ? (
+                      {block.timestamp <= context.finalTimestamp ? (
                         <p className="dashboard-blocks-block-content-p">
                           <img src="/static/images/icon-m-transaction.svg" />
                           {block.transactionsCount}
@@ -41,7 +41,7 @@ export default class extends React.Component<Props> {
                         <div style={{ height: "22px", width: "100%" }}> </div>
                       )}
                     </>
-                    {block.height <= context.finalTimestamp ? (
+                    {block.timestamp <= context.finalTimestamp ? (
                       <Row noGutters className="dashboard-blocks-block-footer">
                         <Col md="7" xs="7">
                           <span className="dashboard-blocks-block-content-p-footer">

@@ -65,7 +65,9 @@ export default class extends React.PureComponent<Props> {
                   <Row>
                     <Col className="transaction-row-timer">
                       <span className="transaction-row-timer-status">
-                        {block.height <= context.finalTimestamp
+                        {context.finalTimestamp === 0
+                          ? "Checking Finality..."
+                          : block.timestamp <= context.finalTimestamp
                           ? "Finalized"
                           : "Finalizing"}
                       </span>

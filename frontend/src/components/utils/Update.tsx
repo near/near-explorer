@@ -25,6 +25,7 @@ export default ({ category, count }: Props) => {
         background: rgba(106, 209, 227, 0.15);
         color: #6ab9e3;
         padding: 5px 10px;
+        cursor:pointer;
       }
       `}</style>
     </div>

@@ -96,9 +96,11 @@ export default ({ block }: Props) => {
                     }
                     imgLink="/static/images/icon-t-status.svg"
                     text={
-                      block.height <= context.finalTimestamp
+                      context.finalTimestamp === 0
+                        ? "Checking Finality..."
+                        : block.timestamp <= context.finalTimestamp
                         ? "Finalized"
-                        : "Finalizing..."
+                        : "Finalizing"
                     }
                   />
                 </Col>

@@ -7,19 +7,19 @@ import React, {
 } from "react";
 import { ExplorerApi } from "../../libraries/explorer-wamp/index";
 
-const initialState = {
+const RpcContext = createContext({
   finalTimestamp: 0,
   lastBlockHeight: 0,
-  totalBlocks: 0,
-  totalTransactions: 0,
-  totalAccounts: 0,
   newBlockAmount: 0,
   newTransactionAmount: 0,
   newAccountAmount: 0,
-  clear: (category: string) => {},
-};
+  totalBlocks: 0,
+  totalTransactions: 0,
+  totalAccounts: 0,
+  clear: (category) => {},
+});
 
-const initState = {
+const initialState = {
   lastBlockHeight: 0,
   totalBlocks: 0,
   totalTransactions: 0,
@@ -29,7 +29,7 @@ const initState = {
   newAccountAmount: 0,
 };
 
-const reducer = (currentState: any, action: any) => {
+const reducer = (currentState, action) => {
   switch (action.type) {
     case "lastBlockHeight":
       return {
@@ -54,18 +54,17 @@ const reducer = (currentState: any, action: any) => {
     case "newBlocks":
       return {
         ...currentState,
-        newBlockAmount: action.blockAmount + currentState.newBlockAmount,
+        newBlockAmount: action.blockAmount,
       };
     case "newTransactions":
       return {
         ...currentState,
-        newTransactionAmount:
-          action.transactionAmount + currentState.newTransactionAmount,
+        newTransactionAmount: action.transactionAmount,
       };
     case "newAccounts":
       return {
         ...currentState,
-        newAccountAmount: action.accountAmount + currentState.newAccountAmount,
+        newAccountAmount: action.accountAmount,
       };
     case "clearBlock":
       return {
@@ -83,51 +82,32 @@ const reducer = (currentState: any, action: any) => {
         newAccountAmount: 0,
       };
     default:
-      return initState;
+      return initialState;
   }
 };
 
-const RpcContext = createContext(initialState);
-
-export default (props: any) => {
-  const [state, dispatchState] = useReducer(reducer, initState);
+export default (props) => {
+  const [state, dispatchState] = useReducer(reducer, initialState);
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
 
-  const fetchNewStats = function (stats: any) {
+  const fetchNewStats = function (stats) {
+    // subsceiption data part
     let states = stats[0];
-
     let lastBlockHeight = states.lastBlockHeight;
-    dispatchState({ type: "lastBlockHeight", lastBlockHeight });
-
-    let totalBlocks = states.totalBlocks;
-    dispatchState({ type: "blocks", totalBlocks });
-    if (state.totalBlocks !== 0) {
-      dispatchState({
-        type: "newBlocks",
-        blockAmount: totalBlocks - state.totalBlocks,
-      });
-    }
-
-    let totalTransactions = states.totalTransactions;
-    dispatchState({ type: "transactions", totalTransactions });
-    if (state.totalTransactions !== 0) {
-      dispatchState({
-        type: "newTransactions",
-        transactionAmount: totalTransactions - state.totalTransactions,
-      });
-    }
-
     let totalAccounts = states.totalAccounts;
+    let totalBlocks = states.totalBlocks;
+    let totalTransactions = states.totalTransactions;
+
+    // dispatch direct data part
+    dispatchState({ type: "lastBlockHeight", lastBlockHeight });
+    dispatchState({ type: "blocks", totalBlocks });
+    dispatchState({ type: "transactions", totalTransactions });
     dispatchState({ type: "accounts", totalAccounts });
-    if (state.totalAccounts !== 0) {
-      dispatchState({
-        type: "newAccounts",
-        accountAmount: totalAccounts - state.totalAccounts,
-      });
-    }
   };
 
-  const fetchFinalTimestamp = (timestamp: any) => {
+  console.log(state);
+
+  const fetchFinalTimestamp = (timestamp) => {
     let final = timestamp[0];
     if (finalTimestamp !== final) {
       dispatchFinalTimestamp(final);
@@ -141,7 +121,7 @@ export default (props: any) => {
 
   useEffect(() => Subscription(), [Subscription]);
 
-  const clear = (category: string) => {
+  const clear = (category) => {
     if (category === "Block") {
       dispatchState({ type: "clearBlock" });
     } else if (category === "Transaction") {
@@ -151,16 +131,22 @@ export default (props: any) => {
     }
   };
 
-  const value = {
-    finalTimestamp,
-    lastBlockHeight: state.lastBlockHeight,
-    newBlockAmount: state.newBlockAmount,
-    newTransactionAmount: state.newTransactionAmount,
-    newAccountAmount: state.newAccountAmount,
-    clear,
-  };
   return (
-    <RpcContext.Provider value={value}>{props.children}</RpcContext.Provider>
+    <RpcContext.Provider
+      value={{
+        finalTimestamp,
+        lastBlockHeight: state.lastBlockHeight,
+        newBlockAmount: state.newBlockAmount,
+        newTransactionAmount: state.newTransactionAmount,
+        newAccountAmount: state.newAccountAmount,
+        totalBlocks: state.totalBlocks,
+        totalTransactions: state.totalTransactions,
+        totalAccounts: state.totalAccounts,
+        clear,
+      }}
+    >
+      {props.children}
+    </RpcContext.Provider>
   );
 };
 
