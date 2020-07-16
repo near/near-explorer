@@ -11,11 +11,13 @@ export default ({ category, count }: Props) => {
     <div className="update">
       {count > 1 ? (
         <p>
-          {count} new {category}s. Refresh or Click to view
+          {count} Total {category}s. Refresh or Click to view the latest{" "}
+          {category}s.
         </p>
       ) : (
         <p>
-          {count} new {category}. Refresh or Click to view
+          {count} Total {category}. Refresh or Click to view the latest{" "}
+          {category}.
         </p>
       )}
       <style>{`

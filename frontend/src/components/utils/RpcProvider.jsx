@@ -10,9 +10,6 @@ import { ExplorerApi } from "../../libraries/explorer-wamp/index";
 const RpcContext = createContext({
   finalTimestamp: 0,
   lastBlockHeight: 0,
-  newBlockAmount: 0,
-  newTransactionAmount: 0,
-  newAccountAmount: 0,
   totalBlocks: 0,
   totalTransactions: 0,
   totalAccounts: 0,
@@ -24,9 +21,6 @@ const initialState = {
   totalBlocks: 0,
   totalTransactions: 0,
   totalAccounts: 0,
-  newBlockAmount: 0,
-  newTransactionAmount: 0,
-  newAccountAmount: 0,
 };
 
 const reducer = (currentState, action) => {
@@ -50,36 +44,6 @@ const reducer = (currentState, action) => {
       return {
         ...currentState,
         totalAccounts: action.totalAccounts,
-      };
-    case "newBlocks":
-      return {
-        ...currentState,
-        newBlockAmount: action.blockAmount,
-      };
-    case "newTransactions":
-      return {
-        ...currentState,
-        newTransactionAmount: action.transactionAmount,
-      };
-    case "newAccounts":
-      return {
-        ...currentState,
-        newAccountAmount: action.accountAmount,
-      };
-    case "clearBlock":
-      return {
-        ...currentState,
-        newBlockAmount: 0,
-      };
-    case "clearTransaction":
-      return {
-        ...currentState,
-        newTransactionAmount: 0,
-      };
-    case "clearAccount":
-      return {
-        ...currentState,
-        newAccountAmount: 0,
       };
     default:
       return initialState;
@@ -136,9 +100,6 @@ export default (props) => {
       value={{
         finalTimestamp,
         lastBlockHeight: state.lastBlockHeight,
-        newBlockAmount: state.newBlockAmount,
-        newTransactionAmount: state.newTransactionAmount,
-        newAccountAmount: state.newAccountAmount,
         totalBlocks: state.totalBlocks,
         totalTransactions: state.totalTransactions,
         totalAccounts: state.totalAccounts,

@@ -137,8 +137,18 @@ async function main() {
       const totalAccounts = await wampCall([
         `SELECT COUNT(*) as total FROM accounts`,
       ]);
+      const lastDayTxCount = await wampCall([
+        `SELECT COUNT(*) as total FROM transactions
+        WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
+      ]);
       wampPublish("dataStats", [
-        { totalBlocks, totalTransactions, totalAccounts, lastBlockHeight },
+        {
+          totalBlocks,
+          totalTransactions,
+          totalAccounts,
+          lastBlockHeight,
+          lastDayTxCount,
+        },
       ]);
     } catch (error) {
       console.warn("Regular querying data stats crashed due to:", error);

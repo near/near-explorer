@@ -152,17 +152,16 @@ export default (
                   <div
                     onClick={() => {
                       this.regularFetchInfo();
-                      context.clear(config.category);
                     }}
                   >
                     <Update
                       count={
                         config.category === "Block"
-                          ? context.newBlockAmount
+                          ? context.totalBlocks
                           : config.category === "Transaction"
-                          ? context.newTransactionAmount
+                          ? context.totalTransactions
                           : config.category === "Account"
-                          ? context.newAccountAmount
+                          ? context.totalAccounts
                           : 0
                       }
                       category={config.category}
