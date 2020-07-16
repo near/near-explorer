@@ -9,5 +9,11 @@ const queryFinalTimestamp = async () => {
   return finalBlock.header.timestamp;
 };
 
+const queryValidatorAmount = async () => {
+  const validators = await nearRpc.sendJsonRpc("validators", [null]);
+  return validators.current_validators.length;
+};
+
 exports.nearRpc = nearRpc;
 exports.queryFinalTimestamp = queryFinalTimestamp;
+exports.queryValidatorAmount = queryValidatorAmount;

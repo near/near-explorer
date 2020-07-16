@@ -11,7 +11,11 @@ const {
   wampNearNetworkName,
 } = require("./config");
 
-const { nearRpc, queryFinalTimestamp } = require("./near");
+const {
+  nearRpc,
+  queryFinalTimestamp,
+  queryValidatorAmount,
+} = require("./near");
 
 const {
   syncNewNearcoreState,
@@ -109,7 +113,7 @@ async function main() {
   const wampCall = async (args) => {
     const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
     const res = await wamp.session.call(uri, args);
-    return res[0].total;
+    return res[0];
   };
 
   const regularQueryRPC = async () => {
@@ -123,42 +127,52 @@ async function main() {
   };
   setTimeout(regularQueryRPC, 0);
 
+  // this function is remained to fetch increment of new Blocks, Txs and Accounts
   const lastStats = async () => {
-    const lastBlockTimestamp = await wampCall([
-      `SELECT timestamp as total FROM blocks ORDER BY timestamp DESC LIMIT 1`,
-    ]);
-    const lastTxTimestamp = await wampCall([
-      `SELECT block_timestamp as total FROM transactions ORDER BY block_timestamp DESC LIMIT 1`,
-    ]);
-    const lastAccountTimestamp = await wampCall([
-      `SELECT created_at_block_timestamp as total FROM accounts ORDER BY created_at_block_timestamp DESC LIMIT 1`,
-    ]);
-    const lastBlockHeight = await wampCall([
-      `SELECT height as total FROM blocks ORDER BY height DESC LIMIT 1`,
-    ]);
-    return [
+    const [
       lastBlockTimestamp,
       lastTxTimestamp,
       lastAccountTimestamp,
-      lastBlockHeight,
+    ] = await Promise.all([
+      wampCall([
+        `SELECT timestamp as last FROM blocks ORDER BY timestamp DESC LIMIT 1`,
+      ]),
+      wampCall([
+        `SELECT block_timestamp as last FROM transactions ORDER BY block_timestamp DESC LIMIT 1`,
+      ]),
+      wampCall([
+        `SELECT created_at_block_timestamp as last FROM accounts ORDER BY created_at_block_timestamp DESC LIMIT 1`,
+      ]),
+    ]);
+
+    return [
+      lastBlockTimestamp.last,
+      lastTxTimestamp.last,
+      lastAccountTimestamp.last,
     ];
   };
 
   const totalStats = async () => {
-    const totalBlocks = await wampCall([
-      `SELECT COUNT(*) as total FROM blocks`,
+    const [
+      totalBlocks,
+      totalTransactions,
+      totalAccounts,
+      lastDayTxCount,
+    ] = await Promise.all([
+      wampCall([`SELECT COUNT(*) as total FROM blocks`]),
+      wampCall([`SELECT COUNT(*) as total FROM transactions`]),
+      wampCall([`SELECT COUNT(*) as total FROM accounts`]),
+      wampCall([
+        `SELECT COUNT(*) as total FROM transactions
+        WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
+      ]),
     ]);
-    const totalTransactions = await wampCall([
-      `SELECT COUNT(*) as total FROM transactions`,
-    ]);
-    const totalAccounts = await wampCall([
-      `SELECT COUNT(*) as total FROM accounts`,
-    ]);
-    const lastDayTxCount = await wampCall([
-      `SELECT COUNT(*) as total FROM transactions
-      WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
-    ]);
-    return [totalAccounts, totalBlocks, totalTransactions, lastDayTxCount];
+    return [
+      totalAccounts.total,
+      totalBlocks.total,
+      totalTransactions.total,
+      lastDayTxCount.total,
+    ];
   };
 
   const regularCheckDataStats = async () => {
@@ -168,20 +182,18 @@ async function main() {
         totalBlocks,
         totalTransactions,
         lastDayTxCount,
-      ] = totalStats();
-      const [
-        lastBlockTimestamp,
-        lastTxTimestamp,
-        lastAccountTimestamp,
-        lastBlockHeight,
-      ] = lastStats();
-
+      ] = await totalStats();
+      const lastBlockHeight = (
+        await wampCall([
+          `SELECT height FROM blocks ORDER BY height DESC LIMIT 1`,
+        ])
+      ).height;
       wampPublish("dataStats", [
         {
+          lastBlockHeight,
           totalBlocks,
           totalTransactions,
           totalAccounts,
-          lastBlockHeight,
           lastDayTxCount,
         },
       ]);
@@ -191,6 +203,22 @@ async function main() {
     setTimeout(regularCheckDataStats, regularQueryStatsInterval);
   };
   setTimeout(regularCheckDataStats, 0);
+
+  const regularCheckNodeStatus = async () => {
+    try {
+      const validatorAmount = await queryValidatorAmount();
+      const onlineNodeAmount = (
+        await wampCall([
+          `SELECT COUNT(*) as total FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
+        ])
+      ).total;
+      wampPublish("nodes", [validatorAmount, onlineNodeAmount]);
+    } catch (error) {
+      console.warn("Regular querying nodes amount crashed due to:", error);
+    }
+    setTimeout(regularCheckNodeStatus, regularQueryRPCInterval);
+  };
+  setTimeout(regularCheckNodeStatus, 0);
 }
 
 main();

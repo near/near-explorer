@@ -29,6 +29,9 @@ export default ({ category, count }: Props) => {
         padding: 5px 10px;
         cursor:pointer;
       }
+      .update:active{
+        background: rgba(106, 209, 227, 0.5)
+      }
       `}</style>
     </div>
   );

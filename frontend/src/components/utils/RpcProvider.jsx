@@ -13,7 +13,9 @@ const RpcContext = createContext({
   totalBlocks: 0,
   totalTransactions: 0,
   totalAccounts: 0,
-  clear: (category) => {},
+  lastDayTxCount: 0,
+  validatorAmount: 0,
+  onlineNodeAmount: 0,
 });
 
 const initialState = {
@@ -21,6 +23,7 @@ const initialState = {
   totalBlocks: 0,
   totalTransactions: 0,
   totalAccounts: 0,
+  lastDayTxCount: 0,
 };
 
 const reducer = (currentState, action) => {
@@ -45,6 +48,11 @@ const reducer = (currentState, action) => {
         ...currentState,
         totalAccounts: action.totalAccounts,
       };
+    case "dayTransactions":
+      return {
+        ...currentState,
+        lastDayTxCount: action.lastDayTxCount,
+      };
     default:
       return initialState;
   }
@@ -53,6 +61,8 @@ const reducer = (currentState, action) => {
 export default (props) => {
   const [state, dispatchState] = useReducer(reducer, initialState);
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
+  const [validatorAmount, dispatchVA] = useState(0);
+  const [onlineNodeAmount, dispatchNA] = useState(0);
 
   const fetchNewStats = function (stats) {
     // subsceiption data part
@@ -61,15 +71,15 @@ export default (props) => {
     let totalAccounts = states.totalAccounts;
     let totalBlocks = states.totalBlocks;
     let totalTransactions = states.totalTransactions;
+    let lastDayTxCount = states.lastDayTxCount;
 
     // dispatch direct data part
     dispatchState({ type: "lastBlockHeight", lastBlockHeight });
     dispatchState({ type: "blocks", totalBlocks });
     dispatchState({ type: "transactions", totalTransactions });
     dispatchState({ type: "accounts", totalAccounts });
+    dispatchState({ type: "dayTransactions", lastDayTxCount });
   };
-
-  console.log(state);
 
   const fetchFinalTimestamp = (timestamp) => {
     let final = timestamp[0];
@@ -78,32 +88,35 @@ export default (props) => {
     }
   };
 
+  const fetchNodeInfo = (nodes) => {
+    let [validators, onlineNodes] = nodes;
+    if (validatorAmount !== validators) {
+      dispatchVA(validators);
+    }
+    if (onlineNodeAmount !== onlineNodes) {
+      dispatchNA(onlineNodes);
+    }
+  };
+
   const Subscription = useCallback(() => {
     new ExplorerApi().subscribe("dataStats", fetchNewStats);
     new ExplorerApi().subscribe("finalTimestamp", fetchFinalTimestamp);
+    new ExplorerApi().subscribe("nodes", fetchNodeInfo);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
-
-  const clear = (category) => {
-    if (category === "Block") {
-      dispatchState({ type: "clearBlock" });
-    } else if (category === "Transaction") {
-      dispatchState({ type: "clearTransaction" });
-    } else if (category === "Account") {
-      dispatchState({ type: "clearAccount" });
-    }
-  };
 
   return (
     <RpcContext.Provider
       value={{
         finalTimestamp,
+        validatorAmount,
+        onlineNodeAmount,
         lastBlockHeight: state.lastBlockHeight,
         totalBlocks: state.totalBlocks,
         totalTransactions: state.totalTransactions,
         totalAccounts: state.totalAccounts,
-        clear,
+        lastDayTxCount: state.lastDayTxCount,
       }}
     >
       {props.children}
