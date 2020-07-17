@@ -304,6 +304,7 @@ async function saveBlocksFromRequests(requests) {
       })
     )
   ).filter((block) => block !== null);
+
   return await saveBlocks(blocks);
 }
 
