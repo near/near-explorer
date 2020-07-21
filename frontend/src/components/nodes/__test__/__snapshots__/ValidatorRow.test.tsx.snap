@@ -9,6 +9,10 @@ exports[`<ValidatorRow /> renders 1`] = `
   >
     <img
       className="jsx-1878504415"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
       src="/static/images/icon-m-node-online.svg"
       style={
         Object {

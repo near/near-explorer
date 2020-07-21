@@ -8,10 +8,14 @@ exports[`<ProposalRow /> renders 1`] = `
     className="pr-0 col-md-auto col-1"
   >
     <p
-      className="jsx-2126872396"
+      className="jsx-2919956104"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
     >
       <img
-        className="jsx-2126872396"
+        className="jsx-2919956104"
         src="/static/images/icon-m-node-proposal.svg"
         style={
           Object {
@@ -31,23 +35,27 @@ exports[`<ProposalRow /> renders 1`] = `
       <div
         className="node-row-title col"
       >
-        @
-        dokiacapital.pool.6fb1358
-          
-        <span
-          className="jsx-2126872396"
+        <p
+          className="jsx-2919956104"
         >
-          Staking 
+          @
+          dokiacapital.pool.6fb1358
+            
           <span
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
+            className="jsx-2919956104"
           >
-            91,037.77039
-             Ⓝ
+            Staking 
+            <span
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              91,037.77039
+               Ⓝ
+            </span>
           </span>
-        </span>
+        </p>
       </div>
     </div>
   </div>
@@ -57,13 +65,17 @@ exports[`<ProposalRow /> renders 1`] = `
     <div
       className="row"
     >
-      <div
-        className="node-row-txid col"
-        title="ed25519:935JMz1vLcJxFApG3TY4MA4RHhvResvoGwCrQoJxHPn9"
+      <p
+        className="jsx-2919956104"
       >
-        935JMz1vLcJx
-        ...
-      </div>
+        <div
+          className="node-row-txid col"
+          title="ed25519:935JMz1vLcJxFApG3TY4MA4RHhvResvoGwCrQoJxHPn9"
+        >
+          935JMz1vLcJx
+          ...
+        </div>
+      </p>
     </div>
   </div>
 </div>
