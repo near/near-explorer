@@ -100,22 +100,28 @@ export default class extends React.Component<Props, State> {
             <img
               src={"/static/images/icon-m-node-online.svg"}
               style={{ width: "15px" }}
-            />
+            />{" "}
             current validaing or online nodes
+          </p>
+          <p style={{ marginLeft: "10px" }}>
             <img
               src={"/static/images/icon-m-node-kickout.svg"}
               style={{ width: "15px" }}
-            />
+            />{" "}
             next epoch kickout nodes
+          </p>
+          <p style={{ marginLeft: "10px" }}>
             <img
               src={"/static/images/icon-m-node-new.svg"}
               style={{ width: "15px" }}
-            />
+            />{" "}
             next epoch new validating nodes
+          </p>
+          <p style={{ marginLeft: "10px" }}>
             <img
               src={"/static/images/icon-m-node-proposal.svg"}
               style={{ width: "15px" }}
-            />
+            />{" "}
             current proposal nodes
           </p>
         </Row>
