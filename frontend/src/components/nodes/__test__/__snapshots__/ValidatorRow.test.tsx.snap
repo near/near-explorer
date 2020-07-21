@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ValidatorRow /> renders 1`] = `
+<div
+  className="node-row mx-0 row"
+>
+  <div
+    className="pr-0 col-md-auto col-1"
+  >
+    <img
+      className="jsx-1878504415"
+      src="/static/images/icon-m-node-online.svg"
+      style={
+        Object {
+          "width": "15px",
+        }
+      }
+    />
+  </div>
+  <div
+    className="col-md-7 col-7"
+  >
+    <div
+      className="row"
+    >
+      <div
+        className="node-row-title col"
+      >
+        @
+        dokiacapital.pool.6fb1358
+           
+        <span
+          className="jsx-1878504415"
+        >
+          Staking 
+          <span
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            91,037.77039
+             Ⓝ
+          </span>
+        </span>
+        <span
+          className="jsx-1878504415 node-status"
+        >
+           
+        </span>
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="node-row-text col"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="col-md-5"
+          >
+            <img
+              className="jsx-1878504415"
+              src="/static/images/icon-m-size.svg"
+              style={
+                Object {
+                  "width": "12px",
+                }
+              }
+            />
+          </div>
+          <div
+            className="col"
+          >
+            <img
+              className="jsx-1878504415"
+              src="/static/images/icon-storage.svg"
+              style={
+                Object {
+                  "width": "12px",
+                }
+              }
+            />
+            1768/1771 (99.831)%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
