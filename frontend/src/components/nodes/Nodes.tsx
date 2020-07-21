@@ -14,8 +14,8 @@ interface Props {
 
 interface State {
   onlineNodes?: N.NodeInfo[];
-  validators?: any;
-  proposals?: any;
+  validators?: N.Validating[];
+  proposals?: N.Proposal[];
 }
 export default class extends React.Component<Props, State> {
   state: State = {};
@@ -47,6 +47,7 @@ export default class extends React.Component<Props, State> {
         currentValidators,
         nextValidators
       );
+      console.log(diffEpochValidators);
       let newValidators = this.signNewValidators(
         diffEpochValidators.newValidators
       );
@@ -78,7 +79,7 @@ export default class extends React.Component<Props, State> {
     const { validators, onlineNodes, proposals } = this.state;
     let nodes;
     if (validators && this.props.role === "validators") {
-      nodes = validators.map((node: any) => (
+      nodes = validators.map((node: N.Validating) => (
         <ValidatorRow key={node.account_id} node={node} />
       ));
     }
@@ -88,7 +89,7 @@ export default class extends React.Component<Props, State> {
       ));
     }
     if (proposals && this.props.role === "proposals") {
-      nodes = proposals.map((node: any) => (
+      nodes = proposals.map((node: N.Proposal) => (
         <ProposalRow key={node.account_id} node={node} />
       ));
     }
