@@ -20,6 +20,13 @@ export interface NodeInfo {
 export interface NodeStats {
   validatorsCount: number;
   onlineNodesCount: number;
+  proposalsCount: number;
+}
+
+export interface Proposal {
+  account_id: string;
+  public_key: string;
+  stake: string;
 }
 
 export default class NodesApi extends ExplorerApi {
@@ -72,10 +79,11 @@ export default class NodesApi extends ExplorerApi {
           `SELECT COUNT(*) as onlineNodesCount FROM nodes
           WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
         ]).then((it: any) => it[0].onlineNodesCount),
-        this.queryValidators(),
+        this.queryNodeRpc(),
       ]);
-      const validatorsCount = validators.length;
-      return { onlineNodesCount, validatorsCount } as NodeStats;
+      const validatorsCount = validators.current_validators.length;
+      const proposalsCount = validators.current_proposals.length;
+      return { onlineNodesCount, validatorsCount, proposalsCount } as NodeStats;
     } catch (error) {
       console.error("Nodes.getOnlineNodesStats failed to fetch data due to:");
       console.error(error);
@@ -83,8 +91,7 @@ export default class NodesApi extends ExplorerApi {
     }
   }
 
-  async queryValidators(): Promise<any> {
-    const validators = await this.call<any>("nearcore-validators");
-    return validators.current_validators;
+  async queryNodeRpc(): Promise<any> {
+    return await this.call<any>("nearcore-validators");
   }
 }

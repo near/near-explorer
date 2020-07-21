@@ -80,7 +80,46 @@ export default class extends React.Component<Props, State> {
               </Col>
             </a>
           </Link>
+          <Link href="/nodes/[role]" as={`/nodes/proposals`}>
+            <a
+              className={`node-link ${
+                role === "proposals" ? `node-selected` : ""
+              }`}
+              id="proposal-node"
+            >
+              <Col className="node-selector align-self-center">
+                {nodeStats
+                  ? `${nodeStats.proposalsCount} Proposal-nodes`
+                  : `- Proposal-nodes`}
+              </Col>
+            </a>
+          </Link>
         </Row>
+        <Row className="node-icon">
+          <p>
+            <img
+              src={"/static/images/icon-m-node-online.svg"}
+              style={{ width: "15px" }}
+            />
+            current validaing or online nodes
+            <img
+              src={"/static/images/icon-m-node-kickout.svg"}
+              style={{ width: "15px" }}
+            />
+            next epoch kickout nodes
+            <img
+              src={"/static/images/icon-m-node-new.svg"}
+              style={{ width: "15px" }}
+            />
+            next epoch new validating nodes
+            <img
+              src={"/static/images/icon-m-node-proposal.svg"}
+              style={{ width: "15px" }}
+            />
+            current proposal nodes
+          </p>
+        </Row>
+
         <style jsx global>{`
           .node-selector {
             font-size: 12px;
@@ -109,6 +148,10 @@ export default class extends React.Component<Props, State> {
 
           .node-selected {
             border: 2px solid #0066ff;
+          }
+
+          .node-icon {
+            margin: 10px;
           }
         `}</style>
       </>

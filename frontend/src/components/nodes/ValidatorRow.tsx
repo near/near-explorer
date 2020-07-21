@@ -47,10 +47,22 @@ export default class extends React.Component<Props, State> {
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
-              <img
-                src={"/static/images/icon-m-node-online.svg"}
-                style={{ width: "15px" }}
-              />
+              {node.new ? (
+                <img
+                  src={"/static/images/icon-m-node-new.svg"}
+                  style={{ width: "15px" }}
+                />
+              ) : node.removed ? (
+                <img
+                  src={"/static/images/icon-m-node-kickout.svg"}
+                  style={{ width: "15px" }}
+                />
+              ) : (
+                <img
+                  src={"/static/images/icon-m-node-online.svg"}
+                  style={{ width: "15px" }}
+                />
+              )}
             </Col>
             <Col md="7" xs="7">
               <Row>

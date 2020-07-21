@@ -1,9 +1,11 @@
+import { validators as VA } from "near-api-js";
 import React from "react";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
 import NodeRow from "./NodeRow";
 import ValidatorRow from "./ValidatorRow";
+import ProposalRow from "./ProposalRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 interface State {
   onlineNodes?: N.NodeInfo[];
   validators?: any;
+  proposals?: any;
 }
 export default class extends React.Component<Props, State> {
   state: State = {};
@@ -21,14 +24,43 @@ export default class extends React.Component<Props, State> {
     return await new NodesApi().getOnlineNodes();
   };
 
+  signNewValidators = (newValidators: any) => {
+    for (let i = 0; i < newValidators.length; i++) {
+      newValidators[i].new = true;
+    }
+    return newValidators;
+  };
+
+  signRemovedValidators = (removedValidators: any) => {
+    for (let i = 0; i < removedValidators.length; i++) {
+      removedValidators[i].removed = true;
+    }
+    return removedValidators;
+  };
+
   getNodes = async () => {
     if (this.props.role === "validators") {
-      let validators = await new NodesApi().queryValidators();
-      this.setState({ validators });
+      let nodes = await new NodesApi().queryNodeRpc();
+      let currentValidators = nodes.current_validators;
+      let nextValidators = nodes.next_validators;
+      let diffEpochValidators = VA.diffEpochValidators(
+        currentValidators,
+        nextValidators
+      );
+      let newValidators = this.signNewValidators(
+        diffEpochValidators.newValidators
+      );
+      this.signRemovedValidators(diffEpochValidators.removedValidators);
+      currentValidators = currentValidators.concat(newValidators);
+      this.setState({ validators: currentValidators });
     }
     if (this.props.role === "online-nodes") {
       let onlineNodes = await this.getNonValidatingNodes();
       this.setState({ onlineNodes });
+    }
+    if (this.props.role === "proposals") {
+      let proposals = (await new NodesApi().queryNodeRpc()).current_proposals;
+      this.setState({ proposals });
     }
   };
 
@@ -43,7 +75,7 @@ export default class extends React.Component<Props, State> {
   }
 
   render() {
-    const { validators, onlineNodes } = this.state;
+    const { validators, onlineNodes, proposals } = this.state;
     let nodes;
     if (validators && this.props.role === "validators") {
       nodes = validators.map((node: any) => (
@@ -53,6 +85,11 @@ export default class extends React.Component<Props, State> {
     if (onlineNodes && this.props.role === "online-nodes") {
       nodes = onlineNodes.map((node: N.NodeInfo) => (
         <NodeRow key={node.nodeId} node={node} />
+      ));
+    }
+    if (proposals && this.props.role === "proposals") {
+      nodes = proposals.map((node: any) => (
+        <ProposalRow key={node.account_id} node={node} />
       ));
     }
     if (!nodes) {
