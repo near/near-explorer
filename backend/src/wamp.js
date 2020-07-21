@@ -43,6 +43,13 @@ wampHandlers["select"] = async ([query, replacements]) => {
   });
 };
 
+wampHandlers["select-postgres"] = async ([query, replacements]) => {
+  return await models.sequelizePostgres.query(query, {
+    replacements,
+    type: models.Sequelize.QueryTypes.SELECT,
+  });
+};
+
 wampHandlers["nearcore-query"] = async ([path, data]) => {
   return await nearRpc.query(path, data);
 };

@@ -8,6 +8,8 @@ const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/database")[env];
 const db = {};
 
+const postgresConfig = require(__dirname + "/../config/database")["postgres"];
+
 const sequelize = new Sequelize(
   config.database,
   config.username,
@@ -15,6 +17,19 @@ const sequelize = new Sequelize(
   {
     ...config,
     logging: false,
+  }
+);
+
+const sequelizePostgres = new Sequelize(
+  postgresConfig.database,
+  postgresConfig.username,
+  postgresConfig.password,
+  {
+    host: postgresConfig.host,
+    dialect: postgresConfig.dialect,
+    dialectOptions: {
+      ssl: true,
+    },
   }
 );
 
@@ -55,6 +70,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.sequelizeReadOnly = sequelizeReadOnly;
 db.Sequelize = Sequelize;
+db.sequelizePostgres = sequelizePostgres;
 
 db.resetDatabase = function resetDatabase({ saveBackup }) {
   if (config.dialect !== "sqlite") {
