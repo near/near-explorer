@@ -101,7 +101,7 @@ export default class extends React.Component<Props, State> {
               src={"/static/images/icon-m-node-online.svg"}
               style={{ width: "15px" }}
             />{" "}
-            current validaing or online nodes
+            current validating or online nodes
           </p>
           <p style={{ marginLeft: "10px" }}>
             <img
