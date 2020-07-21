@@ -1,4 +1,4 @@
-import { validators as VA } from "near-api-js";
+import nearApi from "near-api-js";
 import React from "react";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
