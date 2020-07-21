@@ -26,7 +26,7 @@ export interface Validating {
   stake: string;
   new?: boolean;
   removed?: boolean;
-  shards?: [];
+  shards: [];
 }
 
 export interface NodeStats {

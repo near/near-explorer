@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import { RpcConsumer } from "../utils/RpcProvider";
@@ -28,10 +28,15 @@ export default class extends React.PureComponent<Props> {
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
-              <img
-                src={"/static/images/icon-m-node-online.svg"}
-                style={{ width: "15px" }}
-              />
+              <OverlayTrigger
+                placement={"right"}
+                overlay={<Tooltip id="nodes">online nodes</Tooltip>}
+              >
+                <img
+                  src={"/static/images/icon-m-node-online.svg"}
+                  style={{ width: "15px" }}
+                />
+              </OverlayTrigger>
             </Col>
             <Col md="7" xs="7">
               <Row>

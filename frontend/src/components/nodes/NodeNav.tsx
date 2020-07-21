@@ -52,7 +52,7 @@ export default class extends React.Component<Props, State> {
     return (
       <>
         <Row>
-          <Link href="/nodes/[role]" as={`/nodes/validators`}>
+          <Link href="/nodes/validators">
             <a
               className={`node-link ${
                 role === "validators" ? `node-selected` : ""
@@ -66,12 +66,12 @@ export default class extends React.Component<Props, State> {
               </Col>
             </a>
           </Link>
-          <Link href="/nodes/[role]" as={`/nodes/online-nodes`}>
+          <Link href="/nodes/online-nodes">
             <a
               className={`node-link ${
                 role === "online-nodes" ? `node-selected` : ""
               }`}
-              id="non-validator-node"
+              id="online-node"
             >
               <Col className="node-selector align-self-center">
                 {nodeStats
@@ -80,7 +80,7 @@ export default class extends React.Component<Props, State> {
               </Col>
             </a>
           </Link>
-          <Link href="/nodes/[role]" as={`/nodes/proposals`}>
+          <Link href="/nodes/proposals">
             <a
               className={`node-link ${
                 role === "proposals" ? `node-selected` : ""
@@ -95,37 +95,6 @@ export default class extends React.Component<Props, State> {
             </a>
           </Link>
         </Row>
-        <Row className="node-icon">
-          <p>
-            <img
-              src={"/static/images/icon-m-node-online.svg"}
-              style={{ width: "15px" }}
-            />{" "}
-            current validating or online nodes
-          </p>
-          <p style={{ marginLeft: "10px" }}>
-            <img
-              src={"/static/images/icon-m-node-kickout.svg"}
-              style={{ width: "15px" }}
-            />{" "}
-            next epoch kickout nodes
-          </p>
-          <p style={{ marginLeft: "10px" }}>
-            <img
-              src={"/static/images/icon-m-node-new.svg"}
-              style={{ width: "15px" }}
-            />{" "}
-            next epoch new validating nodes
-          </p>
-          <p style={{ marginLeft: "10px" }}>
-            <img
-              src={"/static/images/icon-m-node-proposal.svg"}
-              style={{ width: "15px" }}
-            />{" "}
-            current proposal nodes
-          </p>
-        </Row>
-
         <style jsx global>{`
           .node-selector {
             font-size: 12px;

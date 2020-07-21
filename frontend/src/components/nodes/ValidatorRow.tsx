@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { RpcConsumer } from "../utils/RpcProvider";
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
@@ -48,20 +48,43 @@ export default class extends React.Component<Props, State> {
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
               {node.new ? (
-                <img
-                  src={"/static/images/icon-m-node-new.svg"}
-                  style={{ width: "15px" }}
-                />
+                <OverlayTrigger
+                  placement={"right"}
+                  overlay={
+                    <Tooltip id="new">
+                      next epoch upcoming validating nodes
+                    </Tooltip>
+                  }
+                >
+                  <img
+                    src={"/static/images/icon-m-node-new.svg"}
+                    style={{ width: "15px" }}
+                  />
+                </OverlayTrigger>
               ) : node.removed ? (
-                <img
-                  src={"/static/images/icon-m-node-kickout.svg"}
-                  style={{ width: "15px" }}
-                />
+                <OverlayTrigger
+                  placement={"right"}
+                  overlay={
+                    <Tooltip id="kickout">next epoch kick out nodes</Tooltip>
+                  }
+                >
+                  <img
+                    src={"/static/images/icon-m-node-kickout.svg"}
+                    style={{ width: "15px" }}
+                  />
+                </OverlayTrigger>
               ) : (
-                <img
-                  src={"/static/images/icon-m-node-online.svg"}
-                  style={{ width: "15px" }}
-                />
+                <OverlayTrigger
+                  placement={"right"}
+                  overlay={
+                    <Tooltip id="current">current validating nodes</Tooltip>
+                  }
+                >
+                  <img
+                    src={"/static/images/icon-m-node-online.svg"}
+                    style={{ width: "15px" }}
+                  />
+                </OverlayTrigger>
               )}
             </Col>
             <Col md="7" xs="7">

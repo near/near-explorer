@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import Balance from "../utils/Balance";
@@ -14,35 +14,45 @@ export default class extends React.PureComponent<Props> {
     return (
       <Row className="node-row mx-0">
         <Col md="auto" xs="1" className="pr-0">
-          <p>
-            <img
-              src={"/static/images/icon-m-node-proposal.svg"}
-              style={{ width: "15px", verticalAlign: "text-top" }}
-            />
-          </p>
+          <OverlayTrigger
+            placement={"right"}
+            overlay={
+              <Tooltip id="nodes">node staked to be new validating one</Tooltip>
+            }
+          >
+            <p>
+              <img
+                src={"/static/images/icon-m-node-proposal.svg"}
+                style={{ width: "15px", verticalAlign: "text-top" }}
+              />
+            </p>
+          </OverlayTrigger>
         </Col>
         <Col md="7" xs="7">
           <Row>
             <Col className="node-row-title">
-              @{node.account_id}
-              {"  "}
-              <span>
-                Staking {node.stake ? <Balance amount={node.stake} /> : "-"}
-              </span>
+              <p>
+                @{node.account_id}
+                {"  "}
+                <span>
+                  Staking {node.stake ? <Balance amount={node.stake} /> : "-"}
+                </span>
+              </p>
             </Col>
           </Row>
         </Col>
         <Col md="3" xs="3" className="ml-auto text-right">
           <Row>
-            <Col className="node-row-txid" title={node.public_key}>
-              {node.public_key.substring(8, 20)}...
-            </Col>
+            <p>
+              <Col className="node-row-txid" title={node.public_key}>
+                {node.public_key.substring(8, 20)}...
+              </Col>
+            </p>
           </Row>
         </Col>
         <style jsx global>{`
           .node-row {
             padding-top: 10px;
-            padding-bottom: 10px;
             border-top: solid 2px #f8f8f8;
           }
 

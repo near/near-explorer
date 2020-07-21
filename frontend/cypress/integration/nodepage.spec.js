@@ -11,8 +11,6 @@ context("Dashboard", () => {
     cy.get("#node-page").click();
     cy.url().should("include", "/nodes/validators");
     cy.get("#validator-node").find(".node-selector").contains("Validating");
-    cy.get("#non-validator-node")
-      .find(".node-selector")
-      .contains("Online-nodes");
+    cy.get("#online-node").find(".node-selector").contains("Online-nodes");
   });
 });
