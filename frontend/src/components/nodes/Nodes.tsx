@@ -43,15 +43,12 @@ export default class extends React.Component<Props, State> {
       let nodes = await new NodesApi().queryNodeRpc();
       let currentValidators = nodes.current_validators;
       let nextValidators = nodes.next_validators;
-      let diffEpochValidators = VA.diffEpochValidators(
+      const { newValidators, removedValidators } = nearApi.validators.diffEpochValidators(
         currentValidators,
         nextValidators
       );
-      console.log(diffEpochValidators);
-      let newValidators = this.signNewValidators(
-        diffEpochValidators.newValidators
-      );
-      this.signRemovedValidators(diffEpochValidators.removedValidators);
+      this.signNewValidators(newValidators);
+      this.signRemovedValidators(removedValidators);
       currentValidators = currentValidators.concat(newValidators);
       this.setState({ validators: currentValidators });
     }
