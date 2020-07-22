@@ -75,14 +75,30 @@ export default class extends React.Component<Props> {
       nonValidatingNodes: [],
     };
 
-    const nodesApi = new NodesApi();
-
     let [validators, nonValidators] = await Promise.all([
-      nodesApi.getNodes(2000, "validators"),
-      nodesApi.getNodes(2000, "non-validators"),
+      new NodesApi().queryNodeRpc(),
+      new NodesApi().getOnlineNodes(),
     ]);
 
-    item.validatingNodes = validators;
+    let currentValidators = validators.current_validators;
+    for (let i = 0; i < currentValidators.length; i++) {
+      let nodeInfo = await new NodesApi().getValidatingInfo(
+        currentValidators[i].account_id
+      );
+      if (nodeInfo) {
+        currentValidators[i].name = nodeInfo.accountId;
+        currentValidators[i].isValidator = nodeInfo.isValidator;
+        currentValidators[i].peerCount = nodeInfo.peerCount;
+        currentValidators[i].agentName = nodeInfo.agentName;
+        currentValidators[i].version = nodeInfo.agentVersion;
+        currentValidators[i].build = nodeInfo.agentBuild;
+        currentValidators[i].nodeId = nodeInfo.nodeId;
+        currentValidators[i].blockNr = nodeInfo.lastHeight;
+        currentValidators[i].lastSeen = nodeInfo.lastSeen;
+      }
+    }
+
+    item.validatingNodes = validators.current_validators;
     item.nonValidatingNodes = nonValidators;
 
     finalData.push(item);
@@ -189,17 +205,20 @@ class NodesMap extends React.Component<InnerProps, State> {
       bubble.latitude = geoData[index].lat;
       bubble.longitude = geoData[index].lon;
       bubble.location = geoData[index].city;
-      bubble.name = element.accountId;
-      bubble.isValidator = element.isValidator;
-      bubble.peerCount = element.peerCount;
-      bubble.agentName = element.agentName;
-      bubble.version = element.agentVersion;
-      bubble.build = element.agentBuild;
-      bubble.nodeId = element.nodeId;
-      bubble.blockNr = element.lastHeight;
-      bubble.lastSeen = element.lastSeen;
+      if (element.nodeId) {
+        bubble.name = element.accountId;
+        bubble.isValidator = element.isValidator;
+        bubble.peerCount = element.peerCount;
+        bubble.agentName = element.agentName;
+        bubble.version = element.agentVersion;
+        bubble.build = element.agentBuild;
+        bubble.nodeId = element.nodeId;
+        bubble.blockNr = element.lastHeight;
+        bubble.lastSeen = element.lastSeen;
+      }
+
       bubble.radius = 4;
-      bubble.fillKey = element.isValidator
+      bubble.fillKey = element.stake
         ? "validatorBubbleFill"
         : "nonValidatorBubbleFill";
 
@@ -245,9 +264,12 @@ class NodesMap extends React.Component<InnerProps, State> {
     // @ts-ignore
     lodash.forEach(groupedNodes, (value, key) => {
       // value is unused but necessary, without it function gets weird behaviour
-      groupedNodes[key] = lodash.groupBy(groupedNodes[key], (item) => {
-        return item.longitude;
-      });
+      groupedNodes[key] = lodash.groupBy(
+        groupedNodes[key],
+        (item: { longitude: any }) => {
+          return item.longitude;
+        }
+      );
     });
 
     const finalArray: any[] = [];

@@ -78,7 +78,7 @@ export default class NodesApi extends ExplorerApi {
         },
       ]).then((it) => it[0]);
     } catch (error) {
-      console.error("Nodes.getNodes failed to fetch data due to:");
+      console.error("Nodes.nodeInfo failed to fetch data due to:");
       console.error(error);
       throw error;
     }
