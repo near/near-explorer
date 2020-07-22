@@ -271,7 +271,8 @@ export default class Datamap extends React.Component<Props> {
               latLng = map.latLngToXY(datum[0].latitude, datum[0].longitude);
             }
             if (
-              !d3.selectAll(".datamaps-hoverover").classed(".clusterVisible")
+              !d3.selectAll(".datamaps-hoverover").classed(".clusterVisible") &&
+              latLng
             ) {
               d3.selectAll(".datamaps-hoverover")
                 .style("display", "block")

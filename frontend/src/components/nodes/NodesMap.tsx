@@ -10,22 +10,11 @@ import Countdown from "react-countdown";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
-import autoRefreshHandler from "../utils/autoRefreshHandler";
-import { OuterProps } from "../accounts/Accounts";
-
 const Datamap = dynamic(() => import("./DatamapsExtension"), { ssr: false });
 
 const countdownRenderer = ({ seconds }: any) => {
   return <span className="countdownText">{seconds}s</span>;
 };
-
-interface Props extends OuterProps {
-  role: string;
-}
-
-interface InnerProps {
-  items: IMapData[];
-}
 
 interface IBubble {
   latitude: string;
@@ -44,14 +33,6 @@ interface IBubble {
   location: string;
 }
 
-interface State {
-  nodesData: IBubble[];
-  nodesType: string;
-  newNodes: IBubble[];
-  removedNodes: IBubble[];
-  nodeClusters: any[];
-}
-
 interface IGeo {
   lat: string;
   lon: string;
@@ -63,30 +44,41 @@ export interface IMapData {
   nonValidatingNodes: N.NodeInfo[];
 }
 
-export default class extends React.Component<Props> {
-  static defaultProps = {
-    count: 15,
+interface State {
+  nodesData: IBubble[];
+  nodesType: string;
+  newNodes: IBubble[];
+  removedNodes: IBubble[];
+  nodeClusters: [];
+  currentValidators?: [];
+  onlineNodes?: [];
+}
+
+export default class extends React.Component<State> {
+  state: State = {
+    nodesData: [],
+    nodesType: "online-nodes",
+    newNodes: [],
+    removedNodes: [],
+    nodeClusters: [],
   };
 
-  async getDataForMap() {
-    const finalData: IMapData[] = [];
-    const item: IMapData = {
-      validatingNodes: [],
-      nonValidatingNodes: [],
-    };
+  componentDidMount() {
+    this.fetchGeo();
+  }
 
-    let [validators, nonValidators] = await Promise.all([
+  getDataForMap = async () => {
+    let [validatorList, onlineNodes] = await Promise.all([
       new NodesApi().queryNodeRpc(),
       new NodesApi().getOnlineNodes(),
     ]);
 
-    let currentValidators = validators.current_validators;
+    let currentValidators = validatorList.current_validators;
     for (let i = 0; i < currentValidators.length; i++) {
       let nodeInfo = await new NodesApi().getValidatingInfo(
         currentValidators[i].account_id
       );
       if (nodeInfo) {
-        currentValidators[i].name = nodeInfo.accountId;
         currentValidators[i].isValidator = nodeInfo.isValidator;
         currentValidators[i].peerCount = nodeInfo.peerCount;
         currentValidators[i].agentName = nodeInfo.agentName;
@@ -95,138 +87,81 @@ export default class extends React.Component<Props> {
         currentValidators[i].nodeId = nodeInfo.nodeId;
         currentValidators[i].blockNr = nodeInfo.lastHeight;
         currentValidators[i].lastSeen = nodeInfo.lastSeen;
+        currentValidators[i].ipAddress = nodeInfo.ipAddress;
+        currentValidators[i].accountId = nodeInfo.accountId;
       }
     }
 
-    item.validatingNodes = validators.current_validators;
-    item.nonValidatingNodes = nonValidators;
-
-    finalData.push(item);
-
-    return finalData;
-  }
-
-  fetchNodes = async () => {
-    return await this.getDataForMap();
+    this.setState({ currentValidators, onlineNodes });
   };
 
-  componentDidUpdate(prevProps: any) {
-    if (this.props.role !== prevProps.role) {
-      this.autoRefreshNodes = autoRefreshHandler(NodesMap, this.config);
-    }
-  }
-
-  config = {
-    fetchDataFn: this.fetchNodes,
-    count: this.props.count,
-    category: "Node",
-  };
-
-  autoRefreshNodes = autoRefreshHandler(NodesMap, this.config);
-
-  render() {
-    return <this.autoRefreshNodes />;
-  }
-}
-
-class NodesMap extends React.Component<InnerProps, State> {
-  constructor(props: InnerProps) {
-    super(props);
-    this.state = {
-      nodesData: [],
-      nodesType: "validators",
-      newNodes: [],
-      removedNodes: [],
-      nodeClusters: [],
-    };
-  }
-
-  async componentDidUpdate(prevProps: any) {
-    if (
-      prevProps.items[0].validatingNodes !==
-        this.props.items[0].validatingNodes ||
-      prevProps.items[0].nonValidatingNodes !==
-        this.props.items[0].nonValidatingNodes
-    ) {
-      this.setState(
-        {
-          newNodes: [],
-          removedNodes: [],
-        },
-        async () => await this.fetchGeo()
-      );
-    }
-  }
-
-  async componentDidMount() {
-    await this.fetchGeo();
-  }
-
-  async fetchGeo() {
+  fetchGeo = async () => {
+    await this.getDataForMap();
     const nodes =
       this.state.nodesType === "validators"
-        ? this.props.items[0].validatingNodes
-        : this.props.items[0].nonValidatingNodes;
-    const IPsArray = nodes.map((item) => item.ipAddress);
+        ? this.state.currentValidators
+        : this.state.onlineNodes;
+    if (nodes) {
+      const IPsArray = nodes.map((node: any) => node.ipAddress);
+      const url =
+        "http://ip-api.com/batch?fields=status,message,country,city,lat,lon,timezone,query";
+      const tempGeoData = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(IPsArray),
+      });
+      const geoData: IGeo[] = await tempGeoData.json();
+      const bubbles: IBubble[] = nodes.map((element: any, index: number) => {
+        const bubble: IBubble = {
+          latitude: "",
+          longitude: "",
+          name: "",
+          isValidator: 0,
+          peerCount: "",
+          radius: 0,
+          fillKey: "",
+          agentName: "",
+          version: "",
+          build: "",
+          nodeId: "",
+          blockNr: 0,
+          lastSeen: 0,
+          location: "",
+        };
 
-    const url =
-      "http://ip-api.com/batch?fields=status,message,country,city,lat,lon,timezone,query";
-    const tempGeoData = await fetch(url, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(IPsArray),
-    });
-    const geoData: IGeo[] = await tempGeoData.json();
-    const bubbles: IBubble[] = nodes.map((element: any, index: number) => {
-      const bubble: IBubble = {
-        latitude: "",
-        longitude: "",
-        name: "",
-        isValidator: 0,
-        peerCount: "",
-        radius: 0,
-        fillKey: "",
-        agentName: "",
-        version: "",
-        build: "",
-        nodeId: "",
-        blockNr: 0,
-        lastSeen: 0,
-        location: "",
-      };
+        bubble.latitude = geoData[index].lat;
+        bubble.longitude = geoData[index].lon;
+        bubble.location = geoData[index].city;
+        if (element.nodeId) {
+          bubble.name = element.accountId;
+          bubble.isValidator = element.isValidator;
+          bubble.peerCount = element.peerCount;
+          bubble.agentName = element.agentName;
+          bubble.version = element.agentVersion;
+          bubble.build = element.agentBuild;
+          bubble.nodeId = element.nodeId;
+          bubble.blockNr = element.lastHeight;
+          bubble.lastSeen = element.lastSeen;
+        }
 
-      bubble.latitude = geoData[index].lat;
-      bubble.longitude = geoData[index].lon;
-      bubble.location = geoData[index].city;
-      if (element.nodeId) {
-        bubble.name = element.accountId;
-        bubble.isValidator = element.isValidator;
-        bubble.peerCount = element.peerCount;
-        bubble.agentName = element.agentName;
-        bubble.version = element.agentVersion;
-        bubble.build = element.agentBuild;
-        bubble.nodeId = element.nodeId;
-        bubble.blockNr = element.lastHeight;
-        bubble.lastSeen = element.lastSeen;
-      }
+        bubble.radius = 4;
+        bubble.fillKey = element.isValidator
+          ? "validatorBubbleFill"
+          : "nonValidatorBubbleFill";
 
-      bubble.radius = 4;
-      bubble.fillKey = element.stake
-        ? "validatorBubbleFill"
-        : "nonValidatorBubbleFill";
+        return bubble;
+      });
 
-      return bubble;
-    });
-
-    this.saveData(bubbles);
-  }
+      this.saveData(bubbles);
+    }
+  };
 
   saveData(newNodes: IBubble[]) {
     const oldNodes = this.state.nodesData;
@@ -293,10 +228,10 @@ class NodesMap extends React.Component<InnerProps, State> {
     );
   }
 
-  changeToNonValidators() {
+  changeToOnlineNodes() {
     this.setState(
       {
-        nodesType: "non-validators",
+        nodesType: "online-nodes",
         newNodes: [],
       },
       () => this.fetchGeo()
@@ -455,6 +390,7 @@ class NodesMap extends React.Component<InnerProps, State> {
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
+          {map}
           <div className="refreshCountdown">
             Next update
             <Countdown
@@ -494,16 +430,18 @@ class NodesMap extends React.Component<InnerProps, State> {
               </div>
               <div className="optionText">Validating nodes</div>
               <div className="counter">
-                {this.props.items[0].validatingNodes.length}
+                {this.state.currentValidators
+                  ? this.state.currentValidators.length
+                  : "-"}
               </div>
             </div>
             <div
               className={`option nonValidator ${
-                this.state.nodesType === "non-validators"
+                this.state.nodesType === "online-nodes"
                   ? " active activeNonValidator"
                   : ""
               }`}
-              onClick={() => this.changeToNonValidators()}
+              onClick={() => this.changeToOnlineNodes()}
             >
               <div
                 className={`${
@@ -517,13 +455,12 @@ class NodesMap extends React.Component<InnerProps, State> {
                   src="/static/images/icon-checkmark.svg"
                 />
               </div>
-              <div className="optionText">Non-validating nodes</div>
+              <div className="optionText">Online nodes</div>
               <div className="counter">
-                {this.props.items[0].nonValidatingNodes.length}
+                {this.state.onlineNodes ? this.state.onlineNodes.length : "-"}
               </div>
             </div>
           </div>
-          {map}
         </div>
         <style jsx global>
           {`
