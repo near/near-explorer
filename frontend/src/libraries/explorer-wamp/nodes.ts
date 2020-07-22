@@ -50,7 +50,7 @@ export default class NodesApi extends ExplorerApi {
           agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
           peer_count as peerCount, is_validator as isValidator, status
               FROM nodes
-             WHERE last_seen > (strftime('%s','now') - 60) * 1000
+              WHERE last_seen > (strftime('%s','now') - 60) * 1000
               ORDER BY is_validator ASC, node_id DESC
           `,
       ]);
@@ -89,7 +89,7 @@ export default class NodesApi extends ExplorerApi {
       const [onlineNodesCount, validators] = await Promise.all([
         this.call("select", [
           `SELECT COUNT(*) as onlineNodesCount FROM nodes
-          WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
+            WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
         ]).then((it: any) => it[0].onlineNodesCount),
         this.queryNodeRpc(),
       ]);

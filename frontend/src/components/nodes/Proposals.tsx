@@ -23,15 +23,15 @@ export default class extends React.Component<State> {
 
   render() {
     const { proposals } = this.state;
-    let nodes;
-    if (proposals) {
-      nodes = proposals.map((node: N.Proposal) => (
-        <ProposalRow key={node.account_id} node={node} />
-      ));
-    }
-    if (!nodes) {
+    if (!proposals) {
       return <PaginationSpinner hidden={false} />;
     }
-    return <>{nodes}</>;
+    return (
+      <>
+        {proposals.map((node: N.Proposal) => (
+          <ProposalRow key={node.account_id} node={node} />
+        ))}
+      </>
+    );
   }
 }

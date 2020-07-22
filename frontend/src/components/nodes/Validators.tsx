@@ -49,15 +49,15 @@ export default class extends React.Component<State> {
 
   render() {
     const { validators } = this.state;
-    let nodes;
-    if (validators) {
-      nodes = validators.map((node: N.Validating) => (
-        <ValidatorRow key={node.account_id} node={node} />
-      ));
-    }
-    if (!nodes) {
+    if (!validators) {
       return <PaginationSpinner hidden={false} />;
     }
-    return <>{nodes}</>;
+    return (
+      <>
+        {validators.map((node: N.Proposal) => (
+          <ValidatorRow key={node.account_id} node={node} />
+        ))}
+      </>
+    );
   }
 }
