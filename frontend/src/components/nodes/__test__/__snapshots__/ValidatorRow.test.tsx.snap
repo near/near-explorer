@@ -13,7 +13,7 @@ exports[`<ValidatorRow /> renders 1`] = `
       onFocus={[Function]}
       onMouseOut={[Function]}
       onMouseOver={[Function]}
-      src="/static/images/icon-m-node-online.svg"
+      src="/static/images/icon-m-node-validating.svg"
       style={
         Object {
           "width": "15px",

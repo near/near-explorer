@@ -8,7 +8,9 @@ import React from "react";
 
 import NodesApi from "../../libraries/explorer-wamp/nodes";
 
-const Datamap = dynamic(() => import("./DatamapsExtension"), { ssr: false });
+const Datamap = dynamic(() => import("../utils/DatamapsExtension"), {
+  ssr: false,
+});
 
 interface IBubble {
   latitude: string;
