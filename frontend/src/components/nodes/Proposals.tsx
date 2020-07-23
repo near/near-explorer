@@ -2,18 +2,19 @@ import React from "react";
 
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
-import NodeRow from "./NodeRow";
+import ProposalRow from "./ProposalRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 interface State {
-  onlineNodes?: N.NodeInfo[];
+  proposals?: N.Proposal[];
 }
+
 export default class extends React.Component<State> {
   state: State = {};
 
   getNodes = async () => {
-    let onlineNodes = await new NodesApi().getOnlineNodes();
-    this.setState({ onlineNodes });
+    let proposals = (await new NodesApi().queryNodeRpc()).current_proposals;
+    this.setState({ proposals });
   };
 
   componentDidMount() {
@@ -21,16 +22,16 @@ export default class extends React.Component<State> {
   }
 
   render() {
-    const { onlineNodes } = this.state;
-    let nodes;
-    if (onlineNodes) {
-      nodes = onlineNodes.map((node: N.NodeInfo) => (
-        <NodeRow key={node.nodeId} node={node} />
-      ));
-    }
-    if (!nodes) {
+    const { proposals } = this.state;
+    if (!proposals) {
       return <PaginationSpinner hidden={false} />;
     }
-    return <>{nodes}</>;
+    return (
+      <>
+        {proposals.map((node: N.Proposal) => (
+          <ProposalRow key={node.account_id} node={node} />
+        ))}
+      </>
+    );
   }
 }

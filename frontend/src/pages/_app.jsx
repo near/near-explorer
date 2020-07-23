@@ -2,8 +2,6 @@ import App from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 
-import { Container } from "react-bootstrap";
-
 import { getNearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
@@ -62,9 +60,7 @@ export default class extends App {
             <div className="app-wrapper">
               <Header />
               <div className="page">
-                <Container>
-                  <Component {...pageProps} />
-                </Container>
+                <Component {...pageProps} />
               </div>
             </div>
             <Footer />

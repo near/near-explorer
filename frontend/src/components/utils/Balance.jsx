@@ -1,7 +1,7 @@
 /// Copied from near-wallet project:
 /// https://github.com/nearprotocol/near-wallet/blob/41cb65246134308dd553b532dfb314b45b38b65c/src/components/common/Balance.js
 
-import { utils } from "nearlib";
+import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const Balance = ({ amount }) => {

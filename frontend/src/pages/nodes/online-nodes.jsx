@@ -7,24 +7,15 @@ import Nodes from "../../components/nodes/Nodes";
 import Content from "../../components/utils/Content";
 
 export default class extends React.Component {
-  static async getInitialProps({ query: { role } }) {
-    return { role };
-  }
-  componentDidUpdate(prevProps) {
-    if (this.props.role !== prevProps.role) {
-      this.forceUpdate();
-    }
-  }
-
   render() {
     return (
       <>
         <Head>
           <title>Near Explorer | Nodes</title>
         </Head>
-        <Content title={<h1>Nodes</h1>}>
-          <NodeNav role={this.props.role} />
-          <Nodes role={this.props.role} />
+        <Content title={<h1>Online Nodes</h1>}>
+          <NodeNav role={"online-nodes"} />
+          <Nodes />
         </Content>
       </>
     );

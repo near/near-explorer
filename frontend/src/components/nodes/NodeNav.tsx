@@ -52,7 +52,7 @@ export default class extends React.Component<Props, State> {
     return (
       <>
         <Row>
-          <Link href="/nodes/[role]" as={`/nodes/validators`}>
+          <Link href="/nodes/validators">
             <a
               className={`node-link ${
                 role === "validators" ? `node-selected` : ""
@@ -66,18 +66,37 @@ export default class extends React.Component<Props, State> {
               </Col>
             </a>
           </Link>
-          <Link href="/nodes/[role]" as={`/nodes/non-validators`}>
+          <Link href="/nodes/online-nodes">
             <a
               className={`node-link ${
-                role === "non-validators" ? `node-selected` : ""
+                role === "online-nodes" ? `node-selected` : ""
               }`}
-              id="non-validator-node"
+              id="online-node"
             >
               <Col className="node-selector align-self-center">
                 {nodeStats
-                  ? `${nodeStats.nonValidatorsCount}  Non-Validating`
-                  : `- Non-Validating`}
+                  ? `${nodeStats.onlineNodesCount} Online-nodes`
+                  : `- Online-nodes`}
               </Col>
+            </a>
+          </Link>
+          <Link href="/nodes/proposals">
+            <a
+              className={`node-link ${
+                role === "proposals" ? `node-selected` : ""
+              }`}
+              id="proposal-node"
+            >
+              <Col className="node-selector align-self-center">
+                {nodeStats
+                  ? `${nodeStats.proposalsCount} Proposal-nodes`
+                  : `- Proposal-nodes`}
+              </Col>
+            </a>
+          </Link>
+          <Link href="/nodes/map">
+            <a className="node-link">
+              <Col className="node-selector align-self-center">Nodes Map</Col>
             </a>
           </Link>
         </Row>
@@ -109,6 +128,10 @@ export default class extends React.Component<Props, State> {
 
           .node-selected {
             border: 2px solid #0066ff;
+          }
+
+          .node-icon {
+            margin: 10px;
           }
         `}</style>
       </>

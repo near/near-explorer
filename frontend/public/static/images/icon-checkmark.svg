@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Path 2</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="main-view" transform="translate(-546.000000, -217.000000)" stroke="#24272A" stroke-width="2">
+            <g id="Group-6" transform="translate(527.000000, 198.000000)">
+                <g id="Group-4">
+                    <g id="Group-3" transform="translate(14.000000, 14.000000)">
+                        <polyline id="Path-2" points="6.66666667 10 8.66666667 13.3333333 13.3333333 6.66666667"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
