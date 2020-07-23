@@ -33,11 +33,8 @@ export default class Datamap extends React.Component<Props> {
     this.drawMap();
   }
 
-  UNSAFE_componentWillReceiveProps() {
-    this.clear();
-  }
-
   componentDidUpdate() {
+    this.clear();
     this.drawMap();
   }
 
@@ -48,7 +45,7 @@ export default class Datamap extends React.Component<Props> {
     }
   }
 
-  clear() {
+  clear = () => {
     const { container }: any = this.refs;
 
     for (const child of Array.from(container.childNodes)) {
@@ -56,17 +53,17 @@ export default class Datamap extends React.Component<Props> {
     }
 
     delete this.map;
-  }
+  };
 
-  datumHasCoords(datum: any) {
+  datumHasCoords = (datum: any) => {
     return (
       typeof datum !== "undefined" &&
       typeof datum.latitude !== "undefined" &&
       typeof datum.longitude !== "undefined"
     );
-  }
+  };
 
-  drawMap() {
+  drawMap = () => {
     const {
       bubbles,
       bubbleOptions,
@@ -271,7 +268,8 @@ export default class Datamap extends React.Component<Props> {
               latLng = map.latLngToXY(datum[0].latitude, datum[0].longitude);
             }
             if (
-              !d3.selectAll(".datamaps-hoverover").classed(".clusterVisible")
+              !d3.selectAll(".datamaps-hoverover").classed(".clusterVisible") &&
+              latLng
             ) {
               d3.selectAll(".datamaps-hoverover")
                 .style("display", "block")
@@ -350,11 +348,11 @@ export default class Datamap extends React.Component<Props> {
       .attr("ry", 4)
       .attr("opacity", 0)
       .attr("strokeWidth", 2);
-  }
+  };
 
-  resizeMap() {
+  resizeMap = () => {
     this.map.resize();
-  }
+  };
 
   render() {
     const style = {

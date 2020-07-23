@@ -1,11 +1,10 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import { RpcConsumer } from "../utils/RpcProvider";
 
 import Timer from "../utils/Timer";
-import Balance from "../utils/Balance";
 
 interface Props {
   node: N.NodeInfo;
@@ -29,19 +28,20 @@ export default class extends React.PureComponent<Props> {
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
-              <img
-                src={"/static/images/icon-m-node-online.svg"}
-                style={{ width: "15px" }}
-              />
+              <OverlayTrigger
+                placement={"right"}
+                overlay={<Tooltip id="nodes">online nodes</Tooltip>}
+              >
+                <img
+                  src={"/static/images/icon-m-node-online.svg"}
+                  style={{ width: "15px" }}
+                />
+              </OverlayTrigger>
             </Col>
             <Col md="7" xs="7">
               <Row>
                 <Col className="node-row-title">
                   @{node.accountId}
-                  {"   "}
-                  <span>
-                    Staking {node.stake && <Balance amount={node.stake} />}
-                  </span>
                   <span className="node-status">
                     {" "}
                     {this.statusIdentifier.get(node.status)}
@@ -76,18 +76,6 @@ export default class extends React.PureComponent<Props> {
                         style={{ width: "12px" }}
                       />
                       {` ${node.lastHeight}`}
-                    </Col>
-                    <Col>
-                      <img
-                        src="/static/images/icon-storage.svg"
-                        style={{ width: "12px" }}
-                      />
-                      {node.producedBlocks && node.expectedBlocks
-                        ? `${node.producedBlocks}/${node.expectedBlocks} (${(
-                            (node.producedBlocks / node.expectedBlocks) *
-                            100
-                          ).toFixed(3)})%`
-                        : null}
                     </Col>
                   </Row>
                 </Col>
