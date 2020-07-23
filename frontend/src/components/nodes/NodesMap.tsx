@@ -6,15 +6,9 @@ import Link from "next/link";
 
 import React from "react";
 
-import Countdown from "react-countdown";
-
-import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
+import NodesApi from "../../libraries/explorer-wamp/nodes";
 
 const Datamap = dynamic(() => import("./DatamapsExtension"), { ssr: false });
-
-const countdownRenderer = ({ seconds }: any) => {
-  return <span className="countdownText">{seconds}s</span>;
-};
 
 interface IBubble {
   latitude: string;
@@ -39,11 +33,6 @@ interface IGeo {
   city: string;
 }
 
-export interface IMapData {
-  validatingNodes: N.NodeInfo[];
-  nonValidatingNodes: N.NodeInfo[];
-}
-
 interface State {
   nodesData: IBubble[];
   nodesType: string;
@@ -57,7 +46,7 @@ interface State {
 export default class extends React.Component<State> {
   state: State = {
     nodesData: [],
-    nodesType: "online-nodes",
+    nodesType: "validators",
     newNodes: [],
     removedNodes: [],
     nodeClusters: [],
@@ -82,42 +71,55 @@ export default class extends React.Component<State> {
         currentValidators[i].isValidator = nodeInfo.isValidator;
         currentValidators[i].peerCount = nodeInfo.peerCount;
         currentValidators[i].agentName = nodeInfo.agentName;
-        currentValidators[i].version = nodeInfo.agentVersion;
-        currentValidators[i].build = nodeInfo.agentBuild;
+        currentValidators[i].agentVersion = nodeInfo.agentVersion;
+        currentValidators[i].agentBuild = nodeInfo.agentBuild;
         currentValidators[i].nodeId = nodeInfo.nodeId;
-        currentValidators[i].blockNr = nodeInfo.lastHeight;
+        currentValidators[i].lastHeight = nodeInfo.lastHeight;
         currentValidators[i].lastSeen = nodeInfo.lastSeen;
         currentValidators[i].ipAddress = nodeInfo.ipAddress;
         currentValidators[i].accountId = nodeInfo.accountId;
       }
     }
+    currentValidators = currentValidators.filter(
+      (va: any) => va.ipAddress !== undefined
+    );
 
     this.setState({ currentValidators, onlineNodes });
   };
 
   fetchGeo = async () => {
-    await this.getDataForMap();
+    if (!this.state.currentValidators || !this.state.onlineNodes) {
+      await this.getDataForMap();
+    }
     const nodes =
       this.state.nodesType === "validators"
         ? this.state.currentValidators
         : this.state.onlineNodes;
+    const url =
+      "http://ip-api.com/batch?fields=status,message,country,city,lat,lon,timezone,query";
     if (nodes) {
       const IPsArray = nodes.map((node: any) => node.ipAddress);
-      const url =
-        "http://ip-api.com/batch?fields=status,message,country,city,lat,lon,timezone,query";
-      const tempGeoData = await fetch(url, {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify(IPsArray),
-      });
-      const geoData: IGeo[] = await tempGeoData.json();
+      let ipCount = IPsArray.length;
+      let geoData: IGeo[] = [];
+      while (ipCount > 0) {
+        let min = Math.max(ipCount - 50, 0);
+        let ipArrPart = JSON.stringify(IPsArray.slice(min, ipCount));
+        let response = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          cache: "no-cache",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow",
+          referrerPolicy: "no-referrer",
+          body: ipArrPart,
+        });
+        let part = await response.json();
+        geoData = geoData.concat(part);
+        ipCount -= 50;
+      }
       const bubbles: IBubble[] = nodes.map((element: any, index: number) => {
         const bubble: IBubble = {
           latitude: "",
@@ -163,7 +165,7 @@ export default class extends React.Component<State> {
     }
   };
 
-  saveData(newNodes: IBubble[]) {
+  saveData = (newNodes: IBubble[]) => {
     const oldNodes = this.state.nodesData;
     const newAddedNodes: IBubble[] = newNodes.filter(
       this.compareObjectsArrays(oldNodes)
@@ -179,9 +181,9 @@ export default class extends React.Component<State> {
       removedNodes: removedNodes,
       nodeClusters: groupedNodes,
     });
-  }
+  };
 
-  compareObjectsArrays(objectArray: IBubble[]) {
+  compareObjectsArrays = (objectArray: IBubble[]) => {
     return (current: IBubble) => {
       return (
         objectArray.filter((other) => {
@@ -189,9 +191,9 @@ export default class extends React.Component<State> {
         }).length == 0
       );
     };
-  }
+  };
 
-  getNodeClusters(nodes: IBubble[]) {
+  getNodeClusters = (nodes: IBubble[]) => {
     // Get clusters of nodes that share the same location.
     const groupedNodes: any = lodash.groupBy(nodes, (item: IBubble) => {
       return item.latitude;
@@ -216,29 +218,9 @@ export default class extends React.Component<State> {
       });
     });
     return finalArray;
-  }
+  };
 
-  changeToValidators() {
-    this.setState(
-      {
-        nodesType: "validators",
-        newNodes: [],
-      },
-      () => this.fetchGeo()
-    );
-  }
-
-  changeToOnlineNodes() {
-    this.setState(
-      {
-        nodesType: "online-nodes",
-        newNodes: [],
-      },
-      () => this.fetchGeo()
-    );
-  }
-
-  renderBubbleTooltip(data: IBubble) {
+  renderBubbleTooltip = (data: IBubble) => {
     // Prettier ruined the entire indentation that i made for this
     return `<div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">
         <div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px"> @${
@@ -274,9 +256,9 @@ export default class extends React.Component<State> {
           </div>
         </div>
       </div>`;
-  }
+  };
 
-  renderClusterTooltip(data: IBubble[]) {
+  renderClusterTooltip = (data: IBubble[]) => {
     let htmlString: string = '<div class="clusterTooltipWrapper">';
     data.forEach((item: IBubble) => {
       // Prettier ruined the entire indentation that i made for this
@@ -320,7 +302,27 @@ export default class extends React.Component<State> {
     });
     htmlString += "</div>";
     return htmlString;
-  }
+  };
+
+  changeToValidators = () => {
+    this.setState(
+      {
+        nodesType: "validators",
+        newNodes: [],
+      },
+      () => this.fetchGeo()
+    );
+  };
+
+  changeToOnlineNodes = () => {
+    this.setState(
+      {
+        nodesType: "online-nodes",
+        newNodes: [],
+      },
+      () => this.fetchGeo()
+    );
+  };
 
   render() {
     const map = (
@@ -332,7 +334,7 @@ export default class extends React.Component<State> {
           borderColor: "#121314",
         }}
         fills={{
-          defaultFill: "#121314",
+          defaultFill: "#2f3233",
           validatorBubbleFill: "#8DD4BD",
           nonValidatorBubbleFill: "#8DD4BD",
         }}
@@ -390,16 +392,7 @@ export default class extends React.Component<State> {
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
-          {map}
-          <div className="refreshCountdown">
-            Next update
-            <Countdown
-              key={Date.now() + 10000}
-              date={Date.now() + 10000}
-              renderer={countdownRenderer}
-            />
-          </div>
-          <Link href="/nodes/[role]" as={`/nodes/validators`}>
+          <Link href="/nodes/validators">
             <div className="closeMap">
               <img
                 className="closeIcon"
@@ -461,6 +454,7 @@ export default class extends React.Component<State> {
               </div>
             </div>
           </div>
+          {map}
         </div>
         <style jsx global>
           {`
@@ -535,30 +529,11 @@ export default class extends React.Component<State> {
                 stroke-dashoffset: -42px;
               }
             }
-            .refreshCountdown {
-              position: absolute;
-              top: 92px;
-              left: 32px;
-              height: 48px;
-              color: rgba(255, 255, 255, 0.4);
-              font-family: BwSeidoRound;
-              font-size: 12px;
-              line-height: 12px;
-              font-weight: 700;
-              padding: 19px 20px 17px;
-              background: #343a40;
-              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16);
-              border-radius: 24px;
-            }
-            .countdownText {
-              margin-left: 4px;
-              color: #f0ec74;
-            }
             .closeMap {
               cursor: pointer;
               position: absolute;
-              top: 92px;
-              right: 32px;
+              top: 12%;
+              right: 50px;
               z-index: 101;
               width: 48px;
               height: 48px;
@@ -576,7 +551,7 @@ export default class extends React.Component<State> {
             .nodesTypeSelector {
               position: absolute;
               z-index: 100;
-              top: 92px;
+              top: 12%;
               left: 0;
               color: white;
               display: flex;
@@ -584,6 +559,14 @@ export default class extends React.Component<State> {
               justify-content: center;
               width: 100%;
               height: 48px;
+            }
+            @media (max-width: 1050px) {
+              .nodesTypeSelector {
+                top: 90%;
+              }
+              .closeMap {
+                top: 30%;
+              }
             }
             .nodesTypeSelector .check {
               display: none;
@@ -680,7 +663,7 @@ export default class extends React.Component<State> {
               max-width: 75%;
             }
             .mapBackground {
-              background-color: #24272a;
+              background-color: #6b7175;
             }
             .datamapsNodeClusters {
               overflow: visible !important;

@@ -81,7 +81,7 @@ export default class extends React.Component<Props, State> {
                   }
                 >
                   <img
-                    src={"/static/images/icon-m-node-online.svg"}
+                    src={"/static/images/icon-m-node-validating.svg"}
                     style={{ width: "15px" }}
                   />
                 </OverlayTrigger>
