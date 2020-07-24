@@ -83,20 +83,17 @@ export default class extends React.Component<State> {
                   }
                   imgLink="/static/images/icon-m-node-online.svg"
                   text={
-                    context.validatorAmount ? (
-                      <Link href="/nodes/[role]" as={`/nodes/validators`}>
-                        <a id="node-page" className="dashboard-link">
-                          {context.validatorAmount.toLocaleString()}/
-                          {context.onlineNodeAmount.toLocaleString()}
-                        </a>
-                      </Link>
-                    ) : (
-                      ""
-                    )
+                    <Link href="/nodes/[role]" as={`/nodes/validators`}>
+                      <a id="node-page" className="dashboard-link">
+                        {context.nodeInfo.validatorAmount.toLocaleString()}/
+                        {context.nodeInfo.onlineNodeAmount.toLocaleString()}
+                      </a>
+                    </Link>
                   }
                   className="border-0"
                   loading={
-                    !!!context.validatorAmount && !!!context.onlineNodeAmount
+                    !context.nodeInfo.validatorAmount &&
+                    !context.nodeInfo.onlineNodeAmount
                   }
                 />
               </Col>
@@ -116,12 +113,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-height.svg"
-                  text={
-                    context.lastBlockHeight
-                      ? context.lastBlockHeight.toLocaleString()
-                      : ""
-                  }
-                  loading={!!!context.lastBlockHeight}
+                  text={context.dashState.lastBlockHeight.toLocaleString()}
+                  loading={!context.dashState.lastBlockHeight}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -139,12 +132,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-transaction.svg"
-                  text={
-                    context.totalTransactions
-                      ? context.totalTransactions.toLocaleString()
-                      : ""
-                  }
-                  loading={!!!context.totalTransactions}
+                  text={context.dashState.totalTransactions.toLocaleString()}
+                  loading={!context.dashState.totalTransactions}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -162,12 +151,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-transaction.svg"
-                  text={
-                    context.lastDayTxCount
-                      ? context.lastDayTxCount.toLocaleString()
-                      : ""
-                  }
-                  loading={!!!context.lastDayTxCount}
+                  text={context.dashState.lastDayTxCount.toLocaleString()}
+                  loading={!context.dashState.lastDayTxCount}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -186,17 +171,13 @@ export default class extends React.Component<State> {
                   }
                   imgLink="/static/images/icon-m-user.svg"
                   text={
-                    context.totalAccounts ? (
-                      <Link href="/accounts">
-                        <a className="dashboard-link">
-                          {context.totalAccounts.toLocaleString()}
-                        </a>
-                      </Link>
-                    ) : (
-                      ""
-                    )
+                    <Link href="/accounts">
+                      <a className="dashboard-link">
+                        {context.dashState.totalAccounts.toLocaleString()}
+                      </a>
+                    </Link>
                   }
-                  loading={!!!context.totalAccounts}
+                  loading={!context.dashState.totalAccounts}
                 />
               </Col>
             </Row>

@@ -125,10 +125,6 @@ export default (
           paginationIndexer = this.state.items[this.state.items.length - 1]
             .timestamp;
           break;
-        case "Node":
-          paginationIndexer = this.state.items[this.state.items.length - 1]
-            .nodeId;
-          break;
         case "Transaction":
           paginationIndexer = this.state.items[this.state.items.length - 1]
             .blockTimestamp;
