@@ -6,7 +6,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "env NODE_ENV=production node src/index.js",
     "start:testnet": "env NEAR_RPC_URL=https://rpc.nearprotocol.com NEAR_DB_PREFIX=testnet npm run start",
-    "start:devnet": "env NEAR_RPC_URL=https://rpc.devnet.nearprotocol.com NEAR_DB_PREFIX=devnet npm run start",
     "start:betanet": "env NEAR_RPC_URL=https://rpc.betanet.nearprotocol.com NEAR_DB_PREFIX=betanet npm run start"
   },
   "repository": {
