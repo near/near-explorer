@@ -114,8 +114,10 @@ async function main() {
 
   const regularCheckFinalTimestamp = async () => {
     try {
-      const finalTimestamp = await queryFinalTimestamp();
-      wampPublish("final-timestamp", [finalTimestamp]);
+      if (wamp.session) {
+        const finalTimestamp = await queryFinalTimestamp();
+        wampPublish("final-timestamp", [finalTimestamp]);
+      }
     } catch (error) {
       console.warn("Regular querying RPC crashed due to:", error);
     }
@@ -153,8 +155,10 @@ async function main() {
 
   const regularCheckDataStats = async () => {
     try {
-      const dataStats = await totalStats();
-      wampPublish("data-stats", [{ dataStats }]);
+      if (wamp.session) {
+        const dataStats = await totalStats();
+        wampPublish("data-stats", [{ dataStats }]);
+      }
     } catch (error) {
       console.warn("Regular querying data stats crashed due to:", error);
     }
@@ -164,13 +168,15 @@ async function main() {
 
   const regularCheckNodeStatus = async () => {
     try {
-      const validatingNodes = await queryNodeStats();
-      const onlineNodeAmount = (
-        await wampSqlSelectQuery([
-          `SELECT COUNT(*) as total FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
-        ])
-      ).total;
-      wampPublish("nodes", [{ validatingNodes, onlineNodeAmount }]);
+      if (wamp.session) {
+        const validatingNodes = await queryNodeStats();
+        const onlineNodeAmount = (
+          await wampSqlSelectQuery([
+            `SELECT COUNT(*) as total FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
+          ])
+        ).total;
+        wampPublish("nodes", [{ validatingNodes, onlineNodeAmount }]);
+      }
     } catch (error) {
       console.warn("Regular querying nodes amount crashed due to:", error);
     }
