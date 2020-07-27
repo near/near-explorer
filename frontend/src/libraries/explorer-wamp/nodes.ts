@@ -84,25 +84,6 @@ export default class NodesApi extends ExplorerApi {
     }
   }
 
-  async getOnlineNodesStats() {
-    try {
-      const [onlineNodesCount, validators] = await Promise.all([
-        this.call("select", [
-          `SELECT COUNT(*) as onlineNodesCount FROM nodes
-            WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
-        ]).then((it: any) => it[0].onlineNodesCount),
-        this.queryNodeRpc(),
-      ]);
-      const validatorsCount = validators.current_validators.length;
-      const proposalsCount = validators.current_proposals.length;
-      return { onlineNodesCount, validatorsCount, proposalsCount } as NodeStats;
-    } catch (error) {
-      console.error("Nodes.getOnlineNodesStats failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
-  }
-
   async queryNodeRpc(): Promise<any> {
     return await this.call<any>("nearcore-validators");
   }
