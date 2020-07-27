@@ -7,7 +7,7 @@ import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import { RpcConsumer } from "../utils/RpcProvider";
+import { SubConsumer } from "../utils/SubscriptionProvider";
 
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
@@ -61,7 +61,7 @@ export default class extends React.Component<State> {
 
   render() {
     return (
-      <RpcConsumer>
+      <SubConsumer>
         {(context) => (
           <div className="dashboard-info-container">
             <Row noGutters>
@@ -258,7 +258,7 @@ export default class extends React.Component<State> {
             `}</style>
           </div>
         )}
-      </RpcConsumer>
+      </SubConsumer>
     );
   }
 }

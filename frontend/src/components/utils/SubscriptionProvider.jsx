@@ -11,6 +11,9 @@ const nodeInit = {
   validatorAmount: 0,
   onlineNodeAmount: 0,
   proposalAmount: 0,
+  validators: [],
+  onlineNodes: [],
+  proposals: [],
 };
 
 const nodeReducer = (currentState, action) => {
@@ -19,16 +22,19 @@ const nodeReducer = (currentState, action) => {
       return {
         ...currentState,
         validatorAmount: action.validatorAmount,
+        validators: action.validators,
       };
     case "onlines":
       return {
         ...currentState,
         onlineNodeAmount: action.onlineNodeAmount,
+        onlineNodes: action.onlineNodes,
       };
     case "proposals":
       return {
         ...currentState,
         proposalAmount: action.proposalAmount,
+        proposals: action.proposals,
       };
     default:
       return nodeInit;
@@ -75,7 +81,7 @@ const stateReducer = (currentState, action) => {
   }
 };
 
-const RpcContext = createContext({
+const SubContext = createContext({
   finalTimestamp: 0,
   dashState: stateInit,
   nodeInfo: nodeInit,
@@ -130,20 +136,24 @@ export default (props) => {
   };
 
   const fetchNodeInfo = (nodes) => {
-    let [validatingNodes, onlineNodeAmount] = [
-      nodes[0].validatingNodes,
-      nodes[0].onlineNodeAmount,
-    ];
-    let validatorAmount = validatingNodes.current_validators.length;
-    let proposalAmount = validatingNodes.current_proposals.length;
+    let { validatingNodes, onlineNodes } = nodes[0];
+
+    let validators = validatingNodes.current_validators;
+    let validatorAmount = validators.length;
+
+    let proposals = validatingNodes.current_proposals;
+    let proposalAmount = proposals.length;
+
+    let onlineNodeAmount = onlineNodes.length;
+
     if (nodeInfo.validatorAmount !== validatorAmount) {
-      dispatchNode({ type: "validators", validatorAmount });
+      dispatchNode({ type: "validators", validatorAmount, validators });
     }
     if (nodeInfo.onlineNodeAmount !== onlineNodeAmount) {
-      dispatchNode({ type: "onlines", onlineNodeAmount });
+      dispatchNode({ type: "onlines", onlineNodeAmount, onlineNodes });
     }
     if (nodeInfo.proposalAmount !== proposalAmount) {
-      dispatchNode({ type: "proposals", proposalAmount });
+      dispatchNode({ type: "proposals", proposalAmount, proposals });
     }
   };
 
@@ -156,7 +166,7 @@ export default (props) => {
   useEffect(() => Subscription(), [Subscription]);
 
   return (
-    <RpcContext.Provider
+    <SubContext.Provider
       value={{
         finalTimestamp,
         dashState,
@@ -164,10 +174,10 @@ export default (props) => {
       }}
     >
       {props.children}
-    </RpcContext.Provider>
+    </SubContext.Provider>
   );
 };
 
-const RpcConsumer = RpcContext.Consumer;
+const SubConsumer = SubContext.Consumer;
 
-export { RpcConsumer };
+export { SubConsumer };

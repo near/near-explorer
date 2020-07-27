@@ -8,6 +8,7 @@ const {
   regularSyncGenesisStateInterval,
   regularQueryRPCInterval,
   regularQueryStatsInterval,
+  regularCheckNodeStatusInterval,
   wampNearNetworkName,
 } = require("./config");
 
@@ -170,17 +171,25 @@ async function main() {
     try {
       if (wamp.session) {
         const validatingNodes = await queryNodeStats();
-        const onlineNodeAmount = (
-          await wampSqlSelectQuery([
-            `SELECT COUNT(*) as total FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000`,
-          ])
-        ).total;
-        wampPublish("nodes", [{ validatingNodes, onlineNodeAmount }]);
+        let onlineNodes = await wampSqlSelectQuery([
+          `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
+            last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
+            agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
+            peer_count as peerCount, is_validator as isValidator, status
+                FROM nodes
+                WHERE last_seen > (strftime('%s','now') - 60) * 1000
+                ORDER BY is_validator ASC, node_id DESC
+            `,
+        ]);
+        if (!onlineNodes) {
+          onlineNodes = [];
+        }
+        wampPublish("nodes", [{ validatingNodes, onlineNodes }]);
       }
     } catch (error) {
       console.warn("Regular querying nodes amount crashed due to:", error);
     }
-    setTimeout(regularCheckNodeStatus, regularQueryRPCInterval);
+    setTimeout(regularCheckNodeStatus, 1000);
   };
   setTimeout(regularCheckNodeStatus, 0);
 }

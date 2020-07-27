@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { RpcConsumer } from "../utils/RpcProvider";
+import { SubConsumer } from "../utils/SubscriptionProvider";
 
 import Timer from "../utils/Timer";
 
@@ -24,7 +24,7 @@ export default class extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
     return (
-      <RpcConsumer>
+      <SubConsumer>
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
@@ -155,7 +155,7 @@ export default class extends React.PureComponent<Props> {
             `}</style>
           </Row>
         )}
-      </RpcConsumer>
+      </SubConsumer>
     );
   }
 }

@@ -2,7 +2,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import React from "react";
 
-import { RpcConsumer } from "../utils/RpcProvider";
+import { SubConsumer } from "../utils/SubscriptionProvider";
 
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";
@@ -141,7 +141,7 @@ export default (
       }
       return (
         <>
-          <RpcConsumer>
+          <SubConsumer>
             {(context) => (
               <>
                 {!config.dashboard && (
@@ -166,7 +166,7 @@ export default (
                 )}
               </>
             )}
-          </RpcConsumer>
+          </SubConsumer>
           <InfiniteScroll
             dataLength={this.state.items.length}
             next={this.fetchMoreData}

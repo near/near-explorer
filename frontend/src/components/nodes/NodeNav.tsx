@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import { RpcConsumer } from "../utils/RpcProvider";
+import { SubConsumer } from "../utils/SubscriptionProvider";
 
 interface Props {
   role: string;
@@ -13,7 +13,7 @@ export default class extends React.Component<Props> {
   render() {
     const { role } = this.props;
     return (
-      <RpcConsumer>
+      <SubConsumer>
         {(context) => (
           <>
             <Row>
@@ -103,7 +103,7 @@ export default class extends React.Component<Props> {
             `}</style>
           </>
         )}
-      </RpcConsumer>
+      </SubConsumer>
     );
   }
 }

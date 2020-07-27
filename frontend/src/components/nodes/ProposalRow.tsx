@@ -43,11 +43,9 @@ export default class extends React.PureComponent<Props> {
         </Col>
         <Col md="3" xs="3" className="ml-auto text-right">
           <Row>
-            <p>
-              <Col className="node-row-txid" title={node.public_key}>
-                {node.public_key.substring(8, 20)}...
-              </Col>
-            </p>
+            <Col className="node-row-txid" title={node.public_key}>
+              {node.public_key.substring(8, 20)}...
+            </Col>
           </Row>
         </Col>
         <style jsx global>{`
