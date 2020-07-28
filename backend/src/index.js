@@ -206,7 +206,7 @@ async function main() {
       if (nodeInfo) {
         nodes[i].nodeInfo = nodeInfo;
       }
-      nodes[i].nodeInfo = {};
+      nodes[i].nodeInfo = undefined;
     }
     return nodes;
   };
