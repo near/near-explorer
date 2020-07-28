@@ -206,7 +206,7 @@ async function main() {
       if (nodeInfo) {
         nodes[i].nodeInfo = nodeInfo;
       }
-      nodes[i].nodeInfo = undefined;
+      nodes[i].nodeInfo = {};
     }
     return nodes;
   };
@@ -228,6 +228,7 @@ async function main() {
         if (!onlineNodes) {
           onlineNodes = [];
         }
+        console.log(validators);
         wampPublish("nodes", [{ onlineNodes, validators, proposals }]);
       }
     } catch (error) {
