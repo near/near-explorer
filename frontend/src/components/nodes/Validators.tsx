@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { SubConsumer } from "../../context/SubscriptionProvider";
+import { SubscriptionConsumer } from "../../context/SubscriptionProvider";
 
 import ValidatorRow from "./ValidatorRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
@@ -9,7 +9,7 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 export default class extends React.Component {
   render() {
     return (
-      <SubConsumer>
+      <SubscriptionConsumer>
         {(context) => (
           <>
             {context.nodeInfo.validators ? (
@@ -21,7 +21,7 @@ export default class extends React.Component {
             )}
           </>
         )}
-      </SubConsumer>
+      </SubscriptionConsumer>
     );
   }
 }

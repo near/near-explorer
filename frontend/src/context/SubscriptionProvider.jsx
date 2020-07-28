@@ -176,6 +176,6 @@ export default (props) => {
   );
 };
 
-const SubConsumer = SubContext.Consumer;
+const SubscriptionConsumer = SubContext.Consumer;
 
-export { SubConsumer };
+export { SubscriptionConsumer };

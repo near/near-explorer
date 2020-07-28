@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import { SubConsumer } from "../../context/SubscriptionProvider";
+import { SubscriptionConsumer } from "../../context/SubscriptionProvider";
 import * as N from "../../libraries/explorer-wamp/nodes";
 
 import Timer from "../utils/Timer";
@@ -16,7 +16,7 @@ export default class extends React.Component<Props> {
   render() {
     const { node } = this.props;
     return (
-      <SubConsumer>
+      <SubscriptionConsumer>
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
@@ -205,7 +205,7 @@ export default class extends React.Component<Props> {
             `}</style>
           </Row>
         )}
-      </SubConsumer>
+      </SubscriptionConsumer>
     );
   }
 }

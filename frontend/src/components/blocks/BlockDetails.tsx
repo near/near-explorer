@@ -3,7 +3,7 @@ import moment from "moment";
 import { Row, Col } from "react-bootstrap";
 
 import * as B from "../../libraries/explorer-wamp/blocks";
-import { SubConsumer } from "../../context/SubscriptionProvider";
+import { SubscriptionConsumer } from "../../context/SubscriptionProvider";
 
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
@@ -15,7 +15,7 @@ export interface Props {
 
 export default ({ block }: Props) => {
   return (
-    <SubConsumer>
+    <SubscriptionConsumer>
       {(context) => (
         <>
           <Row noGutters>
@@ -184,6 +184,6 @@ export default ({ block }: Props) => {
           `}</style>
         </>
       )}
-    </SubConsumer>
+    </SubscriptionConsumer>
   );
 };

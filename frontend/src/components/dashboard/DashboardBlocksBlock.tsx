@@ -4,7 +4,7 @@ import React from "react";
 
 import { Row, Col, Card } from "react-bootstrap";
 
-import { SubConsumer } from "../../context/SubscriptionProvider";
+import { SubscriptionConsumer } from "../../context/SubscriptionProvider";
 
 import Timer from "../utils/Timer";
 import { Props } from "../blocks/BlockDetails";
@@ -13,7 +13,7 @@ export default class extends React.Component<Props> {
   render() {
     const { block } = this.props;
     return (
-      <SubConsumer>
+      <SubscriptionConsumer>
         {(context) => (
           <Col xs={12} xl={6}>
             <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`}>
@@ -146,7 +146,7 @@ export default class extends React.Component<Props> {
             `}</style>
           </Col>
         )}
-      </SubConsumer>
+      </SubscriptionConsumer>
     );
   }
 }
