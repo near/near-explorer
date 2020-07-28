@@ -19,14 +19,15 @@ export interface NodeInfo {
 
 export interface Validating {
   account_id: string;
-  is_slashed: string;
-  num_produced_blocks: number;
-  num_expected_blocks: number;
+  is_slashed?: string;
+  num_produced_blocks?: number;
+  num_expected_blocks?: number;
   public_key: string;
   stake: string;
   new?: boolean;
   removed?: boolean;
   shards: [];
+  nodeInfo?: NodeInfo;
 }
 
 export interface NodeStats {

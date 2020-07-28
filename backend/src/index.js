@@ -211,7 +211,7 @@ async function main() {
     } catch (error) {
       console.warn("Regular querying nodes amount crashed due to:", error);
     }
-    setTimeout(regularCheckNodeStatus, 1000);
+    setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };
   setTimeout(regularCheckNodeStatus, 0);
 }
