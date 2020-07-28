@@ -20,14 +20,12 @@ const signNewValidators = (newValidators) => {
   for (let i = 0; i < newValidators.length; i++) {
     newValidators[i].new = true;
   }
-  return newValidators;
 };
 
 const signRemovedValidators = (removedValidators) => {
   for (let i = 0; i < removedValidators.length; i++) {
     removedValidators[i].removed = true;
   }
-  return removedValidators;
 };
 
 const getCurrentNodes = (nodes) => {

@@ -97,10 +97,12 @@ async function main() {
     regularSyncMissingNearcoreStateInterval
   );
 
+  //set up wamp
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");
   wamp.open();
 
+  // wamp function
   const wampPublish = (topic, args) => {
     const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${topic}`;
     wamp.session.publish(uri, args);
@@ -112,6 +114,7 @@ async function main() {
     return res[0];
   };
 
+  // regular check finalTimesamp and publish to final-timestamp uri
   const regularCheckFinalTimestamp = async () => {
     try {
       if (wamp.session) {
@@ -125,6 +128,7 @@ async function main() {
   };
   setTimeout(regularCheckFinalTimestamp, 0);
 
+  // regular check block/tx data stats and publish to data-stats uri
   const totalStats = async () => {
     const [
       totalBlocks,
@@ -166,22 +170,43 @@ async function main() {
   };
   setTimeout(regularCheckDataStats, 0);
 
+  // regular check node status and publish to nodes uri
   const addNodeInfo = async (nodes) => {
-    for (let i = 0; i < nodes.length; i++) {
-      let nodeInfo = await wampSqlSelectQuery([
-        `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
-          last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
-          agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
-          peer_count as peerCount, is_validator as isValidator, status
+    const accountArray = nodes
+      .map((node) => '"' + node.account_id + '"')
+      .join(",");
+    let nodesInfo = await wampSqlSelectQuery([
+      `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
+        last_seen as lastSeen, last_height as lastHeight,status,
+        agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
               FROM nodes
-              WHERE account_id = :account_id
+              WHERE account_id IN (${accountArray})
               ORDER BY node_id DESC
           `,
-        {
-          account_id: nodes[i].account_id,
-        },
-      ]);
-      nodes[i].nodeInfo = nodeInfo;
+    ]);
+    let nodeMap = new Map();
+    if (nodesInfo) {
+      for (let i = 0; i < nodesInfo.length; i++) {
+        nodeMap.set(nodesInfo[i].accountId, {
+          agentName: nodesInfo[i].agentName,
+          agentVersion: nodesInfo[i].agentVersion,
+          agentBuild: nodesInfo[i].agentBuild,
+          nodeId: nodesInfo[i].nodeId,
+          lastHeight: nodesInfo[i].lastHeight,
+          lastSeen: nodesInfo[i].lastSeen,
+          ipAddress: nodesInfo[i].ipAddress,
+          accountId: nodesInfo[i].accountId,
+          status: nodesInfo[i].status,
+        });
+      }
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      let nodeInfo = nodeMap.get(nodes[i].account_id);
+      if (nodeInfo) {
+        nodes[i].nodeInfo = nodeInfo;
+      }
+      nodes[i].nodeInfo = undefined;
     }
     return nodes;
   };
@@ -192,10 +217,9 @@ async function main() {
         let { currentValidators, proposals } = await queryNodeStats();
         let validators = await addNodeInfo(currentValidators);
         let onlineNodes = await wampSqlSelectQuery([
-          `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
-            last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
-            agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
-            peer_count as peerCount, is_validator as isValidator, status
+          `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
+          last_seen as lastSeen, last_height as lastHeight,status,
+          agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
                 FROM nodes
                 WHERE last_seen > (strftime('%s','now') - 60) * 1000
                 ORDER BY is_validator ASC, node_id DESC
@@ -204,8 +228,6 @@ async function main() {
         if (!onlineNodes) {
           onlineNodes = [];
         }
-        console.log("----------------------------");
-        console.log(validators);
         wampPublish("nodes", [{ onlineNodes, validators, proposals }]);
       }
     } catch (error) {

@@ -31,7 +31,7 @@ exports.regularQueryStatsInterval =
   parseInt(process.env.NEAR_REGULAR_QUERY_STATS_INTERVAL) || 1000;
 
 exports.regularCheckNodeStatusInterval =
-  parseInt(process.env.NEAR_REGULAR_QUERY_NODE_INTERVAL) || 10000;
+  parseInt(process.env.NEAR_REGULAR_QUERY_NODE_INTERVAL) || 1000;
 
 exports.wampNearNetworkName =
   process.env.WAMP_NEAR_NETWORK_NAME || "localhostnet";
