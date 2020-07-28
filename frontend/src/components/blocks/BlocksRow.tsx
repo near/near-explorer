@@ -5,7 +5,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as B from "../../libraries/explorer-wamp/blocks";
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 import Timer from "../utils/Timer";
 

@@ -7,7 +7,7 @@ import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";

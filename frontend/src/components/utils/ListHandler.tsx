@@ -2,7 +2,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import React from "react";
 
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";

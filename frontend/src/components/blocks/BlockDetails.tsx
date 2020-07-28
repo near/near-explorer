@@ -3,7 +3,7 @@ import moment from "moment";
 import { Row, Col } from "react-bootstrap";
 
 import * as B from "../../libraries/explorer-wamp/blocks";
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";

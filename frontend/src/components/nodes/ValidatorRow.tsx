@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
 
 import Timer from "../utils/Timer";

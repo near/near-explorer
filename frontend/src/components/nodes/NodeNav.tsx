@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 interface Props {
   role: string;

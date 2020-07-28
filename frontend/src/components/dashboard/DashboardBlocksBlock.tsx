@@ -4,7 +4,7 @@ import React from "react";
 
 import { Row, Col, Card } from "react-bootstrap";
 
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 import Timer from "../utils/Timer";
 import { Props } from "../blocks/BlockDetails";

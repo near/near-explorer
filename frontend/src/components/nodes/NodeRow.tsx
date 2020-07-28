@@ -2,25 +2,23 @@ import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 import Timer from "../utils/Timer";
 
 interface Props {
   node: N.NodeInfo;
 }
-
+export const statusIdentifier = new Map([
+  ["AwaitingPeers", "Waiting for peers"],
+  ["HeaderSync", "Syncing headers"],
+  ["BlockSync", "Syncing blocks"],
+  ["StateSync", "Syncing state"],
+  ["StateSyncDone", "State sync is done"],
+  ["BodySync", "Syncing body"],
+  ["NoSync", ""],
+]);
 export default class extends React.PureComponent<Props> {
-  statusIdentifier = new Map([
-    ["AwaitingPeers", "Waiting for peers"],
-    ["HeaderSync", "Syncing headers"],
-    ["BlockSync", "Syncing blocks"],
-    ["StateSync", "Syncing state"],
-    ["StateSyncDone", "State sync is done"],
-    ["BodySync", "Syncing body"],
-    ["NoSync", ""],
-  ]);
-
   render() {
     const { node } = this.props;
     return (
@@ -44,7 +42,7 @@ export default class extends React.PureComponent<Props> {
                   @{node.accountId}
                   <span className="node-status">
                     {" "}
-                    {this.statusIdentifier.get(node.status)}
+                    {statusIdentifier.get(node.status)}
                   </span>
                 </Col>
               </Row>

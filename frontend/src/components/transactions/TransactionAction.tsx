@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";

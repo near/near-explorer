@@ -4,7 +4,7 @@ import moment from "../../libraries/moment";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 import * as T from "../../libraries/explorer-wamp/transactions";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { SubConsumer } from "../utils/SubscriptionProvider";
+import { SubConsumer } from "../../context/SubscriptionProvider";
 
 import ProposalRow from "./ProposalRow";
 import PaginationSpinner from "../utils/PaginationSpinner";

@@ -1,3 +1,4 @@
+import * as nearApi from "near-api-js";
 import React, {
   createContext,
   useReducer,
@@ -5,7 +6,8 @@ import React, {
   useCallback,
   useState,
 } from "react";
-import { ExplorerApi } from "../../libraries/explorer-wamp/index";
+import { ExplorerApi } from "../libraries/explorer-wamp/index";
+import NodesApi from "../libraries/explorer-wamp/nodes";
 
 const nodeInit = {
   validatorAmount: 0,
@@ -138,8 +140,8 @@ export default (props) => {
   const fetchNodeInfo = (nodes) => {
     let { validatingNodes, onlineNodes } = nodes[0];
 
-    let validators = validatingNodes.current_validators;
-    let validatorAmount = validators.length;
+    let validators = getNodes(validatingNodes);
+    let validatorAmount = validatingNodes.current_validators.length;
 
     let proposals = validatingNodes.current_proposals;
     let proposalAmount = proposals.length;
@@ -155,6 +157,47 @@ export default (props) => {
     if (nodeInfo.proposalAmount !== proposalAmount) {
       dispatchNode({ type: "proposals", proposalAmount, proposals });
     }
+  };
+
+  const signNewValidators = (newValidators) => {
+    for (let i = 0; i < newValidators.length; i++) {
+      newValidators[i].new = true;
+    }
+    return newValidators;
+  };
+
+  const signRemovedValidators = (removedValidators) => {
+    for (let i = 0; i < removedValidators.length; i++) {
+      removedValidators[i].removed = true;
+    }
+    return removedValidators;
+  };
+
+  const queryNodeExtraInfo = async (nodes) => {
+    for (let i = 0; i < nodes.length; i++) {
+      let nodeInfo = await new NodesApi().getValidatingInfo(
+        nodes[i].account_id
+      );
+      nodes[i].nodeInfo = nodeInfo;
+    }
+    return nodes;
+  };
+
+  const getNodes = (nodes) => {
+    let currentValidators = nodes.current_validators;
+    let nextValidators = nodes.next_validators;
+    const {
+      newValidators,
+      removedValidators,
+    } = nearApi.validators.diffEpochValidators(
+      currentValidators,
+      nextValidators
+    );
+    signNewValidators(newValidators);
+    signRemovedValidators(removedValidators);
+    currentValidators = currentValidators.concat(newValidators);
+    currentValidators = queryNodeExtraInfo(currentValidators);
+    return currentValidators;
   };
 
   const Subscription = useCallback(() => {
