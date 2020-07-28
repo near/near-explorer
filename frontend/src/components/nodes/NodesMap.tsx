@@ -6,32 +6,22 @@ import Link from "next/link";
 
 import React from "react";
 
-import NodesApi from "../../libraries/explorer-wamp/nodes";
+import * as N from "../../libraries/explorer-wamp/nodes";
+import { SubscriptionContext } from "../../context/SubscriptionProvider";
 
 const Datamap = dynamic(() => import("../utils/DatamapsExtension"), {
   ssr: false,
 });
 
 interface IBubble {
-  latitude: string;
-  longitude: string;
-  name: string;
-  isValidator: number;
-  peerCount: string;
+  geo: IGeo;
   radius: number;
-  fillKey: string;
-  agentName: string;
-  version: string;
-  build: string;
-  nodeId: string;
-  blockNr: number;
-  lastSeen: number;
-  location: string;
+  nodeInfo: N.NodeInfo;
 }
 
 interface IGeo {
-  lat: string;
-  lon: string;
+  latitude: string;
+  longitude: string;
   city: string;
 }
 
@@ -45,7 +35,7 @@ interface State {
   onlineNodes?: [];
 }
 
-export default class extends React.Component<State> {
+class NodesMap extends React.Component<State> {
   state: State = {
     nodesData: [],
     nodesType: "validators",
@@ -55,50 +45,19 @@ export default class extends React.Component<State> {
   };
 
   componentDidMount() {
-    this.fetchGeo();
+    let value = this.context;
+    console.log(value);
+    // this.fetchGeo();
   }
 
-  getDataForMap = async () => {
-    let [validatorList, onlineNodes] = await Promise.all([
-      new NodesApi().queryNodeRpc(),
-      new NodesApi().getOnlineNodes(),
-    ]);
-
-    let currentValidators = validatorList.current_validators;
-    for (let i = 0; i < currentValidators.length; i++) {
-      let nodeInfo = await new NodesApi().getValidatingInfo(
-        currentValidators[i].account_id
-      );
-      if (nodeInfo) {
-        currentValidators[i].isValidator = nodeInfo.isValidator;
-        currentValidators[i].peerCount = nodeInfo.peerCount;
-        currentValidators[i].agentName = nodeInfo.agentName;
-        currentValidators[i].agentVersion = nodeInfo.agentVersion;
-        currentValidators[i].agentBuild = nodeInfo.agentBuild;
-        currentValidators[i].nodeId = nodeInfo.nodeId;
-        currentValidators[i].lastHeight = nodeInfo.lastHeight;
-        currentValidators[i].lastSeen = nodeInfo.lastSeen;
-        currentValidators[i].ipAddress = nodeInfo.ipAddress;
-        currentValidators[i].accountId = nodeInfo.accountId;
-      }
-    }
-    currentValidators = currentValidators.filter(
-      (va: any) => va.ipAddress !== undefined
-    );
-
-    this.setState({ currentValidators, onlineNodes });
-  };
-
+  // need to change the method to nodes.js
   fetchGeo = async () => {
-    if (!this.state.currentValidators || !this.state.onlineNodes) {
-      await this.getDataForMap();
-    }
     const nodes =
       this.state.nodesType === "validators"
         ? this.state.currentValidators
         : this.state.onlineNodes;
     const url =
-      "http://ip-api.com/batch?fields=status,message,country,city,lat,lon,timezone,query";
+      "http://ip-api.com/batch?fields=status,message,country,city,latitude,longitude,timezone,query";
     if (nodes) {
       const IPsArray = nodes.map((node: any) => node.ipAddress);
       let ipCount = IPsArray.length;
@@ -122,43 +81,36 @@ export default class extends React.Component<State> {
         geoData = geoData.concat(part);
         ipCount -= 50;
       }
+
       const bubbles: IBubble[] = nodes.map((element: any, index: number) => {
         const bubble: IBubble = {
-          latitude: "",
-          longitude: "",
-          name: "",
-          isValidator: 0,
-          peerCount: "",
+          geo: {
+            latitude: "",
+            longitude: "",
+            city: "",
+          },
           radius: 0,
-          fillKey: "",
-          agentName: "",
-          version: "",
-          build: "",
-          nodeId: "",
-          blockNr: 0,
-          lastSeen: 0,
-          location: "",
+          nodeInfo: {
+            ipAddress: "",
+            accountId: "",
+            nodeId: "",
+            lastSeen: 0,
+            lastHeight: 0,
+            agentName: "",
+            agentVersion: "",
+            agentBuild: "",
+            status: "",
+          },
         };
 
-        bubble.latitude = geoData[index].lat;
-        bubble.longitude = geoData[index].lon;
-        bubble.location = geoData[index].city;
-        if (element.nodeId) {
-          bubble.name = element.accountId;
-          bubble.isValidator = element.isValidator;
-          bubble.peerCount = element.peerCount;
-          bubble.agentName = element.agentName;
-          bubble.version = element.agentVersion;
-          bubble.build = element.agentBuild;
-          bubble.nodeId = element.nodeId;
-          bubble.blockNr = element.lastHeight;
-          bubble.lastSeen = element.lastSeen;
-        }
-
+        bubble.geo.latitude = geoData[index].latitude;
+        bubble.geo.longitude = geoData[index].longitude;
+        bubble.geo.city = geoData[index].city;
         bubble.radius = 4;
-        bubble.fillKey = element.isValidator
-          ? "validatorBubbleFill"
-          : "nonValidatorBubbleFill";
+        if (this.state.nodesType === "validators") {
+          bubble.nodeInfo = element.nodeInfo;
+        }
+        bubble.nodeInfo = element;
 
         return bubble;
       });
@@ -189,7 +141,7 @@ export default class extends React.Component<State> {
     return (current: IBubble) => {
       return (
         objectArray.filter((other) => {
-          return other.nodeId == current.nodeId;
+          return other.nodeInfo.nodeId == current.nodeInfo.nodeId;
         }).length == 0
       );
     };
@@ -198,7 +150,7 @@ export default class extends React.Component<State> {
   getNodeClusters = (nodes: IBubble[]) => {
     // Get clusters of nodes that share the same location.
     const groupedNodes: any = lodash.groupBy(nodes, (item: IBubble) => {
-      return item.latitude;
+      return item.geo.latitude;
     });
     // @ts-ignore
     lodash.forEach(groupedNodes, (value, key) => {
@@ -226,34 +178,36 @@ export default class extends React.Component<State> {
     // Prettier ruined the entire indentation that i made for this
     return `<div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">
         <div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px"> @${
-          data.name
+          data.nodeInfo.accountId
         }</div>
         <div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">
           <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; white-space: nowrap">${
-            data.agentName
-          } | ver.${data.version} build ${data.build}</div>
+            data.nodeInfo.agentName
+          } | ver.${data.nodeInfo.agentVersion} build ${
+      data.nodeInfo.agentBuild
+    }</div>
           <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">${
-            data.nodeId.split(":")[1]
+            data.nodeInfo.nodeId.split(":")[1]
           }</div>
         </div>
         <div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px; border-radius: 0 0 8px 8px">
           <div>
             <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Block#</div>
             <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-              data.blockNr
+              data.nodeInfo.lastHeight
             }</div>
           </div>
           <div>
             <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Last seen</div>
             <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${moment
-              .duration(moment().diff(moment(data.lastSeen)))
+              .duration(moment().diff(moment(data.nodeInfo.lastSeen)))
               .as("seconds")
               .toFixed()}s ago</div>
           </div>
           <div>
             <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Location</div>
             <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-              data.location
+              data.geo.city
             }</div>
           </div>
         </div>
@@ -265,37 +219,39 @@ export default class extends React.Component<State> {
     data.forEach((item: IBubble) => {
       // Prettier ruined the entire indentation that i made for this
       htmlString += `<div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; color: white; background-color: #343A40; max-width: 300px; border-bottom: 1px solid rgba(255, 255, 255, 0.16); box-sizing: border-box;" key="${
-        item.nodeId
+        item.nodeInfo.nodeId
       }">
           <div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px">@${
-            item.name
+            item.nodeInfo.accountId
           }</div>
           <div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">
             <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; white-space: nowrap">${
-              item.agentName
-            } | ver.${item.version} build ${item.build}</div>
+              item.nodeInfo.agentName
+            } | ver.${item.nodeInfo.agentVersion} build ${
+        item.nodeInfo.agentBuild
+      }</div>
             <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">${
-              item.nodeId.split(":")[1]
+              item.nodeInfo.nodeId.split(":")[1]
             }</div>
           </div>
           <div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px;">
             <div>
               <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Block#</div>
               <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-                item.blockNr
+                item.nodeInfo.lastHeight
               }</div>
             </div>
             <div>
               <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Last seen</div>
               <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${moment
-                .duration(moment().diff(moment(item.lastSeen)))
+                .duration(moment().diff(moment(item.nodeInfo.lastSeen)))
                 .as("seconds")
                 .toFixed()}s ago</div>
             </div>
             <div>
               <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Location</div>
               <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-                item.location
+                item.geo.city
               }</div>
             </div>
           </div>
@@ -706,3 +662,6 @@ export default class extends React.Component<State> {
     );
   }
 }
+NodesMap.contextType = SubscriptionContext;
+
+export default NodesMap;

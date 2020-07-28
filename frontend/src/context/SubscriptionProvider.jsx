@@ -83,7 +83,7 @@ const stateReducer = (currentState, action) => {
   }
 };
 
-const SubContext = createContext({
+const SubscriptionContext = createContext({
   finalTimestamp: 0,
   dashState: stateInit,
   nodeInfo: nodeInit,
@@ -164,7 +164,7 @@ export default (props) => {
   useEffect(() => Subscription(), [Subscription]);
 
   return (
-    <SubContext.Provider
+    <SubscriptionContext.Provider
       value={{
         finalTimestamp,
         dashState,
@@ -172,10 +172,10 @@ export default (props) => {
       }}
     >
       {props.children}
-    </SubContext.Provider>
+    </SubscriptionContext.Provider>
   );
 };
 
-const SubscriptionConsumer = SubContext.Consumer;
+const SubscriptionConsumer = SubscriptionContext.Consumer;
 
-export { SubscriptionConsumer };
+export { SubscriptionConsumer, SubscriptionContext };
