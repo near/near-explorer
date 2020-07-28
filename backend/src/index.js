@@ -1,5 +1,4 @@
 const models = require("../models");
-
 const {
   backupDbOnReset,
   regularCheckGenesisInterval,
@@ -167,10 +166,31 @@ async function main() {
   };
   setTimeout(regularCheckDataStats, 0);
 
+  const addNodeInfo = async (nodes) => {
+    for (let i = 0; i < nodes.length; i++) {
+      let nodeInfo = await wampSqlSelectQuery([
+        `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
+          last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
+          agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
+          peer_count as peerCount, is_validator as isValidator, status
+              FROM nodes
+              WHERE account_id = :account_id
+              ORDER BY node_id DESC
+          `,
+        {
+          account_id: nodes[i].account_id,
+        },
+      ]);
+      nodes[i].nodeInfo = nodeInfo;
+    }
+    return nodes;
+  };
+
   const regularCheckNodeStatus = async () => {
     try {
       if (wamp.session) {
-        const validatingNodes = await queryNodeStats();
+        let { currentValidators, proposals } = await queryNodeStats();
+        let validators = await addNodeInfo(currentValidators);
         let onlineNodes = await wampSqlSelectQuery([
           `SELECT ip_address as ipAddress, moniker, account_id as accountId, node_id as nodeId, signature, 
             last_seen as lastSeen, last_height as lastHeight, last_hash as lastHash,
@@ -184,7 +204,9 @@ async function main() {
         if (!onlineNodes) {
           onlineNodes = [];
         }
-        wampPublish("nodes", [{ validatingNodes, onlineNodes }]);
+        console.log("----------------------------");
+        console.log(validators);
+        wampPublish("nodes", [{ onlineNodes, validators, proposals }]);
       }
     } catch (error) {
       console.warn("Regular querying nodes amount crashed due to:", error);

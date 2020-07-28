@@ -1,4 +1,4 @@
-const nearlib = require("nearlib");
+const nearlib = require("near-api-js");
 
 const { nearRpcUrl } = require("./config");
 
@@ -10,7 +10,37 @@ const queryFinalTimestamp = async () => {
 };
 
 const queryNodeStats = async () => {
-  return await nearRpc.sendJsonRpc("validators", [null]);
+  let nodes = await nearRpc.sendJsonRpc("validators", [null]);
+  let proposals = nodes.current_proposals;
+  let currentValidators = getCurrentNodes(nodes);
+  return { currentValidators, proposals };
+};
+
+const signNewValidators = (newValidators) => {
+  for (let i = 0; i < newValidators.length; i++) {
+    newValidators[i].new = true;
+  }
+  return newValidators;
+};
+
+const signRemovedValidators = (removedValidators) => {
+  for (let i = 0; i < removedValidators.length; i++) {
+    removedValidators[i].removed = true;
+  }
+  return removedValidators;
+};
+
+const getCurrentNodes = (nodes) => {
+  let currentValidators = nodes.current_validators;
+  let nextValidators = nodes.next_validators;
+  const {
+    newValidators,
+    removedValidators,
+  } = nearlib.validators.diffEpochValidators(currentValidators, nextValidators);
+  signNewValidators(newValidators);
+  signRemovedValidators(removedValidators);
+  currentValidators = currentValidators.concat(newValidators);
+  return currentValidators;
 };
 
 exports.nearRpc = nearRpc;
