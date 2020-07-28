@@ -31,8 +31,6 @@ interface State {
   newNodes: IBubble[];
   removedNodes: IBubble[];
   nodeClusters: [];
-  currentValidators?: [];
-  onlineNodes?: [];
 }
 
 class NodesMap extends React.Component<State> {
@@ -46,16 +44,13 @@ class NodesMap extends React.Component<State> {
 
   componentDidMount() {
     let value = this.context;
-    console.log(value);
-    // this.fetchGeo();
+    this.fetchGeo(value.nodeInfo.validators, value.nodeInfo.onlineNodes);
   }
 
   // need to change the method to nodes.js
-  fetchGeo = async () => {
+  fetchGeo = async (validators: any, onlineNodes: any) => {
     const nodes =
-      this.state.nodesType === "validators"
-        ? this.state.currentValidators
-        : this.state.onlineNodes;
+      this.state.nodesType === "validators" ? validators : onlineNodes;
     const url =
       "http://ip-api.com/batch?fields=status,message,country,city,latitude,longitude,timezone,query";
     if (nodes) {
@@ -263,22 +258,24 @@ class NodesMap extends React.Component<State> {
   };
 
   changeToValidators = () => {
+    let value = this.context;
     this.setState(
       {
         nodesType: "validators",
         newNodes: [],
       },
-      () => this.fetchGeo()
+      () => this.fetchGeo(value.nodeInfo.validators, value.nodeInfo.onlineNodes)
     );
   };
 
   changeToOnlineNodes = () => {
+    let value = this.context;
     this.setState(
       {
         nodesType: "online-nodes",
         newNodes: [],
       },
-      () => this.fetchGeo()
+      () => this.fetchGeo(value.nodeInfo.validators, value.nodeInfo.onlineNodes)
     );
   };
 
@@ -347,6 +344,7 @@ class NodesMap extends React.Component<State> {
         }}
       />
     );
+    let value = this.context;
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
@@ -381,8 +379,8 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Validating nodes</div>
               <div className="counter">
-                {this.state.currentValidators
-                  ? this.state.currentValidators.length
+                {value.nodeInfo.validators
+                  ? value.nodeInfo.validators.length
                   : "-"}
               </div>
             </div>
@@ -408,7 +406,9 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Online nodes</div>
               <div className="counter">
-                {this.state.onlineNodes ? this.state.onlineNodes.length : "-"}
+                {value.nodeInfo.onlineNodes
+                  ? value.nodeInfo.onlineNodes.length
+                  : "-"}
               </div>
             </div>
           </div>
