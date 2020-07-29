@@ -18,7 +18,10 @@ export default class extends React.Component<OuterProps> {
     count: 15,
   };
 
-  fetchTransactions = async (count: number, paginationIndexer?: number) => {
+  fetchTransactions = async (
+    count: number,
+    paginationIndexer?: T.TxPagination
+  ) => {
     return await new TransactionsApi().getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
