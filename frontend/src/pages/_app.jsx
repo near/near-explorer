@@ -8,6 +8,7 @@ import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
 import SubscriptionProvider from "../context/SubscriptionProvider";
+import NodeProvider from "../context/NodeProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -57,13 +58,15 @@ export default class extends App {
           nearNetworks={nearNetworks}
         >
           <SubscriptionProvider>
-            <div className="app-wrapper">
-              <Header />
-              <div className="page">
-                <Component {...pageProps} />
+            <NodeProvider>
+              <div className="app-wrapper">
+                <Header />
+                <div className="page">
+                  <Component {...pageProps} />
+                </div>
               </div>
-            </div>
-            <Footer />
+              <Footer />
+            </NodeProvider>
           </SubscriptionProvider>
         </DataProvider>
         <style jsx global>{`

@@ -7,7 +7,7 @@ import Link from "next/link";
 import React from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { SubscriptionContext } from "../../context/SubscriptionProvider";
+import { NodeContext } from "../../context/NodeProvider";
 
 const Datamap = dynamic(() => import("../utils/DatamapsExtension"), {
   ssr: false,
@@ -662,6 +662,6 @@ class NodesMap extends React.Component<State> {
     );
   }
 }
-NodesMap.contextType = SubscriptionContext;
+NodesMap.contextType = NodeContext;
 
 export default NodesMap;

@@ -1,7 +1,7 @@
 import React from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { SubscriptionConsumer } from "../../context/SubscriptionProvider";
+import { NodeConsumer } from "../../context/NodeProvider";
 
 import ProposalRow from "./ProposalRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
@@ -9,7 +9,7 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 export default class extends React.Component {
   render() {
     return (
-      <SubscriptionConsumer>
+      <NodeConsumer>
         {(context) => (
           <>
             {context.nodeInfo.proposals ? (
@@ -21,7 +21,7 @@ export default class extends React.Component {
             )}
           </>
         )}
-      </SubscriptionConsumer>
+      </NodeConsumer>
     );
   }
 }
