@@ -7,7 +7,7 @@ import { getNearNetwork } from "../libraries/config";
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
-import SubscriptionProvider from "../context/SubscriptionProvider";
+import StatsDataProvider from "../context/StatsDataProvider";
 import NodeProvider from "../context/NodeProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -57,7 +57,7 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <SubscriptionProvider>
+          <StatsDataProvider>
             <NodeProvider>
               <div className="app-wrapper">
                 <Header />
@@ -67,7 +67,7 @@ export default class extends App {
               </div>
               <Footer />
             </NodeProvider>
-          </SubscriptionProvider>
+          </StatsDataProvider>
         </DataProvider>
         <style jsx global>{`
           @font-face {

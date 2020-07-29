@@ -2,7 +2,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import React from "react";
 
-import { SubscriptionConsumer } from "../../context/SubscriptionProvider";
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
 
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";
@@ -141,7 +141,7 @@ export default (
       }
       return (
         <>
-          <SubscriptionConsumer>
+          <StatsDataConsumer>
             {(context) => (
               <>
                 {!config.dashboard && (
@@ -166,7 +166,7 @@ export default (
                 )}
               </>
             )}
-          </SubscriptionConsumer>
+          </StatsDataConsumer>
           <InfiniteScroll
             dataLength={this.state.items.length}
             next={this.fetchMoreData}

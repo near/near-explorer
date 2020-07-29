@@ -5,7 +5,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as B from "../../libraries/explorer-wamp/blocks";
-import { SubscriptionConsumer } from "../../context/SubscriptionProvider";
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
 
 import Timer from "../utils/Timer";
 
@@ -18,7 +18,7 @@ export default class extends React.PureComponent<Props> {
   render() {
     const { block } = this.props;
     return (
-      <SubscriptionConsumer>
+      <StatsDataConsumer>
         {(context) => (
           <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`}>
             <a style={{ textDecoration: "none" }}>
@@ -126,7 +126,7 @@ export default class extends React.PureComponent<Props> {
             </a>
           </Link>
         )}
-      </SubscriptionConsumer>
+      </StatsDataConsumer>
     );
   }
 }

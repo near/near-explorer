@@ -47,7 +47,7 @@ const stateReducer = (currentState, action) => {
   }
 };
 
-const SubscriptionContext = createContext({
+const StatsDataContext = createContext({
   finalTimestamp: 0,
   dashState: stateInit,
 });
@@ -107,17 +107,17 @@ export default (props) => {
   useEffect(() => Subscription(), [Subscription]);
 
   return (
-    <SubscriptionContext.Provider
+    <StatsDataContext.Provider
       value={{
         finalTimestamp,
         dashState,
       }}
     >
       {props.children}
-    </SubscriptionContext.Provider>
+    </StatsDataContext.Provider>
   );
 };
 
-const SubscriptionConsumer = SubscriptionContext.Consumer;
+const StatsDataConsumer = StatsDataContext.Consumer;
 
-export { SubscriptionConsumer, SubscriptionContext };
+export { StatsDataConsumer, StatsDataContext };
