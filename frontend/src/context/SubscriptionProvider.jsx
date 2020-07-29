@@ -1,4 +1,3 @@
-import * as nearApi from "near-api-js";
 import React, {
   createContext,
   useReducer,
@@ -7,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
-import NodesApi from "../libraries/explorer-wamp/nodes";
 
 const nodeInit = {
   validatorAmount: 0,
