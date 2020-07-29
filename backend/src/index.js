@@ -108,10 +108,15 @@ async function main() {
     wamp.session.publish(uri, args);
   };
 
-  const wampSqlSelectQuery = async (args) => {
+  const wampSqlSelectQueryCount = async (args) => {
     const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
     const res = await wamp.session.call(uri, args);
     return res[0];
+  };
+
+  const wampSqlSelectQueryRows = async (args) => {
+    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
+    return await wamp.session.call(uri, args);
   };
 
   // regular check finalTimesamp and publish to final-timestamp uri
@@ -137,14 +142,14 @@ async function main() {
       lastDayTxCount,
       lastBlockHeight,
     ] = await Promise.all([
-      wampSqlSelectQuery([`SELECT COUNT(*) as total FROM blocks`]),
-      wampSqlSelectQuery([`SELECT COUNT(*) as total FROM transactions`]),
-      wampSqlSelectQuery([`SELECT COUNT(*) as total FROM accounts`]),
-      wampSqlSelectQuery([
+      wampSqlSelectQueryCount([`SELECT COUNT(*) as total FROM blocks`]),
+      wampSqlSelectQueryCount([`SELECT COUNT(*) as total FROM transactions`]),
+      wampSqlSelectQueryCount([`SELECT COUNT(*) as total FROM accounts`]),
+      wampSqlSelectQueryCount([
         `SELECT COUNT(*) as total FROM transactions
         WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
       ]),
-      wampSqlSelectQuery([
+      wampSqlSelectQueryCount([
         `SELECT height FROM blocks ORDER BY height DESC LIMIT 1`,
       ]),
     ]);
@@ -175,7 +180,7 @@ async function main() {
     const accountArray = nodes
       .map((node) => '"' + node.account_id + '"')
       .join(",");
-    let nodesInfo = await wampSqlSelectQuery([
+    let nodesInfo = await wampSqlSelectQueryRows([
       `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
         last_seen as lastSeen, last_height as lastHeight,status,
         agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
@@ -184,6 +189,7 @@ async function main() {
               ORDER BY node_id DESC
           `,
     ]);
+
     let nodeMap = new Map();
     if (nodesInfo) {
       for (let i = 0; i < nodesInfo.length; i++) {
@@ -216,7 +222,7 @@ async function main() {
       if (wamp.session) {
         let { currentValidators, proposals } = await queryNodeStats();
         let validators = await addNodeInfo(currentValidators);
-        let onlineNodes = await wampSqlSelectQuery([
+        let onlineNodes = await wampSqlSelectQueryRows([
           `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
           last_seen as lastSeen, last_height as lastHeight,status,
           agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
