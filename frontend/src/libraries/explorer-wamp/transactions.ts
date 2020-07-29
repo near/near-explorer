@@ -13,6 +13,7 @@ export interface TransactionInfo {
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
+  transactionIndex: number;
   status?: ExecutionStatus;
 }
 
@@ -244,6 +245,7 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
+          transactionIndex: 0,
           actions: [],
         };
       } else {
