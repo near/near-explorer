@@ -25,7 +25,7 @@ export default class extends React.Component<Props> {
                   id="validator-node"
                 >
                   <Col className="node-selector align-self-center">
-                    {context.nodeInfo
+                    {context.nodeInfo.validatorAmount
                       ? `${context.nodeInfo.validatorAmount}  Validating`
                       : `- Validating`}
                   </Col>
@@ -39,7 +39,7 @@ export default class extends React.Component<Props> {
                   id="online-node"
                 >
                   <Col className="node-selector align-self-center">
-                    {context.nodeInfo
+                    {context.nodeInfo.onlineNodeAmount
                       ? `${context.nodeInfo.onlineNodeAmount} Online-nodes`
                       : `- Online-nodes`}
                   </Col>
@@ -53,7 +53,7 @@ export default class extends React.Component<Props> {
                   id="proposal-node"
                 >
                   <Col className="node-selector align-self-center">
-                    {context.nodeInfo
+                    {context.nodeInfo.proposalAmount
                       ? `${context.nodeInfo.proposalAmount} Proposal-nodes`
                       : `- Proposal-nodes`}
                   </Col>
