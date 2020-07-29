@@ -323,7 +323,7 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
     //console.debug(`Syncing the block #${syncingBlockHeight}...`);
     requests.push([
       syncingBlockHeight,
-      promiseResult(nearRpc.block(syncingBlockHeight)),
+      promiseResult(nearRpc.block({ blockId: syncingBlockHeight })),
     ]);
     --syncingBlockHeight;
     if (requests.length >= syncFetchQueueSize) {
