@@ -8,7 +8,6 @@ import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
 import StatsDataProvider from "../context/StatsDataProvider";
-import NodeProvider from "../context/NodeProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -57,17 +56,15 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <StatsDataProvider>
-            <NodeProvider>
-              <div className="app-wrapper">
-                <Header />
-                <div className="page">
-                  <Component {...pageProps} />
-                </div>
-              </div>
-              <Footer />
-            </NodeProvider>
-          </StatsDataProvider>
+          <div className="app-wrapper">
+            <Header />
+            <div className="page">
+              <StatsDataProvider>
+                <Component {...pageProps} />
+              </StatsDataProvider>
+            </div>
+          </div>
+          <Footer />
         </DataProvider>
         <style jsx global>{`
           @font-face {

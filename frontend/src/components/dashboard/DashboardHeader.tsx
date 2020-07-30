@@ -8,7 +8,7 @@ import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import { StatsDataConsumer } from "../../context/StatsDataProvider";
-import { NodeConsumer } from "../../context/NodeProvider";
+import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
 
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
@@ -66,8 +66,8 @@ export default class extends React.Component<State> {
         <StatsDataConsumer>
           {(context) => (
             <Row noGutters>
-              <NodeConsumer>
-                {(value) => (
+              <NodeStatsConsumer>
+                {(stats) => (
                   <Col xs="12" md="3">
                     <CardCell
                       title={
@@ -88,20 +88,20 @@ export default class extends React.Component<State> {
                       text={
                         <Link href="/nodes/[role]" as={`/nodes/validators`}>
                           <a className="dashboard-link">
-                            {value.nodeInfo.validatorAmount.toLocaleString()}/
-                            {value.nodeInfo.onlineNodeAmount.toLocaleString()}
+                            {stats.nodeInfo.validatorAmount.toLocaleString()}/
+                            {stats.nodeInfo.onlineNodeAmount.toLocaleString()}
                           </a>
                         </Link>
                       }
                       className="border-0"
                       loading={
-                        !value.nodeInfo.validatorAmount &&
-                        !value.nodeInfo.onlineNodeAmount
+                        !stats.nodeInfo.validatorAmount &&
+                        !stats.nodeInfo.onlineNodeAmount
                       }
                     />
                   </Col>
                 )}
-              </NodeConsumer>
+              </NodeStatsConsumer>
 
               <Col xs="12" md="3">
                 <CardCell

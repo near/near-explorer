@@ -185,34 +185,24 @@ async function main() {
         last_seen as lastSeen, last_height as lastHeight,status,
         agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
               FROM nodes
-              WHERE account_id IN (${accountArray})
+              WHERE account_id IN (:accountArray)
               ORDER BY node_id DESC
           `,
+      {
+        accountArray,
+      },
     ]);
 
     let nodeMap = new Map();
     if (nodesInfo) {
       for (let i = 0; i < nodesInfo.length; i++) {
-        nodeMap.set(nodesInfo[i].accountId, {
-          agentName: nodesInfo[i].agentName,
-          agentVersion: nodesInfo[i].agentVersion,
-          agentBuild: nodesInfo[i].agentBuild,
-          nodeId: nodesInfo[i].nodeId,
-          lastHeight: nodesInfo[i].lastHeight,
-          lastSeen: nodesInfo[i].lastSeen,
-          ipAddress: nodesInfo[i].ipAddress,
-          accountId: nodesInfo[i].accountId,
-          status: nodesInfo[i].status,
-        });
+        const { accountId, ...nodeInfo } = nodesInfo[i];
+        nodeMap.set(accountId, nodeInfo);
       }
     }
 
     for (let i = 0; i < nodes.length; i++) {
-      let nodeInfo = nodeMap.get(nodes[i].account_id);
-      if (nodeInfo) {
-        nodes[i].nodeInfo = nodeInfo;
-      }
-      nodes[i].nodeInfo = undefined;
+      nodes[i].nodeInfo = nodeMap.get(nodes[i].account_id);
     }
     return nodes;
   };
@@ -235,6 +225,13 @@ async function main() {
           onlineNodes = [];
         }
         wampPublish("nodes", [{ onlineNodes, validators, proposals }]);
+        wampPublish("node-stats", [
+          {
+            validatorAmount: validators.length,
+            onlineNodeAmount: onlineNodes.length,
+            proposalAmount: proposals.length,
+          },
+        ]);
       }
     } catch (error) {
       console.warn("Regular querying nodes amount crashed due to:", error);
