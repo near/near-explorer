@@ -151,9 +151,9 @@ export default class TransactionsApi extends ExplorerApi {
     let WHEREClause;
     if (whereClause.length > 0) {
       if (paginationIndexer) {
-        WHEREClause = `WHERE block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex) AND (${whereClause.join(
+        WHEREClause = `WHERE (${whereClause.join(
           " OR "
-        )})`;
+        )}) AND block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex)`;
       } else {
         WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
       }
@@ -170,7 +170,7 @@ export default class TransactionsApi extends ExplorerApi {
               block_hash as blockHash, block_timestamp as blockTimestamp, transaction_index as transactionIndex
           FROM transactions
           ${WHEREClause}
-          ORDER BY block_timestamp DESC
+          ORDER BY block_timestamp DESC, transaction_index DESC
           LIMIT :limit`,
         {
           ...queries,
@@ -178,6 +178,7 @@ export default class TransactionsApi extends ExplorerApi {
           transactionIndex: queries.paginationIndexer?.transactionIndex,
         },
       ]);
+      console.log(transactions);
       if (transactions.length > 0) {
         await Promise.all(
           transactions.map(async (transaction) => {
