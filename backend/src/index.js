@@ -185,12 +185,9 @@ async function main() {
         last_seen as lastSeen, last_height as lastHeight,status,
         agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
               FROM nodes
-              WHERE account_id IN (:accountArray)
+              WHERE account_id IN (${accountArray})
               ORDER BY node_id DESC
           `,
-      {
-        accountArray,
-      },
     ]);
 
     let nodeMap = new Map();
@@ -204,6 +201,7 @@ async function main() {
     for (let i = 0; i < nodes.length; i++) {
       nodes[i].nodeInfo = nodeMap.get(nodes[i].account_id);
     }
+
     return nodes;
   };
 

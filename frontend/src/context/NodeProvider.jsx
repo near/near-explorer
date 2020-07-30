@@ -46,11 +46,15 @@ export default (props) => {
   const fetchNodeInfo = (nodes) => {
     let { onlineNodes, validators, proposals } = nodes[0];
 
-    dispatchNode({ type: "validators", validatorAmount, validators });
-
-    dispatchNode({ type: "onlines", onlineNodeAmount, onlineNodes });
-
-    dispatchNode({ type: "proposals", proposalAmount, proposals });
+    if (nodeInfo.validators.length !== validators.length) {
+      dispatchNode({ type: "validators", validators });
+    }
+    if (nodeInfo.onlineNodes.length !== onlineNodes.length) {
+      dispatchNode({ type: "onlines", onlineNodes });
+    }
+    if (nodeInfo.proposals.length !== proposals.length) {
+      dispatchNode({ type: "proposals", proposals });
+    }
   };
 
   const Subscription = useCallback(() => {

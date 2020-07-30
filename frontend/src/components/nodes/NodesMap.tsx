@@ -104,6 +104,7 @@ class NodesMap extends React.Component<State> {
         bubble.radius = 4;
         if (this.state.nodesType === "validators") {
           bubble.nodeInfo = element.nodeInfo;
+          bubble.nodeInfo.accountId = element.account_id;
         }
         bubble.nodeInfo = element;
 
