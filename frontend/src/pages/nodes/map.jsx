@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import NodesMap from "../../components/nodes/NodesMap";
-
+import NodeProvider from "../../context/NodeProvider";
 export default class extends React.Component {
   render() {
     return (
@@ -9,7 +9,9 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Nodes Map</title>
         </Head>
-        <NodesMap />
+        <NodeProvider>
+          <NodesMap />
+        </NodeProvider>
       </>
     );
   }
