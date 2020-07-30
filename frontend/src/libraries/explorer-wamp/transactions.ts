@@ -178,7 +178,7 @@ export default class TransactionsApi extends ExplorerApi {
           transactionIndex: queries.paginationIndexer?.transactionIndex,
         },
       ]);
-      console.log(transactions);
+
       if (transactions.length > 0) {
         await Promise.all(
           transactions.map(async (transaction) => {
