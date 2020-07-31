@@ -82,7 +82,7 @@ exports[`<BlockDetails /> renders 1`] = `
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
               >
-                0
+                ...
               </div>
             </div>
           </div>
