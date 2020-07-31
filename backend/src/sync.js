@@ -57,12 +57,13 @@ async function saveBlocks(blocksInfo) {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
                 models.Transaction.bulkCreate(
-                  blockInfo.transactions.map((tx) => {
+                  blockInfo.transactions.map((tx, index) => {
                     return {
                       hash: tx.hash,
                       nonce: tx.nonce,
                       blockHash: blockInfo.header.hash,
                       blockTimestamp: timestamp,
+                      transactionIndex: index,
                       signerId: tx.signer_id,
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
