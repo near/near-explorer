@@ -1,4 +1,5 @@
 import moment from "moment";
+import BN from "bn.js";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -7,6 +8,7 @@ import * as B from "../../libraries/explorer-wamp/blocks";
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
+import Gas from "../utils/Gas";
 
 export interface Props {
   block: B.BlockInfo;
@@ -48,7 +50,9 @@ export default ({ block }: Props) => {
                   </Term>
                 }
                 imgLink="/static/images/icon-m-size.svg"
-                text={block.gasUsed.toLocaleString()}
+                text={
+                  block.gasUsed ? <Gas gas={new BN(block.gasUsed)} /> : "..."
+                }
               />
             </Col>
             <Col md="3">
