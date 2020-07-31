@@ -22,10 +22,8 @@ async function saveBlocks(blocksInfo) {
               height: blockInfo.header.height,
               prevHash: blockInfo.header.prev_hash,
               timestamp: parseInt(blockInfo.header.timestamp / 1000000),
-              totalSupply: blockInfo.header.total_supply || "",
-              gasLimit: blockInfo.header.gas_limit || 0,
-              gasUsed: blockInfo.header.gas_used || 0,
-              gasPrice: blockInfo.header.gas_price || "0",
+              totalSupply: blockInfo.header.total_supply,
+              gasPrice: blockInfo.header.gas_price,
               author: blockInfo.author,
             };
           }),
