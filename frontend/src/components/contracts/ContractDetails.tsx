@@ -123,9 +123,11 @@ export default class extends React.Component<Props, State> {
               <CardCell
                 title={
                   <Term title={"Locked?"}>
-                    {`Locked contract means that there are no access keys allowing the contract code to be re-deployed 
-                (e.g. even a single FullAccess permission access key casts the locked status to "No"). However, the
-                contract itself may still be implemented the way that it re-deploys itself or re-adds FullAccess keys.`}
+                    <p>{`Locked contract means that there are no access keys allowing the
+                      contract code to be re-deployed (e.g. even a single FullAccess
+                      permission access key casts the locked status to "No").`}</p>
+                    <p>{`Note: The contract itself may be implemented to re-deploy itself
+                      or re-add FullAccess keys.`}</p>
                   </Term>
                 }
                 text={lockedShow ? lockedShow : ""}
