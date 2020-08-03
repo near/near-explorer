@@ -1,4 +1,5 @@
 import { ExplorerApi } from ".";
+import BN from "bn.js";
 
 export interface BlockInfo {
   hash: string;
@@ -7,7 +8,8 @@ export interface BlockInfo {
   prevHash: string;
   transactionsCount: number;
   gasPrice: string;
-  gasUsed: number;
+  gasUsed?: string;
+  isFinal?: boolean;
 }
 
 export default class BlocksApi extends ExplorerApi {
@@ -80,7 +82,7 @@ export default class BlocksApi extends ExplorerApi {
         `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, 
-                  blocks.gas_price as gasPrice, blocks.gas_used as gasUsed
+                  blocks.gas_price as gasPrice
             FROM blocks
             WHERE blocks.hash = :blockId OR blocks.height = :blockId
           ) as blocks
@@ -92,6 +94,20 @@ export default class BlocksApi extends ExplorerApi {
 
       if (block === null) {
         throw new Error("block not found");
+      } else {
+        let gasUsedResult = await this.call<any>("select", [
+          `SELECT gas_used as gasUsed FROM chunks WHERE block_hash = :block_hash AND height_included = :block_height`,
+          {
+            block_hash: block.hash,
+            block_height: block.height,
+          },
+        ]);
+        let gasUsedArray = gasUsedResult.map((gas: any) => new BN(gas.gasUsed));
+        let gasUsed = gasUsedArray.reduce(
+          (gas: BN, currentGas: BN) => gas.add(currentGas),
+          new BN(0)
+        );
+        block.gasUsed = gasUsed.toString();
       }
 
       return block as BlockInfo;
