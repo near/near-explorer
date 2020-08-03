@@ -35,6 +35,7 @@ export default class extends React.Component<OuterProps> {
     fetchDataFn: this.fetchTransactions,
     count: this.props.count,
     category: "Transaction",
+    dashboard: this.props.accountId || this.props.blockHash ? true : false,
   };
 
   TransactionsList = ListHandler(Transactions, this.config);
