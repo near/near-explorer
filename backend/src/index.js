@@ -177,21 +177,21 @@ async function main() {
 
   // regular check node status and publish to nodes uri
   const addNodeInfo = async (nodes) => {
-    const accountArray = nodes
-      .map((node) => '"' + node.account_id + '"')
-      .join(",");
+    const accountArray = nodes.map((node) => node.account_id);
     let nodesInfo = await wampSqlSelectQueryRows([
       `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
         last_seen as lastSeen, last_height as lastHeight,status,
         agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
               FROM nodes
-              WHERE account_id IN (${accountArray})
+              WHERE account_id IN (:accountArray)
               ORDER BY node_id DESC
           `,
+      {
+        accountArray,
+      },
     ]);
-
     let nodeMap = new Map();
-    if (nodesInfo) {
+    if (nodesInfo && nodesInfo.length > 0) {
       for (let i = 0; i < nodesInfo.length; i++) {
         const { accountId, ...nodeInfo } = nodesInfo[i];
         nodeMap.set(accountId, nodeInfo);
