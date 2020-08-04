@@ -21,7 +21,6 @@ export interface Props {
 }
 
 export interface State {
-  block?: B.BlockInfo;
   deposit?: BN;
   gasUsed?: BN;
   gasAttached?: BN;
@@ -70,26 +69,35 @@ export default class extends React.Component<Props, State> {
     return gasBurntByTx.add(gasBurntByReceipts);
   }
 
-  updateBlock = async () => {
-    const block = await new BlocksApi().getBlockInfo(
-      this.props.transaction.blockHash
-    );
-    this.setState({ block });
-  };
+  collectTransactionFee(transaction: T.Transaction): BN {
+    const tokensBurntByTx = transaction.transactionOutcome
+      ? new BN(transaction.transactionOutcome.outcome.tokens_burnt)
+      : new BN(0);
+    const tokensBurntByReceipts = transaction.receiptsOutcome
+      ? transaction.receiptsOutcome
+          .map((receipt) => new BN(receipt.outcome.tokens_burnt))
+          .reduce(
+            (tokenBurnt, currentFee) => tokenBurnt.add(currentFee),
+            new BN(0)
+          )
+      : new BN(0);
+    return tokensBurntByTx.add(tokensBurntByReceipts);
+  }
 
   updateComputedValues = () => {
     const deposit = this.collectDeposit(this.props.transaction.actions);
     const gasUsed = this.collectGasUsed(this.props.transaction);
+    const transactionFee = this.collectTransactionFee(this.props.transaction);
     let gasAttached = this.collectGasAttached(this.props.transaction.actions);
     if (gasAttached === null) {
       gasAttached = gasUsed;
     }
-    const stateUpdate: State = { deposit, gasUsed, gasAttached };
-    if (this.state.block) {
-      stateUpdate.transactionFee = gasUsed.mul(
-        new BN(this.state.block.gasPrice)
-      );
-    }
+    const stateUpdate: State = {
+      deposit,
+      gasUsed,
+      gasAttached,
+      transactionFee,
+    };
     this.setState(stateUpdate);
   };
 
@@ -98,39 +106,21 @@ export default class extends React.Component<Props, State> {
     this.updateComputedValues();
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if (this.state.block === undefined) {
-      this.updateBlock();
-    } else if (this.state.block.hash !== this.props.transaction.blockHash) {
-      if (this.state.transactionFee) {
-        this.setState({
-          deposit: undefined,
-          gasUsed: undefined,
-          gasAttached: undefined,
-          transactionFee: undefined,
-        });
-      } else {
-        this.updateBlock();
-      }
-    } else if (
-      !prevState.block ||
-      this.state.block.hash !== prevState.block.hash ||
-      this.props.transaction !== prevProps.transaction ||
-      this.props.transaction.blockHash !== prevProps.transaction.blockHash
-    ) {
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.transaction.blockHash !== prevProps.transaction.blockHash) {
       this.updateComputedValues();
     }
   }
 
   render() {
     const { transaction } = this.props;
-    const { block, deposit, transactionFee, gasUsed, gasAttached } = this.state;
+    const { deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
       <RpcConsumer>
         {(context) => (
           <div className="transaction-info-container">
             <Row noGutters>
-              <Col md="3">
+              <Col md="5">
                 <CardCell
                   title={
                     <Term title={"Signed by"}>
@@ -149,7 +139,7 @@ export default class extends React.Component<Props, State> {
                   className="border-0"
                 />
               </Col>
-              <Col md="3">
+              <Col md="4">
                 <CardCell
                   title={
                     <Term title={"Receiver"}>
@@ -165,27 +155,6 @@ export default class extends React.Component<Props, State> {
                   }
                   imgLink="/static/images/icon-m-user.svg"
                   text={<AccountLink accountId={transaction.receiverId} />}
-                />
-              </Col>
-              <Col md="3">
-                <CardCell
-                  title={
-                    <Term title={"Value"}>
-                      {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
-                This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
-                      <a
-                        href={
-                          "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
-                        }
-                      >
-                        docs
-                      </a>
-                    </Term>
-                  }
-                  imgLink="/static/images/icon-m-filter.svg"
-                  text={
-                    deposit ? <Balance amount={deposit.toString()} /> : "..."
-                  }
                 />
               </Col>
               <Col md="3">
@@ -251,11 +220,12 @@ export default class extends React.Component<Props, State> {
               <Col md="3">
                 <CardCell
                   title={
-                    <Term title={"Gas Price"}>
-                      {"Cost per unit of gas. "}
+                    <Term title={"Deposit Value"}>
+                      {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
+                This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
                       <a
                         href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                          "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
                         }
                       >
                         docs
@@ -263,7 +233,9 @@ export default class extends React.Component<Props, State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-filter.svg"
-                  text={block ? <Balance amount={block.gasPrice} /> : "..."}
+                  text={
+                    deposit ? <Balance amount={deposit.toString()} /> : "..."
+                  }
                 />
               </Col>
               <Col md="3">
