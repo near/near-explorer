@@ -380,7 +380,7 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Validating nodes</div>
               <div className="counter">
-                nodeInfo.validators ? nodeInfo.validators.length : "-"}
+                {nodeInfo.validators ? nodeInfo.validators.length : "-"}
               </div>
             </div>
             <div
