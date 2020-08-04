@@ -7,7 +7,7 @@ import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions"
 
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
-import autoRefreshHandler from "../utils/autoRefreshHandler";
+import ListHandler from "../utils/ListHandler";
 
 import TransactionAction from "../transactions/TransactionAction";
 
@@ -33,13 +33,10 @@ export default class extends React.Component<OuterProps> {
     category: "Transaction",
   };
 
-  autoRefreshDashboardBlocks = autoRefreshHandler(
-    DashboardTransactions,
-    this.config
-  );
+  DashTransactionsList = ListHandler(DashboardTransactions, this.config);
 
   render() {
-    return <this.autoRefreshDashboardBlocks />;
+    return <this.DashTransactionsList />;
   }
 }
 

@@ -7,28 +7,19 @@ import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import DetailsApi, * as D from "../../libraries/explorer-wamp/details";
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
 
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
 
 interface State {
-  details?: D.Details;
   searchValue: string;
-  loading: boolean;
 }
 
 export default class extends React.Component<State> {
-  constructor(props: any) {
-    super(props);
-    this.timer = null;
-  }
-
-  timer: ReturnType<typeof setTimeout> | null;
-
   state: State = {
     searchValue: "",
-    loading: true,
   };
 
   handleSearch = async (event: any) => {
@@ -69,168 +60,135 @@ export default class extends React.Component<State> {
     }
   };
 
-  componentDidMount() {
-    this.timer = setTimeout(this.regularFetchInfo, 0);
-  }
-
-  componentWillUnmount() {
-    const timer = this.timer;
-    this.timer = null;
-    if (timer !== null) {
-      clearTimeout(timer);
-    }
-  }
-
-  fetchInfo = async () => {
-    new DetailsApi()
-      .getDetails()
-      .then((details) => {
-        if (details !== undefined) {
-          this.setState({ details, loading: false });
-        }
-      })
-      .catch((err) => console.error(err));
-  };
-
-  regularFetchInfo = async () => {
-    await this.fetchInfo();
-    if (this.timer !== null) {
-      this.timer = setTimeout(this.regularFetchInfo, 10000);
-    }
-  };
-
-  changeModalHandler = (name: string) => {
-    this.setState({ modalInfo: name });
-  };
-
-  ModalCloseHander = () => {
-    this.setState({ modalInfo: undefined });
-  };
-
   render() {
-    const { details, loading } = this.state;
     return (
       <div className="dashboard-info-container">
-        <Row noGutters>
-          <Col xs="12" md="3">
-            <CardCell
-              title={
-                <Term title={"Nodes Online"}>
-                  {
-                    "Total number of validating nodes / Total number of online nodes. "
-                  }
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-node-online.svg"
-              text={
-                details ? (
-                  <Link href="/nodes/[role]" as={`/nodes/validators`}>
-                    <a id="node-page" className="dashboard-link">
-                      {details.validatorsCount.toLocaleString()}/
-                      {details.onlineNodesCount.toLocaleString()}
-                    </a>
-                  </Link>
-                ) : (
-                  ""
-                )
-              }
-              className="border-0"
-              loading={loading}
-            />
-          </Col>
-          <Col xs="12" md="3">
-            <CardCell
-              title={
-                <Term title={"Block Height"}>
-                  <p>{`The most recent block height recorded to the blockchain.`}</p>
-                  <p>{`The block height is a sequential number of the most recent block in the blockchain.`}</p>
-                  <p>{`For example, a block height of 1000 indicates that up to 1001 blocks may exist in the blockchain (genesis + blocks 0-1000).
+        <StatsDataConsumer>
+          {(context) => (
+            <Row noGutters>
+              <NodeStatsConsumer>
+                {(stats) => (
+                  <Col xs="12" md="3">
+                    <CardCell
+                      title={
+                        <Term title={"Nodes Online"}>
+                          {
+                            "Total number of validating nodes / Total number of online nodes. "
+                          }
+                          <a
+                            href={
+                              "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
+                            }
+                          >
+                            docs
+                          </a>
+                        </Term>
+                      }
+                      imgLink="/static/images/icon-m-node-online.svg"
+                      text={
+                        <Link href="/nodes/[role]" as={`/nodes/validators`}>
+                          <a className="dashboard-link">
+                            {stats.nodeInfo.validatorAmount.toLocaleString()}/
+                            {stats.nodeInfo.onlineNodeAmount.toLocaleString()}
+                          </a>
+                        </Link>
+                      }
+                      className="border-0"
+                      loading={
+                        !stats.nodeInfo.validatorAmount &&
+                        !stats.nodeInfo.onlineNodeAmount
+                      }
+                    />
+                  </Col>
+                )}
+              </NodeStatsConsumer>
+
+              <Col xs="12" md="3">
+                <CardCell
+                  title={
+                    <Term title={"Block Height"}>
+                      <p>{`The most recent block height recorded to the blockchain.`}</p>
+                      <p>{`The block height is a sequential number of the most recent block in the blockchain.`}</p>
+                      <p>{`For example, a block height of 1000 indicates that up to 1001 blocks may exist in the blockchain (genesis + blocks 0-1000).
                     In NEAR, there is not guaranteed to be a block for each sequential number, e.g. block 982 does not necessarily exist.`}</p>
-                  <p>
-                    <a href="https://docs.near.org/docs/concepts/overview">
-                      {"Learn more about the key concepts"}
-                    </a>
-                  </p>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-height.svg"
-              text={details ? details.lastBlockHeight.toLocaleString() : ""}
-              loading={loading}
-            />
-          </Col>
-          <Col xs="12" md="2">
-            <CardCell
-              title={
-                <Term title={"TXs"}>
-                  {"The number of transactions since genesis. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-transaction.svg"
-              text={details ? details.totalTxCount.toLocaleString() : ""}
-              loading={loading}
-            />
-          </Col>
-          <Col xs="12" md="2">
-            <CardCell
-              title={
-                <Term title={"TPD"}>
-                  {"The number of transactions in the last 24 hours. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-transaction.svg"
-              text={details ? details.lastDayTxCount.toLocaleString() : ""}
-              loading={loading}
-            />
-          </Col>
-          <Col xs="12" md="2">
-            <CardCell
-              title={
-                <Term title={"Accounts"}>
-                  {"Total number of accounts created on this net. "}
-                  <a
-                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
-                  >
-                    docs
-                  </a>
-                </Term>
-              }
-              imgLink="/static/images/icon-m-user.svg"
-              text={
-                details ? (
-                  <Link href="/accounts">
-                    <a className="dashboard-link">
-                      {details.accountsCount.toLocaleString()}
-                    </a>
-                  </Link>
-                ) : (
-                  ""
-                )
-              }
-              loading={loading}
-            />
-          </Col>
-        </Row>
+                      <p>
+                        <a href="https://docs.near.org/docs/concepts/overview">
+                          {"Learn more about the key concepts"}
+                        </a>
+                      </p>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-height.svg"
+                  text={context.dashboardStats.lastBlockHeight.toLocaleString()}
+                  loading={!context.dashboardStats.lastBlockHeight}
+                />
+              </Col>
+              <Col xs="12" md="2">
+                <CardCell
+                  title={
+                    <Term title={"TXs"}>
+                      {"The number of transactions since genesis. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-transaction.svg"
+                  text={context.dashboardStats.totalTransactions.toLocaleString()}
+                  loading={!context.dashboardStats.totalTransactions}
+                />
+              </Col>
+              <Col xs="12" md="2">
+                <CardCell
+                  title={
+                    <Term title={"TPD"}>
+                      {"The number of transactions in the last 24 hours. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/transaction"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-transaction.svg"
+                  text={context.dashboardStats.lastDayTxCount.toLocaleString()}
+                  loading={!context.dashboardStats.lastDayTxCount}
+                />
+              </Col>
+              <Col xs="12" md="2">
+                <CardCell
+                  title={
+                    <Term title={"Accounts"}>
+                      {"Total number of accounts created on this net. "}
+                      <a
+                        href={
+                          "https://docs.nearprotocol.com/docs/concepts/account"
+                        }
+                      >
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  imgLink="/static/images/icon-m-user.svg"
+                  text={
+                    <Link href="/accounts">
+                      <a className="dashboard-link">
+                        {context.dashboardStats.totalAccounts.toLocaleString()}
+                      </a>
+                    </Link>
+                  }
+                  loading={!context.dashboardStats.totalAccounts}
+                />
+              </Col>
+            </Row>
+          )}
+        </StatsDataConsumer>
         <form onSubmit={this.handleSearch}>
           <Row className="search-box" noGutters>
             <Col className="p-3" xs="12" md="10">

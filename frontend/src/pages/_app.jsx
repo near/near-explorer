@@ -2,14 +2,12 @@ import App from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 
-import TransactionsApi from "../libraries/explorer-wamp/transactions";
-import BlocksApi from "../libraries/explorer-wamp/blocks";
 import { getNearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
-import RpcProvider from "../components/utils/RpcProvider";
+import StatsDataProvider from "../context/StatsDataProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -42,22 +40,6 @@ export default class extends App {
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
     };
   }
-  state = {};
-
-  fetchRpcInfo = async () => {
-    const [finalStamp, lastBlockHeight] = await Promise.all([
-      new TransactionsApi().queryFinalTimestamp(),
-      new BlocksApi().getLatestBlockHeight(),
-    ]);
-    this.setState({
-      finalStamp,
-      lastBlockHeight,
-    });
-  };
-
-  componentDidMount() {
-    this.fetchRpcInfo();
-  }
 
   render() {
     const { Component, pageProps } = this.props;
@@ -74,18 +56,15 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <RpcProvider
-            finalStamp={this.state.finalStamp}
-            lastBlockHeight={this.state.lastBlockHeight}
-          >
-            <div className="app-wrapper">
-              <Header />
-              <div className="page">
+          <div className="app-wrapper">
+            <Header />
+            <div className="page">
+              <StatsDataProvider>
                 <Component {...pageProps} />
-              </div>
+              </StatsDataProvider>
             </div>
-            <Footer />
-          </RpcProvider>
+          </div>
+          <Footer />
         </DataProvider>
         <style jsx global>{`
           @font-face {
