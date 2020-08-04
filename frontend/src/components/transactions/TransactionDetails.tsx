@@ -5,7 +5,6 @@ import { Row, Col } from "react-bootstrap";
 import React from "react";
 
 import { RpcConsumer } from "../utils/RpcProvider";
-import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import AccountLink from "../utils/AccountLink";
