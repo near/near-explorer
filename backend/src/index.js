@@ -8,7 +8,6 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
-  wampNearNetworkName,
 } = require("./config");
 
 const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
@@ -19,7 +18,9 @@ const {
   syncGenesisState,
 } = require("./sync");
 
-const { setupWamp } = require("./wamp");
+const { setupWamp, wampPublish } = require("./wamp");
+
+const { aggregateStats, addNodeInfo, queryOnlineNodes } = require("./db-utils");
 
 async function main() {
   console.log("Starting NEAR Explorer backend service...");
@@ -97,34 +98,16 @@ async function main() {
     regularSyncMissingNearcoreStateInterval
   );
 
-  //set up wamp
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");
   wamp.open();
-
-  // wamp function
-  const wampPublish = (topic, args) => {
-    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${topic}`;
-    wamp.session.publish(uri, args);
-  };
-
-  const wampSqlSelectQueryCount = async (args) => {
-    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
-    const res = await wamp.session.call(uri, args);
-    return res[0];
-  };
-
-  const wampSqlSelectQueryRows = async (args) => {
-    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
-    return await wamp.session.call(uri, args);
-  };
 
   // regular check finalTimesamp and publish to final-timestamp uri
   const regularCheckFinalTimestamp = async () => {
     try {
       if (wamp.session) {
         const finalTimestamp = await queryFinalTimestamp();
-        wampPublish("final-timestamp", [finalTimestamp]);
+        wampPublish("final-timestamp", [finalTimestamp], wamp);
       }
     } catch (error) {
       console.warn("Regular querying RPC crashed due to:", error);
@@ -134,39 +117,11 @@ async function main() {
   setTimeout(regularCheckFinalTimestamp, 0);
 
   // regular check block/tx data stats and publish to data-stats uri
-  const totalStats = async () => {
-    const [
-      totalBlocks,
-      totalTransactions,
-      totalAccounts,
-      lastDayTxCount,
-      lastBlockHeight,
-    ] = await Promise.all([
-      wampSqlSelectQueryCount([`SELECT COUNT(*) as total FROM blocks`]),
-      wampSqlSelectQueryCount([`SELECT COUNT(*) as total FROM transactions`]),
-      wampSqlSelectQueryCount([`SELECT COUNT(*) as total FROM accounts`]),
-      wampSqlSelectQueryCount([
-        `SELECT COUNT(*) as total FROM transactions
-        WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
-      ]),
-      wampSqlSelectQueryCount([
-        `SELECT height FROM blocks ORDER BY height DESC LIMIT 1`,
-      ]),
-    ]);
-    return {
-      totalAccounts: totalAccounts.total,
-      totalBlocks: totalBlocks.total,
-      totalTransactions: totalTransactions.total,
-      lastDayTxCount: lastDayTxCount.total,
-      lastBlockHeight: lastBlockHeight.height,
-    };
-  };
-
   const regularCheckDataStats = async () => {
     try {
       if (wamp.session) {
-        const dataStats = await totalStats();
-        wampPublish("data-stats", [{ dataStats }]);
+        const dataStats = await aggregateStats(wamp);
+        wampPublish("data-stats", [{ dataStats }], wamp);
       }
     } catch (error) {
       console.warn("Regular querying data stats crashed due to:", error);
@@ -176,60 +131,27 @@ async function main() {
   setTimeout(regularCheckDataStats, 0);
 
   // regular check node status and publish to nodes uri
-  const addNodeInfo = async (nodes) => {
-    const accountArray = nodes.map((node) => node.account_id);
-    let nodesInfo = await wampSqlSelectQueryRows([
-      `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
-        last_seen as lastSeen, last_height as lastHeight,status,
-        agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
-              FROM nodes
-              WHERE account_id IN (:accountArray)
-              ORDER BY node_id DESC
-          `,
-      {
-        accountArray,
-      },
-    ]);
-    let nodeMap = new Map();
-    if (nodesInfo && nodesInfo.length > 0) {
-      for (let i = 0; i < nodesInfo.length; i++) {
-        const { accountId, ...nodeInfo } = nodesInfo[i];
-        nodeMap.set(accountId, nodeInfo);
-      }
-    }
-
-    for (let i = 0; i < nodes.length; i++) {
-      nodes[i].nodeInfo = nodeMap.get(nodes[i].account_id);
-    }
-
-    return nodes;
-  };
-
   const regularCheckNodeStatus = async () => {
     try {
       if (wamp.session) {
         let { currentValidators, proposals } = await queryNodeStats();
-        let validators = await addNodeInfo(currentValidators);
-        let onlineNodes = await wampSqlSelectQueryRows([
-          `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
-          last_seen as lastSeen, last_height as lastHeight,status,
-          agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
-                FROM nodes
-                WHERE last_seen > (strftime('%s','now') - 60) * 1000
-                ORDER BY is_validator ASC, node_id DESC
-            `,
-        ]);
+        let validators = await addNodeInfo(currentValidators, wamp);
+        let onlineNodes = await queryOnlineNodes(wamp);
         if (!onlineNodes) {
           onlineNodes = [];
         }
-        wampPublish("nodes", [{ onlineNodes, validators, proposals }]);
-        wampPublish("node-stats", [
-          {
-            validatorAmount: validators.length,
-            onlineNodeAmount: onlineNodes.length,
-            proposalAmount: proposals.length,
-          },
-        ]);
+        wampPublish("nodes", [{ onlineNodes, validators, proposals }], wamp);
+        wampPublish(
+          "node-stats",
+          [
+            {
+              validatorAmount: validators.length,
+              onlineNodeAmount: onlineNodes.length,
+              proposalAmount: proposals.length,
+            },
+          ],
+          wamp
+        );
       }
     } catch (error) {
       console.warn("Regular querying nodes amount crashed due to:", error);
