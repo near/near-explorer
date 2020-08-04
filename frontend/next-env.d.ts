@@ -6,3 +6,5 @@ declare module "*.svg" {
 }
 
 declare module "react-text-collapse";
+
+declare module "*"; // for datamaps npm

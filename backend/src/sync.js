@@ -22,10 +22,8 @@ async function saveBlocks(blocksInfo) {
               height: blockInfo.header.height,
               prevHash: blockInfo.header.prev_hash,
               timestamp: parseInt(blockInfo.header.timestamp / 1000000),
-              totalSupply: blockInfo.header.total_supply || "",
-              gasLimit: blockInfo.header.gas_limit || 0,
-              gasUsed: blockInfo.header.gas_used || 0,
-              gasPrice: blockInfo.header.gas_price || "0",
+              totalSupply: blockInfo.header.total_supply,
+              gasPrice: blockInfo.header.gas_price,
               author: blockInfo.author,
             };
           }),
@@ -57,12 +55,13 @@ async function saveBlocks(blocksInfo) {
               const timestamp = parseInt(blockInfo.header.timestamp / 1000000);
               return Promise.all([
                 models.Transaction.bulkCreate(
-                  blockInfo.transactions.map((tx) => {
+                  blockInfo.transactions.map((tx, index) => {
                     return {
                       hash: tx.hash,
                       nonce: tx.nonce,
                       blockHash: blockInfo.header.hash,
                       blockTimestamp: timestamp,
+                      transactionIndex: index,
                       signerId: tx.signer_id,
                       signerPublicKey: tx.signer_public_key || tx.public_key,
                       signature: tx.signature,
@@ -323,7 +322,7 @@ async function syncNearcoreBlocks(topBlockHeight, bottomBlockHeight) {
     //console.debug(`Syncing the block #${syncingBlockHeight}...`);
     requests.push([
       syncingBlockHeight,
-      promiseResult(nearRpc.block(syncingBlockHeight)),
+      promiseResult(nearRpc.block({ blockId: syncingBlockHeight })),
     ]);
     --syncingBlockHeight;
     if (requests.length >= syncFetchQueueSize) {

@@ -3,7 +3,7 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import FlipMove from "../utils/FlipMove";
-import autoRefreshHandler from "../utils/autoRefreshHandler";
+import ListHandler from "../utils/ListHandler";
 
 import TransactionAction from "./TransactionAction";
 
@@ -18,7 +18,10 @@ export default class extends React.Component<OuterProps> {
     count: 15,
   };
 
-  fetchTransactions = async (count: number, paginationIndexer?: number) => {
+  fetchTransactions = async (
+    count: number,
+    paginationIndexer?: T.TxPagination
+  ) => {
     return await new TransactionsApi().getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
@@ -32,12 +35,13 @@ export default class extends React.Component<OuterProps> {
     fetchDataFn: this.fetchTransactions,
     count: this.props.count,
     category: "Transaction",
+    dashboard: this.props.accountId || this.props.blockHash ? true : false,
   };
 
-  autoRefreshTransactions = autoRefreshHandler(Transactions, this.config);
+  TransactionsList = ListHandler(Transactions, this.config);
 
   render() {
-    return <this.autoRefreshTransactions />;
+    return <this.TransactionsList />;
   }
 }
 

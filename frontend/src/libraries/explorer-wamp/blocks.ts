@@ -1,4 +1,5 @@
 import { ExplorerApi } from ".";
+import BN from "bn.js";
 
 export interface BlockInfo {
   hash: string;
@@ -7,7 +8,7 @@ export interface BlockInfo {
   prevHash: string;
   transactionsCount: number;
   gasPrice: string;
-  gasUsed: number;
+  gasUsed?: string;
   isFinal?: boolean;
 }
 
@@ -41,9 +42,8 @@ export default class BlocksApi extends ExplorerApi {
     paginationIndexer?: number
   ): Promise<BlockInfo[]> {
     try {
-      const [blocks, finalHeight] = await Promise.all([
-        this.call<any>("select", [
-          `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+      const blocks = await this.call<any>("select", [
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
             FROM blocks
@@ -58,16 +58,12 @@ export default class BlocksApi extends ExplorerApi {
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash
           GROUP BY blocks.hash
           ORDER BY blocks.timestamp DESC`,
-          {
-            limit,
-            paginationIndexer,
-          },
-        ]),
-        this.queryFinalHeight(),
+        {
+          limit,
+          paginationIndexer,
+        },
       ]);
-      for (let i = 0; i < blocks.length; i++) {
-        blocks[i].isFinal = blocks[i].height <= finalHeight;
-      }
+
       return blocks as BlockInfo[];
     } catch (error) {
       console.error("Blocks.getBlocks failed to fetch data due to:");
@@ -82,27 +78,36 @@ export default class BlocksApi extends ExplorerApi {
 
   async getBlockInfo(blockId: string): Promise<BlockInfo> {
     try {
-      const [block, finalHeight] = await Promise.all([
-        this.call<any>("select", [
-          `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+      const block = await this.call<any>("select", [
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
           FROM (
             SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, 
-                  blocks.gas_price as gasPrice, blocks.gas_used as gasUsed
+                  blocks.gas_price as gasPrice
             FROM blocks
             WHERE blocks.hash = :blockId OR blocks.height = :blockId
           ) as blocks
           LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
-          {
-            blockId,
-          },
-        ]).then((it) => (it[0].hash !== null ? it[0] : null)),
-        this.queryFinalHeight(),
-      ]);
+        {
+          blockId,
+        },
+      ]).then((it) => (it[0].hash !== null ? it[0] : null));
 
       if (block === null) {
         throw new Error("block not found");
       } else {
-        block.isFinal = block.height <= finalHeight;
+        let gasUsedResult = await this.call<any>("select", [
+          `SELECT gas_used as gasUsed FROM chunks WHERE block_hash = :block_hash AND height_included = :block_height`,
+          {
+            block_hash: block.hash,
+            block_height: block.height,
+          },
+        ]);
+        let gasUsedArray = gasUsedResult.map((gas: any) => new BN(gas.gasUsed));
+        let gasUsed = gasUsedArray.reduce(
+          (gas: BN, currentGas: BN) => gas.add(currentGas),
+          new BN(0)
+        );
+        block.gasUsed = gasUsed.toString();
       }
 
       return block as BlockInfo;
@@ -116,19 +121,5 @@ export default class BlocksApi extends ExplorerApi {
   async queryFinalHeight(): Promise<any> {
     const finalBlock = await this.call<any>("nearcore-final-block");
     return finalBlock.header.height;
-  }
-
-  async getLatestBlockHeight(): Promise<any> {
-    try {
-      return await this.call<any>("select", [
-        `
-        SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1
-        `,
-      ]).then((it) => it[0].lastBlockHeight);
-    } catch (error) {
-      console.error("Blocks.getLatestBlockHeight failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
   }
 }

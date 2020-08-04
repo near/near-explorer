@@ -1,20 +1,26 @@
 const models = require("../models");
-
 const {
   backupDbOnReset,
   regularCheckGenesisInterval,
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval,
   regularSyncGenesisStateInterval,
-  wampNearNetworkName,
+  regularQueryRPCInterval,
+  regularQueryStatsInterval,
+  regularCheckNodeStatusInterval,
 } = require("./config");
-const { nearRpc } = require("./near");
+
+const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
+
 const {
   syncNewNearcoreState,
   syncMissingNearcoreState,
   syncGenesisState,
 } = require("./sync");
-const { setupWamp } = require("./wamp");
+
+const { setupWamp, wampPublish } = require("./wamp");
+
+const { aggregateStats, addNodeInfo, queryOnlineNodes } = require("./db-utils");
 
 async function main() {
   console.log("Starting NEAR Explorer backend service...");
@@ -95,6 +101,64 @@ async function main() {
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");
   wamp.open();
+
+  // regular check finalTimesamp and publish to final-timestamp uri
+  const regularCheckFinalTimestamp = async () => {
+    try {
+      if (wamp.session) {
+        const finalTimestamp = await queryFinalTimestamp();
+        wampPublish("final-timestamp", [finalTimestamp], wamp);
+      }
+    } catch (error) {
+      console.warn("Regular querying RPC crashed due to:", error);
+    }
+    setTimeout(regularCheckFinalTimestamp, regularQueryRPCInterval);
+  };
+  setTimeout(regularCheckFinalTimestamp, 0);
+
+  // regular check block/tx data stats and publish to data-stats uri
+  const regularCheckDataStats = async () => {
+    try {
+      if (wamp.session) {
+        const dataStats = await aggregateStats(wamp);
+        wampPublish("data-stats", [{ dataStats }], wamp);
+      }
+    } catch (error) {
+      console.warn("Regular querying data stats crashed due to:", error);
+    }
+    setTimeout(regularCheckDataStats, regularQueryStatsInterval);
+  };
+  setTimeout(regularCheckDataStats, 0);
+
+  // regular check node status and publish to nodes uri
+  const regularCheckNodeStatus = async () => {
+    try {
+      if (wamp.session) {
+        let { currentValidators, proposals } = await queryNodeStats();
+        let validators = await addNodeInfo(currentValidators, wamp);
+        let onlineNodes = await queryOnlineNodes(wamp);
+        if (!onlineNodes) {
+          onlineNodes = [];
+        }
+        wampPublish("nodes", [{ onlineNodes, validators, proposals }], wamp);
+        wampPublish(
+          "node-stats",
+          [
+            {
+              validatorAmount: validators.length,
+              onlineNodeAmount: onlineNodes.length,
+              proposalAmount: proposals.length,
+            },
+          ],
+          wamp
+        );
+      }
+    } catch (error) {
+      console.warn("Regular querying nodes amount crashed due to:", error);
+    }
+    setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
+  };
+  setTimeout(regularCheckNodeStatus, 0);
 
   // test part for postgres database
   const wampQueryPostgres = async () => {

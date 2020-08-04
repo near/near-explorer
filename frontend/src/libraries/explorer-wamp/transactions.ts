@@ -13,6 +13,7 @@ export interface TransactionInfo {
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
+  transactionIndex: number;
   status?: ExecutionStatus;
 }
 
@@ -112,13 +113,17 @@ export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
   TransactionOutcomeWrapper;
 
+export interface TxPagination {
+  endTimestamp: number;
+  transactionIndex: number;
+}
 export interface QueryArgs {
   signerId?: string;
   receiverId?: string;
   transactionHash?: string;
   blockHash?: string;
   limit: number;
-  paginationIndexer?: number;
+  paginationIndexer?: TxPagination;
 }
 
 export default class TransactionsApi extends ExplorerApi {
@@ -132,51 +137,56 @@ export default class TransactionsApi extends ExplorerApi {
     } = queries;
     const whereClause = [];
     if (signerId) {
-      whereClause.push(`transactions.signer_id = :signerId`);
+      whereClause.push(`signer_id = :signerId`);
     }
     if (receiverId) {
-      whereClause.push(`transactions.receiver_id = :receiverId`);
+      whereClause.push(`receiver_id = :receiverId`);
     }
     if (transactionHash) {
-      whereClause.push(`transactions.hash = :transactionHash`);
+      whereClause.push(`hash = :transactionHash`);
     }
     if (blockHash) {
-      whereClause.push(`transactions.block_hash = :blockHash`);
+      whereClause.push(`block_hash = :blockHash`);
     }
     let WHEREClause;
     if (whereClause.length > 0) {
       if (paginationIndexer) {
-        WHEREClause = `WHERE block_timestamp < :paginationIndexer AND (${whereClause.join(
+        WHEREClause = `WHERE (${whereClause.join(
           " OR "
-        )})`;
+        )}) AND block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex)`;
       } else {
         WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
       }
     } else {
       if (paginationIndexer) {
-        WHEREClause = `WHERE block_timestamp < :paginationIndexer`;
+        WHEREClause = `WHERE block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex)`;
       } else {
         WHEREClause = "";
       }
     }
     try {
       const transactions = await this.call<TransactionInfo[]>("select", [
-        `SELECT transactions.hash, transactions.signer_id as signerId, transactions.receiver_id as receiverId, 
-              transactions.block_hash as blockHash, transactions.block_timestamp as blockTimestamp
+        `SELECT hash, signer_id as signerId, receiver_id as receiverId, 
+              block_hash as blockHash, block_timestamp as blockTimestamp, transaction_index as transactionIndex
           FROM transactions
           ${WHEREClause}
-          ORDER BY block_timestamp DESC
+          ORDER BY block_timestamp DESC, transaction_index DESC
           LIMIT :limit`,
-        queries,
+        {
+          ...queries,
+          endTimestamp: queries.paginationIndexer?.endTimestamp,
+          transactionIndex: queries.paginationIndexer?.transactionIndex,
+        },
       ]);
+
       if (transactions.length > 0) {
         await Promise.all(
           transactions.map(async (transaction) => {
             const actions = await this.call<any>("select", [
-              `SELECT actions.transaction_hash, actions.action_index, actions.action_type as kind, actions.action_args as args
+              `SELECT transaction_hash, action_index, action_type as kind, action_args as args
             FROM actions
-            WHERE actions.transaction_hash = :hash
-            ORDER BY actions.action_index`,
+            WHERE transaction_hash = :hash
+            ORDER BY action_index`,
               {
                 hash: transaction.hash,
               },
@@ -236,6 +246,7 @@ export default class TransactionsApi extends ExplorerApi {
           receiverId: "",
           blockHash: "",
           blockTimestamp: 0,
+          transactionIndex: 0,
           actions: [],
         };
       } else {
@@ -271,10 +282,5 @@ export default class TransactionsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
-  }
-
-  async queryFinalTimestamp(): Promise<any> {
-    const finalBlock = await this.call<any>("nearcore-final-block");
-    return finalBlock.header.timestamp;
   }
 }

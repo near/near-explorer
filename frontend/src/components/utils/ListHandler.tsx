@@ -2,7 +2,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import React from "react";
 
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
+
 import PaginationSpinner from "./PaginationSpinner";
+import Update from "./Update";
 
 interface Config {
   fetchDataFn: Function;
@@ -19,10 +22,7 @@ export default (
   return class extends React.Component {
     constructor(props: any) {
       super(props);
-      this.timer = null;
     }
-
-    timer: ReturnType<typeof setTimeout> | null;
 
     state = {
       items: Array<any>(),
@@ -33,15 +33,7 @@ export default (
     };
 
     componentDidMount() {
-      this.timer = setTimeout(this.regularFetchInfo, 0);
-    }
-
-    componentWillUnmount() {
-      const timer = this.timer;
-      this.timer = null;
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
+      this.regularFetchInfo();
     }
 
     componentDidUpdate(preProps: any) {
@@ -62,9 +54,6 @@ export default (
       }
       if (this.state.itemsLength > 0) {
         this.fetchInfo(this.state.itemsLength);
-        if (this.timer !== null) {
-          this.timer = setTimeout(this.regularFetchInfo, 10000);
-        }
       }
     };
 
@@ -136,13 +125,13 @@ export default (
           paginationIndexer = this.state.items[this.state.items.length - 1]
             .timestamp;
           break;
-        case "Node":
-          paginationIndexer = this.state.items[this.state.items.length - 1]
-            .nodeId;
-          break;
         case "Transaction":
-          paginationIndexer = this.state.items[this.state.items.length - 1]
-            .blockTimestamp;
+          paginationIndexer = {
+            endTimestamp: this.state.items[this.state.items.length - 1]
+              .blockTimestamp,
+            transactionIndex: this.state.items[this.state.items.length - 1]
+              .transactionIndex,
+          };
           break;
         default:
           paginationIndexer = undefined;
@@ -156,6 +145,32 @@ export default (
       }
       return (
         <>
+          <StatsDataConsumer>
+            {(context) => (
+              <>
+                {!config.dashboard && (
+                  <div
+                    onClick={() => {
+                      this.regularFetchInfo();
+                    }}
+                  >
+                    <Update
+                      count={
+                        config.category === "Block"
+                          ? context.dashboardStats.totalBlocks
+                          : config.category === "Transaction"
+                          ? context.dashboardStats.totalTransactions
+                          : config.category === "Account"
+                          ? context.dashboardStats.totalAccounts
+                          : 0
+                      }
+                      category={config.category}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </StatsDataConsumer>
           <InfiniteScroll
             dataLength={this.state.items.length}
             next={this.fetchMoreData}
@@ -168,7 +183,9 @@ export default (
                   <button
                     onClick={this.fetchMoreData}
                     className="load-button"
-                    style={{ display: this.state.hasMore ? "block" : "none" }}
+                    style={{
+                      display: this.state.hasMore ? "block" : "none",
+                    }}
                   >
                     Load More
                   </button>

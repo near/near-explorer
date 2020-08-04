@@ -25,14 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      gasLimit: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
-      gasUsed: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
       gasPrice: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BIGINT,
         allowNull: false,
       },
+      transactionIndex: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
       nonce: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -46,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         { fields: ["block_timestamp"] },
         { fields: ["signer_id"] },
         { fields: ["receiver_id"] },
+        { fields: ["transaction_index"] },
       ],
     }
   );

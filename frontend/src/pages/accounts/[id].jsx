@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import React from "react";
+import { Container } from "react-bootstrap";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 
@@ -38,7 +39,9 @@ export default class extends React.Component {
         {this.props.err ? (
           `Information is not available at the moment. Please, check if the account name is correct or try later.`
         ) : (
-          <ContractDetails accountId={this.props.id} />
+          <Container>
+            <ContractDetails accountId={this.props.id} />
+          </Container>
         )}
         <Content
           size="medium"

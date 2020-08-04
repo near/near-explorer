@@ -2,8 +2,9 @@ import React from "react";
 
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
-import autoRefreshHandler from "../utils/autoRefreshHandler";
+import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
+
 import BlocksRow from "./BlocksRow";
 
 import { OuterProps } from "../accounts/Accounts";
@@ -23,10 +24,10 @@ export default class extends React.Component<OuterProps> {
     category: "Block",
   };
 
-  autoRefreshBlocks = autoRefreshHandler(Blocks, this.config);
+  BlocksList = ListHandler(Blocks, this.config);
 
   render() {
-    return <this.autoRefreshBlocks />;
+    return <this.BlocksList />;
   }
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { RpcConsumer } from "../utils/RpcProvider";
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
@@ -46,7 +46,7 @@ export default class extends React.Component<Props, State> {
     }
     if (transaction.actions.length !== 1) {
       return (
-        <RpcConsumer>
+        <StatsDataConsumer>
           {(context) => (
             <ActionRowBlock
               viewMode={viewMode}
@@ -55,8 +55,8 @@ export default class extends React.Component<Props, State> {
               title={"Batch Transaction"}
               status={status}
               isFinal={
-                context.finalStamp > 0
-                  ? transaction.blockTimestamp <= context.finalStamp
+                context.finalTimestamp > 0
+                  ? transaction.blockTimestamp <= context.finalTimestamp
                   : undefined
               }
             >
@@ -68,11 +68,11 @@ export default class extends React.Component<Props, State> {
               />
             </ActionRowBlock>
           )}
-        </RpcConsumer>
+        </StatsDataConsumer>
       );
     }
     return (
-      <RpcConsumer>
+      <StatsDataConsumer>
         {(context) => (
           <ActionRow
             action={transaction.actions[0]}
@@ -81,13 +81,13 @@ export default class extends React.Component<Props, State> {
             detalizationMode="detailed"
             status={status}
             isFinal={
-              context.finalStamp > 0
-                ? transaction.blockTimestamp <= context.finalStamp
+              context.finalTimestamp > 0
+                ? transaction.blockTimestamp <= context.finalTimestamp
                 : undefined
             }
           />
         )}
-      </RpcConsumer>
+      </StatsDataConsumer>
     );
   }
 }

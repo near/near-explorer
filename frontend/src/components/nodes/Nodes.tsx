@@ -1,61 +1,27 @@
 import React from "react";
 
-import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
-
-import autoRefreshHandler from "../utils/autoRefreshHandler";
-import FlipMove from "../utils/FlipMove";
+import * as N from "../../libraries/explorer-wamp/nodes";
+import { NodeConsumer } from "../../context/NodeProvider";
 
 import NodeRow from "./NodeRow";
+import PaginationSpinner from "../utils/PaginationSpinner";
 
-import { OuterProps } from "../accounts/Accounts";
-
-interface Props extends OuterProps {
-  role: string;
-}
-export default class extends React.Component<Props> {
-  static defaultProps = {
-    count: 15,
-  };
-
-  fetchNodes = async (count: number, paginationIndexer?: string) => {
-    return await new NodesApi().getNodes(
-      count,
-      this.props.role,
-      paginationIndexer
-    );
-  };
-
-  componentDidUpdate(prevProps: any) {
-    if (this.props.role !== prevProps.role) {
-      this.autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
-    }
-  }
-
-  config = {
-    fetchDataFn: this.fetchNodes,
-    count: this.props.count,
-    category: "Node",
-  };
-
-  autoRefreshNodes = autoRefreshHandler(Nodes, this.config);
-
+export default class extends React.Component {
   render() {
-    return <this.autoRefreshNodes />;
-  }
-}
-
-interface InnerProps {
-  items: N.NodeInfo[];
-}
-
-class Nodes extends React.Component<InnerProps> {
-  render() {
-    const { items } = this.props;
     return (
-      <FlipMove duration={1000} staggerDurationBy={0}>
-        {items &&
-          items.map((node) => <NodeRow key={node.nodeId} node={node} />)}
-      </FlipMove>
+      <NodeConsumer>
+        {(context) => (
+          <>
+            {context.nodeInfo.onlineNodes ? (
+              context.nodeInfo.onlineNodes.map((node: N.NodeInfo) => (
+                <NodeRow key={node.nodeId} node={node} />
+              ))
+            ) : (
+              <PaginationSpinner hidden={false} />
+            )}
+          </>
+        )}
+      </NodeConsumer>
     );
   }
 }

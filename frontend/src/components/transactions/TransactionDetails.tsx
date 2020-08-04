@@ -4,7 +4,7 @@ import moment from "../../libraries/moment";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
-import { RpcConsumer } from "../utils/RpcProvider";
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
@@ -126,7 +126,7 @@ export default class extends React.Component<Props, State> {
     const { transaction } = this.props;
     const { block, deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
-      <RpcConsumer>
+      <StatsDataConsumer>
         {(context) => (
           <div className="transaction-info-container">
             <Row noGutters>
@@ -212,9 +212,9 @@ export default class extends React.Component<Props, State> {
                       ) : (
                         "Fetching Status... "
                       )}
-                      {context.finalStamp === 0
+                      {context.finalTimestamp === 0
                         ? "/Checking Finality..."
-                        : transaction.blockTimestamp <= context.finalStamp
+                        : transaction.blockTimestamp <= context.finalTimestamp
                         ? ""
                         : "/Finalizing"}
                     </div>
@@ -381,7 +381,7 @@ export default class extends React.Component<Props, State> {
             `}</style>
           </div>
         )}
-      </RpcConsumer>
+      </StatsDataConsumer>
     );
   }
 }

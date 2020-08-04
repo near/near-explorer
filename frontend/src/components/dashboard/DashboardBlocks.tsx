@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
-import autoRefreshHandler from "../utils/autoRefreshHandler";
+import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
@@ -31,10 +31,10 @@ export default class extends React.Component<OuterProps> {
     category: "Block",
   };
 
-  autoRefreshDashboardBlocks = autoRefreshHandler(DashboardBlocks, this.config);
+  DashBlocksList = ListHandler(DashboardBlocks, this.config);
 
   render() {
-    return <this.autoRefreshDashboardBlocks />;
+    return <this.DashBlocksList />;
   }
 }
 

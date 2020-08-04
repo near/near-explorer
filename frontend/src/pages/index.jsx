@@ -2,6 +2,8 @@ import Head from "next/head";
 
 import { Row, Col } from "react-bootstrap";
 
+import NodeStatsProvider from "../context/NodeStatsProvider";
+
 import Content from "../components/utils/Content";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
@@ -15,7 +17,9 @@ export default class extends React.Component {
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content title={<h1>Dashboard</h1>} border={false}>
-          <DashboardHeader />
+          <NodeStatsProvider>
+            <DashboardHeader />
+          </NodeStatsProvider>
           <Row noGutters className="dashboard-section">
             <Col md="8">
               <DashboardTransactions />
