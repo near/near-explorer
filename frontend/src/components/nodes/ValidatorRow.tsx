@@ -91,12 +91,12 @@ export default class extends React.Component<Props> {
                         className={
                           Math.abs(
                             node.nodeInfo.lastHeight -
-                              context.dashState.lastBlockHeight
+                              context.dashboardStats.lastBlockHeight
                           ) > 1000
                             ? "text-danger"
                             : Math.abs(
                                 node.nodeInfo.lastHeight -
-                                  context.dashState.lastBlockHeight
+                                  context.dashboardStats.lastBlockHeight
                               ) > 50
                             ? "text-warning"
                             : ""

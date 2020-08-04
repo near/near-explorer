@@ -119,8 +119,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-height.svg"
-                  text={context.dashState.lastBlockHeight.toLocaleString()}
-                  loading={!context.dashState.lastBlockHeight}
+                  text={context.dashboardStats.lastBlockHeight.toLocaleString()}
+                  loading={!context.dashboardStats.lastBlockHeight}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -138,8 +138,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-transaction.svg"
-                  text={context.dashState.totalTransactions.toLocaleString()}
-                  loading={!context.dashState.totalTransactions}
+                  text={context.dashboardStats.totalTransactions.toLocaleString()}
+                  loading={!context.dashboardStats.totalTransactions}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -157,8 +157,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-transaction.svg"
-                  text={context.dashState.lastDayTxCount.toLocaleString()}
-                  loading={!context.dashState.lastDayTxCount}
+                  text={context.dashboardStats.lastDayTxCount.toLocaleString()}
+                  loading={!context.dashboardStats.lastDayTxCount}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -179,11 +179,11 @@ export default class extends React.Component<State> {
                   text={
                     <Link href="/accounts">
                       <a className="dashboard-link">
-                        {context.dashState.totalAccounts.toLocaleString()}
+                        {context.dashboardStats.totalAccounts.toLocaleString()}
                       </a>
                     </Link>
                   }
-                  loading={!context.dashState.totalAccounts}
+                  loading={!context.dashboardStats.totalAccounts}
                 />
               </Col>
             </Row>

@@ -49,11 +49,11 @@ const stateReducer = (currentState, action) => {
 
 const StatsDataContext = createContext({
   finalTimestamp: 0,
-  dashState: stateInit,
+  dashboardStats: stateInit,
 });
 
 export default (props) => {
-  const [dashState, dispatchState] = useReducer(stateReducer, stateInit);
+  const [dashboardStats, dispatchState] = useReducer(stateReducer, stateInit);
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
 
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
@@ -75,19 +75,19 @@ export default (props) => {
     ];
 
     // dispatch direct data part
-    if (dashState.lastBlockHeight !== lastBlockHeight) {
+    if (dashboardStats.lastBlockHeight !== lastBlockHeight) {
       dispatchState({ type: "lastBlockHeight", lastBlockHeight });
     }
-    if (dashState.totalAccounts !== totalAccounts) {
+    if (dashboardStats.totalAccounts !== totalAccounts) {
       dispatchState({ type: "accounts", totalAccounts });
     }
-    if (dashState.totalBlocks !== totalBlocks) {
+    if (dashboardStats.totalBlocks !== totalBlocks) {
       dispatchState({ type: "blocks", totalBlocks });
     }
-    if (dashState.totalTransactions !== totalTransactions) {
+    if (dashboardStats.totalTransactions !== totalTransactions) {
       dispatchState({ type: "transactions", totalTransactions });
     }
-    if (dashState.lastDayTxCount !== lastDayTxCount) {
+    if (dashboardStats.lastDayTxCount !== lastDayTxCount) {
       dispatchState({ type: "dayTransactions", lastDayTxCount });
     }
   };
@@ -110,7 +110,7 @@ export default (props) => {
     <StatsDataContext.Provider
       value={{
         finalTimestamp,
-        dashState,
+        dashboardStats,
       }}
     >
       {props.children}

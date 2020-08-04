@@ -43,8 +43,8 @@ class NodesMap extends React.Component<State> {
   };
 
   componentDidMount() {
-    let value = this.context;
-    this.fetchGeo(value.nodeInfo.validators, value.nodeInfo.onlineNodes);
+    const { nodeInfo } = this.context;
+    this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes);
   }
 
   // need to change the method to nodes.js
@@ -259,24 +259,24 @@ class NodesMap extends React.Component<State> {
   };
 
   changeToValidators = () => {
-    let value = this.context;
+    const { nodeInfo } = this.context;
     this.setState(
       {
         nodesType: "validators",
         newNodes: [],
       },
-      () => this.fetchGeo(value.nodeInfo.validators, value.nodeInfo.onlineNodes)
+      () => this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes)
     );
   };
 
   changeToOnlineNodes = () => {
-    let value = this.context;
+    const { nodeInfo } = this.context;
     this.setState(
       {
         nodesType: "online-nodes",
         newNodes: [],
       },
-      () => this.fetchGeo(value.nodeInfo.validators, value.nodeInfo.onlineNodes)
+      () => this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes)
     );
   };
 
@@ -345,7 +345,7 @@ class NodesMap extends React.Component<State> {
         }}
       />
     );
-    let value = this.context;
+    const { nodeInfo } = this.context;
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
@@ -380,9 +380,7 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Validating nodes</div>
               <div className="counter">
-                {value.nodeInfo.validators
-                  ? value.nodeInfo.validators.length
-                  : "-"}
+                nodeInfo.validators ? nodeInfo.validators.length : "-"}
               </div>
             </div>
             <div
@@ -407,9 +405,7 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Online nodes</div>
               <div className="counter">
-                {value.nodeInfo.onlineNodes
-                  ? value.nodeInfo.onlineNodes.length
-                  : "-"}
+                {nodeInfo.onlineNodes ? nodeInfo.onlineNodes.length : "-"}
               </div>
             </div>
           </div>
