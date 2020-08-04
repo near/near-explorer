@@ -8,6 +8,7 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
+  wampNearNetworkName,
 } = require("./config");
 
 const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
