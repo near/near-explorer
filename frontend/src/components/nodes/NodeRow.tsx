@@ -2,29 +2,27 @@ import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { RpcConsumer } from "../utils/RpcProvider";
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
 
 import Timer from "../utils/Timer";
 
 interface Props {
   node: N.NodeInfo;
 }
-
+export const statusIdentifier = new Map([
+  ["AwaitingPeers", "Waiting for peers"],
+  ["HeaderSync", "Syncing headers"],
+  ["BlockSync", "Syncing blocks"],
+  ["StateSync", "Syncing state"],
+  ["StateSyncDone", "State sync is done"],
+  ["BodySync", "Syncing body"],
+  ["NoSync", ""],
+]);
 export default class extends React.PureComponent<Props> {
-  statusIdentifier = new Map([
-    ["AwaitingPeers", "Waiting for peers"],
-    ["HeaderSync", "Syncing headers"],
-    ["BlockSync", "Syncing blocks"],
-    ["StateSync", "Syncing state"],
-    ["StateSyncDone", "State sync is done"],
-    ["BodySync", "Syncing body"],
-    ["NoSync", ""],
-  ]);
-
   render() {
     const { node } = this.props;
     return (
-      <RpcConsumer>
+      <StatsDataConsumer>
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
@@ -44,7 +42,7 @@ export default class extends React.PureComponent<Props> {
                   @{node.accountId}
                   <span className="node-status">
                     {" "}
-                    {this.statusIdentifier.get(node.status)}
+                    {statusIdentifier.get(node.status)}
                   </span>
                 </Col>
               </Row>
@@ -60,11 +58,14 @@ export default class extends React.PureComponent<Props> {
                     </Col>
                     <Col
                       className={
-                        Math.abs(node.lastHeight - context.lastBlockHeight) >
-                        1000
+                        Math.abs(
+                          node.lastHeight -
+                            context.dashboardStats.lastBlockHeight
+                        ) > 1000
                           ? "text-danger"
                           : Math.abs(
-                              node.lastHeight - context.lastBlockHeight
+                              node.lastHeight -
+                                context.dashboardStats.lastBlockHeight
                             ) > 50
                           ? "text-warning"
                           : ""
@@ -153,7 +154,7 @@ export default class extends React.PureComponent<Props> {
             `}</style>
           </Row>
         )}
-      </RpcConsumer>
+      </StatsDataConsumer>
     );
   }
 }

@@ -65,17 +65,13 @@ exports[`<ProposalRow /> renders 1`] = `
     <div
       className="row"
     >
-      <p
-        className="jsx-2919956104"
+      <div
+        className="node-row-txid col"
+        title="ed25519:935JMz1vLcJxFApG3TY4MA4RHhvResvoGwCrQoJxHPn9"
       >
-        <div
-          className="node-row-txid col"
-          title="ed25519:935JMz1vLcJxFApG3TY4MA4RHhvResvoGwCrQoJxHPn9"
-        >
-          935JMz1vLcJx
-          ...
-        </div>
-      </p>
+        935JMz1vLcJx
+        ...
+      </div>
     </div>
   </div>
 </div>

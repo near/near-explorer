@@ -5,7 +5,7 @@ exports[`<BlockDetails /> renders 1`] = `
   className="col-xl-6 col-12"
 >
   <a
-    className="jsx-3565829549 dashboard-blocks-block-link"
+    className="jsx-3554425347 dashboard-blocks-block-link"
     href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -14,7 +14,7 @@ exports[`<BlockDetails /> renders 1`] = `
       className="dashboard-blocks-block card"
       style={
         Object {
-          "background": "#fff",
+          "background": "#f8f7f8",
         }
       }
     >
@@ -27,39 +27,25 @@ exports[`<BlockDetails /> renders 1`] = `
       <div
         className="dashboard-blocks-block-content card-body"
       >
-        <p
-          className="jsx-3565829549 dashboard-blocks-block-content-p"
-        >
-          <img
-            className="jsx-3565829549"
-            src="/static/images/icon-m-transaction.svg"
-          />
-          3
-        </p>
         <div
-          className="dashboard-blocks-block-footer row no-gutters"
+          className="jsx-3554425347"
+          style={
+            Object {
+              "height": "22px",
+              "width": "100%",
+            }
+          }
         >
-          <div
-            className="col-md-7 col-7"
+           
+        </div>
+        <div
+          className="dashboard-blocks-block-footer non-finality-back row no-gutters"
+        >
+          <span
+            className="jsx-3554425347 non-finality-color dashboard-blocks-block-content-p-footer "
           >
-            <span
-              className="jsx-3565829549 dashboard-blocks-block-content-p-footer"
-            >
-              EVvWW1
-              ...
-            </span>
-          </div>
-          <div
-            className="align-self-center text-right col-md-5 col-5"
-          >
-            <span
-              className="jsx-3565829549 dashboard-blocks-block-timer"
-            >
-              <span>
-                1s ago
-              </span>
-            </span>
-          </div>
+            Finalizing...
+          </span>
         </div>
       </div>
     </div>

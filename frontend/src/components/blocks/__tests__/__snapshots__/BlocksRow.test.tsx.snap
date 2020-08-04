@@ -18,7 +18,7 @@ exports[`<BlocksRow /> renders 1`] = `
       className="pr-0 col-md-auto col-1"
     >
       <img
-        className="jsx-324075529"
+        className="jsx-1911530955"
         src="/static/images/icon-m-block.svg"
       />
     </div>
@@ -26,7 +26,7 @@ exports[`<BlocksRow /> renders 1`] = `
       className="pr-0 col-md-auto col-1"
     >
       <img
-        className="jsx-324075529"
+        className="jsx-1911530955"
         src="/static/images/icon-m-block.svg"
         style={
           Object {
@@ -61,7 +61,7 @@ exports[`<BlocksRow /> renders 1`] = `
               className="col-md-auto"
             >
               <img
-                className="jsx-324075529"
+                className="jsx-1911530955"
                 src="/static/images/icon-m-transaction.svg"
                 style={
                   Object {
@@ -94,9 +94,9 @@ exports[`<BlocksRow /> renders 1`] = `
           className="transaction-row-timer col"
         >
           <span
-            className="jsx-324075529 transaction-row-timer-status"
+            className="jsx-1911530955 transaction-row-timer-status"
           >
-            Finalizing
+            Checking Finality...
           </span>
             
           <span>

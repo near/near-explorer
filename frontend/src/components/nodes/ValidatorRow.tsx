@@ -1,49 +1,22 @@
 import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import { RpcConsumer } from "../utils/RpcProvider";
-import NodesApi, * as N from "../../libraries/explorer-wamp/nodes";
+import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import * as N from "../../libraries/explorer-wamp/nodes";
 
 import Timer from "../utils/Timer";
 import Balance from "../utils/Balance";
+import { statusIdentifier } from "./NodeRow";
 
 interface Props {
-  node: any;
+  node: N.Validating;
 }
 
-interface State {
-  nodeInfo?: N.NodeInfo;
-}
-
-export default class extends React.Component<Props, State> {
-  statusIdentifier = new Map([
-    ["AwaitingPeers", "Waiting for peers"],
-    ["HeaderSync", "Syncing headers"],
-    ["BlockSync", "Syncing blocks"],
-    ["StateSync", "Syncing state"],
-    ["StateSyncDone", "State sync is done"],
-    ["BodySync", "Syncing body"],
-    ["NoSync", ""],
-  ]);
-
-  state: State = {};
-
-  queryNodeInfo = async () => {
-    let nodeInfo = await new NodesApi().getValidatingInfo(
-      this.props.node.account_id
-    );
-    this.setState({ nodeInfo });
-  };
-
-  componentDidMount() {
-    this.queryNodeInfo();
-  }
-
+export default class extends React.Component<Props> {
   render() {
     const { node } = this.props;
-    const { nodeInfo } = this.state;
     return (
-      <RpcConsumer>
+      <StatsDataConsumer>
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
@@ -97,7 +70,8 @@ export default class extends React.Component<Props, State> {
                   </span>
                   <span className="node-status">
                     {" "}
-                    {nodeInfo && this.statusIdentifier.get(nodeInfo.status)}
+                    {node.nodeInfo &&
+                      statusIdentifier.get(node.nodeInfo.status)}
                   </span>
                 </Col>
               </Row>
@@ -109,18 +83,20 @@ export default class extends React.Component<Props, State> {
                         src="/static/images/icon-m-size.svg"
                         style={{ width: "12px" }}
                       />
-                      {nodeInfo &&
-                        `${nodeInfo.agentName} | ver.${nodeInfo.agentVersion} build  ${nodeInfo.agentBuild}`}
+                      {node.nodeInfo &&
+                        `${node.nodeInfo.agentName} | ver.${node.nodeInfo.agentVersion} build  ${node.nodeInfo.agentBuild}`}
                     </Col>
-                    {nodeInfo && (
+                    {node.nodeInfo && (
                       <Col
                         className={
                           Math.abs(
-                            nodeInfo.lastHeight - context.lastBlockHeight
+                            node.nodeInfo.lastHeight -
+                              context.dashboardStats.lastBlockHeight
                           ) > 1000
                             ? "text-danger"
                             : Math.abs(
-                                nodeInfo.lastHeight - context.lastBlockHeight
+                                node.nodeInfo.lastHeight -
+                                  context.dashboardStats.lastBlockHeight
                               ) > 50
                             ? "text-warning"
                             : ""
@@ -131,7 +107,7 @@ export default class extends React.Component<Props, State> {
                           src="/static/images/icon-m-block.svg"
                           style={{ width: "12px" }}
                         />
-                        {` ${nodeInfo.lastHeight}`}
+                        {` ${node.nodeInfo.lastHeight}`}
                       </Col>
                     )}
 
@@ -154,18 +130,18 @@ export default class extends React.Component<Props, State> {
                 </Col>
               </Row>
             </Col>
-            {nodeInfo && (
+            {node.nodeInfo && (
               <Col md="3" xs="3" className="ml-auto text-right">
                 <Row>
-                  <Col className="node-row-txid" title={nodeInfo.nodeId}>
-                    {nodeInfo.nodeId.substring(8, 20)}...
+                  <Col className="node-row-txid" title={node.nodeInfo.nodeId}>
+                    {node.nodeInfo.nodeId.substring(8, 20)}...
                   </Col>
                 </Row>
                 <Row>
                   <Col className="node-row-timer">
                     <span className="node-row-timer-status">Last seen</span>
                     &nbsp;&nbsp;
-                    <Timer time={nodeInfo.lastSeen} />
+                    <Timer time={node.nodeInfo.lastSeen} />
                   </Col>
                 </Row>
               </Col>
@@ -229,7 +205,7 @@ export default class extends React.Component<Props, State> {
             `}</style>
           </Row>
         )}
-      </RpcConsumer>
+      </StatsDataConsumer>
     );
   }
 }

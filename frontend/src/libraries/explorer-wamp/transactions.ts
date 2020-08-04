@@ -283,9 +283,4 @@ export default class TransactionsApi extends ExplorerApi {
       throw error;
     }
   }
-
-  async queryFinalTimestamp(): Promise<any> {
-    const finalBlock = await this.call<any>("nearcore-final-block");
-    return finalBlock.header.timestamp;
-  }
 }
