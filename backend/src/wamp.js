@@ -20,6 +20,9 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   }
   return await models.Node.upsert({
     ipAddress: nodeInfo.ip_address,
+    latitude: nodeInfo.latitude,
+    longitude: nodeInfo.longitude,
+    city: nodeInfo.city,
     lastSeen: Date.now(),
     nodeId: nodeInfo.chain.node_id,
     moniker: nodeInfo.chain.account_id,

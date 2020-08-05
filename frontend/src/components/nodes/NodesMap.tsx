@@ -51,68 +51,39 @@ class NodesMap extends React.Component<State> {
   fetchGeo = async (validators: any, onlineNodes: any) => {
     const nodes =
       this.state.nodesType === "validators" ? validators : onlineNodes;
-    const url =
-      "http://ip-api.com/batch?fields=status,message,country,city,latitude,longitude,timezone,query";
-    if (nodes) {
-      const IPsArray = nodes.map((node: any) => node.ipAddress);
-      let ipCount = IPsArray.length;
-      let geoData: IGeo[] = [];
-      while (ipCount > 0) {
-        let min = Math.max(ipCount - 50, 0);
-        let ipArrPart = JSON.stringify(IPsArray.slice(min, ipCount));
-        let response = await fetch(url, {
-          method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-          referrerPolicy: "no-referrer",
-          body: ipArrPart,
-        });
-        let part = await response.json();
-        geoData = geoData.concat(part);
-        ipCount -= 50;
+
+    const bubbles: IBubble[] = nodes.map((element: any) => {
+      const bubble: IBubble = {
+        geo: {
+          latitude: "",
+          longitude: "",
+          city: "",
+        },
+        radius: 0,
+        nodeInfo: {
+          ipAddress: "",
+          accountId: "",
+          nodeId: "",
+          lastSeen: 0,
+          lastHeight: 0,
+          agentName: "",
+          agentVersion: "",
+          agentBuild: "",
+          status: "",
+        },
+      };
+
+      bubble.radius = 4;
+      if (this.state.nodesType === "validators") {
+        bubble.nodeInfo = element.nodeInfo;
+        bubble.nodeInfo.accountId = element.account_id;
       }
+      bubble.nodeInfo = element;
 
-      const bubbles: IBubble[] = nodes.map((element: any, index: number) => {
-        const bubble: IBubble = {
-          geo: {
-            latitude: "",
-            longitude: "",
-            city: "",
-          },
-          radius: 0,
-          nodeInfo: {
-            ipAddress: "",
-            accountId: "",
-            nodeId: "",
-            lastSeen: 0,
-            lastHeight: 0,
-            agentName: "",
-            agentVersion: "",
-            agentBuild: "",
-            status: "",
-          },
-        };
+      return bubble;
+    });
 
-        bubble.geo.latitude = geoData[index].latitude;
-        bubble.geo.longitude = geoData[index].longitude;
-        bubble.geo.city = geoData[index].city;
-        bubble.radius = 4;
-        if (this.state.nodesType === "validators") {
-          bubble.nodeInfo = element.nodeInfo;
-          bubble.nodeInfo.accountId = element.account_id;
-        }
-        bubble.nodeInfo = element;
-
-        return bubble;
-      });
-
-      this.saveData(bubbles);
-    }
+    this.saveData(bubbles);
   };
 
   saveData = (newNodes: IBubble[]) => {
