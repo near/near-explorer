@@ -83,6 +83,7 @@ export type ReceiptStatus =
   | string;
 
 export interface Outcome {
+  tokens_burnt: string;
   logs: string[];
   receipt_ids: string[];
   status: ReceiptStatus;

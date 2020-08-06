@@ -121,7 +121,15 @@ exports[`<BlockDetails /> renders 1`] = `
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
               >
-                5000
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  &lt;0.00001
+                   Ⓝ/ Tgas
+                </span>
               </div>
             </div>
           </div>
