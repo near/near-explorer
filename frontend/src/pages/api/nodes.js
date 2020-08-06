@@ -7,23 +7,35 @@ const ipdata = new IPData(
 
 export default async function (req, res) {
   try {
-    let ip_address = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-    let node = await new ExplorerApi()
+    let ip_address =
+      req.headers["x-forwarded-for"] ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress;
+
+    let node = await new ExplorerApi(req)
       .call("select", [
-        `SELECT node_id as nodeId 
+        `SELECT latitude, longitude, city
           FROM nodes
           WHERE ip_address = :ip_address
       `,
-        { ip_address: "1.1.1.1" },
+        { ip_address },
       ])
       .then((it) => it[0]);
     if (node) {
-      res.send("already exists in database");
-      return;
+      res.send("ip already exists in database");
+      return await new ExplorerApi(req).call("node-telemetry", [
+        {
+          ...req.body,
+          ip_address: ip_address,
+          latitude: node.latitude,
+          longitude: node.longitude,
+          city: node.city,
+        },
+      ]);
     } else {
-      const fields = ["latitude", "longitude", "city"];
-      let info = await ipdata.lookup(ip_address, fields);
-      res.send("new node found and insert");
+      let info = await ipdata.lookup(ip_address);
+      res.send("new ip found and insert");
       return await new ExplorerApi(req).call("node-telemetry", [
         {
           ...req.body,
@@ -35,6 +47,7 @@ export default async function (req, res) {
       ]);
     }
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
     return;
   }

@@ -41,7 +41,8 @@ const addNodeInfo = async (nodes, wamp) => {
     [
       `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
         last_seen as lastSeen, last_height as lastHeight,status,
-        agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
+        agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
+        latitude, longitude, city
               FROM nodes
               WHERE account_id IN (:accountArray)
               ORDER BY node_id DESC
@@ -72,7 +73,8 @@ const queryOnlineNodes = async (wamp) => {
     [
       `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
       last_seen as lastSeen, last_height as lastHeight,status,
-      agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild
+      agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
+      latitude, longitude, city
             FROM nodes
             WHERE last_seen > (strftime('%s','now') - 60) * 1000
             ORDER BY is_validator ASC, node_id DESC

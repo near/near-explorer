@@ -21,10 +21,6 @@ interface Props {
 
 export default class Datamap extends React.Component<Props> {
   map: any;
-  constructor(props: Props) {
-    super(props);
-    this.resizeMap = this.resizeMap.bind(this);
-  }
 
   componentDidMount() {
     if (this.props.responsive) {
@@ -33,9 +29,10 @@ export default class Datamap extends React.Component<Props> {
     this.drawMap();
   }
 
-  componentDidUpdate() {
-    this.clear();
-    this.drawMap();
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.bubbles.length !== prevProps.bubbles.length) {
+      this.drawMap();
+    }
   }
 
   componentWillUnmount() {
@@ -76,7 +73,6 @@ export default class Datamap extends React.Component<Props> {
       nodeClustersOptions,
       ...props
     } = this.props;
-
     let map = this.map;
 
     if (!map) {
