@@ -224,7 +224,7 @@ export default class extends React.Component<Props, State> {
                 This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
                       <a
                         href={
-                          "https://nearprotocol.com/papers/economics-in-sharded-blockchain/"
+                          "https://near.org/papers/economics-in-sharded-blockchain/"
                         }
                       >
                         docs
