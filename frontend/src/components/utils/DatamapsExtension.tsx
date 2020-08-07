@@ -2,6 +2,7 @@ import Datamaps from "datamaps";
 import * as d3 from "d3";
 
 import React from "react";
+import next from "next";
 
 interface Props {
   bubbleOptions: object;
@@ -29,10 +30,16 @@ export default class Datamap extends React.Component<Props> {
     this.drawMap();
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.bubbles.length !== prevProps.bubbles.length) {
-      this.drawMap();
+  shouldComponentUpdate(nextProps: Props) {
+    if (nextProps.pins.length !== this.props.pins.length) {
+      this.clear();
+      return true;
     }
+    return false;
+  }
+
+  componentDidUpdate() {
+    this.drawMap();
   }
 
   componentWillUnmount() {
