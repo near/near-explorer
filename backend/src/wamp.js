@@ -1,4 +1,5 @@
 const autobahn = require("autobahn");
+const geoip = require("geoip-lite");
 
 const models = require("../models");
 
@@ -12,6 +13,14 @@ const { nearRpc } = require("./near");
 const wampHandlers = {};
 
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
+  let geo = geoip.lookup(nodeInfo.ip_address);
+  nodeInfo.latitude = geo.ll[0];
+  nodeInfo.longitude = geo.ll[1];
+  nodeInfo.city = geo.city;
+  return saveNodeIntoDatabase(nodeInfo);
+};
+
+const saveNodeIntoDatabase = async (nodeInfo) => {
   if (!nodeInfo.hasOwnProperty("agent")) {
     // This seems to be an old format, and all our nodes should support the new
     // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
