@@ -2,7 +2,6 @@ import Datamaps from "datamaps";
 import * as d3 from "d3";
 
 import React from "react";
-import next from "next";
 
 interface Props {
   bubbleOptions: object;
