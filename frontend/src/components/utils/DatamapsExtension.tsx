@@ -3,6 +3,7 @@ import * as d3 from "d3";
 
 import React from "react";
 
+const equal = require("fast-deep-equal");
 interface Props {
   bubbleOptions: object;
   bubbles: any[];
@@ -30,7 +31,7 @@ export default class Datamap extends React.Component<Props> {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    if (nextProps.pins.length !== this.props.pins.length) {
+    if (!equal(nextProps.pins, this.props.pins)) {
       this.clear();
       return true;
     }

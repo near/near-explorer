@@ -8,7 +8,7 @@ export default async function (req, res) {
       req.socket.remoteAddress ||
       req.connection.socket.remoteAddress;
 
-    res.send("node telemetry received.");
+    res.send({});
 
     return await new ExplorerApi(req).call("node-telemetry", [
       {

@@ -1,9 +1,0 @@
-{
-  "account_id": "node.pool.6fb1358",
-  "node_id": "ed25519:5pJxnX6utkKT656hHQBVzAK5SehHEFQSyRb1k7BAzVn6",
-  "status": "NoSync",
-  "num_peers": 0,
-  "is_validator": true,
-  "latest_block_hash": "7a4d3SNNb1XGxqhHAKj5nGx8C1R4X8pdt8jobC9z3nup",
-  "latest_block_height": 11619182
-}
