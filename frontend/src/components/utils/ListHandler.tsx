@@ -67,6 +67,7 @@ export default (
               items,
               itemsLength: items.length,
               display: true,
+              hasMore: true,
             };
             if (items.length < config.count) {
               newState.hasMore = false;
@@ -98,6 +99,7 @@ export default (
               items,
               itemsLength: items.length,
               loading: false,
+              hasMore: true,
             };
             if (newData.length < config.count) {
               newState.hasMore = false;
