@@ -11,7 +11,6 @@ interface Config {
   fetchDataFn: Function;
   count: number;
   category: string;
-  dashboard?: boolean;
 }
 
 export default (
@@ -49,9 +48,6 @@ export default (
     }
 
     regularFetchInfo = () => {
-      if (config.dashboard) {
-        this.setState({ hasMore: false });
-      }
       if (this.state.itemsLength > 0) {
         this.fetchInfo(this.state.itemsLength);
       }
@@ -67,6 +63,7 @@ export default (
               items,
               itemsLength: items.length,
               display: true,
+              hasMore: true,
             };
             if (items.length < config.count) {
               newState.hasMore = false;
@@ -98,6 +95,7 @@ export default (
               items,
               itemsLength: items.length,
               loading: false,
+              hasMore: true,
             };
             if (newData.length < config.count) {
               newState.hasMore = false;
@@ -147,28 +145,24 @@ export default (
         <>
           <StatsDataConsumer>
             {(context) => (
-              <>
-                {!config.dashboard && (
-                  <div
-                    onClick={() => {
-                      this.regularFetchInfo();
-                    }}
-                  >
-                    <Update
-                      count={
-                        config.category === "Block"
-                          ? context.dashboardStats.totalBlocks
-                          : config.category === "Transaction"
-                          ? context.dashboardStats.totalTransactions
-                          : config.category === "Account"
-                          ? context.dashboardStats.totalAccounts
-                          : 0
-                      }
-                      category={config.category}
-                    />
-                  </div>
-                )}
-              </>
+              <div
+                onClick={() => {
+                  this.regularFetchInfo();
+                }}
+              >
+                <Update
+                  count={
+                    config.category === "Block"
+                      ? context.dashboardStats.totalBlocks
+                      : config.category === "Transaction"
+                      ? context.dashboardStats.totalTransactions
+                      : config.category === "Account"
+                      ? context.dashboardStats.totalAccounts
+                      : 0
+                  }
+                  category={config.category}
+                />
+              </div>
             )}
           </StatsDataConsumer>
           <InfiniteScroll

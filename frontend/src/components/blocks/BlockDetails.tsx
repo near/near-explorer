@@ -10,7 +10,7 @@ import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
 import Gas from "../utils/Gas";
-
+import GasPrice from "../utils/GasPrice";
 export interface Props {
   block: B.BlockInfo;
 }
@@ -72,7 +72,9 @@ export default ({ block }: Props) => {
                   <CardCell
                     title={
                       <Term title={"Gas Price"}>
-                        {"Cost per unit of gas. "}
+                        {
+                          "A unit of Tgas (TerraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used."
+                        }
                         <a
                           href={
                             "https://docs.nearprotocol.com/docs/concepts/gas"
@@ -83,7 +85,7 @@ export default ({ block }: Props) => {
                       </Term>
                     }
                     imgLink="/static/images/icon-m-filter.svg"
-                    text={block.gasPrice.toLocaleString()}
+                    text={<GasPrice gasPrice={block.gasPrice} />}
                   />
                 </Col>
                 <Col md="3">
