@@ -43,6 +43,7 @@ export const showInYocto = (amountStr) => {
   if (amount.lte(YOCTO_NEAR_THRESHOLD)) {
     return formatWithCommas(amountStr) + " yoctoⓃ";
   }
+  return formatWithCommas(amountStr) + " yoctoⓃ";
 };
 
 const formatWithCommas = (value) => {
