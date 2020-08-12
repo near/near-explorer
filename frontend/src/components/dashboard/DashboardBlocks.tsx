@@ -3,44 +3,41 @@ import Link from "next/link";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import BlocksApi from "../../libraries/explorer-wamp/blocks";
+import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
-import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
 import { OuterProps } from "../accounts/Accounts";
-import { InnerProps } from "../blocks/Blocks";
 
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 
-export default class extends React.Component<OuterProps> {
+interface State {
+  blocks?: B.BlockInfo[];
+}
+export default class extends React.Component<OuterProps, State> {
   static defaultProps = {
     count: 8,
   };
 
+  state: State = {};
+
   fetchBlocks = async () => {
-    return await new BlocksApi().getLatestBlocksInfo(this.props.count);
+    let blocks = await new BlocksApi().getLatestBlocksInfo(this.props.count);
+    this.setState({ blocks });
   };
 
-  config = {
-    fetchDataFn: this.fetchBlocks,
-    count: this.props.count,
-    dashboard: true,
-    category: "Block",
-  };
-
-  DashBlocksList = ListHandler(DashboardBlocks, this.config);
-
-  render() {
-    return <this.DashBlocksList />;
+  componentDidMount() {
+    this.fetchBlocks();
   }
-}
 
-class DashboardBlocks extends React.Component<InnerProps> {
+  componentDidUpdate() {
+    this.fetchBlocks();
+  }
+
   render() {
-    const { items } = this.props;
+    const { blocks } = this.state;
     return (
       <>
         <Row>
@@ -65,8 +62,8 @@ class DashboardBlocks extends React.Component<InnerProps> {
               staggerDurationBy={0}
               className="row gutter-4"
             >
-              {items &&
-                items.map((block) => (
+              {blocks &&
+                blocks.map((block) => (
                   <DashboardBlocksBlock key={block.hash} block={block} />
                 ))}
             </FlipMove>

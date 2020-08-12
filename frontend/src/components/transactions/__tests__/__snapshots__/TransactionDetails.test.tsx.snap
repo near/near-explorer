@@ -8,7 +8,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-3"
+      className="col-md-5"
     >
       <div
         className="card-cell border-0 card"
@@ -54,7 +54,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       </div>
     </div>
     <div
-      className="col-md-3"
+      className="col-md-4"
     >
       <div
         className="card-cell  card"
@@ -94,53 +94,6 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               >
                 @receiver.test
               </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="col-md-3"
-    >
-      <div
-        className="card-cell  card"
-      >
-        <div
-          className="card-body"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
-            >
-              <img
-                className="jsx-1276427197 card-cell-title-img"
-                src="/static/images/icon-m-filter.svg"
-              />
-              Value
-              <div
-                className="jsx-782042476 term-helper"
-              >
-                <img
-                  className="jsx-782042476 info"
-                  onClick={[Function]}
-                  src="/static/images/icon-info.svg"
-                />
-              </div>
-            </div>
-            <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-            >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                0
-                 Ⓝ
-              </span>
             </div>
           </div>
         </div>
@@ -232,7 +185,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              ...
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -257,7 +218,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="jsx-1276427197 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
-              Gas Price
+              Deposit Value
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -271,7 +232,15 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              ...
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                0
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -487,7 +456,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-3"
+      className="col-md-5"
     >
       <div
         className="card-cell border-0 card"
@@ -533,7 +502,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       </div>
     </div>
     <div
-      className="col-md-3"
+      className="col-md-4"
     >
       <div
         className="card-cell  card"
@@ -573,53 +542,6 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               >
                 @receiver2.test
               </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="col-md-3"
-    >
-      <div
-        className="card-cell  card"
-      >
-        <div
-          className="card-body"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
-            >
-              <img
-                className="jsx-1276427197 card-cell-title-img"
-                src="/static/images/icon-m-filter.svg"
-              />
-              Value
-              <div
-                className="jsx-782042476 term-helper"
-              >
-                <img
-                  className="jsx-782042476 info"
-                  onClick={[Function]}
-                  src="/static/images/icon-info.svg"
-                />
-              </div>
-            </div>
-            <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-            >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                &lt;0.00001
-                 Ⓝ
-              </span>
             </div>
           </div>
         </div>
@@ -711,7 +633,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              ...
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -736,7 +666,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="jsx-1276427197 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
-              Gas Price
+              Deposit Value
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -750,7 +680,15 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              ...
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -966,7 +904,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-3"
+      className="col-md-5"
     >
       <div
         className="card-cell border-0 card"
@@ -1012,7 +950,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       </div>
     </div>
     <div
-      className="col-md-3"
+      className="col-md-4"
     >
       <div
         className="card-cell  card"
@@ -1052,53 +990,6 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               >
                 @receiver2.test
               </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="col-md-3"
-    >
-      <div
-        className="card-cell  card"
-      >
-        <div
-          className="card-body"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
-            >
-              <img
-                className="jsx-1276427197 card-cell-title-img"
-                src="/static/images/icon-m-filter.svg"
-              />
-              Value
-              <div
-                className="jsx-782042476 term-helper"
-              >
-                <img
-                  className="jsx-782042476 info"
-                  onClick={[Function]}
-                  src="/static/images/icon-info.svg"
-                />
-              </div>
-            </div>
-            <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-            >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                0.00014
-                 Ⓝ
-              </span>
             </div>
           </div>
         </div>
@@ -1190,7 +1081,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              ...
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -1215,7 +1114,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="jsx-1276427197 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
-              Gas Price
+              Deposit Value
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -1229,7 +1128,15 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              ...
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                0.00014
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>

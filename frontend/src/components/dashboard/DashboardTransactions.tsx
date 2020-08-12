@@ -7,7 +7,6 @@ import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions"
 
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
-import ListHandler from "../utils/ListHandler";
 
 import TransactionAction from "../transactions/TransactionAction";
 
@@ -15,38 +14,34 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 
 import { OuterProps } from "../accounts/Accounts";
 
-export default class extends React.Component<OuterProps> {
+interface State {
+  transactions?: T.Transaction[];
+}
+
+export default class extends React.Component<OuterProps, State> {
   static defaultProps = {
     count: 10,
   };
 
+  state: State = {};
+
   fetchTxs = async () => {
-    return await new TransactionsApi().getLatestTransactionsInfo(
+    let transactions = await new TransactionsApi().getLatestTransactionsInfo(
       this.props.count
     );
+    this.setState({ transactions });
   };
 
-  config = {
-    fetchDataFn: this.fetchTxs,
-    count: this.props.count,
-    dashboard: true,
-    category: "Transaction",
-  };
-
-  DashTransactionsList = ListHandler(DashboardTransactions, this.config);
-
-  render() {
-    return <this.DashTransactionsList />;
+  componentDidMount() {
+    this.fetchTxs();
   }
-}
 
-interface InnerProps {
-  items: T.Transaction[];
-}
+  componentDidUpdate() {
+    this.fetchTxs();
+  }
 
-class DashboardTransactions extends React.Component<InnerProps> {
   render() {
-    const { items } = this.props;
+    const { transactions } = this.state;
     return (
       <Content
         title={<h2>Recent Transactions</h2>}
@@ -63,8 +58,8 @@ class DashboardTransactions extends React.Component<InnerProps> {
           </Col>
           <Col xs="11" className="px-0 dashboard-transactions-list">
             <FlipMove duration={1000} staggerDurationBy={0}>
-              {items &&
-                items.map((transaction) => (
+              {transactions &&
+                transactions.map((transaction) => (
                   <TransactionAction
                     key={transaction.hash}
                     actions={transaction.actions}
