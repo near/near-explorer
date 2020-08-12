@@ -21,6 +21,7 @@
   "dependencies": {
     "autobahn": "19.4.1",
     "moment": "^2.24.0",
+    "pg": "^8.3.0",
     "near-api-js": "^0.27.0",
     "sequelize": "^5.21.1",
     "sqlite3": "^4.1.0",

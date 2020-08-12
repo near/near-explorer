@@ -5,27 +5,40 @@ const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/database")[env];
+const dbConfig = require(__dirname + "/../config/database");
 const db = {};
 
 const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
+  dbConfig.sqlite.database,
+  dbConfig.sqlite.username,
+  dbConfig.sqlite.password,
   {
-    ...config,
+    ...dbConfig.sqlite,
     logging: false,
   }
 );
 
-const sequelizeReadOnly = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
+const sequelizePostgres = new Sequelize(
+  dbConfig.postgres.database,
+  dbConfig.postgres.username,
+  dbConfig.postgres.password,
   {
-    ...config,
+    host: dbConfig.postgres.host,
+    dialect: dbConfig.postgres.dialect,
     dialectOptions: {
-      ...config.dialectOptions,
+      ssl: true,
+    },
+  }
+);
+
+const sequelizeReadOnly = new Sequelize(
+  dbConfig.sqlite.database,
+  dbConfig.sqlite.username,
+  dbConfig.sqlite.password,
+  {
+    ...dbConfig.sqlite,
+    dialectOptions: {
+      ...dbConfig.sqlite.dialectOptions,
       // Set SQLITE_OPEN_READONLY mode. Read more:
       // * http://www.sqlite.org/c3ref/open.html
       // * http://www.sqlite.org/c3ref/c_open_autoproxy.html
@@ -55,21 +68,24 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.sequelizeReadOnly = sequelizeReadOnly;
 db.Sequelize = Sequelize;
+db.sequelizePostgres = sequelizePostgres;
 
 db.resetDatabase = function resetDatabase({ saveBackup }) {
-  if (config.dialect !== "sqlite") {
+  if (dbConfig.sqlite.dialect !== "sqlite") {
     console.error(
-      `resetDatabase only supports sqlite dialect, but '${config.dialect}' found. No action is taken.`
+      `resetDatabase only supports sqlite dialect, but '${dbConfig.sqlite.dialect}' found. No action is taken.`
     );
     return;
   }
   if (saveBackup) {
     fs.renameSync(
-      config.storage,
-      `${config.storage}.${new Date().toISOString().replace(/:/g, "-")}`
+      dbConfig.sqlite.storage,
+      `${dbConfig.sqlite.storage}.${new Date()
+        .toISOString()
+        .replace(/:/g, "-")}`
     );
   } else {
-    fs.unlinkSync(config.storage);
+    fs.unlinkSync(dbConfig.sqlite.storage);
   }
 };
 

@@ -8,6 +8,7 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
+  wampNearNetworkName,
 } = require("./config");
 
 const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
@@ -162,3 +163,19 @@ async function main() {
 }
 
 main();
+
+// future use for postgres database
+// const wampQueryPostgres = async () => {
+//   try {
+//     if (wamp) {
+//       const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select-postgres`;
+//       const args = [`SELECT COUNT(*) from transactions`];
+//       const res = await wamp.session.call(uri, args);
+//       console.log(res[0]);
+//     }
+//   } catch (error) {
+//     console.warn("querying postgres is crashed due to:", error);
+//   }
+//   setTimeout(wampQueryPostgres, 1000);
+// };
+// setTimeout(wampQueryPostgres, 0);

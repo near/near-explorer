@@ -1,17 +1,20 @@
 const dbPrefix =
-  process.env.NEAR_DB_PREFIX || process.env.WAMP_NEAR_NETWORK_NAME;
+  process.env.NEAR_DB_PREFIX ||
+  process.env.WAMP_NEAR_NETWORK_NAME ||
+  "development";
+
+const dbPassword = process.env.NEAR_NETWORK_INDEXER_EXPLORER_PASSWORD;
 
 module.exports = {
-  development: {
+  sqlite: {
     dialect: "sqlite",
-    storage: `db/${dbPrefix || "development"}-database.sqlite`,
+    storage: `db/${dbPrefix}-database.sqlite`,
   },
-  test: {
-    dialect: "sqlite",
-    storage: `db/${dbPrefix || "test"}-database.sqlite`,
-  },
-  production: {
-    dialect: "sqlite",
-    storage: `db/${dbPrefix || "production"}-database.sqlite`,
+  postgres: {
+    username: "readonly",
+    password: dbPassword,
+    database: "indexer",
+    host: "oregon-postgres.render.com",
+    dialect: "postgres",
   },
 };
