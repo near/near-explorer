@@ -11,7 +11,6 @@ interface Config {
   fetchDataFn: Function;
   count: number;
   category: string;
-  dashboard?: boolean;
 }
 
 export default (
@@ -49,9 +48,6 @@ export default (
     }
 
     regularFetchInfo = () => {
-      if (config.dashboard) {
-        this.setState({ hasMore: false });
-      }
       if (this.state.itemsLength > 0) {
         this.fetchInfo(this.state.itemsLength);
       }
@@ -149,28 +145,24 @@ export default (
         <>
           <StatsDataConsumer>
             {(context) => (
-              <>
-                {!config.dashboard && (
-                  <div
-                    onClick={() => {
-                      this.regularFetchInfo();
-                    }}
-                  >
-                    <Update
-                      count={
-                        config.category === "Block"
-                          ? context.dashboardStats.totalBlocks
-                          : config.category === "Transaction"
-                          ? context.dashboardStats.totalTransactions
-                          : config.category === "Account"
-                          ? context.dashboardStats.totalAccounts
-                          : 0
-                      }
-                      category={config.category}
-                    />
-                  </div>
-                )}
-              </>
+              <div
+                onClick={() => {
+                  this.regularFetchInfo();
+                }}
+              >
+                <Update
+                  count={
+                    config.category === "Block"
+                      ? context.dashboardStats.totalBlocks
+                      : config.category === "Transaction"
+                      ? context.dashboardStats.totalTransactions
+                      : config.category === "Account"
+                      ? context.dashboardStats.totalAccounts
+                      : 0
+                  }
+                  category={config.category}
+                />
+              </div>
             )}
           </StatsDataConsumer>
           <InfiniteScroll
