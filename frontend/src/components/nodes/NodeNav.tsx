@@ -25,9 +25,9 @@ export default class extends React.Component<Props> {
                   id="validator-node"
                 >
                   <Col className="node-selector align-self-center">
-                    {context.nodeInfo.validatorAmount
-                      ? `${context.nodeInfo.validatorAmount}  Validating`
-                      : `- Validating`}
+                    {`${
+                      context.nodeInfo.validatorAmount ?? "-"
+                    } Validating & New Upcoming`}
                   </Col>
                 </a>
               </Link>

@@ -14,15 +14,12 @@ const Datamap = dynamic(() => import("../utils/DatamapsExtension"), {
 });
 
 interface IBubble {
-  geo: IGeo;
   radius: number;
+  fillKey: string;
   nodeInfo: N.NodeInfo;
-}
-
-interface IGeo {
-  latitude: string;
-  longitude: string;
-  city: string;
+  nodeId: string;
+  latitude: number;
+  longitude: number;
 }
 
 interface State {
@@ -36,83 +33,35 @@ interface State {
 class NodesMap extends React.Component<State> {
   state: State = {
     nodesData: [],
-    nodesType: "validators",
+    nodesType: "",
     newNodes: [],
     removedNodes: [],
     nodeClusters: [],
   };
 
   componentDidMount() {
-    const { nodeInfo } = this.context;
-    this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes);
+    this.fetchGeo();
   }
 
-  // need to change the method to nodes.js
-  fetchGeo = async (validators: any, onlineNodes: any) => {
+  fetchGeo = async () => {
+    const { nodeInfo } = this.context;
     const nodes =
-      this.state.nodesType === "validators" ? validators : onlineNodes;
-    const url =
-      "http://ip-api.com/batch?fields=status,message,country,city,latitude,longitude,timezone,query";
-    if (nodes) {
-      const IPsArray = nodes.map((node: any) => node.ipAddress);
-      let ipCount = IPsArray.length;
-      let geoData: IGeo[] = [];
-      while (ipCount > 0) {
-        let min = Math.max(ipCount - 50, 0);
-        let ipArrPart = JSON.stringify(IPsArray.slice(min, ipCount));
-        let response = await fetch(url, {
-          method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow",
-          referrerPolicy: "no-referrer",
-          body: ipArrPart,
-        });
-        let part = await response.json();
-        geoData = geoData.concat(part);
-        ipCount -= 50;
-      }
+      this.state.nodesType === "validators"
+        ? nodeInfo.onlineValidatingNodes
+        : nodeInfo.onlineNodes;
 
-      const bubbles: IBubble[] = nodes.map((element: any, index: number) => {
-        const bubble: IBubble = {
-          geo: {
-            latitude: "",
-            longitude: "",
-            city: "",
-          },
-          radius: 0,
-          nodeInfo: {
-            ipAddress: "",
-            accountId: "",
-            nodeId: "",
-            lastSeen: 0,
-            lastHeight: 0,
-            agentName: "",
-            agentVersion: "",
-            agentBuild: "",
-            status: "",
-          },
-        };
+    const bubbles: IBubble[] = nodes.map((node: N.NodeInfo) => {
+      return {
+        radius: 4,
+        fillKey: "validatorBubbleFill",
+        nodeInfo: node,
+        nodeId: node.nodeId,
+        latitude: node.latitude,
+        longitude: node.longitude,
+      };
+    });
 
-        bubble.geo.latitude = geoData[index].latitude;
-        bubble.geo.longitude = geoData[index].longitude;
-        bubble.geo.city = geoData[index].city;
-        bubble.radius = 4;
-        if (this.state.nodesType === "validators") {
-          bubble.nodeInfo = element.nodeInfo;
-          bubble.nodeInfo.accountId = element.account_id;
-        }
-        bubble.nodeInfo = element;
-
-        return bubble;
-      });
-
-      this.saveData(bubbles);
-    }
+    this.saveData(bubbles);
   };
 
   saveData = (newNodes: IBubble[]) => {
@@ -137,7 +86,7 @@ class NodesMap extends React.Component<State> {
     return (current: IBubble) => {
       return (
         objectArray.filter((other) => {
-          return other.nodeInfo.nodeId == current.nodeInfo.nodeId;
+          return other.nodeId == current.nodeId;
         }).length == 0
       );
     };
@@ -146,7 +95,7 @@ class NodesMap extends React.Component<State> {
   getNodeClusters = (nodes: IBubble[]) => {
     // Get clusters of nodes that share the same location.
     const groupedNodes: any = lodash.groupBy(nodes, (item: IBubble) => {
-      return item.geo.latitude;
+      return item.latitude;
     });
     // @ts-ignore
     lodash.forEach(groupedNodes, (value, key) => {
@@ -183,7 +132,7 @@ class NodesMap extends React.Component<State> {
       data.nodeInfo.agentBuild
     }</div>
           <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">${
-            data.nodeInfo.nodeId.split(":")[1]
+            data.nodeId.split(":")[1]
           }</div>
         </div>
         <div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px; border-radius: 0 0 8px 8px">
@@ -203,7 +152,7 @@ class NodesMap extends React.Component<State> {
           <div>
             <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Location</div>
             <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-              data.geo.city
+              data.nodeInfo.city
             }</div>
           </div>
         </div>
@@ -213,70 +162,29 @@ class NodesMap extends React.Component<State> {
   renderClusterTooltip = (data: IBubble[]) => {
     let htmlString: string = '<div class="clusterTooltipWrapper">';
     data.forEach((item: IBubble) => {
-      // Prettier ruined the entire indentation that i made for this
-      htmlString += `<div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; color: white; background-color: #343A40; max-width: 300px; border-bottom: 1px solid rgba(255, 255, 255, 0.16); box-sizing: border-box;" key="${
-        item.nodeInfo.nodeId
-      }">
-          <div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px">@${
-            item.nodeInfo.accountId
-          }</div>
-          <div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">
-            <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; white-space: nowrap">${
-              item.nodeInfo.agentName
-            } | ver.${item.nodeInfo.agentVersion} build ${
-        item.nodeInfo.agentBuild
-      }</div>
-            <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">${
-              item.nodeInfo.nodeId.split(":")[1]
-            }</div>
-          </div>
-          <div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px;">
-            <div>
-              <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Block#</div>
-              <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-                item.nodeInfo.lastHeight
-              }</div>
-            </div>
-            <div>
-              <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Last seen</div>
-              <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${moment
-                .duration(moment().diff(moment(item.nodeInfo.lastSeen)))
-                .as("seconds")
-                .toFixed()}s ago</div>
-            </div>
-            <div>
-              <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Location</div>
-              <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-                item.geo.city
-              }</div>
-            </div>
-          </div>
-        </div>
-      `;
+      htmlString += this.renderBubbleTooltip(item);
     });
     htmlString += "</div>";
     return htmlString;
   };
 
   changeToValidators = () => {
-    const { nodeInfo } = this.context;
     this.setState(
       {
         nodesType: "validators",
         newNodes: [],
       },
-      () => this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes)
+      () => this.fetchGeo()
     );
   };
 
   changeToOnlineNodes = () => {
-    const { nodeInfo } = this.context;
     this.setState(
       {
         nodesType: "online-nodes",
         newNodes: [],
       },
-      () => this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes)
+      () => this.fetchGeo()
     );
   };
 
@@ -308,6 +216,7 @@ class NodesMap extends React.Component<State> {
           highlightBorderWidth: 2,
           animate: false,
           popupTemplate: this.renderBubbleTooltip,
+          radius: 2,
         }}
         pinOptions={{
           borderWidth: 1,
@@ -345,7 +254,6 @@ class NodesMap extends React.Component<State> {
         }}
       />
     );
-    const { nodeInfo } = this.context;
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
@@ -378,9 +286,11 @@ class NodesMap extends React.Component<State> {
                   src="/static/images/icon-checkmark.svg"
                 />
               </div>
-              <div className="optionText">Validating nodes</div>
+              <div className="optionText">online Validating nodes</div>
               <div className="counter">
-                {nodeInfo.validators ? nodeInfo.validators.length : "-"}
+                {this.state.nodesType === "validators"
+                  ? this.state.nodesData.length
+                  : "-"}
               </div>
             </div>
             <div
@@ -393,9 +303,9 @@ class NodesMap extends React.Component<State> {
             >
               <div
                 className={`${
-                  this.state.nodesType === "validators"
-                    ? " circle"
-                    : "activeCircle"
+                  this.state.nodesType === "online-nodes"
+                    ? " activeCircle"
+                    : "circle"
                 }`}
               >
                 <img
@@ -405,7 +315,9 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Online nodes</div>
               <div className="counter">
-                {nodeInfo.onlineNodes ? nodeInfo.onlineNodes.length : "-"}
+                {this.state.nodesType === "online-nodes"
+                  ? this.state.nodesData.length
+                  : "-"}
               </div>
             </div>
           </div>

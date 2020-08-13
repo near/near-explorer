@@ -21,7 +21,12 @@ const {
 
 const { setupWamp, wampPublish } = require("./wamp");
 
-const { aggregateStats, addNodeInfo, queryOnlineNodes } = require("./db-utils");
+const {
+  aggregateStats,
+  addNodeInfo,
+  queryOnlineNodes,
+  pickonlineValidatingNode,
+} = require("./db-utils");
 
 async function main() {
   console.log("Starting NEAR Explorer backend service...");
@@ -137,11 +142,16 @@ async function main() {
       if (wamp.session) {
         let { currentValidators, proposals } = await queryNodeStats();
         let validators = await addNodeInfo(currentValidators, wamp);
+        let onlineValidatingNodes = pickonlineValidatingNode(validators);
         let onlineNodes = await queryOnlineNodes(wamp);
         if (!onlineNodes) {
           onlineNodes = [];
         }
-        wampPublish("nodes", [{ onlineNodes, validators, proposals }], wamp);
+        wampPublish(
+          "nodes",
+          [{ onlineNodes, validators, proposals, onlineValidatingNodes }],
+          wamp
+        );
         wampPublish(
           "node-stats",
           [
