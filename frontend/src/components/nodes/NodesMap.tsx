@@ -289,7 +289,7 @@ class NodesMap extends React.Component<State> {
                   src="/static/images/icon-checkmark.svg"
                 />
               </div>
-              <div className="optionText">Validating nodes</div>
+              <div className="optionText">online Validating nodes</div>
               <div className="counter">
                 {this.state.nodesType === "validators"
                   ? this.state.nodesData.length
