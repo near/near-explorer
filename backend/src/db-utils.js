@@ -68,6 +68,16 @@ const addNodeInfo = async (nodes, wamp) => {
   return nodes;
 };
 
+const pickonlineValidatingNode = (nodes) => {
+  let onlineValidatingNodes = nodes.filter(
+    (node) => node.nodeInfo !== undefined
+  );
+  onlineValidatingNodes = onlineValidatingNodes.map((node) => {
+    return { accountId: node.account_id, ...node.nodeInfo };
+  });
+  return onlineValidatingNodes;
+};
+
 const queryOnlineNodes = async (wamp) => {
   return await wampSqlSelectQueryRows(
     [
@@ -87,3 +97,4 @@ const queryOnlineNodes = async (wamp) => {
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
+exports.pickonlineValidatingNode = pickonlineValidatingNode;

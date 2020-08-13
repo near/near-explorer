@@ -16,7 +16,7 @@ const Datamap = dynamic(() => import("../utils/DatamapsExtension"), {
 interface IBubble {
   radius: number;
   fillKey: string;
-  nodeInfo: N.NodeInfo & N.Validating;
+  nodeInfo: N.NodeInfo;
   nodeId: string;
   latitude: number;
   longitude: number;
@@ -43,24 +43,21 @@ class NodesMap extends React.Component<State> {
     this.fetchGeo();
   }
 
-  // need to change the method to nodes.js
   fetchGeo = async () => {
     const { nodeInfo } = this.context;
-    let validators = nodeInfo.validators.filter(
-      (node: N.Validating) => node.new !== true
-    );
-
     const nodes =
-      this.state.nodesType === "validators" ? validators : nodeInfo.onlineNodes;
+      this.state.nodesType === "validators"
+        ? nodeInfo.onlineValidatingNodes
+        : nodeInfo.onlineNodes;
 
-    const bubbles: IBubble[] = nodes.map((node: N.NodeInfo & N.Validating) => {
+    const bubbles: IBubble[] = nodes.map((node: N.NodeInfo) => {
       return {
         radius: 4,
         fillKey: "validatorBubbleFill",
         nodeInfo: node,
-        nodeId: node.nodeId || node.nodeInfo?.nodeId || "Unknown",
-        latitude: node.latitude || node.nodeInfo?.latitude,
-        longitude: node.longitude || node.nodeInfo?.longitude,
+        nodeId: node.nodeId,
+        latitude: node.latitude,
+        longitude: node.longitude,
       };
     });
 
@@ -77,12 +74,15 @@ class NodesMap extends React.Component<State> {
     );
     const groupedNodes = this.getNodeClusters(newNodes);
 
-    this.setState({
-      nodesData: newNodes,
-      newNodes: newAddedNodes,
-      removedNodes: removedNodes,
-      nodeClusters: groupedNodes,
-    });
+    this.setState(
+      {
+        nodesData: newNodes,
+        newNodes: newAddedNodes,
+        removedNodes: removedNodes,
+        nodeClusters: groupedNodes,
+      },
+      () => console.log(this.state)
+    );
   };
 
   compareObjectsArrays = (objectArray: IBubble[]) => {
@@ -126,15 +126,13 @@ class NodesMap extends React.Component<State> {
     // Prettier ruined the entire indentation that i made for this
     return `<div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">
         <div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound; padding:0 20px 8px"> @${
-          data.nodeInfo.account_id || data.nodeInfo.accountId
+          data.nodeInfo.accountId
         }</div>
         <div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">
           <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; white-space: nowrap">${
-            data.nodeInfo.agentName || data.nodeInfo.nodeInfo?.agentName
-          } | ver.${
-      data.nodeInfo.agentVersion || data.nodeInfo.nodeInfo?.agentVersion
-    } build ${
-      data.nodeInfo.agentBuild || data.nodeInfo.nodeInfo?.agentBuild
+            data.nodeInfo.agentName
+          } | ver.${data.nodeInfo.agentVersion} build ${
+      data.nodeInfo.agentBuild
     }</div>
           <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">${
             data.nodeId.split(":")[1]
@@ -144,26 +142,20 @@ class NodesMap extends React.Component<State> {
           <div>
             <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Block#</div>
             <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-              data.nodeInfo.lastHeight || data.nodeInfo.nodeInfo?.lastHeight
+              data.nodeInfo.lastHeight
             }</div>
           </div>
           <div>
             <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Last seen</div>
             <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${moment
-              .duration(
-                moment().diff(
-                  moment(
-                    data.nodeInfo.lastSeen || data.nodeInfo.nodeInfo?.lastSeen
-                  )
-                )
-              )
+              .duration(moment().diff(moment(data.nodeInfo.lastSeen)))
               .as("seconds")
               .toFixed()}s ago</div>
           </div>
           <div>
             <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: BwSeidoRound; padding: 0 0 6px">Location</div>
             <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: BwSeidoRound;">${
-              data.nodeInfo.city || data.nodeInfo.nodeInfo?.city
+              data.nodeInfo.city
             }</div>
           </div>
         </div>

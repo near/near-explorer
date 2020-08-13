@@ -5,11 +5,13 @@ import React, {
   useCallback,
 } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
+const equal = require("fast-deep-equal");
 
 const nodeInit = {
   validators: [],
   onlineNodes: [],
   proposals: [],
+  onlineValidatingNodes: [],
 };
 
 const nodeReducer = (currentState, action) => {
@@ -29,6 +31,11 @@ const nodeReducer = (currentState, action) => {
         ...currentState,
         proposals: action.proposals,
       };
+    case "onlineValidating":
+      return {
+        ...currentState,
+        onlineValidatingNodes: action.onlineValidatingNodes,
+      };
     default:
       return nodeInit;
   }
@@ -44,16 +51,24 @@ export default (props) => {
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
 
   const fetchNodeInfo = (nodes) => {
-    let { onlineNodes, validators, proposals } = nodes[0];
+    let {
+      onlineNodes,
+      validators,
+      proposals,
+      onlineValidatingNodes,
+    } = nodes[0];
 
-    if (nodeInfo.validators.length !== validators.length) {
+    if (!equal(nodeInfo.validators, validators)) {
       dispatchNode({ type: "validators", validators });
     }
-    if (nodeInfo.onlineNodes.length !== onlineNodes.length) {
+    if (!equal(nodeInfo.onlineNodes, onlineNodes)) {
       dispatchNode({ type: "onlines", onlineNodes });
     }
-    if (nodeInfo.proposals.length !== proposals.length) {
+    if (!equal(nodeInfo.proposals, proposals)) {
       dispatchNode({ type: "proposals", proposals });
+    }
+    if (!equal(nodeInfo.onlineValidatingNodes, onlineValidatingNodes)) {
+      dispatchNode({ type: "onlineValidating", onlineValidatingNodes });
     }
   };
 

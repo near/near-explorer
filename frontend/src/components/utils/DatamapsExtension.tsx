@@ -31,7 +31,7 @@ export default class Datamap extends React.Component<Props> {
   }
 
   shouldComponentUpdate(nextProps: Props) {
-    if (!equal(nextProps.pins, this.props.pins)) {
+    if (!equal(nextProps.bubbles, this.props.bubbles)) {
       this.clear();
       return true;
     }
