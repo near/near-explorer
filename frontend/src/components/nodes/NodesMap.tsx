@@ -74,15 +74,12 @@ class NodesMap extends React.Component<State> {
     );
     const groupedNodes = this.getNodeClusters(newNodes);
 
-    this.setState(
-      {
-        nodesData: newNodes,
-        newNodes: newAddedNodes,
-        removedNodes: removedNodes,
-        nodeClusters: groupedNodes,
-      },
-      () => console.log(this.state)
-    );
+    this.setState({
+      nodesData: newNodes,
+      newNodes: newAddedNodes,
+      removedNodes: removedNodes,
+      nodeClusters: groupedNodes,
+    });
   };
 
   compareObjectsArrays = (objectArray: IBubble[]) => {
