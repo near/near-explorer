@@ -40,9 +40,7 @@ export const formatNEAR = (amount) => {
 
 export const showInYocto = (amountStr) => {
   const amount = new BN(amountStr);
-  if (amount.lte(YOCTO_NEAR_THRESHOLD)) {
-    return formatWithCommas(amountStr) + " yoctoⓃ";
-  }
+  return formatWithCommas(amountStr) + " yoctoⓃ";
 };
 
 const formatWithCommas = (value) => {
