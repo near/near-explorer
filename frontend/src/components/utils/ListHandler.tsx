@@ -11,6 +11,7 @@ interface Config {
   fetchDataFn: Function;
   count: number;
   category: string;
+  detailPage?: boolean;
 }
 
 export default (
@@ -143,28 +144,30 @@ export default (
       }
       return (
         <>
-          <StatsDataConsumer>
-            {(context) => (
-              <div
-                onClick={() => {
-                  this.regularFetchInfo();
-                }}
-              >
-                <Update
-                  count={
-                    config.category === "Block"
-                      ? context.dashboardStats.totalBlocks
-                      : config.category === "Transaction"
-                      ? context.dashboardStats.totalTransactions
-                      : config.category === "Account"
-                      ? context.dashboardStats.totalAccounts
-                      : 0
-                  }
-                  category={config.category}
-                />
-              </div>
-            )}
-          </StatsDataConsumer>
+          {!config.detailPage ? (
+            <StatsDataConsumer>
+              {(context) => (
+                <div
+                  onClick={() => {
+                    this.regularFetchInfo();
+                  }}
+                >
+                  <Update
+                    count={
+                      config.category === "Block"
+                        ? context.dashboardStats.totalBlocks
+                        : config.category === "Transaction"
+                        ? context.dashboardStats.totalTransactions
+                        : config.category === "Account"
+                        ? context.dashboardStats.totalAccounts
+                        : 0
+                    }
+                    category={config.category}
+                  />
+                </div>
+              )}
+            </StatsDataConsumer>
+          ) : null}
           <InfiniteScroll
             dataLength={this.state.items.length}
             next={this.fetchMoreData}
