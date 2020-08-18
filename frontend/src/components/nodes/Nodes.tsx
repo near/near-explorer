@@ -12,8 +12,8 @@ export default class extends React.Component {
       <NodeConsumer>
         {(context) => (
           <>
-            {context.nodeInfo.onlineNodes ? (
-              context.nodeInfo.onlineNodes.map((node: N.NodeInfo) => (
+            {context.onlineNodes ? (
+              context.onlineNodes.map((node: N.NodeInfo) => (
                 <NodeRow key={node.nodeId} node={node} />
               ))
             ) : (

@@ -7,65 +7,33 @@ import React, {
 } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
 
-const stateInit = {
+const StatsDataContext = createContext({
+  finalTimestamp: 0,
   lastBlockHeight: 0,
   totalBlocks: 0,
   totalTransactions: 0,
   totalAccounts: 0,
   lastDayTxCount: 0,
-};
-
-const stateReducer = (currentState, action) => {
-  switch (action.type) {
-    case "lastBlockHeight":
-      return {
-        ...currentState,
-        lastBlockHeight: action.lastBlockHeight,
-      };
-    case "blocks":
-      return {
-        ...currentState,
-        totalBlocks: action.totalBlocks,
-      };
-    case "transactions":
-      return {
-        ...currentState,
-        totalTransactions: action.totalTransactions,
-      };
-    case "accounts":
-      return {
-        ...currentState,
-        totalAccounts: action.totalAccounts,
-      };
-    case "dayTransactions":
-      return {
-        ...currentState,
-        lastDayTxCount: action.lastDayTxCount,
-      };
-    default:
-      return stateInit;
-  }
-};
-
-const StatsDataContext = createContext({
-  finalTimestamp: 0,
-  dashboardStats: stateInit,
 });
 
 export default (props) => {
-  const [dashboardStats, dispatchState] = useReducer(stateReducer, stateInit);
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
+  const [lastBlockHeight, dispatchLastBlockHeight] = useState(0);
+  const [totalBlocks, dispatchTotalBlcoks] = useState(0);
+  const [totalTransactions, dispatchTotalTransactions] = useState(0);
+  const [totalAccounts, dispatchTotalAccounts] = useState(0);
+  const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
 
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
     // subsceiption data part
     let states = stats[0].dataStats;
     let [
-      lastBlockHeight,
-      totalAccounts,
-      totalBlocks,
-      totalTransactions,
-      lastDayTxCount,
+      newLastBlockHeight,
+      newTotalAccounts,
+      newTotalBlocks,
+      newTotalTransactions,
+      newLastDayTxCount,
     ] = [
       states.lastBlockHeight,
       states.totalAccounts,
@@ -75,20 +43,20 @@ export default (props) => {
     ];
 
     // dispatch direct data part
-    if (dashboardStats.lastBlockHeight !== lastBlockHeight) {
-      dispatchState({ type: "lastBlockHeight", lastBlockHeight });
+    if (lastBlockHeight !== newLastBlockHeight) {
+      dispatchLastBlockHeight(newLastBlockHeight);
     }
-    if (dashboardStats.totalAccounts !== totalAccounts) {
-      dispatchState({ type: "accounts", totalAccounts });
+    if (totalAccounts !== newTotalAccounts) {
+      dispatchTotalAccounts(newTotalAccounts);
     }
-    if (dashboardStats.totalBlocks !== totalBlocks) {
-      dispatchState({ type: "blocks", totalBlocks });
+    if (totalBlocks !== newTotalBlocks) {
+      dispatchTotalBlcoks(newTotalBlocks);
     }
-    if (dashboardStats.totalTransactions !== totalTransactions) {
-      dispatchState({ type: "transactions", totalTransactions });
+    if (totalTransactions !== newTotalTransactions) {
+      dispatchTotalTransactions(newTotalTransactions);
     }
-    if (dashboardStats.lastDayTxCount !== lastDayTxCount) {
-      dispatchState({ type: "dayTransactions", lastDayTxCount });
+    if (lastDayTxCount !== newLastDayTxCount) {
+      dispatchLastDayTxCount(newLastDayTxCount);
     }
   };
 
@@ -110,7 +78,11 @@ export default (props) => {
     <StatsDataContext.Provider
       value={{
         finalTimestamp,
-        dashboardStats,
+        lastBlockHeight,
+        totalBlocks,
+        totalTransactions,
+        totalAccounts,
+        lastDayTxCount,
       }}
     >
       {props.children}

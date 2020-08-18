@@ -12,8 +12,8 @@ export default class extends React.Component {
       <NodeConsumer>
         {(context) => (
           <>
-            {context.nodeInfo.proposals ? (
-              context.nodeInfo.proposals.map((node: N.Proposal) => (
+            {context.proposals ? (
+              context.proposals.map((node: N.Proposal) => (
                 <ProposalRow key={node.account_id} node={node} />
               ))
             ) : (

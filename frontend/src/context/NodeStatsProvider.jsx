@@ -3,57 +3,36 @@ import React, {
   useReducer,
   useEffect,
   useCallback,
+  useState,
 } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
 
-const nodeInit = {
+const NodeStatsContext = createContext({
   validatorAmount: 0,
   onlineNodeAmount: 0,
   proposalAmount: 0,
-};
-
-const nodeReducer = (currentState, action) => {
-  switch (action.type) {
-    case "validators":
-      return {
-        ...currentState,
-        validatorAmount: action.validatorAmount,
-      };
-    case "onlines":
-      return {
-        ...currentState,
-        onlineNodeAmount: action.onlineNodeAmount,
-      };
-    case "proposals":
-      return {
-        ...currentState,
-        proposalAmount: action.proposalAmount,
-      };
-    default:
-      return nodeInit;
-  }
-};
-
-const NodeStatsContext = createContext({
-  nodeInfo: nodeInit,
 });
 
 export default (props) => {
-  const [nodeInfo, dispatchNode] = useReducer(nodeReducer, nodeInit);
-
-  // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
+  const [validatorAmount, dispatchValidatorAmount] = useState(0);
+  const [onlineNodeAmount, dispatchOnlineNodeAmount] = useState(0);
+  const [proposalAmount, dispatchProposalAmount] = useState(0);
 
   const fetchNodeInfo = (nodes) => {
-    let { validatorAmount, onlineNodeAmount, proposalAmount } = nodes[0];
+    let [newValidatorAmount, newOnlineNodeAmount, newProposalAmount] = [
+      nodes[0].validatorAmount,
+      nodes[0].onlineNodeAmount,
+      nodes[0].proposalAmount,
+    ];
 
-    if (nodeInfo.validatorAmount !== validatorAmount) {
-      dispatchNode({ type: "validators", validatorAmount });
+    if (newValidatorAmount !== validatorAmount) {
+      dispatchValidatorAmount(newValidatorAmount);
     }
-    if (nodeInfo.onlineNodeAmount !== onlineNodeAmount) {
-      dispatchNode({ type: "onlines", onlineNodeAmount });
+    if (newOnlineNodeAmount !== onlineNodeAmount) {
+      dispatchOnlineNodeAmount(newOnlineNodeAmount);
     }
-    if (nodeInfo.proposalAmount !== proposalAmount) {
-      dispatchNode({ type: "proposals", proposalAmount });
+    if (newProposalAmount !== proposalAmount) {
+      dispatchProposalAmount(newProposalAmount);
     }
   };
 
@@ -64,7 +43,9 @@ export default (props) => {
   useEffect(() => Subscription(), [Subscription]);
 
   return (
-    <NodeStatsContext.Provider value={{ nodeInfo }}>
+    <NodeStatsContext.Provider
+      value={{ validatorAmount, onlineNodeAmount, proposalAmount }}
+    >
       {props.children}
     </NodeStatsContext.Provider>
   );

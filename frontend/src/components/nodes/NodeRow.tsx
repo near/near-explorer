@@ -58,14 +58,11 @@ export default class extends React.PureComponent<Props> {
                     </Col>
                     <Col
                       className={
-                        Math.abs(
-                          node.lastHeight -
-                            context.dashboardStats.lastBlockHeight
-                        ) > 1000
+                        Math.abs(node.lastHeight - context.lastBlockHeight) >
+                        1000
                           ? "text-danger"
                           : Math.abs(
-                              node.lastHeight -
-                                context.dashboardStats.lastBlockHeight
+                              node.lastHeight - context.lastBlockHeight
                             ) > 50
                           ? "text-warning"
                           : ""

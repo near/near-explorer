@@ -153,11 +153,11 @@ export default (
                 <Update
                   count={
                     config.category === "Block"
-                      ? context.dashboardStats.totalBlocks
+                      ? context.totalBlocks
                       : config.category === "Transaction"
-                      ? context.dashboardStats.totalTransactions
+                      ? context.totalTransactions
                       : config.category === "Account"
-                      ? context.dashboardStats.totalAccounts
+                      ? context.totalAccounts
                       : 0
                   }
                   category={config.category}

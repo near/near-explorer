@@ -88,15 +88,14 @@ export default class extends React.Component<State> {
                       text={
                         <Link href="/nodes/[role]" as={`/nodes/validators`}>
                           <a className="dashboard-link">
-                            {stats.nodeInfo.validatorAmount.toLocaleString()}/
-                            {stats.nodeInfo.onlineNodeAmount.toLocaleString()}
+                            {stats.validatorAmount.toLocaleString()}/
+                            {stats.onlineNodeAmount.toLocaleString()}
                           </a>
                         </Link>
                       }
                       className="border-0"
                       loading={
-                        !stats.nodeInfo.validatorAmount &&
-                        !stats.nodeInfo.onlineNodeAmount
+                        !stats.validatorAmount && !stats.onlineNodeAmount
                       }
                     />
                   </Col>
@@ -119,8 +118,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-height.svg"
-                  text={context.dashboardStats.lastBlockHeight.toLocaleString()}
-                  loading={!context.dashboardStats.lastBlockHeight}
+                  text={context.lastBlockHeight.toLocaleString()}
+                  loading={!context.lastBlockHeight}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -138,8 +137,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-transaction.svg"
-                  text={context.dashboardStats.totalTransactions.toLocaleString()}
-                  loading={!context.dashboardStats.totalTransactions}
+                  text={context.totalTransactions.toLocaleString()}
+                  loading={!context.totalTransactions}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -157,8 +156,8 @@ export default class extends React.Component<State> {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-transaction.svg"
-                  text={context.dashboardStats.lastDayTxCount.toLocaleString()}
-                  loading={!context.dashboardStats.lastDayTxCount}
+                  text={context.lastDayTxCount.toLocaleString()}
+                  loading={!context.lastDayTxCount}
                 />
               </Col>
               <Col xs="12" md="2">
@@ -179,11 +178,11 @@ export default class extends React.Component<State> {
                   text={
                     <Link href="/accounts">
                       <a className="dashboard-link">
-                        {context.dashboardStats.totalAccounts.toLocaleString()}
+                        {context.totalAccounts.toLocaleString()}
                       </a>
                     </Link>
                   }
-                  loading={!context.dashboardStats.totalAccounts}
+                  loading={!context.totalAccounts}
                 />
               </Col>
             </Row>

@@ -43,12 +43,12 @@ class NodesMap extends React.Component<State> {
   };
 
   componentDidMount() {
-    const { nodeInfo } = this.context;
-    this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes);
+    this.fetchGeo();
   }
 
   // need to change the method to nodes.js
-  fetchGeo = async (validators: any, onlineNodes: any) => {
+  fetchGeo = async () => {
+    const { validators, onlineNodes } = this.context;
     const nodes =
       this.state.nodesType === "validators" ? validators : onlineNodes;
     const url =
@@ -259,24 +259,22 @@ class NodesMap extends React.Component<State> {
   };
 
   changeToValidators = () => {
-    const { nodeInfo } = this.context;
     this.setState(
       {
         nodesType: "validators",
         newNodes: [],
       },
-      () => this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes)
+      () => this.fetchGeo()
     );
   };
 
   changeToOnlineNodes = () => {
-    const { nodeInfo } = this.context;
     this.setState(
       {
         nodesType: "online-nodes",
         newNodes: [],
       },
-      () => this.fetchGeo(nodeInfo.validators, nodeInfo.onlineNodes)
+      () => this.fetchGeo()
     );
   };
 
@@ -345,7 +343,6 @@ class NodesMap extends React.Component<State> {
         }}
       />
     );
-    const { nodeInfo } = this.context;
     return (
       <div className="mapBackground">
         <div className="mapWrapper">
@@ -380,7 +377,9 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Validating nodes</div>
               <div className="counter">
-                {nodeInfo.validators ? nodeInfo.validators.length : "-"}
+                {this.state.nodesType === "validators"
+                  ? this.state.nodesData.length
+                  : "-"}
               </div>
             </div>
             <div
@@ -405,7 +404,9 @@ class NodesMap extends React.Component<State> {
               </div>
               <div className="optionText">Online nodes</div>
               <div className="counter">
-                {nodeInfo.onlineNodes ? nodeInfo.onlineNodes.length : "-"}
+                {this.state.nodesType === "online-nodes"
+                  ? this.state.nodesData.length
+                  : "-"}
               </div>
             </div>
           </div>
