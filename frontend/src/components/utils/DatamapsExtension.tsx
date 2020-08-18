@@ -3,6 +3,7 @@ import * as d3 from "d3";
 
 import React from "react";
 
+const equal = require("fast-deep-equal");
 interface Props {
   bubbleOptions: object;
   bubbles: any[];
@@ -21,10 +22,6 @@ interface Props {
 
 export default class Datamap extends React.Component<Props> {
   map: any;
-  constructor(props: Props) {
-    super(props);
-    this.resizeMap = this.resizeMap.bind(this);
-  }
 
   componentDidMount() {
     if (this.props.responsive) {
@@ -33,8 +30,15 @@ export default class Datamap extends React.Component<Props> {
     this.drawMap();
   }
 
+  shouldComponentUpdate(nextProps: Props) {
+    if (!equal(nextProps.bubbles, this.props.bubbles)) {
+      this.clear();
+      return true;
+    }
+    return false;
+  }
+
   componentDidUpdate() {
-    this.clear();
     this.drawMap();
   }
 
@@ -76,7 +80,6 @@ export default class Datamap extends React.Component<Props> {
       nodeClustersOptions,
       ...props
     } = this.props;
-
     let map = this.map;
 
     if (!map) {

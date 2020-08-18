@@ -20,6 +20,7 @@
   "homepage": "https://github.com/nearprotocol/near-explorer#readme",
   "dependencies": {
     "autobahn": "19.4.1",
+    "geoip-lite": "^1.4.2",
     "moment": "^2.24.0",
     "pg": "^8.3.0",
     "near-api-js": "^0.27.0",
