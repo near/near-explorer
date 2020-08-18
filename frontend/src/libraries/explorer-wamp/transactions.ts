@@ -154,7 +154,7 @@ export default class TransactionsApi extends ExplorerApi {
       if (paginationIndexer) {
         WHEREClause = `WHERE (${whereClause.join(
           " OR "
-        )}) AND block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex)`;
+        )}) AND (block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex))`;
       } else {
         WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
       }
