@@ -35,6 +35,7 @@ async function main() {
 
   let genesisHeight, genesisTime;
   const regularCheckGenesis = async () => {
+    console.log("Starting regular Genesis check...");
     try {
       const genesisConfig = await nearRpc.sendJsonRpc(
         "EXPERIMENTAL_genesis_config"
@@ -54,18 +55,21 @@ async function main() {
       }
       genesisHeight = genesisConfig.genesis_height;
       genesisTime = genesisConfig.genesis_time;
+      console.log("Regular Genesis check is completed.");
     } catch (error) {
-      console.warn("Regular checking Genesis crashed due to:", error);
+      console.warn("Regular Genesis check crashed due to:", error);
     }
     setTimeout(regularCheckGenesis, regularCheckGenesisInterval);
   };
   setTimeout(regularCheckGenesis, 0);
 
   const regularSyncGenesisState = async () => {
+    console.log("Starting regular Genesis state sync...");
     try {
       await syncGenesisState();
+      console.log("Regular Genesis state sync is completed.");
     } catch (error) {
-      console.warn("Regular syncing Genesis state crashed due to:", error);
+      console.warn("Regular Genesis state crashed due to:", error);
     }
     setTimeout(regularSyncGenesisState, regularSyncGenesisStateInterval);
   };
@@ -73,10 +77,12 @@ async function main() {
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {
+    console.log("Starting regular new nearcore state sync...");
     try {
       await syncNewNearcoreState();
+      console.log("Regular new nearcore state sync is completed.");
     } catch (error) {
-      console.warn("Regular syncing new Nearcore state crashed due to:", error);
+      console.warn("Regular new nearcore state sync crashed due to:", error);
     }
     setTimeout(
       regularSyncNewNearcoreState,
@@ -86,11 +92,13 @@ async function main() {
   setTimeout(regularSyncNewNearcoreState, 0);
 
   const regularSyncMissingNearcoreState = async () => {
+    console.log("Starting regular missing nearcore state sync...");
     try {
       await syncMissingNearcoreState();
+      console.log("Regular missing nearcore state sync is completed.");
     } catch (error) {
       console.warn(
-        "Regular syncing missing Nearcore state crashed due to:",
+        "Regular missing nearcore state sync crashed due to:",
         error
       );
     }
@@ -110,13 +118,15 @@ async function main() {
 
   // regular check finalTimesamp and publish to final-timestamp uri
   const regularCheckFinalTimestamp = async () => {
+    console.log("Starting regular final timestamp check...");
     try {
       if (wamp.session) {
         const finalTimestamp = await queryFinalTimestamp();
         wampPublish("final-timestamp", [finalTimestamp], wamp);
       }
+      console.log("Regular final timestamp check is completed.");
     } catch (error) {
-      console.warn("Regular querying RPC crashed due to:", error);
+      console.warn("Regular final timestamp check  crashed due to:", error);
     }
     setTimeout(regularCheckFinalTimestamp, regularQueryRPCInterval);
   };
@@ -124,13 +134,15 @@ async function main() {
 
   // regular check block/tx data stats and publish to data-stats uri
   const regularCheckDataStats = async () => {
+    console.log("Starting regular data stats check...");
     try {
       if (wamp.session) {
         const dataStats = await aggregateStats(wamp);
         wampPublish("data-stats", [{ dataStats }], wamp);
       }
+      console.log("Regular data stats check is completed.");
     } catch (error) {
-      console.warn("Regular querying data stats crashed due to:", error);
+      console.warn("Regular data stats check crashed due to:", error);
     }
     setTimeout(regularCheckDataStats, regularQueryStatsInterval);
   };
@@ -138,6 +150,7 @@ async function main() {
 
   // regular check node status and publish to nodes uri
   const regularCheckNodeStatus = async () => {
+    console.log("Starting regular node status check...");
     try {
       if (wamp.session) {
         let { currentValidators, proposals } = await queryNodeStats();
@@ -164,8 +177,9 @@ async function main() {
           wamp
         );
       }
+      console.log("Regular node status check is completed.");
     } catch (error) {
-      console.warn("Regular querying nodes amount crashed due to:", error);
+      console.warn("Regular node status check crashed due to:", error);
     }
     setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };

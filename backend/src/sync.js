@@ -243,13 +243,19 @@ async function saveBlocksFromRequests(requests) {
             `A system error was catched while fetching the block #${blockHeight}: `,
             error.message
           );
+        } else if (error.message && error.message.includes("Not Found")) {
+          // It is absolutely fine to ignore the blocks that were never produced.
+          // However, we should better not query those in the first place (NEAR
+          // Indexer for Explorer will address this)
+        } else if (error.message && error.message.includes("Missing")) {
+          console.warn(
+            `Block #${blockHeight} is missing. Make sure that the RPC node is archival and fully synced.`
+          );
         } else {
-          if (!error.message.includes("Not Found")) {
-            console.warn(
-              `Something went wrong while fetching the block #${blockHeight}: `,
-              error
-            );
-          }
+          console.warn(
+            `Something went wrong while fetching the block #${blockHeight}: `,
+            error
+          );
         }
         return null;
       }
