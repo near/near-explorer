@@ -32,10 +32,6 @@ export default class extends React.Component<OuterProps, State> {
     this.fetchBlocks();
   }
 
-  componentDidUpdate() {
-    this.fetchBlocks();
-  }
-
   render() {
     const { blocks } = this.state;
     return (

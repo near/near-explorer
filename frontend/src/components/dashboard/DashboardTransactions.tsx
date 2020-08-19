@@ -36,10 +36,6 @@ export default class extends React.Component<OuterProps, State> {
     this.fetchTxs();
   }
 
-  componentDidUpdate() {
-    this.fetchTxs();
-  }
-
   render() {
     const { transactions } = this.state;
     return (

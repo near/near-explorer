@@ -46,7 +46,9 @@ export default (props) => {
   useEffect(() => Subscription(), [Subscription]);
 
   return (
-    <NodeContext.Provider value={{ validators, onlineNodes, proposals }}>
+    <NodeContext.Provider
+      value={{ validators, onlineNodes, proposals, onlineValidatingNodes }}
+    >
       {props.children}
     </NodeContext.Provider>
   );
