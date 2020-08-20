@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { Container, Row, Col } from "react-bootstrap";
 
 export default () => (
@@ -15,13 +13,13 @@ export default () => (
       >
         © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
         <br />
-        <Link href="terms-of-service">
-          <a className="footer-link-href">Terms of Service</a>
-        </Link>
+        <a className="footer-link-href" href="https://near.org/privacy/">
+          Terms of Service
+        </a>
         &nbsp;|&nbsp;
-        <Link href="privacy-policy">
-          <a className="footer-link-href">Privacy Policy</a>
-        </Link>
+        <a className="footer-link-href" href="https://near.org/privacy/">
+          Privacy Policy
+        </a>
       </Col>
       <Col className="text-right d-none d-sm-block ml-auto" md="4" lg="2">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
