@@ -26,6 +26,7 @@ const {
   addNodeInfo,
   queryOnlineNodes,
   pickonlineValidatingNode,
+  queryDashboardBlocksAndTxs,
 } = require("./db-utils");
 
 async function main() {
@@ -127,7 +128,8 @@ async function main() {
     try {
       if (wamp.session) {
         const dataStats = await aggregateStats(wamp);
-        wampPublish("data-stats", [{ dataStats }], wamp);
+        const { transactions, blocks } = await queryDashboardBlocksAndTxs(wamp);
+        wampPublish("data-stats", [{ dataStats, transactions, blocks }], wamp);
       }
     } catch (error) {
       console.warn("Regular querying data stats crashed due to:", error);

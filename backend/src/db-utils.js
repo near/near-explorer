@@ -94,7 +94,61 @@ const queryOnlineNodes = async (wamp) => {
   );
 };
 
+const queryDashboardBlocksAndTxs = async (wamp) => {
+  let [transactions, blocks] = await Promise.all([
+    wampSqlSelectQueryRows(
+      [
+        `SELECT hash, signer_id as signerId, receiver_id as receiverId, 
+              block_hash as blockHash, block_timestamp as blockTimestamp, transaction_index as transactionIndex
+          FROM transactions
+          ORDER BY block_timestamp DESC, transaction_index DESC
+          LIMIT 10`,
+      ],
+      wamp
+    ),
+    wampSqlSelectQueryRows(
+      [
+        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+          FROM (
+            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
+            FROM blocks
+            ORDER BY blocks.height DESC
+            LIMIT 8
+          ) as blocks
+          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
+          GROUP BY blocks.hash
+          ORDER BY blocks.timestamp DESC`,
+      ],
+      wamp
+    ),
+  ]);
+  await Promise.all(
+    transactions.map(async (transaction) => {
+      const actions = await wampSqlSelectQueryRows(
+        [
+          `SELECT transaction_hash, action_index, action_type as kind, action_args as args
+      FROM actions
+      WHERE transaction_hash = :hash
+      ORDER BY action_index`,
+          {
+            hash: transaction.hash,
+          },
+        ],
+        wamp
+      );
+      transaction.actions = actions.map((action) => {
+        return {
+          kind: action.kind,
+          args: JSON.parse(action.args),
+        };
+      });
+    })
+  );
+  return { transactions, blocks };
+};
+
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
 exports.pickonlineValidatingNode = pickonlineValidatingNode;
+exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;

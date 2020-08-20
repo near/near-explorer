@@ -14,6 +14,8 @@ const StatsDataContext = createContext({
   totalTransactions: 0,
   totalAccounts: 0,
   lastDayTxCount: 0,
+  transactions: [],
+  blocks: [],
 });
 
 export default (props) => {
@@ -23,11 +25,15 @@ export default (props) => {
   const [totalTransactions, dispatchTotalTransactions] = useState(0);
   const [totalAccounts, dispatchTotalAccounts] = useState(0);
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
+  const [transactions, dispatchTransactions] = useState([]);
+  const [blocks, dispatchBlocks] = useState([]);
 
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
     // subsceiption data part
     let states = stats[0].dataStats;
+    let transactions = stats[0].transactions;
+    let blocks = stats[0].blocks;
     let [
       newLastBlockHeight,
       newTotalAccounts,
@@ -51,9 +57,11 @@ export default (props) => {
     }
     if (totalBlocks !== newTotalBlocks) {
       dispatchTotalBlcoks(newTotalBlocks);
+      dispatchBlocks(blocks);
     }
     if (totalTransactions !== newTotalTransactions) {
       dispatchTotalTransactions(newTotalTransactions);
+      dispatchTransactions(transactions);
     }
     if (lastDayTxCount !== newLastDayTxCount) {
       dispatchLastDayTxCount(newLastDayTxCount);
@@ -73,7 +81,6 @@ export default (props) => {
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
-
   return (
     <StatsDataContext.Provider
       value={{
@@ -83,6 +90,8 @@ export default (props) => {
         totalTransactions,
         totalAccounts,
         lastDayTxCount,
+        transactions,
+        blocks,
       }}
     >
       {props.children}

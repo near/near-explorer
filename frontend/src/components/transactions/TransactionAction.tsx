@@ -17,7 +17,6 @@ export interface Props {
 
 interface State {
   status?: T.ExecutionStatus;
-  isFinal?: boolean;
 }
 
 export default class extends React.Component<Props, State> {
