@@ -4,7 +4,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as B from "../../libraries/explorer-wamp/blocks";
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import FlipMove from "../utils/FlipMove";
 
@@ -15,7 +15,7 @@ import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 export default class extends React.Component {
   render() {
     return (
-      <StatsDataConsumer>
+      <DatabaseConsumer>
         {(context) => (
           <>
             <Row>
@@ -104,7 +104,7 @@ export default class extends React.Component {
             `}</style>
           </>
         )}
-      </StatsDataConsumer>
+      </DatabaseConsumer>
     );
   }
 }

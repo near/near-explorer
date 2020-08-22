@@ -1,6 +1,6 @@
 import React from "react";
 
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
@@ -45,7 +45,7 @@ export default class extends React.Component<Props, State> {
     }
     if (transaction.actions.length !== 1) {
       return (
-        <StatsDataConsumer>
+        <DatabaseConsumer>
           {(context) => (
             <ActionRowBlock
               viewMode={viewMode}
@@ -67,11 +67,11 @@ export default class extends React.Component<Props, State> {
               />
             </ActionRowBlock>
           )}
-        </StatsDataConsumer>
+        </DatabaseConsumer>
       );
     }
     return (
-      <StatsDataConsumer>
+      <DatabaseConsumer>
         {(context) => (
           <ActionRow
             action={transaction.actions[0]}
@@ -86,7 +86,7 @@ export default class extends React.Component<Props, State> {
             }
           />
         )}
-      </StatsDataConsumer>
+      </DatabaseConsumer>
     );
   }
 }

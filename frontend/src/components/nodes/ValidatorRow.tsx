@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as N from "../../libraries/explorer-wamp/nodes";
 
 import Timer from "../utils/Timer";
@@ -16,7 +16,7 @@ export default class extends React.Component<Props> {
   render() {
     const { node } = this.props;
     return (
-      <StatsDataConsumer>
+      <DatabaseConsumer>
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
@@ -204,7 +204,7 @@ export default class extends React.Component<Props> {
             `}</style>
           </Row>
         )}
-      </StatsDataConsumer>
+      </DatabaseConsumer>
     );
   }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import Timer from "../utils/Timer";
 
@@ -22,7 +22,7 @@ export default class extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
     return (
-      <StatsDataConsumer>
+      <DatabaseConsumer>
         {(context) => (
           <Row className="node-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
@@ -151,7 +151,7 @@ export default class extends React.PureComponent<Props> {
             `}</style>
           </Row>
         )}
-      </StatsDataConsumer>
+      </DatabaseConsumer>
     );
   }
 }

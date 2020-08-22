@@ -1,13 +1,7 @@
-import React, {
-  createContext,
-  useReducer,
-  useEffect,
-  useCallback,
-  useState,
-} from "react";
+import React, { createContext, useEffect, useCallback, useState } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
 
-const StatsDataContext = createContext({
+const DatabaseContext = createContext({
   finalTimestamp: 0,
   lastBlockHeight: 0,
   totalBlocks: 0,
@@ -76,13 +70,13 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("data-stats", fetchNewStats);
+    new ExplorerApi().subscribe("database-stats", fetchNewStats);
     new ExplorerApi().subscribe("final-timestamp", fetchFinalTimestamp);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
   return (
-    <StatsDataContext.Provider
+    <DatabaseContext.Provider
       value={{
         finalTimestamp,
         lastBlockHeight,
@@ -95,10 +89,10 @@ export default (props) => {
       }}
     >
       {props.children}
-    </StatsDataContext.Provider>
+    </DatabaseContext.Provider>
   );
 };
 
-const StatsDataConsumer = StatsDataContext.Consumer;
+const DatabaseConsumer = DatabaseContext.Consumer;
 
-export { StatsDataConsumer, StatsDataContext };
+export { DatabaseConsumer, DatabaseContext };

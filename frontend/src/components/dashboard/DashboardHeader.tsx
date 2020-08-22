@@ -7,7 +7,7 @@ import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
 
 import CardCell from "../utils/CardCell";
@@ -63,7 +63,7 @@ export default class extends React.Component<State> {
   render() {
     return (
       <div className="dashboard-info-container">
-        <StatsDataConsumer>
+        <DatabaseConsumer>
           {(context) => (
             <Row noGutters>
               <NodeStatsConsumer>
@@ -187,7 +187,7 @@ export default class extends React.Component<State> {
               </Col>
             </Row>
           )}
-        </StatsDataConsumer>
+        </DatabaseConsumer>
         <form onSubmit={this.handleSearch}>
           <Row className="search-box" noGutters>
             <Col className="p-3" xs="12" md="10">

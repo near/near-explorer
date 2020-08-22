@@ -4,7 +4,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import Content from "../utils/Content";
 import FlipMove from "../utils/FlipMove";
@@ -16,7 +16,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 export default class extends React.Component {
   render() {
     return (
-      <StatsDataConsumer>
+      <DatabaseConsumer>
         {(context) => (
           <Content
             title={<h2>Recent Transactions</h2>}
@@ -106,7 +106,7 @@ export default class extends React.Component {
             `}</style>
           </Content>
         )}
-      </StatsDataConsumer>
+      </DatabaseConsumer>
     );
   }
 }

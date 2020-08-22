@@ -7,7 +7,7 @@ import { getNearNetwork } from "../libraries/config";
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import DataProvider from "../components/utils/DataProvider";
-import StatsDataProvider from "../context/StatsDataProvider";
+import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -59,9 +59,9 @@ export default class extends App {
           <div className="app-wrapper">
             <Header />
             <div className="page">
-              <StatsDataProvider>
+              <DatabaseProvider>
                 <Component {...pageProps} />
-              </StatsDataProvider>
+              </DatabaseProvider>
             </div>
           </div>
           <Footer />

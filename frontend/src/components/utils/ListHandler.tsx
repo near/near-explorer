@@ -2,7 +2,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import React from "react";
 
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";
@@ -145,7 +145,7 @@ export default (
       return (
         <>
           {!config.detailPage ? (
-            <StatsDataConsumer>
+            <DatabaseConsumer>
               {(context) => (
                 <div
                   onClick={() => {
@@ -166,7 +166,7 @@ export default (
                   />
                 </div>
               )}
-            </StatsDataConsumer>
+            </DatabaseConsumer>
           ) : null}
           <InfiniteScroll
             dataLength={this.state.items.length}
