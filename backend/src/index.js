@@ -127,8 +127,8 @@ async function main() {
   const regularCheckDataStats = async () => {
     try {
       if (wamp.session) {
-        const dataStats = await aggregateStats(wamp);
-        const { transactions, blocks } = await queryDashboardBlocksAndTxs(wamp);
+        const dataStats = await aggregateStats();
+        const { transactions, blocks } = await queryDashboardBlocksAndTxs();
         wampPublish(
           "database-stats",
           [{ dataStats, transactions, blocks }],
@@ -147,9 +147,9 @@ async function main() {
     try {
       if (wamp.session) {
         let { currentValidators, proposals } = await queryNodeStats();
-        let validators = await addNodeInfo(currentValidators, wamp);
+        let validators = await addNodeInfo(currentValidators);
         let onlineValidatingNodes = pickonlineValidatingNode(validators);
-        let onlineNodes = await queryOnlineNodes(wamp);
+        let onlineNodes = await queryOnlineNodes();
         if (!onlineNodes) {
           onlineNodes = [];
         }
