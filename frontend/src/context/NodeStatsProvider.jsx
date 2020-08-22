@@ -19,11 +19,11 @@ export default (props) => {
   const [proposalAmount, dispatchProposalAmount] = useState(0);
 
   const fetchNodeInfo = (nodes) => {
-    let [newValidatorAmount, newOnlineNodeAmount, newProposalAmount] = [
-      nodes[0].validatorAmount,
-      nodes[0].onlineNodeAmount,
-      nodes[0].proposalAmount,
-    ];
+    let {
+      validatorAmount: newValidatorAmount,
+      onlineNodeAmount: newOnlineNodeAmount,
+      proposalAmount: newProposalAmount,
+    } = nodes[0];
 
     if (newValidatorAmount !== validatorAmount) {
       dispatchValidatorAmount(newValidatorAmount);

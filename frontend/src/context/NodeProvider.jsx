@@ -22,17 +22,12 @@ export default (props) => {
   const [onlineValidatingNodes, dispatchNodes] = useState([]);
 
   const fetchNodeInfo = (nodes) => {
-    let [
-      newOnlineNodes,
-      newValidators,
-      newProposals,
-      newOnlineValidatingNodes,
-    ] = [
-      nodes[0].onlineNodes,
-      nodes[0].validators,
-      nodes[0].proposals,
-      nodes[0].onlineValidatingNodes,
-    ];
+    let {
+      onlineNodes: newOnlineNodes,
+      validators: newValidators,
+      proposals: newProposals,
+      onlineValidatingNodes: newOnlineValidatingNodes,
+    } = nodes[0];
     dispatchValidators(newValidators);
     dispatchOnlineNodes(newOnlineNodes);
     dispatchProposals(newProposals);

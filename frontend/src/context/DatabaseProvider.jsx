@@ -28,19 +28,13 @@ export default (props) => {
     let states = stats[0].dataStats;
     let transactions = stats[0].transactions;
     let blocks = stats[0].blocks;
-    let [
-      newLastBlockHeight,
-      newTotalAccounts,
-      newTotalBlocks,
-      newTotalTransactions,
-      newLastDayTxCount,
-    ] = [
-      states.lastBlockHeight,
-      states.totalAccounts,
-      states.totalBlocks,
-      states.totalTransactions,
-      states.lastDayTxCount,
-    ];
+    let {
+      lastBlockHeight: newLastBlockHeight,
+      totalAccounts: newTotalAccounts,
+      totalBlocks: newTotalBlocks,
+      totalTransactions: newTotalTransactions,
+      lastDayTxCount: newLastDayTxCount,
+    } = states;
 
     // dispatch direct data part
     if (lastBlockHeight !== newLastBlockHeight) {
