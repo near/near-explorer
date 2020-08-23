@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Row, Col } from "react-bootstrap";
 
 import NodeStatsProvider from "../context/NodeStatsProvider";
+import ListProvider from "../context/ListProvider";
 
 import Content from "../components/utils/Content";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
@@ -21,12 +22,14 @@ export default class extends React.Component {
             <DashboardHeader />
           </NodeStatsProvider>
           <Row noGutters className="dashboard-section">
-            <Col md="8">
-              <DashboardTransactions />
-            </Col>
-            <Col md="4">
-              <DashboardBlocks />
-            </Col>
+            <ListProvider>
+              <Col md="8">
+                <DashboardTransactions />
+              </Col>
+              <Col md="4">
+                <DashboardBlocks />
+              </Col>
+            </ListProvider>
           </Row>
           <style jsx global>{`
             .dashboard-section {
