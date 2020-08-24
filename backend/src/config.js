@@ -1,9 +1,16 @@
 exports.nearRpcUrl = process.env.NEAR_RPC_URL || "http://localhost:3030";
+
+exports.debugLogs =
+  (process.env.NEAR_DEBUG_LOGS || "TRUE").toUpperCase() !== "FALSE";
+
 exports.syncFetchQueueSize =
   parseInt(process.env.NEAR_SYNC_FETCH_QUEUE_SIZE) || 3;
 
 exports.syncSaveQueueSize =
   parseInt(process.env.NEAR_SYNC_SAVE_QUEUE_SIZE) || 10;
+
+exports.syncNewBlocksHorizon =
+  parseInt(process.env.NEAR_SYNC_NEW_BLOCKS_HORIZON) || 100;
 
 exports.bulkDbUpdateSize =
   parseInt(process.env.NEAR_SYNC_BULK_DB_UPDATE_SIZE) || 10;

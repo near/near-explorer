@@ -5,6 +5,7 @@ const {
   syncFetchQueueSize,
   syncSaveQueueSize,
   bulkDbUpdateSize,
+  syncNewBlocksHorizon,
 } = require("./config");
 const { nearRpc } = require("./near");
 const { Result, delayFor } = require("./utils");
@@ -356,16 +357,28 @@ async function syncNewNearcoreState() {
   const latestSyncedBlock = await models.Block.findOne({
     order: [["height", "DESC"]],
   });
-  let latestSyncedBlockHeight;
+  let targetBlockHeight;
   if (latestSyncedBlock !== null) {
-    latestSyncedBlockHeight = latestSyncedBlock.height;
-    console.debug(`The latest synced block is #${latestSyncedBlockHeight}`);
+    console.debug(`The latest synced block is #${latestSyncedBlock.height}`);
+    if (
+      latestBlockHeight - latestSyncedBlock.height <
+      syncNewBlocksHorizon * 5
+    ) {
+      targetBlockHeight = latestSyncedBlock.height;
+    } else {
+      targetBlockHeight = latestBlockHeight - syncNewBlocksHorizon;
+      console.debug(
+        `The latest synced block #${latestSyncedBlock.height} is far behind of the latest block #${latestBlockHeight}. Syncing the latest ${syncNewBlocksHorizon} blocks...`
+      );
+    }
   } else {
-    latestSyncedBlockHeight = latestBlockHeight - 10;
-    console.debug("There are no synced blocks, yet.");
+    targetBlockHeight = latestBlockHeight - syncNewBlocksHorizon;
+    console.debug(
+      `There are no synced blocks, yet. Syncing the latest ${syncNewBlocksHorizon} blocks...`
+    );
   }
 
-  await syncNearcoreBlocks(latestBlockHeight, latestSyncedBlockHeight + 1);
+  await syncNearcoreBlocks(latestBlockHeight, targetBlockHeight + 1);
 }
 
 async function syncOldNearcoreState() {
