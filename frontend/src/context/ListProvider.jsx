@@ -19,7 +19,7 @@ export default (props) => {
 
   const Subscription = useCallback(() => {
     new ExplorerApi()
-      .subscribe("chain-latetst-blocks-list", fetchList)
+      .subscribe("chain-latest-blocks-info", fetchList)
       .then((subscription) => subscription.unsubscribe());
   }, []);
 

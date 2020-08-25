@@ -142,7 +142,7 @@ async function main() {
         const { transactions, blocks } = await queryDashboardBlocksAndTxs();
         wampPublish("chain-stats", [{ dataStats }], wamp);
         wampPublish(
-          "chain-latetst-blocks-list",
+          "chain-latest-blocks-info",
           [{ transactions, blocks }],
           wamp
         );
