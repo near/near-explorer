@@ -4,7 +4,7 @@ import moment from "../../libraries/moment";
 import { Row, Col } from "react-bootstrap";
 import React from "react";
 
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import AccountLink from "../utils/AccountLink";
@@ -115,7 +115,7 @@ export default class extends React.Component<Props, State> {
     const { transaction } = this.props;
     const { deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
-      <StatsDataConsumer>
+      <DatabaseConsumer>
         {(context) => (
           <div className="transaction-info-container">
             <Row noGutters>
@@ -352,7 +352,7 @@ export default class extends React.Component<Props, State> {
             `}</style>
           </div>
         )}
-      </StatsDataConsumer>
+      </DatabaseConsumer>
     );
   }
 }

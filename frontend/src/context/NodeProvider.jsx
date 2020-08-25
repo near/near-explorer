@@ -3,83 +3,49 @@ import React, {
   useReducer,
   useEffect,
   useCallback,
+  useState,
 } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
 const equal = require("fast-deep-equal");
 
-const nodeInit = {
+const NodeContext = createContext({
   validators: [],
   onlineNodes: [],
   proposals: [],
   onlineValidatingNodes: [],
-};
-
-const nodeReducer = (currentState, action) => {
-  switch (action.type) {
-    case "validators":
-      return {
-        ...currentState,
-        validators: action.validators,
-      };
-    case "onlines":
-      return {
-        ...currentState,
-        onlineNodes: action.onlineNodes,
-      };
-    case "proposals":
-      return {
-        ...currentState,
-        proposals: action.proposals,
-      };
-    case "onlineValidating":
-      return {
-        ...currentState,
-        onlineValidatingNodes: action.onlineValidatingNodes,
-      };
-    default:
-      return nodeInit;
-  }
-};
-
-const NodeContext = createContext({
-  nodeInfo: nodeInit,
 });
 
 export default (props) => {
-  const [nodeInfo, dispatchNode] = useReducer(nodeReducer, nodeInit);
-
-  // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
+  const [validators, dispatchValidators] = useState([]);
+  const [onlineNodes, dispatchOnlineNodes] = useState([]);
+  const [proposals, dispatchProposals] = useState([]);
+  const [onlineValidatingNodes, dispatchNodes] = useState([]);
 
   const fetchNodeInfo = (nodes) => {
     let {
-      onlineNodes,
-      validators,
-      proposals,
-      onlineValidatingNodes,
+      onlineNodes: newOnlineNodes,
+      validators: newValidators,
+      proposals: newProposals,
+      onlineValidatingNodes: newOnlineValidatingNodes,
     } = nodes[0];
-
-    if (!equal(nodeInfo.validators, validators)) {
-      dispatchNode({ type: "validators", validators });
-    }
-    if (!equal(nodeInfo.onlineNodes, onlineNodes)) {
-      dispatchNode({ type: "onlines", onlineNodes });
-    }
-    if (!equal(nodeInfo.proposals, proposals)) {
-      dispatchNode({ type: "proposals", proposals });
-    }
-    if (!equal(nodeInfo.onlineValidatingNodes, onlineValidatingNodes)) {
-      dispatchNode({ type: "onlineValidating", onlineValidatingNodes });
-    }
+    dispatchValidators(newValidators);
+    dispatchOnlineNodes(newOnlineNodes);
+    dispatchProposals(newProposals);
+    dispatchNodes(newOnlineValidatingNodes);
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("nodes", fetchNodeInfo);
+    new ExplorerApi()
+      .subscribe("nodes", fetchNodeInfo)
+      .then((subscription) => subscription.unsubscribe());
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
 
   return (
-    <NodeContext.Provider value={{ nodeInfo }}>
+    <NodeContext.Provider
+      value={{ validators, onlineNodes, proposals, onlineValidatingNodes }}
+    >
       {props.children}
     </NodeContext.Provider>
   );

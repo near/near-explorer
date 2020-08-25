@@ -137,22 +137,5 @@ const wampPublish = (topic, args, wamp) => {
   wamp.session.publish(uri, args);
 };
 
-const wampSqlSelectQueryCount = async (args, wamp) => {
-  if (wamp) {
-    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
-    const res = await wamp.session.call(uri, args);
-    return res[0];
-  }
-};
-
-const wampSqlSelectQueryRows = async (args, wamp) => {
-  if (wamp) {
-    const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select`;
-    return await wamp.session.call(uri, args);
-  }
-};
-
 exports.setupWamp = setupWamp;
 exports.wampPublish = wampPublish;
-exports.wampSqlSelectQueryCount = wampSqlSelectQueryCount;
-exports.wampSqlSelectQueryRows = wampSqlSelectQueryRows;

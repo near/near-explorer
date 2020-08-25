@@ -44,11 +44,11 @@ class NodesMap extends React.Component<State> {
   }
 
   fetchGeo = async () => {
-    const { nodeInfo } = this.context;
+    const { onlineNodes, onlineValidatingNodes } = this.context;
     const nodes =
       this.state.nodesType === "validators"
-        ? nodeInfo.onlineValidatingNodes
-        : nodeInfo.onlineNodes;
+        ? onlineValidatingNodes
+        : onlineNodes;
 
     const bubbles: IBubble[] = nodes.map((node: N.NodeInfo) => {
       return {

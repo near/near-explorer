@@ -12,8 +12,8 @@ export default class extends React.Component {
       <NodeConsumer>
         {(context) => (
           <>
-            {context.nodeInfo.validators ? (
-              context.nodeInfo.validators.map((node: N.Validating) => (
+            {context.validators ? (
+              context.validators.map((node: N.Validating) => (
                 <ValidatorRow key={node.account_id} node={node} />
               ))
             ) : (

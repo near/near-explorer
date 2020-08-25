@@ -26,7 +26,9 @@ export default class extends React.Component<Props> {
                 >
                   <Col className="node-selector align-self-center">
                     {`${
-                      context.nodeInfo.validatorAmount ?? "-"
+                      context.validatorAmount > 0
+                        ? context.validatorAmount
+                        : "-"
                     } Validating & New Upcoming`}
                   </Col>
                 </a>
@@ -39,9 +41,11 @@ export default class extends React.Component<Props> {
                   id="online-node"
                 >
                   <Col className="node-selector align-self-center">
-                    {context.nodeInfo.onlineNodeAmount
-                      ? `${context.nodeInfo.onlineNodeAmount} Online-nodes`
-                      : `- Online-nodes`}
+                    {`${
+                      context.onlineNodeAmount > 0
+                        ? context.onlineNodeAmount
+                        : "-"
+                    } Online-nodes`}
                   </Col>
                 </a>
               </Link>
@@ -53,9 +57,9 @@ export default class extends React.Component<Props> {
                   id="proposal-node"
                 >
                   <Col className="node-selector align-self-center">
-                    {context.nodeInfo.proposalAmount
-                      ? `${context.nodeInfo.proposalAmount} Proposal-nodes`
-                      : `- Proposal-nodes`}
+                    {`${
+                      context.proposalAmount > 0 ? context.proposalAmount : "-"
+                    } Proposal-nodes`}
                   </Col>
                 </a>
               </Link>

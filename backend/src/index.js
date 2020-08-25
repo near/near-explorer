@@ -26,6 +26,7 @@ const {
   addNodeInfo,
   queryOnlineNodes,
   pickonlineValidatingNode,
+  queryDashboardBlocksAndTxs,
 } = require("./db-utils");
 
 async function main() {
@@ -137,8 +138,14 @@ async function main() {
     console.log("Starting regular data stats check...");
     try {
       if (wamp.session) {
-        const dataStats = await aggregateStats(wamp);
-        wampPublish("data-stats", [{ dataStats }], wamp);
+        const dataStats = await aggregateStats();
+        const { transactions, blocks } = await queryDashboardBlocksAndTxs();
+        wampPublish("chain-stats", [{ dataStats }], wamp);
+        wampPublish(
+          "chain-latetst-blocks-list",
+          [{ transactions, blocks }],
+          wamp
+        );
       }
       console.log("Regular data stats check is completed.");
     } catch (error) {
@@ -154,9 +161,9 @@ async function main() {
     try {
       if (wamp.session) {
         let { currentValidators, proposals } = await queryNodeStats();
-        let validators = await addNodeInfo(currentValidators, wamp);
+        let validators = await addNodeInfo(currentValidators);
         let onlineValidatingNodes = pickonlineValidatingNode(validators);
-        let onlineNodes = await queryOnlineNodes(wamp);
+        let onlineNodes = await queryOnlineNodes();
         if (!onlineNodes) {
           onlineNodes = [];
         }

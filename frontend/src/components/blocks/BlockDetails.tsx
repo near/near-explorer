@@ -4,7 +4,7 @@ import BN from "bn.js";
 import { Row, Col } from "react-bootstrap";
 
 import * as B from "../../libraries/explorer-wamp/blocks";
-import { StatsDataConsumer } from "../../context/StatsDataProvider";
+import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
@@ -17,7 +17,7 @@ export interface Props {
 
 export default ({ block }: Props) => {
   return (
-    <StatsDataConsumer>
+    <DatabaseConsumer>
       {(context) => (
         <>
           <Row noGutters>
@@ -194,6 +194,6 @@ export default ({ block }: Props) => {
           `}</style>
         </>
       )}
-    </StatsDataConsumer>
+    </DatabaseConsumer>
   );
 };
