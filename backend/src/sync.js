@@ -1,3 +1,5 @@
+const request = require("request");
+const JSONStream = require("JSONStream");
 const models = require("../models");
 const moment = require("moment");
 
@@ -10,7 +12,9 @@ const {
 const { nearRpc } = require("./near");
 const { Result, delayFor } = require("./utils");
 
-let genesisHeight;
+let genesisHeight,
+  genesisTime,
+  genesisIndex = 0;
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -160,52 +164,40 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
-async function saveGenesis(time, records, offset) {
+async function saveGenesis(record) {
   try {
     await models.sequelize.transaction(async (transaction) => {
       try {
-        await Promise.all([
-          models.AccessKey.bulkCreate(
-            records
-              .filter((record) => record.AccessKey !== undefined)
-              .map((record) => {
-                let accessKeyType;
-                const permission = record.AccessKey.access_key.permission;
-                if (typeof permission === "string") {
-                  accessKeyType = permission;
-                } else if (permission !== undefined) {
-                  accessKeyType = Object.keys(permission)[0];
-                } else {
-                  throw new Error(
-                    `Unexpected error during access key permission parsing in transaction ${
-                      tx.hash
-                    }: 
+        if (record.AccessKey !== undefined) {
+          let accessKeyType;
+          const permission = record.AccessKey.access_key.permission;
+          if (typeof permission === "string") {
+            accessKeyType = permission;
+          } else if (permission !== undefined) {
+            accessKeyType = Object.keys(permission)[0];
+          } else {
+            throw new Error(
+              `Unexpected error during access key permission parsing in transaction ${
+                tx.hash
+              }: 
                     the permission type is expected to be a string or an object with a single key, 
                     but '${JSON.stringify(permission)}' found.`
-                  );
-                }
-                return {
-                  accountId: record.AccessKey.account_id,
-                  publicKey: record.AccessKey.public_key,
-                  accessKeyType,
-                };
-              }),
-            { ignoreDuplicates: true }
-          ),
-          models.Account.bulkCreate(
-            records
-              .filter((record) => record.Account !== undefined)
-              .map((record, index) => {
-                return {
-                  accountId: record.Account.account_id,
-                  accountIndex: index + offset,
-                  createdByTransactionHash: "Genesis",
-                  createdAtBlockTimestamp: time,
-                };
-              }),
-            { ignoreDuplicates: true }
-          ),
-        ]);
+            );
+          }
+          await models.AccessKey.upsert({
+            accountId: record.AccessKey.account_id,
+            publicKey: record.AccessKey.public_key,
+            accessKeyType,
+          });
+        } else if (record.Account !== undefined) {
+          genesisIndex += 1;
+          await models.Account.upsert({
+            accountId: record.Account.account_id,
+            accountIndex: genesisIndex,
+            createdByTransactionHash: "Genesis",
+            createdAtBlockTimestamp: genesisTime,
+          });
+        }
       } catch (error) {
         console.warn("Failed to save Genesis records due to ", error);
       }
@@ -439,29 +431,21 @@ async function syncMissingNearcoreState() {
 }
 
 async function syncGenesisState() {
-  const retry = (retries, fn) =>
-    fn().catch((err) =>
-      retries > 1 ? retry(retries - 1, fn) : Promise.reject(err)
-    );
-  const genesisConfig = await retry(10, () =>
-    nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
-  );
-  genesisHeight = genesisConfig.genesis_height;
-  const genesisTime = moment(genesisConfig.genesis_time).valueOf();
-  const limit = 100;
-  let offset = 0,
-    batchCount;
-  do {
-    let pagination = { offset, limit };
-    console.log(`Sync Genesis records from ${offset} to ${offset + limit}`);
-
-    const genesisRecords = await retry(10, () =>
-      nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_records", [pagination])
-    );
-    await saveGenesis(genesisTime, genesisRecords.records, offset);
-    offset += limit;
-    batchCount = genesisRecords.records.length;
-  } while (batchCount === limit);
+  const stream = request({
+    url:
+      "http://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json",
+  }).pipe(JSONStream.parse("records.*"));
+  stream.on("header", function (config) {
+    genesisHeight = config.genesis_height;
+    genesisTime = moment(config.genesis_time).valueOf();
+    console.log("genesis height", genesisHeight);
+    console.log("genesis time", genesisTime);
+  });
+  stream.on("data", async function (record) {
+    if (record.AccessKey !== undefined || record.Account !== undefined) {
+      await saveGenesis(record);
+    }
+  });
   console.log(`Genesis Records are all inserted into database`);
 }
 

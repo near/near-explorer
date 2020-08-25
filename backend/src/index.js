@@ -4,7 +4,6 @@ const {
   regularCheckGenesisInterval,
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval,
-  regularSyncGenesisStateInterval,
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
@@ -72,7 +71,6 @@ async function main() {
     } catch (error) {
       console.warn("Regular Genesis state crashed due to:", error);
     }
-    setTimeout(regularSyncGenesisState, regularSyncGenesisStateInterval);
   };
   setTimeout(regularSyncGenesisState, 0);
 
