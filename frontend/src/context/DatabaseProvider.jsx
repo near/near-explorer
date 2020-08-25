@@ -56,8 +56,12 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("database-stats", fetchNewStats);
-    new ExplorerApi().subscribe("final-timestamp", fetchFinalTimestamp);
+    new ExplorerApi()
+      .subscribe("chain-stats", fetchNewStats)
+      .then((subscription) => subscription.unsubscribe());
+    new ExplorerApi()
+      .subscribe("final-timestamp", fetchFinalTimestamp)
+      .then((subscription) => subscription.unsubscribe());
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);

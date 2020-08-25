@@ -11,15 +11,16 @@ export default (props) => {
   const [blocks, dispatchBlocks] = useState([]);
 
   const fetchList = function (stats) {
-    let transactions = stats[0].transactions;
-    let blocks = stats[0].blocks;
+    const { blocks, transactions } = stats[0];
 
     dispatchBlocks(blocks);
     dispatchTransactions(transactions);
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("database-list", fetchList);
+    new ExplorerApi()
+      .subscribe("chain-latetst-blocks-list", fetchList)
+      .then((subscription) => subscription.unsubscribe());
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
@@ -30,6 +31,6 @@ export default (props) => {
   );
 };
 
-const ListConsumer = ListContext.Consumer;
+const DashBoardListConsumer = ListContext.Consumer;
 
-export { ListConsumer, ListContext };
+export { DashBoardListConsumer, ListContext };

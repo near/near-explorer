@@ -129,8 +129,12 @@ async function main() {
       if (wamp.session) {
         const dataStats = await aggregateStats();
         const { transactions, blocks } = await queryDashboardBlocksAndTxs();
-        wampPublish("database-stats", [{ dataStats }], wamp);
-        wampPublish("database-list", [{ transactions, blocks }], wamp);
+        wampPublish("chain-stats", [{ dataStats }], wamp);
+        wampPublish(
+          "chain-latetst-blocks-list",
+          [{ transactions, blocks }],
+          wamp
+        );
       }
     } catch (error) {
       console.warn("Regular querying data stats crashed due to:", error);
