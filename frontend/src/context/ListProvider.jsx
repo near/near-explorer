@@ -18,12 +18,11 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi()
-      .subscribe("chain-latetst-blocks-list", fetchList)
-      .then((subscription) => subscription.unsubscribe());
+    new ExplorerApi().subscribe("chain-latest-blocks-info", fetchList);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
+
   return (
     <ListContext.Provider value={{ transactions, blocks }}>
       {props.children}

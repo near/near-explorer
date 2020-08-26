@@ -37,9 +37,7 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi()
-      .subscribe("node-stats", fetchNodeInfo)
-      .then((subscription) => subscription.unsubscribe());
+    new ExplorerApi().subscribe("node-stats", fetchNodeInfo);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
