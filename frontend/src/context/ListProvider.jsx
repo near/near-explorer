@@ -9,7 +9,6 @@ const ListContext = createContext({
 export default (props) => {
   const [transactions, dispatchTransactions] = useState([]);
   const [blocks, dispatchBlocks] = useState([]);
-  let sub;
 
   const fetchList = function (stats) {
     const { blocks, transactions } = stats[0];
