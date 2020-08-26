@@ -10,11 +10,9 @@ const {
   syncNewBlocksHorizon,
 } = require("./config");
 const { nearRpc } = require("./near");
-const { Result, delayFor } = require("./utils");
+const { Result, promiseResult, delayFor } = require("./utils");
 
-let genesisHeight,
-  genesisTime,
-  genesisIndex = 0;
+let genesisHeight;
 
 async function saveBlocks(blocksInfo) {
   try {
@@ -105,31 +103,11 @@ async function saveBlocks(blocksInfo) {
                 ),
                 models.AccessKey.bulkCreate(
                   blockInfo.transactions.flatMap((tx) => {
-                    const accountId = tx.receiver_id;
                     return tx.actions
                       .filter((action) => action.AddKey !== undefined)
-                      .map((action) => {
-                        let accessKeyType;
-                        const permission = action.AddKey.access_key.permission;
-                        if (typeof permission === "string") {
-                          accessKeyType = permission;
-                        } else if (permission !== undefined) {
-                          accessKeyType = Object.keys(permission)[0];
-                        } else {
-                          throw new Error(
-                            `Unexpected error during access key permission parsing in transaction ${
-                              tx.hash
-                            }: 
-                              the permission type is expected to be a string or an object with a single key, 
-                              but '${JSON.stringify(permission)}' found.`
-                          );
-                        }
-                        return {
-                          accountId,
-                          publicKey: action.AddKey.public_key,
-                          accessKeyType,
-                        };
-                      });
+                      .map((action) =>
+                        prepareAccessKeyModel(tx.receiver_id, action.AddKey)
+                      );
                   }),
                   { ignoreDuplicates: true }
                 ),
@@ -164,64 +142,26 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
-async function saveGenesis(record) {
-  try {
-    await models.sequelize.transaction(async (transaction) => {
-      try {
-        if (record.AccessKey !== undefined) {
-          let accessKeyType;
-          const permission = record.AccessKey.access_key.permission;
-          if (typeof permission === "string") {
-            accessKeyType = permission;
-          } else if (permission !== undefined) {
-            accessKeyType = Object.keys(permission)[0];
-          } else {
-            throw new Error(
-              `Unexpected error during access key permission parsing in transaction ${
-                tx.hash
-              }: 
-                    the permission type is expected to be a string or an object with a single key, 
-                    but '${JSON.stringify(permission)}' found.`
-            );
-          }
-          await models.AccessKey.upsert({
-            accountId: record.AccessKey.account_id,
-            publicKey: record.AccessKey.public_key,
-            accessKeyType,
-          });
-        } else if (record.Account !== undefined) {
-          genesisIndex += 1;
-          await models.Account.upsert({
-            accountId: record.Account.account_id,
-            accountIndex: genesisIndex,
-            createdByTransactionHash: "Genesis",
-            createdAtBlockTimestamp: genesisTime,
-          });
-        }
-      } catch (error) {
-        console.warn("Failed to save Genesis records due to ", error);
-      }
-    });
-  } catch (error) {
-    console.warn("Failed to save Genesis records due to ", error);
+async function prepareAccessKeyModel(accountId, accessKey) {
+  let accessKeyType;
+  const permission = accessKey.access_key.permission;
+  if (typeof permission === "string") {
+    accessKeyType = permission;
+  } else if (permission !== undefined) {
+    accessKeyType = Object.keys(permission)[0];
+  } else {
+    throw new Error(
+      `Unexpected error during access key permission parsing in transaction ${
+        tx.hash
+      }: the permission type is expected to be a string or an object with a single key,
+      but '${JSON.stringify(permission)}' found.`
+    );
   }
-}
-
-function promiseResult(promise) {
-  // Convert a promise to an always-resolving promise of Result type.
-  return new Promise((resolve) => {
-    const payload = new Result();
-    promise
-      .then((result) => {
-        payload.value = result;
-      })
-      .catch((error) => {
-        payload.error = error;
-      })
-      .then(() => {
-        resolve(payload);
-      });
-  });
+  return {
+    accountId,
+    publicKey: accessKey.public_key,
+    accessKeyType,
+  };
 }
 
 async function saveBlocksFromRequests(requests) {
@@ -431,6 +371,8 @@ async function syncMissingNearcoreState() {
 }
 
 async function syncGenesisState() {
+  let genesisTime;
+  let genesisAccountIndex = 0;
   const stream = request({
     url:
       "http://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json",
@@ -438,15 +380,25 @@ async function syncGenesisState() {
   stream.on("header", function (config) {
     genesisHeight = config.genesis_height;
     genesisTime = moment(config.genesis_time).valueOf();
-    console.log("genesis height", genesisHeight);
-    console.log("genesis time", genesisTime);
   });
   stream.on("data", async function (record) {
-    if (record.AccessKey !== undefined || record.Account !== undefined) {
-      await saveGenesis(record);
+    if (record.AccessKey !== undefined) {
+      await models.AccessKey.upsert(
+        prepareAccessKeyModel(record.AccessKey.account_id, record.AccessKey)
+      );
+    } else if (record.Account !== undefined) {
+      genesisAccountIndex += 1;
+      await models.Account.upsert({
+        accountId: record.Account.account_id,
+        accountIndex: genesisAccountIndex,
+        createdByTransactionHash: "Genesis",
+        createdAtBlockTimestamp: genesisTime,
+      });
     }
   });
-  console.log(`Genesis Records are all inserted into database`);
+  stream.on("end", async function (record) {
+    console.log(`Genesis Records are all inserted into database`);
+  });
 }
 
 exports.syncNewNearcoreState = syncNewNearcoreState;
