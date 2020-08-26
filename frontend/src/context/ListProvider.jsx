@@ -9,6 +9,7 @@ const ListContext = createContext({
 export default (props) => {
   const [transactions, dispatchTransactions] = useState([]);
   const [blocks, dispatchBlocks] = useState([]);
+  let sub;
 
   const fetchList = function (stats) {
     const { blocks, transactions } = stats[0];
@@ -18,12 +19,11 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi()
-      .subscribe("chain-latest-blocks-info", fetchList)
-      .then((subscription) => subscription.unsubscribe());
+    new ExplorerApi().subscribe("chain-latest-blocks-info", fetchList);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
+
   return (
     <ListContext.Provider value={{ transactions, blocks }}>
       {props.children}
