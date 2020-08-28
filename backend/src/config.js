@@ -45,3 +45,5 @@ exports.wampNearExplorerUrl =
 
 exports.wampNearExplorerBackendSecret =
   process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
+
+exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;

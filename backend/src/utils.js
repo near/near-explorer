@@ -30,6 +30,5 @@ function delayFor(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-exports.Result = Result;
 exports.promiseResult = promiseResult;
 exports.delayFor = delayFor;

@@ -1,5 +1,10 @@
 const request = require("request");
-const JSONStream = require("JSONStream");
+
+const { parser } = require("stream-json");
+const { pick } = require("stream-json/filters/Pick");
+const { streamValues } = require("stream-json/streamers/StreamValues");
+const { streamArray } = require("stream-json/streamers/StreamArray");
+
 const models = require("../models");
 const moment = require("moment");
 
@@ -8,9 +13,10 @@ const {
   syncSaveQueueSize,
   bulkDbUpdateSize,
   syncNewBlocksHorizon,
+  genesisRecordsUrl,
 } = require("./config");
 const { nearRpc } = require("./near");
-const { Result, promiseResult, delayFor } = require("./utils");
+const { promiseResult, delayFor } = require("./utils");
 
 let genesisHeight;
 
@@ -142,7 +148,7 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
-async function prepareAccessKeyModel(accountId, accessKey) {
+function prepareAccessKeyModel(accountId, accessKey) {
   let accessKeyType;
   const permission = accessKey.access_key.permission;
   if (typeof permission === "string") {
@@ -372,32 +378,52 @@ async function syncMissingNearcoreState() {
 
 async function syncGenesisState() {
   let genesisTime;
-  let genesisAccountIndex = 0;
-  const stream = request({
-    url:
-      "http://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json",
-  }).pipe(JSONStream.parse("records.*"));
-  stream.on("header", function (config) {
-    genesisHeight = config.genesis_height;
-    genesisTime = moment(config.genesis_time).valueOf();
+  const stream = request({ url: genesisRecordsUrl }).pipe(parser());
+
+  const streamTime = stream
+    .pipe(pick({ filter: "genesis_time" }))
+    .pipe(streamValues());
+
+  streamTime.on("data", (config) => {
+    genesisTime = moment(config.value).valueOf();
   });
-  stream.on("data", async function (record) {
-    if (record.AccessKey !== undefined) {
-      await models.AccessKey.upsert(
-        prepareAccessKeyModel(record.AccessKey.account_id, record.AccessKey)
-      );
-    } else if (record.Account !== undefined) {
-      genesisAccountIndex += 1;
-      await models.Account.upsert({
-        accountId: record.Account.account_id,
-        accountIndex: genesisAccountIndex,
-        createdByTransactionHash: "Genesis",
-        createdAtBlockTimestamp: genesisTime,
-      });
+
+  const streamHeight = stream
+    .pipe(pick({ filter: "genesis_height" }))
+    .pipe(streamValues());
+
+  streamHeight.on("data", (config) => {
+    genesisHeight = config.value;
+  });
+
+  const streamRecords = stream
+    .pipe(pick({ filter: "records" }))
+    .pipe(streamArray());
+
+  streamRecords.on("data", async (record) => {
+    try {
+      let item = record.value;
+      if (item.AccessKey !== undefined) {
+        let accessKey = prepareAccessKeyModel(
+          item.AccessKey.account_id,
+          item.AccessKey
+        );
+        await models.AccessKey.upsert(accessKey);
+      } else if (item.Account !== undefined) {
+        await models.Account.upsert({
+          accountId: item.Account.account_id,
+          accountIndex: record.key,
+          createdByTransactionHash: "Genesis",
+          createdAtBlockTimestamp: genesisTime,
+        });
+      }
+    } catch (error) {
+      console.warn("Fail to save access key or account due to : ", error);
     }
   });
-  stream.on("end", async function (record) {
-    console.log(`Genesis Records are all inserted into database`);
+
+  streamRecords.on("end", () => {
+    console.log(`-----Genesis Records are all inserted into database-----`);
   });
 }
 
