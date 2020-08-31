@@ -10,18 +10,17 @@ export default ({ category, count }: Props) => {
   return (
     <div className="update">
       {count > 1 ? (
-        <p>
+        <p className="update-text">
           {`${count} total ${category}s. Refresh or Click to view the latest ${category}s.`}
         </p>
       ) : (
-        <p>
+        <p className="update-text">
           {`${count} total ${category}. Refresh or Click to view the latest ${category}.`}
         </p>
       )}
       <style>{`
       .update{
         width: 100%;
-        height: 40px;
         background: rgba(106, 209, 227, 0.15);
         color: #6ab9e3;
         padding: 5px 10px;
@@ -29,6 +28,10 @@ export default ({ category, count }: Props) => {
       }
       .update:active{
         background: rgba(106, 209, 227, 0.5)
+      }
+
+      .update-text {
+        margin: 3px;
       }
       `}</style>
     </div>
