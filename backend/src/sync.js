@@ -400,7 +400,7 @@ async function syncGenesisState() {
     .pipe(pick({ filter: "records" }))
     .pipe(streamArray());
 
-  streamRecords.on("data", async (record) => {
+  streamRecords.on("data", (record) => {
     try {
       let item = record.value;
       if (item.AccessKey !== undefined) {
@@ -408,14 +408,16 @@ async function syncGenesisState() {
           item.AccessKey.account_id,
           item.AccessKey
         );
-        await models.AccessKey.upsert(accessKey);
+        console.log(accessKey);
+        // await models.AccessKey.upsert(accessKey);
       } else if (item.Account !== undefined) {
-        await models.Account.upsert({
-          accountId: item.Account.account_id,
-          accountIndex: record.key,
-          createdByTransactionHash: "Genesis",
-          createdAtBlockTimestamp: genesisTime,
-        });
+        console.log(item);
+        // await models.Account.upsert({
+        //   accountId: item.Account.account_id,
+        //   accountIndex: record.key,
+        //   createdByTransactionHash: "Genesis",
+        //   createdAtBlockTimestamp: genesisTime,
+        // });
       }
     } catch (error) {
       console.warn("Fail to save access key or account due to : ", error);
