@@ -4,6 +4,7 @@ const { parser } = require("stream-json");
 const { pick } = require("stream-json/filters/Pick");
 const { streamValues } = require("stream-json/streamers/StreamValues");
 const { streamArray } = require("stream-json/streamers/StreamArray");
+const Batch = require("stream-json/utils/Batch");
 
 const models = require("../models");
 const moment = require("moment");
@@ -398,35 +399,57 @@ async function syncGenesisState() {
 
   const streamRecords = stream
     .pipe(pick({ filter: "records" }))
-    .pipe(streamArray());
+    .pipe(streamArray())
+    .pipe(new Batch({ batchSize: 100 }));
 
-  streamRecords.on("data", (record) => {
+  streamRecords.on("data", async (records) => {
+    console.log(
+      "save genesis from ",
+      records[0].key,
+      " to ",
+      records[0].key + 100
+    );
     try {
-      let item = record.value;
-      if (item.AccessKey !== undefined) {
-        let accessKey = prepareAccessKeyModel(
-          item.AccessKey.account_id,
-          item.AccessKey
-        );
-        console.log(accessKey);
-        // await models.AccessKey.upsert(accessKey);
-      } else if (item.Account !== undefined) {
-        console.log(item);
-        // await models.Account.upsert({
-        //   accountId: item.Account.account_id,
-        //   accountIndex: record.key,
-        //   createdByTransactionHash: "Genesis",
-        //   createdAtBlockTimestamp: genesisTime,
-        // });
-      }
+      const _models = require("../models");
+      await _models.sequelize.transaction(async (transaction) => {
+        try {
+          await Promise.all([
+            _models.AccessKey.bulkCreate(
+              records
+                .filter((record) => record.value.AccessKey !== undefined)
+                .map((record) => {
+                  let item = record.value;
+                  return prepareAccessKeyModel(
+                    item.AccessKey.account_id,
+                    item.AccessKey
+                  );
+                }),
+              { ignoreDuplicates: true }
+            ),
+            _models.Account.bulkCreate(
+              records
+                .filter((record) => record.value.Account !== undefined)
+                .map((record) => {
+                  let item = record.value;
+                  return {
+                    accountId: item.Account.account_id,
+                    accountIndex: record.key,
+                    createdByTransactionHash: "Genesis",
+                    createdAtBlockTimestamp: genesisTime,
+                  };
+                }),
+              { ignoreDuplicates: true }
+            ),
+          ]);
+        } catch (error) {
+          console.warn("Failed to save genesis records due to ", error);
+        }
+      });
     } catch (error) {
-      console.warn("Fail to save access key or account due to : ", error);
+      console.warn("Fail to save genesis records due to : ", error);
     }
   });
-
-  streamRecords.on("end", () => {
-    console.log(`-----Genesis Records are all inserted into database-----`);
-  });
+  console.log(`-----Genesis Records are all inserted into database-----`);
 }
 
 exports.syncNewNearcoreState = syncNewNearcoreState;
