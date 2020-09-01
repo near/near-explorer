@@ -1,13 +1,13 @@
 version: '2'
 
 services:
-  # wamp:
-  #   build: ./wamp
-  #   environment:
-  #     - WAMP_NEAR_EXPLORER_PORT=8080
-  #     - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
-  #   ports:
-  #     - 8080:8080
+  wamp:
+    build: ./wamp
+    environment:
+      - WAMP_NEAR_EXPLORER_PORT=8080
+      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
+    ports:
+      - 8080:8080
 
   backend:
     build: ./backend
@@ -18,13 +18,13 @@ services:
       # - NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json
       - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
-    mem_limit: 500M
+    mem_limit: 1G
 
-  # frontend:
-  #   build: ./frontend
-  #   environment:
-  #     - PORT=3000
-  #     - WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws
-  #     - WAMP_NEAR_EXPLORER_INTERNAL_URL=ws://wamp:8080/ws
-  #   ports:
-  #     - 3000:3000
+  frontend:
+    build: ./frontend
+    environment:
+      - PORT=3000
+      - WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws
+      - WAMP_NEAR_EXPLORER_INTERNAL_URL=ws://wamp:8080/ws
+    ports:
+      - 3000:3000
