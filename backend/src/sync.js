@@ -449,7 +449,10 @@ async function syncGenesisState() {
       console.warn("Fail to save genesis records due to : ", error);
     }
   });
-  console.log(`-----Genesis Records are all inserted into database-----`);
+
+  streamRecords.on("end", () =>
+    console.log(`-----Genesis Records are all inserted into database-----`)
+  );
 }
 
 exports.syncNewNearcoreState = syncNewNearcoreState;
