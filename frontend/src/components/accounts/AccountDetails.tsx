@@ -26,9 +26,7 @@ export default class extends React.Component<Props> {
               title={
                 <Term title={"Ⓝ Balance"}>
                   {"NEAR token that is spendable all the time. "}
-                  <a
-                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
-                  >
+                  <a href={"https://docs.near.org/docs/concepts/account"}>
                     docs
                   </a>
                 </Term>
@@ -44,9 +42,7 @@ export default class extends React.Component<Props> {
                   {
                     "NEAR token balance that is currently staked, and thus not immediately spendable. "
                   }
-                  <a
-                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
-                  >
+                  <a href={"https://docs.near.org/docs/concepts/account"}>
                     docs
                   </a>
                 </Term>
@@ -59,11 +55,7 @@ export default class extends React.Component<Props> {
               title={
                 <Term title={"Transactions"}>
                   {"Total transaction sent and received by this account. "}
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
+                  <a href={"https://docs.near.org/docs/concepts/transaction"}>
                     docs
                   </a>
                 </Term>
@@ -100,9 +92,7 @@ export default class extends React.Component<Props> {
               title={
                 <Term title={"Created"}>
                   {"Timestamp of when this account was created. "}
-                  <a
-                    href={"https://docs.nearprotocol.com/docs/concepts/account"}
-                  >
+                  <a href={"https://docs.near.org/docs/concepts/account"}>
                     docs
                   </a>
                 </Term>
@@ -124,11 +114,7 @@ export default class extends React.Component<Props> {
                   {
                     "Unique identifier (hash) of the transaction that created this account. "
                   }
-                  <a
-                    href={
-                      "https://docs.nearprotocol.com/docs/concepts/transaction"
-                    }
-                  >
+                  <a href={"https://docs.near.org/docs/concepts/transaction"}>
                     docs
                   </a>
                 </Term>

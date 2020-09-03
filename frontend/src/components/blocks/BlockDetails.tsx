@@ -30,7 +30,7 @@ export default ({ block }: Props) => {
                         {"Number of transactions in this block. "}
                         <a
                           href={
-                            "https://docs.nearprotocol.com/docs/concepts/transaction"
+                            "https://docs.near.org/docs/concepts/transaction"
                           }
                         >
                           docs
@@ -49,11 +49,7 @@ export default ({ block }: Props) => {
                         {
                           "Total units of gas used by transactions in this block. "
                         }
-                        <a
-                          href={
-                            "https://docs.nearprotocol.com/docs/concepts/gas"
-                          }
-                        >
+                        <a href={"https://docs.near.org/docs/concepts/gas"}>
                           docs
                         </a>
                       </Term>
@@ -75,11 +71,7 @@ export default ({ block }: Props) => {
                         {
                           "A unit of Tgas (TerraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used."
                         }
-                        <a
-                          href={
-                            "https://docs.nearprotocol.com/docs/concepts/gas"
-                          }
-                        >
+                        <a href={"https://docs.near.org/docs/concepts/gas"}>
                           docs
                         </a>
                       </Term>

@@ -81,7 +81,7 @@ export default class extends React.Component<Props, State> {
                     {"Latest time the contract deployed. "}
                     <a
                       href={
-                        "https://docs.nearprotocol.com/docs/roles/developer/quickstart"
+                        "https://docs.near.org/docs/roles/developer/quickstart"
                       }
                     >
                       docs

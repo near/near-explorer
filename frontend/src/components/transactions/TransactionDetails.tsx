@@ -124,11 +124,7 @@ export default class extends React.Component<Props, State> {
                   title={
                     <Term title={"Signed by"}>
                       {"Account that signed and sent the transaction. "}
-                      <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/account"
-                        }
-                      >
+                      <a href={"https://docs.near.org/docs/concepts/account"}>
                         docs
                       </a>
                     </Term>
@@ -143,11 +139,7 @@ export default class extends React.Component<Props, State> {
                   title={
                     <Term title={"Receiver"}>
                       {"Account receiving the transaction. "}
-                      <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/account"
-                        }
-                      >
+                      <a href={"https://docs.near.org/docs/concepts/account"}>
                         docs
                       </a>
                     </Term>
@@ -164,9 +156,7 @@ export default class extends React.Component<Props, State> {
                         "Current status of the transaction (Pending, Succeeded, Failed/Finalized or non finalized). "
                       }
                       <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
+                        href={"https://docs.near.org/docs/concepts/transaction"}
                       >
                         docs
                       </a>
@@ -197,9 +187,7 @@ export default class extends React.Component<Props, State> {
                     <Term title={"Transaction Fee"}>
                       {"Total fee paid in NEAR to execute this transaction. "}
                       <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
+                        href={"https://docs.near.org/docs/concepts/transaction"}
                       >
                         docs
                       </a>
@@ -243,9 +231,7 @@ export default class extends React.Component<Props, State> {
                     <Term title={"Gas Used"}>
                       {"Units of gas required to execute this transaction. "}
                       <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
+                        href={"https://docs.near.org/docs/concepts/transaction"}
                       >
                         docs
                       </a>
@@ -276,9 +262,7 @@ export default class extends React.Component<Props, State> {
                     <Term title={"Created"}>
                       {"Timestamp of when this transaction was submitted. "}
                       <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
+                        href={"https://docs.near.org/docs/concepts/transaction"}
                       >
                         docs
                       </a>
@@ -296,9 +280,7 @@ export default class extends React.Component<Props, State> {
                     <Term title={"Hash"}>
                       {"Unique identifier (hash) of this transaction. "}
                       <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
+                        href={"https://docs.near.org/docs/concepts/transaction"}
                       >
                         docs
                       </a>

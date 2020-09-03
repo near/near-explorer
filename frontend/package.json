@@ -29,14 +29,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nearprotocol/near-explorer.git"
+    "url": "git+https://github.com/near/near-explorer.git"
   },
-  "author": "Near Inc <hello@nearprotocol.com>",
+  "author": "Near Inc <hello@near.org>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/nearprotocol/near-explorer/issues"
+    "url": "https://github.com/near/near-explorer/issues"
   },
-  "homepage": "https://github.com/nearprotocol/near-explorer#readme",
+  "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
     "@types/enzyme": "^3.10.3",
     "autobahn": "19.7.3",
