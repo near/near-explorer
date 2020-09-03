@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Near Inc <hello@nearprotocol.com>",
+  "author": "Near Inc <hello@near.org>",
   "license": "Apache-2.0",
   "bin": {
     "near-explorer": "./bin/near-explorer"

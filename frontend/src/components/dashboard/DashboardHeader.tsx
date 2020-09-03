@@ -77,7 +77,7 @@ export default class extends React.Component<State> {
                           }
                           <a
                             href={
-                              "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
+                              "https://docs.near.org/docs/roles/integrator/faq#validators"
                             }
                           >
                             docs
@@ -128,9 +128,7 @@ export default class extends React.Component<State> {
                     <Term title={"TXs"}>
                       {"The number of transactions since genesis. "}
                       <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
+                        href={"https://docs.near.org/docs/concepts/transaction"}
                       >
                         docs
                       </a>
@@ -147,9 +145,7 @@ export default class extends React.Component<State> {
                     <Term title={"TPD"}>
                       {"The number of transactions in the last 24 hours. "}
                       <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/transaction"
-                        }
+                        href={"https://docs.near.org/docs/concepts/transaction"}
                       >
                         docs
                       </a>
@@ -165,11 +161,7 @@ export default class extends React.Component<State> {
                   title={
                     <Term title={"Accounts"}>
                       {"Total number of accounts created on this net. "}
-                      <a
-                        href={
-                          "https://docs.nearprotocol.com/docs/concepts/account"
-                        }
-                      >
+                      <a href={"https://docs.near.org/docs/concepts/account"}>
                         docs
                       </a>
                     </Term>

@@ -54,7 +54,7 @@ export default () => (
         cls="ml-auto"
       />
       <HeaderNavItem
-        link="https://github.com/nearprotocol/near-explorer/issues"
+        link="https://github.com/near/near-explorer/issues"
         imgLink="/static/images/icon-issues.svg"
         text="Issues"
       />

@@ -1,7 +1,7 @@
 # Contributing to NEAR Explorer
 
 Thank you for your interest in contributing to NEAR! There are many opportunities to contribute:
-https://docs.nearprotocol.com/docs/contribution/contribution-overview
+https://docs.near.org/docs/contribution/contribution-overview
 
 ## Feature Requests
 
@@ -15,7 +15,7 @@ so please report liberally. If you're not sure if something is a bug or not, fee
 bug anyway.
 
 If you believe reporting your bug publicly represents a security risk to NEAR users, please send us
-[a message via GitHub Security tab](https://github.com/nearprotocol/near-explorer/security/advisories).
+[a message via GitHub Security tab](https://github.com/near/near-explorer/security/advisories).
 
 ## Pull Requests
 

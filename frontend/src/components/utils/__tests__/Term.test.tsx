@@ -11,9 +11,7 @@ describe("<CardCell />", () => {
             "The number of validating nodes / the total number of online nodes. "
           }
           <a
-            href={
-              "https://docs.nearprotocol.com/docs/roles/integrator/faq#validators"
-            }
+            href={"https://docs.near.org/docs/roles/integrator/faq#validators"}
           >
             docs
           </a>
