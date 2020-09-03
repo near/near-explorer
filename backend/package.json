@@ -5,8 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "env NODE_ENV=production node src/index.js",
-    "start:testnet": "env NEAR_RPC_URL=https://rpc.nearprotocol.com NEAR_DB_PREFIX=testnet npm run start",
-    "start:betanet": "env NEAR_RPC_URL=https://rpc.betanet.nearprotocol.com NEAR_DB_PREFIX=betanet npm run start"
+    "start:testnet": "env NEAR_RPC_URL=https://rpc.testnet.nearprotocol.com NEAR_DB_PREFIX=testnet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json npm run start",
+    "start:betanet": "env NEAR_RPC_URL=https://rpc.betanet.nearprotocol.com NEAR_DB_PREFIX=betanet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json npm run start",
+    "start:mainnet": "env NEAR_RPC_URL=https://rpc.mainnet.nearprotocol.com NEAR_DB_PREFIX=mainnet NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json npm run start"
   },
   "repository": {
     "type": "git",
@@ -22,10 +23,11 @@
     "autobahn": "19.4.1",
     "geoip-lite": "^1.4.2",
     "moment": "^2.24.0",
-    "pg": "^8.3.0",
     "near-api-js": "^0.27.0",
+    "pg": "^8.3.0",
     "sequelize": "^5.21.1",
     "sqlite3": "^4.1.0",
+    "stream-json": "^1.7.1",
     "ws": "^7.2.0"
   }
 }

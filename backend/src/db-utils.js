@@ -38,7 +38,7 @@ const aggregateStats = async () => {
     totalBlocks: totalBlocks.total,
     totalTransactions: totalTransactions.total,
     lastDayTxCount: lastDayTxCount.total,
-    lastBlockHeight: lastBlockHeight.height,
+    lastBlockHeight: lastBlockHeight ? lastBlockHeight.height : 0,
   };
 };
 

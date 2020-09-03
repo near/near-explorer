@@ -1,3 +1,11 @@
+const request = require("request");
+
+const { parser } = require("stream-json");
+const { pick } = require("stream-json/filters/Pick");
+const { streamValues } = require("stream-json/streamers/StreamValues");
+const { streamArray } = require("stream-json/streamers/StreamArray");
+const Batch = require("stream-json/utils/Batch");
+
 const models = require("../models");
 const moment = require("moment");
 
@@ -6,9 +14,10 @@ const {
   syncSaveQueueSize,
   bulkDbUpdateSize,
   syncNewBlocksHorizon,
+  genesisRecordsUrl,
 } = require("./config");
 const { nearRpc } = require("./near");
-const { Result, delayFor } = require("./utils");
+const { promiseResult, delayFor } = require("./utils");
 
 let genesisHeight;
 
@@ -101,31 +110,11 @@ async function saveBlocks(blocksInfo) {
                 ),
                 models.AccessKey.bulkCreate(
                   blockInfo.transactions.flatMap((tx) => {
-                    const accountId = tx.receiver_id;
                     return tx.actions
                       .filter((action) => action.AddKey !== undefined)
-                      .map((action) => {
-                        let accessKeyType;
-                        const permission = action.AddKey.access_key.permission;
-                        if (typeof permission === "string") {
-                          accessKeyType = permission;
-                        } else if (permission !== undefined) {
-                          accessKeyType = Object.keys(permission)[0];
-                        } else {
-                          throw new Error(
-                            `Unexpected error during access key permission parsing in transaction ${
-                              tx.hash
-                            }: 
-                              the permission type is expected to be a string or an object with a single key, 
-                              but '${JSON.stringify(permission)}' found.`
-                          );
-                        }
-                        return {
-                          accountId,
-                          publicKey: action.AddKey.public_key,
-                          accessKeyType,
-                        };
-                      });
+                      .map((action) =>
+                        prepareAccessKeyModel(tx.receiver_id, action.AddKey)
+                      );
                   }),
                   { ignoreDuplicates: true }
                 ),
@@ -160,76 +149,26 @@ async function saveBlocks(blocksInfo) {
   }
 }
 
-async function saveGenesis(time, records, offset) {
-  try {
-    await models.sequelize.transaction(async (transaction) => {
-      try {
-        await Promise.all([
-          models.AccessKey.bulkCreate(
-            records
-              .filter((record) => record.AccessKey !== undefined)
-              .map((record) => {
-                let accessKeyType;
-                const permission = record.AccessKey.access_key.permission;
-                if (typeof permission === "string") {
-                  accessKeyType = permission;
-                } else if (permission !== undefined) {
-                  accessKeyType = Object.keys(permission)[0];
-                } else {
-                  throw new Error(
-                    `Unexpected error during access key permission parsing in transaction ${
-                      tx.hash
-                    }: 
-                    the permission type is expected to be a string or an object with a single key, 
-                    but '${JSON.stringify(permission)}' found.`
-                  );
-                }
-                return {
-                  accountId: record.AccessKey.account_id,
-                  publicKey: record.AccessKey.public_key,
-                  accessKeyType,
-                };
-              }),
-            { ignoreDuplicates: true }
-          ),
-          models.Account.bulkCreate(
-            records
-              .filter((record) => record.Account !== undefined)
-              .map((record, index) => {
-                return {
-                  accountId: record.Account.account_id,
-                  accountIndex: index + offset,
-                  createdByTransactionHash: "Genesis",
-                  createdAtBlockTimestamp: time,
-                };
-              }),
-            { ignoreDuplicates: true }
-          ),
-        ]);
-      } catch (error) {
-        console.warn("Failed to save Genesis records due to ", error);
-      }
-    });
-  } catch (error) {
-    console.warn("Failed to save Genesis records due to ", error);
+function prepareAccessKeyModel(accountId, accessKey) {
+  let accessKeyType;
+  const permission = accessKey.access_key.permission;
+  if (typeof permission === "string") {
+    accessKeyType = permission;
+  } else if (permission !== undefined) {
+    accessKeyType = Object.keys(permission)[0];
+  } else {
+    throw new Error(
+      `Unexpected error during access key permission parsing in transaction ${
+        tx.hash
+      }: the permission type is expected to be a string or an object with a single key,
+      but '${JSON.stringify(permission)}' found.`
+    );
   }
-}
-
-function promiseResult(promise) {
-  // Convert a promise to an always-resolving promise of Result type.
-  return new Promise((resolve) => {
-    const payload = new Result();
-    promise
-      .then((result) => {
-        payload.value = result;
-      })
-      .catch((error) => {
-        payload.error = error;
-      })
-      .then(() => {
-        resolve(payload);
-      });
-  });
+  return {
+    accountId,
+    publicKey: accessKey.public_key,
+    accessKeyType,
+  };
 }
 
 async function saveBlocksFromRequests(requests) {
@@ -439,30 +378,85 @@ async function syncMissingNearcoreState() {
 }
 
 async function syncGenesisState() {
-  const retry = (retries, fn) =>
-    fn().catch((err) =>
-      retries > 1 ? retry(retries - 1, fn) : Promise.reject(err)
-    );
-  const genesisConfig = await retry(10, () =>
-    nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config")
-  );
-  genesisHeight = genesisConfig.genesis_height;
-  const genesisTime = moment(genesisConfig.genesis_time).valueOf();
-  const limit = 100;
-  let offset = 0,
-    batchCount;
-  do {
-    let pagination = { offset, limit };
-    console.log(`Sync Genesis records from ${offset} to ${offset + limit}`);
+  let genesisTime;
+  if (genesisRecordsUrl) {
+    const stream = request({ url: genesisRecordsUrl }).pipe(parser());
 
-    const genesisRecords = await retry(10, () =>
-      nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_records", [pagination])
+    const streamTime = stream
+      .pipe(pick({ filter: "genesis_time" }))
+      .pipe(streamValues());
+
+    streamTime.on("data", (config) => {
+      genesisTime = moment(config.value).valueOf();
+    });
+
+    const streamHeight = stream
+      .pipe(pick({ filter: "genesis_height" }))
+      .pipe(streamValues());
+
+    streamHeight.on("data", (config) => {
+      genesisHeight = config.value;
+    });
+
+    const streamRecords = stream
+      .pipe(pick({ filter: "records" }))
+      .pipe(streamArray())
+      .pipe(new Batch({ batchSize: 100 }));
+
+    streamRecords.on("data", async (records) => {
+      console.log(
+        "save genesis from ",
+        records[0].key,
+        " to ",
+        records[0].key + 100
+      );
+      try {
+        const _models = require("../models");
+        await _models.sequelize.transaction(async (transaction) => {
+          try {
+            await Promise.all([
+              _models.AccessKey.bulkCreate(
+                records
+                  .filter((record) => record.value.AccessKey !== undefined)
+                  .map((record) => {
+                    let item = record.value;
+                    return prepareAccessKeyModel(
+                      item.AccessKey.account_id,
+                      item.AccessKey
+                    );
+                  }),
+                { ignoreDuplicates: true }
+              ),
+              _models.Account.bulkCreate(
+                records
+                  .filter((record) => record.value.Account !== undefined)
+                  .map((record) => {
+                    let item = record.value;
+                    return {
+                      accountId: item.Account.account_id,
+                      accountIndex: record.key,
+                      createdByTransactionHash: "Genesis",
+                      createdAtBlockTimestamp: genesisTime,
+                    };
+                  }),
+                { ignoreDuplicates: true }
+              ),
+            ]);
+          } catch (error) {
+            console.warn("Failed to save genesis records due to ", error);
+          }
+        });
+      } catch (error) {
+        console.warn("Fail to save genesis records due to : ", error);
+      }
+    });
+
+    streamRecords.on("end", () =>
+      console.log(`-----Genesis Records are all inserted into database-----`)
     );
-    await saveGenesis(genesisTime, genesisRecords.records, offset);
-    offset += limit;
-    batchCount = genesisRecords.records.length;
-  } while (batchCount === limit);
-  console.log(`Genesis Records are all inserted into database`);
+  } else {
+    console.warn("-----There is no genesis url provided.-----");
+  }
 }
 
 exports.syncNewNearcoreState = syncNewNearcoreState;

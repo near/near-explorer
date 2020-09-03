@@ -4,7 +4,6 @@ const {
   regularCheckGenesisInterval,
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval,
-  regularSyncGenesisStateInterval,
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
@@ -64,17 +63,15 @@ async function main() {
   };
   setTimeout(regularCheckGenesis, 0);
 
-  const regularSyncGenesisState = async () => {
-    console.log("Starting regular Genesis state sync...");
+  const SyncGenesisState = async () => {
+    console.log("Starting Genesis state sync...");
     try {
       await syncGenesisState();
-      console.log("Regular Genesis state sync is completed.");
     } catch (error) {
-      console.warn("Regular Genesis state crashed due to:", error);
+      console.warn("Genesis state crashed due to:", error);
     }
-    setTimeout(regularSyncGenesisState, regularSyncGenesisStateInterval);
   };
-  setTimeout(regularSyncGenesisState, 0);
+  setTimeout(SyncGenesisState, 0);
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {
