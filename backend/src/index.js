@@ -8,6 +8,8 @@ const {
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
   wampNearNetworkName,
+  genesisQuerySequence,
+  genesisWaitingTime,
 } = require("./config");
 
 const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
@@ -71,7 +73,7 @@ async function main() {
       console.warn("Genesis state crashed due to:", error);
     }
   };
-  setTimeout(SyncGenesisState, 0);
+  setTimeout(SyncGenesisState, genesisQuerySequence * genesisWaitingTime);
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {

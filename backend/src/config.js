@@ -47,3 +47,8 @@ exports.wampNearExplorerBackendSecret =
   process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
 
 exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;
+
+exports.genesisQuerySequence = process.env.NEAR_GENESIS_QUERY_SEQUENCE || 0;
+
+exports.genesisWaitingTime =
+  process.env.NEAR_GENESIS_WAITING_TIME || 5 * 60 * 1000;
