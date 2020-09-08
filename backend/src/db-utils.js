@@ -16,6 +16,14 @@ const queryRows = async (args) => {
   return await query(args);
 };
 
+const genesisSynced = async () => {
+  let indicator = await queryCount([`SELECT COUNT(*) as total FROM genesis`]);
+  if (indicator.total === 0) {
+    return false;
+  }
+  return true;
+};
+
 const aggregateStats = async () => {
   const [
     totalBlocks,
@@ -144,3 +152,4 @@ exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
 exports.pickonlineValidatingNode = pickonlineValidatingNode;
 exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;
+exports.genesisSynced = genesisSynced;

@@ -26,6 +26,7 @@ const {
   queryOnlineNodes,
   pickonlineValidatingNode,
   queryDashboardBlocksAndTxs,
+  genesisSynced,
 } = require("./db-utils");
 
 async function main() {
@@ -71,7 +72,10 @@ async function main() {
       console.warn("Genesis state crashed due to:", error);
     }
   };
-  setTimeout(SyncGenesisState, 0);
+  let genesisExisted = await genesisSynced();
+  if (!genesisExisted) {
+    setTimeout(SyncGenesisState, 0);
+  }
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {
