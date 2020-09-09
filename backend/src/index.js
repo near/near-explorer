@@ -65,7 +65,7 @@ async function main() {
   setTimeout(regularCheckGenesis, 0);
 
   const SyncGenesisState = async () => {
-    console.log("Starting Genesis state sync...");
+    console.log("-----Starting Genesis state sync...");
     try {
       await syncGenesisState();
     } catch (error) {
