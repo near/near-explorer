@@ -5,11 +5,14 @@ interface Props {
 }
 
 const MGAS = new BN(10 ** 6);
-export const GGAS = new BN(10 ** 9);
+const GGAS = new BN(10 ** 9);
+export const TGAS = new BN(10 ** 12);
 
 export default ({ gas }: Props) => {
   let gasShow;
-  if (gas.gte(GGAS)) {
+  if (gas.gte(TGAS)) {
+    gasShow = `${gas.div(GGAS).toString()} Tgas`;
+  } else if (gas.gte(GGAS)) {
     gasShow = `${gas.div(GGAS).toString()} Ggas`;
   } else if (gas.gte(MGAS)) {
     gasShow = `${gas.div(MGAS).toString()} Mgas`;
