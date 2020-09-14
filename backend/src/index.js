@@ -26,7 +26,7 @@ const {
   queryOnlineNodes,
   pickonlineValidatingNode,
   queryDashboardBlocksAndTxs,
-  genesisSynced,
+  getSyncedGenesis,
 } = require("./db-utils");
 
 async function main() {
@@ -34,28 +34,51 @@ async function main() {
 
   await models.sequelize.sync();
 
-  let genesisHeight, genesisTime;
+  let genesisHeight, genesisTime, genesisChainId;
+
+  const SyncGenesisState = async () => {
+    console.log("Starting Genesis state sync...");
+    try {
+      await syncGenesisState();
+    } catch (error) {
+      console.warn("Genesis state crashed due to:", error);
+    }
+  };
+
+  const syncedGenesis = await getSyncedGenesis();
+  if (syncedGenesis) {
+    genesisHeight = syncedGenesis.genesisHeight;
+    genesisTime = syncedGenesis.genesisTime;
+    genesisChainId = syncedGenesis.chainId;
+  } else {
+    setTimeout(SyncGenesisState, 0);
+  }
+
   const regularCheckGenesis = async () => {
     console.log("Starting regular Genesis check...");
     try {
       const genesisConfig = await nearRpc.sendJsonRpc(
         "EXPERIMENTAL_genesis_config"
       );
+      const genesisConfigGenesisTime = moment(
+        genesisConfig.genesis_time
+      ).valueOf();
       if (
         (genesisHeight && genesisHeight !== genesisConfig.genesis_height) ||
-        (genesisTime && genesisTime !== genesisConfig.genesis_time)
+        (genesisTime && genesisTime !== genesisConfigGenesisTime) ||
+        (genesisChainId && genesisChainId !== genesisConfig.chain_id)
       ) {
         console.log(
           `Genesis has changed (height ${genesisHeight} -> ${genesisConfig.genesis_height}; \
-          time ${genesisTime} -> ${genesisConfig.genesis_time}). \
-          We are resetting the database and shutting down the backend to let it auto-start and \
-          sync from scratch.`
+          time ${genesisTime} -> ${genesisConfigGenesisTime}; chain id ${genesisChainId} -> \
+          ${genesisConfig.chain_id}). We are resetting the database and shutting down the backend \
+          to let it auto-start and sync from scratch.`
         );
         models.resetDatabase({ saveBackup: backupDbOnReset });
         process.exit(0);
       }
       genesisHeight = genesisConfig.genesis_height;
-      genesisTime = genesisConfig.genesis_time;
+      genesisTime = genesisConfigGenesisTime;
       console.log("Regular Genesis check is completed.");
     } catch (error) {
       console.warn("Regular Genesis check crashed due to:", error);
@@ -63,19 +86,6 @@ async function main() {
     setTimeout(regularCheckGenesis, regularCheckGenesisInterval);
   };
   setTimeout(regularCheckGenesis, 0);
-
-  const SyncGenesisState = async () => {
-    console.log("-----Starting Genesis state sync...");
-    try {
-      await syncGenesisState();
-    } catch (error) {
-      console.warn("Genesis state crashed due to:", error);
-    }
-  };
-  let genesisExisted = await genesisSynced();
-  if (!genesisExisted) {
-    setTimeout(SyncGenesisState, 0);
-  }
 
   // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {

@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "Genesis",
     {
       genesisTime: {
-        type: DataTypes.STRING,
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
       },

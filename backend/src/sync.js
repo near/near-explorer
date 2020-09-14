@@ -391,6 +391,14 @@ async function syncGenesisState() {
       genesisTime = moment(config.value).valueOf();
     });
 
+    const streamChainId = stream
+      .pipe(pick({ filter: "chain_id" }))
+      .pipe(streamValues());
+
+    streamChainId.on("data", (config) => {
+      genesisChainId = config.value;
+    });
+
     const streamHeight = stream
       .pipe(pick({ filter: "genesis_height" }))
       .pipe(streamValues());
@@ -409,7 +417,7 @@ async function syncGenesisState() {
         "save genesis from ",
         records[0].key,
         " to ",
-        records[0].key + 100
+        records[records.length - 1].key
       );
       try {
         const _models = require("../models");
@@ -456,7 +464,7 @@ async function syncGenesisState() {
       await models.Genesis.upsert({
         genesisTime,
         genesisHeight,
-        chainId: wampNearNetworkName,
+        chainId: genesisChainId,
       });
       console.log(`-----Genesis Records are all inserted into database-----`);
     });
