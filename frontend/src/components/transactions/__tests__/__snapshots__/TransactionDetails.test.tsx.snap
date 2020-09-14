@@ -279,7 +279,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              445 Ggas
+              435 Ggas
             </div>
           </div>
         </div>
@@ -318,7 +318,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              445 Ggas
+              435 Ggas
             </div>
           </div>
         </div>
