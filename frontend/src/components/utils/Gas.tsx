@@ -5,7 +5,7 @@ interface Props {
 }
 
 const MGAS = new BN(10 ** 6);
-const GGAS = new BN(10 ** 9);
+const GGAS = new BN(1024).mul(MGAS);
 export const TGAS = new BN(10 ** 12);
 
 export default ({ gas }: Props) => {
