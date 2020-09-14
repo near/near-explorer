@@ -1,6 +1,6 @@
 const nearlib = require("near-api-js");
 
-const { nearRpcUrl } = require("./config");
+const { nearRpcUrl, wampNearNetworkName } = require("./config");
 
 const nearRpc = new nearlib.providers.JsonRpcProvider(nearRpcUrl);
 
@@ -39,6 +39,35 @@ const getCurrentNodes = (nodes) => {
   signRemovedValidators(removedValidators);
   currentValidators = currentValidators.concat(newValidators);
   return currentValidators;
+};
+
+const testnetConfig = {
+  nodeUrl: "https://rpc.testnet.nearprotocol.com",
+  networkId: "testnet",
+  contractName: "transfer-vote.near",
+};
+const mainnetConfig = {
+  nodeUrl: "https://rpc.mainnet.nearprotocol.com",
+  networkId: "mainnet",
+  contractName: "vote.f863973.m0",
+};
+
+const getVoteStats = async (config) => {
+  const near = await nearlib.connect({
+    nodeUrl: config.nodeUrl,
+    networkId: config.networkId,
+  });
+  const account = await near.account(config.contractName);
+  const totalStake = await account.viewFunction(
+    config.contractName,
+    "get_total_voted_stake",
+    {}
+  );
+  const stakeMap = await account.viewFunction(
+    config.contractName,
+    "get_votes",
+    {}
+  );
 };
 
 exports.nearRpc = nearRpc;
