@@ -170,7 +170,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
                     }
                   >
                     <textarea
-                      className="jsx-3751390317 code-preview"
+                      className="jsx-2493677144 code-preview"
                       readOnly={true}
                       value="{
   \\"value\\": 1
