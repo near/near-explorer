@@ -66,7 +66,8 @@ async function main() {
         genesisConfig.genesis_time
       ).valueOf();
       if (
-        (genesisHeight && genesisHeight !== genesisConfig.genesis_height) ||
+        (genesisHeight &&
+          genesisHeight !== genesisConfig.genesis_height.toString()) ||
         (genesisTime && genesisTime !== genesisConfigGenesisTime) ||
         (genesisChainId && genesisChainId !== genesisConfig.chain_id)
       ) {
@@ -79,7 +80,7 @@ async function main() {
         models.resetDatabase({ saveBackup: backupDbOnReset });
         process.exit(0);
       }
-      genesisHeight = genesisConfig.genesis_height;
+      genesisHeight = genesisConfig.genesis_height.toString();
       genesisTime = genesisConfigGenesisTime;
       console.log("Regular Genesis check is completed.");
     } catch (error) {
