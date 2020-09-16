@@ -19,9 +19,10 @@ export default (props: Props) => {
         <textarea readOnly className="code-preview" value={props.value} />
       </ReactTextCollapse>
       <style jsx>{`
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
-          font-family: mono;
-          background: #282c34;
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
           color: white;
           padding: 20px;
           width: 100%;
