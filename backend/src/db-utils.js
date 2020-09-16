@@ -7,13 +7,19 @@ const query = async ([query, replacements]) => {
   });
 };
 
-const queryCount = async (args) => {
+const querySingleRow = async (args) => {
   const result = await query(args);
   return result[0];
 };
 
 const queryRows = async (args) => {
   return await query(args);
+};
+
+const getSyncedGenesis = async () => {
+  return await querySingleRow([
+    `SELECT genesis_time as genesisTime, genesis_height as genesisHeight, chain_id as chainId FROM genesis`,
+  ]);
 };
 
 const aggregateStats = async () => {
@@ -24,14 +30,14 @@ const aggregateStats = async () => {
     lastDayTxCount,
     lastBlockHeight,
   ] = await Promise.all([
-    queryCount([`SELECT COUNT(*) as total FROM blocks`]),
-    queryCount([`SELECT COUNT(*) as total FROM transactions`]),
-    queryCount([`SELECT COUNT(*) as total FROM accounts`]),
-    queryCount([
+    querySingleRow([`SELECT COUNT(*) as total FROM blocks`]),
+    querySingleRow([`SELECT COUNT(*) as total FROM transactions`]),
+    querySingleRow([`SELECT COUNT(*) as total FROM accounts`]),
+    querySingleRow([
       `SELECT COUNT(*) as total FROM transactions
         WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
     ]),
-    queryCount([`SELECT height FROM blocks ORDER BY height DESC LIMIT 1`]),
+    querySingleRow([`SELECT height FROM blocks ORDER BY height DESC LIMIT 1`]),
   ]);
   return {
     totalAccounts: totalAccounts.total,
@@ -144,3 +150,4 @@ exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
 exports.pickonlineValidatingNode = pickonlineValidatingNode;
 exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;
+exports.getSyncedGenesis = getSyncedGenesis;
