@@ -15,6 +15,7 @@ const {
   bulkDbUpdateSize,
   syncNewBlocksHorizon,
   genesisRecordsUrl,
+  wampNearNetworkName,
 } = require("./config");
 const { nearRpc } = require("./near");
 const { promiseResult, delayFor } = require("./utils");
@@ -390,6 +391,14 @@ async function syncGenesisState() {
       genesisTime = moment(config.value).valueOf();
     });
 
+    const streamChainId = stream
+      .pipe(pick({ filter: "chain_id" }))
+      .pipe(streamValues());
+
+    streamChainId.on("data", (config) => {
+      genesisChainId = config.value;
+    });
+
     const streamHeight = stream
       .pipe(pick({ filter: "genesis_height" }))
       .pipe(streamValues());
@@ -408,7 +417,7 @@ async function syncGenesisState() {
         "save genesis from ",
         records[0].key,
         " to ",
-        records[0].key + 100
+        records[records.length - 1].key
       );
       try {
         const _models = require("../models");
@@ -451,9 +460,14 @@ async function syncGenesisState() {
       }
     });
 
-    streamRecords.on("end", () =>
-      console.log(`-----Genesis Records are all inserted into database-----`)
-    );
+    streamRecords.on("end", async () => {
+      await models.Genesis.upsert({
+        genesisTime,
+        genesisHeight,
+        chainId: genesisChainId,
+      });
+      console.log(`-----Genesis Records are all inserted into database-----`);
+    });
   } else {
     console.warn("-----There is no genesis url provided.-----");
   }
