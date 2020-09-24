@@ -1,4 +1,3 @@
-/// Copied from near-wallet project:
 import { utils } from "near-api-js";
 
 export default ({ amount }) => {
