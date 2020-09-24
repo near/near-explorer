@@ -47,3 +47,22 @@ exports.wampNearExplorerBackendSecret =
   process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
 
 exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;
+
+const testnetConfig = {
+  nodeUrl: "https://rpc.testnet.nearprotocol.com",
+  networkId: "testnet",
+  contractName: "vote.f863973.m0",
+};
+
+const mainnetConfig = {
+  nodeUrl: "https://rpc.mainnet.nearprotocol.com",
+  networkId: "mainnet",
+  contractName: "transfer-vote.near",
+};
+
+exports.testnetConfig = testnetConfig;
+
+exports.mainnetConfig = mainnetConfig;
+
+exports.regularCheckVoteInterval =
+  parseInt(process.env.NEAR_REGULAR_CHECK_VOTE_INTERVAL) || 60000;

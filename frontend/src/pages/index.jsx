@@ -9,6 +9,7 @@ import Content from "../components/utils/Content";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardTransactions from "../components/dashboard/DashboardTransactions";
+import Vote from "../components/utils/Vote";
 
 export default class extends React.Component {
   render() {
@@ -17,7 +18,9 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Dashboard</title>
         </Head>
-        <Content title={<h1>Dashboard</h1>} border={false}>
+        <Content border={false}>
+          <Vote />
+          <h1>Dashboard</h1>
           <NodeStatsProvider>
             <DashboardHeader />
           </NodeStatsProvider>

@@ -10,9 +10,17 @@ const {
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
   wampNearNetworkName,
+  testnetConfig,
+  mainnetConfig,
+  regularCheckVoteInterval,
 } = require("./config");
 
-const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
+const {
+  nearRpc,
+  queryFinalTimestamp,
+  queryNodeStats,
+  getVoteStats,
+} = require("./near");
 
 const {
   syncNewNearcoreState,
@@ -205,6 +213,32 @@ async function main() {
     setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };
   setTimeout(regularCheckNodeStatus, 0);
+
+  const regularCheckVote = async () => {
+    console.log("Starting regular check vote phase...");
+    if (
+      wampNearNetworkName === "testnet" ||
+      wampNearNetworkName === "mainnet"
+    ) {
+      let config;
+      if (wampNearNetworkName === "mainnet") {
+        config = mainnetConfig;
+      } else if (wampNearNetworkName === "testnet") {
+        config = testnetConfig;
+      }
+      if (config) {
+        try {
+          const { totalVotes, totalStake } = await getVoteStats(config);
+          wampPublish("vote", [{ totalVotes, totalStake }], wamp);
+          console.log("Regular final timestamp check is completed.");
+        } catch (error) {
+          console.warn("Regular vote check  crashed due to:", error);
+        }
+        setTimeout(regularCheckVote, regularCheckVoteInterval);
+      }
+    } else return;
+  };
+  setTimeout(regularCheckVote, 0);
 }
 
 main();

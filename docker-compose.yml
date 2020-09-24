@@ -1,23 +1,23 @@
 version: '2'
 
 services:
-  wamp:
-    build: ./wamp
-    environment:
-      - WAMP_NEAR_EXPLORER_PORT=8080
-      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
-    ports:
-      - 8080:8080
+  # wamp:
+  #   build: ./wamp
+  #   environment:
+  #     - WAMP_NEAR_EXPLORER_PORT=8080
+  #     - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
+  #   ports:
+  #     - 8080:8080
 
   backend:
     build: ./backend
     environment:
-      - NEAR_RPC_URL=https://rpc.testnet.near.org
+      # - NEAR_RPC_URL=https://rpc.testnet.near.org
       # - NEAR_RPC_URL=https://rpc.betanet.near.org
-      # - NEAR_RPC_URL=https://rpc.mainnet.near.org
-      - NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json
+      - NEAR_RPC_URL=https://rpc.mainnet.near.org
+      # - NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json
       # - NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json
-      # - NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json
+      - NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json
       - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
     mem_limit: 1G

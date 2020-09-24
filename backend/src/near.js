@@ -41,35 +41,23 @@ const getCurrentNodes = (nodes) => {
   return currentValidators;
 };
 
-const testnetConfig = {
-  nodeUrl: "https://rpc.testnet.nearprotocol.com",
-  networkId: "testnet",
-  contractName: "transfer-vote.near",
-};
-const mainnetConfig = {
-  nodeUrl: "https://rpc.mainnet.nearprotocol.com",
-  networkId: "mainnet",
-  contractName: "vote.f863973.m0",
-};
-
 const getVoteStats = async (config) => {
+  const keyStore = new nearlib.keyStores.InMemoryKeyStore();
   const near = await nearlib.connect({
+    deps: { keyStore },
     nodeUrl: config.nodeUrl,
     networkId: config.networkId,
   });
   const account = await near.account(config.contractName);
-  const totalStake = await account.viewFunction(
+  const [totalVotes, totalStake] = await account.viewFunction(
     config.contractName,
     "get_total_voted_stake",
     {}
   );
-  const stakeMap = await account.viewFunction(
-    config.contractName,
-    "get_votes",
-    {}
-  );
+  return { totalVotes, totalStake };
 };
 
 exports.nearRpc = nearRpc;
 exports.queryFinalTimestamp = queryFinalTimestamp;
 exports.queryNodeStats = queryNodeStats;
+exports.getVoteStats = getVoteStats;
