@@ -2,7 +2,6 @@
 import { utils } from "near-api-js";
 
 export default ({ amount }) => {
-  console.log(amount);
   if (!amount) {
     throw new Error("amount property should not be null");
   }
@@ -12,6 +11,5 @@ export default ({ amount }) => {
 };
 
 const formatNEAR = (amount) => {
-  let ret = utils.format.formatNearAmount(amount.toString(), 0);
-  return ret;
+  return utils.format.formatNearAmount(amount.toString(), 0);
 };

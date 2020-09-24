@@ -5,9 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "env NODE_ENV=production node src/index.js",
-    "start:testnet": "env NEAR_RPC_URL=https://rpc.testnet.nearprotocol.com NEAR_DB_PREFIX=testnet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json WAMP_NEAR_NETWORK_NAME=testnet npm run start",
-    "start:betanet": "env NEAR_RPC_URL=https://rpc.betanet.nearprotocol.com NEAR_DB_PREFIX=betanet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json npm run start",
-    "start:mainnet": "env NEAR_RPC_URL=https://rpc.mainnet.nearprotocol.com NEAR_DB_PREFIX=mainnet NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json WAMP_NEAR_NETWORK_NAME=mainnet npm run start"
+    "start:betanet": "env NEAR_RPC_URL=https://rpc.betanet.near.org WAMP_NEAR_NETWORK_NAME=betanet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json npm run start",
+    "start:testnet": "env NEAR_RPC_URL=https://rpc.testnet.near.org WAMP_NEAR_NETWORK_NAME=testnet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json npm run start",
+    "start:mainnet": "env NEAR_RPC_URL=https://rpc.mainnet.near.org WAMP_NEAR_NETWORK_NAME=mainnet NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json npm run start"
   },
   "repository": {
     "type": "git",

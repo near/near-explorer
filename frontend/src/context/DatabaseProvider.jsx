@@ -8,8 +8,8 @@ const DatabaseContext = createContext({
   totalTransactions: 0,
   totalAccounts: 0,
   lastDayTxCount: 0,
-  totalStake: "",
-  totalVotes: "",
+  phase2TotalStake: "",
+  phase2TotalVotes: "",
 });
 
 export default (props) => {
@@ -19,16 +19,16 @@ export default (props) => {
   const [totalTransactions, dispatchTotalTransactions] = useState(0);
   const [totalAccounts, dispatchTotalAccounts] = useState(0);
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
-  const [totalStake, dispatchTotalStake] = useState(
+  const [phase2TotalStake, dispatchPhase2TotalStake] = useState(
     "11416584959186517242479124953463"
   );
-  const [totalVotes, dispatchTotalVotes] = useState(
+  const [phase2TotalVotes, dispatchPhase2TotalVotes] = useState(
     "1272506343149920375853886366252"
   );
 
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
-    // subsceiption data part
+    // subscription data part
     let states = stats[0].dataStats;
     let {
       lastBlockHeight: newLastBlockHeight,
@@ -63,16 +63,16 @@ export default (props) => {
     }
   };
 
-  const fetchVoteStats = (stats) => {
+  const fetchPhase2VoteStats = (stats) => {
     const { totalVotes, totalStake } = stats[0];
-    dispatchTotalVotes(totalVotes);
-    dispatchTotalStake(totalStake);
+    dispatchPhase2TotalVotes(totalVotes);
+    dispatchPhase2TotalStake(totalStake);
   };
 
   const Subscription = useCallback(() => {
     new ExplorerApi().subscribe("chain-stats", fetchNewStats);
     new ExplorerApi().subscribe("final-timestamp", fetchFinalTimestamp);
-    new ExplorerApi().subscribe("vote", fetchVoteStats);
+    new ExplorerApi().subscribe("phase2-vote", fetchPhase2VoteStats);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
@@ -86,8 +86,8 @@ export default (props) => {
         totalTransactions,
         totalAccounts,
         lastDayTxCount,
-        totalStake,
-        totalVotes,
+        phase2TotalStake,
+        phase2TotalVotes,
       }}
     >
       {props.children}

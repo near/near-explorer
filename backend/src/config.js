@@ -48,21 +48,15 @@ exports.wampNearExplorerBackendSecret =
 
 exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;
 
-const testnetConfig = {
-  nodeUrl: "https://rpc.testnet.nearprotocol.com",
-  networkId: "testnet",
-  contractName: "vote.f863973.m0",
-};
+let phase2VoteContractName = process.env.NEAR_PHASE2_VOTE_CONTRACT_NAME;
+if (!phase2VoteContractName) {
+  if (exports.wampNearNetworkName === "mainnet") {
+    phase2VoteContractName = "transfer-vote.near";
+  } else if (exports.wampNearNetworkName === "testnet") {
+    phase2VoteContractName = "vote.f863973.m0";
+  }
+}
+exports.phase2VoteContractName = phase2VoteContractName;
 
-const mainnetConfig = {
-  nodeUrl: "https://rpc.mainnet.nearprotocol.com",
-  networkId: "mainnet",
-  contractName: "transfer-vote.near",
-};
-
-exports.testnetConfig = testnetConfig;
-
-exports.mainnetConfig = mainnetConfig;
-
-exports.regularCheckVoteInterval =
-  parseInt(process.env.NEAR_REGULAR_CHECK_VOTE_INTERVAL) || 60000;
+exports.regularCheckPhase2VoteInterval =
+  parseInt(process.env.NEAR_REGULAR_CHECK_PHASE2_VOTE_INTERVAL) || 10000;

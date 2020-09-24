@@ -9,17 +9,15 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
-  wampNearNetworkName,
-  testnetConfig,
-  mainnetConfig,
-  regularCheckVoteInterval,
+  phase2VoteContractName,
+  regularCheckPhase2VoteInterval,
 } = require("./config");
 
 const {
   nearRpc,
   queryFinalTimestamp,
   queryNodeStats,
-  getVoteStats,
+  getPhase2VoteStats,
 } = require("./near");
 
 const {
@@ -214,31 +212,22 @@ async function main() {
   };
   setTimeout(regularCheckNodeStatus, 0);
 
-  const regularCheckVote = async () => {
-    console.log("Starting regular check vote phase...");
-    if (
-      wampNearNetworkName === "testnet" ||
-      wampNearNetworkName === "mainnet"
-    ) {
-      let config;
-      if (wampNearNetworkName === "mainnet") {
-        config = mainnetConfig;
-      } else if (wampNearNetworkName === "testnet") {
-        config = testnetConfig;
+  if (phase2VoteContractName) {
+    const regularCheckPhase2Vote = async () => {
+      console.log("Starting regular check phase 2 vote...");
+      try {
+        const { totalVotes, totalStake } = await getPhase2VoteStats(
+          phase2VoteContractName
+        );
+        wampPublish("phase2-vote", [{ totalVotes, totalStake }], wamp);
+        console.log("Regular phase 2 vote check is completed.");
+      } catch (error) {
+        console.warn("Regular phase 2 vote check crashed due to:", error);
       }
-      if (config) {
-        try {
-          const { totalVotes, totalStake } = await getVoteStats(config);
-          wampPublish("vote", [{ totalVotes, totalStake }], wamp);
-          console.log("Regular final timestamp check is completed.");
-        } catch (error) {
-          console.warn("Regular vote check  crashed due to:", error);
-        }
-        setTimeout(regularCheckVote, regularCheckVoteInterval);
-      }
-    } else return;
-  };
-  setTimeout(regularCheckVote, 0);
+      setTimeout(regularCheckPhase2Vote, regularCheckPhase2VoteInterval);
+    };
+    setTimeout(regularCheckPhase2Vote, 0);
+  }
 }
 
 main();

@@ -6,10 +6,10 @@ import NodeStatsProvider from "../context/NodeStatsProvider";
 import ListProvider from "../context/ListProvider";
 
 import Content from "../components/utils/Content";
+import Phase2Vote from "../components/utils/Phase2Vote";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardTransactions from "../components/dashboard/DashboardTransactions";
-import Vote from "../components/utils/Vote";
 
 export default class extends React.Component {
   render() {
@@ -19,7 +19,7 @@ export default class extends React.Component {
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content border={false}>
-          <Vote />
+          <Phase2Vote />
           <h1>Dashboard</h1>
           <NodeStatsProvider>
             <DashboardHeader />

@@ -41,16 +41,13 @@ const getCurrentNodes = (nodes) => {
   return currentValidators;
 };
 
-const getVoteStats = async (config) => {
-  const keyStore = new nearlib.keyStores.InMemoryKeyStore();
-  const near = await nearlib.connect({
-    deps: { keyStore },
-    nodeUrl: config.nodeUrl,
-    networkId: config.networkId,
-  });
-  const account = await near.account(config.contractName);
-  const [totalVotes, totalStake] = await account.viewFunction(
-    config.contractName,
+const getPhase2VoteStats = async (contractName) => {
+  const account = await nearlib.Account(
+    { provider: nearRpc },
+    config.contractName
+  );
+  const [totalVotes, totalStake] = account.viewFunction(
+    contractName,
     "get_total_voted_stake",
     {}
   );
@@ -60,4 +57,4 @@ const getVoteStats = async (config) => {
 exports.nearRpc = nearRpc;
 exports.queryFinalTimestamp = queryFinalTimestamp;
 exports.queryNodeStats = queryNodeStats;
-exports.getVoteStats = getVoteStats;
+exports.getPhase2VoteStats = getPhase2VoteStats;
