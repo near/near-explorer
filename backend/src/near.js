@@ -42,11 +42,8 @@ const getCurrentNodes = (nodes) => {
 };
 
 const getPhase2VoteStats = async (contractName) => {
-  const account = await nearlib.Account(
-    { provider: nearRpc },
-    config.contractName
-  );
-  const [totalVotes, totalStake] = account.viewFunction(
+  const account = new nearlib.Account({ provider: nearRpc });
+  const [totalVotes, totalStake] = await account.viewFunction(
     contractName,
     "get_total_voted_stake",
     {}
