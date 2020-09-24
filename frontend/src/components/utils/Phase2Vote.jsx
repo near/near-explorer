@@ -1,9 +1,9 @@
 import { Row, Col } from "react-bootstrap";
+import BN from "bn.js";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import LargeBalance from "../utils/LargeBalance";
 
-const Big = require("big.js");
 export default () => {
   return (
     <DatabaseConsumer>
@@ -45,10 +45,10 @@ export default () => {
                   }}
                 >
                   <LargeBalance
-                    amount={Big(context.phase2TotalStake)
-                      .times(Big(2))
-                      .div(Big(3))
-                      .toFixed(0)}
+                    amount={new BN(context.phase2TotalStake)
+                      .mul(new BN(2))
+                      .div(new BN(3))
+                      .toString()}
                   />
                 </span>
               </Row>
@@ -62,19 +62,23 @@ export default () => {
             <div className="vote-data">
               <span style={{ color: "#8DD4BD", fontWeight: "800" }}>
                 {" "}
-                {`${Big(context.phase2TotalVotes)
-                  .div(Big(context.phase2TotalStake).times(Big(2)).div(Big(3)))
-                  .toFixed(2)}%`}
+                {`${
+                  new BN(context.phase2TotalVotes)
+                    .mul(new BN(30000))
+                    .div(new BN(context.phase2TotalStake))
+                    .div(new BN(2))
+                    .toNumber() / 100
+                }%`}
               </span>
               <span>
                 (<LargeBalance amount={context.phase2TotalVotes} />
               </span>
               {" / "}
               <LargeBalance
-                amount={Big(context.phase2TotalStake)
-                  .times(Big(2))
-                  .div(Big(3))
-                  .toFixed(0)}
+                amount={new BN(context.phase2TotalStake)
+                  .mul(new BN(2))
+                  .div(new BN(3))
+                  .toString()}
               />
               )
             </div>
@@ -99,7 +103,13 @@ export default () => {
               color: white;
               margin-top: 10px;
               position: relative;
-              left: 70%;
+              left: 60%;
+            }
+
+            @media (max-width: 950px) {
+              .vote-data {
+                left: 10%;
+              }
             }
 
             .vote-bar {
@@ -115,9 +125,11 @@ export default () => {
               background: #8dd4bd;
               border-radius: 50px;
               height: 6px;
-              width: ${Big(context.phase2TotalVotes)
-                .div(Big(context.phase2TotalStake).times(Big(2)).div(Big(3)))
-                .toFixed(2)}%;
+              width: ${new BN(context.phase2TotalVotes)
+                .mul(new BN(30000))
+                .div(new BN(context.phase2TotalStake))
+                .div(new BN(2))
+                .toNumber() / 100}%;
             }
           `}</style>
         </div>

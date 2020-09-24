@@ -48,7 +48,6 @@
   "dependencies": {
     "@types/enzyme": "^3.10.3",
     "autobahn": "19.7.3",
-    "big.js": "^5.2.2",
     "bn.js": "^5.1.1",
     "bootstrap": "^4.5.0",
     "d3": "^5.16.0",
