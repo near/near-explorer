@@ -110,18 +110,11 @@ export default () => {
             }
 
             .vote-data {
-              text-align: center;
+              text-align: right;
+              margin: auto;
               font-weight: 400;
               color: white;
               margin-top: 10px;
-              position: relative;
-              left: 60%;
-            }
-
-            @media (max-width: 950px) {
-              .vote-data {
-                left: 10%;
-              }
             }
 
             .vote-bar {
