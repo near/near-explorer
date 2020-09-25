@@ -60,7 +60,10 @@ export default class extends App {
             <Header />
             <div className="page">
               <DatabaseProvider>
-                <Component {...pageProps} />
+                <Component
+                  {...pageProps}
+                  currentNearNetwork={this.props.currentNearNetwork}
+                />
               </DatabaseProvider>
             </div>
           </div>

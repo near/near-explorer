@@ -13,13 +13,14 @@ import DashboardTransactions from "../components/dashboard/DashboardTransactions
 
 export default class extends React.Component {
   render() {
+    const { name } = this.props.currentNearNetwork;
     return (
       <>
         <Head>
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content border={false}>
-          <Phase2Vote />
+          {(name === "mainnet" || name === "testnet") && <Phase2Vote />}
           <h1>Dashboard</h1>
           <NodeStatsProvider>
             <DashboardHeader />

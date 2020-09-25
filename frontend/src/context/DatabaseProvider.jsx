@@ -19,8 +19,8 @@ export default (props) => {
   const [totalTransactions, dispatchTotalTransactions] = useState(0);
   const [totalAccounts, dispatchTotalAccounts] = useState(0);
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
-  const [phase2TotalStake, dispatchPhase2TotalStake] = useState("600");
-  const [phase2TotalVotes, dispatchPhase2TotalVotes] = useState("200");
+  const [phase2TotalStake, dispatchPhase2TotalStake] = useState("");
+  const [phase2TotalVotes, dispatchPhase2TotalVotes] = useState("");
 
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
