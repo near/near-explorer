@@ -8,6 +8,8 @@ const DatabaseContext = createContext({
   totalTransactions: 0,
   totalAccounts: 0,
   lastDayTxCount: 0,
+  phase2TotalStake: "",
+  phase2TotalVotes: "",
 });
 
 export default (props) => {
@@ -17,10 +19,12 @@ export default (props) => {
   const [totalTransactions, dispatchTotalTransactions] = useState(0);
   const [totalAccounts, dispatchTotalAccounts] = useState(0);
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
+  const [phase2TotalStake, dispatchPhase2TotalStake] = useState("");
+  const [phase2TotalVotes, dispatchPhase2TotalVotes] = useState("");
 
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
-    // subsceiption data part
+    // subscription data part
     let states = stats[0].dataStats;
     let {
       lastBlockHeight: newLastBlockHeight,
@@ -55,9 +59,16 @@ export default (props) => {
     }
   };
 
+  const fetchPhase2VoteStats = (stats) => {
+    const { totalVotes, totalStake } = stats[0];
+    dispatchPhase2TotalVotes(totalVotes);
+    dispatchPhase2TotalStake(totalStake);
+  };
+
   const Subscription = useCallback(() => {
     new ExplorerApi().subscribe("chain-stats", fetchNewStats);
     new ExplorerApi().subscribe("final-timestamp", fetchFinalTimestamp);
+    new ExplorerApi().subscribe("phase2-vote", fetchPhase2VoteStats);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
@@ -71,6 +82,8 @@ export default (props) => {
         totalTransactions,
         totalAccounts,
         lastDayTxCount,
+        phase2TotalStake,
+        phase2TotalVotes,
       }}
     >
       {props.children}

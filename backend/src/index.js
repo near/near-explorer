@@ -9,10 +9,16 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
-  wampNearNetworkName,
+  phase2VoteContractName,
+  regularCheckPhase2VoteInterval,
 } = require("./config");
 
-const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
+const {
+  nearRpc,
+  queryFinalTimestamp,
+  queryNodeStats,
+  getPhase2VoteStats,
+} = require("./near");
 
 const {
   syncNewNearcoreState,
@@ -205,6 +211,23 @@ async function main() {
     setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };
   setTimeout(regularCheckNodeStatus, 0);
+
+  if (phase2VoteContractName) {
+    const regularCheckPhase2Vote = async () => {
+      console.log("Starting regular check phase 2 vote...");
+      try {
+        const { totalVotes, totalStake } = await getPhase2VoteStats(
+          phase2VoteContractName
+        );
+        wampPublish("phase2-vote", [{ totalVotes, totalStake }], wamp);
+        console.log("Regular phase 2 vote check is completed.");
+      } catch (error) {
+        console.warn("Regular phase 2 vote check crashed due to:", error);
+      }
+      setTimeout(regularCheckPhase2Vote, regularCheckPhase2VoteInterval);
+    };
+    setTimeout(regularCheckPhase2Vote, 0);
+  }
 }
 
 main();

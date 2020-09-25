@@ -1,6 +1,6 @@
 const nearlib = require("near-api-js");
 
-const { nearRpcUrl } = require("./config");
+const { nearRpcUrl, wampNearNetworkName } = require("./config");
 
 const nearRpc = new nearlib.providers.JsonRpcProvider(nearRpcUrl);
 
@@ -41,6 +41,17 @@ const getCurrentNodes = (nodes) => {
   return currentValidators;
 };
 
+const getPhase2VoteStats = async (contractName) => {
+  const account = new nearlib.Account({ provider: nearRpc });
+  const [totalVotes, totalStake] = await account.viewFunction(
+    contractName,
+    "get_total_voted_stake",
+    {}
+  );
+  return { totalVotes, totalStake };
+};
+
 exports.nearRpc = nearRpc;
 exports.queryFinalTimestamp = queryFinalTimestamp;
 exports.queryNodeStats = queryNodeStats;
+exports.getPhase2VoteStats = getPhase2VoteStats;

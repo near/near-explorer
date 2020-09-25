@@ -6,18 +6,22 @@ import NodeStatsProvider from "../context/NodeStatsProvider";
 import ListProvider from "../context/ListProvider";
 
 import Content from "../components/utils/Content";
+import Phase2Vote from "../components/utils/Phase2Vote";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
 import DashboardTransactions from "../components/dashboard/DashboardTransactions";
 
 export default class extends React.Component {
   render() {
+    const { name } = this.props.currentNearNetwork;
     return (
       <>
         <Head>
           <title>Near Explorer | Dashboard</title>
         </Head>
-        <Content title={<h1>Dashboard</h1>} border={false}>
+        <Content border={false}>
+          {(name === "mainnet" || name === "testnet") && <Phase2Vote />}
+          <h1>Dashboard</h1>
           <NodeStatsProvider>
             <DashboardHeader />
           </NodeStatsProvider>

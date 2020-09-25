@@ -4,11 +4,8 @@ import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const FRAC_DIGITS = 5;
-const YOCTO_NEAR_THRESHOLD = new BN("10", 10).pow(
-  new BN(utils.format.NEAR_NOMINATION_EXP - FRAC_DIGITS + 1, 10)
-);
 
-const Balance = ({ amount }) => {
+export default ({ amount }) => {
   if (!amount) {
     throw new Error("amount property should not be null");
   }
@@ -39,7 +36,6 @@ export const formatNEAR = (amount) => {
 };
 
 export const showInYocto = (amountStr) => {
-  const amount = new BN(amountStr);
   return formatWithCommas(amountStr) + " yoctoⓃ";
 };
 
@@ -50,5 +46,3 @@ const formatWithCommas = (value) => {
   }
   return value;
 };
-
-export default Balance;
