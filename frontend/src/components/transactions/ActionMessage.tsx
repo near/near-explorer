@@ -56,7 +56,12 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   ),
   DeployContract: ({
     transaction: { receiverId },
-  }: Props<T.DeployContract>) => <>{`Contract deployed: ${receiverId}`}</>,
+  }: Props<T.DeployContract>) => (
+    <>
+      {"Contract deployed: "}
+      <AccountLink accountId={receiverId} />
+    </>
+  ),
   FunctionCall: ({
     transaction: { receiverId },
     actionArgs,

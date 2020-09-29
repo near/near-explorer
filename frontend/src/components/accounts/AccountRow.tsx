@@ -34,6 +34,10 @@ export default class extends React.Component<Props, State> {
   render() {
     const { accountId, createdAt } = this.props;
     const { amount } = this.state;
+    let Id =
+      accountId.length > 25
+        ? accountId.slice(0, 8) + "..." + accountId.slice(accountId.length - 7)
+        : accountId;
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
         <a style={{ textDecoration: "none" }}>
@@ -46,7 +50,7 @@ export default class extends React.Component<Props, State> {
             </Col>
             <Col md="7" xs="6">
               <Row>
-                <Col className="transaction-row-title">@{accountId}</Col>
+                <Col className="transaction-row-title">{Id}</Col>
               </Row>
             </Col>
             <Col md="3" xs="4" className="ml-auto text-right">

@@ -2,11 +2,16 @@ import Link from "next/link";
 
 export interface Props {
   accountId: string;
-  children?: React.ReactNode;
 }
 
-export default ({ accountId, children }: Props) => (
-  <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
-    <a className="account-link">{children || `@${accountId}`}</a>
-  </Link>
-);
+export default ({ accountId }: Props) => {
+  let Id =
+    accountId.length > 25
+      ? accountId.slice(0, 8) + "..." + accountId.slice(accountId.length - 7)
+      : accountId;
+  return (
+    <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
+      <a className="account-link">{Id}</a>
+    </Link>
+  );
+};
