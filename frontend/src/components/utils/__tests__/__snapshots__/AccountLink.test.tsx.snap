@@ -7,6 +7,6 @@ exports[`<AccountLink /> renders 1`] = `
   onClick={[Function]}
   onMouseEnter={[Function]}
 >
-  @test
+  test
 </a>
 `;

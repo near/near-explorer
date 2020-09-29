@@ -9,7 +9,7 @@ Array [
     onClick={[Function]}
     onMouseEnter={[Function]}
   >
-    @receiver.test
+    receiver.test
   </a>,
   ": ed25519:BgXFiJS...",
 ]
@@ -24,7 +24,7 @@ Array [
     onClick={[Function]}
     onMouseEnter={[Function]}
   >
-    @receiver.test
+    receiver.test
   </a>,
 ]
 `;
@@ -38,14 +38,26 @@ Array [
     onClick={[Function]}
     onMouseEnter={[Function]}
   >
-    @receiver.test
+    receiver.test
   </a>,
 ]
 `;
 
 exports[`<ActionMessage /> renders DeleteKey 1`] = `"Key deleted: ed25519:BgXFiJS..."`;
 
-exports[`<ActionMessage /> renders DeployContract 1`] = `"Contract deployed: receiver.test"`;
+exports[`<ActionMessage /> renders DeployContract 1`] = `
+Array [
+  "Contract deployed: ",
+  <a
+    className="account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver.test
+  </a>,
+]
+`;
 
 exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
@@ -56,7 +68,7 @@ Array [
     onClick={[Function]}
     onMouseEnter={[Function]}
   >
-    @receiver.test
+    receiver.test
   </a>,
 ]
 `;
@@ -70,7 +82,7 @@ Array [
     onClick={[Function]}
     onMouseEnter={[Function]}
   >
-    @receiver2.test
+    receiver2.test
   </a>,
   <dl>
     <dt>
@@ -150,7 +162,7 @@ Array [
     onClick={[Function]}
     onMouseEnter={[Function]}
   >
-    @receiver.test
+    receiver.test
   </a>,
 ]
 `;

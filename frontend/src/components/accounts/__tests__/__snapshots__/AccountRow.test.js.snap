@@ -36,7 +36,6 @@ exports[`<AccountRow /> renders 1`] = `
         <div
           className="transaction-row-title col"
         >
-          @
           account
         </div>
       </div>

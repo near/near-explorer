@@ -43,7 +43,7 @@ exports[`<ActionRow /> renders compact 1`] = `
               onClick={[Function]}
               onMouseEnter={[Function]}
             >
-              @receiver.test
+              receiver.test
             </a>
             : ed25519:8LXEySy...
           </div>
@@ -61,7 +61,7 @@ exports[`<ActionRow /> renders compact 1`] = `
               onClick={[Function]}
               onMouseEnter={[Function]}
             >
-              @signer.test
+              signer.test
             </a>
           </div>
         </div>
@@ -152,7 +152,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
               onClick={[Function]}
               onMouseEnter={[Function]}
             >
-              @receiver.test
+              receiver.test
             </a>
             <dl>
               <dt>
@@ -208,7 +208,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
               onClick={[Function]}
               onMouseEnter={[Function]}
             >
-              @signer.test
+              signer.test
             </a>
           </div>
         </div>
@@ -299,7 +299,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
               onClick={[Function]}
               onMouseEnter={[Function]}
             >
-              @receiver.test
+              receiver.test
             </a>
           </div>
         </div>
@@ -316,7 +316,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
               onClick={[Function]}
               onMouseEnter={[Function]}
             >
-              @signer.test
+              signer.test
             </a>
           </div>
         </div>

@@ -46,7 +46,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                @signer.test
+                signer.test
               </a>
             </div>
           </div>
@@ -92,7 +92,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                @receiver.test
+                receiver.test
               </a>
             </div>
           </div>
@@ -494,7 +494,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                @signer2.test
+                signer2.test
               </a>
             </div>
           </div>
@@ -540,7 +540,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                @receiver2.test
+                receiver2.test
               </a>
             </div>
           </div>
@@ -942,7 +942,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                @signer2.test
+                signer2.test
               </a>
             </div>
           </div>
@@ -988,7 +988,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                @receiver2.test
+                receiver2.test
               </a>
             </div>
           </div>
