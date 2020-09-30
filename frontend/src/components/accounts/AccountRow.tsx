@@ -8,6 +8,7 @@ import { Row, Col } from "react-bootstrap";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 
 import Balance from "../utils/Balance";
+import { shortAccountId } from "../utils/AccountLink";
 
 export interface Props {
   accountId: string;
@@ -34,10 +35,7 @@ export default class extends React.Component<Props, State> {
   render() {
     const { accountId, createdAt } = this.props;
     const { amount } = this.state;
-    let Id =
-      accountId.length > 25
-        ? accountId.slice(0, 8) + "..." + accountId.slice(accountId.length - 7)
-        : accountId;
+    let Id = accountId.length > 25 ? shortAccountId(accountId) : accountId;
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
         <a style={{ textDecoration: "none" }}>

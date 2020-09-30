@@ -5,13 +5,14 @@ export interface Props {
 }
 
 export default ({ accountId }: Props) => {
-  let Id =
-    accountId.length > 25
-      ? accountId.slice(0, 8) + "..." + accountId.slice(accountId.length - 7)
-      : accountId;
+  let Id = accountId.length > 25 ? shortAccountId(accountId) : accountId;
   return (
     <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
       <a className="account-link">{Id}</a>
     </Link>
   );
 };
+
+export function shortAccountId(accountId: string) {
+  return accountId.slice(0, 8) + "..." + accountId.slice(accountId.length - 7);
+}
