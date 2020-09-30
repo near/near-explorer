@@ -26,11 +26,13 @@ export default () => {
           <Row style={{ textAlign: "left", margin: "auto", marginTop: "20px" }}>
             <Col style={{ marginTop: "-60px" }}>
               <div className="vote-needed">
-                {"Votes Needed"}
+                <p className="text-long">{"Votes needed for Phase II"}</p>
+                <p className="text-short">{"Votes Needed"}</p>
                 <p
                   style={{
                     color: "white",
                     fontWeight: "400",
+                    fontSize: "0.7rem",
                   }}
                 >
                   {context.phase2TotalStake !== "" ? (
@@ -135,11 +137,29 @@ export default () => {
             .vote-needed {
               position: relative;
               height: 80px;
-              width: 250px;
               border-left: 2px dashed #989898;
               margin-left: ${context.phase2TotalStake !== "" ? 200 / 3 : 0}%;
               top: 30px;
               padding-left: 5px;
+            }
+
+            .text-short {
+              display: none;
+            }
+
+            .text-long {
+              margin-bottom: 0;
+            }
+
+            @media (max-width: 768px) {
+              .text-short {
+                display: block;
+                margin-bottom: 0;
+                font-size: 8px;
+              }
+              .text-long {
+                display: none;
+              }
             }
           `}</style>
         </div>
