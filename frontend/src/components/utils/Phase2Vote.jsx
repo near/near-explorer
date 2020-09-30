@@ -26,9 +26,7 @@ export default () => {
           <Row style={{ textAlign: "left", margin: "auto", marginTop: "20px" }}>
             <Col style={{ marginTop: "-60px" }}>
               <div className="vote-needed">
-                {window.innerWidth > 768
-                  ? "Votes needed for Phase II"
-                  : "Votes Needed"}
+                {"Votes Needed"}
                 <p
                   style={{
                     color: "white",
