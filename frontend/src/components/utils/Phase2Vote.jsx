@@ -1,5 +1,6 @@
 import { Row, Col, Spinner } from "react-bootstrap";
 import BN from "bn.js";
+import React from "react";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import LargeBalance from "../utils/LargeBalance";
@@ -25,7 +26,9 @@ export default () => {
           <Row style={{ textAlign: "left", margin: "auto", marginTop: "20px" }}>
             <Col style={{ marginTop: "-60px" }}>
               <div className="vote-needed">
-                {"Votes Needed to Enable Phase 2"}
+                {window.innerWidth > 768
+                  ? "Votes needed for Phase II"
+                  : "Votes Needed"}
                 <p
                   style={{
                     color: "white",
@@ -44,28 +47,23 @@ export default () => {
                   )}
                 </p>
               </div>
-              <div className="vote-bar">
+              <div className="vote-bar"></div>
+              <div className="vote-pro">
                 <div className="vote-bar-text">
                   {context.phase2TotalStake !== "" ? (
                     <div className="vote-data">
-                      <span style={{ fontWeight: "800" }}>
-                        {`${
-                          new BN(context.phase2TotalVotes)
-                            .mul(new BN(10000))
-                            .div(new BN(context.phase2TotalStake))
-                            .toNumber() / 100
-                        }%`}
-                      </span>
-                      <span>
-                        (<LargeBalance amount={context.phase2TotalVotes} />)
-                      </span>
+                      {`${
+                        new BN(context.phase2TotalVotes)
+                          .mul(new BN(10000))
+                          .div(new BN(context.phase2TotalStake))
+                          .toNumber() / 100
+                      }%`}
                     </div>
                   ) : (
                     <Spinner animation="border" variant="secondary" />
                   )}
                 </div>
               </div>
-              <div className="vote-pro"></div>
             </Col>
             <Col md="2">
               {"Total Stake"}
@@ -98,8 +96,14 @@ export default () => {
             }
 
             .vote-data {
-              font-weight: 400;
-              color: #b55119;
+              font-weight: 800;
+              color: #853a10;
+            }
+
+            @media (max-width: 768px) {
+              .vote-data {
+                font-size: 0.5rem;
+              }
             }
 
             .vote-bar {
@@ -126,6 +130,8 @@ export default () => {
             .vote-bar-text {
               position: relative;
               z-index: 10;
+              text-align: right;
+              padding: 5px;
             }
 
             .vote-needed {
