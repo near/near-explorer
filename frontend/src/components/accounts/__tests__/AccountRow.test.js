@@ -29,11 +29,22 @@ describe("<AccountRow />", () => {
     );
   });
 
-  it("renders", () => {
+  it("renders with short name", () => {
     expect(
       renderer.create(
         <AccountRow
           accountId="account"
+          createdAt={Number(new Date(2019, 1, 1))}
+        />
+      )
+    ).toMatchSnapshot();
+  });
+
+  it("renders with long name", () => {
+    expect(
+      renderer.create(
+        <AccountRow
+          accountId="b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
           createdAt={Number(new Date(2019, 1, 1))}
         />
       )
