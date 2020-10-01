@@ -20,7 +20,7 @@ export default class extends React.Component {
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content border={false}>
-          {(name === "mainnet" || name === "testnet") && <Phase2Vote />}
+          {name === "mainnet" && <Phase2Vote />}
           <h1>Dashboard</h1>
           <NodeStatsProvider>
             <DashboardHeader />

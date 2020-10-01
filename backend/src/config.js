@@ -59,4 +59,4 @@ if (!phase2VoteContractName) {
 exports.phase2VoteContractName = phase2VoteContractName;
 
 exports.regularCheckPhase2VoteInterval =
-  parseInt(process.env.NEAR_REGULAR_CHECK_PHASE2_VOTE_INTERVAL) || 10000;
+  parseInt(process.env.NEAR_REGULAR_CHECK_PHASE2_VOTE_INTERVAL) || 1000;
