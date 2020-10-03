@@ -158,8 +158,6 @@ export default (
                         ? context.totalBlocks
                         : config.category === "Transaction"
                         ? context.totalTransactions
-                        : config.category === "Account"
-                        ? context.totalAccounts
                         : 0
                     }
                     category={config.category}
