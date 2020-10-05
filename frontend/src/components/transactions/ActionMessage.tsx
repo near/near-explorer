@@ -131,10 +131,9 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
           />
           {`: ${actionArgs.public_key.substring(0, 15)}...`}
           <p>
-            {`with function call [${actionArgs.access_key.permission.FunctionCall.method_names.join(
+            {`with permission to call [${actionArgs.access_key.permission.FunctionCall.method_names.join(
               ","
-            )}]`}
-            {` and nounce ${actionArgs.access_key.nonce}`}
+            )}] methods and nonce ${actionArgs.access_key.nonce}`}
           </p>
         </>
       ) : (
@@ -143,8 +142,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
           <AccountLink accountId={receiverId} />
           {`: ${actionArgs.public_key.substring(0, 15)}...`}
           <p>
-            {`with permission ${actionArgs.access_key.permission}`}
-            {` and nounce ${actionArgs.access_key.nonce}`}
+            {`with permission ${actionArgs.access_key.permission} and nonce ${actionArgs.access_key.nonce}`}
           </p>
         </>
       )}

@@ -96,13 +96,44 @@ describe("<ActionMessage />", () => {
     ).toMatchSnapshot();
   });
 
-  it("renders AddKey", () => {
+  it("renders AddKey with permission function call", () => {
     expect(
       renderer.create(
         <ActionMessage
           actionKind={"AddKey"}
           actionArgs={{
-            access_key: {},
+            access_key: {
+              permission: {
+                FunctionCall: {
+                  method_names: [
+                    "add_request",
+                    "delete_request",
+                    "confirm",
+                    "add_request_and_confirm",
+                  ],
+                  receiver_id: "stake",
+                },
+              },
+              nonce: 0,
+            },
+            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+          }}
+          transaction={TRANSACTIONS[0]}
+        />
+      )
+    ).toMatchSnapshot();
+  });
+
+  it("renders AddKey with permission FullAccess", () => {
+    expect(
+      renderer.create(
+        <ActionMessage
+          actionKind={"AddKey"}
+          actionArgs={{
+            access_key: {
+              nonce: 0,
+              permission: "FullAccess",
+            },
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
           transaction={TRANSACTIONS[0]}

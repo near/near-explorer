@@ -153,8 +153,7 @@ Array [
               </a>
               : ed25519:8LXEySy...
               <p>
-                with permission FullAccess
-                 and nounce 0
+                with permission FullAccess and nonce 0
               </p>
             </div>
           </div>
@@ -520,8 +519,7 @@ Array [
               </a>
               : ed25519:8LXEySy...
               <p>
-                with permission FullAccess
-                 and nounce 0
+                with permission FullAccess and nonce 0
               </p>
             </div>
           </div>
