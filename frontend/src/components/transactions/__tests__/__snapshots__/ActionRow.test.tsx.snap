@@ -46,6 +46,10 @@ exports[`<ActionRow /> renders compact 1`] = `
               receiver.test
             </a>
             : ed25519:8LXEySy...
+            <p>
+              with permission FullAccess
+               and nounce 0
+            </p>
           </div>
         </div>
         <div

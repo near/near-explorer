@@ -131,7 +131,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
           />
           {`: ${actionArgs.public_key.substring(0, 15)}...`}
           <p>
-            {`with permission [${actionArgs.access_key.permission.FunctionCall.method_names.join(
+            {`with function call [${actionArgs.access_key.permission.FunctionCall.method_names.join(
               ","
             )}]`}
             {` and nounce ${actionArgs.access_key.nonce}`}
