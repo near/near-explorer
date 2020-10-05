@@ -52,12 +52,13 @@ export default () => {
                 <div className="vote-bar-text">
                   {context.phase2TotalStake !== "" ? (
                     <div className="vote-data">
-                      {`${
+                      <strong>{`${
                         new BN(context.phase2TotalVotes)
                           .mul(new BN(10000))
                           .div(new BN(context.phase2TotalStake))
                           .toNumber() / 100
-                      }%`}
+                      }%`}</strong>
+                      (<LargeBalance amount={context.phase2TotalVotes} />)
                     </div>
                   ) : (
                     <Spinner animation="border" variant="secondary" />
@@ -96,7 +97,7 @@ export default () => {
             }
 
             .vote-data {
-              font-weight: 800;
+              font-weight: 400;
               color: #853a10;
             }
 
