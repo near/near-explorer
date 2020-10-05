@@ -123,18 +123,27 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     <>
       {typeof actionArgs.access_key.permission === "object" ? (
         <>
-          {"Access key added for contract: "}
+          {"Access key added for contract "}
           <AccountLink
             accountId={
               actionArgs.access_key.permission.FunctionCall.receiver_id
             }
           />
+          {`: ${actionArgs.public_key.substring(0, 15)}...`}
+          <p>
+            {`with permission to call [${actionArgs.access_key.permission.FunctionCall.method_names.join(
+              ","
+            )}] methods and nonce ${actionArgs.access_key.nonce}`}
+          </p>
         </>
       ) : (
         <>
           {"New key added for "}
           <AccountLink accountId={receiverId} />
           {`: ${actionArgs.public_key.substring(0, 15)}...`}
+          <p>
+            {`with permission ${actionArgs.access_key.permission} and nonce ${actionArgs.access_key.nonce}`}
+          </p>
         </>
       )}
     </>

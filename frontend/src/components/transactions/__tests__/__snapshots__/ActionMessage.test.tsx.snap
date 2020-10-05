@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ActionMessage /> renders AddKey 1`] = `
+exports[`<ActionMessage /> renders AddKey with permission FullAccess 1`] = `
 Array [
   "New key added for ",
   <a
@@ -12,6 +12,27 @@ Array [
     receiver.test
   </a>,
   ": ed25519:BgXFiJS...",
+  <p>
+    with permission FullAccess and nonce 0
+  </p>,
+]
+`;
+
+exports[`<ActionMessage /> renders AddKey with permission function call 1`] = `
+Array [
+  "Access key added for contract ",
+  <a
+    className="account-link"
+    href="/accounts/stake"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    stake
+  </a>,
+  ": ed25519:BgXFiJS...",
+  <p>
+    with permission to call [add_request,delete_request,confirm,add_request_and_confirm] methods and nonce 0
+  </p>,
 ]
 `;
 
