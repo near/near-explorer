@@ -39,7 +39,7 @@ Array [
             >
               New account created: 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -56,7 +56,7 @@ Array [
             >
               by 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -144,7 +144,7 @@ Array [
             >
               New key added for 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -165,7 +165,7 @@ Array [
             >
               by 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -257,7 +257,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
           >
             Called method: 'addMessage' in contract: 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/receiver2.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -313,7 +313,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
           >
             by 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/signer2.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -405,7 +405,7 @@ Array [
             >
               New account created: 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -422,7 +422,7 @@ Array [
             >
               by 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -510,7 +510,7 @@ Array [
             >
               New key added for 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -531,7 +531,7 @@ Array [
             >
               by 
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}

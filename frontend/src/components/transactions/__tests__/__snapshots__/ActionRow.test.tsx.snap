@@ -38,7 +38,7 @@ exports[`<ActionRow /> renders compact 1`] = `
           >
             New key added for 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/receiver.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -59,7 +59,7 @@ exports[`<ActionRow /> renders compact 1`] = `
           >
             by 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/signer.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -150,7 +150,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
           >
             Called method: 'incrementCounter' in contract: 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/receiver.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -206,7 +206,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
           >
             by 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/signer.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -297,7 +297,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
           >
             New account created: 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/receiver.test"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -314,7 +314,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
           >
             by 
             <a
-              className="account-link"
+              className="jsx-3150401870 account-link"
               href="/accounts/signer.test"
               onClick={[Function]}
               onMouseEnter={[Function]}

@@ -2,18 +2,18 @@
 
 exports[`<AccountLink /> renders long account id 1`] = `
 <a
-  className="account-link"
+  className="jsx-3150401870 account-link"
   href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
   onClick={[Function]}
   onMouseEnter={[Function]}
 >
-  b7df2. . .2d4.lockup.near
+  b7df2…2d4.lockup.near
 </a>
 `;
 
 exports[`<AccountLink /> renders short account id 1`] = `
 <a
-  className="account-link"
+  className="jsx-3150401870 account-link"
   href="/accounts/jerry.zest.near"
   onClick={[Function]}
   onMouseEnter={[Function]}

@@ -6,9 +6,16 @@ export interface Props {
 
 export default ({ accountId }: Props) => {
   return (
-    <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
-      <a className="account-link">{truncateAccountId(accountId)}</a>
-    </Link>
+    <>
+      <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
+        <a className="account-link">{truncateAccountId(accountId)}</a>
+      </Link>
+      <style jsx>{`
+        .account-link {
+          white-space: nowrap;
+        }
+      `}</style>
+    </>
   );
 };
 
@@ -17,6 +24,6 @@ export function truncateAccountId(
   lengthThreshold: number = 25
 ) {
   return accountId.length > lengthThreshold
-    ? accountId.slice(0, 5) + ". . ." + accountId.slice(accountId.length - 15)
+    ? accountId.slice(0, 5) + "…" + accountId.slice(accountId.length - 15)
     : accountId;
 }

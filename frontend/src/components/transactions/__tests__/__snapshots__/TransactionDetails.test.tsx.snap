@@ -41,7 +41,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -87,7 +87,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -489,7 +489,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/signer2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -535,7 +535,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/receiver2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -937,7 +937,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/signer2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
@@ -983,7 +983,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <a
-                className="account-link"
+                className="jsx-3150401870 account-link"
                 href="/accounts/receiver2.test"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
