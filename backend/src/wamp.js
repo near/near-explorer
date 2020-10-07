@@ -14,9 +14,13 @@ const wampHandlers = {};
 
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   let geo = geoip.lookup(nodeInfo.ip_address);
-  nodeInfo.latitude = geo.ll[0];
-  nodeInfo.longitude = geo.ll[1];
-  nodeInfo.city = geo.city;
+  if (geo) {
+    nodeInfo.latitude = geo.ll[0];
+    nodeInfo.longitude = geo.ll[1];
+    nodeInfo.city = geo.city;
+  } else {
+    console.warn("Node Telemetry failed to lookup geoIP for ", nodeInfo);
+  }
   return saveNodeIntoDatabase(nodeInfo);
 };
 
