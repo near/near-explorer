@@ -4,7 +4,7 @@ exports[`<ActionMessage /> renders AddKey with permission FullAccess 1`] = `
 Array [
   "New key added for ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -22,7 +22,7 @@ exports[`<ActionMessage /> renders AddKey with permission function call 1`] = `
 Array [
   "Access key added for contract ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/stake"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -40,7 +40,7 @@ exports[`<ActionMessage /> renders CreateAccount 1`] = `
 Array [
   "New account created: ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -54,7 +54,7 @@ exports[`<ActionMessage /> renders DeleteAccount 1`] = `
 Array [
   "Account deleted: ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -70,7 +70,7 @@ exports[`<ActionMessage /> renders DeployContract 1`] = `
 Array [
   "Contract deployed: ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -84,7 +84,7 @@ exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
   "Called method: 'method_name' in contract: ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -98,7 +98,7 @@ exports[`<ActionMessage /> renders FunctionCall with details 1`] = `
 Array [
   "Called method: 'method_name' in contract: ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/receiver2.test"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -178,7 +178,7 @@ Array [
   </span>,
   " to ",
   <a
-    className="account-link"
+    className="jsx-3150401870 account-link"
     href="/accounts/receiver.test"
     onClick={[Function]}
     onMouseEnter={[Function]}

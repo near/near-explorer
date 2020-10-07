@@ -36,7 +36,7 @@ exports[`<AccountRow /> renders with long name 1`] = `
         <div
           className="transaction-row-title col"
         >
-          b7df2. . .2d4.lockup.near
+          b7df2…2d4.lockup.near
         </div>
       </div>
     </div>
