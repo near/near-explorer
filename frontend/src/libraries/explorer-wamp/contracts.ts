@@ -54,14 +54,11 @@ export default class ContractsApi extends ExplorerApi {
   }
 
   async queryCodeHash(id: string) {
-    const account = await this.call<any>("nearcore-query", [
-      `account/${id}`,
-      "",
-    ]);
+    const account = await this.call<any>("nearcore-view-account", [id]);
     return account["code_hash"];
   }
 
   async queryAccessKey(id: string) {
-    return await this.call<any>("nearcore-query", [`access_key/${id}`, ""]);
+    return await this.call<any>("nearcore-view-access-key-list", [id]);
   }
 }

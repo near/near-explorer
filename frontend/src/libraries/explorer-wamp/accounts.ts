@@ -95,6 +95,6 @@ export default class AccountsApi extends ExplorerApi {
   }
 
   async queryAccount(id: string): Promise<any> {
-    return await this.call<any>("nearcore-query", [`account/${id}`, ""]);
+    return await this.call<any>("nearcore-view-account", [id]);
   }
 }

@@ -66,8 +66,20 @@ wampHandlers["select-postgres"] = async ([query, replacements]) => {
   });
 };
 
-wampHandlers["nearcore-query"] = async ([path, data]) => {
-  return await nearRpc.query(path, data);
+wampHandlers["nearcore-view-account"] = async ([accountId]) => {
+  return await nearRpc.sendJsonRpc("query", {
+    request_type: "view_account",
+    finality: "final",
+    account_id: accountId,
+  });
+};
+
+wampHandlers["nearcore-view-access-key-list"] = async ([accountId]) => {
+  return await nearRpc.sendJsonRpc("query", {
+    request_type: "view_access_key_list",
+    finality: "final",
+    account_id: accountId,
+  });
 };
 
 wampHandlers["nearcore-tx"] = async ([transactionHash, accountId]) => {
