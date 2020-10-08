@@ -65,7 +65,7 @@ exports[`<AccountDetails /> renders 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Locked
+              Ⓝ Staked Balance
               <div
                 className="jsx-782042476 term-helper"
               >

@@ -106,11 +106,19 @@ export default class AccountsApi extends ExplorerApi {
       sha256(Buffer.from(accountId)).substring(0, 40) +
       "." +
       LOCKUP_ACCOUNT_ID_SUFFIX;
-    const lockupAccount = await this.queryAccount(lockupAccountId);
+    // TODO: when lockup_timestamp giving, fetching that from contract directly
+    const [lockupAccount, lockupTimestamp] = await Promise.all([
+      this.queryAccount(lockupAccountId),
+      this.call<AccountBasicInfo[]>("select", [
+        `SELECT created_at_block_timestamp as createdAtBlockTimestamp
+        FROM accounts
+        WHERE account_id = :lockupAccountId
+      `,
+        { lockupAccountId },
+      ]).then((accounts) => accounts[0].createdAtBlockTimestamp),
+    ]);
     if (lockupAccount) {
       let lockupAmount = lockupAccount.amount;
-      //need fix here
-      let lockupTimestamp = 1601769600000; // hard code Oct 3 17:00
       return {
         lockupAccountId,
         lockupAmount,
