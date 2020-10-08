@@ -31,7 +31,7 @@ Array [
   </a>,
   ": ed25519:BgXFiJS...",
   <p>
-    with permission to call [add_request,delete_request,confirm,add_request_and_confirm] methods and nonce 0
+    with permission to call (add_request, delete_request, confirm, add_request_and_confirm) methods and nonce 0
   </p>,
 ]
 `;
