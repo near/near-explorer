@@ -106,7 +106,7 @@ export default class AccountsApi extends ExplorerApi {
       sha256(Buffer.from(accountId)).substring(0, 40) +
       "." +
       LOCKUP_ACCOUNT_ID_SUFFIX;
-    // TODO: when lockup_timestamp giving, fetching that from contract directly
+
     const [lockupAccount, lockupTimestamp] = await Promise.all([
       this.queryAccount(lockupAccountId),
       this.call<AccountBasicInfo[]>("select", [
