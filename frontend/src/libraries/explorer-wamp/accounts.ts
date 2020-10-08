@@ -115,7 +115,9 @@ export default class AccountsApi extends ExplorerApi {
         WHERE account_id = :lockupAccountId
       `,
         { lockupAccountId },
-      ]).then((accounts) => accounts[0].createdAtBlockTimestamp),
+      ]).then((accounts) =>
+        accounts[0] ? accounts[0].createdAtBlockTimestamp : undefined
+      ),
     ]);
     if (lockupAccount) {
       let lockupAmount = lockupAccount.amount;

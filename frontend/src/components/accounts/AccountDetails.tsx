@@ -176,9 +176,13 @@ export default class extends React.Component<Props, State> {
                   </Term>
                 }
                 imgLink="/static/images/icon-storage.svg"
-                text={moment(lockupTimestamp).format(
-                  "MMMM DD, YYYY [at] h:mm:ssa"
-                )}
+                text={
+                  lockupTimestamp
+                    ? moment(lockupTimestamp).format(
+                        "MMMM DD, YYYY [at] h:mm:ssa"
+                      )
+                    : "N/A"
+                }
               />
             </Col>
           </Row>
