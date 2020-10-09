@@ -18,7 +18,7 @@ Array [
 ]
 `;
 
-exports[`<ActionMessage /> renders AddKey with permission function call 1`] = `
+exports[`<ActionMessage /> renders AddKey with permission function call to call any method 1`] = `
 Array [
   "Access key added for contract ",
   <a
@@ -31,7 +31,25 @@ Array [
   </a>,
   ": ed25519:BgXFiJS...",
   <p>
-    with permission to call [add_request,delete_request,confirm,add_request_and_confirm] methods and nonce 0
+    with permission to call any methods and nonce 0
+  </p>,
+]
+`;
+
+exports[`<ActionMessage /> renders AddKey with permission function call to call specific methods 1`] = `
+Array [
+  "Access key added for contract ",
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/stake"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    stake
+  </a>,
+  ": ed25519:BgXFiJS...",
+  <p>
+    with permission to call (add_request, delete_request, confirm, add_request_and_confirm) methods and nonce 0
   </p>,
 ]
 `;
