@@ -82,15 +82,6 @@ wampHandlers["nearcore-view-access-key-list"] = async ([accountId]) => {
   });
 };
 
-wampHandlers["nearcore-view-state"] = async ([contractId]) => {
-  return await nearRpc.sendJsonRpc("query", {
-    request_type: "view_state",
-    finality: "final",
-    account_id: contractId,
-    prefix_base64: "U1RBVEU=",
-  });
-};
-
 wampHandlers["nearcore-tx"] = async ([transactionHash, accountId]) => {
   return await nearRpc.sendJsonRpc("tx", [transactionHash, accountId]);
 };
