@@ -1,6 +1,11 @@
 import { sha256 } from "js-sha256";
 import { ExplorerApi } from ".";
 
+import * as nearAPI from "near-api-js";
+
+const nearRpcUrl = "https://rpc.mainnet.near.org";
+const nearRpc = new nearAPI.providers.JsonRpcProvider(nearRpcUrl);
+
 export interface AccountBasicInfo {
   id: string;
   createdByTransactionHash: string;
@@ -20,7 +25,9 @@ interface AccountInfo {
   storagePaidAt: number;
 }
 
-export type Account = AccountBasicInfo & AccountStats & AccountInfo;
+export type Account = AccountBasicInfo &
+  AccountStats &
+  AccountInfo & { storageAmountPerByte: string };
 
 export interface AccountPagination {
   endTimestamp: number;
@@ -30,7 +37,12 @@ const LOCKUP_ACCOUNT_ID_SUFFIX = "lockup.near";
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
-      const [accountInfo, accountStats, accountBasic] = await Promise.all([
+      const [
+        accountInfo,
+        accountStats,
+        accountBasic,
+        config,
+      ] = await Promise.all([
         this.queryAccount(id),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
@@ -52,7 +64,11 @@ export default class AccountsApi extends ExplorerApi {
             id,
           },
         ]).then((accounts) => accounts[0]),
+        nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
       ]);
+      const storageAmountPerByte =
+        config.runtime_config.storage_amount_per_byte;
+      console.log(storageAmountPerByte);
       return {
         amount: accountInfo.amount,
         locked: accountInfo.locked,
@@ -60,6 +76,7 @@ export default class AccountsApi extends ExplorerApi {
         storagePaidAt: accountInfo.storage_paid_at,
         ...accountBasic,
         ...accountStats,
+        storageAmountPerByte,
       };
     } catch (error) {
       console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
@@ -100,33 +117,37 @@ export default class AccountsApi extends ExplorerApi {
     return await this.call<any>("nearcore-view-account", [id]);
   }
 
-  // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
-  async queryLockupAccountInfo(accountId: string) {
+  async queryLockupAccountInfo(accountId: string): Promise<any> {
+    // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
     const lockupAccountId =
       sha256(Buffer.from(accountId)).substring(0, 40) +
       "." +
       LOCKUP_ACCOUNT_ID_SUFFIX;
-
-    const [lockupAccount, lockupTimestamp] = await Promise.all([
-      this.queryAccount(lockupAccountId),
-      this.call<AccountBasicInfo[]>("select", [
-        `SELECT created_at_block_timestamp as createdAtBlockTimestamp
-        FROM accounts
-        WHERE account_id = :lockupAccountId
-      `,
-        { lockupAccountId },
-      ]).then((accounts) =>
-        accounts[0] ? accounts[0].createdAtBlockTimestamp : undefined
-      ),
-    ]);
-    if (lockupAccount) {
-      let lockupAmount = lockupAccount.amount;
-      return {
-        lockupAccountId,
-        lockupAmount,
-        lockupTimestamp,
-      };
+    try {
+      const lockupAccount = await this.queryAccount(lockupAccountId);
+      if (lockupAccount) {
+        // const lockupAmount = this.call<any>("get-lockup-amount", [lockupAccountId])
+        const account = new nearAPI.Account({ provider: nearRpc });
+        const lockupAmount = await account.viewFunction(
+          lockupAccountId,
+          "get_locked_amount",
+          {}
+        );
+        const unlockupAmount = await account.viewFunction(
+          lockupAccountId,
+          "get_owners_balance",
+          {}
+        );
+        return {
+          lockupAccountId,
+          lockupAmount,
+          unlockupAmount,
+        };
+      }
+      return;
+    } catch (error) {
+      console.error("query LockupAccount is not available due to: ");
+      console.error(error);
     }
-    return;
   }
 }
