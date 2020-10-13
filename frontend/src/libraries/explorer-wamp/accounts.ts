@@ -126,7 +126,6 @@ export default class AccountsApi extends ExplorerApi {
     try {
       const lockupAccount = await this.queryAccount(lockupAccountId);
       if (lockupAccount) {
-        // const lockupAmount = this.call<any>("get-lockup-amount", [lockupAccountId])
         const account = new nearAPI.Account({ provider: nearRpc });
         const lockupAmount = await account.viewFunction(
           lockupAccountId,
