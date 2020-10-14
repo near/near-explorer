@@ -47,16 +47,3 @@ exports.wampNearExplorerBackendSecret =
   process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
 
 exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;
-
-let phase2VoteContractName = process.env.NEAR_PHASE2_VOTE_CONTRACT_NAME;
-if (!phase2VoteContractName) {
-  if (exports.wampNearNetworkName === "mainnet") {
-    phase2VoteContractName = "transfer-vote.near";
-  } else if (exports.wampNearNetworkName === "testnet") {
-    phase2VoteContractName = "vote.f863973.m0";
-  }
-}
-exports.phase2VoteContractName = phase2VoteContractName;
-
-exports.regularCheckPhase2VoteInterval =
-  parseInt(process.env.NEAR_REGULAR_CHECK_PHASE2_VOTE_INTERVAL) || 1000;
