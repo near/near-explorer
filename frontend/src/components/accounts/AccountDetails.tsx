@@ -46,20 +46,15 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { account } = this.props;
-    const { lockupAccountId, lockupAmount, unlockupAmount } = this.state;
-    let minimumBalance = new BN(account.storageAmountPerByte)
-      .mul(new BN(account.storageUsage))
-      .toString();
-    let availableBalance = new BN(account.amount)
-      .sub(new BN(minimumBalance))
-      .toString();
-    let totalBalance;
-    if (lockupAmount && unlockupAmount) {
-      totalBalance = new BN(account.amount)
-        .add(new BN(account.locked))
-        .add(new BN(lockupAmount))
-        .add(new BN(unlockupAmount))
-        .toString();
+    const { lockupAccountId, lockupBalance } = this.state;
+    const stakedBalanceBN = new BN(account.locked);
+    const nonStakedBalanceBN = new BN(account.amount);
+    const minimumBalanceBN = new BN(account.storageAmountPerByte).mul(new BN(account.storageUsage));
+    const minimumNonStakedBalanceBN = stakedBalanceBN.gt(minimumBalanceBN) ? new BN(0) : minimumBalanceBN.sub(stakedBalanceBN);
+    const availableBalance = nonStakedBalanceBN.sub(minimumLiquidBalanceBN);
+    let totalBalanceBN = stakedBalanceBN.add(nonStakedBalanceBN);
+    if (lockupAmount) {
+      totalBalanceBN = totalBalanceBN.add(new BN(lockupAmount));
     }
     return (
       <div className="account-info-container">
