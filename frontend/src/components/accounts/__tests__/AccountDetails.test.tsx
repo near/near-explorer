@@ -20,6 +20,9 @@ describe("<AccountDetails />", () => {
               "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
             accountIndex: 1234567890,
             storageAmountPerByte: "1000000000000000000000",
+            lockupAccountId:
+              "c3e5988357bc5ffe511fff286e03d05505a76bc1.lockup.near",
+            lockupAmount: "5000000000000000000000000",
           }}
         />
       )

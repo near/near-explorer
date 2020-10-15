@@ -5,7 +5,7 @@ import React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
+import * as A from "../../libraries/explorer-wamp/accounts";
 
 import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
@@ -17,44 +17,21 @@ export interface Props {
   account: A.Account;
 }
 
-interface State {
-  lockupAccountId?: string;
-  lockupAmount?: string;
-  unlockupAmount?: string;
-}
-export default class extends React.Component<Props, State> {
-  state: State = {};
-
-  collectLockupInfo = async () => {
-    new AccountsApi()
-      .queryLockupAccountInfo(this.props.account.id)
-      .then((lockupInfo) => {
-        if (lockupInfo) {
-          this.setState({
-            lockupAccountId: lockupInfo.lockupAccountId,
-            lockupAmount: lockupInfo.lockupAmount,
-            unlockupAmount: lockupInfo.unlockupAmount,
-          });
-        }
-      })
-      .catch((err) => console.error(err));
-  };
-
-  componentDidMount() {
-    this.collectLockupInfo();
-  }
-
+export default class extends React.Component<Props> {
   render() {
     const { account } = this.props;
-    const { lockupAccountId, lockupBalance } = this.state;
     const stakedBalanceBN = new BN(account.locked);
     const nonStakedBalanceBN = new BN(account.amount);
-    const minimumBalanceBN = new BN(account.storageAmountPerByte).mul(new BN(account.storageUsage));
-    const minimumNonStakedBalanceBN = stakedBalanceBN.gt(minimumBalanceBN) ? new BN(0) : minimumBalanceBN.sub(stakedBalanceBN);
+    const minimumBalanceBN = new BN(account.storageAmountPerByte).mul(
+      new BN(account.storageUsage)
+    );
+    const minimumLiquidBalanceBN = stakedBalanceBN.gt(minimumBalanceBN)
+      ? new BN(0)
+      : minimumBalanceBN.sub(stakedBalanceBN);
     const availableBalance = nonStakedBalanceBN.sub(minimumLiquidBalanceBN);
     let totalBalanceBN = stakedBalanceBN.add(nonStakedBalanceBN);
-    if (lockupAmount) {
-      totalBalanceBN = totalBalanceBN.add(new BN(lockupAmount));
+    if (account.lockupAmount) {
+      totalBalanceBN = totalBalanceBN.add(new BN(account.lockupAmount));
     }
     return (
       <div className="account-info-container">
@@ -89,7 +66,7 @@ export default class extends React.Component<Props, State> {
                 </Term>
               }
               imgLink="/static/images/icon-storage.svg"
-              text={<Balance amount={minimumBalance} />}
+              text={<Balance amount={minimumBalanceBN} />}
             />
           </Col>
           <Col md="3">
@@ -131,7 +108,7 @@ export default class extends React.Component<Props, State> {
             />
           </Col>
         </Row>
-        {lockupAccountId && (
+        {account.lockupAccountId && (
           <Row noGutters>
             <Col md="3">
               <CardCell
@@ -142,7 +119,7 @@ export default class extends React.Component<Props, State> {
                     }
                   </Term>
                 }
-                text={<Balance amount={totalBalance} />}
+                text={<Balance amount={totalBalanceBN} />}
                 className="border-0"
               />
             </Col>
@@ -162,7 +139,7 @@ export default class extends React.Component<Props, State> {
                     </a>
                   </Term>
                 }
-                text={<Balance amount={lockupAmount} />}
+                text={<Balance amount={account.lockupAmount} />}
               />
             </Col>
             <Col md="3">
@@ -201,7 +178,7 @@ export default class extends React.Component<Props, State> {
                   </Term>
                 }
                 imgLink="/static/images/icon-m-transaction.svg"
-                text={<AccountLink accountId={lockupAccountId} />}
+                text={<AccountLink accountId={account.lockupAccountId} />}
               />
             </Col>
           </Row>

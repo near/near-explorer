@@ -2,6 +2,11 @@ import { sha256 } from "js-sha256";
 import { ExplorerApi } from ".";
 
 import * as nearAPI from "near-api-js";
+import getConfig from "next/config";
+
+const {
+  publicRuntimeConfig: { nearNetworks },
+} = getConfig();
 
 const nearRpcUrl = "https://rpc.mainnet.near.org";
 const nearRpc = new nearAPI.providers.JsonRpcProvider(nearRpcUrl);
@@ -25,15 +30,20 @@ interface AccountInfo {
   storagePaidAt: number;
 }
 
+interface LockupInfo {
+  lockupAccountId?: string;
+  lockupAmount?: string;
+}
+
 export type Account = AccountBasicInfo &
   AccountStats &
-  AccountInfo & { storageAmountPerByte: string };
+  AccountInfo &
+  LockupInfo & { storageAmountPerByte: string };
 
 export interface AccountPagination {
   endTimestamp: number;
   accountIndex: number;
 }
-const LOCKUP_ACCOUNT_ID_SUFFIX = "lockup.near";
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(id: string): Promise<Account> {
     try {
@@ -42,6 +52,7 @@ export default class AccountsApi extends ExplorerApi {
         accountStats,
         accountBasic,
         config,
+        lockupInfo,
       ] = await Promise.all([
         this.queryAccount(id),
         this.call<AccountStats[]>("select", [
@@ -65,10 +76,10 @@ export default class AccountsApi extends ExplorerApi {
           },
         ]).then((accounts) => accounts[0]),
         nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
+        this.queryLockupAccountInfo(id),
       ]);
       const storageAmountPerByte =
         config.runtime_config.storage_amount_per_byte;
-      console.log(storageAmountPerByte);
       return {
         amount: accountInfo.amount,
         locked: accountInfo.locked,
@@ -76,6 +87,7 @@ export default class AccountsApi extends ExplorerApi {
         storagePaidAt: accountInfo.storage_paid_at,
         ...accountBasic,
         ...accountStats,
+        ...lockupInfo,
         storageAmountPerByte,
       };
     } catch (error) {
@@ -122,25 +134,19 @@ export default class AccountsApi extends ExplorerApi {
     const lockupAccountId =
       sha256(Buffer.from(accountId)).substring(0, 40) +
       "." +
-      LOCKUP_ACCOUNT_ID_SUFFIX;
+      nearNetworks[0].lockupAccountIdSuffix;
     try {
       const lockupAccount = await this.queryAccount(lockupAccountId);
       if (lockupAccount) {
-        const account = new nearAPI.Account({ provider: nearRpc });
+        const account = new nearAPI.Account({ provider: nearRpc }, "");
         const lockupAmount = await account.viewFunction(
           lockupAccountId,
           "get_locked_amount",
           {}
         );
-        const unlockupAmount = await account.viewFunction(
-          lockupAccountId,
-          "get_owners_balance",
-          {}
-        );
         return {
           lockupAccountId,
           lockupAmount,
-          unlockupAmount,
         };
       }
       return;
