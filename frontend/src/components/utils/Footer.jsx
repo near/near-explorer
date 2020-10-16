@@ -101,6 +101,7 @@ export default () => (
       }
 
       .need-help-contact-bottom {
+        font-size: 15px;
         color: #0072ce !important;
         display: block;
       }
