@@ -1,5 +1,3 @@
-import BN from "bn.js";
-
 import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
@@ -15,12 +13,14 @@ interface AccountStats {
 }
 
 interface AccountInfo {
-  stakedBalance: BN;
-  nonStakedBalance: BN;
-  minimumBalance: BN;
-  availableBalance: BN;
-  totalBalance: BN;
-  storageUsage: BN;
+  stakedBalance: string;
+  nonStakedBalance: string;
+  minimumBalance: string;
+  availableBalance: string;
+  totalBalance: string;
+  storageUsage: string;
+  lockupTotalBalance?: string;
+  lockupAccountId?: string;
 }
 
 export type Account = AccountBasicInfo & AccountStats & AccountInfo;
@@ -57,12 +57,7 @@ export default class AccountsApi extends ExplorerApi {
         ]).then((accounts) => accounts[0]),
       ]);
       return {
-        stakedBalance: new BN(accountInfo.stakedBalance),
-        nonStakedBalance: new BN(accountInfo.nonStakedBalance),
-        minimumBalance: new BN(accountInfo.minimumBalance),
-        availableBalance: new BN(accountInfo.availableBalance),
-        totalBalance: new BN(accountInfo.totalBalance),
-        storageUsage: new BN(accountInfo.storageUsage),
+        ...accountInfo,
         ...accountBasic,
         ...accountStats,
       };

@@ -8,7 +8,6 @@ export interface NearNetwork {
   name: string;
   explorerLink: string;
   aliases: [string];
-  lockupAccountIdSuffix: string;
 }
 
 export function getNearNetwork(hostname: string): NearNetwork {

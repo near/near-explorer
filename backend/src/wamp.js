@@ -9,6 +9,7 @@ const {
   wampNearNetworkName,
   wampNearExplorerUrl,
   wampNearExplorerBackendSecret,
+  nearLockupAccountIdSuffix,
 } = require("./config");
 
 const { nearRpc } = require("./near");
@@ -127,7 +128,7 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
 
   const storageUsage = new BN(accountInfo.storage_usage);
   const storageAmountPerByte = new BN(
-    config.runtime_config.storage_amount_per_byte
+    genesisConfig.runtime_config.storage_amount_per_byte
   );
   const stakedBalance = new BN(accountInfo.locked);
   const nonStakedBalance = new BN(accountInfo.amount);
@@ -136,8 +137,8 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     BN.max(stakedBalance, minimumBalance)
   );
   let totalBalance = stakedBalance.add(nonStakedBalance);
-  if (lockupAccountInfo) {
-    totalBalance = totalBalance.add(lockupAccountInfo.totalBalance);
+  if (lockupTotalBalance) {
+    totalBalance = totalBalance.add(lockupTotalBalance);
   }
 
   return {
@@ -147,6 +148,10 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     minimumBalance: minimumBalance.toString(),
     availableBalance: availableBalance.toString(),
     totalBalance: totalBalance.toString(),
+    lockupTotalBalance: lockupTotalBalance
+      ? lockupTotalBalance.toString()
+      : undefined,
+    lockupAccountId: lockupTotalBalance ? lockupAccountId : undefined,
   };
 };
 

@@ -1,5 +1,4 @@
 import moment from "moment";
-import BN from "bn.js";
 
 import React from "react";
 
@@ -20,19 +19,7 @@ export interface Props {
 export default class extends React.Component<Props> {
   render() {
     const { account } = this.props;
-    const stakedBalanceBN = new BN(account.locked);
-    const nonStakedBalanceBN = new BN(account.amount);
-    const minimumBalanceBN = new BN(account.storageAmountPerByte).mul(
-      new BN(account.storageUsage)
-    );
-    const minimumLiquidBalanceBN = stakedBalanceBN.gt(minimumBalanceBN)
-      ? new BN(0)
-      : minimumBalanceBN.sub(stakedBalanceBN);
-    const availableBalance = nonStakedBalanceBN.sub(minimumLiquidBalanceBN);
-    let totalBalanceBN = stakedBalanceBN.add(nonStakedBalanceBN);
-    if (account.lockupAmount) {
-      totalBalanceBN = totalBalanceBN.add(new BN(account.lockupAmount));
-    }
+    console.log(account);
     return (
       <div className="account-info-container">
         <Row noGutters>
@@ -45,7 +32,7 @@ export default class extends React.Component<Props> {
                   }
                 </Term>
               }
-              text={<Balance amount={availableBalance} />}
+              text={<Balance amount={account.availableBalance} />}
               className="border-0"
             />
           </Col>
@@ -66,7 +53,7 @@ export default class extends React.Component<Props> {
                 </Term>
               }
               imgLink="/static/images/icon-storage.svg"
-              text={<Balance amount={minimumBalanceBN} />}
+              text={<Balance amount={account.minimumBalance} />}
             />
           </Col>
           <Col md="3">
@@ -108,7 +95,7 @@ export default class extends React.Component<Props> {
             />
           </Col>
         </Row>
-        {account.lockupAccountId && (
+        {account.lockupTotalBalance && (
           <Row noGutters>
             <Col md="3">
               <CardCell
@@ -119,14 +106,14 @@ export default class extends React.Component<Props> {
                     }
                   </Term>
                 }
-                text={<Balance amount={totalBalanceBN} />}
+                text={<Balance amount={account.totalBalance} />}
                 className="border-0"
               />
             </Col>
             <Col md="3">
               <CardCell
                 title={
-                  <Term title={"Ⓝ Lockup Balance"}>
+                  <Term title={"Ⓝ Total Lockup Balance"}>
                     {
                       "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance). "
                     }
@@ -139,7 +126,7 @@ export default class extends React.Component<Props> {
                     </a>
                   </Term>
                 }
-                text={<Balance amount={account.lockupAmount} />}
+                text={<Balance amount={account.lockupTotalBalance} />}
               />
             </Col>
             <Col md="3">
@@ -158,7 +145,7 @@ export default class extends React.Component<Props> {
                     </a>
                   </Term>
                 }
-                text={<Balance amount={account.locked} />}
+                text={<Balance amount={account.stakedBalance} />}
               />
             </Col>
             <Col md="3">
@@ -178,7 +165,13 @@ export default class extends React.Component<Props> {
                   </Term>
                 }
                 imgLink="/static/images/icon-m-transaction.svg"
-                text={<AccountLink accountId={account.lockupAccountId} />}
+                text={
+                  account.lockupAccountId ? (
+                    <AccountLink accountId={account.lockupAccountId} />
+                  ) : (
+                    ""
+                  )
+                }
               />
             </Col>
           </Row>
