@@ -47,17 +47,6 @@ const getCurrentNodes = (nodes) => {
   return currentValidators;
 };
 
-const getPhase2VoteStats = async (contractName) => {
-  const account = new nearApi.Account({ provider: nearRpc });
-  const [totalVotes, totalStake] = await account.viewFunction(
-    contractName,
-    "get_total_voted_stake",
-    {}
-  );
-  return { totalVotes, totalStake };
-};
-
 exports.nearRpc = nearRpc;
 exports.queryFinalTimestamp = queryFinalTimestamp;
 exports.queryNodeStats = queryNodeStats;
-exports.getPhase2VoteStats = getPhase2VoteStats;

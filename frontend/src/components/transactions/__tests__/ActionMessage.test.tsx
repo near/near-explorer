@@ -96,7 +96,30 @@ describe("<ActionMessage />", () => {
     ).toMatchSnapshot();
   });
 
-  it("renders AddKey with permission function call", () => {
+  it("renders AddKey with permission function call to call any method", () => {
+    expect(
+      renderer.create(
+        <ActionMessage
+          actionKind={"AddKey"}
+          actionArgs={{
+            access_key: {
+              permission: {
+                FunctionCall: {
+                  method_names: [],
+                  receiver_id: "stake",
+                },
+              },
+              nonce: 0,
+            },
+            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+          }}
+          transaction={TRANSACTIONS[0]}
+        />
+      )
+    ).toMatchSnapshot();
+  });
+
+  it("renders AddKey with permission function call to call specific methods", () => {
     expect(
       renderer.create(
         <ActionMessage
