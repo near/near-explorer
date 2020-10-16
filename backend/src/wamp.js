@@ -10,6 +10,7 @@ const {
   wampNearExplorerUrl,
   wampNearExplorerBackendSecret,
 } = require("./config");
+
 const { nearRpc } = require("./near");
 
 const wampHandlers = {};

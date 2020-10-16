@@ -58,7 +58,6 @@ const getPhase2VoteStats = async (contractName) => {
 };
 
 exports.nearRpc = nearRpc;
-exports.callViewMethod = callViewMethod;
 exports.queryFinalTimestamp = queryFinalTimestamp;
 exports.queryNodeStats = queryNodeStats;
 exports.getPhase2VoteStats = getPhase2VoteStats;
