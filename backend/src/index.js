@@ -89,7 +89,6 @@ async function main() {
   };
   setTimeout(regularCheckGenesis, 0);
 
-  // TODO: we should publish (push) the information about the new blocks/transcations via WAMP.
   const regularSyncNewNearcoreState = async () => {
     console.log("Starting regular new nearcore state sync...");
     try {
@@ -207,19 +206,3 @@ async function main() {
 }
 
 main();
-
-// future use for postgres database
-// const wampQueryPostgres = async () => {
-//   try {
-//     if (wamp) {
-//       const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.select-postgres`;
-//       const args = [`SELECT COUNT(*) from transactions`];
-//       const res = await wamp.session.call(uri, args);
-//       console.log(res[0]);
-//     }
-//   } catch (error) {
-//     console.warn("querying postgres is crashed due to:", error);
-//   }
-//   setTimeout(wampQueryPostgres, 1000);
-// };
-// setTimeout(wampQueryPostgres, 0);

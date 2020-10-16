@@ -1,6 +1,13 @@
 const models = require("../models");
+const { wampNearNetworkName } = require("./config");
 
 const query = async ([query, replacements]) => {
+  if (wampNearNetworkName === "testnet") {
+    return await models.sequelizePostgres.query(query, {
+      replacements,
+      type: models.Sequelize.QueryTypes.SELECT,
+    });
+  }
   return await models.sequelizeReadOnly.query(query, {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT,
