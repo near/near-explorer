@@ -34,7 +34,7 @@ export default () => (
               <div className="footer-help">
                 <span className="need-help-contact">Need Help?</span>
                 <span className="need-help-contact need-help-contact-bottom">
-                  Contact Us
+                  Join the community
                 </span>
               </div>
             </Col>
