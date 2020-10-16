@@ -73,10 +73,9 @@ export default () => (
       }
 
       .footer-help {
-        height: 80px;
         text-align: left;
         line-height: 1px;
-        padding: 8% 20%;
+        padding: 40px 20%;
       }
 
       .help-image {
