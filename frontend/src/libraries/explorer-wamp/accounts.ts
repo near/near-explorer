@@ -1,18 +1,9 @@
-import { sha256 } from "js-sha256";
+import BN from "bn.js";
+
 import { ExplorerApi } from ".";
 
-import * as nearAPI from "near-api-js";
-import getConfig from "next/config";
-
-const {
-  publicRuntimeConfig: { nearNetworks },
-} = getConfig();
-
-const nearRpcUrl = "https://rpc.mainnet.near.org";
-const nearRpc = new nearAPI.providers.JsonRpcProvider(nearRpcUrl);
-
 export interface AccountBasicInfo {
-  id: string;
+  accountId: string;
   createdByTransactionHash: string;
   createdAtBlockTimestamp: number;
   accountIndex: number;
@@ -24,71 +15,56 @@ interface AccountStats {
 }
 
 interface AccountInfo {
-  amount: string;
-  locked: string;
-  storageUsage: number;
-  storagePaidAt: number;
+  stakedBalance: BN;
+  nonStakedBalance: BN;
+  minimumBalance: BN;
+  availableBalance: BN;
+  totalBalance: BN;
+  storageUsage: BN;
 }
 
-interface LockupInfo {
-  lockupAccountId?: string;
-  lockupAmount?: string;
-}
-
-export type Account = AccountBasicInfo &
-  AccountStats &
-  AccountInfo &
-  LockupInfo & { storageAmountPerByte: string };
+export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 
 export interface AccountPagination {
   endTimestamp: number;
   accountIndex: number;
 }
+
 export default class AccountsApi extends ExplorerApi {
-  async getAccountInfo(id: string): Promise<Account> {
+  async getAccountInfo(accountId: string): Promise<Account> {
     try {
-      const [
-        accountInfo,
-        accountStats,
-        accountBasic,
-        config,
-        lockupInfo,
-      ] = await Promise.all([
-        this.queryAccount(id),
+      const [accountInfo, accountBasic, accountStats] = await Promise.all([
+        this.queryAccount(accountId),
+        this.call<AccountBasicInfo[]>("select", [
+          `SELECT account_id as accountId, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
+            FROM accounts
+            WHERE account_id = :accountId
+          `,
+          {
+            accountId,
+          },
+        ]).then((accounts) => accounts[0]),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
             (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
-              WHERE signer_id = :id) as outTransactionsCount,
+              WHERE signer_id = :accountId) as outTransactionsCount,
             (SELECT COUNT(transactions.hash) as inTransactionsCount FROM transactions
-              WHERE receiver_id = :id) as inTransactionsCount
+              WHERE receiver_id = :accountId) as inTransactionsCount
           `,
           {
-            id,
+            accountId,
           },
         ]).then((accounts) => accounts[0]),
-        this.call<AccountBasicInfo[]>("select", [
-          `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
-            FROM accounts
-            WHERE account_id = :id
-          `,
-          {
-            id,
-          },
-        ]).then((accounts) => accounts[0]),
-        nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
-        this.queryLockupAccountInfo(id),
       ]);
-      const storageAmountPerByte =
-        config.runtime_config.storage_amount_per_byte;
       return {
-        amount: accountInfo.amount,
-        locked: accountInfo.locked,
-        storageUsage: accountInfo.storage_usage,
-        storagePaidAt: accountInfo.storage_paid_at,
+        stakedBalance: new BN(accountInfo.stakedBalance),
+        nonStakedBalance: new BN(accountInfo.nonStakedBalance),
+        minimumBalance: new BN(accountInfo.minimumBalance),
+        availableBalance: new BN(accountInfo.availableBalance),
+        totalBalance: new BN(accountInfo.totalBalance),
+        storageUsage: new BN(accountInfo.storageUsage),
         ...accountBasic,
         ...accountStats,
-        ...lockupInfo,
-        storageAmountPerByte,
       };
     } catch (error) {
       console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
@@ -125,34 +101,7 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async queryAccount(id: string): Promise<any> {
-    return await this.call<any>("nearcore-view-account", [id]);
-  }
-
-  async queryLockupAccountInfo(accountId: string): Promise<any> {
-    // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
-    const lockupAccountId =
-      sha256(Buffer.from(accountId)).substring(0, 40) +
-      "." +
-      nearNetworks[0].lockupAccountIdSuffix;
-    try {
-      const lockupAccount = await this.queryAccount(lockupAccountId);
-      if (lockupAccount) {
-        const account = new nearAPI.Account({ provider: nearRpc }, "");
-        const lockupAmount = await account.viewFunction(
-          lockupAccountId,
-          "get_locked_amount",
-          {}
-        );
-        return {
-          lockupAccountId,
-          lockupAmount,
-        };
-      }
-      return;
-    } catch (error) {
-      console.error("query LockupAccount is not available due to: ");
-      console.error(error);
-    }
+  async queryAccount(accountId: string): Promise<any> {
+    return await this.call<any>("get-account-details", [accountId]);
   }
 }

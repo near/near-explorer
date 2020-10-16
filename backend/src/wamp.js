@@ -1,5 +1,7 @@
 const autobahn = require("autobahn");
+const BN = require("bn.js");
 const geoip = require("geoip-lite");
+const { sha256 } = require("js-sha256");
 
 const models = require("../models");
 
@@ -96,6 +98,55 @@ wampHandlers["nearcore-status"] = async () => {
 
 wampHandlers["nearcore-validators"] = async () => {
   return await nearRpc.sendJsonRpc("validators", [null]);
+};
+
+wampHandlers["get-account-details"] = async ([accountId]) => {
+  function generateLockupAccountIdFromAccountId(accountId) {
+    // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
+    return (
+      sha256(Buffer.from(accountId)).substring(0, 40) +
+      "." +
+      nearLockupAccountIdSuffix
+    );
+  }
+
+  const lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
+
+  const [accountInfo, lockupTotalBalance, genesisConfig] = await Promise.all([
+    nearRpc.sendJsonRpc("query", {
+      request_type: "view_account",
+      finality: "final",
+      account_id: accountId,
+    }),
+    nearRpc
+      .callViewMethod(lockupAccountId, "get_balance", {})
+      .then((balance) => new BN(balance)),
+    nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
+  ]);
+
+  const storageUsage = new BN(accountInfo.storage_usage);
+  const storageAmountPerByte = new BN(
+    config.runtime_config.storage_amount_per_byte
+  );
+  const stakedBalance = new BN(accountInfo.locked);
+  const nonStakedBalance = new BN(accountInfo.amount);
+  const minimumBalance = storageAmountPerByte.mul(storageUsage);
+  const availableBalance = nonStakedBalance.sub(
+    BN.max(stakedBalance, minimumBalance)
+  );
+  let totalBalance = stakedBalance.add(nonStakedBalance);
+  if (lockupAccountInfo) {
+    totalBalance = totalBalance.add(lockupAccountInfo.totalBalance);
+  }
+
+  return {
+    storageUsage: storageUsage.toString(),
+    stakedBalance: stakedBalance.toString(),
+    nonStakedBalance: nonStakedBalance.toString(),
+    minimumBalance: minimumBalance.toString(),
+    availableBalance: availableBalance.toString(),
+    totalBalance: totalBalance.toString(),
+  };
 };
 
 function setupWamp() {

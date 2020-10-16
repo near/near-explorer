@@ -1,8 +1,14 @@
-const nearlib = require("near-api-js");
+const nearApi = require("near-api-js");
 
 const { nearRpcUrl, wampNearNetworkName } = require("./config");
 
-const nearRpc = new nearlib.providers.JsonRpcProvider(nearRpcUrl);
+const nearRpc = new nearApi.providers.JsonRpcProvider(nearRpcUrl);
+
+// TODO: Provide an equivalent method in near-api-js, so we don't need to hack it around.
+nearRpc.callViewMethod = async function (contractName, methodName, args) {
+  const account = new nearApi.Account({ provider: this });
+  return await account.viewFunction(contractName, methodName, args);
+};
 
 const queryFinalTimestamp = async () => {
   const finalBlock = await nearRpc.sendJsonRpc("block", { finality: "final" });
@@ -34,7 +40,7 @@ const getCurrentNodes = (nodes) => {
   const {
     newValidators,
     removedValidators,
-  } = nearlib.validators.diffEpochValidators(currentValidators, nextValidators);
+  } = nearApi.validators.diffEpochValidators(currentValidators, nextValidators);
   signNewValidators(newValidators);
   signRemovedValidators(removedValidators);
   currentValidators = currentValidators.concat(newValidators);
@@ -42,7 +48,7 @@ const getCurrentNodes = (nodes) => {
 };
 
 const getPhase2VoteStats = async (contractName) => {
-  const account = new nearlib.Account({ provider: nearRpc });
+  const account = new nearApi.Account({ provider: nearRpc });
   const [totalVotes, totalStake] = await account.viewFunction(
     contractName,
     "get_total_voted_stake",
@@ -52,6 +58,7 @@ const getPhase2VoteStats = async (contractName) => {
 };
 
 exports.nearRpc = nearRpc;
+exports.callViewMethod = callViewMethod;
 exports.queryFinalTimestamp = queryFinalTimestamp;
 exports.queryNodeStats = queryNodeStats;
 exports.getPhase2VoteStats = getPhase2VoteStats;
