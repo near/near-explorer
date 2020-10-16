@@ -42,7 +42,7 @@ exports[`<AccountDetails /> renders 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                -.86142
+                43.45432
                  Ⓝ
               </span>
             </div>
@@ -89,7 +89,7 @@ exports[`<AccountDetails /> renders 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0.876
+                &lt;0.00001
                  Ⓝ
               </span>
             </div>
@@ -226,7 +226,7 @@ exports[`<AccountDetails /> renders 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                5.01457
+                9,876.54568
                  Ⓝ
               </span>
             </div>
@@ -249,7 +249,7 @@ exports[`<AccountDetails /> renders 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Lockup Balance
+              Ⓝ Total Lockup Balance
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -269,7 +269,7 @@ exports[`<AccountDetails /> renders 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                5
+                &lt;0.00001
                  Ⓝ
               </span>
             </div>
@@ -355,11 +355,11 @@ exports[`<AccountDetails /> renders 1`] = `
             >
               <a
                 className="jsx-3150401870 account-link"
-                href="/accounts/c3e5988357bc5ffe511fff286e03d05505a76bc1.lockup.near"
+                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                c3e59…bc1.lockup.near
+                gjtur…jsa.lockup.near
               </a>
             </div>
           </div>
