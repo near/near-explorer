@@ -34,7 +34,7 @@ export default () => (
               <div className="footer-help">
                 <span className="need-help-contact">Need Help?</span>
                 <span className="need-help-contact need-help-contact-bottom">
-                  Join the community
+                  Join Community
                 </span>
               </div>
             </Col>
@@ -73,7 +73,6 @@ export default () => (
       }
 
       .footer-help {
-        background-color: #ffffff;
         height: 80px;
         text-align: left;
         line-height: 1px;
@@ -101,7 +100,6 @@ export default () => (
       }
 
       .need-help-contact-bottom {
-        font-size: 15px;
         color: #0072ce !important;
         display: block;
       }
