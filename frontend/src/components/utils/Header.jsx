@@ -79,7 +79,7 @@ export default () => (
 
       .near-main-logo {
         width: 210px !important;
-        padding: 15px;
+        padding: 14px;
       }
 
       .near-main-container {

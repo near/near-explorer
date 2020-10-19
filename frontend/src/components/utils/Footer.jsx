@@ -34,7 +34,7 @@ export default () => (
               <div className="footer-help">
                 <span className="need-help-contact">Need Help?</span>
                 <span className="need-help-contact need-help-contact-bottom">
-                  Contact Us
+                  Join Community
                 </span>
               </div>
             </Col>
@@ -73,11 +73,9 @@ export default () => (
       }
 
       .footer-help {
-        background-color: #ffffff;
-        height: 80px;
         text-align: left;
         line-height: 1px;
-        padding: 8% 20%;
+        padding: 40px 20%;
       }
 
       .help-image {
