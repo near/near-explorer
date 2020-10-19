@@ -19,7 +19,6 @@ export interface Props {
 export default class extends React.Component<Props> {
   render() {
     const { account } = this.props;
-    console.log(account);
     return (
       <div className="account-info-container">
         <Row noGutters>
