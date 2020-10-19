@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<AccountDetails /> renders 1`] = `
+exports[`<AccountDetails /> renders with lockup account 1`] = `
 <div
   className="jsx-1455372711 account-info-container"
 >
@@ -189,10 +189,10 @@ exports[`<AccountDetails /> renders 1`] = `
     </div>
   </div>
   <div
-    className="row no-gutters"
+    className="row"
   >
     <div
-      className="col-md-3"
+      className="col-md-4"
     >
       <div
         className="card-cell border-0 card"
@@ -235,50 +235,7 @@ exports[`<AccountDetails /> renders 1`] = `
       </div>
     </div>
     <div
-      className="col-md-3"
-    >
-      <div
-        className="card-cell  card"
-      >
-        <div
-          className="card-body"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
-            >
-              Ⓝ Total Lockup Balance
-              <div
-                className="jsx-782042476 term-helper"
-              >
-                <img
-                  className="jsx-782042476 info"
-                  onClick={[Function]}
-                  src="/static/images/icon-info.svg"
-                />
-              </div>
-            </div>
-            <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-            >
-              <span
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              >
-                &lt;0.00001
-                 Ⓝ
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="col-md-3"
+      className="col-md-4"
     >
       <div
         className="card-cell  card"
@@ -321,7 +278,97 @@ exports[`<AccountDetails /> renders 1`] = `
       </div>
     </div>
     <div
-      className="col-md-3"
+      className="col-md-4"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Ⓝ Non Staked Balance
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                0.00065
+                 Ⓝ
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="row no-gutters"
+  >
+    <div
+      className="col-md-6"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Ⓝ Total Lockup Balance
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-6"
     >
       <div
         className="card-cell  card"
@@ -441,6 +488,411 @@ exports[`<AccountDetails /> renders 1`] = `
                 onMouseEnter={[Function]}
               >
                 EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<AccountDetails /> renders without lockup account 1`] = `
+<div
+  className="jsx-1455372711 account-info-container"
+>
+  <div
+    className="row no-gutters"
+  >
+    <div
+      className="col-md-3"
+    >
+      <div
+        className="card-cell border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Ⓝ Available Balance
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                0.00043
+                 Ⓝ
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-3"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              <img
+                className="jsx-1276427197 card-cell-title-img"
+                src="/static/images/icon-storage.svg"
+              />
+              Minimum Balance
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-3"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              <img
+                className="jsx-1276427197 card-cell-title-img"
+                src="/static/images/icon-storage.svg"
+              />
+              Storage Used
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              1876 B
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-3"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              <img
+                className="jsx-1276427197 card-cell-title-img"
+                src="/static/images/icon-m-transaction.svg"
+              />
+              Transactions
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                className="jsx-1455372711"
+              >
+                ↑
+                7
+              </span>
+                
+              <span
+                className="jsx-1455372711"
+              >
+                ↓
+                10
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="row"
+  >
+    <div
+      className="col-md-4"
+    >
+      <div
+        className="card-cell border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Ⓝ Total Balance
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                98.76545
+                 Ⓝ
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-4"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Ⓝ Staked Balance
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                0
+                 Ⓝ
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-4"
+    >
+      <div
+        className="card-cell  card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Ⓝ Non Staked Balance
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                &lt;0.00001
+                 Ⓝ
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="border-0 row no-gutters"
+  >
+    <div
+      className="col-md-4"
+    >
+      <div
+        className="card-cell block-card-created account-card-back border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Created
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              February 01, 2019 at 12:00:00am
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-8"
+    >
+      <div
+        className="card-cell block-card-created-text account-card-back border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Creation Hash
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <a
+                className="transaction-link"
+                href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL
               </a>
             </div>
           </div>

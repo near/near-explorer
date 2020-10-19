@@ -95,22 +95,55 @@ export default class extends React.Component<Props> {
             />
           </Col>
         </Row>
+        <Row>
+          <Col md="4">
+            <CardCell
+              title={
+                <Term title={"Ⓝ Total Balance"}>
+                  {
+                    "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake."
+                  }
+                </Term>
+              }
+              text={<Balance amount={account.totalBalance} />}
+              className="border-0"
+            />
+          </Col>
+          <Col md="4">
+            <CardCell
+              title={
+                <Term title={"Ⓝ Staked Balance"}>
+                  {
+                    "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. "
+                  }
+                  <a
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
+              text={<Balance amount={account.stakedBalance} />}
+            />
+          </Col>
+          <Col md="4">
+            <CardCell
+              title={
+                <Term title={"Ⓝ Non Staked Balance"}>
+                  {
+                    "The amount of NEAR Token that is stored as amount in your account."
+                  }
+                </Term>
+              }
+              text={<Balance amount={account.nonStakedBalance} />}
+            />
+          </Col>
+        </Row>
         {account.lockupTotalBalance && (
           <Row noGutters>
-            <Col md="3">
-              <CardCell
-                title={
-                  <Term title={"Ⓝ Total Balance"}>
-                    {
-                      "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake."
-                    }
-                  </Term>
-                }
-                text={<Balance amount={account.totalBalance} />}
-                className="border-0"
-              />
-            </Col>
-            <Col md="3">
+            <Col md="6">
               <CardCell
                 title={
                   <Term title={"Ⓝ Total Lockup Balance"}>
@@ -129,26 +162,7 @@ export default class extends React.Component<Props> {
                 text={<Balance amount={account.lockupTotalBalance} />}
               />
             </Col>
-            <Col md="3">
-              <CardCell
-                title={
-                  <Term title={"Ⓝ Staked Balance"}>
-                    {
-                      "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. "
-                    }
-                    <a
-                      href={
-                        "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
-                }
-                text={<Balance amount={account.stakedBalance} />}
-              />
-            </Col>
-            <Col md="3">
+            <Col md="6">
               <CardCell
                 title={
                   <Term title={"Lockup Account"}>
