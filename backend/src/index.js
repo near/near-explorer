@@ -167,6 +167,33 @@ async function main() {
   };
   setTimeout(regularCheckDataStats, 0);
 
+  // regular check block/tx data from indexer
+  const regularCheckDataStatsFromIndexer = async () => {
+    console.log("Starting regular data stats check from indexer...");
+    try {
+      if (wamp.session) {
+        const dataStats = await aggregateStats((from_indexer = true));
+        const { transactions, blocks } = await queryDashboardBlocksAndTxs(
+          (from_indexer = true)
+        );
+        wampPublish("chain-stats:from-indexer", [{ dataStats }], wamp);
+        wampPublish(
+          "chain-latest-blocks-info:from-indexer",
+          [{ transactions, blocks }],
+          wamp
+        );
+      }
+      console.log("Regular data stats check from indexer is completed.");
+    } catch (error) {
+      console.warn(
+        "Regular data stats check from indexer is crashed due to:",
+        error
+      );
+    }
+    setTimeout(regularCheckDataStatsFromIndexer, regularQueryStatsInterval);
+  };
+  setTimeout(regularCheckDataStatsFromIndexer, 0);
+
   // regular check node status and publish to nodes uri
   const regularCheckNodeStatus = async () => {
     console.log("Starting regular node status check...");
