@@ -2,7 +2,7 @@ import getConfig from "next/config";
 
 import autobahn from "autobahn";
 
-import { getNearNetwork, NearNetwork } from "../config";
+import { getNearNetwork } from "../config";
 
 interface IPromisePair {
   resolve: (value?: autobahn.Session) => void;
@@ -19,7 +19,7 @@ export class ExplorerApi {
 
   static wamp: autobahn.Connection;
 
-  nearNetwork: NearNetwork;
+  apiPrefix: string;
 
   constructor(apiPrefixSource?: any) {
     const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
@@ -41,25 +41,24 @@ export class ExplorerApi {
       });
     }
 
-    let explorerHostname: string;
     if (apiPrefixSource === undefined) {
       if (typeof location === "undefined") {
         throw Error(
           "DevHint: You must provide `apiPrefixSource` argument to Explorer API constructor if you instantiate it on the server side."
         );
       }
-      explorerHostname = location.host;
+      this.apiPrefix = location.host;
     } else if (typeof apiPrefixSource === "string") {
-      explorerHostname = apiPrefixSource;
+      this.apiPrefix = apiPrefixSource;
     } else if ("socket" in apiPrefixSource) {
-      explorerHostname = apiPrefixSource.headers.host;
+      this.apiPrefix = apiPrefixSource.headers.host;
     } else {
       throw Error(
         `Unknown apiPrefixSource ${apiPrefixSource} (of type ${typeof apiPrefixSource})`
       );
     }
 
-    this.nearNetwork = getNearNetwork(explorerHostname);
+    this.apiPrefix = getNearNetwork(this.apiPrefix).name;
   }
 
   // Establish and handle concurrent requests to establish WAMP connection.
@@ -111,7 +110,7 @@ export class ExplorerApi {
     handler: autobahn.SubscribeHandler,
     options?: autobahn.ISubscribeOptions
   ): Promise<autobahn.ISubscription> {
-    topic = `com.nearprotocol.${this.nearNetwork.name}.explorer.${topic}`;
+    topic = `com.nearprotocol.${this.apiPrefix}.explorer.${topic}`;
     ExplorerApi.subscriptions[topic] = [handler, options];
     const session = await ExplorerApi.getWampSession();
     return await session.subscribe(topic, handler, options);
@@ -123,7 +122,7 @@ export class ExplorerApi {
     kwargs?: any,
     options?: autobahn.ICallOptions
   ): Promise<T> {
-    procedure = `com.nearprotocol.${this.nearNetwork.name}.explorer.${procedure}`;
+    procedure = `com.nearprotocol.${this.apiPrefix}.explorer.${procedure}`;
     const session = await ExplorerApi.getWampSession();
     return (await session.call(procedure, args, kwargs, options)) as T;
   }

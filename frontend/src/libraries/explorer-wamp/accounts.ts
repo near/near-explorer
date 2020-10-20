@@ -1,9 +1,9 @@
 import { ExplorerApi } from ".";
-
 export interface AccountBasicInfo {
-  accountId: string;
-  createdByTransactionHash?: string;
-  createdAtBlockTimestamp?: number;
+  id: string;
+  createdByTransactionHash: string;
+  createdAtBlockTimestamp: number;
+  accountIndex: number;
 }
 
 interface AccountStats {
@@ -12,15 +12,10 @@ interface AccountStats {
 }
 
 interface AccountInfo {
-  stakedBalance: string;
-  nonStakedBalance: string;
-  minimumBalance: string;
-  availableBalance: string;
-  totalBalance: string;
-  storageUsage: string;
-  lockupAccountId?: string;
-  lockupTotalBalance?: string;
-  lockupUnlockedBalance?: string;
+  amount: string;
+  locked: string;
+  storageUsage: number;
+  storagePaidAt: number;
 }
 
 export type Account = AccountBasicInfo & AccountStats & AccountInfo;
@@ -30,43 +25,37 @@ export interface AccountPagination {
   accountIndex: number;
 }
 
-type PaginatedAccountBasicInfo = AccountBasicInfo & { accountIndex: number };
-
 export default class AccountsApi extends ExplorerApi {
-  async getAccountInfo(accountId: string): Promise<Account> {
+  async getAccountInfo(id: string): Promise<Account> {
     try {
-      const [accountInfo, accountBasic, accountStats] = await Promise.all([
-        this.queryAccount(accountId),
-        this.call<AccountBasicInfo[]>("select", [
-          `SELECT account_id as accountId, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
-            FROM accounts
-            WHERE account_id = :accountId
-          `,
-          {
-            accountId,
-          },
-        ]).then((accounts) => {
-          if (accounts.length === 0) {
-            return {
-              accountId,
-            } as AccountBasicInfo;
-          }
-          return accounts[0];
-        }),
+      const [accountInfo, accountStats, accountBasic] = await Promise.all([
+        this.queryAccount(id),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
             (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
-              WHERE signer_id = :accountId) as outTransactionsCount,
+              WHERE signer_id = :id) as outTransactionsCount,
             (SELECT COUNT(transactions.hash) as inTransactionsCount FROM transactions
-              WHERE receiver_id = :accountId) as inTransactionsCount
+              WHERE receiver_id = :id) as inTransactionsCount
           `,
           {
-            accountId,
+            id,
+          },
+        ]).then((accounts) => accounts[0]),
+        this.call<AccountBasicInfo[]>("select", [
+          `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, created_by_transaction_hash as createdByTransactionHash
+            FROM accounts
+            WHERE account_id = :id
+          `,
+          {
+            id,
           },
         ]).then((accounts) => accounts[0]),
       ]);
       return {
-        ...accountInfo,
+        amount: accountInfo.amount,
+        locked: accountInfo.locked,
+        storageUsage: accountInfo.storage_usage,
+        storagePaidAt: accountInfo.storage_paid_at,
         ...accountBasic,
         ...accountStats,
       };
@@ -80,10 +69,10 @@ export default class AccountsApi extends ExplorerApi {
   async getAccounts(
     limit: number = 15,
     paginationIndexer?: AccountPagination
-  ): Promise<PaginatedAccountBasicInfo[]> {
+  ): Promise<AccountBasicInfo[]> {
     try {
       return await this.call("select", [
-        `SELECT account_id as accountId, created_at_block_timestamp as createdAtBlockTimestamp, 
+        `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, 
           created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
           FROM accounts
           ${
@@ -105,7 +94,7 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async queryAccount(accountId: string): Promise<any> {
-    return await this.call<any>("get-account-details", [accountId]);
+  async queryAccount(id: string): Promise<any> {
+    return await this.call<any>("nearcore-view-account", [id]);
   }
 }

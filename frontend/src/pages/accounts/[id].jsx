@@ -16,9 +16,10 @@ export default class extends React.Component {
   static async getInitialProps({ req, query: { id } }) {
     try {
       const account = await new AccountsApi(req).getAccountInfo(id);
+      account.id = id;
       return account;
     } catch (err) {
-      return { accountId: id, err };
+      return { id, err };
     }
   }
 
@@ -28,10 +29,7 @@ export default class extends React.Component {
         <Head>
           <title>Near Explorer | Account</title>
         </Head>
-        <Content
-          title={<h1>{`Account: @${this.props.accountId}`}</h1>}
-          border={false}
-        >
+        <Content title={<h1>{`Account: @${this.props.id}`}</h1>} border={false}>
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
@@ -42,7 +40,7 @@ export default class extends React.Component {
           `Information is not available at the moment. Please, check if the account name is correct or try later.`
         ) : (
           <Container>
-            <ContractDetails accountId={this.props.accountId} />
+            <ContractDetails accountId={this.props.id} />
           </Container>
         )}
         <Content
@@ -53,7 +51,7 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <Transactions accountId={this.props.accountId} count={10} />
+            <Transactions accountId={this.props.id} count={10} />
           )}
         </Content>
       </>

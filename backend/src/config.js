@@ -47,6 +47,3 @@ exports.wampNearExplorerBackendSecret =
   process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
 
 exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;
-
-exports.nearLockupAccountIdSuffix =
-  process.env.NEAR_LOCKUP_ACCOUNT_SUFFIX || "lockup.near";

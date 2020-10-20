@@ -47,8 +47,8 @@ class Accounts extends React.Component<InnerProps> {
         {items &&
           items.map((account) => (
             <AccountRow
-              key={account.accountId}
-              accountId={account.accountId}
+              key={account.id}
+              accountId={account.id}
               createdAt={account.createdAtBlockTimestamp}
             />
           ))}
