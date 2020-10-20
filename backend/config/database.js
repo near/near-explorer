@@ -3,7 +3,10 @@ const dbPrefix =
   process.env.WAMP_NEAR_NETWORK_NAME ||
   "development";
 
-const dbPassword = process.env.NEAR_NETWORK_INDEXER_EXPLORER_PASSWORD;
+const dbPassword = process.env.NEAR_INDEXER_DATABASE_PASSWORD;
+const dbHost = process.env.NEAR_INDEXER_DATABASE_HOST;
+const dbName = process.env.NEAR_INDEXER_DATABASE_NAME;
+const dbUsername = process.env.NEAR_INDEXER_DATABASE_USERNAME;
 
 module.exports = {
   sqlite: {
@@ -11,10 +14,10 @@ module.exports = {
     storage: `db/${dbPrefix}-database.sqlite`,
   },
   postgres: {
-    username: "readonly",
+    username: dbUsername,
     password: dbPassword,
-    database: "indexer",
-    host: "oregon-postgres.render.com",
+    database: dbName,
+    host: dbHost,
     dialect: "postgres",
   },
 };
