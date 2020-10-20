@@ -12,7 +12,7 @@ import { truncateAccountId } from "../utils/AccountLink";
 
 export interface Props {
   accountId: string;
-  createdAt: number;
+  createdAt?: number;
 }
 
 export interface State {
