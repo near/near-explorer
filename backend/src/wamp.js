@@ -168,9 +168,9 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   const stakedBalance = new BN(accountInfo.locked);
   const nonStakedBalance = new BN(accountInfo.amount);
   const minimumBalance = storageAmountPerByte.mul(storageUsage);
-  const availableBalance = nonStakedBalance.sub(
-    BN.max(stakedBalance, minimumBalance)
-  );
+  const availableBalance = nonStakedBalance
+    .add(stakedBalance)
+    .sub(BN.max(stakedBalance, minimumBalance));
 
   const accountDetails = {
     storageUsage: storageUsage.toString(),
