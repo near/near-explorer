@@ -115,7 +115,8 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   function ignore_if_does_not_exist(error) {
     if (
       typeof error.message === "string" &&
-      error.message.includes("doesn't exist")
+      (error.message.includes("doesn't exist") ||
+        error.message.includes("does not exist"))
     ) {
       return null;
     }
