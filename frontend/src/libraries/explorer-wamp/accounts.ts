@@ -2,9 +2,8 @@ import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
   accountId: string;
-  createdByTransactionHash: string;
-  createdAtBlockTimestamp: number;
-  accountIndex: number;
+  createdByTransactionHash?: string;
+  createdAtBlockTimestamp?: number;
 }
 
 interface AccountStats {
@@ -19,8 +18,9 @@ interface AccountInfo {
   availableBalance: string;
   totalBalance: string;
   storageUsage: string;
-  lockupTotalBalance?: string;
   lockupAccountId?: string;
+  lockupTotalBalance?: string;
+  lockupUnlockedBalance?: string;
 }
 
 export type Account = AccountBasicInfo & AccountStats & AccountInfo;
@@ -29,6 +29,8 @@ export interface AccountPagination {
   endTimestamp: number;
   accountIndex: number;
 }
+
+type PaginatedAccountBasicInfo = AccountBasicInfo & { accountIndex: number };
 
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(accountId: string): Promise<Account> {
@@ -43,7 +45,14 @@ export default class AccountsApi extends ExplorerApi {
           {
             accountId,
           },
-        ]).then((accounts) => accounts[0]),
+        ]).then((accounts) => {
+          if (accounts.length === 0) {
+            return {
+              accountId,
+            } as AccountBasicInfo;
+          }
+          return accounts[0];
+        }),
         this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
             (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
@@ -71,10 +80,10 @@ export default class AccountsApi extends ExplorerApi {
   async getAccounts(
     limit: number = 15,
     paginationIndexer?: AccountPagination
-  ): Promise<AccountBasicInfo[]> {
+  ): Promise<PaginatedAccountBasicInfo[]> {
     try {
       return await this.call("select", [
-        `SELECT account_id as id, created_at_block_timestamp as createdAtBlockTimestamp, 
+        `SELECT account_id as accountId, created_at_block_timestamp as createdAtBlockTimestamp, 
           created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
           FROM accounts
           ${

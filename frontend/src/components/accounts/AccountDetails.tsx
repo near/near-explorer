@@ -38,21 +38,13 @@ export default class extends React.Component<Props> {
           <Col md="3">
             <CardCell
               title={
-                <Term title={"Minimum Balance"}>
+                <Term title={"Ⓝ Total Balance"}>
                   {
-                    "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space. "
+                    "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake."
                   }
-                  <a
-                    href={
-                      "https://docs.near.org/docs/roles/integrator/faq#is-there-a-minimum-account-balance"
-                    }
-                  >
-                    docs
-                  </a>
                 </Term>
               }
-              imgLink="/static/images/icon-storage.svg"
-              text={<Balance amount={account.minimumBalance} />}
+              text={<Balance amount={account.totalBalance} />}
             />
           </Col>
           <Col md="3">
@@ -94,17 +86,24 @@ export default class extends React.Component<Props> {
             />
           </Col>
         </Row>
-        <Row>
+        <Row noGutters>
           <Col md="4">
             <CardCell
               title={
-                <Term title={"Ⓝ Total Balance"}>
+                <Term title={"Ⓝ Non-Staked Balance"}>
                   {
-                    "Your total balance represents all NEAR tokens under your control. In many cases, you will not have immediate access to this entire balance (e.g. if it is locked, delegated, or staked). Check your Available Balance for the NEAR you can actively use, transfer, delegate, and stake."
+                    "The amount of NEAR Token that can be used for stake, covering storage, transfers, delegation, etc."
                   }
+                  <a
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  >
+                    docs
+                  </a>
                 </Term>
               }
-              text={<Balance amount={account.totalBalance} />}
+              text={<Balance amount={account.nonStakedBalance} />}
               className="border-0"
             />
           </Col>
@@ -130,38 +129,26 @@ export default class extends React.Component<Props> {
           <Col md="4">
             <CardCell
               title={
-                <Term title={"Ⓝ Non Staked Balance"}>
+                <Term title={"Ⓝ Minimum Balance"}>
                   {
-                    "The amount of NEAR Token that is stored as amount in your account."
+                    "This is the minimum NEAR balance your account must maintain to remain active. This balance represents the storage space your account is using on the NEAR blockchain, and will go up or down as you use more or less space. "
                   }
+                  <a
+                    href={
+                      "https://docs.near.org/docs/roles/integrator/faq#is-there-a-minimum-account-balance"
+                    }
+                  >
+                    docs
+                  </a>
                 </Term>
               }
-              text={<Balance amount={account.nonStakedBalance} />}
+              text={<Balance amount={account.minimumBalance} />}
             />
           </Col>
         </Row>
         {account.lockupTotalBalance && (
           <Row noGutters>
-            <Col md="6">
-              <CardCell
-                title={
-                  <Term title={"Ⓝ Total Lockup Balance"}>
-                    {
-                      "This NEAR is locked in a lockup contract, and cannot be withdrawn. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance). "
-                    }
-                    <a
-                      href={
-                        "https://docs.near.org/docs/tokens/lockup#lockup-basics"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
-                }
-                text={<Balance amount={account.lockupTotalBalance} />}
-              />
-            </Col>
-            <Col md="6">
+            <Col md="4">
               <CardCell
                 title={
                   <Term title={"Lockup Account"}>
@@ -185,6 +172,45 @@ export default class extends React.Component<Props> {
                     ""
                   )
                 }
+                className="border-0"
+              />
+            </Col>
+            <Col md="4">
+              <CardCell
+                title={
+                  <Term title={"Ⓝ Total Lockup Balance"}>
+                    {
+                      "This NEAR is in a lockup contract, and has restrictions on how it can be used. You may still delegate or stake this NEAR. Once the NEAR is unlocked, you can view it in your Unlocked Balance, and chose to withdraw it (moving to your Available Balance). "
+                    }
+                    <a
+                      href={
+                        "https://docs.near.org/docs/tokens/lockup#lockup-basics"
+                      }
+                    >
+                      docs
+                    </a>
+                  </Term>
+                }
+                text={<Balance amount={account.lockupTotalBalance} />}
+              />
+            </Col>
+            <Col md="4">
+              <CardCell
+                title={
+                  <Term title={"Ⓝ Unlocked Lockup Balance"}>
+                    {
+                      "This NEAR is still in a lockup contract, and is ready to be withdrawn. If you choose to withdraw this NEAR, it will appear in your Available Balance. "
+                    }
+                    <a
+                      href={
+                        "https://docs.near.org/docs/tokens/lockup#lockup-basics"
+                      }
+                    >
+                      docs
+                    </a>
+                  </Term>
+                }
+                text={<Balance amount={account.lockupUnlockedBalance} />}
               />
             </Col>
           </Row>
@@ -205,7 +231,7 @@ export default class extends React.Component<Props> {
                   ? moment(account.createdAtBlockTimestamp).format(
                       "MMMM DD, YYYY [at] h:mm:ssa"
                     )
-                  : ""
+                  : "N/A"
               }
               className="block-card-created account-card-back border-0"
             />
@@ -234,7 +260,7 @@ export default class extends React.Component<Props> {
                     "from Genesis"
                   )
                 ) : (
-                  ""
+                  "N/A"
                 )
               }
               className="block-card-created-text account-card-back border-0"

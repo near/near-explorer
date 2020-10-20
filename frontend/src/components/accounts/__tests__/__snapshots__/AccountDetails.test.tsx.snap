@@ -65,11 +65,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              <img
-                className="jsx-1276427197 card-cell-title-img"
-                src="/static/images/icon-storage.svg"
-              />
-              Minimum Balance
+              Ⓝ Total Balance
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -89,7 +85,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                &lt;0.00001
+                9,876.54568
                  Ⓝ
               </span>
             </div>
@@ -189,7 +185,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     </div>
   </div>
   <div
-    className="row"
+    className="row no-gutters"
   >
     <div
       className="col-md-4"
@@ -206,7 +202,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Total Balance
+              Ⓝ Non-Staked Balance
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -226,7 +222,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                9,876.54568
+                0.00065
                  Ⓝ
               </span>
             </div>
@@ -292,7 +288,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Non Staked Balance
+              Ⓝ Minimum Balance
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -312,7 +308,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0.00065
+                &lt;0.00001
                  Ⓝ
               </span>
             </div>
@@ -325,7 +321,53 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-6"
+      className="col-md-4"
+    >
+      <div
+        className="card-cell border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              <img
+                className="jsx-1276427197 card-cell-title-img"
+                src="/static/images/icon-m-transaction.svg"
+              />
+              Lockup Account
+              <div
+                className="jsx-782042476 term-helper"
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              <a
+                className="jsx-3150401870 account-link"
+                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                gjtur…jsa.lockup.near
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-4"
     >
       <div
         className="card-cell  card"
@@ -368,7 +410,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
       </div>
     </div>
     <div
-      className="col-md-6"
+      className="col-md-4"
     >
       <div
         className="card-cell  card"
@@ -382,11 +424,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              <img
-                className="jsx-1276427197 card-cell-title-img"
-                src="/static/images/icon-m-transaction.svg"
-              />
-              Lockup Account
+              Ⓝ Unlocked Lockup Balance
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -400,14 +438,15 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
               >
-                gjtur…jsa.lockup.near
-              </a>
+                0
+                 Ⓝ
+              </span>
             </div>
           </div>
         </div>
@@ -563,11 +602,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              <img
-                className="jsx-1276427197 card-cell-title-img"
-                src="/static/images/icon-storage.svg"
-              />
-              Minimum Balance
+              Ⓝ Total Balance
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -587,7 +622,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                &lt;0.00001
+                98.76545
                  Ⓝ
               </span>
             </div>
@@ -687,7 +722,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     </div>
   </div>
   <div
-    className="row"
+    className="row no-gutters"
   >
     <div
       className="col-md-4"
@@ -704,7 +739,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Total Balance
+              Ⓝ Non-Staked Balance
               <div
                 className="jsx-782042476 term-helper"
               >
@@ -724,7 +759,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                98.76545
+                &lt;0.00001
                  Ⓝ
               </span>
             </div>
@@ -790,7 +825,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Non Staked Balance
+              Ⓝ Minimum Balance
               <div
                 className="jsx-782042476 term-helper"
               >

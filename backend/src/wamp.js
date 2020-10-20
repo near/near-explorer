@@ -112,17 +112,51 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     );
   }
 
-  const lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
+  function ignore_if_does_not_exist(error) {
+    if (
+      typeof error.message === "string" &&
+      error.message.includes("doesn't exist")
+    ) {
+      return null;
+    }
+    throw error;
+  }
 
-  const [accountInfo, lockupTotalBalance, genesisConfig] = await Promise.all([
+  let lockupAccountId;
+  if (accountId.endsWith(nearLockupAccountIdSuffix)) {
+    lockupAccountId = accountId;
+  } else {
+    lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
+  }
+
+  const [
+    accountInfo,
+    lockupAccountInfo,
+    lockupLockedBalance,
+    lockupStakingPoolAccountId,
+    genesisConfig,
+  ] = await Promise.all([
     nearRpc.sendJsonRpc("query", {
       request_type: "view_account",
       finality: "final",
       account_id: accountId,
     }),
+    accountId !== lockupAccountId
+      ? nearRpc
+          .sendJsonRpc("query", {
+            request_type: "view_account",
+            finality: "final",
+            account_id: lockupAccountId,
+          })
+          .catch(ignore_if_does_not_exist)
+      : null,
     nearRpc
-      .callViewMethod(lockupAccountId, "get_balance", {})
-      .then((balance) => new BN(balance)),
+      .callViewMethod(lockupAccountId, "get_locked_amount", {})
+      .then((balance) => new BN(balance))
+      .catch(ignore_if_does_not_exist),
+    nearRpc
+      .callViewMethod(lockupAccountId, "get_staking_pool_account_id", {})
+      .catch(ignore_if_does_not_exist),
     nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
   ]);
 
@@ -136,23 +170,56 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   const availableBalance = nonStakedBalance.sub(
     BN.max(stakedBalance, minimumBalance)
   );
-  let totalBalance = stakedBalance.add(nonStakedBalance);
-  if (lockupTotalBalance) {
-    totalBalance = totalBalance.add(lockupTotalBalance);
-  }
 
-  return {
+  const accountDetails = {
     storageUsage: storageUsage.toString(),
     stakedBalance: stakedBalance.toString(),
     nonStakedBalance: nonStakedBalance.toString(),
     minimumBalance: minimumBalance.toString(),
     availableBalance: availableBalance.toString(),
-    totalBalance: totalBalance.toString(),
-    lockupTotalBalance: lockupTotalBalance
-      ? lockupTotalBalance.toString()
-      : undefined,
-    lockupAccountId: lockupTotalBalance ? lockupAccountId : undefined,
   };
+
+  let lockupDelegatedToStakingPoolBalance;
+  if (lockupStakingPoolAccountId) {
+    lockupDelegatedToStakingPoolBalance = await nearRpc
+      .callViewMethod(lockupStakingPoolAccountId, "get_account_total_balance", {
+        account_id: lockupAccountId,
+      })
+      .then((balance) => new BN(balance))
+      .catch(ignore_if_does_not_exist);
+  }
+
+  let totalBalance = stakedBalance.add(nonStakedBalance);
+  // The following section could be compressed into more complicated checks,
+  // but it is left in a readable form.
+  if (accountId !== lockupAccountId && !lockupAccountInfo) {
+    // It is a regular account without lockup
+  } else if (accountId !== lockupAccountId) {
+    // It is a regular account with lockup
+    const lockupStakedBalance = new BN(lockupAccountInfo.locked);
+    const lockupNonStakedBalance = new BN(lockupAccountInfo.amount);
+    let lockupTotalBalance = lockupStakedBalance.add(lockupNonStakedBalance);
+    if (lockupDelegatedToStakingPoolBalance) {
+      console.log(lockupTotalBalance, lockupDelegatedToStakingPoolBalance);
+      lockupTotalBalance.iadd(lockupDelegatedToStakingPoolBalance);
+    }
+    totalBalance.iadd(lockupTotalBalance);
+    accountDetails.lockupAccountId = lockupAccountId;
+    accountDetails.lockupTotalBalance = lockupTotalBalance.toString();
+    accountDetails.lockupLockedBalance = lockupLockedBalance.toString();
+    accountDetails.lockupUnlockedBalance = lockupTotalBalance
+      .sub(lockupLockedBalance)
+      .toString();
+  } else if (accountId === lockupAccountId) {
+    // It is a lockup account
+    if (lockupDelegatedToStakingPoolBalance) {
+      totalBalance.iadd(lockupDelegatedToStakingPoolBalance);
+    }
+  }
+
+  accountDetails.totalBalance = totalBalance.toString();
+
+  return accountDetails;
 };
 
 function setupWamp() {

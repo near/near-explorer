@@ -18,7 +18,7 @@ export default class extends React.Component {
       const account = await new AccountsApi(req).getAccountInfo(id);
       return account;
     } catch (err) {
-      return { id, err };
+      return { accountId: id, err };
     }
   }
 
