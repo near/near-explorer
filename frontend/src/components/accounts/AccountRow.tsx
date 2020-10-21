@@ -16,16 +16,17 @@ export interface Props {
 }
 
 export interface State {
-  amount?: BN;
+  totalBalance?: BN;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {};
 
   _getDetail = async () => {
-    const detail = await new AccountsApi().queryAccount(this.props.accountId);
-    const amount = new BN(detail.amount).add(new BN(detail.locked));
-    this.setState({ amount });
+    const accountInfo = await new AccountsApi().queryAccount(
+      this.props.accountId
+    );
+    this.setState({ totalBalance: accountInfo.totalBalance });
   };
 
   componentDidMount() {
@@ -34,7 +35,7 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { accountId, createdAt } = this.props;
-    const { amount } = this.state;
+    const { totalBalance } = this.state;
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
         <a style={{ textDecoration: "none" }}>
@@ -55,7 +56,11 @@ export default class extends React.Component<Props, State> {
             <Col md="3" xs="4" className="ml-auto text-right">
               <Row>
                 <Col className="transaction-row-txid">
-                  {amount ? <Balance amount={amount.toString()} /> : ""}
+                  {typeof totalBalance !== "undefined" ? (
+                    <Balance amount={totalBalance.toString()} />
+                  ) : (
+                    ""
+                  )}
                 </Col>
               </Row>
               <Row>
