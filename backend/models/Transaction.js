@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define(
     "Transaction",
     {
-      hash: {
+      transactionHash: {
         type: DataTypes.STRING, // base58
         allowNull: false,
         primaryKey: true,
