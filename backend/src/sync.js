@@ -68,7 +68,7 @@ async function saveBlocks(blocksInfo) {
                 models.Transaction.bulkCreate(
                   blockInfo.transactions.map((tx, index) => {
                     return {
-                      transactionHash: tx.hash,
+                      hash: tx.hash,
                       nonce: tx.nonce,
                       blockHash: blockInfo.header.hash,
                       blockTimestamp: timestamp,
