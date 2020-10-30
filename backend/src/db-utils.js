@@ -128,13 +128,16 @@ const queryOnlineNodes = async () => {
 
 const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
   const transactionHashColumnName = from_indexer ? "transaction_hash" : "hash";
+  const transactionIndexColumnName = from_indexer
+    ? "index_in_chunk"
+    : "transaction_index";
   let [transactions, blocks] = await Promise.all([
     queryRows(
       [
         `SELECT ${transactionHashColumnName} as hash, signer_id as signerId, receiver_id as receiverId, 
-              block_hash as blockHash, block_timestamp as blockTimestamp, transaction_index as transactionIndex
+              block_hash as blockHash, block_timestamp as blockTimestamp, ${transactionIndexColumnName} as transactionIndex
           FROM transactions
-          ORDER BY block_timestamp DESC, transaction_index DESC
+          ORDER BY block_timestamp DESC, ${transactionIndexColumnName} DESC
           LIMIT 10`,
       ],
       from_indexer
@@ -155,14 +158,38 @@ const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
       from_indexer
     ),
   ]);
+  if (from_indexer) {
+    await Promise.all(
+      transactions.map(async (transaction) => {
+        const actions = await queryRows(
+          [
+            `SELECT transaction_hash, index, action_kind as kind, args as args
+          FROM transaction_actions
+          WHERE transaction_hash = :hash
+          ORDER BY index`,
+            {
+              hash: transaction.hash,
+            },
+          ],
+          from_indexer
+        );
+        transaction.actions = actions.map((action) => {
+          return {
+            kind: action.kind,
+            args: JSON.parse(action.args),
+          };
+        });
+      })
+    );
+  }
   await Promise.all(
     transactions.map(async (transaction) => {
       const actions = await queryRows(
         [
           `SELECT transaction_hash, action_index, action_type as kind, action_args as args
-      FROM actions
-      WHERE transaction_hash = :hash
-      ORDER BY action_index`,
+        FROM actions
+        WHERE transaction_hash = :hash
+        ORDER BY action_index`,
           {
             hash: transaction.hash,
           },
