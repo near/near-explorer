@@ -33,22 +33,15 @@ const getSyncedGenesis = async (from_indexer = false) => {
 
 const aggregateStats = async (from_indexer = false) => {
   async function queryLastDayTxCount(from_indexer) {
+    let query;
     if (from_indexer) {
-      return await querySingleRow(
-        [
-          `SELECT COUNT(*) as total FROM transactions
-        WHERE block_timestamp > (extract(MILLISECONDS from now()) - 60 * 60 * 24) * 1000`,
-        ],
-        from_indexer
-      );
+      query = `SELECT COUNT(*) as total FROM transactions
+        WHERE block_timestamp > (extract(MILLISECONDS from now()) - 60 * 60 * 24) * 1000`;
+    } else {
+      query = `SELECT COUNT(*) as total FROM transactions
+        WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`;
     }
-    return await querySingleRow(
-      [
-        `SELECT COUNT(*) as total FROM transactions
-      WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`,
-      ],
-      from_indexer
-    );
+    return await querySingleRow([query], from_indexer);
   }
   const [
     totalBlocks,
