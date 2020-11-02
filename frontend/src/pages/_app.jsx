@@ -70,38 +70,7 @@ export default class extends App {
           <Footer />
         </DataProvider>
         <style jsx global>{`
-          @font-face {
-            font-family: "BentonSans";
-            font-weight: 500;
-            src: url("/static/fonts/BentonSans-Medium.otf") format("opentype");
-          }
-
-          @font-face {
-            font-family: "BentonSans";
-            font-weight: 300;
-            src: url("/static/fonts/BentonSans-Regular.otf") format("opentype");
-          }
-
-          @font-face {
-            font-family: "BwSeidoRound";
-            font-weight: 500;
-            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Medium.otf")
-              format("opentype");
-          }
-
-          @font-face {
-            font-family: "BwSeidoRound";
-            font-weight: 300;
-            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Light.otf")
-              format("opentype");
-          }
-
-          @font-face {
-            font-family: "BwSeidoRound";
-            font-weight: 400;
-            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Regular.otf")
-              format("opentype");
-          }
+          @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
           body {
             background-color: white;
@@ -150,7 +119,7 @@ export default class extends App {
           }
 
           .modal-body {
-            font-family: BentonSans;
+            font-family: "Inter", sans-serif;
             font-weight: 300;
           }
 
