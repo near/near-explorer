@@ -158,52 +158,34 @@ const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
       from_indexer
     ),
   ]);
+  let query;
+  let transactionHashes = transactions.map((transaction) => transaction.hash);
   if (from_indexer) {
-    await Promise.all(
-      transactions.map(async (transaction) => {
-        const actions = await queryRows(
-          [
-            `SELECT transaction_hash, index, action_kind as kind, args as args
-          FROM transaction_actions
-          WHERE transaction_hash = :hash
-          ORDER BY index`,
-            {
-              hash: transaction.hash,
-            },
-          ],
-          from_indexer
-        );
-        transaction.actions = actions.map((action) => {
-          return {
-            kind: action.kind,
-            args: JSON.parse(action.args),
-          };
-        });
-      })
-    );
+    query = `SELECT transaction_hash, index, action_kind as kind, args as args
+              FROM transaction_actions
+              WHERE transaction_hash IN (:transactionHashes)
+              ORDER BY index`;
+  } else {
+    query = `SELECT transaction_hash, action_index, action_type as kind, action_args as args
+              FROM actions
+              WHERE transaction_hash IN (:transactionHashes)
+              ORDER BY action_index`;
   }
-  await Promise.all(
-    transactions.map(async (transaction) => {
-      const actions = await queryRows(
-        [
-          `SELECT transaction_hash, action_index, action_type as kind, action_args as args
-        FROM actions
-        WHERE transaction_hash = :hash
-        ORDER BY action_index`,
-          {
-            hash: transaction.hash,
-          },
-        ],
-        from_indexer
-      );
-      transaction.actions = actions.map((action) => {
-        return {
-          kind: action.kind,
-          args: JSON.parse(action.args),
-        };
-      });
-    })
+  const actionsArray = await queryRows(
+    [query, { transactionHashes }],
+    from_indexer
   );
+  transactions.map((transaction) => {
+    let actions = actionsArray.filter(
+      (action) => action.transaction_hash === transaction.hash
+    );
+    transaction.actions = actions.map((action) => {
+      return {
+        kind: action.kind,
+        args: JSON.parse(action.args),
+      };
+    });
+  });
   return { transactions, blocks };
 };
 
