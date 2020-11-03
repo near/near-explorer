@@ -5,6 +5,8 @@ import { Row, Col } from "react-bootstrap";
 import NodeStatsProvider from "../context/NodeStatsProvider";
 import ListProvider from "../context/ListProvider";
 
+import Search from "../components/utils/Search";
+
 import Content from "../components/utils/Content";
 import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
@@ -19,7 +21,8 @@ export default class extends React.Component {
           <title>Near Explorer | Dashboard</title>
         </Head>
         <Content border={false}>
-          <h1>Dashboard</h1>
+          <h1>Explore the NEAR Blockchain.</h1>
+          <Search dashboard />
           <NodeStatsProvider>
             <DashboardHeader />
           </NodeStatsProvider>

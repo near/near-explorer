@@ -76,6 +76,7 @@ export default class extends App {
             background-color: white;
             height: 100%;
             margin: 0;
+            font-family: "Inter", sans-serif;
           }
 
           a {
@@ -89,7 +90,7 @@ export default class extends App {
           h1,
           h2,
           .modal-title {
-            font-family: BwSeidoRound;
+            font-family: "Inter", sans-serif;
             font-weight: 500;
             color: #24272a;
           }
