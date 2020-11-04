@@ -75,7 +75,7 @@ export default class extends App {
         </NetworkProvider>
         <style jsx global>{`
           body {
-            background-color: white;
+            background-color: #f9f9f9;
             height: 100%;
             margin: 0;
             font-family: "Inter", sans-serif;
@@ -114,7 +114,7 @@ export default class extends App {
           }
 
           .page {
-            background: white;
+            background: #f9f9f9;
           }
 
           .app-wrapper {

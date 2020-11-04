@@ -24,7 +24,7 @@ export default class extends React.Component<Props> {
     return (
       <Container>
         <Container
-          className={`content-container content-${size} near-main-container ${className}`}
+          className={`content-container content-${size} ${className}`}
           fluid
         >
           <Row className={`content-header ${border ? "with-border" : ""}`}>
@@ -47,29 +47,27 @@ export default class extends React.Component<Props> {
           </Row>
           {this.props.children}
           <style jsx global>{`
+            .content-container {
+              width: 100%;
+            }
             .content-header {
               padding: 2em 0 1em;
               margin-left: 0;
               margin-right: 0;
             }
-
             .content-header.with-border {
               border-bottom: 4px solid #e5e5e5;
               margin-bottom: 1em;
             }
-
             .content-title-total {
               color: rgba(0, 0, 0, 0.4);
             }
-
             .content-big .content-title-total {
               font-size: 50px;
             }
-
             .content-medium .content-title-total {
               font-size: 26px;
             }
-
             .content-title-margin {
               border-top: 4px solid rgba(0, 0, 0, 0.1);
             }

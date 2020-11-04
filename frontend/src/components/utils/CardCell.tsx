@@ -67,7 +67,7 @@ export default ({ title, imgLink, text, className, loading }: Props) => (
         display: block;
       }
       @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
+        .card-cell .term-helper .info {
           display: block;
         }
       }

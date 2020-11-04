@@ -9,8 +9,8 @@ import Search from "../utils/Search";
 export default () => {
   const router = useRouter();
   return (
-    <Container fluid className="near-main-container">
-      <Row className="header-container">
+    <Container fluid className="header-container">
+      <Row noGutters>
         <Col xs="2" className="px-0 d-md-none align-self-center">
           <Link href="/">
             <a>
@@ -55,12 +55,9 @@ export default () => {
         </Col>
       </Row>
       <style jsx global>{`
-        .near-main-container {
-          width: 100%;
-          padding: auto 5px;
-        }
-
         .header-container {
+          padding: auto 5px;
+          width: 100%;
           background: #ffffff;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
         }

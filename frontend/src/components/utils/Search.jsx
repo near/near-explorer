@@ -75,10 +75,15 @@ export default class extends React.Component {
           </InputGroup>
         </Row>
         <style jsx global>{`
-          .search-box .input-group-text {
+          .search-box {
             background: white;
-            border: 2px solid #eaebeb;
-            border-right: none;
+            width: 740px;
+            height: ${this.props.dashboard ? "49px" : "40px"};
+            margin: auto;
+          }
+
+          .input-group-text {
+            background: white;
           }
 
           .search-field {
