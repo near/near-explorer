@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap";
 
-import { DataConsumer } from "./DataProvider";
+import { NetworkConsumer } from "../../context/NetworkProvider";
 
 const HeaderDropdownItem = ({ link, title }) => (
   <Dropdown.Item className="header-network-item-dropdown" href={link}>
@@ -10,7 +10,7 @@ const HeaderDropdownItem = ({ link, title }) => (
 );
 
 export default () => (
-  <DataConsumer>
+  <NetworkConsumer>
     {(context) => (
       <Dropdown>
         <Dropdown.Toggle className="header-network" variant="secondary">
@@ -91,5 +91,5 @@ export default () => (
         `}</style>
       </Dropdown>
     )}
-  </DataConsumer>
+  </NetworkConsumer>
 );

@@ -86,11 +86,14 @@ export default class extends React.Component {
             border: 2px solid #eaebeb;
             box-sizing: border-box;
             border-radius: 8px;
+            height: 100%;
           }
 
           .button-search {
             background: #0072ce;
+            border-color: #0072ce;
             border-radius: 0px 8px 8px 0px;
+            padding: 10px 30px;
           }
         `}</style>
       </form>

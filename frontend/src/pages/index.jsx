@@ -1,47 +1,36 @@
 import Head from "next/head";
 
-import { Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import NodeStatsProvider from "../context/NodeStatsProvider";
-import ListProvider from "../context/ListProvider";
 
 import Search from "../components/utils/Search";
-
-import Content from "../components/utils/Content";
-import DashboardBlocks from "../components/dashboard/DashboardBlocks";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
-import DashboardTransactions from "../components/dashboard/DashboardTransactions";
 
 export default class extends React.Component {
   render() {
-    const { name } = this.props.currentNearNetwork;
     return (
       <>
         <Head>
           <title>Near Explorer | Dashboard</title>
         </Head>
-        <Content border={false}>
-          <h1>Explore the NEAR Blockchain.</h1>
-          <Search dashboard />
-          <NodeStatsProvider>
-            <DashboardHeader />
-          </NodeStatsProvider>
-          <Row noGutters className="dashboard-section">
-            <ListProvider>
-              <Col md="8">
-                <DashboardTransactions />
-              </Col>
-              <Col md="4">
-                <DashboardBlocks />
-              </Col>
-            </ListProvider>
-          </Row>
+        <Container>
+          <h1>
+            <span style={{ color: "#00C1DE" }}>Explore</span> the
+          </h1>
+          <h1>NEAR Blockchain.</h1>
+          <div className="inner-content">
+            <Search dashboard />
+            <NodeStatsProvider>
+              <DashboardHeader />
+            </NodeStatsProvider>
+          </div>
           <style jsx global>{`
-            .dashboard-section {
-              margin-top: 1.5em;
+            .inner-content {
+              margin: 32px 80px;
             }
           `}</style>
-        </Content>
+        </Container>
       </>
     );
   }

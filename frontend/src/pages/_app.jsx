@@ -6,7 +6,7 @@ import { getNearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
-import DataProvider from "../components/utils/DataProvider";
+import NetworkProvider from "../context/NetworkProvider";
 import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -51,8 +51,12 @@ export default class extends App {
             type="image/png"
             href="/static/favicon.ico"
           />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+          />
         </Head>
-        <DataProvider
+        <NetworkProvider
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
@@ -68,10 +72,8 @@ export default class extends App {
             </div>
           </div>
           <Footer />
-        </DataProvider>
+        </NetworkProvider>
         <style jsx global>{`
-          @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
-
           body {
             background-color: white;
             height: 100%;
@@ -87,19 +89,12 @@ export default class extends App {
             text-decoration: none;
           }
 
-          h1,
-          h2,
-          .modal-title {
-            font-family: "Inter", sans-serif;
-            font-weight: 500;
-            color: #24272a;
-          }
-
           h1 {
-            font-size: calc(
-              28px + (48 - 28) * ((100vw - 300px) / (1600 - 300))
-            );
+            font-family: "Inter", sans-serif;
+            font-weight: 900;
             word-wrap: break-word;
+            color: #24272a;
+            font-size: 32px;
           }
 
           @media (max-width: 300px) {
@@ -114,14 +109,8 @@ export default class extends App {
             }
           }
 
-          h2,
-          .modal-title {
+          h2 {
             font-size: 24px;
-          }
-
-          .modal-body {
-            font-family: "Inter", sans-serif;
-            font-weight: 300;
           }
 
           .page {

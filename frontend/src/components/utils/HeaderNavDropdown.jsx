@@ -1,5 +1,4 @@
 import { Dropdown } from "react-bootstrap";
-import Link from "next/link";
 
 const HeaderNavItem = ({ link, imgLink, text }) => {
   return (
