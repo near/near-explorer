@@ -25,9 +25,6 @@ const sequelizePostgres = new Sequelize(
   {
     host: dbConfig.postgres.host,
     dialect: dbConfig.postgres.dialect,
-    dialectOptions: {
-      ssl: true,
-    },
   }
 );
 
