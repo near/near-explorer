@@ -175,10 +175,18 @@ const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
     [query, { transactionHashes }],
     from_indexer
   );
+  let actionsMap = new Map();
+  for (let i = 0; i < actionsArray.length; i++) {
+    let actions = actionsMap.get(actionsArray[i].transaction_hash);
+    if (actions) {
+      actions.push(actions[i]);
+      actionsMap.set(actionsArray[i].transaction_hash, actions);
+    } else {
+      actionsMap.set(actionsArray[i].transaction_hash, [actionsArray[i]]);
+    }
+  }
   transactions.map((transaction) => {
-    let actions = actionsArray.filter(
-      (action) => action.transaction_hash === transaction.hash
-    );
+    let actions = actionsMap.get(transaction.hash);
     transaction.actions = actions.map((action) => {
       return {
         kind: action.kind,
