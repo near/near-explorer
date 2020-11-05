@@ -60,16 +60,14 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <div className="app-wrapper">
+          <div>
             <Header />
-            <div className="page">
-              <DatabaseProvider>
-                <Component
-                  {...pageProps}
-                  currentNearNetwork={this.props.currentNearNetwork}
-                />
-              </DatabaseProvider>
-            </div>
+            <DatabaseProvider>
+              <Component
+                {...pageProps}
+                currentNearNetwork={this.props.currentNearNetwork}
+              />
+            </DatabaseProvider>
           </div>
           <Footer />
         </NetworkProvider>
@@ -111,15 +109,6 @@ export default class extends App {
 
           h2 {
             font-size: 24px;
-          }
-
-          .page {
-            background: #f9f9f9;
-          }
-
-          .app-wrapper {
-            position: relative;
-            min-height: calc(100vh - 120px);
           }
         `}</style>
         {googleAnalytics ? (

@@ -2,61 +2,79 @@ import { Container, Row, Col } from "react-bootstrap";
 
 export default () => (
   <Container fluid className="footer-container">
-    <Row>
-      <Col className="align-self-center text-center px-0" xs="12" md="3">
-        <img className="near-logo" src="/static/images/near.svg" />
-      </Col>
-      <Col
-        className="align-self-center footer-link text-md-left text-center pl-0"
-        xs="12"
-        md="5"
-      >
-        © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
-        <br />
-        <a className="footer-link-href" href="https://near.org/privacy/">
-          Terms of Service
-        </a>
-        &nbsp;|&nbsp;
-        <a className="footer-link-href" href="https://near.org/privacy/">
-          Privacy Policy
-        </a>
-      </Col>
-      <Col className="text-right d-none d-sm-block ml-auto" md="4" lg="2">
-        <a className="footer-help-link" href="http://near.chat" target="_blank">
-          <Row noGutters>
-            <Col md="2">
-              <img
-                className="help-image img-responsive"
-                src="/static/images/footer-nearkat.svg"
-              />
-            </Col>
-            <Col className="align-self-center">
-              <div className="footer-help">
-                <span className="need-help-contact">Need Help?</span>
-                <span className="need-help-contact need-help-contact-bottom">
+    <Row noGutters>
+      <Row className="align-self-right text-left">
+        <div className="help-bar bar-responsive">
+          <div>
+            <img className="help-image" src="/static/images/nearkat-prof.svg" />
+          </div>
+          <div>
+            <a href="http://near.chat" target="_blank">
+              <div className="help-text">
+                <p className="need-help-contact">Need Help?</p>
+                <p className="need-help-contact need-help-contact-bottom">
                   Join Community
-                </span>
+                </p>
               </div>
-            </Col>
-          </Row>
-        </a>
-      </Col>
+            </a>
+          </div>
+        </div>
+      </Row>
+      <Row className="bar">
+        <Col className="align-self-center text-center" xs="4" md="3">
+          <img className="near-logo" src="/static/images/near_logo.svg" />
+        </Col>
+        <Col className="align-self-center footer-link text-left" xs="8" md="6">
+          © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
+          <br />
+          <a className="footer-link-href" href="https://near.org/privacy/">
+            Terms of Service
+          </a>
+          &nbsp;|&nbsp;
+          <a className="footer-link-href" href="https://near.org/privacy/">
+            Privacy Policy
+          </a>
+        </Col>
+        <Col xs="0" md="3">
+          <div className="help-bar bar-inverse">
+            <div>
+              <img
+                className="help-image"
+                src="/static/images/nearkat-prof.svg"
+              />
+            </div>
+            <div>
+              <a href="http://near.chat" target="_blank">
+                <div className="help-text">
+                  <p className="need-help-contact">Need Help?</p>
+                  <p className="need-help-contact need-help-contact-bottom">
+                    Join Community
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </Row>
     <style jsx global>{`
       .footer-container {
         background-color: #f8f8f8;
-        font-family: BentonSans;
+        font-weight: normal;
         font-size: 12px;
-        line-height: 40px;
         color: #999999;
-        height: 120px;
         width: 100%;
+        height: 100px;
       }
 
-      .footer-container > .col-12 {
-        min-height: 70px;
-        padding-top: 20px;
-        padding-bottom: 25px;
+      .bar {
+        width: 100%;
+        height: 100px;
+      }
+
+      .near-logo {
+        margin: 35px 55px 35px 35px;
+        width: 90px;
       }
 
       .footer-link-href {
@@ -68,39 +86,59 @@ export default () => (
         line-height: 20px;
       }
 
-      .footer-nav-margin {
-        width: 30px;
-      }
-
-      .footer-help {
-        text-align: left;
-        line-height: 1px;
-        padding: 40px 20%;
-      }
-
-      .help-image {
-        margin-top: -50%;
-        position: relative;
-        z-index: 2;
-        left: -35px;
-      }
-
       .need-help-contact {
-        font-family: BwSeidoRound;
+        font-weight: 800;
         font-size: 18px;
-        font-weight: 900;
-        line-height: 1.33;
+        line-height: 20px;
         color: #999999;
-        text-decoration: none !important;
-      }
-
-      .footer-help-link:hover {
         text-decoration: none !important;
       }
 
       .need-help-contact-bottom {
         color: #0072ce !important;
         display: block;
+      }
+
+      .help-text {
+        background: #ffffff;
+        padding: 25px 60px;
+      }
+
+      .help-text:hover {
+        text-decoration: none !important;
+      }
+
+      .help-image {
+        position: relative;
+        left: 50px;
+        z-index: 1;
+        height: 140px;
+      }
+
+      .help-bar {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .bar-responsive {
+        display: none;
+      }
+
+      .bar-inverse {
+        position: relative;
+        right: 0;
+      }
+
+      @media (max-width: 763px) {
+        .bar-responsive {
+          display: block;
+          position: relative;
+          left: 0;
+          bottom: 100px;
+        }
+        .bar-inverse {
+          display: none;
+        }
       }
     `}</style>
   </Container>

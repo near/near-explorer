@@ -32,17 +32,8 @@ export default () => (
                   </a>
                 </Term>
               }
-              text={
-                <Link href="/nodes/[role]" as={`/nodes/online-nodes`}>
-                  <a>
-                    {stats.onlineNodeAmount.toLocaleString()}
-                    <img
-                      src="/static/images/right-arrow.svg"
-                      className="right-arrow"
-                    />
-                  </a>
-                </Link>
-              }
+              text={stats.onlineNodeAmount.toLocaleString()}
+              href={"/nodes/online-nodes"}
               loading={!stats.onlineNodeAmount}
             />
           </Col>
@@ -60,24 +51,14 @@ export default () => (
                   </a>
                 </Term>
               }
-              text={
-                <Link href="/nodes/[role]" as={`/nodes/validators`}>
-                  <a>
-                    {stats.validatorAmount.toLocaleString()}
-                    <img
-                      src="/static/images/right-arrow.svg"
-                      className="right-arrow"
-                    />
-                  </a>
-                </Link>
-              }
+              text={stats.validatorAmount.toLocaleString()}
+              href={"/nodes/validators"}
               loading={!stats.validatorAmount}
             />
           </Col>
         </Row>
         <style jsx global>{`
           .node-card {
-            margin-top: 81px;
             width: 360px;
             height: 275px;
             background: #ffffff;
@@ -98,10 +79,6 @@ export default () => (
           .node-icon {
             width: 24px !important;
             margin-right: 8px;
-          }
-
-          .right-arrow {
-            margin-left: 200px;
           }
         `}</style>
       </Row>
