@@ -24,7 +24,7 @@ let genesisHeight;
 
 async function saveBlocks(blocksInfo) {
   try {
-    await models.sequelize.transaction(async (transaction) => {
+    await models.sequelizeLegacySyncBackend.transaction(async (transaction) => {
       try {
         await models.Block.bulkCreate(
           blocksInfo.map((blockInfo) => {
@@ -421,40 +421,42 @@ async function syncGenesisState() {
       );
       try {
         const _models = require("../models");
-        await _models.sequelize.transaction(async (transaction) => {
-          try {
-            await Promise.all([
-              _models.AccessKey.bulkCreate(
-                records
-                  .filter((record) => record.value.AccessKey !== undefined)
-                  .map((record) => {
-                    let item = record.value;
-                    return prepareAccessKeyModel(
-                      item.AccessKey.account_id,
-                      item.AccessKey
-                    );
-                  }),
-                { ignoreDuplicates: true }
-              ),
-              _models.Account.bulkCreate(
-                records
-                  .filter((record) => record.value.Account !== undefined)
-                  .map((record) => {
-                    let item = record.value;
-                    return {
-                      accountId: item.Account.account_id,
-                      accountIndex: record.key,
-                      createdByTransactionHash: "Genesis",
-                      createdAtBlockTimestamp: genesisTime,
-                    };
-                  }),
-                { ignoreDuplicates: true }
-              ),
-            ]);
-          } catch (error) {
-            console.warn("Failed to save genesis records due to ", error);
+        await _models.sequelizeLegacySyncBackend.transaction(
+          async (transaction) => {
+            try {
+              await Promise.all([
+                _models.AccessKey.bulkCreate(
+                  records
+                    .filter((record) => record.value.AccessKey !== undefined)
+                    .map((record) => {
+                      let item = record.value;
+                      return prepareAccessKeyModel(
+                        item.AccessKey.account_id,
+                        item.AccessKey
+                      );
+                    }),
+                  { ignoreDuplicates: true }
+                ),
+                _models.Account.bulkCreate(
+                  records
+                    .filter((record) => record.value.Account !== undefined)
+                    .map((record) => {
+                      let item = record.value;
+                      return {
+                        accountId: item.Account.account_id,
+                        accountIndex: record.key,
+                        createdByTransactionHash: "Genesis",
+                        createdAtBlockTimestamp: genesisTime,
+                      };
+                    }),
+                  { ignoreDuplicates: true }
+                ),
+              ]);
+            } catch (error) {
+              console.warn("Failed to save genesis records due to ", error);
+            }
           }
-        });
+        );
       } catch (error) {
         console.warn("Fail to save genesis records due to : ", error);
       }

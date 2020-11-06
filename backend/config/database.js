@@ -3,21 +3,16 @@ const dbPrefix =
   process.env.WAMP_NEAR_NETWORK_NAME ||
   "development";
 
-const dbPassword = process.env.NEAR_INDEXER_DATABASE_PASSWORD;
-const dbHost = process.env.NEAR_INDEXER_DATABASE_HOST;
-const dbName = process.env.NEAR_INDEXER_DATABASE_NAME;
-const dbUsername = process.env.NEAR_INDEXER_DATABASE_USERNAME;
-
 module.exports = {
-  sqlite: {
+  legacySyncDatabase: {
     dialect: "sqlite",
     storage: `db/${dbPrefix}-database.sqlite`,
   },
-  postgres: {
-    username: dbUsername,
-    password: dbPassword,
-    database: dbName,
-    host: dbHost,
+  indexerDatabase: {
     dialect: "postgres",
+    host: process.env.NEAR_INDEXER_DATABASE_HOST,
+    database: process.env.NEAR_INDEXER_DATABASE_NAME,
+    username: process.env.NEAR_INDEXER_DATABASE_USERNAME,
+    password: process.env.NEAR_INDEXER_DATABASE_PASSWORD,
   },
 };
