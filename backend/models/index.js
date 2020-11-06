@@ -8,40 +8,40 @@ const env = process.env.NODE_ENV || "development";
 const dbConfig = require(__dirname + "/../config/database");
 const db = {};
 
-const sequelize = new Sequelize(
-  dbConfig.sqlite.database,
-  dbConfig.sqlite.username,
-  dbConfig.sqlite.password,
+const sequelizeLegacySyncBackend = new Sequelize(
+  dbConfig.legacySyncDatabase.database,
+  dbConfig.legacySyncDatabase.username,
+  dbConfig.legacySyncDatabase.password,
   {
-    ...dbConfig.sqlite,
+    ...dbConfig.legacySyncDatabase,
     logging: false,
   }
 );
 
-const sequelizePostgres = new Sequelize(
-  dbConfig.postgres.database,
-  dbConfig.postgres.username,
-  dbConfig.postgres.password,
+const sequelizeLegacySyncBackendReadOnly = new Sequelize(
+  dbConfig.legacySyncDatabase.database,
+  dbConfig.legacySyncDatabase.username,
+  dbConfig.legacySyncDatabase.password,
   {
-    host: dbConfig.postgres.host,
-    dialect: dbConfig.postgres.dialect,
-  }
-);
-
-const sequelizeReadOnly = new Sequelize(
-  dbConfig.sqlite.database,
-  dbConfig.sqlite.username,
-  dbConfig.sqlite.password,
-  {
-    ...dbConfig.sqlite,
+    ...dbConfig.legacySyncDatabase,
     dialectOptions: {
-      ...dbConfig.sqlite.dialectOptions,
+      ...dbConfig.legacySyncDatabase.dialectOptions,
       // Set SQLITE_OPEN_READONLY mode. Read more:
       // * http://www.sqlite.org/c3ref/open.html
       // * http://www.sqlite.org/c3ref/c_open_autoproxy.html
       mode: 1,
     },
     logging: false,
+  }
+);
+
+const sequelizeIndexerBackendReadOnly = new Sequelize(
+  dbConfig.indexerDatabase.database,
+  dbConfig.indexerDatabase.username,
+  dbConfig.indexerDatabase.password,
+  {
+    host: dbConfig.indexerDatabase.host,
+    dialect: dbConfig.indexerDatabase.dialect,
   }
 );
 
@@ -52,7 +52,9 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
-    const model = sequelize["import"](path.join(__dirname, file));
+    const model = sequelizeLegacySyncBackend["import"](
+      path.join(__dirname, file)
+    );
     db[model.name] = model;
   });
 
@@ -62,27 +64,27 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-db.sequelize = sequelize;
-db.sequelizeReadOnly = sequelizeReadOnly;
+db.sequelizeLegacySyncBackend = sequelizeLegacySyncBackend;
+db.sequelizeLegacySyncBackendReadOnly = sequelizeLegacySyncBackendReadOnly;
+db.sequelizeIndexerBackendReadOnly = sequelizeIndexerBackendReadOnly;
 db.Sequelize = Sequelize;
-db.sequelizePostgres = sequelizePostgres;
 
 db.resetDatabase = function resetDatabase({ saveBackup }) {
-  if (dbConfig.sqlite.dialect !== "sqlite") {
+  if (dbConfig.legacySyncDatabase.dialect !== "sqlite") {
     console.error(
-      `resetDatabase only supports sqlite dialect, but '${dbConfig.sqlite.dialect}' found. No action is taken.`
+      `resetDatabase only supports sqlite dialect, but '${dbConfig.legacySyncDatabase.dialect}' found. No action is taken.`
     );
     return;
   }
   if (saveBackup) {
     fs.renameSync(
-      dbConfig.sqlite.storage,
-      `${dbConfig.sqlite.storage}.${new Date()
-        .toISOString()
-        .replace(/:/g, "-")}`
+      dbConfig.legacySyncDatabase.storage,
+      `${
+        dbConfig.legacySyncDatabase.storage
+      }.${new Date().toISOString().replace(/:/g, "-")}`
     );
   } else {
-    fs.unlinkSync(dbConfig.sqlite.storage);
+    fs.unlinkSync(dbConfig.legacySyncDatabase.storage);
   }
 };
 

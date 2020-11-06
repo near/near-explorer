@@ -57,14 +57,14 @@ const saveNodeIntoDatabase = async (nodeInfo) => {
 };
 
 wampHandlers["select"] = async ([query, replacements]) => {
-  return await models.sequelizeReadOnly.query(query, {
+  return await models.sequelizeLegacySyncBackendReadOnly.query(query, {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT,
   });
 };
 
-wampHandlers["select-postgres"] = async ([query, replacements]) => {
-  return await models.sequelizePostgres.query(query, {
+wampHandlers["select:INDEXER_BACKEND"] = async ([query, replacements]) => {
+  return await models.sequelizeIndexerBackendReadOnly.query(query, {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT,
   });

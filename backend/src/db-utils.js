@@ -1,47 +1,46 @@
+const { DS_INDEXER_BACKEND } = require("./consts");
 const models = require("../models");
 
-const query = async ([query, replacements], from_indexer = false) => {
-  if (from_indexer) {
-    return await models.sequelizePostgres.query(query, {
-      replacements,
-      type: models.Sequelize.QueryTypes.SELECT,
-    });
-  }
-  return await models.sequelizeReadOnly.query(query, {
+const query = async ([query, replacements], { dataSource }) => {
+  const sequelize =
+    dataSource === DS_INDEXER_BACKEND
+      ? models.sequelizeIndexerBackendReadOnly
+      : models.sequelizeLegacySyncBackendReadOnly;
+  return await sequelize.query(query, {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT,
   });
 };
 
-const querySingleRow = async (args, from_indexer = false) => {
-  const result = await query(args, from_indexer);
+const querySingleRow = async (args, options) => {
+  const result = await query(args, options || {});
   return result[0];
 };
 
-const queryRows = async (args, from_indexer = false) => {
-  return await query(args, from_indexer);
+const queryRows = async (args, options) => {
+  return await query(args, options || {});
 };
 
-const getSyncedGenesis = async (from_indexer = false) => {
+const getSyncedGenesis = async (options) => {
   return await querySingleRow(
     [
       `SELECT genesis_time as genesisTime, genesis_height as genesisHeight, chain_id as chainId FROM genesis`,
     ],
-    from_indexer
+    options
   );
 };
 
-const aggregateStats = async (from_indexer = false) => {
-  async function queryLastDayTxCount(from_indexer) {
+const aggregateStats = async (options) => {
+  async function queryLastDayTxCount({ dataSource }) {
     let query;
-    if (from_indexer) {
+    if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT COUNT(*) as total FROM transactions
         WHERE block_timestamp > (extract(MILLISECONDS from now()) - 60 * 60 * 24) * 1000`;
     } else {
       query = `SELECT COUNT(*) as total FROM transactions
         WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`;
     }
-    return await querySingleRow([query], from_indexer);
+    return await querySingleRow([query], { dataSource });
   }
   const [
     totalBlocks,
@@ -49,21 +48,16 @@ const aggregateStats = async (from_indexer = false) => {
     totalAccounts,
     lastDayTxCount,
     lastBlockHeight,
-  ] = await Promise.all(
-    [
-      querySingleRow([`SELECT COUNT(*) as total FROM blocks`], from_indexer),
-      querySingleRow(
-        [`SELECT COUNT(*) as total FROM transactions`],
-        from_indexer
-      ),
-      querySingleRow([`SELECT COUNT(*) as total FROM accounts`], from_indexer),
-      queryLastDayTxCount(from_indexer),
-      querySingleRow([
-        `SELECT height FROM blocks ORDER BY height DESC LIMIT 1`,
-      ]),
-    ],
-    from_indexer
-  );
+  ] = await Promise.all([
+    querySingleRow([`SELECT COUNT(*) as total FROM blocks`], options),
+    querySingleRow([`SELECT COUNT(*) as total FROM transactions`], options),
+    querySingleRow([`SELECT COUNT(*) as total FROM accounts`], options),
+    queryLastDayTxCount(options),
+    querySingleRow(
+      [`SELECT height FROM blocks ORDER BY height DESC LIMIT 1`],
+      options
+    ),
+  ]);
   return {
     totalAccounts: totalAccounts.total,
     totalBlocks: totalBlocks.total,
@@ -103,7 +97,7 @@ const addNodeInfo = async (nodes) => {
   return nodes;
 };
 
-const pickonlineValidatingNode = (nodes) => {
+const pickOnlineValidatingNode = (nodes) => {
   let onlineValidatingNodes = nodes.filter(
     (node) => node.nodeInfo !== undefined
   );
@@ -126,11 +120,11 @@ const queryOnlineNodes = async () => {
   ]);
 };
 
-const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
-  const transactionHashColumnName = from_indexer ? "transaction_hash" : "hash";
-  const transactionIndexColumnName = from_indexer
-    ? "index_in_chunk"
-    : "transaction_index";
+const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
+  const transactionHashColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "transaction_hash" : "hash";
+  const transactionIndexColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "index_in_chunk" : "transaction_index";
   let [transactions, blocks] = await Promise.all([
     queryRows(
       [
@@ -140,28 +134,29 @@ const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
           ORDER BY block_timestamp DESC, ${transactionIndexColumnName} DESC
           LIMIT 10`,
       ],
-      from_indexer
+      { dataSource }
     ),
     queryRows(
       [
-        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
+        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.${transactionHashColumnName}) as transactionsCount
           FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
+            SELECT blocks.hash
             FROM blocks
             ORDER BY blocks.height DESC
             LIMIT 8
-          ) as blocks
-          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
+          ) as recent_blocks
+          LEFT JOIN blocks ON blocks.hash = recent_blocks.hash
+          LEFT JOIN transactions ON transactions.block_hash = recent_blocks.hash
           GROUP BY blocks.hash
           ORDER BY blocks.timestamp DESC`,
       ],
-      from_indexer
+      { dataSource }
     ),
   ]);
   let query;
   let transactionHashes = transactions.map((transaction) => transaction.hash);
-  if (from_indexer) {
-    query = `SELECT transaction_hash, index, action_kind as kind, args as args
+  if (dataSource === DS_INDEXER_BACKEND) {
+    query = `SELECT transaction_hash, index as action_index, action_kind as kind, args
               FROM transaction_actions
               WHERE transaction_hash IN (:transactionHashes)
               ORDER BY index`;
@@ -171,10 +166,9 @@ const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
               WHERE transaction_hash IN (:transactionHashes)
               ORDER BY action_index`;
   }
-  const actionsArray = await queryRows(
-    [query, { transactionHashes }],
-    from_indexer
-  );
+  const actionsArray = await queryRows([query, { transactionHashes }], {
+    dataSource,
+  });
   const actionsByTransactionHash = new Map();
   actionsArray.forEach((action) => {
     const transactionActions = actionsByTransactionHash.get(
@@ -187,13 +181,15 @@ const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
     }
   });
   transactions.map((transaction) => {
-    let transactionActions = actionsByTransactionHash.get(transaction.hash);
-    transaction.actions = transactionActions.map((action) => {
-      return {
-        kind: action.kind,
-        args: JSON.parse(action.args),
-      };
-    });
+    const transactionActions = actionsByTransactionHash.get(transaction.hash);
+    if (transactionActions) {
+      transaction.actions = transactionActions.map((action) => {
+        return {
+          kind: action.kind,
+          args: JSON.parse(action.args),
+        };
+      });
+    }
   });
   return { transactions, blocks };
 };
@@ -201,6 +197,6 @@ const queryDashboardBlocksAndTxs = async (from_indexer = false) => {
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
-exports.pickonlineValidatingNode = pickonlineValidatingNode;
+exports.pickOnlineValidatingNode = pickOnlineValidatingNode;
 exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;
 exports.getSyncedGenesis = getSyncedGenesis;
