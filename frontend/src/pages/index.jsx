@@ -20,7 +20,7 @@ export default class extends React.Component {
             <span style={{ color: "#00C1DE" }}>Explore</span> the
           </h1>
           <h1>NEAR Blockchain.</h1>
-          <Row className="inner-content" noGutters>
+          <Row className="inner-content">
             <Row noGutters>
               <Search dashboard />
             </Row>
@@ -40,14 +40,14 @@ export default class extends React.Component {
           </Row>
           <style jsx global>{`
             .inner-content {
-              margin: 32px 100px;
+              margin: 32px 180px;
             }
             h1 {
               font-size: 38px;
               line-height: 46px;
             }
             .card-area {
-              width: 100%;
+              width: 740px;
               display: flex;
               justify-content: space-between;
               margin-top: 81px;

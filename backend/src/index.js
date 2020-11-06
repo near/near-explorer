@@ -22,12 +22,12 @@ const {
 const { setupWamp, wampPublish } = require("./wamp");
 
 const {
-  aggregateStats,
   addNodeInfo,
   queryOnlineNodes,
-  pickonlineValidatingNode,
-  queryDashboardBlocksAndTxs,
+  pickOnlineValidatingNode,
   getSyncedGenesis,
+  queryDashboardBlockInfo,
+  queryDashboardTxInfo,
 } = require("./db-utils");
 
 async function main() {
@@ -150,14 +150,10 @@ async function main() {
     console.log("Starting regular data stats check...");
     try {
       if (wamp.session) {
-        const dataStats = await aggregateStats();
-        const { transactions, blocks } = await queryDashboardBlocksAndTxs();
-        wampPublish("chain-stats", [{ dataStats }], wamp);
-        wampPublish(
-          "chain-latest-blocks-info",
-          [{ transactions, blocks }],
-          wamp
-        );
+        const blockStats = await queryDashboardBlockInfo();
+        const transactionCountArray = await queryDashboardTxInfo();
+        wampPublish("chain-block-stats", [{ blockStats }], wamp);
+        wampPublish("chain-txs-stats", [{ transactionCountArray }], wamp);
       }
       console.log("Regular data stats check is completed.");
     } catch (error) {
@@ -172,14 +168,14 @@ async function main() {
     console.log("Starting regular data stats check from indexer...");
     try {
       if (wamp.session) {
-        const dataStats = await aggregateStats((from_indexer = true));
-        const { transactions, blocks } = await queryDashboardBlocksAndTxs(
+        const blockStats = await queryDashboardBlockInfo((from_indexer = true));
+        const transactionCountArray = await queryDashboardTxInfo(
           (from_indexer = true)
         );
-        wampPublish("chain-stats:from-indexer", [{ dataStats }], wamp);
+        wampPublish("chain-block-stats:from-indexer", [{ blockStats }], wamp);
         wampPublish(
-          "chain-latest-blocks-info:from-indexer",
-          [{ transactions, blocks }],
+          "chain-txs-stats:from-indexer",
+          [{ transactionCountArray }],
           wamp
         );
       }
@@ -201,7 +197,7 @@ async function main() {
       if (wamp.session) {
         let { currentValidators, proposals } = await queryNodeStats();
         let validators = await addNodeInfo(currentValidators);
-        let onlineValidatingNodes = pickonlineValidatingNode(validators);
+        let onlineValidatingNodes = pickOnlineValidatingNode(validators);
         let onlineNodes = await queryOnlineNodes();
         if (!onlineNodes) {
           onlineNodes = [];
