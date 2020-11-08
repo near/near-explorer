@@ -84,7 +84,7 @@ const queryDashboardTxInfo = async (from_indexer = false) => {
       transactionCountArray[i] - transactionCountArray[i - 1];
   }
 
-  return transactionCountArray;
+  return transactionCountArray.reverse();
 };
 
 const addNodeInfo = async (nodes) => {

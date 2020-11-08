@@ -45,7 +45,7 @@ export default () => (
                   {"Average time for producing one block "}
                 </Term>
               }
-              text={<p>1.34 s</p>}
+              text={<p>{(60 / context.lastMinuteBlocks).toFixed(4)} s</p>}
               loading={false}
             />
           </Col>

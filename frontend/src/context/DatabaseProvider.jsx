@@ -4,48 +4,47 @@ import { ExplorerApi } from "../libraries/explorer-wamp/index";
 const DatabaseContext = createContext({
   finalTimestamp: 0,
   lastBlockHeight: 0,
-  totalBlocks: 0,
-  totalTransactions: 0,
-  totalAccounts: 0,
+  lastGasPrice: "0",
+  lastMinuteBlocks: 0,
+  transactionCountArray: [],
   lastDayTxCount: 0,
+  last2DayTxCount: 0,
 });
 
 export default (props) => {
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
   const [lastBlockHeight, dispatchLastBlockHeight] = useState(0);
-  const [totalBlocks, dispatchTotalBlcoks] = useState(0);
-  const [totalTransactions, dispatchTotalTransactions] = useState(0);
-  const [totalAccounts, dispatchTotalAccounts] = useState(0);
+  const [lastGasPrice, dispatchLastGasPrice] = useState("");
+  const [lastMinuteBlocks, dispatchLastMinuteBlocks] = useState(0);
+  const [transactionCountArray, dispatchTransactionArray] = useState([]);
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
+  const [last2DayTxCount, dispatchLast2DayTxCount] = useState(0);
 
   // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
     // subscription data part
-    let states = stats[0].dataStats;
+    let states = stats[0].blockStats;
     let {
       lastBlockHeight: newLastBlockHeight,
-      totalAccounts: newTotalAccounts,
-      totalBlocks: newTotalBlocks,
-      totalTransactions: newTotalTransactions,
-      lastDayTxCount: newLastDayTxCount,
+      lastGasPrice: newLastGasPrice,
+      lastMinuteBlocks: newLastMinuteBlocks,
     } = states;
 
     // dispatch direct data part
-    if (lastBlockHeight !== newLastBlockHeight) {
-      dispatchLastBlockHeight(newLastBlockHeight);
-    }
-    if (totalAccounts !== newTotalAccounts) {
-      dispatchTotalAccounts(newTotalAccounts);
-    }
-    if (totalBlocks !== newTotalBlocks) {
-      dispatchTotalBlcoks(newTotalBlocks);
-    }
-    if (totalTransactions !== newTotalTransactions) {
-      dispatchTotalTransactions(newTotalTransactions);
-    }
-    if (lastDayTxCount !== newLastDayTxCount) {
-      dispatchLastDayTxCount(newLastDayTxCount);
-    }
+    dispatchLastBlockHeight(newLastBlockHeight);
+    dispatchLastGasPrice(newLastGasPrice);
+    dispatchLastMinuteBlocks(newLastMinuteBlocks);
+  };
+
+  const fetchTransactionArray = function (stats) {
+    let transactionCountArray = stats[0].transactionCountArray;
+    dispatchLastDayTxCount(
+      transactionCountArray[transactionCountArray.length - 1]
+    );
+    dispatchLast2DayTxCount(
+      transactionCountArray[transactionCountArray.length - 2]
+    );
+    dispatchTransactionArray(transactionCountArray);
   };
 
   const fetchFinalTimestamp = (timestamp) => {
@@ -56,8 +55,9 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("chain-stats", fetchNewStats);
+    new ExplorerApi().subscribe("chain-block-stats", fetchNewStats);
     new ExplorerApi().subscribe("final-timestamp", fetchFinalTimestamp);
+    new ExplorerApi().subscribe("chain-txs-stats", fetchTransactionArray);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
@@ -67,10 +67,11 @@ export default (props) => {
       value={{
         finalTimestamp,
         lastBlockHeight,
-        totalBlocks,
-        totalTransactions,
-        totalAccounts,
+        lastGasPrice,
+        lastMinuteBlocks,
+        transactionCountArray,
         lastDayTxCount,
+        last2DayTxCount,
       }}
     >
       {props.children}
