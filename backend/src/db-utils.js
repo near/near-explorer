@@ -34,10 +34,10 @@ const aggregateStats = async (options) => {
   async function queryLastDayTxCount({ dataSource }) {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT COUNT(*) as total FROM transactions
-        WHERE block_timestamp > (extract(MILLISECONDS from now()) - 60 * 60 * 24) * 1000`;
+      query = `SELECT COUNT(*) AS total FROM transactions
+        WHERE DIV(block_timestamp, 1000*1000*1000) > (EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24)`;
     } else {
-      query = `SELECT COUNT(*) as total FROM transactions
+      query = `SELECT COUNT(*) AS total FROM transactions
         WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`;
     }
     return await querySingleRow([query], { dataSource });
@@ -186,7 +186,10 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
       transaction.actions = transactionActions.map((action) => {
         return {
           kind: action.kind,
-          args: JSON.parse(action.args),
+          args:
+            typeof action.args === "string"
+              ? JSON.parse(action.args)
+              : action.args,
         };
       });
     }
