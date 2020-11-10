@@ -70,6 +70,7 @@ const BaseChart = (drawChart) => {
         svgRef,
         xScale,
         yScale,
+        data,
       });
 
       drawChart({
@@ -95,6 +96,7 @@ const BaseChart = (drawChart) => {
         <div className="chart-tooltip" ref={tooltipRef} />
         <style jsx global>{`
           .chart-tooltip {
+            position: relative;
             background: #25272a;
             border-radius: 8px;
             color: #ffffff;

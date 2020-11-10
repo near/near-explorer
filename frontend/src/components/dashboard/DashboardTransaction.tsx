@@ -28,7 +28,6 @@ export default () => {
         )}<br><b>Txns: </b>${transactionCountArray[i]}`,
       });
     }
-    console.log(chartData);
     return chartData;
   }
 

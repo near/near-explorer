@@ -26,8 +26,8 @@ export default (config) => {
   svg
     .append("rect")
     .attr("class", "overlay")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", width + margin.left)
+    .attr("height", height + margin.top)
     .style("opacity", 0)
     .on("mouseover", () => {
       focus.style("opacity", 1);
@@ -44,7 +44,7 @@ export default (config) => {
     const xPos = d3.mouse(this)[0];
     const invertedPoint = xScale.invert(xPos);
     const x0 = bisect(data, invertedPoint);
-    const d0 = data[x0];
+    const d0 = data[x0] || data[0];
 
     focus.style("opacity", 1);
 
@@ -54,11 +54,11 @@ export default (config) => {
     );
 
     tooltip.transition().duration(100).style("opacity", 0.9);
-
+    console.log(xScale(d0.value));
     tooltip
       .html(d0.tooltipContent)
-      .style("transform", "translate(-50%,-100%)")
-      .style("left", `${xScale(d0.index) + margin.left}px`)
-      .style("top", `${yScale(d0.value) + margin.top - 10}px`);
+      .style("transform", "translate(-100%,-100%)")
+      .style("left", `${xScale(d0.index)}px`)
+      .style("top", `-60px`);
   }
 };
