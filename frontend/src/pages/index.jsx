@@ -21,7 +21,7 @@ export default class extends React.Component {
           </h1>
           <h1>NEAR Blockchain.</h1>
           <Row className="inner-content">
-            <Row noGutters>
+            <Row noGutters className="search-wrapper">
               <Search dashboard />
             </Row>
             <Row noGutters className="card-area">
@@ -42,15 +42,31 @@ export default class extends React.Component {
             .inner-content {
               margin: 32px 180px;
             }
+
+            .search-wrapper {
+              width: 100%;
+            }
+
             h1 {
               font-size: 38px;
               line-height: 46px;
             }
+
             .card-area {
               width: 740px;
               display: flex;
               justify-content: space-between;
               margin-top: 81px;
+            }
+
+            @media (max-width: 1000px) {
+              .inner-content {
+                margin: 32px auto;
+              }
+              .container {
+                margin: auto auto;
+                padding: 0;
+              }
             }
           `}</style>
         </Container>

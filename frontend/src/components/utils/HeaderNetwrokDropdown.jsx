@@ -41,6 +41,9 @@ export default () => (
             border-radius: 50px;
             color: #000000;
             text-transform: capitalize;
+            width: 100%;
+            max-width: 150px;
+            padding: 5px 2px;
           }
 
           .header-network:hover,
@@ -75,7 +78,7 @@ export default () => (
 
           .network-icon {
             display: inline-block;
-            margin-right: 8px;
+            margin-right: 3px;
             width: 8px;
             height: 8px;
             border-radius: 50%;
@@ -85,8 +88,8 @@ export default () => (
           }
 
           .icon-right {
-            height: 18px;
-            margin-left: 15px;
+            height: 12px;
+            margin-left: 6px;
           }
         `}</style>
       </Dropdown>

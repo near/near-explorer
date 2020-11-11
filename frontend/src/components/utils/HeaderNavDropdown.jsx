@@ -40,7 +40,7 @@ const HeaderNavItem = ({ link, imgLink, text }) => {
 export default () => (
   <Dropdown>
     <Dropdown.Toggle variant="secondary" className="chain-header">
-      Chain-Info
+      ChainInfo
     </Dropdown.Toggle>
     <Dropdown.Menu className="header-dropdown-menu">
       <HeaderNavItem
@@ -72,6 +72,7 @@ export default () => (
         background: #ffffff;
         border: none;
         font-weight: 500;
+        width: 100%;
       }
       .header-dropdown-menu {
         background: #25272a;

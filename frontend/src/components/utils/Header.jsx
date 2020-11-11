@@ -11,18 +11,7 @@ export default () => {
   return (
     <Container fluid className="header-container">
       <Row noGutters>
-        <Col xs="2" className="px-0 d-md-none align-self-center">
-          <Link href="/">
-            <a>
-              <img
-                className="near-main-logo-mobile"
-                src="/static/images/near_logo.svg"
-              />
-            </a>
-          </Link>
-        </Col>
-
-        <Col md="auto" xs="6" className="pl-0  d-none d-md-block ">
+        <Col xs="6" className="px-0 d-md-none align-self-center">
           <Link href="/">
             <a>
               <img
@@ -33,24 +22,26 @@ export default () => {
           </Link>
         </Col>
 
-        <Col className="align-self-center mb-3 mt-3" md="auto">
-          <HeaderNetwrokDropdown />
-        </Col>
-
-        <Col className="align-self-center mb-3 mt-3" md="6">
-          {router.pathname !== "/" && <Search />}
-        </Col>
-
-        <Col
-          className="align-self-center mb-3 mt-3"
-          style={{ textAlign: "center" }}
-        >
+        <Col md="2" className="pl-0  d-none d-md-block">
           <Link href="/">
-            <a className="near-home">Home</a>
+            <a>
+              <img
+                className="near-main-logo"
+                src="/static/images/near_logo.svg"
+              />
+            </a>
           </Link>
         </Col>
 
-        <Col className="align-self-center mb-3 mt-3" md="auto">
+        <Col className="align-self-center" md="2" xs="6">
+          <HeaderNetwrokDropdown />
+        </Col>
+
+        <Col className="align-self-center pl-1" md="6" xs="12">
+          {router.pathname !== "/" && <Search />}
+        </Col>
+
+        <Col className="align-self-center text-right" md="2">
           <HeaderNavDropdown />
         </Col>
       </Row>
@@ -63,14 +54,25 @@ export default () => {
         }
 
         .near-main-logo {
-          width: 180px !important;
-          padding: 14px;
+          height: 72px;
+          padding: 6px;
         }
 
         .near-home {
           font-weight: 500;
           color: #000000;
           margin: auto;
+        }
+
+        @media (max-width: 780px) {
+          .near-home {
+            display: none;
+            width: 0;
+          }
+
+          .near-main-logo {
+            width: 100%;
+          }
         }
       `}</style>
     </Container>

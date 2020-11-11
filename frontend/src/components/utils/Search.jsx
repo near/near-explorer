@@ -47,8 +47,8 @@ export default class extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSearch}>
-        <Row className="search-box" noGutters>
+      <form onSubmit={this.handleSearch} className="search-box">
+        <Row noGutters>
           <InputGroup>
             {!this.props.dashboard && (
               <InputGroup.Prepend>
@@ -78,8 +78,15 @@ export default class extends React.Component {
           .search-box {
             background: white;
             width: 740px;
+            max-width: 100%;
             height: ${this.props.dashboard ? "49px" : "40px"};
             margin: auto;
+          }
+
+          @media (max-width: 1000px) {
+            .search-box {
+              width: 100%;
+            }
           }
 
           .input-group-text {

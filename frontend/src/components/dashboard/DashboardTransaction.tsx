@@ -83,7 +83,7 @@ export default () => {
               <TransactionHistoryChart
                 data={regenerateData(context.transactionCountArray)}
                 svgProps={{
-                  margin: { top: 40, bottom: 40, left: 40, right: 40 },
+                  margin: { top: 20, bottom: 20, left: 40, right: 20 },
                   width: 638,
                   height: 176,
                 }}
@@ -92,11 +92,18 @@ export default () => {
           </Row>
           <style jsx global>{`
             .transaction-card {
-              width: 740px;
+              width: 720px;
+              max-width: 100%;
               height: 498px;
               box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
               border-radius: 8px;
               background: #ffffff;
+            }
+
+            @media (max-width: 750px) {
+              .transaction-card {
+                width: 100%;
+              }
             }
 
             .transaction-view-all {

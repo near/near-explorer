@@ -6,9 +6,6 @@ export default () => (
       <Row className="align-self-right text-left">
         <div className="help-bar bar-responsive">
           <div>
-            <img className="help-image" src="/static/images/nearkat-prof.svg" />
-          </div>
-          <div>
             <a href="http://near.chat" target="_blank">
               <div className="help-text">
                 <p className="need-help-contact">Need Help?</p>
@@ -18,13 +15,16 @@ export default () => (
               </div>
             </a>
           </div>
+          <div className="near-prof">
+            <img className="help-image" src="/static/images/nearkat-prof.svg" />
+          </div>
         </div>
       </Row>
       <Row className="bar">
         <Col className="align-self-center text-center" xs="4" md="3">
           <img className="near-logo" src="/static/images/near_logo.svg" />
         </Col>
-        <Col className="align-self-center footer-link text-left" xs="8" md="6">
+        <Col className="align-self-center footer-link text-left" xs="8" md="5">
           © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
           <br />
           <a className="footer-link-href" href="https://near.org/privacy/">
@@ -35,7 +35,7 @@ export default () => (
             Privacy Policy
           </a>
         </Col>
-        <Col xs="0" md="3">
+        <Col xs="0" md="4">
           <div className="help-bar bar-inverse">
             <div>
               <img
@@ -73,7 +73,6 @@ export default () => (
       }
 
       .near-logo {
-        margin: 35px 55px 35px 35px;
         width: 90px;
       }
 
@@ -115,7 +114,14 @@ export default () => (
         height: 140px;
       }
 
+      .near-prof {
+        position: relative;
+        left: 160px;
+        top: -120px;
+      }
+
       .help-bar {
+        width: 100%;
         display: flex;
         flex-direction: row;
       }
@@ -134,7 +140,7 @@ export default () => (
           display: block;
           position: relative;
           left: 0;
-          bottom: 100px;
+          bottom: -100px;
         }
         .bar-inverse {
           display: none;

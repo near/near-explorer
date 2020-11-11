@@ -9,10 +9,10 @@ export interface Props {
 
 export default ({ title, text, loading, href }: Props) => (
   <Row className="long-card-cell" noGutters>
-    <Col xs="auto" md="12" className="long-card-cell-title align-self-center">
+    <Col xs="12" md="12" className="long-card-cell-title align-self-center">
       {title}
     </Col>
-    <Col xs="auto" md="12" className="ml-auto card-cell-text align-self-center">
+    <Col xs="12" md="12" className="ml-auto card-cell-text align-self-center">
       {loading ? (
         <Spinner animation="border" variant="secondary" />
       ) : href ? (
@@ -88,6 +88,17 @@ export default ({ title, text, loading, href }: Props) => (
       @media (max-width: 800px) {
         .card-cell .term-helper .info {
           display: block;
+        }
+        .long-card-cell {
+          width: 45%;
+        }
+      }
+      @media (max-width: 400px) {
+        .long-card-cell {
+          width: 100%;
+        }
+        .card-cell-text {
+          font-size: 24px;
         }
       }
     `}</style>
