@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import moment from "moment";
 
@@ -11,6 +11,20 @@ import GasPrice from "../utils/GasPrice";
 import TransactionHistoryChart from "../utils/TransactionHistoryChart";
 
 export default () => {
+  const [windowSize, setWindowSize] = useState({ width: 0 });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({ width: window.innerWidth });
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   function regenerateData(transactionCountArray: any) {
     const chartData = [];
     for (let i = 0; i < transactionCountArray.length; i++) {
@@ -83,8 +97,8 @@ export default () => {
               <TransactionHistoryChart
                 data={regenerateData(context.transactionCountArray)}
                 svgProps={{
-                  margin: { top: 20, bottom: 20, left: 40, right: 20 },
-                  width: 638,
+                  margin: { top: 20, bottom: 20, left: 35, right: 10 },
+                  width: windowSize.width < 638 ? windowSize.width - 100 : 638,
                   height: 176,
                 }}
               />
@@ -94,20 +108,24 @@ export default () => {
             .transaction-card {
               width: 720px;
               max-width: 100%;
-              height: 498px;
               box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
               border-radius: 8px;
               background: #ffffff;
+              margin-top: ;
             }
 
-            @media (max-width: 750px) {
+            @media (max-width: 400px) {
               .transaction-card {
                 width: 100%;
+                border-radius: 0;
+              }
+              .transaction-card-chart {
+                margin-top: 113px;
               }
             }
 
             .transaction-view-all {
-              margin-left: 600px;
+              margin-left: 70%;
               text-decoration: none;
               font-weight: 600;
               font-size: 14px;

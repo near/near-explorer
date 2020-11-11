@@ -15,6 +15,11 @@ function drawLineChart(props) {
     .y((d) => yScale(d.value))
     .curve(d3.curveMonotoneX);
 
+  const area = d3
+    .area()
+    .x((d) => xScale(d.index))
+    .y((d) => yScale(d.value));
+
   svg
     .append("path")
     .datum(data)
@@ -22,6 +27,12 @@ function drawLineChart(props) {
     .style("stroke", "#00C1DE")
     .attr("stroke-width", "2")
     .attr("d", line);
+
+  svg
+    .append("path")
+    .datum(data)
+    .attr("d", area)
+    .style("fill", "rgba(0, 114, 206, 1)");
 }
 
 const BaseChart = (drawChart) => {
@@ -109,8 +120,15 @@ const BaseChart = (drawChart) => {
             background: #f9f9f9;
             border-radius: 4px;
           }
+
           .chart-container {
             margin-left: 10px;
+          }
+
+          @media (max-width: 400px) {
+            .chart-container {
+              margin-left: 10px;
+            }
           }
         `}</style>
       </div>

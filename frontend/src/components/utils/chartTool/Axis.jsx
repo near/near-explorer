@@ -11,9 +11,12 @@ export default (config) => {
     .style("color", "#9B9B9B")
     .attr("transform", `translate(0,${height})`)
     .call(
-      d3.axisBottom(xScale).tickFormat(function (d) {
-        return data[d].label;
-      })
+      d3
+        .axisBottom(xScale)
+        .tickFormat(function (d) {
+          return data[d].label;
+        })
+        .ticks(5)
     );
 
   svg.append("g").style("color", "#9B9B9B").call(d3.axisLeft(yScale));

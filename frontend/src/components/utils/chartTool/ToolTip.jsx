@@ -26,8 +26,8 @@ export default (config) => {
   svg
     .append("rect")
     .attr("class", "overlay")
-    .attr("width", width + margin.left)
-    .attr("height", height + margin.top)
+    .attr("width", width)
+    .attr("height", height)
     .style("opacity", 0)
     .on("mouseover", () => {
       focus.style("opacity", 1);
@@ -57,8 +57,8 @@ export default (config) => {
     console.log(xScale(d0.value));
     tooltip
       .html(d0.tooltipContent)
-      .style("transform", "translate(-100%,-100%)")
-      .style("left", `${xScale(d0.index)}px`)
-      .style("top", `-60px`);
+      // .style("transform", "translate(-100%,-100%)")
+      .style("left", d3.mouse(this)[0] + "px")
+      .style("top", "-200px");
   }
 };

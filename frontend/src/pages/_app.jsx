@@ -65,6 +65,10 @@ export default class extends App {
         >
           <div>
             <Header />
+            <img
+              src="/static/images/explorer-bg.svg"
+              className="background-img"
+            />
             <DatabaseProvider>
               <Component
                 {...pageProps}
@@ -80,6 +84,12 @@ export default class extends App {
             height: 100%;
             margin: 0;
             font-family: "Inter", sans-serif;
+          }
+          .background-img {
+            position: absolute;
+            right: 0;
+            top: 72px;
+            z-index: -1;
           }
 
           a {
