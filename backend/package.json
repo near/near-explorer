@@ -9,6 +9,7 @@
     "start:testnet": "env NEAR_RPC_URL=https://rpc.testnet.near.org WAMP_NEAR_NETWORK_NAME=testnet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json npm run start",
     "start:mainnet": "env NEAR_RPC_URL=https://rpc.mainnet.near.org WAMP_NEAR_NETWORK_NAME=mainnet NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json npm run start",
     "start:with-indexer": "env NEAR_IS_LEGACY_SYNC_BACKEND_ENABLED=false NEAR_IS_INDEXER_BACKEND_ENABLED=true npm run start",
+    "start:testnet-with-indexer": "source ./config/env-indexer-testnet && npm run start:with-indexer",
     "start:mainnet-with-indexer": "source ./config/env-indexer-mainnet && npm run start:with-indexer"
   },
   "repository": {
