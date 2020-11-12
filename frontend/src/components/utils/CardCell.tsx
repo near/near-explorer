@@ -37,7 +37,7 @@ export default ({ title, imgLink, text, className, loading }: Props) => (
         text-transform: uppercase;
         letter-spacing: 1.8px;
         color: #999999;
-        font-family: BentonSans;
+        font-family: "Inter", sans-serif;
         font-size: 14px;
         font-weight: 500;
       }

@@ -162,7 +162,7 @@ export default class extends React.Component<Props> {
               }
 
               .node-row-title {
-                font-family: BentonSans;
+                font-family: "Inter", sans-serif;
                 font-size: 14px;
                 font-weight: 500;
                 line-height: 1.29;
@@ -170,7 +170,7 @@ export default class extends React.Component<Props> {
               }
 
               .node-row-text {
-                font-family: BentonSans;
+                font-family: "Inter", sans-serif;
                 font-size: 12px;
                 font-weight: 500;
                 line-height: 1.5;
@@ -178,7 +178,7 @@ export default class extends React.Component<Props> {
               }
 
               .node-row-txid {
-                font-family: BentonSans;
+                font-family: "Inter", sans-serif;
                 font-size: 14px;
                 font-weight: 500;
                 line-height: 1.29;
@@ -186,7 +186,7 @@ export default class extends React.Component<Props> {
               }
 
               .node-row-timer {
-                font-family: BentonSans;
+                font-family: "Inter", sans-serif;
                 font-size: 12px;
                 color: #999999;
                 font-weight: 100;

@@ -59,7 +59,7 @@ export default () => (
         text="Transactions"
       />
       <HeaderNavItem
-        link="/validators"
+        link="/nodes/validators"
         imgLink="/static/images/icon-nodes.svg"
         text="Nodes"
       />
