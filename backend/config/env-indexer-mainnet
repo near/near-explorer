@@ -1,0 +1,10 @@
+export WAMP_NEAR_NETWORK_NAME=mainnet
+export NEAR_RPC_URL=https://rpc.mainnet.near.org
+export NEAR_INDEXER_DATABASE_HOST=...
+export NEAR_INDEXER_DATABASE_NAME=indexer-for-explorer-mainnet
+export NEAR_INDEXER_DATABASE_USERNAME=explorer
+export NEAR_INDEXER_DATABASE_PASSWORD=...
+
+# To override the above values during local development, create the file with
+# `-local` suffix and export all the necessary environment variables there
+source "$(dirname "$BASH_SOURCE")/env-indexer-mainnet-local"

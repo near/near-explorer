@@ -6,7 +6,7 @@ export interface Details {
   onlineNodesCount: number;
   totalTxCount: number;
   lastDayTxCount: number;
-  lastBlockHeight: number;
+  latestBlockHeight: number;
 }
 
 export default class DetailsApi extends ExplorerApi {
@@ -18,12 +18,12 @@ export default class DetailsApi extends ExplorerApi {
             SELECT
             online_nodes.onlineNodesCount,
             total_accounts.accountsCount,
-            last_block.lastBlockHeight,
+            latest_block.latestBlockHeight,
             total_transactions.totalTxCount,
             day_transactions.lastDayTxCount
           FROM
             (SELECT COUNT(*) as onlineNodesCount FROM nodes WHERE last_seen > (strftime('%s','now') - 60) * 1000) as online_nodes,
-            (SELECT height as lastBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as last_block,
+            (SELECT height as latestBlockHeight FROM blocks ORDER BY height DESC LIMIT 1) as latest_block,
             (SELECT COUNT(*) as accountsCount FROM accounts) as total_accounts,
             (SELECT COUNT(*) as totalTxCount FROM transactions) as total_transactions,
             (SELECT COUNT(*) as lastDayTxCount FROM transactions

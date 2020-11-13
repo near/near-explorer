@@ -68,8 +68,8 @@ export default class extends React.Component {
                     </Term>
                   }
                   imgLink="/static/images/icon-m-height.svg"
-                  text={context.lastBlockHeight.toLocaleString()}
-                  loading={!context.lastBlockHeight}
+                  text={context.latestBlockHeight.toLocaleString()}
+                  loading={!context.latestBlockHeight}
                 />
               </Col>
               <Col xs="12" md="2">

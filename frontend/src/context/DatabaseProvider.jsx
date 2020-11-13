@@ -3,9 +3,9 @@ import { ExplorerApi } from "../libraries/explorer-wamp/index";
 
 const DatabaseContext = createContext({
   finalTimestamp: 0,
-  lastBlockHeight: 0,
-  lastGasPrice: "0",
-  lastMinuteBlocks: 0,
+  latestBlockHeight: 0,
+  latestGasPrice: "0",
+  numberOfLastMinuteBlocks: 0,
   transactionCountArray: [],
   lastDayTxCount: 0,
   last2DayTxCount: 0,
@@ -13,27 +13,30 @@ const DatabaseContext = createContext({
 
 export default (props) => {
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
-  const [lastBlockHeight, dispatchLastBlockHeight] = useState(0);
-  const [lastGasPrice, dispatchLastGasPrice] = useState("");
-  const [lastMinuteBlocks, dispatchLastMinuteBlocks] = useState(0);
+  const [latestBlockHeight, dispatchLatestBlockHeight] = useState(0);
+  const [latestGasPrice, dispatchLatestGasPrice] = useState("");
+  const [numberOfLastMinuteBlocks, dispatchNumberOfLastMinuteBlocks] = useState(
+    0
+  );
   const [transactionCountArray, dispatchTransactionArray] = useState([]);
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
   const [last2DayTxCount, dispatchLast2DayTxCount] = useState(0);
 
-  // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
+  // fetch total amount of blocks, txs and accounts and latestBlockHeight and txs for 24hr
   const fetchNewStats = function (stats) {
     // subscription data part
     let states = stats[0].blockStats;
+    console.log(states);
     let {
-      lastBlockHeight: newLastBlockHeight,
-      lastGasPrice: newLastGasPrice,
-      lastMinuteBlocks: newLastMinuteBlocks,
+      latestBlockHeight: newLatestBlockHeight,
+      latestGasPrice: newLatestGasPrice,
+      numberOfLastMinuteBlocks: newNumberOfLastMinuteBlocks,
     } = states;
 
     // dispatch direct data part
-    dispatchLastBlockHeight(newLastBlockHeight);
-    dispatchLastGasPrice(newLastGasPrice);
-    dispatchLastMinuteBlocks(newLastMinuteBlocks);
+    dispatchLatestBlockHeight(newLatestBlockHeight);
+    dispatchLatestGasPrice(newLatestGasPrice);
+    dispatchNumberOfLastMinuteBlocks(newNumberOfLastMinuteBlocks);
   };
 
   const fetchTransactionArray = function (stats) {
@@ -66,9 +69,9 @@ export default (props) => {
     <DatabaseContext.Provider
       value={{
         finalTimestamp,
-        lastBlockHeight,
-        lastGasPrice,
-        lastMinuteBlocks,
+        latestBlockHeight,
+        latestGasPrice,
+        numberOfLastMinuteBlocks,
         transactionCountArray,
         lastDayTxCount,
         last2DayTxCount,

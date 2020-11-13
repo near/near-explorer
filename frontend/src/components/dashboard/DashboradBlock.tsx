@@ -34,8 +34,8 @@ export default () => (
                   </p>
                 </Term>
               }
-              text={<p>{context.lastBlockHeight.toLocaleString()}</p>}
-              loading={!context.lastBlockHeight}
+              text={<p>{context.latestBlockHeight.toLocaleString()}</p>}
+              loading={!context.latestBlockHeight}
             />
           </Col>
           <Col xs="6" md="12">
@@ -45,7 +45,9 @@ export default () => (
                   {"Average time for producing one block "}
                 </Term>
               }
-              text={<p>{(60 / context.lastMinuteBlocks).toFixed(4)} s</p>}
+              text={
+                <p>{(60 / context.numberOfLastMinuteBlocks).toFixed(4)} s</p>
+              }
               loading={false}
             />
           </Col>

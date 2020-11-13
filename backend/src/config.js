@@ -3,6 +3,14 @@ exports.nearRpcUrl = process.env.NEAR_RPC_URL || "http://localhost:3030";
 exports.debugLogs =
   (process.env.NEAR_DEBUG_LOGS || "TRUE").toUpperCase() !== "FALSE";
 
+exports.isLegacySyncBackendEnabled =
+  (process.env.NEAR_IS_LEGACY_SYNC_BACKEND_ENABLED || "TRUE").toUpperCase() !==
+  "FALSE";
+
+exports.isIndexerBackendEnabled =
+  (process.env.NEAR_IS_INDEXER_BACKEND_ENABLED || "FALSE").toUpperCase() !==
+  "FALSE";
+
 exports.syncFetchQueueSize =
   parseInt(process.env.NEAR_SYNC_FETCH_QUEUE_SIZE) || 3;
 

@@ -1,6 +1,6 @@
 const nearApi = require("near-api-js");
 
-const { nearRpcUrl, wampNearNetworkName } = require("./config");
+const { nearRpcUrl } = require("./config");
 
 const nearRpc = new nearApi.providers.JsonRpcProvider(nearRpcUrl);
 

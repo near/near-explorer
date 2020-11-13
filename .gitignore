@@ -61,6 +61,7 @@ typings/
 .next
 
 # backend ignores
+backend/config/*-local
 backend/db
 
 # frontend ignores

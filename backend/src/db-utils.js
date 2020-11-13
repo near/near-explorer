@@ -1,87 +1,136 @@
+const BN = require("bn.js");
+
+const { DS_INDEXER_BACKEND } = require("./consts");
 const models = require("../models");
 
-const query = async ([query, replacements], from_indexer = false) => {
-  if (from_indexer) {
-    return await models.sequelizePostgres.query(query, {
-      replacements,
-      type: models.Sequelize.QueryTypes.SELECT,
-    });
-  }
-  return await models.sequelizeReadOnly.query(query, {
+const query = async ([query, replacements], { dataSource }) => {
+  const sequelize =
+    dataSource === DS_INDEXER_BACKEND
+      ? models.sequelizeIndexerBackendReadOnly
+      : models.sequelizeLegacySyncBackendReadOnly;
+  return await sequelize.query(query, {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT,
   });
 };
 
-const querySingleRow = async (args, from_indexer = false) => {
-  const result = await query(args, from_indexer);
+const querySingleRow = async (args, options) => {
+  const result = await query(args, options || {});
   return result[0];
 };
 
-const queryRows = async (args, from_indexer = false) => {
-  return await query(args, from_indexer);
+const queryRows = async (args, options) => {
+  return await query(args, options || {});
 };
 
-const getSyncedGenesis = async (from_indexer = false) => {
+const getSyncedGenesis = async (options) => {
   return await querySingleRow(
     [
       `SELECT genesis_time as genesisTime, genesis_height as genesisHeight, chain_id as chainId FROM genesis`,
     ],
-    from_indexer
+    options
   );
 };
 
-const queryDashboardBlockInfo = async (from_indexer = false) => {
-  async function queryLastMinuteBlocks(from_indexer) {
+const queryDashboardBlockInfo = async (options) => {
+  async function queryLatestBlockHeight({ dataSource }) {
     let query;
-    if (from_indexer) {
-      query = `SELECT COUNT(*) as total FROM blocks
-        WHERE timestamp > (extract(epoch from now()) - 60) * 1000000000`;
+    if (dataSource === DS_INDEXER_BACKEND) {
+      query = `SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`;
     } else {
-      query = `SELECT COUNT(*) as total FROM blocks
-        WHERE timestamp > (strftime('%s','now') - 60) * 1000`;
+      query = `SELECT height AS block_height FROM blocks ORDER BY height DESC LIMIT 1`;
     }
-    return await querySingleRow([query], from_indexer);
+    return await querySingleRow([query], { dataSource });
   }
 
-  const [lastBlockHeight, lastGasPrice, lastMinuteBlocks] = await Promise.all([
-    querySingleRow(
-      [`SELECT height FROM blocks ORDER BY height DESC LIMIT 1`],
-      from_indexer
-    ),
-    querySingleRow(
-      [`SELECT gas_price as price FROM blocks ORDER BY height DESC LIMIT 1`],
-      from_indexer
-    ),
-    queryLastMinuteBlocks(from_indexer),
+  async function queryLatestGasPrice({ dataSource }) {
+    let query;
+    if (dataSource === DS_INDEXER_BACKEND) {
+      query = `SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`;
+    } else {
+      query = `SELECT gas_price FROM blocks ORDER BY height DESC LIMIT 1`;
+    }
+    return await querySingleRow([query], { dataSource });
+  }
+
+  async function queryLastMinuteBlocks({ dataSource }) {
+    let query;
+    if (dataSource === DS_INDEXER_BACKEND) {
+      query = `SELECT block_timestamp AS latest_block_timestamp FROM blocks ORDER BY block_timestamp DESC LIMIT 1`;
+    } else {
+      query = `SELECT timestamp AS latest_block_timestamp FROM blocks ORDER BY timestamp DESC LIMIT 1`;
+    }
+    const latestBlockTimestampOrNone = await querySingleRow([query], {
+      dataSource,
+    });
+    if (!latestBlockTimestampOrNone) {
+      return { total: 0 };
+    }
+
+    const {
+      latest_block_timestamp: latestBlockTimestamp,
+    } = latestBlockTimestampOrNone;
+    const latestBlockTimestampBN = new BN(latestBlockTimestamp);
+    const nowEpochTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
+    let latestBlockEpochTimeBN;
+    if (dataSource == DS_INDEXER_BACKEND) {
+      latestBlockEpochTimeBN = latestBlockTimestampBN.div(new BN("1000000000"));
+    } else {
+      latestBlockEpochTimeBN = latestBlockTimestampBN.divn(1000);
+    }
+    // If the latest block is older than 1 minute from now, we report 0
+    if (nowEpochTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
+      return { total: 0 };
+    }
+
+    if (dataSource === DS_INDEXER_BACKEND) {
+      query = `SELECT COUNT(*) AS total FROM blocks
+        WHERE block_timestamp > (:latestBlockTimestamp - 60 * 1000000000)`;
+    } else {
+      query = `SELECT COUNT(*) AS total FROM blocks
+        WHERE timestamp > (:latestBlockTimestamp - 60 * 1000)`;
+    }
+    return await querySingleRow([query, { latestBlockTimestamp }], {
+      dataSource,
+    });
+  }
+
+  const [
+    lastBlockHeight,
+    latestGasPrice,
+    lastMinuteBlocks,
+  ] = await Promise.all([
+    queryLatestBlockHeight(options),
+    queryLatestGasPrice(options),
+    queryLastMinuteBlocks(options),
   ]);
   return {
-    lastBlockHeight: lastBlockHeight ? lastBlockHeight.height : 0,
-    lastGasPrice: lastGasPrice.price,
-    lastMinuteBlocks: lastMinuteBlocks.total,
+    latestBlockHeight: lastBlockHeight ? lastBlockHeight.block_height : 0,
+    latestGasPrice: latestGasPrice.gas_price,
+    numberOfLastMinuteBlocks: lastMinuteBlocks.total,
   };
 };
 
-const queryDashboardTxInfo = async (from_indexer = false) => {
-  async function queryLastDayTxCount(from_indexer, day = 1) {
+const queryDashboardTxInfo = async (options) => {
+  async function queryLastDayTxCount({ dataSource }, day = 1) {
     let query;
-    if (from_indexer) {
-      query = `SELECT COUNT(*) as total FROM transactions
-        WHERE block_timestamp > (extract(epoch from now()) - 60 * 60 * 24 * ${day}) * 1000000000`;
+    if (dataSource === DS_INDEXER_BACKEND) {
+      query = `SELECT COUNT(*) AS total FROM transactions
+        WHERE block_timestamp > (EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * ${day}) * 1000000000`;
     } else {
-      query = `SELECT COUNT(*) as total FROM transactions
+      query = `SELECT COUNT(*) AS total FROM transactions
         WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24 * ${day}) * 1000`;
     }
-    return await querySingleRow([query], from_indexer);
+    return await querySingleRow([query], { dataSource });
   }
+
   let transactionCountArray = new Array(14);
   for (let i = 0; i < transactionCountArray.length; i++) {
-    let result = await queryLastDayTxCount(from_indexer, i + 1);
+    let result = await queryLastDayTxCount(options, i + 1);
     transactionCountArray[i] = result.total;
   }
   for (let i = transactionCountArray.length - 1; i > 0; i--) {
-    transactionCountArray[i] =
-      transactionCountArray[i] - transactionCountArray[i - 1];
+    transactionCountArray[i] -= transactionCountArray[i - 1];
   }
 
   return transactionCountArray.reverse();

@@ -2,6 +2,8 @@ const moment = require("moment");
 
 const models = require("../models");
 const {
+  isLegacySyncBackendEnabled,
+  isIndexerBackendEnabled,
   backupDbOnReset,
   regularCheckGenesisInterval,
   regularSyncNewNearcoreStateInterval,
@@ -10,6 +12,7 @@ const {
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
 } = require("./config");
+const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
 const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
 
@@ -30,10 +33,10 @@ const {
   queryDashboardTxInfo,
 } = require("./db-utils");
 
-async function main() {
-  console.log("Starting NEAR Explorer backend service...");
+async function startLegacySync() {
+  console.log("Starting NEAR Explorer legacy syncing service...");
 
-  await models.sequelize.sync();
+  await models.sequelizeLegacySyncBackend.sync();
 
   let genesisHeight, genesisTime, genesisChainId;
 
@@ -124,6 +127,50 @@ async function main() {
     regularSyncMissingNearcoreState,
     regularSyncMissingNearcoreStateInterval
   );
+}
+
+function getDataSourceSpecificTopicName(baseTopicName, dataSource) {
+  const defaultBackend = DS_LEGACY_SYNC_BACKEND;
+  if (dataSource === defaultBackend) {
+    return baseTopicName;
+  }
+  return `${baseTopicName}:${dataSource}`;
+}
+
+function startDataSourceSpecificJobs(wamp, dataSource) {
+  const regularCheckDataStats = async () => {
+    console.log(`Starting regular data stats check from ${dataSource}...`);
+    try {
+      if (wamp.session) {
+        const blockStats = await queryDashboardBlockInfo({ dataSource });
+        const transactionCountArray = await queryDashboardTxInfo({
+          dataSource,
+        });
+        wampPublish(
+          getDataSourceSpecificTopicName("chain-block-stats", dataSource),
+          [{ blockStats }],
+          wamp
+        );
+        wampPublish(
+          getDataSourceSpecificTopicName("chain-txs-stats", dataSource),
+          [{ transactionCountArray }],
+          wamp
+        );
+      }
+      console.log(`Regular data stats check from ${dataSource} is completed.`);
+    } catch (error) {
+      console.warn(
+        `Regular data stats check from ${dataSource} is crashed due to:`,
+        error
+      );
+    }
+    setTimeout(regularCheckDataStats, regularQueryStatsInterval);
+  };
+  setTimeout(regularCheckDataStats, 0);
+}
+
+async function main() {
+  console.log("Starting Explorer backend...");
 
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");
@@ -143,52 +190,7 @@ async function main() {
     }
     setTimeout(regularCheckFinalTimestamp, regularQueryRPCInterval);
   };
-  setTimeout(regularCheckFinalTimestamp, 0);
-
-  // regular check block/tx data stats and publish to data-stats uri
-  const regularCheckDataStats = async () => {
-    console.log("Starting regular data stats check...");
-    try {
-      if (wamp.session) {
-        const blockStats = await queryDashboardBlockInfo();
-        const transactionCountArray = await queryDashboardTxInfo();
-        wampPublish("chain-block-stats", [{ blockStats }], wamp);
-        wampPublish("chain-txs-stats", [{ transactionCountArray }], wamp);
-      }
-      console.log("Regular data stats check is completed.");
-    } catch (error) {
-      console.warn("Regular data stats check crashed due to:", error);
-    }
-    setTimeout(regularCheckDataStats, regularQueryStatsInterval);
-  };
-  setTimeout(regularCheckDataStats, 0);
-
-  // regular check block/tx data from indexer
-  const regularCheckDataStatsFromIndexer = async () => {
-    console.log("Starting regular data stats check from indexer...");
-    try {
-      if (wamp.session) {
-        const blockStats = await queryDashboardBlockInfo((from_indexer = true));
-        const transactionCountArray = await queryDashboardTxInfo(
-          (from_indexer = true)
-        );
-        wampPublish("chain-block-stats:from-indexer", [{ blockStats }], wamp);
-        wampPublish(
-          "chain-txs-stats:from-indexer",
-          [{ transactionCountArray }],
-          wamp
-        );
-      }
-      console.log("Regular data stats check from indexer is completed.");
-    } catch (error) {
-      console.warn(
-        "Regular data stats check from indexer is crashed due to:",
-        error
-      );
-    }
-    setTimeout(regularCheckDataStatsFromIndexer, regularQueryStatsInterval);
-  };
-  setTimeout(regularCheckDataStatsFromIndexer, 0);
+  //setTimeout(regularCheckFinalTimestamp, 0);
 
   // regular check node status and publish to nodes uri
   const regularCheckNodeStatus = async () => {
@@ -225,7 +227,15 @@ async function main() {
     }
     setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };
-  setTimeout(regularCheckNodeStatus, 0);
+  //setTimeout(regularCheckNodeStatus, 0);
+
+  if (isLegacySyncBackendEnabled) {
+    await startLegacySync();
+    await startDataSourceSpecificJobs(wamp, DS_LEGACY_SYNC_BACKEND);
+  }
+  if (isIndexerBackendEnabled) {
+    await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
+  }
 }
 
 main();

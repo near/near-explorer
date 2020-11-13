@@ -84,7 +84,7 @@ export default () => {
                     <a href={"https://docs.near.org/docs/concepts/gas"}>docs</a>
                   </Term>
                 }
-                text={<GasPrice gasPrice={context.lastGasPrice} />}
+                text={<GasPrice gasPrice={context.latestGasPrice} />}
                 loading={false}
               />
             </Col>
