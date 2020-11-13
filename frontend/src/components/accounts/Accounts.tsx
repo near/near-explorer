@@ -46,11 +46,7 @@ class Accounts extends React.Component<InnerProps> {
       <FlipMove duration={1000} staggerDurationBy={0}>
         {items &&
           items.map((account) => (
-            <AccountRow
-              key={account.accountId}
-              accountId={account.accountId}
-              createdAt={account.createdAtBlockTimestamp}
-            />
+            <AccountRow key={account.accountId} accountId={account.accountId} />
           ))}
       </FlipMove>
     );
