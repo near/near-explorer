@@ -190,7 +190,7 @@ async function main() {
     }
     setTimeout(regularCheckFinalTimestamp, regularQueryRPCInterval);
   };
-  //setTimeout(regularCheckFinalTimestamp, 0);
+  setTimeout(regularCheckFinalTimestamp, 0);
 
   // regular check node status and publish to nodes uri
   const regularCheckNodeStatus = async () => {
@@ -227,7 +227,7 @@ async function main() {
     }
     setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };
-  //setTimeout(regularCheckNodeStatus, 0);
+  setTimeout(regularCheckNodeStatus, 0);
 
   if (isLegacySyncBackendEnabled) {
     await startLegacySync();
