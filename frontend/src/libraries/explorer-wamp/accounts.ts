@@ -33,6 +33,13 @@ export interface AccountPagination {
 type PaginatedAccountBasicInfo = AccountBasicInfo & { accountIndex: number };
 
 export default class AccountsApi extends ExplorerApi {
+  selectOption: string;
+  constructor() {
+    super();
+    this.selectOption =
+      this.nearNetwork.name === "testnet" ? "Indexer" : "Legacy";
+  }
+
   async getAccountInfo(accountId: string): Promise<Account> {
     try {
       const [accountInfo, accountBasic, accountStats] = await Promise.all([
@@ -82,6 +89,24 @@ export default class AccountsApi extends ExplorerApi {
     paginationIndexer?: AccountPagination
   ): Promise<PaginatedAccountBasicInfo[]> {
     try {
+      if (this.selectOption === "Legacy") {
+        return await this.call("select", [
+          `SELECT account_id as accountId, created_at_block_timestamp as createdAtBlockTimestamp, 
+            created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
+            FROM accounts
+            ${
+              paginationIndexer
+                ? `WHERE created_at_block_timestamp < :endTimestamp OR (created_at_block_timestamp = :endTimestamp AND account_index < :accountIndex)`
+                : ""
+            }
+            ORDER BY created_at_block_timestamp DESC, account_index DESC
+            LIMIT :limit`,
+          {
+            limit,
+            ...paginationIndexer,
+          },
+        ]);
+      }
       return await this.call("select", [
         `SELECT account_id as accountId, created_at_block_timestamp as createdAtBlockTimestamp, 
           created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
