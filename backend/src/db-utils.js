@@ -1,5 +1,6 @@
 const { DS_INDEXER_BACKEND } = require("./consts");
 const models = require("../models");
+const BN = require("bn.js");
 
 const query = async ([query, replacements], { dataSource }) => {
   const sequelize =
