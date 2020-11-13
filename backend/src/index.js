@@ -31,6 +31,8 @@ const {
   pickOnlineValidatingNode,
   queryDashboardBlocksAndTxs,
   getSyncedGenesis,
+  queryDashboardBlockInfo,
+  queryDashboardTxInfo,
 } = require("./db-utils");
 
 async function startLegacySync() {
@@ -142,6 +144,7 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
     console.log(`Starting regular data stats check from ${dataSource}...`);
     try {
       if (wamp.session) {
+        // ole pub-sub data, after refactor, delete properly
         const dataStats = await aggregateStats({ dataSource });
         const { transactions, blocks } = await queryDashboardBlocksAndTxs({
           dataSource,
@@ -157,6 +160,21 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
             dataSource
           ),
           [{ transactions, blocks }],
+          wamp
+        );
+        //new pub-sub data, consist with old one now
+        const blockStats = await queryDashboardBlockInfo({ dataSource });
+        const transactionCountArray = await queryDashboardTxInfo({
+          dataSource,
+        });
+        wampPublish(
+          getDataSourceSpecificTopicName("chain-block-stats", dataSource),
+          [{ blockStats }],
+          wamp
+        );
+        wampPublish(
+          getDataSourceSpecificTopicName("chain-txs-stats", dataSource),
+          [{ transactionCountArray }],
           wamp
         );
       }
