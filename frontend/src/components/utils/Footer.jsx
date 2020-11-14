@@ -4,7 +4,7 @@ export default () => (
   <Container fluid className="footer-container">
     <Row>
       <Col className="align-self-center text-center px-0" xs="12" md="3">
-        <img className="near-logo" src="/static/images/near.svg" />
+        <img className="near-logo" src="/static/images/near_logo.svg" />
       </Col>
       <Col
         className="align-self-center footer-link text-md-left text-center pl-0"
@@ -21,13 +21,13 @@ export default () => (
           Privacy Policy
         </a>
       </Col>
-      <Col className="text-right d-none d-sm-block ml-auto" md="4" lg="2">
+      <Col className="text-right d-none d-sm-block ml-auto" md="4" lg="3">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
           <Row noGutters>
             <Col md="2">
               <img
                 className="help-image img-responsive"
-                src="/static/images/footer-nearkat.svg"
+                src="/static/images/nearkat_prof.svg"
               />
             </Col>
             <Col className="align-self-center">
@@ -76,9 +76,11 @@ export default () => (
         text-align: left;
         line-height: 1px;
         padding: 40px 20%;
+        background: #ffffff;
       }
 
       .help-image {
+        height: 150px;
         margin-top: -50%;
         position: relative;
         z-index: 2;
@@ -101,6 +103,10 @@ export default () => (
       .need-help-contact-bottom {
         color: #0072ce !important;
         display: block;
+      }
+
+      .near-logo {
+        width: 100px;
       }
     `}</style>
   </Container>
