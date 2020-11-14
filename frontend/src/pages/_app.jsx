@@ -6,7 +6,7 @@ import { getNearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
-import DataProvider from "../components/utils/DataProvider";
+import NetworkProvider from "../context/NetworkProvider";
 import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -52,7 +52,7 @@ export default class extends App {
             href="/static/favicon.ico"
           />
         </Head>
-        <DataProvider
+        <NetworkProvider
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
@@ -68,7 +68,7 @@ export default class extends App {
             </div>
           </div>
           <Footer />
-        </DataProvider>
+        </NetworkProvider>
         <style jsx global>{`
           @font-face {
             font-family: "BentonSans";
@@ -104,7 +104,7 @@ export default class extends App {
           }
 
           body {
-            background-color: white;
+            background-color: #f8f8f8;
             height: 100%;
             margin: 0;
           }
@@ -155,7 +155,7 @@ export default class extends App {
           }
 
           .page {
-            background: white;
+            background: #f8f8f8;
           }
 
           .app-wrapper {
