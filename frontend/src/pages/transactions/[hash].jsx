@@ -25,7 +25,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Transaction</title>
+          <title>NEAR Explorer | Transaction</title>
         </Head>
         <Content
           title={
