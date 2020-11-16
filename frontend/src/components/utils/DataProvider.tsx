@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
-import { NearNetwork } from "../libraries/config";
+import { NearNetwork } from "../../libraries/config";
 
-const NetworkContext = createContext({});
+const DataContext = createContext({});
 
 export interface Props {
   currentNearNetwork: NearNetwork;
@@ -12,17 +12,17 @@ export interface Props {
 
 export default (props: Props) => {
   return (
-    <NetworkContext.Provider
+    <DataContext.Provider
       value={{
         currentNearNetwork: props.currentNearNetwork,
         nearNetworks: props.nearNetworks,
       }}
     >
       {props.children}
-    </NetworkContext.Provider>
+    </DataContext.Provider>
   );
 };
 
-const NetworkConsumer = NetworkContext.Consumer;
+const DataConsumer = DataContext.Consumer;
 
-export { NetworkConsumer, NetworkContext };
+export { DataConsumer, DataContext };
