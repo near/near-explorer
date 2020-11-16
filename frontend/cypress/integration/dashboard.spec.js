@@ -8,6 +8,6 @@ context("Dashboard", () => {
   // https://on.cypress.io/interacting-with-elements
 
   it("Logo is visible", () => {
-    cy.get(".near-main-logo").should("exist");
+    cy.get(".header-container .near-logo").should("exist");
   });
 });

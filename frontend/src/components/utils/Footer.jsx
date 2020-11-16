@@ -1,10 +1,12 @@
 import { Container, Row, Col } from "react-bootstrap";
 
+import NearLogo from "../../../public/static/images/near_logo.svg";
+
 export default () => (
   <Container fluid className="footer-container">
     <Row>
       <Col className="align-self-center text-center px-0" xs="12" md="3">
-        <img className="near-logo" src="/static/images/near.svg" />
+        <NearLogo className="near-logo" />
       </Col>
       <Col
         className="align-self-center footer-link text-md-left text-center pl-0"
@@ -70,6 +72,11 @@ export default () => (
 
       .footer-nav-margin {
         width: 30px;
+      }
+
+      .footer-container .near-logo {
+        height: 60px;
+        fill: #acacac;
       }
 
       .footer-help {
