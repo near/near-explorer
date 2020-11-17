@@ -8,12 +8,12 @@ describe("<BlockDetails />", () => {
       renderer.create(
         <BlockDetails
           block={{
-            transactionsCount: 3,
+            transactions_count: 3,
             timestamp: Number(new Date(2019, 1, 1)),
             hash: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
-            prevHash: "EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu",
+            prev_hash: "EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu",
             height: 12345,
-            gasPrice: "5000",
+            gas_price: "5000",
             gasUsed: "1000",
             isFinal: true,
           }}
