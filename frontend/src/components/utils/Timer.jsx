@@ -24,7 +24,7 @@ export default class extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    const time = this.props.time === undefined ? new Date() : this.props.time;
+    let time = this.props.time === undefined ? new Date() : this.props.time;
     if (typeof time === "string") {
       time = new BN(time).div(new BN(10 ** 6)).toNumber();
     }

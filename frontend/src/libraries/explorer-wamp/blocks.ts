@@ -136,7 +136,6 @@ export default class BlocksApi extends ExplorerApi {
           ]);
         }
 
-        console.log(gasUsedResult);
         let gasUsedArray = gasUsedResult.map(
           (gas: any) => new BN(gas.gas_used)
         );
@@ -146,7 +145,6 @@ export default class BlocksApi extends ExplorerApi {
         );
         block.gasUsed = gasUsed.toString();
       }
-      console.log(block);
       return block as BlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
