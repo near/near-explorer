@@ -28,11 +28,11 @@ export default () => {
           </Link>
         </Col>
 
-        <Col className="align-self-center pl-3" md="1" xs="6">
+        <Col className="align-self-center pl-3" md="2" xs="6">
           <HeaderNetworkDropdown />
         </Col>
 
-        <Col className="align-self-center text-center" md="8" xs="12">
+        <Col className="align-self-center text-center" md="7" xs="12">
           {router.pathname !== "/" && <Search />}
         </Col>
 

@@ -78,6 +78,13 @@ export default () => (
         background: #25272a;
         border-radius: 8px;
       }
+
+      .dropdown-toggle:hover,
+      .dropdown-toggle:focus,
+      .dropdown-toggle:active {
+        background: #f7f7f7;
+        border-radius: 50px;
+      }
     `}</style>
   </Dropdown>
 );
