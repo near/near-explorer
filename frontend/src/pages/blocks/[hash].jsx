@@ -23,7 +23,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Block</title>
+          <title>NEAR Explorer | Block</title>
         </Head>
         <Content
           title={

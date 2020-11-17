@@ -16,7 +16,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Dashboard</title>
+          <title>NEAR Explorer | Dashboard</title>
         </Head>
         <Content border={false}>
           <h1>Dashboard</h1>

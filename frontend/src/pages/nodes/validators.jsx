@@ -14,7 +14,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Nodes</title>
+          <title>NEAR Explorer | Nodes</title>
         </Head>
         <Content title={<h1>Validating Nodes</h1>}>
           <NodeStatsProvider>

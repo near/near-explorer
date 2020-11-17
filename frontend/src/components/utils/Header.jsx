@@ -1,6 +1,9 @@
 import { Container, Row, Col } from "react-bootstrap";
 import Link from "next/link";
 
+import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
+import NearLogo from "../../../public/static/images/near_logo.svg";
+
 import HeaderDropdownNav from "./HeaderDropdownNav";
 import HeaderNavItem from "./HeaderNavItem";
 
@@ -10,10 +13,7 @@ export default () => (
       <Col xs="2" className="px-0 d-md-none align-self-center">
         <Link href="/">
           <a>
-            <img
-              className="near-main-logo-mobile"
-              src="/static/images/near_icon_wht.svg"
-            />
+            <NearLogoIcon className="near-logo-icon" />
           </a>
         </Link>
       </Col>
@@ -21,7 +21,7 @@ export default () => (
       <Col md="auto" xs="6" className="pl-0  d-none d-md-block ">
         <Link href="/">
           <a>
-            <img className="near-main-logo" src="/static/images/explorer.svg" />
+            <NearLogo className="near-logo" />
           </a>
         </Link>
       </Col>
@@ -77,9 +77,14 @@ export default () => (
         background-color: #24272a;
       }
 
-      .near-main-logo {
-        width: 210px !important;
-        padding: 14px;
+      .header-container .near-logo,
+      .header-container .near-logo-icon {
+        fill: white;
+      }
+
+      .header-container .near-logo {
+        margin: 5px 0 5px 15px;
+        height: 60px;
       }
 
       .near-main-container {

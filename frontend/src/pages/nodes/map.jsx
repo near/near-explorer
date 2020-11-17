@@ -7,7 +7,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Nodes Map</title>
+          <title>NEAR Explorer | Nodes Map</title>
         </Head>
         <NodeProvider>
           <NodesMap />
