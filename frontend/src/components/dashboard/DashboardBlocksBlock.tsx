@@ -7,8 +7,16 @@ import { Row, Col, Card } from "react-bootstrap";
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import Timer from "../utils/Timer";
-import { Props } from "../blocks/BlockDetails";
 
+interface Props {
+  block: {
+    hash: string;
+    height: number;
+    prevHash: string;
+    timestamp: number;
+    transactionsCount: number;
+  };
+}
 export default class extends React.Component<Props> {
   render() {
     const { block } = this.props;
