@@ -3,11 +3,10 @@ import Link from "next/link";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-import * as B from "../../libraries/explorer-wamp/blocks";
 import { DashBoardListConsumer } from "../../context/ListProvider";
 
 import FlipMove from "../utils/FlipMove";
-
+import { Props } from "./DashboardBlocksBlock";
 import DashboardBlocksBlock from "./DashboardBlocksBlock";
 
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
@@ -41,7 +40,7 @@ export default class extends React.Component {
                   className="row gutter-4"
                 >
                   {context.blocks.length > 0 &&
-                    context.blocks.map((block: B.BlockInfo) => (
+                    context.blocks.map((block: Props["block"]) => (
                       <DashboardBlocksBlock key={block.hash} block={block} />
                     ))}
                 </FlipMove>

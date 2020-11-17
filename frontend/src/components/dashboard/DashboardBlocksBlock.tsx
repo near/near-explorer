@@ -8,7 +8,7 @@ import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import Timer from "../utils/Timer";
 
-interface Props {
+export interface Props {
   block: {
     hash: string;
     height: number;
