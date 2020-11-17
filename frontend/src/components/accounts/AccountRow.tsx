@@ -1,5 +1,4 @@
 import BN from "bn.js";
-import moment from "moment";
 import Link from "next/link";
 
 import React from "react";
