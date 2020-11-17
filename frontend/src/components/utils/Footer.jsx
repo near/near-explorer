@@ -1,14 +1,16 @@
 import { Container, Row, Col } from "react-bootstrap";
+import NearLogo from "../../../public/static/images/near_logo.svg";
+import Nearkat from "../../../public/static/images/nearkat_prof.svg";
 
 export default () => (
   <Container fluid className="footer-container">
     <Row>
-      <Col className="align-self-center text-center px-0" xs="12" md="3">
-        <img className="near-logo" src="/static/images/near_logo.svg" />
+      <Col className="align-self-center text-center px-0" xs="4" md="3">
+        <NearLogo className="near-logo" />
       </Col>
       <Col
         className="align-self-center footer-link text-md-left text-center pl-0"
-        xs="12"
+        xs="8"
         md="5"
       >
         © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
@@ -23,18 +25,15 @@ export default () => (
       </Col>
       <Col className="text-right d-none d-sm-block ml-auto" md="4" lg="3">
         <a className="footer-help-link" href="http://near.chat" target="_blank">
-          <Row noGutters>
+          <Row>
             <Col md="2">
-              <img
-                className="help-image img-responsive"
-                src="/static/images/nearkat_prof.svg"
-              />
+              <Nearkat className="help-image img-responsive" />
             </Col>
-            <Col className="align-self-center">
-              <div className="footer-help">
-                <span className="need-help-contact">Need Help?</span>
+            <Col className="align-self-center footer-help">
+              <div>
+                <span className="need-help-contact">Questions?</span>
                 <span className="need-help-contact need-help-contact-bottom">
-                  Join Community
+                  Join the Community
                 </span>
               </div>
             </Col>
@@ -49,7 +48,7 @@ export default () => (
         font-size: 12px;
         line-height: 40px;
         color: #999999;
-        height: 120px;
+        height: 100px;
         width: 100%;
       }
 
@@ -73,18 +72,20 @@ export default () => (
       }
 
       .footer-help {
-        text-align: left;
-        line-height: 1px;
-        padding: 40px 20%;
         background: #ffffff;
+        box-sizing: border-box;
+        text-align: left;
+        font-weight: 800;
+        font-size: 18px;
+        line-height: 24px;
+        padding: 24px 40px;
       }
 
       .help-image {
         height: 150px;
-        margin-top: -50%;
         position: relative;
         z-index: 2;
-        left: -35px;
+        top: -20px;
       }
 
       .need-help-contact {
@@ -107,6 +108,7 @@ export default () => (
 
       .near-logo {
         width: 100px;
+        fill: #acacac;
       }
     `}</style>
   </Container>

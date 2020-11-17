@@ -20,6 +20,7 @@ export default () => (
             className="icon-right"
             src="/static/images/icon-network-right.svg"
           />
+          {"  "}
         </Dropdown.Toggle>
         <Dropdown.Menu className="header-network-dropdown-menu">
           {context.nearNetworks.map((network) => {
@@ -41,9 +42,10 @@ export default () => (
             border-radius: 50px;
             color: #000000;
             text-transform: capitalize;
-            width: 100%;
-            max-width: 150px;
-            padding: 5px 2px;
+            width: 154px;
+            height: 33px;
+            padding: 3px 2px;
+            font-size: 14px;
           }
 
           .header-network:hover,
@@ -77,18 +79,24 @@ export default () => (
 
           .network-icon {
             display: inline-block;
-            margin-right: 3px;
+            margin-right: 8px;
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background: ${context.currentNearNetwork.name === "mainnet"
               ? "#00C08B"
-              : "#E9B870"};
+              : context.currentNearNetwork.name === "testnet"
+              ? "#E9B870"
+              : context.currentNearNetwork.name === "betanet"
+              ? "#00C1DE"
+              : "#0072CE"};
           }
 
           .icon-right {
-            height: 12px;
-            margin-left: 6px;
+            height: 15px;
+            width: 15px;
+            margin-left: 16px;
+            margin-top: -3px;
           }
         `}</style>
       </Dropdown>

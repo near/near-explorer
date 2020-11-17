@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import HeaderNetworkDropdown from "./HeaderNetworkDropdown";
 import HeaderNavDropdown from "./HeaderNavDropdown";
 import Search from "./Search";
+import NearLogo from "../../../public/static/images/near_logo.svg";
 
 export default () => {
   const router = useRouter();
@@ -14,35 +15,38 @@ export default () => {
         <Col xs="6" className="px-0 d-md-none align-self-center">
           <Link href="/">
             <a>
-              <img
-                className="near-main-logo"
-                src="/static/images/near_logo.svg"
-              />
+              <NearLogo className="near-main-logo" />
             </a>
           </Link>
         </Col>
 
-        <Col md="2" className="pl-0  d-none d-md-block">
+        <Col md="1" className="d-none d-md-block">
           <Link href="/">
             <a>
-              <img
-                className="near-main-logo"
-                src="/static/images/near_logo.svg"
-              />
+              <NearLogo className="near-main-logo" />
             </a>
           </Link>
         </Col>
 
-        <Col className="align-self-center" md="2" xs="6">
+        <Col className="align-self-center pl-3" md="1" xs="6">
           <HeaderNetworkDropdown />
         </Col>
 
-        <Col className="align-self-center pl-1" md="6" xs="12">
+        <Col className="align-self-center text-center" md="8" xs="12">
           {router.pathname !== "/" && <Search />}
         </Col>
 
-        <Col className="align-self-center text-right" md="2">
-          <HeaderNavDropdown />
+        <Col className="align-self-center text-center" md="2">
+          <Row>
+            <Col md="6" xs="6" className="pt-2">
+              <Link href="/">
+                <a className="header-home">Home</a>
+              </Link>
+            </Col>
+            <Col md="6" xs="6" className="pt-1">
+              <HeaderNavDropdown />
+            </Col>
+          </Row>
         </Col>
       </Row>
       <style jsx global>{`
@@ -54,22 +58,17 @@ export default () => {
         }
 
         .near-main-logo {
+          width: 100%;
           height: 72px;
           padding: 6px;
         }
 
-        .near-home {
+        .header-home {
           font-weight: 500;
           color: #000000;
-          margin: auto;
         }
 
         @media (max-width: 780px) {
-          .near-home {
-            display: none;
-            width: 0;
-          }
-
           .near-main-logo {
             width: 100%;
           }

@@ -77,7 +77,7 @@ export default class extends React.Component {
         <style jsx global>{`
           .search-box {
             background: white;
-            width: 740px;
+            width: ${this.props.dashboard ? "740px" : "500px"};
             max-width: 100%;
             height: ${this.props.dashboard ? "49px" : "40px"};
             margin: auto;
@@ -90,15 +90,19 @@ export default class extends React.Component {
           }
 
           .input-group-text {
-            background: white;
+            background: #fafafa;
+            border: 2px solid #eaebeb;
+            border-right: none;
           }
 
           .search-field {
-            background: #ffffff;
+            background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
             border: 2px solid #eaebeb;
+            border-left: ${this.props.dashboard ? "inherit" : "none"};
             box-sizing: border-box;
             border-radius: 8px;
             height: 100%;
+            font-weight: lighter;
           }
 
           .button-search {
