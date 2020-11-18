@@ -113,12 +113,17 @@ export default (
       let paginationIndexer;
       switch (category) {
         case "Account":
-          paginationIndexer = {
-            endTimestamp: this.state.items[this.state.items.length - 1]
-              .createdAtBlockTimestamp,
-            accountIndex: this.state.items[this.state.items.length - 1]
-              .accountIndex,
-          };
+          paginationIndexer = this.state.items[0].isIndexer
+            ? {
+                accountIndex: this.state.items[this.state.items.length - 1]
+                  .accountIndex,
+              }
+            : {
+                endTimestamp: this.state.items[this.state.items.length - 1]
+                  .createdAtBlockTimestamp,
+                accountIndex: this.state.items[this.state.items.length - 1]
+                  .accountIndex,
+              };
           break;
         case "Block":
           paginationIndexer = this.state.items[this.state.items.length - 1]
