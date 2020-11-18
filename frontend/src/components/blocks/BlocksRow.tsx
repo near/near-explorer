@@ -1,5 +1,4 @@
 import Link from "next/link";
-import BN from "bn.js";
 import React from "react";
 
 import { Row, Col } from "react-bootstrap";
@@ -17,10 +16,6 @@ export interface Props {
 export default class extends React.PureComponent<Props> {
   render() {
     const { block } = this.props;
-    let timestamp = block.timestamp;
-    if (typeof timestamp === "string") {
-      timestamp = new BN(timestamp).div(new BN(10 ** 6)).toNumber();
-    }
     return (
       <DatabaseConsumer>
         {(context) => (
@@ -71,12 +66,12 @@ export default class extends React.PureComponent<Props> {
                       <span className="transaction-row-timer-status">
                         {context.finalTimestamp === 0
                           ? "Checking Finality..."
-                          : timestamp <= context.finalTimestamp
+                          : block.timestamp <= context.finalTimestamp
                           ? "Finalized"
                           : "Finalizing"}
                       </span>
                       &nbsp;&nbsp;
-                      <Timer time={timestamp} />
+                      <Timer time={block.timestamp} />
                     </Col>
                   </Row>
                 </Col>

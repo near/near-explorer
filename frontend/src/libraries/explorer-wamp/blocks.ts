@@ -76,7 +76,10 @@ export default class BlocksApi extends ExplorerApi {
         return {
           hash: block.hash,
           height: block.height,
-          timestamp: block.timestamp,
+          timestamp:
+            typeof block.timestamp === "string"
+              ? new BN(block.timestamp).div(new BN(10 ** 6)).toNumber()
+              : block.timestamp,
           prevHash: block.prev_hash,
           transactionsCount: block.transactions_count,
         };
@@ -163,7 +166,10 @@ export default class BlocksApi extends ExplorerApi {
         hash: block.hash,
         height: block.height,
         prevHash: block.prev_hash,
-        timestamp: block.timestamp,
+        timestamp:
+          typeof block.timestamp === "string"
+            ? new BN(block.timestamp).div(new BN(10 ** 6)).toNumber()
+            : block.timestamp,
         transactionsCount: block.transactions_count,
       } as BlockInfo;
     } catch (error) {

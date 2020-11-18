@@ -1,4 +1,5 @@
 import { ExplorerApi } from ".";
+import BN from "bn.js";
 
 export interface AccountBasicInfo {
   accountId: string;
@@ -84,15 +85,17 @@ export default class AccountsApi extends ExplorerApi {
           accountId,
           createdByTransactionHash:
             accounts[0].originated_from_transaction_hash,
-          createdAtBlockTimestamp: accounts[0].included_in_block_timestamp,
+          createdAtBlockTimestamp: new BN(
+            accounts[0].included_in_block_timestamp
+          )
+            .div(new BN(10 ** 6))
+            .toNumber(),
         };
       });
     };
-    try {
-      const [accountInfo, accountBasic, accountStats] = await Promise.all([
-        this.queryAccount(accountId),
-        queryBasicInfo,
-        this.call<AccountStats[]>("select", [
+    const queryTransactionCount = async () => {
+      if (this.selectOption === "Legacy") {
+        return await this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
             (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
               WHERE signer_id = :accountId) as outTransactionsCount,
@@ -102,7 +105,30 @@ export default class AccountsApi extends ExplorerApi {
           {
             accountId,
           },
-        ]).then((accounts) => accounts[0]),
+        ]).then((accounts) => accounts[0]);
+      }
+      return await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT outTransactionsCount.out_transactions_count, inTransactionsCount.in_transactions_count FROM
+        (SELECT COUNT(transactions.transaction_hash) as out_transactions_count FROM transactions
+          WHERE signer_account_id = :account_id) as outTransactionsCount,
+        (SELECT COUNT(transactions.transaction_hash) as in_transactions_count FROM transactions
+          WHERE receiver_account_id = :account_id) as inTransactionsCount
+        `,
+        {
+          account_id: accountId,
+        },
+      ]).then((accounts) => {
+        return {
+          inTransactionsCount: accounts[0].in_transactions_count,
+          outTransactionsCount: accounts[0].out_transactions_count,
+        };
+      });
+    };
+    try {
+      const [accountInfo, accountBasic, accountStats] = await Promise.all([
+        this.queryAccount(accountId),
+        queryBasicInfo(),
+        queryTransactionCount(),
       ]);
       return {
         ...accountInfo,
@@ -154,9 +180,12 @@ export default class AccountsApi extends ExplorerApi {
       accounts = accounts.map((account: any) => {
         return {
           accountId: account.account_id,
-          createdAtBlockTimestamp: account.created_at_block_timestamp
-            ? account.created_at_block_timestamp
-            : undefined,
+          createdAtBlockTimestamp:
+            typeof account.created_at_block_timestamp === "string"
+              ? new BN(account.created_at_block_timestamp)
+                  .div(new BN(10 ** 6))
+                  .toNumber()
+              : account.created_at_block_timestamp,
           accountIndex: account.account_index,
           isIndexer: this.selectOption === "Indexer" ? true : undefined,
         };
