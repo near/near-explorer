@@ -4,6 +4,7 @@ export interface AccountBasicInfo {
   accountId: string;
   createdByTransactionHash?: string;
   createdAtBlockTimestamp?: number;
+  isIndexer?: boolean;
 }
 
 interface AccountStats {
@@ -92,7 +93,7 @@ export default class AccountsApi extends ExplorerApi {
       if (this.selectOption === "Legacy") {
         return await this.call("select", [
           `SELECT account_id as accountId, created_at_block_timestamp as createdAtBlockTimestamp, 
-            created_by_transaction_hash as createdByTransactionHash, account_index as accountIndex
+            account_index as accountIndex
             FROM accounts
             ${
               paginationIndexer

@@ -38,7 +38,7 @@ export default ({ block }: Props) => {
                       </Term>
                     }
                     imgLink="/static/images/icon-m-transaction.svg"
-                    text={block.transactions_count.toLocaleString()}
+                    text={block.transactionsCount.toLocaleString()}
                     className="border-0"
                   />
                 </Col>
@@ -77,7 +77,7 @@ export default ({ block }: Props) => {
                       </Term>
                     }
                     imgLink="/static/images/icon-m-filter.svg"
-                    text={<GasPrice gasPrice={block.gas_price} />}
+                    text={<GasPrice gasPrice={block.gasPrice} />}
                   />
                 </Col>
                 <Col md="3">
@@ -142,11 +142,11 @@ export default ({ block }: Props) => {
                       </Term>
                     }
                     text={
-                      block.prev_hash === "11111111111111111111111111111111" ? (
+                      block.prevHash === "11111111111111111111111111111111" ? (
                         "Genesis"
                       ) : (
-                        <BlockLink blockHash={block.prev_hash}>
-                          {block.prev_hash}
+                        <BlockLink blockHash={block.prevHash}>
+                          {block.prevHash}
                         </BlockLink>
                       )
                     }

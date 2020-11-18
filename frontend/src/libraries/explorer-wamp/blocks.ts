@@ -5,11 +5,10 @@ export interface BlockInfo {
   hash: string;
   height: number;
   timestamp: number;
-  prev_hash: string;
-  transactions_count: number;
-  gas_price?: string;
+  prevHash: string;
+  transactionsCount: number;
+  gasPrice?: string;
   gasUsed?: string;
-  isFinal?: boolean;
 }
 
 export default class BlocksApi extends ExplorerApi {
@@ -25,8 +24,9 @@ export default class BlocksApi extends ExplorerApi {
     paginationIndexer?: number
   ): Promise<BlockInfo[]> {
     try {
+      let blocks;
       if (this.selectOption === "Legacy") {
-        return await this.call<BlockInfo[]>("select", [
+        blocks = await this.call<BlockInfo[]>("select", [
           `SELECT blocks.*, COUNT(transactions.hash) as transactions_count
             FROM (
               SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash 
@@ -47,29 +47,41 @@ export default class BlocksApi extends ExplorerApi {
             paginationIndexer,
           },
         ]);
+      } else {
+        blocks = await this.call<BlockInfo[]>("select:INDEXER_BACKEND", [
+          `SELECT blocks.block_hash as hash, blocks.block_height as height, blocks.block_timestamp as timestamp, 
+            blocks.prev_block_hash as prev_hash, COUNT(transactions.transaction_hash) as transactions_count
+          FROM (
+            SELECT blocks.block_hash as block_hash 
+            FROM blocks
+            ${
+              paginationIndexer
+                ? `WHERE blocks.block_timestamp < :paginationIndexer`
+                : ""
+            }
+            ORDER BY blocks.block_height DESC
+            LIMIT :limit
+          ) as innerblocks
+          LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
+          LEFT JOIN blocks on blocks.block_hash = innerblocks.block_hash
+          GROUP BY blocks.block_hash
+          ORDER BY blocks.block_timestamp DESC`,
+          {
+            limit,
+            paginationIndexer,
+          },
+        ]);
       }
-      return await this.call<BlockInfo[]>("select:INDEXER_BACKEND", [
-        `SELECT innerblocks.*, COUNT(transactions.included_in_block_hash) as transactions_count
-        FROM (
-          SELECT blocks.block_hash as hash, blocks.block_height as height, 
-                blocks.block_timestamp as timestamp,blocks.prev_block_hash as prev_hash 
-          FROM blocks
-          ${
-            paginationIndexer
-              ? `WHERE blocks.block_timestamp < :paginationIndexer`
-              : ""
-          }
-          ORDER BY blocks.block_height DESC
-          LIMIT :limit
-        ) as innerblocks
-        LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.hash
-        GROUP BY innerblocks.hash, innerblocks.height, innerblocks.timestamp, innerblocks.prev_hash
-        ORDER BY innerblocks.timestamp DESC`,
-        {
-          limit,
-          paginationIndexer,
-        },
-      ]);
+      blocks = blocks.map((block: any) => {
+        return {
+          hash: block.hash,
+          height: block.height,
+          timestamp: block.timestamp,
+          prevHash: block.prev_hash,
+          transactionsCount: block.transactions_count,
+        };
+      });
+      return blocks;
     } catch (error) {
       console.error("Blocks.getBlocks failed to fetch data due to:");
       console.error(error);
@@ -96,33 +108,34 @@ export default class BlocksApi extends ExplorerApi {
         ]).then((it) => (it.length === 0 ? undefined : it[0]));
       } else {
         block = await this.call<any>("select:INDEXER_BACKEND", [
-          `SELECT innerblocks.*, COUNT(transactions.included_in_block_hash) as transactions_count
-          FROM (
-            SELECT blocks.block_hash as hash, blocks.block_height as height, 
-                blocks.block_timestamp as timestamp,blocks.prev_block_hash as prev_hash,
-                blocks.gas_price as gas_price
-            FROM blocks
-            ${
-              typeof blockId === "string"
-                ? `WHERE blocks.block_hash = :blockId`
-                : `WHERE blocks.block_height = :blockId`
-            } 
-          ) as innerblocks
-          LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.hash
-          GROUP BY innerblocks.hash, innerblocks.height, innerblocks.timestamp, innerblocks.prev_hash, innerblocks.gas_price`,
+          `SELECT blocks.block_hash as hash, blocks.block_height as height, blocks.block_timestamp as timestamp, 
+            blocks.prev_block_hash as prev_hash, blocks.gas_price as gas_price, 
+            COUNT(transactions.transaction_hash) as transactions_count
+            FROM (
+              SELECT blocks.block_hash as block_hash 
+              FROM blocks
+              ${
+                typeof blockId === "string"
+                  ? `WHERE blocks.block_hash = :blockId`
+                  : `WHERE blocks.block_height = :blockId`
+              } 
+            ) as innerblocks
+            LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
+            LEFT JOIN blocks on blocks.block_hash = innerblocks.block_hash
+            GROUP BY blocks.block_hash
+            ORDER BY blocks.block_timestamp DESC`,
           {
             blockId,
           },
         ]).then((it) => (it.length === 0 ? undefined : it[0]));
       }
-
       if (block === undefined) {
         throw new Error("block not found");
       } else {
         let gasUsedResult;
         if (this.selectOption === "Legacy") {
           gasUsedResult = await this.call<any>("select", [
-            `SELECT gas_used FROM chunks WHERE block_hash = :block_hash AND height_included = :block_height`,
+            `SELECT gas_used FROM chunks WHERE block_hash = :block_hash`,
             {
               block_hash: block.hash,
             },
@@ -135,7 +148,6 @@ export default class BlocksApi extends ExplorerApi {
             },
           ]);
         }
-
         let gasUsedArray = gasUsedResult.map(
           (gas: any) => new BN(gas.gas_used)
         );
@@ -145,7 +157,15 @@ export default class BlocksApi extends ExplorerApi {
         );
         block.gasUsed = gasUsed.toString();
       }
-      return block as BlockInfo;
+      return {
+        gasUsed: block.gasUsed,
+        gasPrice: block.gas_price,
+        hash: block.hash,
+        height: block.height,
+        prevHash: block.prev_hash,
+        timestamp: block.timestamp,
+        transactionsCount: block.transactions_count,
+      } as BlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
       console.error(error);

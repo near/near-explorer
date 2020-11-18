@@ -48,7 +48,7 @@ export default class extends React.PureComponent<Props> {
                             src="/static/images/icon-m-transaction.svg"
                             style={{ width: "12px" }}
                           />
-                          {` ${block.transactions_count}`}
+                          {` ${block.transactionsCount}`}
                         </Col>
                       </Row>
                     </Col>
