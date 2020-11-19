@@ -1,4 +1,5 @@
 import { ExplorerApi } from ".";
+import BN from "bn.js";
 
 export type ExecutionStatus =
   | "NotStarted"
@@ -252,13 +253,13 @@ export default class TransactionsApi extends ExplorerApi {
       if (paginationIndexer) {
         WHEREClause = `WHERE (${whereClause.join(
           " OR "
-        )}) AND (block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND transaction_index < :transaction_index))`;
+        )}) AND (block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND index_in_chunk < :transaction_index))`;
       } else {
         WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
       }
     } else {
       if (paginationIndexer) {
-        WHEREClause = `WHERE block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND transaction_index < :transaction_index)`;
+        WHEREClause = `WHERE block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND index_in_chunk < :transaction_index)`;
       } else {
         WHEREClause = "";
       }
@@ -276,16 +277,32 @@ export default class TransactionsApi extends ExplorerApi {
           receiver_id: receiverId,
           transaction_hash: transactionHash,
           block_hash: blockHash,
-          end_timestamp: queries.paginationIndexer?.endTimestamp,
+          end_timestamp: queries.paginationIndexer
+            ? new BN(queries.paginationIndexer.endTimestamp)
+                .mul(new BN(10 ** 6))
+                .toString()
+            : undefined,
           transaction_index: queries.paginationIndexer?.transactionIndex,
           limit,
         },
       ]);
+
+      const actionMap = new Map([
+        ["ADD_KEY", "AddKey"],
+        ["CREATE_ACCOUNT", "CreateAccount"],
+        ["DELETE_ACCOUNT", "DeleteAccount"],
+        ["DELETE_KEY", "DeleteKey"],
+        ["DEPLOY_CONTRACT", "DeployContract"],
+        ["FUNCTION_CALL", "FunctionCall"],
+        ["STAKE", "Stake"],
+        ["TRANSFER", "Transfer"],
+      ]);
+
       if (transactions.length > 0) {
         await Promise.all(
           transactions.map(async (transaction: any) => {
             const actions = await this.call<any>("select:INDEXER_BACKEND", [
-              `SELECT action_kind, args
+              `SELECT action_kind as kind, args
                 FROM transaction_actions
                 WHERE transaction_hash = :transaction_hash
                 ORDER BY index_in_transaction`,
@@ -295,8 +312,11 @@ export default class TransactionsApi extends ExplorerApi {
             ]);
             transaction.actions = actions.map((action: any) => {
               return {
-                kind: action.action_kind,
-                args: action.args,
+                kind: actionMap.get(action.kind),
+                args:
+                  typeof action.args === "string"
+                    ? JSON.parse(action.args)
+                    : action.args,
               };
             });
           })
@@ -308,10 +328,14 @@ export default class TransactionsApi extends ExplorerApi {
           signerId: transaction.signer_id,
           receiverId: transaction.receiver_id,
           blockHash: transaction.block_hash,
-          blockTimestamp: transaction.block_timestamp,
+          blockTimestamp: new BN(transaction.block_timestamp)
+            .div(new BN(10 ** 6))
+            .toNumber(),
           transactionIndex: transaction.transaction_index,
+          actions: transaction.actions,
         };
       });
+      console.log(transactions);
       return transactions;
     } catch (error) {
       console.error(
