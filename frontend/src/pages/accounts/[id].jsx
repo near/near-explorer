@@ -26,7 +26,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Account</title>
+          <title>NEAR Explorer | Account</title>
         </Head>
         <Content
           title={<h1>{`Account: @${this.props.accountId}`}</h1>}
