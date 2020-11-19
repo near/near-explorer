@@ -196,25 +196,43 @@ export default class TransactionsApi extends ExplorerApi {
       ]);
 
       if (transactions.length > 0) {
-        await Promise.all(
-          transactions.map(async (transaction) => {
-            const actions = await this.call<any>("select", [
-              `SELECT transaction_hash, action_index, action_type as kind, action_args as args
+        let transactionHashes = transactions.map(
+          (transaction) => transaction.hash
+        );
+        const actionsArray = await this.call<any>("select", [
+          `SELECT transaction_hash, action_type as kind, action_args as args
             FROM actions
-            WHERE transaction_hash = :hash
+            WHERE transaction_hash IN (:transactionHashes)
             ORDER BY action_index`,
-              {
-                hash: transaction.hash,
-              },
-            ]);
-            transaction.actions = actions.map((action: any) => {
+          { transactionHashes },
+        ]);
+        const actionsByTransactionHash = new Map();
+        actionsArray.forEach((action: any) => {
+          const transactionActions = actionsByTransactionHash.get(
+            action.transaction_hash
+          );
+          if (transactionActions) {
+            transactionActions.push(action);
+          } else {
+            actionsByTransactionHash.set(action.transaction_hash, [action]);
+          }
+        });
+        transactions.map((transaction) => {
+          const transactionActions = actionsByTransactionHash.get(
+            transaction.hash
+          );
+          if (transactionActions) {
+            transaction.actions = transactionActions.map((action: any) => {
               return {
                 kind: action.kind,
-                args: JSON.parse(action.args),
+                args:
+                  typeof action.args === "string"
+                    ? JSON.parse(action.args)
+                    : action.args,
               };
             });
-          })
-        );
+          }
+        });
       }
       return transactions as Transaction[];
     } catch (error) {
@@ -266,7 +284,7 @@ export default class TransactionsApi extends ExplorerApi {
     }
     try {
       let transactions = await this.call<any>("select:INDEXER_BACKEND", [
-        `SELECT transaction_hash, signer_account_id as signer_id, receiver_account_id as receiver_id, 
+        `SELECT transaction_hash as hash, signer_account_id as signer_id, receiver_account_id as receiver_id, 
           included_in_block_hash as block_hash, block_timestamp, index_in_chunk as transaction_index
           FROM transactions
           ${WHEREClause}
@@ -299,18 +317,32 @@ export default class TransactionsApi extends ExplorerApi {
       ]);
 
       if (transactions.length > 0) {
-        await Promise.all(
-          transactions.map(async (transaction: any) => {
-            const actions = await this.call<any>("select:INDEXER_BACKEND", [
-              `SELECT action_kind as kind, args
-                FROM transaction_actions
-                WHERE transaction_hash = :transaction_hash
-                ORDER BY index_in_transaction`,
-              {
-                transaction_hash: transaction.transaction_hash,
-              },
-            ]);
-            transaction.actions = actions.map((action: any) => {
+        let transactionHashes = transactions.map(
+          (transaction: any) => transaction.hash
+        );
+        const actionsArray = await this.call<any>("select:INDEXER_BACKEND", [
+          `SELECT transaction_hash, action_kind as kind, args
+            FROM transaction_actions
+            WHERE transaction_hash IN (:transactionHashes)`,
+          { transactionHashes },
+        ]);
+        const actionsByTransactionHash = new Map();
+        actionsArray.forEach((action: any) => {
+          const transactionActions = actionsByTransactionHash.get(
+            action.transaction_hash
+          );
+          if (transactionActions) {
+            transactionActions.push(action);
+          } else {
+            actionsByTransactionHash.set(action.transaction_hash, [action]);
+          }
+        });
+        transactions.map((transaction: any) => {
+          const transactionActions = actionsByTransactionHash.get(
+            transaction.hash
+          );
+          if (transactionActions) {
+            transaction.actions = transactionActions.map((action: any) => {
               return {
                 kind: actionMap.get(action.kind),
                 args:
@@ -319,12 +351,12 @@ export default class TransactionsApi extends ExplorerApi {
                     : action.args,
               };
             });
-          })
-        );
+          }
+        });
       }
       transactions = transactions.map((transaction: any) => {
         return {
-          hash: transaction.transaction_hash,
+          hash: transaction.hash,
           signerId: transaction.signer_id,
           receiverId: transaction.receiver_id,
           blockHash: transaction.block_hash,
@@ -335,7 +367,6 @@ export default class TransactionsApi extends ExplorerApi {
           actions: transaction.actions,
         };
       });
-      console.log(transactions);
       return transactions;
     } catch (error) {
       console.error(
