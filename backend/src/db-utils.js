@@ -135,14 +135,25 @@ const queryDashboardBlockInfo = async (options) => {
 
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT COUNT(*) AS total FROM blocks
-        WHERE block_timestamp > (:latestBlockTimestamp - 60 * 1000000000)`;
+        WHERE DIV(block_timestamp, 1000*1000*1000) > (:latestBlockTimestamp - 60)`;
     } else {
       query = `SELECT COUNT(*) AS total FROM blocks
         WHERE timestamp > (:latestBlockTimestamp - 60 * 1000)`;
     }
-    return await querySingleRow([query, { latestBlockTimestamp }], {
-      dataSource,
-    });
+    return await querySingleRow(
+      [
+        query,
+        {
+          latestBlockTimestamp:
+            dataSource == DS_INDEXER_BACKEND
+              ? latestBlockEpochTimeBN.toNumber()
+              : latestBlockEpochTimeBN.muln(1000).toNumber(),
+        },
+      ],
+      {
+        dataSource,
+      }
+    );
   }
   const [
     lastBlockHeight,
@@ -161,28 +172,23 @@ const queryDashboardBlockInfo = async (options) => {
 };
 
 const queryDashboardTxInfo = async (options) => {
-  async function queryLastDayTxCount({ dataSource }, day = 1) {
+  async function queryTransactionCountArray({ dataSource }) {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT COUNT(*) AS total FROM transactions
-        WHERE block_timestamp > (EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * ${day}) * 1000000000`;
+      query = `SELECT date_trunc('day', to_timestamp(DIV(block_timestamp, 1000*1000*1000))) as date, count(1) as total
+                FROM transactions
+                WHERE DIV(block_timestamp, 1000*1000*1000) > (EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14)
+                GROUP BY 1`;
     } else {
-      query = `SELECT COUNT(*) AS total FROM transactions
-        WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24 * ${day}) * 1000`;
+      query = `SELECT strftime('%Y-%m-%d',block_timestamp/1000,'unixepoch') as date, count(1) as total
+                FROM transactions
+                WHERE (block_timestamp/1000) > (strftime('%s','now') - 60 * 60 * 24 * 15)
+                GROUP BY 1`;
     }
-    return await querySingleRow([query], { dataSource });
+    return await queryRows([query], { dataSource });
   }
-
-  let transactionCountArray = new Array(14);
-  for (let i = 0; i < transactionCountArray.length; i++) {
-    let result = await queryLastDayTxCount(options, i + 1);
-    transactionCountArray[i] = result.total;
-  }
-  for (let i = transactionCountArray.length - 1; i > 0; i--) {
-    transactionCountArray[i] -= transactionCountArray[i - 1];
-  }
-
-  return transactionCountArray.reverse();
+  let transactionCountArray = await queryTransactionCountArray(options);
+  return transactionCountArray;
 };
 
 // Old query after refactor finish, we can delete
@@ -191,12 +197,26 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
     dataSource === DS_INDEXER_BACKEND ? "transaction_hash" : "hash";
   const transactionIndexColumnName =
     dataSource === DS_INDEXER_BACKEND ? "index_in_chunk" : "transaction_index";
+  const transactionSignIdColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "signer_account_id" : "signer_id";
+  const transactionReceiveIdColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "receiver_account_id" : "receiver_id";
+  const transactionBlockHashColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "included_in_block_hash" : "block_hash";
+  const blockHashColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "block_hash" : "hash";
+  const blockHeightColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "block_height" : "height";
+  const blockTimestampColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "block_timestamp" : "timestamp";
+  const blockPrehashColumnName =
+    dataSource === DS_INDEXER_BACKEND ? "prev_block_hash" : "prev_hash";
   let [transactions, blocks] = await Promise.all([
     queryRows(
       [
-        `SELECT ${transactionHashColumnName} as hash, signer_id as signerId, receiver_id as receiverId, 
-              block_hash as blockHash, block_timestamp as blockTimestamp, ${transactionIndexColumnName} as transactionIndex
-          FROM transactions
+        `SELECT ${transactionHashColumnName} as hash, ${transactionSignIdColumnName} as signer_id, ${transactionReceiveIdColumnName} as receiver_id, 
+              ${transactionBlockHashColumnName} as block_hash, block_timestamp as blockTimestamp, ${transactionIndexColumnName} as transaction_index
+              FROM transactions
           ORDER BY block_timestamp DESC, ${transactionIndexColumnName} DESC
           LIMIT 10`,
       ],
@@ -204,17 +224,19 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
     ),
     queryRows(
       [
-        `SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, COUNT(transactions.${transactionHashColumnName}) as transactionsCount
+        `SELECT blocks.${blockHashColumnName} as hash, blocks.${blockHeightColumnName} as height, blocks.${blockTimestampColumnName}, 
+              blocks.${blockPrehashColumnName} as prev_hash, 
+            COUNT(transactions.${transactionHashColumnName}) as transactionsCount
           FROM (
-            SELECT blocks.hash
+            SELECT blocks.${blockHashColumnName}
             FROM blocks
-            ORDER BY blocks.height DESC
+            ORDER BY blocks.${blockHeightColumnName} DESC
             LIMIT 8
           ) as recent_blocks
-          LEFT JOIN blocks ON blocks.hash = recent_blocks.hash
-          LEFT JOIN transactions ON transactions.block_hash = recent_blocks.hash
-          GROUP BY blocks.hash
-          ORDER BY blocks.timestamp DESC`,
+          LEFT JOIN blocks ON blocks.${blockHashColumnName} = recent_blocks.${blockHashColumnName}
+          LEFT JOIN transactions ON transactions.${transactionBlockHashColumnName} = recent_blocks.${blockHashColumnName}
+          GROUP BY blocks.${blockHashColumnName}
+          ORDER BY blocks.${blockTimestampColumnName} DESC`,
       ],
       { dataSource }
     ),
@@ -222,15 +244,13 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
   let query;
   let transactionHashes = transactions.map((transaction) => transaction.hash);
   if (dataSource === DS_INDEXER_BACKEND) {
-    query = `SELECT transaction_hash, index as action_index, action_kind as kind, args
+    query = `SELECT transaction_hash, action_kind as kind, args
               FROM transaction_actions
-              WHERE transaction_hash IN (:transactionHashes)
-              ORDER BY index`;
+              WHERE transaction_hash IN (:transactionHashes)`;
   } else {
-    query = `SELECT transaction_hash, action_index, action_type as kind, action_args as args
+    query = `SELECT transaction_hash, action_type as kind, action_args as args
               FROM actions
-              WHERE transaction_hash IN (:transactionHashes)
-              ORDER BY action_index`;
+              WHERE transaction_hash IN (:transactionHashes)`;
   }
   const actionsArray = await queryRows([query, { transactionHashes }], {
     dataSource,
@@ -275,6 +295,15 @@ const aggregateStats = async (options) => {
     }
     return await querySingleRow([query], { dataSource });
   }
+  async function queryLatestBlockHeight({ dataSource }) {
+    let query;
+    if (dataSource === DS_INDEXER_BACKEND) {
+      query = `SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`;
+    } else {
+      query = `SELECT height AS block_height FROM blocks ORDER BY height DESC LIMIT 1`;
+    }
+    return await querySingleRow([query], { dataSource });
+  }
   const [
     totalBlocks,
     totalTransactions,
@@ -286,10 +315,7 @@ const aggregateStats = async (options) => {
     querySingleRow([`SELECT COUNT(*) as total FROM transactions`], options),
     querySingleRow([`SELECT COUNT(*) as total FROM accounts`], options),
     queryLastDayTxCount(options),
-    querySingleRow(
-      [`SELECT height FROM blocks ORDER BY height DESC LIMIT 1`],
-      options
-    ),
+    queryLatestBlockHeight(options),
   ]);
   return {
     totalAccounts: totalAccounts.total,
