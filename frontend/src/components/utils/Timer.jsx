@@ -4,7 +4,7 @@ export default class extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    let time = props.time === undefined ? new Date() : props.time;
+    const time = props.time === undefined ? new Date() : props.time;
     this.state = {
       time,
       timeStr: this.formatTime(time),
@@ -20,7 +20,7 @@ export default class extends React.PureComponent {
   }
 
   componentDidUpdate() {
-    let time = this.props.time === undefined ? new Date() : this.props.time;
+    const time = this.props.time === undefined ? new Date() : this.props.time;
     this.setState({
       time,
       timeStr: this.formatTime(time),
