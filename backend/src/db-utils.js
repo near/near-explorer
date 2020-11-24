@@ -123,7 +123,7 @@ const queryDashboardBlockInfo = async (options) => {
     const latestBlockTimestampBN = new BN(latestBlockTimestamp);
     const nowEpochTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
     let latestBlockEpochTimeBN;
-    if (dataSource == DS_INDEXER_BACKEND) {
+    if (dataSource === DS_INDEXER_BACKEND) {
       latestBlockEpochTimeBN = latestBlockTimestampBN.div(new BN("1000000000"));
     } else {
       latestBlockEpochTimeBN = latestBlockTimestampBN.divn(1000);
