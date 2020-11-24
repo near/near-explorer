@@ -1,8 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import NearLogo from "../../../public/static/images/near_logo.svg";
-import Nearkat from "../../../public/static/images/nearkat_prof.svg";
-
-import NearLogo from "../../../public/static/images/near_logo.svg";
+import Nearkat from "../../../public/static/images/footer-nearkat.svg";
 
 export default () => (
   <Container fluid className="footer-container">

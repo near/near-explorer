@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap";
 
-import { DataConsumer } from "./DataProvider";
+import { NetworkConsumer } from "./NetworkProvider";
 
 const HeaderDropdownItem = ({ link, title }) => (
   <Dropdown.Item className="header-nav-item-dropdown" href={link}>
@@ -9,7 +9,7 @@ const HeaderDropdownItem = ({ link, title }) => (
 );
 
 const HeaderDropdownNav = () => (
-  <DataConsumer>
+  <NetworkConsumer>
     {(context) => (
       <Dropdown>
         <Dropdown.Toggle variant="dark" className="header-nav-network">
@@ -32,7 +32,7 @@ const HeaderDropdownNav = () => (
         </Dropdown.Menu>
       </Dropdown>
     )}
-  </DataConsumer>
+  </NetworkConsumer>
 );
 
 export default HeaderDropdownNav;
