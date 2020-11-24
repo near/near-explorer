@@ -288,7 +288,7 @@ const aggregateStats = async (options) => {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT COUNT(*) AS total FROM transactions
-        WHERE DIV(block_timestamp, 1000*1000*1000) > (EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24)`;
+        WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 as bigint) * 1000 * 1000 * 1000);`;
     } else {
       query = `SELECT COUNT(*) AS total FROM transactions
         WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`;
