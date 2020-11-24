@@ -162,7 +162,7 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
           [{ transactions, blocks }],
           wamp
         );
-        //new pub-sub data, consist with old one now
+        //new pub-sub data, coexists with old one now
         const blockStats = await queryDashboardBlockInfo({ dataSource });
         const transactionCountArray = await queryDashboardTxInfo({
           dataSource,
