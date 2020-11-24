@@ -69,7 +69,7 @@ export default ({ block }: Props) => {
                     title={
                       <Term title={"Gas Price"}>
                         {
-                          "A unit of Tgas (TerraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used."
+                          "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
                         }
                         <a href={"https://docs.near.org/docs/concepts/gas"}>
                           docs
