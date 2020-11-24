@@ -144,7 +144,7 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
     console.log(`Starting regular data stats check from ${dataSource}...`);
     try {
       if (wamp.session) {
-        // ole pub-sub data, after refactor, delete properly
+        // old pub-sub data, after refactor, delete properly
         const dataStats = await aggregateStats({ dataSource });
         const { transactions, blocks } = await queryDashboardBlocksAndTxs({
           dataSource,
