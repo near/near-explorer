@@ -121,7 +121,7 @@ const queryDashboardBlockInfo = async (options) => {
       latest_block_timestamp: latestBlockTimestamp,
     } = latestBlockTimestampOrNone;
     const latestBlockTimestampBN = new BN(latestBlockTimestamp);
-    const nowEpochTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
+    const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
     let latestBlockEpochTimeBN;
     if (dataSource === DS_INDEXER_BACKEND) {
       latestBlockEpochTimeBN = latestBlockTimestampBN.div(new BN("1000000000"));
@@ -129,13 +129,13 @@ const queryDashboardBlockInfo = async (options) => {
       latestBlockEpochTimeBN = latestBlockTimestampBN.divn(1000);
     }
     // If the latest block is older than 1 minute from now, we report 0
-    if (nowEpochTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
+    if (currentUnixTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
       return { total: 0 };
     }
 
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT COUNT(*) AS total FROM blocks
-        WHERE DIV(block_timestamp, 1000*1000*1000) > (:latestBlockTimestamp - 60)`;
+      WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 as bigint) * 1000 * 1000 * 1000)`;
     } else {
       query = `SELECT COUNT(*) AS total FROM blocks
         WHERE timestamp > (:latestBlockTimestamp - 60 * 1000)`;
@@ -177,7 +177,7 @@ const queryDashboardTxInfo = async (options) => {
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT date_trunc('day', to_timestamp(DIV(block_timestamp, 1000*1000*1000))) as date, count(1) as total
                 FROM transactions
-                WHERE DIV(block_timestamp, 1000*1000*1000) > (EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14)
+                WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 as bigint) * 1000 * 1000 * 1000)
                 GROUP BY 1`;
     } else {
       query = `SELECT strftime('%Y-%m-%d',block_timestamp/1000,'unixepoch') as date, count(1) as total
@@ -197,9 +197,9 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
     dataSource === DS_INDEXER_BACKEND ? "transaction_hash" : "hash";
   const transactionIndexColumnName =
     dataSource === DS_INDEXER_BACKEND ? "index_in_chunk" : "transaction_index";
-  const transactionSignIdColumnName =
+  const transactionSignerAccountIdColumnName =
     dataSource === DS_INDEXER_BACKEND ? "signer_account_id" : "signer_id";
-  const transactionReceiveIdColumnName =
+  const transactionReceiverAccountIdColumnName =
     dataSource === DS_INDEXER_BACKEND ? "receiver_account_id" : "receiver_id";
   const transactionBlockHashColumnName =
     dataSource === DS_INDEXER_BACKEND ? "included_in_block_hash" : "block_hash";
@@ -214,7 +214,7 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
   let [transactions, blocks] = await Promise.all([
     queryRows(
       [
-        `SELECT ${transactionHashColumnName} as hash, ${transactionSignIdColumnName} as signer_id, ${transactionReceiveIdColumnName} as receiver_id, 
+        `SELECT ${transactionHashColumnName} as hash, ${transactionSignerAccountIdColumnName} as signer_id, ${transactionReceiverAccountIdColumnName} as receiver_id, 
               ${transactionBlockHashColumnName} as block_hash, block_timestamp as blockTimestamp, ${transactionIndexColumnName} as transaction_index
               FROM transactions
           ORDER BY block_timestamp DESC, ${transactionIndexColumnName} DESC
@@ -288,7 +288,7 @@ const aggregateStats = async (options) => {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT COUNT(*) AS total FROM transactions
-        WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 as bigint) * 1000 * 1000 * 1000);`;
+        WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 as bigint) * 1000 * 1000 * 1000)`;
     } else {
       query = `SELECT COUNT(*) AS total FROM transactions
         WHERE block_timestamp > (strftime('%s','now') - 60 * 60 * 24) * 1000`;
