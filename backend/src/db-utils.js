@@ -179,7 +179,7 @@ const queryDashboardTxInfo = async (options) => {
                 FROM transactions
                 WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 as bigint) * 1000 * 1000 * 1000)
                 GROUP BY date 
-                order by date`;
+                ORDER BY date`;
     } else {
       query = `SELECT strftime('%Y-%m-%d',block_timestamp/1000,'unixepoch') as date, count(hash) as total
                 FROM transactions
