@@ -34,7 +34,6 @@ export default class extends App {
     } else {
       currentNearNetwork = getNearNetwork(window.location.host);
     }
-
     return {
       currentNearNetwork,
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
@@ -51,62 +50,46 @@ export default class extends App {
             type="image/png"
             href="/static/favicon.ico"
           />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+            rel="stylesheet"
+          />
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
         </Head>
         <NetworkProvider
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <div className="app-wrapper">
+          <div>
             <Header />
-            <div className="page">
-              <DatabaseProvider>
-                <Component
-                  {...pageProps}
-                  currentNearNetwork={this.props.currentNearNetwork}
-                />
-              </DatabaseProvider>
-            </div>
+            <img
+              src="/static/images/explorer-bg.svg"
+              className="background-img"
+            />
+            <DatabaseProvider>
+              <Component
+                {...pageProps}
+                currentNearNetwork={this.props.currentNearNetwork}
+              />
+            </DatabaseProvider>
           </div>
           <Footer />
         </NetworkProvider>
         <style jsx global>{`
-          @font-face {
-            font-family: "BentonSans";
-            font-weight: 500;
-            src: url("/static/fonts/BentonSans-Medium.otf") format("opentype");
-          }
-
-          @font-face {
-            font-family: "BentonSans";
-            font-weight: 300;
-            src: url("/static/fonts/BentonSans-Regular.otf") format("opentype");
-          }
-
-          @font-face {
-            font-family: "BwSeidoRound";
-            font-weight: 500;
-            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Medium.otf")
-              format("opentype");
-          }
-
-          @font-face {
-            font-family: "BwSeidoRound";
-            font-weight: 300;
-            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Light.otf")
-              format("opentype");
-          }
-
-          @font-face {
-            font-family: "BwSeidoRound";
-            font-weight: 400;
-            src: url("/static/fonts/Branding-with-Type-Bw-Seido-Round-Regular.otf")
-              format("opentype");
-          }
-
           body {
-            background-color: white;
+            background-color: #f9f9f9;
             height: 100%;
             margin: 0;
+            font-family: "Inter", sans-serif;
+          }
+          .background-img {
+            position: absolute;
+            right: 0;
+            top: 72px;
+            z-index: -1;
           }
 
           a {
@@ -117,19 +100,12 @@ export default class extends App {
             text-decoration: none;
           }
 
-          h1,
-          h2,
-          .modal-title {
-            font-family: BwSeidoRound;
-            font-weight: 500;
-            color: #24272a;
-          }
-
           h1 {
-            font-size: calc(
-              28px + (48 - 28) * ((100vw - 300px) / (1600 - 300))
-            );
+            font-family: "Inter", sans-serif;
+            font-weight: 900;
             word-wrap: break-word;
+            color: #24272a;
+            font-size: 32px;
           }
 
           @media (max-width: 300px) {
@@ -144,23 +120,8 @@ export default class extends App {
             }
           }
 
-          h2,
-          .modal-title {
+          h2 {
             font-size: 24px;
-          }
-
-          .modal-body {
-            font-family: BentonSans;
-            font-weight: 300;
-          }
-
-          .page {
-            background: white;
-          }
-
-          .app-wrapper {
-            position: relative;
-            min-height: calc(100vh - 120px);
           }
         `}</style>
         {googleAnalytics ? (
