@@ -246,11 +246,13 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
   if (dataSource === DS_INDEXER_BACKEND) {
     query = `SELECT transaction_hash, action_kind as kind, args
               FROM transaction_actions
-              WHERE transaction_hash IN (:transactionHashes)`;
+              WHERE transaction_hash IN (:transactionHashes)
+              ORDER BY index_in_transaction DESC`;
   } else {
     query = `SELECT transaction_hash, action_type as kind, action_args as args
               FROM actions
-              WHERE transaction_hash IN (:transactionHashes)`;
+              WHERE transaction_hash IN (:transactionHashes)
+              ORDER BY action_index DESC`;
   }
   const actionsArray = await queryRows([query, { transactionHashes }], {
     dataSource,
