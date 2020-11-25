@@ -27,14 +27,11 @@ interface AccountInfo {
 export type Account = AccountBasicInfo & AccountStats & AccountInfo;
 
 export interface AccountPagination {
-  endTimestamp: number;
+  endTimestamp?: number;
   accountIndex: number;
 }
 
-type PaginatedAccountBasicInfo = AccountBasicInfo & {
-  accountIndex: number;
-  isIndexer?: boolean;
-};
+type PaginatedAccountBasicInfo = AccountBasicInfo & AccountPagination;
 
 export default class AccountsApi extends ExplorerApi {
   selectOption: string;
@@ -150,7 +147,7 @@ export default class AccountsApi extends ExplorerApi {
       let accounts;
       if (this.selectOption === "Legacy") {
         accounts = await this.call<any>("select", [
-          `SELECT account_id as account_id, created_at_block_timestamp, account_index as accountIndex
+          `SELECT account_id as account_id, created_at_block_timestamp, account_index
             FROM accounts
             ${
               paginationIndexer
@@ -180,16 +177,13 @@ export default class AccountsApi extends ExplorerApi {
       accounts = accounts.map((account: any) => {
         return {
           accountId: account.account_id,
-          createdAtBlockTimestamp:
-            typeof account.created_at_block_timestamp === "string"
-              ? new BN(account.created_at_block_timestamp)
-                  .div(new BN(10 ** 6))
-                  .toNumber()
-              : account.created_at_block_timestamp,
+          createdAtBlockTimestamp: typeof account.created_at_block_timestamp
+            ? account.created_at_block_timestamp
+            : undefined,
           accountIndex: account.account_index,
-          isIndexer: this.selectOption === "Indexer" ? true : undefined,
         };
       });
+      console.log(accounts);
       return accounts as PaginatedAccountBasicInfo[];
     } catch (error) {
       console.error("AccountsApi.getAccounts failed to fetch data due to:");
