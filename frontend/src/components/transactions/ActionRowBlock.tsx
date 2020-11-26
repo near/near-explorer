@@ -106,7 +106,7 @@ export default class extends React.Component<Props, State> {
 
             .action-sparse-row,
             .action-compact-row {
-              font-family: BentonSans;
+              font-family: "Inter", sans-serif;
             }
 
             .action-compact-row .action-row-message {
@@ -161,7 +161,7 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-title {
-              font-family: BentonSans;
+              font-family: "Inter", sans-serif;
               font-size: 14px;
               font-weight: 500;
               color: #24272a;
@@ -176,7 +176,7 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-text {
-              font-family: BentonSans;
+              font-family: "Inter", sans-serif;
               font-size: 12px;
               font-weight: 500;
               line-height: 1.5;
@@ -192,7 +192,7 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-txid {
-              font-family: BentonSans;
+              font-family: "Inter", sans-serif;
               font-size: 14px;
               font-weight: 500;
               line-height: 1.29;
@@ -200,7 +200,7 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-timer {
-              font-family: BentonSans;
+              font-family: "Inter", sans-serif;
               font-size: 12px;
               color: #999999;
               font-weight: 100;

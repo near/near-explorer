@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 import HeaderNetworkDropdown from "./HeaderNetworkDropdown";
 import HeaderNavDropdown from "./HeaderNavDropdown";
+import MobileHeaderNavDropdown from "./MobileHeaderNavDropdown";
 import Search from "./Search";
 import NearLogo from "../../../public/static/images/near_logo.svg";
 
@@ -12,38 +13,38 @@ export default () => {
   return (
     <Container fluid className="header-container">
       <Row noGutters>
-        <Col xs="6" className="px-0 d-md-none align-self-center">
-          <Link href="/">
-            <a>
-              <NearLogo className="near-main-logo" />
-            </a>
-          </Link>
+        <Col className="align-self-center" md="2" xs="12">
+          <Row>
+            <Col xs="10" md="6" className="align-self-center">
+              <Link href="/">
+                <a>
+                  <NearLogo className="near-main-logo" />
+                </a>
+              </Link>
+            </Col>
+
+            <Col md="6" className="align-self-center d-none d-md-block">
+              <HeaderNetworkDropdown />
+            </Col>
+
+            <Col xs="2" className="align-self-center text-right d-md-none">
+              <MobileHeaderNavDropdown />
+            </Col>
+          </Row>
         </Col>
 
-        <Col md="1" className="d-none d-md-block">
-          <Link href="/">
-            <a>
-              <NearLogo className="near-main-logo" />
-            </a>
-          </Link>
-        </Col>
-
-        <Col className="align-self-center pl-3" md="2" xs="6">
-          <HeaderNetworkDropdown />
-        </Col>
-
-        <Col className="align-self-center text-center" md="7" xs="12">
+        <Col className="align-self-center text-center" md="8" xs="12">
           {router.pathname !== "/" && <Search />}
         </Col>
 
-        <Col className="align-self-center text-center" md="2">
+        <Col className="align-self-center text-right d-none d-md-block" md="2">
           <Row>
-            <Col md="6" xs="6" className="pt-2">
+            <Col md="4" className="align-self-center">
               <Link href="/">
                 <a className="header-home">Home</a>
               </Link>
             </Col>
-            <Col md="6" xs="6" className="pt-1">
+            <Col md="8" className="align-self-center">
               <HeaderNavDropdown />
             </Col>
           </Row>
@@ -55,10 +56,11 @@ export default () => {
           width: 100%;
           background: #ffffff;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+          height: 72px;
         }
 
         .near-main-logo {
-          width: 100%;
+          width: 120px;
           height: 72px;
           padding: 6px;
         }
@@ -69,8 +71,11 @@ export default () => {
         }
 
         @media (max-width: 780px) {
+          .header-container {
+            height: 111px;
+          }
           .near-main-logo {
-            width: 100%;
+            height: 55px;
           }
         }
       `}</style>

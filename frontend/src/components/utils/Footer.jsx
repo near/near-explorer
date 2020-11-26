@@ -44,7 +44,7 @@ export default () => (
     <style jsx global>{`
       .footer-container {
         background-color: #f8f8f8;
-        font-family: BentonSans;
+        font-family: "Inter", sans-serif;
         font-size: 12px;
         line-height: 40px;
         color: #999999;
@@ -77,19 +77,6 @@ export default () => (
       }
 
       .footer-help {
-<<<<<<< HEAD
-        background: #ffffff;
-        box-sizing: border-box;
-        text-align: left;
-        font-weight: 800;
-        font-size: 18px;
-        line-height: 24px;
-        padding: 24px 40px;
-      }
-
-      .help-image {
-        height: 150px;
-=======
         text-align: left;
         line-height: 1px;
         padding: 40px 20%;
@@ -97,14 +84,13 @@ export default () => (
 
       .help-image {
         margin-top: -50%;
->>>>>>> master
         position: relative;
         z-index: 2;
         top: -20px;
       }
 
       .need-help-contact {
-        font-family: BwSeidoRound;
+        font-family: "Inter", sans-serif;
         font-size: 18px;
         font-weight: 900;
         line-height: 1.33;

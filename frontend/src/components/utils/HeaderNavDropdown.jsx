@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap";
 
-const HeaderNavItem = ({ link, imgLink, text }) => {
+export const HeaderNavItem = ({ link, imgLink, text }) => {
   return (
     <Dropdown.Item className="header-nav-item" href={link}>
       <img src={imgLink} className="header-icon" />
@@ -17,20 +17,18 @@ const HeaderNavItem = ({ link, imgLink, text }) => {
         }
 
         .nav-text {
-          color: #ffffff;
           letter-spacing: 2px;
           text-decoration: none;
           font-size: 14px;
           font-weight: 500;
+          margin-left: 10px;
         }
-
         .header-nav-item {
-          padding: 10px 20px !important;
-          padding-right: 30px !important;
+          color: #a5a5a5;
         }
-
         .header-nav-item:hover {
           background: #000000;
+          color: white;
         }
       `}</style>
     </Dropdown.Item>
@@ -40,7 +38,7 @@ const HeaderNavItem = ({ link, imgLink, text }) => {
 export default () => (
   <Dropdown>
     <Dropdown.Toggle variant="secondary" className="chain-header">
-      ChainInfo
+      Explore
     </Dropdown.Toggle>
     <Dropdown.Menu className="header-dropdown-menu">
       <HeaderNavItem
@@ -74,6 +72,7 @@ export default () => (
         font-weight: 500;
         width: 100%;
       }
+
       .header-dropdown-menu {
         background: #25272a;
         border-radius: 8px;
