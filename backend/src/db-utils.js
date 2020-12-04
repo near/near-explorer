@@ -217,7 +217,7 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
     queryRows(
       [
         `SELECT ${transactionHashColumnName} as hash, ${transactionSignerAccountIdColumnName} as signer_id, ${transactionReceiverAccountIdColumnName} as receiver_id, 
-              ${transactionBlockHashColumnName} as block_hash, block_timestamp as blockTimestamp, ${transactionIndexColumnName} as transaction_index
+              ${transactionBlockHashColumnName} as block_hash, block_timestamp, ${transactionIndexColumnName} as transaction_index
               FROM transactions
           ORDER BY block_timestamp DESC, ${transactionIndexColumnName} DESC
           LIMIT 10`,
@@ -228,7 +228,7 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
       [
         `SELECT blocks.${blockHashColumnName} as hash, blocks.${blockHeightColumnName} as height, blocks.${blockTimestampColumnName}, 
               blocks.${blockPrehashColumnName} as prev_hash, 
-            COUNT(transactions.${transactionHashColumnName}) as transactionsCount
+            COUNT(transactions.${transactionHashColumnName}) as transactions_count
           FROM (
             SELECT blocks.${blockHashColumnName}
             FROM blocks
@@ -326,7 +326,7 @@ const aggregateStats = async (options) => {
     totalBlocks: totalBlocks.total,
     totalTransactions: totalTransactions.total,
     lastDayTxCount: lastDayTxCount.total,
-    lastBlockHeight: lastBlockHeight ? lastBlockHeight.height : 0,
+    lastBlockHeight: lastBlockHeight ? lastBlockHeight.block_height : 0,
   };
 };
 
