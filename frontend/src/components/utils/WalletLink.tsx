@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { truncateAccountId } from "../../libraries/formatting";
 
 export interface Props {
   accountId: string;
@@ -8,14 +8,13 @@ export interface Props {
 const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
   return (
     <>
-      <Link
-        href={`${nearWalletProfilePrefix}/[id]`}
-        as={`${nearWalletProfilePrefix}/${accountId}`}
+      <a
+        target="_blank"
+        className="account-link"
+        href={`${nearWalletProfilePrefix}/${accountId}`}
       >
-        <a target="_blank" className="account-link">
-          {truncateAccountId(accountId)}
-        </a>
-      </Link>
+        {truncateAccountId(accountId)}
+      </a>
       <style jsx>{`
         .account-link {
           white-space: nowrap;
@@ -26,12 +25,3 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
 };
 
 export default WalletLink;
-
-export function truncateAccountId(
-  accountId: string,
-  lengthThreshold: number = 25
-) {
-  return accountId.length > lengthThreshold
-    ? accountId.slice(0, 5) + "…" + accountId.slice(accountId.length - 15)
-    : accountId;
-}
