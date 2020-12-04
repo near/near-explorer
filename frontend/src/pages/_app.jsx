@@ -63,7 +63,7 @@ export default class extends App {
           currentNearNetwork={this.props.currentNearNetwork}
           nearNetworks={nearNetworks}
         >
-          <div>
+          <div className="app-wrapper">
             <Header />
             <img
               src="/static/images/explorer-bg.svg"
@@ -122,6 +122,11 @@ export default class extends App {
 
           h2 {
             font-size: 24px;
+          }
+
+          .app-wrapper {
+            position: relative;
+            min-height: calc(100vh - 100px);
           }
         `}</style>
         {googleAnalytics ? (

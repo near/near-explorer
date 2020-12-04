@@ -4,7 +4,9 @@ import { HeaderNavItem } from "./HeaderNavDropdown";
 
 export default () => (
   <Dropdown>
-    <Dropdown.Toggle variant="secondary">☰</Dropdown.Toggle>
+    <Dropdown.Toggle variant="secondary" className="chain-header">
+      ☰
+    </Dropdown.Toggle>
     <Dropdown.Menu className="header-dropdown-menu-mobile">
       <Dropdown.Item className="header-nav-item white" href="/">
         Home
