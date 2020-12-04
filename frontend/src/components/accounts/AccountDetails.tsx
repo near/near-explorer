@@ -5,21 +5,21 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as A from "../../libraries/explorer-wamp/accounts";
+import { NearNetwork } from "../../libraries/config";
 
-import Balance from "../utils/Balance";
 import CardCell from "../utils/CardCell";
-import TransactionLink from "../utils/TransactionLink";
 import Term from "../utils/Term";
 import AccountLink from "../utils/AccountLink";
 import WalletLink from "../utils/WalletLink";
 
 export interface Props {
   account: A.Account;
+  currentNearNetwork: NearNetwork;
 }
 
 export default class extends React.Component<Props> {
   render() {
-    const { account } = this.props;
+    const { account, currentNearNetwork } = this.props;
     return (
       <div className="account-info-container">
         <Row noGutters>
@@ -94,7 +94,7 @@ export default class extends React.Component<Props> {
           <Col md="4">
             <CardCell
               title="Wallet Balances"
-              text={<WalletLink accountId={account.accountId} nearWalletProfilePrefix={account.currentNearNetwork.nearWalletProfilePrefix} />}
+              text={<WalletLink accountId={account.accountId} nearWalletProfilePrefix={currentNearNetwork.nearWalletProfilePrefix} />}
               className="block-card-created-text account-card-back border-0"
             />
           </Col>
