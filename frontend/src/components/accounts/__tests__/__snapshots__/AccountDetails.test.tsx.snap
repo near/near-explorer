@@ -170,8 +170,6 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               <a
                 className="jsx-3150401870 account-link"
                 href="http://wallet/profile/megan.near"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
                 target="_blank"
               >
                 megan.near
@@ -344,8 +342,6 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               <a
                 className="jsx-3150401870 account-link"
                 href="http://wallet/profile/near.near"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
                 target="_blank"
               >
                 near.near
