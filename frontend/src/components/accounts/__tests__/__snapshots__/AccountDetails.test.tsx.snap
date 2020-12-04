@@ -2,7 +2,7 @@
 
 exports[`<AccountDetails /> renders with lockup account 1`] = `
 <div
-  className="jsx-1455372711 account-info-container"
+  className="jsx-1225256684 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -41,14 +41,14 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-1455372711"
+                className="jsx-1225256684"
               >
                 ↑
                 7
               </span>
                 
               <span
-                className="jsx-1455372711"
+                className="jsx-1225256684"
               >
                 ↓
                 10
@@ -210,6 +210,17 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               February 01, 2019 at 12:00:00am
+              <a
+                className="transaction-link"
+                href="/transactions/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                <img
+                  className="jsx-1225256684 transaction-link-icon"
+                  src="/static/images/icon-m-copy.svg"
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -221,7 +232,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
 
 exports[`<AccountDetails /> renders without lockup account 1`] = `
 <div
-  className="jsx-1455372711 account-info-container"
+  className="jsx-1225256684 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -260,14 +271,14 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-1455372711"
+                className="jsx-1225256684"
               >
                 ↑
                 7
               </span>
                 
               <span
-                className="jsx-1455372711"
+                className="jsx-1225256684"
               >
                 ↓
                 10
@@ -383,6 +394,17 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               February 01, 2019 at 12:00:00am
+              <a
+                className="transaction-link"
+                href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                <img
+                  className="jsx-1225256684 transaction-link-icon"
+                  src="/static/images/icon-m-copy.svg"
+                />
+              </a>
             </div>
           </div>
         </div>

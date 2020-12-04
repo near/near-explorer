@@ -10,6 +10,7 @@ import { NearNetwork } from "../../libraries/config";
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
 import AccountLink from "../utils/AccountLink";
+import TransactionLink from "../utils/TransactionLink";
 import WalletLink from "../utils/WalletLink";
 
 export interface Props {
@@ -117,11 +118,31 @@ export default class extends React.Component<Props> {
                 </Term>
               }
               text={
-                account.createdAtBlockTimestamp
-                  ? moment(account.createdAtBlockTimestamp).format(
+                account.createdAtBlockTimestamp ? (
+                  <>
+                    {moment(account.createdAtBlockTimestamp).format(
                       "MMMM DD, YYYY [at] h:mm:ssa"
-                    )
-                  : "N/A"
+                    )}
+                    {account.createdByTransactionHash ? (
+                      <>
+                        {account.createdByTransactionHash !== "Genesis" ? (
+                          <TransactionLink
+                            transactionHash={account.createdByTransactionHash}
+                          >
+                            <img
+                              className="transaction-link-icon"
+                              src={"/static/images/icon-m-copy.svg"}
+                            />
+                          </TransactionLink>
+                        ) : (
+                          "from Genesis"
+                        )}
+                      </>
+                    ) : null}
+                  </>
+                ) : (
+                  "N/A"
+                )
               }
               className="block-card-created account-card-back border-0"
             />
@@ -143,6 +164,11 @@ export default class extends React.Component<Props> {
 
           .account-card-back {
             background-color: #f8f8f8;
+          }
+
+          .transaction-link-icon {
+            width: 15px;
+            margin: 0 0 12px 12px;
           }
         `}</style>
       </div>
