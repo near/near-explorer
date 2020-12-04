@@ -8,8 +8,13 @@ export interface Props {
 const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
   return (
     <>
-      <Link href={`${nearWalletProfilePrefix}/[id]`} as={`${nearWalletProfilePrefix}/${accountId}`}>
-        <a target="_blank" className="account-link">{truncateAccountId(accountId)}</a>
+      <Link
+        href={`${nearWalletProfilePrefix}/[id]`}
+        as={`${nearWalletProfilePrefix}/${accountId}`}
+      >
+        <a target="_blank" className="account-link">
+          {truncateAccountId(accountId)}
+        </a>
       </Link>
       <style jsx>{`
         .account-link {

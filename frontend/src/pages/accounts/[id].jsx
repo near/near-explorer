@@ -35,16 +35,19 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-              <AccountDetails account={{ ...this.props }} currentNearNetwork={this.props.currentNearNetwork} />
-            )}
+            <AccountDetails
+              account={{ ...this.props }}
+              currentNearNetwork={this.props.currentNearNetwork}
+            />
+          )}
         </Content>
         {this.props.err ? (
           `Information is not available at the moment. Please, check if the account name is correct or try later.`
         ) : (
-            <Container>
-              <ContractDetails accountId={this.props.accountId} />
-            </Container>
-          )}
+          <Container>
+            <ContractDetails accountId={this.props.accountId} />
+          </Container>
+        )}
         <Content
           size="medium"
           icon={<TransactionIcon style={{ width: "22px" }} />}
@@ -53,8 +56,8 @@ export default class extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-              <Transactions accountId={this.props.accountId} count={10} />
-            )}
+            <Transactions accountId={this.props.accountId} count={10} />
+          )}
         </Content>
       </>
     );

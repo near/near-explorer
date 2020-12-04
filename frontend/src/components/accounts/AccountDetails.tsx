@@ -83,8 +83,8 @@ export default class extends React.Component<Props> {
                   account.lockupAccountId ? (
                     <AccountLink accountId={account.lockupAccountId} />
                   ) : (
-                      ""
-                    )
+                    ""
+                  )
                 }
               />
             </Col>
@@ -94,7 +94,14 @@ export default class extends React.Component<Props> {
           <Col md="4">
             <CardCell
               title="Wallet Balances"
-              text={<WalletLink accountId={account.accountId} nearWalletProfilePrefix={currentNearNetwork.nearWalletProfilePrefix} />}
+              text={
+                <WalletLink
+                  accountId={account.accountId}
+                  nearWalletProfilePrefix={
+                    currentNearNetwork.nearWalletProfilePrefix
+                  }
+                />
+              }
               className="block-card-created-text account-card-back border-0"
             />
           </Col>
@@ -111,8 +118,8 @@ export default class extends React.Component<Props> {
               text={
                 account.createdAtBlockTimestamp
                   ? moment(account.createdAtBlockTimestamp).format(
-                    "MMMM DD, YYYY [at] h:mm:ssa"
-                  )
+                      "MMMM DD, YYYY [at] h:mm:ssa"
+                    )
                   : "N/A"
               }
               className="block-card-created account-card-back border-0"
