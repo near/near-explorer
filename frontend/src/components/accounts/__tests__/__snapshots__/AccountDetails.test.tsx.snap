@@ -170,6 +170,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               <a
                 className="jsx-3150401870 account-link"
                 href="http://wallet/profile/megan.near"
+                rel="noopener"
                 target="_blank"
               >
                 megan.near
@@ -342,6 +343,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               <a
                 className="jsx-3150401870 account-link"
                 href="http://wallet/profile/near.near"
+                rel="noopener"
                 target="_blank"
               >
                 near.near
