@@ -6,12 +6,13 @@ import { formatNEAR, showInYocto } from "./Balance";
 import { TGAS } from "../utils/Gas";
 
 export default ({ gasPrice }) => {
-  let TerraGas = new BN(gasPrice).mul(TGAS);
-  let show = formatNEAR(TerraGas);
-  let precise = showInYocto(gasPrice);
+  let gasPricePerTeragas = new BN(gasPrice).mul(TGAS);
   return (
-    <OverlayTrigger placement={"bottom"} overlay={<Tooltip>{precise}</Tooltip>}>
-      <span>{show} Ⓝ/ Tgas</span>
+    <OverlayTrigger
+      placement={"bottom"}
+      overlay={<Tooltip>{showInYocto(gasPrice)}/gas</Tooltip>}
+    >
+      <span>{formatNEAR(gasPricePerTeragas)} Ⓝ/Tgas</span>
     </OverlayTrigger>
   );
 };
