@@ -45,6 +45,7 @@ export default class extends React.Component<Props> {
                   </span>
                 </>
               }
+              className="border-0"
             />
           </Col>
           <Col md="4">

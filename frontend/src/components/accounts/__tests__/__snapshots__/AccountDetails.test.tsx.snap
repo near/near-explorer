@@ -11,7 +11,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-0 card"
       >
         <div
           className="card-body"
@@ -230,7 +230,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-0 card"
       >
         <div
           className="card-body"
