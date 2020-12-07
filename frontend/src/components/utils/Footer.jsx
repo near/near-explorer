@@ -4,43 +4,45 @@ import Nearkat from "../../../public/static/images/footer-nearkat.svg";
 
 export default () => (
   <Container fluid className="footer-container">
-    <Row>
-      <Col className="align-self-center text-center px-0" xs="4" md="3">
-        <NearLogo className="near-logo" />
-      </Col>
-      <Col
-        className="align-self-center footer-link text-md-left text-center pl-0"
-        xs="8"
-        md="4"
-      >
-        © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
-        <br />
-        <a className="footer-link-href" href="https://near.org/privacy/">
-          Terms of Service
-        </a>
-        &nbsp;|&nbsp;
-        <a className="footer-link-href" href="https://near.org/privacy/">
-          Privacy Policy
-        </a>
-      </Col>
-      <Col className="text-right d-none d-sm-block ml-auto" md="4" lg="2">
-        <a className="footer-help-link" href="http://near.chat" target="_blank">
-          <Row>
-            <Col md="2">
-              <Nearkat className="help-image img-responsive" />
-            </Col>
-            <Col className="align-self-center footer-help">
-              <div>
-                <span className="need-help-contact">Questions?</span>
-                <span className="need-help-contact need-help-contact-bottom">
-                  Join the Community
-                </span>
-              </div>
-            </Col>
-          </Row>
-        </a>
-      </Col>
-    </Row>
+    <div className="nearlogo-wrapper">
+      <Row>
+        <Col className="align-self-center text-center px-0" xs="4" md="3">
+          <NearLogo className="near-logo" />
+        </Col>
+        <Col
+          className="align-self-center footer-link text-md-left text-center pl-0"
+          xs="8"
+          md="4"
+        >
+          © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
+          <br />
+          <a className="footer-link-href" href="https://near.org/privacy/">
+            Terms of Service
+          </a>
+          &nbsp;|&nbsp;
+          <a className="footer-link-href" href="https://near.org/privacy/">
+            Privacy Policy
+          </a>
+        </Col>
+      </Row>
+    </div>
+    <div className="nearkat-wrapper">
+      <a className="footer-help-link" href="http://near.chat" target="_blank">
+        <Row>
+          <Col className="help-image" xs="3" md="3">
+            <Nearkat className="nearkat" />
+          </Col>
+          <Col className="align-self-center footer-help" xs="9" md="9">
+            <div>
+              <span className="need-help-contact">Questions?</span>
+              <span className="need-help-contact need-help-contact-bottom">
+                Join the Community
+              </span>
+            </div>
+          </Col>
+        </Row>
+      </a>
+    </div>
     <style jsx global>{`
       .footer-container {
         background-color: #f8f8f8;
@@ -50,12 +52,21 @@ export default () => (
         color: #999999;
         height: 100px;
         width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        margin-top: 150px;
       }
 
       .footer-container > .col-12 {
         min-height: 70px;
         padding-top: 20px;
         padding-bottom: 25px;
+      }
+
+      .nearlogo-wrapper {
+        padding: 30px;
+        width: 80%;
       }
 
       .footer-link-href {
@@ -67,10 +78,6 @@ export default () => (
         line-height: 20px;
       }
 
-      .footer-nav-margin {
-        width: 30px;
-      }
-
       .footer-container .near-logo {
         height: 60px;
         fill: #acacac;
@@ -79,12 +86,13 @@ export default () => (
       .footer-help {
         text-align: left;
         line-height: 1px;
-        padding: 40px 20%;
+        background: white;
+        padding: 25px 35px;
       }
 
       .help-image {
-        margin-top: -50%;
         position: relative;
+        left: -10px;
         z-index: 2;
         top: -20px;
       }
@@ -106,14 +114,36 @@ export default () => (
         color: #0072ce !important;
         display: block;
       }
-<<<<<<< HEAD
 
       .near-logo {
         width: 100px;
-        fill: #acacac;
       }
-=======
->>>>>>> master
+
+      @media (max-width: 770px) {
+        .footer-container {
+          flex-direction: column-reverse;
+        }
+        .nearlogo-wrapper {
+          width: 100%;
+        }
+
+        .need-help-contact {
+          font-size: 14px;
+        }
+
+        .footer-help {
+          padding: 15px;
+        }
+
+        .nearkat-wrapper {
+          margin-left: auto;
+          width: 220px;
+        }
+
+        .nearkat {
+          height: 100px;
+        }
+      }
     `}</style>
   </Container>
 );
