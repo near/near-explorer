@@ -74,7 +74,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
@@ -304,7 +304,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
