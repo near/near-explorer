@@ -8,6 +8,7 @@ export interface NearNetwork {
   name: string;
   explorerLink: string;
   aliases: [string];
+  nearWalletProfilePrefix: string;
 }
 
 export function getNearNetwork(hostname: string): NearNetwork {
