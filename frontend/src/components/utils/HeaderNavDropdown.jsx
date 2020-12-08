@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap";
 
-export const HeaderNavItem = ({ link, imgLink, text }) => {
+const HeaderNavItem = ({ link, imgLink, text }) => {
   return (
     <Dropdown.Item className="header-nav-item" href={link}>
       <img src={imgLink} className="header-icon" />

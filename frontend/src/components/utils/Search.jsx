@@ -93,6 +93,7 @@ export default class extends React.Component {
             background: #fafafa;
             border: 2px solid #eaebeb;
             border-right: none;
+            border-radius: 8px;
           }
 
           .search-field {
