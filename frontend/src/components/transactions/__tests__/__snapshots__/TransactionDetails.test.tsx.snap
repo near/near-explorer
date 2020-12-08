@@ -23,7 +23,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
@@ -69,7 +69,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
@@ -115,7 +115,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
@@ -168,7 +168,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
@@ -215,7 +215,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Deposit Value
@@ -262,7 +262,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
@@ -301,7 +301,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
@@ -471,7 +471,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
@@ -517,7 +517,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
@@ -563,7 +563,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
@@ -616,7 +616,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
@@ -663,7 +663,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Deposit Value
@@ -710,7 +710,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
@@ -749,7 +749,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas
@@ -919,7 +919,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Signed by
@@ -965,7 +965,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
               Receiver
@@ -1011,7 +1011,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
               Status
@@ -1064,7 +1064,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Transaction Fee
@@ -1111,7 +1111,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
               Deposit Value
@@ -1158,7 +1158,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Gas Used
@@ -1197,7 +1197,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1276427197 card-cell-title-img"
+                className="jsx-872228036 card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
               Attached Gas

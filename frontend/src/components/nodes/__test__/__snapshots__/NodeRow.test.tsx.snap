@@ -8,7 +8,7 @@ exports[`<NodeRow /> renders 1`] = `
     className="pr-0 col-md-auto col-1"
   >
     <img
-      className="jsx-1878504415"
+      className="jsx-1925050955"
       onBlur={[Function]}
       onFocus={[Function]}
       onMouseOut={[Function]}
@@ -33,7 +33,7 @@ exports[`<NodeRow /> renders 1`] = `
         @
         alice
         <span
-          className="jsx-1878504415 node-status"
+          className="jsx-1925050955 node-status"
         >
            
           
@@ -53,7 +53,7 @@ exports[`<NodeRow /> renders 1`] = `
             className="col-md-5"
           >
             <img
-              className="jsx-1878504415"
+              className="jsx-1925050955"
               src="/static/images/icon-m-size.svg"
               style={
                 Object {
@@ -67,7 +67,7 @@ exports[`<NodeRow /> renders 1`] = `
             className="text-danger col-md-3"
           >
             <img
-              className="jsx-1878504415"
+              className="jsx-1925050955"
               src="/static/images/icon-m-block.svg"
               style={
                 Object {
@@ -102,7 +102,7 @@ exports[`<NodeRow /> renders 1`] = `
         className="node-row-timer col"
       >
         <span
-          className="jsx-1878504415 node-row-timer-status"
+          className="jsx-1925050955 node-row-timer-status"
         >
           Last seen
         </span>
