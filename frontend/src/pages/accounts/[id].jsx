@@ -16,46 +16,50 @@ export default class extends React.Component {
   static async getInitialProps({ req, query: { id } }) {
     try {
       const account = await new AccountsApi(req).getAccountInfo(id);
-      return account;
-    } catch (err) {
-      return { accountId: id, err };
+      return { account };
+    } catch (accountFetchingError) {
+      return {
+        account: { accountId: id },
+        accountFetchingError,
+      };
     }
   }
 
   render() {
+    const { account, accountFetchingError, currentNearNetwork } = this.props;
+
     return (
       <>
         <Head>
           <title>NEAR Explorer | Account</title>
         </Head>
         <Content
-          title={<h1>{`Account: @${this.props.accountId}`}</h1>}
+          title={<h1>{`Account: @${account.accountId}`}</h1>}
           border={false}
         >
-          {this.props.err ? (
+          {accountFetchingError ? (
             `Information is not available at the moment. Please, check if the account name is correct or try later.`
           ) : (
-            <AccountDetails account={{ ...this.props }} />
+            <AccountDetails
+              account={account}
+              currentNearNetwork={currentNearNetwork}
+            />
           )}
         </Content>
-        {this.props.err ? (
-          `Information is not available at the moment. Please, check if the account name is correct or try later.`
-        ) : (
-          <Container>
-            <ContractDetails accountId={this.props.accountId} />
-          </Container>
+        {accountFetchingError ? null : (
+          <>
+            <Container>
+              <ContractDetails accountId={account.accountId} />
+            </Container>
+            <Content
+              size="medium"
+              icon={<TransactionIcon style={{ width: "22px" }} />}
+              title={<h2>Transactions</h2>}
+            >
+              <Transactions accountId={account.accountId} count={10} />
+            </Content>
+          </>
         )}
-        <Content
-          size="medium"
-          icon={<TransactionIcon style={{ width: "22px" }} />}
-          title={<h2>Transactions</h2>}
-        >
-          {this.props.err ? (
-            `Information is not available at the moment. Please, check if the account name is correct or try later.`
-          ) : (
-            <Transactions accountId={this.props.accountId} count={10} />
-          )}
-        </Content>
       </>
     );
   }

@@ -24,6 +24,12 @@ describe("<AccountDetails />", () => {
             lockupTotalBalance: "765654565324543",
             lockupUnlockedBalance: "0",
           }}
+          currentNearNetwork={{
+            name: "testing",
+            explorerLink: "http://explorer/",
+            aliases: ["alias1"],
+            nearWalletProfilePrefix: "http://wallet/profile",
+          }}
         />
       )
     ).toMatchSnapshot();
@@ -46,6 +52,12 @@ describe("<AccountDetails />", () => {
             availableBalance: "434345678765432345678",
             totalBalance: "98765445654565134567876543",
             storageUsage: "1876",
+          }}
+          currentNearNetwork={{
+            name: "testing",
+            explorerLink: "http://explorer/",
+            aliases: ["alias1"],
+            nearWalletProfilePrefix: "http://wallet/profile",
           }}
         />
       )
