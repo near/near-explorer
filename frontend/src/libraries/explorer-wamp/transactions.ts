@@ -1,5 +1,8 @@
-import { ExplorerApi } from ".";
 import BN from "bn.js";
+
+import { DATA_SOURCE_TYPE } from "../consts";
+
+import { ExplorerApi } from ".";
 
 export type ExecutionStatus =
   | "NotStarted"
@@ -129,18 +132,25 @@ export interface QueryArgs {
 }
 
 export default class TransactionsApi extends ExplorerApi {
-  selectOption: string;
-  constructor() {
-    super();
-    this.selectOption =
-      this.nearNetwork.name === "testnet" ? "Indexer" : "Legacy";
-  }
+  static indexerCompatibilityActionKinds = new Map([
+    ["ADD_KEY", "AddKey"],
+    ["CREATE_ACCOUNT", "CreateAccount"],
+    ["DELETE_ACCOUNT", "DeleteAccount"],
+    ["DELETE_KEY", "DeleteKey"],
+    ["DEPLOY_CONTRACT", "DeployContract"],
+    ["FUNCTION_CALL", "FunctionCall"],
+    ["STAKE", "Stake"],
+    ["TRANSFER", "Transfer"],
+  ]);
 
   async getTransactions(queries: QueryArgs) {
-    if (this.selectOption === "Legacy") {
+    if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
       return await this.getTransactionsFromLegacy(queries);
+    } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+      return await this.getTransactionsFromIndexer(queries);
+    } else {
+      throw Error(`unsupported data source ${this.dataSource}`);
     }
-    return await this.getTransactionsFromIndexer(queries);
   }
 
   async getTransactionsFromLegacy(queries: QueryArgs): Promise<Transaction[]> {
@@ -285,7 +295,7 @@ export default class TransactionsApi extends ExplorerApi {
     try {
       let transactions = await this.call<any>("select:INDEXER_BACKEND", [
         `SELECT transaction_hash as hash, signer_account_id as signer_id, receiver_account_id as receiver_id, 
-          included_in_block_hash as block_hash, block_timestamp, index_in_chunk as transaction_index
+          included_in_block_hash as block_hash, DIV(block_timestamp, 1000*1000) as block_timestamp, index_in_chunk as transaction_index
           FROM transactions
           ${WHEREClause}
           ORDER BY block_timestamp DESC, index_in_chunk DESC
@@ -297,23 +307,12 @@ export default class TransactionsApi extends ExplorerApi {
           block_hash: blockHash,
           end_timestamp: queries.paginationIndexer
             ? new BN(queries.paginationIndexer.endTimestamp)
-                .mul(new BN(10 ** 6))
+                .muln(10 ** 6)
                 .toString()
             : undefined,
           transaction_index: queries.paginationIndexer?.transactionIndex,
           limit,
         },
-      ]);
-
-      const actionMap = new Map([
-        ["ADD_KEY", "AddKey"],
-        ["CREATE_ACCOUNT", "CreateAccount"],
-        ["DELETE_ACCOUNT", "DeleteAccount"],
-        ["DELETE_KEY", "DeleteKey"],
-        ["DEPLOY_CONTRACT", "DeployContract"],
-        ["FUNCTION_CALL", "FunctionCall"],
-        ["STAKE", "Stake"],
-        ["TRANSFER", "Transfer"],
       ]);
 
       if (transactions.length > 0) {
@@ -344,7 +343,9 @@ export default class TransactionsApi extends ExplorerApi {
           if (transactionActions) {
             transaction.actions = transactionActions.map((action: any) => {
               return {
-                kind: actionMap.get(action.kind),
+                kind: TransactionsApi.indexerCompatibilityActionKinds.get(
+                  action.kind
+                ),
                 args:
                   typeof action.args === "string"
                     ? JSON.parse(action.args)
@@ -360,9 +361,7 @@ export default class TransactionsApi extends ExplorerApi {
           signerId: transaction.signer_id,
           receiverId: transaction.receiver_id,
           blockHash: transaction.block_hash,
-          blockTimestamp: new BN(transaction.block_timestamp)
-            .div(new BN(10 ** 6))
-            .toNumber(),
+          blockTimestamp: parseInt(transaction.block_timestamp),
           transactionIndex: transaction.transaction_index,
           actions: transaction.actions,
         };

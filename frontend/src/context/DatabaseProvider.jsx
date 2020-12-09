@@ -1,5 +1,7 @@
 import React, { createContext, useEffect, useCallback, useState } from "react";
-import { ExplorerApi } from "../libraries/explorer-wamp/index";
+
+import { DATA_SOURCE_TYPE } from "../libraries/consts";
+import { ExplorerApi } from "../libraries/explorer-wamp";
 
 const DatabaseContext = createContext({
   finalTimestamp: 0,
@@ -56,8 +58,20 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("chain-stats", fetchNewStats);
-    new ExplorerApi().subscribe("final-timestamp", fetchFinalTimestamp);
+    const explorerApi = new ExplorerApi();
+
+    function instrumentTopicNameWithDataSource(topicName) {
+      if (explorerApi.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
+        return topicName;
+      }
+      return `${topicName}:${explorerApi.dataSource}`;
+    }
+
+    explorerApi.subscribe(
+      instrumentTopicNameWithDataSource("chain-stats"),
+      fetchNewStats
+    );
+    explorerApi.subscribe("final-timestamp", fetchFinalTimestamp);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
