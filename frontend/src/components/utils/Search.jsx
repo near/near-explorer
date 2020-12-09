@@ -99,7 +99,7 @@ export default class extends React.Component {
           .search-field {
             background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
             border: 2px solid #eaebeb;
-            border-left: ${this.props.dashboard ? "inherit" : "none"};
+            border-left: ${this.props.dashboard ? "2px solid #eaebeb" : "none"};
             box-sizing: border-box;
             border-radius: 8px;
             height: 100%;
