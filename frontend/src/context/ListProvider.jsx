@@ -13,8 +13,38 @@ export default (props) => {
   const fetchList = function (stats) {
     const { blocks, transactions } = stats[0];
 
-    dispatchBlocks(blocks);
-    dispatchTransactions(transactions);
+    const preprocessedBlocks = blocks.map(
+      ({ hash, height, timestamp, prev_hash, transactions_count }) => ({
+        hash,
+        height,
+        timestamp,
+        prevHash: prev_hash,
+        transactionsCount: transactions_count,
+      })
+    );
+
+    const preprocessedTransactions = transactions.map(
+      ({
+        hash,
+        signer_id,
+        receiver_id,
+        block_hash,
+        block_timestamp,
+        transaction_index,
+        actions,
+      }) => ({
+        hash,
+        signerId: signer_id,
+        receiverId: receiver_id,
+        blockHash: block_hash,
+        blockTimestamp: block_timestamp,
+        transactionIndex: transaction_index,
+        actions,
+      })
+    );
+
+    dispatchBlocks(preprocessedBlocks);
+    dispatchTransactions(preprocessedTransactions);
   };
 
   const Subscription = useCallback(() => {

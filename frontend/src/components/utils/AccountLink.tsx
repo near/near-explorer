@@ -1,10 +1,12 @@
 import Link from "next/link";
 
+import { truncateAccountId } from "../../libraries/formatting";
+
 export interface Props {
   accountId: string;
 }
 
-export default ({ accountId }: Props) => {
+const AccountLink = ({ accountId }: Props) => {
   return (
     <>
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
@@ -19,11 +21,4 @@ export default ({ accountId }: Props) => {
   );
 };
 
-export function truncateAccountId(
-  accountId: string,
-  lengthThreshold: number = 25
-) {
-  return accountId.length > lengthThreshold
-    ? accountId.slice(0, 5) + "…" + accountId.slice(accountId.length - 15)
-    : accountId;
-}
+export default AccountLink;
