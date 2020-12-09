@@ -155,7 +155,7 @@ export default class extends App {
           }
 
           .page {
-            background: white;
+            background: #f9f9f9;
           }
 
           .app-wrapper {
