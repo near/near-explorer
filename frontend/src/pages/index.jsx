@@ -13,7 +13,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Dashboard</title>
+          <title>NEAR Explorer | Dashboard</title>
         </Head>
         <Container>
           <h1 style={{ marginTop: "72px" }}>

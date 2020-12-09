@@ -1,4 +1,7 @@
 // next.config.js
+//
+// NOTE: Make sure you update `src/__mocks__/next/config.js` when change this file!
+//
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
 
 let nearNetworks;
@@ -10,6 +13,7 @@ if (process.env.NEAR_NETWORKS) {
       name: "localhostnet",
       explorerLink: "http://localhost:3000",
       aliases: ["localhost:3000", "localhost", "127.0.0.1", "127.0.0.1:3000"],
+      nearWalletProfilePrefix: "https://wallet.near.org/profile",
     },
   ];
 }

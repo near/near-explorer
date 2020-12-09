@@ -156,6 +156,21 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
           [{ transactionCountArray }],
           wamp
         );
+        //new pub-sub data, coexists with old one now
+        const blockStats = await queryDashboardBlockInfo({ dataSource });
+        const transactionCountArray = await queryDashboardTxInfo({
+          dataSource,
+        });
+        wampPublish(
+          getDataSourceSpecificTopicName("chain-block-stats", dataSource),
+          [{ blockStats }],
+          wamp
+        );
+        wampPublish(
+          getDataSourceSpecificTopicName("chain-txs-stats", dataSource),
+          [{ transactionCountArray }],
+          wamp
+        );
       }
       console.log(`Regular data stats check from ${dataSource} is completed.`);
     } catch (error) {

@@ -1,5 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 
+import NearLogo from "../../../public/static/images/near_logo.svg";
+
 export default () => (
   <Container fluid className="footer-container">
     <Row noGutters>
@@ -98,13 +100,15 @@ export default () => (
         display: block;
       }
 
-      .help-text {
-        background: #ffffff;
-        padding: 25px 60px;
+      .footer-container .near-logo {
+        height: 60px;
+        fill: #acacac;
       }
 
-      .help-text:hover {
-        text-decoration: none !important;
+      .footer-help {
+        text-align: left;
+        line-height: 1px;
+        padding: 40px 20%;
       }
 
       .help-image {

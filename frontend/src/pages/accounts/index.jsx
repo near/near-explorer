@@ -8,7 +8,7 @@ export default class extends React.Component {
     return (
       <>
         <Head>
-          <title>Near Explorer | Accounts</title>
+          <title>NEAR Explorer | Accounts</title>
         </Head>
         <Content title={<h1>Accounts</h1>}>
           <Accounts />
