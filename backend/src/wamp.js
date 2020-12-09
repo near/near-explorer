@@ -137,11 +137,13 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     lockupStakingPoolAccountId,
     genesisConfig,
   ] = await Promise.all([
-    nearRpc.sendJsonRpc("query", {
-      request_type: "view_account",
-      finality: "final",
-      account_id: accountId,
-    }),
+    nearRpc
+      .sendJsonRpc("query", {
+        request_type: "view_account",
+        finality: "final",
+        account_id: accountId,
+      })
+      .catch(ignore_if_does_not_exist),
     accountId !== lockupAccountId
       ? nearRpc
           .sendJsonRpc("query", {
@@ -160,6 +162,10 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
       .catch(ignore_if_does_not_exist),
     nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
   ]);
+
+  if (accountInfo === null) {
+    return null;
+  }
 
   const storageUsage = new BN(accountInfo.storage_usage);
   const storageAmountPerByte = new BN(
