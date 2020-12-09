@@ -10,6 +10,7 @@ import { NearNetwork } from "../../libraries/config";
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
 import AccountLink from "../utils/AccountLink";
+import Balance from "../utils/Balance";
 import TransactionLink from "../utils/TransactionLink";
 import WalletLink from "../utils/WalletLink";
 
@@ -92,10 +93,62 @@ export default class extends React.Component<Props> {
             </Col>
           )}
         </Row>
-        <Row noGutters className="border-0">
+        <Row noGutters>
           <Col md="4">
             <CardCell
-              title="Wallet Balances"
+              title={
+                <Term title={"Ⓝ Native Account Balance"}>
+                  {
+                    'NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the "total" balance of all the tokens you may control through this account; see "Aggregated Balace" for more details. '
+                  }
+                  <a
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
+              text={<Balance amount={account.nonStakedBalance} />}
+              className="border-0"
+            />
+          </Col>
+          <Col md="4">
+            <CardCell
+              title={
+                <Term title={"Ⓝ Validator Stake"}>
+                  {
+                    "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. "
+                  }
+                  <a
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
+              text={<Balance amount={account.stakedBalance} />}
+            />
+          </Col>
+          <Col md="4">
+            <CardCell
+              title={
+                <Term title={"Ⓝ Aggregated Balance"}>
+                  {
+                    'NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate "total" balance, it is the best place. '
+                  }
+                  <a
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  >
+                    docs
+                  </a>
+                </Term>
+              }
               text={
                 <WalletLink
                   accountId={account.accountId}
@@ -104,13 +157,14 @@ export default class extends React.Component<Props> {
                   }
                 />
               }
-              className="block-card-created-text account-card-back border-0"
             />
           </Col>
-          <Col md="8">
+        </Row>
+        <Row noGutters className="border-0">
+          <Col md="12">
             <CardCell
               title={
-                <Term title={"Created"}>
+                <Term title={"Created at"}>
                   {"Timestamp of when this account was created. "}
                   <a href={"https://docs.near.org/docs/concepts/account"}>
                     docs
