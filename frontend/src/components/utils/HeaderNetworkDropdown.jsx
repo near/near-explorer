@@ -33,10 +33,6 @@ export default () => (
           })}
         </Dropdown.Menu>
         <style jsx global>{`
-          .dropdown {
-            width: 154px;
-            height: 33px;
-          }
           .header-network {
             background: #ffffff;
             border: 2px solid #f1f1f1;
@@ -54,9 +50,9 @@ export default () => (
           .header-network:hover,
           .header-network:focus,
           .header-network:active {
-            background: #f7f7f7;
-            color: #000000;
-            border-color: #f7f7f7;
+            background: #f7f7f7 !important;
+            color: #000000 !important;
+            border-color: #f7f7f7 !important;
           }
 
           .header-network-dropdown-menu {
