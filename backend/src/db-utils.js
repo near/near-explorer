@@ -1,5 +1,3 @@
-const BN = require("bn.js");
-
 const { DS_INDEXER_BACKEND } = require("./consts");
 const models = require("../models");
 const BN = require("bn.js");
@@ -334,11 +332,9 @@ const aggregateStats = async (options) => {
 
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
+exports.aggregateStats = aggregateStats;
 exports.pickOnlineValidatingNode = pickOnlineValidatingNode;
-
-exports.queryDashboardTxInfo = queryDashboardTxInfo;
-exports.queryDashboardBlockInfo = queryDashboardBlockInfo;
-
+exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;
 exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryDashboardTxInfo = queryDashboardTxInfo;
 exports.queryDashboardBlockInfo = queryDashboardBlockInfo;

@@ -25,9 +25,11 @@ const {
 const { setupWamp, wampPublish } = require("./wamp");
 
 const {
+  aggregateStats,
   addNodeInfo,
   queryOnlineNodes,
   pickOnlineValidatingNode,
+  queryDashboardBlocksAndTxs,
   getSyncedGenesis,
   queryDashboardBlockInfo,
   queryDashboardTxInfo,
@@ -142,18 +144,22 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
     console.log(`Starting regular data stats check from ${dataSource}...`);
     try {
       if (wamp.session) {
-        const blockStats = await queryDashboardBlockInfo({ dataSource });
-        const transactionCountArray = await queryDashboardTxInfo({
+        // old pub-sub data, after refactor, delete properly
+        const dataStats = await aggregateStats({ dataSource });
+        const { transactions, blocks } = await queryDashboardBlocksAndTxs({
           dataSource,
         });
         wampPublish(
-          getDataSourceSpecificTopicName("chain-block-stats", dataSource),
-          [{ blockStats }],
+          getDataSourceSpecificTopicName("chain-stats", dataSource),
+          [{ dataStats }],
           wamp
         );
         wampPublish(
-          getDataSourceSpecificTopicName("chain-txs-stats", dataSource),
-          [{ transactionCountArray }],
+          getDataSourceSpecificTopicName(
+            "chain-latest-blocks-info",
+            dataSource
+          ),
+          [{ transactions, blocks }],
           wamp
         );
         //new pub-sub data, coexists with old one now
