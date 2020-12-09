@@ -1,44 +1,75 @@
 import Head from "next/head";
 
-import { Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import NodeStatsProvider from "../context/NodeStatsProvider";
-import ListProvider from "../context/ListProvider";
 
-import Content from "../components/utils/Content";
-import DashboardBlocks from "../components/dashboard/DashboardBlocks";
-import DashboardHeader from "../components/dashboard/DashboardHeader";
-import DashboardTransactions from "../components/dashboard/DashboardTransactions";
-
+import Search from "../components/utils/Search";
+import DashboardNode from "../components/dashboard/DashboardNode";
+import DashboardBlock from "../components/dashboard/DashboardBlock";
+import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 export default class extends React.Component {
   render() {
-    const { name } = this.props.currentNearNetwork;
     return (
       <>
         <Head>
           <title>NEAR Explorer | Dashboard</title>
         </Head>
-        <Content border={false}>
-          <h1>Dashboard</h1>
-          <NodeStatsProvider>
-            <DashboardHeader />
-          </NodeStatsProvider>
-          <Row noGutters className="dashboard-section">
-            <ListProvider>
-              <Col md="8">
-                <DashboardTransactions />
+        <Container>
+          <h1 style={{ marginTop: "72px" }}>
+            <span style={{ color: "#00C1DE" }}>Explore</span> the
+          </h1>
+          <h1>NEAR Blockchain.</h1>
+          <Row className="inner-content">
+            <Row noGutters className="search-wrapper">
+              <Search dashboard />
+            </Row>
+            <Row noGutters className="card-area">
+              <Col xs="12" md="auto">
+                <NodeStatsProvider>
+                  <DashboardNode />
+                </NodeStatsProvider>
               </Col>
-              <Col md="4">
-                <DashboardBlocks />
+              <Col xs="12" md="auto">
+                <DashboardBlock />
               </Col>
-            </ListProvider>
+            </Row>
+            <Row noGutters style={{ marginTop: "20px" }}>
+              <DashboardTransaction />
+            </Row>
           </Row>
           <style jsx global>{`
-            .dashboard-section {
-              margin-top: 1.5em;
+            .inner-content {
+              margin: 71px 180px;
+            }
+
+            .search-wrapper {
+              width: 100%;
+            }
+
+            h1 {
+              font-size: 38px;
+              line-height: 46px;
+            }
+
+            .card-area {
+              width: 740px;
+              display: flex;
+              justify-content: space-between;
+              margin-top: 81px;
+            }
+
+            @media (max-width: 1000px) {
+              .inner-content {
+                margin: 32px auto;
+              }
+              .container {
+                margin: auto auto;
+                padding: 0;
+              }
             }
           `}</style>
-        </Content>
+        </Container>
       </>
     );
   }
