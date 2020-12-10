@@ -178,7 +178,7 @@ const queryDashboardTxInfo = async (options) => {
       query = `SELECT date_trunc('day', to_timestamp(DIV(block_timestamp, 1000*1000*1000))) as date, count(transaction_hash) as total
                 FROM transactions
                 WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 as bigint) * 1000 * 1000 * 1000)
-                GROUP BY date 
+                GROUP BY date
                 ORDER BY date`;
     } else {
       query = `SELECT strftime('%Y-%m-%d',block_timestamp/1000,'unixepoch') as date, count(hash) as total
@@ -213,28 +213,37 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
     dataSource === DS_INDEXER_BACKEND ? "block_timestamp" : "timestamp";
   const blockPrehashColumnName =
     dataSource === DS_INDEXER_BACKEND ? "prev_block_hash" : "prev_hash";
+
   let [transactions, blocks] = await Promise.all([
     queryRows(
       [
-        `SELECT ${transactionHashColumnName} as hash, ${transactionSignerAccountIdColumnName} as signer_id, ${transactionReceiverAccountIdColumnName} as receiver_id, 
-              ${transactionBlockHashColumnName} as block_hash, block_timestamp, ${transactionIndexColumnName} as transaction_index
-              FROM transactions
-          ORDER BY block_timestamp DESC, ${transactionIndexColumnName} DESC
+        `SELECT
+            ${transactionHashColumnName} AS hash,
+            ${transactionSignerAccountIdColumnName} AS signer_id,
+            ${transactionReceiverAccountIdColumnName} AS receiver_id,
+            ${transactionBlockHashColumnName} AS block_hash,
+            block_timestamp,
+            ${transactionIndexColumnName} AS transaction_index
+          FROM transactions
+          ORDER BY block_timestamp DESC, transaction_index DESC
           LIMIT 10`,
       ],
       { dataSource }
     ),
     queryRows(
       [
-        `SELECT blocks.${blockHashColumnName} as hash, blocks.${blockHeightColumnName} as height, blocks.${blockTimestampColumnName}, 
-              blocks.${blockPrehashColumnName} as prev_hash, 
-            COUNT(transactions.${transactionHashColumnName}) as transactions_count
+        `SELECT
+            blocks.${blockHashColumnName} AS hash,
+            blocks.${blockHeightColumnName} AS height,
+            blocks.${blockTimestampColumnName} AS timestamp,
+            blocks.${blockPrehashColumnName} AS prev_hash,
+            COUNT(transactions.${transactionHashColumnName}) AS transactions_count
           FROM (
             SELECT blocks.${blockHashColumnName}
             FROM blocks
             ORDER BY blocks.${blockHeightColumnName} DESC
             LIMIT 8
-          ) as recent_blocks
+          ) AS recent_blocks
           LEFT JOIN blocks ON blocks.${blockHashColumnName} = recent_blocks.${blockHashColumnName}
           LEFT JOIN transactions ON transactions.${transactionBlockHashColumnName} = recent_blocks.${blockHashColumnName}
           GROUP BY blocks.${blockHashColumnName}
@@ -243,6 +252,7 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
       { dataSource }
     ),
   ]);
+
   let query;
   let transactionHashes = transactions.map((transaction) => transaction.hash);
   if (dataSource === DS_INDEXER_BACKEND) {
@@ -256,6 +266,7 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
               WHERE transaction_hash IN (:transactionHashes)
               ORDER BY action_index DESC`;
   }
+
   const actionsArray = await queryRows([query, { transactionHashes }], {
     dataSource,
   });
@@ -270,7 +281,13 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
       actionsByTransactionHash.set(action.transaction_hash, [action]);
     }
   });
-  transactions.map((transaction) => {
+
+  transactions.forEach((transaction) => {
+    if (dataSource === DS_INDEXER_BACKEND) {
+      transaction.block_timestamp = new BN(transaction.block_timestamp)
+        .divn(10 ** 6)
+        .toNumber();
+    }
     const transactionActions = actionsByTransactionHash.get(transaction.hash);
     if (transactionActions) {
       transaction.actions = transactionActions.map((action) => {
@@ -284,6 +301,13 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
       });
     }
   });
+
+  if (dataSource === DS_INDEXER_BACKEND) {
+    blocks.forEach((block) => {
+      block.timestamp = new BN(block.timestamp).divn(10 ** 6).toNumber();
+    });
+  }
+
   return { transactions, blocks };
 };
 
@@ -322,11 +346,13 @@ const aggregateStats = async (options) => {
     queryLatestBlockHeight(options),
   ]);
   return {
-    totalAccounts: totalAccounts.total,
-    totalBlocks: totalBlocks.total,
-    totalTransactions: totalTransactions.total,
-    lastDayTxCount: lastDayTxCount.total,
-    lastBlockHeight: lastBlockHeight ? lastBlockHeight.block_height : 0,
+    totalAccounts: parseInt(totalAccounts.total),
+    totalBlocks: parseInt(totalBlocks.total),
+    totalTransactions: parseInt(totalTransactions.total),
+    lastDayTxCount: parseInt(lastDayTxCount.total),
+    lastBlockHeight: lastBlockHeight
+      ? parseInt(lastBlockHeight.block_height)
+      : 0,
   };
 };
 
