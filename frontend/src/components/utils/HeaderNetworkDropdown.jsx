@@ -20,6 +20,10 @@ export default () => (
             className="icon-right"
             src="/static/images/icon-network-right.svg"
           />
+          <img
+            src="/static/images/down-blue-arrow.svg"
+            className="dropdown-arrow"
+          />
         </Dropdown.Toggle>
         <Dropdown.Menu className="header-network-dropdown-menu">
           {context.nearNetworks.map((network) => {

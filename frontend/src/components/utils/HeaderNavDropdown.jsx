@@ -37,8 +37,9 @@ const HeaderNavItem = ({ link, imgLink, text }) => {
 
 export default () => (
   <Dropdown>
-    <Dropdown.Toggle className="chain-header" variant="secondary">
+    <Dropdown.Toggle className="chain-header">
       Explore
+      <img src="/static/images/down-arrow.svg" className="dropdown-arrow" />
     </Dropdown.Toggle>
     <Dropdown.Menu className="header-dropdown-menu">
       <HeaderNavItem
@@ -70,19 +71,31 @@ export default () => (
         border: none;
         font-weight: 500;
         width: 100%;
-        border-radius: 50px;
       }
 
       .chain-header:hover,
       .chain-header:focus,
-      .chain-header:active {
-        background: #f7f7f7 !important;
+      .chain-header:active,
+      .show > .btn-primary.dropdown-toggle {
+        background: #ffffff !important;
         color: #000000 !important;
+      }
+
+      .dropdown-toggle::after {
+        content: none;
       }
 
       .header-dropdown-menu {
         background: #25272a;
         border-radius: 8px;
+      }
+
+      .dropdown-arrow {
+        margin-left: 9px;
+      }
+
+      .show > .dropdown-toggle > .dropdown-arrow {
+        transform: rotate(180deg);
       }
     `}</style>
   </Dropdown>
