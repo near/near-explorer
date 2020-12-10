@@ -79,6 +79,7 @@ export default () => (
       .show > .btn-primary.dropdown-toggle {
         background: #ffffff !important;
         color: #000000 !important;
+        border: none;
       }
 
       .dropdown-toggle::after {
