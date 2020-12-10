@@ -246,8 +246,8 @@ const queryDashboardBlocksAndTxs = async ({ dataSource }) => {
           ) AS recent_blocks
           LEFT JOIN blocks ON blocks.${blockHashColumnName} = recent_blocks.${blockHashColumnName}
           LEFT JOIN transactions ON transactions.${transactionBlockHashColumnName} = recent_blocks.${blockHashColumnName}
-          GROUP BY hash
-          ORDER BY timestamp DESC`,
+          GROUP BY blocks.${blockHashColumnName}
+          ORDER BY blocks.${blockTimestampColumnName} DESC`,
       ],
       { dataSource }
     ),
