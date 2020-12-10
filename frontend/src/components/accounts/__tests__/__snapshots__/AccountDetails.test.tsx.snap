@@ -280,7 +280,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col-md-12"
+      className="col-md-6"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"
@@ -563,7 +563,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col-md-12"
+      className="col-md-6"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"

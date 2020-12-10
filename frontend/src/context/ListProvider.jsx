@@ -1,5 +1,8 @@
 import React, { createContext, useEffect, useCallback, useState } from "react";
-import { ExplorerApi } from "../libraries/explorer-wamp/index";
+
+import { DATA_SOURCE_TYPE } from "../libraries/consts";
+import { ExplorerApi } from "../libraries/explorer-wamp";
+import TransactionApi from "../libraries/explorer-wamp/transactions";
 
 const ListContext = createContext({
   transactions: [],
@@ -39,7 +42,10 @@ export default (props) => {
         blockHash: block_hash,
         blockTimestamp: block_timestamp,
         transactionIndex: transaction_index,
-        actions,
+        actions: actions.map((action) => ({
+          ...action,
+          kind: TransactionApi.indexerCompatibilityActionKinds.get(action.kind),
+        })),
       })
     );
 
@@ -48,7 +54,19 @@ export default (props) => {
   };
 
   const Subscription = useCallback(() => {
-    new ExplorerApi().subscribe("chain-latest-blocks-info", fetchList);
+    const explorerApi = new ExplorerApi();
+
+    function instrumentTopicNameWithDataSource(topicName) {
+      if (explorerApi.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
+        return topicName;
+      }
+      return `${topicName}:${explorerApi.dataSource}`;
+    }
+
+    explorerApi.subscribe(
+      instrumentTopicNameWithDataSource("chain-latest-blocks-info"),
+      fetchList
+    );
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);

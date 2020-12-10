@@ -15,7 +15,6 @@ describe("<BlockDetails />", () => {
             height: 12345,
             gasPrice: "5000",
             gasUsed: "1000",
-            isFinal: true,
           }}
         />
       )

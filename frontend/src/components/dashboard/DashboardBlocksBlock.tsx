@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import React from "react";
 
 import { Row, Col, Card } from "react-bootstrap";
@@ -7,8 +6,16 @@ import { Row, Col, Card } from "react-bootstrap";
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import Timer from "../utils/Timer";
-import { Props } from "../blocks/BlockDetails";
 
+export interface Props {
+  block: {
+    hash: string;
+    height: number;
+    prevHash: string;
+    timestamp: number;
+    transactionsCount: number;
+  };
+}
 export default class extends React.Component<Props> {
   render() {
     const { block } = this.props;

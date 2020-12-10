@@ -1,3 +1,7 @@
+import BN from "bn.js";
+
+import { DATA_SOURCE_TYPE } from "../consts";
+
 import { ExplorerApi } from ".";
 
 export type ExecutionStatus =
@@ -128,7 +132,28 @@ export interface QueryArgs {
 }
 
 export default class TransactionsApi extends ExplorerApi {
-  async getTransactions(queries: QueryArgs): Promise<Transaction[]> {
+  static indexerCompatibilityActionKinds = new Map([
+    ["ADD_KEY", "AddKey"],
+    ["CREATE_ACCOUNT", "CreateAccount"],
+    ["DELETE_ACCOUNT", "DeleteAccount"],
+    ["DELETE_KEY", "DeleteKey"],
+    ["DEPLOY_CONTRACT", "DeployContract"],
+    ["FUNCTION_CALL", "FunctionCall"],
+    ["STAKE", "Stake"],
+    ["TRANSFER", "Transfer"],
+  ]);
+
+  async getTransactions(queries: QueryArgs) {
+    if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
+      return await this.getTransactionsFromLegacy(queries);
+    } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+      return await this.getTransactionsFromIndexer(queries);
+    } else {
+      throw Error(`unsupported data source ${this.dataSource}`);
+    }
+  }
+
+  async getTransactionsFromLegacy(queries: QueryArgs): Promise<Transaction[]> {
     const {
       signerId,
       receiverId,
@@ -181,30 +206,170 @@ export default class TransactionsApi extends ExplorerApi {
       ]);
 
       if (transactions.length > 0) {
-        await Promise.all(
-          transactions.map(async (transaction) => {
-            const actions = await this.call<any>("select", [
-              `SELECT transaction_hash, action_index, action_type as kind, action_args as args
+        let transactionHashes = transactions.map(
+          (transaction) => transaction.hash
+        );
+        const actionsArray = await this.call<any>("select", [
+          `SELECT transaction_hash, action_type as kind, action_args as args
             FROM actions
-            WHERE transaction_hash = :hash
+            WHERE transaction_hash IN (:transactionHashes)
             ORDER BY action_index`,
-              {
-                hash: transaction.hash,
-              },
-            ]);
-            transaction.actions = actions.map((action: any) => {
+          { transactionHashes },
+        ]);
+        const actionsByTransactionHash = new Map();
+        actionsArray.forEach((action: any) => {
+          const transactionActions = actionsByTransactionHash.get(
+            action.transaction_hash
+          );
+          if (transactionActions) {
+            transactionActions.push(action);
+          } else {
+            actionsByTransactionHash.set(action.transaction_hash, [action]);
+          }
+        });
+        transactions.map((transaction) => {
+          const transactionActions = actionsByTransactionHash.get(
+            transaction.hash
+          );
+          if (transactionActions) {
+            transaction.actions = transactionActions.map((action: any) => {
               return {
                 kind: action.kind,
-                args: JSON.parse(action.args),
+                args:
+                  typeof action.args === "string"
+                    ? JSON.parse(action.args)
+                    : action.args,
               };
             });
-          })
-        );
+          }
+        });
       }
       return transactions as Transaction[];
     } catch (error) {
       console.error(
-        "Transactions.getTransactions failed to fetch data due to:"
+        "Transactions.getTransactionsFromLegacy failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getTransactionsFromIndexer(queries: QueryArgs): Promise<Transaction[]> {
+    const {
+      signerId,
+      receiverId,
+      transactionHash,
+      blockHash,
+      paginationIndexer,
+      limit,
+    } = queries;
+    const whereClause = [];
+    if (signerId) {
+      whereClause.push(`signer_account_id = :signer_id`);
+    }
+    if (receiverId) {
+      whereClause.push(`receiver_account_id = :receiver_id`);
+    }
+    if (transactionHash) {
+      whereClause.push(`transaction_hash = :transaction_hash`);
+    }
+    if (blockHash) {
+      whereClause.push(`included_in_block_hash = :block_hash`);
+    }
+    let WHEREClause;
+    if (whereClause.length > 0) {
+      if (paginationIndexer) {
+        WHEREClause = `WHERE (${whereClause.join(
+          " OR "
+        )}) AND (block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND index_in_chunk < :transaction_index))`;
+      } else {
+        WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
+      }
+    } else {
+      if (paginationIndexer) {
+        WHEREClause = `WHERE block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND index_in_chunk < :transaction_index)`;
+      } else {
+        WHEREClause = "";
+      }
+    }
+    try {
+      let transactions = await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT transaction_hash as hash, signer_account_id as signer_id, receiver_account_id as receiver_id, 
+          included_in_block_hash as block_hash, DIV(block_timestamp, 1000*1000) as block_timestamp, index_in_chunk as transaction_index
+          FROM transactions
+          ${WHEREClause}
+          ORDER BY block_timestamp DESC, index_in_chunk DESC
+          LIMIT :limit`,
+        {
+          signer_id: signerId,
+          receiver_id: receiverId,
+          transaction_hash: transactionHash,
+          block_hash: blockHash,
+          end_timestamp: queries.paginationIndexer
+            ? new BN(queries.paginationIndexer.endTimestamp)
+                .muln(10 ** 6)
+                .toString()
+            : undefined,
+          transaction_index: queries.paginationIndexer?.transactionIndex,
+          limit,
+        },
+      ]);
+
+      if (transactions.length > 0) {
+        let transactionHashes = transactions.map(
+          (transaction: any) => transaction.hash
+        );
+        const actionsArray = await this.call<any>("select:INDEXER_BACKEND", [
+          `SELECT transaction_hash, action_kind as kind, args
+            FROM transaction_actions
+            WHERE transaction_hash IN (:transactionHashes)`,
+          { transactionHashes },
+        ]);
+        const actionsByTransactionHash = new Map();
+        actionsArray.forEach((action: any) => {
+          const transactionActions = actionsByTransactionHash.get(
+            action.transaction_hash
+          );
+          if (transactionActions) {
+            transactionActions.push(action);
+          } else {
+            actionsByTransactionHash.set(action.transaction_hash, [action]);
+          }
+        });
+        transactions.map((transaction: any) => {
+          const transactionActions = actionsByTransactionHash.get(
+            transaction.hash
+          );
+          if (transactionActions) {
+            transaction.actions = transactionActions.map((action: any) => {
+              return {
+                kind: TransactionsApi.indexerCompatibilityActionKinds.get(
+                  action.kind
+                ),
+                args:
+                  typeof action.args === "string"
+                    ? JSON.parse(action.args)
+                    : action.args,
+              };
+            });
+          }
+        });
+      }
+      transactions = transactions.map((transaction: any) => {
+        return {
+          hash: transaction.hash,
+          signerId: transaction.signer_id,
+          receiverId: transaction.receiver_id,
+          blockHash: transaction.block_hash,
+          blockTimestamp: parseInt(transaction.block_timestamp),
+          transactionIndex: transaction.transaction_index,
+          actions: transaction.actions,
+        };
+      });
+      return transactions;
+    } catch (error) {
+      console.error(
+        "Transactions.getTransactionsFromIndexer failed to fetch data due to:"
       );
       console.error(error);
       throw error;
@@ -225,10 +390,6 @@ export default class TransactionsApi extends ExplorerApi {
       transactionExtraInfo.status
     )[0] as ExecutionStatus;
     return status;
-  }
-
-  async getLatestTransactionsInfo(limit: number = 10): Promise<Transaction[]> {
-    return this.getTransactions({ limit });
   }
 
   async getTransactionInfo(

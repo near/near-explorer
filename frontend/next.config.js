@@ -2,6 +2,8 @@
 //
 // NOTE: Make sure you update `src/__mocks__/next/config.js` when change this file!
 //
+const { DATA_SOURCE_TYPE } = require("./src/libraries/consts.js");
+
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
 
 let nearNetworks;
@@ -34,6 +36,9 @@ module.exports = {
   publicRuntimeConfig: {
     nearNetworks,
     nearNetworkAliases,
+    nearExplorerDataSource:
+      process.env.NEAR_EXPLORER_DATA_SOURCE ||
+      DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND,
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,

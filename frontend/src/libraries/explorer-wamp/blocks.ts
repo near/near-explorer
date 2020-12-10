@@ -1,5 +1,8 @@
-import { ExplorerApi } from ".";
 import BN from "bn.js";
+
+import { DATA_SOURCE_TYPE } from "../consts";
+
+import { ExplorerApi } from ".";
 
 export interface BlockInfo {
   hash: string;
@@ -7,64 +10,82 @@ export interface BlockInfo {
   timestamp: number;
   prevHash: string;
   transactionsCount: number;
-  gasPrice: string;
+  gasPrice?: string;
   gasUsed?: string;
-  isFinal?: boolean;
 }
 
 export default class BlocksApi extends ExplorerApi {
-  async searchBlocks(keyword: string, height = -1, limit = 15) {
-    try {
-      return await this.call("select", [
-        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
-          FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash FROM blocks
-            WHERE blocks.height LIKE :keyword AND blocks.height < :height
-          ) as blocks
-          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
-          GROUP BY blocks.hash
-          ORDER BY blocks.height DESC`,
-        {
-          keyword: `${keyword}%`,
-          height: height === -1 ? "MAX(blocks.height)" : height,
-          limit,
-        },
-      ]);
-    } catch (error) {
-      console.error("Blocks.searchBlocks failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
-  }
-
   async getBlocks(
     limit = 15,
     paginationIndexer?: number
   ): Promise<BlockInfo[]> {
     try {
-      const blocks = await this.call<any>("select", [
-        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
-          FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash 
-            FROM blocks
-            ${
-              paginationIndexer
-                ? `WHERE blocks.timestamp < :paginationIndexer`
-                : ""
-            }
-            ORDER BY blocks.height DESC
-            LIMIT :limit
-          ) as blocks
-          LEFT JOIN transactions ON transactions.block_hash = blocks.hash
-          GROUP BY blocks.hash
-          ORDER BY blocks.timestamp DESC`,
-        {
-          limit,
-          paginationIndexer,
-        },
-      ]);
-
-      return blocks as BlockInfo[];
+      let blocks;
+      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
+        blocks = await this.call<BlockInfo[]>("select", [
+          `SELECT
+              blocks.*,
+              COUNT(transactions.hash) AS transactions_count
+            FROM (
+              SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash 
+              FROM blocks
+              ${
+                paginationIndexer
+                  ? `WHERE blocks.timestamp < :paginationIndexer`
+                  : ""
+              }
+              ORDER BY blocks.height DESC
+              LIMIT :limit
+            ) as blocks
+            LEFT JOIN transactions ON transactions.block_hash = blocks.hash
+            GROUP BY blocks.hash
+            ORDER BY blocks.timestamp DESC`,
+          {
+            limit,
+            paginationIndexer,
+          },
+        ]);
+      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+        blocks = await this.call<BlockInfo[]>("select:INDEXER_BACKEND", [
+          `SELECT
+              blocks.block_hash AS hash,
+              blocks.block_height AS height,
+              DIV(blocks.block_timestamp, 1000*1000) AS timestamp,
+              blocks.prev_block_hash AS prev_hash,
+              COUNT(transactions.transaction_hash) AS transactions_count
+            FROM (
+              SELECT blocks.block_hash AS block_hash
+              FROM blocks
+              ${
+                paginationIndexer
+                  ? `WHERE blocks.block_timestamp < :paginationIndexer`
+                  : ""
+              }
+              ORDER BY blocks.block_height DESC
+              LIMIT :limit
+            ) as innerblocks
+            LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
+            LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
+            GROUP BY blocks.block_hash
+            ORDER BY blocks.block_timestamp DESC`,
+          {
+            limit,
+            paginationIndexer,
+          },
+        ]);
+      } else {
+        throw Error(`unsupported data source ${this.dataSource}`);
+      }
+      blocks = blocks.map((block: any) => {
+        return {
+          hash: block.hash,
+          height: block.height,
+          timestamp: parseInt(block.timestamp),
+          prevHash: block.prev_hash,
+          transactionsCount: block.transactions_count,
+        };
+      });
+      return blocks;
     } catch (error) {
       console.error("Blocks.getBlocks failed to fetch data due to:");
       console.error(error);
@@ -72,37 +93,83 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getLatestBlocksInfo(limit: number = 8): Promise<BlockInfo[]> {
-    return this.getBlocks(limit);
-  }
-
-  async getBlockInfo(blockId: string): Promise<BlockInfo> {
+  async getBlockInfo(blockId: string | number): Promise<BlockInfo> {
     try {
-      const block = await this.call<any>("select", [
-        `SELECT blocks.*, COUNT(transactions.hash) as transactionsCount
-          FROM (
-            SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash as prevHash, 
-                  blocks.gas_price as gasPrice
-            FROM blocks
-            WHERE blocks.hash = :blockId OR blocks.height = :blockId
-          ) as blocks
-          LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
-        {
-          blockId,
-        },
-      ]).then((it) => (it[0].hash !== null ? it[0] : null));
+      let block;
+      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
+        block = await this.call<any>("select", [
+          `SELECT
+              blocks.*,
+              COUNT(transactions.hash) AS transactions_count
+            FROM (
+              SELECT
+                blocks.hash,
+                blocks.height,
+                blocks.timestamp,
+                blocks.prev_hash,
+                blocks.gas_price
+              FROM blocks
+              WHERE blocks.hash = :blockId OR blocks.height = :blockId
+            ) AS blocks
+            LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
+          {
+            blockId,
+          },
+        ]).then((it) => (it.length === 0 ? undefined : it[0]));
+      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+        block = await this.call<any>("select:INDEXER_BACKEND", [
+          `SELECT
+              blocks.block_hash AS hash,
+              blocks.block_height AS height,
+              DIV(blocks.block_timestamp, 1000*1000) AS timestamp,
+              blocks.prev_block_hash AS prev_hash,
+              blocks.gas_price AS gas_price,
+              COUNT(transactions.transaction_hash) AS transactions_count
+            FROM (
+              SELECT blocks.block_hash AS block_hash
+              FROM blocks
+              ${
+                typeof blockId === "string"
+                  ? `WHERE blocks.block_hash = :blockId`
+                  : `WHERE blocks.block_height = :blockId`
+              } 
+            ) as innerblocks
+            LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
+            LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
+            GROUP BY blocks.block_hash
+            ORDER BY blocks.block_timestamp DESC`,
+          {
+            blockId,
+          },
+        ]).then((it) => (it.length === 0 ? undefined : it[0]));
+      } else {
+        throw Error(`unsupported data source ${this.dataSource}`);
+      }
 
-      if (block === null) {
+      if (block === undefined) {
         throw new Error("block not found");
       } else {
-        let gasUsedResult = await this.call<any>("select", [
-          `SELECT gas_used as gasUsed FROM chunks WHERE block_hash = :block_hash AND height_included = :block_height`,
-          {
-            block_hash: block.hash,
-            block_height: block.height,
-          },
-        ]);
-        let gasUsedArray = gasUsedResult.map((gas: any) => new BN(gas.gasUsed));
+        let gasUsedResult;
+        if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
+          gasUsedResult = await this.call<any>("select", [
+            `SELECT gas_used FROM chunks WHERE block_hash = :block_hash`,
+            {
+              block_hash: block.hash,
+            },
+          ]);
+        } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+          gasUsedResult = await this.call<any>("select:INDEXER_BACKEND", [
+            `SELECT gas_used FROM chunks WHERE included_in_block_hash = :block_hash`,
+            {
+              block_hash: block.hash,
+            },
+          ]);
+        } else {
+          throw Error(`unsupported data source ${this.dataSource}`);
+        }
+        let gasUsedArray = gasUsedResult.map(
+          (gas: any) => new BN(gas.gas_used)
+        );
         let gasUsed = gasUsedArray.reduce(
           (gas: BN, currentGas: BN) => gas.add(currentGas),
           new BN(0)
@@ -110,16 +177,19 @@ export default class BlocksApi extends ExplorerApi {
         block.gasUsed = gasUsed.toString();
       }
 
-      return block as BlockInfo;
+      return {
+        gasUsed: block.gasUsed,
+        gasPrice: block.gas_price,
+        hash: block.hash,
+        height: block.height,
+        prevHash: block.prev_hash,
+        timestamp: parseInt(block.timestamp),
+        transactionsCount: block.transactions_count,
+      } as BlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
       console.error(error);
       throw error;
     }
-  }
-
-  async queryFinalHeight(): Promise<any> {
-    const finalBlock = await this.call<any>("nearcore-final-block");
-    return finalBlock.header.height;
   }
 }
