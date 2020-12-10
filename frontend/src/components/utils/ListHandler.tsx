@@ -155,9 +155,9 @@ export default (
                   <Update
                     count={
                       config.category === "Block"
-                        ? context.totalBlocks
+                        ? context.latestBlockHeight
                         : config.category === "Transaction"
-                        ? context.totalTransactions
+                        ? context.lastDayTxCount
                         : 0
                     }
                     category={config.category}

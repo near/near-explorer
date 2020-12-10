@@ -9,13 +9,13 @@ export default ({ category, count }: Props) => {
   }
   return (
     <div className="update">
-      {count > 1 ? (
+      {category === "Block" ? (
         <p className="update-text">
-          {`${count} total ${category}s. Refresh or Click to view the latest ${category}s.`}
+          {`The latest height of block is ${count}. Refresh or Click the bar to view the latest ${category}s.`}
         </p>
       ) : (
         <p className="update-text">
-          {`${count} total ${category}. Refresh or Click to view the latest ${category}.`}
+          {`The last 24hr total number of transactions is ${count}. Refresh or Click to view the latest ${category}.`}
         </p>
       )}
       <style>{`
