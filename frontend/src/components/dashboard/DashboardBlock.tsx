@@ -54,11 +54,17 @@ export default () => (
         </Row>
         <style jsx global>{`
           .block-view-all {
-            margin-left: 160px;
+            margin-left: 157px;
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
             color: #0072ce;
+          }
+
+          @media (max-width: 415px) {
+            .block-view-all {
+              margin-left: 202px;
+            }
           }
         `}</style>
       </Row>

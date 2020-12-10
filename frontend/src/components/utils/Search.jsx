@@ -80,7 +80,6 @@ export default class extends React.Component {
             width: ${this.props.dashboard ? "740px" : "500px"};
             max-width: 100%;
             height: ${this.props.dashboard ? "49px" : "40px"};
-            margin: auto;
           }
 
           @media (max-width: 1000px) {

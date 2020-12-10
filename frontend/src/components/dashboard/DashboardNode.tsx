@@ -16,7 +16,7 @@ export default () => (
             Nodes
           </p>
         </Row>
-        <Row noGutters>
+        <Row noGutters style={{ width: "100%" }}>
           <Col xs="6" md="12">
             <LongCardCell
               title={
@@ -64,24 +64,32 @@ export default () => (
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
             border-radius: 8px;
           }
+
           .node-card-header {
             height: 72px;
             width: 100%;
             font-weight: 800;
             font-size: 18px;
             line-height: 22px;
-            padding: 25px;
+            padding: 24px 27px;
             border-bottom: 2px solid #f1f1f1;
           }
+
           .node-icon {
             width: 24px !important;
             margin-right: 8px;
           }
-          @media (max-width: 400px) {
+
+          @media (max-width: 415px) {
             .node-card {
               width: 100%;
+              height: 139px;
               border-radius: 0;
               margin-top: 16px;
+            }
+            .node-card-header {
+              height: 56px;
+              padding: 17px;
             }
           }
         `}</style>
