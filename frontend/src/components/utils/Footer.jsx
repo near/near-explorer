@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 import NearLogo from "../../../public/static/images/near_logo.svg";
-import Nearkat from "../../../public/static/images/footer-nearkat.svg";
+import Nearkats from "../../../public/static/images/nearkats.svg";
 
 export default () => (
   <Container fluid className="footer-container">
@@ -29,16 +29,14 @@ export default () => (
     <div className="nearkat-wrapper">
       <a className="footer-help-link" href="http://near.chat" target="_blank">
         <Row>
-          <Col className="help-image" xs="3" md="3">
-            <Nearkat className="nearkat" />
+          <Col className="help-image" xs="5" md="5">
+            <Nearkats className="nearkat" />
           </Col>
-          <Col className="align-self-center footer-help" xs="9" md="9">
-            <div>
-              <span className="need-help-contact">Questions?</span>
-              <span className="need-help-contact need-help-contact-bottom">
-                Join the Community
-              </span>
-            </div>
+          <Col className="align-self-start footer-help" xs="7" md="7">
+            <span className="need-help-contact">Questions?</span>
+            <span className="need-help-contact need-help-contact-bottom">
+              Join the Community
+            </span>
           </Col>
         </Row>
       </a>
@@ -66,7 +64,8 @@ export default () => (
 
       .nearlogo-wrapper {
         padding: 30px;
-        width: 80%;
+        width: 1044px;
+        font-weight: normal;
       }
 
       .footer-link-href {
@@ -85,23 +84,22 @@ export default () => (
 
       .footer-help {
         text-align: left;
-        line-height: 1px;
-        background: white;
-        padding: 25px 35px;
+        line-height: 24px;
+        padding-top: 22px;
+        width: 175px;
       }
 
       .help-image {
         position: relative;
-        left: -10px;
         z-index: 2;
-        top: -20px;
+        left: 10px;
+        top: -7px;
       }
 
       .need-help-contact {
         font-family: "Inter", sans-serif;
         font-size: 18px;
         font-weight: 900;
-        line-height: 1.33;
         color: #999999;
         text-decoration: none !important;
       }
@@ -113,35 +111,48 @@ export default () => (
       .need-help-contact-bottom {
         color: #0072ce !important;
         display: block;
+        font-weight: 600;
       }
 
       .near-logo {
         width: 100px;
       }
 
-      @media (max-width: 770px) {
+      .nearkat-wrapper {
+        background: #ffffff;
+        border: 1px solid #dadada;
+        box-sizing: border-box;
+        border-radius: 3px;
+        width: 368px;
+        height: 92px;
+      }
+
+      @media (max-width: 415px) {
         .footer-container {
           flex-direction: column-reverse;
+          width: 100%;
+          padding: 0;
+          height: 92px;
         }
+
         .nearlogo-wrapper {
           width: 100%;
+          height: 100%;
+          padding: 10px;
         }
 
         .need-help-contact {
           font-size: 14px;
         }
 
-        .footer-help {
-          padding: 15px;
-        }
-
         .nearkat-wrapper {
           margin-left: auto;
-          width: 220px;
+          width: 100%;
+          border: none;
         }
 
-        .nearkat {
-          height: 100px;
+        .help-image {
+          top: -5px;
         }
       }
     `}</style>
