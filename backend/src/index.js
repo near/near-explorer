@@ -38,8 +38,6 @@ const {
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
 
-  await models.sequelizeLegacySyncBackend.sync();
-
   let genesisHeight, genesisTime, genesisChainId;
 
   const SyncGenesisState = async () => {
@@ -192,6 +190,8 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
 
 async function main() {
   console.log("Starting Explorer backend...");
+
+  await models.sequelizeLegacySyncBackend.sync();
 
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");
