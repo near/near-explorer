@@ -44,7 +44,9 @@ export default (props) => {
         transactionIndex: transaction_index,
         actions: actions.map((action) => ({
           ...action,
-          kind: TransactionApi.indexerCompatibilityActionKinds.get(action.kind),
+          kind:
+            TransactionApi.indexerCompatibilityActionKinds.get(action.kind) ||
+            action.kind,
         })),
       })
     );
