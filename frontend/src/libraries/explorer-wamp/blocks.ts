@@ -109,13 +109,17 @@ export default class BlocksApi extends ExplorerApi {
                 blocks.prev_hash,
                 blocks.gas_price
               FROM blocks
-              WHERE blocks.hash = :blockId OR blocks.height = :blockId
+              ${
+                typeof blockId === "string"
+                  ? `WHERE blocks.hash = :blockId`
+                  : `WHERE blocks.height = :blockId`
+              }
             ) AS blocks
             LEFT JOIN transactions ON transactions.block_hash = blocks.hash`,
           {
             blockId,
           },
-        ]).then((it) => (it.length === 0 ? undefined : it[0]));
+        ]).then((it) => (it.length === 0 || !it[0].hash ? undefined : it[0]));
       } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
         block = await this.call<any>("select:INDEXER_BACKEND", [
           `SELECT
@@ -132,7 +136,7 @@ export default class BlocksApi extends ExplorerApi {
                 typeof blockId === "string"
                   ? `WHERE blocks.block_hash = :blockId`
                   : `WHERE blocks.block_height = :blockId`
-              } 
+              }
             ) as innerblocks
             LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
             LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
