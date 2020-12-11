@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
+import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
@@ -10,17 +10,26 @@ export default class extends React.Component {
 
   handleSearch = async (event) => {
     event.preventDefault();
-    const { searchValue } = this.state;
 
-    const blockPromise = new BlocksApi()
-      .getBlockInfo(searchValue)
-      .catch(() => {});
+    const { searchValue } = this.state;
+    const cleanedSearchValue = searchValue.replace(/\s/g, "");
+
+    let blockPromise;
+    const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
+    if (maybeBlockHeight.match(/^\d{1,20}$/)) {
+      const blockHeight = parseInt(maybeBlockHeight);
+      blockPromise = new BlocksApi().getBlockInfo(blockHeight).catch(() => {});
+    } else {
+      blockPromise = new BlocksApi()
+        .getBlockInfo(cleanedSearchValue)
+        .catch(() => {});
+    }
 
     const transactionPromise = new TransactionsApi()
-      .getTransactionInfo(searchValue)
+      .getTransactionInfo(cleanedSearchValue)
       .catch(() => {});
     const accountPromise = new AccountsApi()
-      .queryAccount(searchValue)
+      .queryAccount(cleanedSearchValue)
       .catch(() => {});
 
     const block = await blockPromise;
