@@ -7,6 +7,7 @@ import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 import GasPrice from "../utils/GasPrice";
+import TransactionCharts from "../utils/TransactionCharts";
 
 export default () => {
   return (
@@ -58,6 +59,12 @@ export default () => {
                 />
               </Col>
             </Row>
+            <Row
+              className="transaction-charts"
+              style={{ width: "700px", height: "210px" }}
+            >
+              <TransactionCharts />
+            </Row>
             <style jsx global>{`
               .transaction-card {
                 width: 740px;
@@ -65,7 +72,7 @@ export default () => {
                 box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
                 border-radius: 8px;
                 background: #ffffff;
-                margin-bottom: 500px;
+                margin-bottom: 154px;
               }
 
               .transaction-view-all {
