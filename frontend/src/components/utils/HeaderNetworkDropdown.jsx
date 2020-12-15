@@ -61,10 +61,12 @@ export default () => (
           }
 
           .header-network-dropdown-menu {
+            width: 154px;
             background: #ffffff;
             padding: 12px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
             border-radius: 8px;
+            border: none;
           }
 
           .header-network-item-dropdown {

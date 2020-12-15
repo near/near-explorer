@@ -53,7 +53,6 @@ export default () => (
         display: flex;
         justify-content: space-between;
         flex-direction: row;
-        margin-top: 150px;
       }
 
       .footer-container > .col-12 {
@@ -64,7 +63,7 @@ export default () => (
 
       .nearlogo-wrapper {
         padding: 30px;
-        width: 1044px;
+        width: 70%;
         font-weight: normal;
       }
 
