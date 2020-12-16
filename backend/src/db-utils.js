@@ -356,6 +356,14 @@ const aggregateStats = async (options) => {
   };
 };
 
+const getAllLockupAccountIds = async () => {
+  const query =
+    "SELECT account_id FROM accounts WHERE account_id LIKE '%.lockup.near' AND deleted_by_receipt_id IS NULL";
+  return await queryRows([query, {}], {
+    dataSource: DS_INDEXER_BACKEND,
+  });
+};
+
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
@@ -364,3 +372,4 @@ exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;
 exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryDashboardTxInfo = queryDashboardTxInfo;
 exports.queryDashboardBlockInfo = queryDashboardBlockInfo;
+exports.getAllLockupAccountIds = getAllLockupAccountIds;

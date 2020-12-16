@@ -11,6 +11,7 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
+  regularCalculateCirculatingSupplyInterval,
 } = require("./config");
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
@@ -34,6 +35,7 @@ const {
   queryDashboardBlockInfo,
   queryDashboardTxInfo,
 } = require("./db-utils");
+const { calculateCirculatingSupply } = require("./aggregations");
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -188,6 +190,25 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
   setTimeout(regularCheckDataStats, 0);
 }
 
+function startRegularCalculationCirculatingSupply() {
+  const regularCalculateCirculatingSupply = async () => {
+    console.log(`Starting regular calculation of circulating supply...`);
+    try {
+      await calculateCirculatingSupply();
+    } catch (error) {
+      console.warn(
+        "regular calculation of circulating supply is crashed due to:",
+        error
+      );
+    }
+    setTimeout(
+      regularCalculateCirculatingSupply,
+      regularCalculateCirculatingSupplyInterval
+    );
+  };
+  setTimeout(regularCalculateCirculatingSupply, 0);
+}
+
 async function main() {
   console.log("Starting Explorer backend...");
 
@@ -257,6 +278,8 @@ async function main() {
   if (isIndexerBackendEnabled) {
     await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
   }
+
+  startRegularCalculationCirculatingSupply();
 }
 
 main();

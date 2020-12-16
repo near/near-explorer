@@ -2,6 +2,7 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
+const { getCirculatingSupply } = require("./aggregations");
 
 const models = require("../models");
 
@@ -100,6 +101,10 @@ wampHandlers["nearcore-status"] = async () => {
 
 wampHandlers["nearcore-validators"] = async () => {
   return await nearRpc.sendJsonRpc("validators", [null]);
+};
+
+wampHandlers["calculate-circulating-supply"] = async () => {
+  return await getCirculatingSupply();
 };
 
 wampHandlers["get-account-details"] = async ([accountId]) => {
