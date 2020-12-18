@@ -94,20 +94,28 @@ export default class AccountsApi extends ExplorerApi {
             (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
               WHERE signer_id = :accountId) as outTransactionsCount,
             (SELECT COUNT(transactions.hash) as inTransactionsCount FROM transactions
-              WHERE receiver_id = :accountId) as inTransactionsCount
-          `,
+              WHERE receiver_id = :accountId) as inTransactionsCount`,
           {
             accountId,
           },
         ]).then((accounts) => accounts[0]);
       } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
         return await this.call<any>("select:INDEXER_BACKEND", [
-          `SELECT outTransactionsCount.out_transactions_count, inTransactionsCount.in_transactions_count FROM
-        (SELECT COUNT(transactions.transaction_hash) as out_transactions_count FROM transactions
-          WHERE signer_account_id = :account_id) as outTransactionsCount,
-        (SELECT COUNT(transactions.transaction_hash) as in_transactions_count FROM transactions
-          WHERE receiver_account_id = :account_id) as inTransactionsCount
-        `,
+          `SELECT out_transactions_count.out_transactions_count, in_transactions_count.in_transactions_count FROM
+            (SELECT
+                COUNT(transactions.transaction_hash) AS out_transactions_count
+              FROM transactions
+              WHERE signer_account_id = :account_id
+            ) AS out_transactions_count,
+            (SELECT
+                COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
+              FROM transactions
+              LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
+              WHERE
+                receipts.receiver_account_id = :account_id
+                AND
+                transactions.signer_account_id != :account_id
+            ) AS in_transactions_count`,
           {
             account_id: accountId,
           },

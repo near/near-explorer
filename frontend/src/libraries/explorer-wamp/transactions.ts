@@ -264,41 +264,58 @@ export default class TransactionsApi extends ExplorerApi {
       limit,
     } = queries;
     const whereClause = [];
-    if (signerId) {
-      whereClause.push(`signer_account_id = :signer_id`);
-    }
-    if (receiverId) {
-      whereClause.push(`receiver_account_id = :receiver_id`);
+    if (signerId || receiverId) {
+      const accountIdWhereClause = [];
+      if (signerId) {
+        accountIdWhereClause.push(
+          `receipts.predecessor_account_id = :signer_id`
+        );
+      }
+      if (receiverId) {
+        accountIdWhereClause.push(
+          `receipts.receiver_account_id = :receiver_id`
+        );
+      }
+      whereClause.push(
+        `transaction_hash IN (SELECT DISTINCT originated_from_transaction_hash FROM receipts WHERE ${accountIdWhereClause.join(
+          " OR "
+        )})`
+      );
     }
     if (transactionHash) {
-      whereClause.push(`transaction_hash = :transaction_hash`);
+      whereClause.push(`transactions.transaction_hash = :transaction_hash`);
     }
     if (blockHash) {
-      whereClause.push(`included_in_block_hash = :block_hash`);
+      whereClause.push(`transactions.included_in_block_hash = :block_hash`);
     }
     let WHEREClause;
     if (whereClause.length > 0) {
       if (paginationIndexer) {
         WHEREClause = `WHERE (${whereClause.join(
           " OR "
-        )}) AND (block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND index_in_chunk < :transaction_index))`;
+        )}) AND (transactions.block_timestamp < :end_timestamp OR (transactions.block_timestamp = :end_timestamp AND transactions.index_in_chunk < :transaction_index))`;
       } else {
         WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
       }
     } else {
       if (paginationIndexer) {
-        WHEREClause = `WHERE block_timestamp < :end_timestamp OR (block_timestamp = :end_timestamp AND index_in_chunk < :transaction_index)`;
+        WHEREClause = `WHERE transactions.block_timestamp < :end_timestamp OR (transactions.block_timestamp = :end_timestamp AND transactions.index_in_chunk < :transaction_index)`;
       } else {
         WHEREClause = "";
       }
     }
     try {
       let transactions = await this.call<any>("select:INDEXER_BACKEND", [
-        `SELECT transaction_hash as hash, signer_account_id as signer_id, receiver_account_id as receiver_id, 
-          included_in_block_hash as block_hash, DIV(block_timestamp, 1000*1000) as block_timestamp, index_in_chunk as transaction_index
+        `SELECT
+            transactions.transaction_hash as hash,
+            transactions.signer_account_id as signer_id,
+            transactions.receiver_account_id as receiver_id,
+            transactions.included_in_block_hash as block_hash,
+            DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
+            transactions.index_in_chunk as transaction_index
           FROM transactions
           ${WHEREClause}
-          ORDER BY block_timestamp DESC, index_in_chunk DESC
+          ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
           LIMIT :limit`,
         {
           signer_id: signerId,
