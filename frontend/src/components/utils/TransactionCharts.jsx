@@ -73,14 +73,14 @@ export default () => {
     };
   };
   return (
-    <div className="examples">
-      <div className="parent">
-        <ReactEcharts
-          option={getOption()}
-          style={{ height: "176px", width: "650px" }}
-          className="react_for_echarts"
-        />
-      </div>
-    </div>
+    <ReactEcharts
+      option={getOption()}
+      style={{
+        height: "176px",
+        width: "100%",
+        marginTop: "26px",
+        marginLeft: "24px",
+      }}
+    />
   );
 };

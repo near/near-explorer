@@ -25,7 +25,7 @@ export default () => {
                 <a className="transaction-view-all">View All</a>
               </Link>
             </Row>
-            <Row className="transaction-card-number">
+            <Row className="transaction-card-number" noGutters>
               <Col xs="12" md="4" className="bottom-line">
                 <LongCardCell
                   title={
@@ -61,7 +61,7 @@ export default () => {
             </Row>
             <Row
               className="transaction-charts"
-              style={{ width: "700px", height: "210px" }}
+              style={{ width: "100%", height: "210px" }}
             >
               <TransactionCharts />
             </Row>
@@ -86,6 +86,7 @@ export default () => {
               .transaction-card-number {
                 height: 113px;
                 border-bottom: 2px solid #f1f1f1;
+                width: 100%;
               }
 
               .chart-title {
@@ -114,6 +115,11 @@ export default () => {
 
                 .bottom-line {
                   border-bottom: 2px solid #f1f1f1;
+                }
+
+                .react_for_echarts {
+                  margin-left: 24px;
+                  margin-top: 26px;
                 }
               }
             `}</style>
