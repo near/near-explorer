@@ -6,8 +6,8 @@ import StatsApi, {
 } from "../../libraries/explorer-wamp/stats";
 
 export default () => {
-  const [newAccountsByDate, setAccounts] = useState([]);
-  const [date, setDate] = useState([]);
+  const [newAccountsByDate, setAccounts] = useState(Array());
+  const [date, setDate] = useState(Array());
   useEffect(() => {
     new StatsApi().newAccountsByDate().then((accounts) => {
       const newAccounts = accounts.map(

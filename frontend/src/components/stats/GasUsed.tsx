@@ -6,8 +6,8 @@ import StatsApi, {
 } from "../../libraries/explorer-wamp/stats";
 
 export default () => {
-  const [GasUsed, setGas] = useState([]);
-  const [date, setDate] = useState([]);
+  const [GasUsed, setGas] = useState(Array());
+  const [date, setDate] = useState(Array());
   useEffect(() => {
     new StatsApi().teragasUsedByDate().then((gasUsed) => {
       const gas = gasUsed.map((gas: TeragasUsedByDate) => gas.teragasUsed);
