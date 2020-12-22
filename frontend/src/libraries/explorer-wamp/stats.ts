@@ -2,22 +2,22 @@ import { ExplorerApi } from ".";
 
 export interface TransactionsByDate {
   date: string;
-  transactions: number;
+  transactionsCount: number;
 }
 
 export interface TeragasUsedByDate {
   date: string;
-  teragas: number;
+  teragasUsed: number;
 }
 
 export interface NewAccountsByDate {
   date: string;
-  accounts: number;
+  accountsCount: number;
 }
 
 export interface NewContractsByDate {
   date: string;
-  contracts: number;
+  contractsCount: number;
 }
 
 export default class StatsApi extends ExplorerApi {

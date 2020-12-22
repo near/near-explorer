@@ -371,7 +371,7 @@ const queryTransactionsByDate = async () => {
   );
 };
 
-const queryTeragasUsed = async () => {
+const queryTeragasUsedByDate = async () => {
   return await queryRows(
     [
       `SELECT
@@ -427,6 +427,6 @@ exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryDashboardTxInfo = queryDashboardTxInfo;
 exports.queryDashboardBlockInfo = queryDashboardBlockInfo;
 exports.queryTransactionsByDate = queryTransactionsByDate;
-exports.queryTeragasUsed = queryTeragasUsed;
+exports.queryTeragasUsedByDate = queryTeragasUsedByDate;
 exports.queryNewAccountsByDate = queryNewAccountsByDate;
 exports.queryNewContractsByDate = queryNewContractsByDate;
