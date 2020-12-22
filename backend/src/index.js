@@ -11,6 +11,7 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
+  regularStatsInterval,
 } = require("./config");
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
@@ -34,6 +35,12 @@ const {
   queryDashboardBlockInfo,
   queryDashboardTxInfo,
 } = require("./db-utils");
+const {
+  calculateTransactionsByDate,
+  calculateTeragasUsedByDate,
+  calculateNewAccountsByDate,
+  calculateNewContractsByDate,
+} = require("./stats");
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -188,6 +195,22 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
   setTimeout(regularCheckDataStats, 0);
 }
 
+function startStatsCalculation() {
+  const regularStatsCalculate = async () => {
+    console.log("Starting Regular Stats Calculations...");
+    try {
+      await calculateTransactionsByDate();
+      await calculateTeragasUsedByDate();
+      await calculateNewAccountsByDate();
+      await calculateNewContractsByDate();
+    } catch (error) {
+      console.warn("Regular Stats Calculation is crashed due to:", error);
+    }
+    setTimeout(regularStatsCalculate, regularStatsInterval);
+  };
+  setTimeout(regularStatsCalculate, 0);
+}
+
 async function main() {
   console.log("Starting Explorer backend...");
 
@@ -213,7 +236,7 @@ async function main() {
   };
   setTimeout(regularCheckFinalTimestamp, 0);
 
-  // regular check node status and publish to nodes uri
+  // // regular check node status and publish to nodes uri
   const regularCheckNodeStatus = async () => {
     console.log("Starting regular node status check...");
     try {
@@ -256,6 +279,7 @@ async function main() {
   }
   if (isIndexerBackendEnabled) {
     await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
+    await startStatsCalculation();
   }
 }
 

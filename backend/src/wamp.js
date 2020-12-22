@@ -2,6 +2,7 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
+const stats = require("./stats");
 
 const models = require("../models");
 
@@ -227,6 +228,22 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   accountDetails.totalBalance = totalBalance.toString();
 
   return accountDetails;
+};
+
+wampHandlers["transactions-by-date"] = async () => {
+  return await stats.getTransactionsByDate();
+};
+
+wampHandlers["teragas-used-by-date"] = async () => {
+  return await stats.getTeragasUsedByDate();
+};
+
+wampHandlers["new-accounts-by-date"] = async () => {
+  return await stats.getNewAccountsByDate();
+};
+
+wampHandlers["new-contracts-by-date"] = async () => {
+  return await stats.getNewContractsByDate();
 };
 
 function setupWamp() {

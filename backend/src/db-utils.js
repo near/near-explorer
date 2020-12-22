@@ -356,6 +356,68 @@ const aggregateStats = async (options) => {
   };
 };
 
+const queryTransactionsByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT
+          TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+          COUNT(*) AS transactions_by_date
+        FROM transactions
+        JOIN blocks ON blocks.block_hash = transactions.included_in_block_hash
+        GROUP BY "date"
+        ORDER BY "date"`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryTeragasUsed = async () => {
+  return await queryRows(
+    [
+      `SELECT
+          TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+          DIV(SUM(chunks.gas_used), 1000000000000) AS teragas_used_by_date
+        FROM blocks
+        JOIN chunks ON chunks.included_in_block_hash = blocks.block_hash
+        GROUP BY "date"
+        ORDER BY "date"`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryNewAccountsByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        COUNT(*) as new_accounts_by_date
+      FROM accounts
+      JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
+      JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
+      GROUP BY "date"
+      ORDER BY "date"`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryNewContractsByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        COUNT(distinct receipts.receiver_account_id) AS new_contracts_by_date
+      FROM action_receipt_actions
+      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id 
+      WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
+      GROUP BY "date"
+      ORDER BY "date"`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
@@ -364,3 +426,7 @@ exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;
 exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryDashboardTxInfo = queryDashboardTxInfo;
 exports.queryDashboardBlockInfo = queryDashboardBlockInfo;
+exports.queryTransactionsByDate = queryTransactionsByDate;
+exports.queryTeragasUsed = queryTeragasUsed;
+exports.queryNewAccountsByDate = queryNewAccountsByDate;
+exports.queryNewContractsByDate = queryNewContractsByDate;
