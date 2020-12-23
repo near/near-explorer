@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
+
 import StatsApi, {
   TransactionsByDate,
 } from "../../libraries/explorer-wamp/stats";
@@ -8,6 +9,7 @@ import StatsApi, {
 export default () => {
   const [transactionsByDate, setTransactions] = useState(Array());
   const [date, setDate] = useState(Array());
+
   useEffect(() => {
     new StatsApi().transactionsCountAggregatedByDate().then((transactions) => {
       const transactionByDate = transactions.map(
@@ -20,6 +22,7 @@ export default () => {
       setDate(date);
     });
   }, []);
+
   const getOption = () => {
     return {
       title: {
@@ -84,6 +87,7 @@ export default () => {
       ],
     };
   };
+
   return (
     <ReactEcharts
       option={getOption()}

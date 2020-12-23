@@ -9,6 +9,7 @@ import StatsApi, {
 export default () => {
   const [newAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
+
   useEffect(() => {
     new StatsApi().newAccountsCountAggregatedByDate().then((accounts) => {
       const newAccounts = accounts.map(
@@ -19,6 +20,7 @@ export default () => {
       setDate(date);
     });
   }, []);
+
   const getOption = () => {
     return {
       title: {
@@ -83,6 +85,7 @@ export default () => {
       ],
     };
   };
+
   return (
     <ReactEcharts
       option={getOption()}

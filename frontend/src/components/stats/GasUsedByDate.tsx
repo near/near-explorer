@@ -9,6 +9,7 @@ import StatsApi, {
 export default () => {
   const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
+
   useEffect(() => {
     new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
       const gas = teragasUsed.map((gas: TeragasUsedByDate) => gas.teragasUsed);
@@ -17,6 +18,7 @@ export default () => {
       setDate(date);
     });
   }, []);
+
   const getOption = () => {
     return {
       title: {
@@ -82,6 +84,7 @@ export default () => {
       ],
     };
   };
+
   return (
     <ReactEcharts
       option={getOption()}
