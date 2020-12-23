@@ -422,11 +422,10 @@ const queryActiveContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
         COUNT(distinct receipts.receiver_account_id) as active_contracts_count
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
       JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
       WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
         AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
@@ -441,12 +440,10 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(distinct receipts.predecessor_account_id) as active_accounts_count
-      FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+        TIMESTAMP 'epoch' + DIV(DIV(transactions.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        COUNT(distinct transactions.signer_account_id) as active_accounts_count
+      FROM transactions
+      JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
       WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
       GROUP BY "date"
       ORDER BY "date"`,
