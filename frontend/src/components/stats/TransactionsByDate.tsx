@@ -12,14 +12,16 @@ export default () => {
 
   useEffect(() => {
     new StatsApi().transactionsCountAggregatedByDate().then((transactions) => {
-      const transactionByDate = transactions.map(
-        (transaction: TransactionsByDate) => transaction.transactionsCount
-      );
-      setTransactions(transactionByDate);
-      const date = transactions.map(
-        (transaction: TransactionsByDate) => transaction.date
-      );
-      setDate(date);
+      if (transactions) {
+        const transactionByDate = transactions.map(
+          (transaction: TransactionsByDate) => transaction.transactionsCount
+        );
+        setTransactions(transactionByDate);
+        const date = transactions.map(
+          (transaction: TransactionsByDate) => transaction.date
+        );
+        setDate(date);
+      }
     });
   }, []);
 
@@ -61,7 +63,6 @@ export default () => {
         {
           name: "Txns",
           type: "line",
-          smooth: true,
           lineStyle: {
             color: "#00C1DE",
             width: 2,
@@ -92,7 +93,7 @@ export default () => {
     <ReactEcharts
       option={getOption()}
       style={{
-        height: "176px",
+        height: "300px",
         width: "100%",
         marginTop: "26px",
         marginLeft: "24px",

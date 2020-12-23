@@ -12,12 +12,14 @@ export default () => {
 
   useEffect(() => {
     new StatsApi().newAccountsCountAggregatedByDate().then((accounts) => {
-      const newAccounts = accounts.map(
-        (account: NewAccountsByDate) => account.accountsCount
-      );
-      const date = accounts.map((account: NewAccountsByDate) => account.date);
-      setAccounts(newAccounts);
-      setDate(date);
+      if (accounts) {
+        const newAccounts = accounts.map(
+          (account: NewAccountsByDate) => account.accountsCount
+        );
+        const date = accounts.map((account: NewAccountsByDate) => account.date);
+        setAccounts(newAccounts);
+        setDate(date);
+      }
     });
   }, []);
 
@@ -59,7 +61,6 @@ export default () => {
         {
           name: "Txns",
           type: "line",
-          smooth: true,
           lineStyle: {
             color: "#00C1DE",
             width: 2,
@@ -90,7 +91,7 @@ export default () => {
     <ReactEcharts
       option={getOption()}
       style={{
-        height: "176px",
+        height: "300px",
         width: "100%",
         marginTop: "26px",
         marginLeft: "24px",

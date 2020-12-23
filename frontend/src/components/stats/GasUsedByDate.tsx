@@ -12,10 +12,14 @@ export default () => {
 
   useEffect(() => {
     new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
-      const gas = teragasUsed.map((gas: TeragasUsedByDate) => gas.teragasUsed);
-      setTeragasUsedByDate(gas);
-      const date = teragasUsed.map((gas: TeragasUsedByDate) => gas.date);
-      setDate(date);
+      if (teragasUsed) {
+        const gas = teragasUsed.map(
+          (gas: TeragasUsedByDate) => gas.teragasUsed
+        );
+        setTeragasUsedByDate(gas);
+        const date = teragasUsed.map((gas: TeragasUsedByDate) => gas.date);
+        setDate(date);
+      }
     });
   }, []);
 
@@ -58,7 +62,6 @@ export default () => {
         {
           name: "Txns",
           type: "line",
-          smooth: true,
           lineStyle: {
             color: "#00C1DE",
             width: 2,
@@ -89,7 +92,7 @@ export default () => {
     <ReactEcharts
       option={getOption()}
       style={{
-        height: "176px",
+        height: "300px",
         width: "100%",
         marginTop: "26px",
         marginLeft: "24px",

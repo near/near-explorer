@@ -12,14 +12,16 @@ export default () => {
 
   useEffect(() => {
     new StatsApi().newContractsCountAggregatedByDate().then((contracts) => {
-      const newContracts = contracts.map(
-        (contract: NewContractsByDate) => contract.contractsCount
-      );
-      setContracts(newContracts);
-      const date = contracts.map(
-        (contract: NewContractsByDate) => contract.date
-      );
-      setDate(date);
+      if (contracts) {
+        const newContracts = contracts.map(
+          (contract: NewContractsByDate) => contract.contractsCount
+        );
+        setContracts(newContracts);
+        const date = contracts.map(
+          (contract: NewContractsByDate) => contract.date
+        );
+        setDate(date);
+      }
     });
   }, []);
 
@@ -61,7 +63,6 @@ export default () => {
         {
           name: "Txns",
           type: "line",
-          smooth: true,
           lineStyle: {
             color: "#00C1DE",
             width: 2,
@@ -92,7 +93,7 @@ export default () => {
     <ReactEcharts
       option={getOption()}
       style={{
-        height: "176px",
+        height: "300px",
         width: "100%",
         marginTop: "26px",
         marginLeft: "24px",

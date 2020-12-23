@@ -15,10 +15,10 @@ export default class extends React.Component {
           <title>NEAR Explorer | Stats</title>
         </Head>
         <Content title={<h1>Stats</h1>}>
+          <TransactionsByDate />
+          <GasUsedByDate />
           <NewAccountsByDate />
           <NewContractsByDate />
-          <GasUsedByDate />
-          <TransactionsByDate />
         </Content>
       </>
     );
