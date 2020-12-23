@@ -246,6 +246,14 @@ wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getNewContractsByDate();
 };
 
+wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
+  return await stats.getActiveContractsCountByDate();
+};
+
+wampHandlers["active-accounts-count-aggregated-by-date"] = async () => {
+  return await stats.getActiveAccountsCountByDate();
+};
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",

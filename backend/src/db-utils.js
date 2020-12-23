@@ -34,7 +34,7 @@ const getSyncedGenesis = async (options) => {
 const addNodeInfo = async (nodes) => {
   const accountArray = nodes.map((node) => node.account_id);
   let nodesInfo = await queryRows([
-    `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
+    `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId,
         last_seen as lastSeen, last_height as lastHeight,status,
         agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
         latitude, longitude, city
@@ -73,7 +73,7 @@ const pickOnlineValidatingNode = (nodes) => {
 
 const queryOnlineNodes = async () => {
   return await queryRows([
-    `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId, 
+    `SELECT ip_address as ipAddress, account_id as accountId, node_id as nodeId,
       last_seen as lastSeen, last_height as lastHeight,status,
       agent_name as agentName, agent_version as agentVersion, agent_build as agentBuild,
       latitude, longitude, city
@@ -409,8 +409,45 @@ const queryNewContractsCountAggregatedByDate = async () => {
         TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
         COUNT(distinct receipts.receiver_account_id) AS new_contracts_count_by_date
       FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id 
+      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
+      GROUP BY "date"
+      ORDER BY "date"`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryActiveContractsCountAggregatedByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        COUNT(distinct(receipts.receiver_account_id)) as active_contracts_count
+      FROM action_receipt_actions
+      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+      JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
+      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+      WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
+        AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      GROUP BY "date"
+      ORDER BY "date"`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryActiveAccountsCountAggregatedByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        COUNT(distinct(receipts.receiver_account_id, receipts.predecessor_account_id)) as active_accounts_count
+      FROM action_receipt_actions
+      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+      JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
+      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
       GROUP BY "date"
       ORDER BY "date"`,
     ],
@@ -430,3 +467,5 @@ exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregate
 exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
+exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
+exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;

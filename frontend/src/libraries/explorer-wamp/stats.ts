@@ -20,6 +20,16 @@ export interface NewContractsByDate {
   contractsCount: number;
 }
 
+export interface ActiveContractsCountByDate {
+  date: string;
+  contractsCount: number;
+}
+
+export interface ActiveAccountsCountByDate {
+  date: string;
+  accountsCount: number;
+}
+
 export default class StatsApi extends ExplorerApi {
   async transactionsCountAggregatedByDate(): Promise<TransactionsByDate[]> {
     return await this.call<TransactionsByDate[]>(
@@ -42,6 +52,22 @@ export default class StatsApi extends ExplorerApi {
   async newContractsCountAggregatedByDate(): Promise<NewContractsByDate[]> {
     return await this.call<NewContractsByDate[]>(
       "new-contracts-count-aggregated-by-date"
+    );
+  }
+
+  async activeContractsCountAggregatedByDate(): Promise<
+    ActiveContractsCountByDate[]
+  > {
+    return await this.call<ActiveContractsCountByDate[]>(
+      "active-contracts-count-aggregated-by-date"
+    );
+  }
+
+  async activeAccountsCountAggregatedByDate(): Promise<
+    ActiveAccountsCountByDate[]
+  > {
+    return await this.call<ActiveAccountsCountByDate[]>(
+      "active-accounts-count-aggregated-by-date"
     );
   }
 }

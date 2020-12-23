@@ -40,6 +40,8 @@ const {
   aggregateTransactionsCountByDate,
   aggregateNewAccountsCountByDate,
   aggregateNewContractsCountByDate,
+  aggregateActiveContractsCountByDate,
+  aggregateActiveAccountsCountByDate,
 } = require("./stats");
 
 async function startLegacySync() {
@@ -203,6 +205,8 @@ function startStatsAggregation() {
       await aggregateTeragasUsedByDate();
       await aggregateNewAccountsCountByDate();
       await aggregateNewContractsCountByDate();
+      await aggregateActiveContractsCountByDate();
+      await aggregateActiveAccountsCountByDate();
     } catch (error) {
       console.warn("Regular Stats Aggregation is crashed due to:", error);
     }
