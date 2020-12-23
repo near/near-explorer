@@ -6,6 +6,8 @@ import TransactionsByDate from "../../components/stats/TransactionsByDate";
 import GasUsedByDate from "../../components/stats/GasUsedByDate";
 import NewAccountsByDate from "../../components/stats/NewAccountsByDate";
 import NewContractsByDate from "../../components/stats/NewContractsByDate";
+import ActiveAccountsByDate from "../../components/stats/ActiveAccountsByDate";
+import ActiveContractsByDate from "../../components/stats/ActiveContractsByDate";
 
 export default class extends React.Component {
   render() {
@@ -19,6 +21,8 @@ export default class extends React.Component {
           <GasUsedByDate />
           <NewAccountsByDate />
           <NewContractsByDate />
+          <ActiveAccountsByDate />
+          <ActiveContractsByDate />
         </Content>
       </>
     );

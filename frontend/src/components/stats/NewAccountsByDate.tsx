@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
-import StatsApi, {
-  NewAccountsByDate,
-} from "../../libraries/explorer-wamp/stats";
+import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
 
 export default () => {
   const [newAccountsByDate, setAccounts] = useState(Array());
@@ -14,9 +12,9 @@ export default () => {
     new StatsApi().newAccountsCountAggregatedByDate().then((accounts) => {
       if (accounts) {
         const newAccounts = accounts.map(
-          (account: NewAccountsByDate) => account.accountsCount
+          (account: AccountsByDate) => account.accountsCount
         );
-        const date = accounts.map((account: NewAccountsByDate) => account.date);
+        const date = accounts.map((account: AccountsByDate) => account.date);
         setAccounts(newAccounts);
         setDate(date);
       }
@@ -59,10 +57,10 @@ export default () => {
       ],
       series: [
         {
-          name: "Txns",
+          name: "New Accounts",
           type: "line",
           lineStyle: {
-            color: "#00C1DE",
+            color: "#48d4ab",
             width: 2,
           },
           symbol: "circle",
@@ -73,11 +71,11 @@ export default () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: "rgb(0, 193, 222)",
+                color: "rgb(72, 212, 171)",
               },
               {
                 offset: 1,
-                color: "rgb(197, 247, 255)",
+                color: "rgb(201, 255, 239)",
               },
             ]),
           },

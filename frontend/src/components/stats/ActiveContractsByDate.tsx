@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
-import StatsApi, {
-  TeragasUsedByDate,
-} from "../../libraries/explorer-wamp/stats";
+import StatsApi, { ContractsByDate } from "../../libraries/explorer-wamp/stats";
 
 export default () => {
-  const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
+  const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
 
   useEffect(() => {
-    new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
-      if (teragasUsed) {
-        const gas = teragasUsed.map(
-          (gas: TeragasUsedByDate) => gas.teragasUsed
+    new StatsApi().activeContractsCountAggregatedByDate().then((contracts) => {
+      if (contracts) {
+        const newContracts = contracts.map(
+          (contract: ContractsByDate) => contract.contractsCount
         );
-        setTeragasUsedByDate(gas);
-        const date = teragasUsed.map((gas: TeragasUsedByDate) => gas.date);
+        setContracts(newContracts);
+        const date = contracts.map(
+          (contract: ContractsByDate) => contract.date
+        );
         setDate(date);
       }
     });
@@ -26,7 +26,7 @@ export default () => {
   const getOption = () => {
     return {
       title: {
-        text: "Daily Tera Gas Used",
+        text: "Daily Number of Active Contracts",
       },
       tooltip: {
         trigger: "axis",
@@ -50,7 +50,6 @@ export default () => {
       yAxis: [
         {
           type: "value",
-          name: "Tera Gas",
           splitLine: {
             lineStyle: {
               color: "white",
@@ -60,10 +59,10 @@ export default () => {
       ],
       series: [
         {
-          name: "TeraGas",
+          name: "Active Contracts",
           type: "line",
           lineStyle: {
-            color: "#4d84d6",
+            color: "#04a7bf",
             width: 2,
           },
           symbol: "circle",
@@ -74,15 +73,15 @@ export default () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: "rgb(21, 99, 214)",
+                color: "rgb(4, 167, 191)",
               },
               {
                 offset: 1,
-                color: "rgb(197, 221, 255)",
+                color: "rgb(201, 248, 255)",
               },
             ]),
           },
-          data: teragasUsedByDate,
+          data: newContractsByDate,
         },
       ],
     };

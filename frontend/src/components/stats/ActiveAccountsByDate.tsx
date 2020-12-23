@@ -2,22 +2,20 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
-import StatsApi, {
-  TeragasUsedByDate,
-} from "../../libraries/explorer-wamp/stats";
+import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
 
 export default () => {
-  const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
+  const [activeAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
 
   useEffect(() => {
-    new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
-      if (teragasUsed) {
-        const gas = teragasUsed.map(
-          (gas: TeragasUsedByDate) => gas.teragasUsed
+    new StatsApi().activeAccountsCountAggregatedByDate().then((accounts) => {
+      if (accounts) {
+        const newAccounts = accounts.map(
+          (account: AccountsByDate) => account.accountsCount
         );
-        setTeragasUsedByDate(gas);
-        const date = teragasUsed.map((gas: TeragasUsedByDate) => gas.date);
+        const date = accounts.map((account: AccountsByDate) => account.date);
+        setAccounts(newAccounts);
         setDate(date);
       }
     });
@@ -26,7 +24,7 @@ export default () => {
   const getOption = () => {
     return {
       title: {
-        text: "Daily Tera Gas Used",
+        text: "Daily Number of Active Accounts",
       },
       tooltip: {
         trigger: "axis",
@@ -50,7 +48,6 @@ export default () => {
       yAxis: [
         {
           type: "value",
-          name: "Tera Gas",
           splitLine: {
             lineStyle: {
               color: "white",
@@ -60,10 +57,10 @@ export default () => {
       ],
       series: [
         {
-          name: "TeraGas",
+          name: "Active Accounts",
           type: "line",
           lineStyle: {
-            color: "#4d84d6",
+            color: "#04a7bf",
             width: 2,
           },
           symbol: "circle",
@@ -74,15 +71,15 @@ export default () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: "rgb(21, 99, 214)",
+                color: "rgb(4, 167, 191)",
               },
               {
                 offset: 1,
-                color: "rgb(197, 221, 255)",
+                color: "rgb(201, 248, 255)",
               },
             ]),
           },
-          data: teragasUsedByDate,
+          data: activeAccountsByDate,
         },
       ],
     };

@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
-import StatsApi, {
-  NewContractsByDate,
-} from "../../libraries/explorer-wamp/stats";
+import StatsApi, { ContractsByDate } from "../../libraries/explorer-wamp/stats";
 
 export default () => {
   const [newContractsByDate, setContracts] = useState(Array());
@@ -14,11 +12,11 @@ export default () => {
     new StatsApi().newContractsCountAggregatedByDate().then((contracts) => {
       if (contracts) {
         const newContracts = contracts.map(
-          (contract: NewContractsByDate) => contract.contractsCount
+          (contract: ContractsByDate) => contract.contractsCount
         );
         setContracts(newContracts);
         const date = contracts.map(
-          (contract: NewContractsByDate) => contract.date
+          (contract: ContractsByDate) => contract.date
         );
         setDate(date);
       }
@@ -28,7 +26,7 @@ export default () => {
   const getOption = () => {
     return {
       title: {
-        text: "Daily Number of Transactions",
+        text: "Daily Number of New Contracts Created",
       },
       tooltip: {
         trigger: "axis",
@@ -61,10 +59,10 @@ export default () => {
       ],
       series: [
         {
-          name: "Txns",
+          name: "New Contracts",
           type: "line",
           lineStyle: {
-            color: "#00C1DE",
+            color: "#48d4ab",
             width: 2,
           },
           symbol: "circle",
@@ -75,11 +73,11 @@ export default () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: "rgb(0, 193, 222)",
+                color: "rgb(72, 212, 171)",
               },
               {
                 offset: 1,
-                color: "rgb(197, 247, 255)",
+                color: "rgb(201, 255, 239)",
               },
             ]),
           },

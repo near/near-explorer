@@ -10,24 +10,14 @@ export interface TeragasUsedByDate {
   teragasUsed: number;
 }
 
-export interface NewAccountsByDate {
+export interface AccountsByDate {
   date: string;
   accountsCount: number;
 }
 
-export interface NewContractsByDate {
+export interface ContractsByDate {
   date: string;
   contractsCount: number;
-}
-
-export interface ActiveContractsCountByDate {
-  date: string;
-  contractsCount: number;
-}
-
-export interface ActiveAccountsCountByDate {
-  date: string;
-  accountsCount: number;
 }
 
 export default class StatsApi extends ExplorerApi {
@@ -43,30 +33,26 @@ export default class StatsApi extends ExplorerApi {
     );
   }
 
-  async newAccountsCountAggregatedByDate(): Promise<NewAccountsByDate[]> {
-    return await this.call<NewAccountsByDate[]>(
+  async newAccountsCountAggregatedByDate(): Promise<AccountsByDate[]> {
+    return await this.call<AccountsByDate[]>(
       "new-accounts-count-aggregated-by-date"
     );
   }
 
-  async newContractsCountAggregatedByDate(): Promise<NewContractsByDate[]> {
-    return await this.call<NewContractsByDate[]>(
+  async newContractsCountAggregatedByDate(): Promise<ContractsByDate[]> {
+    return await this.call<ContractsByDate[]>(
       "new-contracts-count-aggregated-by-date"
     );
   }
 
-  async activeContractsCountAggregatedByDate(): Promise<
-    ActiveContractsCountByDate[]
-  > {
-    return await this.call<ActiveContractsCountByDate[]>(
+  async activeContractsCountAggregatedByDate(): Promise<ContractsByDate[]> {
+    return await this.call<ContractsByDate[]>(
       "active-contracts-count-aggregated-by-date"
     );
   }
 
-  async activeAccountsCountAggregatedByDate(): Promise<
-    ActiveAccountsCountByDate[]
-  > {
-    return await this.call<ActiveAccountsCountByDate[]>(
+  async activeAccountsCountAggregatedByDate(): Promise<AccountsByDate[]> {
+    return await this.call<AccountsByDate[]>(
       "active-accounts-count-aggregated-by-date"
     );
   }
