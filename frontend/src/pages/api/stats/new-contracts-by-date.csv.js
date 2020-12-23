@@ -2,11 +2,13 @@ import StatsApi from "../../../libraries/explorer-wamp/stats";
 
 export default async function (req, res) {
   try {
-    const newContractsByDate = await new StatsApi(req).newContractsByDate();
+    const newContractsCountAggregatedByDate = await new StatsApi(
+      req
+    ).newContractsCountAggregatedByDate();
     res.send(
       "Date,Number of new contracts by date\n" +
-        newContractsByDate
-          .map(({ date, contracts }) => `${date},${contracts}`)
+        newContractsCountAggregatedByDate
+          .map(({ date, contractsCount }) => `${date},${contractsCount}`)
           .join("\n")
     );
   } catch (error) {

@@ -3,7 +3,7 @@ import Head from "next/head";
 import Content from "../../components/utils/Content";
 
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
-import GasUsed from "../../components/stats/GasUsed";
+import GasUsedByDate from "../../components/stats/GasUsedByDate";
 import NewAccountsByDate from "../../components/stats/NewAccountsByDate";
 import NewContractsByDate from "../../components/stats/NewContractsByDate";
 
@@ -17,7 +17,7 @@ export default class extends React.Component {
         <Content title={<h1>Stats</h1>}>
           <NewAccountsByDate />
           <NewContractsByDate />
-          <GasUsed />
+          <GasUsedByDate />
           <TransactionsByDate />
         </Content>
       </>

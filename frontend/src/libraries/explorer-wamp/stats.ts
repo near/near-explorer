@@ -21,19 +21,27 @@ export interface NewContractsByDate {
 }
 
 export default class StatsApi extends ExplorerApi {
-  async transactionsByDate(): Promise<TransactionsByDate[]> {
-    return await this.call<TransactionsByDate[]>("transactions-by-date");
+  async transactionsCountAggregatedByDate(): Promise<TransactionsByDate[]> {
+    return await this.call<TransactionsByDate[]>(
+      "transactions-count-aggregated-by-date"
+    );
   }
 
-  async teragasUsedByDate(): Promise<TeragasUsedByDate[]> {
-    return await this.call<TeragasUsedByDate[]>("teragas-used-by-date");
+  async teragasUsedAggregatedByDate(): Promise<TeragasUsedByDate[]> {
+    return await this.call<TeragasUsedByDate[]>(
+      "teragas-used-aggregated-by-date"
+    );
   }
 
-  async newAccountsByDate(): Promise<NewAccountsByDate[]> {
-    return await this.call<NewAccountsByDate[]>("new-accounts-by-date");
+  async newAccountsCountAggregatedByDate(): Promise<NewAccountsByDate[]> {
+    return await this.call<NewAccountsByDate[]>(
+      "new-accounts-count-aggregated-by-date"
+    );
   }
 
-  async newContractsByDate(): Promise<NewContractsByDate[]> {
-    return await this.call<NewContractsByDate[]>("new-contracts-by-date");
+  async newContractsCountAggregatedByDate(): Promise<NewContractsByDate[]> {
+    return await this.call<NewContractsByDate[]>(
+      "new-contracts-count-aggregated-by-date"
+    );
   }
 }

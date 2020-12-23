@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
+
 import StatsApi, {
   TeragasUsedByDate,
 } from "../../libraries/explorer-wamp/stats";
 
 export default () => {
-  const [GasUsed, setGas] = useState(Array());
+  const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
   useEffect(() => {
-    new StatsApi().teragasUsedByDate().then((gasUsed) => {
-      const gas = gasUsed.map((gas: TeragasUsedByDate) => gas.teragasUsed);
-      setGas(gas);
-      const date = gasUsed.map((gas: TeragasUsedByDate) => gas.date);
+    new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
+      const gas = teragasUsed.map((gas: TeragasUsedByDate) => gas.teragasUsed);
+      setTeragasUsedByDate(gas);
+      const date = teragasUsed.map((gas: TeragasUsedByDate) => gas.date);
       setDate(date);
     });
   }, []);
@@ -76,7 +77,7 @@ export default () => {
               },
             ]),
           },
-          data: GasUsed,
+          data: teragasUsedByDate,
         },
       ],
     };

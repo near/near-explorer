@@ -356,12 +356,12 @@ const aggregateStats = async (options) => {
   };
 };
 
-const queryTransactionsByDate = async () => {
+const queryTransactionsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
           TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-          COUNT(*) AS transactions_by_date
+          COUNT(*) AS transactions_count_by_date
         FROM transactions
         JOIN blocks ON blocks.block_hash = transactions.included_in_block_hash
         GROUP BY "date"
@@ -371,7 +371,7 @@ const queryTransactionsByDate = async () => {
   );
 };
 
-const queryTeragasUsedByDate = async () => {
+const queryTeragasUsedAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
@@ -386,12 +386,12 @@ const queryTeragasUsedByDate = async () => {
   );
 };
 
-const queryNewAccountsByDate = async () => {
+const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
         TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(*) as new_accounts_by_date
+        COUNT(*) as new_accounts_count_by_date
       FROM accounts
       JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
       JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
@@ -402,12 +402,12 @@ const queryNewAccountsByDate = async () => {
   );
 };
 
-const queryNewContractsByDate = async () => {
+const queryNewContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
         TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(distinct receipts.receiver_account_id) AS new_contracts_by_date
+        COUNT(distinct receipts.receiver_account_id) AS new_contracts_count_by_date
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id 
       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
@@ -426,7 +426,7 @@ exports.queryDashboardBlocksAndTxs = queryDashboardBlocksAndTxs;
 exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryDashboardTxInfo = queryDashboardTxInfo;
 exports.queryDashboardBlockInfo = queryDashboardBlockInfo;
-exports.queryTransactionsByDate = queryTransactionsByDate;
-exports.queryTeragasUsedByDate = queryTeragasUsedByDate;
-exports.queryNewAccountsByDate = queryNewAccountsByDate;
-exports.queryNewContractsByDate = queryNewContractsByDate;
+exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
+exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
+exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
+exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;

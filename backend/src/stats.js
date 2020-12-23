@@ -1,34 +1,34 @@
 const {
-  queryTransactionsByDate,
-  queryTeragasUsedByDate,
-  queryNewAccountsByDate,
-  queryNewContractsByDate,
+  queryTransactionsCountAggregatedByDate,
+  queryTeragasUsedAggregatedByDate,
+  queryNewAccountsCountAggregatedByDate,
+  queryNewContractsCountAggregatedByDate,
 } = require("./db-utils");
 const { formatDate } = require("./utils");
 
-let TRANSACTIONS_BY_DATE = null;
+let TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = null;
 let TERAGAS_USED_BY_DATE = null;
-let NEW_ACCOUNTS_BY_DATE = null;
-let NEW_CONTRACTS_BY_DATE = null;
+let NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
+let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 
-const calculateTransactionsByDate = async function () {
+const aggregateTransactionsCountByDate = async function () {
   try {
-    const transactionsByDate = await queryTransactionsByDate();
-    TRANSACTIONS_BY_DATE = transactionsByDate.map(
-      ({ date: dateString, transactions_by_date }) => ({
+    const transactionsCountAggregatedByDate = await queryTransactionsCountAggregatedByDate();
+    TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = transactionsCountAggregatedByDate.map(
+      ({ date: dateString, transactions_count_by_date }) => ({
         date: formatDate(new Date(dateString)),
-        transactionsCount: transactions_by_date,
+        transactionsCount: transactions_count_by_date,
       })
     );
-    console.log("TRANSACTIONS_BY_DATE updated.");
+    console.log("TRANSACTIONS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
   }
 };
 
-const calculateTeragasUsedByDate = async function () {
+const aggregateTeragasUsedByDate = async function () {
   try {
-    const teragasUsedByDate = await queryTeragasUsedByDate();
+    const teragasUsedByDate = await queryTeragasUsedAggregatedByDate();
     TERAGAS_USED_BY_DATE = teragasUsedByDate.map(
       ({ date: dateString, teragas_used_by_date }) => ({
         date: formatDate(new Date(dateString)),
@@ -41,38 +41,38 @@ const calculateTeragasUsedByDate = async function () {
   }
 };
 
-const calculateNewAccountsByDate = async function () {
+const aggregateNewAccountsCountByDate = async function () {
   try {
-    const newAccountsByDate = await queryNewAccountsByDate();
-    NEW_ACCOUNTS_BY_DATE = newAccountsByDate.map(
-      ({ date: dateString, new_accounts_by_date }) => ({
+    const newAccountsCountAggregatedByDate = await queryNewAccountsCountAggregatedByDate();
+    NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = newAccountsCountAggregatedByDate.map(
+      ({ date: dateString, new_accounts_count_by_date }) => ({
         date: formatDate(new Date(dateString)),
-        accountsCount: new_accounts_by_date,
+        accountsCount: new_accounts_count_by_date,
       })
     );
-    console.log("NEW_ACCOUNTS_BY_DATE updated.");
+    console.log("NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
   }
 };
 
-const calculateNewContractsByDate = async function () {
+const aggregateNewContractsCountByDate = async function () {
   try {
-    const newContractsByDate = await queryNewContractsByDate();
-    NEW_CONTRACTS_BY_DATE = newContractsByDate.map(
-      ({ date: dateString, new_contracts_by_date }) => ({
+    const newContractsByDate = await queryNewContractsCountAggregatedByDate();
+    NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
+      ({ date: dateString, new_contracts_count_by_date }) => ({
         date: formatDate(new Date(dateString)),
-        contractsCount: new_contracts_by_date,
+        contractsCount: new_contracts_count_by_date,
       })
     );
-    console.log("NEW_CONTRACTS_BY_DATE updated.");
+    console.log("NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
   }
 };
 
 const getTransactionsByDate = async function () {
-  return TRANSACTIONS_BY_DATE;
+  return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
 };
 
 const getTeragasUsedByDate = async function () {
@@ -80,17 +80,17 @@ const getTeragasUsedByDate = async function () {
 };
 
 const getNewAccountsByDate = async function () {
-  return NEW_ACCOUNTS_BY_DATE;
+  return NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
 };
 
 const getNewContractsByDate = async function () {
-  return NEW_CONTRACTS_BY_DATE;
+  return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
 };
 
-exports.calculateTransactionsByDate = calculateTransactionsByDate;
-exports.calculateTeragasUsedByDate = calculateTeragasUsedByDate;
-exports.calculateNewAccountsByDate = calculateNewAccountsByDate;
-exports.calculateNewContractsByDate = calculateNewContractsByDate;
+exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
+exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
+exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
+exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
 
 exports.getTransactionsByDate = getTransactionsByDate;
 exports.getTeragasUsedByDate = getTeragasUsedByDate;

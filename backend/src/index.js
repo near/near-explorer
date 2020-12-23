@@ -36,10 +36,10 @@ const {
   queryDashboardTxInfo,
 } = require("./db-utils");
 const {
-  calculateTransactionsByDate,
-  calculateTeragasUsedByDate,
-  calculateNewAccountsByDate,
-  calculateNewContractsByDate,
+  aggregateTeragasUsedByDate,
+  aggregateTransactionsCountByDate,
+  aggregateNewAccountsCountByDate,
+  aggregateNewContractsCountByDate,
 } = require("./stats");
 
 async function startLegacySync() {
@@ -195,20 +195,20 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
   setTimeout(regularCheckDataStats, 0);
 }
 
-function startStatsCalculation() {
-  const regularStatsCalculate = async () => {
-    console.log("Starting Regular Stats Calculations...");
+function startStatsAggregation() {
+  const regularStatsAggregate = async () => {
+    console.log("Starting Regular Stats Aggregation...");
     try {
-      await calculateTransactionsByDate();
-      await calculateTeragasUsedByDate();
-      await calculateNewAccountsByDate();
-      await calculateNewContractsByDate();
+      await aggregateTransactionsCountByDate();
+      await aggregateTeragasUsedByDate();
+      await aggregateNewAccountsCountByDate();
+      await aggregateNewContractsCountByDate();
     } catch (error) {
-      console.warn("Regular Stats Calculation is crashed due to:", error);
+      console.warn("Regular Stats Aggregation is crashed due to:", error);
     }
-    setTimeout(regularStatsCalculate, regularStatsInterval);
+    setTimeout(regularStatsAggregate, regularStatsInterval);
   };
-  setTimeout(regularStatsCalculate, 0);
+  setTimeout(regularStatsAggregate, 0);
 }
 
 async function main() {
@@ -236,7 +236,7 @@ async function main() {
   };
   setTimeout(regularCheckFinalTimestamp, 0);
 
-  // // regular check node status and publish to nodes uri
+  // regular check node status and publish to nodes uri
   const regularCheckNodeStatus = async () => {
     console.log("Starting regular node status check...");
     try {
@@ -279,7 +279,7 @@ async function main() {
   }
   if (isIndexerBackendEnabled) {
     await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
-    await startStatsCalculation();
+    await startStatsAggregation();
   }
 }
 

@@ -230,19 +230,19 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   return accountDetails;
 };
 
-wampHandlers["transactions-by-date"] = async () => {
+wampHandlers["transactions-count-aggregated-by-date"] = async () => {
   return await stats.getTransactionsByDate();
 };
 
-wampHandlers["teragas-used-by-date"] = async () => {
+wampHandlers["teragas-used-aggregated-by-date"] = async () => {
   return await stats.getTeragasUsedByDate();
 };
 
-wampHandlers["new-accounts-by-date"] = async () => {
+wampHandlers["new-accounts-count-aggregated-by-date"] = async () => {
   return await stats.getNewAccountsByDate();
 };
 
-wampHandlers["new-contracts-by-date"] = async () => {
+wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getNewContractsByDate();
 };
 

@@ -2,11 +2,13 @@ import StatsApi from "../../../libraries/explorer-wamp/stats";
 
 export default async function (req, res) {
   try {
-    const teragasUsedByDate = await new StatsApi(req).teragasUsedByDate();
+    const teragasUsedAggregatedByDate = await new StatsApi(
+      req
+    ).teragasUsedAggregatedByDate();
     res.send(
       "Date,TGas used by date\n" +
-        teragasUsedByDate
-          .map(({ date, teragas }) => `${date},${teragas}`)
+        teragasUsedAggregatedByDate
+          .map(({ date, teragasUsed }) => `${date},${teragasUsed}`)
           .join("\n")
     );
   } catch (error) {

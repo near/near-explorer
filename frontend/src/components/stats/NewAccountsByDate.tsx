@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
+
 import StatsApi, {
   NewAccountsByDate,
 } from "../../libraries/explorer-wamp/stats";
@@ -9,7 +10,7 @@ export default () => {
   const [newAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
   useEffect(() => {
-    new StatsApi().newAccountsByDate().then((accounts) => {
+    new StatsApi().newAccountsCountAggregatedByDate().then((accounts) => {
       const newAccounts = accounts.map(
         (account: NewAccountsByDate) => account.accountsCount
       );

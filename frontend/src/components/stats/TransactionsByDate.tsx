@@ -9,7 +9,7 @@ export default () => {
   const [transactionsByDate, setTransactions] = useState(Array());
   const [date, setDate] = useState(Array());
   useEffect(() => {
-    new StatsApi().transactionsByDate().then((transactions) => {
+    new StatsApi().transactionsCountAggregatedByDate().then((transactions) => {
       const transactionByDate = transactions.map(
         (transaction: TransactionsByDate) => transaction.transactionsCount
       );
