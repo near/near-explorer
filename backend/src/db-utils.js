@@ -423,7 +423,7 @@ const queryActiveContractsCountAggregatedByDate = async () => {
     [
       `SELECT
         TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(distinct(receipts.receiver_account_id)) as active_contracts_count
+        COUNT(distinct receipts.receiver_account_id) as active_contracts_count
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
@@ -442,7 +442,7 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
     [
       `SELECT
         TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(distinct(receipts.receiver_account_id, receipts.predecessor_account_id)) as active_accounts_count
+        COUNT(distinct receipts.predecessor_account_id) as active_accounts_count
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
