@@ -239,11 +239,11 @@ wampHandlers["teragas-used-aggregated-by-date"] = async () => {
 };
 
 wampHandlers["new-accounts-count-aggregated-by-date"] = async () => {
-  return await stats.getNewAccountsByDate();
+  return await stats.getNewAccountsCountByDate();
 };
 
 wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
-  return await stats.getNewContractsByDate();
+  return await stats.getNewContractsCountByDate();
 };
 
 wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
@@ -252,6 +252,14 @@ wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
 
 wampHandlers["active-accounts-count-aggregated-by-date"] = async () => {
   return await stats.getActiveAccountsCountByDate();
+};
+
+wampHandlers["active-accounts-list"] = async () => {
+  return await stats.getActiveAccountsList();
+};
+
+wampHandlers["active-contracts-list"] = async () => {
+  return await stats.getActiveContractsList();
 };
 
 function setupWamp() {
