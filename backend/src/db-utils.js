@@ -421,16 +421,16 @@ const queryNewContractsCountAggregatedByDate = async () => {
 const queryActiveContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(distinct receipts.receiver_account_id) as active_contracts_count
+      `SELECT receiver_account_id,
+        count(receipts.receipt_id) AS receipts_count
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
       WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
-        AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      GROUP BY "date"
-      ORDER BY "date"`,
+      AND receipts.included_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 AS bigint) * 1000 * 1000 * 1000)
+      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) * 1000 * 1000 * 1000)
+      GROUP BY receiver_account_id
+      ORDER BY receipts_count DESC
+      LIMIT 10`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
@@ -439,14 +439,14 @@ const queryActiveContractsCountAggregatedByDate = async () => {
 const queryActiveAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(transactions.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(distinct transactions.signer_account_id) as active_accounts_count
+      `SELECT signer_account_id,
+        COUNT(*) AS transactions_count
       FROM transactions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
-      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      GROUP BY "date"
-      ORDER BY "date"`,
+      WHERE transactions.block_timestamp >= (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 AS bigint) * 1000 * 1000 * 1000)
+      AND transactions.block_timestamp < (cast(EXTRACT(EPOCH FROM NOW()) AS bigint) * 1000 * 1000 * 1000)
+      GROUP BY signer_account_id
+      ORDER BY transactions_count DESC
+      LIMIT 10`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
