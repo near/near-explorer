@@ -5,12 +5,11 @@ export default async function (req, res) {
     const activeContractsCountAggregatedByDate = await new StatsApi(
       req
     ).activeContractsCountAggregatedByDate();
-    res.send(
-      "Date,Number of active contracts by date\n" +
-        activeContractsCountAggregatedByDate
-          .map(({ date, contractsCount }) => `${date},${contractsCount}`)
-          .join("\n")
-    );
+    if (activeContractsCountAggregatedByDate) {
+      res.send(activeContractsCountAggregatedByDate);
+    } else {
+      res.send([]);
+    }
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

@@ -79,9 +79,9 @@ async function aggregateActiveContractsCountByDate() {
   try {
     const activeContractsCountByDate = await queryActiveContractsCountAggregatedByDate();
     ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
-      ({ date: dateString, active_contracts_count }) => ({
-        date: formatDate(new Date(dateString)),
-        contractsCount: active_contracts_count,
+      ({ receiver_account_id: contract, receipts_count: receiptsCount }) => ({
+        contract,
+        receiptsCount,
       })
     );
     console.log("ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
@@ -94,9 +94,12 @@ async function aggregateActiveAccountsCountByDate() {
   try {
     const activeAccountsCountByDate = await queryActiveAccountsCountAggregatedByDate();
     ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = activeAccountsCountByDate.map(
-      ({ date: dateString, active_accounts_count }) => ({
-        date: formatDate(new Date(dateString)),
-        accountsCount: active_accounts_count,
+      ({
+        signer_account_id: account,
+        transactions_count: transactionsCount,
+      }) => ({
+        account,
+        transactionsCount,
       })
     );
     console.log("ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE updated.");
