@@ -1,5 +1,7 @@
 import Head from "next/head";
 
+import NodeProvider from "../../context/NodeProvider";
+
 import Content from "../../components/utils/Content";
 
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
@@ -28,7 +30,9 @@ export default class extends React.Component {
           <ActiveAccountsList />
           <ActiveContractsByDate />
           <ActiveContractsList />
-          <StakingBar />
+          <NodeProvider>
+            <StakingBar />
+          </NodeProvider>
         </Content>
       </>
     );

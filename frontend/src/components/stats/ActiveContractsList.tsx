@@ -28,6 +28,12 @@ export default () => {
         text: "Top 10 of Active Contracts",
       },
       grid: { containLabel: true },
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow",
+        },
+      },
       xAxis: [
         {
           name: "Receipts",
