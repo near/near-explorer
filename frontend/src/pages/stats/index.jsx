@@ -10,6 +10,7 @@ import ActiveAccountsByDate from "../../components/stats/ActiveAccountsByDate";
 import ActiveContractsByDate from "../../components/stats/ActiveContractsByDate";
 import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
+import StakingBar from "../../components/stats/StakingBar";
 
 export default class extends React.Component {
   render() {
@@ -27,6 +28,7 @@ export default class extends React.Component {
           <ActiveAccountsList />
           <ActiveContractsByDate />
           <ActiveContractsList />
+          <StakingBar />
         </Content>
       </>
     );
