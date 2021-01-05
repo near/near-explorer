@@ -1,25 +1,23 @@
 import React, { useContext } from "react";
 import ReactEcharts from "echarts-for-react";
+import { utils } from "near-api-js";
+import BN from "bn.js";
 
 import { NodeContext } from "../../context/NodeProvider";
-import { formatNEAR } from "../utils/Balance";
-import BN from "bn.js";
 
 export default () => {
   const nodes = useContext(NodeContext);
   const validators = nodes.validators;
   const validatorsName = validators.map((v: any) => v.account_id);
   const validatorsStake = validators.map((v: any) => {
-    let stake = formatNEAR(v.stake);
-    stake = stake.slice(0, stake.length - 6);
-    stake = parseFloat(stake.replace(/,/g, ""));
-    return stake;
+    let stake = utils.format.formatNearAmount(v.stake, 0).toString();
+    return parseFloat(stake.replace(/,/g, ""));
   });
   let totalStakeBN = validators.reduce(
     (acc: BN, validator: any) => acc.add(new BN(validator.stake)),
     new BN(0)
   );
-  let totalStake = formatNEAR(totalStakeBN);
+  let totalStake = utils.format.formatNearAmount(totalStakeBN.toString(), 5);
   let height = 20 * validators.length;
   const getOption = () => {
     return {
