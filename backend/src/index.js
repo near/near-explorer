@@ -11,6 +11,7 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
+  regularStatsInterval,
 } = require("./config");
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
@@ -34,6 +35,16 @@ const {
   queryDashboardBlockInfo,
   queryDashboardTxInfo,
 } = require("./db-utils");
+const {
+  aggregateTeragasUsedByDate,
+  aggregateTransactionsCountByDate,
+  aggregateNewAccountsCountByDate,
+  aggregateNewContractsCountByDate,
+  aggregateActiveContractsCountByDate,
+  aggregateActiveAccountsCountByDate,
+  aggregateActiveAccountsList,
+  aggregateActiveContractsList,
+} = require("./stats");
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -188,6 +199,26 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
   setTimeout(regularCheckDataStats, 0);
 }
 
+function startStatsAggregation() {
+  const regularStatsAggregate = async () => {
+    console.log("Starting Regular Stats Aggregation...");
+    try {
+      await aggregateTransactionsCountByDate();
+      await aggregateTeragasUsedByDate();
+      await aggregateNewAccountsCountByDate();
+      await aggregateNewContractsCountByDate();
+      await aggregateActiveContractsCountByDate();
+      await aggregateActiveAccountsCountByDate();
+      await aggregateActiveAccountsList();
+      await aggregateActiveContractsList();
+    } catch (error) {
+      console.warn("Regular Stats Aggregation is crashed due to:", error);
+    }
+    setTimeout(regularStatsAggregate, regularStatsInterval);
+  };
+  setTimeout(regularStatsAggregate, 0);
+}
+
 async function main() {
   console.log("Starting Explorer backend...");
 
@@ -256,6 +287,7 @@ async function main() {
   }
   if (isIndexerBackendEnabled) {
     await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
+    await startStatsAggregation();
   }
 }
 

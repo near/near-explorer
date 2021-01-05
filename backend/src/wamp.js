@@ -2,6 +2,7 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
+const stats = require("./stats");
 
 const models = require("../models");
 
@@ -227,6 +228,38 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   accountDetails.totalBalance = totalBalance.toString();
 
   return accountDetails;
+};
+
+wampHandlers["transactions-count-aggregated-by-date"] = async () => {
+  return await stats.getTransactionsByDate();
+};
+
+wampHandlers["teragas-used-aggregated-by-date"] = async () => {
+  return await stats.getTeragasUsedByDate();
+};
+
+wampHandlers["new-accounts-count-aggregated-by-date"] = async () => {
+  return await stats.getNewAccountsCountByDate();
+};
+
+wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
+  return await stats.getNewContractsCountByDate();
+};
+
+wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
+  return await stats.getActiveContractsCountByDate();
+};
+
+wampHandlers["active-accounts-count-aggregated-by-date"] = async () => {
+  return await stats.getActiveAccountsCountByDate();
+};
+
+wampHandlers["active-accounts-list"] = async () => {
+  return await stats.getActiveAccountsList();
+};
+
+wampHandlers["active-contracts-list"] = async () => {
+  return await stats.getActiveContractsList();
 };
 
 function setupWamp() {
