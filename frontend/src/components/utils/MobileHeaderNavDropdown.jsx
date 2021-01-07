@@ -28,9 +28,15 @@ const MobileNavItem = ({ link, imgLink, text }) => {
           .header-nav-item {
             color: #a5a5a5;
             display: block;
-            padding: 14px 40px;
+            padding-top: 14px;
+            padding-left: 40px;
             width: 100%;
           }
+
+          .header-nav-item:last-child {
+            padding-bottom: 14px;
+          }
+
           .header-nav-item:focus,
           .header-nav-item:active {
             background: #000000;
@@ -144,6 +150,7 @@ export default class extends React.Component {
           .dropdown-content {
             position: fixed;
             width: 100%;
+            max-width: 100%;
             left: 0;
             top: 111px;
             z-index: 2;
@@ -153,7 +160,8 @@ export default class extends React.Component {
           }
 
           .mobile-nav {
-            padding: 14px 40px;
+            padding-top: 14px;
+            padding-left: 40px;
             color: #f8f8f8;
           }
         `}</style>

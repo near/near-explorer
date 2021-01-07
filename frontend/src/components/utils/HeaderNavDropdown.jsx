@@ -98,6 +98,14 @@ export default () => (
       .show > .dropdown-toggle > .dropdown-arrow {
         transform: rotate(180deg);
       }
+
+      .show > .btn-primary.dropdown-toggle:focus {
+        box-shadow: none;
+      }
+
+      .btn-primary:focus {
+        box-shadow: none;
+      }
     `}</style>
   </Dropdown>
 );

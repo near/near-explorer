@@ -1,6 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 import HeaderNetworkDropdown from "./HeaderNetworkDropdown";
 import HeaderNavDropdown from "./HeaderNavDropdown";
@@ -10,10 +11,15 @@ import NearLogo from "../../../public/static/images/near_logo.svg";
 
 export default () => {
   const router = useRouter();
+  const [isMobile, setMobile] = useState(false);
+  useEffect(() => {
+    setMobile(window.innerWidth < 760);
+  });
+  console.log(isMobile);
   return (
     <Container fluid className="header-container">
       <Row noGutters>
-        <Col className="align-self-center" md="2" xs="12">
+        <Col className="align-self-center" md="6" lg="2" xs="12">
           <Row>
             <Col xs="10" md="6" className="align-self-center">
               <Link href="/">
@@ -33,11 +39,15 @@ export default () => {
           </Row>
         </Col>
 
-        <Col className="align-self-center text-center" md="8" xs="12">
-          {router.pathname !== "/" && <Search />}
+        <Col className="align-self-center text-center" md="8" lg="8" xs="12">
+          {router.pathname !== "/" ? <Search /> : isMobile ? <Search /> : null}
         </Col>
 
-        <Col className="align-self-center text-right d-none d-md-block" md="2">
+        <Col
+          className="align-self-center text-right d-none d-md-block"
+          md="4"
+          lg="2"
+        >
           <Row>
             <Col md="4" className="align-self-center">
               <Link href="/">
@@ -70,7 +80,7 @@ export default () => {
           color: #000000;
         }
 
-        @media (max-width: 780px) {
+        @media (max-width: 991px) {
           .header-container {
             height: 111px;
           }

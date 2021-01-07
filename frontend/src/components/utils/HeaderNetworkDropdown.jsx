@@ -57,16 +57,29 @@ export default () => (
           .show > .btn-secondary.dropdown-toggle {
             background: #f7f7f7 !important;
             color: #000000 !important;
-            border-color: #f7f7f7 !important;
+            border: none;
+            box-shadow: none;
+            outline: none !important;
+          }
+
+          .show > .btn-secondary.dropdown-toggle:focus {
+            box-shadow: none;
+          }
+
+          .btn-secondary:focus {
+            box-shadow: none;
           }
 
           .header-network-dropdown-menu {
-            width: 154px;
             background: #ffffff;
             padding: 12px;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
             border-radius: 8px;
             border: none;
+          }
+
+          .dropdown-menu {
+            min-width: 154px;
           }
 
           .header-network-item-dropdown {

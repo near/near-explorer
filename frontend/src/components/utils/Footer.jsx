@@ -48,7 +48,7 @@ export default () => (
         font-size: 12px;
         line-height: 40px;
         color: #999999;
-        height: 100px;
+        height: 118px;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -126,12 +126,13 @@ export default () => (
         height: 92px;
       }
 
-      @media (max-width: 415px) {
+      @media (max-width: 780px) {
         .footer-container {
           flex-direction: column-reverse;
           width: 100%;
           padding: 0;
           height: 92px;
+          margin-top: 110px;
         }
 
         .nearlogo-wrapper {

@@ -56,7 +56,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSearch} className="search-box">
+      <form onSubmit={this.handleSearch} className="new-search-box">
         <Row noGutters>
           <InputGroup>
             {!this.props.dashboard && (
@@ -84,34 +84,35 @@ export default class extends React.Component {
           </InputGroup>
         </Row>
         <style jsx global>{`
-          .search-box {
+          .new-search-box {
             background: white;
-            width: ${this.props.dashboard ? "740px" : "500px"};
+            width: ${this.props.dashboard ? "740px" : "520px"};
             max-width: 100%;
             height: ${this.props.dashboard ? "49px" : "40px"};
             margin: auto;
           }
 
           @media (max-width: 1000px) {
-            .search-box {
+            .new-search-box {
               width: 100%;
             }
           }
 
-          .input-group-text {
+          .new-search-box .input-group-text {
             background: #fafafa;
             border: 2px solid #eaebeb;
             border-right: none;
             border-radius: 8px;
           }
 
-          .search-field {
+          .new-search-box .search-field {
             background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
             border: 2px solid #eaebeb;
+            border-radius: 0.25rem;
             border-left: ${this.props.dashboard ? "2px solid #eaebeb" : "none"};
           }
 
-          .button-search {
+          .new-search-box .button-search {
             background: #0072ce;
             border-color: #0072ce;
             border-radius: 0px 8px 8px 0px;

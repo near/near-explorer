@@ -239,7 +239,6 @@ export default class extends React.Component<State> {
             border-radius: 25px;
             outline: none;
             box-shadow: none !important;
-            border-color: rgb(199, 210, 221) !important;
           }
 
           .button-search {

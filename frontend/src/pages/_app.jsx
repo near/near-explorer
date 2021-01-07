@@ -126,7 +126,7 @@ export default class extends App {
 
           .app-wrapper {
             position: relative;
-            min-height: calc(100vh - 100px);
+            min-height: calc(100vh - 118px);
           }
         `}</style>
         {googleAnalytics ? (
