@@ -46,17 +46,6 @@ export default () => {
           data: activeContracts,
         },
       ],
-      visualMap: {
-        orient: "horizontal",
-        left: "center",
-        min: 500,
-        max: 22000,
-        text: ["High Amount", "Low Amount"],
-        dimension: 0,
-        inRange: {
-          color: ["#D7DA8B", "#E15457"],
-        },
-      },
       series: [
         {
           type: "bar",
