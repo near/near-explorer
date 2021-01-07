@@ -17,8 +17,8 @@ export default () => {
           (transaction: TransactionsByDate) => transaction.transactionsCount
         );
         setTransactions(transactionByDate);
-        const date = transactions.map(
-          (transaction: TransactionsByDate) => transaction.date
+        const date = transactions.map((transaction: TransactionsByDate) =>
+          transaction.date.slice(0, 10)
         );
         setDate(date);
       }
