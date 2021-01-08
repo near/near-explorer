@@ -15,8 +15,8 @@ export default () => {
           (contract: ContractsByDate) => contract.contractsCount
         );
         setContracts(newContracts);
-        const date = contracts.map(
-          (contract: ContractsByDate) => contract.date
+        const date = contracts.map((contract: ContractsByDate) =>
+          contract.date.slice(0, 10)
         );
         setDate(date);
       }

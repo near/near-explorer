@@ -14,7 +14,9 @@ export default () => {
         const newAccounts = accounts.map(
           (account: AccountsByDate) => account.accountsCount
         );
-        const date = accounts.map((account: AccountsByDate) => account.date);
+        const date = accounts.map((account: AccountsByDate) =>
+          account.date.slice(0, 10)
+        );
         setAccounts(newAccounts);
         setDate(date);
       }

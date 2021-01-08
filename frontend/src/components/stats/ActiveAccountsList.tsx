@@ -28,6 +28,12 @@ export default () => {
         text: "Top 10 of Active Accounts",
       },
       grid: { containLabel: true },
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow",
+        },
+      },
       xAxis: [
         {
           name: "Transactions",
@@ -40,17 +46,6 @@ export default () => {
           data: activeAccounts,
         },
       ],
-      visualMap: {
-        orient: "horizontal",
-        left: "center",
-        min: 500,
-        max: 60000,
-        text: ["High Amount", "Low Amount"],
-        dimension: 0,
-        inRange: {
-          color: ["#D7DA8B", "#E15457"],
-        },
-      },
       series: [
         {
           type: "bar",
