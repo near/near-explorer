@@ -9,7 +9,8 @@ export default () => {
   const nodes = useContext(NodeContext);
   const validators = nodes.validators;
   validators.sort((v1: any, v2: any) => {
-    return new BN(v1.stake).gt(new BN(v2.stake));
+    let diff = new BN(v1.stake).sub(new BN(v2.stake)).toString();
+    return Number(diff.slice(0, 5));
   });
   const validatorsName = validators.map((v: any) => v.account_id);
   const validatorsStake = validators.map((v: any) => {
