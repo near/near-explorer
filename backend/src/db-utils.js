@@ -1,4 +1,4 @@
-const { DS_INDEXER_BACKEND } = require("./consts");
+const { DS_INDEXER_BACKEND, PARTNER_LIST } = require("./consts");
 const models = require("../models");
 const BN = require("bn.js");
 
@@ -486,6 +486,47 @@ const queryActiveAccountsList = async () => {
   );
 };
 
+const queryParterAccountList = async () => {
+  return await queryRows(
+    [
+      `SELECT receiver_account_id,
+          COUNT(*) AS transactions_count
+        FROM transactions
+        WHERE receiver_account_id IN (:partner_list)
+        GROUP BY receiver_account_id 
+        ORDER BY transactions_count DESC
+      `,
+      { partner_list: PARTNER_LIST },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryFirstThreeMonthTransactions = async () => {
+  return await Promise.all(
+    PARTNER_LIST.forEach(
+      async (partner) =>
+        await querySingleRow(
+          [
+            `SELECT receiver_account_id, COUNT(*)
+        FROM transactions 
+        WHERE receiver_account_id = :partner
+        AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
+          SELECT (TO_TIMESTAMP(block_timestamp / 1000000000) + INTERVAL '3 month')
+            FROM transactions 
+            WHERE receiver_account_id = :partner
+            ORDER BY block_timestamp asc 
+            LIMIT 1)
+        GROUP BY receiver_account_id 
+      `,
+            { partner },
+          ],
+          { dataSource: DS_INDEXER_BACKEND }
+        )
+    )
+  );
+};
+
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
@@ -502,3 +543,5 @@ exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAgg
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryActiveAccountsList = queryActiveAccountsList;
+exports.queryParterAccountList = queryParterAccountList;
+exports.queryFirstThreeMonthTransactions = queryFirstThreeMonthTransactions;
