@@ -17,7 +17,9 @@ export default () => {
           (gas: TeragasUsedByDate) => gas.teragasUsed
         );
         setTeragasUsedByDate(gas);
-        const date = teragasUsed.map((gas: TeragasUsedByDate) => gas.date);
+        const date = teragasUsed.map((gas: TeragasUsedByDate) =>
+          gas.date.slice(0, 10)
+        );
         setDate(date);
       }
     });
