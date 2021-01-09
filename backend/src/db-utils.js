@@ -486,7 +486,7 @@ const queryActiveAccountsList = async () => {
   );
 };
 
-const queryParterAccountList = async () => {
+const queryParterTotalTransactions = async () => {
   return await queryRows(
     [
       `SELECT receiver_account_id,
@@ -502,13 +502,13 @@ const queryParterAccountList = async () => {
   );
 };
 
-const queryFirstThreeMonthTransactions = async () => {
+const queryPartnerFirstThreeMonthTransactions = async () => {
   return await Promise.all(
     PARTNER_LIST.forEach(
       async (partner) =>
         await querySingleRow(
           [
-            `SELECT receiver_account_id, COUNT(*)
+            `SELECT receiver_account_id, COUNT(*) AS transactions_count
         FROM transactions 
         WHERE receiver_account_id = :partner
         AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
@@ -543,5 +543,5 @@ exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAgg
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryActiveAccountsList = queryActiveAccountsList;
-exports.queryParterAccountList = queryParterAccountList;
-exports.queryFirstThreeMonthTransactions = queryFirstThreeMonthTransactions;
+exports.queryParterTotalTransactions = queryParterTotalTransactions;
+exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;

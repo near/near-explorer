@@ -44,6 +44,8 @@ const {
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsList,
   aggregateActiveContractsList,
+  aggregatePartnerTotalTransactionsCount,
+  aggregatePartnerFirst3MonthTransactionsCount,
 } = require("./stats");
 
 async function startLegacySync() {
@@ -211,6 +213,8 @@ function startStatsAggregation() {
       await aggregateActiveAccountsCountByDate();
       await aggregateActiveAccountsList();
       await aggregateActiveContractsList();
+      await aggregatePartnerTotalTransactionsCount();
+      await aggregatePartnerFirst3MonthTransactionsCount();
     } catch (error) {
       console.warn("Regular Stats Aggregation is crashed due to:", error);
     }
