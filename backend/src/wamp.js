@@ -117,7 +117,8 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     if (
       typeof error.message === "string" &&
       (error.message.includes("doesn't exist") ||
-        error.message.includes("does not exist"))
+        error.message.includes("does not exist") ||
+        error.message.includes("MethodNotFound"))
     ) {
       return null;
     }
@@ -125,7 +126,7 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   }
 
   let lockupAccountId;
-  if (accountId.endsWith(nearLockupAccountIdSuffix)) {
+  if (accountId.endsWith(`.${nearLockupAccountIdSuffix}`)) {
     lockupAccountId = accountId;
   } else {
     lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
