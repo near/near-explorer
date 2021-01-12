@@ -177,6 +177,7 @@ async function aggregatePartnerFirst3MonthTransactionsCount() {
       })
     );
     console.log("PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT updated");
+    return partnerFirst3MonthTransactionsCount;
   } catch (error) {
     console.log(error);
   }

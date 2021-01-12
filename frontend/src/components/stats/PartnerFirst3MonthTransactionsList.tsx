@@ -24,7 +24,7 @@ export default () => {
       });
   }, []);
 
-  let height = Math.max(20 * activeAccounts.length, 300);
+  let height = 30 * activeAccounts.length;
 
   const getOption = () => {
     return {

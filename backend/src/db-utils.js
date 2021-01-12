@@ -503,12 +503,11 @@ const queryParterTotalTransactions = async () => {
 };
 
 const queryPartnerFirstThreeMonthTransactions = async () => {
-  return await Promise.all(
-    PARTNER_LIST.forEach(
-      async (partner) =>
-        await querySingleRow(
-          [
-            `SELECT receiver_account_id, COUNT(*) AS transactions_count
+  let partnerList = Array(PARTNER_LIST.length);
+  for (let i = 0; i < PARTNER_LIST.length; i++) {
+    let result = await querySingleRow(
+      [
+        `SELECT receiver_account_id, COUNT(*) AS transactions_count
         FROM transactions 
         WHERE receiver_account_id = :partner
         AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
@@ -519,12 +518,13 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
             LIMIT 1)
         GROUP BY receiver_account_id 
       `,
-            { partner },
-          ],
-          { dataSource: DS_INDEXER_BACKEND }
-        )
-    )
-  );
+        { partner: PARTNER_LIST[i] },
+      ],
+      { dataSource: DS_INDEXER_BACKEND }
+    );
+    partnerList[i] = result;
+  }
+  return partnerList;
 };
 
 exports.queryOnlineNodes = queryOnlineNodes;
