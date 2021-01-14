@@ -44,7 +44,6 @@ export default () => (
     <style jsx global>{`
       .footer-container {
         background-color: #f8f8f8;
-        font-family: "Inter", sans-serif;
         font-size: 12px;
         line-height: 40px;
         color: #999999;
@@ -96,7 +95,6 @@ export default () => (
       }
 
       .need-help-contact {
-        font-family: "Inter", sans-serif;
         font-size: 18px;
         font-weight: 900;
         color: #999999;

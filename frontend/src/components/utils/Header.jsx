@@ -15,7 +15,6 @@ export default () => {
   useEffect(() => {
     setMobile(window.innerWidth < 760);
   });
-  console.log(isMobile);
   return (
     <Container fluid className="header-container">
       <Row noGutters>

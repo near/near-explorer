@@ -101,7 +101,6 @@ export default class extends App {
           }
 
           h1 {
-            font-family: "Inter", sans-serif;
             font-weight: 900;
             word-wrap: break-word;
             color: #24272a;

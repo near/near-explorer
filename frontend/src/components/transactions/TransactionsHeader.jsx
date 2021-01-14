@@ -10,7 +10,6 @@ export default (props) => (
     </Col>
     <style jsx global>{`
       .search-header-start {
-        font-family: "Inter", sans-serif;
         font-size: 12px;
         font-weight: 500;
         letter-spacing: 1.4px;
@@ -18,7 +17,6 @@ export default (props) => (
 
       .transactions-filter-by-type-text,
       .search-header-total {
-        font-family: "Inter", sans-serif;
         font-size: 12px;
         font-weight: 500;
         letter-spacing: 1.4px;

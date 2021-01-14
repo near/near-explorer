@@ -104,11 +104,6 @@ export default class extends React.Component<Props, State> {
               border-top: 0;
             }
 
-            .action-sparse-row,
-            .action-compact-row {
-              font-family: "Inter", sans-serif;
-            }
-
             .action-compact-row .action-row-message {
               margin-bottom: 1em;
             }
@@ -161,7 +156,6 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-title {
-              font-family: "Inter", sans-serif;
               font-size: 14px;
               font-weight: 500;
               color: #24272a;
@@ -176,7 +170,6 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-text {
-              font-family: "Inter", sans-serif;
               font-size: 12px;
               font-weight: 500;
               line-height: 1.5;
@@ -192,7 +185,6 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-txid {
-              font-family: "Inter", sans-serif;
               font-size: 14px;
               font-weight: 500;
               line-height: 1.29;
@@ -200,7 +192,6 @@ export default class extends React.Component<Props, State> {
             }
 
             .action-row-timer {
-              font-family: "Inter", sans-serif;
               font-size: 12px;
               color: #999999;
               font-weight: 100;

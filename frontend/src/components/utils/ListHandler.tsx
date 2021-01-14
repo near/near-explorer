@@ -201,7 +201,6 @@ export default (
               display: block;
               text-align: center;
               text-decoration: none;
-              font-family: "Inter", sans-serif;
               font-size: 14px;
               color: #0072ce;
               font-weight: bold;

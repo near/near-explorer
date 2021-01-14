@@ -122,36 +122,36 @@ class NodesMap extends React.Component<State> {
   renderBubbleTooltip = (data: IBubble) => {
     // Prettier ruined the entire indentation that i made for this
     return `<div className="hoverinfo" style="border: none; text-align: left; padding: 20px 0px 0px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.16); border-radius: 8px; color: white; background-color: #343A40; max-width: 300px">
-        <div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: "Inter", sans-serif; padding:0 20px 8px"> @${
+        <div style="color: #8DD4BD; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; padding:0 20px 8px"> @${
           data.nodeInfo.accountId
         }</div>
         <div style="display: flex; flex-direction: row; width: 100%; flex-wrap: nowrap; padding: 0 20px 16px">
-          <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: "Inter", sans-serif; white-space: nowrap">${
+          <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; white-space: nowrap">${
             data.nodeInfo.agentName
           } | ver.${data.nodeInfo.agentVersion} build ${
       data.nodeInfo.agentBuild
     }</div>
-          <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: "Inter", sans-serif; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">${
+          <div style="color: #ffffff; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; opacity: 0.6; text-overflow: ellipsis; padding-left: 4px; overflow: hidden;">${
             data.nodeId.split(":")[1]
           }</div>
         </div>
         <div style="background-color: rgba(0, 0, 0, 0.2); display: flex; flex-direction: row; justify-content: space-between; padding: 16px 20px; border-radius: 0 0 8px 8px">
           <div>
-            <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: "Inter", sans-serif; padding: 0 0 6px">Block#</div>
-            <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: "Inter", sans-serif;">${
+            <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold;  padding: 0 0 6px">Block#</div>
+            <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; ">${
               data.nodeInfo.lastHeight
             }</div>
           </div>
           <div>
-            <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: "Inter", sans-serif; padding: 0 0 6px">Last seen</div>
-            <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: "Inter", sans-serif;">${moment
+            <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold;  padding: 0 0 6px">Last seen</div>
+            <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; ">${moment
               .duration(moment().diff(moment(data.nodeInfo.lastSeen)))
               .as("seconds")
               .toFixed()}s ago</div>
           </div>
           <div>
-            <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold; font-family: "Inter", sans-serif; padding: 0 0 6px">Location</div>
-            <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; font-family: "Inter", sans-serif;">${
+            <div style="color: #ffffff; opacity: 0.4; font-size: 10px; line-height: 10px; letter-spacing: 0.2px; font-weight: bold;  padding: 0 0 6px">Location</div>
+            <div style="color: #ffffff; font-size: 14px; line-height: 14px; letter-spacing: 0.4px; font-weight: bold; ">${
               data.nodeInfo.city
             }</div>
           </div>
@@ -507,14 +507,12 @@ class NodesMap extends React.Component<State> {
             }
             .optionText {
               padding: 2px 0 0;
-              font-family: "Inter", sans-serif;
               font-size: 12px;
               line-height: 12px;
               font-weight: 700;
             }
             .counter {
               padding: 2px 0 0 4px;
-              font-family: "Inter", sans-serif;
               font-size: 12px;
               line-height: 12px;
               font-weight: 700;
@@ -537,7 +535,6 @@ class NodesMap extends React.Component<State> {
               cursor: pointer;
             }
             .clusterNodeText {
-              font-family: "Inter", sans-serif;
               font-size: 8px;
               line-height: 12px;
               font-weight: 700;

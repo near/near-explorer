@@ -85,28 +85,24 @@ export default class extends React.Component<Props> {
           }
 
           .receipt-row-title {
-            font-family: "Inter", sans-serif;
             font-size: 14px;
             line-height: 1.29;
             color: #24272a;
           }
 
           .receipt-row-text {
-            font-family: "Inter", sans-serif;
             font-size: 12px;
             line-height: 1.5;
             color: #999999;
           }
 
           .receipt-row-receipt-hash {
-            font-family: "Inter", sans-serif;
             font-size: 14px;
             font-weight: 500;
             line-height: 1.29;
           }
 
           .receipt-row-status {
-            font-family: "Inter", sans-serif;
             font-size: 12px;
             color: #999999;
             font-weight: 500;
