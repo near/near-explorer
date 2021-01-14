@@ -1,12 +1,8 @@
 import Link from "next/link";
-import Router from "next/router";
 
 import React from "react";
-import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
-import AccountsApi from "../../libraries/explorer-wamp/accounts";
-import BlocksApi from "../../libraries/explorer-wamp/blocks";
-import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
 
