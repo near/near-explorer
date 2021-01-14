@@ -56,8 +56,8 @@ export default class extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSearch} className="new-search-box">
-        <Row noGutters>
+      <form onSubmit={this.handleSearch} className="search-box">
+        <Row noGutters className="search-box">
           <InputGroup>
             {!this.props.dashboard && (
               <InputGroup.Prepend>
@@ -84,39 +84,56 @@ export default class extends React.Component {
           </InputGroup>
         </Row>
         <style jsx global>{`
-          .new-search-box {
+          .search-box {
             background: white;
-            width: ${this.props.dashboard ? "740px" : "520px"};
+            width: ${this.props.dashboard ? "740px" : "520px"} !important;
             max-width: 100%;
-            height: ${this.props.dashboard ? "49px" : "40px"};
+            height: ${this.props.dashboard ? "49px" : "40px"} !important;
             margin: auto;
           }
 
           @media (max-width: 1000px) {
-            .new-search-box {
+            .search-box {
               width: 100%;
             }
           }
 
-          .new-search-box .input-group-text {
+          .input-group-text {
             background: #fafafa;
             border: 2px solid #eaebeb;
             border-right: none;
             border-radius: 8px;
+            height: 100%;
           }
 
-          .new-search-box .search-field {
+          .search-field {
             background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
             border: 2px solid #eaebeb;
             border-radius: 0.25rem;
             border-left: ${this.props.dashboard ? "2px solid #eaebeb" : "none"};
           }
 
-          .new-search-box .button-search {
+          .search-field:hover {
+            background: #f8f9fb;
+            border: 2px solid #cdcfd1;
+          }
+
+          .search-field:disabled,
+          .search-field[disabled] {
+            background: #eaebeb;
+            border: 1px solid #eaebeb;
+          }
+
+          .button-search {
             background: #0072ce;
             border-color: #0072ce;
             border-radius: 0px 8px 8px 0px;
             padding: 10px 30px;
+            height: 100%;
+          }
+
+          .form-control {
+            height: 100% !important;
           }
         `}</style>
       </form>

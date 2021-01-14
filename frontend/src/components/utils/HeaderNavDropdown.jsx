@@ -1,9 +1,14 @@
 import { Dropdown } from "react-bootstrap";
 
+import IconAccounts from "../../../public/static/images/icon-accounts.svg";
+import IconBlocks from "../../../public/static/images/icon-blocks.svg";
+import IconTransactions from "../../../public/static/images/icon-transactions.svg";
+import IconNodes from "../../../public/static/images/icon-nodes.svg";
+
 const HeaderNavItem = ({ link, imgLink, text }) => {
   return (
     <Dropdown.Item className="header-nav-item" href={link}>
-      <img src={imgLink} className="header-icon" />
+      {imgLink}
       <span className="nav-text">{text}</span>
       <style jsx global>{`
         .header-nav-link,
@@ -16,6 +21,10 @@ const HeaderNavItem = ({ link, imgLink, text }) => {
           margin-right: 3px;
         }
 
+        .header-nav-link:hover .header-icon {
+          stroke: #00c1de;
+        }
+
         .nav-text {
           letter-spacing: 2px;
           text-decoration: none;
@@ -23,9 +32,13 @@ const HeaderNavItem = ({ link, imgLink, text }) => {
           font-weight: 500;
           margin-left: 10px;
         }
+
         .header-nav-item {
           color: #a5a5a5;
+          padding-top: 10px;
+          padding-bottom: 15px;
         }
+
         .header-nav-item:hover {
           background: #000000;
           color: white;
@@ -44,22 +57,22 @@ export default () => (
     <Dropdown.Menu className="header-dropdown-menu">
       <HeaderNavItem
         link="/accounts"
-        imgLink="/static/images/icon-accounts.svg"
+        imgLink={<IconAccounts className="header-icon" />}
         text="Accounts"
       />
       <HeaderNavItem
         link="/blocks"
-        imgLink="/static/images/icon-blocks.svg"
+        imgLink={<IconBlocks className="header-icon" />}
         text="Blocks"
       />
       <HeaderNavItem
         link="/transactions"
-        imgLink="/static/images/icon-transactions.svg"
+        imgLink={<IconTransactions className="header-icon" />}
         text="Transactions"
       />
       <HeaderNavItem
         link="/nodes/validators"
-        imgLink="/static/images/icon-nodes.svg"
+        imgLink={<IconNodes className="header-icon" />}
         text="Nodes"
       />
     </Dropdown.Menu>
@@ -89,6 +102,7 @@ export default () => (
       .header-dropdown-menu {
         background: #25272a;
         border-radius: 8px;
+        width: 267px;
       }
 
       .dropdown-arrow {

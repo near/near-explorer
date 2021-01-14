@@ -12,62 +12,9 @@ import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
 
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
+import Search from "../utils/Search";
 
-interface State {
-  searchValue: string;
-}
-
-export default class extends React.Component<State> {
-  state: State = {
-    searchValue: "",
-  };
-
-  handleSearch = async (event: any) => {
-    event.preventDefault();
-
-    const { searchValue } = this.state;
-    const cleanedSearchValue = searchValue.replace(/\s/g, "");
-
-    let blockPromise;
-    const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
-    if (maybeBlockHeight.match(/^\d{1,20}$/)) {
-      const blockHeight = parseInt(maybeBlockHeight);
-      blockPromise = new BlocksApi().getBlockInfo(blockHeight).catch(() => {});
-    } else {
-      blockPromise = new BlocksApi()
-        .getBlockInfo(cleanedSearchValue)
-        .catch(() => {});
-    }
-
-    const transactionPromise = new TransactionsApi()
-      .getTransactionInfo(cleanedSearchValue)
-      .catch(() => {});
-    const accountPromise = new AccountsApi()
-      .queryAccount(cleanedSearchValue)
-      .catch(() => {});
-
-    const block = await blockPromise;
-    if (block) {
-      return Router.push("/blocks/" + block.hash);
-    }
-    const transaction = await transactionPromise;
-    if (transaction && transaction.signerId) {
-      return Router.push("/transactions/" + searchValue);
-    }
-    if (await accountPromise) {
-      return Router.push("/accounts/" + searchValue);
-    }
-
-    alert("Result not found!");
-  };
-
-  handleSearchValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event) {
-      const value = event.target !== null ? event.target.value : "";
-      this.setState({ searchValue: value });
-    }
-  };
-
+export default class extends React.Component {
   render() {
     return (
       <div className="dashboard-info-container">
@@ -188,34 +135,9 @@ export default class extends React.Component<State> {
             </Row>
           )}
         </DatabaseConsumer>
-        <form onSubmit={this.handleSearch}>
-          <Row className="search-box" noGutters>
-            <Col className="p-3" xs="12" md="10">
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="search">
-                    <img
-                      src="/static/images/icon-search.svg"
-                      className="search-icon"
-                    />
-                  </InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl
-                  placeholder="Search by Account ID, Transaction hash, Block hash or Block Height"
-                  aria-label="Search"
-                  aria-describedby="search"
-                  onChange={this.handleSearchValueChange}
-                  className="border-left-0 search-field pl-0"
-                />
-              </InputGroup>
-            </Col>
-            <Col className="p-3 d-flex flex-column" xs="12" md="2">
-              <Button type="submit" variant="info" className="button-search">
-                Search
-              </Button>
-            </Col>
-          </Row>
-        </form>
+        <Row className="p-3 search-bar" noGutters>
+          <Search dashboard />
+        </Row>
         <style jsx global>{`
           .dashboard-info-container {
             border: solid 4px #e6e6e6;
@@ -226,36 +148,14 @@ export default class extends React.Component<State> {
             font-size: 24px;
           }
 
-          .search-box {
-            border-top: 2px solid #e6e6e6;
-            background: #f8f8f8;
-          }
-
-          .search-box-filter-button {
-            border-radius: 25px;
-            padding-left: 20px;
-            padding-right: 20px;
-          }
-
-          .search-box .input-group-text {
-            background: white;
-            border-right: 0;
-            border-radius: 25px 0 0 25px;
-          }
-
-          .search-field {
-            border-radius: 25px;
-            outline: none;
-            box-shadow: none !important;
-          }
-
-          .button-search {
-            border-radius: 25px;
-          }
-
           .dashboard-link {
             text-decoration: none;
             color: #0072ce !important;
+          }
+
+          .search-bar {
+            background: #f8f8f8;
+            border-top: 2px solid #e6e6e6;
           }
         `}</style>
       </div>
