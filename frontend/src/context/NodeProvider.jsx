@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
-const equal = require("fast-deep-equal");
 
 const NodeContext = createContext({
   validators: [],
@@ -39,7 +38,6 @@ export default (props) => {
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
-
   return (
     <NodeContext.Provider
       value={{ validators, onlineNodes, proposals, onlineValidatingNodes }}

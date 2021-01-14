@@ -88,7 +88,6 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         );
       }
     }
-
     return (
       <>
         {`Called method: '${actionArgs.method_name}' in contract: `}
@@ -122,25 +121,36 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   AddKey: ({ transaction: { receiverId }, actionArgs }: Props<T.AddKey>) => (
     <>
       {typeof actionArgs.access_key.permission === "object" ? (
-        <>
-          {"Access key added for contract "}
-          <AccountLink
-            accountId={
-              actionArgs.access_key.permission.FunctionCall.receiver_id
-            }
-          />
-          {`: ${actionArgs.public_key.substring(0, 15)}...`}
-          <p>
-            {`with permission to call ${
-              actionArgs.access_key.permission.FunctionCall.method_names
-                .length > 0
-                ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
-                    ", "
-                  )})`
-                : "any"
-            } methods and nonce ${actionArgs.access_key.nonce}`}
-          </p>
-        </>
+        actionArgs.access_key.permission.permission_kind ? (
+          <>
+            {"New key added for "}
+            <AccountLink accountId={receiverId} />
+            {`: ${actionArgs.public_key.substring(0, 15)}...`}
+            <p>
+              {`with permission ${actionArgs.access_key.permission.permission_kind} and nonce ${actionArgs.access_key.nonce}`}
+            </p>
+          </>
+        ) : (
+          <>
+            {"Access key added for contract "}
+            <AccountLink
+              accountId={
+                actionArgs.access_key.permission.FunctionCall.receiver_id
+              }
+            />
+            {`: ${actionArgs.public_key.substring(0, 15)}...`}
+            <p>
+              {`with permission to call ${
+                actionArgs.access_key.permission.FunctionCall.method_names
+                  .length > 0
+                  ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
+                      ", "
+                    )})`
+                  : "any"
+              } methods and nonce ${actionArgs.access_key.nonce}`}
+            </p>
+          </>
+        )
       ) : (
         <>
           {"New key added for "}

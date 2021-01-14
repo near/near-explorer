@@ -1,5 +1,4 @@
 import BN from "bn.js";
-import moment from "moment";
 import Link from "next/link";
 
 import React from "react";
@@ -12,7 +11,6 @@ import Balance from "../utils/Balance";
 
 export interface Props {
   accountId: string;
-  createdAt?: number;
 }
 
 export interface State {
@@ -34,7 +32,7 @@ export default class extends React.Component<Props, State> {
   }
 
   render() {
-    const { accountId, createdAt } = this.props;
+    const { accountId } = this.props;
     const { totalBalance } = this.state;
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
@@ -46,28 +44,19 @@ export default class extends React.Component<Props, State> {
                 style={{ width: "15px" }}
               />
             </Col>
-            <Col md="7" xs="6">
-              <Row>
-                <Col className="transaction-row-title">
-                  {truncateAccountId(accountId)}
-                </Col>
-              </Row>
+            <Col md="7" xs="6" className="transaction-row-title pt-1">
+              {truncateAccountId(accountId)}
             </Col>
-            <Col md="3" xs="4" className="ml-auto text-right">
-              <Row>
-                <Col className="transaction-row-txid">
-                  {typeof totalBalance !== "undefined" ? (
-                    <Balance amount={totalBalance.toString()} />
-                  ) : (
-                    ""
-                  )}
-                </Col>
-              </Row>
-              <Row>
-                <Col className="transaction-row-timer">
-                  {createdAt && `Created at ${moment(createdAt).format("LLL")}`}
-                </Col>
-              </Row>
+            <Col
+              md="3"
+              xs="4"
+              className="ml-auto pt-1 text-right transaction-row-txid"
+            >
+              {typeof totalBalance !== "undefined" ? (
+                <Balance amount={totalBalance.toString()} />
+              ) : (
+                ""
+              )}
             </Col>
             <style jsx global>{`
               .transaction-row {
