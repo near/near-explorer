@@ -78,9 +78,11 @@ export default () => {
           padding: 6px;
         }
 
-        .header-home {
+        .header-home,
+        .header-home:hover {
           font-weight: 500;
           color: #000000;
+          text-decoration: none;
         }
 
         @media (max-width: 991px) {

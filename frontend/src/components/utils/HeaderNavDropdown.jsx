@@ -1,4 +1,5 @@
 import { Dropdown } from "react-bootstrap";
+import Link from "next/link";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
@@ -7,44 +8,52 @@ import IconNodes from "../../../public/static/images/icon-nodes.svg";
 
 const HeaderNavItem = ({ link, imgLink, text }) => {
   return (
-    <Dropdown.Item className="header-nav-item" href={link}>
-      {imgLink}
-      <span className="nav-text">{text}</span>
-      <style jsx global>{`
-        .header-nav-link,
-        .header-nav-link:hover {
-          text-decoration: none;
-        }
+    <Link className="header-nav-item" href={link}>
+      <a className="header-nav-item">
+        {imgLink}
+        <span className="nav-text">{text}</span>
+        <style jsx global>{`
+          .header-nav-link,
+          .header-nav-link:hover {
+            text-decoration: none;
+          }
 
-        .header-icon {
-          width: 16px !important;
-          margin-right: 3px;
-        }
+          .header-icon {
+            width: 16px !important;
+            margin-right: 3px;
+          }
 
-        .header-nav-link:hover .header-icon {
-          stroke: #00c1de;
-        }
+          .header-nav-link:hover .header-icon {
+            stroke: #00c1de;
+          }
 
-        .nav-text {
-          letter-spacing: 2px;
-          text-decoration: none;
-          font-size: 14px;
-          font-weight: 500;
-          margin-left: 10px;
-        }
+          .nav-text {
+            letter-spacing: 2px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 10px;
+          }
 
-        .header-nav-item {
-          color: #a5a5a5;
-          padding-top: 10px;
-          padding-bottom: 15px;
-        }
+          .header-nav-item {
+            display: block;
+            color: #a5a5a5;
+            padding-top: 10px;
+            padding-bottom: 15px;
+            padding-left: 18px;
+            text-decoration: none;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+          }
 
-        .header-nav-item:hover {
-          background: #000000;
-          color: white;
-        }
-      `}</style>
-    </Dropdown.Item>
+          .header-nav-item:hover {
+            background: #000000;
+            color: white;
+          }
+        `}</style>
+      </a>
+    </Link>
   );
 };
 

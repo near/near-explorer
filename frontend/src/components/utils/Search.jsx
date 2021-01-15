@@ -106,6 +106,13 @@ export default class extends React.Component {
             height: 100%;
           }
 
+          .input-group:hover,
+          .input-group:active,
+          .input-group:focus {
+            box-shadow: 0px 0px 0px 4px #c2e4ff;
+            border-radius: 8px;
+          }
+
           .search-field {
             background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
             border: 2px solid #eaebeb;
@@ -130,6 +137,12 @@ export default class extends React.Component {
             border-radius: 0px 8px 8px 0px;
             padding: 10px 30px;
             height: 100%;
+          }
+
+          .button-search:hover {
+            background: #2b9af4;
+            border: 2px solid #0072ce;
+            box-shadow: 0px 0px 0px 4px #c2e4ff;
           }
 
           .form-control {
