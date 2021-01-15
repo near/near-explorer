@@ -19,10 +19,13 @@ export class ExplorerApi {
 
   static wamp: autobahn.Connection;
 
+  dataSource: string;
   nearNetwork: NearNetwork;
 
   constructor(apiPrefixSource?: any) {
     const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
+
+    this.dataSource = publicRuntimeConfig.nearExplorerDataSource;
 
     if (ExplorerApi.wamp === undefined) {
       let wampNearExplorerUrl: string;

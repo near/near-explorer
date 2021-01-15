@@ -115,7 +115,10 @@ export default (
         case "Account":
           paginationIndexer = {
             endTimestamp: this.state.items[this.state.items.length - 1]
-              .createdAtBlockTimestamp,
+              .createdAtBlockTimestamp
+              ? this.state.items[this.state.items.length - 1]
+                  .createdAtBlockTimestamp
+              : undefined,
             accountIndex: this.state.items[this.state.items.length - 1]
               .accountIndex,
           };

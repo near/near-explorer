@@ -28,39 +28,14 @@ exports[`<AccountRow /> renders with long name 1`] = `
       />
     </div>
     <div
-      className="col-md-7 col-6"
+      className="transaction-row-title pt-1 col-md-7 col-6"
     >
-      <div
-        className="row"
-      >
-        <div
-          className="transaction-row-title col"
-        >
-          b7df2…2d4.lockup.near
-        </div>
-      </div>
+      b7df2…2d4.lockup.near
     </div>
     <div
-      className="ml-auto text-right col-md-3 col-4"
+      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-4"
     >
-      <div
-        className="row"
-      >
-        <div
-          className="transaction-row-txid col"
-        >
-          
-        </div>
-      </div>
-      <div
-        className="row"
-      >
-        <div
-          className="transaction-row-timer col"
-        >
-          Created at February 1, 2019 12:00 AM
-        </div>
-      </div>
+      
     </div>
   </div>
 </a>
@@ -94,39 +69,14 @@ exports[`<AccountRow /> renders with short name 1`] = `
       />
     </div>
     <div
-      className="col-md-7 col-6"
+      className="transaction-row-title pt-1 col-md-7 col-6"
     >
-      <div
-        className="row"
-      >
-        <div
-          className="transaction-row-title col"
-        >
-          account
-        </div>
-      </div>
+      account
     </div>
     <div
-      className="ml-auto text-right col-md-3 col-4"
+      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-4"
     >
-      <div
-        className="row"
-      >
-        <div
-          className="transaction-row-txid col"
-        >
-          
-        </div>
-      </div>
-      <div
-        className="row"
-      >
-        <div
-          className="transaction-row-timer col"
-        >
-          Created at February 1, 2019 12:00 AM
-        </div>
-      </div>
+      
     </div>
   </div>
 </a>

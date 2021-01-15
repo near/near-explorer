@@ -2,6 +2,7 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
+const stats = require("./stats");
 
 const models = require("../models");
 
@@ -116,7 +117,8 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     if (
       typeof error.message === "string" &&
       (error.message.includes("doesn't exist") ||
-        error.message.includes("does not exist"))
+        error.message.includes("does not exist") ||
+        error.message.includes("MethodNotFound"))
     ) {
       return null;
     }
@@ -124,7 +126,7 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   }
 
   let lockupAccountId;
-  if (accountId.endsWith(nearLockupAccountIdSuffix)) {
+  if (accountId.endsWith(`.${nearLockupAccountIdSuffix}`)) {
     lockupAccountId = accountId;
   } else {
     lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
@@ -137,11 +139,13 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     lockupStakingPoolAccountId,
     genesisConfig,
   ] = await Promise.all([
-    nearRpc.sendJsonRpc("query", {
-      request_type: "view_account",
-      finality: "final",
-      account_id: accountId,
-    }),
+    nearRpc
+      .sendJsonRpc("query", {
+        request_type: "view_account",
+        finality: "final",
+        account_id: accountId,
+      })
+      .catch(ignore_if_does_not_exist),
     accountId !== lockupAccountId
       ? nearRpc
           .sendJsonRpc("query", {
@@ -160,6 +164,10 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
       .catch(ignore_if_does_not_exist),
     nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
   ]);
+
+  if (accountInfo === null) {
+    return null;
+  }
 
   const storageUsage = new BN(accountInfo.storage_usage);
   const storageAmountPerByte = new BN(
@@ -221,6 +229,38 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   accountDetails.totalBalance = totalBalance.toString();
 
   return accountDetails;
+};
+
+wampHandlers["transactions-count-aggregated-by-date"] = async () => {
+  return await stats.getTransactionsByDate();
+};
+
+wampHandlers["teragas-used-aggregated-by-date"] = async () => {
+  return await stats.getTeragasUsedByDate();
+};
+
+wampHandlers["new-accounts-count-aggregated-by-date"] = async () => {
+  return await stats.getNewAccountsCountByDate();
+};
+
+wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
+  return await stats.getNewContractsCountByDate();
+};
+
+wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
+  return await stats.getActiveContractsCountByDate();
+};
+
+wampHandlers["active-accounts-count-aggregated-by-date"] = async () => {
+  return await stats.getActiveAccountsCountByDate();
+};
+
+wampHandlers["active-accounts-list"] = async () => {
+  return await stats.getActiveAccountsList();
+};
+
+wampHandlers["active-contracts-list"] = async () => {
+  return await stats.getActiveContractsList();
 };
 
 function setupWamp() {
