@@ -9,7 +9,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="jsx-3403250695 action-row-img"
+        className="jsx-1246332424 action-row-img"
       >
         <svg
           viewBox="0 0 18 18"
@@ -92,7 +92,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-3403250695 action-row-timer-status"
+                className="jsx-1246332424 action-row-timer-status"
               >
                 Fetching Status...
                 /Checking Finality...
@@ -114,7 +114,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="jsx-3403250695 action-row-img"
+        className="jsx-1246332424 action-row-img"
       >
         <svg
           viewBox="0 0 18 18"
@@ -201,7 +201,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-3403250695 action-row-timer-status"
+                className="jsx-1246332424 action-row-timer-status"
               >
                 Fetching Status...
                 /Checking Finality...
@@ -227,7 +227,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
     className="col-auto"
   >
     <div
-      className="jsx-3403250695 action-row-img"
+      className="jsx-1246332424 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -349,7 +349,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-3403250695 action-row-timer-status"
+              className="jsx-1246332424 action-row-timer-status"
             >
               Fetching Status...
               /Checking Finality...
@@ -375,7 +375,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="jsx-3403250695 action-row-img"
+        className="jsx-1246332424 action-row-img"
       >
         <svg
           viewBox="0 0 18 18"
@@ -458,7 +458,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-3403250695 action-row-timer-status"
+                className="jsx-1246332424 action-row-timer-status"
               >
                 Fetching Status...
                 /Checking Finality...
@@ -480,7 +480,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="jsx-3403250695 action-row-img"
+        className="jsx-1246332424 action-row-img"
       >
         <svg
           viewBox="0 0 18 18"
@@ -567,7 +567,7 @@ Array [
               className="action-row-timer col"
             >
               <span
-                className="jsx-3403250695 action-row-timer-status"
+                className="jsx-1246332424 action-row-timer-status"
               >
                 Fetching Status...
                 /Checking Finality...

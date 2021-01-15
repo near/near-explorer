@@ -5,7 +5,7 @@ exports[`<BlockDetails /> renders 1`] = `
   className="col-xl-6 col-12"
 >
   <a
-    className="jsx-2475050439 dashboard-blocks-block-link"
+    className="jsx-3425221581 dashboard-blocks-block-link"
     href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
     onClick={[Function]}
     onMouseEnter={[Function]}
@@ -28,7 +28,7 @@ exports[`<BlockDetails /> renders 1`] = `
         className="dashboard-blocks-block-content card-body"
       >
         <div
-          className="jsx-2475050439"
+          className="jsx-3425221581"
           style={
             Object {
               "height": "22px",
@@ -42,7 +42,7 @@ exports[`<BlockDetails /> renders 1`] = `
           className="dashboard-blocks-block-footer non-finality-back row no-gutters"
         >
           <span
-            className="jsx-2475050439 non-finality-color dashboard-blocks-block-content-p-footer "
+            className="jsx-3425221581 non-finality-color dashboard-blocks-block-content-p-footer "
           >
             Finalizing...
           </span>

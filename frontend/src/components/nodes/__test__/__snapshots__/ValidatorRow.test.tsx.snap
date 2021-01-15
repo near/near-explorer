@@ -8,7 +8,7 @@ exports[`<ValidatorRow /> renders 1`] = `
     className="pr-0 col-md-auto col-1"
   >
     <img
-      className="jsx-1925050955"
+      className="jsx-293657839"
       onBlur={[Function]}
       onFocus={[Function]}
       onMouseOut={[Function]}
@@ -34,7 +34,7 @@ exports[`<ValidatorRow /> renders 1`] = `
         dokiacapital.pool.6fb1358
            
         <span
-          className="jsx-1925050955"
+          className="jsx-293657839"
         >
           Staking 
           <span
@@ -48,7 +48,7 @@ exports[`<ValidatorRow /> renders 1`] = `
           </span>
         </span>
         <span
-          className="jsx-1925050955 node-status"
+          className="jsx-293657839 node-status"
         >
            
         </span>
@@ -67,7 +67,7 @@ exports[`<ValidatorRow /> renders 1`] = `
             className="col-md-5"
           >
             <img
-              className="jsx-1925050955"
+              className="jsx-293657839"
               src="/static/images/icon-m-size.svg"
               style={
                 Object {
@@ -80,7 +80,7 @@ exports[`<ValidatorRow /> renders 1`] = `
             className="col"
           >
             <img
-              className="jsx-1925050955"
+              className="jsx-293657839"
               src="/static/images/icon-storage.svg"
               style={
                 Object {
