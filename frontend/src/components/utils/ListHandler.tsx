@@ -155,16 +155,11 @@ export default (
                     this.regularFetchInfo();
                   }}
                 >
-                  <Update
-                    count={
-                      config.category === "Block"
-                        ? context.lastBlockHeight
-                        : config.category === "Transaction"
-                        ? context.totalTransactions
-                        : 0
-                    }
-                    category={config.category}
-                  />
+                  {config.category === "Block" ? (
+                    <Update>{`The latest block height is #${context.lastBlockHeight}.`}</Update>
+                  ) : config.category === "Transaction" ? (
+                    <Update>{`There are ${context.totalTransactions} transactions.`}</Update>
+                  ) : null}
                 </div>
               )}
             </DatabaseConsumer>
