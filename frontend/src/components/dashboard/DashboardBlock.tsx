@@ -63,7 +63,8 @@ export default () => (
 
           @media (max-width: 415px) {
             .block-view-all {
-              margin-left: 202px;
+              margin-left: 256px;
+              margin-top: -25px;
             }
           }
         `}</style>

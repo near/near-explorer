@@ -99,6 +99,13 @@ export default () => {
                 height: 40px;
               }
 
+              @media (max-width: 768px) {
+                .transaction-view-all {
+                  margin-top: -24px;
+                  margin-left: 600px;
+                }
+              }
+
               @media (max-width: 415px) {
                 .transaction-card {
                   width: 100%;
@@ -106,7 +113,7 @@ export default () => {
                 }
 
                 .transaction-view-all {
-                  margin-left: 151px;
+                  margin-left: 256px;
                 }
 
                 .transaction-card-number {
