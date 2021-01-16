@@ -3,6 +3,8 @@ import { Row, Col } from "react-bootstrap";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
 
+import { displayArgs } from "./ActionMessage";
+
 export interface Props {
   receipt: T.ReceiptOutcome;
 }
@@ -22,7 +24,7 @@ export default class extends React.Component<Props> {
         statusInfo = (
           <>
             <i>Result: </i>
-            <pre>{SuccessValue}</pre>
+            {displayArgs(SuccessValue)}
           </>
         );
       }
