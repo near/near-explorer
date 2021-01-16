@@ -41,7 +41,7 @@ const COLLAPSE_ARGS_OPTIONS = {
   maxHeight: 600,
 };
 
-export const displayArgs = args => {
+export const displayArgs = (args: string) => {
   const decodedArgs = Buffer.from(args, "base64");
   let prettyArgs;
   try {
