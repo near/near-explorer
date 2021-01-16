@@ -204,7 +204,8 @@ export default class extends React.Component<State> {
                   placeholder="Search by Account ID, Transaction hash, Block hash or Block Height"
                   aria-label="Search"
                   aria-describedby="search"
-                  autoCorrect="off" autoCapitalize="none"
+                  autoCorrect="off"
+                  autoCapitalize="none"
                   onChange={this.handleSearchValueChange}
                   className="border-left-0 search-field pl-0"
                 />
