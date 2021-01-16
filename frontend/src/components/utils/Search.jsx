@@ -73,6 +73,8 @@ export default class extends React.Component {
               placeholder="Search for Account ID, Txn hash, Block hash, or Block height"
               aria-label="Search"
               aria-describedby="search"
+              autoCorrect="off"
+              autoCapitalize="none"
               onChange={this.handleSearchValueChange}
               className="search-field"
             />
