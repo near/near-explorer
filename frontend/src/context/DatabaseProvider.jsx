@@ -80,7 +80,6 @@ export default (props) => {
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
-
   return (
     <DatabaseContext.Provider
       value={{

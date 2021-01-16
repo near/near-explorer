@@ -25,11 +25,11 @@ export default ({ title, text, loading, href }: Props) => (
             <Link href={href}>
               <a>
                 <p>
-                  {text}
                   <img
                     src="/static/images/right-arrow.svg"
                     className="right-arrow"
                   />
+                  {text}
                 </p>
               </a>
             </Link>
@@ -89,7 +89,7 @@ export default ({ title, text, loading, href }: Props) => (
       .right-arrow {
         position: relative;
         top: -2px;
-        left: 80%;
+        left: 90%;
       }
 
       @media (max-width: 415px) {
