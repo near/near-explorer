@@ -41,6 +41,23 @@ const COLLAPSE_ARGS_OPTIONS = {
   maxHeight: 600,
 };
 
+export const displayArgs = args => {
+  const decodedArgs = Buffer.from(args, "base64");
+  let prettyArgs;
+  try {
+    const parsedJSONArgs = JSON.parse(decodedArgs.toString());
+    prettyArgs = JSON.stringify(parsedJSONArgs, null, 2);
+  } catch {
+    prettyArgs = hexy(decodedArgs, { format: "twos" });
+  }
+  return (
+    <CodePreview
+      collapseOptions={COLLAPSE_ARGS_OPTIONS}
+      value={prettyArgs}
+    />
+  );
+}
+
 const transactionMessageRenderers: TransactionMessageRenderers = {
   CreateAccount: ({ transaction: { receiverId } }: Props<T.CreateAccount>) => (
     <>
@@ -72,20 +89,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       if (!actionArgs.args) {
         args = <p>Loading...</p>;
       } else {
-        const decodedArgs = Buffer.from(actionArgs.args, "base64");
-        let prettyArgs;
-        try {
-          const parsedJSONArgs = JSON.parse(decodedArgs.toString());
-          prettyArgs = JSON.stringify(parsedJSONArgs, null, 2);
-        } catch {
-          prettyArgs = hexy(decodedArgs, { format: "twos" });
-        }
-        args = (
-          <CodePreview
-            collapseOptions={COLLAPSE_ARGS_OPTIONS}
-            value={prettyArgs}
-          />
-        );
+        args = displayArgs(actionArgs.args);
       }
     }
     return (
