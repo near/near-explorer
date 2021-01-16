@@ -51,12 +51,9 @@ export const displayArgs = (args: string) => {
     prettyArgs = hexy(decodedArgs, { format: "twos" });
   }
   return (
-    <CodePreview
-      collapseOptions={COLLAPSE_ARGS_OPTIONS}
-      value={prettyArgs}
-    />
+    <CodePreview collapseOptions={COLLAPSE_ARGS_OPTIONS} value={prettyArgs} />
   );
-}
+};
 
 const transactionMessageRenderers: TransactionMessageRenderers = {
   CreateAccount: ({ transaction: { receiverId } }: Props<T.CreateAccount>) => (
