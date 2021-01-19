@@ -507,16 +507,15 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
   for (let i = 0; i < PARTNER_LIST.length; i++) {
     let result = await querySingleRow(
       [
-        `SELECT receiver_account_id, COUNT(*) AS transactions_count
+        `SELECT :partner AS receiver_account_id, COUNT(*) AS transactions_count
         FROM transactions 
         WHERE receiver_account_id = :partner
         AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
           SELECT (TO_TIMESTAMP(block_timestamp / 1000000000) + INTERVAL '3 month')
             FROM transactions 
             WHERE receiver_account_id = :partner
-            ORDER BY block_timestamp asc 
+            ORDER BY block_timestamp
             LIMIT 1)
-        GROUP BY receiver_account_id 
       `,
         { partner: PARTNER_LIST[i] },
       ],
