@@ -92,6 +92,11 @@ export default ({ title, text, loading, href }: Props) => (
         left: 90%;
       }
 
+      @media (max-width: 744px) {
+        .long-card-cell {
+          width: 100%;
+        }
+      }
       @media (max-width: 415px) {
         .long-card-cell {
           width: 100%;

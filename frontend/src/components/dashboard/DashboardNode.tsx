@@ -80,6 +80,12 @@ export default () => (
             margin-right: 8px;
           }
 
+          @media (max-width: 744px) {
+            .node-card {
+              width: 100%;
+            }
+          }
+
           @media (max-width: 415px) {
             .node-card {
               width: 100%;

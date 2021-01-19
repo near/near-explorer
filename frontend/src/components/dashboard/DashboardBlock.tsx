@@ -67,6 +67,12 @@ export default () => (
               margin-top: -25px;
             }
           }
+
+          @media (max-width: 360px) {
+            .block-view-all {
+              margin-left: 180px;
+            }
+          }
         `}</style>
       </Row>
     )}

@@ -106,7 +106,7 @@ export default () => {
                 }
               }
 
-              @media (max-width: 415px) {
+              @media (max-width: 540px) {
                 .transaction-card {
                   width: 100%;
                   border-radius: 0;
@@ -127,6 +127,12 @@ export default () => {
                 .react_for_echarts {
                   margin-left: 24px;
                   margin-top: 26px;
+                }
+              }
+
+              @media (max-width: 360px) {
+                .transaction-view-all {
+                  margin-left: 180px;
                 }
               }
             `}</style>
