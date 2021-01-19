@@ -1,4 +1,4 @@
-const { DS_INDEXER_BACKEND } = require("./consts");
+const { DS_INDEXER_BACKEND, PARTNER_LIST } = require("./consts");
 const models = require("../models");
 const BN = require("bn.js");
 
@@ -483,6 +483,46 @@ const queryActiveAccountsList = async () => {
   );
 };
 
+const queryParterTotalTransactions = async () => {
+  return await queryRows(
+    [
+      `SELECT receiver_account_id,
+          COUNT(*) AS transactions_count
+        FROM transactions
+        WHERE receiver_account_id IN (:partner_list)
+        GROUP BY receiver_account_id 
+        ORDER BY transactions_count DESC
+      `,
+      { partner_list: PARTNER_LIST },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryPartnerFirstThreeMonthTransactions = async () => {
+  let partnerList = Array(PARTNER_LIST.length);
+  for (let i = 0; i < PARTNER_LIST.length; i++) {
+    let result = await querySingleRow(
+      [
+        `SELECT :partner AS receiver_account_id, COUNT(*) AS transactions_count
+        FROM transactions 
+        WHERE receiver_account_id = :partner
+        AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
+          SELECT (TO_TIMESTAMP(block_timestamp / 1000000000) + INTERVAL '3 month')
+            FROM transactions 
+            WHERE receiver_account_id = :partner
+            ORDER BY block_timestamp
+            LIMIT 1)
+      `,
+        { partner: PARTNER_LIST[i] },
+      ],
+      { dataSource: DS_INDEXER_BACKEND }
+    );
+    partnerList[i] = result;
+  }
+  return partnerList;
+};
+
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.aggregateStats = aggregateStats;
@@ -499,3 +539,5 @@ exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAgg
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryActiveAccountsList = queryActiveAccountsList;
+exports.queryParterTotalTransactions = queryParterTotalTransactions;
+exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
