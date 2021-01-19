@@ -333,13 +333,11 @@ const aggregateStats = async (options) => {
     return await querySingleRow([query], { dataSource });
   }
   const [
-    totalBlocks,
     totalTransactions,
     totalAccounts,
     lastDayTxCount,
     lastBlockHeight,
   ] = await Promise.all([
-    querySingleRow([`SELECT COUNT(*) as total FROM blocks`], options),
     querySingleRow([`SELECT COUNT(*) as total FROM transactions`], options),
     querySingleRow([`SELECT COUNT(*) as total FROM accounts`], options),
     queryLastDayTxCount(options),
@@ -347,7 +345,6 @@ const aggregateStats = async (options) => {
   ]);
   return {
     totalAccounts: parseInt(totalAccounts.total),
-    totalBlocks: parseInt(totalBlocks.total),
     totalTransactions: parseInt(totalTransactions.total),
     lastDayTxCount: parseInt(lastDayTxCount.total),
     lastBlockHeight: lastBlockHeight

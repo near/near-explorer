@@ -108,13 +108,6 @@ export default class extends React.Component {
             height: 100%;
           }
 
-          .input-group:hover,
-          .input-group:active,
-          .input-group:focus {
-            box-shadow: 0px 0px 0px 4px #c2e4ff;
-            border-radius: 8px;
-          }
-
           .search-field {
             background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
             border: 2px solid #eaebeb;

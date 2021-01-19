@@ -1,23 +1,14 @@
-import React from "react";
 interface Props {
-  category: string;
-  count: number;
+  children: string;
 }
-export default ({ category, count }: Props) => {
-  if (count === 0) {
-    return null;
-  }
+
+export default ({ children }: Props) => {
   return (
     <div className="update">
-      {count > 1 ? (
-        <p className="update-text">
-          {`${count} total ${category}s. Refresh or Click to view the latest ${category}s.`}
-        </p>
-      ) : (
-        <p className="update-text">
-          {`${count} total ${category}. Refresh or Click to view the latest ${category}.`}
-        </p>
-      )}
+      <p className="update-text">
+        {children}
+        {` Refresh or Click to view the latest data.`}
+      </p>
       <style>{`
       .update{
         width: 100%;
