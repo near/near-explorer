@@ -4,10 +4,10 @@ import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
   accountId: string;
-  createdByTransactionHash: string;
-  createdAtBlockTimestamp: number;
-  deletedByTransactionHash?: string;
-  deletedAtBlockTimestamp?: number;
+  createdByTransactionHash: string | null;
+  createdAtBlockTimestamp: number | null;
+  deletedByTransactionHash: string | null;
+  deletedAtBlockTimestamp: number | null;
 }
 
 interface AccountStats {
@@ -80,10 +80,11 @@ export default class AccountsApi extends ExplorerApi {
         createdAtBlockTimestamp: parseInt(
           accountBasicInfo.created_at_block_timestamp
         ),
-        deletedByTransactionHash: accountBasicInfo.deleted_by_transaction_hash,
-        deletedAtBlockTimestamp:
-          accountBasicInfo.deleted_at_block_timestamp &&
-          parseInt(accountBasicInfo.deleted_at_block_timestamp),
+        deletedByTransactionHash:
+          accountBasicInfo.deleted_by_transaction_hash || null,
+        deletedAtBlockTimestamp: accountBasicInfo.deleted_at_block_timestamp
+          ? parseInt(accountBasicInfo.deleted_at_block_timestamp)
+          : null,
       };
     };
 
