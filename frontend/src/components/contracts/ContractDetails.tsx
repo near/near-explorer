@@ -164,7 +164,7 @@ export default class extends React.Component<Props, State> {
             font-size: 14px;
             line-height: 16px;
             color: #999999;
-            font-weight: 100;
+            font-weight: 500;
             letter-spacing: 1.75px;
             text-transform: uppercase;
           }
