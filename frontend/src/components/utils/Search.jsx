@@ -92,6 +92,19 @@ export default class extends React.Component {
             max-width: 100%;
             height: ${this.props.dashboard ? "49px" : "40px"} !important;
             margin: auto;
+            border-radius: 8px;
+          }
+
+          .input-group {
+            border: 2px solid #eaebeb;
+            border-radius: 8px;
+          }
+
+          .input-group:focus-within {
+            box-shadow: 0px 0px 0px 4px #c2e4ff;
+            border-radius: 8px;
+            border: 2px solid #0072ce !important;
+            background: white;
           }
 
           @media (max-width: 1000px) {
@@ -100,30 +113,34 @@ export default class extends React.Component {
             }
           }
 
+          .input-group:hover {
+            background: #f8f9fb;
+            border: 2px solid #cdcfd1;
+            border-radius: 8px;
+          }
+
           .input-group-text {
             background: #fafafa;
-            border: 2px solid #eaebeb;
-            border-right: none;
-            border-radius: 8px;
             height: 100%;
+          }
+
+          .input-group-text::placeholder {
+            color: #a1a1a9;
           }
 
           .search-field {
             background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
-            border: 2px solid #eaebeb;
-            border-radius: 0.25rem;
-            border-left: ${this.props.dashboard ? "2px solid #eaebeb" : "none"};
-          }
-
-          .search-field:hover {
-            background: #f8f9fb;
-            border: 2px solid #cdcfd1;
+            border-left: ${this.props.dashboard ? "inherit" : "none"};
           }
 
           .search-field:disabled,
           .search-field[disabled] {
             background: #eaebeb;
             border: 1px solid #eaebeb;
+          }
+
+          .form-control:focus-within {
+            box-shadow: none;
           }
 
           .button-search {
@@ -136,8 +153,11 @@ export default class extends React.Component {
 
           .button-search:hover {
             background: #2b9af4;
-            border: 2px solid #0072ce;
-            box-shadow: 0px 0px 0px 4px #c2e4ff;
+          }
+
+          .button-search:active {
+            background-color: #0072ce !important;
+            border: 2px solid #0072ce !important;
           }
 
           .form-control {
