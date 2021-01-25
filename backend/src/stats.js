@@ -7,6 +7,8 @@ const {
   queryActiveAccountsCountAggregatedByDate,
   queryActiveContractsList,
   queryActiveAccountsList,
+  queryParterTotalTransactions,
+  queryPartnerFirstThreeMonthTransactions,
 } = require("./db-utils");
 const { formatDate } = require("./utils");
 
@@ -18,6 +20,8 @@ let ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_CONTRACTS_LIST = null;
 let ACTIVE_ACCOUNTS_LIST = null;
+let PARTNER_TOTAL_TRANSACTIONS_COUNT = null;
+let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = null;
 
 async function aggregateTransactionsCountByDate() {
   try {
@@ -142,6 +146,43 @@ async function aggregateActiveContractsList() {
   }
 }
 
+async function aggregatePartnerTotalTransactionsCount() {
+  try {
+    const partnerTotalTransactionList = await queryParterTotalTransactions();
+    PARTNER_TOTAL_TRANSACTIONS_COUNT = partnerTotalTransactionList.map(
+      ({
+        receiver_account_id: account,
+        transactions_count: transactionsCount,
+      }) => ({
+        account,
+        transactionsCount,
+      })
+    );
+    console.log("PARTNER_TOTAL_TRANSACTIONS_COUNT updated");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function aggregatePartnerFirst3MonthTransactionsCount() {
+  try {
+    const partnerFirst3MonthTransactionsCount = await queryPartnerFirstThreeMonthTransactions();
+    PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = partnerFirst3MonthTransactionsCount.map(
+      ({
+        receiver_account_id: account,
+        transactions_count: transactionsCount,
+      }) => ({
+        account,
+        transactionsCount,
+      })
+    );
+    console.log("PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT updated");
+    return partnerFirst3MonthTransactionsCount;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function getTransactionsByDate() {
   return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
 }
@@ -174,6 +215,14 @@ async function getActiveContractsList() {
   return ACTIVE_CONTRACTS_LIST;
 }
 
+async function getPartnerTotalTransactionsCount() {
+  return PARTNER_TOTAL_TRANSACTIONS_COUNT;
+}
+
+async function getPartnerFirst3MonthTransactionsCount() {
+  return PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT;
+}
+
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
 exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
@@ -182,6 +231,8 @@ exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDat
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
 exports.aggregateActiveContractsList = aggregateActiveContractsList;
+exports.aggregatePartnerTotalTransactionsCount = aggregatePartnerTotalTransactionsCount;
+exports.aggregatePartnerFirst3MonthTransactionsCount = aggregatePartnerFirst3MonthTransactionsCount;
 
 exports.getTransactionsByDate = getTransactionsByDate;
 exports.getTeragasUsedByDate = getTeragasUsedByDate;
@@ -191,3 +242,5 @@ exports.getActiveContractsCountByDate = getActiveContractsCountByDate;
 exports.getActiveAccountsCountByDate = getActiveAccountsCountByDate;
 exports.getActiveAccountsList = getActiveAccountsList;
 exports.getActiveContractsList = getActiveContractsList;
+exports.getPartnerTotalTransactionsCount = getPartnerTotalTransactionsCount;
+exports.getPartnerFirst3MonthTransactionsCount = getPartnerFirst3MonthTransactionsCount;

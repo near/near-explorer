@@ -74,4 +74,14 @@ export default class StatsApi extends ExplorerApi {
   async activeContractsList(): Promise<Contract[]> {
     return await this.call<Contract[]>("active-contracts-list");
   }
+
+  async partnerTotalTransactionsCount(): Promise<Account[]> {
+    return await this.call<Account[]>("partner-total-transactions-count");
+  }
+
+  async partnerFirst3MonthTransactionsCount(): Promise<Account[]> {
+    return await this.call<Account[]>(
+      "partner-first-3-month-transactions-count"
+    );
+  }
 }

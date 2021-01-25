@@ -167,7 +167,7 @@ export default class extends React.Component<Props> {
           </Row>
         )}
         <Row noGutters className="border-0">
-          <Col md="6">
+          <Col>
             <CardCell
               title={
                 <Term title={"Created at"}>
@@ -178,27 +178,22 @@ export default class extends React.Component<Props> {
                 </Term>
               }
               text={
-                account.createdAtBlockTimestamp ? (
+                account.createdByTransactionHash === null ||
+                account.createdByTransactionHash === "Genesis" ? (
+                  "Genesis"
+                ) : account.createdAtBlockTimestamp ? (
                   <>
                     {moment(account.createdAtBlockTimestamp).format(
                       "MMMM DD, YYYY [at] h:mm:ssa"
                     )}
-                    {account.createdByTransactionHash ? (
-                      <>
-                        {account.createdByTransactionHash !== "Genesis" ? (
-                          <TransactionLink
-                            transactionHash={account.createdByTransactionHash}
-                          >
-                            <img
-                              className="transaction-link-icon"
-                              src={"/static/images/icon-m-copy.svg"}
-                            />
-                          </TransactionLink>
-                        ) : (
-                          "from Genesis"
-                        )}
-                      </>
-                    ) : null}
+                    <TransactionLink
+                      transactionHash={account.createdByTransactionHash!}
+                    >
+                      <img
+                        className="transaction-link-icon"
+                        src={"/static/images/icon-m-copy.svg"}
+                      />
+                    </TransactionLink>
                   </>
                 ) : (
                   "N/A"
@@ -207,7 +202,8 @@ export default class extends React.Component<Props> {
               className="block-card-created account-card-back border-0"
             />
           </Col>
-          {typeof account.deletedAtBlockTimestamp === "undefined" ? null : (
+          {account.deletedAtBlockTimestamp === null ||
+          typeof account.deletedAtBlockTimestamp === "undefined" ? null : (
             <Col md="6">
               <CardCell
                 title={
