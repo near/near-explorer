@@ -424,9 +424,9 @@ const queryActiveContractsCountAggregatedByDate = async () => {
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'  
-      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID') 
-      GROUP BY "date" 
+      WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
+      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      GROUP BY "date"
       ORDER BY "date"`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
@@ -441,8 +441,8 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
         COUNT(distinct transactions.signer_account_id) as active_accounts_count_by_date
       FROM transactions
       JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
-      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID') 
-      GROUP BY "date" 
+      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      GROUP BY "date"
       ORDER BY "date"`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
@@ -490,7 +490,7 @@ const queryParterTotalTransactions = async () => {
           COUNT(*) AS transactions_count
         FROM transactions
         WHERE receiver_account_id IN (:partner_list)
-        GROUP BY receiver_account_id 
+        GROUP BY receiver_account_id
         ORDER BY transactions_count DESC
       `,
       { partner_list: PARTNER_LIST },
@@ -505,11 +505,11 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
     let result = await querySingleRow(
       [
         `SELECT :partner AS receiver_account_id, COUNT(*) AS transactions_count
-        FROM transactions 
+        FROM transactions
         WHERE receiver_account_id = :partner
         AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
           SELECT (TO_TIMESTAMP(block_timestamp / 1000000000) + INTERVAL '3 month')
-            FROM transactions 
+            FROM transactions
             WHERE receiver_account_id = :partner
             ORDER BY block_timestamp
             LIMIT 1)
@@ -521,6 +521,21 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
     partnerList[i] = result;
   }
   return partnerList;
+};
+
+const queryTotalDepositAmount = async () => {
+  return await querySingleRow(
+    [
+      `SELECT
+        SUM((action_receipt_actions.args->>'deposit')::numeric) AS total_deposit_amount
+      FROM action_receipt_actions
+      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+      WHERE action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
+      AND (action_receipt_actions.args->>'deposit')::numeric > 0
+      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
 };
 
 exports.queryOnlineNodes = queryOnlineNodes;
@@ -541,3 +556,4 @@ exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryActiveAccountsList = queryActiveAccountsList;
 exports.queryParterTotalTransactions = queryParterTotalTransactions;
 exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
+exports.queryTotalDepositAmount = queryTotalDepositAmount;

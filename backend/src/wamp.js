@@ -271,6 +271,10 @@ wampHandlers["partner-first-3-month-transactions-count"] = async () => {
   return await stats.getPartnerFirst3MonthTransactionsCount();
 };
 
+wampHandlers["total-deposit-amount"] = async () => {
+  return await stats.getTotalDepositAmount();
+};
+
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
