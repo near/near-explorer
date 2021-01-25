@@ -51,7 +51,7 @@ export default class extends React.Component<Props> {
             />
           </Col>
           {typeof account.storageUsage === "undefined" ? null : (
-            <Col md="4">
+            <Col>
               <CardCell
                 title={
                   <Term title={"Storage Used"}>
