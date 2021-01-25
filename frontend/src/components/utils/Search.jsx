@@ -102,7 +102,7 @@ export default class extends React.Component {
 
           .input-group:focus-within {
             box-shadow: 0px 0px 0px 4px #c2e4ff;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 2px solid #0072ce !important;
             background: white;
           }
@@ -145,10 +145,9 @@ export default class extends React.Component {
 
           .button-search {
             background: #0072ce;
-            border-color: #0072ce;
+            border: 2px solid #0072ce !important;
             border-radius: 0px 8px 8px 0px;
             padding: 10px 30px;
-            height: 100%;
           }
 
           .button-search:hover {
@@ -157,7 +156,7 @@ export default class extends React.Component {
 
           .button-search:active {
             background-color: #0072ce !important;
-            border: 2px solid #0072ce !important;
+            border: 3px solid #0072ce !important;
           }
 
           .form-control {
