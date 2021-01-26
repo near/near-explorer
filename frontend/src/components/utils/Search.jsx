@@ -237,6 +237,7 @@ export default class extends React.Component {
           }
 
           .btn-info.button-search:not(:disabled):active,
+          .btn-info.button-search:not(:disabled):active:focus,
           .btn-info.button-search:not(:disabled):focus {
             background-color: #2b9af4;
             border-color: #0072ce;
