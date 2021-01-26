@@ -9,6 +9,7 @@ const {
   queryActiveAccountsList,
   queryParterTotalTransactions,
   queryPartnerFirstThreeMonthTransactions,
+  queryTotalDepositAmount,
 } = require("./db-utils");
 const { formatDate } = require("./utils");
 
@@ -22,6 +23,7 @@ let ACTIVE_CONTRACTS_LIST = null;
 let ACTIVE_ACCOUNTS_LIST = null;
 let PARTNER_TOTAL_TRANSACTIONS_COUNT = null;
 let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = null;
+let TOTAL_DEPOSIT_AMOUNT = null;
 
 async function aggregateTransactionsCountByDate() {
   try {
@@ -183,6 +185,18 @@ async function aggregatePartnerFirst3MonthTransactionsCount() {
   }
 }
 
+async function aggregateTotalDepositAmount() {
+  try {
+    const amount = await queryTotalDepositAmount();
+    TOTAL_DEPOSIT_AMOUNT = {
+      totalDepositAmount: amount.total_deposit_amount,
+    };
+    console.log("TOTAL_DEPOSIT_AMOUNT updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function getTransactionsByDate() {
   return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
 }
@@ -223,6 +237,10 @@ async function getPartnerFirst3MonthTransactionsCount() {
   return PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT;
 }
 
+async function getTotalDepositAmount() {
+  return TOTAL_DEPOSIT_AMOUNT;
+}
+
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
 exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
@@ -233,6 +251,7 @@ exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
 exports.aggregateActiveContractsList = aggregateActiveContractsList;
 exports.aggregatePartnerTotalTransactionsCount = aggregatePartnerTotalTransactionsCount;
 exports.aggregatePartnerFirst3MonthTransactionsCount = aggregatePartnerFirst3MonthTransactionsCount;
+exports.aggregateTotalDepositAmount = aggregateTotalDepositAmount;
 
 exports.getTransactionsByDate = getTransactionsByDate;
 exports.getTeragasUsedByDate = getTeragasUsedByDate;
@@ -244,3 +263,4 @@ exports.getActiveAccountsList = getActiveAccountsList;
 exports.getActiveContractsList = getActiveContractsList;
 exports.getPartnerTotalTransactionsCount = getPartnerTotalTransactionsCount;
 exports.getPartnerFirst3MonthTransactionsCount = getPartnerFirst3MonthTransactionsCount;
+exports.getTotalDepositAmount = getTotalDepositAmount;

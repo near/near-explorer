@@ -30,6 +30,10 @@ export interface Contract {
   receiptsCount: string;
 }
 
+export interface TotalDepositAmount {
+  totalDepositAmount: number;
+}
+
 export default class StatsApi extends ExplorerApi {
   async transactionsCountAggregatedByDate(): Promise<TransactionsByDate[]> {
     return await this.call<TransactionsByDate[]>(
@@ -83,5 +87,9 @@ export default class StatsApi extends ExplorerApi {
     return await this.call<Account[]>(
       "partner-first-3-month-transactions-count"
     );
+  }
+
+  async totalDepositAmount(): Promise<TotalDepositAmount> {
+    return await this.call<TotalDepositAmount>("total-deposit-amount");
   }
 }

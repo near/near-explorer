@@ -46,6 +46,7 @@ const {
   aggregateActiveContractsList,
   aggregatePartnerTotalTransactionsCount,
   aggregatePartnerFirst3MonthTransactionsCount,
+  aggregateTotalDepositAmount,
 } = require("./stats");
 
 async function startLegacySync() {
@@ -205,6 +206,7 @@ function startStatsAggregation() {
   const regularStatsAggregate = async () => {
     console.log("Starting Regular Stats Aggregation...");
     try {
+      await aggregateTotalDepositAmount();
       await aggregateTransactionsCountByDate();
       await aggregateTeragasUsedByDate();
       await aggregateNewAccountsCountByDate();
