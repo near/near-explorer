@@ -56,7 +56,10 @@ export default class extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSearch} className="search-box">
+      <form
+        onSubmit={this.handleSearch}
+        className={`search-box ${!this.props.dashboard ? "compact" : ""}`}
+      >
         <Row noGutters className="search-box">
           <InputGroup>
             {!this.props.dashboard && (
@@ -88,35 +91,89 @@ export default class extends React.Component {
         <style jsx global>{`
           .search-box {
             background: white;
-            width: ${this.props.dashboard ? "740px" : "520px"} !important;
+            width: 740px;
             max-width: 100%;
-            height: ${this.props.dashboard ? "49px" : "40px"} !important;
+            height: 49px;
             margin: auto;
             border-radius: 8px;
           }
 
-          .input-group {
+          .search-box.compact {
+            width: 520px;
+            height: 40px;
+          }
+
+          .search-box.compact .search-box {
+            width: inherit;
+            height: inherit;
+          }
+
+          .search-box.compact .search-field {
+            background-color: #fafafa;
+            border-left: none;
+            border-right: 2px solid #eaebeb;
+            border-radius: 0 8px 8px 0;
+            padding-left: 0;
+          }
+
+          .search-box.compact .input-group-prepend .input-group-text {
             border: 2px solid #eaebeb;
+            border-radius: 8px 0 0 8px;
+            border-right: none;
+            transition: border-color 0.15s ease-in-out,
+              box-shadow 0.15s ease-in-out;
+          }
+
+          .search-box.compact .input-group::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: block;
+            width: 1rem;
+            height: calc(100% - 8px);
+            margin: auto 4px auto auto;
+            filter: blur(2px);
+            background: #fafafa;
+            opacity: 0.9;
+          }
+
+          .input-group {
             border-radius: 8px;
           }
 
           .input-group:focus-within {
             box-shadow: 0px 0px 0px 4px #c2e4ff;
             border-radius: 10px;
-            border: 2px solid #0072ce !important;
+            background: white;
+          }
+
+          .input-group:focus-within .search-field,
+          .input-group:focus-within .input-group-prepend .input-group-text {
+            border-color: #0072ce !important;
+            background-color: white;
+          }
+
+          .search-box.compact .input-group:focus-within::after {
             background: white;
           }
 
           @media (max-width: 1000px) {
-            .search-box {
+            .search-box,
+            .search-box.compact {
               width: 100%;
             }
           }
 
           .input-group:hover {
             background: #f8f9fb;
-            border: 2px solid #cdcfd1;
             border-radius: 8px;
+          }
+
+          .input-group:hover .search-field,
+          .input-group:hover .input-group-prepend .input-group-text {
+            border-color: #cdcfd1;
           }
 
           .input-group-text {
@@ -129,34 +186,61 @@ export default class extends React.Component {
           }
 
           .search-field {
-            background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
-            border-left: ${this.props.dashboard ? "inherit" : "none"};
+            background: #ffffff;
+            border-left: inherit;
+            border: 2px solid #eaebeb;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            box-shadow: none !important;
+            padding-right: 0.313rem;
+          }
+
+          .search-field::placeholder {
+            color: #8d9396;
           }
 
           .search-field:disabled,
           .search-field[disabled] {
             background: #eaebeb;
-            border: 1px solid #eaebeb;
           }
 
           .form-control:focus-within {
             box-shadow: none;
           }
 
+          .input-group .button-search::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -1.25rem;
+            bottom: 0;
+            display: block;
+            width: 1rem;
+            height: calc(100% - 8px);
+            margin: auto 4px auto auto;
+            filter: blur(2px);
+            background: white;
+            opacity: 0.9;
+          }
+
           .button-search {
+            position: relative;
             background: #0072ce;
-            border: 2px solid #0072ce !important;
+            border: 2px solid #0072ce;
             border-radius: 0px 8px 8px 0px;
             padding: 10px 30px;
           }
 
           .button-search:hover {
             background: #2b9af4;
+            border-color: #0072ce;
           }
 
-          .button-search:active {
-            background-color: #0072ce !important;
-            border: 3px solid #0072ce !important;
+          .btn-info.button-search:not(:disabled):active,
+          .btn-info.button-search:not(:disabled):focus {
+            background-color: #2b9af4;
+            border-color: #0072ce;
+            box-shadow: none;
           }
 
           .form-control {

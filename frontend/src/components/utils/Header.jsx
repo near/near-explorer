@@ -28,18 +28,24 @@ export default () => {
               <HeaderNetworkDropdown />
             </Col>
 
-            <Col xs="2" className="align-self-center text-right d-md-none">
+            <Col
+              xs="2"
+              className="align-self-center text-right mobile-nav-bar d-md-none"
+            >
               <MobileHeaderNavDropdown />
             </Col>
           </Row>
         </Col>
 
-        <Col className="align-self-center text-center d-md-none" sm="12">
+        <Col
+          className="align-self-center text-center search-box-column d-md-none"
+          sm="12"
+        >
           <Search />
         </Col>
 
         <Col
-          className="align-self-center text-center d-none d-md-block d-lg-block "
+          className="align-self-center text-center search-box-column d-none d-md-block d-lg-block "
           md="8"
           lg="8"
         >
@@ -65,7 +71,7 @@ export default () => {
       </Row>
       <style jsx global>{`
         .header-container {
-          padding: auto 5px;
+          padding: 0 5px;
           width: 100%;
           background: #ffffff;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
@@ -76,6 +82,14 @@ export default () => {
           width: 120px;
           height: 72px;
           padding: 6px;
+        }
+
+        .header-container .mobile-nav-bar .mobile {
+          padding-right: 14px;
+        }
+
+        .search-box-column > .search-box {
+          padding: 0 12px 0 13px;
         }
 
         .header-home,
