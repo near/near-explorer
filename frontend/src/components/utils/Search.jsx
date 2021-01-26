@@ -1,141 +1,254 @@
-import { useState } from "react";
+import Router from "next/router";
+import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
-import { Row, Col } from "react-bootstrap";
+import AccountsApi from "../../libraries/explorer-wamp/accounts";
+import BlocksApi from "../../libraries/explorer-wamp/blocks";
+import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
-export default ({ text, handler, pagination, setPagination }) => {
-  const [focus, setFocus] = useState(false);
+export default class extends React.Component {
+  state = { searchValue: "" };
 
-  const onChange = (state) => {
-    setPagination((pagination) => {
-      return {
-        ...pagination,
-        search: state,
-      };
-    });
+  handleSearch = async (event) => {
+    event.preventDefault();
 
-    if (state === null || state === undefined || state.trim().length === 0) {
-      setFocus(false);
-      handler(null);
+    const { searchValue } = this.state;
+    const cleanedSearchValue = searchValue.replace(/\s/g, "");
+
+    let blockPromise;
+    const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
+    if (maybeBlockHeight.match(/^\d{1,20}$/)) {
+      const blockHeight = parseInt(maybeBlockHeight);
+      blockPromise = new BlocksApi().getBlockInfo(blockHeight).catch(() => {});
+    } else {
+      blockPromise = new BlocksApi()
+        .getBlockInfo(cleanedSearchValue)
+        .catch(() => {});
+    }
+
+    const transactionPromise = new TransactionsApi()
+      .getTransactionInfo(cleanedSearchValue)
+      .catch(() => {});
+    const accountPromise = new AccountsApi()
+      .queryAccount(cleanedSearchValue)
+      .catch(() => {});
+
+    const block = await blockPromise;
+    if (block) {
+      return Router.push("/blocks/" + block.hash);
+    }
+    const transaction = await transactionPromise;
+    if (transaction && transaction.signerId) {
+      return Router.push("/transactions/" + searchValue);
+    }
+    if (await accountPromise) {
+      return Router.push("/accounts/" + searchValue);
+    }
+
+    alert("Result not found!");
+  };
+
+  handleSearchValueChange = (event) => {
+    if (event) {
+      const value = event.target !== null ? event.target.value : "";
+      this.setState({ searchValue: value });
     }
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const keyword = pagination.search;
-    if (
-      keyword === null ||
-      keyword === undefined ||
-      keyword.trim().length === 0
-    ) {
-      return;
-    }
-
-    setFocus(false);
-    handler(keyword);
-  };
-
-  const onMouseLeave = () => {
-    setFocus(false);
-    document.getElementById("search-text").blur();
-  };
-
-  return (
-    <Row>
-      <Col
-        md={focus ? "12" : "9"}
-        className="ml-auto search"
-        onFocus={() => setFocus(true)}
-        onMouseLeave={onMouseLeave}
+  render() {
+    return (
+      <form
+        onSubmit={this.handleSearch}
+        className={`search-box ${!this.props.dashboard ? "compact" : ""}`}
       >
-        <Row>
-          <Col
-            md={focus ? "7" : "10"}
-            xs="10"
-            className="align-self-center text-left"
-          >
-            <div className="d-none d-sm-block">
-              <form onSubmit={onSubmit}>
-                <input
-                  type="text"
-                  id="search-text"
-                  className="search-text"
-                  value={pagination.search ? pagination.search : ""}
-                  placeholder={text}
-                  onChange={(e) => onChange(e.target.value)}
-                />
-              </form>
-            </div>
-            <div className="d-block d-sm-none">
-              <form onSubmit={onSubmit}>
-                <input
-                  type="text"
-                  className="search-text"
-                  placeholder={`${text.substring(0, 17)}..`}
-                  title={text}
-                  onChange={(e) => handler(e.target.value)}
-                />
-              </form>
-            </div>
-          </Col>
-          <Col
-            md="auto"
-            xs="2"
-            id="search-icon-border"
-            className={`align-self-center ml-auto ${
-              focus ? "search-icon-border text-center" : "text-center"
-            }`}
-          >
-            {focus ? (
-              <span
-                style={{ color: "#999999", fontWeight: "bold" }}
-                onClick={onSubmit}
-              >
-                Search
-              </span>
-            ) : (
-              <img
-                src="/static/images/icon-search.svg"
-                className="search-icon"
-              />
+        <Row noGutters className="search-box">
+          <InputGroup>
+            {!this.props.dashboard && (
+              <InputGroup.Prepend>
+                <InputGroup.Text id="search">
+                  <img
+                    src="/static/images/icon-search.svg"
+                    className="search-icon"
+                  />
+                </InputGroup.Text>
+              </InputGroup.Prepend>
             )}
-          </Col>
+            <FormControl
+              placeholder="Search for Account ID, Txn hash, Block hash, or Block height"
+              aria-label="Search"
+              aria-describedby="search"
+              autoCorrect="off"
+              autoCapitalize="none"
+              onChange={this.handleSearchValueChange}
+              className="search-field"
+            />
+            {this.props.dashboard && (
+              <Button type="submit" variant="info" className="button-search">
+                Search
+              </Button>
+            )}
+          </InputGroup>
         </Row>
-      </Col>
-      <style jsx global>{`
-        .search {
-          border-radius: 25px;
-          border: solid 2px #e6e6e6;
-          background-color: #f8f8f8;
-          transition: all 0.3s;
-          overflow: hidden;
-        }
+        <style jsx global>{`
+          .search-box {
+            background: white;
+            width: 740px;
+            max-width: 100%;
+            height: 49px;
+            margin: auto;
+            border-radius: 8px;
+          }
 
-        .search-icon-border {
-          border-left: solid 1px #e6e6e6;
-          cursor: pointer;
-          background: rgba(0, 0, 0, 0.1);
-          padding-top: 4px;
-          padding-bottom: 4px;
-        }
+          .search-box.compact {
+            width: 520px;
+            height: 40px;
+          }
 
-        .search-text {
-          font-family: BentonSans;
-          font-size: 14px;
-          color: #999999;
-          outline: none;
-          border: 1px solid #fff;
-          background-color: #f8f8f8;
-          font-weight: 100;
-          padding-top: 5px;
-          padding-bottom: 5px;
-        }
+          .search-box.compact .search-box {
+            width: inherit;
+            height: inherit;
+          }
 
-        .search-text::placeholder {
-          color: #999999;
-          opacity: 1; /* Firefox */
-        }
-      `}</style>
-    </Row>
-  );
-};
+          .search-box.compact .search-field {
+            background-color: #fafafa;
+            border-left: none;
+            border-right: 2px solid #eaebeb;
+            border-radius: 0 8px 8px 0;
+            padding-left: 0;
+          }
+
+          .search-box.compact .input-group-prepend .input-group-text {
+            border: 2px solid #eaebeb;
+            border-radius: 8px 0 0 8px;
+            border-right: none;
+            transition: border-color 0.15s ease-in-out,
+              box-shadow 0.15s ease-in-out;
+          }
+
+          .search-box.compact .input-group::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: block;
+            width: 1rem;
+            height: calc(100% - 8px);
+            margin: auto 4px auto auto;
+            filter: blur(2px);
+            background: #fafafa;
+            opacity: 0.9;
+          }
+
+          .input-group {
+            border-radius: 8px;
+          }
+
+          .input-group:focus-within {
+            box-shadow: 0px 0px 0px 4px #c2e4ff;
+            border-radius: 10px;
+            background: white;
+          }
+
+          .input-group:focus-within .search-field,
+          .input-group:focus-within .input-group-prepend .input-group-text {
+            border-color: #0072ce !important;
+            background-color: white;
+          }
+
+          .search-box.compact .input-group:focus-within::after {
+            background: white;
+          }
+
+          @media (max-width: 1000px) {
+            .search-box,
+            .search-box.compact {
+              width: 100%;
+            }
+          }
+
+          .input-group:hover {
+            background: #f8f9fb;
+            border-radius: 8px;
+          }
+
+          .input-group:hover .search-field,
+          .input-group:hover .input-group-prepend .input-group-text {
+            border-color: #cdcfd1;
+          }
+
+          .input-group-text {
+            background: #fafafa;
+            height: 100%;
+          }
+
+          .input-group-text::placeholder {
+            color: #a1a1a9;
+          }
+
+          .search-field {
+            background: #ffffff;
+            border-left: inherit;
+            border: 2px solid #eaebeb;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            box-shadow: none !important;
+            padding-right: 0.313rem;
+          }
+
+          .search-field::placeholder {
+            color: #8d9396;
+          }
+
+          .search-field:disabled,
+          .search-field[disabled] {
+            background: #eaebeb;
+          }
+
+          .form-control:focus-within {
+            box-shadow: none;
+          }
+
+          .input-group .button-search::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -1.25rem;
+            bottom: 0;
+            display: block;
+            width: 1rem;
+            height: calc(100% - 8px);
+            margin: auto 4px auto auto;
+            filter: blur(2px);
+            background: white;
+            opacity: 0.9;
+          }
+
+          .button-search {
+            position: relative;
+            background: #0072ce;
+            border: 2px solid #0072ce;
+            border-radius: 0px 8px 8px 0px;
+            padding: 10px 30px;
+          }
+
+          .button-search:hover {
+            background: #2b9af4;
+            border-color: #0072ce;
+          }
+
+          .btn-info.button-search:not(:disabled):active,
+          .btn-info.button-search:not(:disabled):active:focus,
+          .btn-info.button-search:not(:disabled):focus {
+            background-color: #2b9af4;
+            border-color: #0072ce;
+            box-shadow: none;
+          }
+
+          .form-control {
+            height: 100% !important;
+          }
+        `}</style>
+      </form>
+    );
+  }
+}

@@ -11,7 +11,7 @@ import FlipMove from "../utils/FlipMove";
 
 import TransactionAction from "../transactions/TransactionAction";
 
-import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+import TransactionIcon from "../../../public/static/images/icon-transactions.svg";
 
 export default class extends React.Component {
   render() {

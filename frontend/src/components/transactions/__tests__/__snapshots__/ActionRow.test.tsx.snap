@@ -8,7 +8,7 @@ exports[`<ActionRow /> renders compact 1`] = `
     className="col-auto"
   >
     <div
-      className="jsx-3871551524 action-row-img"
+      className="jsx-1246332424 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -95,7 +95,7 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-3871551524 action-row-timer-status"
+              className="jsx-1246332424 action-row-timer-status"
             >
               Fetching Status...
               /Checking Finality...
@@ -120,7 +120,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
     className="col-auto"
   >
     <div
-      className="jsx-3871551524 action-row-img"
+      className="jsx-1246332424 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -242,7 +242,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-3871551524 action-row-timer-status"
+              className="jsx-1246332424 action-row-timer-status"
             >
               Fetching Status...
               /Checking Finality...
@@ -267,7 +267,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
     className="col-auto"
   >
     <div
-      className="jsx-3871551524 action-row-img"
+      className="jsx-1246332424 action-row-img"
     >
       <svg
         viewBox="0 0 18 18"
@@ -350,7 +350,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-timer col"
           >
             <span
-              className="jsx-3871551524 action-row-timer-status"
+              className="jsx-1246332424 action-row-timer-status"
             >
               Fetching Status...
               /Checking Finality...

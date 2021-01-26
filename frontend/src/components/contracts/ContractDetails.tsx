@@ -161,11 +161,10 @@ export default class extends React.Component<Props, State> {
             background: #ffffff;
             box-sizing: border-box;
             border-radius: 25px;
-            font-family: BentonSans;
             font-size: 14px;
             line-height: 16px;
             color: #999999;
-            font-weight: 100;
+            font-weight: 500;
             letter-spacing: 1.75px;
             text-transform: uppercase;
           }

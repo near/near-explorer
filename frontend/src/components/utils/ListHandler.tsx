@@ -196,7 +196,6 @@ export default (
               display: block;
               text-align: center;
               text-decoration: none;
-              font-family: BentonSans;
               font-size: 14px;
               color: #0072ce;
               font-weight: bold;

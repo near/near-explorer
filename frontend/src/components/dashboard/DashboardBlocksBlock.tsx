@@ -96,7 +96,6 @@ export default class extends React.Component<Props> {
               }
 
               .dashboard-blocks-block-title {
-                font-family: BentonSans;
                 font-size: 18px;
                 font-weight: 500;
                 color: #24272a;
@@ -109,7 +108,6 @@ export default class extends React.Component<Props> {
 
               .dashboard-blocks-block-content-p {
                 line-height: 8px;
-                font-family: BentonSans;
                 font-size: 14px;
                 color: #999999;
                 margin-left: 10px;
@@ -123,7 +121,6 @@ export default class extends React.Component<Props> {
               }
 
               .dashboard-blocks-block-content-p-footer {
-                font-family: BentonSans;
                 font-size: 14px;
                 font-weight: 500;
                 color: #0072ce;
@@ -131,7 +128,6 @@ export default class extends React.Component<Props> {
               }
 
               .dashboard-blocks-block-timer {
-                font-family: BentonSans;
                 font-size: 12px;
                 color: #999999;
               }
