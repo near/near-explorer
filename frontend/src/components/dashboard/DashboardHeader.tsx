@@ -140,6 +140,12 @@ export default class extends React.Component {
             border-radius: 4px;
           }
 
+          @media (max-width: 768px) {
+            .dashboard-info-container .card-cell {
+              border-left: none;
+            }
+          }
+
           .dashboard-info-container > .row:first-of-type .card-cell-text {
             font-size: 24px;
           }
