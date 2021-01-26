@@ -6,7 +6,7 @@ export default async function (req, res) {
     if (totalDepositAmount) {
       res.send(totalDepositAmount);
     } else {
-      res.send([]);
+      res.status(425).end();
     }
   } catch (error) {
     console.log(error);
