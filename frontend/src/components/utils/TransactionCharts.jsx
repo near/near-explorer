@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 import { DatabaseContext } from "../../context/DatabaseProvider";
+import moment from "moment";
 
 export default () => {
   const value = useContext(DatabaseContext);
   const transactionCountArray = value.transactionCountArray;
-  const date = transactionCountArray.map((t) => t.date);
+  const date = transactionCountArray.map((t) => moment(t.date).format("LL"));
   const count = transactionCountArray.map((t) => t.total);
   const getOption = () => {
     return {
@@ -15,10 +16,13 @@ export default () => {
       },
       tooltip: {
         trigger: "axis",
+        position: "top",
+        backgroundColor: "#25272A",
+        formatter: "{b0}<br />Txns: {c0}",
       },
       grid: {
         left: "3%",
-        right: "4%",
+        right: "10",
         bottom: "3%",
         containLabel: true,
         backgroundColor: "#F9F9F9",
@@ -30,6 +34,10 @@ export default () => {
           type: "category",
           boundaryGap: false,
           data: date,
+          axisLine: {
+            show: false,
+          },
+          offset: 3,
         },
       ],
       yAxis: [
@@ -40,6 +48,11 @@ export default () => {
               color: "white",
             },
           },
+          splitNumber: 3,
+          axisLine: {
+            show: false,
+          },
+          min: "dataMin",
         },
       ],
       series: [
