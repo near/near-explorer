@@ -48,7 +48,7 @@ export default () => (
               text={
                 <p>{(60 / context.numberOfLastMinuteBlocks).toFixed(4)} s</p>
               }
-              loading={false}
+              loading={!context.numberOfLastMinuteBlocks}
             />
           </Col>
         </Row>

@@ -55,7 +55,7 @@ export default () => {
                     </Term>
                   }
                   text={<GasPrice gasPrice={context.latestGasPrice} />}
-                  loading={false}
+                  loading={!context.latestGasPrice}
                 />
               </Col>
             </Row>
