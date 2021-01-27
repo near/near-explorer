@@ -8,14 +8,14 @@ exports[`<ProposalRow /> renders 1`] = `
     className="pr-0 col-md-auto col-1"
   >
     <p
-      className="jsx-2919956104"
+      className="jsx-3754557744"
       onBlur={[Function]}
       onFocus={[Function]}
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
       <img
-        className="jsx-2919956104"
+        className="jsx-3754557744"
         src="/static/images/icon-m-node-proposal.svg"
         style={
           Object {
@@ -36,13 +36,13 @@ exports[`<ProposalRow /> renders 1`] = `
         className="node-row-title col"
       >
         <p
-          className="jsx-2919956104"
+          className="jsx-3754557744"
         >
           @
           dokiacapital.pool.6fb1358
             
           <span
-            className="jsx-2919956104"
+            className="jsx-3754557744"
           >
             Staking 
             <span

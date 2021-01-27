@@ -1846,6 +1846,16 @@ function preprocessCirculationSupplyEstimate() {
 
 const CIRCULATING_SUPPLY_ESTIMATE = preprocessCirculationSupplyEstimate();
 
+export function getCirculatingSupplyToday() {
+  const todayUnixDateTime = Math.floor(Date.now() / 1000);
+  const todayUnixDate =
+    todayUnixDateTime - (todayUnixDateTime % (60 * 60 * 24));
+  return {
+    timestamp: todayUnixDate,
+    amount: CIRCULATING_SUPPLY_ESTIMATE.get(todayUnixDate),
+  };
+}
+
 export default async function (req, res) {
   // This API is currenlty providing computed estimation based on the inflation, so we only have it for mainnet
   const nearNetwork = getNearNetwork(req.socket.hostname);
@@ -1854,12 +1864,10 @@ export default async function (req, res) {
     return;
   }
 
-  const todayUnixDateTime = Math.floor(Date.now() / 1000);
-  const todayUnixDate =
-    todayUnixDateTime - (todayUnixDateTime % (60 * 60 * 24));
+  const circulatingSupplyToday = getCirculatingSupplyToday();
+
   res.send({
-    circulating_supply_in_yoctonear: CIRCULATING_SUPPLY_ESTIMATE.get(
-      todayUnixDate
-    ),
+    timestamp: circulatingSupplyToday.timestamp,
+    circulating_supply_in_yoctonear: circulatingSupplyToday.amount,
   });
 }

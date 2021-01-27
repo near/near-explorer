@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { Button, Col, FormControl, InputGroup, Row } from "react-bootstrap";
+import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
@@ -10,17 +10,26 @@ export default class extends React.Component {
 
   handleSearch = async (event) => {
     event.preventDefault();
-    const { searchValue } = this.state;
 
-    const blockPromise = new BlocksApi()
-      .getBlockInfo(searchValue)
-      .catch(() => {});
+    const { searchValue } = this.state;
+    const cleanedSearchValue = searchValue.replace(/\s/g, "");
+
+    let blockPromise;
+    const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
+    if (maybeBlockHeight.match(/^\d{1,20}$/)) {
+      const blockHeight = parseInt(maybeBlockHeight);
+      blockPromise = new BlocksApi().getBlockInfo(blockHeight).catch(() => {});
+    } else {
+      blockPromise = new BlocksApi()
+        .getBlockInfo(cleanedSearchValue)
+        .catch(() => {});
+    }
 
     const transactionPromise = new TransactionsApi()
-      .getTransactionInfo(searchValue)
+      .getTransactionInfo(cleanedSearchValue)
       .catch(() => {});
     const accountPromise = new AccountsApi()
-      .queryAccount(searchValue)
+      .queryAccount(cleanedSearchValue)
       .catch(() => {});
 
     const block = await blockPromise;
@@ -47,8 +56,11 @@ export default class extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSearch} className="search-box">
-        <Row noGutters>
+      <form
+        onSubmit={this.handleSearch}
+        className={`search-box ${!this.props.dashboard ? "compact" : ""}`}
+      >
+        <Row noGutters className="search-box">
           <InputGroup>
             {!this.props.dashboard && (
               <InputGroup.Prepend>
@@ -64,6 +76,8 @@ export default class extends React.Component {
               placeholder="Search for Account ID, Txn hash, Block hash, or Block height"
               aria-label="Search"
               aria-describedby="search"
+              autoCorrect="off"
+              autoCapitalize="none"
               onChange={this.handleSearchValueChange}
               className="search-field"
             />
@@ -77,39 +91,161 @@ export default class extends React.Component {
         <style jsx global>{`
           .search-box {
             background: white;
-            width: ${this.props.dashboard ? "740px" : "500px"};
+            width: 740px;
             max-width: 100%;
-            height: ${this.props.dashboard ? "49px" : "40px"};
+            height: 49px;
+            margin: auto;
+            border-radius: 8px;
+          }
+
+          .search-box.compact {
+            width: 520px;
+            height: 40px;
+          }
+
+          .search-box.compact .search-box {
+            width: inherit;
+            height: inherit;
+          }
+
+          .search-box.compact .search-field {
+            background-color: #fafafa;
+            border-left: none;
+            border-right: 2px solid #eaebeb;
+            border-radius: 0 8px 8px 0;
+            padding-left: 0;
+          }
+
+          .search-box.compact .input-group-prepend .input-group-text {
+            border: 2px solid #eaebeb;
+            border-radius: 8px 0 0 8px;
+            border-right: none;
+            transition: border-color 0.15s ease-in-out,
+              box-shadow 0.15s ease-in-out;
+          }
+
+          .search-box.compact .input-group::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: block;
+            width: 1rem;
+            height: calc(100% - 8px);
+            margin: auto 4px auto auto;
+            filter: blur(2px);
+            background: #fafafa;
+            opacity: 0.9;
+          }
+
+          .input-group {
+            border-radius: 8px;
+          }
+
+          .input-group:focus-within {
+            box-shadow: 0px 0px 0px 4px #c2e4ff;
+            border-radius: 10px;
+            background: white;
+          }
+
+          .input-group:focus-within .search-field,
+          .input-group:focus-within .input-group-prepend .input-group-text {
+            border-color: #0072ce !important;
+            background-color: white;
+          }
+
+          .search-box.compact .input-group:focus-within::after {
+            background: white;
           }
 
           @media (max-width: 1000px) {
-            .search-box {
+            .search-box,
+            .search-box.compact {
               width: 100%;
             }
           }
 
+          .input-group:hover {
+            background: #f8f9fb;
+            border-radius: 8px;
+          }
+
+          .input-group:hover .search-field,
+          .input-group:hover .input-group-prepend .input-group-text {
+            border-color: #cdcfd1;
+          }
+
           .input-group-text {
             background: #fafafa;
-            border: 2px solid #eaebeb;
-            border-right: none;
-            border-radius: 8px;
+            height: 100%;
+          }
+
+          .input-group-text::placeholder {
+            color: #a1a1a9;
           }
 
           .search-field {
-            background: ${this.props.dashboard ? "#FFFFFF" : "#FAFAFA"};
+            background: #ffffff;
+            border-left: inherit;
             border: 2px solid #eaebeb;
-            border-left: ${this.props.dashboard ? "2px solid #eaebeb" : "none"};
-            box-sizing: border-box;
-            border-radius: 8px;
-            height: 100%;
-            font-weight: lighter;
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            box-shadow: none !important;
+            padding-right: 0.313rem;
+          }
+
+          .search-field::placeholder {
+            color: #8d9396;
+          }
+
+          .search-field:disabled,
+          .search-field[disabled] {
+            background: #eaebeb;
+          }
+
+          .form-control:focus-within {
+            box-shadow: none;
+          }
+
+          .input-group .button-search::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -1.25rem;
+            bottom: 0;
+            display: block;
+            width: 1rem;
+            height: calc(100% - 8px);
+            margin: auto 4px auto auto;
+            filter: blur(2px);
+            background: white;
+            opacity: 0.9;
           }
 
           .button-search {
+            position: relative;
             background: #0072ce;
-            border-color: #0072ce;
+            border: 2px solid #0072ce;
             border-radius: 0px 8px 8px 0px;
             padding: 10px 30px;
+          }
+
+          .button-search:hover {
+            background: #2b9af4;
+            border-color: #0072ce;
+          }
+
+          .btn-info.button-search:not(:disabled):active,
+          .btn-info.button-search:not(:disabled):active:focus,
+          .btn-info.button-search:not(:disabled):focus {
+            background-color: #2b9af4;
+            border-color: #0072ce;
+            box-shadow: none;
+          }
+
+          .form-control {
+            height: 100% !important;
           }
         `}</style>
       </form>
