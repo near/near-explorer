@@ -10,6 +10,11 @@ export default () => {
   useEffect(() => {
     new StatsApi().activeContractsList().then((contracts: Contract[]) => {
       if (contracts) {
+        contracts.sort(
+          (v1: any, v2: any) =>
+            Number(v1.receiptsCount) - Number(v2.receiptsCount)
+        );
+
         const activeContracts = contracts.map(
           (account: Contract) => account.contract
         );

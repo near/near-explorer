@@ -10,6 +10,11 @@ export default () => {
   useEffect(() => {
     new StatsApi().activeAccountsList().then((accounts: Account[]) => {
       if (accounts) {
+        accounts.sort(
+          (v1: any, v2: any) =>
+            Number(v1.transactionsCount) - Number(v2.transactionsCount)
+        );
+
         const activeAccounts = accounts.map(
           (account: Account) => account.account
         );
