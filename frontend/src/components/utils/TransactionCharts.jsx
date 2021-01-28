@@ -7,7 +7,9 @@ import moment from "moment";
 export default () => {
   const value = useContext(DatabaseContext);
   const transactionCountArray = value.transactionCountArray;
-  const date = transactionCountArray.map((t) => moment(t.date).format("LL"));
+  const date = transactionCountArray.map((t) =>
+    moment(t.date).format("LL").slice(0, -6)
+  );
   const count = transactionCountArray.map((t) => t.total);
   const getOption = () => {
     return {
