@@ -18,25 +18,30 @@ export default class extends React.Component {
         <Container>
           <h1 style={{ marginTop: "72px" }}>
             <span style={{ color: "#00C1DE" }}>Explore</span> the
+            <br />
+            NEAR Blockchain.
           </h1>
-          <h1>NEAR Blockchain.</h1>
-          <Row className="inner-content">
-            <Row noGutters className="search-wrapper">
-              <Search dashboard />
-            </Row>
-            <Row noGutters className="card-area">
-              <Col xs="12" md="auto">
-                <NodeStatsProvider>
-                  <DashboardNode />
-                </NodeStatsProvider>
-              </Col>
-              <Col xs="12" md="auto">
-                <DashboardBlock />
-              </Col>
-            </Row>
-            <Row noGutters style={{ marginTop: "20px" }}>
+          <Row className="inner-content" noGutters>
+            <Col xs="12" className="d-none d-md-block d-lg-block">
+              <Row noGutters className="search-wrapper">
+                <Search dashboard />
+              </Row>
+            </Col>
+            <Col xs="12">
+              <Row className="card-area">
+                <Col xs="12" md="6">
+                  <NodeStatsProvider>
+                    <DashboardNode />
+                  </NodeStatsProvider>
+                </Col>
+                <Col xs="12" md="6" noGutters>
+                  <DashboardBlock />
+                </Col>
+              </Row>
+            </Col>
+            <Col xs="12" noGutters>
               <DashboardTransaction />
-            </Row>
+            </Col>
           </Row>
           <style jsx global>{`
             .inner-content {
@@ -44,7 +49,7 @@ export default class extends React.Component {
             }
 
             .search-wrapper {
-              width: 100%;
+              margin-bottom: 50px;
             }
 
             h1 {
@@ -52,20 +57,9 @@ export default class extends React.Component {
               line-height: 46px;
             }
 
-            .card-area {
-              width: 740px;
-              display: flex;
-              justify-content: space-between;
-              margin-top: 81px;
-            }
-
             @media (max-width: 1000px) {
               .inner-content {
                 margin: 32px auto;
-              }
-              .container {
-                margin: auto auto;
-                padding: 0;
               }
             }
           `}</style>

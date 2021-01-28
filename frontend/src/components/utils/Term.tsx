@@ -13,7 +13,12 @@ interface State {
 export default class extends React.Component<Props, State> {
   state: State = { isModalShown: false };
 
-  showModal = () => {
+  preventClickPropagation = (e: any) => {
+    e.preventDefault();
+  };
+
+  showModal = (e: any) => {
+    e.preventDefault();
     this.setState({ isModalShown: true });
   };
 
@@ -26,7 +31,7 @@ export default class extends React.Component<Props, State> {
     return (
       <>
         {title}
-        <div className="term-helper">
+        <div className="term-helper" onClick={this.preventClickPropagation}>
           <img
             src="/static/images/icon-info.svg"
             className="info"

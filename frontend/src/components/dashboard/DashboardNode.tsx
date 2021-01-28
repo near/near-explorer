@@ -3,20 +3,15 @@ import { Col, Row } from "react-bootstrap";
 
 import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
 
+import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
 export default () => (
   <NodeStatsConsumer>
     {(stats) => (
-      <Row className="node-card" noGutters>
-        <Row className="node-card-header" noGutters>
-          <p>
-            <img src="/static/images/icon-nodes.svg" className="node-icon" />
-            Nodes
-          </p>
-        </Row>
-        <Row noGutters style={{ width: "100%" }}>
+      <DashboardCard iconPath="/static/images/icon-nodes.svg" title="Nodes">
+        <Row noGutters>
           <Col xs="6" md="12">
             <LongCardCell
               title={
@@ -58,20 +53,17 @@ export default () => (
         </Row>
         <style jsx global>{`
           .node-card {
-            width: 360px;
-            height: 275px;
             background: #ffffff;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
             border-radius: 8px;
           }
 
           .node-card-header {
-            height: 72px;
-            width: 100%;
             font-weight: 800;
             font-size: 18px;
             line-height: 22px;
-            padding: 24px 27px;
+            padding: 24px 10px;
+            margin-bottom: 6px;
             border-bottom: 2px solid #f1f1f1;
           }
 
@@ -80,26 +72,17 @@ export default () => (
             margin-right: 8px;
           }
 
-          @media (max-width: 744px) {
-            .node-card {
-              width: 100%;
-            }
-          }
-
           @media (max-width: 415px) {
             .node-card {
-              width: 100%;
-              height: 139px;
               border-radius: 0;
               margin-top: 16px;
             }
             .node-card-header {
-              height: 56px;
-              padding: 17px;
+              padding: 17px 30px;
             }
           }
         `}</style>
-      </Row>
+      </DashboardCard>
     )}
   </NodeStatsConsumer>
 );

@@ -28,7 +28,7 @@ export default () => (
     </div>
     <div className="nearkat-wrapper">
       <a className="footer-help-link" href="http://near.chat" target="_blank">
-        <Row>
+        <Row noGutters>
           <Col className="help-image" xs="5" md="5">
             <Nearkats className="nearkat" />
           </Col>
@@ -48,7 +48,6 @@ export default () => (
         line-height: 40px;
         color: #999999;
         height: 118px;
-        width: 100%;
         display: flex;
         justify-content: space-between;
         flex-direction: row;
@@ -127,15 +126,12 @@ export default () => (
       @media (max-width: 780px) {
         .footer-container {
           flex-direction: column-reverse;
-          width: 100%;
           padding: 0;
           height: 92px;
           margin-top: 110px;
         }
 
         .nearlogo-wrapper {
-          width: 100%;
-          height: 100%;
           padding: 10px;
         }
 
@@ -144,9 +140,8 @@ export default () => (
         }
 
         .nearkat-wrapper {
-          margin-left: auto;
-          width: 100%;
           border: none;
+          width: auto;
         }
 
         .help-image {

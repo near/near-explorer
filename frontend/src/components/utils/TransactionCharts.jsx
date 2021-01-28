@@ -99,9 +99,8 @@ export default () => {
       option={getOption()}
       style={{
         height: "232px",
-        width: "100%",
         marginTop: "26px",
-        marginLeft: "24px",
+        marginBottom: "26px",
       }}
     />
   );

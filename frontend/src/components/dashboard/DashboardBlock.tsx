@@ -4,20 +4,23 @@ import { Col, Row } from "react-bootstrap";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
+import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
 export default () => (
   <DatabaseConsumer>
     {(context) => (
-      <Row className="node-card" noGutters>
-        <Row className="node-card-header" noGutters>
-          <img src="/static/images/icon-blocks.svg" className="node-icon" />
-          Blocks
+      <DashboardCard
+        className="ml-md-1"
+        iconPath="/static/images/icon-blocks.svg"
+        title="Blocks"
+        headerRight={
           <Link href="/blocks">
             <a className="block-view-all">View All</a>
           </Link>
-        </Row>
+        }
+      >
         <Row noGutters>
           <Col xs="6" md="12">
             <LongCardCell
@@ -34,7 +37,7 @@ export default () => (
                   </p>
                 </Term>
               }
-              text={<p>{context.latestBlockHeight.toLocaleString()}</p>}
+              text={context.latestBlockHeight.toLocaleString()}
               loading={!context.latestBlockHeight}
             />
           </Col>
@@ -45,16 +48,13 @@ export default () => (
                   {"Average time for producing one block "}
                 </Term>
               }
-              text={
-                <p>{(60 / context.numberOfLastMinuteBlocks).toFixed(4)} s</p>
-              }
+              text={`${(60 / context.numberOfLastMinuteBlocks).toFixed(4)} s`}
               loading={!context.numberOfLastMinuteBlocks}
             />
           </Col>
         </Row>
         <style jsx global>{`
           .block-view-all {
-            margin-left: 157px;
             text-decoration: none;
             font-weight: 600;
             font-size: 14px;
@@ -74,7 +74,7 @@ export default () => (
             }
           }
         `}</style>
-      </Row>
+      </DashboardCard>
     )}
   </DatabaseConsumer>
 );
