@@ -61,7 +61,7 @@ export default () => {
             </Row>
             <Row
               className="transaction-charts"
-              style={{ width: "100%", height: "210px" }}
+              style={{ width: "100%", height: "314px" }}
             >
               <TransactionCharts />
             </Row>

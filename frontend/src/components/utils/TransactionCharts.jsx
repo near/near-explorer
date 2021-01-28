@@ -37,6 +37,9 @@ export default () => {
           axisLine: {
             show: false,
           },
+          axisLabel: {
+            color: "#9B9B9B",
+          },
           offset: 3,
         },
       ],
@@ -53,6 +56,10 @@ export default () => {
             show: false,
           },
           min: "dataMin",
+          axisLabel: {
+            color: "#9B9B9B",
+          },
+          offset: 5,
         },
       ],
       series: [
@@ -72,11 +79,11 @@ export default () => {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: "rgb(0, 193, 222)",
+                color: "rgba(0, 193, 222, 0.19)",
               },
               {
                 offset: 1,
-                color: "rgb(197, 247, 255)",
+                color: "rgba(197, 247, 255, 0)",
               },
             ]),
           },
@@ -89,7 +96,7 @@ export default () => {
     <ReactEcharts
       option={getOption()}
       style={{
-        height: "176px",
+        height: "232px",
         width: "100%",
         marginTop: "26px",
         marginLeft: "24px",
