@@ -32,6 +32,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 Transactions
                 <div
                   className="jsx-782042476 term-helper"
+                  onClick={[Function]}
                 >
                   <img
                     className="jsx-782042476 info"
@@ -71,6 +72,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 Gas Used
                 <div
                   className="jsx-782042476 term-helper"
+                  onClick={[Function]}
                 >
                   <img
                     className="jsx-782042476 info"
@@ -110,6 +112,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 Gas Price
                 <div
                   className="jsx-782042476 term-helper"
+                  onClick={[Function]}
                 >
                   <img
                     className="jsx-782042476 info"
@@ -157,6 +160,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 Status
                 <div
                   className="jsx-782042476 term-helper"
+                  onClick={[Function]}
                 >
                   <img
                     className="jsx-782042476 info"
@@ -196,6 +200,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 Created
                 <div
                   className="jsx-782042476 term-helper"
+                  onClick={[Function]}
                 >
                   <img
                     className="jsx-782042476 info"
@@ -231,6 +236,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 Hash
                 <div
                   className="jsx-782042476 term-helper"
+                  onClick={[Function]}
                 >
                   <img
                     className="jsx-782042476 info"
@@ -270,6 +276,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 Parent Hash
                 <div
                   className="jsx-782042476 term-helper"
+                  onClick={[Function]}
                 >
                   <img
                     className="jsx-782042476 info"
