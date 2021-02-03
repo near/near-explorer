@@ -7,6 +7,7 @@ import HeaderNavDropdown from "./HeaderNavDropdown";
 import MobileHeaderNavDropdown from "./MobileHeaderNavDropdown";
 import Search from "./Search";
 import NearLogo from "../../../public/static/images/near_logo.svg";
+import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
 
 export default () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default () => {
       <Row noGutters>
         <Col xs="12" md="auto" className="align-self-center">
           <Row noGutters>
-            <Col xs="auto" md="6">
+            <Col md="6" className="d-none d-md-block d-lg-block">
               <Link href="/">
                 <a>
                   <NearLogo className="near-main-logo" />
@@ -24,12 +25,20 @@ export default () => {
               </Link>
             </Col>
 
-            <Col className="align-self-center">
+            <Col xs="2" className="d-md-none text-left">
+              <Link href="/">
+                <a>
+                  <NearLogoIcon style={{ width: "100%" }} />
+                </a>
+              </Link>
+            </Col>
+
+            <Col xs="8" md="2" className="align-self-center text-center">
               <HeaderNetworkDropdown />
             </Col>
 
             <Col
-              xs="auto"
+              xs="2"
               className="align-self-center text-right mobile-nav-bar d-md-none"
             >
               <MobileHeaderNavDropdown />

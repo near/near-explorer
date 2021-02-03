@@ -25,7 +25,7 @@ export default () => {
           }
         >
           <Row className="transaction-card-number">
-            <Col xs="12" md="4" className="bottom-line">
+            <Col xs="12" md="4">
               <LongCardCell
                 title={
                   <Term title={"24hr Total"}>
@@ -39,7 +39,7 @@ export default () => {
                 loading={!context.lastDayTxCount}
               />
             </Col>
-            <Col xs="12" md="8" className="bottom-line">
+            <Col xs="12" md="8">
               <LongCardCell
                 title={
                   <Term title={"Gas Price"}>
@@ -86,35 +86,10 @@ export default () => {
               padding: 10px 24px;
             }
 
-            @media (max-width: 768px) {
-              .transaction-view-all {
-                margin-top: -24px;
-                margin-left: 600px;
-              }
-            }
-
             @media (max-width: 540px) {
-              .transaction-card {
-                border-radius: 0;
-              }
-
-              .transaction-view-all {
-                margin-left: 256px;
-              }
-
-              .bottom-line {
-                border-bottom: 2px solid #f1f1f1;
-              }
-
               .react_for_echarts {
                 margin-left: 24px;
                 margin-top: 26px;
-              }
-            }
-
-            @media (max-width: 360px) {
-              .transaction-view-all {
-                margin-left: 180px;
               }
             }
           `}</style>

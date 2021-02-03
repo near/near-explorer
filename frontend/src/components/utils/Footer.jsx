@@ -6,13 +6,13 @@ export default () => (
   <Container fluid className="footer-container">
     <div className="nearlogo-wrapper">
       <Row>
-        <Col className="align-self-center text-center px-0" xs="4" md="3">
+        <Col className="align-self-center text-center px-0" xs="12" md="3">
           <NearLogo className="near-logo" />
         </Col>
         <Col
           className="align-self-center footer-link text-md-left text-center pl-0"
-          xs="8"
-          md="4"
+          xs="12"
+          md="6"
         >
           © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
           <br />
@@ -133,6 +133,7 @@ export default () => (
 
         .nearlogo-wrapper {
           padding: 10px;
+          width: 100%;
         }
 
         .need-help-contact {

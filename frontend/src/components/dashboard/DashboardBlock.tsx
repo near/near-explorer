@@ -60,19 +60,6 @@ export default () => (
             font-size: 14px;
             color: #0072ce;
           }
-
-          @media (max-width: 415px) {
-            .block-view-all {
-              margin-left: 256px;
-              margin-top: -25px;
-            }
-          }
-
-          @media (max-width: 360px) {
-            .block-view-all {
-              margin-left: 180px;
-            }
-          }
         `}</style>
       </DashboardCard>
     )}

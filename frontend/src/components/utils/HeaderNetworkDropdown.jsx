@@ -49,6 +49,7 @@ export default () => (
             height: 33px;
             padding: 3px 2px;
             font-size: 14px;
+            outline: none;
           }
 
           .header-network:hover,
@@ -57,13 +58,7 @@ export default () => (
           .show > .btn-secondary.dropdown-toggle {
             background: #f7f7f7 !important;
             color: #000000 !important;
-            border: none;
-            box-shadow: none;
-            outline: none !important;
-          }
-
-          .show > .btn-secondary.dropdown-toggle:focus {
-            box-shadow: none;
+            border: 2px solid #f1f1f1;
           }
 
           .btn-secondary:focus {

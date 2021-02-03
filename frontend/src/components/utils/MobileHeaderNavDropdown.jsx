@@ -19,7 +19,7 @@ const MobileNavItem = ({ link, imgLink, text }) => {
           }
 
           .nav-text {
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -29,12 +29,9 @@ const MobileNavItem = ({ link, imgLink, text }) => {
             color: #a5a5a5;
             display: block;
             padding-top: 14px;
-            padding-left: 40px;
-            width: 100%;
-          }
-
-          .header-nav-item:last-child {
             padding-bottom: 14px;
+            padding-left: 16px;
+            width: 100%;
           }
 
           .header-nav-item:focus,
@@ -152,7 +149,7 @@ export default class extends React.Component {
             width: 100%;
             max-width: 100%;
             left: 0;
-            top: 111px;
+            top: 121px;
             z-index: 2;
             background: #25272a;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
@@ -161,8 +158,10 @@ export default class extends React.Component {
 
           .mobile-nav {
             padding-top: 14px;
-            padding-left: 40px;
+            padding-left: 16px;
+            padding-bottom: 15px;
             color: #f8f8f8;
+            letter-spacing: 1px;
           }
         `}</style>
       </>
