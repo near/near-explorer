@@ -60,11 +60,7 @@ export default ({ title, text, loading, href }: Props) => {
           color: #25272a;
         }
 
-        .card-cell-text a {
-          color: #00c08b;
-        }
-
-        .card-cell-text a:hover {
+        .href-cell:hover .card-cell-text {
           color: #0072ce;
         }
 

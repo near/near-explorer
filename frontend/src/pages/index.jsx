@@ -16,7 +16,7 @@ export default class extends React.Component {
           <title>NEAR Explorer | Dashboard</title>
         </Head>
         <Container>
-          <h1 style={{ marginTop: "72px" }}>
+          <h1 style={{ marginTop: "72px", marginLeft: "25px" }}>
             <span style={{ color: "#00C1DE" }}>Explore</span> the
             <br />
             NEAR Blockchain.
@@ -28,13 +28,13 @@ export default class extends React.Component {
               </Row>
             </Col>
             <Col xs="12">
-              <Row className="card-area">
+              <Row className="card-area" noGutters>
                 <Col xs="12" md="6">
                   <NodeStatsProvider>
                     <DashboardNode />
                   </NodeStatsProvider>
                 </Col>
-                <Col xs="12" md="6" noGutters>
+                <Col xs="12" md="6">
                   <DashboardBlock />
                 </Col>
               </Row>
@@ -45,7 +45,7 @@ export default class extends React.Component {
           </Row>
           <style jsx global>{`
             .inner-content {
-              margin: 71px 180px;
+              margin: 71px 185px;
             }
 
             .search-wrapper {
@@ -57,9 +57,21 @@ export default class extends React.Component {
               line-height: 46px;
             }
 
-            @media (max-width: 1000px) {
+            @media (max-width: 1200px) {
+              .inner-content {
+                margin: 32px 100px;
+              }
+            }
+
+            @media (max-width: 990px) {
               .inner-content {
                 margin: 32px auto;
+              }
+            }
+
+            @media (max-width: 415px) {
+              .container {
+                padding: 0;
               }
             }
           `}</style>

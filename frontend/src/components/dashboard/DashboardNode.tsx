@@ -10,7 +10,11 @@ import Term from "../utils/Term";
 export default () => (
   <NodeStatsConsumer>
     {(stats) => (
-      <DashboardCard iconPath="/static/images/icon-nodes.svg" title="Nodes">
+      <DashboardCard
+        iconPath="/static/images/icon-nodes.svg"
+        title="Nodes"
+        className="node-card"
+      >
         <Row noGutters>
           <Col xs="6" md="12">
             <LongCardCell
@@ -53,32 +57,13 @@ export default () => (
         </Row>
         <style jsx global>{`
           .node-card {
-            background: #ffffff;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
+            width: 360px;
           }
 
-          .node-card-header {
-            font-weight: 800;
-            font-size: 18px;
-            line-height: 22px;
-            padding: 24px 10px;
-            margin-bottom: 6px;
-            border-bottom: 2px solid #f1f1f1;
-          }
-
-          .node-icon {
-            width: 24px !important;
-            margin-right: 8px;
-          }
-
-          @media (max-width: 415px) {
+          @media (max-width: 772px) {
             .node-card {
-              border-radius: 0;
-              margin-top: 16px;
-            }
-            .node-card-header {
-              padding: 17px 30px;
+              width: 100%;
+              margin-top: 10px;
             }
           }
         `}</style>

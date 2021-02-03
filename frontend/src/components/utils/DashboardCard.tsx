@@ -4,7 +4,7 @@ import { Col, Row } from "react-bootstrap";
 interface Props {
   className?: string;
   iconPath: string;
-  title: React.ReactNode;
+  title: string;
   headerRight?: React.ReactNode;
   children?: React.ReactNode;
 }
@@ -16,7 +16,7 @@ export default ({
   headerRight,
   children,
 }: Props) => (
-  <Row className={`dashboard-card ${className || ""}`}>
+  <Row className={`dashboard-card ${className || ""}`} noGutters>
     <Col xs="12">
       <Row className="dashboard-card-header">
         <Col>
@@ -32,6 +32,7 @@ export default ({
         background: #ffffff;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
         border-radius: 8px;
+        padding: 3px 24px;
       }
 
       .dashboard-card-header {
@@ -52,7 +53,9 @@ export default ({
         .dashboard-card {
           border-radius: 0;
           margin-top: 16px;
+          width: 100%;
         }
+
         .dashboard-card-header {
           padding: 17px 30px;
         }

@@ -12,7 +12,7 @@ export default () => (
   <DatabaseConsumer>
     {(context) => (
       <DashboardCard
-        className="ml-md-1"
+        className="ml-md-1 node-card"
         iconPath="/static/images/icon-blocks.svg"
         title="Blocks"
         headerRight={
