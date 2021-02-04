@@ -177,19 +177,27 @@ const queryDashboardTxInfo = async (options) => {
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT date_trunc('day', to_timestamp(DIV(block_timestamp, 1000*1000*1000))) as date, count(transaction_hash) as total
                 FROM transactions
-                WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 as bigint) * 1000 * 1000 * 1000)
+                WHERE
+                  block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 15 as bigint) * 1000 * 1000 * 1000)
+                  AND
+                  block_timestamp < (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 as bigint) * 1000 * 1000 * 1000)
                 GROUP BY date
                 ORDER BY date`;
     } else {
       query = `SELECT strftime('%Y-%m-%d',block_timestamp/1000,'unixepoch') as date, count(hash) as total
                 FROM transactions
-                WHERE (block_timestamp/1000) > (strftime('%s','now') - 60 * 60 * 24 * 15)
+                WHERE
+                  (block_timestamp/1000) > (strftime('%s','now') - 60 * 60 * 24 * 15)
+                  AND
+                  (block_timestamp/1000) < (strftime('%s','now') - 60 * 60 * 24)
                 GROUP BY date
                 ORDER BY date`;
     }
-    return await queryRows([query], { dataSource });
+    return (
+      await queryRows([query], { dataSource })
+    ).map(({ total, ...rest }) => ({ total: parseInt(total), ...rest }));
   }
-  let transactionCountArray = await queryTransactionCountArray(options);
+  const transactionCountArray = await queryTransactionCountArray(options);
   return transactionCountArray;
 };
 
