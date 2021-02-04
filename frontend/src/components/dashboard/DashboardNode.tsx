@@ -33,6 +33,7 @@ export default () => (
               text={stats.onlineNodeAmount.toLocaleString()}
               href={"/nodes/online-nodes"}
               loading={!stats.onlineNodeAmount}
+              className="dashboard-online-nodes-count"
             />
           </Col>
           <Col xs="6" md="12">

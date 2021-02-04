@@ -58,6 +58,7 @@ export default ({ title, text, loading, href, className }: Props) => {
         .long-card-cell-title {
           color: #9b9b9b;
           font-size: 14px;
+          font-style: normal;
           font-weight: 500;
           margin-bottom: 5px;
         }

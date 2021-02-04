@@ -25,7 +25,7 @@ export default () => {
           }
         >
           <Row className="transaction-card-number">
-            <Col xs="12" md="4">
+            <Col xs="12" md="4" className="border-bottom-gray">
               <LongCardCell
                 title={
                   <Term title={"24hr Total"}>
@@ -35,7 +35,23 @@ export default () => {
                     </a>
                   </Term>
                 }
-                text={context.lastDayTxCount.toLocaleString()}
+                text={
+                  <div>
+                    {context.lastDayTxCount.toLocaleString()}
+                    <span className="count-percent">
+                      <img
+                        src="/static/images/up-array.svg"
+                        className="up-arrow"
+                      />
+                      {(
+                        ((context.lastDayTxCount - context.last2DayTxCount) /
+                          context.last2DayTxCount) *
+                        100
+                      ).toFixed(2)}
+                      %
+                    </span>
+                  </div>
+                }
                 loading={!context.lastDayTxCount}
               />
             </Col>
@@ -66,6 +82,32 @@ export default () => {
               line-height: 19px;
               color: #00272c;
               padding: 10px 24px;
+            }
+
+            .transaction-card-number {
+              border-bottom: 2px solid #f1f1f1;
+            }
+
+            .count-percent {
+              font-size: 14px;
+              font-weight: 300;
+              color: #00c08b;
+              margin-left: 12px;
+            }
+
+            .up-arrow {
+              width: 16px;
+              margin-top: -4px;
+            }
+
+            @media (max-width: 768px) {
+              .transaction-charts {
+                margin-bottom: 178px;
+              }
+
+              .border-bottom-gray {
+                border-bottom: 2px solid #f1f1f1;
+              }
             }
 
             @media (max-width: 540px) {
