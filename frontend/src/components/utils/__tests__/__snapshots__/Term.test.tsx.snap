@@ -5,6 +5,7 @@ Array [
   "Nodes Online",
   <div
     className="jsx-782042476 term-helper"
+    onClick={[Function]}
   >
     <img
       className="jsx-782042476 info"

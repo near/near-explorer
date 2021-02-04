@@ -29,6 +29,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               Transactions
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -80,6 +81,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               Storage Used
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -119,6 +121,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               Lockup Account
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -165,6 +168,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               Ⓝ Native Account Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -208,6 +212,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               Ⓝ Validator Stake
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -251,6 +256,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               Ⓝ Aggregated Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -297,6 +303,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               Created at
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -347,6 +354,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               Transactions
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -398,6 +406,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               Storage Used
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -437,6 +446,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               Lockup Account
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -483,6 +493,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               Ⓝ Native Account Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -526,6 +537,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               Ⓝ Validator Stake
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -569,6 +581,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               Ⓝ Aggregated Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -615,6 +628,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               Created at
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -665,6 +679,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Transactions
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -716,6 +731,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Storage Used
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -755,6 +771,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Lockup Account
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -801,6 +818,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Ⓝ Native Account Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -844,6 +862,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Ⓝ Validator Stake
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -887,6 +906,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Ⓝ Aggregated Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -933,6 +953,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Created at
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -968,6 +989,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               Deleted at
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1029,6 +1051,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               Transactions
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1080,6 +1103,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               Storage Used
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1119,6 +1143,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               Lockup Account
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1165,6 +1190,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               Ⓝ Native Account Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1208,6 +1234,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               Ⓝ Validator Stake
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1251,6 +1278,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               Ⓝ Aggregated Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1297,6 +1325,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               Created at
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1358,6 +1387,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               Transactions
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1409,6 +1439,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               Storage Used
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1448,6 +1479,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               Ⓝ Native Account Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1491,6 +1523,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               Ⓝ Validator Stake
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1534,6 +1567,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               Ⓝ Aggregated Balance
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"
@@ -1580,6 +1614,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               Created at
               <div
                 className="jsx-782042476 term-helper"
+                onClick={[Function]}
               >
                 <img
                   className="jsx-782042476 info"

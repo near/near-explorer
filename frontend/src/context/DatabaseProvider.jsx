@@ -1,3 +1,5 @@
+import BN from "bn.js";
+
 import React, { createContext, useEffect, useCallback, useState } from "react";
 
 import { DATA_SOURCE_TYPE } from "../libraries/consts";
@@ -5,52 +7,53 @@ import { ExplorerApi } from "../libraries/explorer-wamp";
 
 const DatabaseContext = createContext({
   finalTimestamp: 0,
-  lastBlockHeight: 0,
-  totalBlocks: 0,
-  totalTransactions: 0,
-  totalAccounts: 0,
+  latestBlockHeight: new BN(0),
+  latestGasPrice: "0",
+  numberOfLastMinuteBlocks: 0,
+  transactionCountArray: [],
   lastDayTxCount: 0,
+  last2DayTxCount: 0,
 });
 
 export default (props) => {
   const [finalTimestamp, dispatchFinalTimestamp] = useState(0);
-  const [lastBlockHeight, dispatchLastBlockHeight] = useState(0);
-  const [totalBlocks, dispatchTotalBlcoks] = useState(0);
-  const [totalTransactions, dispatchTotalTransactions] = useState(0);
-  const [totalAccounts, dispatchTotalAccounts] = useState(0);
+  const [latestBlockHeight, dispatchLatestBlockHeight] = useState(0);
+  const [latestGasPrice, dispatchLatestGasPrice] = useState("");
+  const [numberOfLastMinuteBlocks, dispatchNumberOfLastMinuteBlocks] = useState(
+    0
+  );
+  const [transactionCountArray, dispatchTransactionArray] = useState([]);
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
+  const [last2DayTxCount, dispatchLast2DayTxCount] = useState(0);
 
-  // fetch total amount of blocks, txs and accounts and lastBlockHeight and txs for 24hr
-  const fetchNewStats = function (stats) {
+  // store total amount of blocks, txs and accounts and latestBlockHeight and txs for 24hr
+  const storeNewStats = function (stats) {
     // subscription data part
-    let states = stats[0].dataStats;
+    let states = stats[0].blockStats;
     let {
-      lastBlockHeight: newLastBlockHeight,
-      totalAccounts: newTotalAccounts,
-      totalBlocks: newTotalBlocks,
-      totalTransactions: newTotalTransactions,
-      lastDayTxCount: newLastDayTxCount,
+      latestBlockHeight: newLatestBlockHeight,
+      latestGasPrice: newLatestGasPrice,
+      numberOfLastMinuteBlocks: newNumberOfLastMinuteBlocks,
     } = states;
 
     // dispatch direct data part
-    if (lastBlockHeight !== newLastBlockHeight) {
-      dispatchLastBlockHeight(newLastBlockHeight);
-    }
-    if (totalAccounts !== newTotalAccounts) {
-      dispatchTotalAccounts(newTotalAccounts);
-    }
-    if (totalBlocks !== newTotalBlocks) {
-      dispatchTotalBlcoks(newTotalBlocks);
-    }
-    if (totalTransactions !== newTotalTransactions) {
-      dispatchTotalTransactions(newTotalTransactions);
-    }
-    if (lastDayTxCount !== newLastDayTxCount) {
-      dispatchLastDayTxCount(newLastDayTxCount);
-    }
+    dispatchLatestBlockHeight(new BN(newLatestBlockHeight));
+    dispatchLatestGasPrice(newLatestGasPrice);
+    dispatchNumberOfLastMinuteBlocks(newNumberOfLastMinuteBlocks);
   };
 
-  const fetchFinalTimestamp = (timestamp) => {
+  const storeTransactionArray = function (stats) {
+    let transactionCountArray = stats[0].transactionCountArray;
+    dispatchLastDayTxCount(
+      transactionCountArray[transactionCountArray.length - 1].total
+    );
+    dispatchLast2DayTxCount(
+      transactionCountArray[transactionCountArray.length - 2].total
+    );
+    dispatchTransactionArray(transactionCountArray);
+  };
+
+  const storeFinalTimestamp = (timestamp) => {
     let final = timestamp[0];
     if (finalTimestamp !== final) {
       dispatchFinalTimestamp(final);
@@ -68,23 +71,27 @@ export default (props) => {
     }
 
     explorerApi.subscribe(
-      instrumentTopicNameWithDataSource("chain-stats"),
-      fetchNewStats
+      instrumentTopicNameWithDataSource("chain-block-stats"),
+      storeNewStats
     );
-    explorerApi.subscribe("final-timestamp", fetchFinalTimestamp);
+    explorerApi.subscribe(
+      instrumentTopicNameWithDataSource("chain-txs-stats"),
+      storeTransactionArray
+    );
+    explorerApi.subscribe("final-timestamp", storeFinalTimestamp);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);
-
   return (
     <DatabaseContext.Provider
       value={{
         finalTimestamp,
-        lastBlockHeight,
-        totalBlocks,
-        totalTransactions,
-        totalAccounts,
+        latestBlockHeight,
+        latestGasPrice,
+        numberOfLastMinuteBlocks,
+        transactionCountArray,
         lastDayTxCount,
+        last2DayTxCount,
       }}
     >
       {props.children}

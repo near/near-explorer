@@ -7,6 +7,7 @@ import HeaderNavDropdown from "./HeaderNavDropdown";
 import MobileHeaderNavDropdown from "./MobileHeaderNavDropdown";
 import Search from "./Search";
 import NearLogo from "../../../public/static/images/near_logo.svg";
+import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
 
 export default () => {
   const router = useRouter();
@@ -14,9 +15,9 @@ export default () => {
   return (
     <Container fluid className="header-container">
       <Row noGutters>
-        <Col className="align-self-center" md="6" lg="2" xs="12" sm="12">
-          <Row>
-            <Col xs="10" md="6" className="align-self-center">
+        <Col xs="12" md="auto" className="align-self-center">
+          <Row noGutters className="header-main-bar">
+            <Col md="6" className="d-none d-md-block d-lg-block">
               <Link href="/">
                 <a>
                   <NearLogo className="near-main-logo" />
@@ -24,7 +25,15 @@ export default () => {
               </Link>
             </Col>
 
-            <Col md="6" className="align-self-center d-none d-md-block">
+            <Col xs="2" className="d-md-none text-left">
+              <Link href="/">
+                <a>
+                  <NearLogoIcon className="near-main-mobile-logo" />
+                </a>
+              </Link>
+            </Col>
+
+            <Col xs="8" md="2" className="align-self-center text-center">
               <HeaderNetworkDropdown />
             </Col>
 
@@ -39,23 +48,18 @@ export default () => {
 
         <Col
           className="align-self-center text-center search-box-column d-md-none"
-          sm="12"
+          xs="12"
         >
           <Search />
         </Col>
 
-        <Col
-          className="align-self-center text-center search-box-column d-none d-md-block d-lg-block "
-          md="8"
-          lg="8"
-        >
+        <Col className="align-self-center text-center search-box-column d-none d-md-block d-lg-block ">
           {router.pathname !== "/" && <Search />}
         </Col>
 
         <Col
-          className="align-self-center text-right d-none d-md-block"
-          md="4"
-          lg="2"
+          className="header-secondary-bar align-self-center text-right d-none d-md-block"
+          md="auto"
         >
           <Row>
             <Col md="5" className="align-self-center">
@@ -71,11 +75,8 @@ export default () => {
       </Row>
       <style jsx global>{`
         .header-container {
-          padding: 0 5px;
-          width: 100%;
           background: #ffffff;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-          height: 72px;
         }
 
         .near-main-logo {
@@ -84,12 +85,20 @@ export default () => {
           padding: 6px;
         }
 
+        .near-main-mobile-logo {
+          width: 48px;
+        }
+
+        .header-main-bar {
+          padding: 3px 16px 4px 6px;
+        }
+
         .header-container .mobile-nav-bar .mobile {
-          padding-right: 14px;
+          margin: 8px 0 0 0;
         }
 
         .search-box-column > .search-box {
-          padding: 0 12px 0 13px;
+          padding: 0 16px;
         }
 
         .header-home,
@@ -99,12 +108,9 @@ export default () => {
           text-decoration: none;
         }
 
-        @media (max-width: 991px) {
+        @media (max-width: 768px) {
           .header-container {
-            height: 111px;
-          }
-          .near-main-logo {
-            height: 55px;
+            padding: 0 0 14px 0;
           }
         }
       `}</style>

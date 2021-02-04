@@ -49,21 +49,21 @@ export default () => (
             height: 33px;
             padding: 3px 2px;
             font-size: 14px;
+            outline: none;
           }
 
           .header-network:hover,
           .header-network:focus,
           .header-network:active,
-          .show > .btn-secondary.dropdown-toggle {
+          .header-network:focus:active,
+          .show > .header-network.dropdown-toggle {
             background: #f7f7f7 !important;
             color: #000000 !important;
-            border: none;
-            box-shadow: none;
-            outline: none !important;
+            box-shadow: none !important;
+            border: 0 solid #f1f1f1 !important;
           }
-
-          .show > .btn-secondary.dropdown-toggle:focus {
-            box-shadow: none;
+          .header-network.dropdown-toggle {
+            border: 2px solid #f1f1f1;
           }
 
           .btn-secondary:focus {

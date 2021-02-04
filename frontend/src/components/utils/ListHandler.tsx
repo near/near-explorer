@@ -156,9 +156,7 @@ export default (
                   }}
                 >
                   {config.category === "Block" ? (
-                    <Update>{`The latest block height is #${context.lastBlockHeight}.`}</Update>
-                  ) : config.category === "Transaction" ? (
-                    <Update>{`There are ${context.totalTransactions} transactions.`}</Update>
+                    <Update>{`The latest block height is #${context.latestBlockHeight}.`}</Update>
                   ) : null}
                 </div>
               )}
