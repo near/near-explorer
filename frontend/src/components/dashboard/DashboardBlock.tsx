@@ -21,7 +21,7 @@ export default ({ className }: Props) => (
         title="Blocks"
         headerRight={
           <Link href="/blocks">
-            <a className="block-view-all">View All</a>
+            <a>View All</a>
           </Link>
         }
       >

@@ -20,7 +20,7 @@ export default () => {
           title="Transactions"
           headerRight={
             <Link href="/transactions">
-              <a className="transaction-view-all">View All</a>
+              <a>View All</a>
             </Link>
           }
         >

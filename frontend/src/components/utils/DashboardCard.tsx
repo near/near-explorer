@@ -38,15 +38,16 @@ export default ({
       }
 
       .dashboard-card-header {
-        font-weight: 800;
-        font-size: 18px;
+        font-weight: 900;
+        font-size: 20px;
         line-height: 22px;
         padding: 24px 10px;
         border-bottom: 2px solid #f1f1f1;
       }
 
       .dashboard-card-header-right {
-        font-weight: 600;
+        font-weight: 500;
+        font-size: 14px;
       }
 
       .dashboard-icon {
