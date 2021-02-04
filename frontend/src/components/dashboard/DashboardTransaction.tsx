@@ -15,7 +15,7 @@ export default () => {
     <DatabaseConsumer>
       {(context) => (
         <DashboardCard
-          className="transaction-card mt-4"
+          className="transaction-card"
           iconPath="/static/images/icon-transactions.svg"
           title="Transactions"
           headerRight={
@@ -60,24 +60,6 @@ export default () => {
             </Col>
           </Row>
           <style jsx global>{`
-            .transaction-card {
-              box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-              border-radius: 8px;
-              background: #ffffff;
-              margin-bottom: 154px;
-            }
-
-            .transaction-view-all {
-              text-decoration: none;
-              font-weight: 600;
-              font-size: 14px;
-              color: #0072ce;
-            }
-
-            .transaction-card-number {
-              border-bottom: 2px solid #f1f1f1;
-            }
-
             .chart-title {
               font-weight: bold;
               font-size: 16px;

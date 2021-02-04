@@ -29,17 +29,17 @@ export default class extends React.Component {
             </Col>
             <Col xs="12">
               <Row className="card-area" noGutters>
-                <Col xs="12" md="6">
+                <Col xs="12" md="6" className="mt-4">
                   <NodeStatsProvider>
                     <DashboardNode />
                   </NodeStatsProvider>
                 </Col>
-                <Col xs="12" md="6">
-                  <DashboardBlock />
+                <Col xs="12" md="6" className="mt-4">
+                  <DashboardBlock className="ml-md-4" />
                 </Col>
               </Row>
             </Col>
-            <Col xs="12" noGutters>
+            <Col xs="12" className="mt-4">
               <DashboardTransaction />
             </Col>
           </Row>
@@ -71,7 +71,11 @@ export default class extends React.Component {
 
             @media (max-width: 415px) {
               .container {
-                padding: 0;
+                padding: 0 1px 0 0;
+              }
+
+              .transaction-card {
+                box-shadow: none;
               }
             }
           `}</style>

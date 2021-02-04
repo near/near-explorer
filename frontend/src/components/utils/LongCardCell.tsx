@@ -1,13 +1,18 @@
-import { Row, Col, Spinner } from "react-bootstrap";
 import Link from "next/link";
+
+import { Row, Col, Spinner } from "react-bootstrap";
+
+import RightArrowSvg from "../../../public/static/images/right-arrow.svg";
+
 export interface Props {
   title: React.ReactElement | string;
   text: React.ReactElement | string;
   loading?: boolean;
   href?: string;
+  className?: string;
 }
 
-export default ({ title, text, loading, href }: Props) => {
+export default ({ title, text, loading, href, className }: Props) => {
   const plainCell = (
     <Row>
       <Col xs="12" className="long-card-cell-title align-self-center">
@@ -23,23 +28,26 @@ export default ({ title, text, loading, href }: Props) => {
       {href ? (
         <Link href={href}>
           <a>
-            <Row className="long-card-cell href-cell" noGutters>
+            <Row
+              className={`long-card-cell href-cell ${className || ""}`}
+              noGutters
+            >
               <Col>{plainCell}</Col>
               <Col xs="auto" className="right-arrow">
-                <img src="/static/images/right-arrow.svg" />
+                <RightArrowSvg />
               </Col>
             </Row>
           </a>
         </Link>
       ) : (
-        <Row className="long-card-cell" noGutters>
+        <Row className={`long-card-cell ${className || ""}`} noGutters>
           <Col>{plainCell}</Col>
         </Row>
       )}
       <style jsx global>{`
         .long-card-cell {
-          padding: 13px 10px;
-          margin: 6px 0;
+          padding: 8px;
+          margin: 9px 0;
         }
 
         .href-cell:hover {
@@ -64,8 +72,16 @@ export default ({ title, text, loading, href }: Props) => {
           color: #0072ce;
         }
 
+        .href-cell:hover .right-arrow svg path {
+          stroke: #0072ce;
+        }
+
         .right-arrow {
           margin: auto 0;
+        }
+
+        .right-arrow svg path {
+          stroke: #9da2a5;
         }
 
         @media (max-width: 744px) {

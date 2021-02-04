@@ -5,7 +5,7 @@ import Nearkats from "../../../public/static/images/nearkats.svg";
 export default () => (
   <Container fluid className="footer-container">
     <div className="nearlogo-wrapper">
-      <Row>
+      <Row noGutters>
         <Col className="align-self-center text-center px-0" xs="12" md="3">
           <NearLogo className="near-logo" />
         </Col>

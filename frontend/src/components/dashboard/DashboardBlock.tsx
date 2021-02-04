@@ -8,11 +8,15 @@ import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
-export default () => (
+export interface Props {
+  className?: string;
+}
+
+export default ({ className }: Props) => (
   <DatabaseConsumer>
     {(context) => (
       <DashboardCard
-        className="ml-md-1 node-card"
+        className={`node-card ${className || ""}`}
         iconPath="/static/images/icon-blocks.svg"
         title="Blocks"
         headerRight={
@@ -53,14 +57,6 @@ export default () => (
             />
           </Col>
         </Row>
-        <style jsx global>{`
-          .block-view-all {
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            color: #0072ce;
-          }
-        `}</style>
       </DashboardCard>
     )}
   </DatabaseConsumer>

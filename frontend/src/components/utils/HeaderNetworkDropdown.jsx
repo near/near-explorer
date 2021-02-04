@@ -55,9 +55,14 @@ export default () => (
           .header-network:hover,
           .header-network:focus,
           .header-network:active,
-          .show > .btn-secondary.dropdown-toggle {
+          .header-network:focus:active,
+          .show > .header-network.dropdown-toggle {
             background: #f7f7f7 !important;
             color: #000000 !important;
+            box-shadow: none !important;
+            border: 0 solid #f1f1f1 !important;
+          }
+          .header-network.dropdown-toggle {
             border: 2px solid #f1f1f1;
           }
 

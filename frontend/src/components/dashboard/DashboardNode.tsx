@@ -52,19 +52,13 @@ export default () => (
               text={stats.validatorAmount.toLocaleString()}
               href={"/nodes/validators"}
               loading={!stats.validatorAmount}
+              className="dashboard-online-nodes-count"
             />
           </Col>
         </Row>
         <style jsx global>{`
-          .node-card {
-            width: 360px;
-          }
-
-          @media (max-width: 772px) {
-            .node-card {
-              width: 100%;
-              margin-top: 10px;
-            }
+          .dashboard-online-nodes-count .card-cell-text {
+            color: #00c08b;
           }
         `}</style>
       </DashboardCard>

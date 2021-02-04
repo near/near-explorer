@@ -16,7 +16,7 @@ export default () => {
     <Container fluid className="header-container">
       <Row noGutters>
         <Col xs="12" md="auto" className="align-self-center">
-          <Row noGutters>
+          <Row noGutters className="header-main-bar">
             <Col md="6" className="d-none d-md-block d-lg-block">
               <Link href="/">
                 <a>
@@ -28,7 +28,7 @@ export default () => {
             <Col xs="2" className="d-md-none text-left">
               <Link href="/">
                 <a>
-                  <NearLogoIcon style={{ width: "100%" }} />
+                  <NearLogoIcon className="near-main-mobile-logo" />
                 </a>
               </Link>
             </Col>
@@ -58,7 +58,7 @@ export default () => {
         </Col>
 
         <Col
-          className="align-self-center text-right d-none d-md-block"
+          className="header-secondary-bar align-self-center text-right d-none d-md-block"
           md="auto"
         >
           <Row>
@@ -85,12 +85,20 @@ export default () => {
           padding: 6px;
         }
 
+        .near-main-mobile-logo {
+          width: 48px;
+        }
+
+        .header-main-bar {
+          padding: 3px 16px 4px 6px;
+        }
+
         .header-container .mobile-nav-bar .mobile {
-          margin: 8px 14px 0 0;
+          margin: 8px 0 0 0;
         }
 
         .search-box-column > .search-box {
-          padding: 0 12px 0 13px;
+          padding: 0 16px;
         }
 
         .header-home,

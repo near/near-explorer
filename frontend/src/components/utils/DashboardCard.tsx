@@ -23,7 +23,9 @@ export default ({
           <img src={iconPath} className="dashboard-icon" />
           {title}
         </Col>
-        <Col xs="auto">{headerRight}</Col>
+        <Col xs="auto" className="dashboard-card-header-right">
+          {headerRight}
+        </Col>
       </Row>
     </Col>
     <Col xs="12">{children}</Col>
@@ -32,7 +34,7 @@ export default ({
         background: #ffffff;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
         border-radius: 8px;
-        padding: 3px 24px;
+        padding: 3px 14px;
       }
 
       .dashboard-card-header {
@@ -40,8 +42,11 @@ export default ({
         font-size: 18px;
         line-height: 22px;
         padding: 24px 10px;
-        margin-bottom: 6px;
         border-bottom: 2px solid #f1f1f1;
+      }
+
+      .dashboard-card-header-right {
+        font-weight: 600;
       }
 
       .dashboard-icon {
@@ -52,12 +57,11 @@ export default ({
       @media (max-width: 415px) {
         .dashboard-card {
           border-radius: 0;
-          margin-top: 16px;
           width: 100%;
         }
 
         .dashboard-card-header {
-          padding: 17px 30px;
+          padding: 17px 8px;
         }
       }
     `}</style>

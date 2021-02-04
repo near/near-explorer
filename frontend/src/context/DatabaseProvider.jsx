@@ -1,3 +1,5 @@
+import BN from "bn.js";
+
 import React, { createContext, useEffect, useCallback, useState } from "react";
 
 import { DATA_SOURCE_TYPE } from "../libraries/consts";
@@ -5,7 +7,7 @@ import { ExplorerApi } from "../libraries/explorer-wamp";
 
 const DatabaseContext = createContext({
   finalTimestamp: 0,
-  latestBlockHeight: 0,
+  latestBlockHeight: new BN(0),
   latestGasPrice: "0",
   numberOfLastMinuteBlocks: 0,
   transactionCountArray: [],
@@ -24,8 +26,8 @@ export default (props) => {
   const [lastDayTxCount, dispatchLastDayTxCount] = useState(0);
   const [last2DayTxCount, dispatchLast2DayTxCount] = useState(0);
 
-  // fetch total amount of blocks, txs and accounts and latestBlockHeight and txs for 24hr
-  const fetchNewStats = function (stats) {
+  // store total amount of blocks, txs and accounts and latestBlockHeight and txs for 24hr
+  const storeNewStats = function (stats) {
     // subscription data part
     let states = stats[0].blockStats;
     let {
@@ -35,12 +37,12 @@ export default (props) => {
     } = states;
 
     // dispatch direct data part
-    dispatchLatestBlockHeight(newLatestBlockHeight);
+    dispatchLatestBlockHeight(new BN(newLatestBlockHeight));
     dispatchLatestGasPrice(newLatestGasPrice);
     dispatchNumberOfLastMinuteBlocks(newNumberOfLastMinuteBlocks);
   };
 
-  const fetchTransactionArray = function (stats) {
+  const storeTransactionArray = function (stats) {
     let transactionCountArray = stats[0].transactionCountArray;
     dispatchLastDayTxCount(
       transactionCountArray[transactionCountArray.length - 1].total
@@ -51,7 +53,7 @@ export default (props) => {
     dispatchTransactionArray(transactionCountArray);
   };
 
-  const fetchFinalTimestamp = (timestamp) => {
+  const storeFinalTimestamp = (timestamp) => {
     let final = timestamp[0];
     if (finalTimestamp !== final) {
       dispatchFinalTimestamp(final);
@@ -70,13 +72,13 @@ export default (props) => {
 
     explorerApi.subscribe(
       instrumentTopicNameWithDataSource("chain-block-stats"),
-      fetchNewStats
+      storeNewStats
     );
     explorerApi.subscribe(
       instrumentTopicNameWithDataSource("chain-txs-stats"),
-      fetchTransactionArray
+      storeTransactionArray
     );
-    explorerApi.subscribe("final-timestamp", fetchFinalTimestamp);
+    explorerApi.subscribe("final-timestamp", storeFinalTimestamp);
   }, []);
 
   useEffect(() => Subscription(), [Subscription]);

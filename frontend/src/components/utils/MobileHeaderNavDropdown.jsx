@@ -149,7 +149,7 @@ export default class extends React.Component {
             width: 100%;
             max-width: 100%;
             left: 0;
-            top: 121px;
+            top: 109px;
             z-index: 2;
             background: #25272a;
             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
