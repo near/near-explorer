@@ -14,7 +14,7 @@ export interface Props {
 
 export default ({ title, text, loading, href, className }: Props) => {
   const plainCell = (
-    <Row>
+    <Row noGutters>
       <Col xs="12" className="long-card-cell-title align-self-center">
         {title}
       </Col>

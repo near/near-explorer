@@ -33,7 +33,6 @@ export default () => (
               text={stats.onlineNodeAmount.toLocaleString()}
               href={"/nodes/online-nodes"}
               loading={!stats.onlineNodeAmount}
-              className="dashboard-online-nodes-count"
             />
           </Col>
           <Col xs="6" md="12">
@@ -53,12 +52,12 @@ export default () => (
               text={stats.validatorAmount.toLocaleString()}
               href={"/nodes/validators"}
               loading={!stats.validatorAmount}
-              className="dashboard-online-nodes-count"
+              className="dashboard-validating-nodes-count"
             />
           </Col>
         </Row>
         <style jsx global>{`
-          .dashboard-online-nodes-count .card-cell-text {
+          .dashboard-validating-nodes-count .card-cell-text {
             color: #00c08b;
           }
         `}</style>

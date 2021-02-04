@@ -25,7 +25,7 @@ export default () => {
           }
         >
           <Row className="transaction-card-number">
-            <Col xs="12" md="4" className="border-bottom-gray">
+            <Col xs="12" md="4">
               <LongCardCell
                 title={
                   <Term title={"24hr Total"}>
@@ -35,23 +35,7 @@ export default () => {
                     </a>
                   </Term>
                 }
-                text={
-                  <div>
-                    {context.lastDayTxCount.toLocaleString()}
-                    <span className="count-percent">
-                      <img
-                        src="/static/images/up-array.svg"
-                        className="up-arrow"
-                      />
-                      {(
-                        ((context.lastDayTxCount - context.last2DayTxCount) /
-                          context.last2DayTxCount) *
-                        100
-                      ).toFixed(2)}
-                      %
-                    </span>
-                  </div>
-                }
+                text={context.lastDayTxCount.toLocaleString()}
                 loading={!context.lastDayTxCount}
               />
             </Col>
@@ -76,16 +60,16 @@ export default () => {
             </Col>
           </Row>
           <style jsx global>{`
+            .transaction-card-number > .col-12 {
+              border-bottom: 2px solid #f1f1f1;
+            }
+
             .chart-title {
               font-weight: bold;
               font-size: 16px;
               line-height: 19px;
               color: #00272c;
               padding: 10px 24px;
-            }
-
-            .transaction-card-number {
-              border-bottom: 2px solid #f1f1f1;
             }
 
             .count-percent {
@@ -103,10 +87,6 @@ export default () => {
             @media (max-width: 768px) {
               .transaction-charts {
                 margin-bottom: 178px;
-              }
-
-              .border-bottom-gray {
-                border-bottom: 2px solid #f1f1f1;
               }
             }
 

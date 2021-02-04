@@ -16,7 +16,7 @@ export default ({
   headerRight,
   children,
 }: Props) => (
-  <Row className={`dashboard-card ${className || ""}`} noGutters>
+  <Row noGutters className={`dashboard-card ${className || ""}`}>
     <Col xs="12">
       <Row className="dashboard-card-header">
         <Col>
@@ -57,6 +57,7 @@ export default ({
 
       @media (max-width: 415px) {
         .dashboard-card {
+          box-shadow: none;
           border-radius: 0;
           width: 100%;
         }
