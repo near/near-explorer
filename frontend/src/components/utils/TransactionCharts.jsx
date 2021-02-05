@@ -77,7 +77,7 @@ export default () => {
           axisLine: {
             show: false,
           },
-          min: "6000",
+          min: "dataMin",
           axisLabel: {
             color: "#9B9B9B",
           },

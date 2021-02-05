@@ -156,25 +156,6 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
     console.log(`Starting regular data stats check from ${dataSource}...`);
     try {
       if (wamp.session) {
-        // old pub-sub data, after refactor, delete properly
-        const dataStats = await aggregateStats({ dataSource });
-        const { transactions, blocks } = await queryDashboardBlocksAndTxs({
-          dataSource,
-        });
-        wampPublish(
-          getDataSourceSpecificTopicName("chain-stats", dataSource),
-          [{ dataStats }],
-          wamp
-        );
-        wampPublish(
-          getDataSourceSpecificTopicName(
-            "chain-latest-blocks-info",
-            dataSource
-          ),
-          [{ transactions, blocks }],
-          wamp
-        );
-        //new pub-sub data, coexists with old one now
         const blockStats = await queryDashboardBlockInfo({ dataSource });
         const transactionCountArray = await queryDashboardTxInfo({
           dataSource,
