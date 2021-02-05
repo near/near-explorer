@@ -59,8 +59,6 @@ export default class extends React.Component<Props, State> {
               margin-left: 5px;
               width: 16px;
               cursor: pointer;
-              postion: relative;
-              z-index: 10;
             }
           `}</style>
         </div>
