@@ -28,11 +28,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               Signed by
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -75,11 +75,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               Receiver
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -122,11 +122,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               Status
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -176,11 +176,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               Transaction Fee
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -224,11 +224,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               Deposit Value
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -272,11 +272,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               Gas Used
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -312,11 +312,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               Attached Gas
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -352,11 +352,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               Created
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -388,11 +388,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               Hash
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -428,11 +428,11 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               Block Hash
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -486,11 +486,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               Signed by
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -533,11 +533,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               Receiver
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -580,11 +580,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               Status
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -634,11 +634,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               Transaction Fee
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -682,11 +682,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               Deposit Value
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -730,11 +730,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               Gas Used
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -770,11 +770,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               Attached Gas
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -810,11 +810,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               Created
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -846,11 +846,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               Hash
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -886,11 +886,11 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               Block Hash
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -944,11 +944,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               Signed by
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -991,11 +991,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               Receiver
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1038,11 +1038,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               Status
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1092,11 +1092,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               Transaction Fee
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1140,11 +1140,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               Deposit Value
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1188,11 +1188,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               Gas Used
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1228,11 +1228,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               Attached Gas
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1268,11 +1268,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               Created
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1304,11 +1304,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               Hash
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
@@ -1344,11 +1344,11 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               Block Hash
               <div
-                className="jsx-782042476 term-helper"
+                className="jsx-4237842144 term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="jsx-4237842144 info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
