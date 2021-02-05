@@ -14,7 +14,7 @@ export default class extends React.Component<Props, State> {
   state: State = { isModalShown: false };
 
   preventClickPropagation = (e: any) => {
-    e.preventDefault();
+    e.stopPropagation();
   };
 
   showModal = (e: any) => {
@@ -59,6 +59,8 @@ export default class extends React.Component<Props, State> {
               margin-left: 5px;
               width: 16px;
               cursor: pointer;
+              postion: relative;
+              z-index: 10;
             }
           `}</style>
         </div>
