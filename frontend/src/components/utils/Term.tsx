@@ -14,7 +14,7 @@ export default class extends React.Component<Props, State> {
   state: State = { isModalShown: false };
 
   preventClickPropagation = (e: any) => {
-    e.preventDefault();
+    e.stopPropagation();
   };
 
   showModal = (e: any) => {
