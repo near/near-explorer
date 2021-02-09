@@ -58,7 +58,7 @@ export default class extends React.Component<Props> {
                     {
                       "Total blockchain storage (in bytes) used by this account. "
                     }
-                    <a href={"https://docs.near.org/docs/concepts/storage"}>
+                    <a href={"https://docs.near.org/docs/concepts/storage-staking"}>
                       docs
                     </a>
                   </Term>

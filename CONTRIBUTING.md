@@ -1,7 +1,7 @@
 # Contributing to NEAR Explorer
 
 Thank you for your interest in contributing to NEAR! There are many opportunities to contribute:
-https://docs.near.org/docs/contribution/contribution-overview
+https://docs.near.org/docs/community/contribute/contribute-overview
 
 ## Feature Requests
 
