@@ -35,7 +35,7 @@ export default ({ className }: Props) => (
                   <p>{`For example, a block height of 1000 indicates that up to 1001 blocks may exist in the blockchain (genesis + blocks 0-1000).
                 In NEAR, there is not guaranteed to be a block for each sequential number, e.g. block 982 does not necessarily exist.`}</p>
                   <p>
-                    <a href="https://docs.near.org/docs/concepts/overview">
+                    <a href="https://docs.near.org/docs/concepts/new-to-near">
                       {"Learn more about the key concepts"}
                     </a>
                   </p>
