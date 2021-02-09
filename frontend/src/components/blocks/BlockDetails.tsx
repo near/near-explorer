@@ -89,7 +89,7 @@ export default ({ block }: Props) => {
                         }
                         <a
                           href={
-                            "https://docs.near.org/docs/interaction/rpc#block"
+                            "https://docs.near.org/docs/develop/front-end/rpc#block"
                           }
                         >
                           docs
