@@ -31,7 +31,13 @@ export default class extends React.Component {
           <ActiveContractsByDate />
           <ActiveContractsList />
           <NodeProvider>
-            <StakingBar />
+            <NodeConsumer>
+              {(context) =>
+                typeof context.validators !== "undefined" ? (
+                  <StakingBar validators={context.validators} />
+                ) : null
+              }
+            </NodeConsumer>
           </NodeProvider>
         </Content>
       </>

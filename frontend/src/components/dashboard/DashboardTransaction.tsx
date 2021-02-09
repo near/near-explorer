@@ -8,7 +8,8 @@ import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 import GasPrice from "../utils/GasPrice";
-import TransactionCharts from "../utils/TransactionCharts";
+
+import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
 
 export default () => {
   return (
@@ -35,8 +36,8 @@ export default () => {
                     </a>
                   </Term>
                 }
-                text={context.lastDayTxCount.toLocaleString()}
-                loading={!context.lastDayTxCount}
+                loading={typeof context.recentTransactionsCount === "undefined"}
+                text={context.recentTransactionsCount?.[0].total.toLocaleString()}
               />
             </Col>
             <Col xs="12" md="8">
@@ -49,16 +50,24 @@ export default () => {
                     <a href={"https://docs.near.org/docs/concepts/gas"}>docs</a>
                   </Term>
                 }
-                text={<GasPrice gasPrice={context.latestGasPrice} />}
-                loading={!context.latestGasPrice}
+                loading={typeof context.latestGasPrice === "undefined"}
+                text={
+                  typeof context.latestGasPrice !== "undefined" ? (
+                    <GasPrice gasPrice={context.latestGasPrice} />
+                  ) : undefined
+                }
               />
             </Col>
           </Row>
-          <Row className="transaction-charts">
-            <Col md="12">
-              <TransactionCharts />
-            </Col>
-          </Row>
+          {typeof context.transactionsCountHistory !== "undefined" ? (
+            <Row className="transaction-charts">
+              <Col md="12">
+                <DashboardTransactionsHistoryChart
+                  transactionsCountHistory={context.transactionsCountHistory}
+                />
+              </Col>
+            </Row>
+          ) : null}
           <style jsx global>{`
             .transaction-card-number > .col-12 {
               border-bottom: 2px solid #f1f1f1;

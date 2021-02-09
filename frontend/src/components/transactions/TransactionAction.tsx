@@ -1,3 +1,5 @@
+import BN from "bn.js";
+
 import React from "react";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
@@ -54,8 +56,10 @@ export default class extends React.Component<Props, State> {
               title={"Batch Transaction"}
               status={status}
               isFinal={
-                context.finalTimestamp > 0
-                  ? transaction.blockTimestamp <= context.finalTimestamp
+                typeof context.finalTimestamp !== "undefined"
+                  ? new BN(transaction.blockTimestamp).lte(
+                      context.finalTimestamp
+                    )
                   : undefined
               }
             >
@@ -80,8 +84,8 @@ export default class extends React.Component<Props, State> {
             detalizationMode="detailed"
             status={status}
             isFinal={
-              context.finalTimestamp > 0
-                ? transaction.blockTimestamp <= context.finalTimestamp
+              typeof context.finalTimestamp !== "undefined"
+                ? new BN(transaction.blockTimestamp).lte(context.finalTimestamp)
                 : undefined
             }
           />

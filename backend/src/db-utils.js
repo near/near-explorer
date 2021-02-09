@@ -85,7 +85,7 @@ const queryOnlineNodes = async () => {
 };
 
 //new query for new dashboard
-const queryDashboardBlockInfo = async (options) => {
+const queryDashboardBlocksStats = async (options) => {
   async function queryLatestBlockHeight({ dataSource }) {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
@@ -93,8 +93,9 @@ const queryDashboardBlockInfo = async (options) => {
     } else {
       query = `SELECT height AS block_height FROM blocks ORDER BY height DESC LIMIT 1`;
     }
-    return await querySingleRow([query], { dataSource });
+    return (await querySingleRow([query], { dataSource })).block_height;
   }
+
   async function queryLatestGasPrice({ dataSource }) {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
@@ -102,9 +103,10 @@ const queryDashboardBlockInfo = async (options) => {
     } else {
       query = `SELECT gas_price FROM blocks ORDER BY height DESC LIMIT 1`;
     }
-    return await querySingleRow([query], { dataSource });
+    return (await querySingleRow([query], { dataSource })).gas_price;
   }
-  async function queryLastMinuteBlocks({ dataSource }) {
+
+  async function queryRecentBlockProductionSpeed({ dataSource }) {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT block_timestamp AS latest_block_timestamp FROM blocks ORDER BY block_timestamp DESC LIMIT 1`;
@@ -115,7 +117,7 @@ const queryDashboardBlockInfo = async (options) => {
       dataSource,
     });
     if (!latestBlockTimestampOrNone) {
-      return { total: 0 };
+      return 0;
     }
     const {
       latest_block_timestamp: latestBlockTimestamp,
@@ -130,17 +132,17 @@ const queryDashboardBlockInfo = async (options) => {
     }
     // If the latest block is older than 1 minute from now, we report 0
     if (currentUnixTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
-      return { total: 0 };
+      return 0;
     }
 
     if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT COUNT(*) AS total FROM blocks
-      WHERE block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 as bigint) * 1000 * 1000 * 1000)`;
+      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
+        WHERE block_timestamp > (cast(:latestBlockTimestamp - 60 as bigint) * 1000 * 1000 * 1000)`;
     } else {
-      query = `SELECT COUNT(*) AS total FROM blocks
+      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
         WHERE timestamp > (:latestBlockTimestamp - 60 * 1000)`;
     }
-    return await querySingleRow(
+    const result = await querySingleRow(
       [
         query,
         {
@@ -154,42 +156,47 @@ const queryDashboardBlockInfo = async (options) => {
         dataSource,
       }
     );
+    if (!result || !result.blocks_count_60_seconds_before) {
+      return 0;
+    }
+    return result.blocks_count_60_seconds_before / 60;
   }
+
   const [
-    lastBlockHeight,
+    latestBlockHeight,
     latestGasPrice,
-    lastMinuteBlocks,
+    recentBlockProductionSpeed,
   ] = await Promise.all([
     queryLatestBlockHeight(options),
     queryLatestGasPrice(options),
-    queryLastMinuteBlocks(options),
+    queryRecentBlockProductionSpeed(options),
   ]);
   return {
-    latestBlockHeight: lastBlockHeight ? lastBlockHeight.block_height : 0,
-    latestGasPrice: latestGasPrice.gas_price,
-    numberOfLastMinuteBlocks: lastMinuteBlocks.total,
+    latestBlockHeight,
+    latestGasPrice,
+    recentBlockProductionSpeed,
   };
 };
 
-const queryDashboardTxInfo = async (options) => {
-  async function queryTransactionCountArray({ dataSource }) {
+const queryDashboardTransactionsStats = async (options) => {
+  async function queryTransactionsCountHistory({ dataSource }) {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT date_trunc('day', to_timestamp(DIV(block_timestamp, 1000*1000*1000))) as date, count(transaction_hash) as total
                 FROM transactions
                 WHERE
-                  block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 15 as bigint) * 1000 * 1000 * 1000)
+                  block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) / (60 * 60 * 24) - 15 as bigint) * 60 * 60 * 24 * 1000 * 1000 * 1000)
                   AND
-                  block_timestamp < (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 as bigint) * 1000 * 1000 * 1000)
+                  block_timestamp < (cast(EXTRACT(EPOCH FROM NOW()) / (60 * 60 * 24) as bigint) * 60 * 60 * 24 * 1000 * 1000 * 1000)
                 GROUP BY date
                 ORDER BY date`;
     } else {
       query = `SELECT strftime('%Y-%m-%d',block_timestamp/1000,'unixepoch') as date, count(hash) as total
                 FROM transactions
                 WHERE
-                  (block_timestamp/1000) > (strftime('%s','now') - 60 * 60 * 24 * 15)
+                  (block_timestamp/1000) > (strftime('%s','now') / (60 * 60 * 24) - 15) * 60 * 60 * 24
                   AND
-                  (block_timestamp/1000) < (strftime('%s','now') - 60 * 60 * 24)
+                  (block_timestamp/1000) > (strftime('%s','now') / (60 * 60 * 24)) * 60 * 60 * 24
                 GROUP BY date
                 ORDER BY date`;
     }
@@ -197,8 +204,40 @@ const queryDashboardTxInfo = async (options) => {
       await queryRows([query], { dataSource })
     ).map(({ total, ...rest }) => ({ total: parseInt(total), ...rest }));
   }
-  const transactionCountArray = await queryTransactionCountArray(options);
-  return transactionCountArray;
+
+  async function queryRecentTransactionsCount({ dataSource }) {
+    let query;
+    if (dataSource === DS_INDEXER_BACKEND) {
+      query = `SELECT date_trunc('day', to_timestamp(DIV(block_timestamp, 1000*1000*1000) - (MOD(cast(EXTRACT(EPOCH FROM NOW()) as integer), (60 * 60 * 24))))) as date, count(transaction_hash) as total
+                FROM transactions
+                WHERE
+                  block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 2 as bigint) * 1000 * 1000 * 1000)
+                GROUP BY date
+                ORDER BY date DESC`;
+    } else {
+      query = `SELECT strftime('%Y-%m-%d', block_timestamp/1000 - strftime('%s','now') % (60 * 60 * 24), 'unixepoch') as date, count(hash) as total
+                FROM transactions
+                WHERE
+                  (block_timestamp/1000) > (strftime('%s','now') - 60 * 60 * 24 * 2)
+                GROUP BY date
+                ORDER BY date DESC`;
+    }
+    return (
+      await queryRows([query], { dataSource })
+    ).map(({ total, ...rest }) => ({ total: parseInt(total), ...rest }));
+  }
+
+  const [
+    transactionsCountHistory,
+    recentTransactionsCount,
+  ] = await Promise.all([
+    queryTransactionsCountHistory(options),
+    queryRecentTransactionsCount(options),
+  ]);
+  return {
+    transactionsCountHistory,
+    recentTransactionsCount,
+  };
 };
 
 const queryTransactionsCountAggregatedByDate = async () => {
@@ -390,8 +429,8 @@ exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
 exports.pickOnlineValidatingNode = pickOnlineValidatingNode;
 exports.getSyncedGenesis = getSyncedGenesis;
-exports.queryDashboardTxInfo = queryDashboardTxInfo;
-exports.queryDashboardBlockInfo = queryDashboardBlockInfo;
+exports.queryDashboardTransactionsStats = queryDashboardTransactionsStats;
+exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
 exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;

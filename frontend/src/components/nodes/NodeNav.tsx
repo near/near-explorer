@@ -26,7 +26,7 @@ export default class extends React.Component<Props> {
                 >
                   <Col className="node-selector align-self-center">
                     {`${
-                      context.validatorAmount > 0
+                      typeof context.validatorAmount !== "undefined"
                         ? context.validatorAmount
                         : "-"
                     } Validating & New Upcoming`}
@@ -42,7 +42,7 @@ export default class extends React.Component<Props> {
                 >
                   <Col className="node-selector align-self-center">
                     {`${
-                      context.onlineNodeAmount > 0
+                      typeof context.onlineNodeAmount !== "undefined"
                         ? context.onlineNodeAmount
                         : "-"
                     } Online-nodes`}
@@ -58,7 +58,9 @@ export default class extends React.Component<Props> {
                 >
                   <Col className="node-selector align-self-center">
                     {`${
-                      context.proposalAmount > 0 ? context.proposalAmount : "-"
+                      typeof context.proposalAmount !== "undefined"
+                        ? context.proposalAmount
+                        : "-"
                     } Proposal-nodes`}
                   </Col>
                 </a>

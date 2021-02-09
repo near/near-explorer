@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
+
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
-import { DatabaseContext } from "../../context/DatabaseProvider";
 import moment from "moment";
 
-export default () => {
-  const value = useContext(DatabaseContext);
-  const transactionCountArray = value.transactionCountArray;
+import { TransactionsCountStat } from "../../context/DatabaseProvider";
+
+export interface Props {
+  transactionsCountHistory: TransactionsCountStat[];
+}
+
+export default ({ transactionsCountHistory }: Props) => {
   const nameMonth = [
     "Jan",
     "Feb",
@@ -21,13 +25,13 @@ export default () => {
     "Nov",
     "Dec",
   ];
-  const date = transactionCountArray.map((t) => {
+  const date = transactionsCountHistory.map((t) => {
     let time = moment(t.date, "YYYY/MM/DD");
     let month = Number(time.format("M"));
     let day = time.format("D");
     return nameMonth[month - 1] + " " + day;
   });
-  const count = transactionCountArray.map((t) => t.total);
+  const count = transactionsCountHistory.map((t) => t.total);
   const getOption = () => {
     return {
       title: {
@@ -77,7 +81,6 @@ export default () => {
           axisLine: {
             show: false,
           },
-          min: "dataMin",
           axisLabel: {
             color: "#9B9B9B",
           },

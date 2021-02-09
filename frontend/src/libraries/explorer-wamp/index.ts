@@ -14,7 +14,11 @@ export class ExplorerApi {
 
   static subscriptions: Record<
     string,
-    [autobahn.SubscribeHandler, autobahn.ISubscribeOptions | undefined]
+    {
+      handler: autobahn.SubscribeHandler;
+      options?: autobahn.ISubscribeOptions;
+      subscription?: autobahn.Subscription;
+    }
   > = {};
 
   static wamp: autobahn.Connection;
@@ -88,7 +92,7 @@ export class ExplorerApi {
           ExplorerApi.wamp.onopen = (session) => {
             Object.entries(
               ExplorerApi.subscriptions
-            ).forEach(([topic, [handler, options]]) =>
+            ).forEach(([topic, { handler, options }]) =>
               session.subscribe(topic, handler, options)
             );
             while (ExplorerApi.awaitingOnSession.length > 0) {
@@ -115,9 +119,24 @@ export class ExplorerApi {
     options?: autobahn.ISubscribeOptions
   ): Promise<autobahn.ISubscription> {
     topic = `com.nearprotocol.${this.nearNetwork.name}.explorer.${topic}`;
-    ExplorerApi.subscriptions[topic] = [handler, options];
+    ExplorerApi.subscriptions[topic] = { handler, options };
     const session = await ExplorerApi.getWampSession();
-    return await session.subscribe(topic, handler, options);
+    const subscription = await session.subscribe(topic, handler, options);
+    ExplorerApi.subscriptions[topic].subscription = subscription;
+    return subscription;
+  }
+
+  async unsubscribe(
+    topic: string
+  ): Promise<autobahn.ISubscription | undefined> {
+    topic = `com.nearprotocol.${this.nearNetwork.name}.explorer.${topic}`;
+    const subscription = ExplorerApi.subscriptions[topic]?.subscription;
+    delete ExplorerApi.subscriptions[topic];
+    const session = await ExplorerApi.getWampSession();
+    if (!subscription) {
+      return;
+    }
+    return await session.unsubscribe(subscription);
   }
 
   async call<T>(

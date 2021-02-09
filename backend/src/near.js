@@ -12,7 +12,7 @@ nearRpc.callViewMethod = async function (contractName, methodName, args) {
 
 const queryFinalTimestamp = async () => {
   const finalBlock = await nearRpc.sendJsonRpc("block", { finality: "final" });
-  return finalBlock.header.timestamp;
+  return finalBlock.header.timestamp_nanosec;
 };
 
 const queryNodeStats = async () => {
