@@ -24,6 +24,13 @@ export default class extends React.Component<Props, State> {
     const accountInfo = await new AccountsApi().queryAccount(
       this.props.accountId
     );
+    if (!accountInfo) {
+      console.warn(
+        "Account information retrieval failed for ",
+        this.props.accountId
+      );
+      return;
+    }
     this.setState({ totalBalance: accountInfo.totalBalance });
   };
 
