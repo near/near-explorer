@@ -325,9 +325,9 @@ function setupWamp() {
   return wamp;
 }
 
-const wampPublish = (topic, args, wamp) => {
+const wampPublish = (topic, namedArgs, wamp) => {
   const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${topic}`;
-  wamp.session.publish(uri, args);
+  wamp.session.publish(uri, [], namedArgs);
 };
 
 exports.setupWamp = setupWamp;

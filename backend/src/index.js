@@ -30,10 +30,9 @@ const {
   addNodeInfo,
   queryOnlineNodes,
   pickOnlineValidatingNode,
-  queryDashboardBlocksAndTxs,
   getSyncedGenesis,
-  queryDashboardBlockInfo,
-  queryDashboardTxInfo,
+  queryDashboardBlocksStats,
+  queryDashboardTransactionsStats,
 } = require("./db-utils");
 const {
   aggregateTeragasUsedByDate,
@@ -156,18 +155,21 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
     console.log(`Starting regular data stats check from ${dataSource}...`);
     try {
       if (wamp.session) {
-        const blockStats = await queryDashboardBlockInfo({ dataSource });
-        const transactionCountArray = await queryDashboardTxInfo({
-          dataSource,
-        });
+        const [blocksStats, transactionsStats] = await Promise.all([
+          queryDashboardBlocksStats({ dataSource }),
+          queryDashboardTransactionsStats({ dataSource }),
+        ]);
         wampPublish(
-          getDataSourceSpecificTopicName("chain-block-stats", dataSource),
-          [{ blockStats }],
+          getDataSourceSpecificTopicName("chain-blocks-stats", dataSource),
+          blocksStats,
           wamp
         );
         wampPublish(
-          getDataSourceSpecificTopicName("chain-txs-stats", dataSource),
-          [{ transactionCountArray }],
+          getDataSourceSpecificTopicName(
+            "chain-transactions-stats",
+            dataSource
+          ),
+          transactionsStats,
           wamp
         );
       }
@@ -221,7 +223,7 @@ async function main() {
     try {
       if (wamp.session) {
         const finalTimestamp = await queryFinalTimestamp();
-        wampPublish("final-timestamp", [finalTimestamp], wamp);
+        wampPublish("final-timestamp", { finalTimestamp }, wamp);
       }
       console.log("Regular final timestamp check is completed.");
     } catch (error) {
@@ -245,18 +247,16 @@ async function main() {
         }
         wampPublish(
           "nodes",
-          [{ onlineNodes, validators, proposals, onlineValidatingNodes }],
+          { onlineNodes, validators, proposals, onlineValidatingNodes },
           wamp
         );
         wampPublish(
           "node-stats",
-          [
-            {
-              validatorAmount: validators.length,
-              onlineNodeAmount: onlineNodes.length,
-              proposalAmount: proposals.length,
-            },
-          ],
+          {
+            validatorAmount: validators.length,
+            onlineNodeAmount: onlineNodes.length,
+            proposalAmount: proposals.length,
+          },
           wamp
         );
       }

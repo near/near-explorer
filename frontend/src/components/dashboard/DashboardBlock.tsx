@@ -41,8 +41,8 @@ export default ({ className }: Props) => (
                   </p>
                 </Term>
               }
-              text={context.latestBlockHeight.toLocaleString()}
-              loading={!context.latestBlockHeight}
+              loading={typeof context.latestBlockHeight === "undefined"}
+              text={context.latestBlockHeight?.toLocaleString()}
             />
           </Col>
           <Col xs="6" md="12">
@@ -52,8 +52,14 @@ export default ({ className }: Props) => (
                   {"Average time for producing one block "}
                 </Term>
               }
-              text={`${(60 / context.numberOfLastMinuteBlocks).toFixed(4)} s`}
-              loading={!context.numberOfLastMinuteBlocks}
+              loading={
+                typeof context.recentBlockProductionSpeed === "undefined"
+              }
+              text={
+                typeof context.recentBlockProductionSpeed !== "undefined"
+                  ? `${context.recentBlockProductionSpeed.toFixed(4)} s`
+                  : undefined
+              }
             />
           </Col>
         </Row>

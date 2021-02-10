@@ -30,9 +30,9 @@ export default () => (
                   </a>
                 </Term>
               }
-              text={stats.onlineNodeAmount.toLocaleString()}
+              loading={typeof stats.onlineNodeAmount === "undefined"}
+              text={stats.onlineNodeAmount?.toLocaleString()}
               href={"/nodes/online-nodes"}
-              loading={!stats.onlineNodeAmount}
             />
           </Col>
           <Col xs="6" md="12">
@@ -49,9 +49,9 @@ export default () => (
                   </a>
                 </Term>
               }
-              text={stats.validatorAmount.toLocaleString()}
+              loading={typeof stats.validatorAmount === "undefined"}
+              text={stats.validatorAmount?.toLocaleString()}
               href={"/nodes/validators"}
-              loading={!stats.validatorAmount}
               className="dashboard-validating-nodes-count"
             />
           </Col>

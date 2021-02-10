@@ -6,7 +6,7 @@ import RightArrowSvg from "../../../public/static/images/right-arrow.svg";
 
 export interface Props {
   title: React.ReactElement | string;
-  text: React.ReactElement | string;
+  text?: React.ReactElement | string;
   loading?: boolean;
   href?: string;
   className?: string;
