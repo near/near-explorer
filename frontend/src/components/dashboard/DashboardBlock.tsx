@@ -16,7 +16,7 @@ export default ({ className }: Props) => (
   <DatabaseConsumer>
     {(context) => (
       <DashboardCard
-        className={`node-card ${className || ""}`}
+        className={`block-card ${className || ""}`}
         iconPath="/static/images/icon-blocks.svg"
         title="Blocks"
         headerRight={
