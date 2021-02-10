@@ -7,7 +7,7 @@ const {
   queryActiveAccountsCountAggregatedByDate,
   queryActiveContractsList,
   queryActiveAccountsList,
-  queryParterTotalTransactions,
+  queryPartnerTotalTransactions,
   queryPartnerFirstThreeMonthTransactions,
   queryTotalDepositAmount,
 } = require("./db-utils");
@@ -150,7 +150,7 @@ async function aggregateActiveContractsList() {
 
 async function aggregatePartnerTotalTransactionsCount() {
   try {
-    const partnerTotalTransactionList = await queryParterTotalTransactions();
+    const partnerTotalTransactionList = await queryPartnerTotalTransactions();
     PARTNER_TOTAL_TRANSACTIONS_COUNT = partnerTotalTransactionList.map(
       ({
         receiver_account_id: account,
