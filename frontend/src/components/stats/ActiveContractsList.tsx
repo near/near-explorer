@@ -10,6 +10,7 @@ export default () => {
   useEffect(() => {
     new StatsApi().activeContractsList().then((contracts: Contract[]) => {
       if (contracts) {
+        contracts.reverse();
         const activeContracts = contracts.map(
           (account: Contract) => account.contract
         );
@@ -59,7 +60,7 @@ export default () => {
     <ReactEcharts
       option={getOption()}
       style={{
-        height: "300px",
+        height: "320px",
         width: "100%",
         marginTop: "26px",
         marginLeft: "24px",

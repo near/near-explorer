@@ -185,9 +185,9 @@ const queryDashboardTransactionsStats = async (options) => {
       query = `SELECT date_trunc('day', to_timestamp(DIV(block_timestamp, 1000*1000*1000))) as date, count(transaction_hash) as total
                 FROM transactions
                 WHERE
-                  block_timestamp > (cast(EXTRACT(EPOCH FROM NOW()) / (60 * 60 * 24) - 15 as bigint) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+                  block_timestamp > ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24) - 15) * 60 * 60 * 24 * 1000 * 1000 * 1000)
                   AND
-                  block_timestamp < (cast(EXTRACT(EPOCH FROM NOW()) / (60 * 60 * 24) as bigint) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+                  block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
                 GROUP BY date
                 ORDER BY date`;
     } else {
@@ -196,7 +196,7 @@ const queryDashboardTransactionsStats = async (options) => {
                 WHERE
                   (block_timestamp/1000) > (strftime('%s','now') / (60 * 60 * 24) - 15) * 60 * 60 * 24
                   AND
-                  (block_timestamp/1000) > (strftime('%s','now') / (60 * 60 * 24)) * 60 * 60 * 24
+                  (block_timestamp/1000) < (strftime('%s','now') / (60 * 60 * 24)) * 60 * 60 * 24
                 GROUP BY date
                 ORDER BY date`;
     }
@@ -370,7 +370,7 @@ const queryActiveAccountsList = async () => {
   );
 };
 
-const queryParterTotalTransactions = async () => {
+const queryPartnerTotalTransactions = async () => {
   return await queryRows(
     [
       `SELECT receiver_account_id,
@@ -439,6 +439,6 @@ exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAgg
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryActiveAccountsList = queryActiveAccountsList;
-exports.queryParterTotalTransactions = queryParterTotalTransactions;
+exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
 exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
 exports.queryTotalDepositAmount = queryTotalDepositAmount;

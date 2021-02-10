@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import NodeProvider from "../../context/NodeProvider";
+import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 
 import Content from "../../components/utils/Content";
 
