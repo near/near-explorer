@@ -43,9 +43,6 @@ context("Nodes", () => {
     cy.wait(3000)
       .get(".node-row .node-row-title")
       .within(($el) => cy.get($el).should("exist", $el.text()));
-    cy.get(".node-row .node-row-txid").within(($el) =>
-      cy.get($el).should("exist", $el.text())
-    );
   });
 
   it("Check nodes map tab", () => {
