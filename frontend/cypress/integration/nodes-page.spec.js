@@ -40,9 +40,6 @@ context("Nodes", () => {
   it("Check proposal nodes tab", () => {
     cy.get("#proposal-node").click();
     cy.get("#proposal-node").should("have.class", "node-selected");
-    cy.wait(3000)
-      .get(".node-row .node-row-title")
-      .within(($el) => cy.get($el).should("exist", $el.text()));
   });
 
   it("Check nodes map tab", () => {
