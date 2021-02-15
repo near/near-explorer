@@ -18,13 +18,10 @@ export default (props: Props) => {
   const [onlineNodeAmount, dispatchOnlineNodeAmount] = useState<number>();
   const [proposalAmount, dispatchProposalAmount] = useState<number>();
 
-  const storeNodeInfo = (
-    _: any,
-    { validatorAmount, onlineNodeAmount, proposalAmount }: NodeStatsContext
-  ) => {
-    dispatchValidatorAmount(validatorAmount);
-    dispatchOnlineNodeAmount(onlineNodeAmount);
-    dispatchProposalAmount(proposalAmount);
+  const storeNodeInfo = (_positionalArgs: any, namedArgs: NodeStatsContext) => {
+    dispatchValidatorAmount(namedArgs.validatorAmount);
+    dispatchOnlineNodeAmount(namedArgs.onlineNodeAmount);
+    dispatchProposalAmount(namedArgs.proposalAmount);
   };
 
   useEffect(() => {

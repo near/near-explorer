@@ -26,14 +26,11 @@ export default (props: Props) => {
   const [proposals, dispatchProposals] = useState<Proposal[]>();
   const [onlineValidatingNodes, dispatchNodes] = useState<NodeInfo[]>();
 
-  const fetchNodeInfo = (
-    _: any,
-    { onlineNodes, validators, proposals, onlineValidatingNodes }: INodeContext
-  ) => {
-    dispatchValidators(validators);
-    dispatchOnlineNodes(onlineNodes);
-    dispatchProposals(proposals);
-    dispatchNodes(onlineValidatingNodes);
+  const fetchNodeInfo = (_positionalArgs: any, namedArgs: INodeContext) => {
+    dispatchValidators(namedArgs.validators);
+    dispatchOnlineNodes(namedArgs.onlineNodes);
+    dispatchProposals(namedArgs.proposals);
+    dispatchNodes(namedArgs.onlineValidatingNodes);
   };
 
   useEffect(() => {

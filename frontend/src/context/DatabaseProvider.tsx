@@ -41,42 +41,36 @@ export default (props: Props) => {
   >();
 
   const storeBlocksStats = function (
-    _: any,
-    {
-      latestBlockHeight,
-      latestGasPrice,
-      recentBlockProductionSpeed,
-    }: {
+    _positionalArgs: any,
+    namedArgs: {
       latestBlockHeight: string;
       latestGasPrice: string;
       recentBlockProductionSpeed: number;
     }
   ) {
-    dispatchLatestBlockHeight(new BN(latestBlockHeight));
-    dispatchLatestGasPrice(new BN(latestGasPrice));
-    dispatchRecentBlockProductionSpeed(recentBlockProductionSpeed);
+    dispatchLatestBlockHeight(new BN(namedArgs.latestBlockHeight));
+    dispatchLatestGasPrice(new BN(namedArgs.latestGasPrice));
+    dispatchRecentBlockProductionSpeed(namedArgs.recentBlockProductionSpeed);
   };
 
   const storeTransactionsStats = function (
-    _: any,
-    {
-      transactionsCountHistory,
-      recentTransactionsCount,
-    }: {
+    _positionalArgs: any,
+    namedArgs: {
       transactionsCountHistory: TransactionsCountStat[];
       recentTransactionsCount: TransactionsCountStat[];
     }
   ) {
-    dispatchTransactionsCountHistory(transactionsCountHistory);
-    dispatchRecentTransactionsCount(recentTransactionsCount);
+    dispatchTransactionsCountHistory(namedArgs.transactionsCountHistory);
+    dispatchRecentTransactionsCount(namedArgs.recentTransactionsCount);
   };
 
-  const storeFinalTimestamp = ({
-    finalTimestamp,
-  }: {
-    finalTimestamp: string;
-  }) => {
-    dispatchFinalTimestamp(new BN(finalTimestamp));
+  const storeFinalTimestamp = (
+    _positionalArgs: any,
+    namedArgs: {
+      finalTimestamp: string;
+    }
+  ) => {
+    dispatchFinalTimestamp(new BN(namedArgs.finalTimestamp));
   };
 
   useEffect(() => {
