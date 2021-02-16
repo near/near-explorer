@@ -89,7 +89,7 @@ export default ({ block }: Props) => {
                         }
                         <a
                           href={
-                            "https://docs.near.org/docs/interaction/rpc#block"
+                            "https://docs.near.org/docs/develop/front-end/rpc#block"
                           }
                         >
                           docs
@@ -98,9 +98,9 @@ export default ({ block }: Props) => {
                     }
                     imgLink="/static/images/icon-t-status.svg"
                     text={
-                      context.finalTimestamp === 0
+                      typeof context.finalTimestamp === "undefined"
                         ? "Checking Finality..."
-                        : block.timestamp <= context.finalTimestamp
+                        : new BN(block.timestamp).lte(context.finalTimestamp)
                         ? "Finalized"
                         : "Finalizing"
                     }

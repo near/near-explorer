@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import NodeProvider from "../../context/NodeProvider";
+import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 
 import Content from "../../components/utils/Content";
 
@@ -31,7 +31,13 @@ export default class extends React.Component {
           <ActiveContractsByDate />
           <ActiveContractsList />
           <NodeProvider>
-            <StakingBar />
+            <NodeConsumer>
+              {(context) =>
+                typeof context.validators !== "undefined" ? (
+                  <StakingBar validators={context.validators} />
+                ) : null
+              }
+            </NodeConsumer>
           </NodeProvider>
         </Content>
       </>

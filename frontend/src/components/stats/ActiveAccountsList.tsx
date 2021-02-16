@@ -6,10 +6,12 @@ import StatsApi, { Account } from "../../libraries/explorer-wamp/stats";
 export default () => {
   const [activeAccounts, setAccounts] = useState(Array());
   const [count, setCount] = useState(Array());
+  console.log("ACTIVE ACC", activeAccounts, count);
 
   useEffect(() => {
     new StatsApi().activeAccountsList().then((accounts: Account[]) => {
       if (accounts) {
+        accounts.reverse();
         const activeAccounts = accounts.map(
           (account: Account) => account.account
         );
@@ -59,7 +61,7 @@ export default () => {
     <ReactEcharts
       option={getOption()}
       style={{
-        height: "300px",
+        height: "320px",
         width: "100%",
         marginTop: "26px",
         marginLeft: "24px",

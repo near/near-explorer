@@ -1,3 +1,5 @@
+import BN from "bn.js";
+
 import Link from "next/link";
 import React from "react";
 
@@ -64,9 +66,9 @@ export default class extends React.PureComponent<Props> {
                   <Row>
                     <Col className="transaction-row-timer">
                       <span className="transaction-row-timer-status">
-                        {context.finalTimestamp === 0
+                        {typeof context.finalTimestamp === "undefined"
                           ? "Checking Finality..."
-                          : block.timestamp <= context.finalTimestamp
+                          : new BN(block.timestamp).lte(context.finalTimestamp)
                           ? "Finalized"
                           : "Finalizing"}
                       </span>

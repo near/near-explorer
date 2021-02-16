@@ -50,6 +50,10 @@ class NodesMap extends React.Component<State> {
         ? onlineValidatingNodes
         : onlineNodes;
 
+    if (typeof nodes === "undefined") {
+      return;
+    }
+
     const bubbles: IBubble[] = nodes.map((node: N.NodeInfo) => {
       return {
         radius: 4,

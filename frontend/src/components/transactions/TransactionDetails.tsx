@@ -170,9 +170,11 @@ export default class extends React.Component<Props, State> {
                       ) : (
                         "Fetching Status... "
                       )}
-                      {context.finalTimestamp === 0
+                      {typeof context.finalTimestamp === "undefined"
                         ? "/Checking Finality..."
-                        : transaction.blockTimestamp <= context.finalTimestamp
+                        : new BN(transaction.blockTimestamp).lte(
+                            context.finalTimestamp
+                          )
                         ? ""
                         : "/Finalizing"}
                     </div>

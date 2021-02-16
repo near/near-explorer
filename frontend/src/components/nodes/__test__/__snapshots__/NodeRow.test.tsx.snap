@@ -64,7 +64,7 @@ exports[`<NodeRow /> renders 1`] = `
             near-rs | ver.0.4.5 build  6a527109-modified
           </div>
           <div
-            className="text-danger col-md-3"
+            className="col-md-3"
           >
             <img
               className="jsx-293657839"

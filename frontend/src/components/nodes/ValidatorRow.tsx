@@ -89,10 +89,12 @@ export default class extends React.Component<Props> {
                     {node.nodeInfo && (
                       <Col
                         className={
-                          Math.abs(
-                            node.nodeInfo.lastHeight -
-                              context.latestBlockHeight.toNumber()
-                          ) > 1000
+                          typeof context.latestBlockHeight === "undefined"
+                            ? ""
+                            : Math.abs(
+                                node.nodeInfo.lastHeight -
+                                  context.latestBlockHeight.toNumber()
+                              ) > 1000
                             ? "text-danger"
                             : Math.abs(
                                 node.nodeInfo.lastHeight -
