@@ -57,7 +57,7 @@ export default ({ className }: Props) => (
               }
               text={
                 typeof context.recentBlockProductionSpeed !== "undefined"
-                  ? `${context.recentBlockProductionSpeed.toFixed(4)} s`
+                  ? `${(1.0 / context.recentBlockProductionSpeed).toFixed(4)} s`
                   : undefined
               }
             />
