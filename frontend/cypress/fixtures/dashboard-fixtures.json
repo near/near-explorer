@@ -1,8 +1,0 @@
-{
-  "searchData": ["frol.near", "FROL.near", "FROL.NEAR", "FRol.neAR"],
-  "navigationData": [
-    "http://localhost:3000/accounts/FROL.near",
-    "http://localhost:3000/accounts/FROL.NEAR",
-    "http://localhost:3000/accounts/FRol.neAR"
-  ]
-}

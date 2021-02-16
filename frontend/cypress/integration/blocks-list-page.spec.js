@@ -1,8 +1,8 @@
 /// <reference types="Cypress" />
 
-context("Blocks", () => {
+context("Blocks List page", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/blocks");
+    cy.visit("/blocks");
   });
 
   it("Check page title", () => {
