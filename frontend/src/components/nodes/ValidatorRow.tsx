@@ -63,7 +63,7 @@ export default class extends React.Component<Props> {
             <Col md="7" xs="7">
               <Row>
                 <Col className="node-row-title">
-                  @{node.account_id}
+                  @{node.accountId}
                   {"   "}
                   <span>
                     Staking {node.stake ? <Balance amount={node.stake} /> : "-"}
@@ -118,12 +118,11 @@ export default class extends React.Component<Props> {
                         src="/static/images/icon-storage.svg"
                         style={{ width: "12px" }}
                       />
-                      {node.num_produced_blocks && node.num_expected_blocks
-                        ? `${node.num_produced_blocks}/${
-                            node.num_expected_blocks
+                      {node.numProducedBlocks && node.numExpectedBlocks
+                        ? `${node.numProducedBlocks}/${
+                            node.numExpectedBlocks
                           } (${(
-                            (node.num_produced_blocks /
-                              node.num_expected_blocks) *
+                            (node.numProducedBlocks / node.numExpectedBlocks) *
                             100
                           ).toFixed(3)})%`
                         : null}

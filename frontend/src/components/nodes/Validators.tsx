@@ -14,7 +14,7 @@ export default class extends React.Component {
           <>
             {context.validators ? (
               context.validators.map((node: N.Validating) => (
-                <ValidatorRow key={node.account_id} node={node} />
+                <ValidatorRow key={node.accountId} node={node} />
               ))
             ) : (
               <PaginationSpinner hidden={false} />

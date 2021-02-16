@@ -14,11 +14,11 @@ export interface NodeInfo {
 }
 
 export interface Validating {
-  account_id: string;
-  is_slashed?: boolean;
-  num_produced_blocks?: number;
-  num_expected_blocks?: number;
-  public_key: string;
+  accountId: string;
+  isSlashed?: boolean;
+  numProducedBlocks?: number;
+  numExpectedBlocks?: number;
+  publicKey: string;
   stake: string;
   new?: boolean;
   removed?: boolean;
@@ -33,7 +33,7 @@ export interface NodeStats {
 }
 
 export interface Proposal {
-  account_id: string;
-  public_key: string;
+  accountId: string;
+  publicKey: string;
   stake: string;
 }

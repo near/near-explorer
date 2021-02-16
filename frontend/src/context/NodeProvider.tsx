@@ -26,8 +26,21 @@ export default (props: Props) => {
   const [proposals, dispatchProposals] = useState<Proposal[]>();
   const [onlineValidatingNodes, dispatchNodes] = useState<NodeInfo[]>();
 
-  const fetchNodeInfo = (_positionalArgs: any, namedArgs: INodeContext) => {
-    dispatchValidators(namedArgs.validators);
+  const fetchNodeInfo = (_positionalArgs: any, namedArgs: any) => {
+    dispatchValidators(
+      namedArgs.validators.map((validator: any) => ({
+        accountId: validator.account_id,
+        isSlashed: validator.is_slashed,
+        numProducedBlocks: validator.num_produced_blocks,
+        numExpectedBlocks: validator.num_expected_blocks,
+        publicKey: validator.public_key,
+        stake: validator.stake,
+        new: validator.new,
+        removed: validator.removed,
+        shards: validator.shards,
+        nodeInfo: validator.nodeInfo,
+      }))
+    );
     dispatchOnlineNodes(namedArgs.onlineNodes);
     dispatchProposals(namedArgs.proposals);
     dispatchNodes(namedArgs.onlineValidatingNodes);

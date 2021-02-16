@@ -32,7 +32,7 @@ export default class extends React.PureComponent<Props> {
           <Row>
             <Col className="node-row-title">
               <p>
-                @{node.account_id}
+                @{node.accountId}
                 {"  "}
                 <span>
                   Staking {node.stake ? <Balance amount={node.stake} /> : "-"}
@@ -43,8 +43,8 @@ export default class extends React.PureComponent<Props> {
         </Col>
         <Col md="3" xs="3" className="ml-auto text-right">
           <Row>
-            <Col className="node-row-txid" title={node.public_key}>
-              {node.public_key.substring(8, 20)}...
+            <Col className="node-row-txid" title={node.publicKey}>
+              {node.publicKey.substring(8, 20)}...
             </Col>
           </Row>
         </Col>

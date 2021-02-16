@@ -14,7 +14,7 @@ export default class extends React.Component {
           <>
             {context.proposals ? (
               context.proposals.map((node: N.Proposal) => (
-                <ProposalRow key={node.account_id} node={node} />
+                <ProposalRow key={node.accountId} node={node} />
               ))
             ) : (
               <PaginationSpinner hidden={false} />
