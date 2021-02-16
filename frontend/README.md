@@ -75,10 +75,6 @@ export NEAR_INDEXER_DATABASE_NAME=mainnet_explorer
 export NEAR_INDEXER_DATABASE_USERNAME=...
 export NEAR_INDEXER_DATABASE_PASSWORD=...
 ```
-Then make this:
-```
-$ source "$(dirname "$BASH_SOURCE")/env-indexer-mainnet-local"
-```
 When all preparation is done run backend:
 ```
 $ npm run start:mainnet-with-indexer
