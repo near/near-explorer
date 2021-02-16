@@ -13,7 +13,12 @@ import Content from "../../components/utils/Content";
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 export default class extends React.Component {
-  static async getInitialProps({ req, query: { id } }) {
+  static async getInitialProps({ req, query: { id }, res }) {
+    if (/[A-Z]/.test(id)) {
+      res.writeHead(301, { Location: `/accounts/${id.toLowerCase()}` });
+      res.end();
+    }
+
     try {
       const account = await new AccountsApi(req).getAccountInfo(id);
       return { account };
