@@ -1,8 +1,8 @@
 /// <reference types="Cypress" />
 
-context("Accounts", () => {
+context("Accounts List page", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/accounts");
+    cy.visit("/accounts");
   });
 
   it("Check page title", () => {
