@@ -8,7 +8,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -60,7 +60,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
       </div>
     </div>
     <div
-      className="col"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -100,7 +100,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
       </div>
     </div>
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -151,7 +151,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -286,7 +286,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
     className="border-0 row no-gutters"
   >
     <div
-      className="col"
+      className="col-md-6 col-12"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"
@@ -333,7 +333,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -385,7 +385,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
       </div>
     </div>
     <div
-      className="col"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -425,7 +425,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
       </div>
     </div>
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -476,7 +476,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -611,7 +611,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col"
+      className="col-md-6 col-12"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"
@@ -658,7 +658,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -710,7 +710,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
       </div>
     </div>
     <div
-      className="col"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -750,7 +750,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
       </div>
     </div>
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -801,7 +801,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -936,7 +936,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col"
+      className="col-md-6 col-12"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"
@@ -972,7 +972,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
       </div>
     </div>
     <div
-      className="col-md-6"
+      className="col-md-6 col-12"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"
@@ -1030,7 +1030,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -1082,7 +1082,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
       </div>
     </div>
     <div
-      className="col"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -1122,7 +1122,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
       </div>
     </div>
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell  card"
@@ -1173,7 +1173,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -1308,7 +1308,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col"
+      className="col-md-6 col-12"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"
@@ -1366,7 +1366,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -1418,7 +1418,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
       </div>
     </div>
     <div
-      className="col"
+      className="col-md-8 col-12"
     >
       <div
         className="card-cell  card"
@@ -1462,7 +1462,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     className="row no-gutters"
   >
     <div
-      className="col-md-4"
+      className="col-md-4 col-12"
     >
       <div
         className="card-cell border-0 card"
@@ -1597,7 +1597,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col"
+      className="col-md-6 col-12"
     >
       <div
         className="card-cell block-card-created account-card-back border-0 card"
