@@ -170,49 +170,75 @@ export default class extends React.Component<Props> {
             </Col>
           </Row>
         )}
-        <Row noGutters className="border-0">
-          <Col>
-            <CardCell
-              title={
-                <Term title={"Created at"}>
-                  {"Timestamp of when this account was created. "}
-                  <a href={"https://docs.near.org/docs/concepts/account"}>
-                    docs
-                  </a>
-                </Term>
-              }
-              text={
-                account.createdByTransactionHash === null ||
-                account.createdByTransactionHash === "Genesis" ? (
-                  "Genesis"
-                ) : account.createdAtBlockTimestamp ? (
-                  <>
-                    {moment(account.createdAtBlockTimestamp).format(
-                      "MMMM DD, YYYY [at] h:mm:ssa"
-                    )}
-                    <TransactionLink
-                      transactionHash={account.createdByTransactionHash!}
-                    >
-                      <img
-                        className="transaction-link-icon"
-                        src={"/static/images/icon-m-copy.svg"}
-                      />
-                    </TransactionLink>
-                  </>
-                ) : (
-                  "N/A"
-                )
-              }
-              className="block-card-created account-card-back border-0"
-            />
-          </Col>
-          {account.deletedAtBlockTimestamp === null ||
-          typeof account.deletedAtBlockTimestamp === "undefined" ? null : (
-            <Col md="6">
+        {account.deletedAtBlockTimestamp === null ||
+        typeof account.deletedAtBlockTimestamp === "undefined" ? (
+          <Row noGutters className="border-0">
+            <Col md="4">
+              <CardCell
+                title={
+                  <Term title={"Created at"}>
+                    {"Timestamp for creation of account. "}
+                    <a href={"https://docs.near.org/docs/concepts/account"}>
+                      docs
+                    </a>
+                  </Term>
+                }
+                text={
+                  account.createdByTransactionHash === null ||
+                  account.createdByTransactionHash === "Genesis" ? (
+                    "Genesis"
+                  ) : account.createdAtBlockTimestamp ? (
+                    <>
+                      {moment(account.createdAtBlockTimestamp).format(
+                        "MMMM DD, YYYY [at] h:mm:ssa"
+                      )}
+                    </>
+                  ) : (
+                    "N/A"
+                  )
+                }
+                className="block-card-created account-card-back border-0"
+              />
+            </Col>
+            <Col md="8">
+              <CardCell
+                title={
+                  <Term title={"Created Hash"}>
+                    {"Unique transaction hash of account creation. "}
+                    <a href={"https://docs.near.org/docs/concepts/account"}>
+                      docs
+                    </a>
+                  </Term>
+                }
+                text={
+                  account.createdByTransactionHash === null ||
+                  account.createdByTransactionHash === "Genesis" ? (
+                    "Genesis"
+                  ) : (
+                    <>
+                      {account.createdByTransactionHash}
+                      <TransactionLink
+                        transactionHash={account.createdByTransactionHash!}
+                      >
+                        <img
+                          className="transaction-link-icon"
+                          src={"/static/images/icon-m-copy.svg"}
+                        />
+                      </TransactionLink>
+                    </>
+                  )
+                }
+                className="block-card-created account-card-back border-0"
+              />
+            </Col>
+          </Row>
+        ) : (
+          <Row noGutters className="border-0">
+            <Col md="4">
               <CardCell
                 title={
                   <Term title={"Deleted at"}>
-                    {"Timestamp of when this account was deleted. "}
+                    {"Timestamp for deletion of account. "}
                     <a href={"https://docs.near.org/docs/concepts/account"}>
                       docs
                     </a>
@@ -223,6 +249,24 @@ export default class extends React.Component<Props> {
                     {moment(account.deletedAtBlockTimestamp).format(
                       "MMMM DD, YYYY [at] h:mm:ssa"
                     )}
+                  </>
+                }
+                className="block-card-created account-card-back border-0"
+              />
+            </Col>
+            <Col md="8">
+              <CardCell
+                title={
+                  <Term title={"Deleted hash"}>
+                    {"Unique transaction hash of account deletion. "}
+                    <a href={"https://docs.near.org/docs/concepts/account"}>
+                      docs
+                    </a>
+                  </Term>
+                }
+                text={
+                  <>
+                    {account.deletedByTransactionHash}
                     <TransactionLink
                       transactionHash={account.deletedByTransactionHash!}
                     >
@@ -236,8 +280,8 @@ export default class extends React.Component<Props> {
                 className="block-card-created account-card-back border-0"
               />
             </Col>
-          )}
-        </Row>
+          </Row>
+        )}
         <style jsx global>{`
           .account-info-container {
             border: solid 4px #e6e6e6;

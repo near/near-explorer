@@ -1,11 +1,10 @@
-import BN from "bn.js";
 import Link from "next/link";
+import moment from "moment";
 
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
-import { truncateAccountId } from "../../libraries/formatting";
 
 import Balance from "../utils/Balance";
 
@@ -14,14 +13,19 @@ export interface Props {
 }
 
 export interface State {
-  totalBalance?: BN;
+  totalBalance?: string;
+  deletedAtBlockTimestamp: number | null;
+  createdAtBlockTimestamp: number | null;
 }
 
 export default class extends React.Component<Props, State> {
-  state: State = {};
+  state: State = {
+    deletedAtBlockTimestamp: null,
+    createdAtBlockTimestamp: null,
+  };
 
   _getDetail = async () => {
-    const accountInfo = await new AccountsApi().queryAccount(
+    const accountInfo = await new AccountsApi().getAccountInfo(
       this.props.accountId
     );
     if (!accountInfo) {
@@ -31,7 +35,11 @@ export default class extends React.Component<Props, State> {
       );
       return;
     }
-    this.setState({ totalBalance: accountInfo.totalBalance });
+    this.setState({
+      totalBalance: accountInfo.nonStakedBalance,
+      deletedAtBlockTimestamp: accountInfo.deletedAtBlockTimestamp,
+      createdAtBlockTimestamp: accountInfo.createdAtBlockTimestamp,
+    });
   };
 
   componentDidMount() {
@@ -40,19 +48,27 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { accountId } = this.props;
-    const { totalBalance } = this.state;
+    const {
+      totalBalance,
+      deletedAtBlockTimestamp,
+      createdAtBlockTimestamp,
+    } = this.state;
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
         <a style={{ textDecoration: "none" }}>
           <Row className="transaction-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
               <img
-                src="/static/images/icon-t-acct.svg"
+                src={
+                  deletedAtBlockTimestamp
+                    ? "/static/images/icon-t-acct-delete.svg"
+                    : "/static/images/icon-t-acct.svg"
+                }
                 style={{ width: "15px" }}
               />
             </Col>
             <Col md="7" xs="6" className="transaction-row-title pt-1">
-              {truncateAccountId(accountId)}
+              {accountId}
             </Col>
             <Col
               md="3"
@@ -60,10 +76,21 @@ export default class extends React.Component<Props, State> {
               className="ml-auto pt-1 text-right transaction-row-txid"
             >
               {typeof totalBalance !== "undefined" ? (
-                <Balance amount={totalBalance.toString()} />
+                <>
+                  <Balance amount={totalBalance} />
+                  <div className="transaction-row-timer">
+                    Created At {moment(createdAtBlockTimestamp).format("LL")}
+                  </div>
+                </>
               ) : (
                 ""
               )}
+              {deletedAtBlockTimestamp ? (
+                <div style={{ color: "#FF585D", fontSize: "12px" }}>
+                  {" "}
+                  Deleted At {moment(deletedAtBlockTimestamp).format("LL")}
+                </div>
+              ) : null}
             </Col>
             <style jsx global>{`
               .transaction-row {
