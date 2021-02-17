@@ -18,7 +18,7 @@ exports[`<AccountRow /> renders with long name 1`] = `
       className="pr-0 col-md-auto col-1"
     >
       <img
-        className="jsx-2883926817"
+        className="jsx-2618493292"
         src="/static/images/icon-t-acct.svg"
         style={
           Object {
@@ -28,12 +28,12 @@ exports[`<AccountRow /> renders with long name 1`] = `
       />
     </div>
     <div
-      className="transaction-row-title pt-1 col-md-7 col-6"
+      className="transaction-row-title pt-1 col-md-7 col-11"
     >
       b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near
     </div>
     <div
-      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-4"
+      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
     >
       
     </div>
@@ -59,7 +59,7 @@ exports[`<AccountRow /> renders with short name 1`] = `
       className="pr-0 col-md-auto col-1"
     >
       <img
-        className="jsx-2883926817"
+        className="jsx-2618493292"
         src="/static/images/icon-t-acct.svg"
         style={
           Object {
@@ -69,12 +69,12 @@ exports[`<AccountRow /> renders with short name 1`] = `
       />
     </div>
     <div
-      className="transaction-row-title pt-1 col-md-7 col-6"
+      className="transaction-row-title pt-1 col-md-7 col-11"
     >
       account
     </div>
     <div
-      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-4"
+      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
     >
       
     </div>
