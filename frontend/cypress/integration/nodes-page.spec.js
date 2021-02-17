@@ -2,7 +2,7 @@
 
 context("Nodes", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000/nodes/validators");
+    cy.visit("/nodes/validators");
   });
 
   // https://on.cypress.io/interacting-with-elements
@@ -44,7 +44,6 @@ context("Nodes", () => {
 
   it("Check nodes map tab", () => {
     cy.get(".node-link").children("div").contains("Nodes Map").click();
-    cy.visit("http://localhost:3000/nodes/map");
     cy.wait(5000).get(".mapBackground").should("exist");
   });
 });
