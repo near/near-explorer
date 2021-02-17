@@ -148,7 +148,7 @@ export default class extends React.Component<Props> {
             <Col md="4">
               <CardCell
                 title={
-                  <Term title={"Ⓝ Aggregated Balance"}>
+                  <Term title={"Ⓝ Balance Profile"}>
                     {
                       'NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate "total" balance, it is the best place. '
                     }
