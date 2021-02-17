@@ -25,7 +25,10 @@ export default class extends React.Component<Props> {
     return (
       <div className="account-info-container">
         <Row noGutters>
-          <Col md="4">
+          <Col
+            xs="12"
+            md={typeof account.storageUsage === "undefined" ? "12" : "4"}
+          >
             <CardCell
               title={
                 <Term title={"Transactions"}>
@@ -50,8 +53,8 @@ export default class extends React.Component<Props> {
               className="border-0"
             />
           </Col>
-          {typeof account.storageUsage === "undefined" ? null : (
-            <Col>
+          {typeof account.storageUsage !== "undefined" && (
+            <Col xs="12" md={account.lockupAccountId ? "4" : "8"}>
               <CardCell
                 title={
                   <Term title={"Storage Used"}>
@@ -73,7 +76,7 @@ export default class extends React.Component<Props> {
             </Col>
           )}
           {account.lockupAccountId && (
-            <Col md="4">
+            <Col xs="12" md="4">
               <CardCell
                 title={
                   <Term title={"Lockup Account"}>
@@ -101,9 +104,9 @@ export default class extends React.Component<Props> {
             </Col>
           )}
         </Row>
-        {typeof account.nonStakedBalance === "undefined" ? null : (
+        {typeof account.nonStakedBalance !== "undefined" && (
           <Row noGutters>
-            <Col md="4">
+            <Col xs="12" md="4">
               <CardCell
                 title={
                   <Term title={"Ⓝ Native Account Balance"}>

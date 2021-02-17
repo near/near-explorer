@@ -29,7 +29,7 @@ export default class extends React.Component {
       .getTransactionInfo(cleanedSearchValue)
       .catch(() => {});
     const accountPromise = new AccountsApi()
-      .queryAccount(cleanedSearchValue)
+      .queryAccount(cleanedSearchValue.toLowerCase())
       .catch(() => {});
 
     const block = await blockPromise;
@@ -41,7 +41,7 @@ export default class extends React.Component {
       return Router.push("/transactions/" + searchValue);
     }
     if (await accountPromise) {
-      return Router.push("/accounts/" + searchValue);
+      return Router.push("/accounts/" + searchValue.toLowerCase());
     }
 
     alert("Result not found!");

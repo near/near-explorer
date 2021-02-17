@@ -8,7 +8,7 @@ import IconNodes from "../../../public/static/images/icon-nodes.svg";
 
 const HeaderNavItem = ({ link, imgLink, text }) => {
   return (
-    <Link className="header-nav-item" href={link}>
+    <Link href={link}>
       <a className="header-nav-item">
         {imgLink}
         <span className="nav-text">{text}</span>
