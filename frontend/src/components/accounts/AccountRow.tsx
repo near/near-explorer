@@ -67,12 +67,12 @@ export default class extends React.Component<Props, State> {
                 style={{ width: "15px" }}
               />
             </Col>
-            <Col md="7" xs="6" className="transaction-row-title pt-1">
+            <Col md="7" xs="11" className="transaction-row-title pt-1">
               {accountId}
             </Col>
             <Col
               md="3"
-              xs="4"
+              xs="5"
               className="ml-auto pt-1 text-right transaction-row-txid"
             >
               {typeof totalBalance !== "undefined" ? (
@@ -108,6 +108,7 @@ export default class extends React.Component<Props, State> {
                 font-weight: 500;
                 line-height: 1.29;
                 color: #24272a;
+                word-break: break-word;
               }
 
               .transaction-row-text {
