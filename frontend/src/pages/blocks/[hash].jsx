@@ -2,6 +2,8 @@ import Head from "next/head";
 
 import React from "react";
 
+import { Mixpanel } from "../../../mixpanel/index";
+
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
@@ -20,6 +22,7 @@ export default class extends React.Component {
   }
 
   render() {
+    Mixpanel.track("View Individual Block", { block: this.props.hash });
     return (
       <>
         <Head>

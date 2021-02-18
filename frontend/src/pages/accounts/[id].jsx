@@ -3,6 +3,8 @@ import Head from "next/head";
 import React from "react";
 import { Container } from "react-bootstrap";
 
+import { Mixpanel } from "../../../mixpanel/index";
+
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
@@ -32,7 +34,7 @@ export default class extends React.Component {
 
   render() {
     const { account, accountFetchingError, currentNearNetwork } = this.props;
-
+    Mixpanel.track("View Individual Account", { accountId: account.accountId });
     return (
       <>
         <Head>

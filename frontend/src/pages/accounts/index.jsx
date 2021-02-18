@@ -1,10 +1,13 @@
 import Head from "next/head";
 
+import { Mixpanel } from "../../../mixpanel/index";
+
 import Accounts from "../../components/accounts/Accounts";
 import Content from "../../components/utils/Content";
 
 export default class extends React.Component {
   render() {
+    Mixpanel.track("View Accounts Page");
     return (
       <>
         <Head>
