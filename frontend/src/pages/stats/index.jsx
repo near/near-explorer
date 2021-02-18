@@ -2,6 +2,8 @@ import Head from "next/head";
 
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 
+import { Mixpanel } from "../../../mixpanel/index";
+
 import Content from "../../components/utils/Content";
 
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
@@ -16,6 +18,7 @@ import StakingBar from "../../components/stats/StakingBar";
 
 export default class extends React.Component {
   render() {
+    Mixpanel.track("View Stats page");
     return (
       <>
         <Head>

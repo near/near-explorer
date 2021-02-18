@@ -11,9 +11,6 @@ import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 export default class extends React.Component {
   render() {
-    let id = Mixpanel.get_distinct_id();
-    Mixpanel.identify(id);
-    Mixpanel.people.set_once({ first_touch_date: new Date().toString() });
     Mixpanel.track("View Landing Page");
     return (
       <>

@@ -1,10 +1,13 @@
 import Head from "next/head";
 
+import { Mixpanel } from "../../../mixpanel/index";
+
 import Content from "../../components/utils/Content";
 import Transactions from "../../components/transactions/Transactions";
 
 export default class extends React.Component {
   render() {
+    Mixpanel.track("View Transactions Page");
     return (
       <>
         <Head>

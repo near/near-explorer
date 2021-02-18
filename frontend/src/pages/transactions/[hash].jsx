@@ -2,6 +2,8 @@ import Head from "next/head";
 
 import React from "react";
 
+import { Mixpanel } from "../../../mixpanel/index";
+
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
@@ -22,6 +24,9 @@ export default class extends React.Component {
 
   render() {
     const { hash } = this.props;
+    Mixpanel.track("View Individual Transaction Page", {
+      transaction_hash: hash,
+    });
     return (
       <>
         <Head>

@@ -1,5 +1,7 @@
 import Head from "next/head";
 
+import { Mixpanel } from "../../../mixpanel/index";
+
 import Content from "../../components/utils/Content";
 
 import PartnerTotalTransactionList from "../../components/stats/PartnerTotalTransactionList";
@@ -7,6 +9,7 @@ import PartnerFirst3MonthTransactionslist from "../../components/stats/PartnerFi
 
 export default class extends React.Component {
   render() {
+    Mixpanel.track("View Partner page");
     return (
       <>
         <Head>

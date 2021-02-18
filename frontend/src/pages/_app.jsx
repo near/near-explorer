@@ -3,6 +3,7 @@ import getConfig from "next/config";
 import Head from "next/head";
 
 import { getNearNetwork } from "../libraries/config";
+import { Mixpanel } from "../../mixpanel/index";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
@@ -42,6 +43,9 @@ export default class extends App {
 
   render() {
     const { Component, pageProps } = this.props;
+    // mixpanel user setup and tracking
+    Mixpanel.identify(Mixpanel.get_distinct_id());
+    Mixpanel.people.set_once({ first_touch_date: new Date().toString() });
     return (
       <>
         <Head>
