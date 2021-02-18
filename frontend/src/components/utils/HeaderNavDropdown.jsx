@@ -1,10 +1,10 @@
 import { Dropdown } from "react-bootstrap";
-import Link from "next/link";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
 import IconTransactions from "../../../public/static/images/icon-transactions.svg";
 import IconNodes from "../../../public/static/images/icon-nodes.svg";
+import Link from "../utils/Link";
 
 const HeaderNavItem = ({ link, imgLink, text }) => {
   return (

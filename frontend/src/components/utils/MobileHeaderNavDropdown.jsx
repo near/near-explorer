@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import Link from "../utils/Link";
 
 const MobileNavItem = ({ link, imgLink, text }) => {
   return (

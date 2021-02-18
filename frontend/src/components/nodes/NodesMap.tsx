@@ -2,12 +2,13 @@ import lodash from "lodash";
 import moment from "moment";
 
 import dynamic from "next/dynamic";
-import Link from "next/link";
 
 import React from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import { NodeContext } from "../../context/NodeProvider";
+
+import Link from "../utils/Link";
 
 const Datamap = dynamic(() => import("../utils/DatamapsExtension"), {
   ssr: false,

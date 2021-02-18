@@ -1,9 +1,7 @@
-import Link from "next/link";
-
 import { Row, Col, Spinner } from "react-bootstrap";
 
 import RightArrowSvg from "../../../public/static/images/right-arrow.svg";
-
+import Link from "../utils/Link";
 export interface Props {
   title: React.ReactElement | string;
   text?: React.ReactElement | string;

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 
@@ -7,6 +6,7 @@ import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
+import Link from "../utils/Link";
 
 export interface Props {
   className?: string;

@@ -1,5 +1,4 @@
 import BN from "bn.js";
-import Link from "next/link";
 
 import React from "react";
 import { Row, Col } from "react-bootstrap";
@@ -8,7 +7,7 @@ import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import { truncateAccountId } from "../../libraries/formatting";
 
 import Balance from "../utils/Balance";
-
+import Link from "../utils/Link";
 export interface Props {
   accountId: string;
 }

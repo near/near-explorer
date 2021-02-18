@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 
@@ -8,6 +7,7 @@ import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 import GasPrice from "../utils/GasPrice";
+import Link from "../utils/Link";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
 
