@@ -6,16 +6,13 @@ describe("<CardCell />", () => {
   it("renders", () => {
     expect(
       renderer.create(
-        <Term title={"Nodes Online"}>
-          {
+        <Term
+          title={"Nodes Online"}
+          text={
             "The number of validating nodes / the total number of online nodes. "
           }
-          <a
-            href={"https://docs.near.org/docs/roles/integrator/faq#validators"}
-          >
-            docs
-          </a>
-        </Term>
+          href={"https://docs.near.org/docs/roles/integrator/faq#validators"}
+        />
       )
     ).toMatchSnapshot();
   });
