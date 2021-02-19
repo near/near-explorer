@@ -9,9 +9,9 @@ context("Nodes", () => {
 
   it("Check for node page", () => {
     cy.url().should("include", "/nodes/validators");
-    cy.get("#validator-node").find(".node-selector").contains("Validating");
-    cy.get("#online-node").find(".node-selector").contains("Online-nodes");
-    cy.get("#proposal-node").find(".node-selector").contains("Proposal-nodes");
+    cy.get("#validator-node").contains("Validating");
+    cy.get("#online-node").contains("Online-nodes");
+    cy.get("#proposal-node").contains("Proposal-nodes");
   });
 
   it("Check validators tab", () => {
@@ -43,7 +43,7 @@ context("Nodes", () => {
   });
 
   it("Check nodes map tab", () => {
-    cy.get(".node-link").children("div").contains("Nodes Map").click();
+    cy.get("#node-map").contains("Nodes Map").click();
     cy.wait(5000).get(".mapBackground").should("exist");
   });
 });

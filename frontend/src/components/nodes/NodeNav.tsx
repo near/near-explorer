@@ -67,7 +67,9 @@ export default class extends React.Component<Props> {
               </Col>
               <Col className="node-selector align-self-center">
                 <Link href="/nodes/map">
-                  <a className="node-link">Nodes Map</a>
+                  <a className="node-link" id="node-map">
+                    Nodes Map
+                  </a>
                 </Link>
               </Col>
             </Row>
