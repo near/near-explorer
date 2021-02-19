@@ -19,16 +19,13 @@ export default () => (
           <Col xs="6" md="12">
             <LongCardCell
               title={
-                <Term title={"Nodes online"}>
-                  {"Total number of online nodes. "}
-                  <a
-                    href={
-                      "https://docs.near.org/docs/validator/staking#run-the-node"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
+                <Term
+                  title={"Nodes online"}
+                  text={"Total number of online nodes. "}
+                  href={
+                    "https://docs.near.org/docs/validator/staking#run-the-node"
+                  }
+                />
               }
               loading={typeof stats.onlineNodeAmount === "undefined"}
               text={stats.onlineNodeAmount?.toLocaleString()}
@@ -38,16 +35,13 @@ export default () => (
           <Col xs="6" md="12">
             <LongCardCell
               title={
-                <Term title={"Nodes validating"}>
-                  {"Total number of validating nodes. "}
-                  <a
-                    href={
-                      "https://docs.near.org/docs/roles/integrator/faq#validators"
-                    }
-                  >
-                    docs
-                  </a>
-                </Term>
+                <Term
+                  title={"Nodes validating"}
+                  text={"Total number of validating nodes. "}
+                  href={
+                    "https://docs.near.org/docs/roles/integrator/faq#validators"
+                  }
+                />
               }
               loading={typeof stats.validatorAmount === "undefined"}
               text={stats.validatorAmount?.toLocaleString()}

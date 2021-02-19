@@ -31,12 +31,11 @@ export default class extends React.Component<Props> {
           >
             <CardCell
               title={
-                <Term title={"Transactions"}>
-                  {"Total transaction sent and received by this account. "}
-                  <a href={"https://docs.near.org/docs/concepts/transaction"}>
-                    docs
-                  </a>
-                </Term>
+                <Term
+                  title={"Transactions"}
+                  text={"Total transaction sent and received by this account. "}
+                  href={"https://docs.near.org/docs/concepts/transaction"}
+                />
               }
               imgLink="/static/images/icon-m-transaction.svg"
               text={
@@ -57,18 +56,13 @@ export default class extends React.Component<Props> {
             <Col xs="12" md={account.lockupAccountId ? "4" : "8"}>
               <CardCell
                 title={
-                  <Term title={"Storage Used"}>
-                    {
+                  <Term
+                    title={"Storage Used"}
+                    text={
                       "Total blockchain storage (in bytes) used by this account. "
                     }
-                    <a
-                      href={
-                        "https://docs.near.org/docs/concepts/storage-staking"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
+                    href={"https://docs.near.org/docs/concepts/storage-staking"}
+                  />
                 }
                 imgLink="/static/images/icon-storage.svg"
                 text={`${account.storageUsage.toLocaleString()} B`}
@@ -79,18 +73,15 @@ export default class extends React.Component<Props> {
             <Col xs="12" md="4">
               <CardCell
                 title={
-                  <Term title={"Lockup Account"}>
-                    {
+                  <Term
+                    title={"Lockup Account"}
+                    text={
                       "Lockup is a special smart contract that ensures that the full amount or even a partial amount is not transferable until it is supposed to be. "
                     }
-                    <a
-                      href={
-                        "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
+                    href={
+                      "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
+                    }
+                  />
                 }
                 imgLink="/static/images/icon-m-transaction.svg"
                 text={
@@ -109,18 +100,15 @@ export default class extends React.Component<Props> {
             <Col xs="12" md="4">
               <CardCell
                 title={
-                  <Term title={"Ⓝ Native Account Balance"}>
-                    {
+                  <Term
+                    title={"Ⓝ Native Account Balance"}
+                    text={
                       'NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the "total" balance of all the tokens you may control through this account; see "Aggregated Balace" for more details. '
                     }
-                    <a
-                      href={
-                        "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  />
                 }
                 text={<Balance amount={account.nonStakedBalance} />}
                 className="border-0"
@@ -129,18 +117,15 @@ export default class extends React.Component<Props> {
             <Col md="4">
               <CardCell
                 title={
-                  <Term title={"Ⓝ Validator Stake"}>
-                    {
+                  <Term
+                    title={"Ⓝ Validator Stake"}
+                    text={
                       "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. "
                     }
-                    <a
-                      href={
-                        "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  />
                 }
                 text={<Balance amount={account.stakedBalance} />}
               />
@@ -148,18 +133,15 @@ export default class extends React.Component<Props> {
             <Col md="4">
               <CardCell
                 title={
-                  <Term title={"Ⓝ Aggregated Balance"}>
-                    {
+                  <Term
+                    title={"Ⓝ Aggregated Balance"}
+                    text={
                       'NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate "total" balance, it is the best place. '
                     }
-                    <a
-                      href={
-                        "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
+                    href={
+                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                    }
+                  />
                 }
                 text={
                   <WalletLink
@@ -177,12 +159,11 @@ export default class extends React.Component<Props> {
           <Col xs="12" md="6">
             <CardCell
               title={
-                <Term title={"Created at"}>
-                  {"Timestamp of when this account was created. "}
-                  <a href={"https://docs.near.org/docs/concepts/account"}>
-                    docs
-                  </a>
-                </Term>
+                <Term
+                  title={"Created at"}
+                  text={"Timestamp of when this account was created. "}
+                  href={"https://docs.near.org/docs/concepts/account"}
+                />
               }
               text={
                 account.createdByTransactionHash === null ||
@@ -214,12 +195,11 @@ export default class extends React.Component<Props> {
             <Col xs="12" md="6">
               <CardCell
                 title={
-                  <Term title={"Deleted at"}>
-                    {"Timestamp of when this account was deleted. "}
-                    <a href={"https://docs.near.org/docs/concepts/account"}>
-                      docs
-                    </a>
-                  </Term>
+                  <Term
+                    title={"Deleted at"}
+                    text={"Timestamp of when this account was deleted. "}
+                    href={"https://docs.near.org/docs/concepts/account"}
+                  />
                 }
                 text={
                   <>

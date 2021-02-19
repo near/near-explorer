@@ -47,7 +47,6 @@ export default () => {
         <a
           className="footer-help-link"
           href="http://near.chat"
-          target="_blank"
           onClick={() => Mixpanel.track("Footer click to join the community")}
         >
           <Row noGutters>
