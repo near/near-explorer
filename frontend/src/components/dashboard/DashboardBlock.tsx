@@ -31,10 +31,14 @@ export default ({ className }: Props) => (
               title={
                 <Term
                   title={"Block Height"}
-                  text={`The most recent block height recorded to the blockchain.\n
-                          The block height is a sequential number of the most recent block in the blockchain.\n
-                          For example, a block height of 1000 indicates that up to 1001 blocks may exist in the blockchain (genesis + blocks 0-1000).
-                          In NEAR, there is not guaranteed to be a block for each sequential number, e.g. block 982 does not necessarily exist. `}
+                  text={
+                    <>
+                      <p>{`The most recent block height recorded to the blockchain.`}</p>
+                      <p>{`The block height is a sequential number of the most recent block in the blockchain.`}</p>
+                      <p>{`For example, a block height of 1000 indicates that up to 1001 blocks may exist in the blockchain (genesis + blocks 0-1000).
+                        In NEAR, there is not guaranteed to be a block for each sequential number, e.g. block 982 does not necessarily exist.`}</p>
+                    </>
+                  }
                   href={"https://docs.near.org/docs/concepts/new-to-near"}
                 />
               }

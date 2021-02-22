@@ -6,7 +6,7 @@ import { Mixpanel } from "../../../mixpanel/index";
 
 interface Props {
   title: string;
-  text: string;
+  text: string | React.ReactNode;
   href?: string;
 }
 

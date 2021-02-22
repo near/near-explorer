@@ -122,12 +122,15 @@ export default class extends React.Component<Props, State> {
                 title={
                   <Term
                     title={"Locked?"}
-                    text={`
-                      Locked contract means that there are no access keys allowing the
+                    text={
+                      <>
+                        <p>{`Locked contract means that there are no access keys allowing the
                       contract code to be re-deployed (e.g. even a single FullAccess
-                      permission access key casts the locked status to "No"). \n
-                      Note: The contract itself may be implemented to re-deploy itself
-                      or re-add FullAccess keys.`}
+                      permission access key casts the locked status to "No").`}</p>
+                        <p>{`Note: The contract itself may be implemented to re-deploy itself
+                      or re-add FullAccess keys.`}</p>
+                      </>
+                    }
                   />
                 }
                 text={lockedShow ? lockedShow : ""}
