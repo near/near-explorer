@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import React from "react";
 
-import { Mixpanel } from "../../../mixpanel/index";
+import { Mixpanel } from "../../libraries/mixpanel";
 
 import NodeNav from "../../components/nodes/NodeNav";
 import Proposals from "../../components/nodes/Proposals";

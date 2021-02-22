@@ -2,7 +2,7 @@ import React from "react";
 
 import { Modal } from "react-bootstrap";
 
-import { Mixpanel } from "../../../mixpanel/index";
+import { Mixpanel } from "../../libraries/mixpanel";
 
 interface Props {
   title: string;

@@ -1,5 +1,5 @@
 import { truncateAccountId } from "../../libraries/formatting";
-import { Mixpanel } from "../../../mixpanel/index";
+import { Mixpanel } from "../../libraries/mixpanel";
 
 export interface Props {
   accountId: string;

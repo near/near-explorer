@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Mixpanel } from "../../../mixpanel/index";
+import { Mixpanel } from "../../libraries/mixpanel";
 
 import Content from "../../components/utils/Content";
 

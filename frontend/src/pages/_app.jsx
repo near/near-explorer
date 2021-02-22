@@ -3,7 +3,7 @@ import getConfig from "next/config";
 import Head from "next/head";
 
 import { getNearNetwork } from "../libraries/config";
-import { Mixpanel } from "../../mixpanel/index";
+import { Mixpanel } from "../libraries/mixpanel";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";

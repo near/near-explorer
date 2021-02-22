@@ -1,7 +1,7 @@
 import { Dropdown } from "react-bootstrap";
 
 import { NetworkConsumer } from "../../context/NetworkProvider";
-import { Mixpanel } from "../../../mixpanel/index";
+import { Mixpanel } from "../../libraries/mixpanel";
 
 const HeaderDropdownItem = ({ link, title }) => {
   const clicked = () =>

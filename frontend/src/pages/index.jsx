@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import { Mixpanel } from "../../mixpanel/index";
+import { Mixpanel } from "../libraries/mixpanel";
 import NodeStatsProvider from "../context/NodeStatsProvider";
 
 import Search from "../components/utils/Search";
