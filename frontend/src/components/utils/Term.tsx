@@ -55,6 +55,8 @@ export default class extends React.Component<Props, State> {
                 <a
                   href={href}
                   onClick={() => Mixpanel.track("Docs Click", { href: href })}
+                  target="_blank"
+                  rel="noopener"
                 >
                   docs
                 </a>

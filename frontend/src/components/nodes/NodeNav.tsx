@@ -16,15 +16,15 @@ export default class extends React.Component<Props> {
       <NodeStatsConsumer>
         {(context) => (
           <>
-            <Row>
-              <Col className="node-selector align-self-center" md="4">
+            <Row className="node-nav" noGutters>
+              <Col
+                md="4"
+                className={`node-selector p-1 pl-3 ${
+                  role === "validators" ? `node-selected` : ""
+                }`}
+              >
                 <Link href="/nodes/validators">
-                  <a
-                    className={`node-link ${
-                      role === "validators" ? `node-selected` : ""
-                    }`}
-                    id="validator-node"
-                  >
+                  <a className="node-link" id="validator-node">
                     {`${
                       typeof context.validatorAmount !== "undefined"
                         ? context.validatorAmount
@@ -33,14 +33,13 @@ export default class extends React.Component<Props> {
                   </a>
                 </Link>
               </Col>
-              <Col className="node-selector align-self-center">
+              <Col
+                className={`node-selector p-1 pl-3 ${
+                  role === "online-nodes" ? `node-selected` : ""
+                }`}
+              >
                 <Link href="/nodes/online-nodes">
-                  <a
-                    className={`node-link ${
-                      role === "online-nodes" ? `node-selected` : ""
-                    }`}
-                    id="online-node"
-                  >
+                  <a className="node-link" id="online-node">
                     {`${
                       typeof context.onlineNodeAmount !== "undefined"
                         ? context.onlineNodeAmount
@@ -49,14 +48,13 @@ export default class extends React.Component<Props> {
                   </a>
                 </Link>
               </Col>
-              <Col className="node-selector align-self-center">
+              <Col
+                className={`node-selector p-1 pl-3 ${
+                  role === "proposals" ? `node-selected` : ""
+                }`}
+              >
                 <Link href="/nodes/proposals">
-                  <a
-                    className={`node-link ${
-                      role === "proposals" ? `node-selected` : ""
-                    }`}
-                    id="proposal-node"
-                  >
+                  <a className="node-link" id="proposal-node">
                     {`${
                       typeof context.proposalAmount !== "undefined"
                         ? context.proposalAmount
@@ -65,7 +63,7 @@ export default class extends React.Component<Props> {
                   </a>
                 </Link>
               </Col>
-              <Col className="node-selector align-self-center">
+              <Col className="node-selector p-1 pl-3">
                 <Link href="/nodes/map">
                   <a className="node-link" id="node-map">
                     Nodes Map
@@ -74,28 +72,32 @@ export default class extends React.Component<Props> {
               </Col>
             </Row>
             <style jsx global>{`
-              .node-selector {
-                font-size: 12px;
-                font-weight: 500;
-                letter-spacing: 1.38px;
+              .node-nav {
+                width: 100%;
+                height: 32px;
+                background: rgba(106, 209, 227, 0.15);
+                box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
                 color: #24272a;
+              }
+
+              .node-selector {
+                height: 100%;
+                font-size: 16px;
+                font-weight: 500;
                 text-transform: uppercase;
                 text-decoration: none;
-                margin-left: 15px;
-                margin-bottom: 15px;
               }
 
               .node-link {
-                text-align: center;
-                background: #fff;
-                border: 2px solid #e6e6e6;
-                box-sizing: border-box;
-                border-radius: 25px;
-                padding: 10px;
+                color: #0d60b9;
+              }
+
+              .node-link:hover {
+                color: #5ccee2;
               }
 
               .node-selected {
-                border: 2px solid #0066ff;
+                background: #fff;
               }
 
               .node-icon {

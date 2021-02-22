@@ -12,10 +12,10 @@ export default ({ href, as, children }: Props) => {
   const clicked = () =>
     Mixpanel.track("Click Link", { href: href, as: as ? as : "" });
   return (
-    <div onClick={clicked}>
+    <span onClick={clicked}>
       <Link href={href} as={as}>
         {children}
       </Link>
-    </div>
+    </span>
   );
 };

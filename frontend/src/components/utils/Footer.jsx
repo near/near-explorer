@@ -6,7 +6,6 @@ import NearLogo from "../../../public/static/images/near_logo.svg";
 import Nearkats from "../../../public/static/images/nearkats.svg";
 
 export default () => {
-  const clicked = (href) => Mixpanel.track("Footer Click Link", { href: href });
   return (
     <Container fluid className="footer-container">
       <div className="nearlogo-wrapper">
@@ -27,6 +26,8 @@ export default () => {
               onClick={() =>
                 Mixpanel.track("Footer click to see terms of service")
               }
+              target="_blank"
+              rel="noopener"
             >
               Terms of Service
             </a>
@@ -37,6 +38,8 @@ export default () => {
               onClick={() =>
                 Mixpanel.track("Footer click to see privacy policy")
               }
+              target="_blank"
+              rel="noopener"
             >
               Privacy Policy
             </a>
@@ -48,6 +51,8 @@ export default () => {
           className="footer-help-link"
           href="http://near.chat"
           onClick={() => Mixpanel.track("Footer click to join the community")}
+          target="_blank"
+          rel="noopener"
         >
           <Row noGutters>
             <Col className="help-image" xs="5" md="5">

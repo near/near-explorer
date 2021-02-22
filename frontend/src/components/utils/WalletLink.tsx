@@ -15,6 +15,7 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
   return (
     <div onClick={clicked}>
       <a
+        target="_blank"
         rel="noopener"
         className="account-link"
         href={`${nearWalletProfilePrefix}/${accountId}`}
