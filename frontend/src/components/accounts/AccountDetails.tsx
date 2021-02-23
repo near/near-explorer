@@ -134,7 +134,7 @@ export default class extends React.Component<Props> {
               <CardCell
                 title={
                   <Term
-                    title={"Ⓝ Aggregated Balance"}
+                    title={"Ⓝ Balance Profile"}
                     text={
                       'NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate "total" balance, it is the best place. '
                     }
@@ -155,49 +155,76 @@ export default class extends React.Component<Props> {
             </Col>
           </Row>
         )}
-        <Row noGutters className="border-0">
-          <Col xs="12" md="6">
-            <CardCell
-              title={
-                <Term
-                  title={"Created at"}
-                  text={"Timestamp of when this account was created. "}
-                  href={"https://docs.near.org/docs/concepts/account"}
-                />
-              }
-              text={
-                account.createdByTransactionHash === null ||
-                account.createdByTransactionHash === "Genesis" ? (
-                  "Genesis"
-                ) : account.createdAtBlockTimestamp ? (
-                  <>
-                    {moment(account.createdAtBlockTimestamp).format(
-                      "MMMM DD, YYYY [at] h:mm:ssa"
-                    )}
-                    <TransactionLink
-                      transactionHash={account.createdByTransactionHash!}
-                    >
-                      <img
-                        className="transaction-link-icon"
-                        src={"/static/images/icon-m-copy.svg"}
-                      />
-                    </TransactionLink>
-                  </>
-                ) : (
-                  "N/A"
-                )
-              }
-              className="block-card-created account-card-back border-0"
-            />
-          </Col>
-          {account.deletedAtBlockTimestamp === null ||
-          typeof account.deletedAtBlockTimestamp === "undefined" ? null : (
-            <Col xs="12" md="6">
+        {account.deletedAtBlockTimestamp === null ||
+        typeof account.deletedAtBlockTimestamp === "undefined" ? (
+          <Row noGutters className="border-0">
+            <Col md="4">
               <CardCell
                 title={
                   <Term
-                    title={"Deleted at"}
-                    text={"Timestamp of when this account was deleted. "}
+                    title={"Created At"}
+                    text={
+                      "Date and time when this account was created. Some of the accounts are included in the very first block of the network called genesis. "
+                    }
+                    href={"https://docs.near.org/docs/concepts/account"}
+                  />
+                }
+                text={
+                  account.createdByTransactionHash === null ||
+                  account.createdByTransactionHash === "Genesis" ? (
+                    "Genesis"
+                  ) : account.createdAtBlockTimestamp ? (
+                    <>
+                      {moment(account.createdAtBlockTimestamp).format(
+                        "MMMM DD, YYYY [at] h:mm:ssa"
+                      )}
+                    </>
+                  ) : (
+                    "N/A"
+                  )
+                }
+                className="account-card-back border-0"
+              />
+            </Col>
+            {account.createdByTransactionHash === null ||
+            account.createdByTransactionHash === "Genesis" ? null : (
+              <Col md="8">
+                <CardCell
+                  title={
+                    <Term
+                      title={"Created By Transaction"}
+                      text={
+                        "You can inspect the transaction which created this account. "
+                      }
+                      href={"https://docs.near.org/docs/concepts/account"}
+                    />
+                  }
+                  text={
+                    <>
+                      {account.createdByTransactionHash}
+                      <TransactionLink
+                        transactionHash={account.createdByTransactionHash!}
+                      >
+                        <img
+                          className="transaction-link-icon"
+                          src={"/static/images/icon-m-copy.svg"}
+                        />
+                      </TransactionLink>
+                    </>
+                  }
+                  className="account-card-back border-0"
+                />
+              </Col>
+            )}
+          </Row>
+        ) : (
+          <Row noGutters className="border-0">
+            <Col md="4">
+              <CardCell
+                title={
+                  <Term
+                    title={"Deleted At"}
+                    text={"Date and time when this account was deleted. "}
                     href={"https://docs.near.org/docs/concepts/account"}
                   />
                 }
@@ -206,6 +233,25 @@ export default class extends React.Component<Props> {
                     {moment(account.deletedAtBlockTimestamp).format(
                       "MMMM DD, YYYY [at] h:mm:ssa"
                     )}
+                  </>
+                }
+                className="account-card-back border-0"
+              />
+            </Col>
+            <Col md="8">
+              <CardCell
+                title={
+                  <Term
+                    title={"Deleted By Transaction"}
+                    text={
+                      "You can inspect the transaction which deleted this account. "
+                    }
+                    href={"https://docs.near.org/docs/concepts/account"}
+                  />
+                }
+                text={
+                  <>
+                    {account.deletedByTransactionHash}
                     <TransactionLink
                       transactionHash={account.deletedByTransactionHash!}
                     >
@@ -216,11 +262,11 @@ export default class extends React.Component<Props> {
                     </TransactionLink>
                   </>
                 }
-                className="block-card-created account-card-back border-0"
+                className="account-card-back border-0"
               />
             </Col>
-          )}
-        </Row>
+          </Row>
+        )}
         <style jsx global>{`
           .account-info-container {
             border: solid 4px #e6e6e6;

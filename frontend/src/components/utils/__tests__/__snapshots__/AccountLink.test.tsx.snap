@@ -7,7 +7,7 @@ exports[`<AccountLink /> renders long account id 1`] = `
   onClick={[Function]}
   onMouseEnter={[Function]}
 >
-  b7df2…2d4.lockup.near
+  b7df2…ockup.near
 </a>
 `;
 

@@ -139,7 +139,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                gjtur…jsa.lockup.near
+                gjtur…ockup.near
               </a>
             </div>
           </div>
@@ -253,7 +253,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Aggregated Balance
+              Ⓝ Balance Profile
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -286,10 +286,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
     className="border-0 row no-gutters"
   >
     <div
-      className="col-md-6 col-12"
+      className="col-md-4"
     >
       <div
-        className="card-cell block-card-created account-card-back border-0 card"
+        className="card-cell account-card-back border-0 card"
       >
         <div
           className="card-body"
@@ -300,7 +300,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created at
+              Created
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -464,7 +464,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                gjtur…jsa.lockup.near
+                gjtur…ockup.near
               </a>
             </div>
           </div>
@@ -578,7 +578,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Aggregated Balance
+              Ⓝ Balance Profile
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -611,10 +611,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col-md-6 col-12"
+      className="col-md-4"
     >
       <div
-        className="card-cell block-card-created account-card-back border-0 card"
+        className="card-cell account-card-back border-0 card"
       >
         <div
           className="card-body"
@@ -625,7 +625,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created at
+              Created
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -789,7 +789,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                gjtur…jsa.lockup.near
+                gjtur…ockup.near
               </a>
             </div>
           </div>
@@ -903,7 +903,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Aggregated Balance
+              Ⓝ Balance Profile
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -936,10 +936,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col-md-6 col-12"
+      className="col-md-4"
     >
       <div
-        className="card-cell block-card-created account-card-back border-0 card"
+        className="card-cell account-card-back border-0 card"
       >
         <div
           className="card-body"
@@ -950,43 +950,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created at
-              <div
-                className="jsx-782042476 term-helper"
-                onClick={[Function]}
-              >
-                <img
-                  className="jsx-782042476 info"
-                  onClick={[Function]}
-                  src="/static/images/icon-info.svg"
-                />
-              </div>
-            </div>
-            <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-            >
-              Genesis
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="col-md-6 col-12"
-    >
-      <div
-        className="card-cell block-card-created account-card-back border-0 card"
-      >
-        <div
-          className="card-body"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
-            >
-              Deleted at
+              Deleted
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -1002,6 +966,42 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               February 02, 2019 at 12:00:00am
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-8"
+    >
+      <div
+        className="card-cell account-card-back border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Deleted By Transaction
+              <div
+                className="jsx-782042476 term-helper"
+                onClick={[Function]}
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp
               <a
                 className="transaction-link"
                 href="/transactions/3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp"
@@ -1161,7 +1161,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onClick={[Function]}
                 onMouseEnter={[Function]}
               >
-                gjtur…jsa.lockup.near
+                gjtur…ockup.near
               </a>
             </div>
           </div>
@@ -1275,7 +1275,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Aggregated Balance
+              Ⓝ Balance Profile
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -1308,10 +1308,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col-md-6 col-12"
+      className="col-md-4"
     >
       <div
-        className="card-cell block-card-created account-card-back border-0 card"
+        className="card-cell account-card-back border-0 card"
       >
         <div
           className="card-body"
@@ -1322,7 +1322,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created at
+              Created
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -1338,6 +1338,42 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               February 01, 2019 at 12:00:00am
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-8"
+    >
+      <div
+        className="card-cell account-card-back border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Created By Transaction
+              <div
+                className="jsx-782042476 term-helper"
+                onClick={[Function]}
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
               <a
                 className="transaction-link"
                 href="/transactions/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
@@ -1564,7 +1600,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Aggregated Balance
+              Ⓝ Balance Profile
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -1597,10 +1633,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     className="border-0 row no-gutters"
   >
     <div
-      className="col-md-6 col-12"
+      className="col-md-4"
     >
       <div
-        className="card-cell block-card-created account-card-back border-0 card"
+        className="card-cell account-card-back border-0 card"
       >
         <div
           className="card-body"
@@ -1611,7 +1647,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created at
+              Created
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -1627,6 +1663,42 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               February 01, 2019 at 12:00:00am
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="col-md-8"
+    >
+      <div
+        className="card-cell account-card-back border-0 card"
+      >
+        <div
+          className="card-body"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="card-cell-title align-self-center col-md-12 col-auto"
+            >
+              Created By Transaction
+              <div
+                className="jsx-782042476 term-helper"
+                onClick={[Function]}
+              >
+                <img
+                  className="jsx-782042476 info"
+                  onClick={[Function]}
+                  src="/static/images/icon-info.svg"
+                />
+              </div>
+            </div>
+            <div
+              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+            >
+              EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL
               <a
                 className="transaction-link"
                 href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"
