@@ -54,6 +54,7 @@ $ npm run dev:production-wamp-with-indexer-mainnet
 ```
 
 Or you could run frontend and backend separately. Start frontend like this:
+
 ```
 $ npm run dev:local-wamp-with-indexer-mainnet
 ```
@@ -64,7 +65,7 @@ Then you need to start WAMP server:
 $ docker-compose up -d wamp
 ```
 
-After it you need to open `backend/config/` and create a `env-indexer-mainnet-local` file 
+After it you need to open `backend/config/` and create a `env-indexer-mainnet-local` file
 (or just copy `env-indexer-mainnet` and add `-local` prefix to the file name) and add/replace this strings
 (Also replace `...` with your credentials):
 
@@ -75,7 +76,9 @@ export NEAR_INDEXER_DATABASE_NAME=mainnet_explorer
 export NEAR_INDEXER_DATABASE_USERNAME=...
 export NEAR_INDEXER_DATABASE_PASSWORD=...
 ```
+
 When all preparation is done run backend:
+
 ```
 $ npm run start:mainnet-with-indexer
 ```
@@ -130,6 +133,7 @@ To run cypress tests:
 $ cd frontend
 $ ./node-modules/.bin/cypress open
 ```
+
 Then you can choose which tests exactly you want to run.
 
 TIP: Some tests is running with mock data. You can view/add/replace them in `frontend/cypress/fixtures`
