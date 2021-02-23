@@ -14,7 +14,7 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
         className="account-link"
         href={`${nearWalletProfilePrefix}/${accountId}`}
       >
-        {`${truncateAccountId(accountId)} on Wallet`}
+        {`${truncateAccountId(accountId, 20)} on Wallet`}
       </a>
       <style jsx>{`
         .account-link {

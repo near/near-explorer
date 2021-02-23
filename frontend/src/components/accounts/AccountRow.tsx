@@ -1,11 +1,12 @@
 import BN from "bn.js";
+import moment from "moment";
+
 import Link from "next/link";
 
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
-import { truncateAccountId } from "../../libraries/formatting";
 
 import Balance from "../utils/Balance";
 
@@ -14,24 +15,31 @@ export interface Props {
 }
 
 export interface State {
-  totalBalance?: BN;
+  nonStakedBalance?: BN;
+  deletedAtBlockTimestamp?: number | null;
+  createdAtBlockTimestamp?: number | null;
 }
 
 export default class extends React.Component<Props, State> {
   state: State = {};
 
   _getDetail = async () => {
-    const accountInfo = await new AccountsApi().queryAccount(
-      this.props.accountId
-    );
-    if (!accountInfo) {
-      console.warn(
-        "Account information retrieval failed for ",
+    try {
+      const accountInfo = await new AccountsApi().getAccountInfo(
         this.props.accountId
       );
-      return;
+      this.setState({
+        nonStakedBalance: new BN(accountInfo.nonStakedBalance),
+        deletedAtBlockTimestamp: accountInfo.deletedAtBlockTimestamp,
+        createdAtBlockTimestamp: accountInfo.createdAtBlockTimestamp,
+      });
+    } catch (error) {
+      console.warn(
+        "Account information retrieval failed for ",
+        this.props.accountId,
+        error
+      );
     }
-    this.setState({ totalBalance: accountInfo.totalBalance });
   };
 
   componentDidMount() {
@@ -40,30 +48,45 @@ export default class extends React.Component<Props, State> {
 
   render() {
     const { accountId } = this.props;
-    const { totalBalance } = this.state;
+    const {
+      nonStakedBalance,
+      deletedAtBlockTimestamp,
+      createdAtBlockTimestamp,
+    } = this.state;
     return (
       <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
         <a style={{ textDecoration: "none" }}>
           <Row className="transaction-row mx-0">
             <Col md="auto" xs="1" className="pr-0">
               <img
-                src="/static/images/icon-t-acct.svg"
+                src={
+                  deletedAtBlockTimestamp
+                    ? "/static/images/icon-t-acct-delete.svg"
+                    : "/static/images/icon-t-acct.svg"
+                }
                 style={{ width: "15px" }}
               />
             </Col>
-            <Col md="7" xs="6" className="transaction-row-title pt-1">
-              {truncateAccountId(accountId)}
+            <Col md="7" xs="11" className="transaction-row-title pt-1">
+              {accountId}
             </Col>
             <Col
               md="3"
-              xs="4"
+              xs="5"
               className="ml-auto pt-1 text-right transaction-row-txid"
             >
-              {typeof totalBalance !== "undefined" ? (
-                <Balance amount={totalBalance.toString()} />
-              ) : (
-                ""
-              )}
+              {deletedAtBlockTimestamp ? (
+                <div className="transaction-row-timer">
+                  Deleted on {moment(deletedAtBlockTimestamp).format("LL")}
+                </div>
+              ) : typeof nonStakedBalance !== "undefined" ? (
+                <>
+                  <Balance amount={nonStakedBalance} />
+                  <div className="transaction-row-timer">
+                    Created on {moment(createdAtBlockTimestamp).format("LL")}
+                  </div>
+                </>
+              ) : null}
             </Col>
             <style jsx global>{`
               .transaction-row {
@@ -81,6 +104,7 @@ export default class extends React.Component<Props, State> {
                 font-weight: 500;
                 line-height: 1.29;
                 color: #24272a;
+                word-break: break-word;
               }
 
               .transaction-row-text {
@@ -99,8 +123,8 @@ export default class extends React.Component<Props, State> {
 
               .transaction-row-timer {
                 font-size: 12px;
-                color: #999999;
-                font-weight: 100;
+                color: #666666;
+                font-weight: 300;
               }
 
               .transaction-row-timer-status {
