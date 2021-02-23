@@ -16,10 +16,10 @@ export default class extends React.Component<Props> {
       <NodeStatsConsumer>
         {(context) => (
           <>
-            <Row className="node-nav" noGutters>
+            <Row noGutters>
               <Col
                 md="4"
-                className={`node-selector p-1 pl-3 ${
+                className={`node-selector pt-2 pb-2 ${
                   role === "validators" ? `node-selected` : ""
                 }`}
               >
@@ -34,7 +34,7 @@ export default class extends React.Component<Props> {
                 </Link>
               </Col>
               <Col
-                className={`node-selector p-1 pl-3 ${
+                className={`node-selector pt-2 pb-2 ${
                   role === "online-nodes" ? `node-selected` : ""
                 }`}
               >
@@ -49,7 +49,7 @@ export default class extends React.Component<Props> {
                 </Link>
               </Col>
               <Col
-                className={`node-selector p-1 pl-3 ${
+                className={`node-selector pt-2 pb-2 ${
                   role === "proposals" ? `node-selected` : ""
                 }`}
               >
@@ -63,7 +63,7 @@ export default class extends React.Component<Props> {
                   </a>
                 </Link>
               </Col>
-              <Col className="node-selector p-1 pl-3">
+              <Col className="node-selector pt-2 pb-2">
                 <Link href="/nodes/map">
                   <a className="node-link" id="node-map">
                     Nodes Map
@@ -72,32 +72,26 @@ export default class extends React.Component<Props> {
               </Col>
             </Row>
             <style jsx global>{`
-              .node-nav {
-                width: 100%;
-                height: 32px;
-                background: rgba(106, 209, 227, 0.15);
-                box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
-                color: #24272a;
-              }
-
               .node-selector {
                 height: 100%;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 500;
+                background: #fff;
+                border: 2px solid #e6e6e6;
+                border-radius: 25px;
                 text-transform: uppercase;
                 text-decoration: none;
+                margin-left: 15px;
+                margin-bottom: 15px;
+                text-align: center;
               }
 
               .node-link {
-                color: #0d60b9;
-              }
-
-              .node-link:hover {
-                color: #5ccee2;
+                color: #24272a;
               }
 
               .node-selected {
-                background: #fff;
+                border: 2px solid #0066ff;
               }
 
               .node-icon {

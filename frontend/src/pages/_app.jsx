@@ -40,12 +40,15 @@ export default class extends App {
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
     };
   }
-
-  render() {
-    const { Component, pageProps } = this.props;
+  componentDidMount() {
     // mixpanel user setup and tracking
     Mixpanel.identify(Mixpanel.get_distinct_id());
     Mixpanel.people.set_once({ first_touch_date: new Date().toString() });
+  }
+
+  render() {
+    const { Component, pageProps } = this.props;
+
     return (
       <>
         <Head>

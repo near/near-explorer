@@ -2,10 +2,8 @@ import mixpanel from "mixpanel-browser";
 
 const BROWSER_MIXPANEL_TOKEN = "7cc6cbaab18d00de1b06ca9b4e773ed7";
 
-if (typeof window !== "undefined") {
-  mixpanel.init(BROWSER_MIXPANEL_TOKEN);
-  mixpanel.register({ timestamp: new Date().toString() });
-}
+mixpanel.init(BROWSER_MIXPANEL_TOKEN);
+mixpanel.register({ timestamp: new Date().toString() });
 
 export const Mixpanel = {
   get_distinct_id: () => {
