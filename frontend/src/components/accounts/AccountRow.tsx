@@ -1,5 +1,7 @@
-import Link from "next/link";
+import BN from "bn.js";
 import moment from "moment";
+
+import Link from "next/link";
 
 import React from "react";
 import { Row, Col } from "react-bootstrap";
@@ -13,33 +15,31 @@ export interface Props {
 }
 
 export interface State {
-  totalBalance?: string;
-  deletedAtBlockTimestamp: number | null;
-  createdAtBlockTimestamp: number | null;
+  nonStakedBalance?: BN;
+  deletedAtBlockTimestamp?: number | null;
+  createdAtBlockTimestamp?: number | null;
 }
 
 export default class extends React.Component<Props, State> {
-  state: State = {
-    deletedAtBlockTimestamp: null,
-    createdAtBlockTimestamp: null,
-  };
+  state: State = {};
 
   _getDetail = async () => {
-    const accountInfo = await new AccountsApi().getAccountInfo(
-      this.props.accountId
-    );
-    if (!accountInfo) {
-      console.warn(
-        "Account information retrieval failed for ",
+    try {
+      const accountInfo = await new AccountsApi().getAccountInfo(
         this.props.accountId
       );
-      return;
+      this.setState({
+        nonStakedBalance: new BN(accountInfo.nonStakedBalance),
+        deletedAtBlockTimestamp: accountInfo.deletedAtBlockTimestamp,
+        createdAtBlockTimestamp: accountInfo.createdAtBlockTimestamp,
+      });
+    } catch (error) {
+      console.warn(
+        "Account information retrieval failed for ",
+        this.props.accountId,
+        error
+      );
     }
-    this.setState({
-      totalBalance: accountInfo.nonStakedBalance,
-      deletedAtBlockTimestamp: accountInfo.deletedAtBlockTimestamp,
-      createdAtBlockTimestamp: accountInfo.createdAtBlockTimestamp,
-    });
   };
 
   componentDidMount() {
@@ -49,7 +49,7 @@ export default class extends React.Component<Props, State> {
   render() {
     const { accountId } = this.props;
     const {
-      totalBalance,
+      nonStakedBalance,
       deletedAtBlockTimestamp,
       createdAtBlockTimestamp,
     } = this.state;
@@ -75,21 +75,17 @@ export default class extends React.Component<Props, State> {
               xs="5"
               className="ml-auto pt-1 text-right transaction-row-txid"
             >
-              {typeof totalBalance !== "undefined" ? (
+              {deletedAtBlockTimestamp ? (
+                <div className="transaction-row-timer">
+                  Deleted on {moment(deletedAtBlockTimestamp).format("LL")}
+                </div>
+              ) : typeof nonStakedBalance !== "undefined" ? (
                 <>
-                  <Balance amount={totalBalance} />
+                  <Balance amount={nonStakedBalance} />
                   <div className="transaction-row-timer">
-                    Created At {moment(createdAtBlockTimestamp).format("LL")}
+                    Created on {moment(createdAtBlockTimestamp).format("LL")}
                   </div>
                 </>
-              ) : (
-                ""
-              )}
-              {deletedAtBlockTimestamp ? (
-                <div style={{ color: "#FF585D", fontSize: "12px" }}>
-                  {" "}
-                  Deleted At {moment(deletedAtBlockTimestamp).format("LL")}
-                </div>
               ) : null}
             </Col>
             <style jsx global>{`
@@ -127,8 +123,8 @@ export default class extends React.Component<Props, State> {
 
               .transaction-row-timer {
                 font-size: 12px;
-                color: #999999;
-                font-weight: 100;
+                color: #666666;
+                font-weight: 300;
               }
 
               .transaction-row-timer-status {

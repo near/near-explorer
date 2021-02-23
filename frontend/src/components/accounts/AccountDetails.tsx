@@ -179,8 +179,10 @@ export default class extends React.Component<Props> {
             <Col md="4">
               <CardCell
                 title={
-                  <Term title={"Created at"}>
-                    {"Timestamp for creation of account. "}
+                  <Term title={"Created"}>
+                    {
+                      "Date and time when this account was created. Some of the accounts are included in the very first block of the network called genesis. "
+                    }
                     <a href={"https://docs.near.org/docs/concepts/account"}>
                       docs
                     </a>
@@ -200,24 +202,24 @@ export default class extends React.Component<Props> {
                     "N/A"
                   )
                 }
-                className="block-card-created account-card-back border-0"
+                className="account-card-back border-0"
               />
             </Col>
-            <Col md="8">
-              <CardCell
-                title={
-                  <Term title={"Created Hash"}>
-                    {"Unique transaction hash of account creation. "}
-                    <a href={"https://docs.near.org/docs/concepts/account"}>
-                      docs
-                    </a>
-                  </Term>
-                }
-                text={
-                  account.createdByTransactionHash === null ||
-                  account.createdByTransactionHash === "Genesis" ? (
-                    "Genesis"
-                  ) : (
+            {account.createdByTransactionHash === null ||
+            account.createdByTransactionHash === "Genesis" ? null : (
+              <Col md="8">
+                <CardCell
+                  title={
+                    <Term title={"Created By Transaction"}>
+                      {
+                        "You can inspect the transaction which created this account. "
+                      }
+                      <a href={"https://docs.near.org/docs/concepts/account"}>
+                        docs
+                      </a>
+                    </Term>
+                  }
+                  text={
                     <>
                       {account.createdByTransactionHash}
                       <TransactionLink
@@ -229,19 +231,19 @@ export default class extends React.Component<Props> {
                         />
                       </TransactionLink>
                     </>
-                  )
-                }
-                className="block-card-created account-card-back border-0"
-              />
-            </Col>
+                  }
+                  className="account-card-back border-0"
+                />
+              </Col>
+            )}
           </Row>
         ) : (
           <Row noGutters className="border-0">
             <Col md="4">
               <CardCell
                 title={
-                  <Term title={"Deleted at"}>
-                    {"Timestamp for deletion of account. "}
+                  <Term title={"Deleted"}>
+                    {"Date and time when this account was deleted. "}
                     <a href={"https://docs.near.org/docs/concepts/account"}>
                       docs
                     </a>
@@ -254,14 +256,16 @@ export default class extends React.Component<Props> {
                     )}
                   </>
                 }
-                className="block-card-created account-card-back border-0"
+                className="account-card-back border-0"
               />
             </Col>
             <Col md="8">
               <CardCell
                 title={
-                  <Term title={"Deleted hash"}>
-                    {"Unique transaction hash of account deletion. "}
+                  <Term title={"Deleted By Transaction"}>
+                    {
+                      "You can inspect the transaction which deleted this account. "
+                    }
                     <a href={"https://docs.near.org/docs/concepts/account"}>
                       docs
                     </a>
@@ -280,7 +284,7 @@ export default class extends React.Component<Props> {
                     </TransactionLink>
                   </>
                 }
-                className="block-card-created account-card-back border-0"
+                className="account-card-back border-0"
               />
             </Col>
           </Row>
