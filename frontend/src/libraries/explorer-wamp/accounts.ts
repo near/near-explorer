@@ -131,22 +131,16 @@ export default class AccountsApi extends ExplorerApi {
       }
     };
 
-    try {
-      const [accountInfo, accountBasic, accountStats] = await Promise.all([
-        this.queryAccount(accountId),
-        queryBasicInfo(),
-        queryTransactionCount(),
-      ]);
-      return {
-        ...accountInfo,
-        ...accountBasic,
-        ...accountStats,
-      };
-    } catch (error) {
-      console.error("AccountsApi.getAccountInfo failed to fetch data due to:");
-      console.error(error);
-      throw error;
-    }
+    const [accountInfo, accountBasic, accountStats] = await Promise.all([
+      this.queryAccount(accountId),
+      queryBasicInfo(),
+      queryTransactionCount(),
+    ]);
+    return {
+      ...accountInfo,
+      ...accountBasic,
+      ...accountStats,
+    };
   }
 
   async getAccounts(

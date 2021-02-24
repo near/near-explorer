@@ -1,11 +1,17 @@
 import React from "react";
 import Link from "next/link";
 
-const MobileNavItem = ({ link, imgLink, text }) => {
+import IconAccounts from "../../../public/static/images/icon-accounts.svg";
+import IconBlocks from "../../../public/static/images/icon-blocks.svg";
+import IconNodes from "../../../public/static/images/icon-nodes.svg";
+import IconStats from "../../../public/static/images/icon-stats.svg";
+import IconTransactions from "../../../public/static/images/icon-transactions.svg";
+
+const MobileNavItem = ({ link, icon, text }) => {
   return (
     <Link href={link}>
       <a className="header-nav-item">
-        <img src={imgLink} className="header-icon" />
+        {icon}
         <span className="nav-text">{text}</span>
         <style jsx global>{`
           .header-nav-link,
@@ -89,23 +95,28 @@ export default class extends React.Component {
               <div className="mobile-nav">Explore</div>
               <MobileNavItem
                 link="/accounts"
-                imgLink="/static/images/icon-accounts.svg"
+                icon={<IconAccounts className="header-icon" />}
                 text="Accounts"
               />
               <MobileNavItem
                 link="/blocks"
-                imgLink="/static/images/icon-blocks.svg"
+                icon={<IconBlocks className="header-icon" />}
                 text="Blocks"
               />
               <MobileNavItem
                 link="/transactions"
-                imgLink="/static/images/icon-transactions.svg"
+                icon={<IconTransactions className="header-icon" />}
                 text="Transactions"
               />
               <MobileNavItem
                 link="/nodes/validators"
-                imgLink="/static/images/icon-nodes.svg"
+                icon={<IconNodes className="header-icon" />}
                 text="Nodes"
+              />
+              <MobileNavItem
+                link="/stats"
+                icon={<IconStats className="header-icon" />}
+                text="Charts & Stats"
               />
             </div>
           ) : null}
