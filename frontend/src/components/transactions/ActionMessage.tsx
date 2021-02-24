@@ -62,10 +62,15 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       <AccountLink accountId={receiverId} />
     </>
   ),
-  DeleteAccount: ({ transaction: { receiverId } }: Props<T.DeleteAccount>) => (
+  DeleteAccount: ({
+    transaction: { receiverId },
+    actionArgs,
+  }: Props<T.DeleteAccount>) => (
     <>
-      {"Account deleted: "}
+      {"Delete account "}
       <AccountLink accountId={receiverId} />
+      {" and transfer remaining funds to "}
+      <AccountLink accountId={actionArgs.beneficiary_id} />
     </>
   ),
   DeployContract: ({

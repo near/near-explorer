@@ -21,7 +21,7 @@ interface State {
   status?: T.ExecutionStatus;
 }
 
-export default class extends React.Component<Props, State> {
+export default class extends React.PureComponent<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
   };
@@ -43,7 +43,7 @@ export default class extends React.Component<Props, State> {
     const { transaction, viewMode } = this.props;
     const { status } = this.state;
     if (!transaction.actions) {
-      return <></>;
+      return null;
     }
     if (transaction.actions.length !== 1) {
       return (
