@@ -2,15 +2,17 @@ import { Dropdown } from "react-bootstrap";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";
-import IconTransactions from "../../../public/static/images/icon-transactions.svg";
 import IconNodes from "../../../public/static/images/icon-nodes.svg";
+import IconStats from "../../../public/static/images/icon-stats.svg";
+import IconTransactions from "../../../public/static/images/icon-transactions.svg";
+
 import Link from "../utils/Link";
 
-const HeaderNavItem = ({ link, imgLink, text }) => {
+const HeaderNavItem = ({ link, icon, text }) => {
   return (
     <Link href={link}>
       <a className="header-nav-item">
-        {imgLink}
+        {icon}
         <span className="nav-text">{text}</span>
         <style jsx global>{`
           .header-nav-link,
@@ -66,23 +68,28 @@ export default () => (
     <Dropdown.Menu className="header-dropdown-menu">
       <HeaderNavItem
         link="/accounts"
-        imgLink={<IconAccounts className="header-icon" />}
+        icon={<IconAccounts className="header-icon" />}
         text="Accounts"
       />
       <HeaderNavItem
         link="/blocks"
-        imgLink={<IconBlocks className="header-icon" />}
+        icon={<IconBlocks className="header-icon" />}
         text="Blocks"
       />
       <HeaderNavItem
         link="/transactions"
-        imgLink={<IconTransactions className="header-icon" />}
+        icon={<IconTransactions className="header-icon" />}
         text="Transactions"
       />
       <HeaderNavItem
         link="/nodes/validators"
-        imgLink={<IconNodes className="header-icon" />}
+        icon={<IconNodes className="header-icon" />}
         text="Nodes"
+      />
+      <HeaderNavItem
+        link="/stats"
+        icon={<IconStats className="header-icon" />}
+        text="Charts & Stats"
       />
     </Dropdown.Menu>
 
