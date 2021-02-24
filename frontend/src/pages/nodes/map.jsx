@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Mixpanel } from "../../libraries/mixpanel";
+import Mixpanel from "../../libraries/mixpanel";
 
 import NodesMap from "../../components/nodes/NodesMap";
 import NodeProvider from "../../context/NodeProvider";

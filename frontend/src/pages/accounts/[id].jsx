@@ -3,7 +3,7 @@ import Head from "next/head";
 import React from "react";
 import { Container } from "react-bootstrap";
 
-import { Mixpanel } from "../../libraries/mixpanel";
+import Mixpanel from "../../libraries/mixpanel";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 

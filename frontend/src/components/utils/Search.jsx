@@ -1,7 +1,7 @@
 import Router from "next/router";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
-import { Mixpanel } from "../../libraries/mixpanel";
+import Mixpanel from "../../libraries/mixpanel";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { Mixpanel } from "../../libraries/mixpanel";
+import Mixpanel from "../../libraries/mixpanel";
 
 interface Props {
   href: string;

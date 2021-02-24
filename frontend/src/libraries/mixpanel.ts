@@ -2,10 +2,13 @@ import mixpanel from "mixpanel-browser";
 
 const BROWSER_MIXPANEL_TOKEN = "7cc6cbaab18d00de1b06ca9b4e773ed7";
 
-mixpanel.init(BROWSER_MIXPANEL_TOKEN);
-mixpanel.register({ timestamp: new Date().toString() });
+console.log(process.env.NEAR_EXPLORER_DATA_SOURCE);
+if (process.env.NEAR_EXPLORER_DATA_SOURCE) {
+  mixpanel.init(BROWSER_MIXPANEL_TOKEN);
+  mixpanel.register({ timestamp: new Date().toString() });
+}
 
-export const Mixpanel = {
+const MixpanelReal = {
   get_distinct_id: () => {
     return mixpanel.get_distinct_id();
   },
@@ -20,12 +23,27 @@ export const Mixpanel = {
       mixpanel.people.set_once(props);
     },
   },
-  withTracking: async (name: string, fn: Function) => {
-    try {
-      await fn();
-      mixpanel.track(`${name} finish`);
-    } catch (e) {
-      mixpanel.track(`${name} fail`, { error: e.message });
-    }
+};
+
+const MixpanelMock = {
+  get_distinct_id: () => {
+    return "distinct_id";
+  },
+  identify: (id: string) => {
+    console.log(id);
+  },
+  track: (name: string, props: object) => {
+    console.log(name, props);
+  },
+  people: {
+    set_once: (props: object) => {
+      console.log(props);
+    },
   },
 };
+
+const Mixpanel = process.env.NEAR_EXPLORER_DATA_SOURCE
+  ? MixpanelReal
+  : MixpanelMock;
+
+export default Mixpanel;

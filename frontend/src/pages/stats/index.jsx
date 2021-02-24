@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 
-import { Mixpanel } from "../../libraries/mixpanel";
+import Mixpanel from "../../libraries/mixpanel";
 
 import Content from "../../components/utils/Content";
 

@@ -1,6 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
 
-import { Mixpanel } from "../../libraries/mixpanel";
+import Mixpanel from "../../libraries/mixpanel";
 
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import Nearkats from "../../../public/static/images/nearkats.svg";
