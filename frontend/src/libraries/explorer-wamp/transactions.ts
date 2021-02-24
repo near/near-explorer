@@ -24,7 +24,7 @@ export interface TransactionInfo {
 export interface CreateAccount {}
 
 export interface DeleteAccount {
-  benefeciar_id: string;
+  beneficiary_id: string;
 }
 
 export interface DeployContract {}
