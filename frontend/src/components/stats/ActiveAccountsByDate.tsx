@@ -3,6 +3,7 @@ import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
+import { chartStyle } from "./TransactionsByDate";
 
 export default () => {
   const [activeAccountsByDate, setAccounts] = useState(Array());
@@ -23,10 +24,10 @@ export default () => {
     });
   }, []);
 
-  const getOption = () => {
+  const getOption = (title: string, data: Array<number>) => {
     return {
       title: {
-        text: "Daily Number of Active Accounts",
+        text: title,
       },
       tooltip: {
         trigger: "axis",
@@ -57,6 +58,18 @@ export default () => {
           },
         },
       ],
+      dataZoom: [
+        {
+          type: "inside",
+          start: 0,
+          end: 100,
+          filterMode: "filter",
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
       series: [
         {
           name: "Active Accounts",
@@ -81,7 +94,7 @@ export default () => {
               },
             ]),
           },
-          data: activeAccountsByDate,
+          data: data,
         },
       ],
     };
@@ -89,13 +102,11 @@ export default () => {
 
   return (
     <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "300px",
-        width: "100%",
-        marginTop: "26px",
-        marginLeft: "24px",
-      }}
+      option={getOption(
+        "Daily Amount of Active Accounts",
+        activeAccountsByDate
+      )}
+      style={chartStyle}
     />
   );
 };

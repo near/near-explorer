@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, { ContractsByDate } from "../../libraries/explorer-wamp/stats";
+import { aggregateTotal, chartStyle } from "./TransactionsByDate";
 
 export default () => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
+  const [total, setTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().newContractsCountAggregatedByDate().then((contracts) => {
       if (contracts) {
-        const newContracts = contracts.map(
-          (contract: ContractsByDate) => contract.contractsCount
+        const newContracts = contracts.map((contract: ContractsByDate) =>
+          Number(contract.contractsCount)
         );
+        setTotal(aggregateTotal(newContracts));
         setContracts(newContracts);
         const date = contracts.map((contract: ContractsByDate) =>
           contract.date.slice(0, 10)
@@ -23,10 +27,10 @@ export default () => {
     });
   }, []);
 
-  const getOption = () => {
+  const getOption = (title: string, data: Array<number>) => {
     return {
       title: {
-        text: "Daily Number of New Contracts Created",
+        text: title,
       },
       tooltip: {
         trigger: "axis",
@@ -57,6 +61,18 @@ export default () => {
           },
         },
       ],
+      dataZoom: [
+        {
+          type: "inside",
+          start: 0,
+          end: 100,
+          filterMode: "filter",
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
       series: [
         {
           name: "New Contracts",
@@ -81,21 +97,29 @@ export default () => {
               },
             ]),
           },
-          data: newContractsByDate,
+          data: data,
         },
       ],
     };
   };
 
   return (
-    <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "300px",
-        width: "100%",
-        marginTop: "26px",
-        marginLeft: "24px",
-      }}
-    />
+    <Tabs defaultActiveKey="daily" id="newContractsByDate">
+      <Tab eventKey="daily" title="Daily">
+        <ReactEcharts
+          option={getOption(
+            "Daily Amount of New Contracts",
+            newContractsByDate
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title="Total">
+        <ReactEcharts
+          option={getOption("Total Amount of New Contracts", total)}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };

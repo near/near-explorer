@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, {
   TeragasUsedByDate,
 } from "../../libraries/explorer-wamp/stats";
+import { aggregateTotal, chartStyle } from "./TransactionsByDate";
 
 export default () => {
   const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
+  const [total, setTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
       if (teragasUsed) {
-        const gas = teragasUsed.map(
-          (gas: TeragasUsedByDate) => gas.teragasUsed
+        const gas = teragasUsed.map((gas: TeragasUsedByDate) =>
+          Number(gas.teragasUsed)
         );
+        setTotal(aggregateTotal(gas));
         setTeragasUsedByDate(gas);
         const date = teragasUsed.map((gas: TeragasUsedByDate) =>
           gas.date.slice(0, 10)
@@ -25,10 +29,10 @@ export default () => {
     });
   }, []);
 
-  const getOption = () => {
+  const getOption = (title: string, data: Array<number>) => {
     return {
       title: {
-        text: "Daily Tera Gas Used",
+        text: title,
       },
       tooltip: {
         trigger: "axis",
@@ -60,6 +64,18 @@ export default () => {
           },
         },
       ],
+      dataZoom: [
+        {
+          type: "inside",
+          start: 0,
+          end: 100,
+          filterMode: "filter",
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
       series: [
         {
           name: "TeraGas",
@@ -84,21 +100,26 @@ export default () => {
               },
             ]),
           },
-          data: teragasUsedByDate,
+          data: data,
         },
       ],
     };
   };
 
   return (
-    <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "300px",
-        width: "100%",
-        marginTop: "26px",
-        marginLeft: "24px",
-      }}
-    />
+    <Tabs defaultActiveKey="daily" id="gasUsedByDate">
+      <Tab eventKey="daily" title="Daily">
+        <ReactEcharts
+          option={getOption("Daily Amount of Used Tera Gas", teragasUsedByDate)}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title="Total">
+        <ReactEcharts
+          option={getOption("Total Amount of Used Tera Gas", total)}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };

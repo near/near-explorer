@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 import StatsApi, { Contract } from "../../libraries/explorer-wamp/stats";
+import { chartStyle } from "./TransactionsByDate";
 
 export default () => {
   const [activeContracts, setAccounts] = useState(Array());
@@ -11,8 +12,10 @@ export default () => {
     new StatsApi().activeContractsList().then((contracts: Contract[]) => {
       if (contracts) {
         contracts.reverse();
-        const activeContracts = contracts.map(
-          (account: Contract) => account.contract
+        const activeContracts = contracts.map((account: Contract) =>
+          account.contract.length > 25
+            ? account.contract.slice(0, 25) + "..."
+            : account.contract
         );
         const count = contracts.map((account: Contract) =>
           Number(account.receiptsCount)
@@ -56,15 +59,5 @@ export default () => {
     };
   };
 
-  return (
-    <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "320px",
-        width: "100%",
-        marginTop: "26px",
-        marginLeft: "24px",
-      }}
-    />
-  );
+  return <ReactEcharts option={getOption()} style={chartStyle} />;
 };
