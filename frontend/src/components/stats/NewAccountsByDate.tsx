@@ -4,9 +4,9 @@ import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
-import { aggregateTotal, chartStyle } from "./TransactionsByDate";
+import { aggregateTotal, Props } from "./TransactionsByDate";
 
-export default () => {
+export default ({ chartStyle }: Props) => {
   const [newAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [total, setTotal] = useState(Array());

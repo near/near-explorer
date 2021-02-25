@@ -3,9 +3,9 @@ import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, { ContractsByDate } from "../../libraries/explorer-wamp/stats";
-import { chartStyle } from "./TransactionsByDate";
+import { Props } from "./TransactionsByDate";
 
-export default () => {
+export default ({ chartStyle }: Props) => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
 

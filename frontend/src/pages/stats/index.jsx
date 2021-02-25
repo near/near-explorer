@@ -17,6 +17,12 @@ import StakingBar from "../../components/stats/StakingBar";
 
 export default class extends React.PureComponent {
   render() {
+    const chartStyle = {
+      height: "480px",
+      width: "100%",
+      marginTop: "26px",
+      marginLeft: "24px",
+    };
     return (
       <>
         <Head>
@@ -25,27 +31,27 @@ export default class extends React.PureComponent {
         <Content title={<h1>Stats</h1>}>
           <SideBar />
           <div id="transactionsByDate">
-            <TransactionsByDate />
+            <TransactionsByDate chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="gasUsedByDate">
-            <GasUsedByDate />
+            <GasUsedByDate chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="newAccountsByDate">
-            <NewAccountsByDate />
+            <NewAccountsByDate chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="newContractsByDate">
-            <NewContractsByDate />
+            <NewContractsByDate chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="activeAccountsBydate">
-            <ActiveAccountsByDate />
+            <ActiveAccountsByDate chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="activeContractsByDate">
-            <ActiveContractsByDate />
+            <ActiveContractsByDate chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="activeAccountsList">

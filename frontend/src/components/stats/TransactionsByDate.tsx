@@ -7,7 +7,11 @@ import StatsApi, {
   TransactionsByDate,
 } from "../../libraries/explorer-wamp/stats";
 
-export default () => {
+export interface Props {
+  chartStyle: object;
+}
+
+export default ({ chartStyle }: Props) => {
   const [transactionsByDate, setTransactions] = useState(Array());
   const [date, setDate] = useState(Array());
   const [total, setTotal] = useState(Array());
@@ -130,10 +134,3 @@ export const aggregateTotal = (array: Array<number>) =>
     r.push(a);
     return r;
   }, Array());
-
-export const chartStyle = {
-  height: "480px",
-  width: "100%",
-  marginTop: "26px",
-  marginLeft: "24px",
-};

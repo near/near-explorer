@@ -6,9 +6,9 @@ import echarts from "echarts";
 import StatsApi, {
   TeragasUsedByDate,
 } from "../../libraries/explorer-wamp/stats";
-import { aggregateTotal, chartStyle } from "./TransactionsByDate";
+import { aggregateTotal, Props } from "./TransactionsByDate";
 
-export default () => {
+export default ({ chartStyle }: Props) => {
   const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
   const [total, setTotal] = useState(Array());
