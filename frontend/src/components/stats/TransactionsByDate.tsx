@@ -129,7 +129,7 @@ export const aggregateTotal = (array: Array<number>) =>
     if (r.length > 0) a += r[r.length - 1];
     r.push(a);
     return r;
-  }, []);
+  }, Array());
 
 export const chartStyle = {
   height: "480px",
