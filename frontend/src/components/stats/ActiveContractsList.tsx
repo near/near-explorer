@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 import StatsApi, { Contract } from "../../libraries/explorer-wamp/stats";
+import { truncateAccountId } from "../../libraries/formatting";
+
 import { Props } from "./TransactionsByDate";
 
 export default ({ chartStyle }: Props) => {
@@ -13,9 +15,7 @@ export default ({ chartStyle }: Props) => {
       if (contracts) {
         contracts.reverse();
         const activeContracts = contracts.map((account: Contract) =>
-          account.contract.length > 25
-            ? account.contract.slice(0, 25) + "..."
-            : account.contract
+          truncateAccountId(account.contract)
         );
         const count = contracts.map((account: Contract) =>
           Number(account.receiptsCount)

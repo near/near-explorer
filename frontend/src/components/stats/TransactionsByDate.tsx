@@ -7,6 +7,7 @@ import StatsApi, {
   TransactionsByDate,
 } from "../../libraries/explorer-wamp/stats";
 import { cumulativeSumArray } from "../../libraries/formatting";
+
 export interface Props {
   chartStyle: object;
 }

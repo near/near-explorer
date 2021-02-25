@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 import StatsApi, { Account } from "../../libraries/explorer-wamp/stats";
+import { truncateAccountId } from "../../libraries/formatting";
+
 import { Props } from "./TransactionsByDate";
 
 export default ({ chartStyle }: Props) => {
@@ -13,9 +15,7 @@ export default ({ chartStyle }: Props) => {
       if (accounts) {
         accounts.reverse();
         const activeAccounts = accounts.map((account: Account) =>
-          account.account.length > 25
-            ? account.account.slice(0, 25) + "..."
-            : account.account
+          truncateAccountId(account.account)
         );
         const count = accounts.map((account: Account) =>
           Number(account.transactionsCount)
