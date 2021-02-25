@@ -22,7 +22,7 @@ describe("<ActionMessage />", () => {
       renderer.create(
         <ActionMessage
           actionKind={"DeleteAccount"}
-          actionArgs={{}}
+          actionArgs={{ beneficiary_id: "near" }}
           transaction={TRANSACTIONS[0]}
         />
       )

@@ -12,7 +12,7 @@ export interface Props {
   showDetails?: boolean;
 }
 
-export default class extends React.Component<Props> {
+export default class extends React.PureComponent<Props> {
   render() {
     const { transaction, viewMode, detalizationMode, showDetails } = this.props;
     let actionRows = this.props.actions.map((action, actionIndex) => (
