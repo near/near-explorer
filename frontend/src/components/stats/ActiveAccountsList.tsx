@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 
 import StatsApi, { Account } from "../../libraries/explorer-wamp/stats";
-import { chartStyle } from "./TransactionsByDate";
+import { Props } from "./TransactionsByDate";
 
-export default () => {
+export default ({ chartStyle }: Props) => {
   const [activeAccounts, setAccounts] = useState(Array());
   const [count, setCount] = useState(Array());
 

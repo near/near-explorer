@@ -6,7 +6,7 @@ import echarts from "echarts";
 import StatsApi, {
   TransactionsByDate,
 } from "../../libraries/explorer-wamp/stats";
-
+import { cumulativeSumArray } from "../../libraries/formatting";
 export interface Props {
   chartStyle: object;
 }
@@ -23,7 +23,7 @@ export default ({ chartStyle }: Props) => {
           (transaction: TransactionsByDate) =>
             Number(transaction.transactionsCount)
         );
-        const totalTransactionByDate = aggregateTotal(transactionByDate);
+        const totalTransactionByDate = cumulativeSumArray(transactionByDate);
         setTransactions(transactionByDate);
         setTotal(totalTransactionByDate);
         const date = transactions.map((transaction: TransactionsByDate) =>
@@ -127,10 +127,3 @@ export default ({ chartStyle }: Props) => {
     </Tabs>
   );
 };
-
-export const aggregateTotal = (array: Array<number>) =>
-  array.reduce((r, a) => {
-    if (r.length > 0) a += r[r.length - 1];
-    r.push(a);
-    return r;
-  }, Array());

@@ -4,7 +4,8 @@ import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
-import { aggregateTotal, Props } from "./TransactionsByDate";
+import { cumulativeSumArray } from "../../libraries/formatting";
+import { Props } from "./TransactionsByDate";
 
 export default ({ chartStyle }: Props) => {
   const [newAccountsByDate, setAccounts] = useState(Array());
@@ -21,7 +22,7 @@ export default ({ chartStyle }: Props) => {
           account.date.slice(0, 10)
         );
         setAccounts(newAccounts);
-        setTotal(aggregateTotal(newAccounts));
+        setTotal(cumulativeSumArray(newAccounts));
         setDate(date);
       }
     });

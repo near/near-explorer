@@ -55,11 +55,11 @@ export default class extends React.PureComponent {
           </div>
           <hr />
           <div id="activeAccountsList">
-            <ActiveAccountsList />
+            <ActiveAccountsList chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="activeContractsList">
-            <ActiveContractsList />
+            <ActiveContractsList chartStyle={chartStyle} />
           </div>
           <hr />
           <div id="validators">

@@ -6,7 +6,9 @@ import echarts from "echarts";
 import StatsApi, {
   TeragasUsedByDate,
 } from "../../libraries/explorer-wamp/stats";
-import { aggregateTotal, Props } from "./TransactionsByDate";
+import { cumulativeSumArray } from "../../libraries/formatting";
+
+import { Props } from "./TransactionsByDate";
 
 export default ({ chartStyle }: Props) => {
   const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
@@ -19,7 +21,7 @@ export default ({ chartStyle }: Props) => {
         const gas = teragasUsed.map((gas: TeragasUsedByDate) =>
           Number(gas.teragasUsed)
         );
-        setTotal(aggregateTotal(gas));
+        setTotal(cumulativeSumArray(gas));
         setTeragasUsedByDate(gas);
         const date = teragasUsed.map((gas: TeragasUsedByDate) =>
           gas.date.slice(0, 10)
