@@ -16,7 +16,7 @@ export interface Props {
   isFinal?: boolean;
 }
 
-export default class extends React.Component<Props> {
+export default class extends React.PureComponent<Props> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",

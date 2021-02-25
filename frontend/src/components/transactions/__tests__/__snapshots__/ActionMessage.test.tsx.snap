@@ -86,7 +86,7 @@ Array [
 
 exports[`<ActionMessage /> renders DeleteAccount 1`] = `
 Array [
-  "Account deleted: ",
+  "Delete account ",
   <span
     onClick={[Function]}
   >
@@ -97,6 +97,19 @@ Array [
       onMouseEnter={[Function]}
     >
       receiver.test
+    </a>
+  </span>,
+  " and transfer remaining funds to ",
+  <span
+    onClick={[Function]}
+  >
+    <a
+      className="jsx-3150401870 account-link"
+      href="/accounts/near"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+    >
+      near
     </a>
   </span>,
 ]
