@@ -13,7 +13,7 @@ import { Props } from "./TransactionsByDate";
 export default ({ chartStyle }: Props) => {
   const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
-  const [total, setTotal] = useState(Array());
+  const [cumulativeTeragasUsedByDate, setTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
@@ -118,7 +118,10 @@ export default ({ chartStyle }: Props) => {
       </Tab>
       <Tab eventKey="total" title="Total">
         <ReactEcharts
-          option={getOption("Total Amount of Used Tera Gas", total)}
+          option={getOption(
+            "Total Amount of Used Tera Gas",
+            cumulativeTeragasUsedByDate
+          )}
           style={chartStyle}
         />
       </Tab>

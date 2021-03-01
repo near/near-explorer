@@ -11,7 +11,7 @@ import { Props } from "./TransactionsByDate";
 export default ({ chartStyle }: Props) => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
-  const [total, setTotal] = useState(Array());
+  const [cumulativeNewContractsByDate, setTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().newContractsCountAggregatedByDate().then((contracts) => {
@@ -118,7 +118,10 @@ export default ({ chartStyle }: Props) => {
       </Tab>
       <Tab eventKey="total" title="Total">
         <ReactEcharts
-          option={getOption("Total Amount of New Contracts", total)}
+          option={getOption(
+            "Total Amount of New Contracts",
+            cumulativeNewContractsByDate
+          )}
           style={chartStyle}
         />
       </Tab>

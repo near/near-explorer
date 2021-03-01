@@ -15,7 +15,7 @@ export interface Props {
 export default ({ chartStyle }: Props) => {
   const [transactionsByDate, setTransactions] = useState(Array());
   const [date, setDate] = useState(Array());
-  const [total, setTotal] = useState(Array());
+  const [cumulativeTransactionsByDate, setTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().transactionsCountAggregatedByDate().then((transactions) => {
@@ -121,7 +121,10 @@ export default ({ chartStyle }: Props) => {
       </Tab>
       <Tab eventKey="total" title="Total">
         <ReactEcharts
-          option={getOption("Total Amount of Transactions", total)}
+          option={getOption(
+            "Total Amount of Transactions",
+            cumulativeTransactionsByDate
+          )}
           style={chartStyle}
         />
       </Tab>
