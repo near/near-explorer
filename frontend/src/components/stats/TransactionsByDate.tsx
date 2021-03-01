@@ -6,7 +6,7 @@ import echarts from "echarts";
 import StatsApi, {
   TransactionsByDate,
 } from "../../libraries/explorer-wamp/stats";
-import { cumulativeSumArray } from "../../libraries/formatting";
+import { cumulativeSumArray } from "../../libraries/stats";
 
 export interface Props {
   chartStyle: object;

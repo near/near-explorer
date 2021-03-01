@@ -6,7 +6,7 @@ import echarts from "echarts";
 import StatsApi, {
   TeragasUsedByDate,
 } from "../../libraries/explorer-wamp/stats";
-import { cumulativeSumArray } from "../../libraries/formatting";
+import { cumulativeSumArray } from "../../libraries/stats";
 
 import { Props } from "./TransactionsByDate";
 
