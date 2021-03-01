@@ -1,32 +1,38 @@
 import React, { useState, useEffect } from "react";
+import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
+import { cumulativeSumArray } from "../../libraries/stats";
 
-export default () => {
+import { Props } from "./TransactionsByDate";
+
+export default ({ chartStyle }: Props) => {
   const [newAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
+  const [cumulativeNewAccountsByDate, setTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().newAccountsCountAggregatedByDate().then((accounts) => {
       if (accounts) {
-        const newAccounts = accounts.map(
-          (account: AccountsByDate) => account.accountsCount
+        const newAccounts = accounts.map((account: AccountsByDate) =>
+          Number(account.accountsCount)
         );
         const date = accounts.map((account: AccountsByDate) =>
           account.date.slice(0, 10)
         );
         setAccounts(newAccounts);
+        setTotal(cumulativeSumArray(newAccounts));
         setDate(date);
       }
     });
   }, []);
 
-  const getOption = () => {
+  const getOption = (title: string, data: Array<number>) => {
     return {
       title: {
-        text: "Daily Number of New Accounts Created",
+        text: title,
       },
       tooltip: {
         trigger: "axis",
@@ -57,6 +63,18 @@ export default () => {
           },
         },
       ],
+      dataZoom: [
+        {
+          type: "inside",
+          start: 0,
+          end: 100,
+          filterMode: "filter",
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
       series: [
         {
           name: "New Accounts",
@@ -81,21 +99,29 @@ export default () => {
               },
             ]),
           },
-          data: newAccountsByDate,
+          data: data,
         },
       ],
     };
   };
 
   return (
-    <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "300px",
-        width: "100%",
-        marginTop: "26px",
-        marginLeft: "24px",
-      }}
-    />
+    <Tabs defaultActiveKey="daily" id="newAccountsByDate">
+      <Tab eventKey="daily" title="Daily">
+        <ReactEcharts
+          option={getOption("Daily Amount of New Accounts", newAccountsByDate)}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title="Total">
+        <ReactEcharts
+          option={getOption(
+            "Total Amount of New Accounts",
+            cumulativeNewAccountsByDate
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };

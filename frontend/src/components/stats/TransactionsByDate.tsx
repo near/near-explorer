@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
+import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
 import StatsApi, {
   TransactionsByDate,
 } from "../../libraries/explorer-wamp/stats";
+import { cumulativeSumArray } from "../../libraries/stats";
 
-export default () => {
+export interface Props {
+  chartStyle: object;
+}
+
+export default ({ chartStyle }: Props) => {
   const [transactionsByDate, setTransactions] = useState(Array());
   const [date, setDate] = useState(Array());
+  const [cumulativeTransactionsByDate, setTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().transactionsCountAggregatedByDate().then((transactions) => {
       if (transactions) {
         const transactionByDate = transactions.map(
-          (transaction: TransactionsByDate) => transaction.transactionsCount
+          (transaction: TransactionsByDate) =>
+            Number(transaction.transactionsCount)
         );
+        const totalTransactionByDate = cumulativeSumArray(transactionByDate);
         setTransactions(transactionByDate);
+        setTotal(totalTransactionByDate);
         const date = transactions.map((transaction: TransactionsByDate) =>
           transaction.date.slice(0, 10)
         );
@@ -25,10 +35,10 @@ export default () => {
     });
   }, []);
 
-  const getOption = () => {
+  const getOption = (title: string, data: Array<number>) => {
     return {
       title: {
-        text: "Daily Number of Transactions",
+        text: title,
       },
       tooltip: {
         trigger: "axis",
@@ -59,6 +69,18 @@ export default () => {
           },
         },
       ],
+      dataZoom: [
+        {
+          type: "inside",
+          start: 0,
+          end: 100,
+          filterMode: "filter",
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
       series: [
         {
           name: "Txns",
@@ -83,21 +105,29 @@ export default () => {
               },
             ]),
           },
-          data: transactionsByDate,
+          data: data,
         },
       ],
     };
   };
 
   return (
-    <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "300px",
-        width: "100%",
-        marginTop: "26px",
-        marginLeft: "24px",
-      }}
-    />
+    <Tabs defaultActiveKey="daily" id="transactionByDate">
+      <Tab eventKey="daily" title="Daily">
+        <ReactEcharts
+          option={getOption("Daily Amount of Transactions", transactionsByDate)}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title="Total">
+        <ReactEcharts
+          option={getOption(
+            "Total Amount of Transactions",
+            cumulativeTransactionsByDate
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };
