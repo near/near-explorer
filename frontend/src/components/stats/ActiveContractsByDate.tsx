@@ -4,7 +4,9 @@ import echarts from "echarts";
 
 import StatsApi, { ContractsByDate } from "../../libraries/explorer-wamp/stats";
 
-export default () => {
+import { Props } from "./TransactionsByDate";
+
+export default ({ chartStyle }: Props) => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
 
@@ -23,10 +25,10 @@ export default () => {
     });
   }, []);
 
-  const getOption = () => {
+  const getOption = (title: string, data: Array<number>) => {
     return {
       title: {
-        text: "Daily Number of Active Contracts",
+        text: title,
       },
       tooltip: {
         trigger: "axis",
@@ -57,6 +59,18 @@ export default () => {
           },
         },
       ],
+      dataZoom: [
+        {
+          type: "inside",
+          start: 0,
+          end: 100,
+          filterMode: "filter",
+        },
+        {
+          start: 0,
+          end: 100,
+        },
+      ],
       series: [
         {
           name: "Active Contracts",
@@ -81,7 +95,7 @@ export default () => {
               },
             ]),
           },
-          data: newContractsByDate,
+          data: data,
         },
       ],
     };
@@ -89,13 +103,8 @@ export default () => {
 
   return (
     <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "300px",
-        width: "100%",
-        marginTop: "26px",
-        marginLeft: "24px",
-      }}
+      option={getOption("Daily Amount of Active Contracts", newContractsByDate)}
+      style={chartStyle}
     />
   );
 };

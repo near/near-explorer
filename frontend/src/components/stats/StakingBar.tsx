@@ -27,6 +27,7 @@ export default ({ validators }: Props) => {
   );
   let totalStake = utils.format.formatNearAmount(totalStakeBN.toString(), 5);
   let height = 20 * validators.length;
+
   const getOption = () => {
     return {
       title: {
@@ -62,7 +63,6 @@ export default ({ validators }: Props) => {
 
   return (
     <>
-      <hr />
       <h2>
         Total Stake Volume for current epoch is{" "}
         <strong style={{ color: "#0072ce" }}>{totalStake}</strong> Ⓝ
