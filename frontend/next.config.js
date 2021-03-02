@@ -53,4 +53,7 @@ module.exports = {
 
     return config;
   },
+  env: {
+    NEAR_EXPLORER_DATA_SOURCE: true,
+  },
 };
