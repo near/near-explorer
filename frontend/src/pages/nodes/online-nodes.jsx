@@ -2,8 +2,6 @@ import Head from "next/head";
 
 import React from "react";
 
-import Mixpanel from "../../libraries/mixpanel";
-
 import NodeNav from "../../components/nodes/NodeNav";
 import Nodes from "../../components/nodes/Nodes";
 import Content from "../../components/utils/Content";
@@ -13,7 +11,6 @@ import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 export default class extends React.Component {
   render() {
-    Mixpanel.track("View Online Node page");
     return (
       <>
         <Head>

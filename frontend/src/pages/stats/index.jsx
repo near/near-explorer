@@ -3,8 +3,6 @@ import { Nav } from "react-bootstrap";
 
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 
-import Mixpanel from "../../libraries/mixpanel";
-
 import Content from "../../components/utils/Content";
 
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
@@ -19,7 +17,6 @@ import StakingBar from "../../components/stats/StakingBar";
 
 export default class extends React.PureComponent {
   render() {
-    Mixpanel.track("View Stats page");
     const chartStyle = {
       height: "480px",
       width: "100%",

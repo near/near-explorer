@@ -2,8 +2,6 @@ import React from "react";
 
 import { Modal } from "react-bootstrap";
 
-import Mixpanel from "../../libraries/mixpanel";
-
 interface Props {
   title: string;
   text: string | React.ReactNode;
@@ -52,12 +50,7 @@ export default class extends React.Component<Props, State> {
             <Modal.Body>
               {text}
               {href && (
-                <a
-                  href={href}
-                  onClick={() => Mixpanel.track("Docs Click", { href: href })}
-                  target="_blank"
-                  rel="noopener"
-                >
+                <a href={href} target="_blank" rel="noopener">
                   docs
                 </a>
               )}

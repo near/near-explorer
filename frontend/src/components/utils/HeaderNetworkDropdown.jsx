@@ -1,17 +1,10 @@
 import { Dropdown } from "react-bootstrap";
 
 import { NetworkConsumer } from "../../context/NetworkProvider";
-import Mixpanel from "../../libraries/mixpanel";
 
 const HeaderDropdownItem = ({ link, title }) => {
-  const clicked = () =>
-    Mixpanel.track("Click to change network", { network: link });
   return (
-    <Dropdown.Item
-      className="header-network-item-dropdown"
-      href={link}
-      onClick={clicked}
-    >
+    <Dropdown.Item className="header-network-item-dropdown" href={link}>
       <div className="network-icon"></div>
       {title}
     </Dropdown.Item>

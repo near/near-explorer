@@ -1,8 +1,6 @@
 import Router from "next/router";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
-import Mixpanel from "../../libraries/mixpanel";
-
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
@@ -36,19 +34,15 @@ export default class extends React.Component {
 
     const block = await blockPromise;
     if (block) {
-      Mixpanel.track("Search for block", { block: block.hash });
       return Router.push("/blocks/" + block.hash);
     }
     const transaction = await transactionPromise;
     if (transaction && transaction.signerId) {
-      Mixpanel.track("Search for transaction", { transaction: searchValue });
       return Router.push("/transactions/" + searchValue);
     }
     if (await accountPromise) {
-      Mixpanel.track("Search for account", { account: searchValue });
       return Router.push("/accounts/" + searchValue.toLowerCase());
     }
-    Mixpanel.track("Search result not found", { detail: searchValue });
     alert("Result not found!");
   };
 

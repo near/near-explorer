@@ -1,7 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
 
-import Mixpanel from "../../libraries/mixpanel";
-
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import Nearkats from "../../../public/static/images/nearkats.svg";
 
@@ -23,9 +21,6 @@ export default () => {
             <a
               className="footer-link-href"
               href="https://near.org/privacy/"
-              onClick={() =>
-                Mixpanel.track("Footer click to see terms of service")
-              }
               target="_blank"
               rel="noopener"
             >
@@ -35,9 +30,6 @@ export default () => {
             <a
               className="footer-link-href"
               href="https://near.org/privacy/"
-              onClick={() =>
-                Mixpanel.track("Footer click to see privacy policy")
-              }
               target="_blank"
               rel="noopener"
             >
@@ -50,7 +42,6 @@ export default () => {
         <a
           className="footer-help-link"
           href="http://near.chat"
-          onClick={() => Mixpanel.track("Footer click to join the community")}
           target="_blank"
           rel="noopener"
         >

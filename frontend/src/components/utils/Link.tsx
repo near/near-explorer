@@ -1,6 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import Mixpanel from "../../libraries/mixpanel";
 
 interface Props {
   href: string;
@@ -9,10 +8,8 @@ interface Props {
 }
 
 export default ({ href, as, children }: Props) => {
-  const clicked = () =>
-    Mixpanel.track("Click Link", { href: href, as: as ? as : "" });
   return (
-    <span onClick={clicked}>
+    <span>
       <Link href={href} as={as}>
         {children}
       </Link>
