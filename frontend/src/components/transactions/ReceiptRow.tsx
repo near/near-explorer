@@ -9,7 +9,7 @@ export interface Props {
   receipt: T.ReceiptOutcome;
 }
 
-export default class extends React.Component<Props> {
+class ReceiptRow extends React.Component<Props> {
   render() {
     const { receipt } = this.props;
 
@@ -114,3 +114,5 @@ export default class extends React.Component<Props> {
     );
   }
 }
+
+export default ReceiptRow;

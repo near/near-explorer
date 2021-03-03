@@ -3,7 +3,7 @@ import ReactEcharts from "echarts-for-react";
 
 import StatsApi, { Account } from "../../libraries/explorer-wamp/stats";
 
-export default () => {
+const PartnerTotalTransactionList = () => {
   const [activeAccounts, setAccounts] = useState(Array());
   const [count, setCount] = useState(Array());
 
@@ -70,3 +70,5 @@ export default () => {
     />
   );
 };
+
+export default PartnerTotalTransactionList;

@@ -10,7 +10,7 @@ import { cumulativeSumArray } from "../../libraries/stats";
 
 import { Props } from "./TransactionsByDate";
 
-export default ({ chartStyle }: Props) => {
+const GasUsedByDate = ({ chartStyle }: Props) => {
   const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeTeragasUsedByDate, setTotal] = useState(Array());
@@ -128,3 +128,5 @@ export default ({ chartStyle }: Props) => {
     </Tabs>
   );
 };
+
+export default GasUsedByDate;

@@ -2,7 +2,7 @@ import { Row, Col } from "react-bootstrap";
 
 import Search from "../utils/Search";
 
-export default (props) => (
+const TransactionHeader = (props) => (
   <Row>
     <TransactionsFilterByType />
     <Col md="4" xs="6" className="ml-auto align-self-center">
@@ -26,3 +26,5 @@ export default (props) => (
     `}</style>
   </Row>
 );
+
+export default TransactionHeader;

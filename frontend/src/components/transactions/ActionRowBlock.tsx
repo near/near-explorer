@@ -21,9 +21,7 @@ export interface Props {
   isFinal?: boolean;
 }
 
-export interface State {}
-
-export default class extends React.Component<Props, State> {
+class ActionRowBlock extends React.Component<Props> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",
@@ -214,3 +212,5 @@ export default class extends React.Component<Props, State> {
     );
   }
 }
+
+export default ActionRowBlock;

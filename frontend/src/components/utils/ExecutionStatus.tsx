@@ -11,7 +11,7 @@ export interface Props {
   status: ExecutionStatus;
 }
 const Status = ({ status }: Props) => {
-  return EXECUTION_STATUSES[status];
+  return <>{EXECUTION_STATUSES[status]}</>;
 };
 
 export default Status;

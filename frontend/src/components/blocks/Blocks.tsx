@@ -9,7 +9,7 @@ import BlocksRow from "./BlocksRow";
 
 import { OuterProps } from "../accounts/Accounts";
 
-export default class extends React.Component<OuterProps> {
+class BlocksWrapper extends React.Component<OuterProps> {
   static defaultProps = {
     count: 15,
   };
@@ -31,6 +31,7 @@ export default class extends React.Component<OuterProps> {
   }
 }
 
+export default BlocksWrapper;
 export interface InnerProps extends OuterProps {
   items: B.BlockInfo[];
 }

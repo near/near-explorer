@@ -8,7 +8,7 @@ interface Props {
   node: N.Proposal;
 }
 
-export default class extends React.PureComponent<Props> {
+class ProposalRow extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
     return (
@@ -80,3 +80,5 @@ export default class extends React.PureComponent<Props> {
     );
   }
 }
+
+export default ProposalRow;

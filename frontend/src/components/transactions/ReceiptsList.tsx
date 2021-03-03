@@ -6,7 +6,7 @@ export interface Props {
   receipts: T.ReceiptOutcome[];
 }
 
-export default ({ receipts }: Props) => {
+const ReceiptList = ({ receipts }: Props) => {
   return (
     <>
       {receipts.map((receipt) => (
@@ -15,3 +15,5 @@ export default ({ receipts }: Props) => {
     </>
   );
 };
+
+export default ReceiptList;

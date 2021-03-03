@@ -10,7 +10,9 @@ export interface Props {
   transactionsCountHistory: TransactionsCountStat[];
 }
 
-export default ({ transactionsCountHistory }: Props) => {
+const DashboardTransactionHistoryChart = ({
+  transactionsCountHistory,
+}: Props) => {
   const nameMonth = [
     "Jan",
     "Feb",
@@ -131,3 +133,5 @@ export default ({ transactionsCountHistory }: Props) => {
     />
   );
 };
+
+export default DashboardTransactionHistoryChart;

@@ -19,7 +19,7 @@ export interface Props {
   currentNearNetwork: NearNetwork;
 }
 
-export default class extends React.Component<Props> {
+class AccountDetalis extends React.Component<Props> {
   render() {
     const { account, currentNearNetwork } = this.props;
     return (
@@ -316,3 +316,5 @@ export default class extends React.Component<Props> {
     );
   }
 }
+
+export default AccountDetalis;

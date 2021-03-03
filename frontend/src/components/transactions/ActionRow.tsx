@@ -16,7 +16,7 @@ export interface Props {
   isFinal?: boolean;
 }
 
-export default class extends React.PureComponent<Props> {
+class ActionRow extends React.PureComponent<Props> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",
@@ -57,3 +57,5 @@ export default class extends React.PureComponent<Props> {
     );
   }
 }
+
+export default ActionRow;

@@ -21,7 +21,7 @@ interface State {
   status?: T.ExecutionStatus;
 }
 
-export default class extends React.PureComponent<Props, State> {
+class TransactionAction extends React.PureComponent<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
   };
@@ -94,3 +94,5 @@ export default class extends React.PureComponent<Props, State> {
     );
   }
 }
+
+export default TransactionAction;

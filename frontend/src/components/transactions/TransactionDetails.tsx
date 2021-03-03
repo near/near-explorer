@@ -26,7 +26,7 @@ export interface State {
   transactionFee?: BN;
 }
 
-export default class extends React.Component<Props, State> {
+class TransactionDetails extends React.Component<Props, State> {
   state: State = {};
 
   collectDeposit(actions: T.Action[]): BN {
@@ -340,3 +340,5 @@ export default class extends React.Component<Props, State> {
     );
   }
 }
+
+export default TransactionDetails;

@@ -6,7 +6,7 @@ import { truncateAccountId } from "../../libraries/formatting";
 
 import { Props } from "./TransactionsByDate";
 
-export default ({ chartStyle }: Props) => {
+const ActiveAccountsList = ({ chartStyle }: Props) => {
   const [activeAccounts, setAccounts] = useState(Array());
   const [count, setCount] = useState(Array());
 
@@ -61,3 +61,5 @@ export default ({ chartStyle }: Props) => {
 
   return <ReactEcharts option={getOption()} style={chartStyle} />;
 };
+
+export default ActiveAccountsList;

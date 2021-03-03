@@ -7,7 +7,7 @@ import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
-export default () => (
+const DashboardNode = () => (
   <NodeStatsConsumer>
     {(stats) => (
       <DashboardCard
@@ -65,3 +65,5 @@ export default () => (
     )}
   </NodeStatsConsumer>
 );
+
+export default DashboardNode;

@@ -11,7 +11,7 @@ import GasPrice from "../utils/GasPrice";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
 
-export default () => {
+const DashboardTransactions = () => {
   return (
     <DatabaseConsumer>
       {(context) => (
@@ -111,3 +111,5 @@ export default () => {
     </DatabaseConsumer>
   );
 };
+
+export default DashboardTransactions;

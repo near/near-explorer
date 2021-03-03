@@ -12,7 +12,7 @@ interface Props {
   node: N.Validating;
 }
 
-export default class extends React.Component<Props> {
+class ValidatorRow extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
     return (
@@ -207,3 +207,5 @@ export default class extends React.Component<Props> {
     );
   }
 }
+
+export default ValidatorRow;

@@ -9,7 +9,7 @@ interface Props {
   role: string;
 }
 
-export default class extends React.Component<Props> {
+class NodeNav extends React.PureComponent<Props> {
   render() {
     const { role } = this.props;
     return (
@@ -113,3 +113,5 @@ export default class extends React.Component<Props> {
     );
   }
 }
+
+export default NodeNav;

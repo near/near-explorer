@@ -12,7 +12,7 @@ export interface Props {
   className?: string;
 }
 
-export default ({ className }: Props) => (
+const DashboardBlcok = ({ className }: Props) => (
   <DatabaseConsumer>
     {(context) => (
       <DashboardCard
@@ -67,3 +67,5 @@ export default ({ className }: Props) => (
     )}
   </DatabaseConsumer>
 );
+
+export default DashboardBlcok;
