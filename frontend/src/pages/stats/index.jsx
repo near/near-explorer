@@ -95,7 +95,7 @@ const SideBarContent = () => {
       <Nav.Link href="#validators">Staking Pool</Nav.Link>
       <style jsx global>{`
         .stats-sidebar {
-          width: 300px;
+          width: 100%;
         }
         .stats-sidebar .nav-link {
           color: #042772;
@@ -128,7 +128,7 @@ const MobileSideBar = () => (
 
 const Sidebar = () => (
   <Row className="sidebar">
-    <Col md="12" className="d-none d-lg-block">
+    <Col lg="12" className="d-none d-lg-block">
       <SideBarContent />
     </Col>
     <Col xs="12" className="d-lg-none text-left">
@@ -140,6 +140,8 @@ const Sidebar = () => (
         left: 5%;
         z-index: 10;
         top: 50%;
+        width: 80%;
+        max-width: 300px;
       }
     `}</style>
   </Row>
