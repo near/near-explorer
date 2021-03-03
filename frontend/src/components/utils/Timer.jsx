@@ -1,6 +1,6 @@
 import Moment from "../../libraries/moment";
 
-export default class extends React.PureComponent {
+class Timer extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -41,3 +41,5 @@ export default class extends React.PureComponent {
     return <span>{this.state.timeStr}</span>;
   }
 }
+
+export default Timer;

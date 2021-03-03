@@ -5,10 +5,12 @@ export interface Props {
   children?: React.ReactNode;
 }
 
-export default ({ blockHash, children }: Props) => (
+const BlockLink = ({ blockHash, children }: Props) => (
   <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
     <a className="block-link">
       {children || `${blockHash.substring(0, 7)}...`}
     </a>
   </Link>
 );
+
+export default BlockLink;

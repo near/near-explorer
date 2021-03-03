@@ -1,5 +1,3 @@
-import React from "react";
-
 import { ExecutionStatus } from "../../libraries/explorer-wamp/transactions";
 
 const EXECUTION_STATUSES: Record<ExecutionStatus, string> = {
@@ -12,9 +10,8 @@ const EXECUTION_STATUSES: Record<ExecutionStatus, string> = {
 export interface Props {
   status: ExecutionStatus;
 }
+const Status = ({ status }: Props) => {
+  return EXECUTION_STATUSES[status];
+};
 
-export default class extends React.Component<Props> {
-  render() {
-    return EXECUTION_STATUSES[this.props.status];
-  }
-}
+export default Status;

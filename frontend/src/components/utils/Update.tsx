@@ -2,7 +2,7 @@ interface Props {
   children: string;
 }
 
-export default ({ children }: Props) => {
+const Update = ({ children }: Props) => {
   return (
     <div className="update">
       <p className="update-text">
@@ -28,3 +28,5 @@ export default ({ children }: Props) => {
     </div>
   );
 };
+
+export default Update;

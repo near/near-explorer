@@ -8,7 +8,7 @@ export interface Props {
   loading?: boolean;
 }
 
-export default ({ title, imgLink, text, className, loading }: Props) => (
+const CardCell = ({ title, imgLink, text, className, loading }: Props) => (
   <Card className={`card-cell ${className || ""}`}>
     <Card.Body>
       <Row noGutters>
@@ -72,3 +72,5 @@ export default ({ title, imgLink, text, className, loading }: Props) => (
     `}</style>
   </Card>
 );
+
+export default CardCell;

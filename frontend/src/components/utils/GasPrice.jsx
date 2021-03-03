@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { formatNEAR, showInYocto } from "./Balance";
 import { TGAS } from "../utils/Gas";
 
-export default ({ gasPrice }) => {
+const GasPrice = ({ gasPrice }) => {
   let gasPricePerTeragas = new BN(gasPrice).mul(TGAS);
   return (
     <OverlayTrigger
@@ -16,3 +16,5 @@ export default ({ gasPrice }) => {
     </OverlayTrigger>
   );
 };
+
+export default GasPrice;

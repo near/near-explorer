@@ -9,7 +9,7 @@ import Search from "./Search";
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
 
-export default () => {
+const Header = () => {
   const router = useRouter();
 
   return (
@@ -117,3 +117,5 @@ export default () => {
     </Container>
   );
 };
+
+export default Header;

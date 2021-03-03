@@ -52,7 +52,7 @@ const MobileNavItem = ({ link, icon, text }) => {
   );
 };
 
-export default class extends React.Component {
+class MobileNavDropdown extends React.Component {
   state = { showMenu: false };
 
   showMenu = (event) => {
@@ -69,6 +69,7 @@ export default class extends React.Component {
       });
     }
   };
+
   render() {
     return (
       <>
@@ -179,3 +180,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default MobileNavDropdown;

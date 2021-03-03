@@ -58,7 +58,7 @@ const HeaderNavItem = ({ link, icon, text }) => {
   );
 };
 
-export default () => (
+const HeaderNavDropdown = () => (
   <Dropdown>
     <Dropdown.Toggle className="chain-header">
       Explore
@@ -138,3 +138,5 @@ export default () => (
     `}</style>
   </Dropdown>
 );
+
+export default HeaderNavDropdown;

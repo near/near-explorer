@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const FRAC_DIGITS = 5;
 
-export default ({ amount }) => {
+const Balance = ({ amount }) => {
   if (!amount) {
     throw new Error("amount property should not be null");
   }
@@ -46,3 +46,5 @@ const formatWithCommas = (value) => {
   }
   return value;
 };
+
+export default Balance;

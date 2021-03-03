@@ -9,7 +9,7 @@ const HeaderDropdownItem = ({ link, title }) => (
   </Dropdown.Item>
 );
 
-export default () => (
+const HeaderNetworkDropdown = () => (
   <NetworkConsumer>
     {(context) => (
       <Dropdown>
@@ -122,3 +122,5 @@ export default () => (
     )}
   </NetworkConsumer>
 );
+
+export default HeaderNetworkDropdown;

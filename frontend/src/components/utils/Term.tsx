@@ -10,7 +10,7 @@ interface State {
   isModalShown: boolean;
 }
 
-export default class extends React.Component<Props, State> {
+class Term extends React.Component<Props, State> {
   state: State = { isModalShown: false };
 
   preventClickPropagation = (e: any) => {
@@ -66,3 +66,5 @@ export default class extends React.Component<Props, State> {
     );
   }
 }
+
+export default Term;
