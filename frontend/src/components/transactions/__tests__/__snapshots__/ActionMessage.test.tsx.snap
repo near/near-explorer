@@ -3,9 +3,7 @@
 exports[`<ActionMessage /> renders AddKey with permission FullAccess 1`] = `
 Array [
   "New key added for ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/receiver.test"
@@ -25,9 +23,7 @@ Array [
 exports[`<ActionMessage /> renders AddKey with permission function call to call any method 1`] = `
 Array [
   "Access key added for contract ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/stake"
@@ -47,9 +43,7 @@ Array [
 exports[`<ActionMessage /> renders AddKey with permission function call to call specific methods 1`] = `
 Array [
   "Access key added for contract ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/stake"
@@ -69,9 +63,7 @@ Array [
 exports[`<ActionMessage /> renders CreateAccount 1`] = `
 Array [
   "New account created: ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/receiver.test"
@@ -87,9 +79,7 @@ Array [
 exports[`<ActionMessage /> renders DeleteAccount 1`] = `
 Array [
   "Delete account ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/receiver.test"
@@ -100,9 +90,7 @@ Array [
     </a>
   </span>,
   " and transfer remaining funds to ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/near"
@@ -120,9 +108,7 @@ exports[`<ActionMessage /> renders DeleteKey 1`] = `"Key deleted: ed25519:BgXFiJ
 exports[`<ActionMessage /> renders DeployContract 1`] = `
 Array [
   "Contract deployed: ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/receiver.test"
@@ -138,9 +124,7 @@ Array [
 exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
   "Called method: 'method_name' in contract: ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/receiver.test"
@@ -156,9 +140,7 @@ Array [
 exports[`<ActionMessage /> renders FunctionCall with details 1`] = `
 Array [
   "Called method: 'method_name' in contract: ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/receiver2.test"
@@ -240,9 +222,7 @@ Array [
      Ⓝ
   </span>,
   " to ",
-  <span
-    onClick={[Function]}
-  >
+  <span>
     <a
       className="jsx-3150401870 account-link"
       href="/accounts/receiver.test"

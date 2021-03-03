@@ -288,9 +288,7 @@ exports[`<BlockDetails /> renders 1`] = `
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
               >
-                <span
-                  onClick={[Function]}
-                >
+                <span>
                   <a
                     className="block-link"
                     href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"

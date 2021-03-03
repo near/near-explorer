@@ -133,9 +133,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
@@ -274,7 +272,6 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               <div
                 className="jsx-3150401870"
-                onClick={[Function]}
               >
                 <a
                   className="jsx-3150401870 account-link"
@@ -467,9 +464,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
@@ -608,7 +603,6 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               <div
                 className="jsx-3150401870"
-                onClick={[Function]}
               >
                 <a
                   className="jsx-3150401870 account-link"
@@ -801,9 +795,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
@@ -942,7 +934,6 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               <div
                 className="jsx-3150401870"
-                onClick={[Function]}
               >
                 <a
                   className="jsx-3150401870 account-link"
@@ -1029,9 +1020,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="transaction-link"
                   href="/transactions/3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp"
@@ -1186,9 +1175,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
@@ -1327,7 +1314,6 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               <div
                 className="jsx-3150401870"
-                onClick={[Function]}
               >
                 <a
                   className="jsx-3150401870 account-link"
@@ -1414,9 +1400,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="transaction-link"
                   href="/transactions/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
@@ -1661,7 +1645,6 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               <div
                 className="jsx-3150401870"
-                onClick={[Function]}
               >
                 <a
                   className="jsx-3150401870 account-link"
@@ -1748,9 +1731,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="transaction-link"
                   href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"

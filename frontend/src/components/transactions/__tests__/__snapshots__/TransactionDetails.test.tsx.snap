@@ -41,9 +41,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/signer.test"
@@ -92,9 +90,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/receiver.test"
@@ -449,9 +445,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="block-link"
                   href="/blocks/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
@@ -511,9 +505,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/signer2.test"
@@ -562,9 +554,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/receiver2.test"
@@ -919,9 +909,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="block-link"
                   href="/blocks/222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
@@ -981,9 +969,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/signer2.test"
@@ -1032,9 +1018,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="jsx-3150401870 account-link"
                   href="/accounts/receiver2.test"
@@ -1389,9 +1373,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                onClick={[Function]}
-              >
+              <span>
                 <a
                   className="block-link"
                   href="/blocks/222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"

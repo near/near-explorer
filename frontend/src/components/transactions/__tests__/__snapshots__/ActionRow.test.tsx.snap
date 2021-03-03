@@ -37,9 +37,7 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-title col"
           >
             New key added for 
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
@@ -62,9 +60,7 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-text col"
           >
             by 
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
@@ -86,9 +82,7 @@ exports[`<ActionRow /> renders compact 1`] = `
           <div
             className="action-row-txid col"
           >
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="transaction-link"
                 href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
@@ -161,9 +155,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             className="action-row-title col"
           >
             Called method: 'incrementCounter' in contract: 
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
@@ -221,9 +213,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             className="action-row-text col"
           >
             by 
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
@@ -245,9 +235,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
           <div
             className="action-row-txid col"
           >
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="transaction-link"
                 href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
@@ -320,9 +308,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-title col"
           >
             New account created: 
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="jsx-3150401870 account-link"
                 href="/accounts/receiver.test"
@@ -341,9 +327,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-text col"
           >
             by 
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="jsx-3150401870 account-link"
                 href="/accounts/signer.test"
@@ -365,9 +349,7 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
           <div
             className="action-row-txid col"
           >
-            <span
-              onClick={[Function]}
-            >
+            <span>
               <a
                 className="transaction-link"
                 href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"

@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<BlockLink /> renders 1`] = `
-<span
-  onClick={[Function]}
->
+<span>
   <a
     className="block-link"
     href="/blocks/H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b"

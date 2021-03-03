@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AccountRow /> renders with long name 1`] = `
-<span
-  onClick={[Function]}
->
+<span>
   <a
     href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
     onClick={[Function]}
@@ -44,9 +42,7 @@ exports[`<AccountRow /> renders with long name 1`] = `
 `;
 
 exports[`<AccountRow /> renders with short name 1`] = `
-<span
-  onClick={[Function]}
->
+<span>
   <a
     href="/accounts/account"
     onClick={[Function]}
