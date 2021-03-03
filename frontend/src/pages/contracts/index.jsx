@@ -3,7 +3,7 @@ import Head from "next/head";
 import Contracts from "../../components/contracts/Contracts";
 import Content from "../../components/utils/Content";
 
-export default class extends React.Component {
+class Contracts extends React.Component {
   render() {
     return (
       <>
@@ -17,3 +17,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Contracts;

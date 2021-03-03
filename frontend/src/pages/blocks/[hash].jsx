@@ -10,7 +10,7 @@ import BlockDetails from "../../components/blocks/BlockDetails";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
-export default class extends React.Component {
+class BlockDetail extends React.Component {
   static async getInitialProps({ req, query: { hash } }) {
     try {
       return await new BlocksApi(req).getBlockInfo(hash);
@@ -54,3 +54,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default BlockDetail;

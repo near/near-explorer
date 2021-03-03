@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import NodesMap from "../../components/nodes/NodesMap";
 import NodeProvider from "../../context/NodeProvider";
-export default class extends React.Component {
+class Map extends React.Component {
   render() {
     return (
       <>
@@ -16,3 +16,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Map;

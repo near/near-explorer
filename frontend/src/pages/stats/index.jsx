@@ -15,7 +15,7 @@ import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 
-export default class extends React.PureComponent {
+class Stats extends React.PureComponent {
   render() {
     const chartStyle = {
       height: "480px",
@@ -104,3 +104,5 @@ const SideBar = () => (
     `}</style>
   </Nav>
 );
+
+export default Stats;

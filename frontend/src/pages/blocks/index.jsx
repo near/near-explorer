@@ -3,7 +3,7 @@ import Head from "next/head";
 import Blocks from "../../components/blocks/Blocks";
 import Content from "../../components/utils/Content";
 
-export default class extends React.Component {
+class Blocks extends React.Component {
   render() {
     return (
       <>
@@ -17,3 +17,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Blocks;

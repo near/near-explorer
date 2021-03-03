@@ -6,7 +6,7 @@ import Content from "../../components/utils/Content";
 import PartnerTotalTransactionList from "../../components/stats/PartnerTotalTransactionList";
 import PartnerFirst3MonthTransactionslist from "../../components/stats/PartnerFirst3MonthTransactionsList";
 
-export default class extends React.Component {
+class Partner extends React.Component {
   render() {
     return (
       <>
@@ -50,3 +50,5 @@ const SideBar = () => (
     `}</style>
   </Nav>
 );
+
+export default Partner;
