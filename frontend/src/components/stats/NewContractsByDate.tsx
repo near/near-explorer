@@ -8,7 +8,7 @@ import { cumulativeSumArray } from "../../libraries/stats";
 
 import { Props } from "./TransactionsByDate";
 
-export default ({ chartStyle }: Props) => {
+const NewContractsByDate = ({ chartStyle }: Props) => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeNewContractsByDate, setTotal] = useState(Array());
@@ -128,3 +128,5 @@ export default ({ chartStyle }: Props) => {
     </Tabs>
   );
 };
+
+export default NewContractsByDate;

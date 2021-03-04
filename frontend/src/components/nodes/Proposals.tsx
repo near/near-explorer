@@ -6,7 +6,7 @@ import { NodeConsumer } from "../../context/NodeProvider";
 import ProposalRow from "./ProposalRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-export default class extends React.Component {
+class Proposals extends React.Component {
   render() {
     return (
       <NodeConsumer>
@@ -25,3 +25,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Proposals;

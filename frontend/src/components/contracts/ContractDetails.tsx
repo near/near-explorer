@@ -21,7 +21,7 @@ interface State {
   codeHash?: string;
 }
 
-export default class extends React.Component<Props, State> {
+class ContractDetails extends React.Component<Props, State> {
   state: State = {};
 
   collectContractInfo = async () => {
@@ -184,3 +184,5 @@ export default class extends React.Component<Props, State> {
     );
   }
 }
+
+export default ContractDetails;

@@ -174,7 +174,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   ),
 };
 
-export default (props: Props<AnyAction>) => {
+const ActionMessage = (props: Props<AnyAction>) => {
   const MessageRenderer = transactionMessageRenderers[props.actionKind];
   if (MessageRenderer === undefined) {
     return (
@@ -187,3 +187,5 @@ export default (props: Props<AnyAction>) => {
     <MessageRenderer {...(props as any)} showDetails={props.showDetails} />
   );
 };
+
+export default ActionMessage;

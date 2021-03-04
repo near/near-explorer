@@ -6,7 +6,7 @@ import { NodeConsumer } from "../../context/NodeProvider";
 import NodeRow from "./NodeRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-export default class extends React.Component {
+class Nodes extends React.Component {
   render() {
     return (
       <NodeConsumer>
@@ -25,3 +25,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Nodes;

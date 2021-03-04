@@ -7,7 +7,7 @@ export interface Props {
   children?: React.ReactNode;
 }
 
-export default ({ className, children, ...props }: Props) => {
+const FlipMoveEx = ({ className, children, ...props }: Props) => {
   if (typeof document === "undefined" || document.hidden) {
     return <div className={className}>{children}</div>;
   }
@@ -17,3 +17,5 @@ export default ({ className, children, ...props }: Props) => {
     </FlipMove>
   );
 };
+
+export default FlipMoveEx;

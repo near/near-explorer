@@ -10,7 +10,7 @@ export interface Props {
   children: React.ReactNode;
 }
 
-export default (props: Props) => {
+const NetworkProvider = (props: Props) => {
   return (
     <NetworkContext.Provider
       value={{
@@ -26,3 +26,5 @@ export default (props: Props) => {
 const NetworkConsumer = NetworkContext.Consumer;
 
 export { NetworkConsumer, NetworkContext };
+
+export default NetworkProvider;

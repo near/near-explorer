@@ -18,7 +18,7 @@ export interface State {
   createdAtBlockTimestamp?: number | null;
 }
 
-export default class extends React.Component<Props, State> {
+class AccountRow extends React.Component<Props, State> {
   state: State = {};
 
   _getDetail = async () => {
@@ -135,3 +135,5 @@ export default class extends React.Component<Props, State> {
     );
   }
 }
+
+export default AccountRow;

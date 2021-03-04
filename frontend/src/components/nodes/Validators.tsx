@@ -6,7 +6,7 @@ import { NodeConsumer } from "../../context/NodeProvider";
 import ValidatorRow from "./ValidatorRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-export default class extends React.Component {
+class Validators extends React.PureComponent {
   render() {
     return (
       <NodeConsumer>
@@ -25,3 +25,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Validators;

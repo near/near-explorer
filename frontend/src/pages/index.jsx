@@ -8,7 +8,7 @@ import Search from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
-export default class extends React.Component {
+class Dashboard extends React.Component {
   render() {
     return (
       <>
@@ -84,3 +84,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Dashboard;

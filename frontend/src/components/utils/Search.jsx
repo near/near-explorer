@@ -5,7 +5,7 @@ import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
-export default class extends React.Component {
+class Search extends React.Component {
   state = { searchValue: "" };
 
   handleSearch = async (event) => {
@@ -251,3 +251,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default Search;

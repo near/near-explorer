@@ -9,7 +9,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export default ({
+const DashboardCard = ({
   className,
   iconPath,
   title,
@@ -69,3 +69,5 @@ export default ({
     `}</style>
   </Row>
 );
+
+export default DashboardCard;

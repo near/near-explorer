@@ -10,7 +10,7 @@ export interface Props {
   className?: string;
 }
 
-export default ({ title, text, loading, href, className }: Props) => {
+const LongCardCell = ({ title, text, loading, href, className }: Props) => {
   const plainCell = (
     <Row noGutters>
       <Col xs="12" className="long-card-cell-title align-self-center">
@@ -100,3 +100,5 @@ export default ({ title, text, loading, href, className }: Props) => {
     </>
   );
 };
+
+export default LongCardCell;

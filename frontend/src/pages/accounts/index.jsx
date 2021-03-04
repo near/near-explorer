@@ -3,7 +3,7 @@ import Head from "next/head";
 import Accounts from "../../components/accounts/Accounts";
 import Content from "../../components/utils/Content";
 
-export default class extends React.Component {
+class AccountsPage extends React.PureComponent {
   render() {
     return (
       <>
@@ -17,3 +17,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default AccountsPage;

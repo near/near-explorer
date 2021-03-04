@@ -11,7 +11,7 @@ export interface Props {
   validators: Validating[];
 }
 
-export default ({ validators }: Props) => {
+const StakingBar = ({ validators }: Props) => {
   validators.sort((v1: any, v2: any) => {
     let diff = new BN(v1.stake).sub(new BN(v2.stake)).toString();
     return Number(diff.slice(0, 5));
@@ -79,3 +79,5 @@ export default ({ validators }: Props) => {
     </>
   );
 };
+
+export default StakingBar;

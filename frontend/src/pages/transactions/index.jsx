@@ -3,7 +3,7 @@ import Head from "next/head";
 import Content from "../../components/utils/Content";
 import Transactions from "../../components/transactions/Transactions";
 
-export default class extends React.Component {
+class TransactionsPage extends React.Component {
   render() {
     return (
       <>
@@ -17,3 +17,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default TransactionsPage;

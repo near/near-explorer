@@ -15,7 +15,7 @@ const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
 } = getConfig();
 
-export default class extends App {
+class _App extends App {
   static async getInitialProps(appContext) {
     // WARNING: Do not remove this getInitialProps implementation as it
     // will enable Automatic Prerendering, which does not work fine with
@@ -152,3 +152,5 @@ export default class extends App {
     );
   }
 }
+
+export default _App;

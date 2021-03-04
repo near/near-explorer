@@ -5,10 +5,12 @@ export interface Props {
   children?: React.ReactNode;
 }
 
-export default ({ transactionHash, children }: Props) => (
+const TransactionLink = ({ transactionHash, children }: Props) => (
   <Link href="/transactions/[hash]" as={`/transactions/${transactionHash}`}>
     <a className="transaction-link">
       {children || `${transactionHash.substring(0, 7)}...`}
     </a>
   </Link>
 );
+
+export default TransactionLink;

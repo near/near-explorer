@@ -1,6 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 
-export default () => (
+const TransactionFilter = () => (
   <Col
     md="auto"
     xs="3"
@@ -37,3 +37,5 @@ export default () => (
     `}</style>
   </Col>
 );
+
+export default TransactionFilter;

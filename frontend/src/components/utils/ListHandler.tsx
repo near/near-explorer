@@ -14,7 +14,7 @@ interface Config {
   detailPage?: boolean;
 }
 
-export default (
+const Wrapper = (
   WrappedComponent: React.ComponentType<any>,
   config: Config,
   props?: any
@@ -210,3 +210,5 @@ export default (
     }
   };
 };
+
+export default Wrapper;

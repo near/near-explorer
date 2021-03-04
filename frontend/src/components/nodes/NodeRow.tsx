@@ -18,7 +18,7 @@ export const statusIdentifier = new Map([
   ["BodySync", "Syncing body"],
   ["NoSync", ""],
 ]);
-export default class extends React.PureComponent<Props> {
+class NodeRow extends React.PureComponent<Props> {
   render() {
     const { node } = this.props;
     return (
@@ -156,3 +156,5 @@ export default class extends React.PureComponent<Props> {
     );
   }
 }
+
+export default NodeRow;

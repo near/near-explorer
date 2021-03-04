@@ -11,7 +11,7 @@ import Link from "../utils/Link";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
 
-export default () => {
+const DashboardTransaction = () => {
   return (
     <DatabaseConsumer>
       {(context) => (
@@ -111,3 +111,5 @@ export default () => {
     </DatabaseConsumer>
   );
 };
+
+export default DashboardTransaction;

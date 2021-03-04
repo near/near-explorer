@@ -6,7 +6,7 @@ import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
 
 import { Props } from "./TransactionsByDate";
 
-export default ({ chartStyle }: Props) => {
+const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   const [activeAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
 
@@ -111,3 +111,5 @@ export default ({ chartStyle }: Props) => {
     />
   );
 };
+
+export default ActiveAccountsByDate;

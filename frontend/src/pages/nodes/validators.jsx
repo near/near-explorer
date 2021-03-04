@@ -9,7 +9,7 @@ import Content from "../../components/utils/Content";
 import NodeProvider from "../../context/NodeProvider";
 import NodeStatsProvider from "../../context/NodeStatsProvider";
 
-export default class extends React.Component {
+class ValidatorsPage extends React.Component {
   render() {
     return (
       <>
@@ -28,3 +28,5 @@ export default class extends React.Component {
     );
   }
 }
+
+export default ValidatorsPage;

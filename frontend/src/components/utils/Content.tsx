@@ -11,7 +11,7 @@ export interface Props {
   children: React.ReactNode;
 }
 
-export default class extends React.Component<Props> {
+class Content extends React.Component<Props> {
   static defaultProps = {
     size: "big",
     border: true,
@@ -83,3 +83,5 @@ export default class extends React.Component<Props> {
     );
   }
 }
+
+export default Content;

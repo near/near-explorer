@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import Nearkats from "../../../public/static/images/nearkats.svg";
 
-export default () => {
+const Footer = () => {
   return (
     <Container fluid className="footer-container">
       <div className="nearlogo-wrapper">
@@ -170,3 +170,5 @@ export default () => {
     </Container>
   );
 };
+
+export default Footer;

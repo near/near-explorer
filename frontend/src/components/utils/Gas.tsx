@@ -8,7 +8,7 @@ const MGAS = new BN(10 ** 6);
 const GGAS = new BN(1000).mul(MGAS);
 export const TGAS = new BN(1000).mul(GGAS);
 
-export default ({ gas }: Props) => {
+const Gas = ({ gas }: Props) => {
   let gasShow;
   if (gas.gte(TGAS)) {
     gasShow = `${gas.div(TGAS).toString()} Tgas`;
@@ -21,3 +21,5 @@ export default ({ gas }: Props) => {
   }
   return <>{gasShow}</>;
 };
+
+export default Gas;

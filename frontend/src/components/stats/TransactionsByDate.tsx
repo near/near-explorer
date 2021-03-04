@@ -12,7 +12,7 @@ export interface Props {
   chartStyle: object;
 }
 
-export default ({ chartStyle }: Props) => {
+const TransactionsByDateChart = ({ chartStyle }: Props) => {
   const [transactionsByDate, setTransactions] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeTransactionsByDate, setTotal] = useState(Array());
@@ -131,3 +131,5 @@ export default ({ chartStyle }: Props) => {
     </Tabs>
   );
 };
+
+export default TransactionsByDateChart;

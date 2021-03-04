@@ -13,7 +13,7 @@ export interface OuterProps {
   count: number;
 }
 
-export default class extends React.Component<OuterProps> {
+class TransactionsWrapper extends React.Component<OuterProps> {
   static defaultProps = {
     count: 15,
   };
@@ -66,3 +66,5 @@ class Transactions extends React.Component<InnerProps> {
     );
   }
 }
+
+export default TransactionsWrapper;

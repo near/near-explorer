@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { Nav, Dropdown, Row, Col } from "react-bootstrap";
 
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 
@@ -15,7 +14,7 @@ import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 
-export default class extends React.PureComponent {
+class Stats extends React.PureComponent {
   render() {
     const chartStyle = {
       height: "480px",
@@ -77,3 +76,5 @@ export default class extends React.PureComponent {
     );
   }
 }
+
+export default Stats;

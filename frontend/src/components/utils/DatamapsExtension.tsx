@@ -20,7 +20,7 @@ interface Props {
   fills: object;
 }
 
-export default class Datamap extends React.Component<Props> {
+class Datamap extends React.Component<Props> {
   map: any;
 
   componentDidMount() {
@@ -365,3 +365,5 @@ export default class Datamap extends React.Component<Props> {
     return <div ref="container" style={style} />;
   }
 }
+
+export default Datamap;

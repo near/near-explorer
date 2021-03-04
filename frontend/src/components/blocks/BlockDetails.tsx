@@ -15,7 +15,7 @@ export interface Props {
   block: B.BlockInfo;
 }
 
-export default ({ block }: Props) => {
+const BlockDetails = ({ block }: Props) => {
   return (
     <DatabaseConsumer>
       {(context) => (
@@ -182,3 +182,5 @@ export default ({ block }: Props) => {
     </DatabaseConsumer>
   );
 };
+
+export default BlockDetails;

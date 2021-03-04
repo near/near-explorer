@@ -13,7 +13,7 @@ export interface Props {
   children: React.Component;
 }
 
-export default (props: Props) => {
+const NodeStatsProvider = (props: Props) => {
   const [validatorAmount, dispatchValidatorAmount] = useState<number>();
   const [onlineNodeAmount, dispatchOnlineNodeAmount] = useState<number>();
   const [proposalAmount, dispatchProposalAmount] = useState<number>();
@@ -45,3 +45,5 @@ export default (props: Props) => {
 const NodeStatsConsumer = NodeStatsContext.Consumer;
 
 export { NodeStatsConsumer, NodeStatsContext };
+
+export default NodeStatsProvider;

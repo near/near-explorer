@@ -12,7 +12,7 @@ export interface Props {
   value: string;
 }
 
-export default (props: Props) => {
+const CodePreview = (props: Props) => {
   return (
     <>
       <ReactTextCollapse options={props.collapseOptions}>
@@ -32,3 +32,5 @@ export default (props: Props) => {
     </>
   );
 };
+
+export default CodePreview;

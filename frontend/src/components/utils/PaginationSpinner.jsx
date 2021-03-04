@@ -1,6 +1,6 @@
 import { Row, Col, Spinner } from "react-bootstrap";
 
-export default ({ hidden }) => (
+const PaginationSpinner = ({ hidden }) => (
   <div style={{ display: hidden ? "none" : "default" }}>
     <Row>
       <Col md="auto" className="mx-auto">
@@ -11,3 +11,5 @@ export default ({ hidden }) => (
     </Row>
   </div>
 );
+
+export default PaginationSpinner;

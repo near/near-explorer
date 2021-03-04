@@ -20,7 +20,7 @@ export interface Props {
   children: React.Component;
 }
 
-export default (props: Props) => {
+const NodeProvider = (props: Props) => {
   const [validators, dispatchValidators] = useState<Validating[]>();
   const [onlineNodes, dispatchOnlineNodes] = useState<NodeInfo[]>();
   const [proposals, dispatchProposals] = useState<Proposal[]>();
@@ -54,3 +54,5 @@ export default (props: Props) => {
 const NodeConsumer = NodeContext.Consumer;
 
 export { NodeConsumer, NodeContext };
+
+export default NodeProvider;

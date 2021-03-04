@@ -7,7 +7,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export default ({ href, as, children }: Props) => {
+const LinkWrapper = ({ href, as, children }: Props) => {
   return (
     <>
       <Link href={href} as={as}>
@@ -16,3 +16,5 @@ export default ({ href, as, children }: Props) => {
     </>
   );
 };
+
+export default LinkWrapper;

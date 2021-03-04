@@ -25,7 +25,7 @@ export interface Props {
   children: React.Component;
 }
 
-export default (props: Props) => {
+const DatabaseProvider = (props: Props) => {
   const [finalTimestamp, dispatchFinalTimestamp] = useState<BN>();
   const [latestBlockHeight, dispatchLatestBlockHeight] = useState<BN>();
   const [latestGasPrice, dispatchLatestGasPrice] = useState<BN>();
@@ -125,3 +125,5 @@ export default (props: Props) => {
 const DatabaseConsumer = DatabaseContext.Consumer;
 
 export { DatabaseConsumer, DatabaseContext };
+
+export default DatabaseProvider;
