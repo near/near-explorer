@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import Link from "../utils/Link";
 export interface Props {
   blockHash: string;
   children?: React.ReactNode;

@@ -43,7 +43,6 @@ class Search extends React.Component {
     if (await accountPromise) {
       return Router.push("/accounts/" + searchValue.toLowerCase());
     }
-
     alert("Result not found!");
   };
 

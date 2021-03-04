@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import Link from "../utils/Link";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
 import IconBlocks from "../../../public/static/images/icon-blocks.svg";

@@ -300,7 +300,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created
+              Created At
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -625,7 +625,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created
+              Created At
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -950,7 +950,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Deleted
+              Deleted At
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -1322,7 +1322,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created
+              Created At
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}
@@ -1647,7 +1647,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created
+              Created At
               <div
                 className="jsx-782042476 term-helper"
                 onClick={[Function]}

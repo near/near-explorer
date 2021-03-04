@@ -32,7 +32,6 @@ class AccountDetail extends React.Component {
 
   render() {
     const { account, accountFetchingError, currentNearNetwork } = this.props;
-
     return (
       <>
         <Head>

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 
@@ -8,6 +7,7 @@ import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 import GasPrice from "../utils/GasPrice";
+import Link from "../utils/Link";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
 
@@ -29,12 +29,11 @@ const DashboardTransactions = () => {
             <Col xs="12" md="4">
               <LongCardCell
                 title={
-                  <Term title={"24hr Total"}>
-                    {"The number of transactions in the last 24 hours. "}
-                    <a href={"https://docs.near.org/docs/concepts/transaction"}>
-                      docs
-                    </a>
-                  </Term>
+                  <Term
+                    title={"24hr Total"}
+                    text={"The number of transactions in the last 24 hours. "}
+                    href={"https://docs.near.org/docs/concepts/transaction"}
+                  />
                 }
                 loading={typeof context.recentTransactionsCount === "undefined"}
                 text={context.recentTransactionsCount?.[0].total.toLocaleString()}
@@ -43,12 +42,13 @@ const DashboardTransactions = () => {
             <Col xs="12" md="8">
               <LongCardCell
                 title={
-                  <Term title={"Gas Price"}>
-                    {
-                      "A unit of Tgas (TerraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used."
+                  <Term
+                    title={"Gas Price"}
+                    text={
+                      "A unit of Tgas (TerraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
                     }
-                    <a href={"https://docs.near.org/docs/concepts/gas"}>docs</a>
-                  </Term>
+                    href={"https://docs.near.org/docs/concepts/gas"}
+                  />
                 }
                 loading={typeof context.latestGasPrice === "undefined"}
                 text={

@@ -26,16 +26,11 @@ const BlockDetails = ({ block }: Props) => {
                 <Col md="3">
                   <CardCell
                     title={
-                      <Term title={"Transactions"}>
-                        {"Number of transactions in this block. "}
-                        <a
-                          href={
-                            "https://docs.near.org/docs/concepts/transaction"
-                          }
-                        >
-                          docs
-                        </a>
-                      </Term>
+                      <Term
+                        title={"Transactions"}
+                        text={"Number of transactions in this block. "}
+                        href={"https://docs.near.org/docs/concepts/transaction"}
+                      />
                     }
                     imgLink="/static/images/icon-m-transaction.svg"
                     text={block.transactionsCount.toLocaleString()}
@@ -45,14 +40,13 @@ const BlockDetails = ({ block }: Props) => {
                 <Col md="3">
                   <CardCell
                     title={
-                      <Term title={"Gas Used"}>
-                        {
+                      <Term
+                        title={"Gas Used"}
+                        text={
                           "Total units of gas used by transactions in this block. "
                         }
-                        <a href={"https://docs.near.org/docs/concepts/gas"}>
-                          docs
-                        </a>
-                      </Term>
+                        href={"https://docs.near.org/docs/concepts/gas"}
+                      />
                     }
                     imgLink="/static/images/icon-m-size.svg"
                     text={
@@ -67,14 +61,13 @@ const BlockDetails = ({ block }: Props) => {
                 <Col md="3">
                   <CardCell
                     title={
-                      <Term title={"Gas Price"}>
-                        {
+                      <Term
+                        title={"Gas Price"}
+                        text={
                           "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
                         }
-                        <a href={"https://docs.near.org/docs/concepts/gas"}>
-                          docs
-                        </a>
-                      </Term>
+                        href={"https://docs.near.org/docs/concepts/gas"}
+                      />
                     }
                     imgLink="/static/images/icon-m-filter.svg"
                     text={<GasPrice gasPrice={block.gasPrice} />}
@@ -83,18 +76,15 @@ const BlockDetails = ({ block }: Props) => {
                 <Col md="3">
                   <CardCell
                     title={
-                      <Term title={"Status"}>
-                        {
+                      <Term
+                        title={"Status"}
+                        text={
                           "Current status of the block (finalizing or finalized). "
                         }
-                        <a
-                          href={
-                            "https://docs.near.org/docs/develop/front-end/rpc#block"
-                          }
-                        >
-                          docs
-                        </a>
-                      </Term>
+                        href={
+                          "https://docs.near.org/docs/develop/front-end/rpc#block"
+                        }
+                      />
                     }
                     imgLink="/static/images/icon-t-status.svg"
                     text={
@@ -111,9 +101,10 @@ const BlockDetails = ({ block }: Props) => {
                 <Col md="4">
                   <CardCell
                     title={
-                      <Term title={"Created"}>
-                        {"Timestamp of when this block finalized. "}
-                      </Term>
+                      <Term
+                        title={"Created"}
+                        text={"Timestamp of when this block finalized. "}
+                      />
                     }
                     text={moment(block.timestamp).format(
                       "MMMM DD, YYYY [at] h:mm:ssa"
@@ -124,9 +115,10 @@ const BlockDetails = ({ block }: Props) => {
                 <Col md="8">
                   <CardCell
                     title={
-                      <Term title={"Hash"}>
-                        {"Unique identifier (hash) of this block. "}
-                      </Term>
+                      <Term
+                        title={"Hash"}
+                        text={"Unique identifier (hash) of this block. "}
+                      />
                     }
                     text={block.hash}
                     className="border-0"
@@ -137,9 +129,10 @@ const BlockDetails = ({ block }: Props) => {
                 <Col md="12">
                   <CardCell
                     title={
-                      <Term title={"Parent Hash"}>
-                        {"Unique identifier (hash) of previous block. "}
-                      </Term>
+                      <Term
+                        title={"Parent Hash"}
+                        text={"Unique identifier (hash) of previous block. "}
+                      />
                     }
                     text={
                       block.prevHash === "11111111111111111111111111111111" ? (

@@ -4,6 +4,8 @@ import { Modal } from "react-bootstrap";
 
 interface Props {
   title: string;
+  text: string | React.ReactNode;
+  href?: string;
 }
 
 interface State {
@@ -27,7 +29,7 @@ class Term extends React.Component<Props, State> {
   };
 
   render() {
-    const { title, children } = this.props;
+    const { title, text, href } = this.props;
     return (
       <>
         {title}
@@ -45,7 +47,14 @@ class Term extends React.Component<Props, State> {
             <Modal.Header closeButton>
               <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{children}</Modal.Body>
+            <Modal.Body>
+              {text}
+              {href && (
+                <a href={href} target="_blank" rel="noopener">
+                  docs
+                </a>
+              )}
+            </Modal.Body>
           </Modal>
           <style jsx global>{`
             .term-helper {
