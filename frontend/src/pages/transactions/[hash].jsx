@@ -11,7 +11,7 @@ import ReceiptsList from "../../components/transactions/ReceiptsList";
 import TransactionDetails from "../../components/transactions/TransactionDetails";
 import Content from "../../components/utils/Content";
 
-class TransactionDetails extends React.Component {
+class TransactionDetailsPage extends React.Component {
   static async getInitialProps({ req, query: { hash } }) {
     try {
       return await new TransactionsApi(req).getTransactionInfo(hash);
@@ -69,4 +69,4 @@ class TransactionDetails extends React.Component {
   }
 }
 
-export default TransactionDetails;
+export default TransactionDetailsPage;
