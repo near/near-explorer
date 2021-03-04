@@ -9,7 +9,7 @@ import Content from "../../components/utils/Content";
 import NodeProvider from "../../context/NodeProvider";
 import NodeStatsProvider from "../../context/NodeStatsProvider";
 
-class Proposals extends React.Component {
+class ProposalsPage extends React.Component {
   render() {
     return (
       <>
@@ -29,4 +29,4 @@ class Proposals extends React.Component {
   }
 }
 
-export default Proposals;
+export default ProposalsPage;
