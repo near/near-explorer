@@ -32,6 +32,7 @@ class BlocksWrapper extends React.Component<OuterProps> {
 }
 
 export default BlocksWrapper;
+
 export interface InnerProps extends OuterProps {
   items: B.BlockInfo[];
 }

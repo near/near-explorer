@@ -10,7 +10,7 @@ export interface OuterProps {
   count: number;
 }
 
-class AccountWrapper extends React.Component<OuterProps> {
+class AccountsWrapper extends React.Component<OuterProps> {
   static defaultProps = {
     count: 15,
   };
@@ -35,7 +35,7 @@ class AccountWrapper extends React.Component<OuterProps> {
   }
 }
 
-export default AccountWrapper;
+export default AccountsWrapper;
 
 interface InnerProps extends OuterProps {
   items: A.AccountBasicInfo[];

@@ -14,7 +14,7 @@ export interface Props {
   cls?: string;
 }
 
-export default class extends React.PureComponent<Props> {
+class BlocksRow extends React.PureComponent<Props> {
   render() {
     const { block } = this.props;
     return (
@@ -126,3 +126,5 @@ export default class extends React.PureComponent<Props> {
     );
   }
 }
+
+export default BlocksRow;
