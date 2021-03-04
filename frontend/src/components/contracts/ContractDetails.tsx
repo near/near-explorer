@@ -77,16 +77,13 @@ export default class extends React.Component<Props, State> {
             <Col md="4">
               <CardCell
                 title={
-                  <Term title={"Last Updated"}>
-                    {"Latest time the contract deployed. "}
-                    <a
-                      href={
-                        "https://docs.near.org/docs/develop/basics/getting-started"
-                      }
-                    >
-                      docs
-                    </a>
-                  </Term>
+                  <Term
+                    title={"Last Updated"}
+                    text={"Latest time the contract deployed. "}
+                    href={
+                      "https://docs.near.org/docs/develop/basics/getting-started"
+                    }
+                  />
                 }
                 text={
                   timestamp
@@ -99,11 +96,12 @@ export default class extends React.Component<Props, State> {
             <Col md="8">
               <CardCell
                 title={
-                  <Term title={"Transaction Hash"}>
-                    {
+                  <Term
+                    title={"Transaction Hash"}
+                    text={
                       "The transaction unique identifier (hash) that the contract is latest deployed. "
                     }
-                  </Term>
+                  />
                 }
                 text={
                   transactionHash ? (
@@ -122,13 +120,18 @@ export default class extends React.Component<Props, State> {
             <Col md="4">
               <CardCell
                 title={
-                  <Term title={"Locked?"}>
-                    <p>{`Locked contract means that there are no access keys allowing the
+                  <Term
+                    title={"Locked?"}
+                    text={
+                      <>
+                        <p>{`Locked contract means that there are no access keys allowing the
                       contract code to be re-deployed (e.g. even a single FullAccess
                       permission access key casts the locked status to "No").`}</p>
-                    <p>{`Note: The contract itself may be implemented to re-deploy itself
+                        <p>{`Note: The contract itself may be implemented to re-deploy itself
                       or re-add FullAccess keys.`}</p>
-                  </Term>
+                      </>
+                    }
+                  />
                 }
                 text={lockedShow ? lockedShow : ""}
                 className="block-card-created-text account-card-back border-0"
@@ -137,11 +140,12 @@ export default class extends React.Component<Props, State> {
             <Col md="8">
               <CardCell
                 title={
-                  <Term title={"Code Hash"}>
-                    {
+                  <Term
+                    title={"Code Hash"}
+                    text={
                       "Checksum (SHA-256 in base58 encoding) of the contract binary. "
                     }
-                  </Term>
+                  />
                 }
                 text={codeHash ? codeHash : ""}
                 className="block-card-created account-card-back border-0"

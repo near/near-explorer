@@ -122,12 +122,11 @@ export default class extends React.Component<Props, State> {
               <Col md="5">
                 <CardCell
                   title={
-                    <Term title={"Signed by"}>
-                      {"Account that signed and sent the transaction. "}
-                      <a href={"https://docs.near.org/docs/concepts/account"}>
-                        docs
-                      </a>
-                    </Term>
+                    <Term
+                      title={"Signed by"}
+                      text={"Account that signed and sent the transaction. "}
+                      href={"https://docs.near.org/docs/concepts/account"}
+                    />
                   }
                   imgLink="/static/images/icon-m-user.svg"
                   text={<AccountLink accountId={transaction.signerId} />}
@@ -137,12 +136,11 @@ export default class extends React.Component<Props, State> {
               <Col md="4">
                 <CardCell
                   title={
-                    <Term title={"Receiver"}>
-                      {"Account receiving the transaction. "}
-                      <a href={"https://docs.near.org/docs/concepts/account"}>
-                        docs
-                      </a>
-                    </Term>
+                    <Term
+                      title={"Receiver"}
+                      text={"Account receiving the transaction. "}
+                      href={"https://docs.near.org/docs/concepts/account"}
+                    />
                   }
                   imgLink="/static/images/icon-m-user.svg"
                   text={<AccountLink accountId={transaction.receiverId} />}
@@ -151,16 +149,13 @@ export default class extends React.Component<Props, State> {
               <Col md="3">
                 <CardCell
                   title={
-                    <Term title={"Status"}>
-                      {
+                    <Term
+                      title={"Status"}
+                      text={
                         "Current status of the transaction (Pending, Succeeded, Failed/Finalized or non finalized). "
                       }
-                      <a
-                        href={"https://docs.near.org/docs/concepts/transaction"}
-                      >
-                        docs
-                      </a>
-                    </Term>
+                      href={"https://docs.near.org/docs/concepts/transaction"}
+                    />
                   }
                   imgLink="/static/images/icon-t-status.svg"
                   text={
@@ -186,14 +181,13 @@ export default class extends React.Component<Props, State> {
               <Col md="3">
                 <CardCell
                   title={
-                    <Term title={"Transaction Fee"}>
-                      {"Total fee paid in NEAR to execute this transaction. "}
-                      <a
-                        href={"https://docs.near.org/docs/concepts/transaction"}
-                      >
-                        docs
-                      </a>
-                    </Term>
+                    <Term
+                      title={"Transaction Fee"}
+                      text={
+                        "Total fee paid in NEAR to execute this transaction. "
+                      }
+                      href={"https://docs.near.org/docs/concepts/transaction"}
+                    />
                   }
                   imgLink="/static/images/icon-m-size.svg"
                   text={
@@ -209,17 +203,14 @@ export default class extends React.Component<Props, State> {
               <Col md="3">
                 <CardCell
                   title={
-                    <Term title={"Deposit Value"}>
-                      {`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
-                This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
-                      <a
-                        href={
-                          "https://near.org/papers/economics-in-sharded-blockchain/"
-                        }
-                      >
-                        docs
-                      </a>
-                    </Term>
+                    <Term
+                      title={"Deposit Value"}
+                      text={`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
+                            This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
+                      href={
+                        "https://near.org/papers/economics-in-sharded-blockchain/"
+                      }
+                    />
                   }
                   imgLink="/static/images/icon-m-filter.svg"
                   text={
@@ -230,14 +221,13 @@ export default class extends React.Component<Props, State> {
               <Col md="3">
                 <CardCell
                   title={
-                    <Term title={"Gas Used"}>
-                      {"Units of gas required to execute this transaction. "}
-                      <a
-                        href={"https://docs.near.org/docs/concepts/transaction"}
-                      >
-                        docs
-                      </a>
-                    </Term>
+                    <Term
+                      title={"Gas Used"}
+                      text={
+                        "Units of gas required to execute this transaction. "
+                      }
+                      href={"https://docs.near.org/docs/concepts/transaction"}
+                    />
                   }
                   imgLink="/static/images/icon-m-size.svg"
                   text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
@@ -246,11 +236,12 @@ export default class extends React.Component<Props, State> {
               <Col md="3">
                 <CardCell
                   title={
-                    <Term title={"Attached Gas"}>
-                      {
+                    <Term
+                      title={"Attached Gas"}
+                      text={
                         "Units of gas attached to the transaction (this is often higher than 'Gas Used'). "
                       }
-                    </Term>
+                    />
                   }
                   imgLink="/static/images/icon-m-size.svg"
                   text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
@@ -261,14 +252,13 @@ export default class extends React.Component<Props, State> {
               <Col md="4">
                 <CardCell
                   title={
-                    <Term title={"Created"}>
-                      {"Timestamp of when this transaction was submitted. "}
-                      <a
-                        href={"https://docs.near.org/docs/concepts/transaction"}
-                      >
-                        docs
-                      </a>
-                    </Term>
+                    <Term
+                      title={"Created"}
+                      text={
+                        "Timestamp of when this transaction was submitted. "
+                      }
+                      href={"https://docs.near.org/docs/concepts/transaction"}
+                    />
                   }
                   text={moment(transaction.blockTimestamp).format(
                     "MMMM DD, YYYY [at] h:mm:ssa"
@@ -279,14 +269,11 @@ export default class extends React.Component<Props, State> {
               <Col md="8">
                 <CardCell
                   title={
-                    <Term title={"Hash"}>
-                      {"Unique identifier (hash) of this transaction. "}
-                      <a
-                        href={"https://docs.near.org/docs/concepts/transaction"}
-                      >
-                        docs
-                      </a>
-                    </Term>
+                    <Term
+                      title={"Hash"}
+                      text={"Unique identifier (hash) of this transaction. "}
+                      href={"https://docs.near.org/docs/concepts/transaction"}
+                    />
                   }
                   text={transaction.hash}
                   className="border-0"
@@ -297,11 +284,12 @@ export default class extends React.Component<Props, State> {
               <Col md="12">
                 <CardCell
                   title={
-                    <Term title={"Block Hash"}>
-                      {
+                    <Term
+                      title={"Block Hash"}
+                      text={
                         "Unique identifier (hash) of the block this transaction was included in. "
                       }
-                    </Term>
+                    />
                   }
                   text={
                     <BlockLink blockHash={transaction.blockHash}>

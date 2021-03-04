@@ -1,9 +1,9 @@
-import Link from "next/link";
-
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
+
+import Link from "../utils/Link";
 
 interface Props {
   role: string;
@@ -16,87 +16,78 @@ export default class extends React.Component<Props> {
       <NodeStatsConsumer>
         {(context) => (
           <>
-            <Row>
-              <Link href="/nodes/validators">
-                <a
-                  className={`node-link ${
-                    role === "validators" ? `node-selected` : ""
-                  }`}
-                  id="validator-node"
-                >
-                  <Col className="node-selector align-self-center">
+            <Row noGutters>
+              <Col
+                md="4"
+                className={`node-selector pt-2 pb-2 ${
+                  role === "validators" ? `node-selected` : ""
+                }`}
+              >
+                <Link href="/nodes/validators">
+                  <a className="node-link" id="validator-node">
                     {`${
                       typeof context.validatorAmount !== "undefined"
                         ? context.validatorAmount
                         : "-"
                     } Validating & New Upcoming`}
-                  </Col>
-                </a>
-              </Link>
-              <Link href="/nodes/online-nodes">
-                <a
-                  className={`node-link ${
-                    role === "online-nodes" ? `node-selected` : ""
-                  }`}
-                  id="online-node"
-                >
-                  <Col className="node-selector align-self-center">
+                  </a>
+                </Link>
+              </Col>
+              <Col
+                className={`node-selector pt-2 pb-2 ${
+                  role === "online-nodes" ? `node-selected` : ""
+                }`}
+              >
+                <Link href="/nodes/online-nodes">
+                  <a className="node-link" id="online-node">
                     {`${
                       typeof context.onlineNodeAmount !== "undefined"
                         ? context.onlineNodeAmount
                         : "-"
                     } Online-nodes`}
-                  </Col>
-                </a>
-              </Link>
-              <Link href="/nodes/proposals">
-                <a
-                  className={`node-link ${
-                    role === "proposals" ? `node-selected` : ""
-                  }`}
-                  id="proposal-node"
-                >
-                  <Col className="node-selector align-self-center">
+                  </a>
+                </Link>
+              </Col>
+              <Col
+                className={`node-selector pt-2 pb-2 ${
+                  role === "proposals" ? `node-selected` : ""
+                }`}
+              >
+                <Link href="/nodes/proposals">
+                  <a className="node-link" id="proposal-node">
                     {`${
                       typeof context.proposalAmount !== "undefined"
                         ? context.proposalAmount
                         : "-"
                     } Proposal-nodes`}
-                  </Col>
-                </a>
-              </Link>
-              <Link href="/nodes/map">
-                <a className="node-link">
-                  <Col className="node-selector align-self-center">
+                  </a>
+                </Link>
+              </Col>
+              <Col className="node-selector pt-2 pb-2">
+                <Link href="/nodes/map">
+                  <a className="node-link" id="node-map">
                     Nodes Map
-                  </Col>
-                </a>
-              </Link>
+                  </a>
+                </Link>
+              </Col>
             </Row>
             <style jsx global>{`
               .node-selector {
-                font-size: 12px;
+                height: 100%;
+                font-size: 14px;
                 font-weight: 500;
-                letter-spacing: 1.38px;
-                color: #24272a;
+                background: #fff;
+                border: 2px solid #e6e6e6;
+                border-radius: 25px;
                 text-transform: uppercase;
-                padding: 10px;
                 text-decoration: none;
+                margin-left: 15px;
+                margin-bottom: 15px;
+                text-align: center;
               }
 
               .node-link {
-                text-align: center;
-                background: #fff;
-                border: 2px solid #e6e6e6;
-                box-sizing: border-box;
-                border-radius: 25px;
-                margin-left: 15px;
-                margin-bottom: 15px;
-              }
-
-              .node-link:active,
-              .node-link:focus {
-                border: 2px solid #0066ff;
+                color: #24272a;
               }
 
               .node-selected {

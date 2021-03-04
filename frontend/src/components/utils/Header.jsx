@@ -1,11 +1,12 @@
 import { Container, Row, Col } from "react-bootstrap";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import HeaderNetworkDropdown from "./HeaderNetworkDropdown";
 import HeaderNavDropdown from "./HeaderNavDropdown";
 import MobileHeaderNavDropdown from "./MobileHeaderNavDropdown";
 import Search from "./Search";
+import Link from "./Link";
+
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
 

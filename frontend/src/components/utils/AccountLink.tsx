@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import Link from "../utils/Link";
 import { truncateAccountId } from "../../libraries/formatting";
 
 export interface Props {

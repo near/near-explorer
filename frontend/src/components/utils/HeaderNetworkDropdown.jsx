@@ -2,12 +2,14 @@ import { Dropdown } from "react-bootstrap";
 
 import { NetworkConsumer } from "../../context/NetworkProvider";
 
-const HeaderDropdownItem = ({ link, title }) => (
-  <Dropdown.Item className="header-network-item-dropdown" href={link}>
-    <div className="network-icon"></div>
-    {title}
-  </Dropdown.Item>
-);
+const HeaderDropdownItem = ({ link, title }) => {
+  return (
+    <Dropdown.Item className="header-network-item-dropdown" href={link}>
+      <div className="network-icon"></div>
+      {title}
+    </Dropdown.Item>
+  );
+};
 
 export default () => (
   <NetworkConsumer>

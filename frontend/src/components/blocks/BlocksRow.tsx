@@ -1,6 +1,5 @@
 import BN from "bn.js";
 
-import Link from "next/link";
 import React from "react";
 
 import { Row, Col } from "react-bootstrap";
@@ -9,7 +8,7 @@ import * as B from "../../libraries/explorer-wamp/blocks";
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
 import Timer from "../utils/Timer";
-
+import Link from "../utils/Link";
 export interface Props {
   block: B.BlockInfo;
   cls?: string;
