@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { Nav } from "react-bootstrap";
 
 import Content from "../../components/utils/Content";
 
@@ -14,7 +13,6 @@ class Partner extends React.Component {
           <title>NEAR Explorer | Partner Project Stats</title>
         </Head>
         <Content title={<h1>Partner Project Stats</h1>}>
-          <SideBar />
           <div id="partnerTotalTransactions">
             <PartnerTotalTransactionList />
           </div>
@@ -27,28 +25,5 @@ class Partner extends React.Component {
     );
   }
 }
-
-const SideBar = () => (
-  <Nav className="stats-sidebar">
-    <Nav.Link href="#partnerTotalTransactions">
-      Partner Accounts Total Transactions
-    </Nav.Link>
-    <Nav.Link href="#partnerFirst3Month">
-      Partner Accounts First 3 Month Transactions
-    </Nav.Link>
-    <style jsx global>{`
-      .stats-sidebar {
-        width: 300px;
-        position: fixed;
-        left: 100px;
-      }
-      .stats-sidebar .nav-link {
-        color: #042772;
-        display: block;
-        width: 100%;
-      }
-    `}</style>
-  </Nav>
-);
 
 export default Partner;

@@ -3,7 +3,7 @@ import Head from "next/head";
 import Blocks from "../../components/blocks/Blocks";
 import Content from "../../components/utils/Content";
 
-class Blocks extends React.Component {
+class BlocksPage extends React.PureComponent {
   render() {
     return (
       <>
@@ -18,4 +18,4 @@ class Blocks extends React.Component {
   }
 }
 
-export default Blocks;
+export default BlocksPage;
