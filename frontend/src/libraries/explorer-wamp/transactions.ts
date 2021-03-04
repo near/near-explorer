@@ -96,6 +96,10 @@ export interface Outcome {
   gas_burnt: number;
 }
 
+export interface OutcomeArgs {
+  args_base64: string;
+}
+
 export interface ReceiptOutcome {
   id: string;
   outcome: Outcome;
@@ -104,6 +108,38 @@ export interface ReceiptOutcome {
 
 export interface ReceiptsOutcomeWrapper {
   receiptsOutcome?: ReceiptOutcome[];
+}
+
+export interface ReceiptsOutcomeList {
+  receipt_id: string;
+  converted_into_receipt_id: string;
+  status: string;
+  action_kind: string;
+  receipt_kind: string;
+  produced_receipt_id: string;
+  args: OutcomeArgs;
+  producedReceipts: ReceiptsOutcomeReceiptsList[];
+  actions: ReceiptsOutcomeActionList[];
+}
+
+export interface ReceiptsOutcomeActionList {
+  receipt_id: string;
+  produced_receipt_id: string;
+  action_kind: string;
+  args: OutcomeArgs;
+}
+
+export interface ReceiptsOutcomeReceiptsList {
+  receipt_id: string;
+  produced_receipt_id: string;
+  action_kind: string;
+  receipt_kind: string;
+  args: OutcomeArgs;
+  status: string;
+}
+
+export interface ReceiptsOutcomeListWrapper {
+  receiptsList?: ReceiptsOutcomeList[];
 }
 
 export interface TransactionOutcome {
@@ -118,7 +154,8 @@ export interface TransactionOutcomeWrapper {
 
 export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
-  TransactionOutcomeWrapper;
+  TransactionOutcomeWrapper &
+  ReceiptsOutcomeListWrapper;
 
 export interface TxPagination {
   endTimestamp: number;
@@ -194,7 +231,7 @@ export default class TransactionsApi extends ExplorerApi {
     }
     try {
       const transactions = await this.call<TransactionInfo[]>("select", [
-        `SELECT hash, signer_id as signerId, receiver_id as receiverId, 
+        `SELECT hash, signer_id as signerId, receiver_id as receiverId,
               block_hash as blockHash, block_timestamp as blockTimestamp, transaction_index as transactionIndex
           FROM transactions
           ${WHEREClause}
@@ -435,6 +472,12 @@ export default class TransactionsApi extends ExplorerApi {
           transactionInfo.hash,
           transactionInfo.signerId,
         ]);
+
+        const transactionReceiptsList = await this.call<any>(
+          "transaction-receipts-list",
+          [transactionInfo.hash]
+        );
+
         transactionInfo.status = Object.keys(
           transactionExtraInfo.status
         )[0] as ExecutionStatus;
@@ -454,6 +497,7 @@ export default class TransactionsApi extends ExplorerApi {
 
         transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
+        transactionInfo.receiptsList = transactionReceiptsList as ReceiptsOutcomeList[];
       }
       return transactionInfo;
     } catch (error) {

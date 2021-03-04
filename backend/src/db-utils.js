@@ -504,6 +504,9 @@ exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryDashboardTransactionsStats = queryDashboardTransactionsStats;
 exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
+
+exports.queryReceiptsList = queryReceiptsList;
+
 exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;

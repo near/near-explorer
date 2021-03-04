@@ -2,6 +2,7 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
+const { queryReceiptsList } = require("./db-utils");
 const stats = require("./stats");
 
 const models = require("../models");
@@ -290,6 +291,10 @@ wampHandlers["deposit-amount-aggregated-by-date"] = async () => {
 
 wampHandlers["partner-unique-user-amount"] = async () => {
   return await stats.getPartnerUniqueUserAmount();
+};
+
+wampHandlers["transaction-receipts-list"] = async ([transactionHash]) => {
+  return await queryReceiptsList(transactionHash);
 };
 
 function setupWamp() {
