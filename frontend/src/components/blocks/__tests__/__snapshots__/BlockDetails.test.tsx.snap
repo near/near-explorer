@@ -288,16 +288,14 @@ exports[`<BlockDetails /> renders 1`] = `
               <div
                 className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
               >
-                <span>
-                  <a
-                    className="block-link"
-                    href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                  >
-                    EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
-                  </a>
-                </span>
+                <a
+                  className="block-link"
+                  href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
+                </a>
               </div>
             </div>
           </div>

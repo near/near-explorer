@@ -3,16 +3,14 @@
 exports[`<ActionMessage /> renders AddKey with permission FullAccess 1`] = `
 Array [
   "New key added for ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver.test
+  </a>,
   ": ed25519:BgXFiJS...",
   <p>
     with permission FullAccess and nonce 0
@@ -23,16 +21,14 @@ Array [
 exports[`<ActionMessage /> renders AddKey with permission function call to call any method 1`] = `
 Array [
   "Access key added for contract ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/stake"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      stake
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/stake"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    stake
+  </a>,
   ": ed25519:BgXFiJS...",
   <p>
     with permission to call any methods and nonce 0
@@ -43,16 +39,14 @@ Array [
 exports[`<ActionMessage /> renders AddKey with permission function call to call specific methods 1`] = `
 Array [
   "Access key added for contract ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/stake"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      stake
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/stake"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    stake
+  </a>,
   ": ed25519:BgXFiJS...",
   <p>
     with permission to call (add_request, delete_request, confirm, add_request_and_confirm) methods and nonce 0
@@ -63,43 +57,37 @@ Array [
 exports[`<ActionMessage /> renders CreateAccount 1`] = `
 Array [
   "New account created: ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver.test
+  </a>,
 ]
 `;
 
 exports[`<ActionMessage /> renders DeleteAccount 1`] = `
 Array [
   "Delete account ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver.test
+  </a>,
   " and transfer remaining funds to ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/near"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      near
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/near"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    near
+  </a>,
 ]
 `;
 
@@ -108,48 +96,42 @@ exports[`<ActionMessage /> renders DeleteKey 1`] = `"Key deleted: ed25519:BgXFiJ
 exports[`<ActionMessage /> renders DeployContract 1`] = `
 Array [
   "Contract deployed: ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver.test
+  </a>,
 ]
 `;
 
 exports[`<ActionMessage /> renders FunctionCall 1`] = `
 Array [
   "Called method: 'method_name' in contract: ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver.test
+  </a>,
 ]
 `;
 
 exports[`<ActionMessage /> renders FunctionCall with details 1`] = `
 Array [
   "Called method: 'method_name' in contract: ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/receiver2.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver2.test
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/receiver2.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver2.test
+  </a>,
   <dl>
     <dt>
       Arguments:
@@ -222,15 +204,13 @@ Array [
      Ⓝ
   </span>,
   " to ",
-  <span>
-    <a
-      className="jsx-3150401870 account-link"
-      href="/accounts/receiver.test"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-    >
-      receiver.test
-    </a>
-  </span>,
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/receiver.test"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    receiver.test
+  </a>,
 ]
 `;

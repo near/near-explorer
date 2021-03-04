@@ -37,16 +37,14 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-title col"
           >
             New key added for 
-            <span>
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/receiver.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                receiver.test
-              </a>
-            </span>
+            <a
+              className="jsx-3150401870 account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              receiver.test
+            </a>
             : ed25519:8LXEySy...
             <p>
               with permission FullAccess and nonce 0
@@ -60,16 +58,14 @@ exports[`<ActionRow /> renders compact 1`] = `
             className="action-row-text col"
           >
             by 
-            <span>
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                signer.test
-              </a>
-            </span>
+            <a
+              className="jsx-3150401870 account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              signer.test
+            </a>
           </div>
         </div>
       </div>
@@ -82,16 +78,14 @@ exports[`<ActionRow /> renders compact 1`] = `
           <div
             className="action-row-txid col"
           >
-            <span>
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </span>
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
           </div>
         </div>
         <div
@@ -155,16 +149,14 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             className="action-row-title col"
           >
             Called method: 'incrementCounter' in contract: 
-            <span>
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/receiver.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                receiver.test
-              </a>
-            </span>
+            <a
+              className="jsx-3150401870 account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              receiver.test
+            </a>
             <dl>
               <dt>
                 Arguments:
@@ -213,16 +205,14 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             className="action-row-text col"
           >
             by 
-            <span>
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                signer.test
-              </a>
-            </span>
+            <a
+              className="jsx-3150401870 account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              signer.test
+            </a>
           </div>
         </div>
       </div>
@@ -235,16 +225,14 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
           <div
             className="action-row-txid col"
           >
-            <span>
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </span>
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
           </div>
         </div>
         <div
@@ -308,16 +296,14 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-title col"
           >
             New account created: 
-            <span>
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/receiver.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                receiver.test
-              </a>
-            </span>
+            <a
+              className="jsx-3150401870 account-link"
+              href="/accounts/receiver.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              receiver.test
+            </a>
           </div>
         </div>
         <div
@@ -327,16 +313,14 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
             className="action-row-text col"
           >
             by 
-            <span>
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/signer.test"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                signer.test
-              </a>
-            </span>
+            <a
+              className="jsx-3150401870 account-link"
+              href="/accounts/signer.test"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              signer.test
+            </a>
           </div>
         </div>
       </div>
@@ -349,16 +333,14 @@ exports[`<ActionRow /> renders sparsely by default 1`] = `
           <div
             className="action-row-txid col"
           >
-            <span>
-              <a
-                className="transaction-link"
-                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                BvJeW6g...
-              </a>
-            </span>
+            <a
+              className="transaction-link"
+              href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+            >
+              BvJeW6g...
+            </a>
           </div>
         </div>
         <div
