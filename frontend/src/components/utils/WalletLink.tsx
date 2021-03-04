@@ -7,7 +7,7 @@ export interface Props {
 
 const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
   return (
-    <div>
+    <>
       <a
         target="_blank"
         rel="noopener"
@@ -21,7 +21,7 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
           white-space: nowrap;
         }
       `}</style>
-    </div>
+    </>
   );
 };
 

@@ -9,10 +9,10 @@ interface Props {
 
 export default ({ href, as, children }: Props) => {
   return (
-    <span>
+    <>
       <Link href={href} as={as}>
         {children}
       </Link>
-    </span>
+    </>
   );
 };
