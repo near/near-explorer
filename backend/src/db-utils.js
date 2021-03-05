@@ -406,6 +406,7 @@ const queryDepositAmountAggregatedByDate = async () => {
         WHERE action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
         AND (action_receipt_actions.args->>'deposit')::numeric > 0
         AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')	
+        AND included_in_block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
         GROUP BY "date"
         ORDER BY "date"`,
     ],
