@@ -31,6 +31,7 @@ const getSyncedGenesis = async (options) => {
   );
 };
 
+// query for node information
 const addNodeInfo = async (nodes) => {
   const accountArray = nodes.map((node) => node.account_id);
   let nodesInfo = await queryRows([
@@ -84,7 +85,7 @@ const queryOnlineNodes = async () => {
   ]);
 };
 
-//new query for new dashboard
+// query for new dashboard
 const queryDashboardBlocksStats = async (options) => {
   async function queryLatestBlockHeight({ dataSource }) {
     let query;
@@ -240,6 +241,7 @@ const queryDashboardTransactionsStats = async (options) => {
   };
 };
 
+// query for statistics and charts
 const queryTransactionsCountAggregatedByDate = async () => {
   return await queryRows(
     [
@@ -336,6 +338,28 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
   );
 };
 
+const queryActiveAccountsCountAggregatedByWeek = async () => {
+  return await queryRows(
+    [
+      `WITH
+      date_txn_signer as (
+      SELECT
+              TIMESTAMP 'epoch' + DIV(DIV(transactions.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+              transactions.signer_account_id as txn_signer_id
+            FROM transactions
+            JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
+            WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      )
+      SELECT date_trunc('week', "date") AS week,
+      COUNT(distinct(txn_signer_id) ) as active_accounts_count_by_week       
+      FROM date_txn_signer
+      GROUP BY week
+      ORDER BY week`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 const queryActiveContractsList = async () => {
   return await queryRows(
     [
@@ -370,6 +394,26 @@ const queryActiveAccountsList = async () => {
   );
 };
 
+const queryDepositAmountAggregatedByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT 
+          TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",	
+          CAST(SUM((action_receipt_actions.args->>'deposit')::numeric) AS TEXT) AS total_deposit_amount
+        FROM action_receipt_actions
+        JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+        JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+        WHERE action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
+        AND (action_receipt_actions.args->>'deposit')::numeric > 0
+        AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')	
+        GROUP BY "date"
+        ORDER BY "date"`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+// query for partners
 const queryPartnerTotalTransactions = async () => {
   return await queryRows(
     [
@@ -410,16 +454,15 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
   return partnerList;
 };
 
-const queryTotalDepositAmount = async () => {
-  return await querySingleRow(
+const queryPartnerUniqueUserAmount = async () => {
+  return await queryRows(
     [
-      `SELECT
-        SUM((action_receipt_actions.args->>'deposit')::numeric) AS total_deposit_amount
-      FROM action_receipt_actions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
-      AND (action_receipt_actions.args->>'deposit')::numeric > 0
-      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')`,
+      `SELECT receiver_account_id, COUNT(DISTINCT predecessor_account_id) AS user_amount
+      FROM receipts
+      WHERE receiver_account_id IN (:partner_list)
+      GROUP BY receiver_account_id
+      ORDER BY users DESC`,
+      { partner_list: PARTNER_LIST },
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
@@ -433,12 +476,14 @@ exports.queryDashboardTransactionsStats = queryDashboardTransactionsStats;
 exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
 exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
+exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
 exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
+exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggregatedByWeek;
 exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryActiveAccountsList = queryActiveAccountsList;
 exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
 exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
-exports.queryTotalDepositAmount = queryTotalDepositAmount;
+exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
