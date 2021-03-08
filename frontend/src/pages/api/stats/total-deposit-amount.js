@@ -2,9 +2,11 @@ import StatsApi from "../../../libraries/explorer-wamp/stats";
 
 export default async function (req, res) {
   try {
-    const totalDepositAmount = await new StatsApi(req).totalDepositAmount();
-    if (totalDepositAmount) {
-      res.send(totalDepositAmount);
+    const depositAggregatedByDate = await new StatsApi(
+      req
+    ).depositAggregatedByDate();
+    if (depositAggregatedByDate) {
+      res.send(depositAggregatedByDate);
     } else {
       res.status(425).end();
     }
