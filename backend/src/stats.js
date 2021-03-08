@@ -3,6 +3,7 @@ const {
   queryTeragasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
   queryNewContractsCountAggregatedByDate,
+  queryUniqueContractsAggregatedByDate,
   queryActiveContractsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
   queryActiveContractsList,
@@ -17,6 +18,7 @@ let TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = null;
 let TERAGAS_USED_BY_DATE = null;
 let NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
+let UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_CONTRACTS_LIST = null;
@@ -80,6 +82,21 @@ async function aggregateNewContractsCountByDate() {
       })
     );
     console.log("NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function aggregateUniqueContractsByDate() {
+  try {
+    const uniqueContractsByDate = await queryUniqueContractsAggregatedByDate();
+    UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = uniqueContractsByDate.map(
+      ({ date: dateString, unique_contracts_count_by_date }) => ({
+        date: formatDate(new Date(dateString)),
+        contractsCount: unique_contracts_count_by_date,
+      })
+    );
+    console.log("UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
   }
@@ -213,6 +230,10 @@ async function getNewContractsCountByDate() {
   return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
 }
 
+async function getUniqueContractsCountByDate() {
+  return UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
+}
+
 async function getActiveContractsCountByDate() {
   return ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
 }
@@ -245,6 +266,7 @@ exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
 exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
 exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
+exports.aggregateUniqueContractsByDate = aggregateUniqueContractsByDate;
 exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
@@ -257,6 +279,7 @@ exports.getTransactionsByDate = getTransactionsByDate;
 exports.getTeragasUsedByDate = getTeragasUsedByDate;
 exports.getNewAccountsCountByDate = getNewAccountsCountByDate;
 exports.getNewContractsCountByDate = getNewContractsCountByDate;
+exports.getUniqueContractsCountByDate = getUniqueContractsCountByDate;
 exports.getActiveContractsCountByDate = getActiveContractsCountByDate;
 exports.getActiveAccountsCountByDate = getActiveAccountsCountByDate;
 exports.getActiveAccountsList = getActiveAccountsList;
