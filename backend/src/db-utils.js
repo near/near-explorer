@@ -250,6 +250,7 @@ const queryTransactionsCountAggregatedByDate = async () => {
           COUNT(*) AS transactions_count_by_date
         FROM transactions
         JOIN blocks ON blocks.block_hash = transactions.included_in_block_hash
+        WHERE block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
         GROUP BY "date"
         ORDER BY "date"`,
     ],
@@ -265,6 +266,7 @@ const queryTeragasUsedAggregatedByDate = async () => {
           DIV(SUM(chunks.gas_used), 1000000000000) AS teragas_used_by_date
         FROM blocks
         JOIN chunks ON chunks.included_in_block_hash = blocks.block_hash
+        WHERE block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
         GROUP BY "date"
         ORDER BY "date"`,
     ],
@@ -281,6 +283,7 @@ const queryNewAccountsCountAggregatedByDate = async () => {
       FROM accounts
       JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
       JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
+      WHERE block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY "date"
       ORDER BY "date"`,
     ],
@@ -297,6 +300,7 @@ const queryNewContractsCountAggregatedByDate = async () => {
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
+      AND included_in_block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY "date"
       ORDER BY "date"`,
     ],
@@ -315,6 +319,7 @@ const queryActiveContractsCountAggregatedByDate = async () => {
       JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
       WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
       AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      AND included_in_block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY "date"
       ORDER BY "date"`,
     ],
@@ -331,6 +336,7 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
       FROM transactions
       JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
       WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      AND block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY "date"
       ORDER BY "date"`,
     ],

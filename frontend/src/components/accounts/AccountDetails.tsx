@@ -120,7 +120,18 @@ class AccountDetails extends React.Component<Props> {
                   <Term
                     title={"Ⓝ Validator Stake"}
                     text={
-                      "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. "
+                      <>
+                        <p>
+                          {
+                            "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake."
+                          }
+                        </p>
+                        <p>
+                          {
+                            'This field only reflects NEAR balance for validators that stake to support the security of the network. If you’re staking (delegating) to a validator pool from a wallet, you will see "0" in this field. See the balance profile on Wallet for more balances aggregated for your convenience.'
+                          }
+                        </p>
+                      </>
                     }
                     href={
                       "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
