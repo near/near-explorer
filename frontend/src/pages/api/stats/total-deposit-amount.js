@@ -7,9 +7,9 @@ export default async function (req, res) {
     ).depositAggregatedByDate();
     if (depositAggregatedByDate) {
       res.send(
-        "Date, Amount of transacted" +
+        "Date, Total Amount of transacted deposit" +
           depositAggregatedByDate
-            .map(({ date, depositAmount }) => `${date}, ${depositAmount}`)
+            .map(({ date, depositAmount }) => `${date},${depositAmount}`)
             .join("\n")
       );
     } else {
