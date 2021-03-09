@@ -6,7 +6,12 @@ export default async function (req, res) {
       req
     ).depositAggregatedByDate();
     if (depositAggregatedByDate) {
-      res.send(depositAggregatedByDate);
+      res.send(
+        "Date, Amount of transacted" +
+          depositAggregatedByDate
+            .map(({ date, depositAmount }) => `${date}, ${depositAmount}`)
+            .join("\n")
+      );
     } else {
       res.status(425).end();
     }
