@@ -311,7 +311,7 @@ const queryUniqueContractsAggregatedByDate = async () => {
       FROM action_receipt_actions 
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       WHERE action_kind = 'DEPLOY_CONTRACT' 
-      group by "date"
+      GROUP BY "date"
       ORDER BY "date"`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
