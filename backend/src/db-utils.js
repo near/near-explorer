@@ -245,7 +245,7 @@ const queryTransactionsCountAggregatedByDate = async () => {
     [
       `SELECT
         TIMESTAMP 'epoch' + DIV(DIV(block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(*) AS transactions_cou nt_by_date
+        COUNT(*) AS transactions_count_by_date
       FROM transactions
       WHERE block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY "date"
