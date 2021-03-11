@@ -311,13 +311,12 @@ const queryUniqueContractsAggregatedByDate = async () => {
     [
       `SELECT 
       TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",	
-      args->>'code_sha256' as deployed_unique_contracts
-    FROM action_receipt_actions 
+      args->>'code_sha256' as deployed_contracts_by_date
+    FROM action_receipt_actions
     JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
     WHERE action_kind = 'DEPLOY_CONTRACT' 
-    group by "date", deployed_unique_contracts 
-    ORDER BY "date"
-    .`,
+    GROUP BY "date", deployed_contracts_by_date
+    ORDER BY "date"`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );

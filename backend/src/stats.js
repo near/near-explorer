@@ -72,8 +72,9 @@ async function aggregateNewAccountsCountByDate() {
   }
 }
 
-async function aggregateNewContractsCountByDate() {
+async function aggregateContractsCountByDate() {
   try {
+    //new contract part
     const newContractsByDate = await queryNewContractsCountAggregatedByDate();
     NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
       ({ date: dateString, new_contracts_count_by_date }) => ({
@@ -82,19 +83,40 @@ async function aggregateNewContractsCountByDate() {
       })
     );
     console.log("NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
-}
 
-async function aggregateUniqueContractsByDate() {
-  try {
-    const uniqueContractsByDate = await queryUniqueContractsAggregatedByDate();
-    UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = uniqueContractsByDate.map(
-      ({ date: dateString, unique_contracts_count_by_date }) => ({
+    // unique contract part
+    const contractList = await queryUniqueContractsAggregatedByDate();
+    const contractsRows = contractList.map(
+      ({ date: dateString, deployed_contracts_by_date }) => ({
         date: formatDate(new Date(dateString)),
-        contractsCount: unique_contracts_count_by_date,
+        deployedContracts: deployed_contracts_by_date,
       })
+    );
+    let cumulativeContractsByDate = newContractsByDate.map(
+      ({ date: dateString }) => ({
+        date: formatDate(new Date(dateString)),
+        cumulativeContracts: new Set(),
+      })
+    );
+    for (let j = 0; j < cumulativeContractsByDate.length; j++) {
+      for (let i = 0; i < contractsRows.length; i++) {
+        if (contractsRows[i].date == cumulativeContractsByDate[j].date) {
+          cumulativeContractsByDate[j].cumulativeContracts.add(
+            contractsRows[i].deployedContracts
+          );
+        }
+      }
+      if (j > 0) {
+        cumulativeContractsByDate[j].cumulativeContracts = new Set([
+          ...cumulativeContractsByDate[j - 1].cumulativeContracts,
+          ...cumulativeContractsByDate[j].cumulativeContracts,
+        ]);
+      }
+    }
+    UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsByDate.map(
+      ({ date, cumulativeContracts }) => {
+        date, cumulativeContracts.size;
+      }
     );
     console.log("UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
@@ -265,8 +287,7 @@ async function getTotalDepositAmount() {
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
 exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
-exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
-exports.aggregateUniqueContractsByDate = aggregateUniqueContractsByDate;
+exports.aggregateContractsCountByDate = aggregateContractsCountByDate;
 exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
