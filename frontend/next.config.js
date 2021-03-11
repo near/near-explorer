@@ -15,7 +15,7 @@ if (process.env.NEAR_NETWORKS) {
       name: "localhostnet",
       explorerLink: "http://localhost:3000",
       aliases: ["localhost:3000", "localhost", "127.0.0.1", "127.0.0.1:3000"],
-      nearWalletProfilePrefix: "https://wallet.near.org/profile",
+      nearWalletProfilePrefix: process.env.NEAR_WALLET_PROFILE_URL || "https://wallet.near.org/profile",
     },
   ];
 }
