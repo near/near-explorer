@@ -119,7 +119,6 @@ async function aggregateContractsCountByDate() {
         contractsCount: cumulativeContracts.size,
       })
     );
-    console.log(UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE);
     console.log("UNIQUE_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
