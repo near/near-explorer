@@ -29,7 +29,7 @@ const ActiveAccountsList = ({ chartStyle }: Props) => {
   const getOption = () => {
     return {
       title: {
-        text: "Top 10 of Active Accounts",
+        text: "Top 10 of Active Accounts in last 14 days",
       },
       grid: { containLabel: true },
       tooltip: {
