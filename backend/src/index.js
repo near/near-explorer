@@ -190,7 +190,7 @@ function startStatsAggregation() {
   const regularStatsAggregate = async () => {
     console.log("Starting Regular Stats Aggregation...");
     try {
-      await aggregateDepositAmountByDate();
+      //stats part
       await aggregateTransactionsCountByDate();
       await aggregateTeragasUsedByDate();
       await aggregateNewAccountsCountByDate();
@@ -200,6 +200,8 @@ function startStatsAggregation() {
       await aggregateActiveAccountsCountByWeek();
       await aggregateActiveAccountsList();
       await aggregateActiveContractsList();
+      await aggregateDepositAmountByDate();
+      //partner part
       await aggregatePartnerTotalTransactionsCount();
       await aggregatePartnerFirst3MonthTransactionsCount();
       await aggregateParterUniqueUserAmount();
