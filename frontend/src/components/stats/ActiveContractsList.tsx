@@ -29,7 +29,7 @@ const ActiveContractsList = ({ chartStyle }: Props) => {
   const getOption = () => {
     return {
       title: {
-        text: "Top 10 of Active Contracts",
+        text: "Top 10 of Active Contracts in last 14 days",
       },
       grid: { containLabel: true },
       tooltip: {
