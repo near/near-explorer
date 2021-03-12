@@ -275,14 +275,30 @@ const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(*) as new_accounts_count_by_date
+        DATE_TRUNC('day', TO_TIMESTAMP(blocks.block_timestamp / 1000000000)) AS date,
+        COUNT(*) AS new_accounts_count_by_date
       FROM accounts
-      JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
-      JOIN blocks ON blocks.block_hash = receipts.included_in_block_hash
-      WHERE block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
-      GROUP BY "date"
-      ORDER BY "date"`,
+      JOIN blocks ON blocks.block_height = accounts.last_update_block_height 
+      WHERE block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+      GROUP BY date
+      ORDER BY date`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryDeleteAccountAggregatedByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT 
+        DATE_TRUNC('day', to_timestamp(blocks.block_timestamp / 1000000000)) AS date,
+        COUNT(deleted_by_receipt_id) AS deleted_account_aggregated_by_day
+        FROM accounts
+        JOIN blocks on blocks.block_height = accounts.last_update_block_height 
+      WHERE deleted_by_receipt_id IS NOT NULL 
+      AND block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+      GROUP BY date 
+      ORDER BY date`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
