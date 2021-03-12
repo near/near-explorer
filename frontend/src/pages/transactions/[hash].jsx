@@ -7,7 +7,6 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
 import ActionsList from "../../components/transactions/ActionsList";
-import ReceiptsList from "../../components/transactions/ReceiptsList";
 import ReceiptsOutcomeList from "../..//components/transactions/ReceiptsOutcomeList";
 import TransactionDetails from "../../components/transactions/TransactionDetails";
 import Content from "../../components/utils/Content";
@@ -57,15 +56,6 @@ class TransactionDetailsPage extends React.Component {
             />
           </Content>
         )}
-        {/* {this.props.receiptsOutcome && (
-          <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Receipts</h2>}
-          >
-            <ReceiptsList receipts={this.props.receiptsOutcome} />
-          </Content>
-        )} */}
 
         {this.props.receiptsList && (
           <Content

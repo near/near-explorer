@@ -293,10 +293,6 @@ wampHandlers["partner-unique-user-amount"] = async () => {
   return await stats.getPartnerUniqueUserAmount();
 };
 
-wampHandlers["transaction-receipts-list"] = async ([transactionHash]) => {
-  return await queryReceiptsList(transactionHash);
-};
-
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",

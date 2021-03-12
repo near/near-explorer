@@ -70,6 +70,10 @@ export interface Action {
   args: RpcAction[keyof RpcAction] | {};
 }
 
+export interface ReceiptOutcomeLocalAction {
+  Action: RpcAction[];
+}
+
 export interface ReceiptSuccessValue {
   SuccessValue: string | null;
 }
@@ -96,10 +100,6 @@ export interface Outcome {
   gas_burnt: number;
 }
 
-export interface OutcomeArgs {
-  args_base64: string;
-}
-
 export interface ReceiptOutcome {
   id: string;
   outcome: Outcome;
@@ -109,37 +109,28 @@ export interface ReceiptOutcome {
 export interface ReceiptsOutcomeWrapper {
   receiptsOutcome?: ReceiptOutcome[];
 }
+export interface ReceiptOutcomeInfo {
+  predecessor_id: string;
+  receiver_id: string;
+  receipt_id: string;
+  receipt?: ReceiptOutcomeLocalAction;
+}
+
+export interface ReceiptLocalOutcome {
+  actions: RpcAction[];
+  block_hash: string;
+  outcome: Outcome;
+  receipt_id: string;
+}
 
 export interface ReceiptsOutcomeList {
-  receipt_id: string;
-  converted_into_receipt_id: string;
-  status: string;
-  action_kind: string;
-  receipt_kind: string;
-  produced_receipt_id: string;
-  args: OutcomeArgs;
-  producedReceipts: ReceiptsOutcomeReceiptsList[];
-  actions: ReceiptsOutcomeActionList[];
-}
-
-export interface ReceiptsOutcomeActionList {
-  receipt_id: string;
-  produced_receipt_id: string;
-  action_kind: string;
-  args: OutcomeArgs;
-}
-
-export interface ReceiptsOutcomeReceiptsList {
-  receipt_id: string;
-  produced_receipt_id: string;
-  action_kind: string;
-  receipt_kind: string;
-  args: OutcomeArgs;
-  status: string;
+  receipts: ReceiptOutcomeInfo[];
+  receipts_outcome: ReceiptOutcome[];
+  converted_into_receipt: ReceiptLocalOutcome;
 }
 
 export interface ReceiptsOutcomeListWrapper {
-  receiptsList?: ReceiptsOutcomeList[];
+  receiptsList?: ReceiptsOutcomeList;
 }
 
 export interface TransactionOutcome {
@@ -473,31 +464,36 @@ export default class TransactionsApi extends ExplorerApi {
           transactionInfo.signerId,
         ]);
 
-        const transactionReceiptsList = await this.call<any>(
-          "transaction-receipts-list",
-          [transactionInfo.hash]
-        );
-
         transactionInfo.status = Object.keys(
           transactionExtraInfo.status
         )[0] as ExecutionStatus;
 
-        const actions = transactionExtraInfo.transaction.actions;
-        transactionInfo.actions = actions.map((action: RpcAction | string) => {
-          if (typeof action === "string") {
-            return { kind: action, args: {} };
-          } else {
-            const kind = Object.keys(action)[0] as keyof RpcAction;
-            return {
-              kind,
-              args: action[kind],
-            };
+        const actions = transactionExtraInfo.transaction.actions.map(
+          (action: RpcAction | string) => {
+            if (typeof action === "string") {
+              return { kind: action, args: {} };
+            } else {
+              const kind = Object.keys(action)[0] as keyof RpcAction;
+              return {
+                kind,
+                args: action[kind],
+              };
+            }
           }
-        });
-
+        );
+        transactionInfo.actions = actions;
         transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
+        transactionInfo.receiptsList = {
+          receipts: transactionExtraInfo.receipts as ReceiptOutcomeInfo[],
+          receipts_outcome: transactionExtraInfo.receipts_outcome as ReceiptOutcome[],
+          converted_into_receipt: {
+            actions: actions,
+            block_hash: transactionExtraInfo.receipts_outcome[0].block_hash,
+            outcome: transactionExtraInfo.receipts_outcome[0].outcome,
+            receipt_id: transactionExtraInfo.receipts_outcome[0].id,
+          } as ReceiptLocalOutcome,
+        } as ReceiptsOutcomeList;
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
-        transactionInfo.receiptsList = transactionReceiptsList as ReceiptsOutcomeList[];
       }
       return transactionInfo;
     } catch (error) {
