@@ -26,7 +26,6 @@ const {
 const { setupWamp, wampPublish } = require("./wamp");
 
 const {
-  aggregateStats,
   addNodeInfo,
   queryOnlineNodes,
   pickOnlineValidatingNode,
@@ -41,11 +40,13 @@ const {
   aggregateContractsCountByDate,
   aggregateActiveContractsCountByDate,
   aggregateActiveAccountsCountByDate,
+  aggregateActiveAccountsCountByWeek,
   aggregateActiveAccountsList,
   aggregateActiveContractsList,
   aggregatePartnerTotalTransactionsCount,
   aggregatePartnerFirst3MonthTransactionsCount,
-  aggregateTotalDepositAmount,
+  aggregateDepositAmountByDate,
+  aggregateParterUniqueUserAmount,
 } = require("./stats");
 
 async function startLegacySync() {
@@ -189,17 +190,21 @@ function startStatsAggregation() {
   const regularStatsAggregate = async () => {
     console.log("Starting Regular Stats Aggregation...");
     try {
-      await aggregateTotalDepositAmount();
+      //stats part
       await aggregateTransactionsCountByDate();
       await aggregateTeragasUsedByDate();
       await aggregateNewAccountsCountByDate();
       await aggregateContractsCountByDate();
       await aggregateActiveContractsCountByDate();
       await aggregateActiveAccountsCountByDate();
+      await aggregateActiveAccountsCountByWeek();
       await aggregateActiveAccountsList();
       await aggregateActiveContractsList();
+      await aggregateDepositAmountByDate();
+      //partner part
       await aggregatePartnerTotalTransactionsCount();
       await aggregatePartnerFirst3MonthTransactionsCount();
+      await aggregateParterUniqueUserAmount();
     } catch (error) {
       console.warn("Regular Stats Aggregation is crashed due to:", error);
     }

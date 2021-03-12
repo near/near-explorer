@@ -104,7 +104,7 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   return (
     <ReactEcharts
       option={getOption(
-        "Daily Amount of Active Accounts in last 14 days",
+        "Daily Amount of Active Accounts",
         activeAccountsByDate
       )}
       style={chartStyle}

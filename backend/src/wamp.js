@@ -255,6 +255,10 @@ wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getActiveContractsCountByDate();
 };
 
+wampHandlers["active-contracts-count-aggregated-by-week"] = async () => {
+  return await stats.getActiveAccountsCountByWeek();
+};
+
 wampHandlers["active-accounts-count-aggregated-by-date"] = async () => {
   return await stats.getActiveAccountsCountByDate();
 };
@@ -275,8 +279,12 @@ wampHandlers["partner-first-3-month-transactions-count"] = async () => {
   return await stats.getPartnerFirst3MonthTransactionsCount();
 };
 
-wampHandlers["total-deposit-amount"] = async () => {
-  return await stats.getTotalDepositAmount();
+wampHandlers["deposit-amount-aggregated-by-date"] = async () => {
+  return await stats.getDepositAmountByDate();
+};
+
+wampHandlers["partner-unique-user-amount"] = async () => {
+  return await stats.getPartnerUniqueUserAmount();
 };
 
 function setupWamp() {
