@@ -255,7 +255,7 @@ const queryTransactionsCountAggregatedByDate = async () => {
       FROM transactions
       WHERE block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY date
-      ORDER BY date DESC`,
+      ORDER BY date`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
