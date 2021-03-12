@@ -92,7 +92,7 @@ const queryDashboardBlocksStats = async (options) => {
     if (dataSource === DS_INDEXER_BACKEND) {
       query = `SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`;
     } else {
-      query = `SELECT height AS block_height FROM blocks ORDER BY height DESC LIMIT 1`;
+      query = `SELECT height as block_height FROM blocks ORDER BY height DESC LIMIT 1`;
     }
     return (await querySingleRow([query], { dataSource })).block_height;
   }
@@ -110,9 +110,9 @@ const queryDashboardBlocksStats = async (options) => {
   async function queryRecentBlockProductionSpeed({ dataSource }) {
     let query;
     if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT block_timestamp AS latest_block_timestamp FROM blocks ORDER BY block_timestamp DESC LIMIT 1`;
+      query = `SELECT block_timestamp as latest_block_timestamp FROM blocks ORDER BY block_timestamp DESC LIMIT 1`;
     } else {
-      query = `SELECT timestamp AS latest_block_timestamp FROM blocks ORDER BY timestamp DESC LIMIT 1`;
+      query = `SELECT timestamp as latest_block_timestamp FROM blocks ORDER BY timestamp DESC LIMIT 1`;
     }
     const latestBlockTimestampOrNone = await querySingleRow([query], {
       dataSource,
@@ -137,10 +137,10 @@ const queryDashboardBlocksStats = async (options) => {
     }
 
     if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
+      query = `SELECT COUNT(*) as blocks_count_60_seconds_before FROM blocks
         WHERE block_timestamp > (cast(:latestBlockTimestamp - 60 as bigint) * 1000 * 1000 * 1000)`;
     } else {
-      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
+      query = `SELECT COUNT(*) as blocks_count_60_seconds_before FROM blocks
         WHERE timestamp > (:latestBlockTimestamp - 60 * 1000)`;
     }
     const result = await querySingleRow(
@@ -246,8 +246,8 @@ const queryTransactionsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(*) AS transactions_count_by_date
+        TIMESTAMP 'epoch' + DIV(DIV(block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' as "date",
+        COUNT(*) as transactions_count_by_date
       FROM transactions
       WHERE block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY "date"
@@ -261,8 +261,8 @@ const queryTeragasUsedAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-          TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-          DIV(SUM(chunks.gas_used), 1000000000000) AS teragas_used_by_date
+          TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' as "date",
+          DIV(SUM(chunks.gas_used), 1000000000000) as teragas_used_by_date
         FROM blocks
         JOIN chunks ON chunks.included_in_block_hash = blocks.block_hash
         WHERE block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
@@ -277,7 +277,7 @@ const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        TIMESTAMP 'epoch' + DIV(DIV(blocks.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' as "date",
         COUNT(*) as new_accounts_count_by_date
       FROM accounts
       JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
@@ -294,8 +294,8 @@ const queryNewContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-        COUNT(distinct receipts.receiver_account_id) AS new_contracts_count_by_date
+        TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' as "date",
+        COUNT(distinct receipts.receiver_account_id) as new_contracts_count_by_date
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
@@ -311,7 +311,7 @@ const queryActiveContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' as "date",
         COUNT(distinct receipts.receiver_account_id) as active_contracts_count_by_date
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
@@ -330,7 +330,7 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        TIMESTAMP 'epoch' + DIV(DIV(transactions.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
+        TIMESTAMP 'epoch' + DIV(DIV(transactions.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' as "date",
         COUNT(distinct transactions.signer_account_id) as active_accounts_count_by_date
       FROM transactions
       JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
@@ -346,20 +346,14 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
 const queryActiveAccountsCountAggregatedByWeek = async () => {
   return await queryRows(
     [
-      `WITH
-      date_txn_signer as (
-      SELECT
-              TIMESTAMP 'epoch' + DIV(DIV(transactions.block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",
-              transactions.signer_account_id as txn_signer_id
-            FROM transactions
-            JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
-            WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      )
-      SELECT date_trunc('week', "date") AS week,
-      COUNT(distinct(txn_signer_id) ) as active_accounts_count_by_week       
-      FROM date_txn_signer
-      GROUP BY week
-      ORDER BY week`,
+      `SELECT
+          date_trunc('week', to_timestamp(block_timestamp / 1000000000)) as date,
+          COUNT(distinct transactions.signer_account_id) as active_accounts_count_by_week
+      FROM transactions
+      JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
+      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      GROUP BY date
+      ORDER BY date`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
@@ -369,12 +363,12 @@ const queryActiveContractsList = async () => {
   return await queryRows(
     [
       `SELECT receiver_account_id,
-        count(receipts.receipt_id) AS receipts_count
+        count(receipts.receipt_id) as receipts_count
       FROM action_receipt_actions
       JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
       WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
-      AND receipts.included_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 AS bigint) * 1000 * 1000 * 1000)
-      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) * 1000 * 1000 * 1000)
+      AND receipts.included_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 as bigint) * 1000 * 1000 * 1000)
+      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM NOW()) as bigint) * 1000 * 1000 * 1000)
       GROUP BY receiver_account_id
       ORDER BY receipts_count DESC
       LIMIT 10`,
@@ -387,10 +381,10 @@ const queryActiveAccountsList = async () => {
   return await queryRows(
     [
       `SELECT signer_account_id,
-        COUNT(*) AS transactions_count
+        COUNT(*) as transactions_count
       FROM transactions
-      WHERE transactions.block_timestamp >= (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 AS bigint) * 1000 * 1000 * 1000)
-      AND transactions.block_timestamp < (cast(EXTRACT(EPOCH FROM NOW()) AS bigint) * 1000 * 1000 * 1000)
+      WHERE transactions.block_timestamp >= (cast(EXTRACT(EPOCH FROM NOW()) - 60 * 60 * 24 * 14 as bigint) * 1000 * 1000 * 1000)
+      AND transactions.block_timestamp < (cast(EXTRACT(EPOCH FROM NOW()) as bigint) * 1000 * 1000 * 1000)
       GROUP BY signer_account_id
       ORDER BY transactions_count DESC
       LIMIT 10`,
@@ -403,17 +397,18 @@ const queryDepositAmountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT 
-          TIMESTAMP 'epoch' + DIV(DIV(receipts.included_in_block_timestamp, 1000000000), 60 * 60 * 24) * INTERVAL '1 day' AS "date",	
-          CAST(SUM((action_receipt_actions.args->>'deposit')::numeric) AS TEXT) AS total_deposit_amount
+          date_trunc('day', to_timestamp(executed_in_block_timestamp / 1000000000)) as date,
+          SUM((action_receipt_actions.args->>'deposit')::numeric ) as total_deposit_amount
         FROM action_receipt_actions
         JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
         JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-        WHERE action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
+        WHERE receipts.predecessor_account_id != 'system'
+        AND action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
         AND (action_receipt_actions.args->>'deposit')::numeric > 0
         AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')	
-        AND included_in_block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
-        GROUP BY "date"
-        ORDER BY "date"`,
+        AND executed_in_block_timestamp < ((cast(EXTRACT(EPOCH FROM NOW()) as bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+        GROUP BY date
+        ORDER BY date`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
@@ -424,7 +419,7 @@ const queryPartnerTotalTransactions = async () => {
   return await queryRows(
     [
       `SELECT receiver_account_id,
-          COUNT(*) AS transactions_count
+          COUNT(*) as transactions_count
         FROM transactions
         WHERE receiver_account_id IN (:partner_list)
         GROUP BY receiver_account_id
@@ -441,7 +436,7 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
   for (let i = 0; i < PARTNER_LIST.length; i++) {
     let result = await querySingleRow(
       [
-        `SELECT :partner AS receiver_account_id, COUNT(*) AS transactions_count
+        `SELECT :partner as receiver_account_id, COUNT(*) as transactions_count
         FROM transactions
         WHERE receiver_account_id = :partner
         AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
@@ -463,11 +458,11 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
 const queryPartnerUniqueUserAmount = async () => {
   return await queryRows(
     [
-      `SELECT receiver_account_id, COUNT(DISTINCT predecessor_account_id) AS user_amount
+      `SELECT receiver_account_id, COUNT(DISTINCT predecessor_account_id) as user_amount
       FROM receipts
       WHERE receiver_account_id IN (:partner_list)
       GROUP BY receiver_account_id
-      ORDER BY users DESC`,
+      ORDER BY user_amount DESC`,
       { partner_list: PARTNER_LIST },
     ],
     { dataSource: DS_INDEXER_BACKEND }
