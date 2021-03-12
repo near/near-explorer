@@ -31,7 +31,13 @@ export interface Contract {
 }
 
 export interface TotalDepositAmount {
-  totalDepositAmount: number;
+  date: string;
+  depositAmount: string;
+}
+
+export interface PartnerUniqueUserAmount {
+  account: string;
+  userAmount: number;
 }
 
 export default class StatsApi extends ExplorerApi {
@@ -89,7 +95,15 @@ export default class StatsApi extends ExplorerApi {
     );
   }
 
-  async totalDepositAmount(): Promise<TotalDepositAmount> {
-    return await this.call<TotalDepositAmount>("total-deposit-amount");
+  async partnerUniqueUserAmount(): Promise<PartnerUniqueUserAmount[]> {
+    return await this.call<PartnerUniqueUserAmount[]>(
+      "partner-unique-user-amount"
+    );
+  }
+
+  async depositAggregatedByDate(): Promise<TotalDepositAmount> {
+    return await this.call<TotalDepositAmount>(
+      "deposit-amount-aggregated-by-date"
+    );
   }
 }
