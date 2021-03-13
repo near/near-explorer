@@ -65,9 +65,11 @@ export default class StatsApi extends ExplorerApi {
     );
   }
 
-  async uniqueContractsCountAggregatedByDate(): Promise<ContractsByDate[]> {
+  async uniqueDeployedContractsCountAggregatedByDate(): Promise<
+    ContractsByDate[]
+  > {
     return await this.call<ContractsByDate[]>(
-      "unique-contracts-count-aggregate-by-date"
+      "unique-deployed-contracts-count-aggregate-by-date"
     );
   }
 
