@@ -5,26 +5,32 @@ const {
   queryNewContractsCountAggregatedByDate,
   queryActiveContractsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
+  queryActiveAccountsCountAggregatedByWeek,
   queryActiveContractsList,
   queryActiveAccountsList,
   queryPartnerTotalTransactions,
   queryPartnerFirstThreeMonthTransactions,
-  queryTotalDepositAmount,
+  queryDepositAmountAggregatedByDate,
+  queryPartnerUniqueUserAmount,
 } = require("./db-utils");
 const { formatDate } = require("./utils");
 
+// term that store data from query
 let TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = null;
 let TERAGAS_USED_BY_DATE = null;
 let NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
+let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = null;
 let ACTIVE_CONTRACTS_LIST = null;
 let ACTIVE_ACCOUNTS_LIST = null;
 let PARTNER_TOTAL_TRANSACTIONS_COUNT = null;
 let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = null;
-let TOTAL_DEPOSIT_AMOUNT = null;
+let DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = null;
+let PARTNER_UNIQUE_USER_AMOUNT = null;
 
+// function that query from indexer
 async function aggregateTransactionsCountByDate() {
   try {
     const transactionsCountAggregatedByDate = await queryTransactionsCountAggregatedByDate();
@@ -50,6 +56,21 @@ async function aggregateTeragasUsedByDate() {
       })
     );
     console.log("TERAGAS_USED_BY_DATE updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function aggregateDepositAmountByDate() {
+  try {
+    const depositAmountByDate = await queryDepositAmountAggregatedByDate();
+    DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = depositAmountByDate.map(
+      ({ date: dateString, total_deposit_amount }) => ({
+        date: formatDate(new Date(dateString)),
+        depositAmount: total_deposit_amount,
+      })
+    );
+    console.log("DEPOSIT_AMOUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
   }
@@ -115,6 +136,21 @@ async function aggregateActiveAccountsCountByDate() {
   }
 }
 
+async function aggregateActiveAccountsCountByWeek() {
+  try {
+    const activeAccountsCountByWeek = await queryActiveAccountsCountAggregatedByWeek();
+    ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = activeAccountsCountByWeek.map(
+      ({ date: dateString, active_accounts_count_by_week }) => ({
+        date: formatDate(new Date(dateString)),
+        accountsCount: active_accounts_count_by_week,
+      })
+    );
+    console.log("ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function aggregateActiveAccountsList() {
   try {
     const activeAccountsList = await queryActiveAccountsList();
@@ -148,6 +184,7 @@ async function aggregateActiveContractsList() {
   }
 }
 
+// partner part
 async function aggregatePartnerTotalTransactionsCount() {
   try {
     const partnerTotalTransactionList = await queryPartnerTotalTransactions();
@@ -185,24 +222,32 @@ async function aggregatePartnerFirst3MonthTransactionsCount() {
   }
 }
 
-async function aggregateTotalDepositAmount() {
+async function aggregateParterUniqueUserAmount() {
   try {
-    const amount = await queryTotalDepositAmount();
-    TOTAL_DEPOSIT_AMOUNT = {
-      totalDepositAmount: amount.total_deposit_amount,
-    };
-    console.log("TOTAL_DEPOSIT_AMOUNT updated.");
+    const partnerUniqueUserAmount = await queryPartnerUniqueUserAmount();
+    PARTNER_UNIQUE_USER_AMOUNT = partnerUniqueUserAmount.map(
+      ({ receiver_account_id: account, user_amount: userAmount }) => ({
+        account,
+        userAmount,
+      })
+    );
+    console.log("PARTNER_UNIQUE_USER_AMOUNT updated");
   } catch (error) {
     console.log(error);
   }
 }
 
+// get function that exposed to frontend
 async function getTransactionsByDate() {
   return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
 }
 
 async function getTeragasUsedByDate() {
   return TERAGAS_USED_BY_DATE;
+}
+
+async function getDepositAmountByDate() {
+  return DEPOSIT_AMOUNT_AGGREGATED_BY_DATE;
 }
 
 async function getNewAccountsCountByDate() {
@@ -221,6 +266,10 @@ async function getActiveAccountsCountByDate() {
   return ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
 }
 
+async function getActiveAccountsCountByWeek() {
+  return ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK;
+}
+
 async function getActiveAccountsList() {
   return ACTIVE_ACCOUNTS_LIST;
 }
@@ -229,6 +278,7 @@ async function getActiveContractsList() {
   return ACTIVE_CONTRACTS_LIST;
 }
 
+// partner part
 async function getPartnerTotalTransactionsCount() {
   return PARTNER_TOTAL_TRANSACTIONS_COUNT;
 }
@@ -237,8 +287,8 @@ async function getPartnerFirst3MonthTransactionsCount() {
   return PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT;
 }
 
-async function getTotalDepositAmount() {
-  return TOTAL_DEPOSIT_AMOUNT;
+async function getPartnerUniqueUserAmount() {
+  return PARTNER_UNIQUE_USER_AMOUNT;
 }
 
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
@@ -247,11 +297,13 @@ exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
 exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
 exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
+exports.aggregateActiveAccountsCountByWeek = aggregateActiveAccountsCountByWeek;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
 exports.aggregateActiveContractsList = aggregateActiveContractsList;
 exports.aggregatePartnerTotalTransactionsCount = aggregatePartnerTotalTransactionsCount;
 exports.aggregatePartnerFirst3MonthTransactionsCount = aggregatePartnerFirst3MonthTransactionsCount;
-exports.aggregateTotalDepositAmount = aggregateTotalDepositAmount;
+exports.aggregateDepositAmountByDate = aggregateDepositAmountByDate;
+exports.aggregateParterUniqueUserAmount = aggregateParterUniqueUserAmount;
 
 exports.getTransactionsByDate = getTransactionsByDate;
 exports.getTeragasUsedByDate = getTeragasUsedByDate;
@@ -259,8 +311,10 @@ exports.getNewAccountsCountByDate = getNewAccountsCountByDate;
 exports.getNewContractsCountByDate = getNewContractsCountByDate;
 exports.getActiveContractsCountByDate = getActiveContractsCountByDate;
 exports.getActiveAccountsCountByDate = getActiveAccountsCountByDate;
+exports.getActiveAccountsCountByWeek = getActiveAccountsCountByWeek;
 exports.getActiveAccountsList = getActiveAccountsList;
 exports.getActiveContractsList = getActiveContractsList;
 exports.getPartnerTotalTransactionsCount = getPartnerTotalTransactionsCount;
 exports.getPartnerFirst3MonthTransactionsCount = getPartnerFirst3MonthTransactionsCount;
-exports.getTotalDepositAmount = getTotalDepositAmount;
+exports.getDepositAmountByDate = getDepositAmountByDate;
+exports.getPartnerUniqueUserAmount = getPartnerUniqueUserAmount;

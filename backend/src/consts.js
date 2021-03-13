@@ -11,10 +11,12 @@ exports.PARTNER_LIST = [
   "berryclub.ek.near",
   "farm.berryclub.ek.near",
   "berryclub.near",
+  "cards.berryclub.ek.near",
   "giveaway.paras.near",
   "bananaswap.near",
   "jerry.near.zest",
   "tessab.near",
+  "amm.counselor.near",
 ];
 
 // parter list is from the query
