@@ -38,6 +38,7 @@ const {
   aggregateTransactionsCountByDate,
   aggregateNewAccountsCountByDate,
   aggregateNewContractsCountByDate,
+  aggregateUniqueDeployedContractsCountByDate,
   aggregateActiveContractsCountByDate,
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsCountByWeek,
@@ -195,6 +196,7 @@ function startStatsAggregation() {
       await aggregateTeragasUsedByDate();
       await aggregateNewAccountsCountByDate();
       await aggregateNewContractsCountByDate();
+      await aggregateUniqueDeployedContractsCountByDate();
       await aggregateActiveContractsCountByDate();
       await aggregateActiveAccountsCountByDate();
       await aggregateActiveAccountsCountByWeek();

@@ -311,6 +311,23 @@ const queryNewContractsCountAggregatedByDate = async () => {
   );
 };
 
+const queryUniqueDeployedContractsAggregatedByDate = async () => {
+  return await queryRows(
+    [
+      `SELECT 
+        DATE_TRUNC('day', TO_TIMESTAMP(DIV(receipts.included_in_block_timestamp, 1000*1000*1000))) AS date, 
+        args->>'code_sha256' AS deployed_contracts_by_date
+      FROM action_receipt_actions
+      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+      WHERE action_kind = 'DEPLOY_CONTRACT' 
+      AND included_in_block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+      GROUP BY date, deployed_contracts_by_date
+      ORDER BY date`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 const queryActiveContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
@@ -491,6 +508,7 @@ exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
+exports.queryUniqueDeployedContractsAggregatedByDate = queryUniqueDeployedContractsAggregatedByDate;
 exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggregatedByWeek;

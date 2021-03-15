@@ -247,6 +247,12 @@ wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getNewContractsCountByDate();
 };
 
+wampHandlers[
+  "unique-deployed-contracts-count-aggregate-by-date"
+] = async () => {
+  return await stats.getUniqueDeployedContractsCountByDate();
+};
+
 wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getActiveContractsCountByDate();
 };
