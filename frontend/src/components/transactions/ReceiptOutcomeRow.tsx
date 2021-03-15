@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
-
+import { truncateAccountId } from "../../libraries/formatting";
 import { displayArgs } from "./ActionMessage";
 
 export interface Props {
@@ -122,7 +122,7 @@ export default class extends React.Component<Props> {
             className="receipt-row-receipt-hash ml-auto text-right"
             title={receiptsObj[receiptHash].id}
           >
-            {`${receiptsObj[receiptHash].id.substr(0, 7)}...`}
+            {truncateAccountId(receiptsObj[receiptHash].id)}
           </Col>
         </Row>
 
@@ -136,7 +136,9 @@ export default class extends React.Component<Props> {
                   receiptsInfoObj[receiptsObj[receiptHash].id].predecessor_id
                 }
               >
-                {receiptsInfoObj[receiptsObj[receiptHash].id].predecessor_id}
+                {truncateAccountId(
+                  receiptsInfoObj[receiptsObj[receiptHash].id].predecessor_id
+                )}
               </Col>
             </Row>
 
@@ -146,7 +148,9 @@ export default class extends React.Component<Props> {
                 className="receipt-row-receipt-hash"
                 title={receiptsInfoObj[receiptsObj[receiptHash].id].receiver_id}
               >
-                {receiptsInfoObj[receiptsObj[receiptHash].id].receiver_id}
+                {truncateAccountId(
+                  receiptsInfoObj[receiptsObj[receiptHash].id].receiver_id
+                )}
               </Col>
             </Row>
           </>
@@ -163,7 +167,7 @@ export default class extends React.Component<Props> {
         </Row>
 
         <Row noGutters className="receipt-row mx-0 pl-4">
-          <Col className="receipt-row-title">
+          <Col className="receipt-row-status">
             {this.handleStatusInfo(receiptsObj[receiptHash])}
           </Col>
         </Row>
@@ -214,7 +218,7 @@ export default class extends React.Component<Props> {
 
           .receipt-row {
             padding-top: 10px;
-            border-left: 2px solid #dcdcdc;
+            border-left: 2px solid #e5e5e5;
           }
 
           .receipt-hash-title {
