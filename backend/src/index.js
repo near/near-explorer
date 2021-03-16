@@ -37,6 +37,7 @@ const {
   aggregateTeragasUsedByDate,
   aggregateTransactionsCountByDate,
   aggregateNewAccountsCountByDate,
+  aggregateDeletedAccountsCountByDate,
   aggregateNewContractsCountByDate,
   aggregateActiveContractsCountByDate,
   aggregateActiveAccountsCountByDate,
@@ -194,6 +195,7 @@ function startStatsAggregation() {
       await aggregateTransactionsCountByDate();
       await aggregateTeragasUsedByDate();
       await aggregateNewAccountsCountByDate();
+      await aggregateDeletedAccountsCountByDate();
       await aggregateNewContractsCountByDate();
       await aggregateActiveContractsCountByDate();
       await aggregateActiveAccountsCountByDate();

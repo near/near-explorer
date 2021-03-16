@@ -2,6 +2,7 @@ const {
   queryTransactionsCountAggregatedByDate,
   queryTeragasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
+  queryDeletedAccountsAggregatedByDate,
   queryNewContractsCountAggregatedByDate,
   queryActiveContractsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
@@ -12,6 +13,7 @@ const {
   queryPartnerFirstThreeMonthTransactions,
   queryDepositAmountAggregatedByDate,
   queryPartnerUniqueUserAmount,
+  queryGenesisAccountCount,
 } = require("./db-utils");
 const { formatDate } = require("./utils");
 
@@ -29,6 +31,7 @@ let PARTNER_TOTAL_TRANSACTIONS_COUNT = null;
 let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = null;
 let DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = null;
 let PARTNER_UNIQUE_USER_AMOUNT = null;
+let DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 
 // function that query from indexer
 async function aggregateTransactionsCountByDate() {
@@ -86,6 +89,20 @@ async function aggregateNewAccountsCountByDate() {
       })
     );
     console.log("NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function aggregateDeletedAccountsCountByDate() {
+  try {
+    const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsAggregatedByDate();
+    DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = deletedAccountsCountAggregatedByDate.map(
+      ({ date: dateString, deleted_accounts_count_by_date }) => ({
+        date: formatDate(new Date(dateString)),
+        accountsCount: deleted_accounts_count_by_date,
+      })
+    );
   } catch (error) {
     console.log(error);
   }
@@ -254,6 +271,10 @@ async function getNewAccountsCountByDate() {
   return NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
 }
 
+async function getDeletedAccountCountBydate() {
+  return DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
+}
+
 async function getNewContractsCountByDate() {
   return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
 }
@@ -294,6 +315,7 @@ async function getPartnerUniqueUserAmount() {
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
 exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
+exports.aggregateDeletedAccountsCountByDate = aggregateDeletedAccountsCountByDate;
 exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
 exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
@@ -318,3 +340,4 @@ exports.getPartnerTotalTransactionsCount = getPartnerTotalTransactionsCount;
 exports.getPartnerFirst3MonthTransactionsCount = getPartnerFirst3MonthTransactionsCount;
 exports.getDepositAmountByDate = getDepositAmountByDate;
 exports.getPartnerUniqueUserAmount = getPartnerUniqueUserAmount;
+exports.getDeletedAccountCountBydate = getDeletedAccountCountBydate;

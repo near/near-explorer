@@ -281,11 +281,11 @@ const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(blocks.block_timestamp, 1000*1000*1000))) AS date, 
-        COUNT(*) AS new_accounts_count_by_date
+        DATE_TRUNC('day', TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000)) AS date,
+        COUNT(created_by_receipt_id) AS new_accounts_count_by_date
       FROM accounts
-      JOIN blocks ON blocks.block_height = accounts.last_update_block_height 
-      WHERE block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+      JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
+      WHERE included_in_block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
       GROUP BY date
       ORDER BY date`,
     ],
@@ -293,17 +293,16 @@ const queryNewAccountsCountAggregatedByDate = async () => {
   );
 };
 
-const queryDeleteAccountAggregatedByDate = async () => {
+const queryDeletedAccountsAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT 
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(blocks.block_timestamp, 1000*1000*1000))) AS date, 
-        COUNT(deleted_by_receipt_id) AS deleted_account_aggregated_by_day
-        FROM accounts
-        JOIN blocks on blocks.block_height = accounts.last_update_block_height 
-      WHERE deleted_by_receipt_id IS NOT NULL 
-      AND block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
-      GROUP BY date 
+      `SELECT
+        DATE_TRUNC('day', TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000)) AS date,
+        COUNT(deleted_by_receipt_id) AS deleted_accounts_count_by_date
+      FROM accounts
+      JOIN receipts ON receipts.receipt_id = accounts.deleted_by_receipt_id 
+      WHERE included_in_block_timestamp < ((CAST(EXTRACT(EPOCH FROM NOW()) AS bigint) / (60 * 60 * 24)) * 60 * 60 * 24 * 1000 * 1000 * 1000)
+      GROUP BY date
       ORDER BY date`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
@@ -435,6 +434,17 @@ const queryDepositAmountAggregatedByDate = async () => {
   );
 };
 
+const queryGenesisAccountCount = async () => {
+  return await querySingleRow([
+    `
+    SELECT 
+      COUNT(*)
+    FROM accounts
+    WHERE created_by_receipt_id IS NULL
+    `,
+  ]);
+};
+
 // query for partners
 const queryPartnerTotalTransactions = async () => {
   return await queryRows(
@@ -506,6 +516,7 @@ exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregate
 exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
+exports.queryDeletedAccountsAggregatedByDate = queryDeletedAccountsAggregatedByDate;
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
 exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
@@ -515,3 +526,4 @@ exports.queryActiveAccountsList = queryActiveAccountsList;
 exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
 exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
 exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
+exports.queryGenesisAccountCount = queryGenesisAccountCount;
