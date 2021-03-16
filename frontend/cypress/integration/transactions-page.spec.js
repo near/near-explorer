@@ -63,10 +63,10 @@ context("Transactions", () => {
         }
         if ($el.text() === "Receipts") {
           cy.get(".receipt-row").should("exist").and("not.be.empty");
-          cy.get(".receipt-row .receipt-row-details .receipt-row-title")
+          cy.get(".receipt-row .receipt-row-title")
             .should("exist")
             .and("not.be.empty");
-          cy.get(".receipt-row .receipt-row-details .receipt-row-receipt-hash")
+          cy.get(".receipt-row .receipt-row-receipt-hash")
             .should("exist")
             .and("not.be.empty");
         }

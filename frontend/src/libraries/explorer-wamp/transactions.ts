@@ -70,10 +70,6 @@ export interface Action {
   args: RpcAction[keyof RpcAction] | {};
 }
 
-export interface ReceiptOutcomeLocalAction {
-  Action: RpcAction[];
-}
-
 export interface ReceiptSuccessValue {
   SuccessValue: string | null;
 }
@@ -109,11 +105,11 @@ export interface ReceiptOutcome {
 export interface ReceiptsOutcomeWrapper {
   receiptsOutcome?: ReceiptOutcome[];
 }
-export interface ReceiptOutcomeInfo {
+export interface ReceiptsList {
   predecessor_id: string;
   receiver_id: string;
   receipt_id: string;
-  receipt?: ReceiptOutcomeLocalAction;
+  receipt?: any;
 }
 
 export interface ReceiptLocalOutcome {
@@ -123,14 +119,8 @@ export interface ReceiptLocalOutcome {
   receipt_id: string;
 }
 
-export interface ReceiptsOutcomeList {
-  receipts: ReceiptOutcomeInfo[];
-  receipts_outcome: ReceiptOutcome[];
-  converted_into_receipt: ReceiptLocalOutcome;
-}
-
-export interface ReceiptsOutcomeListWrapper {
-  receiptsList?: ReceiptsOutcomeList;
+export interface ReceiptsListWrapper {
+  receipts?: ReceiptsList[];
 }
 
 export interface TransactionOutcome {
@@ -146,7 +136,7 @@ export interface TransactionOutcomeWrapper {
 export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
   TransactionOutcomeWrapper &
-  ReceiptsOutcomeListWrapper;
+  ReceiptsListWrapper;
 
 export interface TxPagination {
   endTimestamp: number;
@@ -483,17 +473,8 @@ export default class TransactionsApi extends ExplorerApi {
         );
         transactionInfo.actions = actions;
         transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
-        transactionInfo.receiptsList = {
-          receipts: transactionExtraInfo.receipts as ReceiptOutcomeInfo[],
-          receipts_outcome: transactionExtraInfo.receipts_outcome as ReceiptOutcome[],
-          converted_into_receipt: {
-            actions: actions,
-            block_hash: transactionExtraInfo.receipts_outcome[0].block_hash,
-            outcome: transactionExtraInfo.receipts_outcome[0].outcome,
-            receipt_id: transactionExtraInfo.receipts_outcome[0].id,
-          } as ReceiptLocalOutcome,
-        } as ReceiptsOutcomeList;
-        transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
+        (transactionInfo.receipts = transactionExtraInfo.receipts as ReceiptsList[]),
+          (transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome);
       }
       return transactionInfo;
     } catch (error) {
