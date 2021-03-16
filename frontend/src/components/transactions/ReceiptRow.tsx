@@ -1,9 +1,12 @@
+import BN from "bn.js";
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import ActionRow from "./ActionRow";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
+import Gas from "../utils/Gas";
+import Balance from "../utils/Balance";
 import { truncateAccountId } from "../../libraries/formatting";
 import { displayArgs } from "./ActionMessage";
 
@@ -63,6 +66,30 @@ export default class extends React.Component<Props> {
       );
     }
 
+    let gasBurnedByReceipt = new BN(0);
+    let tokensBurnedByReceipt = new BN(0);
+    let gasBurnedByConvertation = new BN(0);
+    let tokensBurnedByConvertation = new BN(0);
+    if (
+      receiptOutcomesById[receiptHash] &&
+      receiptOutcomesById[receiptHash].outcome
+    ) {
+      gasBurnedByReceipt = new BN(
+        receiptOutcomesById[receiptHash].outcome.gas_burnt
+      );
+      tokensBurnedByReceipt = new BN(
+        receiptOutcomesById[receiptHash].outcome.tokens_burnt
+      );
+    }
+    if (convertedReceipt) {
+      gasBurnedByConvertation = transaction.transactionOutcome
+        ? new BN(transaction.transactionOutcome.outcome.gas_burnt)
+        : new BN(0);
+      tokensBurnedByConvertation = transaction.transactionOutcome
+        ? new BN(transaction.transactionOutcome.outcome.tokens_burnt)
+        : new BN(0);
+    }
+
     return (
       <Row
         noGutters
@@ -72,7 +99,43 @@ export default class extends React.Component<Props> {
         key={receiptOutcomesById[receiptHash].id}
       >
         <Col>
-          <Row noGutters>
+          {convertedReceipt && (
+            <>
+              <Row noGutters>
+                <Col className="receipt-row-title receipt-hash-title">
+                  <b>Convert Transaction To Receipt</b>
+                </Col>
+              </Row>
+
+              <Row noGutters className="receipt-row mx-0 pl-4">
+                <Col className="receipt-row-title">Gas Burned:</Col>
+                <Col className="receipt-row-receipt-hash">
+                  {gasBurnedByConvertation ? (
+                    <Gas gas={gasBurnedByConvertation} />
+                  ) : (
+                    "..."
+                  )}
+                </Col>
+              </Row>
+
+              <Row noGutters className="receipt-row mx-0 pl-4">
+                <Col className="receipt-row-title">Tokens Burned:</Col>
+                <Col className="receipt-row-receipt-hash">
+                  {tokensBurnedByConvertation ? (
+                    <Balance amount={tokensBurnedByConvertation.toString()} />
+                  ) : (
+                    "..."
+                  )}
+                </Col>
+              </Row>
+            </>
+          )}
+          <Row
+            noGutters
+            className={
+              !convertedReceipt ? "" : "receipt-row receipt-converted-row"
+            }
+          >
             <Col className="receipt-row-title receipt-hash-title">
               <b>Receipt ID:</b>
             </Col>
@@ -108,6 +171,24 @@ export default class extends React.Component<Props> {
             >
               {truncateAccountId(
                 receiptsById[receiptOutcomesById[receiptHash].id].receiver_id
+              )}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row mx-0 pl-4">
+            <Col className="receipt-row-title">Gas Burned:</Col>
+            <Col className="receipt-row-receipt-hash">
+              {gasBurnedByReceipt ? <Gas gas={gasBurnedByReceipt} /> : "..."}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row mx-0 pl-4">
+            <Col className="receipt-row-title">Tokens Burned:</Col>
+            <Col className="receipt-row-receipt-hash">
+              {tokensBurnedByReceipt ? (
+                <Balance amount={tokensBurnedByReceipt.toString()} />
+              ) : (
+                "..."
               )}
             </Col>
           </Row>
@@ -169,8 +250,8 @@ export default class extends React.Component<Props> {
       convertedReceiptHash: receiptHash,
       receiptOutcomesById,
       receiptsById,
-      convertedReceipt,
       transaction,
+      convertedReceipt,
     } = this.props;
 
     return (
@@ -186,6 +267,11 @@ export default class extends React.Component<Props> {
         <style jsx global>{`
           .receipt-converted-row {
             padding-bottom: 30px;
+          }
+
+          .receipt-converted-row.receipt-row {
+            border-left: none;
+            padding-bottom: 0;
           }
 
           .receipt-row {

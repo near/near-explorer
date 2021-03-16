@@ -14,6 +14,53 @@ exports[`<ReceiptsList /> renders 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b>
+          Convert Transaction To Receipt
+        </b>
+      </div>
+    </div>
+    <div
+      className="receipt-row mx-0 pl-4 row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Gas Burned:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        333 gas
+      </div>
+    </div>
+    <div
+      className="receipt-row mx-0 pl-4 row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Tokens Burned:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        <span
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          &lt;0.00001
+           Ⓝ
+        </span>
+      </div>
+    </div>
+    <div
+      className="receipt-row receipt-converted-row row no-gutters"
+    >
+      <div
+        className="receipt-row-title receipt-hash-title col"
+      >
+        <b>
           Receipt ID:
         </b>
       </div>
@@ -52,6 +99,42 @@ exports[`<ReceiptsList /> renders 1`] = `
         title="receiver.test"
       >
         receiver.test
+      </div>
+    </div>
+    <div
+      className="receipt-row mx-0 pl-4 row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Gas Burned:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        100000 gas
+      </div>
+    </div>
+    <div
+      className="receipt-row mx-0 pl-4 row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Tokens Burned:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        <span
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          &lt;0.00001
+           Ⓝ
+        </span>
       </div>
     </div>
     <div
@@ -241,6 +324,42 @@ exports[`<ReceiptsList /> renders 1`] = `
           className="receipt-row mx-0 pl-4 row no-gutters"
         >
           <div
+            className="receipt-row-title col"
+          >
+            Gas Burned:
+          </div>
+          <div
+            className="receipt-row-receipt-hash col"
+          >
+            999 Mgas
+          </div>
+        </div>
+        <div
+          className="receipt-row mx-0 pl-4 row no-gutters"
+        >
+          <div
+            className="receipt-row-title col"
+          >
+            Tokens Burned:
+          </div>
+          <div
+            className="receipt-row-receipt-hash col"
+          >
+            <span
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
+            >
+              &lt;0.00001
+               Ⓝ
+            </span>
+          </div>
+        </div>
+        <div
+          className="receipt-row mx-0 pl-4 row no-gutters"
+        >
+          <div
             className="receipt-row-text col"
           >
             <div
@@ -416,6 +535,42 @@ exports[`<ReceiptsList /> renders 1`] = `
               className="receipt-row mx-0 pl-4 row no-gutters"
             >
               <div
+                className="receipt-row-title col"
+              >
+                Gas Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                55 Mgas
+              </div>
+            </div>
+            <div
+              className="receipt-row mx-0 pl-4 row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Tokens Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  &lt;0.00001
+                   Ⓝ
+                </span>
+              </div>
+            </div>
+            <div
+              className="receipt-row mx-0 pl-4 row no-gutters"
+            >
+              <div
                 className="receipt-row-text col"
               >
                 <div
@@ -580,6 +735,42 @@ exports[`<ReceiptsList /> renders 1`] = `
                 title="receiver.test"
               >
                 receiver.test
+              </div>
+            </div>
+            <div
+              className="receipt-row mx-0 pl-4 row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Gas Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                444 Ggas
+              </div>
+            </div>
+            <div
+              className="receipt-row mx-0 pl-4 row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Tokens Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  &lt;0.00001
+                   Ⓝ
+                </span>
               </div>
             </div>
             <div

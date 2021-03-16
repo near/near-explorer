@@ -61,7 +61,7 @@ class TransactionDetailsPage extends React.Component {
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Receipts</h2>}
+            title={<h2>Transaction Execution Plan</h2>}
           >
             <ReceiptsList
               receipts={this.props.receipts}

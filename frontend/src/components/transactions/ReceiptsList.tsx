@@ -9,7 +9,10 @@ export interface Props {
 }
 
 export default ({ receipts, receiptsOutcome, transaction }: Props) => {
-  if (receipts[0].receipt_id !== receiptsOutcome[0].id) {
+  if (
+    receipts.length === 0 ||
+    receipts[0].receipt_id !== receiptsOutcome[0].id
+  ) {
     receipts.unshift({
       predecessor_id: transaction.signerId,
       receipt: transaction.actions,
@@ -67,8 +70,8 @@ export default ({ receipts, receiptsOutcome, transaction }: Props) => {
       convertedReceiptHash={receiptsOutcome[0].id}
       receiptOutcomesById={receiptOutcomesById}
       receiptsById={receiptsById}
-      convertedReceipt
       transaction={transaction}
+      convertedReceipt
     />
   );
 };

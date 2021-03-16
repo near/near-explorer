@@ -46,7 +46,7 @@ context("Transactions", () => {
       .first()
       .get(".action-sparse-row:first-child .action-row-txid a")
       .click();
-    cy.wait(10000);
+    cy.wait(15000);
     cy.get(".transaction-info-container").should("exist");
     cy.get(".transaction-info-container .card-cell .card-body")
       .should("exist")
