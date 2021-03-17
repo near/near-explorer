@@ -2,7 +2,7 @@ const {
   queryTransactionsCountAggregatedByDate,
   queryTeragasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
-  queryDeletedAccountsAggregatedByDate,
+  queryDeletedAccountsCountAggregatedByDate,
   queryUniqueDeployedContractsAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByWeek,
@@ -108,7 +108,7 @@ async function aggregateNewAccountsCountByDate() {
 
 async function aggregateDeletedAccountsCountByDate() {
   try {
-    const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsAggregatedByDate();
+    const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsCountAggregatedByDate();
     DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = deletedAccountsCountAggregatedByDate.map(
       ({ date: dateString, deleted_accounts_count_by_date }) => ({
         date: formatDate(new Date(dateString)),

@@ -329,7 +329,7 @@ const queryNewAccountsCountAggregatedByDate = async () => {
   );
 };
 
-const queryDeletedAccountsAggregatedByDate = async () => {
+const queryDeletedAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT
@@ -549,7 +549,7 @@ exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 
 // accounts
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
-exports.queryDeletedAccountsAggregatedByDate = queryDeletedAccountsAggregatedByDate;
+exports.queryDeletedAccountsCountAggregatedByDate = queryDeletedAccountsCountAggregatedByDate;
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveAccountsList = queryActiveAccountsList;
 exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggregatedByWeek;
