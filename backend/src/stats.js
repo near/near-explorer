@@ -16,11 +16,7 @@ const {
   queryPartnerUniqueUserAmount,
   queryGenesisAccountCount,
 } = require("./db-utils");
-const {
-  formatDate,
-  generateDateArray,
-  cumulativeSumArray,
-} = require("./utils");
+const { formatDate, generateDateArray } = require("./utils");
 
 // term that store data from query
 // transaction related

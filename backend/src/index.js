@@ -290,11 +290,8 @@ async function main() {
     await startDataSourceSpecificJobs(wamp, DS_LEGACY_SYNC_BACKEND);
   }
   if (isIndexerBackendEnabled) {
-    // await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
-    // await startStatsAggregation();
-    await aggregateNewAccountsCountByDate();
-    await aggregateDeletedAccountsCountByDate();
-    await aggregateLiveAccountsCountByDate();
+    await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
+    await startStatsAggregation();
   }
 }
 
