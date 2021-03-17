@@ -17,6 +17,7 @@ const { nearRpc } = require("./near");
 
 const wampHandlers = {};
 
+// node
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   let geo = geoip.lookup(nodeInfo.ip_address);
   if (geo) {

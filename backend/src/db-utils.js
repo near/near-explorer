@@ -435,14 +435,15 @@ const queryDepositAmountAggregatedByDate = async () => {
 };
 
 const queryGenesisAccountCount = async () => {
-  return await querySingleRow([
-    `
-    SELECT 
-      COUNT(*)
-    FROM accounts
-    WHERE created_by_receipt_id IS NULL
-    `,
-  ]);
+  return await querySingleRow(
+    [
+      `SELECT 
+        COUNT(*)
+      FROM accounts
+      WHERE created_by_receipt_id IS NULL`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
 };
 
 // query for partners

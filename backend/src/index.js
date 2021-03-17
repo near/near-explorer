@@ -48,6 +48,7 @@ const {
   aggregatePartnerFirst3MonthTransactionsCount,
   aggregateDepositAmountByDate,
   aggregateParterUniqueUserAmount,
+  aggregateLiveAccountsCountByDate,
 } = require("./stats");
 
 async function startLegacySync() {
@@ -192,17 +193,23 @@ function startStatsAggregation() {
     console.log("Starting Regular Stats Aggregation...");
     try {
       //stats part
+      // transactions related
       await aggregateTransactionsCountByDate();
       await aggregateTeragasUsedByDate();
+      await aggregateDepositAmountByDate();
+
+      // account
       await aggregateNewAccountsCountByDate();
       await aggregateDeletedAccountsCountByDate();
-      await aggregateNewContractsCountByDate();
-      await aggregateActiveContractsCountByDate();
+      await aggregateLiveAccountsCountByDate();
       await aggregateActiveAccountsCountByDate();
       await aggregateActiveAccountsCountByWeek();
       await aggregateActiveAccountsList();
+
+      // contract
+      await aggregateNewContractsCountByDate();
+      await aggregateActiveContractsCountByDate();
       await aggregateActiveContractsList();
-      await aggregateDepositAmountByDate();
       //partner part
       await aggregatePartnerTotalTransactionsCount();
       await aggregatePartnerFirst3MonthTransactionsCount();
@@ -238,7 +245,7 @@ async function main() {
     }
     setTimeout(regularCheckFinalTimestamp, regularQueryRPCInterval);
   };
-  setTimeout(regularCheckFinalTimestamp, 0);
+  // setTimeout(regularCheckFinalTimestamp, 0);
 
   // regular check node status and publish to nodes uri
   const regularCheckNodeStatus = async () => {
@@ -273,15 +280,18 @@ async function main() {
     }
     setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };
-  setTimeout(regularCheckNodeStatus, 0);
+  // setTimeout(regularCheckNodeStatus, 0);
 
   if (isLegacySyncBackendEnabled) {
     await startLegacySync();
     await startDataSourceSpecificJobs(wamp, DS_LEGACY_SYNC_BACKEND);
   }
   if (isIndexerBackendEnabled) {
-    await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
-    await startStatsAggregation();
+    // await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
+    // await startStatsAggregation();
+    await aggregateNewAccountsCountByDate();
+    await aggregateDeletedAccountsCountByDate();
+    await aggregateLiveAccountsCountByDate();
   }
 }
 
