@@ -9,6 +9,7 @@ import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import ActionsList from "../../components/transactions/ActionsList";
 import ReceiptsList from "../../components/transactions/ReceiptsList";
 import TransactionDetails from "../../components/transactions/TransactionDetails";
+import TransactionOutcome from "../../components/transactions/TransactionOutcome";
 import Content from "../../components/utils/Content";
 
 class TransactionDetailsPage extends React.Component {
@@ -21,7 +22,9 @@ class TransactionDetailsPage extends React.Component {
   }
 
   render() {
-    const { hash } = this.props;
+    const { hash, receiptsOutcome } = this.props;
+
+    console.log("TransactionDetailsPage", this.props);
 
     return (
       <>
@@ -57,16 +60,17 @@ class TransactionDetailsPage extends React.Component {
           </Content>
         )}
 
-        {this.props.receiptsOutcome && (
+        {receiptsOutcome && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Transaction Execution Plan</h2>}
           >
+            <TransactionOutcome transaction={this.props.transactionOutcome} />
+
             <ReceiptsList
               receipts={this.props.receipts}
-              receiptsOutcome={this.props.receiptsOutcome}
-              transaction={this.props}
+              convertedReceiptHash={receiptsOutcome[0].id}
             />
           </Content>
         )}

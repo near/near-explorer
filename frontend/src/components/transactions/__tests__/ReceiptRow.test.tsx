@@ -2,7 +2,7 @@ import renderer from "react-test-renderer";
 
 import ReceiptRow from "../ReceiptRow";
 
-import { TRANSACTIONS, RECEIPT_OUTCOMES_BY_ID, RECEIPTS_BY_ID } from "./common";
+import { TRANSACTIONS } from "./common";
 
 describe("<ReceiptRow />", () => {
   it("renders SuccessValue", () => {
@@ -10,15 +10,17 @@ describe("<ReceiptRow />", () => {
       renderer.create(
         <ReceiptRow
           convertedReceiptHash={
-            (TRANSACTIONS[0].receiptsOutcome || [
-              { id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs" },
-            ])[0].id
+            (TRANSACTIONS[0].receiptsOutcome &&
+              TRANSACTIONS[0].receiptsOutcome[0].id) ||
+            "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"
           }
-          receiptOutcomesById={RECEIPT_OUTCOMES_BY_ID[0]}
-          receiptsById={RECEIPTS_BY_ID[0]}
+          receipts={TRANSACTIONS[0].receipts}
+          key={
+            (TRANSACTIONS[0].receiptsOutcome &&
+              TRANSACTIONS[0].receiptsOutcome[0].id) ||
+            "aaa"
+          }
           convertedReceipt
-          transaction={TRANSACTIONS[0]}
-          key={(TRANSACTIONS[0].receiptsOutcome || [])[0].id || "aaa"}
         />
       )
     ).toMatchSnapshot();
@@ -29,15 +31,17 @@ describe("<ReceiptRow />", () => {
       renderer.create(
         <ReceiptRow
           convertedReceiptHash={
-            (TRANSACTIONS[1].receiptsOutcome || [
-              { id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222" },
-            ])[0].id
+            (TRANSACTIONS[1].receiptsOutcome &&
+              TRANSACTIONS[1].receiptsOutcome[0].id) ||
+            "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"
           }
-          receiptOutcomesById={RECEIPT_OUTCOMES_BY_ID[1]}
-          receiptsById={RECEIPTS_BY_ID[1]}
+          receipts={TRANSACTIONS[1].receipts}
+          key={
+            (TRANSACTIONS[1].receiptsOutcome &&
+              TRANSACTIONS[1].receiptsOutcome[0].id) ||
+            "bbb"
+          }
           convertedReceipt
-          transaction={TRANSACTIONS[1]}
-          key={(TRANSACTIONS[0].receiptsOutcome || [])[1].id || "bbb"}
         />
       )
     ).toMatchSnapshot();
@@ -48,15 +52,17 @@ describe("<ReceiptRow />", () => {
       renderer.create(
         <ReceiptRow
           convertedReceiptHash={
-            (TRANSACTIONS[2].receiptsOutcome || [
-              { id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222" },
-            ])[0].id
+            (TRANSACTIONS[2].receiptsOutcome &&
+              TRANSACTIONS[2].receiptsOutcome[0].id) ||
+            "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"
           }
-          receiptOutcomesById={RECEIPT_OUTCOMES_BY_ID[2]}
-          receiptsById={RECEIPTS_BY_ID[2]}
+          receipts={TRANSACTIONS[2].receipts}
+          key={
+            (TRANSACTIONS[2].receiptsOutcome &&
+              TRANSACTIONS[2].receiptsOutcome[0].id) ||
+            "ccc"
+          }
           convertedReceipt
-          transaction={TRANSACTIONS[2]}
-          key={(TRANSACTIONS[1].receiptsOutcome || [])[0].id || "ccc"}
         />
       )
     ).toMatchSnapshot();

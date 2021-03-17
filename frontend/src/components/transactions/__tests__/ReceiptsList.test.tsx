@@ -9,9 +9,12 @@ describe("<ReceiptsList />", () => {
     expect(
       renderer.create(
         <ReceiptsList
-          receipts={TRANSACTIONS[0].receipts || []}
-          receiptsOutcome={TRANSACTIONS[0].receiptsOutcome || []}
-          transaction={TRANSACTIONS[0]}
+          convertedReceiptHash={
+            (TRANSACTIONS[0].receiptsOutcome &&
+              TRANSACTIONS[0].receiptsOutcome[0].id) ||
+            "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"
+          }
+          receipts={TRANSACTIONS[0].receipts}
         />
       )
     ).toMatchSnapshot();

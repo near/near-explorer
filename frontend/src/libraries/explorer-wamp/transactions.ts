@@ -111,16 +111,20 @@ export interface ReceiptsList {
   receipt_id: string;
   receipt?: any;
 }
-
-export interface ReceiptLocalOutcome {
-  actions: RpcAction[];
+export interface ExecutionOutcomeReceipts {
+  actions?: Action[];
   block_hash: string;
   outcome: Outcome;
+  predecessor_id: string;
   receipt_id: string;
+  receiver_id: string;
+}
+export interface Receipts {
+  [key: string]: ExecutionOutcomeReceipts;
 }
 
-export interface ReceiptsListWrapper {
-  receipts?: ReceiptsList[];
+export interface ReceiptsWrapper {
+  receipts?: Receipts | any;
 }
 
 export interface TransactionOutcome {
@@ -136,7 +140,7 @@ export interface TransactionOutcomeWrapper {
 export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
   TransactionOutcomeWrapper &
-  ReceiptsListWrapper;
+  ReceiptsWrapper;
 
 export interface TxPagination {
   endTimestamp: number;
@@ -471,10 +475,81 @@ export default class TransactionsApi extends ExplorerApi {
             }
           }
         );
+
+        let receipts = transactionExtraInfo.receipts as ReceiptsList[];
+        const receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
+        if (
+          receipts.length === 0 ||
+          receipts[0].receipt_id !== receiptsOutcome[0].id
+        ) {
+          receipts.unshift({
+            predecessor_id: transactionExtraInfo.transaction.signerId,
+            receipt: actions,
+            receipt_id: receiptsOutcome[0].id,
+            receiver_id: transactionExtraInfo.transaction.receiverId,
+          });
+        }
+        const receiptOutcomesById =
+          receiptsOutcome && receiptsOutcome.length > 0
+            ? receiptsOutcome.reduce(
+                (obj, receiptOutcomeItem: ReceiptOutcome) => ({
+                  ...obj,
+                  [receiptOutcomeItem.id]: receiptOutcomeItem,
+                }),
+                {}
+              )
+            : ({} as Receipts);
+        const receiptsById = receipts
+          .map((receiptByIdItem) => {
+            let actionsList = [];
+            if (receiptByIdItem.receipt_id === receiptsOutcome[0].id) {
+              actionsList = actions;
+            } else {
+              const { Action: action = undefined } = receiptByIdItem?.receipt;
+              actionsList = action?.actions.map(
+                (action: RpcAction | string) => {
+                  if (typeof action === "string") {
+                    return { kind: action, args: {} };
+                  } else {
+                    const kind = Object.keys(action)[0] as keyof RpcAction;
+                    return {
+                      kind,
+                      args: action[kind],
+                    };
+                  }
+                }
+              );
+            }
+            return {
+              ...receiptByIdItem,
+              actions: actionsList,
+            };
+          })
+          .reduce(
+            (obj, receipt) => ({
+              ...obj,
+              [receipt.receipt_id]: receipt,
+            }),
+            {}
+          ) as Receipts;
+        const executionOutcomeReceipts = Object.keys(receiptOutcomesById)
+          .map((receiptId) => ({
+            ...receiptsById[receiptId],
+            block_hash: receiptOutcomesById[receiptId].block_hash,
+            outcome: receiptOutcomesById[receiptId].outcome,
+          }))
+          .reduce(
+            (obj, receiptItem: ExecutionOutcomeReceipts) => ({
+              ...obj,
+              [receiptItem.receipt_id]: receiptItem,
+            }),
+            {}
+          );
+
         transactionInfo.actions = actions;
-        transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
-        (transactionInfo.receipts = transactionExtraInfo.receipts as ReceiptsList[]),
-          (transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome);
+        transactionInfo.receiptsOutcome = receiptsOutcome;
+        transactionInfo.receipts = executionOutcomeReceipts as Receipts;
+        transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
       }
       return transactionInfo;
     } catch (error) {

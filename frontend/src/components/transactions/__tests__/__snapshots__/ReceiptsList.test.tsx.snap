@@ -8,53 +8,6 @@ exports[`<ReceiptsList /> renders 1`] = `
     className="col"
   >
     <div
-      className="row no-gutters"
-    >
-      <div
-        className="receipt-row-title receipt-hash-title col"
-      >
-        <b>
-          Convert Transaction To Receipt
-        </b>
-      </div>
-    </div>
-    <div
-      className="receipt-row mx-0 pl-4 row no-gutters"
-    >
-      <div
-        className="receipt-row-title col"
-      >
-        Gas Burned:
-      </div>
-      <div
-        className="receipt-row-receipt-hash col"
-      >
-        333 gas
-      </div>
-    </div>
-    <div
-      className="receipt-row mx-0 pl-4 row no-gutters"
-    >
-      <div
-        className="receipt-row-title col"
-      >
-        Tokens Burned:
-      </div>
-      <div
-        className="receipt-row-receipt-hash col"
-      >
-        <span
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-        >
-          &lt;0.00001
-           Ⓝ
-        </span>
-      </div>
-    </div>
-    <div
       className="receipt-row receipt-converted-row row no-gutters"
     >
       <div
@@ -157,8 +110,8 @@ exports[`<ReceiptsList /> renders 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M11.26 9l-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
-                  fill="#0071ce"
+                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                  fill="#ccc"
                 />
               </svg>
             </div>
@@ -178,7 +131,7 @@ exports[`<ReceiptsList /> renders 1`] = `
                   <div
                     className="action-row-title col"
                   >
-                    New account created: 
+                    Called method: 'confirm' in contract: 
                     <a
                       className="jsx-3150401870 account-link"
                       href="/accounts/receiver.test"
@@ -187,60 +140,45 @@ exports[`<ReceiptsList /> renders 1`] = `
                     >
                       receiver.test
                     </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="action-sparse-row mx-0  row no-gutters"
-        >
-          <div
-            className="col-auto"
-          >
-            <div
-              className="jsx-1246332424 action-row-img"
-            >
-              <svg
-                viewBox="0 0 18 18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18 18v-3.6L8.92 5.32A4.5 4.5 0 1 0 4.5 9a4.47 4.47 0 0 0 .82-.08L14.4 18zM3 4.5A1.5 1.5 0 1 1 4.5 6 1.5 1.5 0 0 1 3 4.5z"
-                  fill="#5ace84"
-                />
-              </svg>
-            </div>
-          </div>
-          <div
-            className="action-row-details col"
-          >
-            <div
-              className="action-row-message row no-gutters"
-            >
-              <div
-                className="col-md-8 col-7"
-              >
-                <div
-                  className="row no-gutters"
-                >
-                  <div
-                    className="action-row-title col"
-                  >
-                    New key added for 
-                    <a
-                      className="jsx-3150401870 account-link"
-                      href="/accounts/receiver.test"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                    >
-                      receiver.test
-                    </a>
-                    : ed25519:8LXEySy...
-                    <p>
-                      with permission FullAccess and nonce 0
-                    </p>
+                    <dl>
+                      <dt>
+                        Arguments:
+                      </dt>
+                      <dd>
+                        <div>
+                          <div
+                            style={
+                              Object {
+                                "display": "block",
+                                "height": "0px",
+                                "overflow": "hidden",
+                              }
+                            }
+                          >
+                            <textarea
+                              className="jsx-2493677144 code-preview"
+                              readOnly={true}
+                              value="{
+  \\"request_id\\": 12
+}"
+                            />
+                          </div>
+                          <div
+                            onClick={[Function]}
+                          >
+                            <div
+                              style={
+                                Object {
+                                  "float": "left",
+                                }
+                              }
+                            >
+                              Show more
+                            </div>
+                          </div>
+                        </div>
+                      </dd>
+                    </dl>
                   </div>
                 </div>
               </div>
