@@ -89,7 +89,10 @@ wampHandlers["nearcore-view-access-key-list"] = async ([accountId]) => {
 };
 
 wampHandlers["nearcore-tx"] = async ([transactionHash, accountId]) => {
-  return await nearRpc.sendJsonRpc("tx", [transactionHash, accountId]);
+  return await nearRpc.sendJsonRpc("EXPERIMENTAL_tx_status", [
+    transactionHash,
+    accountId,
+  ]);
 };
 
 wampHandlers["nearcore-final-block"] = async () => {
@@ -246,6 +249,12 @@ wampHandlers["new-accounts-count-aggregated-by-date"] = async () => {
 
 wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getNewContractsCountByDate();
+};
+
+wampHandlers[
+  "unique-deployed-contracts-count-aggregate-by-date"
+] = async () => {
+  return await stats.getUniqueDeployedContractsCountByDate();
 };
 
 wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {

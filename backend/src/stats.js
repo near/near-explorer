@@ -3,6 +3,7 @@ const {
   queryTeragasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
   queryDeletedAccountsAggregatedByDate,
+  queryUniqueDeployedContractsAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByWeek,
   queryNewContractsCountAggregatedByDate,
@@ -38,6 +39,7 @@ let ACTIVE_ACCOUNTS_LIST = null;
 // contracts
 let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
+let UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_CONTRACTS_LIST = null;
 
 // partner
@@ -264,6 +266,34 @@ async function aggregateActiveContractsCountByDate() {
   }
 }
 
+async function aggregateUniqueDeployedContractsCountByDate() {
+  try {
+    const contractList = await queryUniqueDeployedContractsAggregatedByDate();
+    const contractsRows = contractList.map(
+      ({ date: dateString, deployed_contracts_by_date }) => ({
+        date: formatDate(new Date(dateString)),
+        deployedContracts: deployed_contracts_by_date,
+      })
+    );
+    let cumulativeContractsDeployedByDate = new Array();
+    let contractsDeployed = new Set([contractsRows[0].deployedContracts]);
+
+    for (let i = 1; i < contractsRows.length; i++) {
+      if (contractsRows[i].date !== contractsRows[i - 1].date) {
+        cumulativeContractsDeployedByDate.push({
+          date: contractsRows[i - 1].date,
+          contractsCount: contractsDeployed.size,
+        });
+      }
+      contractsDeployed.add(contractsRows[i].deployedContracts);
+    }
+    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsDeployedByDate;
+    console.log("UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function aggregateActiveContractsList() {
   try {
     const activeContractsList = await queryActiveContractsList();
@@ -355,6 +385,18 @@ async function getDeletedAccountCountBydate() {
   return DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
 }
 
+async function getNewContractsCountByDate() {
+  return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
+}
+
+async function getUniqueDeployedContractsCountByDate() {
+  return UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
+}
+
+async function getActiveContractsCountByDate() {
+  return ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
+}
+
 async function getActiveAccountsCountByDate() {
   return ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
 }
@@ -407,6 +449,7 @@ exports.aggregateDepositAmountByDate = aggregateDepositAmountByDate;
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
 exports.aggregateDeletedAccountsCountByDate = aggregateDeletedAccountsCountByDate;
 exports.aggregateLiveAccountsCountByDate = aggregateLiveAccountsCountByDate;
+exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
 exports.aggregateActiveAccountsCountByWeek = aggregateActiveAccountsCountByWeek;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
@@ -414,6 +457,7 @@ exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
 // contracts
 exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
 exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
+exports.aggregateUniqueDeployedContractsCountByDate = aggregateUniqueDeployedContractsCountByDate;
 exports.aggregateActiveContractsList = aggregateActiveContractsList;
 
 // partner part
@@ -434,8 +478,10 @@ exports.getActiveAccountsCountByDate = getActiveAccountsCountByDate;
 exports.getActiveAccountsCountByWeek = getActiveAccountsCountByWeek;
 exports.getActiveAccountsList = getActiveAccountsList;
 exports.getLiveAccountsCountByDate = getLiveAccountsCountByDate;
+
 // contracts
 exports.getNewContractsCountByDate = getNewContractsCountByDate;
+exports.getUniqueDeployedContractsCountByDate = getUniqueDeployedContractsCountByDate;
 exports.getActiveContractsCountByDate = getActiveContractsCountByDate;
 exports.getActiveContractsList = getActiveContractsList;
 

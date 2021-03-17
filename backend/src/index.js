@@ -39,6 +39,7 @@ const {
   aggregateNewAccountsCountByDate,
   aggregateDeletedAccountsCountByDate,
   aggregateNewContractsCountByDate,
+  aggregateUniqueDeployedContractsCountByDate,
   aggregateActiveContractsCountByDate,
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsCountByWeek,
@@ -209,7 +210,9 @@ function startStatsAggregation() {
       // contract
       await aggregateNewContractsCountByDate();
       await aggregateActiveContractsCountByDate();
+      await aggregateUniqueDeployedContractsCountByDate();
       await aggregateActiveContractsList();
+
       //partner part
       await aggregatePartnerTotalTransactionsCount();
       await aggregatePartnerFirst3MonthTransactionsCount();
