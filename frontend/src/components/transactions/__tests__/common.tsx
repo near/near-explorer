@@ -26,108 +26,109 @@ export const TRANSACTIONS: T.Transaction[] = [
         },
       },
     ],
-    receipts: {
-      ["9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"]: {
-        actions: [
+    receipt: {
+      actions: [
+        {
+          kind: "FunctionCall",
+          args: {
+            args: "eyJyZXF1ZXN0X2lkIjoxMn0=",
+            deposit: "0",
+            gas: 5555555555555,
+            method_name: "confirm",
+          },
+        },
+      ],
+      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+      outcome: {
+        logs: [],
+        receipt_ids: [
           {
-            kind: "FunctionCall",
-            args: {
-              args: "eyJyZXF1ZXN0X2lkIjoxMn0=",
-              deposit: "0",
-              gas: 5555555555555,
-              method_name: "confirm",
+            actions: [
+              {
+                kind: "FunctionCall",
+                args: {
+                  args:
+                    "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
+                  deposit: "0",
+                  gas: 3333333333333333,
+                  method_name: "unstake",
+                },
+              },
+            ],
+            block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+            outcome: {
+              logs: ["LOG: Counter is now: 1"],
+              receipt_ids: [
+                {
+                  actions: [
+                    {
+                      kind: "FunctionCall",
+                      args: {
+                        args:
+                          "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
+                        deposit: "0",
+                        gas: 12512121223123,
+                        method_name: "unstake",
+                      },
+                    },
+                  ],
+                  block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+                  outcome: {
+                    logs: [],
+                    receipt_ids: [],
+                    status: { SuccessValue: "" },
+                    gas_burnt: 55555555,
+                    tokens_burnt: "2345678987654321",
+                  },
+                  predecessor_id: "signer.test",
+                  receipt_id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
+                  receiver_id: "receiver.test",
+                },
+                {
+                  actions: [
+                    {
+                      kind: "FunctionCall",
+                      args: {
+                        args:
+                          "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
+                        deposit: "0",
+                        gas: 25252525002200,
+                        method_name: "on_staking_pool_unstake",
+                      },
+                    },
+                  ],
+                  block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+                  outcome: {
+                    logs: [],
+                    receipt_ids: [],
+                    status: { SuccessValue: "" },
+                    gas_burnt: 444444444444,
+                    tokens_burnt: "654345678876543",
+                  },
+                  predecessor_id: "signer.test",
+                  receipt_id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
+                  receiver_id: "receiver.test",
+                },
+              ],
+              status: {
+                SuccessReceiptId:
+                  "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
+              },
+              gas_burnt: 999999999,
+              tokens_burnt: "5678987654567",
             },
+            predecessor_id: "signer.test",
+            receipt_id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
+            receiver_id: "receiver.test",
           },
         ],
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: [],
-          receipt_ids: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
-          status: { SuccessValue: null },
-          gas_burnt: 100000,
-          tokens_burnt: "12345678987654",
-        },
-        predecessor_id: "signer.test",
-        receipt_id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-        receiver_id: "receiver.test",
+        status: { SuccessValue: null },
+        gas_burnt: 100000,
+        tokens_burnt: "12345678987654",
       },
-      ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"]: {
-        actions: [
-          {
-            kind: "FunctionCall",
-            args: {
-              args: "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
-              deposit: "0",
-              gas: 3333333333333333,
-              method_name: "unstake",
-            },
-          },
-        ],
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: ["LOG: Counter is now: 1"],
-          receipt_ids: [
-            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
-          ],
-          status: {
-            SuccessReceiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-          },
-          gas_burnt: 999999999,
-          tokens_burnt: "5678987654567",
-        },
-        predecessor_id: "signer.test",
-        receipt_id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
-        receiver_id: "receiver.test",
-      },
-      ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111"]: {
-        actions: [
-          {
-            kind: "FunctionCall",
-            args: {
-              args: "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
-              deposit: "0",
-              gas: 12512121223123,
-              method_name: "unstake",
-            },
-          },
-        ],
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: [],
-          receipt_ids: [],
-          status: { SuccessValue: "" },
-          gas_burnt: 55555555,
-          tokens_burnt: "2345678987654321",
-        },
-        predecessor_id: "signer.test",
-        receipt_id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-        receiver_id: "receiver.test",
-      },
-      ["A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222"]: {
-        actions: [
-          {
-            kind: "FunctionCall",
-            args: {
-              args: "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
-              deposit: "0",
-              gas: 25252525002200,
-              method_name: "on_staking_pool_unstake",
-            },
-          },
-        ],
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: [],
-          receipt_ids: [],
-          status: { SuccessValue: "" },
-          gas_burnt: 444444444444,
-          tokens_burnt: "654345678876543",
-        },
-        predecessor_id: "signer.test",
-        receipt_id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
-        receiver_id: "receiver.test",
-      },
+      predecessor_id: "signer.test",
+      receipt_id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+      receiver_id: "receiver.test",
     },
     receiptsOutcome: [
       {
@@ -213,37 +214,35 @@ export const TRANSACTIONS: T.Transaction[] = [
         },
       },
     ],
-    receipts: {
-      ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"]: {
-        actions: [
-          {
-            kind: "FunctionCall",
-            args: {
-              args:
-                "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMwMjA1MzEyLCJyaWdodCI6Mjk0MDIzNDJ9LCJyZXNwb25zZSI6IlNlbGVjdGVkUmlnaHQifQ==",
-              deposit: "0",
-              gas: 100000000000000,
-              method_name: "vote",
-            },
+    receipt: {
+      actions: [
+        {
+          kind: "FunctionCall",
+          args: {
+            args:
+              "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMwMjA1MzEyLCJyaWdodCI6Mjk0MDIzNDJ9LCJyZXNwb25zZSI6IlNlbGVjdGVkUmlnaHQifQ==",
+            deposit: "0",
+            gas: 100000000000000,
+            method_name: "vote",
           },
-        ],
-        block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
-        outcome: {
-          logs: [],
-          receipt_ids: [],
-          status: {
-            Failure: {
-              error_message: "Exceeded the prepaid gas.",
-              error_type: "ActionError::FunctionCallError",
-            },
-          },
-          gas_burnt: 222222,
-          tokens_burnt: "231549875456",
         },
-        predecessor_id: "signer2.test",
-        receipt_id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
-        receiver_id: "receiver2.test",
+      ],
+      block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
+      outcome: {
+        logs: [],
+        receipt_ids: [],
+        status: {
+          Failure: {
+            error_message: "Exceeded the prepaid gas.",
+            error_type: "ActionError::FunctionCallError",
+          },
+        },
+        gas_burnt: 222222,
+        tokens_burnt: "231549875456",
       },
+      predecessor_id: "signer2.test",
+      receipt_id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
+      receiver_id: "receiver2.test",
     },
     receiptsOutcome: [
       {
@@ -298,28 +297,26 @@ export const TRANSACTIONS: T.Transaction[] = [
         },
       },
     ],
-    receipts: {
-      ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"]: {
-        actions: [
-          {
-            kind: "Transfer",
-            args: {
-              deposit: "33221122334455",
-            },
+    receipt: {
+      actions: [
+        {
+          kind: "Transfer",
+          args: {
+            deposit: "33221122334455",
           },
-        ],
-        block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
-        outcome: {
-          logs: ["LOG: Counter is now: 1"],
-          receipt_ids: [],
-          status: { SuccessValue: "" },
-          gas_burnt: 123123123,
-          tokens_burnt: "0",
         },
-        predecessor_id: "signer2.test",
-        receipt_id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
-        receiver_id: "receiver2.test",
+      ],
+      block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
+      outcome: {
+        logs: ["LOG: Counter is now: 1"],
+        receipt_ids: [],
+        status: { SuccessValue: "" },
+        gas_burnt: 123123123,
+        tokens_burnt: "0",
       },
+      predecessor_id: "signer2.test",
+      receipt_id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
+      receiver_id: "receiver2.test",
     },
     receiptsOutcome: [
       {

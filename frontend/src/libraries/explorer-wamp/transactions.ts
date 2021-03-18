@@ -110,21 +110,27 @@ export interface ReceiptsList {
   receiver_id: string;
   receipt_id: string;
   receipt?: any;
+  actions?: Action[];
 }
 export interface ExecutionOutcomeReceipts {
   actions?: Action[];
   block_hash: string;
-  outcome: Outcome;
+  outcome: ReceiptOutcomeReceipts;
   predecessor_id: string;
   receipt_id: string;
   receiver_id: string;
 }
-export interface Receipts {
-  [key: string]: ExecutionOutcomeReceipts;
+
+export interface ReceiptOutcomeReceipts {
+  tokens_burnt: string;
+  logs: string[];
+  receipt_ids?: ExecutionOutcomeReceipts[];
+  status: ReceiptStatus;
+  gas_burnt: number;
 }
 
-export interface ReceiptsWrapper {
-  receipts?: Receipts | any;
+export interface Receipt {
+  receipt?: ExecutionOutcomeReceipts;
 }
 
 export interface TransactionOutcome {
@@ -140,7 +146,7 @@ export interface TransactionOutcomeWrapper {
 export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
   TransactionOutcomeWrapper &
-  ReceiptsWrapper;
+  Receipt;
 
 export interface TxPagination {
   endTimestamp: number;
@@ -483,72 +489,64 @@ export default class TransactionsApi extends ExplorerApi {
           receipts[0].receipt_id !== receiptsOutcome[0].id
         ) {
           receipts.unshift({
-            predecessor_id: transactionExtraInfo.transaction.signerId,
+            predecessor_id: transactionExtraInfo.transaction.signer_id,
             receipt: actions,
             receipt_id: receiptsOutcome[0].id,
-            receiver_id: transactionExtraInfo.transaction.receiverId,
+            receiver_id: transactionExtraInfo.transaction.receiver_id,
           });
         }
-        const receiptOutcomesById =
-          receiptsOutcome && receiptsOutcome.length > 0
-            ? receiptsOutcome.reduce(
-                (obj, receiptOutcomeItem: ReceiptOutcome) => ({
-                  ...obj,
-                  [receiptOutcomeItem.id]: receiptOutcomeItem,
-                }),
-                {}
-              )
-            : ({} as Receipts);
-        const receiptsById = receipts
-          .map((receiptByIdItem) => {
-            let actionsList = [];
-            if (receiptByIdItem.receipt_id === receiptsOutcome[0].id) {
-              actionsList = actions;
-            } else {
-              const { Action: action = undefined } = receiptByIdItem?.receipt;
-              actionsList = action?.actions.map(
-                (action: RpcAction | string) => {
-                  if (typeof action === "string") {
-                    return { kind: action, args: {} };
-                  } else {
-                    const kind = Object.keys(action)[0] as keyof RpcAction;
-                    return {
-                      kind,
-                      args: action[kind],
-                    };
-                  }
+        const receiptOutcomesByIdMap = new Map();
+        receiptsOutcome.forEach((receipt: any) => {
+          receiptOutcomesByIdMap.set(receipt.id, [receipt]);
+        });
+
+        const receiptsByIdMap = new Map();
+        receipts.forEach((receiptItem: any) => {
+          if (receiptItem.receipt_id === receiptsOutcome[0].id) {
+            receiptItem.actions = actions;
+          } else {
+            const { Action: action = undefined } = receiptItem.receipt;
+            receiptItem.actions = action?.actions.map(
+              (action: RpcAction | string) => {
+                if (typeof action === "string") {
+                  return { kind: action, args: {} };
+                } else {
+                  const kind = Object.keys(action)[0] as keyof RpcAction;
+                  return {
+                    kind,
+                    args: action[kind],
+                  };
                 }
-              );
-            }
-            return {
-              ...receiptByIdItem,
-              actions: actionsList,
-            };
-          })
-          .reduce(
-            (obj, receipt) => ({
-              ...obj,
-              [receipt.receipt_id]: receipt,
-            }),
-            {}
-          ) as Receipts;
-        const executionOutcomeReceipts = Object.keys(receiptOutcomesById)
-          .map((receiptId) => ({
-            ...receiptsById[receiptId],
-            block_hash: receiptOutcomesById[receiptId].block_hash,
-            outcome: receiptOutcomesById[receiptId].outcome,
-          }))
-          .reduce(
-            (obj, receiptItem: ExecutionOutcomeReceipts) => ({
-              ...obj,
-              [receiptItem.receipt_id]: receiptItem,
-            }),
-            {}
-          );
+              }
+            );
+          }
+          receiptsByIdMap.set(receiptItem.receipt_id, [receiptItem]);
+        });
+
+        const executionOutcomeReceipt = (receiptHash: string) => {
+          const receipt = receiptsByIdMap.get(receiptHash)[0];
+          const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash)[0];
+          const receipts = { ...receipt, ...receiptOutcome };
+          return {
+            ...receipts,
+            outcome: {
+              ...receipts.outcome,
+              receipt_ids:
+                receipts.outcome && receipts.outcome.receipt_ids.length > 0
+                  ? receipts.outcome.receipt_ids.map(
+                      (executedReceipt: string) =>
+                        executionOutcomeReceipt(executedReceipt)
+                    )
+                  : [],
+            },
+          };
+        };
 
         transactionInfo.actions = actions;
         transactionInfo.receiptsOutcome = receiptsOutcome;
-        transactionInfo.receipts = executionOutcomeReceipts as Receipts;
+        transactionInfo.receipt = executionOutcomeReceipt(
+          receiptsOutcome[0].id
+        ) as ExecutionOutcomeReceipts;
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
       }
       return transactionInfo;

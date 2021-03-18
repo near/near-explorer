@@ -24,8 +24,6 @@ class TransactionDetailsPage extends React.Component {
   render() {
     const { hash, receiptsOutcome } = this.props;
 
-    console.log("TransactionDetailsPage", this.props);
-
     return (
       <>
         <Head>
@@ -68,10 +66,7 @@ class TransactionDetailsPage extends React.Component {
           >
             <TransactionOutcome transaction={this.props.transactionOutcome} />
 
-            <ReceiptsList
-              receipts={this.props.receipts}
-              convertedReceiptHash={receiptsOutcome[0].id}
-            />
+            <ReceiptsList receipt={this.props.receipt} />
           </Content>
         )}
       </>

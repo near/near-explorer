@@ -11,26 +11,17 @@ import { truncateAccountId } from "../../libraries/formatting";
 import { displayArgs } from "./ActionMessage";
 
 export interface Props {
-  convertedReceiptHash: string;
-  receipts: T.Receipts;
-  convertedReceipt: boolean;
+  receipt: T.ExecutionOutcomeReceipts;
 }
 
 class ReceiptRow extends React.Component<Props> {
   renderRow = (
-    receiptHash: string,
-    receipts: T.Receipts,
-    convertedReceipt = false
+    receipt: T.ExecutionOutcomeReceipts,
+    convertedReceipt = true
   ) => {
-    const receiptItem = receipts[receiptHash] as
-      | T.ExecutionOutcomeReceipts
-      | any;
     let statusInfo;
-    if (
-      "SuccessValue" in (receiptItem.outcome.status as T.ReceiptSuccessValue)
-    ) {
-      const { SuccessValue } = receiptItem.outcome
-        .status as T.ReceiptSuccessValue;
+    if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
+      const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
       if (SuccessValue === null) {
         statusInfo = "No result";
       } else if (SuccessValue.length === 0) {
@@ -43,8 +34,8 @@ class ReceiptRow extends React.Component<Props> {
           </>
         );
       }
-    } else if ("Failure" in (receiptItem.outcome.status as T.ReceiptFailure)) {
-      const { Failure } = receiptItem.outcome.status as T.ReceiptFailure;
+    } else if ("Failure" in (receipt.outcome.status as T.ReceiptFailure)) {
+      const { Failure } = receipt.outcome.status as T.ReceiptFailure;
       statusInfo = (
         <>
           <i>Failure: </i>
@@ -52,10 +43,9 @@ class ReceiptRow extends React.Component<Props> {
         </>
       );
     } else if (
-      "SuccessReceiptId" in (receiptItem.outcome.status as T.ReceiptSuccessId)
+      "SuccessReceiptId" in (receipt.outcome.status as T.ReceiptSuccessId)
     ) {
-      const { SuccessReceiptId } = receiptItem.outcome
-        .status as T.ReceiptSuccessId;
+      const { SuccessReceiptId } = receipt.outcome.status as T.ReceiptSuccessId;
       statusInfo = (
         <>
           <i>SuccessReceiptId: </i>
@@ -66,9 +56,9 @@ class ReceiptRow extends React.Component<Props> {
 
     let gasBurnedByReceipt = new BN(0);
     let tokensBurnedByReceipt = new BN(0);
-    if (receiptItem && receiptItem.outcome) {
-      gasBurnedByReceipt = new BN(receiptItem.outcome.gas_burnt);
-      tokensBurnedByReceipt = new BN(receiptItem.outcome.tokens_burnt);
+    if (receipt && receipt.outcome) {
+      gasBurnedByReceipt = new BN(receipt.outcome.gas_burnt);
+      tokensBurnedByReceipt = new BN(receipt.outcome.tokens_burnt);
     }
 
     return (
@@ -77,7 +67,7 @@ class ReceiptRow extends React.Component<Props> {
         className={
           !convertedReceipt ? "receipt-row pl-4 mx-0" : "receipt-converted-row"
         }
-        key={receiptItem.receipt_id}
+        key={receipt.receipt_id}
       >
         <Col>
           <Row
@@ -91,9 +81,9 @@ class ReceiptRow extends React.Component<Props> {
             </Col>
             <Col
               className="receipt-row-receipt-hash ml-auto text-right"
-              title={receiptItem.receipt_id}
+              title={receipt.receipt_id}
             >
-              {truncateAccountId(receiptItem.receipt_id)}
+              {truncateAccountId(receipt.receipt_id)}
             </Col>
           </Row>
 
@@ -101,9 +91,9 @@ class ReceiptRow extends React.Component<Props> {
             <Col className="receipt-row-title">Predecessor ID:</Col>
             <Col
               className="receipt-row-receipt-hash"
-              title={receiptItem.predecessor_id}
+              title={receipt.predecessor_id}
             >
-              {truncateAccountId(receiptItem.predecessor_id)}
+              {truncateAccountId(receipt.predecessor_id)}
             </Col>
           </Row>
 
@@ -111,9 +101,9 @@ class ReceiptRow extends React.Component<Props> {
             <Col className="receipt-row-title">Receiver ID:</Col>
             <Col
               className="receipt-row-receipt-hash"
-              title={receiptItem.receiver_id}
+              title={receipt.receiver_id}
             >
-              {truncateAccountId(receiptItem.receiver_id)}
+              {truncateAccountId(receipt.receiver_id)}
             </Col>
           </Row>
 
@@ -137,14 +127,14 @@ class ReceiptRow extends React.Component<Props> {
 
           <Row noGutters className="receipt-row mx-0 pl-4">
             <Col className="receipt-row-text">
-              {receiptItem?.actions.length > 0
-                ? receiptItem.actions.map((action: T.Action, index: number) => (
+              {receipt?.actions && receipt.actions.length > 0
+                ? receipt.actions.map((action: T.Action, index: number) => (
                     <ActionRow
-                      key={receiptItem.receipt_id + index}
+                      key={receipt.receipt_id + index}
                       action={action}
                       transaction={
                         {
-                          receiverId: receiptItem.receiver_id,
+                          receiverId: receipt.receiver_id,
                         } as T.TransactionInfo
                       }
                       detalizationMode="minimal"
@@ -161,18 +151,19 @@ class ReceiptRow extends React.Component<Props> {
 
           <Row noGutters className="receipt-row mx-0 pl-4">
             <Col className="receipt-row-text">
-              {receiptItem.outcome.logs.length === 0 ? (
+              {receipt.outcome.logs.length === 0 ? (
                 "No logs"
               ) : (
-                <pre>{receiptItem.outcome.logs.join("\n")}</pre>
+                <pre>{receipt.outcome.logs.join("\n")}</pre>
               )}
             </Col>
           </Row>
 
-          {receiptItem.outcome.receipt_ids &&
-            receiptItem.outcome?.receipt_ids.map(
-              (executedReceiptHash: string) =>
-                this.renderRow(executedReceiptHash, receipts)
+          {receipt.outcome.receipt_ids &&
+            receipt.outcome.receipt_ids.length > 0 &&
+            receipt.outcome.receipt_ids.map(
+              (executedReceipt: T.ExecutionOutcomeReceipts) =>
+                this.renderRow(executedReceipt, false)
             )}
         </Col>
       </Row>
@@ -180,15 +171,9 @@ class ReceiptRow extends React.Component<Props> {
   };
 
   render() {
-    const {
-      convertedReceiptHash: receiptHash,
-      receipts,
-      convertedReceipt,
-    } = this.props;
-
     return (
       <>
-        {this.renderRow(receiptHash, receipts, convertedReceipt)}
+        {this.renderRow(this.props.receipt)}
 
         <style jsx global>{`
           .receipt-converted-row {
