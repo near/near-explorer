@@ -48,16 +48,7 @@ function generateDateArray(startDate, endDate = new Date()) {
   return arr;
 }
 
-function cumulativeSumArray(array) {
-  return array.reduce((r, a) => {
-    if (r.length > 0) a += r[r.length - 1];
-    r.push(a);
-    return r;
-  }, Array());
-}
-
 exports.promiseResult = promiseResult;
 exports.delayFor = delayFor;
 exports.formatDate = formatDate;
 exports.generateDateArray = generateDateArray;
-exports.cumulativeSumArray = cumulativeSumArray;
