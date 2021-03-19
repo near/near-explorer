@@ -9,8 +9,8 @@ describe("<ReceiptRow />", () => {
     expect(
       renderer.create(
         <ReceiptRow
-          receipt={TRANSACTIONS[0].receipt as any}
-          key={TRANSACTIONS[0].receipt!.receipt_id || "aaa"}
+          receipt={TRANSACTIONS[0].receipt!}
+          key={TRANSACTIONS[0].receipt!.receipt_id}
         />
       )
     ).toMatchSnapshot();
@@ -20,8 +20,8 @@ describe("<ReceiptRow />", () => {
     expect(
       renderer.create(
         <ReceiptRow
-          receipt={TRANSACTIONS[1].receipt as any}
-          key={TRANSACTIONS[1].receipt!.receipt_id || "bbb"}
+          receipt={TRANSACTIONS[1].receipt!}
+          key={TRANSACTIONS[1].receipt!.receipt_id}
         />
       )
     ).toMatchSnapshot();
@@ -31,8 +31,8 @@ describe("<ReceiptRow />", () => {
     expect(
       renderer.create(
         <ReceiptRow
-          receipt={TRANSACTIONS[2].receipt as any}
-          key={TRANSACTIONS[2].receipt!.receipt_id || "ccc"}
+          receipt={TRANSACTIONS[2].receipt!}
+          key={TRANSACTIONS[2].receipt!.receipt_id}
         />
       )
     ).toMatchSnapshot();
