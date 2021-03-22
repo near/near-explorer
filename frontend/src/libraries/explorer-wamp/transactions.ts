@@ -105,6 +105,33 @@ export interface ReceiptOutcome {
 export interface ReceiptsOutcomeWrapper {
   receiptsOutcome?: ReceiptOutcome[];
 }
+interface RpcReceipt {
+  predecessor_id: string;
+  receiver_id: string;
+  receipt_id: string;
+  receipt?: any;
+  actions?: Action[];
+}
+export interface NestedReceiptWithOutcome {
+  actions?: Action[];
+  block_hash: string;
+  outcome: ReceiptExecutionOutcome;
+  predecessor_id: string;
+  receipt_id: string;
+  receiver_id: string;
+}
+
+export interface ReceiptExecutionOutcome {
+  tokens_burnt: string;
+  logs: string[];
+  outgoing_receipts?: NestedReceiptWithOutcome[];
+  status: ReceiptStatus;
+  gas_burnt: number;
+}
+
+export interface Receipt {
+  receipt?: NestedReceiptWithOutcome;
+}
 
 export interface TransactionOutcome {
   id: string;
@@ -118,7 +145,8 @@ export interface TransactionOutcomeWrapper {
 
 export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
-  TransactionOutcomeWrapper;
+  TransactionOutcomeWrapper &
+  Receipt;
 
 export interface TxPagination {
   endTimestamp: number;
@@ -194,7 +222,7 @@ export default class TransactionsApi extends ExplorerApi {
     }
     try {
       const transactions = await this.call<TransactionInfo[]>("select", [
-        `SELECT hash, signer_id as signerId, receiver_id as receiverId, 
+        `SELECT hash, signer_id as signerId, receiver_id as receiverId,
               block_hash as blockHash, block_timestamp as blockTimestamp, transaction_index as transactionIndex
           FROM transactions
           ${WHEREClause}
@@ -435,24 +463,87 @@ export default class TransactionsApi extends ExplorerApi {
           transactionInfo.hash,
           transactionInfo.signerId,
         ]);
+
         transactionInfo.status = Object.keys(
           transactionExtraInfo.status
         )[0] as ExecutionStatus;
 
-        const actions = transactionExtraInfo.transaction.actions;
-        transactionInfo.actions = actions.map((action: RpcAction | string) => {
-          if (typeof action === "string") {
-            return { kind: action, args: {} };
-          } else {
-            const kind = Object.keys(action)[0] as keyof RpcAction;
-            return {
-              kind,
-              args: action[kind],
-            };
+        const actions = transactionExtraInfo.transaction.actions.map(
+          (action: RpcAction | string) => {
+            if (typeof action === "string") {
+              return { kind: action, args: {} };
+            } else {
+              const kind = Object.keys(action)[0] as keyof RpcAction;
+              return {
+                kind,
+                args: action[kind],
+              };
+            }
           }
+        );
+
+        let receipts = transactionExtraInfo.receipts as RpcReceipt[];
+        const receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
+        if (
+          receipts.length === 0 ||
+          receipts[0].receipt_id !== receiptsOutcome[0].id
+        ) {
+          receipts.unshift({
+            predecessor_id: transactionExtraInfo.transaction.signer_id,
+            receipt: actions,
+            receipt_id: receiptsOutcome[0].id,
+            receiver_id: transactionExtraInfo.transaction.receiver_id,
+          });
+        }
+        const receiptOutcomesByIdMap = new Map();
+        receiptsOutcome.forEach((receipt: any) => {
+          receiptOutcomesByIdMap.set(receipt.id, receipt);
         });
 
-        transactionInfo.receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
+        const receiptsByIdMap = new Map();
+        receipts.forEach((receiptItem: any) => {
+          if (receiptItem.receipt_id === receiptsOutcome[0].id) {
+            receiptItem.actions = actions;
+          } else {
+            const { Action: action = undefined } = receiptItem.receipt;
+            receiptItem.actions = action?.actions.map(
+              (action: RpcAction | string) => {
+                if (typeof action === "string") {
+                  return { kind: action, args: {} };
+                } else {
+                  const kind = Object.keys(action)[0] as keyof RpcAction;
+                  return {
+                    kind,
+                    args: action[kind],
+                  };
+                }
+              }
+            );
+          }
+          receiptsByIdMap.set(receiptItem.receipt_id, receiptItem);
+        });
+
+        const collectNestedReceiptWithOutcome = (receiptHash: string) => {
+          const receipt = receiptsByIdMap.get(receiptHash);
+          const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash);
+          return {
+            ...receipt,
+            ...receiptOutcome,
+            outcome: {
+              ...receiptOutcome.outcome,
+              outgoing_receipts: receiptOutcome.outcome.receipt_ids.map(
+                (executedReceipt: string) =>
+                  collectNestedReceiptWithOutcome(executedReceipt)
+              ),
+            },
+          };
+        };
+
+        transactionInfo.actions = actions;
+        transactionInfo.receiptsOutcome = receiptsOutcome;
+        transactionInfo.receipt = collectNestedReceiptWithOutcome(
+          receiptsOutcome[0].id
+        ) as NestedReceiptWithOutcome;
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
       }
       return transactionInfo;

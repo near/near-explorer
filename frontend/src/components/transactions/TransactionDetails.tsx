@@ -205,7 +205,7 @@ class TransactionDetails extends React.Component<Props, State> {
                   title={
                     <Term
                       title={"Deposit Value"}
-                      text={`Sum of all NEAR tokens transferred from the Signing account to the Receiver account. 
+                      text={`Sum of all NEAR tokens transferred from the Signing account to the Receiver account.
                             This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
                       href={
                         "https://near.org/papers/economics-in-sharded-blockchain/"
