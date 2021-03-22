@@ -1,12 +1,19 @@
+import BN from "bn.js";
+
 import React from "react";
+
 import { Row, Col } from "react-bootstrap";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
 
+import Gas from "../utils/Gas";
+import Balance from "../utils/Balance";
+import { truncateAccountId } from "../../libraries/formatting";
 import { displayArgs } from "./ActionMessage";
+import ActionRow from "./ActionRow";
 
 export interface Props {
-  receipt: T.ReceiptOutcome;
+  receipt: T.NestedReceiptWithOutcome;
 }
 
 class ReceiptRow extends React.Component<Props> {
@@ -48,42 +55,135 @@ class ReceiptRow extends React.Component<Props> {
       );
     }
 
+    let gasBurnedByReceipt = new BN(0);
+    let tokensBurnedByReceipt = new BN(0);
+    if (receipt && receipt.outcome) {
+      gasBurnedByReceipt = new BN(receipt.outcome.gas_burnt);
+      tokensBurnedByReceipt = new BN(receipt.outcome.tokens_burnt);
+    }
     return (
-      <Row noGutters className="receipt-row mx-0">
-        <Col className="receipt-row-details">
+      <Row noGutters className="receipt-row" key={receipt.receipt_id}>
+        <Col>
           <Row noGutters>
-            <Col md="8" xs="7">
-              <Row noGutters>
-                <Col className="receipt-row-title">{statusInfo}</Col>
-              </Row>
-              <Row noGutters>
-                <Col className="receipt-row-text">
-                  {receipt.outcome.logs.length === 0 ? (
-                    "No logs"
-                  ) : (
-                    <pre>{receipt.outcome.logs.join("\n")}</pre>
-                  )}
-                </Col>
-              </Row>
+            <Col className="receipt-row-title receipt-hash-title">
+              <b>Receipt ID:</b>
             </Col>
-            <Col md="4" xs="5" className="ml-auto text-right">
-              <Row>
-                <Col className="receipt-row-receipt-hash">
-                  {`${receipt.id.substr(0, 7)}...`}
-                </Col>
-              </Row>
+            <Col
+              className="receipt-row-receipt-hash ml-auto text-right"
+              title={receipt.receipt_id}
+            >
+              {truncateAccountId(receipt.receipt_id)}
             </Col>
           </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-title">Predecessor ID:</Col>
+            <Col
+              className="receipt-row-receipt-hash"
+              title={receipt.predecessor_id}
+            >
+              {truncateAccountId(receipt.predecessor_id)}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-title">Receiver ID:</Col>
+            <Col
+              className="receipt-row-receipt-hash"
+              title={receipt.receiver_id}
+            >
+              {truncateAccountId(receipt.receiver_id)}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-title">Gas Burned:</Col>
+            <Col className="receipt-row-receipt-hash">
+              {gasBurnedByReceipt ? <Gas gas={gasBurnedByReceipt} /> : "..."}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-title">Tokens Burned:</Col>
+            <Col className="receipt-row-receipt-hash">
+              {tokensBurnedByReceipt ? (
+                <Balance amount={tokensBurnedByReceipt.toString()} />
+              ) : (
+                "..."
+              )}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-text">
+              {receipt.actions && receipt.actions.length > 0
+                ? receipt.actions.map((action: T.Action, index: number) => (
+                    <ActionRow
+                      key={receipt.receipt_id + index}
+                      action={action}
+                      transaction={
+                        {
+                          receiverId: receipt.receiver_id,
+                        } as T.TransactionInfo
+                      }
+                      detalizationMode="minimal"
+                      showDetails
+                    />
+                  ))
+                : "No actions"}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-status">{statusInfo}</Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-text">
+              {receipt.outcome.logs.length === 0 ? (
+                "No logs"
+              ) : (
+                <pre>{receipt.outcome.logs.join("\n")}</pre>
+              )}
+            </Col>
+          </Row>
+
+          {receipt.outcome.outgoing_receipts &&
+            receipt.outcome.outgoing_receipts.length > 0 &&
+            receipt.outcome.outgoing_receipts.map(
+              (executedReceipt: T.NestedReceiptWithOutcome) => (
+                <Row
+                  noGutters
+                  className="executed-receipt-row"
+                  key={executedReceipt.receipt_id}
+                >
+                  <Col>
+                    <ReceiptRow receipt={executedReceipt} />
+                  </Col>
+                </Row>
+              )
+            )}
         </Col>
         <style jsx global>{`
           .receipt-row {
             padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
+            padding-bottom: 30px;
           }
 
-          .receipt-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
           }
 
           .receipt-row-title {
