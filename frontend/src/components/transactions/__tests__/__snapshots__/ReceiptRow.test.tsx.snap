@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ReceiptRow /> renders Failure 1`] = `
+exports[`<ReceiptRow /> renders Failure receipt 1`] = `
 <div
   className="receipt-row row no-gutters"
 >
@@ -21,9 +21,9 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
       </div>
       <div
         className="receipt-row-receipt-hash ml-auto text-right col"
-        title="222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"
+        title="R1111111111111111111111111111111111111111111"
       >
-        222aL…JCZmVQv222
+        R1111…1111111111
       </div>
     </div>
     <div
@@ -36,9 +36,9 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
       </div>
       <div
         className="receipt-row-receipt-hash col"
-        title="signer2.test"
+        title="signer.test"
       >
-        signer2.test
+        signer.test
       </div>
     </div>
     <div
@@ -51,9 +51,9 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
       </div>
       <div
         className="receipt-row-receipt-hash col"
-        title="receiver2.test"
+        title="receiver.test"
       >
-        receiver2.test
+        receiver.test
       </div>
     </div>
     <div
@@ -67,7 +67,7 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        123 Mgas
+        3 Tgas
       </div>
     </div>
     <div
@@ -87,7 +87,7 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          0
+          0.00034
            Ⓝ
         </span>
       </div>
@@ -112,8 +112,8 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M0 18l9-9-9-9zm18-9L9 0v18z"
-                  fill="#8dd4bd"
+                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                  fill="#ccc"
                 />
               </svg>
             </div>
@@ -133,25 +133,55 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
                   <div
                     className="action-row-title col"
                   >
-                    Transferred 
-                    <span
-                      onBlur={[Function]}
-                      onFocus={[Function]}
-                      onMouseOut={[Function]}
-                      onMouseOver={[Function]}
-                    >
-                      &lt;0.00001
-                       Ⓝ
-                    </span>
-                     to 
+                    Called method: 'set_listing_seller_transaction_id' in contract: 
                     <a
                       className="jsx-3150401870 account-link"
-                      href="/accounts/receiver2.test"
+                      href="/accounts/receiver.test"
                       onClick={[Function]}
                       onMouseEnter={[Function]}
                     >
-                      receiver2.test
+                      receiver.test
                     </a>
+                    <dl>
+                      <dt>
+                        Arguments:
+                      </dt>
+                      <dd>
+                        <div>
+                          <div
+                            style={
+                              Object {
+                                "display": "block",
+                                "height": "0px",
+                                "overflow": "hidden",
+                              }
+                            }
+                          >
+                            <textarea
+                              className="jsx-2493677144 code-preview"
+                              readOnly={true}
+                              value="{
+  \\"listing_id\\": \\"000028066\\",
+  \\"seller_transaction_id\\": \\"tr_1IWD3SBwavzc3Cjzlb5ZMkPk\\"
+}"
+                            />
+                          </div>
+                          <div
+                            onClick={[Function]}
+                          >
+                            <div
+                              style={
+                                Object {
+                                  "float": "left",
+                                }
+                              }
+                            >
+                              Show more
+                            </div>
+                          </div>
+                        </div>
+                      </dd>
+                    </dl>
                   </div>
                 </div>
               </div>
@@ -166,7 +196,25 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
       <div
         className="receipt-row-status col"
       >
-        Empty result
+        <i>
+          Failure: 
+        </i>
+        <pre>
+          {
+  "ActionError": {
+    "index": 0,
+    "kind": {
+      "FunctionCallError": {
+        "HostError": {
+          "GuestPanic": {
+            "panic_msg": "listings not found"
+          }
+        }
+      }
+    }
+  }
+}
+        </pre>
       </div>
     </div>
     <div
@@ -178,15 +226,202 @@ exports[`<ReceiptRow /> renders Failure 1`] = `
         <pre
           className="jsx-4267416232"
         >
-          LOG: Counter is now: 1
+          000028066 listings not found
         </pre>
+      </div>
+    </div>
+    <div
+      className="executed-receipt-row row no-gutters"
+    >
+      <div
+        className="col"
+      >
+        <div
+          className="receipt-row row no-gutters"
+        >
+          <div
+            className="col"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="receipt-row-title receipt-hash-title col"
+              >
+                <b
+                  className="jsx-4267416232"
+                >
+                  Receipt ID:
+                </b>
+              </div>
+              <div
+                className="receipt-row-receipt-hash ml-auto text-right col"
+                title="R2222222222222222222222222222222222222222222"
+              >
+                R2222…2222222222
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Predecessor ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="system"
+              >
+                system
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Receiver ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="receiver.test"
+              >
+                receiver.test
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Gas Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                0 gas
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Tokens Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  0
+                   Ⓝ
+                </span>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                <div
+                  className="action-sparse-row mx-0  row no-gutters"
+                >
+                  <div
+                    className="col-auto"
+                  >
+                    <div
+                      className="jsx-1246332424 action-row-img"
+                    >
+                      <svg
+                        viewBox="0 0 18 18"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                          fill="#8dd4bd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    className="action-row-details col"
+                  >
+                    <div
+                      className="action-row-message row no-gutters"
+                    >
+                      <div
+                        className="col-md-8 col-7"
+                      >
+                        <div
+                          className="row no-gutters"
+                        >
+                          <div
+                            className="action-row-title col"
+                          >
+                            Transferred 
+                            <span
+                              onBlur={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              0.00353
+                               Ⓝ
+                            </span>
+                             to 
+                            <a
+                              className="jsx-3150401870 account-link"
+                              href="/accounts/receiver.test"
+                              onClick={[Function]}
+                              onMouseEnter={[Function]}
+                            >
+                              receiver.test
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-status col"
+              >
+                Empty result
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                No logs
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
+exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
 <div
   className="receipt-row row no-gutters"
 >
@@ -207,9 +442,9 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
       </div>
       <div
         className="receipt-row-receipt-hash ml-auto text-right col"
-        title="222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"
+        title="R1111111111111111111111111111111111111111111"
       >
-        222aL…JCZmVQv222
+        R1111…1111111111
       </div>
     </div>
     <div
@@ -222,9 +457,9 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
       </div>
       <div
         className="receipt-row-receipt-hash col"
-        title="signer2.test"
+        title="signer.test"
       >
-        signer2.test
+        signer.test
       </div>
     </div>
     <div
@@ -237,9 +472,9 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
       </div>
       <div
         className="receipt-row-receipt-hash col"
-        title="receiver2.test"
+        title="receiver.test"
       >
-        receiver2.test
+        receiver.test
       </div>
     </div>
     <div
@@ -253,7 +488,7 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        222222 gas
+        20 Tgas
       </div>
     </div>
     <div
@@ -273,7 +508,1292 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          &lt;0.00001
+          0.00209
+           Ⓝ
+        </span>
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-text col"
+      >
+        <div
+          className="action-sparse-row mx-0  row no-gutters"
+        >
+          <div
+            className="col-auto"
+          >
+            <div
+              className="jsx-1246332424 action-row-img"
+            >
+              <svg
+                viewBox="0 0 18 18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                  fill="#ccc"
+                />
+              </svg>
+            </div>
+          </div>
+          <div
+            className="action-row-details col"
+          >
+            <div
+              className="action-row-message row no-gutters"
+            >
+              <div
+                className="col-md-8 col-7"
+              >
+                <div
+                  className="row no-gutters"
+                >
+                  <div
+                    className="action-row-title col"
+                  >
+                    Called method: 'ft_transfer_call' in contract: 
+                    <a
+                      className="jsx-3150401870 account-link"
+                      href="/accounts/receiver.test"
+                      onClick={[Function]}
+                      onMouseEnter={[Function]}
+                    >
+                      receiver.test
+                    </a>
+                    <dl>
+                      <dt>
+                        Arguments:
+                      </dt>
+                      <dd>
+                        <div>
+                          <div
+                            style={
+                              Object {
+                                "display": "block",
+                                "height": "0px",
+                                "overflow": "hidden",
+                              }
+                            }
+                          >
+                            <textarea
+                              className="jsx-2493677144 code-preview"
+                              readOnly={true}
+                              value="{
+  \\"receiver_id\\": \\"farm.berryclub.ek.near\\",
+  \\"amount\\": \\"9807229473212706028\\",
+  \\"memo\\": \\"Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒\\",
+  \\"msg\\": \\"\\\\\\"DepositAndStake\\\\\\"\\"
+}"
+                            />
+                          </div>
+                          <div
+                            onClick={[Function]}
+                          >
+                            <div
+                              style={
+                                Object {
+                                  "float": "left",
+                                }
+                              }
+                            >
+                              Show more
+                            </div>
+                          </div>
+                        </div>
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-status col"
+      >
+        <i>
+          SuccessReceiptId: 
+        </i>
+        <pre>
+          R3333333333333333333333333333333333333333333
+        </pre>
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-text col"
+      >
+        <pre
+          className="jsx-4267416232"
+        >
+          Transfer 9807229473212706028 from signer.test to receiver.test
+Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
+        </pre>
+      </div>
+    </div>
+    <div
+      className="executed-receipt-row row no-gutters"
+    >
+      <div
+        className="col"
+      >
+        <div
+          className="receipt-row row no-gutters"
+        >
+          <div
+            className="col"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="receipt-row-title receipt-hash-title col"
+              >
+                <b
+                  className="jsx-4267416232"
+                >
+                  Receipt ID:
+                </b>
+              </div>
+              <div
+                className="receipt-row-receipt-hash ml-auto text-right col"
+                title="R222222222222222222222222222222222222222222"
+              >
+                R2222…2222222222
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Predecessor ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="signer1.test"
+              >
+                signer1.test
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Receiver ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="receiver.test"
+              >
+                receiver.test
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Gas Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                4 Tgas
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Tokens Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  0.00041
+                   Ⓝ
+                </span>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                <div
+                  className="action-sparse-row mx-0  row no-gutters"
+                >
+                  <div
+                    className="col-auto"
+                  >
+                    <div
+                      className="jsx-1246332424 action-row-img"
+                    >
+                      <svg
+                        viewBox="0 0 18 18"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                          fill="#ccc"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    className="action-row-details col"
+                  >
+                    <div
+                      className="action-row-message row no-gutters"
+                    >
+                      <div
+                        className="col-md-8 col-7"
+                      >
+                        <div
+                          className="row no-gutters"
+                        >
+                          <div
+                            className="action-row-title col"
+                          >
+                            Called method: 'ft_on_transfer' in contract: 
+                            <a
+                              className="jsx-3150401870 account-link"
+                              href="/accounts/receiver.test"
+                              onClick={[Function]}
+                              onMouseEnter={[Function]}
+                            >
+                              receiver.test
+                            </a>
+                            <dl>
+                              <dt>
+                                Arguments:
+                              </dt>
+                              <dd>
+                                <div>
+                                  <div
+                                    style={
+                                      Object {
+                                        "display": "block",
+                                        "height": "0px",
+                                        "overflow": "hidden",
+                                      }
+                                    }
+                                  >
+                                    <textarea
+                                      className="jsx-2493677144 code-preview"
+                                      readOnly={true}
+                                      value="{
+  \\"sender_id\\": \\"leonardwcai.near\\",
+  \\"amount\\": \\"9807229473212706028\\",
+  \\"msg\\": \\"\\\\\\"DepositAndStake\\\\\\"\\"
+}"
+                                    />
+                                  </div>
+                                  <div
+                                    onClick={[Function]}
+                                  >
+                                    <div
+                                      style={
+                                        Object {
+                                          "float": "left",
+                                        }
+                                      }
+                                    >
+                                      Show more
+                                    </div>
+                                  </div>
+                                </div>
+                              </dd>
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-status col"
+              >
+                <i>
+                  Result: 
+                </i>
+                <div>
+                  <div
+                    style={
+                      Object {
+                        "display": "block",
+                        "height": "0px",
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <textarea
+                      className="jsx-2493677144 code-preview"
+                      readOnly={true}
+                      value="\\"0\\""
+                    />
+                  </div>
+                  <div
+                    onClick={[Function]}
+                  >
+                    <div
+                      style={
+                        Object {
+                          "float": "left",
+                        }
+                      }
+                    >
+                      Show more
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                No logs
+              </div>
+            </div>
+            <div
+              className="executed-receipt-row row no-gutters"
+            >
+              <div
+                className="col"
+              >
+                <div
+                  className="receipt-row row no-gutters"
+                >
+                  <div
+                    className="col"
+                  >
+                    <div
+                      className="row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title receipt-hash-title col"
+                      >
+                        <b
+                          className="jsx-4267416232"
+                        >
+                          Receipt ID:
+                        </b>
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash ml-auto text-right col"
+                        title="R555555555555555555555555555555555555555555"
+                      >
+                        R5555…5555555555
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Predecessor ID:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                        title="system"
+                      >
+                        system
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Receiver ID:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                        title="receiver.test"
+                      >
+                        receiver.test
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Gas Burned:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        0 gas
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Tokens Burned:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        <span
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                        >
+                          0
+                           Ⓝ
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-text col"
+                      >
+                        <div
+                          className="action-sparse-row mx-0  row no-gutters"
+                        >
+                          <div
+                            className="col-auto"
+                          >
+                            <div
+                              className="jsx-1246332424 action-row-img"
+                            >
+                              <svg
+                                viewBox="0 0 18 18"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                                  fill="#8dd4bd"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                          <div
+                            className="action-row-details col"
+                          >
+                            <div
+                              className="action-row-message row no-gutters"
+                            >
+                              <div
+                                className="col-md-8 col-7"
+                              >
+                                <div
+                                  className="row no-gutters"
+                                >
+                                  <div
+                                    className="action-row-title col"
+                                  >
+                                    Transferred 
+                                    <span
+                                      onBlur={[Function]}
+                                      onFocus={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                    >
+                                      0.00269
+                                       Ⓝ
+                                    </span>
+                                     to 
+                                    <a
+                                      className="jsx-3150401870 account-link"
+                                      href="/accounts/receiver.test"
+                                      onClick={[Function]}
+                                      onMouseEnter={[Function]}
+                                    >
+                                      receiver.test
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-status col"
+                      >
+                        Empty result
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-text col"
+                      >
+                        No logs
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="executed-receipt-row row no-gutters"
+    >
+      <div
+        className="col"
+      >
+        <div
+          className="receipt-row row no-gutters"
+        >
+          <div
+            className="col"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="receipt-row-title receipt-hash-title col"
+              >
+                <b
+                  className="jsx-4267416232"
+                >
+                  Receipt ID:
+                </b>
+              </div>
+              <div
+                className="receipt-row-receipt-hash ml-auto text-right col"
+                title="R3333333333333333333333333333333333333333333"
+              >
+                R3333…3333333333
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Predecessor ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="signer1.test"
+              >
+                signer1.test
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Receiver ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="receiver1.test"
+              >
+                receiver1.test
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Gas Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                3 Tgas
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Tokens Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  0.00035
+                   Ⓝ
+                </span>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                <div
+                  className="action-sparse-row mx-0  row no-gutters"
+                >
+                  <div
+                    className="col-auto"
+                  >
+                    <div
+                      className="jsx-1246332424 action-row-img"
+                    >
+                      <svg
+                        viewBox="0 0 18 18"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                          fill="#ccc"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    className="action-row-details col"
+                  >
+                    <div
+                      className="action-row-message row no-gutters"
+                    >
+                      <div
+                        className="col-md-8 col-7"
+                      >
+                        <div
+                          className="row no-gutters"
+                        >
+                          <div
+                            className="action-row-title col"
+                          >
+                            Called method: 'ft_resolve_transfer' in contract: 
+                            <a
+                              className="jsx-3150401870 account-link"
+                              href="/accounts/receiver1.test"
+                              onClick={[Function]}
+                              onMouseEnter={[Function]}
+                            >
+                              receiver1.test
+                            </a>
+                            <dl>
+                              <dt>
+                                Arguments:
+                              </dt>
+                              <dd>
+                                <div>
+                                  <div
+                                    style={
+                                      Object {
+                                        "display": "block",
+                                        "height": "0px",
+                                        "overflow": "hidden",
+                                      }
+                                    }
+                                  >
+                                    <textarea
+                                      className="jsx-2493677144 code-preview"
+                                      readOnly={true}
+                                      value="{
+  \\"sender_id\\": \\"leonardwcai.near\\",
+  \\"receiver_id\\": \\"farm.berryclub.ek.near\\",
+  \\"amount\\": \\"9807229473212706028\\"
+}"
+                                    />
+                                  </div>
+                                  <div
+                                    onClick={[Function]}
+                                  >
+                                    <div
+                                      style={
+                                        Object {
+                                          "float": "left",
+                                        }
+                                      }
+                                    >
+                                      Show more
+                                    </div>
+                                  </div>
+                                </div>
+                              </dd>
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-status col"
+              >
+                <i>
+                  Result: 
+                </i>
+                <div>
+                  <div
+                    style={
+                      Object {
+                        "display": "block",
+                        "height": "0px",
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <textarea
+                      className="jsx-2493677144 code-preview"
+                      readOnly={true}
+                      value="\\"9807229473212706028\\""
+                    />
+                  </div>
+                  <div
+                    onClick={[Function]}
+                  >
+                    <div
+                      style={
+                        Object {
+                          "float": "left",
+                        }
+                      }
+                    >
+                      Show more
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                No logs
+              </div>
+            </div>
+            <div
+              className="executed-receipt-row row no-gutters"
+            >
+              <div
+                className="col"
+              >
+                <div
+                  className="receipt-row row no-gutters"
+                >
+                  <div
+                    className="col"
+                  >
+                    <div
+                      className="row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title receipt-hash-title col"
+                      >
+                        <b
+                          className="jsx-4267416232"
+                        >
+                          Receipt ID:
+                        </b>
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash ml-auto text-right col"
+                        title="R6666666666666666666666666666666666666666666"
+                      >
+                        R6666…6666666666
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Predecessor ID:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                        title="system"
+                      >
+                        system
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Receiver ID:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                        title="receiver.test"
+                      >
+                        receiver.test
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Gas Burned:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        0 gas
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
+                        Tokens Burned:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        <span
+                          onBlur={[Function]}
+                          onFocus={[Function]}
+                          onMouseOut={[Function]}
+                          onMouseOver={[Function]}
+                        >
+                          0
+                           Ⓝ
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-text col"
+                      >
+                        <div
+                          className="action-sparse-row mx-0  row no-gutters"
+                        >
+                          <div
+                            className="col-auto"
+                          >
+                            <div
+                              className="jsx-1246332424 action-row-img"
+                            >
+                              <svg
+                                viewBox="0 0 18 18"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                                  fill="#8dd4bd"
+                                />
+                              </svg>
+                            </div>
+                          </div>
+                          <div
+                            className="action-row-details col"
+                          >
+                            <div
+                              className="action-row-message row no-gutters"
+                            >
+                              <div
+                                className="col-md-8 col-7"
+                              >
+                                <div
+                                  className="row no-gutters"
+                                >
+                                  <div
+                                    className="action-row-title col"
+                                  >
+                                    Transferred 
+                                    <span
+                                      onBlur={[Function]}
+                                      onFocus={[Function]}
+                                      onMouseOut={[Function]}
+                                      onMouseOver={[Function]}
+                                    >
+                                      0.00068
+                                       Ⓝ
+                                    </span>
+                                     to 
+                                    <a
+                                      className="jsx-3150401870 account-link"
+                                      href="/accounts/receiver.test"
+                                      onClick={[Function]}
+                                      onMouseEnter={[Function]}
+                                    >
+                                      receiver.test
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-status col"
+                      >
+                        Empty result
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-text col"
+                      >
+                        No logs
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="executed-receipt-row row no-gutters"
+    >
+      <div
+        className="col"
+      >
+        <div
+          className="receipt-row row no-gutters"
+        >
+          <div
+            className="col"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="receipt-row-title receipt-hash-title col"
+              >
+                <b
+                  className="jsx-4267416232"
+                >
+                  Receipt ID:
+                </b>
+              </div>
+              <div
+                className="receipt-row-receipt-hash ml-auto text-right col"
+                title="R4444444444444444444444444444444444444444444"
+              >
+                R4444…4444444444
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Predecessor ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="system"
+              >
+                system
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Receiver ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+                title="receiver.test"
+              >
+                receiver.test
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Gas Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                0 gas
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Tokens Burned:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  0
+                   Ⓝ
+                </span>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                <div
+                  className="action-sparse-row mx-0  row no-gutters"
+                >
+                  <div
+                    className="col-auto"
+                  >
+                    <div
+                      className="jsx-1246332424 action-row-img"
+                    >
+                      <svg
+                        viewBox="0 0 18 18"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                          fill="#8dd4bd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    className="action-row-details col"
+                  >
+                    <div
+                      className="action-row-message row no-gutters"
+                    >
+                      <div
+                        className="col-md-8 col-7"
+                      >
+                        <div
+                          className="row no-gutters"
+                        >
+                          <div
+                            className="action-row-title col"
+                          >
+                            Transferred 
+                            <span
+                              onBlur={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              0.00104
+                               Ⓝ
+                            </span>
+                             to 
+                            <a
+                              className="jsx-3150401870 account-link"
+                              href="/accounts/receiver.test"
+                              onClick={[Function]}
+                              onMouseEnter={[Function]}
+                            >
+                              receiver.test
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-status col"
+              >
+                Empty result
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-text col"
+              >
+                No logs
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ReceiptRow /> renders successful receipt 1`] = `
+<div
+  className="receipt-row row no-gutters"
+>
+  <div
+    className="col"
+  >
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="receipt-row-title receipt-hash-title col"
+      >
+        <b
+          className="jsx-4267416232"
+        >
+          Receipt ID:
+        </b>
+      </div>
+      <div
+        className="receipt-row-receipt-hash ml-auto text-right col"
+        title="R1111111111111111111111111111111111111111111"
+      >
+        R1111…1111111111
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Predecessor ID:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+        title="signer.test"
+      >
+        signer.test
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Receiver ID:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+        title="receiver.test"
+      >
+        receiver.test
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Gas Burned:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        6 Tgas
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Tokens Burned:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        <span
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          0.00061
            Ⓝ
         </span>
       </div>
@@ -322,11 +1842,11 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
                     Called method: 'vote' in contract: 
                     <a
                       className="jsx-3150401870 account-link"
-                      href="/accounts/receiver2.test"
+                      href="/accounts/receiver.test"
                       onClick={[Function]}
                       onMouseEnter={[Function]}
                     >
-                      receiver2.test
+                      receiver.test
                     </a>
                     <dl>
                       <dt>
@@ -348,10 +1868,10 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
                               readOnly={true}
                               value="{
   \\"request\\": {
-    \\"left\\": 30205312,
-    \\"right\\": 29402342
+    \\"left\\": 32626789,
+    \\"right\\": 32132129
   },
-  \\"response\\": \\"SelectedRight\\"
+  \\"response\\": \\"Skipped\\"
 }"
                             />
                           </div>
@@ -386,225 +1906,41 @@ exports[`<ReceiptRow /> renders SuccessReceiptId 1`] = `
         className="receipt-row-status col"
       >
         <i>
-          Failure: 
+          Result: 
         </i>
-        <pre>
-          {
-  "error_message": "Exceeded the prepaid gas.",
-  "error_type": "ActionError::FunctionCallError"
-}
-        </pre>
-      </div>
-    </div>
-    <div
-      className="receipt-row-section row no-gutters"
-    >
-      <div
-        className="receipt-row-text col"
-      >
-        No logs
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`<ReceiptRow /> renders SuccessValue 1`] = `
-<div
-  className="receipt-row row no-gutters"
->
-  <div
-    className="col"
-  >
-    <div
-      className="row no-gutters"
-    >
-      <div
-        className="receipt-row-title receipt-hash-title col"
-      >
-        <b
-          className="jsx-4267416232"
-        >
-          Receipt ID:
-        </b>
-      </div>
-      <div
-        className="receipt-row-receipt-hash ml-auto text-right col"
-        title="9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"
-      >
-        9uZxS…kAmwrHr1vs
-      </div>
-    </div>
-    <div
-      className="receipt-row-section row no-gutters"
-    >
-      <div
-        className="receipt-row-title col"
-      >
-        Predecessor ID:
-      </div>
-      <div
-        className="receipt-row-receipt-hash col"
-        title="signer.test"
-      >
-        signer.test
-      </div>
-    </div>
-    <div
-      className="receipt-row-section row no-gutters"
-    >
-      <div
-        className="receipt-row-title col"
-      >
-        Receiver ID:
-      </div>
-      <div
-        className="receipt-row-receipt-hash col"
-        title="receiver.test"
-      >
-        receiver.test
-      </div>
-    </div>
-    <div
-      className="receipt-row-section row no-gutters"
-    >
-      <div
-        className="receipt-row-title col"
-      >
-        Gas Burned:
-      </div>
-      <div
-        className="receipt-row-receipt-hash col"
-      >
-        100000 gas
-      </div>
-    </div>
-    <div
-      className="receipt-row-section row no-gutters"
-    >
-      <div
-        className="receipt-row-title col"
-      >
-        Tokens Burned:
-      </div>
-      <div
-        className="receipt-row-receipt-hash col"
-      >
-        <span
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-        >
-          &lt;0.00001
-           Ⓝ
-        </span>
-      </div>
-    </div>
-    <div
-      className="receipt-row-section row no-gutters"
-    >
-      <div
-        className="receipt-row-text col"
-      >
-        <div
-          className="action-sparse-row mx-0  row no-gutters"
-        >
+        <div>
           <div
-            className="col-auto"
+            style={
+              Object {
+                "display": "block",
+                "height": "0px",
+                "overflow": "hidden",
+              }
+            }
           >
-            <div
-              className="jsx-1246332424 action-row-img"
-            >
-              <svg
-                viewBox="0 0 18 18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
-                  fill="#ccc"
-                />
-              </svg>
-            </div>
+            <textarea
+              className="jsx-2493677144 code-preview"
+              readOnly={true}
+              value="{
+  \\"left\\": 29647268,
+  \\"right\\": 22016008
+}"
+            />
           </div>
           <div
-            className="action-row-details col"
+            onClick={[Function]}
           >
             <div
-              className="action-row-message row no-gutters"
+              style={
+                Object {
+                  "float": "left",
+                }
+              }
             >
-              <div
-                className="col-md-8 col-7"
-              >
-                <div
-                  className="row no-gutters"
-                >
-                  <div
-                    className="action-row-title col"
-                  >
-                    Called method: 'confirm' in contract: 
-                    <a
-                      className="jsx-3150401870 account-link"
-                      href="/accounts/receiver.test"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                    >
-                      receiver.test
-                    </a>
-                    <dl>
-                      <dt>
-                        Arguments:
-                      </dt>
-                      <dd>
-                        <div>
-                          <div
-                            style={
-                              Object {
-                                "display": "block",
-                                "height": "0px",
-                                "overflow": "hidden",
-                              }
-                            }
-                          >
-                            <textarea
-                              className="jsx-2493677144 code-preview"
-                              readOnly={true}
-                              value="{
-  \\"request_id\\": 12
-}"
-                            />
-                          </div>
-                          <div
-                            onClick={[Function]}
-                          >
-                            <div
-                              style={
-                                Object {
-                                  "float": "left",
-                                }
-                              }
-                            >
-                              Show more
-                            </div>
-                          </div>
-                        </div>
-                      </dd>
-                    </dl>
-                  </div>
-                </div>
-              </div>
+              Show more
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div
-      className="receipt-row-section row no-gutters"
-    >
-      <div
-        className="receipt-row-status col"
-      >
-        No result
       </div>
     </div>
     <div
@@ -642,9 +1978,9 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
               </div>
               <div
                 className="receipt-row-receipt-hash ml-auto text-right col"
-                title="A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"
+                title="R2222222222222222222222222222222222222222222"
               >
-                A8HaL…JCZmVQvN3v
+                R2222…2222222222
               </div>
             </div>
             <div
@@ -657,9 +1993,9 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
               </div>
               <div
                 className="receipt-row-receipt-hash col"
-                title="signer.test"
+                title="system"
               >
-                signer.test
+                system
               </div>
             </div>
             <div
@@ -688,7 +2024,7 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
               <div
                 className="receipt-row-receipt-hash col"
               >
-                999 Mgas
+                0 gas
               </div>
             </div>
             <div
@@ -708,7 +2044,7 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  &lt;0.00001
+                  0
                    Ⓝ
                 </span>
               </div>
@@ -733,8 +2069,8 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
-                          fill="#ccc"
+                          d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                          fill="#8dd4bd"
                         />
                       </svg>
                     </div>
@@ -754,7 +2090,17 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
                           <div
                             className="action-row-title col"
                           >
-                            Called method: 'unstake' in contract: 
+                            Transferred 
+                            <span
+                              onBlur={[Function]}
+                              onFocus={[Function]}
+                              onMouseOut={[Function]}
+                              onMouseOver={[Function]}
+                            >
+                              0.01844
+                               Ⓝ
+                            </span>
+                             to 
                             <a
                               className="jsx-3150401870 account-link"
                               href="/accounts/receiver.test"
@@ -763,45 +2109,6 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
                             >
                               receiver.test
                             </a>
-                            <dl>
-                              <dt>
-                                Arguments:
-                              </dt>
-                              <dd>
-                                <div>
-                                  <div
-                                    style={
-                                      Object {
-                                        "display": "block",
-                                        "height": "0px",
-                                        "overflow": "hidden",
-                                      }
-                                    }
-                                  >
-                                    <textarea
-                                      className="jsx-2493677144 code-preview"
-                                      readOnly={true}
-                                      value="{
-  \\"amount\\": \\"17560000000000000000000000000\\"
-}"
-                                    />
-                                  </div>
-                                  <div
-                                    onClick={[Function]}
-                                  >
-                                    <div
-                                      style={
-                                        Object {
-                                          "float": "left",
-                                        }
-                                      }
-                                    >
-                                      Show more
-                                    </div>
-                                  </div>
-                                </div>
-                              </dd>
-                            </dl>
                           </div>
                         </div>
                       </div>
@@ -816,12 +2123,7 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
               <div
                 className="receipt-row-status col"
               >
-                <i>
-                  SuccessReceiptId: 
-                </i>
-                <pre>
-                  A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111
-                </pre>
+                Empty result
               </div>
             </div>
             <div
@@ -830,443 +2132,7 @@ exports[`<ReceiptRow /> renders SuccessValue 1`] = `
               <div
                 className="receipt-row-text col"
               >
-                <pre
-                  className="jsx-4267416232"
-                >
-                  LOG: Counter is now: 1
-                </pre>
-              </div>
-            </div>
-            <div
-              className="executed-receipt-row row no-gutters"
-            >
-              <div
-                className="col"
-              >
-                <div
-                  className="receipt-row row no-gutters"
-                >
-                  <div
-                    className="col"
-                  >
-                    <div
-                      className="row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title receipt-hash-title col"
-                      >
-                        <b
-                          className="jsx-4267416232"
-                        >
-                          Receipt ID:
-                        </b>
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash ml-auto text-right col"
-                        title="A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111"
-                      >
-                        A5oSQ…oWUMnK1111
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Predecessor ID:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                        title="signer.test"
-                      >
-                        signer.test
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Receiver ID:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                        title="receiver.test"
-                      >
-                        receiver.test
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Gas Burned:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                      >
-                        55 Mgas
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Tokens Burned:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                      >
-                        <span
-                          onBlur={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          &lt;0.00001
-                           Ⓝ
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-text col"
-                      >
-                        <div
-                          className="action-sparse-row mx-0  row no-gutters"
-                        >
-                          <div
-                            className="col-auto"
-                          >
-                            <div
-                              className="jsx-1246332424 action-row-img"
-                            >
-                              <svg
-                                viewBox="0 0 18 18"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
-                                  fill="#ccc"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                          <div
-                            className="action-row-details col"
-                          >
-                            <div
-                              className="action-row-message row no-gutters"
-                            >
-                              <div
-                                className="col-md-8 col-7"
-                              >
-                                <div
-                                  className="row no-gutters"
-                                >
-                                  <div
-                                    className="action-row-title col"
-                                  >
-                                    Called method: 'unstake' in contract: 
-                                    <a
-                                      className="jsx-3150401870 account-link"
-                                      href="/accounts/receiver.test"
-                                      onClick={[Function]}
-                                      onMouseEnter={[Function]}
-                                    >
-                                      receiver.test
-                                    </a>
-                                    <dl>
-                                      <dt>
-                                        Arguments:
-                                      </dt>
-                                      <dd>
-                                        <div>
-                                          <div
-                                            style={
-                                              Object {
-                                                "display": "block",
-                                                "height": "0px",
-                                                "overflow": "hidden",
-                                              }
-                                            }
-                                          >
-                                            <textarea
-                                              className="jsx-2493677144 code-preview"
-                                              readOnly={true}
-                                              value="{
-  \\"amount\\": \\"17560000000000000000000000000\\"
-}"
-                                            />
-                                          </div>
-                                          <div
-                                            onClick={[Function]}
-                                          >
-                                            <div
-                                              style={
-                                                Object {
-                                                  "float": "left",
-                                                }
-                                              }
-                                            >
-                                              Show more
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </dd>
-                                    </dl>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-status col"
-                      >
-                        Empty result
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-text col"
-                      >
-                        No logs
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div
-              className="executed-receipt-row row no-gutters"
-            >
-              <div
-                className="col"
-              >
-                <div
-                  className="receipt-row row no-gutters"
-                >
-                  <div
-                    className="col"
-                  >
-                    <div
-                      className="row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title receipt-hash-title col"
-                      >
-                        <b
-                          className="jsx-4267416232"
-                        >
-                          Receipt ID:
-                        </b>
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash ml-auto text-right col"
-                        title="A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222"
-                      >
-                        A5oSQ…oWUMnK2222
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Predecessor ID:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                        title="signer.test"
-                      >
-                        signer.test
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Receiver ID:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                        title="receiver.test"
-                      >
-                        receiver.test
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Gas Burned:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                      >
-                        444 Ggas
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-title col"
-                      >
-                        Tokens Burned:
-                      </div>
-                      <div
-                        className="receipt-row-receipt-hash col"
-                      >
-                        <span
-                          onBlur={[Function]}
-                          onFocus={[Function]}
-                          onMouseOut={[Function]}
-                          onMouseOver={[Function]}
-                        >
-                          &lt;0.00001
-                           Ⓝ
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-text col"
-                      >
-                        <div
-                          className="action-sparse-row mx-0  row no-gutters"
-                        >
-                          <div
-                            className="col-auto"
-                          >
-                            <div
-                              className="jsx-1246332424 action-row-img"
-                            >
-                              <svg
-                                viewBox="0 0 18 18"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
-                                  fill="#ccc"
-                                />
-                              </svg>
-                            </div>
-                          </div>
-                          <div
-                            className="action-row-details col"
-                          >
-                            <div
-                              className="action-row-message row no-gutters"
-                            >
-                              <div
-                                className="col-md-8 col-7"
-                              >
-                                <div
-                                  className="row no-gutters"
-                                >
-                                  <div
-                                    className="action-row-title col"
-                                  >
-                                    Called method: 'on_staking_pool_unstake' in contract: 
-                                    <a
-                                      className="jsx-3150401870 account-link"
-                                      href="/accounts/receiver.test"
-                                      onClick={[Function]}
-                                      onMouseEnter={[Function]}
-                                    >
-                                      receiver.test
-                                    </a>
-                                    <dl>
-                                      <dt>
-                                        Arguments:
-                                      </dt>
-                                      <dd>
-                                        <div>
-                                          <div
-                                            style={
-                                              Object {
-                                                "display": "block",
-                                                "height": "0px",
-                                                "overflow": "hidden",
-                                              }
-                                            }
-                                          >
-                                            <textarea
-                                              className="jsx-2493677144 code-preview"
-                                              readOnly={true}
-                                              value="{
-  \\"amount\\": \\"17560000000000000000000000000\\"
-}"
-                                            />
-                                          </div>
-                                          <div
-                                            onClick={[Function]}
-                                          >
-                                            <div
-                                              style={
-                                                Object {
-                                                  "float": "left",
-                                                }
-                                              }
-                                            >
-                                              Show more
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </dd>
-                                    </dl>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-status col"
-                      >
-                        Empty result
-                      </div>
-                    </div>
-                    <div
-                      className="receipt-row-section row no-gutters"
-                    >
-                      <div
-                        className="receipt-row-text col"
-                      >
-                        No logs
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                No logs
               </div>
             </div>
           </div>

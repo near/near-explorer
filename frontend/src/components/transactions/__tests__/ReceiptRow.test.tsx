@@ -2,37 +2,41 @@ import renderer from "react-test-renderer";
 
 import ReceiptRow from "../ReceiptRow";
 
-import { TRANSACTIONS } from "./common";
+import {
+  TRANSACTION_WITH_SUCCESSFUL_RECEIPT,
+  TRANSACTION_WITH_MANY_RECEIPTS,
+  TRANSACTION_WITH_FAILING_RECEIPT,
+} from "./common";
 
 describe("<ReceiptRow />", () => {
-  it("renders SuccessValue", () => {
+  it("renders successful receipt", () => {
     expect(
       renderer.create(
         <ReceiptRow
-          receipt={TRANSACTIONS[0].receipt!}
-          key={TRANSACTIONS[0].receipt!.receipt_id}
+          receipt={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!}
+          key={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!.receipt_id}
         />
       )
     ).toMatchSnapshot();
   });
 
-  it("renders SuccessReceiptId", () => {
+  it("renders receipt with many outcome receipts", () => {
     expect(
       renderer.create(
         <ReceiptRow
-          receipt={TRANSACTIONS[1].receipt!}
-          key={TRANSACTIONS[1].receipt!.receipt_id}
+          receipt={TRANSACTION_WITH_MANY_RECEIPTS.receipt!}
+          key={TRANSACTION_WITH_MANY_RECEIPTS.receipt!.receipt_id}
         />
       )
     ).toMatchSnapshot();
   });
 
-  it("renders Failure", () => {
+  it("renders Failure receipt", () => {
     expect(
       renderer.create(
         <ReceiptRow
-          receipt={TRANSACTIONS[2].receipt!}
-          key={TRANSACTIONS[2].receipt!.receipt_id}
+          receipt={TRANSACTION_WITH_FAILING_RECEIPT.receipt!}
+          key={TRANSACTION_WITH_FAILING_RECEIPT.receipt!.receipt_id}
         />
       )
     ).toMatchSnapshot();

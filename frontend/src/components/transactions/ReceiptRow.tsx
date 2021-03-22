@@ -13,7 +13,7 @@ import { displayArgs } from "./ActionMessage";
 import ActionRow from "./ActionRow";
 
 export interface Props {
-  receipt: T.ExecutionOutcomeReceipts;
+  receipt: T.NestedReceiptWithOutcome;
 }
 
 class ReceiptRow extends React.Component<Props> {
@@ -148,10 +148,10 @@ class ReceiptRow extends React.Component<Props> {
             </Col>
           </Row>
 
-          {receipt.outcome.receipt_ids &&
-            receipt.outcome.receipt_ids.length > 0 &&
-            receipt.outcome.receipt_ids.map(
-              (executedReceipt: T.ExecutionOutcomeReceipts) => (
+          {receipt.outcome.outgoing_receipts &&
+            receipt.outcome.outgoing_receipts.length > 0 &&
+            receipt.outcome.outgoing_receipts.map(
+              (executedReceipt: T.NestedReceiptWithOutcome) => (
                 <Row
                   noGutters
                   className="executed-receipt-row"

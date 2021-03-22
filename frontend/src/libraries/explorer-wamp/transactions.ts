@@ -105,32 +105,32 @@ export interface ReceiptOutcome {
 export interface ReceiptsOutcomeWrapper {
   receiptsOutcome?: ReceiptOutcome[];
 }
-export interface ReceiptsList {
+interface RpcReceipt {
   predecessor_id: string;
   receiver_id: string;
   receipt_id: string;
   receipt?: any;
   actions?: Action[];
 }
-export interface ExecutionOutcomeReceipts {
+export interface NestedReceiptWithOutcome {
   actions?: Action[];
   block_hash: string;
-  outcome: ReceiptOutcomeReceipts;
+  outcome: ReceiptExecutionOutcome;
   predecessor_id: string;
   receipt_id: string;
   receiver_id: string;
 }
 
-export interface ReceiptOutcomeReceipts {
+export interface ReceiptExecutionOutcome {
   tokens_burnt: string;
   logs: string[];
-  receipt_ids?: ExecutionOutcomeReceipts[];
+  outgoing_receipts?: NestedReceiptWithOutcome[];
   status: ReceiptStatus;
   gas_burnt: number;
 }
 
 export interface Receipt {
-  receipt?: ExecutionOutcomeReceipts;
+  receipt?: NestedReceiptWithOutcome;
 }
 
 export interface TransactionOutcome {
@@ -482,7 +482,7 @@ export default class TransactionsApi extends ExplorerApi {
           }
         );
 
-        let receipts = transactionExtraInfo.receipts as ReceiptsList[];
+        let receipts = transactionExtraInfo.receipts as RpcReceipt[];
         const receiptsOutcome = transactionExtraInfo.receipts_outcome as ReceiptOutcome[];
         if (
           receipts.length === 0 ||
@@ -497,7 +497,7 @@ export default class TransactionsApi extends ExplorerApi {
         }
         const receiptOutcomesByIdMap = new Map();
         receiptsOutcome.forEach((receipt: any) => {
-          receiptOutcomesByIdMap.set(receipt.id, [receipt]);
+          receiptOutcomesByIdMap.set(receipt.id, receipt);
         });
 
         const receiptsByIdMap = new Map();
@@ -520,33 +520,30 @@ export default class TransactionsApi extends ExplorerApi {
               }
             );
           }
-          receiptsByIdMap.set(receiptItem.receipt_id, [receiptItem]);
+          receiptsByIdMap.set(receiptItem.receipt_id, receiptItem);
         });
 
-        const executionOutcomeReceipt = (receiptHash: string) => {
-          const receipt = receiptsByIdMap.get(receiptHash)[0];
-          const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash)[0];
-          const receipts = { ...receipt, ...receiptOutcome };
+        const collectNestedReceiptWithOutcome = (receiptHash: string) => {
+          const receipt = receiptsByIdMap.get(receiptHash);
+          const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash);
           return {
-            ...receipts,
+            ...receipt,
+            ...receiptOutcome,
             outcome: {
-              ...receipts.outcome,
-              receipt_ids:
-                receipts.outcome && receipts.outcome.receipt_ids.length > 0
-                  ? receipts.outcome.receipt_ids.map(
-                      (executedReceipt: string) =>
-                        executionOutcomeReceipt(executedReceipt)
-                    )
-                  : [],
+              ...receiptOutcome.outcome,
+              outgoing_receipts: receiptOutcome.outcome.receipt_ids.map(
+                (executedReceipt: string) =>
+                  collectNestedReceiptWithOutcome(executedReceipt)
+              ),
             },
           };
         };
 
         transactionInfo.actions = actions;
         transactionInfo.receiptsOutcome = receiptsOutcome;
-        transactionInfo.receipt = executionOutcomeReceipt(
+        transactionInfo.receipt = collectNestedReceiptWithOutcome(
           receiptsOutcome[0].id
-        ) as ExecutionOutcomeReceipts;
+        ) as NestedReceiptWithOutcome;
         transactionInfo.transactionOutcome = transactionExtraInfo.transaction_outcome as TransactionOutcome;
       }
       return transactionInfo;

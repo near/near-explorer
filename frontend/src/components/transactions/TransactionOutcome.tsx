@@ -13,12 +13,8 @@ export interface Props {
 class TransactionOutcome extends React.Component<Props> {
   render() {
     const { transaction } = this.props;
-    const gasBurnt = transaction?.outcome
-      ? new BN(transaction.outcome.gas_burnt)
-      : new BN(0);
-    const tokensBurnt = transaction?.outcome
-      ? new BN(transaction.outcome.tokens_burnt)
-      : new BN(0);
+    const gasBurnt = new BN(transaction.outcome?.gas_burnt ?? 0);
+    const tokensBurnt = new BN(transaction.outcome?.tokens_burnt ?? 0);
     return (
       <Row noGutters className="transaction-outcome">
         <Col>
