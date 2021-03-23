@@ -8,6 +8,7 @@ import * as T from "../../libraries/explorer-wamp/transactions";
 
 import Gas from "../utils/Gas";
 import Balance from "../utils/Balance";
+import BlockLink from "../utils/BlockLink";
 import { truncateAccountId } from "../../libraries/formatting";
 import { displayArgs } from "./ActionMessage";
 import ActionRow from "./ActionRow";
@@ -73,6 +74,13 @@ class ReceiptRow extends React.Component<Props> {
               title={receipt.receipt_id}
             >
               {truncateAccountId(receipt.receipt_id)}
+            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-title">Executed in Block:</Col>
+            <Col className="receipt-row-receipt-hash">
+              <BlockLink blockHash={receipt.block_hash} />
             </Col>
           </Row>
 

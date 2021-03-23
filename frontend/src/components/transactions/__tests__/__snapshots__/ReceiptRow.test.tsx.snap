@@ -32,6 +32,27 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
+        Executed in Block:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        <a
+          className="block-link"
+          href="/blocks/B111111111111111111111111111111111111111111"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+        >
+          B111111...
+        </a>
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
         Predecessor ID:
       </div>
       <div
@@ -267,6 +288,27 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
+                Executed in Block:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <a
+                  className="block-link"
+                  href="/blocks/B222222222222222222222222222222222222222222"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  B222222...
+                </a>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
                 Predecessor ID:
               </div>
               <div
@@ -445,6 +487,27 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         title="R1111111111111111111111111111111111111111111"
       >
         R1111…1111111111
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Executed in Block:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        <a
+          className="block-link"
+          href="/blocks/B222222222222222222222222222222222222222222"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+        >
+          B222222...
+        </a>
       </div>
     </div>
     <div
@@ -670,6 +733,27 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="R222222222222222222222222222222222222222222"
               >
                 R2222…2222222222
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Executed in Block:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <a
+                  className="block-link"
+                  href="/blocks/B333333333333333333333333333333333333333333"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  B333333...
+                </a>
               </div>
             </div>
             <div
@@ -924,6 +1008,27 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
+                        Executed in Block:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        <a
+                          className="block-link"
+                          href="/blocks/B444444444444444444444444444444444444444444"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                        >
+                          B444444...
+                        </a>
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
                         Predecessor ID:
                       </div>
                       <div
@@ -1107,6 +1212,27 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 title="R3333333333333333333333333333333333333333333"
               >
                 R3333…3333333333
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Executed in Block:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <a
+                  className="block-link"
+                  href="/blocks/B4444444444444444444444444444444444444444444"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  B444444...
+                </a>
               </div>
             </div>
             <div
@@ -1361,6 +1487,27 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
+                        Executed in Block:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        <a
+                          className="block-link"
+                          href="/blocks/B666666666666666666666666666666666666666666"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                        >
+                          B666666...
+                        </a>
+                      </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
+                      <div
+                        className="receipt-row-title col"
+                      >
                         Predecessor ID:
                       </div>
                       <div
@@ -1552,6 +1699,27 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
+                Executed in Block:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <a
+                  className="block-link"
+                  href="/blocks/B555555555555555555555555555555555555555555"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  B555555...
+                </a>
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
                 Predecessor ID:
               </div>
               <div
@@ -1730,6 +1898,27 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         title="R1111111111111111111111111111111111111111111"
       >
         R1111…1111111111
+      </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
+      <div
+        className="receipt-row-title col"
+      >
+        Executed in Block:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        <a
+          className="block-link"
+          href="/blocks/B222222222222222222222222222222222222222222"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+        >
+          B222222...
+        </a>
       </div>
     </div>
     <div
@@ -1981,6 +2170,27 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 title="R2222222222222222222222222222222222222222222"
               >
                 R2222…2222222222
+              </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
+              <div
+                className="receipt-row-title col"
+              >
+                Executed in Block:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                <a
+                  className="block-link"
+                  href="/blocks/B333333333333333333333333333333333333333333"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  B333333...
+                </a>
               </div>
             </div>
             <div
