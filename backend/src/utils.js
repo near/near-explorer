@@ -48,7 +48,16 @@ function generateDateArray(startDate, endDate = new Date()) {
   return arr;
 }
 
+function cumulativeAccountsCountArray(array) {
+  return array.reduce((r, a) => {
+    if (r.length > 0) a.accountsCount += r[r.length - 1].accountsCount;
+    r.push(a);
+    return r;
+  }, Array());
+}
+
 exports.promiseResult = promiseResult;
 exports.delayFor = delayFor;
 exports.formatDate = formatDate;
 exports.generateDateArray = generateDateArray;
+exports.cumulativeAccountsCountArray = cumulativeAccountsCountArray;

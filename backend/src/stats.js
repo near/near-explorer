@@ -16,7 +16,11 @@ const {
   queryPartnerUniqueUserAmount,
   queryGenesisAccountCount,
 } = require("./db-utils");
-const { formatDate, generateDateArray } = require("./utils");
+const {
+  formatDate,
+  generateDateArray,
+  cumulativeAccountsCountArray,
+} = require("./utils");
 
 // term that store data from query
 // transaction related
@@ -157,24 +161,21 @@ async function aggregateLiveAccountsCountByDate() {
       }
 
       for (let i = 0; i < changedAccountsCountByDate.length; i++) {
-        if (newAccountMap.get(changedAccountsCountByDate[i].date)) {
-          changedAccountsCountByDate[i].accountsCount =
-            changedAccountsCountByDate[i].accountsCount +
-            newAccountMap.get(changedAccountsCountByDate[i].date);
+        const newAccountsCount = newAccountMap.get(
+          changedAccountsCountByDate[i].date
+        );
+        if (newAccountsCount) {
+          changedAccountsCountByDate[i].accountsCount += newAccountsCount;
         }
-        if (deletedAccountMap.get(changedAccountsCountByDate[i].date)) {
-          changedAccountsCountByDate[i].accountsCount =
-            changedAccountsCountByDate[i].accountsCount -
-            deletedAccountMap.get(changedAccountsCountByDate[i].date);
+        const deletedAccountsCount = deletedAccountMap.get(
+          changedAccountsCountByDate[i].date
+        );
+        if (deletedAccountsCount) {
+          changedAccountsCountByDate[i].accountsCount -= deletedAccountsCount;
         }
       }
-      LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = changedAccountsCountByDate.reduce(
-        (r, a) => {
-          if (r.length > 0) a.accountsCount += r[r.length - 1].accountsCount;
-          r.push(a);
-          return r;
-        },
-        Array()
+      LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = cumulativeAccountsCountArray(
+        changedAccountsCountByDate
       );
       console.log("LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE updated.");
     }
