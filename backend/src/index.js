@@ -37,6 +37,7 @@ const {
   aggregateTeragasUsedByDate,
   aggregateTransactionsCountByDate,
   aggregateNewAccountsCountByDate,
+  aggregateDeletedAccountsCountByDate,
   aggregateNewContractsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
   aggregateActiveContractsCountByDate,
@@ -48,6 +49,7 @@ const {
   aggregatePartnerFirst3MonthTransactionsCount,
   aggregateDepositAmountByDate,
   aggregateParterUniqueUserAmount,
+  aggregateLiveAccountsCountByDate,
 } = require("./stats");
 
 async function startLegacySync() {
@@ -192,17 +194,25 @@ function startStatsAggregation() {
     console.log("Starting Regular Stats Aggregation...");
     try {
       //stats part
+      // transactions related
       await aggregateTransactionsCountByDate();
       await aggregateTeragasUsedByDate();
+      await aggregateDepositAmountByDate();
+
+      // account
       await aggregateNewAccountsCountByDate();
-      await aggregateNewContractsCountByDate();
-      await aggregateUniqueDeployedContractsCountByDate();
-      await aggregateActiveContractsCountByDate();
+      await aggregateDeletedAccountsCountByDate();
+      await aggregateLiveAccountsCountByDate();
       await aggregateActiveAccountsCountByDate();
       await aggregateActiveAccountsCountByWeek();
       await aggregateActiveAccountsList();
+
+      // contract
+      await aggregateNewContractsCountByDate();
+      await aggregateActiveContractsCountByDate();
+      await aggregateUniqueDeployedContractsCountByDate();
       await aggregateActiveContractsList();
-      await aggregateDepositAmountByDate();
+
       //partner part
       await aggregatePartnerTotalTransactionsCount();
       await aggregatePartnerFirst3MonthTransactionsCount();

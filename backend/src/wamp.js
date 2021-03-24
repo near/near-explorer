@@ -18,6 +18,7 @@ const { nearRpc } = require("./near");
 
 const wampHandlers = {};
 
+// node
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   let geo = geoip.lookup(nodeInfo.ip_address);
   if (geo) {
@@ -58,6 +59,7 @@ const saveNodeIntoDatabase = async (nodeInfo) => {
   });
 };
 
+// select query directly to database && indexer
 wampHandlers["select"] = async ([query, replacements]) => {
   return await models.sequelizeLegacySyncBackendReadOnly.query(query, {
     replacements,
@@ -72,6 +74,7 @@ wampHandlers["select:INDEXER_BACKEND"] = async ([query, replacements]) => {
   });
 };
 
+// rpc endpoint
 wampHandlers["nearcore-view-account"] = async ([accountId]) => {
   return await nearRpc.sendJsonRpc("query", {
     request_type: "view_account",
@@ -235,6 +238,8 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
   return accountDetails;
 };
 
+// stats part
+// transaction related
 wampHandlers["transactions-count-aggregated-by-date"] = async () => {
   return await stats.getTransactionsByDate();
 };
@@ -243,10 +248,32 @@ wampHandlers["teragas-used-aggregated-by-date"] = async () => {
   return await stats.getTeragasUsedByDate();
 };
 
+wampHandlers["deposit-amount-aggregated-by-date"] = async () => {
+  return await stats.getDepositAmountByDate();
+};
+
+// accounts
 wampHandlers["new-accounts-count-aggregated-by-date"] = async () => {
   return await stats.getNewAccountsCountByDate();
 };
 
+wampHandlers["live-accounts-count-aggregated-by-date"] = async () => {
+  return await stats.getLiveAccountsCountByDate();
+};
+
+wampHandlers["active-accounts-count-aggregated-by-week"] = async () => {
+  return await stats.getActiveAccountsCountByWeek();
+};
+
+wampHandlers["active-accounts-count-aggregated-by-date"] = async () => {
+  return await stats.getActiveAccountsCountByDate();
+};
+
+wampHandlers["active-accounts-list"] = async () => {
+  return await stats.getActiveAccountsList();
+};
+
+// contracts
 wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getNewContractsCountByDate();
 };
@@ -261,32 +288,17 @@ wampHandlers["active-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getActiveContractsCountByDate();
 };
 
-wampHandlers["active-contracts-count-aggregated-by-week"] = async () => {
-  return await stats.getActiveAccountsCountByWeek();
-};
-
-wampHandlers["active-accounts-count-aggregated-by-date"] = async () => {
-  return await stats.getActiveAccountsCountByDate();
-};
-
-wampHandlers["active-accounts-list"] = async () => {
-  return await stats.getActiveAccountsList();
-};
-
 wampHandlers["active-contracts-list"] = async () => {
   return await stats.getActiveContractsList();
 };
 
+// partner part
 wampHandlers["partner-total-transactions-count"] = async () => {
   return await stats.getPartnerTotalTransactionsCount();
 };
 
 wampHandlers["partner-first-3-month-transactions-count"] = async () => {
   return await stats.getPartnerFirst3MonthTransactionsCount();
-};
-
-wampHandlers["deposit-amount-aggregated-by-date"] = async () => {
-  return await stats.getDepositAmountByDate();
 };
 
 wampHandlers["partner-unique-user-amount"] = async () => {

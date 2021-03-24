@@ -2,37 +2,53 @@ const {
   queryTransactionsCountAggregatedByDate,
   queryTeragasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
-  queryNewContractsCountAggregatedByDate,
+  queryDeletedAccountsCountAggregatedByDate,
   queryUniqueDeployedContractsAggregatedByDate,
-  queryActiveContractsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByWeek,
+  queryNewContractsCountAggregatedByDate,
+  queryActiveContractsCountAggregatedByDate,
   queryActiveContractsList,
   queryActiveAccountsList,
   queryPartnerTotalTransactions,
   queryPartnerFirstThreeMonthTransactions,
   queryDepositAmountAggregatedByDate,
   queryPartnerUniqueUserAmount,
+  queryGenesisAccountCount,
 } = require("./db-utils");
-const { formatDate } = require("./utils");
+const {
+  formatDate,
+  generateDateArray,
+  cumulativeAccountsCountArray,
+} = require("./utils");
 
 // term that store data from query
+// transaction related
 let TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = null;
 let TERAGAS_USED_BY_DATE = null;
+let DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = null;
+
+// accounts
 let NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
-let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
-let UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
-let ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
+let DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = null;
-let ACTIVE_CONTRACTS_LIST = null;
+let LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = null;
 let ACTIVE_ACCOUNTS_LIST = null;
+
+// contracts
+let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
+let ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
+let UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
+let ACTIVE_CONTRACTS_LIST = null;
+
+// partner
 let PARTNER_TOTAL_TRANSACTIONS_COUNT = null;
 let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = null;
-let DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = null;
 let PARTNER_UNIQUE_USER_AMOUNT = null;
 
 // function that query from indexer
+// transaction related
 async function aggregateTransactionsCountByDate() {
   try {
     const transactionsCountAggregatedByDate = await queryTransactionsCountAggregatedByDate();
@@ -78,6 +94,7 @@ async function aggregateDepositAmountByDate() {
   }
 }
 
+// accounts
 async function aggregateNewAccountsCountByDate() {
   try {
     const newAccountsCountAggregatedByDate = await queryNewAccountsCountAggregatedByDate();
@@ -93,59 +110,75 @@ async function aggregateNewAccountsCountByDate() {
   }
 }
 
-async function aggregateNewContractsCountByDate() {
+async function aggregateDeletedAccountsCountByDate() {
   try {
-    const newContractsByDate = await queryNewContractsCountAggregatedByDate();
-    NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
-      ({ date: dateString, new_contracts_count_by_date }) => ({
+    const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsCountAggregatedByDate();
+    DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = deletedAccountsCountAggregatedByDate.map(
+      ({ date: dateString, deleted_accounts_count_by_date }) => ({
         date: formatDate(new Date(dateString)),
-        contractsCount: new_contracts_count_by_date,
+        accountsCount: deleted_accounts_count_by_date,
       })
     );
-    console.log("NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
+    console.log("DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
   }
 }
 
-async function aggregateUniqueDeployedContractsCountByDate() {
+async function aggregateLiveAccountsCountByDate() {
   try {
-    const contractList = await queryUniqueDeployedContractsAggregatedByDate();
-    const contractsRows = contractList.map(
-      ({ date: dateString, deployed_contracts_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        deployedContracts: deployed_contracts_by_date,
-      })
-    );
-    let cumulativeContractsDeployedByDate = new Array();
-    let contractsDeployed = new Set([contractsRows[0].deployedContracts]);
+    const genesisCount = await queryGenesisAccountCount();
+    if (
+      NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE &&
+      DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
+    ) {
+      const startDate = NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[0].date;
+      const dateArray = generateDateArray(startDate);
+      let changedAccountsCountByDate = dateArray.map((date) => ({
+        date: date,
+        accountsCount: 0,
+      }));
+      changedAccountsCountByDate[0].accountsCount = Number(genesisCount.count);
 
-    for (let i = 1; i < contractsRows.length; i++) {
-      if (contractsRows[i].date !== contractsRows[i - 1].date) {
-        cumulativeContractsDeployedByDate.push({
-          date: contractsRows[i - 1].date,
-          contractsCount: contractsDeployed.size,
-        });
+      let newAccountMap = new Map();
+      for (let i = 0; i < NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
+        newAccountMap.set(
+          NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
+          Number(NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
+        );
       }
-      contractsDeployed.add(contractsRows[i].deployedContracts);
-    }
-    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsDeployedByDate;
-    console.log("UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
-}
 
-async function aggregateActiveContractsCountByDate() {
-  try {
-    const activeContractsCountByDate = await queryActiveContractsCountAggregatedByDate();
-    ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
-      ({ date: dateString, active_contracts_count_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        contractsCount: active_contracts_count_by_date,
-      })
-    );
-    console.log("ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
+      let deletedAccountMap = new Map();
+      for (
+        let i = 0;
+        i < DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length;
+        i++
+      ) {
+        deletedAccountMap.set(
+          DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
+          Number(DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
+        );
+      }
+
+      for (let i = 0; i < changedAccountsCountByDate.length; i++) {
+        const newAccountsCount = newAccountMap.get(
+          changedAccountsCountByDate[i].date
+        );
+        if (newAccountsCount) {
+          changedAccountsCountByDate[i].accountsCount += newAccountsCount;
+        }
+        const deletedAccountsCount = deletedAccountMap.get(
+          changedAccountsCountByDate[i].date
+        );
+        if (deletedAccountsCount) {
+          changedAccountsCountByDate[i].accountsCount -= deletedAccountsCount;
+        }
+      }
+      LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = cumulativeAccountsCountArray(
+        changedAccountsCountByDate
+      );
+      console.log("LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE updated.");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -194,6 +227,65 @@ async function aggregateActiveAccountsList() {
       })
     );
     console.log("ACTIVE_ACCOUNTS_LIST updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// contracts
+async function aggregateNewContractsCountByDate() {
+  try {
+    const newContractsByDate = await queryNewContractsCountAggregatedByDate();
+    NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
+      ({ date: dateString, new_contracts_count_by_date }) => ({
+        date: formatDate(new Date(dateString)),
+        contractsCount: new_contracts_count_by_date,
+      })
+    );
+    console.log("NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function aggregateActiveContractsCountByDate() {
+  try {
+    const activeContractsCountByDate = await queryActiveContractsCountAggregatedByDate();
+    ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
+      ({ date: dateString, active_contracts_count_by_date }) => ({
+        date: formatDate(new Date(dateString)),
+        contractsCount: active_contracts_count_by_date,
+      })
+    );
+    console.log("ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function aggregateUniqueDeployedContractsCountByDate() {
+  try {
+    const contractList = await queryUniqueDeployedContractsAggregatedByDate();
+    const contractsRows = contractList.map(
+      ({ date: dateString, deployed_contracts_by_date }) => ({
+        date: formatDate(new Date(dateString)),
+        deployedContracts: deployed_contracts_by_date,
+      })
+    );
+    let cumulativeContractsDeployedByDate = new Array();
+    let contractsDeployed = new Set([contractsRows[0].deployedContracts]);
+
+    for (let i = 1; i < contractsRows.length; i++) {
+      if (contractsRows[i].date !== contractsRows[i - 1].date) {
+        cumulativeContractsDeployedByDate.push({
+          date: contractsRows[i - 1].date,
+          contractsCount: contractsDeployed.size,
+        });
+      }
+      contractsDeployed.add(contractsRows[i].deployedContracts);
+    }
+    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsDeployedByDate;
+    console.log("UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
   } catch (error) {
     console.log(error);
   }
@@ -268,6 +360,7 @@ async function aggregateParterUniqueUserAmount() {
 }
 
 // get function that exposed to frontend
+// transaction related
 async function getTransactionsByDate() {
   return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
 }
@@ -280,8 +373,13 @@ async function getDepositAmountByDate() {
   return DEPOSIT_AMOUNT_AGGREGATED_BY_DATE;
 }
 
+//accounts
 async function getNewAccountsCountByDate() {
   return NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
+}
+
+async function getDeletedAccountCountBydate() {
+  return DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
 }
 
 async function getNewContractsCountByDate() {
@@ -304,8 +402,21 @@ async function getActiveAccountsCountByWeek() {
   return ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK;
 }
 
+async function getLiveAccountsCountByDate() {
+  return LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE;
+}
+
 async function getActiveAccountsList() {
   return ACTIVE_ACCOUNTS_LIST;
+}
+
+// contracts
+async function getNewContractsCountByDate() {
+  return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
+}
+
+async function getActiveContractsCountByDate() {
+  return ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
 }
 
 async function getActiveContractsList() {
@@ -325,32 +436,53 @@ async function getPartnerUniqueUserAmount() {
   return PARTNER_UNIQUE_USER_AMOUNT;
 }
 
+// aggregate part
+// transaction related
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
 exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
+exports.aggregateDepositAmountByDate = aggregateDepositAmountByDate;
+
+// accounts
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
-exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
-exports.aggregateUniqueDeployedContractsCountByDate = aggregateUniqueDeployedContractsCountByDate;
+exports.aggregateDeletedAccountsCountByDate = aggregateDeletedAccountsCountByDate;
+exports.aggregateLiveAccountsCountByDate = aggregateLiveAccountsCountByDate;
 exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
 exports.aggregateActiveAccountsCountByWeek = aggregateActiveAccountsCountByWeek;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
+
+// contracts
+exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;
+exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
+exports.aggregateUniqueDeployedContractsCountByDate = aggregateUniqueDeployedContractsCountByDate;
 exports.aggregateActiveContractsList = aggregateActiveContractsList;
+
+// partner part
 exports.aggregatePartnerTotalTransactionsCount = aggregatePartnerTotalTransactionsCount;
 exports.aggregatePartnerFirst3MonthTransactionsCount = aggregatePartnerFirst3MonthTransactionsCount;
-exports.aggregateDepositAmountByDate = aggregateDepositAmountByDate;
 exports.aggregateParterUniqueUserAmount = aggregateParterUniqueUserAmount;
 
+// get method
+// transaction related
 exports.getTransactionsByDate = getTransactionsByDate;
 exports.getTeragasUsedByDate = getTeragasUsedByDate;
+exports.getDepositAmountByDate = getDepositAmountByDate;
+
+// accounts
 exports.getNewAccountsCountByDate = getNewAccountsCountByDate;
-exports.getNewContractsCountByDate = getNewContractsCountByDate;
-exports.getUniqueDeployedContractsCountByDate = getUniqueDeployedContractsCountByDate;
-exports.getActiveContractsCountByDate = getActiveContractsCountByDate;
+exports.getDeletedAccountCountBydate = getDeletedAccountCountBydate;
 exports.getActiveAccountsCountByDate = getActiveAccountsCountByDate;
 exports.getActiveAccountsCountByWeek = getActiveAccountsCountByWeek;
 exports.getActiveAccountsList = getActiveAccountsList;
+exports.getLiveAccountsCountByDate = getLiveAccountsCountByDate;
+
+// contracts
+exports.getNewContractsCountByDate = getNewContractsCountByDate;
+exports.getUniqueDeployedContractsCountByDate = getUniqueDeployedContractsCountByDate;
+exports.getActiveContractsCountByDate = getActiveContractsCountByDate;
 exports.getActiveContractsList = getActiveContractsList;
+
+// partner part
 exports.getPartnerTotalTransactionsCount = getPartnerTotalTransactionsCount;
 exports.getPartnerFirst3MonthTransactionsCount = getPartnerFirst3MonthTransactionsCount;
-exports.getDepositAmountByDate = getDepositAmountByDate;
 exports.getPartnerUniqueUserAmount = getPartnerUniqueUserAmount;
