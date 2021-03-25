@@ -31,7 +31,7 @@ const StakingBar = ({ validators }: Props) => {
   const getOption = () => {
     return {
       title: {
-        text: "Stake Volumn for Validating Nodes",
+        text: "Stake Volume for Validating Nodes",
       },
       grid: { containLabel: true },
       tooltip: {
