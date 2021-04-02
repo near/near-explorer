@@ -12,6 +12,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeNewContractsByDate, setTotal] = useState(Array());
+  const [uniqueDeployedContractsByDate, setUnique] = useState(Array());
 
   useEffect(() => {
     new StatsApi().newContractsCountAggregatedByDate().then((contracts) => {
@@ -27,9 +28,23 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
         setDate(date);
       }
     });
+    new StatsApi()
+      .uniqueDeployedContractsCountAggregatedByDate()
+      .then((contracts) => {
+        if (contracts) {
+          const uniqueContracts = contracts.map((contract: ContractsByDate) =>
+            Number(contract.contractsCount)
+          );
+          setUnique(uniqueContracts);
+        }
+      });
   }, []);
 
-  const getOption = (title: string, data: Array<number>) => {
+  const getOption = (
+    title: string,
+    data: Array<number>,
+    date: Array<string>
+  ) => {
     return {
       title: {
         text: title,
@@ -111,7 +126,8 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
         <ReactEcharts
           option={getOption(
             "Daily Amount of New Contracts",
-            newContractsByDate
+            newContractsByDate,
+            date
           )}
           style={chartStyle}
         />
@@ -120,7 +136,18 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
         <ReactEcharts
           option={getOption(
             "Total Amount of New Contracts",
-            cumulativeNewContractsByDate
+            cumulativeNewContractsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="unique" title="Unique">
+        <ReactEcharts
+          option={getOption(
+            "Daily Amount of Unique Contracts",
+            uniqueDeployedContractsByDate,
+            date
           )}
           style={chartStyle}
         />

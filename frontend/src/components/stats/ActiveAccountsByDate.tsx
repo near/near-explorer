@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
+import { Tabs, Tab } from "react-bootstrap";
 
 import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
 
@@ -9,12 +10,14 @@ import { Props } from "./TransactionsByDate";
 const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   const [activeAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
+  const [activeAccountsByWeek, setWeekAccounts] = useState(Array());
+  const [week, setWeek] = useState(Array());
 
   useEffect(() => {
     new StatsApi().activeAccountsCountAggregatedByDate().then((accounts) => {
       if (accounts) {
-        const newAccounts = accounts.map(
-          (account: AccountsByDate) => account.accountsCount
+        const newAccounts = accounts.map((account: AccountsByDate) =>
+          Number(account.accountsCount)
         );
         const date = accounts.map((account: AccountsByDate) =>
           account.date.slice(0, 10)
@@ -23,9 +26,25 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
         setDate(date);
       }
     });
+    new StatsApi().activeAccountsCountAggregatedByWeek().then((accounts) => {
+      if (accounts) {
+        const newAccounts = accounts.map((account: AccountsByDate) =>
+          Number(account.accountsCount)
+        );
+        const week = accounts.map((account: AccountsByDate) =>
+          account.date.slice(0, 10)
+        );
+        setWeekAccounts(newAccounts);
+        setWeek(week);
+      }
+    });
   }, []);
 
-  const getOption = (title: string, data: Array<number>) => {
+  const getOption = (
+    title: string,
+    data: Array<number>,
+    date: Array<string>
+  ) => {
     return {
       title: {
         text: title,
@@ -102,13 +121,28 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   };
 
   return (
-    <ReactEcharts
-      option={getOption(
-        "Daily Amount of Active Accounts",
-        activeAccountsByDate
-      )}
-      style={chartStyle}
-    />
+    <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
+      <Tab eventKey="daily" title="Daily">
+        <ReactEcharts
+          option={getOption(
+            "Daily Amount of Active Accounts",
+            activeAccountsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="weekly" title="Weekly">
+        <ReactEcharts
+          option={getOption(
+            "Weekly Amount of Active Accounts",
+            activeAccountsByWeek,
+            week
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };
 
