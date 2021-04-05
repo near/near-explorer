@@ -529,7 +529,7 @@ const queryPartnerUniqueUserAmount = async () => {
 };
 
 // bridge query
-const queryBridgeTokenHolders = async (accountId) => {
+const queryBridgeTokenHolders = async (bridgeTokenContractId) => {
   return await queryRows(
     [
       `SELECT 
@@ -537,10 +537,10 @@ const queryBridgeTokenHolders = async (accountId) => {
       FROM receipts 
       JOIN action_receipt_actions ON receipts.receipt_id = action_receipt_actions.receipt_id  
       JOIN transactions ON transactions.transaction_hash = receipts.originated_from_transaction_hash 
-      WHERE receipts.receiver_account_id = :account_id
+      WHERE receipts.receiver_account_id = :bridge_token_contract_id
       AND action_receipt_actions.action_kind = 'FUNCTION_CALL' 
       AND action_receipt_actions.args->> 'method_name' = 'mint'`,
-      { account_id: accountId },
+      { bridge_token_contract_id: bridgeTokenContractId },
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );

@@ -306,8 +306,8 @@ wampHandlers["partner-unique-user-amount"] = async () => {
 };
 
 // bridge query
-wampHandlers["get-bridge-token-holders"] = async ([accountId]) => {
-  return await queryBridgeTokenHolders(accountId);
+wampHandlers["get-bridge-token-holders"] = async ([bridgeTokenContractId]) => {
+  return await queryBridgeTokenHolders(bridgeTokenContractId);
 };
 
 // set up wamp
