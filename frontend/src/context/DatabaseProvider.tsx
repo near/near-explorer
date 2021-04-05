@@ -10,7 +10,7 @@ export interface TransactionsCountStat {
   total: number;
 }
 
-export interface DatabaseContext {
+export interface DbContext {
   finalTimestamp?: BN;
   latestBlockHeight?: BN;
   latestGasPrice?: BN;
@@ -19,7 +19,7 @@ export interface DatabaseContext {
   recentTransactionsCount?: TransactionsCountStat[];
 }
 
-const DatabaseContext = createContext<DatabaseContext>({});
+const DatabaseContext = createContext<DbContext>({});
 
 export interface Props {
   children: React.Component;
