@@ -529,7 +529,7 @@ const queryPartnerUniqueUserAmount = async () => {
 };
 
 // bridge query
-const queryBridgeTokenHolder = async (accountId) => {
+const queryBridgeTokenHolders = async (accountId) => {
   return await queryRows(
     [
       `SELECT 
@@ -584,4 +584,4 @@ exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTra
 exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
 
 // bridge
-exports.queryBridgeTokenHolder = queryBridgeTokenHolder;
+exports.queryBridgeTokenHolders = queryBridgeTokenHolders;

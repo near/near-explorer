@@ -2,7 +2,7 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
-const { queryBridgeTokenHolder } = require("./db-utils");
+const { queryBridgeTokenHolders } = require("./db-utils");
 const stats = require("./stats");
 
 const models = require("../models");
@@ -306,10 +306,11 @@ wampHandlers["partner-unique-user-amount"] = async () => {
 };
 
 // bridge query
-wampHandlers["near-bridge-user"] = async ([accountId]) => {
-  return await queryBridgeTokenHolder(accountId);
+wampHandlers["get-bridge-token-holders"] = async ([accountId]) => {
+  return await queryBridgeTokenHolders(accountId);
 };
 
+// set up wamp
 function setupWamp() {
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
