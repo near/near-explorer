@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
+import BN from "bn.js";
+import { utils } from "near-api-js";
 
 import StatsApi, {
   TeragasUsedByDate,
 } from "../../libraries/explorer-wamp/stats";
 import { cumulativeSumArray } from "../../libraries/stats";
 
+import { DatabaseContext } from "../../context/DatabaseProvider";
+
 import { Props } from "./TransactionsByDate";
+import { TGAS } from "../utils/Gas";
 
 const GasUsedByDate = ({ chartStyle }: Props) => {
   const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeTeragasUsedByDate, setTotal] = useState(Array());
+
+  const [feeUsedByDate, setFee] = useState(Array());
+
+  const { latestGasPrice } = useContext(DatabaseContext);
 
   useEffect(() => {
     new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
@@ -27,11 +36,22 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
           gas.date.slice(0, 10)
         );
         setDate(date);
+
+        if (latestGasPrice) {
+          const fee = teragasUsed.map((gas: TeragasUsedByDate) =>
+            utils.format.formatNearAmount(
+              new BN(gas.teragasUsed).mul(latestGasPrice).mul(TGAS).toString(),
+              5
+            )
+          );
+
+          setFee(fee);
+        }
       }
     });
   }, []);
 
-  const getOption = (title: string, data: Array<number>) => {
+  const getOption = (title: string, data: Array<number>, name: string) => {
     return {
       title: {
         text: title,
@@ -58,7 +78,7 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
       yAxis: [
         {
           type: "value",
-          name: "Tera Gas",
+          name: name,
           splitLine: {
             lineStyle: {
               color: "white",
@@ -80,7 +100,7 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
       ],
       series: [
         {
-          name: "TeraGas",
+          name: name,
           type: "line",
           lineStyle: {
             color: "#4d84d6",
@@ -112,7 +132,11 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
     <Tabs defaultActiveKey="daily" id="gasUsedByDate">
       <Tab eventKey="daily" title="Daily">
         <ReactEcharts
-          option={getOption("Daily Amount of Used Tera Gas", teragasUsedByDate)}
+          option={getOption(
+            "Daily Amount of Used Tera Gas",
+            teragasUsedByDate,
+            "Tera gas"
+          )}
           style={chartStyle}
         />
       </Tab>
@@ -120,11 +144,20 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
         <ReactEcharts
           option={getOption(
             "Total Amount of Used Tera Gas",
-            cumulativeTeragasUsedByDate
+            cumulativeTeragasUsedByDate,
+            "Tera gas"
           )}
           style={chartStyle}
         />
       </Tab>
+      {feeUsedByDate.length > 0 && (
+        <Tab eventKey="fee" title="Gas Fee">
+          <ReactEcharts
+            option={getOption("Daily Gas Fee in NEAR", feeUsedByDate, "fee")}
+            style={chartStyle}
+          />
+        </Tab>
+      )}
     </Tabs>
   );
 };

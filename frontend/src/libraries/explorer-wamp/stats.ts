@@ -41,6 +41,7 @@ export interface PartnerUniqueUserAmount {
 }
 
 export default class StatsApi extends ExplorerApi {
+  // transactions related
   async transactionsCountAggregatedByDate(): Promise<TransactionsByDate[]> {
     return await this.call<TransactionsByDate[]>(
       "transactions-count-aggregated-by-date"
@@ -53,12 +54,42 @@ export default class StatsApi extends ExplorerApi {
     );
   }
 
+  async depositAggregatedByDate(): Promise<TotalDepositAmount[]> {
+    return await this.call<TotalDepositAmount[]>(
+      "deposit-amount-aggregated-by-date"
+    );
+  }
+
+  // accounts
   async newAccountsCountAggregatedByDate(): Promise<AccountsByDate[]> {
     return await this.call<AccountsByDate[]>(
       "new-accounts-count-aggregated-by-date"
     );
   }
 
+  async liveAccountsCountAggregatedByDate(): Promise<AccountsByDate[]> {
+    return await this.call<AccountsByDate[]>(
+      "live-accounts-count-aggregated-by-date"
+    );
+  }
+
+  async activeAccountsCountAggregatedByDate(): Promise<AccountsByDate[]> {
+    return await this.call<AccountsByDate[]>(
+      "active-accounts-count-aggregated-by-date"
+    );
+  }
+
+  async activeAccountsCountAggregatedByWeek(): Promise<AccountsByDate[]> {
+    return await this.call<AccountsByDate[]>(
+      "active-accounts-count-aggregated-by-week"
+    );
+  }
+
+  async activeAccountsList(): Promise<Account[]> {
+    return await this.call<Account[]>("active-accounts-list");
+  }
+
+  // contracts
   async newContractsCountAggregatedByDate(): Promise<ContractsByDate[]> {
     return await this.call<ContractsByDate[]>(
       "new-contracts-count-aggregated-by-date"
@@ -79,20 +110,11 @@ export default class StatsApi extends ExplorerApi {
     );
   }
 
-  async activeAccountsCountAggregatedByDate(): Promise<AccountsByDate[]> {
-    return await this.call<AccountsByDate[]>(
-      "active-accounts-count-aggregated-by-date"
-    );
-  }
-
-  async activeAccountsList(): Promise<Account[]> {
-    return await this.call<Account[]>("active-accounts-list");
-  }
-
   async activeContractsList(): Promise<Contract[]> {
     return await this.call<Contract[]>("active-contracts-list");
   }
 
+  // partner
   async partnerTotalTransactionsCount(): Promise<Account[]> {
     return await this.call<Account[]>("partner-total-transactions-count");
   }
@@ -106,12 +128,6 @@ export default class StatsApi extends ExplorerApi {
   async partnerUniqueUserAmount(): Promise<PartnerUniqueUserAmount[]> {
     return await this.call<PartnerUniqueUserAmount[]>(
       "partner-unique-user-amount"
-    );
-  }
-
-  async depositAggregatedByDate(): Promise<TotalDepositAmount> {
-    return await this.call<TotalDepositAmount>(
-      "deposit-amount-aggregated-by-date"
     );
   }
 }

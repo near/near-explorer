@@ -12,6 +12,8 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
   const [newAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeNewAccountsByDate, setTotal] = useState(Array());
+  const [liveAccountsByDate, setLive] = useState(Array());
+  const [liveDate, setLiveDate] = useState(Array());
 
   useEffect(() => {
     new StatsApi().newAccountsCountAggregatedByDate().then((accounts) => {
@@ -27,9 +29,25 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
         setDate(date);
       }
     });
+    new StatsApi().liveAccountsCountAggregatedByDate().then((accounts) => {
+      if (accounts) {
+        const liveAccounts = accounts.map((account: AccountsByDate) =>
+          Number(account.accountsCount)
+        );
+        const date = accounts.map((account: AccountsByDate) =>
+          account.date.slice(0, 10)
+        );
+        setLive(liveAccounts);
+        setLiveDate(date);
+      }
+    });
   }, []);
 
-  const getOption = (title: string, data: Array<number>) => {
+  const getOption = (
+    title: string,
+    data: Array<number>,
+    date: Array<string>
+  ) => {
     return {
       title: {
         text: title,
@@ -109,7 +127,21 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
     <Tabs defaultActiveKey="daily" id="newAccountsByDate">
       <Tab eventKey="daily" title="Daily">
         <ReactEcharts
-          option={getOption("Daily Amount of New Accounts", newAccountsByDate)}
+          option={getOption(
+            "Daily Amount of New Accounts",
+            newAccountsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="live" title="Live">
+        <ReactEcharts
+          option={getOption(
+            "Daily Amount of Live Accounts",
+            liveAccountsByDate,
+            liveDate
+          )}
           style={chartStyle}
         />
       </Tab>
@@ -117,7 +149,8 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
         <ReactEcharts
           option={getOption(
             "Total Amount of New Accounts",
-            cumulativeNewAccountsByDate
+            cumulativeNewAccountsByDate,
+            date
           )}
           style={chartStyle}
         />
