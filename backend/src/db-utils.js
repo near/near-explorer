@@ -528,6 +528,24 @@ const queryPartnerUniqueUserAmount = async () => {
   );
 };
 
+// bridge query
+const queryBridgeTokenHolders = async (bridgeTokenContractId) => {
+  return await queryRows(
+    [
+      `SELECT 
+        DISTINCT transactions.signer_account_id AS holder
+      FROM receipts 
+      JOIN action_receipt_actions ON receipts.receipt_id = action_receipt_actions.receipt_id  
+      JOIN transactions ON transactions.transaction_hash = receipts.originated_from_transaction_hash 
+      WHERE receipts.receiver_account_id = :bridge_token_contract_id
+      AND action_receipt_actions.action_kind = 'FUNCTION_CALL' 
+      AND action_receipt_actions.args->> 'method_name' = 'mint'`,
+      { bridge_token_contract_id: bridgeTokenContractId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
@@ -564,3 +582,6 @@ exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
 exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
 exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
+
+// bridge
+exports.queryBridgeTokenHolders = queryBridgeTokenHolders;
