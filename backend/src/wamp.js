@@ -2,7 +2,13 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
-const { queryBridgeTokenHolders } = require("./db-utils");
+const {
+  queryBridgeTokenHolders,
+  queryBridgeDepositTransaction,
+  queryBridgeFinishWithdrawTransaction,
+  queryBridgeMintTransactionAction,
+  queryBridgeWithdrawTransactionAction,
+} = require("./db-utils");
 const stats = require("./stats");
 
 const models = require("../models");
@@ -308,6 +314,22 @@ wampHandlers["partner-unique-user-amount"] = async () => {
 // bridge query
 wampHandlers["get-bridge-token-holders"] = async ([bridgeTokenContractId]) => {
   return await queryBridgeTokenHolders(bridgeTokenContractId);
+};
+
+wampHandlers["get-bridge-mint-transaction-action"] = async () => {
+  return await queryBridgeMintTransactionAction();
+};
+
+wampHandlers["get-bridge-deposit-transaction"] = async () => {
+  return await queryBridgeDepositTransaction();
+};
+
+wampHandlers["get-bridge-finish-withdraw-transaction"] = async () => {
+  return await queryBridgeFinishWithdrawTransaction();
+};
+
+wampHandlers["get-bridge-withdraw-transaction-action"] = async () => {
+  return await queryBridgeWithdrawTransactionAction();
 };
 
 // set up wamp

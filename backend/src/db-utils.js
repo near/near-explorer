@@ -546,6 +546,77 @@ const queryBridgeTokenHolders = async (bridgeTokenContractId) => {
   );
 };
 
+const queryBridgeMintTransactionAction = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        receipts.receiver_account_id AS symbpl_token,  
+        action_receipt_actions.args ->> 'args_base64' AS serialized_amount, 
+        TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000),
+        originated_from_transaction_hash 
+      FROM receipts
+      JOIN action_receipt_actions ON receipts.receipt_id = action_receipt_actions.receipt_id 
+      WHERE
+        receipts.predecessor_account_id = 'factory.bridge.near'
+        AND action_receipt_actions.args ->> 'method_name' = 'mint'
+      ORDER BY included_in_block_timestamp DESC`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryBridgeDepositTransaction = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        receipts.predecessor_account_id,
+        TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000),
+        receipts.originated_from_transaction_hash 
+      FROM receipts
+      JOIN action_receipt_actions ON receipts.receipt_id = action_receipt_actions.receipt_id 
+      WHERE
+        receipts.receiver_account_id = 'factory.bridge.near'
+        AND action_receipt_actions.args ->> 'method_name' = 'deposit'
+      ORDER BY included_in_block_timestamp DESC`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryBridgeFinishWithdrawTransaction = async () => {
+  return await queryRows(
+    [
+      `SELECT
+       receipts.predecessor_account_id,
+       TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000),
+       receipts.originated_from_transaction_hash 
+      FROM receipts
+      JOIN action_receipt_actions ON receipts.receipt_id = action_receipt_actions.receipt_id 
+      WHERE
+        receipts.receiver_account_id = 'factory.bridge.near'
+        AND action_receipt_actions.args ->> 'method_name' = 'finish_withdraw'
+      ORDER BY included_in_block_timestamp DESC`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryBridgeWithdrawTransactionAction = async () => {
+  return await queryRows([
+    `SELECT
+        receipts.predecessor_account_id,
+        receipts.receiver_account_id as symbol_token,
+        action_receipt_actions.args ->> 'args_base64' as serialized_amount, 
+        TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000),
+        receipts.originated_from_transaction_hash 
+      FROM receipts
+      JOIN action_receipt_actions ON receipts.receipt_id = action_receipt_actions.receipt_id 
+      WHERE receipts.receiver_account_id like '%factory.bridge.near'
+      AND action_receipt_actions.args ->> 'method_name' IN ('withdraw', 'ft_transfer')
+      ORDER BY included_in_block_timestamp DESC`,
+  ]);
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
@@ -585,3 +656,7 @@ exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
 
 // bridge
 exports.queryBridgeTokenHolders = queryBridgeTokenHolders;
+exports.queryBridgeMintTransactionAction = queryBridgeMintTransactionAction;
+exports.queryBridgeDepositTransaction = queryBridgeDepositTransaction;
+exports.queryBridgeFinishWithdrawTransaction = queryBridgeFinishWithdrawTransaction;
+exports.queryBridgeWithdrawTransactionAction = queryBridgeWithdrawTransactionAction;
