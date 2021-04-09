@@ -546,6 +546,43 @@ const queryBridgeTokenHolders = async (bridgeTokenContractId) => {
   );
 };
 
+// market query
+const queryMarketStakeAccountAggregatedByHour = async () => {
+  return await queryRows(
+    [
+      `SELECT 
+        DATE_TRUNC('hour', TO_TIMESTAMP(DIV(receipts.included_in_block_timestamp, 1000*1000*1000))) AS hour,
+        COUNT(distinct receipts.predecessor_account_id) 
+      FROM action_receipt_actions
+      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+      WHERE action_receipt_actions.args->>'method_name' IN ('stake', 'deposit_and_stake')
+      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      GROUP BY hour
+      ORDER BY hour`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryMarketUnstakeAccountAggregatedByHour = async () => {
+  return await queryRows(
+    [
+      `SELECT 
+        DATE_TRUNC('hour', TO_TIMESTAMP(DIV(receipts.included_in_block_timestamp, 1000*1000*1000))) AS hour,
+        COUNT(distinct receipts.predecessor_account_id) 
+      FROM action_receipt_actions
+      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+      WHERE action_receipt_actions.args->> 'method_name' = 'unstake'
+      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
+      GROUP BY hour
+      ORDER BY hour`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.addNodeInfo = addNodeInfo;
@@ -585,3 +622,5 @@ exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
 
 // bridge
 exports.queryBridgeTokenHolders = queryBridgeTokenHolders;
+exports.queryMarketStakeAccountAggregatedByHour = queryMarketStakeAccountAggregatedByHour;
+exports.queryMarketUnstakeAccountAggregatedByHour = queryMarketUnstakeAccountAggregatedByHour;

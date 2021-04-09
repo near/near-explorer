@@ -2,7 +2,11 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
-const { queryBridgeTokenHolders } = require("./db-utils");
+const {
+  queryBridgeTokenHolders,
+  queryMarketStakeAccountAggregatedByHour,
+  queryMarketUnstakeAccountAggregatedByHour,
+} = require("./db-utils");
 const stats = require("./stats");
 
 const models = require("../models");
@@ -308,6 +312,15 @@ wampHandlers["partner-unique-user-amount"] = async () => {
 // bridge query
 wampHandlers["get-bridge-token-holders"] = async ([bridgeTokenContractId]) => {
   return await queryBridgeTokenHolders(bridgeTokenContractId);
+};
+
+// market query
+wampHandlers["get-market-stake-account-aggregated-by-hour"] = async () => {
+  return await queryMarketStakeAccountAggregatedByHour();
+};
+
+wampHandlers["get-market-unstake-account-aggregated-by-hour"] = async () => {
+  return await queryMarketUnstakeAccountAggregatedByHour();
 };
 
 // set up wamp
