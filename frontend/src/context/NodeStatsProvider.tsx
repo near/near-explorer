@@ -3,6 +3,7 @@ import { ExplorerApi } from "../libraries/explorer-wamp/index";
 
 export interface NodeStatsContext {
   validatorAmount?: number;
+  seatPriceAmount?: number;
   onlineNodeAmount?: number;
   proposalAmount?: number;
 }
@@ -17,9 +18,11 @@ const NodeStatsProvider = (props: Props) => {
   const [validatorAmount, dispatchValidatorAmount] = useState<number>();
   const [onlineNodeAmount, dispatchOnlineNodeAmount] = useState<number>();
   const [proposalAmount, dispatchProposalAmount] = useState<number>();
+  const [seatPriceAmount, dispatchSeatPriceAmount] = useState<number>();
 
   const storeNodeInfo = (_positionalArgs: any, namedArgs: NodeStatsContext) => {
     dispatchValidatorAmount(namedArgs.validatorAmount);
+    dispatchSeatPriceAmount(namedArgs.seatPriceAmount);
     dispatchOnlineNodeAmount(namedArgs.onlineNodeAmount);
     dispatchProposalAmount(namedArgs.proposalAmount);
   };
@@ -35,7 +38,12 @@ const NodeStatsProvider = (props: Props) => {
 
   return (
     <NodeStatsContext.Provider
-      value={{ validatorAmount, onlineNodeAmount, proposalAmount }}
+      value={{
+        validatorAmount,
+        seatPriceAmount,
+        onlineNodeAmount,
+        proposalAmount,
+      }}
     >
       {props.children}
     </NodeStatsContext.Provider>

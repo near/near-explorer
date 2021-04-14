@@ -166,6 +166,10 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
       .then((balance) => new BN(balance))
       .catch(ignore_if_does_not_exist),
     nearRpc
+      .callViewMethod(lockupAccountId, "get_reward_fee_fraction", {})
+      .then((fee) => fee)
+      .catch(ignore_if_does_not_exist),
+    nearRpc
       .callViewMethod(lockupAccountId, "get_staking_pool_account_id", {})
       .catch(ignore_if_does_not_exist),
     nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),

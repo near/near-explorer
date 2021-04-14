@@ -4,12 +4,14 @@ import React from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
-import NodeNav from "../../components/nodes/NodeNav";
+import { Container } from "react-bootstrap";
+
+import NodesEpoch from "../../components/nodes/NodesEpoch";
 import Nodes from "../../components/nodes/Nodes";
 import Content from "../../components/utils/Content";
 
 import NodeProvider from "../../context/NodeProvider";
-import NodeStatsProvider from "../../context/NodeStatsProvider";
+import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 class OnlineNodes extends React.Component {
   componentDidMount() {
@@ -22,14 +24,34 @@ class OnlineNodes extends React.Component {
         <Head>
           <title>NEAR Explorer | Nodes</title>
         </Head>
-        <Content title={<h1>Online Nodes</h1>}>
-          <NodeStatsProvider>
-            <NodeNav role={"online-nodes"} />
-          </NodeStatsProvider>
+
+        <Container fluid>
+          <NodesEpoch />
+        </Container>
+
+        <Content
+          border={false}
+          fluid
+          contentFluid
+          className="online-nodes-page"
+          header={<NodesContentHeader navRole="online-nodes" />}
+        >
           <NodeProvider>
-            <Nodes />
+            <Container>
+              <Nodes />
+            </Container>
           </NodeProvider>
         </Content>
+        <style global jsx>{`
+          .online-nodes-page {
+            background-color: #ffffff;
+          }
+          .content-header {
+            background: #fafafa;
+            margin-left: -15px;
+            margin-right: -15px;
+          }
+        `}</style>
       </>
     );
   }

@@ -1,82 +1,78 @@
+import BN from "bn.js";
 import React from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import Balance from "../utils/Balance";
+import { TableRow } from "../utils/Table";
+import ValidatingLabel from "./ValidatingLabel";
+import CumulativeStakeChart from "./CumuativeStakeChart";
 
 interface Props {
   node: N.Proposal;
+  index: number;
+  totalStake: BN;
+  cumulativeStakeAmount: BN;
 }
 
 class ProposalRow extends React.PureComponent<Props> {
   render() {
-    const { node } = this.props;
+    const { node, index, totalStake, cumulativeStakeAmount } = this.props;
+    let persntStake = 0;
+    let cumulativeStake = 0;
+
+    if (node.stake) {
+      persntStake =
+        new BN(node.stake).mul(new BN(10000)).div(totalStake).toNumber() / 100;
+    }
+
+    if (cumulativeStakeAmount) {
+      cumulativeStake =
+        new BN(cumulativeStakeAmount)
+          .mul(new BN(10000))
+          .div(totalStake)
+          .toNumber() / 100;
+    }
     return (
-      <Row className="node-row mx-0">
-        <Col md="auto" xs="1" className="pr-0">
-          <OverlayTrigger
-            placement={"right"}
-            overlay={
-              <Tooltip id="nodes">node staked to be new validating one</Tooltip>
-            }
-          >
-            <p>
-              <img
-                src={"/static/images/icon-m-node-proposal.svg"}
-                style={{ width: "15px", verticalAlign: "text-top" }}
-              />
-            </p>
-          </OverlayTrigger>
-        </Col>
-        <Col md="7" xs="7">
-          <Row>
-            <Col className="node-row-title">
-              <p>
-                @{node.account_id}
-                {"  "}
-                <span>
-                  Staking {node.stake ? <Balance amount={node.stake} /> : "-"}
-                </span>
-              </p>
+      <TableRow className="proposal-row">
+        <td />
+        <td className="order">{index}</td>
+        <td>
+          <Row noGutters className="align-items-center">
+            <Col xs="2" className="proposal-label">
+              <ValidatingLabel
+                type="pending"
+                text="node staked to be new validating one"
+                tooltipKey="nodes"
+              >
+                Pending
+              </ValidatingLabel>
+            </Col>
+            <Col>
+              <Col xs="12" title={`@${node.account_id}`}>
+                {node.account_id.substring(0, 20)}...
+              </Col>
+              <Col xs="12" title={node.public_key}>
+                {node.public_key.substring(8, 20)}...
+              </Col>
             </Col>
           </Row>
-        </Col>
-        <Col md="3" xs="3" className="ml-auto text-right">
-          <Row>
-            <Col className="node-row-txid" title={node.public_key}>
-              {node.public_key.substring(8, 20)}...
-            </Col>
-          </Row>
-        </Col>
-        <style jsx global>{`
-          .node-row {
-            padding-top: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-
-          .node-row:hover {
-            background: rgba(0, 0, 0, 0.1);
-          }
-
-          .node-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .node-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #24272a;
-          }
-
-          .node-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #4a4f54;
+        </td>
+        <td>{node.stake ? <Balance amount={node.stake} /> : "-"}</td>
+        <td>
+          <CumulativeStakeChart
+            value={{
+              total: cumulativeStake - persntStake,
+              current: cumulativeStake,
+            }}
+          />
+        </td>
+        <style global jsx>{`
+          .proposal-label {
+            margin-right: 24px;
           }
         `}</style>
-      </Row>
+      </TableRow>
     );
   }
 }

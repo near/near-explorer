@@ -4,12 +4,14 @@ import React from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
-import NodeNav from "../../components/nodes/NodeNav";
+import { Container } from "react-bootstrap";
+
+import NodesEpoch from "../../components/nodes/NodesEpoch";
 import Proposals from "../../components/nodes/Proposals";
 import Content from "../../components/utils/Content";
+import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 import NodeProvider from "../../context/NodeProvider";
-import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 class ProposalsPage extends React.Component {
   componentDidMount() {
@@ -22,14 +24,34 @@ class ProposalsPage extends React.Component {
         <Head>
           <title>NEAR Explorer | Nodes</title>
         </Head>
-        <Content title={<h1>Proposal Nodes</h1>}>
-          <NodeStatsProvider>
-            <NodeNav role={"proposals"} />
-          </NodeStatsProvider>
+
+        <Container fluid>
+          <NodesEpoch />
+        </Container>
+
+        <Content
+          border={false}
+          fluid
+          contentFluid
+          className="proposals-page"
+          header={<NodesContentHeader navRole="proposals" />}
+        >
           <NodeProvider>
-            <Proposals />
+            <Container>
+              <Proposals />
+            </Container>
           </NodeProvider>
         </Content>
+        <style global jsx>{`
+          .proposals-page {
+            background-color: #ffffff;
+          }
+          .content-header {
+            background: #fafafa;
+            margin-left: -15px;
+            margin-right: -15px;
+          }
+        `}</style>
       </>
     );
   }

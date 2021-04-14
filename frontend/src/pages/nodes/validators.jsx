@@ -4,9 +4,13 @@ import React from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
-import NodeNav from "../../components/nodes/NodeNav";
+import { Container } from "react-bootstrap";
+
+import NodesEpoch from "../../components/nodes/NodesEpoch";
 import Validators from "../../components/nodes/Validators";
 import Content from "../../components/utils/Content";
+import NodesCard from "../../components/nodes/NodesCard";
+import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 import NodeProvider from "../../context/NodeProvider";
 import NodeStatsProvider from "../../context/NodeStatsProvider";
@@ -22,14 +26,39 @@ class ValidatorsPage extends React.Component {
         <Head>
           <title>NEAR Explorer | Nodes</title>
         </Head>
-        <Content title={<h1>Validating Nodes</h1>}>
+
+        <Container fluid>
+          <NodesEpoch />
+        </Container>
+
+        <Content
+          border={false}
+          fluid
+          contentFluid
+          className="nodes-page"
+          header={<NodesContentHeader navRole="validators" />}
+        >
           <NodeStatsProvider>
-            <NodeNav role={"validators"} />
+            <Container>
+              <NodesCard />
+            </Container>
           </NodeStatsProvider>
           <NodeProvider>
-            <Validators />
+            <Container>
+              <Validators />
+            </Container>
           </NodeProvider>
         </Content>
+        <style global jsx>{`
+          .nodes-page {
+            background-color: #ffffff;
+          }
+          .content-header {
+            background: #fafafa;
+            margin-left: -15px;
+            margin-right: -15px;
+          }
+        `}</style>
       </>
     );
   }

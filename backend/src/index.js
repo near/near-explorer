@@ -255,7 +255,11 @@ async function main() {
     console.log("Starting regular node status check...");
     try {
       if (wamp.session) {
-        let { currentValidators, proposals } = await queryNodeStats();
+        let {
+          currentValidators,
+          proposals,
+          seatPrice,
+        } = await queryNodeStats();
         let validators = await addNodeInfo(currentValidators);
         let onlineValidatingNodes = pickOnlineValidatingNode(validators);
         let onlineNodes = await queryOnlineNodes();
@@ -271,6 +275,7 @@ async function main() {
           "node-stats",
           {
             validatorAmount: validators.length,
+            seatPriceAmount: seatPrice,
             onlineNodeAmount: onlineNodes.length,
             proposalAmount: proposals.length,
           },

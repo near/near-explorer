@@ -18,8 +18,11 @@ const queryFinalTimestamp = async () => {
 const queryNodeStats = async () => {
   let nodes = await nearRpc.sendJsonRpc("validators", [null]);
   let proposals = nodes.current_proposals;
+  let seatPrice = nearApi.validators
+    .findSeatPrice(nodes.current_validators, nodes.numSeats)
+    .toString();
   let currentValidators = getCurrentNodes(nodes);
-  return { currentValidators, proposals };
+  return { currentValidators, proposals, seatPrice };
 };
 
 const signNewValidators = (newValidators) => {
