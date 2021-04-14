@@ -115,14 +115,14 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
     <Tabs defaultActiveKey="daily" id="transactionByDate">
       <Tab eventKey="daily" title="Daily">
         <ReactEcharts
-          option={getOption("Daily Amount of Transactions", transactionsByDate)}
+          option={getOption("Daily Number of Transactions", transactionsByDate)}
           style={chartStyle}
         />
       </Tab>
       <Tab eventKey="total" title="Total">
         <ReactEcharts
           option={getOption(
-            "Total Amount of Transactions",
+            "Total Number of Transactions",
             cumulativeTransactionsByDate
           )}
           style={chartStyle}

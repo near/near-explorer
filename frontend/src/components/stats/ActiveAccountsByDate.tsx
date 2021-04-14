@@ -125,7 +125,7 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
       <Tab eventKey="daily" title="Daily">
         <ReactEcharts
           option={getOption(
-            "Daily Amount of Active Accounts",
+            "Daily Number of Active Accounts",
             activeAccountsByDate,
             date
           )}
@@ -135,7 +135,7 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
       <Tab eventKey="weekly" title="Weekly">
         <ReactEcharts
           option={getOption(
-            "Weekly Amount of Active Accounts",
+            "Weekly Number of Active Accounts",
             activeAccountsByWeek,
             week
           )}
