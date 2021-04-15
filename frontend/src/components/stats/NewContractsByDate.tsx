@@ -125,7 +125,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
       <Tab eventKey="daily" title="Daily">
         <ReactEcharts
           option={getOption(
-            "Daily Amount of New Contracts",
+            "Daily Number of New Contracts",
             newContractsByDate,
             date
           )}
@@ -135,7 +135,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
       <Tab eventKey="total" title="Total">
         <ReactEcharts
           option={getOption(
-            "Total Amount of New Contracts",
+            "Total Number of New Contracts",
             cumulativeNewContractsByDate,
             date
           )}
@@ -145,7 +145,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
       <Tab eventKey="unique" title="Unique">
         <ReactEcharts
           option={getOption(
-            "Daily Amount of Unique Contracts",
+            "Daily Number of Unique Contracts",
             uniqueDeployedContractsByDate,
             date
           )}

@@ -103,7 +103,7 @@ const ActiveContractsByDate = ({ chartStyle }: Props) => {
 
   return (
     <ReactEcharts
-      option={getOption("Daily Amount of Active Contracts", newContractsByDate)}
+      option={getOption("Daily Number of Active Contracts", newContractsByDate)}
       style={chartStyle}
     />
   );
