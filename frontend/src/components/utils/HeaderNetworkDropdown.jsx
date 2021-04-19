@@ -114,19 +114,19 @@ const HeaderNetworkDropdown = () => (
           }
 
           .network-icon.network-mainnet {
-            background: #00C08B;
+            background: #00c08b;
           }
 
           .network-icon.network-testnet {
-            background: #E9B870;
+            background: #e9b870;
           }
 
           .network-icon.network-betanet {
-            background: #00C1DE;
+            background: #00c1de;
           }
 
           .network-icon.network-guildnet {
-            background: #0072CE;
+            background: #0072ce;
           }
 
           .icon-right {
