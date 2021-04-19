@@ -5,7 +5,7 @@ import { NetworkConsumer } from "../../context/NetworkProvider";
 const HeaderDropdownItem = ({ link, title }) => {
   return (
     <Dropdown.Item className="header-network-item-dropdown" href={link}>
-      <div className="network-icon"></div>
+      <div className={`network-icon network-${title.toLowerCase()}`}></div>
       {title}
     </Dropdown.Item>
   );
@@ -111,6 +111,22 @@ const HeaderNetworkDropdown = () => (
               : context.currentNearNetwork.name === "betanet"
               ? "#00C1DE"
               : "#0072CE"};
+          }
+
+          .network-icon.network-mainnet {
+            background: #00c08b;
+          }
+
+          .network-icon.network-testnet {
+            background: #e9b870;
+          }
+
+          .network-icon.network-betanet {
+            background: #00c1de;
+          }
+
+          .network-icon.network-guildnet {
+            background: #0072ce;
           }
 
           .icon-right {
