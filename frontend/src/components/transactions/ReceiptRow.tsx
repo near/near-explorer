@@ -67,14 +67,13 @@ class ReceiptRow extends React.Component<Props> {
         <Col>
           <Row noGutters>
             <Col className="receipt-row-title receipt-hash-title">
-              <b>Receipt ID:</b>
+              <b>Receipt:</b>
             </Col>
-            <Col
-              className="receipt-row-receipt-hash ml-auto text-right"
-              title={receipt.receipt_id}
-            >
-              {truncateAccountId(receipt.receipt_id)}
-            </Col>
+          </Row>
+
+          <Row noGutters className="receipt-row-section">
+            <Col className="receipt-row-title">Receipt ID:</Col>
+            <Col className="receipt-row-receipt-hash">{receipt.receipt_id}</Col>
           </Row>
 
           <Row noGutters className="receipt-row-section">
