@@ -124,11 +124,30 @@ class ContractDetails extends React.Component<Props, State> {
                     title={"Locked?"}
                     text={
                       <>
-                        <p>{`Locked contract means that there are no access keys allowing the
-                      contract code to be re-deployed (e.g. even a single FullAccess
-                      permission access key casts the locked status to "No").`}</p>
-                        <p>{`Note: The contract itself may be implemented to re-deploy itself
-                      or re-add FullAccess keys.`}</p>
+                        <p>
+                          {`Locked contract means that there are no access keys allowing the
+                          contract code to be re-deployed.`}
+                        </p>
+                        <p>
+                          {`In general case, the code can be re-deployed by:`}
+                          <ol>
+                            <li>a transaction with a deploy-code action</li>
+                            <li>
+                              the contract itself can implement a function call
+                              that will trigger deploy-code action
+                            </li>
+                          </ol>
+                        </p>
+                        <p>
+                          {`To re-deploy the code with a transaction, the transaction has to be
+                          signed with a full-access key. If there is no such key on the contract,
+                          there is no way to re-deploy the code unless there is a dedicated support
+                          in the contract code itself, and thus we mark such contracts as locked.`}
+                        </p>
+                        <p>
+                          {`If there is at least one full-access key registered on the contract
+                          account, the contract is not locked.`}
+                        </p>
                       </>
                     }
                   />
