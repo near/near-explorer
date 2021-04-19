@@ -16,14 +16,22 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         <b
           className="jsx-4267416232"
         >
-          Receipt ID:
+          Receipt:
         </b>
       </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
       <div
-        className="receipt-row-receipt-hash ml-auto text-right col"
-        title="R1111111111111111111111111111111111111111111"
+        className="receipt-row-title col"
       >
-        R1111…1111111111
+        Receipt ID:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        R1111111111111111111111111111111111111111111
       </div>
     </div>
     <div
@@ -272,14 +280,22 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 <b
                   className="jsx-4267416232"
                 >
-                  Receipt ID:
+                  Receipt:
                 </b>
               </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
               <div
-                className="receipt-row-receipt-hash ml-auto text-right col"
-                title="R2222222222222222222222222222222222222222222"
+                className="receipt-row-title col"
               >
-                R2222…2222222222
+                Receipt ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                R2222222222222222222222222222222222222222222
               </div>
             </div>
             <div
@@ -479,14 +495,22 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         <b
           className="jsx-4267416232"
         >
-          Receipt ID:
+          Receipt:
         </b>
       </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
       <div
-        className="receipt-row-receipt-hash ml-auto text-right col"
-        title="R1111111111111111111111111111111111111111111"
+        className="receipt-row-title col"
       >
-        R1111…1111111111
+        Receipt ID:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        R1111111111111111111111111111111111111111111
       </div>
     </div>
     <div
@@ -725,14 +749,22 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 <b
                   className="jsx-4267416232"
                 >
-                  Receipt ID:
+                  Receipt:
                 </b>
               </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
               <div
-                className="receipt-row-receipt-hash ml-auto text-right col"
-                title="R222222222222222222222222222222222222222222"
+                className="receipt-row-title col"
               >
-                R2222…2222222222
+                Receipt ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                R222222222222222222222222222222222222222222
               </div>
             </div>
             <div
@@ -992,14 +1024,22 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         <b
                           className="jsx-4267416232"
                         >
-                          Receipt ID:
+                          Receipt:
                         </b>
                       </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
                       <div
-                        className="receipt-row-receipt-hash ml-auto text-right col"
-                        title="R555555555555555555555555555555555555555555"
+                        className="receipt-row-title col"
                       >
-                        R5555…5555555555
+                        Receipt ID:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        R555555555555555555555555555555555555555555
                       </div>
                     </div>
                     <div
@@ -1204,14 +1244,22 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 <b
                   className="jsx-4267416232"
                 >
-                  Receipt ID:
+                  Receipt:
                 </b>
               </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
               <div
-                className="receipt-row-receipt-hash ml-auto text-right col"
-                title="R3333333333333333333333333333333333333333333"
+                className="receipt-row-title col"
               >
-                R3333…3333333333
+                Receipt ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                R3333333333333333333333333333333333333333333
               </div>
             </div>
             <div
@@ -1471,14 +1519,22 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         <b
                           className="jsx-4267416232"
                         >
-                          Receipt ID:
+                          Receipt:
                         </b>
                       </div>
+                    </div>
+                    <div
+                      className="receipt-row-section row no-gutters"
+                    >
                       <div
-                        className="receipt-row-receipt-hash ml-auto text-right col"
-                        title="R6666666666666666666666666666666666666666666"
+                        className="receipt-row-title col"
                       >
-                        R6666…6666666666
+                        Receipt ID:
+                      </div>
+                      <div
+                        className="receipt-row-receipt-hash col"
+                      >
+                        R6666666666666666666666666666666666666666666
                       </div>
                     </div>
                     <div
@@ -1683,14 +1739,22 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 <b
                   className="jsx-4267416232"
                 >
-                  Receipt ID:
+                  Receipt:
                 </b>
               </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
               <div
-                className="receipt-row-receipt-hash ml-auto text-right col"
-                title="R4444444444444444444444444444444444444444444"
+                className="receipt-row-title col"
               >
-                R4444…4444444444
+                Receipt ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                R4444444444444444444444444444444444444444444
               </div>
             </div>
             <div
@@ -1890,14 +1954,22 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         <b
           className="jsx-4267416232"
         >
-          Receipt ID:
+          Receipt:
         </b>
       </div>
+    </div>
+    <div
+      className="receipt-row-section row no-gutters"
+    >
       <div
-        className="receipt-row-receipt-hash ml-auto text-right col"
-        title="R1111111111111111111111111111111111111111111"
+        className="receipt-row-title col"
       >
-        R1111…1111111111
+        Receipt ID:
+      </div>
+      <div
+        className="receipt-row-receipt-hash col"
+      >
+        R1111111111111111111111111111111111111111111
       </div>
     </div>
     <div
@@ -2162,14 +2234,22 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 <b
                   className="jsx-4267416232"
                 >
-                  Receipt ID:
+                  Receipt:
                 </b>
               </div>
+            </div>
+            <div
+              className="receipt-row-section row no-gutters"
+            >
               <div
-                className="receipt-row-receipt-hash ml-auto text-right col"
-                title="R2222222222222222222222222222222222222222222"
+                className="receipt-row-title col"
               >
-                R2222…2222222222
+                Receipt ID:
+              </div>
+              <div
+                className="receipt-row-receipt-hash col"
+              >
+                R2222222222222222222222222222222222222222222
               </div>
             </div>
             <div
