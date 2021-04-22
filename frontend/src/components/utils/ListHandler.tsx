@@ -44,7 +44,9 @@ const Wrapper = (
           display: false,
           hasMore: true,
           loading: false,
-        });
+        },()=>{
+          this.regularFetchInfo();
+        });        
       }
     }
 
