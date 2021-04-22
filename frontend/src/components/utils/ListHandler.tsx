@@ -44,9 +44,9 @@ const Wrapper = (
           display: false,
           hasMore: true,
           loading: false,
-        },()=>{
+        }, () => {
           this.regularFetchInfo();
-        });        
+        });
       }
     }
 
@@ -119,7 +119,7 @@ const Wrapper = (
             endTimestamp: this.state.items[this.state.items.length - 1]
               .createdAtBlockTimestamp
               ? this.state.items[this.state.items.length - 1]
-                  .createdAtBlockTimestamp
+                .createdAtBlockTimestamp
               : undefined,
             accountIndex: this.state.items[this.state.items.length - 1]
               .accountIndex,
