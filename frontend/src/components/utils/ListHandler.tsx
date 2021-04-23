@@ -38,13 +38,18 @@ const Wrapper = (
 
     componentDidUpdate(preProps: any) {
       if (this.props !== preProps) {
-        this.setState({
-          items: Array<any>(),
-          itemsLength: config.count,
-          display: false,
-          hasMore: true,
-          loading: false,
-        });
+        this.setState(
+          {
+            items: Array<any>(),
+            itemsLength: config.count,
+            display: false,
+            hasMore: true,
+            loading: false,
+          },
+          () => {
+            this.regularFetchInfo();
+          }
+        );
       }
     }
 
