@@ -2,7 +2,6 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
-const { queryBridgeTokenHolders } = require("./db-utils");
 const stats = require("./stats");
 
 const models = require("../models");
@@ -303,11 +302,6 @@ wampHandlers["partner-first-3-month-transactions-count"] = async () => {
 
 wampHandlers["partner-unique-user-amount"] = async () => {
   return await stats.getPartnerUniqueUserAmount();
-};
-
-// bridge query
-wampHandlers["get-bridge-token-holders"] = async ([bridgeTokenContractId]) => {
-  return await queryBridgeTokenHolders(bridgeTokenContractId);
 };
 
 // set up wamp
