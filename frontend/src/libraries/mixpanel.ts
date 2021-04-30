@@ -1,6 +1,6 @@
 import mixpanel from "mixpanel-browser";
 
-const BROWSER_MIXPANEL_TOKEN = "7cc6cbaab18d00de1b06ca9b4e773ed7";
+const BROWSER_MIXPANEL_TOKEN = "df164f13212cbb0dfdae991da60e87f2";
 
 if (process.env.NEAR_EXPLORER_DATA_SOURCE) {
   mixpanel.init(BROWSER_MIXPANEL_TOKEN);

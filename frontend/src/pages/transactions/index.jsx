@@ -1,10 +1,13 @@
 import Head from "next/head";
 
+import Mixpanel from "../../libraries/mixpanel";
+
 import Content from "../../components/utils/Content";
 import Transactions from "../../components/transactions/Transactions";
 
 class TransactionsPage extends React.Component {
   render() {
+    Mixpanel.track("Explorer View Transactions Page");
     return (
       <>
         <Head>

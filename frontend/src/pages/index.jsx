@@ -2,6 +2,7 @@ import Head from "next/head";
 
 import { Container, Row, Col } from "react-bootstrap";
 
+import Mixpanel from "../libraries/mixpanel";
 import NodeStatsProvider from "../context/NodeStatsProvider";
 
 import Search from "../components/utils/Search";
@@ -10,6 +11,7 @@ import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 class Dashboard extends React.Component {
   render() {
+    Mixpanel.track("Explorer View Landing Page");
     return (
       <>
         <Head>

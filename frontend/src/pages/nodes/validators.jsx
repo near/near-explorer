@@ -2,6 +2,8 @@ import Head from "next/head";
 
 import React from "react";
 
+import Mixpanel from "../../libraries/mixpanel";
+
 import NodeNav from "../../components/nodes/NodeNav";
 import Validators from "../../components/nodes/Validators";
 import Content from "../../components/utils/Content";
@@ -11,6 +13,7 @@ import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 class ValidatorsPage extends React.Component {
   render() {
+    Mixpanel.track("Explorer View Validator Node page");
     return (
       <>
         <Head>
