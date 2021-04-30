@@ -133,14 +133,18 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                gjtur…ockup.near
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  gjtur…ockup.near
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -268,14 +272,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="http://wallet/profile/megan.near"
-                rel="noopener"
-                target="_blank"
+              <div
+                className="jsx-3150401870"
+                onClick={[Function]}
               >
-                megan.near on Wallet
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="http://wallet/profile/megan.near"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  megan.near on Wallet
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -458,14 +467,18 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                gjtur…ockup.near
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  gjtur…ockup.near
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -593,14 +606,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="http://wallet/profile/megan.near"
-                rel="noopener"
-                target="_blank"
+              <div
+                className="jsx-3150401870"
+                onClick={[Function]}
               >
-                megan.near on Wallet
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="http://wallet/profile/megan.near"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  megan.near on Wallet
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -783,14 +801,18 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                gjtur…ockup.near
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  gjtur…ockup.near
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -918,14 +940,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="http://wallet/profile/megan.near"
-                rel="noopener"
-                target="_blank"
+              <div
+                className="jsx-3150401870"
+                onClick={[Function]}
               >
-                megan.near on Wallet
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="http://wallet/profile/megan.near"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  megan.near on Wallet
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1002,17 +1029,21 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp
-              <a
-                className="transaction-link"
-                href="/transactions/3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                <img
-                  className="jsx-1225256684 transaction-link-icon"
-                  src="/static/images/icon-m-copy.svg"
-                />
-              </a>
+                <a
+                  className="transaction-link"
+                  href="/transactions/3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  <img
+                    className="jsx-1225256684 transaction-link-icon"
+                    src="/static/images/icon-m-copy.svg"
+                  />
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -1155,14 +1186,18 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                gjtur…ockup.near
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  gjtur…ockup.near
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -1290,14 +1325,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="http://wallet/profile/megan.near"
-                rel="noopener"
-                target="_blank"
+              <div
+                className="jsx-3150401870"
+                onClick={[Function]}
               >
-                megan.near on Wallet
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="http://wallet/profile/megan.near"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  megan.near on Wallet
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1374,17 +1414,21 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
-              <a
-                className="transaction-link"
-                href="/transactions/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                <img
-                  className="jsx-1225256684 transaction-link-icon"
-                  src="/static/images/icon-m-copy.svg"
-                />
-              </a>
+                <a
+                  className="transaction-link"
+                  href="/transactions/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  <img
+                    className="jsx-1225256684 transaction-link-icon"
+                    src="/static/images/icon-m-copy.svg"
+                  />
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -1615,14 +1659,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <a
-                className="jsx-3150401870 account-link"
-                href="http://wallet/profile/near.near"
-                rel="noopener"
-                target="_blank"
+              <div
+                className="jsx-3150401870"
+                onClick={[Function]}
               >
-                near.near on Wallet
-              </a>
+                <a
+                  className="jsx-3150401870 account-link"
+                  href="http://wallet/profile/near.near"
+                  rel="noopener"
+                  target="_blank"
+                >
+                  near.near on Wallet
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1699,17 +1748,21 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL
-              <a
-                className="transaction-link"
-                href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                <img
-                  className="jsx-1225256684 transaction-link-icon"
-                  src="/static/images/icon-m-copy.svg"
-                />
-              </a>
+                <a
+                  className="transaction-link"
+                  href="/transactions/EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  <img
+                    className="jsx-1225256684 transaction-link-icon"
+                    src="/static/images/icon-m-copy.svg"
+                  />
+                </a>
+              </span>
             </div>
           </div>
         </div>

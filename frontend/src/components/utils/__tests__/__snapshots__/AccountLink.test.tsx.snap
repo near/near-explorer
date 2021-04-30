@@ -1,23 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AccountLink /> renders long account id 1`] = `
-<a
-  className="jsx-3150401870 account-link"
-  href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
+<span
   onClick={[Function]}
-  onMouseEnter={[Function]}
 >
-  b7df2…ockup.near
-</a>
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    b7df2…ockup.near
+  </a>
+</span>
 `;
 
 exports[`<AccountLink /> renders short account id 1`] = `
-<a
-  className="jsx-3150401870 account-link"
-  href="/accounts/jerry.zest.near"
+<span
   onClick={[Function]}
-  onMouseEnter={[Function]}
 >
-  jerry.zest.near
-</a>
+  <a
+    className="jsx-3150401870 account-link"
+    href="/accounts/jerry.zest.near"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    jerry.zest.near
+  </a>
+</span>
 `;

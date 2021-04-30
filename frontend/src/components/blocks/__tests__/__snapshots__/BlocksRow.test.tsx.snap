@@ -1,110 +1,114 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<BlocksRow /> renders 1`] = `
-<a
-  href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+<span
   onClick={[Function]}
-  onMouseEnter={[Function]}
-  style={
-    Object {
-      "textDecoration": "none",
-    }
-  }
 >
-  <div
-    className="transaction-row mx-0  row"
+  <a
+    href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }
   >
     <div
-      className="pr-0 col-md-auto col-1"
-    >
-      <img
-        className="jsx-2643644171"
-        src="/static/images/icon-m-block.svg"
-      />
-    </div>
-    <div
-      className="pr-0 col-md-auto col-1"
-    >
-      <img
-        className="jsx-2643644171"
-        src="/static/images/icon-m-block.svg"
-        style={
-          Object {
-            "width": "20px",
-          }
-        }
-      />
-    </div>
-    <div
-      className="col-md-7 col-6"
+      className="transaction-row mx-0  row"
     >
       <div
-        className="row"
+        className="pr-0 col-md-auto col-1"
       >
-        <div
-          className="transaction-row-title col"
-        >
-          #
-          12345
-        </div>
+        <img
+          className="jsx-2643644171"
+          src="/static/images/icon-m-block.svg"
+        />
       </div>
       <div
-        className="row"
+        className="pr-0 col-md-auto col-1"
+      >
+        <img
+          className="jsx-2643644171"
+          src="/static/images/icon-m-block.svg"
+          style={
+            Object {
+              "width": "20px",
+            }
+          }
+        />
+      </div>
+      <div
+        className="col-md-7 col-6"
       >
         <div
-          className="transaction-row-text col"
+          className="row"
         >
           <div
-            className="row"
+            className="transaction-row-title col"
+          >
+            #
+            12345
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="transaction-row-text col"
           >
             <div
-              className="col-md-auto"
+              className="row"
             >
-              <img
-                className="jsx-2643644171"
-                src="/static/images/icon-m-transaction.svg"
-                style={
-                  Object {
-                    "width": "12px",
+              <div
+                className="col-md-auto"
+              >
+                <img
+                  className="jsx-2643644171"
+                  src="/static/images/icon-m-transaction.svg"
+                  style={
+                    Object {
+                      "width": "12px",
+                    }
                   }
-                }
-              />
-               3
+                />
+                 3
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="ml-auto text-right col-md-3 col-4"
-    >
       <div
-        className="row"
+        className="ml-auto text-right col-md-3 col-4"
       >
         <div
-          className="transaction-row-txid col"
+          className="row"
         >
-          EVvWW1S...
-        </div>
-      </div>
-      <div
-        className="row"
-      >
-        <div
-          className="transaction-row-timer col"
-        >
-          <span
-            className="jsx-2643644171 transaction-row-timer-status"
+          <div
+            className="transaction-row-txid col"
           >
-            Checking Finality...
-          </span>
-            
-          <span>
-            1s ago
-          </span>
+            EVvWW1S...
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="transaction-row-timer col"
+          >
+            <span
+              className="jsx-2643644171 transaction-row-timer-status"
+            >
+              Checking Finality...
+            </span>
+              
+            <span>
+              1s ago
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</a>
+  </a>
+</span>
 `;

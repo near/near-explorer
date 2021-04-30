@@ -1,12 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TransactionLink /> renders 1`] = `
-<a
-  className="transaction-link"
-  href="/transactions/H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b"
+<span
   onClick={[Function]}
-  onMouseEnter={[Function]}
 >
-  H4CpspC...
-</a>
+  <a
+    className="transaction-link"
+    href="/transactions/H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    H4CpspC...
+  </a>
+</span>
 `;
