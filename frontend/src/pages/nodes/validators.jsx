@@ -13,7 +13,9 @@ import NodesCard from "../../components/nodes/NodesCard";
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 import NodeProvider from "../../context/NodeProvider";
-import NodeStatsProvider from "../../context/NodeStatsProvider";
+import NodeStatsProvider, {
+  NodeStatsConsumer,
+} from "../../context/NodeStatsProvider";
 
 class ValidatorsPage extends React.Component {
   componentDidMount() {
@@ -28,7 +30,11 @@ class ValidatorsPage extends React.Component {
         </Head>
 
         <Container fluid>
-          <NodesEpoch />
+          <NodeStatsProvider>
+            <NodeStatsConsumer>
+              {(context) => <NodesEpoch {...context} />}
+            </NodeStatsConsumer>
+          </NodeStatsProvider>
         </Container>
 
         <Content
@@ -44,17 +50,17 @@ class ValidatorsPage extends React.Component {
             </Container>
           </NodeStatsProvider>
           <NodeProvider>
-            <Container>
-              <Validators />
+            <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
+              <Validators type="validators" />
             </Container>
           </NodeProvider>
         </Content>
         <style global jsx>{`
           .nodes-page {
-            background-color: #ffffff;
+            // background-color: #ffffff;
           }
           .content-header {
-            background: #fafafa;
+            // background: #fafafa;
             margin-left: -15px;
             margin-right: -15px;
           }

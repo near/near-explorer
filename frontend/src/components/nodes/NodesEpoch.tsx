@@ -1,11 +1,67 @@
 import React from "react";
+import moment from "moment";
 
 import { Row, Col } from "react-bootstrap";
 
 import ProgressBar from "../utils/ProgressBar";
 
-class NodesEpoch extends React.PureComponent {
+interface Props {
+  epochStartHeightAmount: number;
+  epochStartBlock?: EpochStartBlock;
+}
+
+interface EpochStartBlock {
+  timestamp: string;
+}
+interface State {
+  timeRemaining?: number;
+  epochProseed: number;
+}
+
+class NodesEpoch extends React.PureComponent<Props, State> {
+  state = {
+    timeRemaining: undefined,
+    epochProseed: 0,
+  };
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.epochDuration(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  epochDuration = () => {
+    if (this.props.epochStartBlock?.timestamp) {
+      const currentTimestamp = moment() as moment.Moment;
+      const endEpochTimestamp = moment(
+        this.props.epochStartBlock.timestamp
+      ).add(12, "h");
+      const duration = moment
+        .duration(
+          endEpochTimestamp.diff(moment(this.props.epochStartBlock.timestamp))
+        )
+        .asSeconds();
+      const durationProseed = moment
+        .duration(
+          currentTimestamp.diff(moment(this.props.epochStartBlock.timestamp))
+        )
+        .asSeconds();
+      const durationValue = (durationProseed / duration) * 100;
+      this.setState({
+        timeRemaining: moment
+          .duration(endEpochTimestamp.diff(currentTimestamp))
+          .asMilliseconds(),
+        epochProseed: Number(durationValue.toFixed(2)),
+      });
+    }
+    return null;
+  };
+
   render() {
+    const { epochProseed, timeRemaining } = this.state;
+
     return (
       <Row className="nodes-epoch">
         <Col xs="12" className="nodes-epoch-content">
@@ -14,44 +70,59 @@ class NodesEpoch extends React.PureComponent {
               <Row className="d-none d-md-flex">
                 <Col>
                   Current Epoch Start:{" "}
-                  <span className="text-value">Block #000000</span>
+                  <span className="text-value">
+                    Block #{this.props.epochStartHeightAmount ?? "00000000"}
+                  </span>
                 </Col>
               </Row>
 
               <Row className="d-xs-flex d-md-none">
                 <Col xs="12">Current Epoch Start</Col>
                 <Col xs="12">
-                  <span className="text-value">Block #000000</span>
+                  <span className="text-value">
+                    Block #{this.props.epochStartHeightAmount ?? "00000000"}
+                  </span>
                 </Col>
               </Row>
             </Col>
 
             <Col sm="5" className="text-right d-none d-md-block">
-              <span className="text-value">00% complete</span> (00:00:00
+              <span className="text-value">
+                {epochProseed.toFixed(0)}% complete
+              </span>{" "}
+              (
+              {timeRemaining
+                ? moment(timeRemaining)?.format("HH:mm:ss")
+                : "00:00:00"}{" "}
               remaining)
             </Col>
 
             <Col xs="5" className="text-right d-xs-block d-md-none">
               <ProgressBar
-                percent={90}
+                percent={epochProseed}
                 strokeColor="#37dbf4"
                 trailColor="transparent"
                 type="circle"
                 strokeWidth={4}
                 className="node-epoch-circle-progress"
-                label={<span className="circle-progress-label">90%</span>}
+                label={
+                  <span className="circle-progress-label">
+                    {epochProseed.toFixed(0)}%
+                  </span>
+                }
               />
             </Col>
           </Row>
         </Col>
         <Col xs="12" className="d-none d-md-block px-0">
           <ProgressBar
-            percent={50}
+            percent={epochProseed}
             strokeColor="#37dbf4"
             className="node-epoch-line-progress"
             trailColor="transparent"
           />
         </Col>
+
         <style global jsx>{`
           .nodes-epoch {
             background-color: #292526;

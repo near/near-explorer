@@ -12,6 +12,9 @@ import Content from "../../components/utils/Content";
 
 import NodeProvider from "../../context/NodeProvider";
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
+import NodeStatsProvider, {
+  NodeStatsConsumer,
+} from "../../context/NodeStatsProvider";
 
 class OnlineNodes extends React.Component {
   componentDidMount() {
@@ -26,7 +29,11 @@ class OnlineNodes extends React.Component {
         </Head>
 
         <Container fluid>
-          <NodesEpoch />
+          <NodeStatsProvider>
+            <NodeStatsConsumer>
+              {(context) => <NodesEpoch {...context} />}
+            </NodeStatsConsumer>
+          </NodeStatsProvider>
         </Container>
 
         <Content

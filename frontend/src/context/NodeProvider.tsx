@@ -1,16 +1,12 @@
 import React, { createContext, useEffect, useState } from "react";
 
 import { ExplorerApi } from "../libraries/explorer-wamp";
-import {
-  NodeInfo,
-  Proposal,
-  Validating,
-} from "../libraries/explorer-wamp/nodes";
+import { NodeInfo, Validating } from "../libraries/explorer-wamp/nodes";
 
 export interface INodeContext {
   validators?: Validating[];
   onlineNodes?: NodeInfo[];
-  proposals?: Proposal[];
+  proposals?: Validating[];
   onlineValidatingNodes?: NodeInfo[];
 }
 
@@ -23,7 +19,7 @@ export interface Props {
 const NodeProvider = (props: Props) => {
   const [validators, dispatchValidators] = useState<Validating[]>();
   const [onlineNodes, dispatchOnlineNodes] = useState<NodeInfo[]>();
-  const [proposals, dispatchProposals] = useState<Proposal[]>();
+  const [proposals, dispatchProposals] = useState<Validating[]>();
   const [onlineValidatingNodes, dispatchNodes] = useState<NodeInfo[]>();
 
   const fetchNodeInfo = (_positionalArgs: any, namedArgs: INodeContext) => {

@@ -29,7 +29,6 @@ const DashboardNode = () => (
               }
               loading={typeof stats.onlineNodeAmount === "undefined"}
               text={stats.onlineNodeAmount?.toLocaleString()}
-              href={"/nodes/online-nodes"}
             />
           </Col>
           <Col xs="6" md="12">

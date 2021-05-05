@@ -15,7 +15,12 @@ const {
 } = require("./config");
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
-const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
+const {
+  nearRpc,
+  queryFinalTimestamp,
+  queryNodeStats,
+  fetchValidatorsInfo,
+} = require("./near");
 
 const {
   syncNewNearcoreState,
@@ -51,6 +56,9 @@ const {
   aggregateParterUniqueUserAmount,
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
+
+let validatorsInfo = new Map();
+let proposalsInfo = new Map();
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -257,14 +265,34 @@ async function main() {
       if (wamp.session) {
         let {
           currentValidators,
-          proposals,
+          currentProposals,
           seatPrice,
+          totalStake,
+          epochStartHeight,
         } = await queryNodeStats();
         let validators = await addNodeInfo(currentValidators);
+        let proposals = await addNodeInfo(currentProposals);
         let onlineValidatingNodes = pickOnlineValidatingNode(validators);
         let onlineNodes = await queryOnlineNodes();
+
+        let validatorExtendedData = await fetchValidatorsInfo(
+          validators,
+          validatorsInfo
+        );
+        let proposalsExtendedData = await fetchValidatorsInfo(
+          proposals,
+          proposalsInfo
+        );
+
         if (!onlineNodes) {
           onlineNodes = [];
+        }
+
+        if (validatorsInfo) {
+          validators = validatorExtendedData;
+        }
+        if (!proposalsInfo) {
+          proposals = proposalsExtendedData;
         }
         wampPublish(
           "nodes",
@@ -278,6 +306,8 @@ async function main() {
             seatPriceAmount: seatPrice,
             onlineNodeAmount: onlineNodes.length,
             proposalAmount: proposals.length,
+            totalStakeAmount: totalStake,
+            epochStartHeightAmount: epochStartHeight,
           },
           wamp
         );

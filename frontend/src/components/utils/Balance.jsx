@@ -5,12 +5,14 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const FRAC_DIGITS = 5;
 
-const Balance = ({ amount }) => {
+// roundSuffix = "K" | "M" | "B"
+const Balance = ({ amount, round = false, roundSuffix = null }) => {
   if (!amount) {
     throw new Error("amount property should not be null");
   }
 
-  let amountShow = formatNEAR(amount);
+  let amountShow =
+    round || roundSuffix ? roundTo(amount, roundSuffix) : formatNEAR(amount);
   let amountPrecise = showInYocto(amount);
   return (
     <OverlayTrigger
@@ -20,6 +22,24 @@ const Balance = ({ amount }) => {
       <span>{amountShow} Ⓝ</span>
     </OverlayTrigger>
   );
+};
+
+export const roundTo = (amount, roundSuffix) => {
+  // const thousand = new BN(10 ** 3);
+  const million = new BN(10 ** 6);
+  const billion = new BN(10 ** 9);
+
+  let BNAmount = new BN(amount);
+  let formattedAmount;
+
+  if ((BNAmount.gte(million) && BNAmount.lte(billion)) || roundSuffix === "M") {
+    formattedAmount = `${formatNEAR(BNAmount.div(million))}M`;
+  } else if (BNAmount.gte(billion) || roundSuffix === "B") {
+    formattedAmount = `${formatNEAR(BNAmount.div(billion))}B`;
+  } else {
+    formattedAmount = formatNEAR(BNAmount);
+  }
+  return formattedAmount;
 };
 
 export const formatNEAR = (amount) => {

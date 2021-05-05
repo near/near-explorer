@@ -1,3 +1,5 @@
+import BN from "bn.js";
+
 export interface NodeInfo {
   ipAddress: string;
   accountId: string;
@@ -24,16 +26,19 @@ export interface Validating {
   removed?: boolean;
   shards: [number];
   nodeInfo?: NodeInfo;
+  fee: { numerator: number; denominator: number };
+  delegators?: number;
+  cumulativeStakeAmount?: CumulativeStake;
+  totalStake?: BN;
+}
+
+interface CumulativeStake {
+  total: BN;
+  networkHolderIndex: number;
 }
 
 export interface NodeStats {
   validatorsCount: number;
   onlineNodesCount: number;
   proposalsCount: number;
-}
-
-export interface Proposal {
-  account_id: string;
-  public_key: string;
-  stake: string;
 }

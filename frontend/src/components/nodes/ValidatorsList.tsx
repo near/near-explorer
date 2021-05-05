@@ -8,6 +8,8 @@ import ValidatorRow from "./ValidatorRow";
 interface Props {
   validators: any;
   pages: any;
+  cellCount: number;
+  validatorType: string;
 }
 
 class ValidatorsList extends React.PureComponent<Props> {
@@ -28,29 +30,40 @@ class ValidatorsList extends React.PureComponent<Props> {
     const {
       validators,
       pages: { startPage, endPage, activePage, itemsPerPage },
+      cellCount,
+      validatorType,
     } = this.props;
     const totalStake = validators.reduce(
       (acc: BN, node: any) => acc.add(new BN(node.stake)),
       new BN(0)
     );
 
+    const validatorsList = validators
+      .sort((a: N.Validating, b: N.Validating) =>
+        new BN(b.stake).sub(new BN(a.stake))
+      )
+      .map((node: N.Validating, index: number) => {
+        if (validatorType === "validators") {
+          return {
+            ...node,
+            totalStake: totalStake,
+            cumulativeStakeAmount: this.calculateStake(index, totalStake),
+          };
+        }
+        return node;
+      });
+
     return (
       <>
-        {validators
-          .sort((a: N.Validating, b: N.Validating) =>
-            new BN(b.stake).sub(new BN(a.stake))
-          )
+        {validatorsList
           .slice(startPage - 1, endPage)
           .map((node: N.Validating, index: number) => (
             <ValidatorRow
               key={node.account_id}
               node={node}
               index={activePage * itemsPerPage + index + 1}
-              totalStake={totalStake}
-              cumulativeStakeAmount={this.calculateStake(
-                activePage * itemsPerPage + index,
-                totalStake
-              )}
+              cellCount={cellCount}
+              validatorType={validatorType}
             />
           ))}
       </>

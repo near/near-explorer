@@ -43,11 +43,18 @@ class NodesCard extends React.PureComponent {
               <Col xs="6" md="4">
                 <Row noGutters>
                   <Col xs="12" className="nodes-card-title">
-                    Circulating Supply
+                    Total Supply
                   </Col>
                   <Col xs="12" className="nodes-card-text">
                     {" "}
-                    000 / 0000
+                    {context.epochStartBlock?.totalSupply ? (
+                      <Balance
+                        round
+                        amount={context.epochStartBlock.totalSupply}
+                      />
+                    ) : (
+                      "--"
+                    )}
                     <NearBadge />
                   </Col>
                 </Row>
@@ -56,11 +63,18 @@ class NodesCard extends React.PureComponent {
               <Col xs="12" md="3">
                 <Row noGutters>
                   <Col xs="12" className="nodes-card-title">
-                    Active Stake
+                    Total Stake
                   </Col>
                   <Col xs="12" className="nodes-card-text">
-                    {" "}
-                    000.000
+                    {context.totalStakeAmount ? (
+                      <Balance
+                        roundSuffix="M"
+                        round
+                        amount={context.totalStakeAmount}
+                      />
+                    ) : (
+                      "-"
+                    )}
                     <NearBadge />
                   </Col>
                 </Row>
@@ -73,7 +87,10 @@ class NodesCard extends React.PureComponent {
                   </Col>
                   <Col xs="12" className="nodes-card-text">
                     {context.seatPriceAmount ? (
-                      <Balance amount={context.seatPriceAmount} />
+                      <Balance
+                        roundSuffix="M"
+                        amount={context.seatPriceAmount}
+                      />
                     ) : (
                       "-"
                     )}
@@ -89,7 +106,8 @@ class NodesCard extends React.PureComponent {
                 box-shadow: 0px 2px 2px rgba(17, 22, 24, 0.04);
                 border-radius: 8px;
                 padding: 48px 32px;
-                margin-top: 50px;
+                margin-top: 16px;
+                // margin-top: 50px;
               }
 
               .nodes-card-title {
@@ -102,10 +120,15 @@ class NodesCard extends React.PureComponent {
 
               .nodes-card-text {
                 font-weight: 900;
-                font-size: 31px;
+                // font-size: 31px;
+                font-size: 16px;
                 line-height: 130%;
                 color: #272729;
                 font-feature-settings: "zero", on;
+              }
+
+              .nodes-card-badge {
+                margin-left: 10px;
               }
 
               .nodes-card-text.validating {

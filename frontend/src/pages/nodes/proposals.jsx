@@ -7,11 +7,15 @@ import Mixpanel from "../../libraries/mixpanel";
 import { Container } from "react-bootstrap";
 
 import NodesEpoch from "../../components/nodes/NodesEpoch";
-import Proposals from "../../components/nodes/Proposals";
+import Validators from "../../components/nodes/Validators";
+
 import Content from "../../components/utils/Content";
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 import NodeProvider from "../../context/NodeProvider";
+import NodeStatsProvider, {
+  NodeStatsConsumer,
+} from "../../context/NodeStatsProvider";
 
 class ProposalsPage extends React.Component {
   componentDidMount() {
@@ -26,7 +30,11 @@ class ProposalsPage extends React.Component {
         </Head>
 
         <Container fluid>
-          <NodesEpoch />
+          <NodeStatsProvider>
+            <NodeStatsConsumer>
+              {(context) => <NodesEpoch {...context} />}
+            </NodeStatsConsumer>
+          </NodeStatsProvider>
         </Container>
 
         <Content
@@ -37,8 +45,8 @@ class ProposalsPage extends React.Component {
           header={<NodesContentHeader navRole="proposals" />}
         >
           <NodeProvider>
-            <Container>
-              <Proposals />
+            <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
+              <Validators type="proposals" />
             </Container>
           </NodeProvider>
         </Content>
@@ -46,6 +54,7 @@ class ProposalsPage extends React.Component {
           .proposals-page {
             background-color: #ffffff;
           }
+
           .content-header {
             background: #fafafa;
             margin-left: -15px;

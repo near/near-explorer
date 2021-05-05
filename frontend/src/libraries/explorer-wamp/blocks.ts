@@ -8,6 +8,7 @@ export interface BlockInfo {
   hash: string;
   height: number;
   timestamp: number;
+  totalSupply?: string;
   prevHash: string;
   transactionsCount: number;
   gasPrice?: string;
@@ -27,7 +28,7 @@ export default class BlocksApi extends ExplorerApi {
               blocks.*,
               COUNT(transactions.hash) AS transactions_count
             FROM (
-              SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash 
+              SELECT blocks.hash, blocks.height, blocks.timestamp, blocks.prev_hash
               FROM blocks
               ${
                 paginationIndexer
@@ -128,6 +129,7 @@ export default class BlocksApi extends ExplorerApi {
               DIV(blocks.block_timestamp, 1000*1000) AS timestamp,
               blocks.prev_block_hash AS prev_hash,
               blocks.gas_price AS gas_price,
+              blocks.total_supply AS total_supply,
               COUNT(transactions.transaction_hash) AS transactions_count
             FROM (
               SELECT blocks.block_hash AS block_hash
@@ -189,6 +191,7 @@ export default class BlocksApi extends ExplorerApi {
         prevHash: block.prev_hash,
         timestamp: parseInt(block.timestamp),
         transactionsCount: block.transactions_count,
+        totalSupply: block.total_supply,
       } as BlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");

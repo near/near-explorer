@@ -35,7 +35,7 @@ const getSyncedGenesis = async (options) => {
 const queryGenesisAccountCount = async () => {
   return await querySingleRow(
     [
-      `SELECT 
+      `SELECT
         COUNT(*)
       FROM accounts
       WHERE created_by_receipt_id IS NULL`,
@@ -336,7 +336,7 @@ const queryDeletedAccountsCountAggregatedByDate = async () => {
         DATE_TRUNC('day', TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000)) AS date,
         COUNT(accounts.deleted_by_receipt_id) AS deleted_accounts_count_by_date
       FROM accounts
-      JOIN receipts ON receipts.receipt_id = accounts.deleted_by_receipt_id 
+      JOIN receipts ON receipts.receipt_id = accounts.deleted_by_receipt_id
       WHERE receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
       GROUP BY date
       ORDER BY date`,

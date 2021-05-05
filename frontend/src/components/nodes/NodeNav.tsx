@@ -34,7 +34,7 @@ class NodeNav extends React.PureComponent<Props> {
                   </a>
                 </Link>
               </Col>
-              <Col
+              {/* <Col
                 xs="auto"
                 className={`node-selector pt-2 pb-2 ${
                   role === "online-nodes" ? `node-selected` : ""
@@ -50,7 +50,7 @@ class NodeNav extends React.PureComponent<Props> {
                     </Badge>
                   </a>
                 </Link>
-              </Col>
+              </Col> */}
               <Col
                 xs="auto"
                 className={`node-selector pt-2 pb-2 ${

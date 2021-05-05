@@ -8,14 +8,23 @@ import { Table } from "../utils/Table";
 import ValidatorsList from "./ValidatorsList";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-const itemsPerPage = 12;
-class Validators extends React.Component {
+interface Props {
+  type: string;
+  itemsPerPage: number;
+}
+
+class Validators extends React.PureComponent<Props> {
+  static defaultProps = {
+    itemsPerPage: 12,
+  };
+
   state = {
     activePage: 0,
     startPage: 1,
-    endPage: itemsPerPage,
+    endPage: this.props.itemsPerPage,
   };
   onPageChange = ({ selected }: P) => {
+    const { itemsPerPage } = this.props;
     this.setState({
       activePage: selected,
       startPage: selected * itemsPerPage + 1,
@@ -25,57 +34,80 @@ class Validators extends React.Component {
 
   render() {
     const { activePage, startPage, endPage } = this.state;
+    const { type, itemsPerPage } = this.props;
+
+    const tableColumns =
+      type === "validators"
+        ? [
+            " ",
+            "#",
+            "Validator",
+            "Fee",
+            "Delegators",
+            "Stake",
+            "Cumulative Stake",
+          ]
+        : [" ", "#", "Validator", "Fee", "Delegators", "Stake"];
+
     return (
       <>
         <NodeConsumer>
-          {(context) => (
-            <>
-              {context.validators ? (
-                <Table
-                  className="validators-section"
-                  pagination={{
-                    className: "validators-node-pagination",
-                    pageCount: Math.ceil(
-                      context.validators.length / itemsPerPage
-                    ),
-                    marginPagesDisplayed: 1,
-                    pageRangeDisplayed: 3,
-                    onPageChange: this.onPageChange,
-                  }}
-                >
-                  <thead>
-                    <tr className="validators-header-row">
-                      <th />
-                      <th>#</th>
-                      <th>Location</th>
-                      <th>Validator</th>
-                      <th>Fee</th>
-                      <th>Delegators</th>
-                      <th className="text-right">Stake</th>
-                      <th>Cumulative Stake</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <ValidatorsList
-                      validators={context.validators}
-                      pages={{
-                        startPage,
-                        endPage,
-                        activePage,
-                        itemsPerPage,
-                      }}
-                    />
-                  </tbody>
-                </Table>
-              ) : (
-                <PaginationSpinner hidden={false} />
-              )}
-            </>
-          )}
+          {(context) => {
+            const validatorType =
+              type === "validators" ? context.validators : context.proposals;
+            return (
+              <>
+                {validatorType ? (
+                  <Table
+                    className="validators-section"
+                    pagination={{
+                      className: "validators-node-pagination",
+                      pageCount: Math.ceil(validatorType.length / itemsPerPage),
+                      marginPagesDisplayed: 1,
+                      pageRangeDisplayed: 3,
+                      onPageChange: this.onPageChange,
+                    }}
+                  >
+                    <thead>
+                      <tr className="validators-header-row">
+                        {tableColumns.map((title: string, index) => (
+                          <th
+                            key={`${[type]}_heder_cell_${index}`}
+                            className={
+                              title.toLowerCase() === "stake"
+                                ? "text-right"
+                                : ""
+                            }
+                          >
+                            {title}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ValidatorsList
+                        validators={validatorType}
+                        pages={{
+                          startPage,
+                          endPage,
+                          activePage,
+                          itemsPerPage,
+                        }}
+                        cellCount={tableColumns.length}
+                        validatorType={type}
+                      />
+                    </tbody>
+                  </Table>
+                ) : (
+                  <PaginationSpinner hidden={false} />
+                )}
+              </>
+            );
+          }}
         </NodeConsumer>
         <style jsx global>{`
-          .nodes-card {
-            margin-bottom: 24px;
+          .validators-node-pagination {
+            background-color: #ffffff;
           }
         `}</style>
       </>
