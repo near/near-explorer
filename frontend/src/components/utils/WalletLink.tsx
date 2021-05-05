@@ -12,7 +12,7 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
       walletPrefix: nearWalletProfilePrefix,
     });
   return (
-    <div onClick={clicked}>
+    <span onClick={clicked}>
       <a
         target="_blank"
         rel="noopener"
@@ -26,7 +26,7 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
           white-space: nowrap;
         }
       `}</style>
-    </div>
+    </span>
   );
 };
 
