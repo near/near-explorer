@@ -18,12 +18,8 @@ context("Nodes", () => {
     cy.url().should("include", "/nodes/validators");
     cy.get(".node-selector").should("have.class", "node-selected");
     cy.wait(3000)
-      .get(".node-row .node-row-title")
+      .get(".validator-nodes-row td")
       .within(($el) => cy.get($el).should("exist", $el.text()));
-    cy.get(".node-row .node-row-text .row div").within(($el) =>
-      cy.get($el).should("exist", $el.text())
-    );
-    cy.get(".node-row .node-row-txid").should("exist");
   });
 
   // it("Check online nodes tab", () => {
