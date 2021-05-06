@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
-import BlocksApi from "../libraries/explorer-wamp/blocks";
+import BlocksApi, { BlockInfo } from "../libraries/explorer-wamp/blocks";
 
 export interface NodeStatsContext {
   validatorAmount?: number;
@@ -8,8 +8,8 @@ export interface NodeStatsContext {
   onlineNodeAmount?: number;
   proposalAmount?: number;
   totalStakeAmount?: number;
-  epochStartHeightAmount?: number;
-  epochStartBlock?: any;
+  epochStartHeight?: number;
+  epochStartBlock?: BlockInfo;
 }
 
 const NodeStatsContext = createContext<NodeStatsContext>({});
@@ -24,10 +24,7 @@ const NodeStatsProvider = (props: Props) => {
   const [proposalAmount, dispatchProposalAmount] = useState<number>();
   const [seatPriceAmount, dispatchSeatPriceAmount] = useState<number>();
   const [totalStakeAmount, dispatchTotalStakeAmount] = useState<number>();
-  const [
-    epochStartHeightAmount,
-    dispatchEpochStartHeightAmount,
-  ] = useState<number>();
+  const [epochStartHeight, dispatchEpochStartHeight] = useState<number>();
   const [epochStartBlock, dispatchEpochStartBlock] = useState<any>();
 
   const storeNodeInfo = (_positionalArgs: any, namedArgs: NodeStatsContext) => {
@@ -36,16 +33,16 @@ const NodeStatsProvider = (props: Props) => {
     dispatchOnlineNodeAmount(namedArgs.onlineNodeAmount);
     dispatchProposalAmount(namedArgs.proposalAmount);
     dispatchTotalStakeAmount(namedArgs.totalStakeAmount);
-    dispatchEpochStartHeightAmount(namedArgs.epochStartHeightAmount);
+    dispatchEpochStartHeight(namedArgs.epochStartHeight);
   };
 
   useEffect(() => {
     const explorerApi = new ExplorerApi();
     explorerApi.subscribe("node-stats", storeNodeInfo);
 
-    if (epochStartHeightAmount) {
+    if (epochStartHeight) {
       new BlocksApi()
-        .getBlockInfo(epochStartHeightAmount)
+        .getBlockInfo(epochStartHeight)
         .then((blockInfo: any) => {
           dispatchEpochStartBlock(blockInfo);
           return;
@@ -56,7 +53,7 @@ const NodeStatsProvider = (props: Props) => {
     return () => {
       explorerApi.unsubscribe("node-stats");
     };
-  }, [epochStartHeightAmount]);
+  }, [epochStartHeight]);
 
   return (
     <NodeStatsContext.Provider
@@ -66,7 +63,7 @@ const NodeStatsProvider = (props: Props) => {
         onlineNodeAmount,
         proposalAmount,
         totalStakeAmount,
-        epochStartHeightAmount,
+        epochStartHeight,
         epochStartBlock,
       }}
     >

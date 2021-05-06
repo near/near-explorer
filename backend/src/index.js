@@ -11,16 +11,12 @@ const {
   regularQueryRPCInterval,
   regularQueryStatsInterval,
   regularCheckNodeStatusInterval,
+  regularCheckNodeValidatorsExtraInfo,
   regularStatsInterval,
 } = require("./config");
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
-const {
-  nearRpc,
-  queryFinalTimestamp,
-  queryNodeStats,
-  fetchValidatorsInfo,
-} = require("./near");
+const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
 
 const {
   syncNewNearcoreState,
@@ -57,8 +53,9 @@ const {
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
 
-let validatorsInfo = new Map();
-let proposalsInfo = new Map();
+let validatorsExtraInfo = null;
+let proposalsExtraInfo = null;
+let validatorsExtraInfoTimer = 5000;
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -275,25 +272,27 @@ async function main() {
         let onlineValidatingNodes = pickOnlineValidatingNode(validators);
         let onlineNodes = await queryOnlineNodes();
 
-        let validatorExtendedData = await fetchValidatorsInfo(
-          validators,
-          validatorsInfo
-        );
-        let proposalsExtendedData = await fetchValidatorsInfo(
-          proposals,
-          proposalsInfo
-        );
+        validatorsExtraInfoTimer =
+          validatorsExtraInfoTimer !== 0
+            ? validatorsExtraInfoTimer - regularCheckNodeStatusInterval
+            : validatorsExtraInfoTimer +
+              regularCheckNodeValidatorsExtraInfo -
+              regularCheckNodeStatusInterval;
 
-        if (!onlineNodes) {
-          onlineNodes = [];
+        if (validatorsExtraInfoTimer === 0) {
+          validatorsExtraInfo = await regularCheckValidatorsExtraInfo(
+            validators
+          );
+          proposalsExtraInfo = await regularCheckValidatorsExtraInfo(proposals);
         }
 
-        if (validatorsInfo) {
-          validators = validatorExtendedData;
+        if (validatorsExtraInfo?.length > 0) {
+          validators = validatorsExtraInfo;
         }
-        if (!proposalsInfo) {
-          proposals = proposalsExtendedData;
+        if (proposalsExtraInfo?.length > 0) {
+          proposals = proposalsExtraInfo;
         }
+
         wampPublish(
           "nodes",
           { onlineNodes, validators, proposals, onlineValidatingNodes },
@@ -307,7 +306,7 @@ async function main() {
             onlineNodeAmount: onlineNodes.length,
             proposalAmount: proposals.length,
             totalStakeAmount: totalStake,
-            epochStartHeightAmount: epochStartHeight,
+            epochStartHeight,
           },
           wamp
         );
@@ -319,6 +318,24 @@ async function main() {
     setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
   };
   setTimeout(regularCheckNodeStatus, 0);
+
+  // Periodic check of validator's fee and delegators
+  const regularCheckValidatorsExtraInfo = async (validators) => {
+    for (let i = 0; i < validators.length; i++) {
+      const { account_id } = validators[i];
+      validators[i].fee = await nearRpc.callViewMethod(
+        account_id,
+        "get_reward_fee_fraction",
+        {}
+      );
+      validators[i].delegators = await nearRpc.callViewMethod(
+        account_id,
+        "get_number_of_accounts",
+        {}
+      );
+    }
+    return validators;
+  };
 
   if (isLegacySyncBackendEnabled) {
     await startLegacySync();

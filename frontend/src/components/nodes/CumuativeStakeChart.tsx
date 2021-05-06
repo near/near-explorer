@@ -1,8 +1,8 @@
 interface Props {
-  value: CummulativeStake;
+  value: CumulativeStake;
 }
 
-interface CummulativeStake {
+interface CumulativeStake {
   total: number;
   current: number;
 }

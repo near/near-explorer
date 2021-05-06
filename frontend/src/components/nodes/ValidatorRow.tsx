@@ -39,6 +39,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
     let validatorFee = node.fee
       ? `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`
       : "--";
+    let validatorDelegators = node.delegators ?? "--";
     const nodeDetailsEnable = Boolean(
       (node.num_produced_blocks && node.num_expected_blocks) || node.nodeInfo
     );
@@ -155,7 +156,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
               </td>
 
               <td>{validatorFee}</td>
-              <td>{node.delegators}</td>
+              <td>{validatorDelegators}</td>
               <td className="text-right validator-nodes-text">
                 {node.stake ? <Balance amount={node.stake} /> : "-"}
               </td>

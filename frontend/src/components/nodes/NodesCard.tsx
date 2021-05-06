@@ -106,8 +106,7 @@ class NodesCard extends React.PureComponent {
                 box-shadow: 0px 2px 2px rgba(17, 22, 24, 0.04);
                 border-radius: 8px;
                 padding: 48px 32px;
-                margin-top: 16px;
-                // margin-top: 50px;
+                margin-top: 50px;
               }
 
               .nodes-card-title {

@@ -4,15 +4,13 @@ import moment from "moment";
 import { Row, Col } from "react-bootstrap";
 
 import ProgressBar from "../utils/ProgressBar";
+import { BlockInfo } from "../../libraries/explorer-wamp/blocks";
 
 interface Props {
-  epochStartHeightAmount: number;
-  epochStartBlock?: EpochStartBlock;
+  epochStartHeight: number;
+  epochStartBlock?: BlockInfo;
 }
 
-interface EpochStartBlock {
-  timestamp: string;
-}
 interface State {
   timeRemaining?: number;
   epochProseed: number;
@@ -71,7 +69,7 @@ class NodesEpoch extends React.PureComponent<Props, State> {
                 <Col>
                   Current Epoch Start:{" "}
                   <span className="text-value">
-                    Block #{this.props.epochStartHeightAmount ?? "00000000"}
+                    Block #{this.props.epochStartHeight ?? "00000000"}
                   </span>
                 </Col>
               </Row>
@@ -80,14 +78,14 @@ class NodesEpoch extends React.PureComponent<Props, State> {
                 <Col xs="12">Current Epoch Start</Col>
                 <Col xs="12">
                   <span className="text-value">
-                    Block #{this.props.epochStartHeightAmount ?? "00000000"}
+                    Block #{this.props.epochStartHeight ?? "00000000"}
                   </span>
                 </Col>
               </Row>
             </Col>
 
-            <Col sm="5" className="text-right d-none d-md-block">
-              <span className="text-value">
+            <Col sm="5" className="text-right d-none d-md-block ">
+              <span className="text-value persnt-remains">
                 {epochProseed.toFixed(0)}% complete
               </span>{" "}
               (
@@ -128,6 +126,7 @@ class NodesEpoch extends React.PureComponent<Props, State> {
             background-color: #292526;
             color: #d5d4d8;
             font-size: 16px;
+            font-weight: 500;
           }
 
           .nodes-epoch .nodes-epoch-content {
@@ -136,6 +135,10 @@ class NodesEpoch extends React.PureComponent<Props, State> {
 
           .nodes-epoch .nodes-epoch-content .text-value {
             color: #37dbf4;
+          }
+
+          .nodes-epoch .nodes-epoch-content .text-value.persnt-remains {
+            font-weight: 700;
           }
 
           .node-epoch-line-progress {

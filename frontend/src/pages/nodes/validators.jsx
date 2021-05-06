@@ -50,17 +50,17 @@ class ValidatorsPage extends React.Component {
             </Container>
           </NodeStatsProvider>
           <NodeProvider>
-            <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
+            <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
               <Validators type="validators" />
             </Container>
           </NodeProvider>
         </Content>
         <style global jsx>{`
           .nodes-page {
-            // background-color: #ffffff;
+            background-color: #ffffff;
           }
           .content-header {
-            // background: #fafafa;
+            background: #fafafa;
             margin-left: -15px;
             margin-right: -15px;
           }
