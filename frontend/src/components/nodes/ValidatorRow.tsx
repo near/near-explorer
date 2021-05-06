@@ -157,8 +157,12 @@ class ValidatorRow extends React.PureComponent<Props, State> {
 
               <td>{validatorFee}</td>
               <td>{validatorDelegators}</td>
-              <td className="text-right validator-nodes-text">
-                {node.stake ? <Balance amount={node.stake} /> : "-"}
+              <td className="text-right validator-nodes-text stake-text">
+                {node.stake ? (
+                  <Balance amount={node.stake} label="NEAR" />
+                ) : (
+                  "-"
+                )}
               </td>
               {validatorType !== "proposals" && (
                 <td>
@@ -366,6 +370,10 @@ class ValidatorRow extends React.PureComponent<Props, State> {
 
               .validator-nodes-text.uptime {
                 color: #72727a;
+              }
+
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
               }
 
               .validator-nodes-content-row {

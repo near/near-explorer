@@ -1,8 +1,9 @@
 import React from "react";
-import { Badge, Col, Row } from "react-bootstrap";
+import { utils } from "near-api-js";
+import { Badge, Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
-import Balance from "../utils/Balance";
+import Balance, { showInYocto } from "../utils/Balance";
 
 const NearBadge = () => (
   <Badge variant="light" className="nodes-card-badge">
@@ -20,6 +21,42 @@ const NearBadge = () => (
   </Badge>
 );
 
+const NodeBalance = ({ amount, type }: any) => {
+  if (!amount) return null;
+  let value;
+  if (type === "totalSupply") {
+    value =
+      (
+        Number(
+          utils.format.formatNearAmount(amount.toString(), 0).replace(/,/g, "")
+        ) /
+        10 ** 6
+      ).toFixed(1) + "B";
+  } else if (type === "totalStakeAmount") {
+    value =
+      (
+        Number(
+          utils.format.formatNearAmount(amount.toString(), 0).replace(/,/g, "")
+        ) /
+        10 ** 3
+      ).toFixed(1) + "M";
+  } else {
+    value = amount;
+  }
+
+  const amountPrecise = showInYocto(amount);
+  return (
+    <OverlayTrigger
+      placement={"bottom"}
+      overlay={<Tooltip id={type}>{amountPrecise}</Tooltip>}
+    >
+      <span className="node-balance-text">
+        {value} <NearBadge />
+      </span>
+    </OverlayTrigger>
+  );
+};
+
 class NodesCard extends React.PureComponent {
   render() {
     return (
@@ -27,7 +64,7 @@ class NodesCard extends React.PureComponent {
         {(context) => (
           <>
             <Row noGutters className="nodes-card">
-              <Col xs="6" md="2">
+              <Col xs="12" sm="6" md="6" xl="2">
                 <Row noGutters>
                   <Col xs="12" className="nodes-card-title">
                     Nodes validating
@@ -40,7 +77,7 @@ class NodesCard extends React.PureComponent {
                 </Row>
               </Col>
 
-              <Col xs="6" md="4">
+              <Col xs="12" sm="6" md="6" xl="3">
                 <Row noGutters>
                   <Col xs="12" className="nodes-card-title">
                     Total Supply
@@ -48,39 +85,36 @@ class NodesCard extends React.PureComponent {
                   <Col xs="12" className="nodes-card-text">
                     {" "}
                     {context.epochStartBlock?.totalSupply ? (
-                      <Balance
-                        round
+                      <NodeBalance
                         amount={context.epochStartBlock.totalSupply}
+                        type="totalSupply"
                       />
                     ) : (
-                      "--"
+                      "-"
                     )}
-                    <NearBadge />
                   </Col>
                 </Row>
               </Col>
 
-              <Col xs="12" md="3">
+              <Col xs="12" md="6" xl="3">
                 <Row noGutters>
                   <Col xs="12" className="nodes-card-title">
                     Total Stake
                   </Col>
                   <Col xs="12" className="nodes-card-text">
                     {context.totalStakeAmount ? (
-                      <Balance
-                        roundSuffix="M"
-                        round
-                        amount={context.totalStakeAmount}
+                      <NodeBalance
+                        amount={context.totalStakeAmount.toString()}
+                        type="totalStakeAmount"
                       />
                     ) : (
                       "-"
                     )}
-                    <NearBadge />
                   </Col>
                 </Row>
               </Col>
 
-              <Col xs="12" md="3">
+              <Col xs="12" md="6" xl="4">
                 <Row noGutters>
                   <Col xs="12" className="nodes-card-title">
                     Seat Price
@@ -88,13 +122,13 @@ class NodesCard extends React.PureComponent {
                   <Col xs="12" className="nodes-card-text">
                     {context.seatPriceAmount ? (
                       <Balance
-                        roundSuffix="M"
                         amount={context.seatPriceAmount}
+                        label={<NearBadge />}
+                        className="node-balance-text"
                       />
                     ) : (
                       "-"
                     )}
-                    <NearBadge />
                   </Col>
                 </Row>
               </Col>
@@ -119,11 +153,15 @@ class NodesCard extends React.PureComponent {
 
               .nodes-card-text {
                 font-weight: 900;
-                // font-size: 31px;
-                font-size: 16px;
+                font-size: 31px;
                 line-height: 130%;
                 color: #272729;
                 font-feature-settings: "zero", on;
+              }
+
+              .node-balance-text {
+                display: flex;
+                align-items: center;
               }
 
               .nodes-card-badge {
@@ -137,6 +175,14 @@ class NodesCard extends React.PureComponent {
               @media (max-width: 768px) {
                 .nodes-card {
                   margin-top: 32px;
+                }
+                .nodes-card-text {
+                  font-size: 20px;
+                }
+              }
+              @media (max-width: 355px) {
+                .nodes-card-text {
+                  font-size: 14px;
                 }
               }
             `}</style>
