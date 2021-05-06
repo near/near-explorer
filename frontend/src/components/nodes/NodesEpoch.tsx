@@ -17,17 +17,27 @@ interface State {
 }
 
 class NodesEpoch extends React.PureComponent<Props, State> {
-  state = {
-    timeRemaining: undefined,
-    epochProseed: 0,
-  };
+  constructor(props: any) {
+    super(props);
+    this.timer = null;
+    this.state = {
+      timeRemaining: undefined,
+      epochProseed: 0,
+    };
+  }
+
+  timer: ReturnType<typeof setTimeout> | null;
 
   componentDidMount() {
     this.timer = setInterval(() => this.epochDuration(), 1000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer);
+    const timer = this.timer;
+    this.timer = null;
+    if (timer !== null) {
+      clearTimeout(timer);
+    }
   }
 
   epochDuration = () => {

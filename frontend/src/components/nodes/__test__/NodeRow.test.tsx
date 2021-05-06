@@ -21,6 +21,7 @@ describe("<NodeRow />", () => {
             longitude: -90.7854,
             city: "",
           }}
+          index={1}
         />
       )
     ).toMatchSnapshot();

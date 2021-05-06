@@ -15,7 +15,7 @@ export interface NodeStatsContext {
 const NodeStatsContext = createContext<NodeStatsContext>({});
 
 export interface Props {
-  children: React.Component;
+  children: React.Component | React.ReactNode;
 }
 
 const NodeStatsProvider = (props: Props) => {

@@ -12,7 +12,7 @@ import Term from "../utils/Term";
 import Timer from "../utils/Timer";
 import TransactionLink from "../utils/TransactionLink";
 import ValidatingLabel from "./ValidatingLabel";
-import CumulativeStakeChart from "./CumuativeStakeChart";
+import CumulativeStakeChart from "./CumulativeStakeChart";
 
 interface Props {
   node: N.Validating;

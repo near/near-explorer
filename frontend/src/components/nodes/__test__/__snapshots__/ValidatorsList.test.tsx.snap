@@ -1,0 +1,540 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ValidatorsList /> renders proposals list 1`] = `
+Array [
+  <tr
+    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+  >
+    <td
+      className="jsx-2866537324 collapse-row-arrow "
+      onClick={[Function]}
+    >
+      <img
+        className="jsx-2866537324"
+        src="/static/images/icon-maximize.svg"
+        style={
+          Object {
+            "width": "16px",
+          }
+        }
+      />
+    </td>
+    <td
+      className="jsx-2866537324 order"
+    >
+      25
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="align-items-center row no-gutters"
+      >
+        <div
+          className="validators-node-label col-2"
+        >
+          <span
+            className="validating-label pending badge"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            Pending
+          </span>
+        </div>
+        <div
+          className="col"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="@astro-stakers.poolv1.near"
+            >
+              astro-stakers.poolv1
+              ...
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+            >
+              <a
+                className="transaction-link"
+                href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                ed25519...
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      1%
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      1304
+    </td>
+    <td
+      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+    >
+      <span
+        className=""
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        19,378,033.39859
+         
+        NEAR
+      </span>
+    </td>
+  </tr>,
+  <tr
+    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+  >
+    <td
+      className="jsx-2866537324 collapse-row-arrow disable"
+      onClick={[Function]}
+    >
+      <img
+        className="jsx-2866537324"
+        src="/static/images/icon-maximize.svg"
+        style={
+          Object {
+            "width": "16px",
+          }
+        }
+      />
+    </td>
+    <td
+      className="jsx-2866537324 order"
+    >
+      26
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="align-items-center row no-gutters"
+      >
+        <div
+          className="validators-node-label col-2"
+        >
+          <span
+            className="validating-label pending badge"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            Pending
+          </span>
+        </div>
+        <div
+          className="col"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="@chorusone.poolv1.near"
+            >
+              chorusone.poolv1.nea
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      8%
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      125
+    </td>
+    <td
+      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+    >
+      <span
+        className=""
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        6,174,390.41291
+         
+        NEAR
+      </span>
+    </td>
+  </tr>,
+]
+`;
+
+exports[`<ValidatorsList /> renders validators list 1`] = `
+Array [
+  <tr
+    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+  >
+    <td
+      className="jsx-2866537324 collapse-row-arrow "
+      onClick={[Function]}
+    >
+      <img
+        className="jsx-2866537324"
+        src="/static/images/icon-maximize.svg"
+        style={
+          Object {
+            "width": "16px",
+          }
+        }
+      />
+    </td>
+    <td
+      className="jsx-2866537324 order"
+    >
+      25
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="align-items-center row no-gutters"
+      >
+        <div
+          className="validators-node-label col-2"
+        >
+          <span
+            className="validating-label active badge"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            Active
+          </span>
+        </div>
+        <div
+          className="col"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="@astro-stakers.poolv1.near"
+            >
+              astro-stakers.poolv1
+              ...
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+            >
+              <a
+                className="transaction-link"
+                href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                ed25519...
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      1%
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      1304
+    </td>
+    <td
+      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+    >
+      <span
+        className=""
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        19,407,279.888
+         
+        NEAR
+      </span>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="jsx-4175784678 cumulative-stake-chart"
+      >
+        <div
+          className="jsx-4175784678 total-value"
+          style={
+            Object {
+              "width": "0%",
+            }
+          }
+        />
+        <div
+          className="jsx-4175784678 current-value"
+        />
+        <div
+          className="jsx-4175784678 cumulative-stake-label"
+        >
+          71.5
+          %
+        </div>
+      </div>
+    </td>
+  </tr>,
+  <tr
+    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+  >
+    <td
+      className="jsx-2866537324 collapse-row-arrow "
+      onClick={[Function]}
+    >
+      <img
+        className="jsx-2866537324"
+        src="/static/images/icon-maximize.svg"
+        style={
+          Object {
+            "width": "16px",
+          }
+        }
+      />
+    </td>
+    <td
+      className="jsx-2866537324 order"
+    >
+      26
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="align-items-center row no-gutters"
+      >
+        <div
+          className="validators-node-label col-2"
+        >
+          <span
+            className="validating-label active badge"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            Active
+          </span>
+        </div>
+        <div
+          className="col"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="@baziliknear.poolv1.near"
+            >
+              baziliknear.poolv1.n
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      3%
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      135
+    </td>
+    <td
+      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+    >
+      <span
+        className=""
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        4,035,443.45331
+         
+        NEAR
+      </span>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="jsx-4175784678 cumulative-stake-chart"
+      >
+        <div
+          className="jsx-4175784678 total-value"
+          style={
+            Object {
+              "width": "71.51%",
+            }
+          }
+        />
+        <div
+          className="jsx-4175784678 current-value"
+        />
+        <div
+          className="jsx-4175784678 cumulative-stake-label"
+        >
+          86.37
+          %
+        </div>
+      </div>
+    </td>
+  </tr>,
+  <tr
+    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+  >
+    <td
+      className="jsx-2866537324 collapse-row-arrow "
+      onClick={[Function]}
+    >
+      <img
+        className="jsx-2866537324"
+        src="/static/images/icon-maximize.svg"
+        style={
+          Object {
+            "width": "16px",
+          }
+        }
+      />
+    </td>
+    <td
+      className="jsx-2866537324 order"
+    >
+      27
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="align-items-center row no-gutters"
+      >
+        <div
+          className="validators-node-label col-2"
+        >
+          <span
+            className="validating-label active badge"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            Active
+          </span>
+        </div>
+        <div
+          className="col"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="@audit_one.poolv1.near"
+            >
+              audit_one.poolv1.nea
+              ...
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      7%
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      27
+    </td>
+    <td
+      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+    >
+      <span
+        className=""
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        3,698,682.66061
+         
+        NEAR
+      </span>
+    </td>
+    <td
+      className="jsx-2866537324"
+    >
+      <div
+        className="jsx-4175784678 cumulative-stake-chart"
+      >
+        <div
+          className="jsx-4175784678 total-value"
+          style={
+            Object {
+              "width": "86.38%",
+            }
+          }
+        />
+        <div
+          className="jsx-4175784678 current-value"
+        />
+        <div
+          className="jsx-4175784678 cumulative-stake-label"
+        >
+          100
+          %
+        </div>
+      </div>
+    </td>
+  </tr>,
+]
+`;

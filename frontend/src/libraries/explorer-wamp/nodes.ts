@@ -24,7 +24,7 @@ export interface Validating {
   stake: string;
   new?: boolean;
   removed?: boolean;
-  shards: [number];
+  shards?: [number];
   nodeInfo?: NodeInfo;
   fee: { numerator: number; denominator: number };
   delegators?: number;

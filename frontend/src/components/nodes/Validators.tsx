@@ -4,9 +4,9 @@ import { NodeConsumer } from "../../context/NodeProvider";
 
 import { onPageChange as P } from "../utils/Pagination";
 import { Table } from "../utils/Table";
+import PaginationSpinner from "../utils/PaginationSpinner";
 
 import ValidatorsList from "./ValidatorsList";
-import PaginationSpinner from "../utils/PaginationSpinner";
 
 interface Props {
   type: string;
