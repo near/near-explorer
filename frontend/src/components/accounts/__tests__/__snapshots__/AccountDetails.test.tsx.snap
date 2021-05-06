@@ -272,7 +272,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <div
+              <span
                 className="jsx-3150401870"
                 onClick={[Function]}
               >
@@ -284,7 +284,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 >
                   megan.near on Wallet
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -606,7 +606,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <div
+              <span
                 className="jsx-3150401870"
                 onClick={[Function]}
               >
@@ -618,7 +618,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 >
                   megan.near on Wallet
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -940,7 +940,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <div
+              <span
                 className="jsx-3150401870"
                 onClick={[Function]}
               >
@@ -952,7 +952,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 >
                   megan.near on Wallet
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -1325,7 +1325,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <div
+              <span
                 className="jsx-3150401870"
                 onClick={[Function]}
               >
@@ -1337,7 +1337,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 >
                   megan.near on Wallet
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -1659,7 +1659,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <div
+              <span
                 className="jsx-3150401870"
                 onClick={[Function]}
               >
@@ -1671,7 +1671,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 >
                   near.near on Wallet
                 </a>
-              </div>
+              </span>
             </div>
           </div>
         </div>
