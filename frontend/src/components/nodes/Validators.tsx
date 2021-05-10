@@ -36,19 +36,6 @@ class Validators extends React.PureComponent<Props> {
     const { activePage, startPage, endPage } = this.state;
     const { type, itemsPerPage } = this.props;
 
-    const tableColumns =
-      type === "validators"
-        ? [
-            " ",
-            "#",
-            "Validator",
-            "Fee",
-            "Delegators",
-            "Stake",
-            "Cumulative Stake",
-          ]
-        : [" ", "#", "Validator", "Fee", "Delegators", "Stake"];
-
     return (
       <>
         <NodeConsumer>
@@ -70,18 +57,13 @@ class Validators extends React.PureComponent<Props> {
                   >
                     <thead>
                       <tr className="validators-header-row">
-                        {tableColumns.map((title: string, index) => (
-                          <th
-                            key={`${[type]}_heder_cell_${index}`}
-                            className={
-                              title.toLowerCase() === "stake"
-                                ? "text-right"
-                                : ""
-                            }
-                          >
-                            {title}
-                          </th>
-                        ))}
+                        <th />
+                        <th>#</th>
+                        <th>Validator</th>
+                        <th>Fee</th>
+                        <th>Delegators</th>
+                        <th className="text-right">Stake</th>
+                        {type !== "proposals" && <th>Cumulative Stake</th>}
                       </tr>
                     </thead>
                     <tbody>
@@ -93,7 +75,7 @@ class Validators extends React.PureComponent<Props> {
                           activePage,
                           itemsPerPage,
                         }}
-                        cellCount={tableColumns.length}
+                        cellCount={type === "validators" ? 7 : 6}
                         validatorType={type}
                       />
                     </tbody>

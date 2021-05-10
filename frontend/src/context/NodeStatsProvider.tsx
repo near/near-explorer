@@ -1,5 +1,9 @@
+import BN from "bn.js";
 import React, { createContext, useEffect, useState } from "react";
-import { ExplorerApi } from "../libraries/explorer-wamp/index";
+import {
+  ExplorerApi,
+  instrumentTopicNameWithDataSource,
+} from "../libraries/explorer-wamp/index";
 import BlocksApi, { BlockInfo } from "../libraries/explorer-wamp/blocks";
 
 export interface NodeStatsContext {
@@ -10,6 +14,13 @@ export interface NodeStatsContext {
   totalStakeAmount?: number;
   epochStartHeight?: number;
   epochStartBlock?: BlockInfo;
+  latestBlock?: LatestBlockInfo;
+  epochLength?: number;
+}
+
+export interface LatestBlockInfo {
+  height?: BN;
+  timestamp?: BN;
 }
 
 const NodeStatsContext = createContext<NodeStatsContext>({});
@@ -26,6 +37,9 @@ const NodeStatsProvider = (props: Props) => {
   const [totalStakeAmount, dispatchTotalStakeAmount] = useState<number>();
   const [epochStartHeight, dispatchEpochStartHeight] = useState<number>();
   const [epochStartBlock, dispatchEpochStartBlock] = useState<any>();
+  const [latestBlockHeight, dispatchLatestBlockHeight] = useState<BN>();
+  const [finalTimestamp, dispatchFinalTimestamp] = useState<BN>();
+  const [epochLength, dispatchEpochLenght] = useState<number>();
 
   const storeNodeInfo = (_positionalArgs: any, namedArgs: NodeStatsContext) => {
     dispatchValidatorAmount(namedArgs.validatorAmount);
@@ -34,12 +48,42 @@ const NodeStatsProvider = (props: Props) => {
     dispatchProposalAmount(namedArgs.proposalAmount);
     dispatchTotalStakeAmount(namedArgs.totalStakeAmount);
     dispatchEpochStartHeight(namedArgs.epochStartHeight);
+    dispatchEpochLenght(namedArgs.epochLength);
+  };
+
+  const storeLatestBlockStats = (_positionalArgs: any, namedArgs: any) => {
+    dispatchLatestBlockHeight(new BN(namedArgs.latestBlockHeight));
+  };
+
+  const storeFinalTimestamp = (
+    _positionalArgs: any,
+    namedArgs: {
+      finalTimestamp: string;
+    }
+  ) => {
+    dispatchFinalTimestamp(new BN(namedArgs.finalTimestamp));
   };
 
   useEffect(() => {
     const explorerApi = new ExplorerApi();
     explorerApi.subscribe("node-stats", storeNodeInfo);
 
+    explorerApi.subscribe(
+      instrumentTopicNameWithDataSource("chain-blocks-stats"),
+      storeLatestBlockStats
+    );
+
+    explorerApi.subscribe("final-timestamp", storeFinalTimestamp);
+
+    return () => {
+      explorerApi.unsubscribe(
+        instrumentTopicNameWithDataSource("chain-blocks-stats")
+      );
+      explorerApi.unsubscribe("node-stats");
+    };
+  }, []);
+
+  useEffect(() => {
     if (epochStartHeight) {
       new BlocksApi()
         .getBlockInfo(epochStartHeight)
@@ -49,10 +93,6 @@ const NodeStatsProvider = (props: Props) => {
         })
         .catch((err: any) => console.error(err));
     }
-
-    return () => {
-      explorerApi.unsubscribe("node-stats");
-    };
   }, [epochStartHeight]);
 
   return (
@@ -65,6 +105,11 @@ const NodeStatsProvider = (props: Props) => {
         totalStakeAmount,
         epochStartHeight,
         epochStartBlock,
+        latestBlock: {
+          height: latestBlockHeight,
+          timestamp: finalTimestamp,
+        },
+        epochLength,
       }}
     >
       {props.children}

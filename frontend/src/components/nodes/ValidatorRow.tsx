@@ -1,7 +1,7 @@
 import BN from "bn.js";
 import React from "react";
 
-import { Badge, Row, Col } from "react-bootstrap";
+import { Badge, Row, Col, Spinner } from "react-bootstrap";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as N from "../../libraries/explorer-wamp/nodes";
@@ -38,8 +38,8 @@ class ValidatorRow extends React.PureComponent<Props, State> {
     let cumulativeStake = 0;
     let validatorFee = node.fee
       ? `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`
-      : "--";
-    let validatorDelegators = node.delegators ?? "--";
+      : null;
+    let validatorDelegators = node.delegators ?? null;
     const nodeDetailsEnable = Boolean(
       (node.num_produced_blocks && node.num_expected_blocks) || node.nodeInfo
     );
@@ -155,8 +155,14 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                 </Row>
               </td>
 
-              <td>{validatorFee}</td>
-              <td>{validatorDelegators}</td>
+              <td>
+                {validatorFee ?? <Spinner animation="border" size="sm" />}
+              </td>
+              <td>
+                {validatorDelegators ?? (
+                  <Spinner animation="border" size="sm" />
+                )}
+              </td>
               <td className="text-right validator-nodes-text stake-text">
                 {node.stake ? (
                   <Balance amount={node.stake} label="NEAR" />
@@ -312,9 +318,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                                 variant="secondary"
                                 className="agent-name-badge"
                               >
-                                {" "}
-                                v{node.nodeInfo.agentVersion} /{" "}
-                                {node.nodeInfo.agentBuild}
+                                {`v${node.nodeInfo.agentVersion} / ${node.nodeInfo.agentBuild}`}
                               </Badge>
                             ) : (
                               "..."

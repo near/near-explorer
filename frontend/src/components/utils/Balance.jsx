@@ -5,7 +5,7 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const FRAC_DIGITS = 5;
 
-const Balance = ({ amount, label = null, className = "" }) => {
+const Balance = ({ amount, label = null, className = undefined }) => {
   if (!amount) {
     throw new Error("amount property should not be null");
   }

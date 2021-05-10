@@ -53,9 +53,10 @@ const {
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
 
+let validators = null;
+let proposals = null;
 let validatorsExtraInfo = null;
 let proposalsExtraInfo = null;
-let validatorsExtraInfoTimer = 5000;
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -266,30 +267,18 @@ async function main() {
           seatPrice,
           totalStake,
           epochStartHeight,
+          epochLength,
         } = await queryNodeStats();
-        let validators = await addNodeInfo(currentValidators);
-        let proposals = await addNodeInfo(currentProposals);
+        validators = await addNodeInfo(currentValidators);
+        proposals = await addNodeInfo(currentProposals);
         let onlineValidatingNodes = pickOnlineValidatingNode(validators);
         let onlineNodes = await queryOnlineNodes();
 
-        validatorsExtraInfoTimer =
-          validatorsExtraInfoTimer !== 0
-            ? validatorsExtraInfoTimer - regularCheckNodeStatusInterval
-            : validatorsExtraInfoTimer +
-              regularCheckNodeValidatorsExtraInfo -
-              regularCheckNodeStatusInterval;
-
-        if (validatorsExtraInfoTimer === 0) {
-          validatorsExtraInfo = await regularCheckValidatorsExtraInfo(
-            validators
-          );
-          proposalsExtraInfo = await regularCheckValidatorsExtraInfo(proposals);
-        }
-
-        if (validatorsExtraInfo?.length > 0) {
+        if (validatorsExtraInfo) {
           validators = validatorsExtraInfo;
         }
-        if (proposalsExtraInfo?.length > 0) {
+
+        if (proposalsExtraInfo) {
           proposals = proposalsExtraInfo;
         }
 
@@ -307,6 +296,7 @@ async function main() {
             proposalAmount: proposals.length,
             totalStakeAmount: totalStake,
             epochStartHeight,
+            epochLength,
           },
           wamp
         );
@@ -320,22 +310,48 @@ async function main() {
   setTimeout(regularCheckNodeStatus, 0);
 
   // Periodic check of validator's fee and delegators
-  const regularCheckValidatorsExtraInfo = async (validators) => {
-    for (let i = 0; i < validators.length; i++) {
-      const { account_id } = validators[i];
-      validators[i].fee = await nearRpc.callViewMethod(
-        account_id,
-        "get_reward_fee_fraction",
-        {}
-      );
-      validators[i].delegators = await nearRpc.callViewMethod(
-        account_id,
-        "get_number_of_accounts",
-        {}
-      );
+  const regularCheckValidatorsExtraInfo = async () => {
+    if (validators) {
+      validatorsExtraInfo = validatorsExtraInfo || validators;
+
+      for (let i = 0; i < validatorsExtraInfo.length; i++) {
+        const { account_id } = validatorsExtraInfo[i];
+        validatorsExtraInfo[i].fee = await nearRpc.callViewMethod(
+          account_id,
+          "get_reward_fee_fraction",
+          {}
+        );
+        validatorsExtraInfo[i].delegators = await nearRpc.callViewMethod(
+          account_id,
+          "get_number_of_accounts",
+          {}
+        );
+      }
     }
-    return validators;
+
+    if (proposals) {
+      proposalsExtraInfo = proposalsExtraInfo || proposals;
+
+      for (let i = 0; i < proposalsExtraInfo.length; i++) {
+        const { account_id } = proposalsExtraInfo[i];
+        proposalsExtraInfo[i].fee = await nearRpc.callViewMethod(
+          account_id,
+          "get_reward_fee_fraction",
+          {}
+        );
+        proposalsExtraInfo[i].delegators = await nearRpc.callViewMethod(
+          account_id,
+          "get_number_of_accounts",
+          {}
+        );
+      }
+    }
+    setTimeout(
+      regularCheckValidatorsExtraInfo,
+      regularCheckNodeValidatorsExtraInfo
+    );
   };
+  setTimeout(regularCheckValidatorsExtraInfo, 0);
 
   if (isLegacySyncBackendEnabled) {
     await startLegacySync();

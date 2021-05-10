@@ -35,6 +35,7 @@ const queryNodeStats = async () => {
   let currentProposals = epochStatus.current_proposals;
   let currentValidators = getCurrentNodes(epochStatus);
   let { epoch_start_height: epochStartHeight } = epochStatus;
+  let { epoch_length: epochLength } = networkProtocolConfig;
 
   if (currentEpochStartHeight !== epochStartHeight) {
     // Update seat_price and total_stake each time when epoch starts
@@ -54,6 +55,7 @@ const queryNodeStats = async () => {
     seatPrice,
     totalStake,
     epochStartHeight,
+    epochLength,
   };
 };
 

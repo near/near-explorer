@@ -1,9 +1,15 @@
 import React from "react";
-import { utils } from "near-api-js";
-import { Badge, Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Badge,
+  Col,
+  Row,
+  OverlayTrigger,
+  Tooltip,
+  Spinner,
+} from "react-bootstrap";
 
 import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
-import Balance, { showInYocto } from "../utils/Balance";
+import { showInYocto } from "../utils/Balance";
 
 const NearBadge = () => (
   <Badge variant="light" className="nodes-card-badge">
@@ -25,21 +31,11 @@ const NodeBalance = ({ amount, type }: any) => {
   if (!amount) return null;
   let value;
   if (type === "totalSupply") {
-    value =
-      (
-        Number(
-          utils.format.formatNearAmount(amount.toString(), 0).replace(/,/g, "")
-        ) /
-        10 ** 6
-      ).toFixed(1) + "B";
+    value = (Number(amount) / 10 ** (24 + 6)).toFixed(1);
   } else if (type === "totalStakeAmount") {
-    value =
-      (
-        Number(
-          utils.format.formatNearAmount(amount.toString(), 0).replace(/,/g, "")
-        ) /
-        10 ** 3
-      ).toFixed(1) + "M";
+    value = (Number(amount) / 10 ** (24 + 3)).toFixed(1);
+  } else if (type === "seatPriceAmount") {
+    value = (Number(amount) / 10 ** 24).toFixed(1);
   } else {
     value = amount;
   }
@@ -70,9 +66,11 @@ class NodesCard extends React.PureComponent {
                     Nodes validating
                   </Col>
                   <Col xs="12" className="nodes-card-text validating">
-                    {typeof context.validatorAmount !== "undefined"
-                      ? context.validatorAmount
-                      : "-"}
+                    {typeof context.validatorAmount !== "undefined" ? (
+                      context.validatorAmount
+                    ) : (
+                      <Spinner animation="border" size="sm" />
+                    )}
                   </Col>
                 </Row>
               </Col>
@@ -90,7 +88,7 @@ class NodesCard extends React.PureComponent {
                         type="totalSupply"
                       />
                     ) : (
-                      "-"
+                      <Spinner animation="border" size="sm" />
                     )}
                   </Col>
                 </Row>
@@ -108,7 +106,7 @@ class NodesCard extends React.PureComponent {
                         type="totalStakeAmount"
                       />
                     ) : (
-                      "-"
+                      <Spinner animation="border" size="sm" />
                     )}
                   </Col>
                 </Row>
@@ -121,13 +119,12 @@ class NodesCard extends React.PureComponent {
                   </Col>
                   <Col xs="12" className="nodes-card-text">
                     {context.seatPriceAmount ? (
-                      <Balance
+                      <NodeBalance
                         amount={context.seatPriceAmount}
-                        label={<NearBadge />}
-                        className="node-balance-text"
+                        type="seatPriceAmount"
                       />
                     ) : (
-                      "-"
+                      <Spinner animation="border" size="sm" />
                     )}
                   </Col>
                 </Row>

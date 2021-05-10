@@ -2,8 +2,10 @@ import BN from "bn.js";
 
 import React, { createContext, useEffect, useState } from "react";
 
-import { DATA_SOURCE_TYPE } from "../libraries/consts";
-import { ExplorerApi } from "../libraries/explorer-wamp";
+import {
+  ExplorerApi,
+  instrumentTopicNameWithDataSource,
+} from "../libraries/explorer-wamp";
 
 export interface TransactionsCountStat {
   date: string;
@@ -75,13 +77,6 @@ const DatabaseProvider = (props: Props) => {
 
   useEffect(() => {
     const explorerApi = new ExplorerApi();
-
-    function instrumentTopicNameWithDataSource(topicName: string) {
-      if (explorerApi.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-        return topicName;
-      }
-      return `${topicName}:${explorerApi.dataSource}`;
-    }
 
     explorerApi.subscribe(
       instrumentTopicNameWithDataSource("chain-blocks-stats"),

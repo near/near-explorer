@@ -1,7 +1,10 @@
+import BN from "bn.js";
 import React from "react";
 import moment from "moment";
 
 import { Row, Col } from "react-bootstrap";
+
+import { LatestBlockInfo } from "../../context/NodeStatsProvider";
 
 import ProgressBar from "../utils/ProgressBar";
 import { BlockInfo } from "../../libraries/explorer-wamp/blocks";
@@ -9,11 +12,13 @@ import { BlockInfo } from "../../libraries/explorer-wamp/blocks";
 interface Props {
   epochStartHeight: number;
   epochStartBlock?: BlockInfo;
+  latestBlock?: LatestBlockInfo;
+  epochLength: number;
 }
 
 interface State {
   timeRemaining?: number;
-  epochProseed: number;
+  epochProgress: number;
 }
 
 class NodesEpoch extends React.PureComponent<Props, State> {
@@ -22,7 +27,7 @@ class NodesEpoch extends React.PureComponent<Props, State> {
     this.timer = null;
     this.state = {
       timeRemaining: undefined,
-      epochProseed: 0,
+      epochProgress: 0,
     };
   }
 
@@ -41,34 +46,35 @@ class NodesEpoch extends React.PureComponent<Props, State> {
   }
 
   epochDuration = () => {
-    if (this.props.epochStartBlock?.timestamp) {
-      const currentTimestamp = moment() as moment.Moment;
-      const endEpochTimestamp = moment(
-        this.props.epochStartBlock.timestamp
-      ).add(12, "h");
-      const duration = moment
-        .duration(
-          endEpochTimestamp.diff(moment(this.props.epochStartBlock.timestamp))
-        )
-        .asSeconds();
-      const durationProseed = moment
-        .duration(
-          currentTimestamp.diff(moment(this.props.epochStartBlock.timestamp))
-        )
-        .asSeconds();
-      const durationValue = (durationProseed / duration) * 100;
+    if (
+      this.props.epochStartBlock?.timestamp &&
+      this.props.latestBlock?.height
+    ) {
+      const { epochStartBlock, latestBlock, epochLength } = this.props;
+
+      const epochProgress = latestBlock?.height
+        ? ((latestBlock?.height.toNumber() - epochStartBlock.height) /
+            epochLength) *
+          100
+        : 0;
+      const timeRemaining = latestBlock?.timestamp
+        ? (latestBlock?.timestamp
+            .sub(new BN(epochStartBlock.timestamp).muln(10 ** 6))
+            .divn(10 ** 6)
+            .toNumber() /
+            epochProgress) *
+          (100 - epochProgress)
+        : 0;
       this.setState({
-        timeRemaining: moment
-          .duration(endEpochTimestamp.diff(currentTimestamp))
-          .asMilliseconds(),
-        epochProseed: Number(durationValue.toFixed(2)),
+        timeRemaining,
+        epochProgress,
       });
     }
     return null;
   };
 
   render() {
-    const { epochProseed, timeRemaining } = this.state;
+    const { epochProgress, timeRemaining } = this.state;
 
     return (
       <Row className="nodes-epoch">
@@ -96,18 +102,18 @@ class NodesEpoch extends React.PureComponent<Props, State> {
 
             <Col sm="5" className="text-right d-none d-md-block ">
               <span className="text-value persnt-remains">
-                {epochProseed.toFixed(0)}% complete
+                {epochProgress.toFixed(0)}% complete
               </span>{" "}
-              (
-              {timeRemaining
-                ? moment(timeRemaining)?.format("HH:mm:ss")
-                : "00:00:00"}{" "}
-              remaining)
+              {`(${
+                timeRemaining
+                  ? moment(timeRemaining)?.format("HH:mm:ss")
+                  : "00:00:00"
+              } remaining)`}
             </Col>
 
             <Col xs="5" className="text-right d-xs-block d-md-none">
               <ProgressBar
-                percent={epochProseed}
+                percent={epochProgress}
                 strokeColor="#37dbf4"
                 trailColor="transparent"
                 type="circle"
@@ -115,7 +121,7 @@ class NodesEpoch extends React.PureComponent<Props, State> {
                 className="node-epoch-circle-progress"
                 label={
                   <span className="circle-progress-label">
-                    {epochProseed.toFixed(0)}%
+                    {epochProgress.toFixed(0)}%
                   </span>
                 }
               />
@@ -124,7 +130,7 @@ class NodesEpoch extends React.PureComponent<Props, State> {
         </Col>
         <Col xs="12" className="d-none d-md-block px-0">
           <ProgressBar
-            percent={epochProseed}
+            percent={epochProgress}
             strokeColor="#37dbf4"
             className="node-epoch-line-progress"
             trailColor="transparent"

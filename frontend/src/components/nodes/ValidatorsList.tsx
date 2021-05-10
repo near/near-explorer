@@ -16,10 +16,12 @@ class ValidatorsList extends React.PureComponent<Props> {
   calculateStake = (nodeIndex: number, totalStake: BN) => {
     let total = new BN(0);
     let networkHolderIndex = [];
+    let networkStakeSafeAmount = totalStake.divn(3);
+
     for (let i = 0; i <= nodeIndex; i++) {
       total = total.add(new BN(this.props.validators[i].stake));
 
-      if (total.gt(totalStake.div(new BN(3)))) {
+      if (total.gt(networkStakeSafeAmount)) {
         networkHolderIndex.push(i);
       }
     }
