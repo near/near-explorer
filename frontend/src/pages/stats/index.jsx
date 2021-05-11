@@ -2,6 +2,9 @@ import Head from "next/head";
 
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 import Mixpanel from "../../libraries/mixpanel";
+import NodeStatsProvider, {
+  NodeStatsContext,
+} from "../../context/NodeStatsProvider";
 
 import Content from "../../components/utils/Content";
 
@@ -14,6 +17,7 @@ import ActiveContractsByDate from "../../components/stats/ActiveContractsByDate"
 import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
+import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 
 class Stats extends React.PureComponent {
   componentDidMount() {
@@ -33,6 +37,17 @@ class Stats extends React.PureComponent {
           <title>NEAR Explorer | Stats</title>
         </Head>
         <Content title={<h1>Stats</h1>}>
+          <div id="protocolConfiguration">
+            <NodeStatsProvider>
+              <NodeStatsContext>
+                {(context) =>
+                  typeof context.genesisStatus !== "undefined" ? (
+                    <ProtocolConfigInfo {...context} />
+                  ) : null
+                }
+              </NodeStatsContext>
+            </NodeStatsProvider>
+          </div>
           <div id="transactionsByDate">
             <TransactionsByDate chartStyle={chartStyle} />
           </div>

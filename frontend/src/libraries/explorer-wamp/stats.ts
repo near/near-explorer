@@ -130,4 +130,9 @@ export default class StatsApi extends ExplorerApi {
       "partner-unique-user-amount"
     );
   }
+
+  // network genesis configuration
+  async networkGenesisProtocolConfig(blockId: number) {
+    return await this.call("nearcore-genesis-protocol-cofiguration", [blockId]);
+  }
 }
