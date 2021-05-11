@@ -12,8 +12,11 @@ import NodeProvider from "../../context/NodeProvider";
 import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 class ValidatorsPage extends React.Component {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Validator Node page");
+  }
+
+  render() {
     return (
       <>
         <Head>

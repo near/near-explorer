@@ -10,8 +10,11 @@ import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 class Dashboard extends React.Component {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Landing Page");
+  }
+
+  render() {
     return (
       <>
         <Head>

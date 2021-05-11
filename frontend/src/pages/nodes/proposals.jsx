@@ -12,8 +12,11 @@ import NodeProvider from "../../context/NodeProvider";
 import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 class ProposalsPage extends React.Component {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Proposal Node page");
+  }
+
+  render() {
     return (
       <>
         <Head>

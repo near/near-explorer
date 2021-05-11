@@ -6,8 +6,11 @@ import Content from "../../components/utils/Content";
 import Transactions from "../../components/transactions/Transactions";
 
 class TransactionsPage extends React.Component {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Transactions Page");
+  }
+
+  render() {
     return (
       <>
         <Head>

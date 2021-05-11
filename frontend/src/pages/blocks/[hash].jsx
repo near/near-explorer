@@ -21,10 +21,13 @@ class BlockDetail extends React.Component {
     }
   }
 
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Individual Block", {
       block: this.props.hash,
     });
+  }
+
+  render() {
     return (
       <>
         <Head>

@@ -16,8 +16,11 @@ import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 
 class Stats extends React.PureComponent {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Stats page");
+  }
+
+  render() {
     const chartStyle = {
       height: "480px",
       width: "100%",

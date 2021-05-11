@@ -12,8 +12,11 @@ import NodeProvider from "../../context/NodeProvider";
 import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 class OnlineNodes extends React.Component {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Online Node page");
+  }
+
+  render() {
     return (
       <>
         <Head>

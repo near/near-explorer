@@ -31,11 +31,14 @@ class AccountDetail extends React.Component {
     }
   }
 
+  componentDidMount() {
+    Mixpanel.track("Explorer View Individual Account", {
+      accountId: this.props.account.accountId,
+    });
+  }
+
   render() {
     const { account, accountFetchingError, currentNearNetwork } = this.props;
-    Mixpanel.track("Explorer View Individual Account", {
-      accountId: account.accountId,
-    });
     return (
       <>
         <Head>

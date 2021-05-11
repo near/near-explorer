@@ -6,8 +6,11 @@ import Accounts from "../../components/accounts/Accounts";
 import Content from "../../components/utils/Content";
 
 class AccountsPage extends React.PureComponent {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Accounts Page");
+  }
+
+  render() {
     return (
       <>
         <Head>

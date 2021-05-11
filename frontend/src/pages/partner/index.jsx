@@ -7,8 +7,11 @@ import PartnerTotalTransactionList from "../../components/stats/PartnerTotalTran
 import PartnerFirst3MonthTransactionslist from "../../components/stats/PartnerFirst3MonthTransactionsList";
 
 class Partner extends React.Component {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Partner page");
+  }
+
+  render() {
     return (
       <>
         <Head>

@@ -6,8 +6,11 @@ import Blocks from "../../components/blocks/Blocks";
 import Content from "../../components/utils/Content";
 
 class BlocksPage extends React.PureComponent {
-  render() {
+  componentDidMount() {
     Mixpanel.track("Explorer View Blocks Page");
+  }
+
+  render() {
     return (
       <>
         <Head>

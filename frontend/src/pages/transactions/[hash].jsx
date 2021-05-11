@@ -23,11 +23,14 @@ class TransactionDetailsPage extends React.Component {
     }
   }
 
+  componentDidMount() {
+    Mixpanel.track("Explorer View Individual Transaction Page", {
+      transaction_hash: this.props.hash,
+    });
+  }
+
   render() {
     const { hash } = this.props;
-    Mixpanel.track("Explorer View Individual Transaction Page", {
-      transaction_hash: hash,
-    });
     return (
       <>
         <Head>
