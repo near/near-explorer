@@ -45,14 +45,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        <a
-          className="block-link"
-          href="/blocks/B111111111111111111111111111111111111111111"
+        <span
           onClick={[Function]}
-          onMouseEnter={[Function]}
         >
-          B111111...
-        </a>
+          <a
+            className="block-link"
+            href="/blocks/B111111111111111111111111111111111111111111"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            B111111...
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -163,14 +167,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     className="action-row-title col"
                   >
                     Called method: 'set_listing_seller_transaction_id' in contract: 
-                    <a
-                      className="jsx-3150401870 account-link"
-                      href="/accounts/receiver.test"
+                    <span
                       onClick={[Function]}
-                      onMouseEnter={[Function]}
                     >
-                      receiver.test
-                    </a>
+                      <a
+                        className="jsx-3150401870 account-link"
+                        href="/accounts/receiver.test"
+                        onClick={[Function]}
+                        onMouseEnter={[Function]}
+                      >
+                        receiver.test
+                      </a>
+                    </span>
                     <dl>
                       <dt>
                         Arguments:
@@ -309,14 +317,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-receipt-hash col"
               >
-                <a
-                  className="block-link"
-                  href="/blocks/B222222222222222222222222222222222222222222"
+                <span
                   onClick={[Function]}
-                  onMouseEnter={[Function]}
                 >
-                  B222222...
-                </a>
+                  <a
+                    className="block-link"
+                    href="/blocks/B222222222222222222222222222222222222222222"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    B222222...
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -437,14 +449,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                                Ⓝ
                             </span>
                              to 
-                            <a
-                              className="jsx-3150401870 account-link"
-                              href="/accounts/receiver.test"
+                            <span
                               onClick={[Function]}
-                              onMouseEnter={[Function]}
                             >
-                              receiver.test
-                            </a>
+                              <a
+                                className="jsx-3150401870 account-link"
+                                href="/accounts/receiver.test"
+                                onClick={[Function]}
+                                onMouseEnter={[Function]}
+                              >
+                                receiver.test
+                              </a>
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -524,14 +540,18 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        <a
-          className="block-link"
-          href="/blocks/B222222222222222222222222222222222222222222"
+        <span
           onClick={[Function]}
-          onMouseEnter={[Function]}
         >
-          B222222...
-        </a>
+          <a
+            className="block-link"
+            href="/blocks/B222222222222222222222222222222222222222222"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            B222222...
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -642,14 +662,18 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                     className="action-row-title col"
                   >
                     Called method: 'ft_transfer_call' in contract: 
-                    <a
-                      className="jsx-3150401870 account-link"
-                      href="/accounts/receiver.test"
+                    <span
                       onClick={[Function]}
-                      onMouseEnter={[Function]}
                     >
-                      receiver.test
-                    </a>
+                      <a
+                        className="jsx-3150401870 account-link"
+                        href="/accounts/receiver.test"
+                        onClick={[Function]}
+                        onMouseEnter={[Function]}
+                      >
+                        receiver.test
+                      </a>
+                    </span>
                     <dl>
                       <dt>
                         Arguments:
@@ -778,14 +802,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-receipt-hash col"
               >
-                <a
-                  className="block-link"
-                  href="/blocks/B333333333333333333333333333333333333333333"
+                <span
                   onClick={[Function]}
-                  onMouseEnter={[Function]}
                 >
-                  B333333...
-                </a>
+                  <a
+                    className="block-link"
+                    href="/blocks/B333333333333333333333333333333333333333333"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    B333333...
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -896,14 +924,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             className="action-row-title col"
                           >
                             Called method: 'ft_on_transfer' in contract: 
-                            <a
-                              className="jsx-3150401870 account-link"
-                              href="/accounts/receiver.test"
+                            <span
                               onClick={[Function]}
-                              onMouseEnter={[Function]}
                             >
-                              receiver.test
-                            </a>
+                              <a
+                                className="jsx-3150401870 account-link"
+                                href="/accounts/receiver.test"
+                                onClick={[Function]}
+                                onMouseEnter={[Function]}
+                              >
+                                receiver.test
+                              </a>
+                            </span>
                             <dl>
                               <dt>
                                 Arguments:
@@ -1053,14 +1085,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-receipt-hash col"
                       >
-                        <a
-                          className="block-link"
-                          href="/blocks/B444444444444444444444444444444444444444444"
+                        <span
                           onClick={[Function]}
-                          onMouseEnter={[Function]}
                         >
-                          B444444...
-                        </a>
+                          <a
+                            className="block-link"
+                            href="/blocks/B444444444444444444444444444444444444444444"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            B444444...
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1181,14 +1217,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                        Ⓝ
                                     </span>
                                      to 
-                                    <a
-                                      className="jsx-3150401870 account-link"
-                                      href="/accounts/receiver.test"
+                                    <span
                                       onClick={[Function]}
-                                      onMouseEnter={[Function]}
                                     >
-                                      receiver.test
-                                    </a>
+                                      <a
+                                        className="jsx-3150401870 account-link"
+                                        href="/accounts/receiver.test"
+                                        onClick={[Function]}
+                                        onMouseEnter={[Function]}
+                                      >
+                                        receiver.test
+                                      </a>
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -1273,14 +1313,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-receipt-hash col"
               >
-                <a
-                  className="block-link"
-                  href="/blocks/B4444444444444444444444444444444444444444444"
+                <span
                   onClick={[Function]}
-                  onMouseEnter={[Function]}
                 >
-                  B444444...
-                </a>
+                  <a
+                    className="block-link"
+                    href="/blocks/B4444444444444444444444444444444444444444444"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    B444444...
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1391,14 +1435,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             className="action-row-title col"
                           >
                             Called method: 'ft_resolve_transfer' in contract: 
-                            <a
-                              className="jsx-3150401870 account-link"
-                              href="/accounts/receiver1.test"
+                            <span
                               onClick={[Function]}
-                              onMouseEnter={[Function]}
                             >
-                              receiver1.test
-                            </a>
+                              <a
+                                className="jsx-3150401870 account-link"
+                                href="/accounts/receiver1.test"
+                                onClick={[Function]}
+                                onMouseEnter={[Function]}
+                              >
+                                receiver1.test
+                              </a>
+                            </span>
                             <dl>
                               <dt>
                                 Arguments:
@@ -1548,14 +1596,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-receipt-hash col"
                       >
-                        <a
-                          className="block-link"
-                          href="/blocks/B666666666666666666666666666666666666666666"
+                        <span
                           onClick={[Function]}
-                          onMouseEnter={[Function]}
                         >
-                          B666666...
-                        </a>
+                          <a
+                            className="block-link"
+                            href="/blocks/B666666666666666666666666666666666666666666"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            B666666...
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1676,14 +1728,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                        Ⓝ
                                     </span>
                                      to 
-                                    <a
-                                      className="jsx-3150401870 account-link"
-                                      href="/accounts/receiver.test"
+                                    <span
                                       onClick={[Function]}
-                                      onMouseEnter={[Function]}
                                     >
-                                      receiver.test
-                                    </a>
+                                      <a
+                                        className="jsx-3150401870 account-link"
+                                        href="/accounts/receiver.test"
+                                        onClick={[Function]}
+                                        onMouseEnter={[Function]}
+                                      >
+                                        receiver.test
+                                      </a>
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -1768,14 +1824,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-receipt-hash col"
               >
-                <a
-                  className="block-link"
-                  href="/blocks/B555555555555555555555555555555555555555555"
+                <span
                   onClick={[Function]}
-                  onMouseEnter={[Function]}
                 >
-                  B555555...
-                </a>
+                  <a
+                    className="block-link"
+                    href="/blocks/B555555555555555555555555555555555555555555"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    B555555...
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1896,14 +1956,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                Ⓝ
                             </span>
                              to 
-                            <a
-                              className="jsx-3150401870 account-link"
-                              href="/accounts/receiver.test"
+                            <span
                               onClick={[Function]}
-                              onMouseEnter={[Function]}
                             >
-                              receiver.test
-                            </a>
+                              <a
+                                className="jsx-3150401870 account-link"
+                                href="/accounts/receiver.test"
+                                onClick={[Function]}
+                                onMouseEnter={[Function]}
+                              >
+                                receiver.test
+                              </a>
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -1983,14 +2047,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        <a
-          className="block-link"
-          href="/blocks/B222222222222222222222222222222222222222222"
+        <span
           onClick={[Function]}
-          onMouseEnter={[Function]}
         >
-          B222222...
-        </a>
+          <a
+            className="block-link"
+            href="/blocks/B222222222222222222222222222222222222222222"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            B222222...
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -2101,14 +2169,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     className="action-row-title col"
                   >
                     Called method: 'vote' in contract: 
-                    <a
-                      className="jsx-3150401870 account-link"
-                      href="/accounts/receiver.test"
+                    <span
                       onClick={[Function]}
-                      onMouseEnter={[Function]}
                     >
-                      receiver.test
-                    </a>
+                      <a
+                        className="jsx-3150401870 account-link"
+                        href="/accounts/receiver.test"
+                        onClick={[Function]}
+                        onMouseEnter={[Function]}
+                      >
+                        receiver.test
+                      </a>
+                    </span>
                     <dl>
                       <dt>
                         Arguments:
@@ -2263,14 +2335,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-receipt-hash col"
               >
-                <a
-                  className="block-link"
-                  href="/blocks/B333333333333333333333333333333333333333333"
+                <span
                   onClick={[Function]}
-                  onMouseEnter={[Function]}
                 >
-                  B333333...
-                </a>
+                  <a
+                    className="block-link"
+                    href="/blocks/B333333333333333333333333333333333333333333"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    B333333...
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -2391,14 +2467,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                                Ⓝ
                             </span>
                              to 
-                            <a
-                              className="jsx-3150401870 account-link"
-                              href="/accounts/receiver.test"
+                            <span
                               onClick={[Function]}
-                              onMouseEnter={[Function]}
                             >
-                              receiver.test
-                            </a>
+                              <a
+                                className="jsx-3150401870 account-link"
+                                href="/accounts/receiver.test"
+                                onClick={[Function]}
+                                onMouseEnter={[Function]}
+                              >
+                                receiver.test
+                              </a>
+                            </span>
                           </div>
                         </div>
                       </div>

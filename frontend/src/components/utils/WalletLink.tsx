@@ -1,13 +1,18 @@
 import { truncateAccountId } from "../../libraries/formatting";
-
+import Mixpanel from "../../libraries/mixpanel";
 export interface Props {
   accountId: string;
   nearWalletProfilePrefix: string;
 }
 
 const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
+  const clicked = () =>
+    Mixpanel.track("Explorer Click for wallet profile", {
+      accountId: accountId,
+      walletPrefix: nearWalletProfilePrefix,
+    });
   return (
-    <>
+    <span onClick={clicked}>
       <a
         target="_blank"
         rel="noopener"
@@ -21,7 +26,7 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
           white-space: nowrap;
         }
       `}</style>
-    </>
+    </span>
   );
 };
 

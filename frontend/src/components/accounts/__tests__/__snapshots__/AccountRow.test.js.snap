@@ -1,79 +1,87 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<AccountRow /> renders with long name 1`] = `
-<a
-  href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
+<span
   onClick={[Function]}
-  onMouseEnter={[Function]}
-  style={
-    Object {
-      "textDecoration": "none",
-    }
-  }
 >
-  <div
-    className="transaction-row mx-0 row"
+  <a
+    href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }
   >
     <div
-      className="pr-0 col-md-auto col-1"
+      className="transaction-row mx-0 row"
     >
-      <img
-        className="jsx-1815143583"
-        src="/static/images/icon-t-acct.svg"
-        style={
-          Object {
-            "width": "15px",
+      <div
+        className="pr-0 col-md-auto col-1"
+      >
+        <img
+          className="jsx-1815143583"
+          src="/static/images/icon-t-acct.svg"
+          style={
+            Object {
+              "width": "15px",
+            }
           }
-        }
+        />
+      </div>
+      <div
+        className="transaction-row-title pt-1 col-md-7 col-11"
+      >
+        b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near
+      </div>
+      <div
+        className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
       />
     </div>
-    <div
-      className="transaction-row-title pt-1 col-md-7 col-11"
-    >
-      b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near
-    </div>
-    <div
-      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
-    />
-  </div>
-</a>
+  </a>
+</span>
 `;
 
 exports[`<AccountRow /> renders with short name 1`] = `
-<a
-  href="/accounts/account"
+<span
   onClick={[Function]}
-  onMouseEnter={[Function]}
-  style={
-    Object {
-      "textDecoration": "none",
-    }
-  }
 >
-  <div
-    className="transaction-row mx-0 row"
+  <a
+    href="/accounts/account"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    style={
+      Object {
+        "textDecoration": "none",
+      }
+    }
   >
     <div
-      className="pr-0 col-md-auto col-1"
+      className="transaction-row mx-0 row"
     >
-      <img
-        className="jsx-1815143583"
-        src="/static/images/icon-t-acct.svg"
-        style={
-          Object {
-            "width": "15px",
+      <div
+        className="pr-0 col-md-auto col-1"
+      >
+        <img
+          className="jsx-1815143583"
+          src="/static/images/icon-t-acct.svg"
+          style={
+            Object {
+              "width": "15px",
+            }
           }
-        }
+        />
+      </div>
+      <div
+        className="transaction-row-title pt-1 col-md-7 col-11"
+      >
+        account
+      </div>
+      <div
+        className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
       />
     </div>
-    <div
-      className="transaction-row-title pt-1 col-md-7 col-11"
-    >
-      account
-    </div>
-    <div
-      className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
-    />
-  </div>
-</a>
+  </a>
+</span>
 `;

@@ -3,6 +3,7 @@ import getConfig from "next/config";
 import Head from "next/head";
 
 import { getNearNetwork } from "../libraries/config";
+import Mixpanel from "../libraries/mixpanel";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
@@ -38,6 +39,12 @@ class _App extends App {
       currentNearNetwork,
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
     };
+  }
+
+  componentDidMount() {
+    // mixpanel user setup and tracking
+    Mixpanel.identify(Mixpanel.get_distinct_id());
+    Mixpanel.people.set_once({ first_touch_date: new Date().toString() });
   }
 
   render() {

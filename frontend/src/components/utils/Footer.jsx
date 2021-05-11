@@ -1,5 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 
+import Mixpanel from "../../libraries/mixpanel";
+
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import Nearkats from "../../../public/static/images/nearkats.svg";
 
@@ -23,6 +25,9 @@ const Footer = () => {
               href="https://near.org/privacy/"
               target="_blank"
               rel="noopener"
+              onClick={() => {
+                Mixpanel.track("Explorer Click terms of service");
+              }}
             >
               Terms of Service
             </a>
@@ -32,6 +37,9 @@ const Footer = () => {
               href="https://near.org/privacy/"
               target="_blank"
               rel="noopener"
+              onClick={() => {
+                Mixpanel.track("Explorer Click privacy policy");
+              }}
             >
               Privacy Policy
             </a>
@@ -44,6 +52,9 @@ const Footer = () => {
           href="http://near.chat"
           target="_blank"
           rel="noopener"
+          onClick={() => {
+            Mixpanel.track("Explorer Click join the community");
+          }}
         >
           <Row noGutters>
             <Col className="help-image" xs="5" md="5">

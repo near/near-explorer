@@ -1,6 +1,7 @@
 import Head from "next/head";
 
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
+import Mixpanel from "../../libraries/mixpanel";
 
 import Content from "../../components/utils/Content";
 
@@ -15,6 +16,10 @@ import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 
 class Stats extends React.PureComponent {
+  componentDidMount() {
+    Mixpanel.track("Explorer View Stats page");
+  }
+
   render() {
     const chartStyle = {
       height: "480px",
