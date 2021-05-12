@@ -214,7 +214,6 @@ exports[`<ActionMessage /> renders Stake 1`] = `
 Array [
   "Staked: ",
   <span
-    className=""
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseOut={[Function]}
@@ -233,7 +232,6 @@ exports[`<ActionMessage /> renders Transfer 1`] = `
 Array [
   "Transferred ",
   <span
-    className=""
     onBlur={[Function]}
     onFocus={[Function]}
     onMouseOut={[Function]}

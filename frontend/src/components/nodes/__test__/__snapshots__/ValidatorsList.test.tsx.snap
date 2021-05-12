@@ -85,13 +85,14 @@ Array [
     <td
       className="jsx-2866537324"
     >
-      1304
+      <div
+        className="spinner-border spinner-border-sm"
+      />
     </td>
     <td
       className="jsx-2866537324 text-right validator-nodes-text stake-text"
     >
       <span
-        className=""
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
@@ -169,13 +170,14 @@ Array [
     <td
       className="jsx-2866537324"
     >
-      125
+      <div
+        className="spinner-border spinner-border-sm"
+      />
     </td>
     <td
       className="jsx-2866537324 text-right validator-nodes-text stake-text"
     >
       <span
-        className=""
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
@@ -275,13 +277,14 @@ Array [
     <td
       className="jsx-2866537324"
     >
-      1304
+      <div
+        className="spinner-border spinner-border-sm"
+      />
     </td>
     <td
       className="jsx-2866537324 text-right validator-nodes-text stake-text"
     >
       <span
-        className=""
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
@@ -296,10 +299,10 @@ Array [
       className="jsx-2866537324"
     >
       <div
-        className="jsx-4175784678 cumulative-stake-chart"
+        className="jsx-1486326988 cumulative-stake-chart"
       >
         <div
-          className="jsx-4175784678 total-value"
+          className="jsx-1486326988 total-value"
           style={
             Object {
               "width": "0%",
@@ -307,10 +310,15 @@ Array [
           }
         />
         <div
-          className="jsx-4175784678 current-value"
+          className="jsx-1486326988 current-value"
+          style={
+            Object {
+              "width": "71.5%",
+            }
+          }
         />
         <div
-          className="jsx-4175784678 cumulative-stake-label"
+          className="jsx-1486326988 cumulative-stake-label"
         >
           71.5
           %
@@ -384,13 +392,14 @@ Array [
     <td
       className="jsx-2866537324"
     >
-      135
+      <div
+        className="spinner-border spinner-border-sm"
+      />
     </td>
     <td
       className="jsx-2866537324 text-right validator-nodes-text stake-text"
     >
       <span
-        className=""
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
@@ -405,10 +414,10 @@ Array [
       className="jsx-2866537324"
     >
       <div
-        className="jsx-4175784678 cumulative-stake-chart"
+        className="jsx-1486326988 cumulative-stake-chart"
       >
         <div
-          className="jsx-4175784678 total-value"
+          className="jsx-1486326988 total-value"
           style={
             Object {
               "width": "71.51%",
@@ -416,10 +425,15 @@ Array [
           }
         />
         <div
-          className="jsx-4175784678 current-value"
+          className="jsx-1486326988 current-value"
+          style={
+            Object {
+              "width": "14.86%",
+            }
+          }
         />
         <div
-          className="jsx-4175784678 cumulative-stake-label"
+          className="jsx-1486326988 cumulative-stake-label"
         >
           86.37
           %
@@ -493,13 +507,14 @@ Array [
     <td
       className="jsx-2866537324"
     >
-      27
+      <div
+        className="spinner-border spinner-border-sm"
+      />
     </td>
     <td
       className="jsx-2866537324 text-right validator-nodes-text stake-text"
     >
       <span
-        className=""
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
@@ -514,10 +529,10 @@ Array [
       className="jsx-2866537324"
     >
       <div
-        className="jsx-4175784678 cumulative-stake-chart"
+        className="jsx-1486326988 cumulative-stake-chart"
       >
         <div
-          className="jsx-4175784678 total-value"
+          className="jsx-1486326988 total-value"
           style={
             Object {
               "width": "86.38%",
@@ -525,10 +540,15 @@ Array [
           }
         />
         <div
-          className="jsx-4175784678 current-value"
+          className="jsx-1486326988 current-value"
+          style={
+            Object {
+              "width": "13.620000000000005%",
+            }
+          }
         />
         <div
-          className="jsx-4175784678 cumulative-stake-label"
+          className="jsx-1486326988 cumulative-stake-label"
         >
           100
           %

@@ -12,7 +12,7 @@ import Term from "../utils/Term";
 import Gas from "../utils/Gas";
 import GasPrice from "../utils/GasPrice";
 export interface Props {
-  block: B.BlockInfo;
+  block: B.DetailedBlockInfo;
 }
 
 const BlockDetails = ({ block }: Props) => {
@@ -49,13 +49,7 @@ const BlockDetails = ({ block }: Props) => {
                       />
                     }
                     imgLink="/static/images/icon-m-size.svg"
-                    text={
-                      block.gasUsed ? (
-                        <Gas gas={new BN(block.gasUsed)} />
-                      ) : (
-                        "..."
-                      )
-                    }
+                    text={<Gas gas={block.gasUsed} />}
                   />
                 </Col>
                 <Col md="3">

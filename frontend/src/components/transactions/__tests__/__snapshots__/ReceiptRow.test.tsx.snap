@@ -115,7 +115,6 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-receipt-hash col"
       >
         <span
-          className=""
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseOut={[Function]}
@@ -389,7 +388,6 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="receipt-row-receipt-hash col"
               >
                 <span
-                  className=""
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -444,7 +442,6 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                           >
                             Transferred 
                             <span
-                              className=""
                               onBlur={[Function]}
                               onFocus={[Function]}
                               onMouseOut={[Function]}
@@ -616,7 +613,6 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-receipt-hash col"
       >
         <span
-          className=""
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseOut={[Function]}
@@ -880,7 +876,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
               >
                 <span
-                  className=""
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -1165,7 +1160,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-receipt-hash col"
                       >
                         <span
-                          className=""
                           onBlur={[Function]}
                           onFocus={[Function]}
                           onMouseOut={[Function]}
@@ -1220,7 +1214,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                   >
                                     Transferred 
                                     <span
-                                      className=""
                                       onBlur={[Function]}
                                       onFocus={[Function]}
                                       onMouseOut={[Function]}
@@ -1397,7 +1390,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
               >
                 <span
-                  className=""
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -1682,7 +1674,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-receipt-hash col"
                       >
                         <span
-                          className=""
                           onBlur={[Function]}
                           onFocus={[Function]}
                           onMouseOut={[Function]}
@@ -1737,7 +1728,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                   >
                                     Transferred 
                                     <span
-                                      className=""
                                       onBlur={[Function]}
                                       onFocus={[Function]}
                                       onMouseOut={[Function]}
@@ -1914,7 +1904,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
               >
                 <span
-                  className=""
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -1969,7 +1958,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           >
                             Transferred 
                             <span
-                              className=""
                               onBlur={[Function]}
                               onFocus={[Function]}
                               onMouseOut={[Function]}
@@ -2141,7 +2129,6 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-receipt-hash col"
       >
         <span
-          className=""
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseOut={[Function]}
@@ -2431,7 +2418,6 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="receipt-row-receipt-hash col"
               >
                 <span
-                  className=""
                   onBlur={[Function]}
                   onFocus={[Function]}
                   onMouseOut={[Function]}
@@ -2486,7 +2472,6 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                           >
                             Transferred 
                             <span
-                              className=""
                               onBlur={[Function]}
                               onFocus={[Function]}
                               onMouseOut={[Function]}

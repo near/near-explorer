@@ -41,7 +41,9 @@ class Validators extends React.PureComponent<Props> {
         <NodeConsumer>
           {(context) => {
             const validatorType =
-              type === "validators" ? context.validators : context.proposals;
+              type === "validators"
+                ? context.currentValidators
+                : context.currentProposals;
             return (
               <>
                 {validatorType ? (

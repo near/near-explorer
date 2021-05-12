@@ -198,7 +198,6 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className=""
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
@@ -248,7 +247,6 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className=""
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
@@ -672,7 +670,6 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className=""
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
@@ -722,7 +719,6 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className=""
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
@@ -1146,7 +1142,6 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className=""
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}
@@ -1196,7 +1191,6 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className=""
                 onBlur={[Function]}
                 onFocus={[Function]}
                 onMouseOut={[Function]}

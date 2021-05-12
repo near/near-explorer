@@ -15,7 +15,7 @@ export interface NodeInfo {
   city?: string;
 }
 
-export interface Validating {
+export interface BaseValidationNodeInfo {
   account_id: string;
   is_slashed?: boolean;
   num_produced_blocks?: number;
@@ -26,11 +26,21 @@ export interface Validating {
   removed?: boolean;
   shards?: [number];
   nodeInfo?: NodeInfo;
-  fee: { numerator: number; denominator: number };
-  delegators?: number;
-  cumulativeStakeAmount?: CumulativeStake;
-  totalStake?: BN;
 }
+
+export interface StakingPoolInfo {
+  fee: { numerator: number; denominator: number };
+  delegatorsCount: number;
+}
+
+export interface StakeInfo {
+  cumulativeStakeAmount: CumulativeStake;
+  totalStake: BN;
+}
+
+export type ValidationNodeInfo = BaseValidationNodeInfo &
+  StakingPoolInfo &
+  StakeInfo;
 
 interface CumulativeStake {
   total: BN;

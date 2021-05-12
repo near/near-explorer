@@ -1,7 +1,7 @@
 import React from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 
-import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
+import { NetworkStatsConsumer } from "../../context/NetworkStatsProvider";
 
 import Link from "../utils/Link";
 
@@ -13,7 +13,7 @@ class NodeNav extends React.PureComponent<Props> {
   render() {
     const { role } = this.props;
     return (
-      <NodeStatsConsumer>
+      <NetworkStatsConsumer>
         {(context) => (
           <>
             <Row>
@@ -27,8 +27,8 @@ class NodeNav extends React.PureComponent<Props> {
                   <a className="node-link" id="validator-node">
                     Validating{" "}
                     <Badge pill className="nodes-amount-label validating">
-                      {typeof context.validatorAmount !== "undefined"
-                        ? context.validatorAmount
+                      {context.networkStats
+                        ? context.networkStats.currentValidatorsCount
                         : "--"}
                     </Badge>
                   </a>
@@ -61,8 +61,8 @@ class NodeNav extends React.PureComponent<Props> {
                   <a className="node-link" id="proposal-node">
                     Proposed{" "}
                     <Badge pill className="nodes-amount-label proposed">
-                      {typeof context.proposalAmount !== "undefined"
-                        ? context.proposalAmount
+                      {context.networkStats
+                        ? context.networkStats.currentProposalsCount
                         : "--"}
                     </Badge>
                   </a>
@@ -133,7 +133,7 @@ class NodeNav extends React.PureComponent<Props> {
             `}</style>
           </>
         )}
-      </NodeStatsConsumer>
+      </NetworkStatsConsumer>
     );
   }
 }

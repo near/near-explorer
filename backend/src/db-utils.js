@@ -45,7 +45,7 @@ const queryGenesisAccountCount = async () => {
 };
 
 // query for node information
-const addNodeInfo = async (nodes) => {
+const extendWithTelemetryInfo = async (nodes) => {
   const accountArray = nodes.map((node) => node.account_id);
   let nodesInfo = await queryRows([
     `SELECT ip_address AS ipAddress, account_id AS accountId, node_id AS nodeId,
@@ -531,7 +531,7 @@ const queryPartnerUniqueUserAmount = async () => {
 
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
-exports.addNodeInfo = addNodeInfo;
+exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
 exports.pickOnlineValidatingNode = pickOnlineValidatingNode;
 
 // genesis

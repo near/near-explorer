@@ -8,12 +8,15 @@ export interface BlockInfo {
   hash: string;
   height: number;
   timestamp: number;
-  totalSupply?: string;
   prevHash: string;
   transactionsCount: number;
-  gasPrice?: string;
-  gasUsed?: string;
 }
+
+export type DetailedBlockInfo = BlockInfo & {
+  totalSupply: BN;
+  gasPrice: BN;
+  gasUsed: BN;
+};
 
 export default class BlocksApi extends ExplorerApi {
   async getBlocks(
@@ -80,7 +83,7 @@ export default class BlocksApi extends ExplorerApi {
       blocks = blocks.map((block: any) => {
         return {
           hash: block.hash,
-          height: block.height,
+          height: parseInt(block.height),
           timestamp: parseInt(block.timestamp),
           prevHash: block.prev_hash,
           transactionsCount: block.transactions_count,
@@ -94,7 +97,7 @@ export default class BlocksApi extends ExplorerApi {
     }
   }
 
-  async getBlockInfo(blockId: string | number): Promise<BlockInfo> {
+  async getBlockInfo(blockId: string | number): Promise<DetailedBlockInfo> {
     try {
       let block;
       if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
@@ -152,19 +155,20 @@ export default class BlocksApi extends ExplorerApi {
         throw Error(`unsupported data source ${this.dataSource}`);
       }
 
+      let gasUsedInBlock;
       if (block === undefined) {
         throw new Error("block not found");
       } else {
-        let gasUsedResult;
+        let gasUsedInChunks;
         if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-          gasUsedResult = await this.call<any>("select", [
+          gasUsedInChunks = await this.call<any>("select", [
             `SELECT gas_used FROM chunks WHERE block_hash = :block_hash`,
             {
               block_hash: block.hash,
             },
           ]);
         } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-          gasUsedResult = await this.call<any>("select:INDEXER_BACKEND", [
+          gasUsedInChunks = await this.call<any>("select:INDEXER_BACKEND", [
             `SELECT gas_used FROM chunks WHERE included_in_block_hash = :block_hash`,
             {
               block_hash: block.hash,
@@ -173,26 +177,25 @@ export default class BlocksApi extends ExplorerApi {
         } else {
           throw Error(`unsupported data source ${this.dataSource}`);
         }
-        let gasUsedArray = gasUsedResult.map(
-          (gas: any) => new BN(gas.gas_used)
-        );
-        let gasUsed = gasUsedArray.reduce(
-          (gas: BN, currentGas: BN) => gas.add(currentGas),
+        gasUsedInBlock = gasUsedInChunks.reduce(
+          (currentGas: BN, chunk: { gas_used: string }) => {
+            currentGas.iadd(new BN(chunk.gas_used));
+            return currentGas;
+          },
           new BN(0)
         );
-        block.gasUsed = gasUsed.toString();
       }
 
       return {
-        gasUsed: block.gasUsed,
-        gasPrice: block.gas_price,
         hash: block.hash,
-        height: block.height,
         prevHash: block.prev_hash,
+        height: parseInt(block.height),
         timestamp: parseInt(block.timestamp),
         transactionsCount: block.transactions_count,
-        totalSupply: block.total_supply,
-      } as BlockInfo;
+        totalSupply: new BN(block.total_supply),
+        gasUsed: gasUsedInBlock,
+        gasPrice: new BN(block.gas_price),
+      } as DetailedBlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
       console.error(error);

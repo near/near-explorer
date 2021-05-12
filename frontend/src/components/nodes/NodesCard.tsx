@@ -1,3 +1,5 @@
+import BN from "bn.js";
+
 import React from "react";
 import {
   Badge,
@@ -8,8 +10,10 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
-import { showInYocto } from "../utils/Balance";
+import { utils } from "near-api-js";
+
+import { NetworkStatsConsumer } from "../../context/NetworkStatsProvider";
+import { showInYocto, formatWithCommas } from "../utils/Balance";
 
 const NearBadge = () => (
   <Badge variant="light" className="nodes-card-badge">
@@ -27,15 +31,30 @@ const NearBadge = () => (
   </Badge>
 );
 
-const NodeBalance = ({ amount, type }: any) => {
+const NodeBalance = ({
+  amount,
+  type,
+}: {
+  amount: BN;
+  type: "totalSupply" | "totalStakeAmount" | "seatPriceAmount";
+}) => {
   if (!amount) return null;
   let value;
+  let suffix;
   if (type === "totalSupply") {
-    value = (Number(amount) / 10 ** (24 + 6)).toFixed(1);
+    value = formatWithCommas(
+      (amount.div(utils.format.NEAR_NOMINATION).toNumber() / 10 ** 6).toFixed(1)
+    );
+    suffix = "M";
   } else if (type === "totalStakeAmount") {
-    value = (Number(amount) / 10 ** (24 + 3)).toFixed(1);
+    value = formatWithCommas(
+      (amount.div(utils.format.NEAR_NOMINATION).toNumber() / 10 ** 6).toFixed(1)
+    );
+    suffix = "M";
   } else if (type === "seatPriceAmount") {
-    value = (Number(amount) / 10 ** 24).toFixed(1);
+    value = formatWithCommas(
+      amount.div(utils.format.NEAR_NOMINATION).toNumber().toFixed(0)
+    );
   } else {
     value = amount;
   }
@@ -47,7 +66,9 @@ const NodeBalance = ({ amount, type }: any) => {
       overlay={<Tooltip id={type}>{amountPrecise}</Tooltip>}
     >
       <span className="node-balance-text">
-        {value} <NearBadge />
+        {value}
+        {suffix && <span className="node-balance-suffix">{suffix}</span>}{" "}
+        <NearBadge />
       </span>
     </OverlayTrigger>
   );
@@ -56,7 +77,7 @@ const NodeBalance = ({ amount, type }: any) => {
 class NodesCard extends React.PureComponent {
   render() {
     return (
-      <NodeStatsConsumer>
+      <NetworkStatsConsumer>
         {(context) => (
           <>
             <Row noGutters className="nodes-card">
@@ -66,8 +87,8 @@ class NodesCard extends React.PureComponent {
                     Nodes validating
                   </Col>
                   <Col xs="12" className="nodes-card-text validating">
-                    {typeof context.validatorAmount !== "undefined" ? (
-                      context.validatorAmount
+                    {context.networkStats ? (
+                      context.networkStats.currentValidatorsCount
                     ) : (
                       <Spinner animation="border" size="sm" />
                     )}
@@ -81,8 +102,7 @@ class NodesCard extends React.PureComponent {
                     Total Supply
                   </Col>
                   <Col xs="12" className="nodes-card-text">
-                    {" "}
-                    {context.epochStartBlock?.totalSupply ? (
+                    {context.epochStartBlock ? (
                       <NodeBalance
                         amount={context.epochStartBlock.totalSupply}
                         type="totalSupply"
@@ -100,9 +120,9 @@ class NodesCard extends React.PureComponent {
                     Total Stake
                   </Col>
                   <Col xs="12" className="nodes-card-text">
-                    {context.totalStakeAmount ? (
+                    {context.networkStats ? (
                       <NodeBalance
-                        amount={context.totalStakeAmount.toString()}
+                        amount={context.networkStats.totalStake}
                         type="totalStakeAmount"
                       />
                     ) : (
@@ -118,9 +138,9 @@ class NodesCard extends React.PureComponent {
                     Seat Price
                   </Col>
                   <Col xs="12" className="nodes-card-text">
-                    {context.seatPriceAmount ? (
+                    {context.networkStats ? (
                       <NodeBalance
-                        amount={context.seatPriceAmount}
+                        amount={context.networkStats.seatPrice}
                         type="seatPriceAmount"
                       />
                     ) : (
@@ -161,6 +181,12 @@ class NodesCard extends React.PureComponent {
                 align-items: center;
               }
 
+              .node-balance-suffix {
+                font-size: 25px;
+                line-height: 35px;
+                align-self: flex-end;
+              }
+
               .nodes-card-badge {
                 margin-left: 10px;
               }
@@ -176,6 +202,10 @@ class NodesCard extends React.PureComponent {
                 .nodes-card-text {
                   font-size: 20px;
                 }
+                .node-balance-suffix {
+                  font-size: 14px;
+                  line-height: 22px;
+                }
               }
               @media (max-width: 355px) {
                 .nodes-card-text {
@@ -185,7 +215,7 @@ class NodesCard extends React.PureComponent {
             `}</style>
           </>
         )}
-      </NodeStatsConsumer>
+      </NetworkStatsConsumer>
     );
   }
 }

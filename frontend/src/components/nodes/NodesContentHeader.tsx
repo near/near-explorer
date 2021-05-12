@@ -2,7 +2,6 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 
 import NodeNav from "./NodeNav";
-import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 interface Props {
   navRole: string;
@@ -26,9 +25,7 @@ class NodesContentHeader extends React.PureComponent<Props> {
           <h1 style={{ fontSize: "31px", marginBottom: "0px" }}>Nodes</h1>
         </Col>
         <Col xs="12">
-          <NodeStatsProvider>
-            <NodeNav role={this.props.navRole} />
-          </NodeStatsProvider>
+          <NodeNav role={this.props.navRole} />
         </Col>
       </Row>
     );

@@ -69,8 +69,8 @@ class Stats extends React.PureComponent {
             <NodeProvider>
               <NodeConsumer>
                 {(context) =>
-                  typeof context.validators !== "undefined" ? (
-                    <StakingBar validators={context.validators} />
+                  typeof context.currentValidators !== "undefined" ? (
+                    <StakingBar validators={context.currentValidators} />
                   ) : null
                 }
               </NodeConsumer>

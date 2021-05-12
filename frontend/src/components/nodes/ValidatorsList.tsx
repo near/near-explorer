@@ -41,10 +41,10 @@ class ValidatorsList extends React.PureComponent<Props> {
     );
 
     const validatorsList = validators
-      .sort((a: N.Validating, b: N.Validating) =>
+      .sort((a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) =>
         new BN(b.stake).sub(new BN(a.stake))
       )
-      .map((node: N.Validating, index: number) => {
+      .map((node: N.ValidationNodeInfo, index: number) => {
         if (validatorType === "validators") {
           return {
             ...node,
@@ -59,7 +59,7 @@ class ValidatorsList extends React.PureComponent<Props> {
       <>
         {validatorsList
           .slice(startPage - 1, endPage)
-          .map((node: N.Validating, index: number) => (
+          .map((node: N.ValidationNodeInfo, index: number) => (
             <ValidatorRow
               key={node.account_id}
               node={node}

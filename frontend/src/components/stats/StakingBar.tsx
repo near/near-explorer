@@ -5,10 +5,10 @@ import ReactEcharts from "echarts-for-react";
 
 import { utils } from "near-api-js";
 
-import { Validating } from "../../libraries/explorer-wamp/nodes";
+import { ValidationNodeInfo } from "../../libraries/explorer-wamp/nodes";
 
 export interface Props {
-  validators: Validating[];
+  validators: ValidationNodeInfo[];
 }
 
 const StakingBar = ({ validators }: Props) => {

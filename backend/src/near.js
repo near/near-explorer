@@ -16,26 +16,25 @@ nearRpc.callViewMethod = async function (contractName, methodName, args) {
   return await account.viewFunction(contractName, methodName, args);
 };
 
-const queryFinalTimestamp = async () => {
-  const finalBlock = await nearRpc.sendJsonRpc("block", { finality: "final" });
-  return finalBlock.header.timestamp_nanosec;
+const queryFinalBlock = async () => {
+  return await nearRpc.sendJsonRpc("block", { finality: "final" });
 };
 
-const queryNodeStats = async () => {
-  let networkProtocolConfig = await nearRpc.sendJsonRpc(
+const queryEpochStats = async () => {
+  const networkProtocolConfig = await nearRpc.sendJsonRpc(
     "EXPERIMENTAL_protocol_config",
     { finality: "final" }
   );
-  let epochStatus = await nearRpc.sendJsonRpc("validators", [null]);
-  let numSeats =
+  const epochStatus = await nearRpc.sendJsonRpc("validators", [null]);
+  const numSeats =
     networkProtocolConfig.num_block_producer_seats +
     networkProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
       (a, b) => a + b
     );
-  let currentProposals = epochStatus.current_proposals;
-  let currentValidators = getCurrentNodes(epochStatus);
-  let { epoch_start_height: epochStartHeight } = epochStatus;
-  let { epoch_length: epochLength } = networkProtocolConfig;
+  const currentProposals = epochStatus.current_proposals;
+  const currentValidators = getCurrentNodes(epochStatus);
+  const { epoch_start_height: epochStartHeight } = epochStatus;
+  const { epoch_length: epochLength } = networkProtocolConfig;
 
   if (currentEpochStartHeight !== epochStartHeight) {
     // Update seat_price and total_stake each time when epoch starts
@@ -50,12 +49,12 @@ const queryNodeStats = async () => {
   }
 
   return {
+    epochLength,
+    epochStartHeight,
     currentValidators,
     currentProposals,
-    seatPrice,
     totalStake,
-    epochStartHeight,
-    epochLength,
+    seatPrice,
   };
 };
 
@@ -85,5 +84,5 @@ const getCurrentNodes = (epochStatus) => {
 };
 
 exports.nearRpc = nearRpc;
-exports.queryFinalTimestamp = queryFinalTimestamp;
-exports.queryNodeStats = queryNodeStats;
+exports.queryFinalBlock = queryFinalBlock;
+exports.queryEpochStats = queryEpochStats;

@@ -13,9 +13,9 @@ import NodesCard from "../../components/nodes/NodesCard";
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 import NodeProvider from "../../context/NodeProvider";
-import NodeStatsProvider, {
-  NodeStatsConsumer,
-} from "../../context/NodeStatsProvider";
+import NetworkStatsProvider, {
+  NetworkStatsConsumer,
+} from "../../context/NetworkStatsProvider";
 
 class ValidatorsPage extends React.Component {
   componentDidMount() {
@@ -29,32 +29,45 @@ class ValidatorsPage extends React.Component {
           <title>NEAR Explorer | Nodes</title>
         </Head>
 
-        <Container fluid>
-          <NodeStatsProvider>
-            <NodeStatsConsumer>
-              {(context) => <NodesEpoch {...context} />}
-            </NodeStatsConsumer>
-          </NodeStatsProvider>
-        </Container>
+        <NetworkStatsProvider>
+          <Container fluid>
+            <NetworkStatsConsumer>
+              {({ networkStats, epochStartBlock, finalityStatus }) => {
+                if (!networkStats || !epochStartBlock || !finalityStatus) {
+                  return null;
+                }
+                return (
+                  <NodesEpoch
+                    epochLength={networkStats.epochLength}
+                    epochStartHeight={epochStartBlock.height}
+                    epochStartTimestamp={epochStartBlock.timestamp}
+                    latestBlockHeight={finalityStatus.finalBlockHeight}
+                    latestBlockTimestamp={finalityStatus.finalBlockTimestampNanosecond
+                      .divn(10 ** 6)
+                      .toNumber()}
+                  />
+                );
+              }}
+            </NetworkStatsConsumer>
+          </Container>
 
-        <Content
-          border={false}
-          fluid
-          contentFluid
-          className="nodes-page"
-          header={<NodesContentHeader navRole="validators" />}
-        >
-          <NodeStatsProvider>
+          <Content
+            border={false}
+            fluid
+            contentFluid
+            className="nodes-page"
+            header={<NodesContentHeader navRole="validators" />}
+          >
             <Container>
               <NodesCard />
             </Container>
-          </NodeStatsProvider>
-          <NodeProvider>
-            <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
-              <Validators type="validators" />
-            </Container>
-          </NodeProvider>
-        </Content>
+            <NodeProvider>
+              <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
+                <Validators type="validators" />
+              </Container>
+            </NodeProvider>
+          </Content>
+        </NetworkStatsProvider>
         <style global jsx>{`
           .nodes-page {
             background-color: #ffffff;

@@ -1,80 +1,33 @@
-import BN from "bn.js";
 import React from "react";
 import moment from "moment";
 
 import { Row, Col } from "react-bootstrap";
 
-import { LatestBlockInfo } from "../../context/NodeStatsProvider";
-
 import ProgressBar from "../utils/ProgressBar";
-import { BlockInfo } from "../../libraries/explorer-wamp/blocks";
 
 interface Props {
-  epochStartHeight: number;
-  epochStartBlock?: BlockInfo;
-  latestBlock?: LatestBlockInfo;
   epochLength: number;
+  epochStartHeight: number;
+  latestBlockHeight: number;
+  epochStartTimestamp: number;
+  latestBlockTimestamp: number;
 }
 
-interface State {
-  timeRemaining?: number;
-  epochProgress: number;
-}
-
-class NodesEpoch extends React.PureComponent<Props, State> {
-  constructor(props: any) {
-    super(props);
-    this.timer = null;
-    this.state = {
-      timeRemaining: undefined,
-      epochProgress: 0,
-    };
-  }
-
-  timer: ReturnType<typeof setTimeout> | null;
-
-  componentDidMount() {
-    this.timer = setInterval(() => this.epochDuration(), 1000);
-  }
-
-  componentWillUnmount() {
-    const timer = this.timer;
-    this.timer = null;
-    if (timer !== null) {
-      clearTimeout(timer);
-    }
-  }
-
-  epochDuration = () => {
-    if (
-      this.props.epochStartBlock?.timestamp &&
-      this.props.latestBlock?.height
-    ) {
-      const { epochStartBlock, latestBlock, epochLength } = this.props;
-
-      const epochProgress = latestBlock?.height
-        ? ((latestBlock?.height.toNumber() - epochStartBlock.height) /
-            epochLength) *
-          100
-        : 0;
-      const timeRemaining = latestBlock?.timestamp
-        ? (latestBlock?.timestamp
-            .sub(new BN(epochStartBlock.timestamp).muln(10 ** 6))
-            .divn(10 ** 6)
-            .toNumber() /
-            epochProgress) *
-          (100 - epochProgress)
-        : 0;
-      this.setState({
-        timeRemaining,
-        epochProgress,
-      });
-    }
-    return null;
-  };
-
+class NodesEpoch extends React.PureComponent<Props> {
   render() {
-    const { epochProgress, timeRemaining } = this.state;
+    const {
+      epochStartHeight,
+      latestBlockHeight,
+      epochLength,
+      epochStartTimestamp,
+      latestBlockTimestamp,
+    } = this.props;
+
+    const epochProgress =
+      ((latestBlockHeight - epochStartHeight) / epochLength) * 100;
+    const timeRemaining =
+      ((latestBlockTimestamp - epochStartTimestamp) / epochProgress) *
+      (100 - epochProgress);
 
     return (
       <Row className="nodes-epoch">
@@ -84,18 +37,14 @@ class NodesEpoch extends React.PureComponent<Props, State> {
               <Row className="d-none d-md-flex">
                 <Col>
                   Current Epoch Start:{" "}
-                  <span className="text-value">
-                    Block #{this.props.epochStartHeight ?? "00000000"}
-                  </span>
+                  <span className="text-value">Block #{epochStartHeight}</span>
                 </Col>
               </Row>
 
               <Row className="d-xs-flex d-md-none">
                 <Col xs="12">Current Epoch Start</Col>
                 <Col xs="12">
-                  <span className="text-value">
-                    Block #{this.props.epochStartHeight ?? "00000000"}
-                  </span>
+                  <span className="text-value">Block #{epochStartHeight}</span>
                 </Col>
               </Row>
             </Col>
@@ -103,12 +52,8 @@ class NodesEpoch extends React.PureComponent<Props, State> {
             <Col sm="5" className="text-right d-none d-md-block ">
               <span className="text-value persnt-remains">
                 {epochProgress.toFixed(0)}% complete
-              </span>{" "}
-              {`(${
-                timeRemaining
-                  ? moment(timeRemaining)?.format("HH:mm:ss")
-                  : "00:00:00"
-              } remaining)`}
+              </span>
+              {` (${moment.utc(timeRemaining).format("HH:mm:ss")} remaining)`}
             </Col>
 
             <Col xs="5" className="text-right d-xs-block d-md-none">

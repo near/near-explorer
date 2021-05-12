@@ -15,7 +15,7 @@ import ValidatingLabel from "./ValidatingLabel";
 import CumulativeStakeChart from "./CumulativeStakeChart";
 
 interface Props {
-  node: N.Validating;
+  node: N.ValidationNodeInfo;
   index: number;
   cellCount: number;
   validatorType: string;
@@ -39,7 +39,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
     let validatorFee = node.fee
       ? `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`
       : null;
-    let validatorDelegators = node.delegators ?? null;
+    let validatorDelegators = node.delegatorsCount ?? null;
     const nodeDetailsEnable = Boolean(
       (node.num_produced_blocks && node.num_expected_blocks) || node.nodeInfo
     );
