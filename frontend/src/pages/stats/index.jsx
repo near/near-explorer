@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import Mixpanel from "../../libraries/mixpanel";
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
-import NodeStatsProvider from "../../context/NodeStatsProvider";
+import NetworkStatsProvider from "../../context/NetworkStatsProvider";
 
 import Content from "../../components/utils/Content";
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
@@ -35,9 +35,9 @@ class Stats extends React.PureComponent {
         </Head>
         <Content title={<h1>Stats</h1>}>
           <div id="protocolConfiguration">
-            <NodeStatsProvider>
+            <NetworkStatsProvider>
               <ProtocolConfigInfo />
-            </NodeStatsProvider>
+            </NetworkStatsProvider>
           </div>
           <div id="transactionsByDate">
             <TransactionsByDate chartStyle={chartStyle} />

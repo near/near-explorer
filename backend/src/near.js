@@ -34,7 +34,12 @@ const queryEpochStats = async () => {
   const currentProposals = epochStatus.current_proposals;
   const currentValidators = getCurrentNodes(epochStatus);
   const { epoch_start_height: epochStartHeight } = epochStatus;
-  const { epoch_length: epochLength } = networkProtocolConfig;
+  const {
+    epoch_length: epochLength,
+    genesis_time: genesisTime,
+    genesis_height: genesisHeight,
+    protocol_version: epochProtocolVersion,
+  } = networkProtocolConfig;
 
   if (currentEpochStartHeight !== epochStartHeight) {
     // Update seat_price and total_stake each time when epoch starts
@@ -51,10 +56,13 @@ const queryEpochStats = async () => {
   return {
     epochLength,
     epochStartHeight,
+    epochProtocolVersion,
     currentValidators,
     currentProposals,
     totalStake,
     seatPrice,
+    genesisTime,
+    genesisHeight,
   };
 };
 

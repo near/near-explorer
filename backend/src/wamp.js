@@ -309,6 +309,10 @@ wampHandlers["partner-unique-user-amount"] = async () => {
   return await stats.getPartnerUniqueUserAmount();
 };
 
+wampHandlers["nearcore-genesis-accounts-count"] = async () => {
+  return await stats.getGenesisAccountsCount();
+};
+
 // set up wamp
 function setupWamp() {
   const wamp = new autobahn.Connection({

@@ -3,10 +3,11 @@ import BN from "bn.js";
 import React, { useEffect, useState, useContext } from "react";
 
 import StatsApi from "../../libraries/explorer-wamp/stats";
+import { NetworkStatsContext } from "../../context/NetworkStatsProvider";
 
 import { InfoCard, InfoCardCell as Cell } from "../utils/InfoCard";
-import Balance from "../utils/Balance";
-import { NodeStatsContext } from "../../context/NodeStatsProvider";
+import Balance, { formatWithCommas } from "../utils/Balance";
+import NearBadge from "../nodes/NearBadge";
 
 const ProtocolConfigInfo = () => {
   const [totalGenesisSupply, setTotalGenesisSupply] = useState<BN>();
@@ -14,13 +15,10 @@ const ProtocolConfigInfo = () => {
     genesisProtocolVersion,
     setGenesisProtocolVersion,
   ] = useState<number>();
+  const [liveAccountsCount, setAccountsCount] = useState<number>();
+  const [genesisAccountsAmount, setGenesisAccountsAmount] = useState<number>();
 
-  const {
-    genesisStatus,
-    epochLength,
-    epochStartBlock,
-    epochProtocolVersion,
-  } = useContext(NodeStatsContext);
+  const { networkStats, epochStartBlock } = useContext(NetworkStatsContext);
 
   let epochTotalSupply = epochStartBlock?.totalSupply
     ? new BN(epochStartBlock.totalSupply.toString())
@@ -39,12 +37,10 @@ const ProtocolConfigInfo = () => {
     : null;
 
   useEffect(() => {
-    if (genesisStatus?.genesisHeight) {
+    if (networkStats?.genesisHeight) {
       new StatsApi()
-        .networkGenesisProtocolConfig(genesisStatus?.genesisHeight)
+        .networkGenesisProtocolConfig(networkStats.genesisHeight)
         .then((genesisBlockInfo: any) => {
-          console.log("genesisBlockInfo", genesisBlockInfo);
-
           if (genesisBlockInfo) {
             setTotalGenesisSupply(genesisBlockInfo.header.total_supply);
             setGenesisProtocolVersion(
@@ -53,7 +49,21 @@ const ProtocolConfigInfo = () => {
           }
         });
     }
-  }, [genesisStatus?.genesisHeight]);
+  }, [networkStats?.genesisHeight]);
+
+  useEffect(() => {
+    new StatsApi().activeAccountsList().then((accounts) => {
+      if (accounts) {
+        setAccountsCount(accounts.length);
+      }
+    });
+
+    new StatsApi().genesisAccountsCount().then((count) => {
+      if (count) {
+        setGenesisAccountsAmount(count);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -62,13 +72,13 @@ const ProtocolConfigInfo = () => {
           title="Genesis Started"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
-          {genesisStatus?.genesisTime && (
+          {networkStats?.genesisTime && (
             <>
               <span>
-                {moment(genesisStatus?.genesisTime).format("MMMM DD, YYYY")}
+                {moment(networkStats?.genesisTime).format("MMMM DD, YYYY")}
               </span>
               <div style={{ fontSize: "10px", lineHeight: "1" }}>
-                {moment(genesisStatus?.genesisTime).format("[at] h:mm:ssa")}
+                {moment(networkStats?.genesisTime).format("[at] h:mm:ssa")}
               </div>
             </>
           )}
@@ -78,10 +88,10 @@ const ProtocolConfigInfo = () => {
           title="Genesis Protocol / Current Protocol"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
         >
-          {genesisProtocolVersion && epochProtocolVersion && (
+          {genesisProtocolVersion && networkStats?.epochProtocolVersion && (
             <>
               <span className="genesis-text">v{genesisProtocolVersion}</span> /{" "}
-              <span>v{epochProtocolVersion}</span>
+              <span>v{networkStats.epochProtocolVersion}</span>
             </>
           )}
         </Cell>
@@ -90,15 +100,15 @@ const ProtocolConfigInfo = () => {
           title="Genesis Height"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
-          {genesisStatus && (
-            <span className="genesis-text">{genesisStatus.genesisHeight}</span>
+          {networkStats && (
+            <span className="genesis-text">{networkStats.genesisHeight}</span>
           )}
         </Cell>
         <Cell
           title="Epoch Lenght"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
-          {epochLength && <span>{epochLength}</span>}
+          {networkStats?.epochLength && <span>{networkStats.epochLength}</span>}
         </Cell>
       </InfoCard>
 
@@ -111,17 +121,26 @@ const ProtocolConfigInfo = () => {
             <span className="genesis-text">
               <Balance
                 amount={totalGenesisSupply}
-                formulatedAmount={genesisTotaSupply.toFixed(1)}
+                formulatedAmount={formatWithCommas(
+                  genesisTotaSupply.toFixed(1)
+                )}
+                label={
+                  <>
+                    <span className="balance-suffix">M</span>
+                    <NearBadge />
+                  </>
+                }
+                className="protocol-metric-value"
               />
             </span>
           )}
         </Cell>
 
         <Cell
-          title="Accounts in Genesis / Active Accounts"
+          title="Accounts in Genesis"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
         >
-          null / null
+          {genesisAccountsAmount}
         </Cell>
 
         <Cell
@@ -131,16 +150,23 @@ const ProtocolConfigInfo = () => {
           {epochTotalSupply && (
             <Balance
               amount={epochStartBlock!.totalSupply}
-              formulatedAmount={epochTotalSupply.toFixed(1)}
+              formulatedAmount={formatWithCommas(epochTotalSupply.toFixed(1))}
+              label={
+                <>
+                  <span className="balance-suffix">M</span>
+                  <NearBadge />
+                </>
+              }
+              className="protocol-metric-value"
             />
           )}
         </Cell>
 
         <Cell
-          title="Genesis Contracts Amount"
+          title="Active Accounts"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
-          null
+          {liveAccountsCount}
         </Cell>
       </InfoCard>
       <style global jsx>{`
@@ -150,6 +176,20 @@ const ProtocolConfigInfo = () => {
 
         .genesis-text {
           color: #00c08b;
+        }
+
+        .protocol-metric-value {
+          display: flex;
+          align-items: center;
+        }
+
+        .near-badge {
+          margin-left: 10px;
+        }
+        .balance-suffix {
+          font-size: 25px;
+          line-height: 35px;
+          align-self: flex-end;
         }
       `}</style>
     </>

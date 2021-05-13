@@ -1,35 +1,13 @@
 import BN from "bn.js";
 
 import React from "react";
-import {
-  Badge,
-  Col,
-  Row,
-  OverlayTrigger,
-  Tooltip,
-  Spinner,
-} from "react-bootstrap";
+import { Col, Row, OverlayTrigger, Tooltip, Spinner } from "react-bootstrap";
 
 import { utils } from "near-api-js";
 
 import { NetworkStatsConsumer } from "../../context/NetworkStatsProvider";
 import { showInYocto, formatWithCommas } from "../utils/Balance";
-
-const NearBadge = () => (
-  <Badge variant="light" className="nodes-card-badge">
-    NEAR
-    <style jsx global>{`
-      .nodes-card-badge {
-        border: 1px solid #f0f0f1;
-        border-radius: 8px;
-        font-weight: 500;
-        font-size: 14px;
-        color: #a2a2a8;
-        background: transparent;
-      }
-    `}</style>
-  </Badge>
-);
+import NearBadge from "./NearBadge";
 
 const NodeBalance = ({
   amount,
@@ -187,7 +165,7 @@ class NodesCard extends React.PureComponent {
                 align-self: flex-end;
               }
 
-              .nodes-card-badge {
+              .near-badge {
                 margin-left: 10px;
               }
 

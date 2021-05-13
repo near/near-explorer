@@ -35,6 +35,7 @@ let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = null;
 let ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = null;
 let LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = null;
 let ACTIVE_ACCOUNTS_LIST = null;
+let ACCOUNTS_COUNT_IN_GENESIS = null;
 
 // contracts
 let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = null;
@@ -128,6 +129,7 @@ async function aggregateDeletedAccountsCountByDate() {
 async function aggregateLiveAccountsCountByDate() {
   try {
     const genesisCount = await queryGenesisAccountCount();
+    ACCOUNTS_COUNT_IN_GENESIS = genesisCount.count;
     if (
       NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE &&
       DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
@@ -138,7 +140,9 @@ async function aggregateLiveAccountsCountByDate() {
         date: date,
         accountsCount: 0,
       }));
-      changedAccountsCountByDate[0].accountsCount = Number(genesisCount.count);
+      changedAccountsCountByDate[0].accountsCount = Number(
+        ACCOUNTS_COUNT_IN_GENESIS
+      );
 
       let newAccountMap = new Map();
       for (let i = 0; i < NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
@@ -436,6 +440,10 @@ async function getPartnerUniqueUserAmount() {
   return PARTNER_UNIQUE_USER_AMOUNT;
 }
 
+async function getGenesisAccountsCount() {
+  return ACCOUNTS_COUNT_IN_GENESIS;
+}
+
 // aggregate part
 // transaction related
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
@@ -446,7 +454,6 @@ exports.aggregateDepositAmountByDate = aggregateDepositAmountByDate;
 exports.aggregateNewAccountsCountByDate = aggregateNewAccountsCountByDate;
 exports.aggregateDeletedAccountsCountByDate = aggregateDeletedAccountsCountByDate;
 exports.aggregateLiveAccountsCountByDate = aggregateLiveAccountsCountByDate;
-exports.aggregateActiveContractsCountByDate = aggregateActiveContractsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
 exports.aggregateActiveAccountsCountByWeek = aggregateActiveAccountsCountByWeek;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
@@ -486,3 +493,5 @@ exports.getActiveContractsList = getActiveContractsList;
 exports.getPartnerTotalTransactionsCount = getPartnerTotalTransactionsCount;
 exports.getPartnerFirst3MonthTransactionsCount = getPartnerFirst3MonthTransactionsCount;
 exports.getPartnerUniqueUserAmount = getPartnerUniqueUserAmount;
+
+exports.getGenesisAccountsCount = getGenesisAccountsCount;

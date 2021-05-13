@@ -144,8 +144,12 @@ export default class StatsApi extends ExplorerApi {
   // network genesis configuration
   async networkGenesisProtocolConfig(blockId: number) {
     return await this.call<GenesisProtocolConfig>(
-      "nearcore-genesis-protocol-cofiguration",
+      "nearcore-genesis-protocol-configuration",
       [blockId]
     );
+  }
+
+  async genesisAccountsCount(): Promise<number> {
+    return await this.call<number>("nearcore-genesis-accounts-count");
   }
 }
