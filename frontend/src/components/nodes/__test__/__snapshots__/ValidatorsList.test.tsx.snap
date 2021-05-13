@@ -64,14 +64,18 @@ Array [
               className="validator-nodes-text col"
               title="ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
             >
-              <a
-                className="transaction-link"
-                href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                ed25519...
-              </a>
+                <a
+                  className="transaction-link"
+                  href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  ed25519...
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -256,14 +260,18 @@ Array [
               className="validator-nodes-text col"
               title="ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
             >
-              <a
-                className="transaction-link"
-                href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+              <span
                 onClick={[Function]}
-                onMouseEnter={[Function]}
               >
-                ed25519...
-              </a>
+                <a
+                  className="transaction-link"
+                  href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                >
+                  ed25519...
+                </a>
+              </span>
             </div>
           </div>
         </div>

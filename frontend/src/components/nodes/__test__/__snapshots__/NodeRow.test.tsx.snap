@@ -82,14 +82,18 @@ exports[`<NodeRow /> renders 1`] = `
             className="online-nodes-text col"
             title="ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
           >
-            <a
-              className="transaction-link"
-              href="/transactions/ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
+            <span
               onClick={[Function]}
-              onMouseEnter={[Function]}
             >
-              ed25519...
-            </a>
+              <a
+                className="transaction-link"
+                href="/transactions/ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                ed25519...
+              </a>
+            </span>
           </div>
         </div>
       </div>

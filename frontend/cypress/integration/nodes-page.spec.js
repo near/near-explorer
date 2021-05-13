@@ -17,9 +17,7 @@ context("Nodes", () => {
   it("Check validators tab", () => {
     cy.url().should("include", "/nodes/validators");
     cy.get(".node-selector").should("have.class", "node-selected");
-    cy.wait(3000)
-      .get(".validator-nodes-row td")
-      .within(($el) => cy.get($el).should("exist", $el.text()));
+    cy.wait(3000).get(".validator-nodes-row td").should("exist");
   });
 
   // it("Check online nodes tab", () => {
