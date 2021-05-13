@@ -110,7 +110,7 @@ wampHandlers["nearcore-validators"] = async () => {
 };
 
 // genesis configuration
-wampHandlers["nearcore-genesis-protocol-cofiguration"] = async ([blockId]) => {
+wampHandlers["nearcore-genesis-protocol-configuration"] = async ([blockId]) => {
   return await nearRpc.sendJsonRpc("block", { block_id: blockId });
 };
 

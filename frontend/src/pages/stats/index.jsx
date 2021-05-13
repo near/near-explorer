@@ -1,13 +1,10 @@
 import Head from "next/head";
 
-import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 import Mixpanel from "../../libraries/mixpanel";
-import NodeStatsProvider, {
-  NodeStatsContext,
-} from "../../context/NodeStatsProvider";
+import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
+import NodeStatsProvider from "../../context/NodeStatsProvider";
 
 import Content from "../../components/utils/Content";
-
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
 import GasUsedByDate from "../../components/stats/GasUsedByDate";
 import NewAccountsByDate from "../../components/stats/NewAccountsByDate";
@@ -39,13 +36,7 @@ class Stats extends React.PureComponent {
         <Content title={<h1>Stats</h1>}>
           <div id="protocolConfiguration">
             <NodeStatsProvider>
-              <NodeStatsContext>
-                {(context) =>
-                  typeof context.genesisStatus !== "undefined" ? (
-                    <ProtocolConfigInfo {...context} />
-                  ) : null
-                }
-              </NodeStatsContext>
+              <ProtocolConfigInfo />
             </NodeStatsProvider>
           </div>
           <div id="transactionsByDate">
