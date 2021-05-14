@@ -68,10 +68,26 @@ class OnlineNodes extends React.Component {
           .online-nodes-page {
             background-color: #ffffff;
           }
+
+          @media (max-width: 576px) {
+            .online-nodes-page > .container-fluid,
+            .online-nodes-page > .container-fluid > .container {
+              padding-left: 0;
+              padding-right: 0;
+            }
+          }
+          @media (min-width: 576px) {
+            .content-header {
+              padding-left: 32px;
+              padding-right: 32px;
+            }
+          }
+
           .content-header {
             background: #fafafa;
             margin-left: -15px;
             margin-right: -15px;
+            padding-bottom: 0;
           }
         `}</style>
       </>

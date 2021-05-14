@@ -85,7 +85,6 @@ class NodeNav extends React.PureComponent<Props> {
                 padding-left: 0;
                 padding-right: 0;
                 margin-left: 16px;
-                margin-bottom: 16px;
                 margin-top: 2px;
                 text-align: center;
                 color: #72727a;

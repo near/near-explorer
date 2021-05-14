@@ -198,7 +198,9 @@ class NodesCard extends React.PureComponent {
               @media (max-width: 768px) {
                 .nodes-card {
                   margin-top: 32px;
+                  padding: 8px 16px 16px;
                 }
+
                 .nodes-card-text {
                   font-size: 20px;
                 }

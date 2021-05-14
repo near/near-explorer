@@ -61,7 +61,7 @@ class Content extends React.Component<Props> {
           </Row>
         ) : header ? (
           <Row className={`content-header ${border ? "with-border" : ""}`}>
-            <Col>{header}</Col>
+            <Col className="px-0">{header}</Col>
           </Row>
         ) : null}
 

@@ -50,7 +50,7 @@ const Pagination = ({
       }
 
       .pagination li {
-        margin: 0 10px;
+        padding: 0 5px;
         text-align: center;
         background: transparent;
         list-style-type: none;
@@ -89,7 +89,7 @@ const Pagination = ({
         cursor: default;
       }
 
-      .pagination li.active {
+      .pagination li.active a {
         font-weight: 500;
         color: #0072ce;
         background-color: #f0f9ff;
