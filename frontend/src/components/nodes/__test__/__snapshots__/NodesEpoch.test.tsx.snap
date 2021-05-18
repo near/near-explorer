@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NodesEpoch /> renders 1`] = `
+<div
+  className="nodes-epoch row"
+>
+  <div
+    className="nodes-epoch-content col-12"
+  >
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="col-7"
+      >
+        <div
+          className="d-none d-md-flex row"
+        >
+          <div
+            className="col"
+          >
+            Current Epoch Start:
+             
+            <span
+              className="jsx-1835548364 text-value"
+            >
+              Block #
+              36647454
+            </span>
+          </div>
+        </div>
+        <div
+          className="d-xs-flex d-md-none row"
+        >
+          <div
+            className="col-12"
+          >
+            Current Epoch Start
+          </div>
+          <div
+            className="col-12"
+          >
+            <span
+              className="jsx-1835548364 text-value"
+            >
+              Block #
+              36647454
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="text-right d-none d-md-block  col-sm-5"
+      >
+        <span
+          className="jsx-1835548364 text-value persnt-remains"
+        >
+          50
+          % complete
+        </span>
+         (06:00:00 remaining)
+      </div>
+      <div
+        className="text-right d-xs-block d-md-none col-5"
+      >
+        <div
+          className="jsx-3982235594 progress-bar circle node-epoch-circle-progress"
+        >
+          <svg
+            className="rc-progress-circle progress-bar-content"
+            label={
+              <span
+                className="jsx-1835548364 circle-progress-label"
+              >
+                50
+                %
+              </span>
+            }
+            style={Object {}}
+            type="circle"
+            viewBox="0 0 100 100"
+          >
+            <path
+              className="rc-progress-circle-trail"
+              d="M 50,50 m 0,-48
+   a 48,48 0 1 1 0,96
+   a 48,48 0 1 1 0,-96"
+              fillOpacity="0"
+              stroke="transparent"
+              strokeLinecap="round"
+              strokeWidth={1}
+              style={
+                Object {
+                  "stroke": "transparent",
+                  "strokeDasharray": "301.59289474462014px 301.59289474462014px",
+                  "strokeDashoffset": "-0px",
+                  "transition": "stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s",
+                }
+              }
+            />
+            <path
+              className="rc-progress-circle-path"
+              d="M 50,50 m 0,-48
+   a 48,48 0 1 1 0,96
+   a 48,48 0 1 1 0,-96"
+              fillOpacity="0"
+              opacity={1}
+              stroke=""
+              strokeLinecap="round"
+              strokeWidth={4}
+              style={
+                Object {
+                  "stroke": "#37dbf4",
+                  "strokeDasharray": "150.79644737231007px 301.59289474462014px",
+                  "strokeDashoffset": "-0px",
+                  "transition": "stroke-dashoffset .3s ease 0s, stroke-dasharray .3s ease 0s, stroke .3s, stroke-width .06s ease .3s, opacity .3s ease 0s",
+                }
+              }
+            />
+          </svg>
+          <div
+            className="jsx-3982235594 progress-bar-label"
+          >
+            <span
+              className="jsx-1835548364 circle-progress-label"
+            >
+              50
+              %
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="d-none d-md-block px-0 col-12"
+  >
+    <div
+      className="jsx-3982235594 progress-bar line node-epoch-line-progress"
+    >
+      <svg
+        className="rc-progress-line progress-bar-content"
+        preserveAspectRatio="none"
+        style={Object {}}
+        viewBox="0 0 100 1"
+      >
+        <path
+          className="rc-progress-line-trail"
+          d="M 0.5,0.5
+         L 99.5,0.5"
+          fillOpacity="0"
+          stroke="transparent"
+          strokeLinecap="round"
+          strokeWidth={1}
+        />
+        <path
+          className="rc-progress-line-path"
+          d="M 0.5,0.5
+         L 99.5,0.5"
+          fillOpacity="0"
+          stroke="#37dbf4"
+          strokeLinecap="round"
+          strokeWidth={1}
+          style={
+            Object {
+              "strokeDasharray": "49.5px, 100px",
+              "strokeDashoffset": "-0px",
+              "transition": "stroke-dashoffset 0.3s ease 0s, stroke-dasharray .3s ease 0s, stroke 0.3s linear",
+            }
+          }
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

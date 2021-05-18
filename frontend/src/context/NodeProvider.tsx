@@ -1,16 +1,12 @@
 import React, { createContext, useEffect, useState } from "react";
 
 import { ExplorerApi } from "../libraries/explorer-wamp";
-import {
-  NodeInfo,
-  Proposal,
-  Validating,
-} from "../libraries/explorer-wamp/nodes";
+import { NodeInfo, ValidationNodeInfo } from "../libraries/explorer-wamp/nodes";
 
 export interface INodeContext {
-  validators?: Validating[];
+  currentValidators?: ValidationNodeInfo[];
   onlineNodes?: NodeInfo[];
-  proposals?: Proposal[];
+  currentProposals?: ValidationNodeInfo[];
   onlineValidatingNodes?: NodeInfo[];
 }
 
@@ -21,15 +17,19 @@ export interface Props {
 }
 
 const NodeProvider = (props: Props) => {
-  const [validators, dispatchValidators] = useState<Validating[]>();
+  const [currentValidators, dispatchValidators] = useState<
+    ValidationNodeInfo[]
+  >();
+  const [currentProposals, dispatchCurrentProposals] = useState<
+    ValidationNodeInfo[]
+  >();
   const [onlineNodes, dispatchOnlineNodes] = useState<NodeInfo[]>();
-  const [proposals, dispatchProposals] = useState<Proposal[]>();
   const [onlineValidatingNodes, dispatchNodes] = useState<NodeInfo[]>();
 
   const fetchNodeInfo = (_positionalArgs: any, namedArgs: INodeContext) => {
-    dispatchValidators(namedArgs.validators);
+    dispatchValidators(namedArgs.currentValidators);
+    dispatchCurrentProposals(namedArgs.currentProposals);
     dispatchOnlineNodes(namedArgs.onlineNodes);
-    dispatchProposals(namedArgs.proposals);
     dispatchNodes(namedArgs.onlineValidatingNodes);
   };
 
@@ -44,7 +44,12 @@ const NodeProvider = (props: Props) => {
 
   return (
     <NodeContext.Provider
-      value={{ validators, onlineNodes, proposals, onlineValidatingNodes }}
+      value={{
+        currentValidators,
+        currentProposals,
+        onlineNodes,
+        onlineValidatingNodes,
+      }}
     >
       {props.children}
     </NodeContext.Provider>

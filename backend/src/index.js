@@ -8,14 +8,15 @@ const {
   regularCheckGenesisInterval,
   regularSyncNewNearcoreStateInterval,
   regularSyncMissingNearcoreStateInterval,
-  regularQueryRPCInterval,
+  regularPublishFinalityStatusInterval,
   regularQueryStatsInterval,
-  regularCheckNodeStatusInterval,
+  regularPublishNetworkInfoInterval,
+  regularFetchStakingPoolsInfoInterval,
   regularStatsInterval,
 } = require("./config");
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
-const { nearRpc, queryFinalTimestamp, queryNodeStats } = require("./near");
+const { nearRpc, queryFinalBlock, queryEpochStats } = require("./near");
 
 const {
   syncNewNearcoreState,
@@ -26,7 +27,7 @@ const {
 const { setupWamp, wampPublish } = require("./wamp");
 
 const {
-  addNodeInfo,
+  extendWithTelemetryInfo,
   queryOnlineNodes,
   pickOnlineValidatingNode,
   getSyncedGenesis,
@@ -51,6 +52,10 @@ const {
   aggregateParterUniqueUserAmount,
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
+
+let currentValidators = [];
+let currentProposals = [];
+let stakingPoolsInfo = new Map();
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -234,56 +239,134 @@ async function main() {
   console.log("Starting WAMP worker...");
   wamp.open();
 
-  // regular check finalTimesamp and publish to final-timestamp uri
-  const regularCheckFinalTimestamp = async () => {
+  // regularly publish the latest information about the height and timestamp of the final block
+  const regularPublishFinalityStatus = async () => {
     console.log("Starting regular final timestamp check...");
     try {
       if (wamp.session) {
-        const finalTimestamp = await queryFinalTimestamp();
-        wampPublish("final-timestamp", { finalTimestamp }, wamp);
+        const finalBlock = await queryFinalBlock();
+        wampPublish(
+          "finality-status",
+          {
+            finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
+            finalBlockHeight: finalBlock.header.height,
+          },
+          wamp
+        );
       }
       console.log("Regular final timestamp check is completed.");
     } catch (error) {
       console.warn("Regular final timestamp check  crashed due to:", error);
     }
-    setTimeout(regularCheckFinalTimestamp, regularQueryRPCInterval);
+    setTimeout(
+      regularPublishFinalityStatus,
+      regularPublishFinalityStatusInterval
+    );
   };
-  setTimeout(regularCheckFinalTimestamp, 0);
+  setTimeout(regularPublishFinalityStatus, 0);
 
-  // regular check node status and publish to nodes uri
-  const regularCheckNodeStatus = async () => {
-    console.log("Starting regular node status check...");
+  // regularly publish information about validators, proposals, staking pools, and online nodes
+  const regularPublishNetworkInfo = async () => {
+    console.log("Starting regular network info publishing...");
     try {
       if (wamp.session) {
-        let { currentValidators, proposals } = await queryNodeStats();
-        let validators = await addNodeInfo(currentValidators);
-        let onlineValidatingNodes = pickOnlineValidatingNode(validators);
-        let onlineNodes = await queryOnlineNodes();
-        if (!onlineNodes) {
-          onlineNodes = [];
+        const epochStats = await queryEpochStats();
+        currentValidators = await extendWithTelemetryInfo(
+          epochStats.currentValidators
+        );
+        currentProposals = await extendWithTelemetryInfo(
+          epochStats.currentProposals
+        );
+        const onlineValidatingNodes = pickOnlineValidatingNode(
+          currentValidators
+        );
+        const onlineNodes = await queryOnlineNodes();
+
+        if (stakingPoolsInfo) {
+          currentValidators.forEach((validator) => {
+            const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
+            if (stakingPoolInfo) {
+              validator.fee = stakingPoolInfo.fee;
+              validator.delegatorsCount = stakingPoolInfo.delegatorsCount;
+            }
+          });
+          currentProposals.forEach((validator) => {
+            const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
+            if (stakingPoolInfo) {
+              validator.fee = stakingPoolInfo.fee;
+              validator.delegatorsCount = stakingPoolInfo.delegatorsCount;
+            }
+          });
         }
+
         wampPublish(
           "nodes",
-          { onlineNodes, validators, proposals, onlineValidatingNodes },
+          {
+            onlineNodes,
+            currentValidators,
+            currentProposals,
+            onlineValidatingNodes,
+          },
           wamp
         );
         wampPublish(
-          "node-stats",
+          "network-stats",
           {
-            validatorAmount: validators.length,
-            onlineNodeAmount: onlineNodes.length,
-            proposalAmount: proposals.length,
+            currentValidatorsCount: currentValidators.length,
+            currentProposalsCount: currentProposals.length,
+            onlineNodesCount: onlineNodes.length,
+            epochLength: epochStats.epochLength,
+            epochStartHeight: epochStats.epochStartHeight,
+            totalStake: epochStats.totalStake,
+            seatPrice: epochStats.seatPrice,
           },
           wamp
         );
       }
-      console.log("Regular node status check is completed.");
+      console.log("Regular regular network info publishing is completed.");
     } catch (error) {
-      console.warn("Regular node status check crashed due to:", error);
+      console.warn(
+        "Regular regular network info publishing crashed due to:",
+        error
+      );
     }
-    setTimeout(regularCheckNodeStatus, regularCheckNodeStatusInterval);
+    setTimeout(regularPublishNetworkInfo, regularPublishNetworkInfoInterval);
   };
-  setTimeout(regularCheckNodeStatus, 0);
+  setTimeout(regularPublishNetworkInfo, 0);
+
+  // Periodic check of validators' staking pool fee and delegators count
+  const regularFetchStakingPoolsInfo = async () => {
+    try {
+      const stakingPoolsAccountId = new Set([
+        ...currentValidators.map(({ account_id }) => account_id),
+        ...currentProposals.map(({ account_id }) => account_id),
+      ]);
+
+      for (const stakingPoolAccountId of stakingPoolsAccountId) {
+        const fee = await nearRpc.callViewMethod(
+          stakingPoolAccountId,
+          "get_reward_fee_fraction",
+          {}
+        );
+        const delegatorsCount = await nearRpc.callViewMethod(
+          stakingPoolAccountId,
+          "get_number_of_accounts",
+          {}
+        );
+        stakingPoolsInfo.set(stakingPoolAccountId, { fee, delegatorsCount });
+      }
+    } catch (error) {
+      console.warn(
+        "Regular regular network info publishing crashed due to:",
+        error
+      );
+    }
+    setTimeout(
+      regularFetchStakingPoolsInfo,
+      regularFetchStakingPoolsInfoInterval
+    );
+  };
+  setTimeout(regularFetchStakingPoolsInfo, 0);
 
   if (isLegacySyncBackendEnabled) {
     await startLegacySync();

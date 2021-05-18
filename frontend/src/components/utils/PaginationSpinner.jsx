@@ -3,7 +3,7 @@ import { Row, Col, Spinner } from "react-bootstrap";
 const PaginationSpinner = ({ hidden }) => (
   <div style={{ display: hidden ? "none" : "default" }}>
     <Row>
-      <Col md="auto" className="mx-auto">
+      <Col xs="auto" className="mx-auto">
         <Spinner animation="grow" />
         <Spinner animation="grow" />
         <Spinner animation="grow" />

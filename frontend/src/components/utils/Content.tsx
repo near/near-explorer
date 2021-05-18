@@ -3,9 +3,12 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 export interface Props {
-  title: React.ReactNode;
+  title?: React.ReactNode;
+  header?: React.ReactNode;
   size?: "big" | "medium";
   border?: boolean;
+  fluid?: boolean;
+  contentFluid?: boolean;
   icon?: React.ReactNode;
   className: string;
   children: React.ReactNode;
@@ -16,17 +19,28 @@ class Content extends React.Component<Props> {
     size: "big",
     border: true,
     className: "",
+    fluid: false,
+    contentFluid: false,
   };
 
   render() {
-    const { size, border, icon, className } = this.props;
+    const {
+      size,
+      border,
+      icon,
+      className,
+      title,
+      fluid,
+      contentFluid,
+      header,
+    } = this.props;
 
     return (
-      <Container>
-        <Container
-          className={`content-container content-${size} ${className}`}
-          fluid
-        >
+      <Container
+        className={`content-container content-${size} ${className}`}
+        fluid={fluid}
+      >
+        {title ? (
           <Row className={`content-header ${border ? "with-border" : ""}`}>
             <Col className="px-0">
               <Row>
@@ -40,45 +54,51 @@ class Content extends React.Component<Props> {
                     icon ? "px-0" : ""
                   } content-title text-md-left text-center`}
                 >
-                  {this.props.title}
+                  {title}
                 </Col>
               </Row>
             </Col>
           </Row>
-          {this.props.children}
-          <style jsx global>{`
-            .content-container {
-              width: 100%;
-            }
+        ) : header ? (
+          <Row className={`content-header ${border ? "with-border" : ""}`}>
+            <Col className="px-0">{header}</Col>
+          </Row>
+        ) : null}
 
-            .content-header {
-              padding: 2em 0 1em;
-              margin-left: 0;
-              margin-right: 0;
-            }
+        <Container fluid={contentFluid}>{this.props.children}</Container>
 
-            .content-header.with-border {
-              border-bottom: 4px solid #e5e5e5;
-              margin-bottom: 1em;
-            }
+        <style jsx global>{`
+          .content-container {
+            width: 100%;
+          }
 
-            .content-title-total {
-              color: rgba(0, 0, 0, 0.4);
-            }
+          .content-header {
+            padding: 2em 0.9375em 1em;
+            margin-left: 0;
+            margin-right: 0;
+          }
 
-            .content-big .content-title-total {
-              font-size: 50px;
-            }
+          .content-header.with-border {
+            border-bottom: 4px solid #e5e5e5;
+            margin-bottom: 1em;
+          }
 
-            .content-medium .content-title-total {
-              font-size: 26px;
-            }
+          .content-title-total {
+            color: rgba(0, 0, 0, 0.4);
+          }
 
-            .content-title-margin {
-              border-top: 4px solid rgba(0, 0, 0, 0.1);
-            }
-          `}</style>
-        </Container>
+          .content-big .content-title-total {
+            font-size: 50px;
+          }
+
+          .content-medium .content-title-total {
+            font-size: 26px;
+          }
+
+          .content-title-margin {
+            border-top: 4px solid rgba(0, 0, 0, 0.1);
+          }
+        `}</style>
       </Container>
     );
   }

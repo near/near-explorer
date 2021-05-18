@@ -1,15 +1,15 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 
-import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
+import { NetworkStatsConsumer } from "../../context/NetworkStatsProvider";
 
 import DashboardCard from "../utils/DashboardCard";
 import LongCardCell from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
 const DashboardNode = () => (
-  <NodeStatsConsumer>
-    {(stats) => (
+  <NetworkStatsConsumer>
+    {({ networkStats }) => (
       <DashboardCard
         iconPath="/static/images/icon-nodes.svg"
         title="Nodes"
@@ -27,9 +27,8 @@ const DashboardNode = () => (
                   }
                 />
               }
-              loading={typeof stats.onlineNodeAmount === "undefined"}
-              text={stats.onlineNodeAmount?.toLocaleString()}
-              href={"/nodes/online-nodes"}
+              loading={typeof networkStats === "undefined"}
+              text={networkStats?.onlineNodesCount.toLocaleString()}
             />
           </Col>
           <Col xs="6" md="12">
@@ -43,8 +42,8 @@ const DashboardNode = () => (
                   }
                 />
               }
-              loading={typeof stats.validatorAmount === "undefined"}
-              text={stats.validatorAmount?.toLocaleString()}
+              loading={typeof networkStats === "undefined"}
+              text={networkStats?.currentValidatorsCount.toLocaleString()}
               href={"/nodes/validators"}
               className="dashboard-validating-nodes-count"
             />
@@ -57,7 +56,7 @@ const DashboardNode = () => (
         `}</style>
       </DashboardCard>
     )}
-  </NodeStatsConsumer>
+  </NetworkStatsConsumer>
 );
 
 export default DashboardNode;

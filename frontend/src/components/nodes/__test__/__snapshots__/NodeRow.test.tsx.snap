@@ -1,117 +1,103 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<NodeRow /> renders 1`] = `
-<div
-  className="node-row mx-0 row"
+<tr
+  className="jsx-4079813474 table-row online-nodes-row "
 >
-  <div
-    className="pr-0 col-md-auto col-1"
+  <td
+    className="jsx-393714731"
+    onClick={[Function]}
+    style={
+      Object {
+        "width": "48px",
+      }
+    }
   >
     <img
-      className="jsx-293657839"
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onMouseOut={[Function]}
-      onMouseOver={[Function]}
-      src="/static/images/icon-m-node-online.svg"
+      className="jsx-393714731"
+      src="/static/images/icon-maximize.svg"
       style={
         Object {
-          "width": "15px",
+          "width": "16px",
         }
       }
     />
-  </div>
-  <div
-    className="col-md-7 col-7"
+  </td>
+  <td
+    className="jsx-393714731 order"
+    style={
+      Object {
+        "width": "48px",
+      }
+    }
+  >
+    1
+  </td>
+  <td
+    className="jsx-393714731"
   >
     <div
-      className="row"
+      className="align-items-center row no-gutters"
     >
       <div
-        className="node-row-title col"
+        className="online-node-label col-2"
       >
-        @
-        alice
         <span
-          className="jsx-293657839 node-status"
+          className="validating-label active badge"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
         >
-           
-          
+          Online
         </span>
       </div>
-    </div>
-    <div
-      className="row"
-    >
       <div
-        className="node-row-text col"
+        className="col-10"
       >
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="online-nodes-text col"
+            title="@alice"
+          >
+            alice
+            ...
+          </div>
+        </div>
         <div
           className="row"
         >
           <div
-            className="col-md-5"
+            className="node-status col"
           >
-            <img
-              className="jsx-293657839"
-              src="/static/images/icon-m-size.svg"
-              style={
-                Object {
-                  "width": "12px",
-                }
-              }
-            />
-            near-rs | ver.0.4.5 build  6a527109-modified
+            
           </div>
+        </div>
+        <div
+          className="row no-gutters"
+        >
           <div
-            className="col-md-3"
+            className="online-nodes-text col"
+            title="ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
           >
-            <img
-              className="jsx-293657839"
-              src="/static/images/icon-m-block.svg"
-              style={
-                Object {
-                  "width": "12px",
-                }
-              }
-            />
-             1889
+            <span
+              onClick={[Function]}
+            >
+              <a
+                className="transaction-link"
+                href="/transactions/ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                ed25519...
+              </a>
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    className="ml-auto text-right col-md-3 col-3"
-  >
-    <div
-      className="row"
-    >
-      <div
-        className="node-row-txid col"
-        title="ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
-      >
-        fhgjrkfhurjt
-        ...
-      </div>
-    </div>
-    <div
-      className="row"
-    >
-      <div
-        className="node-row-timer col"
-      >
-        <span
-          className="jsx-293657839 node-row-timer-status"
-        >
-          Last seen
-        </span>
-          
-        <span>
-          in 1y
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
+  </td>
+</tr>
 `;

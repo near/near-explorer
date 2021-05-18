@@ -1,7 +1,7 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import { Badge, Col, Row } from "react-bootstrap";
 
-import { NodeStatsConsumer } from "../../context/NodeStatsProvider";
+import { NetworkStatsConsumer } from "../../context/NetworkStatsProvider";
 
 import Link from "../utils/Link";
 
@@ -13,85 +13,117 @@ class NodeNav extends React.PureComponent<Props> {
   render() {
     const { role } = this.props;
     return (
-      <NodeStatsConsumer>
+      <NetworkStatsConsumer>
         {(context) => (
           <>
-            <Row noGutters>
+            <Row>
               <Col
-                md="4"
+                xs="auto"
                 className={`node-selector pt-2 pb-2 ${
                   role === "validators" ? `node-selected` : ""
                 }`}
               >
                 <Link href="/nodes/validators">
                   <a className="node-link" id="validator-node">
-                    {`${
-                      typeof context.validatorAmount !== "undefined"
-                        ? context.validatorAmount
-                        : "-"
-                    } Validating & New Upcoming`}
+                    Validating{" "}
+                    <Badge pill className="nodes-amount-label validating">
+                      {context.networkStats
+                        ? context.networkStats.currentValidatorsCount
+                        : "--"}
+                    </Badge>
                   </a>
                 </Link>
               </Col>
-              <Col
+              {/* <Col
+                xs="auto"
                 className={`node-selector pt-2 pb-2 ${
                   role === "online-nodes" ? `node-selected` : ""
                 }`}
               >
                 <Link href="/nodes/online-nodes">
                   <a className="node-link" id="online-node">
-                    {`${
-                      typeof context.onlineNodeAmount !== "undefined"
+                    Online{" "}
+                    <Badge pill className="nodes-amount-label online">
+                      {typeof context.onlineNodeAmount !== "undefined"
                         ? context.onlineNodeAmount
-                        : "-"
-                    } Online-nodes`}
+                        : "--"}
+                    </Badge>
                   </a>
                 </Link>
-              </Col>
+              </Col> */}
               <Col
+                xs="auto"
                 className={`node-selector pt-2 pb-2 ${
                   role === "proposals" ? `node-selected` : ""
                 }`}
               >
                 <Link href="/nodes/proposals">
                   <a className="node-link" id="proposal-node">
-                    {`${
-                      typeof context.proposalAmount !== "undefined"
-                        ? context.proposalAmount
-                        : "-"
-                    } Proposal-nodes`}
+                    Proposed{" "}
+                    <Badge pill className="nodes-amount-label proposed">
+                      {context.networkStats
+                        ? context.networkStats.currentProposalsCount
+                        : "--"}
+                    </Badge>
                   </a>
                 </Link>
               </Col>
-              <Col className="node-selector pt-2 pb-2">
+              {/* <Col className="node-selector pt-2 pb-2">
                 <Link href="/nodes/map">
                   <a className="node-link" id="node-map">
                     Nodes Map
                   </a>
                 </Link>
-              </Col>
+              </Col> */}
             </Row>
             <style jsx global>{`
               .node-selector {
                 height: 100%;
-                font-size: 14px;
+                font-size: 16px;
                 font-weight: 500;
-                background: #fff;
-                border: 2px solid #e6e6e6;
-                border-radius: 25px;
-                text-transform: uppercase;
                 text-decoration: none;
-                margin-left: 15px;
-                margin-bottom: 15px;
+                padding-left: 0;
+                padding-right: 0;
+                margin-left: 16px;
+                margin-top: 2px;
                 text-align: center;
+                color: #72727a;
+                transition: all 0.15s ease-in-out;
               }
 
-              .node-link {
-                color: #24272a;
+              .node-selector:hover {
+                color: #111618;
+              }
+
+              .nodes-amount-label {
+                border-radius: 50px;
+                line-height: 150%;
+                font-weight: 500;
+              }
+
+              .nodes-amount-label.validating {
+                background-color: #00c08b;
+                color: #ffffff;
+              }
+
+              .nodes-amount-label.online {
+                background-color: #e5e5e6;
+                color: #72727a;
+              }
+
+              .nodes-amount-label.proposed {
+                background-color: #ffecd6;
+                color: #995200;
+              }
+
+              .node-link,
+              .node-link:hover {
+                color: inherit;
               }
 
               .node-selected {
-                border: 2px solid #0066ff;
+                color: #111618;
+                border-bottom: 2px solid #2b9af4;
               }
 
               .node-icon {
@@ -100,7 +132,7 @@ class NodeNav extends React.PureComponent<Props> {
             `}</style>
           </>
         )}
-      </NodeStatsConsumer>
+      </NetworkStatsConsumer>
     );
   }
 }

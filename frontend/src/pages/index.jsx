@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Container, Row, Col } from "react-bootstrap";
 
 import Mixpanel from "../libraries/mixpanel";
-import NodeStatsProvider from "../context/NodeStatsProvider";
+import NetworkStatsProvider from "../context/NetworkStatsProvider";
 
 import Search from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
@@ -35,9 +35,9 @@ class Dashboard extends React.Component {
             <Col xs="12">
               <Row className="card-area" noGutters>
                 <Col xs="12" md="6" className="mt-4">
-                  <NodeStatsProvider>
+                  <NetworkStatsProvider>
                     <DashboardNode />
-                  </NodeStatsProvider>
+                  </NetworkStatsProvider>
                 </Col>
                 <Col xs="12" md="6" className="mt-4">
                   <DashboardBlock className="ml-md-4" />

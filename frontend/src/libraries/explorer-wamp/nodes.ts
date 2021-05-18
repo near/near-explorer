@@ -1,3 +1,5 @@
+import BN from "bn.js";
+
 export interface NodeInfo {
   ipAddress: string;
   accountId: string;
@@ -13,7 +15,7 @@ export interface NodeInfo {
   city?: string;
 }
 
-export interface Validating {
+export interface BaseValidationNodeInfo {
   account_id: string;
   is_slashed?: boolean;
   num_produced_blocks?: number;
@@ -22,18 +24,31 @@ export interface Validating {
   stake: string;
   new?: boolean;
   removed?: boolean;
-  shards: [number];
+  shards?: [number];
   nodeInfo?: NodeInfo;
+}
+
+export interface StakingPoolInfo {
+  fee: { numerator: number; denominator: number };
+  delegatorsCount: number;
+}
+
+export interface StakeInfo {
+  cumulativeStakeAmount: CumulativeStake;
+  totalStake: BN;
+}
+
+export type ValidationNodeInfo = BaseValidationNodeInfo &
+  StakingPoolInfo &
+  StakeInfo;
+
+interface CumulativeStake {
+  total: BN;
+  networkHolderIndex: number;
 }
 
 export interface NodeStats {
   validatorsCount: number;
   onlineNodesCount: number;
   proposalsCount: number;
-}
-
-export interface Proposal {
-  account_id: string;
-  public_key: string;
-  stake: string;
 }

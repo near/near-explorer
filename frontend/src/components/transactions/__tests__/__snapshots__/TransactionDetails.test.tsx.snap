@@ -204,7 +204,8 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 Ⓝ
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -252,7 +253,8 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 0
-                 Ⓝ
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -674,7 +676,8 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 Ⓝ
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -722,7 +725,8 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 Ⓝ
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -1144,7 +1148,8 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 Ⓝ
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -1192,7 +1197,8 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 0.00014
-                 Ⓝ
+                 
+                Ⓝ
               </span>
             </div>
           </div>

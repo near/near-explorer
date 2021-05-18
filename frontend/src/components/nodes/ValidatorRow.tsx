@@ -1,207 +1,436 @@
+import BN from "bn.js";
 import React from "react";
-import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
+
+import { Badge, Row, Col, Spinner } from "react-bootstrap";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as N from "../../libraries/explorer-wamp/nodes";
 
-import Timer from "../utils/Timer";
 import Balance from "../utils/Balance";
-import { statusIdentifier } from "./NodeRow";
+import { TableRow, TableCollapseRow } from "../utils/Table";
+import Term from "../utils/Term";
+import Timer from "../utils/Timer";
+import TransactionLink from "../utils/TransactionLink";
+import ValidatingLabel from "./ValidatingLabel";
+import CumulativeStakeChart from "./CumulativeStakeChart";
 
 interface Props {
-  node: N.Validating;
+  node: N.ValidationNodeInfo;
+  index: number;
+  cellCount: number;
+  validatorType: string;
+}
+interface State {
+  activeRow: boolean;
 }
 
-class ValidatorRow extends React.PureComponent<Props> {
+class ValidatorRow extends React.PureComponent<Props, State> {
+  state = {
+    activeRow: false,
+  };
+
+  handleClick = () =>
+    this.setState(({ activeRow }) => ({ activeRow: !activeRow }));
+
   render() {
-    const { node } = this.props;
+    const { node, index, cellCount, validatorType } = this.props;
+    let persntStake = 0;
+    let cumulativeStake = 0;
+    let validatorFee = node.fee
+      ? `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`
+      : null;
+    let validatorDelegators = node.delegatorsCount ?? null;
+    const nodeDetailsEnable = Boolean(
+      (node.num_produced_blocks && node.num_expected_blocks) || node.nodeInfo
+    );
+
+    if (node.stake && node.totalStake && validatorType !== "proposals") {
+      persntStake =
+        new BN(node.stake).mul(new BN(10000)).div(node.totalStake).toNumber() /
+        100;
+    }
+
+    if (
+      node.totalStake &&
+      node?.cumulativeStakeAmount &&
+      validatorType !== "proposals"
+    ) {
+      cumulativeStake =
+        new BN(node.cumulativeStakeAmount.total)
+          .mul(new BN(10000))
+          .div(node.totalStake)
+          .toNumber() / 100;
+    }
+
     return (
       <DatabaseConsumer>
         {(context) => (
-          <Row className="node-row mx-0">
-            <Col md="auto" xs="1" className="pr-0">
-              {node.new ? (
-                <OverlayTrigger
-                  placement={"right"}
-                  overlay={
-                    <Tooltip id="new">
-                      next epoch upcoming validating nodes
-                    </Tooltip>
-                  }
-                >
+          <>
+            <TableRow
+              className="validator-nodes-row mx-0"
+              collapse={this.state.activeRow}
+              key={node.account_id}
+            >
+              <td
+                className={`collapse-row-arrow ${
+                  !nodeDetailsEnable ? "disable" : ""
+                }`}
+                onClick={this.handleClick}
+              >
+                {this.state.activeRow ? (
                   <img
-                    src={"/static/images/icon-m-node-new.svg"}
-                    style={{ width: "15px" }}
+                    src="/static/images/icon-minimize.svg"
+                    style={{ width: "16px" }}
                   />
-                </OverlayTrigger>
-              ) : node.removed ? (
-                <OverlayTrigger
-                  placement={"right"}
-                  overlay={
-                    <Tooltip id="kickout">next epoch kick out nodes</Tooltip>
-                  }
-                >
+                ) : (
                   <img
-                    src={"/static/images/icon-m-node-kickout.svg"}
-                    style={{ width: "15px" }}
+                    src="/static/images/icon-maximize.svg"
+                    style={{ width: "16px" }}
                   />
-                </OverlayTrigger>
-              ) : (
-                <OverlayTrigger
-                  placement={"right"}
-                  overlay={
-                    <Tooltip id="current">current validating nodes</Tooltip>
-                  }
-                >
-                  <img
-                    src={"/static/images/icon-m-node-validating.svg"}
-                    style={{ width: "15px" }}
-                  />
-                </OverlayTrigger>
-              )}
-            </Col>
-            <Col md="7" xs="7">
-              <Row>
-                <Col className="node-row-title">
-                  @{node.account_id}
-                  {"   "}
-                  <span>
-                    Staking {node.stake ? <Balance amount={node.stake} /> : "-"}
-                  </span>
-                  <span className="node-status">
-                    {" "}
-                    {node.nodeInfo &&
-                      statusIdentifier.get(node.nodeInfo.status)}
-                  </span>
-                </Col>
-              </Row>
-              <Row>
-                <Col className="node-row-text">
-                  <Row>
-                    <Col md={5}>
-                      <img
-                        src="/static/images/icon-m-size.svg"
-                        style={{ width: "12px" }}
-                      />
-                      {node.nodeInfo &&
-                        `${node.nodeInfo.agentName} | ver.${node.nodeInfo.agentVersion} build  ${node.nodeInfo.agentBuild}`}
-                    </Col>
-                    {node.nodeInfo && (
-                      <Col
-                        className={
-                          typeof context.latestBlockHeight === "undefined"
-                            ? ""
-                            : Math.abs(
-                                node.nodeInfo.lastHeight -
-                                  context.latestBlockHeight.toNumber()
-                              ) > 1000
-                            ? "text-danger"
-                            : Math.abs(
-                                node.nodeInfo.lastHeight -
-                                  context.latestBlockHeight.toNumber()
-                              ) > 50
-                            ? "text-warning"
-                            : ""
-                        }
-                        md={3}
+                )}
+              </td>
+
+              <td className="order">{index}</td>
+
+              <td>
+                <Row noGutters className="align-items-center">
+                  <Col xs="2" className="validators-node-label">
+                    {validatorType === "proposals" ? (
+                      <ValidatingLabel
+                        type="pending"
+                        text="node staked to be new validating one"
+                        tooltipKey="nodes"
                       >
-                        <img
-                          src="/static/images/icon-m-block.svg"
-                          style={{ width: "12px" }}
-                        />
-                        {` ${node.nodeInfo.lastHeight}`}
+                        Pending
+                      </ValidatingLabel>
+                    ) : node.new ? (
+                      <ValidatingLabel
+                        type="new"
+                        text="next epoch upcoming validating nodes"
+                        tooltipKey="new"
+                      >
+                        New
+                      </ValidatingLabel>
+                    ) : node.removed ? (
+                      <ValidatingLabel
+                        type="kickout"
+                        text="next epoch kick out nodes"
+                        tooltipKey="kickout"
+                      >
+                        Kickout
+                      </ValidatingLabel>
+                    ) : (
+                      <ValidatingLabel
+                        type="active"
+                        text="current validating nodes"
+                        tooltipKey="current"
+                      >
+                        Active
+                      </ValidatingLabel>
+                    )}
+                  </Col>
+
+                  <Col>
+                    <Row noGutters>
+                      <Col
+                        title={`@${node.account_id}`}
+                        className="validator-nodes-text"
+                      >
+                        {node.account_id.substring(0, 20)}...
+                      </Col>
+                    </Row>
+                    {node.nodeInfo && (
+                      <Row noGutters>
+                        <Col
+                          title={node.nodeInfo.nodeId}
+                          className="validator-nodes-text"
+                        >
+                          <TransactionLink
+                            transactionHash={node.nodeInfo.nodeId}
+                          />
+                        </Col>
+                      </Row>
+                    )}
+                  </Col>
+                </Row>
+              </td>
+
+              <td>
+                {validatorFee ?? <Spinner animation="border" size="sm" />}
+              </td>
+              <td>
+                {validatorDelegators ?? (
+                  <Spinner animation="border" size="sm" />
+                )}
+              </td>
+              <td className="text-right validator-nodes-text stake-text">
+                {node.stake ? (
+                  <Balance amount={node.stake} label="NEAR" />
+                ) : (
+                  "-"
+                )}
+              </td>
+              {validatorType !== "proposals" && (
+                <td>
+                  <CumulativeStakeChart
+                    value={{
+                      total: cumulativeStake - persntStake,
+                      current: cumulativeStake,
+                    }}
+                  />
+                </td>
+              )}
+            </TableRow>
+
+            {nodeDetailsEnable && (
+              <TableCollapseRow
+                className="validator-nodes-details-row"
+                collapse={this.state.activeRow}
+              >
+                <td colSpan={cellCount}>
+                  <Row noGutters className="validator-nodes-content-row">
+                    {node.num_produced_blocks && node.num_expected_blocks && (
+                      <Col className="validator-nodes-content-cell">
+                        <Row noGutters>
+                          <Col className="validator-nodes-details-title">
+                            <Term
+                              title={"Uptime"}
+                              text={
+                                "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks"
+                              }
+                              href="https://nomicon.io/Economics/README.html#rewards-calculation"
+                            />
+                          </Col>
+                        </Row>
+                        <Row noGutters>
+                          <Col className="validator-nodes-text uptime">
+                            {node.num_produced_blocks &&
+                            node.num_expected_blocks ? (
+                              <>
+                                {(
+                                  (node.num_produced_blocks /
+                                    node.num_expected_blocks) *
+                                  100
+                                ).toFixed(3)}
+                                % &nbsp;
+                                <span>
+                                  ({node.num_produced_blocks}/
+                                  {node.num_expected_blocks})
+                                </span>
+                              </>
+                            ) : null}
+                          </Col>
+                        </Row>
                       </Col>
                     )}
-
-                    <Col>
-                      <img
-                        src="/static/images/icon-storage.svg"
-                        style={{ width: "12px" }}
-                      />
-                      {node.num_produced_blocks && node.num_expected_blocks
-                        ? `${node.num_produced_blocks}/${
-                            node.num_expected_blocks
-                          } (${(
-                            (node.num_produced_blocks /
-                              node.num_expected_blocks) *
-                            100
-                          ).toFixed(3)})%`
-                        : null}
-                    </Col>
+                    {node.nodeInfo && (
+                      <Col className="validator-nodes-content-cell">
+                        <Row noGutters>
+                          <Col className="validator-nodes-details-title">
+                            <Term
+                              title={"Latest block"}
+                              text={
+                                "The block height the validation node reported in the most recent telemetry heartbeat."
+                              }
+                            />
+                          </Col>
+                        </Row>
+                        <Row noGutters>
+                          <Col
+                            className={`${
+                              typeof context.latestBlockHeight === "undefined"
+                                ? ""
+                                : Math.abs(
+                                    node.nodeInfo.lastHeight -
+                                      context.latestBlockHeight.toNumber()
+                                  ) > 1000
+                                ? "text-danger"
+                                : Math.abs(
+                                    node.nodeInfo.lastHeight -
+                                      context.latestBlockHeight.toNumber()
+                                  ) > 50
+                                ? "text-warning"
+                                : ""
+                            } validator-nodes-text`}
+                            md={3}
+                          >
+                            {` ${node.nodeInfo.lastHeight}`}
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
+                    {node.nodeInfo?.lastSeen && (
+                      <Col className="validator-nodes-content-cell">
+                        <Row noGutters>
+                          <Col className="validator-nodes-details-title">
+                            <Term
+                              title={"Latest Telemetry Update"}
+                              text={
+                                "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore)."
+                              }
+                            />
+                          </Col>
+                        </Row>
+                        <Row noGutters>
+                          <Col className="validator-nodes-text">
+                            {node.nodeInfo ? (
+                              <Timer time={node.nodeInfo.lastSeen} />
+                            ) : (
+                              "..."
+                            )}
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
+                    {node.nodeInfo?.agentName && (
+                      <Col className="validator-nodes-content-cell">
+                        <Row noGutters>
+                          <Col className="validator-nodes-details-title">
+                            <Term
+                              title={"Node Agent Name"}
+                              text={
+                                <>
+                                  {
+                                    "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is "
+                                  }
+                                  <a href="https://github.com/near/nearcore">
+                                    {"the official implementation"}
+                                  </a>
+                                  {"."}
+                                </>
+                              }
+                            />
+                          </Col>
+                        </Row>
+                        <Row noGutters>
+                          <Col>
+                            {node.nodeInfo ? (
+                              <Badge
+                                variant="secondary"
+                                className="agent-name-badge"
+                              >
+                                {node.nodeInfo.agentName}
+                              </Badge>
+                            ) : (
+                              "..."
+                            )}
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
+                    {node.nodeInfo?.agentVersion && node.nodeInfo?.agentBuild && (
+                      <Col className="validator-nodes-content-cell">
+                        <Row noGutters>
+                          <Col className="validator-nodes-details-title">
+                            {"Node Agent Version / Build"}
+                          </Col>
+                        </Row>
+                        <Row noGutters>
+                          <Col>
+                            {node.nodeInfo ? (
+                              <Badge
+                                variant="secondary"
+                                className="agent-name-badge"
+                              >
+                                {`v${node.nodeInfo.agentVersion} / ${node.nodeInfo.agentBuild}`}
+                              </Badge>
+                            ) : (
+                              "..."
+                            )}
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
                   </Row>
-                </Col>
-              </Row>
-            </Col>
-            {node.nodeInfo && (
-              <Col md="3" xs="3" className="ml-auto text-right">
-                <Row>
-                  <Col className="node-row-txid" title={node.nodeInfo.nodeId}>
-                    {node.nodeInfo.nodeId.substring(8, 20)}...
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className="node-row-timer">
-                    <span className="node-row-timer-status">Last seen</span>
-                    &nbsp;&nbsp;
-                    <Timer time={node.nodeInfo.lastSeen} />
-                  </Col>
-                </Row>
-              </Col>
+                </td>
+              </TableCollapseRow>
             )}
 
+            {validatorType !== "proposals" &&
+              node?.cumulativeStakeAmount &&
+              node?.cumulativeStakeAmount.networkHolderIndex + 1 === index && (
+                <tr className="cumulative-stake-holders-row">
+                  <td colSpan={cellCount} className="warning-text text-center">
+                    Validators 1 -{" "}
+                    {node?.cumulativeStakeAmount.networkHolderIndex + 1} hold a
+                    cumulative stake above 33%. Delegating to the validators
+                    below improves the decentralization of the network.
+                  </td>
+                </tr>
+              )}
+
             <style jsx global>{`
-              .node-row {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                border-top: solid 2px #f8f8f8;
+              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+
+              .collapse-row-arrow {
+                cursor: pointer;
               }
 
-              .node-row:hover {
-                background: rgba(0, 0, 0, 0.1);
+              .collapse-row-arrow.disable {
+                cursor: default;
+                opacity: 0.3;
+                pointer-events: none;
+                touch-action: none;
               }
 
-              .node-row-bottom {
-                border-bottom: solid 2px #f8f8f8;
-              }
-
-              .node-row-title {
+              .validator-nodes-text {
+                font-weight: 500;
                 font-size: 14px;
-                font-weight: 500;
-                line-height: 1.29;
-                color: #24272a;
+                color: #3f4045;
               }
 
-              .node-row-text {
+              .validator-nodes-details-title {
+                display: flex;
+                flex-wrap: nowrap;
                 font-size: 12px;
-                font-weight: 500;
-                line-height: 1.5;
-                color: #999999;
+                color: #a2a2a8;
               }
 
-              .node-row-txid {
-                font-size: 14px;
-                font-weight: 500;
-                line-height: 1.29;
-                color: #4a4f54;
+              .validator-nodes-text.uptime {
+                color: #72727a;
               }
 
-              .node-row-timer {
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
+              }
+
+              .validator-nodes-content-row {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
+
+              .validator-nodes-content-row > .validator-nodes-content-cell {
+                padding: 0 22px;
+                border-right: 1px solid #e5e5e6;
+              }
+
+              .validator-nodes-content-row
+                > .validator-nodes-content-cell:last-child {
+                border-right: none;
+              }
+
+              .agent-name-badge {
+                background-color: #f0f0f1;
+                color: #72727a;
+                font-weight: 500;
                 font-size: 12px;
-                color: #999999;
-                font-weight: 100;
+                font-family: "Roboto Mono", monospace;
               }
 
-              .node-row-timer-status {
-                font-weight: 500;
+              .validators-node-label {
+                margin-right: 24px;
               }
 
-              .node-status {
+              .cumulative-stake-holders-row {
+                background-color: #fff6ed;
+              }
+              .cumulative-stake-holders-row .warning-text {
+                color: #995200;
+                padding: 16px 50px;
                 font-size: 12px;
-                line-height: 18px;
-                color: #4a4f54;
               }
             `}</style>
-          </Row>
+          </>
         )}
       </DatabaseConsumer>
     );
