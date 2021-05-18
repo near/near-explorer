@@ -336,23 +336,30 @@ async function main() {
 
   // Periodic check of validators' staking pool fee and delegators count
   const regularFetchStakingPoolsInfo = async () => {
-    const stakingPoolsAccountId = new Set([
-      ...currentValidators.map(({ account_id }) => account_id),
-      ...currentProposals.map(({ account_id }) => account_id),
-    ]);
+    try {
+      const stakingPoolsAccountId = new Set([
+        ...currentValidators.map(({ account_id }) => account_id),
+        ...currentProposals.map(({ account_id }) => account_id),
+      ]);
 
-    for (const stakingPoolAccountId of stakingPoolsAccountId) {
-      const fee = await nearRpc.callViewMethod(
-        stakingPoolAccountId,
-        "get_reward_fee_fraction",
-        {}
+      for (const stakingPoolAccountId of stakingPoolsAccountId) {
+        const fee = await nearRpc.callViewMethod(
+          stakingPoolAccountId,
+          "get_reward_fee_fraction",
+          {}
+        );
+        const delegatorsCount = await nearRpc.callViewMethod(
+          stakingPoolAccountId,
+          "get_number_of_accounts",
+          {}
+        );
+        stakingPoolsInfo.set(stakingPoolAccountId, { fee, delegatorsCount });
+      }
+    } catch (error) {
+      console.warn(
+        "Regular regular network info publishing crashed due to:",
+        error
       );
-      const delegatorsCount = await nearRpc.callViewMethod(
-        stakingPoolAccountId,
-        "get_number_of_accounts",
-        {}
-      );
-      stakingPoolsInfo.set(stakingPoolAccountId, { fee, delegatorsCount });
     }
     setTimeout(
       regularFetchStakingPoolsInfo,
