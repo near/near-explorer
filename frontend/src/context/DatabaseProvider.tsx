@@ -7,13 +7,15 @@ import {
   instrumentTopicNameWithDataSource,
 } from "../libraries/explorer-wamp";
 
+import { FinalityStatus } from "./NetworkStatsProvider";
+
 export interface TransactionsCountStat {
   date: string;
   total: number;
 }
 
 export interface DbContext {
-  finalTimestamp?: BN;
+  finalityStatus?: FinalityStatus;
   latestBlockHeight?: BN;
   latestGasPrice?: BN;
   recentBlockProductionSpeed?: number;
@@ -28,7 +30,7 @@ export interface Props {
 }
 
 const DatabaseProvider = (props: Props) => {
-  const [finalTimestamp, dispatchFinalTimestamp] = useState<BN>();
+  const [finalityStatus, dispatchFinalityStatus] = useState<FinalityStatus>();
   const [latestBlockHeight, dispatchLatestBlockHeight] = useState<BN>();
   const [latestGasPrice, dispatchLatestGasPrice] = useState<BN>();
   const [
@@ -66,13 +68,13 @@ const DatabaseProvider = (props: Props) => {
     dispatchRecentTransactionsCount(namedArgs.recentTransactionsCount);
   };
 
-  const storeFinalTimestamp = (
-    _positionalArgs: any,
-    namedArgs: {
-      finalTimestamp: string;
-    }
-  ) => {
-    dispatchFinalTimestamp(new BN(namedArgs.finalTimestamp));
+  const storeFinalityStatus = (_positionalArgs: any, namedArgs: any) => {
+    dispatchFinalityStatus({
+      finalBlockTimestampNanosecond: new BN(
+        namedArgs.finalBlockTimestampNanosecond
+      ),
+      finalBlockHeight: namedArgs.finalBlockHeight,
+    });
   };
 
   useEffect(() => {
@@ -86,7 +88,7 @@ const DatabaseProvider = (props: Props) => {
       instrumentTopicNameWithDataSource("chain-transactions-stats"),
       storeTransactionsStats
     );
-    explorerApi.subscribe("final-timestamp", storeFinalTimestamp);
+    explorerApi.subscribe("finality-status", storeFinalityStatus);
 
     return () => {
       explorerApi.unsubscribe(
@@ -95,16 +97,14 @@ const DatabaseProvider = (props: Props) => {
       explorerApi.unsubscribe(
         instrumentTopicNameWithDataSource("chain-transactions-stats")
       );
-      explorerApi.unsubscribe(
-        instrumentTopicNameWithDataSource("final-timestamp")
-      );
+      explorerApi.unsubscribe("finality-status");
     };
   }, []);
 
   return (
     <DatabaseContext.Provider
       value={{
-        finalTimestamp,
+        finalityStatus,
         latestBlockHeight,
         latestGasPrice,
         recentBlockProductionSpeed,

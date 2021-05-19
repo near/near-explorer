@@ -56,9 +56,12 @@ class TransactionAction extends React.PureComponent<Props, State> {
               title={"Batch Transaction"}
               status={status}
               isFinal={
-                typeof context.finalTimestamp !== "undefined"
+                typeof context.finalityStatus?.finalBlockTimestampNanosecond !==
+                "undefined"
                   ? new BN(transaction.blockTimestamp).lte(
-                      context.finalTimestamp
+                      context.finalityStatus.finalBlockTimestampNanosecond.divn(
+                        10 ** 6
+                      )
                     )
                   : undefined
               }
@@ -84,8 +87,13 @@ class TransactionAction extends React.PureComponent<Props, State> {
             detalizationMode="detailed"
             status={status}
             isFinal={
-              typeof context.finalTimestamp !== "undefined"
-                ? new BN(transaction.blockTimestamp).lte(context.finalTimestamp)
+              typeof context.finalityStatus?.finalBlockTimestampNanosecond !==
+              "undefined"
+                ? new BN(transaction.blockTimestamp).lte(
+                    context.finalityStatus.finalBlockTimestampNanosecond.divn(
+                      10 ** 6
+                    )
+                  )
                 : undefined
             }
           />
