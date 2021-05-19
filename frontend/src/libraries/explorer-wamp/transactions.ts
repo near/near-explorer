@@ -307,7 +307,7 @@ export default class TransactionsApi extends ExplorerApi {
         );
       }
       whereClause.push(
-        `transaction_hash IN (SELECT DISTINCT originated_from_transaction_hash FROM receipts WHERE ${accountIdWhereClause.join(
+        `transaction_hash IN (SELECT originated_from_transaction_hash FROM receipts WHERE ${accountIdWhereClause.join(
           " OR "
         )})`
       );
