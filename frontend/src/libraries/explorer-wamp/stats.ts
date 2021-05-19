@@ -1,3 +1,4 @@
+import BN from "bn.js";
 import { ExplorerApi } from ".";
 
 export interface TransactionsByDate {
@@ -38,6 +39,15 @@ export interface TotalDepositAmount {
 export interface PartnerUniqueUserAmount {
   account: string;
   userAmount: number;
+}
+
+export interface GenesisProtocolConfig {
+  header: GenesisProtocolConfigHeader;
+}
+
+interface GenesisProtocolConfigHeader {
+  total_supply: BN;
+  latest_protocol_version: number;
 }
 
 export default class StatsApi extends ExplorerApi {
@@ -129,5 +139,17 @@ export default class StatsApi extends ExplorerApi {
     return await this.call<PartnerUniqueUserAmount[]>(
       "partner-unique-user-amount"
     );
+  }
+
+  // network genesis configuration
+  async networkGenesisProtocolConfig(blockId: number) {
+    return await this.call<GenesisProtocolConfig>(
+      "nearcore-genesis-protocol-configuration",
+      [blockId]
+    );
+  }
+
+  async genesisAccountsCount(): Promise<number> {
+    return await this.call<number>("nearcore-genesis-accounts-count");
   }
 }

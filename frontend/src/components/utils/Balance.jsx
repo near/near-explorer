@@ -5,14 +5,19 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const FRAC_DIGITS = 5;
 
-const Balance = ({ amount, label = null, className = undefined }) => {
+const Balance = ({
+  amount,
+  label = null,
+  className = undefined,
+  formulatedAmount = undefined,
+}) => {
   if (!amount) {
     throw new Error("amount property should not be null");
   }
 
   const defaultLabel = "Ⓝ";
 
-  let amountShow = formatNEAR(amount);
+  let amountShow = !formulatedAmount ? formatNEAR(amount) : formulatedAmount;
   let amountPrecise = showInYocto(amount);
   return (
     <OverlayTrigger

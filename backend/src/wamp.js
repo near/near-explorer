@@ -109,6 +109,11 @@ wampHandlers["nearcore-validators"] = async () => {
   return await nearRpc.sendJsonRpc("validators", [null]);
 };
 
+// genesis configuration
+wampHandlers["nearcore-genesis-protocol-configuration"] = async ([blockId]) => {
+  return await nearRpc.sendJsonRpc("block", { block_id: blockId });
+};
+
 wampHandlers["get-account-details"] = async ([accountId]) => {
   function generateLockupAccountIdFromAccountId(accountId) {
     // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
@@ -302,6 +307,10 @@ wampHandlers["partner-first-3-month-transactions-count"] = async () => {
 
 wampHandlers["partner-unique-user-amount"] = async () => {
   return await stats.getPartnerUniqueUserAmount();
+};
+
+wampHandlers["nearcore-genesis-accounts-count"] = async () => {
+  return await stats.getGenesisAccountsCount();
 };
 
 // set up wamp

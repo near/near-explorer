@@ -11,8 +11,12 @@ export interface NetworkStats {
   onlineNodesCount: number;
   epochLength: number;
   epochStartHeight: number;
+  epochProtocolVersion: number;
   totalStake: BN;
   seatPrice: BN;
+  genesisTime: string;
+  genesisHeight: number;
+  genesisAccountsCount: number;
 }
 
 export interface FinalityStatus {
@@ -20,13 +24,13 @@ export interface FinalityStatus {
   finalBlockTimestampNanosecond: BN;
 }
 
-export interface NetworkStatsContext {
+export interface NetworkStatsContextProps {
   networkStats?: NetworkStats;
   finalityStatus?: FinalityStatus;
   epochStartBlock?: DetailedBlockInfo;
 }
 
-const NetworkStatsContext = createContext<NetworkStatsContext>({});
+const NetworkStatsContext = createContext<NetworkStatsContextProps>({});
 
 export interface Props {
   children: React.Component | React.ReactNode;
@@ -47,8 +51,12 @@ const NetworkStatsProvider = (props: Props) => {
       onlineNodesCount: namedArgs.onlineNodesCount,
       epochLength: namedArgs.epochLength,
       epochStartHeight: namedArgs.epochStartHeight,
+      epochProtocolVersion: namedArgs.epochProtocolVersion,
       seatPrice: new BN(namedArgs.seatPrice),
       totalStake: new BN(namedArgs.totalStake),
+      genesisTime: namedArgs.genesisTime,
+      genesisHeight: namedArgs.genesisHeight,
+      genesisAccountsCount: namedArgs.genesisAccountsCount,
     });
   };
 

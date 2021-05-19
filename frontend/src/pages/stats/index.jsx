@@ -1,10 +1,10 @@
 import Head from "next/head";
 
-import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 import Mixpanel from "../../libraries/mixpanel";
+import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
+import NetworkStatsProvider from "../../context/NetworkStatsProvider";
 
 import Content from "../../components/utils/Content";
-
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
 import GasUsedByDate from "../../components/stats/GasUsedByDate";
 import NewAccountsByDate from "../../components/stats/NewAccountsByDate";
@@ -14,6 +14,7 @@ import ActiveContractsByDate from "../../components/stats/ActiveContractsByDate"
 import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
+import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 
 class Stats extends React.PureComponent {
   componentDidMount() {
@@ -33,6 +34,11 @@ class Stats extends React.PureComponent {
           <title>NEAR Explorer | Stats</title>
         </Head>
         <Content title={<h1>Stats</h1>}>
+          <div id="protocolConfiguration">
+            <NetworkStatsProvider>
+              <ProtocolConfigInfo />
+            </NetworkStatsProvider>
+          </div>
           <div id="transactionsByDate">
             <TransactionsByDate chartStyle={chartStyle} />
           </div>

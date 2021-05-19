@@ -317,8 +317,11 @@ async function main() {
             onlineNodesCount: onlineNodes.length,
             epochLength: epochStats.epochLength,
             epochStartHeight: epochStats.epochStartHeight,
+            epochProtocolVersion: epochStats.epochProtocolVersion,
             totalStake: epochStats.totalStake,
             seatPrice: epochStats.seatPrice,
+            genesisTime: epochStats.genesisTime,
+            genesisHeight: epochStats.genesisHeight,
           },
           wamp
         );
