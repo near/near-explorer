@@ -14,7 +14,7 @@ export interface NetworkStats {
   epochProtocolVersion: number;
   totalStake: BN;
   seatPrice: BN;
-  genesisTime: any;
+  genesisTime: string;
   genesisHeight: number;
   genesisAccountsCount: number;
 }
