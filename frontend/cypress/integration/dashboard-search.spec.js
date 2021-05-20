@@ -8,22 +8,21 @@ context("Dashboard search bar", () => {
         Cypress.Promise.all(
           mixedcaseAccountIds.map((mixedcaseAccountId) => {
             cy.visit("/");
-            cy.get(".search-wrapper form.search-box .input-group input").type(
-              mixedcaseAccountId
-            );
+            cy.wait(3000)
+              .get(".search-wrapper form.search-box .input-group input")
+              .type(mixedcaseAccountId);
             cy.get(".search-wrapper form.search-box").submit();
-            cy.wait(5000);
-            cy.url().should(
-              "include",
-              `/accounts/${mixedcaseAccountId.toLowerCase()}`
-            );
-            cy.wait(3000);
-            cy.request(
-              "GET",
-              `/accounts/${mixedcaseAccountId.toLowerCase()}`
-            ).then((resp) => {
-              expect(resp.status).to.eq(200);
-            });
+            cy.wait(5000)
+              .url()
+              .should(
+                "include",
+                `/accounts/${mixedcaseAccountId.toLowerCase()}`
+              );
+            cy.wait(5000)
+              .request("GET", `/accounts/${mixedcaseAccountId.toLowerCase()}`)
+              .then((resp) => {
+                expect(resp.status).to.eq(200);
+              });
           })
         );
       });

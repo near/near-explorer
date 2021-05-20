@@ -10,7 +10,9 @@ context("Blocks List page", () => {
   });
 
   it("Check blocks row data", () => {
-    cy.wait(5000).get(".infinite-scroll-component__outerdiv").should("exist");
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+      "exist"
+    );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find("a .transaction-row")
       .should("have.length.greaterThan", 0)
@@ -24,13 +26,14 @@ context("Blocks List page", () => {
   });
 
   it("Check block details", () => {
-    cy.wait(5000).get(".infinite-scroll-component__outerdiv").should("exist");
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+      "exist"
+    );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find("a .transaction-row")
       .first()
       .click();
-    cy.wait(5000);
-    cy.get(".block-info-container").should("exist");
+    cy.get(".block-info-container", { timeout: 5000 }).should("exist");
     cy.get(".block-info-container .card-cell .card-body")
       .should("exist")
       .and("not.be.empty");
