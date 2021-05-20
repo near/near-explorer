@@ -17,7 +17,7 @@ context("Dashboard search bar", () => {
               "include",
               `/accounts/${mixedcaseAccountId.toLowerCase()}`
             );
-            cy.wait(5000);
+            cy.wait(3000);
             cy.request(
               "GET",
               `/accounts/${mixedcaseAccountId.toLowerCase()}`
