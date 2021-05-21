@@ -15,7 +15,7 @@ const ProtocolConfigInfo = () => {
     genesisProtocolVersion,
     setGenesisProtocolVersion,
   ] = useState<number>();
-  const [liveAccountsCount, setAccountsCount] = useState<number>();
+  const [liveAccountsCount, setLiveAccountsCount] = useState<number>();
   const [genesisAccountsAmount, setGenesisAccountsAmount] = useState<number>();
 
   const { networkStats, epochStartBlock } = useContext(NetworkStatsContext);
@@ -52,9 +52,10 @@ const ProtocolConfigInfo = () => {
   }, [networkStats?.genesisHeight]);
 
   useEffect(() => {
-    new StatsApi().activeAccountsList().then((accounts) => {
-      if (accounts) {
-        setAccountsCount(accounts.length);
+    new StatsApi().liveAccountsCountAggregatedByDate().then((accounts) => {
+      if (accounts?.length > 0) {
+        const { accountsCount } = accounts[accounts.length - 1];
+        setLiveAccountsCount(accountsCount);
       }
     });
 
@@ -163,7 +164,7 @@ const ProtocolConfigInfo = () => {
         </Cell>
 
         <Cell
-          title="Active Accounts"
+          title="Live Accounts"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
           {liveAccountsCount}
