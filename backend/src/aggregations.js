@@ -10,12 +10,9 @@ let CIRCULATING_SUPPLY = {
 };
 
 // utils from https://github.com/near/account-lookup/blob/master/script.js
-const readOption = (reader, f) => {
+const readOption = (reader, f, defaultValue) => {
   let x = reader.read_u8();
-  if (x == 1) {
-    return f();
-  }
-  return null;
+  return x === 1 ? f() : defaultValue;
 };
 
 // viewLockupState function taken from https://github.com/near/account-lookup/blob/master/script.js
@@ -25,46 +22,54 @@ const viewLockupState = async (contractId, blockHeight) => {
       request_type: "view_state",
       block_id: blockHeight,
       account_id: contractId,
-      prefix_base64: "U1RBVEU=",
+      prefix_base64: "",
     });
+    // TODO throw something
     if (result.values.length === 0) return null;
     let value = Buffer.from(result.values[0].value, "base64");
     let reader = new nearApi.utils.serialize.BinaryReader(value);
     let owner = reader.read_string();
-    let lockupAmount = reader.read_u128().toString();
-    let terminationWithdrawnTokens = reader.read_u128().toString();
-    let lockupDuration = reader.read_u64().toString();
-    let releaseDuration = readOption(reader, () =>
-      reader.read_u64().toString()
+    let lockupAmount = reader.read_u128();
+    let terminationWithdrawnTokens = reader.read_u128();
+    let lockupDuration = reader.read_u64();
+
+    let releaseDuration = readOption(
+      reader,
+      () => reader.read_u64(),
+      new BN(0)
     );
-    let lockupTimestamp = readOption(reader, () =>
-      reader.read_u64().toString()
+    let lockupTimestamp = readOption(
+      reader,
+      () => reader.read_u64(),
+      new BN(0)
     );
+
     let tiType = reader.read_u8();
     let transferInformation;
-    if (tiType == 0) {
-      transferInformation = {
-        transfers_timestamp: reader.read_u64(),
-      };
+    if (tiType === 0) {
+      let transfersTimestamp = reader.read_u64();
+      transferInformation = { transfersTimestamp };
     } else {
-      transferInformation = {
-        transfer_poll_account_id: reader.read_string(),
-      };
+      let transferPollAccountId = reader.read_string();
+      transferInformation = { transferPollAccountId };
     }
+
     let vestingType = reader.read_u8();
-    vestingInformation = null;
-    if (vestingType == 1) {
-      vestingInformation = {
-        VestingHash: reader.read_array(() => reader.read_u8()),
-      };
-    } else if (vestingType == 2) {
-      let vestingStart = reader.read_u64();
-      let vestingCliff = reader.read_u64();
-      let vestingEnd = reader.read_u64();
-      vestingInformation = { vestingStart, vestingCliff, vestingEnd };
-    } else if (vestingType == 3) {
-      vestingInformation = "TODO";
+    let vestingInformation;
+    if (vestingType === 1) {
+      let vestingHash = reader.read_array(() => reader.read_u8());
+      vestingInformation = { vestingHash };
+    } else if (vestingType === 2) {
+      let start = reader.read_u64();
+      let cliff = reader.read_u64();
+      let end = reader.read_u64();
+      vestingInformation = { start, cliff, end };
+    } else if (vestingType === 3) {
+      let unvestedAmount = reader.read_u128();
+      let terminationStatus = reader.read_u8();
+      vestingInformation = { unvestedAmount, terminationStatus };
     }
+
     return {
       owner,
       lockupAmount,
@@ -77,75 +82,89 @@ const viewLockupState = async (contractId, blockHeight) => {
     };
   } catch (error) {
     console.log(`Retry viewLockupState because error`, error);
+    // TODO fix endless retry
     return await viewLockupState(contractId, blockHeight);
   }
 };
 
-// Get locked token amount function. Based on code from https://github.com/near/account-lookup/blob/master/script.js
-const getLockedTokenAmount = async (
-  lockupAccountId,
-  lockupAmount,
-  lockupState
-) => {
-  const phase2Time = 1602614338293769340;
-  if (lockupAmount !== 0) {
-    let duration = lockupState.releaseDuration
-      ? new BN(lockupState.releaseDuration.toString())
-      : new BN(0);
-    let now = new Date().getTime() * 1000000;
-    let passed = new BN(now.toString()).sub(
-      lockupState.lockupTimestamp === null
-        ? new BN(phase2Time.toString())
-        : new BN(lockupState.lockupTimestamp.toString()).add(
-            new BN(lockupState.lockupDuration.toString())
-          )
-    );
-    let releaseComplete = lockupState.releaseDuration
-      ? passed.gt(duration)
-      : passed.gt(new BN(lockupState.lockupDuration));
-    lockupState.releaseDuration = lockupState.releaseDuration
-      ? duration
-          .div(new BN("1000000000"))
-          .divn(60 * 60 * 24)
-          .toString(10)
-      : null;
+const saturatingSub = (a, b) => {
+  let res = a.sub(b);
+  return res.gte(new BN(0)) ? res : new BN(0);
+};
 
-    if (!lockupState.transferInformation.transfers_timestamp) {
-      if (releaseComplete) {
-        return new BN(0);
-      } else {
-        if (lockupState.releaseDuration) {
-          unlockedAmount = new BN(lockupAmount).mul(passed).div(duration);
-          lockedAmount = new BN(lockupAmount).sub(unlockedAmount);
-          return lockedAmount;
-        } else if (!releaseComplete) {
-          return new BN(lockupAmount);
-        }
-      }
+// https://github.com/near/core-contracts/blob/master/lockup/src/getters.rs#L64
+const getLockedTokenAmount = async (lockupState, blockInfo) => {
+  const phase2Time = new BN("1602614338293769340", 10);
+  let now = new BN((new Date().getTime() * 1000000).toString(), 10);
+  if (now.lte(phase2Time)) {
+    return saturatingSub(
+      lockupState.lockupAmount,
+      lockupState.terminationWithdrawnTokens
+    );
+  }
+
+  let lockupTimestamp = BN.max(
+    phase2Time.add(lockupState.lockupDuration),
+    lockupState.lockupTimestamp
+  );
+  let blockTimestamp = new BN(blockInfo.header.timestamp_nanosec, 10); // !!! Never take `timestamp`, it is rounded
+  if (blockTimestamp.lt(lockupTimestamp)) {
+    return saturatingSub(
+      lockupState.lockupAmount,
+      lockupState.terminationWithdrawnTokens
+    );
+  }
+
+  let unreleasedAmount;
+  if (lockupState.releaseDuration) {
+    let endTimestamp = lockupTimestamp.add(lockupState.releaseDuration);
+    if (endTimestamp.lt(blockTimestamp)) {
+      unreleasedAmount = new BN(0);
     } else {
-      while (true) {
-        try {
-          return new BN(
-            await nearRpc.callViewMethod(
-              lockupAccountId,
-              "get_locked_amount",
-              {}
-            )
-          );
-        } catch (error) {
-          console.error("GET LOCKED AMOUNT retry", error);
-          continue;
-        }
+      let timeLeft = endTimestamp.sub(blockTimestamp);
+      unreleasedAmount = lockupState.lockupAmount
+        .mul(timeLeft)
+        .div(lockupState.releaseDuration);
+    }
+  } else {
+    unreleasedAmount = new BN(0);
+  }
+
+  let unvestedAmount;
+  if (lockupState.vestingInformation) {
+    if (lockupState.vestingInformation.unvestedAmount) {
+      // was terminated
+      unvestedAmount = lockupState.vestingInformation.unvestedAmount;
+    } else if (lockupState.vestingInformation.start) {
+      // we have schedule
+      if (blockTimestamp.lt(lockupState.vestingInformation.cliff)) {
+        unvestedAmount = lockupState.lockupAmount;
+      } else if (blockTimestamp.gte(lockupState.vestingInformation.end)) {
+        unvestedAmount = new BN(0);
+      } else {
+        let timeLeft = lockupState.vestingInformation.end.sub(blockTimestamp);
+        let totalTime = lockupState.vestingInformation.end.sub(
+          lockupState.vestingInformation.start
+        );
+        unvestedAmount = lockupState.lockupAmount.mul(timeLeft).div(totalTime);
       }
     }
   }
-  return new BN(lockedAmount);
+  if (unvestedAmount === undefined) {
+    unvestedAmount = new BN(0);
+  }
+
+  return BN.max(
+    saturatingSub(unreleasedAmount, lockupState.terminationWithdrawnTokens),
+    unvestedAmount
+  );
 };
 
-// For proper calculation of circulating supply we need to subtract
-// balances of some accounts
-const getTokensToSubtractFromTotalSupply = async (blockHeight) => {
-  const accountsToGetBalancesForSubtraction = ["contributors.near"];
+const getPermanentlyLockedTokens = async (blockHeight) => {
+  const accountsToGetBalancesForSubtraction = [
+    "lockup.near",
+    "contributors.near",
+  ];
 
   const balances = await Promise.all(
     accountsToGetBalancesForSubtraction.map(async (accountId) => {
@@ -156,25 +175,26 @@ const getTokensToSubtractFromTotalSupply = async (blockHeight) => {
             block_id: blockHeight,
             account_id: accountId,
           });
-          return new BN(account.amount);
+          return new BN(account.amount, 10);
         } catch (error) {
+          // TODO do we really retry?
           console.log(`Retrying to fetch ${accountId} balance...`, error);
-          continue;
         }
       }
     })
   );
-  console.log("TO SUBTRACT", balances);
   return balances.reduce((acc, current) => acc.add(current), new BN(0));
 };
 
-const calculateCirculatingSupply = async () => {
-  // Get final block
-  console.log(`calculateCirculatingSupply STARTED ${new Date()}`);
-  const latestBlock = await nearRpc.sendJsonRpc("block", { finality: "final" });
-  const totalSupply = new BN(latestBlock.header.total_supply, 10);
-  const blockHeight = latestBlock.header.height;
-  const lockupAccountIds = await getAllLockupAccountIds();
+const calculateCirculatingSupply = async (blockHeight) => {
+  console.log(`calculateCirculatingSupply STARTED for block ${blockHeight}`);
+  const currentBlock = await nearRpc.sendJsonRpc("block", {
+    block_id: blockHeight,
+  });
+  const totalSupply = new BN(currentBlock.header.total_supply, 10);
+  // TODO delete debug example when finish
+  // [{account_id: "46af1d499155348c36183da0655c772ae593b8a4.lockup.near"}];
+  const lockupAccountIds = await getAllLockupAccountIds(blockHeight);
 
   // Call view state from rpc for each account to sum up locked tokens
   const allLockupTokenAmounts = await Promise.all(
@@ -184,34 +204,33 @@ const calculateCirculatingSupply = async () => {
         blockHeight
       );
       if (lockupState) {
-        const lockedAmount = await getLockedTokenAmount(
-          account.account_id,
-          lockupState.lockupAmount,
-          { ...lockupState }
-        );
-        return lockedAmount;
+        return await getLockedTokenAmount(lockupState, currentBlock);
       } else {
         return new BN(0);
       }
     })
   );
-  const totalLockedTokens = allLockupTokenAmounts.reduce(
+
+  const lockedTokens = allLockupTokenAmounts.reduce(
     (acc, current) => acc.add(current),
     new BN(0)
   );
-  const amountToSubtract = await getTokensToSubtractFromTotalSupply(
+  const tokensFromSpecialAccounts = await getPermanentlyLockedTokens(
     blockHeight
   );
-  console.log(`calculateCirculatingSupply FINISHED ${new Date()}`);
   CIRCULATING_SUPPLY = {
     block_height: blockHeight,
     circulating_supply_in_yoctonear: totalSupply
-      .sub(totalLockedTokens)
-      .sub(amountToSubtract)
+      .sub(lockedTokens)
+      .sub(tokensFromSpecialAccounts)
       .toString(10),
   };
+  console.log(
+    `calculateCirculatingSupply FINISHED, ${CIRCULATING_SUPPLY.circulating_supply_in_yoctonear}`
+  );
 };
 
+// It looks weird, do we really need global variable and this function?
 const getCirculatingSupply = async () => {
   return CIRCULATING_SUPPLY;
 };
