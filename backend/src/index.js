@@ -240,7 +240,8 @@ function startRegularCalculationCirculatingSupply() {
   const regularCalculateCirculatingSupply = async () => {
     console.log(`Starting regular calculation of circulating supply...`);
     try {
-      await calculateCirculatingSupply();
+      // TODO put here needed blockHeight
+      await calculateCirculatingSupply(37285191);
     } catch (error) {
       console.warn(
         "regular calculation of circulating supply is crashed due to:",
