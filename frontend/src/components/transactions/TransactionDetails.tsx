@@ -165,10 +165,13 @@ class TransactionDetails extends React.Component<Props, State> {
                       ) : (
                         "Fetching Status... "
                       )}
-                      {typeof context.finalTimestamp === "undefined"
+                      {typeof context.finalityStatus
+                        ?.finalBlockTimestampNanosecond === "undefined"
                         ? "/Checking Finality..."
                         : new BN(transaction.blockTimestamp).lte(
-                            context.finalTimestamp
+                            context.finalityStatus?.finalBlockTimestampNanosecond.divn(
+                              10 ** 6
+                            )
                           )
                         ? ""
                         : "/Finalizing"}

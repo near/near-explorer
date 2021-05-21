@@ -10,16 +10,18 @@ context("Transactions", () => {
   });
 
   it("Check transactions row data", () => {
-    cy.wait(5000).get(".infinite-scroll-component__outerdiv").should("exist");
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+      "exist"
+    );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find(".action-sparse-row")
       .should("have.length.greaterThan", 0)
       .then(($el) => {
         let itemsPerPage = $el.length;
-        cy.scrollTo("bottom");
-        cy.wait(3000)
+        cy.scrollTo("bottom")
           .get(
-            ".infinite-scroll-component__outerdiv .infinite-scroll-component"
+            ".infinite-scroll-component__outerdiv .infinite-scroll-component",
+            { timeout: 3000 }
           )
           .find(".action-sparse-row")
           .should("have.length.greaterThan", itemsPerPage);
@@ -40,14 +42,15 @@ context("Transactions", () => {
   });
 
   it("Check transaction details", () => {
-    cy.wait(5000).get(".infinite-scroll-component__outerdiv").should("exist");
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+      "exist"
+    );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find(".action-sparse-row")
       .first()
       .get(".action-sparse-row:first-child .action-row-txid a")
       .click();
-    cy.wait(20000);
-    cy.get(".transaction-info-container").should("exist");
+    cy.get(".transaction-info-container", { timeout: 20000 }).should("exist");
     cy.get(".transaction-info-container .card-cell .card-body")
       .should("exist")
       .and("not.be.empty");

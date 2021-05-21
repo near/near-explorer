@@ -65,9 +65,14 @@ class BlocksRow extends React.PureComponent<Props> {
                   <Row>
                     <Col className="transaction-row-timer">
                       <span className="transaction-row-timer-status">
-                        {typeof context.finalTimestamp === "undefined"
+                        {typeof context.finalityStatus
+                          ?.finalBlockTimestampNanosecond === "undefined"
                           ? "Checking Finality..."
-                          : new BN(block.timestamp).lte(context.finalTimestamp)
+                          : new BN(block.timestamp).lte(
+                              context.finalityStatus.finalBlockTimestampNanosecond.divn(
+                                10 ** 6
+                              )
+                            )
                           ? "Finalized"
                           : "Finalizing"}
                       </span>

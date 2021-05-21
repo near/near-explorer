@@ -93,7 +93,7 @@
     "autoprefixer": "^10.2.5",
     "babel-jest": "^26.6.3",
     "babel-plugin-inline-react-svg": "^2.0.1",
-    "cypress": "^4.12.1",
+    "cypress": "^7.3.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "file-loader": "^3.0.1",
