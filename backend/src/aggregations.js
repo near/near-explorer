@@ -1,8 +1,8 @@
 const BN = require("bn.js");
 const nearApi = require("near-api-js");
 
-const { getAllLockupAccountIds } = require("./db-utils");
-const { nearRpc } = require("./near");
+const { getAllLockupAccountIds, getLastYesterdayBlock } = require("./db-utils");
+const { nearRpc, queryFinalBlock } = require("./near");
 
 let CIRCULATING_SUPPLY = {
   block_height: undefined,
@@ -186,7 +186,20 @@ const getPermanentlyLockedTokens = async (blockHeight) => {
   return balances.reduce((acc, current) => acc.add(current), new BN(0));
 };
 
+// Calculate last block in a previous day (moment before 00:00 UTC)
+async function findLastYesterdayBlockHeight() {
+  const finalBlock = await queryFinalBlock();
+  let finalBlockTimestamp = new BN(finalBlock.header.timestamp_nanosec);
+  const dayLength = new BN("86400000000000");
+  let startOfDay = finalBlockTimestamp.sub(finalBlockTimestamp.mod(dayLength));
+  let yesterdayBlock = await getLastYesterdayBlock(startOfDay);
+  return parseInt(yesterdayBlock.block_height);
+}
+
 const calculateCirculatingSupply = async (blockHeight) => {
+  if (blockHeight === undefined) {
+    blockHeight = await findLastYesterdayBlockHeight();
+  }
   console.log(`calculateCirculatingSupply STARTED for block ${blockHeight}`);
   const currentBlock = await nearRpc.sendJsonRpc("block", {
     block_id: blockHeight,

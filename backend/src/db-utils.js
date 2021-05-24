@@ -547,6 +547,20 @@ const getLockupAccountIds = async (blockHeight) => {
   );
 };
 
+const getLastYesterdayBlock = async (timestamp) => {
+  return await querySingleRow(
+    [
+      // we can't cast timestamp to number (it's too big), BN is not OK here, that's why I concatenate strings
+      `SELECT block_height
+       FROM blocks
+       WHERE block_timestamp < ` +
+        timestamp.toString() +
+        `\nORDER BY block_timestamp DESC LIMIT 1;`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
@@ -583,4 +597,7 @@ exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
 exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
 exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
+
+// circulating supply
 exports.getAllLockupAccountIds = getLockupAccountIds;
+exports.getLastYesterdayBlock = getLastYesterdayBlock;
