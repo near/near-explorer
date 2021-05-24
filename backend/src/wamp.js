@@ -2,8 +2,9 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
-const stats = require("./stats");
 
+const aggregations = require("./aggregations");
+const stats = require("./stats");
 const models = require("../models");
 
 const {
@@ -112,6 +113,10 @@ wampHandlers["nearcore-validators"] = async () => {
 // genesis configuration
 wampHandlers["nearcore-genesis-protocol-configuration"] = async ([blockId]) => {
   return await nearRpc.sendJsonRpc("block", { block_id: blockId });
+};
+
+wampHandlers["get-latest-circulating-supply"] = async () => {
+  return aggregations.getCirculatingSupply();
 };
 
 wampHandlers["get-account-details"] = async ([accountId]) => {
