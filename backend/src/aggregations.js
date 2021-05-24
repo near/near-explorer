@@ -4,6 +4,8 @@ const nearApi = require("near-api-js");
 const { getAllLockupAccountIds, getLastYesterdayBlock } = require("./db-utils");
 const { nearRpc, queryFinalBlock } = require("./near");
 
+const TIMEOUT = 3000;
+
 let CIRCULATING_SUPPLY = {
   block_height: undefined,
   circulating_supply_in_yoctonear: undefined,
@@ -92,8 +94,26 @@ const saturatingSub = (a, b) => {
   return res.gte(new BN(0)) ? res : new BN(0);
 };
 
+const isAccountBroken = async (blockHeight, accountId) => {
+  while (true) {
+    try {
+      const account = await nearRpc.sendJsonRpc("query", {
+        request_type: "view_account",
+        block_id: blockHeight,
+        account_id: accountId,
+      });
+      return (
+        account.code_hash === "3kVY9qcVRoW3B5498SMX6R3rtSLiCdmBzKs7zcnzDJ7Q"
+      );
+    } catch (error) {
+      console.log(`Retrying to fetch ${accountId} code version...`, error);
+      await new Promise((r) => setTimeout(r, TIMEOUT));
+    }
+  }
+};
+
 // https://github.com/near/core-contracts/blob/master/lockup/src/getters.rs#L64
-const getLockedTokenAmount = async (lockupState, blockInfo) => {
+const getLockedTokenAmount = async (lockupState, accountId, blockInfo) => {
   const phase2Time = new BN("1602614338293769340", 10);
   let now = new BN((new Date().getTime() * 1000000).toString(), 10);
   if (now.lte(phase2Time)) {
@@ -117,7 +137,13 @@ const getLockedTokenAmount = async (lockupState, blockInfo) => {
 
   let unreleasedAmount;
   if (lockupState.releaseDuration) {
-    let endTimestamp = lockupTimestamp.add(lockupState.releaseDuration);
+    let startTimestamp = (await isAccountBroken(
+      blockInfo.header.height,
+      accountId
+    ))
+      ? phase2Time
+      : lockupTimestamp;
+    let endTimestamp = startTimestamp.add(lockupState.releaseDuration);
     if (endTimestamp.lt(blockTimestamp)) {
       unreleasedAmount = new BN(0);
     } else {
@@ -217,7 +243,11 @@ const calculateCirculatingSupply = async (blockHeight) => {
         blockHeight
       );
       if (lockupState) {
-        return await getLockedTokenAmount(lockupState, currentBlock);
+        return await getLockedTokenAmount(
+          lockupState,
+          account.account_id,
+          currentBlock
+        );
       } else {
         return new BN(0);
       }
