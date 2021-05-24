@@ -529,6 +529,14 @@ const queryPartnerUniqueUserAmount = async () => {
   );
 };
 
+const getAllLockupAccountIds = async () => {
+  const query =
+    "SELECT account_id FROM accounts WHERE account_id LIKE '%.lockup.near' AND deleted_by_receipt_id IS NULL";
+  return await queryRows([query, {}], {
+    dataSource: DS_INDEXER_BACKEND,
+  });
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
@@ -565,3 +573,6 @@ exports.queryActiveContractsList = queryActiveContractsList;
 exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
 exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
 exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
+// exports.queryDashboardTxInfo = queryDashboardTxInfo;
+// exports.queryDashboardBlockInfo = queryDashboardBlockInfo;
+exports.getAllLockupAccountIds = getAllLockupAccountIds;

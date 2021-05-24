@@ -51,6 +51,9 @@ exports.regularFetchStakingPoolsInfoInterval =
 exports.regularStatsInterval =
   parseInt(process.env.NEAR_REGULAR_STATS_INTERVAL) || 3600000;
 
+exports.regularCalculateCirculatingSupplyInterval =
+  parseInt(process.env.NEAR_REGULAR_CALCULATE_CIRCULATING_SUPPLY) || 3600000;
+
 exports.wampNearNetworkName =
   process.env.WAMP_NEAR_NETWORK_NAME || "localhostnet";
 

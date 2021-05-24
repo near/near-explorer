@@ -1,6 +1,7 @@
 const moment = require("moment");
 
 const models = require("../models");
+
 const {
   isLegacySyncBackendEnabled,
   isIndexerBackendEnabled,
@@ -13,7 +14,9 @@ const {
   regularPublishNetworkInfoInterval,
   regularFetchStakingPoolsInfoInterval,
   regularStatsInterval,
+  regularCalculateCirculatingSupplyInterval,
 } = require("./config");
+
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
 
 const { nearRpc, queryFinalBlock, queryEpochStats } = require("./near");
@@ -34,6 +37,7 @@ const {
   queryDashboardBlocksStats,
   queryDashboardTransactionsStats,
 } = require("./db-utils");
+
 const {
   aggregateTeragasUsedByDate,
   aggregateTransactionsCountByDate,
@@ -52,6 +56,8 @@ const {
   aggregateParterUniqueUserAmount,
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
+
+const { calculateCirculatingSupply } = require("./aggregations");
 
 let currentValidators = [];
 let currentProposals = [];
@@ -230,6 +236,25 @@ function startStatsAggregation() {
   setTimeout(regularStatsAggregate, 0);
 }
 
+function startRegularCalculationCirculatingSupply() {
+  const regularCalculateCirculatingSupply = async () => {
+    console.log(`Starting regular calculation of circulating supply...`);
+    try {
+      await calculateCirculatingSupply();
+    } catch (error) {
+      console.warn(
+        "regular calculation of circulating supply is crashed due to:",
+        error
+      );
+    }
+    setTimeout(
+      regularCalculateCirculatingSupply,
+      regularCalculateCirculatingSupplyInterval
+    );
+  };
+  setTimeout(regularCalculateCirculatingSupply, 0);
+}
+
 async function main() {
   console.log("Starting Explorer backend...");
 
@@ -379,6 +404,8 @@ async function main() {
     await startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
     await startStatsAggregation();
   }
+
+  startRegularCalculationCirculatingSupply();
 }
 
 main();
