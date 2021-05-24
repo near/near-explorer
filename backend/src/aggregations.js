@@ -4,7 +4,7 @@ const nearApi = require("near-api-js");
 const { getAllLockupAccountIds, getLastYesterdayBlock } = require("./db-utils");
 const { nearRpc, queryFinalBlock } = require("./near");
 
-const TIMEOUT = 3000;
+const DELAY_AFTER_FAILED_REQUEST = 3000;
 
 let CIRCULATING_SUPPLY = {
   block_height: undefined,
@@ -19,7 +19,6 @@ const readOption = (reader, f, defaultValue) => {
 
 // viewLockupState function taken from https://github.com/near/account-lookup/blob/master/script.js
 const viewLockupState = async (contractId, blockHeight) => {
-  // TODO do we want to change while(true) to "try 5 times and then kill yourself"?
   while (true) {
     try {
       const result = await nearRpc.sendJsonRpc("query", {
@@ -29,7 +28,6 @@ const viewLockupState = async (contractId, blockHeight) => {
         prefix_base64: "",
       });
       if (result.values.length === 0) {
-        // TODO Is it OK to throw exception like that?
         throw `Unable to get account info for account ${contractId}`;
       }
       let value = Buffer.from(result.values[0].value, "base64");
@@ -91,7 +89,7 @@ const viewLockupState = async (contractId, blockHeight) => {
         `Retry viewLockupState for account ${contractId} because error`,
         error
       );
-      await new Promise((r) => setTimeout(r, TIMEOUT));
+      await new Promise((r) => setTimeout(r, DELAY_AFTER_FAILED_REQUEST));
     }
   }
 };
@@ -114,7 +112,7 @@ const isAccountBroken = async (blockHeight, accountId) => {
       );
     } catch (error) {
       console.log(`Retrying to fetch ${accountId} code version...`, error);
-      await new Promise((r) => setTimeout(r, TIMEOUT));
+      await new Promise((r) => setTimeout(r, DELAY_AFTER_FAILED_REQUEST));
     }
   }
 };
@@ -211,7 +209,7 @@ const getPermanentlyLockedTokens = async (blockHeight) => {
           return new BN(account.amount, 10);
         } catch (error) {
           console.log(`Retrying to fetch ${accountId} balance...`, error);
-          await new Promise((r) => setTimeout(r, TIMEOUT));
+          await new Promise((r) => setTimeout(r, DELAY_AFTER_FAILED_REQUEST));
         }
       }
     })

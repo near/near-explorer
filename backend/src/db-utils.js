@@ -550,12 +550,11 @@ const getLockupAccountIds = async (blockHeight) => {
 const getLastYesterdayBlock = async (timestamp) => {
   return await querySingleRow(
     [
-      // we can't cast timestamp to number (it's too big), BN is not OK here, that's why I concatenate strings
       `SELECT block_height
        FROM blocks
-       WHERE block_timestamp < ` +
-        timestamp.toString() +
-        `\nORDER BY block_timestamp DESC LIMIT 1;`,
+       WHERE block_timestamp < :blockTimestamp
+       ORDER BY block_timestamp DESC LIMIT 1;`,
+      { blockTimestamp: timestamp.toString() },
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
