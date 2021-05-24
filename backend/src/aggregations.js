@@ -19,73 +19,80 @@ const readOption = (reader, f, defaultValue) => {
 
 // viewLockupState function taken from https://github.com/near/account-lookup/blob/master/script.js
 const viewLockupState = async (contractId, blockHeight) => {
-  try {
-    const result = await nearRpc.sendJsonRpc("query", {
-      request_type: "view_state",
-      block_id: blockHeight,
-      account_id: contractId,
-      prefix_base64: "",
-    });
-    // TODO throw something
-    if (result.values.length === 0) return null;
-    let value = Buffer.from(result.values[0].value, "base64");
-    let reader = new nearApi.utils.serialize.BinaryReader(value);
-    let owner = reader.read_string();
-    let lockupAmount = reader.read_u128();
-    let terminationWithdrawnTokens = reader.read_u128();
-    let lockupDuration = reader.read_u64();
+  // TODO do we want to change while(true) to "try 5 times and then kill yourself"?
+  while (true) {
+    try {
+      const result = await nearRpc.sendJsonRpc("query", {
+        request_type: "view_state",
+        block_id: blockHeight,
+        account_id: contractId,
+        prefix_base64: "",
+      });
+      if (result.values.length === 0) {
+        // TODO Is it OK to throw exception like that?
+        throw `Unable to get account info for account ${contractId}`;
+      }
+      let value = Buffer.from(result.values[0].value, "base64");
+      let reader = new nearApi.utils.serialize.BinaryReader(value);
+      let owner = reader.read_string();
+      let lockupAmount = reader.read_u128();
+      let terminationWithdrawnTokens = reader.read_u128();
+      let lockupDuration = reader.read_u64();
 
-    let releaseDuration = readOption(
-      reader,
-      () => reader.read_u64(),
-      new BN(0)
-    );
-    let lockupTimestamp = readOption(
-      reader,
-      () => reader.read_u64(),
-      new BN(0)
-    );
+      let releaseDuration = readOption(
+        reader,
+        () => reader.read_u64(),
+        new BN(0)
+      );
+      let lockupTimestamp = readOption(
+        reader,
+        () => reader.read_u64(),
+        new BN(0)
+      );
 
-    let tiType = reader.read_u8();
-    let transferInformation;
-    if (tiType === 0) {
-      let transfersTimestamp = reader.read_u64();
-      transferInformation = { transfersTimestamp };
-    } else {
-      let transferPollAccountId = reader.read_string();
-      transferInformation = { transferPollAccountId };
+      let tiType = reader.read_u8();
+      let transferInformation;
+      if (tiType === 0) {
+        let transfersTimestamp = reader.read_u64();
+        transferInformation = { transfersTimestamp };
+      } else {
+        let transferPollAccountId = reader.read_string();
+        transferInformation = { transferPollAccountId };
+      }
+
+      let vestingType = reader.read_u8();
+      let vestingInformation;
+      if (vestingType === 1) {
+        let vestingHash = reader.read_array(() => reader.read_u8());
+        vestingInformation = { vestingHash };
+      } else if (vestingType === 2) {
+        let start = reader.read_u64();
+        let cliff = reader.read_u64();
+        let end = reader.read_u64();
+        vestingInformation = { start, cliff, end };
+      } else if (vestingType === 3) {
+        let unvestedAmount = reader.read_u128();
+        let terminationStatus = reader.read_u8();
+        vestingInformation = { unvestedAmount, terminationStatus };
+      }
+
+      return {
+        owner,
+        lockupAmount,
+        terminationWithdrawnTokens,
+        lockupDuration,
+        releaseDuration,
+        lockupTimestamp,
+        transferInformation,
+        vestingInformation,
+      };
+    } catch (error) {
+      console.log(
+        `Retry viewLockupState for account ${contractId} because error`,
+        error
+      );
+      await new Promise((r) => setTimeout(r, TIMEOUT));
     }
-
-    let vestingType = reader.read_u8();
-    let vestingInformation;
-    if (vestingType === 1) {
-      let vestingHash = reader.read_array(() => reader.read_u8());
-      vestingInformation = { vestingHash };
-    } else if (vestingType === 2) {
-      let start = reader.read_u64();
-      let cliff = reader.read_u64();
-      let end = reader.read_u64();
-      vestingInformation = { start, cliff, end };
-    } else if (vestingType === 3) {
-      let unvestedAmount = reader.read_u128();
-      let terminationStatus = reader.read_u8();
-      vestingInformation = { unvestedAmount, terminationStatus };
-    }
-
-    return {
-      owner,
-      lockupAmount,
-      terminationWithdrawnTokens,
-      lockupDuration,
-      releaseDuration,
-      lockupTimestamp,
-      transferInformation,
-      vestingInformation,
-    };
-  } catch (error) {
-    console.log(`Retry viewLockupState because error`, error);
-    // TODO fix endless retry
-    return await viewLockupState(contractId, blockHeight);
   }
 };
 
@@ -203,8 +210,8 @@ const getPermanentlyLockedTokens = async (blockHeight) => {
           });
           return new BN(account.amount, 10);
         } catch (error) {
-          // TODO do we really retry?
           console.log(`Retrying to fetch ${accountId} balance...`, error);
+          await new Promise((r) => setTimeout(r, TIMEOUT));
         }
       }
     })
@@ -231,28 +238,20 @@ const calculateCirculatingSupply = async (blockHeight) => {
     block_id: blockHeight,
   });
   const totalSupply = new BN(currentBlock.header.total_supply, 10);
-  // TODO delete debug example when finish
-  // [{account_id: "46af1d499155348c36183da0655c772ae593b8a4.lockup.near"}];
   const lockupAccountIds = await getAllLockupAccountIds(blockHeight);
 
-  // Call view state from rpc for each account to sum up locked tokens
-  const allLockupTokenAmounts = await Promise.all(
-    lockupAccountIds.map(async (account) => {
-      const lockupState = await viewLockupState(
+  let allLockupTokenAmounts = [];
+  for (let account of lockupAccountIds) {
+    const lockupState = await viewLockupState(account.account_id, blockHeight);
+    if (lockupState) {
+      let amount = await getLockedTokenAmount(
+        lockupState,
         account.account_id,
-        blockHeight
+        currentBlock
       );
-      if (lockupState) {
-        return await getLockedTokenAmount(
-          lockupState,
-          account.account_id,
-          currentBlock
-        );
-      } else {
-        return new BN(0);
-      }
-    })
-  );
+      allLockupTokenAmounts.push(amount);
+    }
+  }
 
   const lockedTokens = allLockupTokenAmounts.reduce(
     (acc, current) => acc.add(current),
@@ -273,7 +272,6 @@ const calculateCirculatingSupply = async (blockHeight) => {
   );
 };
 
-// It looks weird, do we really need global variable and this function?
 const getCirculatingSupply = async () => {
   return CIRCULATING_SUPPLY;
 };
