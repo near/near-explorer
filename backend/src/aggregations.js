@@ -119,8 +119,8 @@ const isAccountBroken = async (blockHeight, accountId) => {
 
 // https://github.com/near/core-contracts/blob/master/lockup/src/getters.rs#L64
 const getLockedTokenAmount = async (lockupState, accountId, blockInfo) => {
-  const phase2Time = new BN("1602614338293769340", 10);
-  let now = new BN((new Date().getTime() * 1000000).toString(), 10);
+  const phase2Time = new BN("1602614338293769340");
+  let now = new BN((new Date().getTime() * 1000000).toString());
   if (now.lte(phase2Time)) {
     return saturatingSub(
       lockupState.lockupAmount,
@@ -132,7 +132,7 @@ const getLockedTokenAmount = async (lockupState, accountId, blockInfo) => {
     phase2Time.add(lockupState.lockupDuration),
     lockupState.lockupTimestamp
   );
-  let blockTimestamp = new BN(blockInfo.header.timestamp_nanosec, 10); // !!! Never take `timestamp`, it is rounded
+  let blockTimestamp = new BN(blockInfo.header.timestamp_nanosec); // !!! Never take `timestamp`, it is rounded
   if (blockTimestamp.lt(lockupTimestamp)) {
     return saturatingSub(
       lockupState.lockupAmount,
@@ -206,7 +206,7 @@ const getPermanentlyLockedTokens = async (blockHeight) => {
             block_id: blockHeight,
             account_id: accountId,
           });
-          return new BN(account.amount, 10);
+          return new BN(account.amount);
         } catch (error) {
           console.log(`Retrying to fetch ${accountId} balance...`, error);
           await new Promise((r) => setTimeout(r, DELAY_AFTER_FAILED_REQUEST));
@@ -235,7 +235,7 @@ const calculateCirculatingSupply = async (blockHeight) => {
   const currentBlock = await nearRpc.sendJsonRpc("block", {
     block_id: blockHeight,
   });
-  const totalSupply = new BN(currentBlock.header.total_supply, 10);
+  const totalSupply = new BN(currentBlock.header.total_supply);
   const lockupAccountIds = await getAllLockupAccountIds(blockHeight);
 
   let allLockupTokenAmounts = [];
@@ -263,7 +263,7 @@ const calculateCirculatingSupply = async (blockHeight) => {
     circulating_supply_in_yoctonear: totalSupply
       .sub(lockedTokens)
       .sub(tokensFromSpecialAccounts)
-      .toString(10),
+      .toString(),
   };
   console.log(
     `calculateCirculatingSupply FINISHED, ${CIRCULATING_SUPPLY.circulating_supply_in_yoctonear}`
