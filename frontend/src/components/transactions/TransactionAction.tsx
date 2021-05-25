@@ -1,18 +1,10 @@
-import BN from "bn.js";
-
 import React from "react";
-
-import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
-import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
-
-import ActionRow from "./ActionRow";
-import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
-import ActionsList from "./ActionsList";
+import ActionGroup from "./ActionGroup";
+import { ViewMode } from "./ActionRowBlock";
 
 export interface Props {
-  actions: T.Action[];
   transaction: T.Transaction;
   viewMode?: ViewMode;
 }
@@ -45,60 +37,13 @@ class TransactionAction extends React.PureComponent<Props, State> {
     if (!transaction.actions) {
       return null;
     }
-    if (transaction.actions.length !== 1) {
-      return (
-        <DatabaseConsumer>
-          {(context) => (
-            <ActionRowBlock
-              viewMode={viewMode}
-              transaction={transaction}
-              icon={<BatchTransactionIcon />}
-              title={"Batch Transaction"}
-              status={status}
-              isFinal={
-                typeof context.finalityStatus?.finalBlockTimestampNanosecond !==
-                "undefined"
-                  ? new BN(transaction.blockTimestamp).lte(
-                      context.finalityStatus.finalBlockTimestampNanosecond.divn(
-                        10 ** 6
-                      )
-                    )
-                  : undefined
-              }
-            >
-              <ActionsList
-                actions={transaction.actions}
-                transaction={transaction}
-                viewMode={viewMode}
-                detalizationMode="minimal"
-              />
-            </ActionRowBlock>
-          )}
-        </DatabaseConsumer>
-      );
-    }
     return (
-      <DatabaseConsumer>
-        {(context) => (
-          <ActionRow
-            action={transaction.actions[0]}
-            transaction={transaction}
-            viewMode={viewMode}
-            detalizationMode="detailed"
-            status={status}
-            isFinal={
-              typeof context.finalityStatus?.finalBlockTimestampNanosecond !==
-              "undefined"
-                ? new BN(transaction.blockTimestamp).lte(
-                    context.finalityStatus.finalBlockTimestampNanosecond.divn(
-                      10 ** 6
-                    )
-                  )
-                : undefined
-            }
-          />
-        )}
-      </DatabaseConsumer>
+      <ActionGroup
+        actionGroup={transaction}
+        status={status}
+        viewMode={viewMode}
+        title={"Batch Transaction"}
+      />
     );
   }
 }

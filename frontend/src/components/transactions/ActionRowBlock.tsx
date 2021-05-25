@@ -4,6 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import AccountLink from "../utils/AccountLink";
 import ExecutionStatus from "../utils/ExecutionStatus";
 import TransactionLink from "../utils/TransactionLink";
+import ReceiptHashLink from "../utils/ReceiptHashLink";
 import Timer from "../utils/Timer";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
@@ -65,7 +66,16 @@ class ActionRowBlock extends React.Component<Props> {
                 <Col md="4" xs="5" className="ml-auto text-right">
                   <Row>
                     <Col className="action-row-txid">
-                      <TransactionLink transactionHash={transaction.hash} />
+                      {transaction.receiptId ? (
+                        <ReceiptHashLink
+                          transactionHash={
+                            transaction.includedInTransactionHash
+                          }
+                          receiptId={transaction.receiptId}
+                        />
+                      ) : (
+                        <TransactionLink transactionHash={transaction.hash} />
+                      )}
                     </Col>
                   </Row>
                   <Row>
@@ -82,7 +92,9 @@ class ActionRowBlock extends React.Component<Props> {
                           ? ""
                           : "/Finalizing"}
                       </span>{" "}
-                      <Timer time={transaction.blockTimestamp} />
+                      {transaction.blockTimestamp && (
+                        <Timer time={transaction.blockTimestamp} />
+                      )}
                     </Col>
                   </Row>
                 </Col>

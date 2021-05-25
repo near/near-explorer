@@ -1,8 +1,20 @@
 import React from "react";
 
-import ReceiptsApi from "../../libraries/explorer-wamp/receipts";
+import ReceiptsApi, {
+  ReceiptInfo,
+} from "../../libraries/explorer-wamp/receipts";
 
-class Receipts extends React.Component {
+import ActionGroup from "../transactions/ActionGroup";
+import Placeholder from "../utils/Placeholder";
+
+interface Props {
+  receiptId: string;
+  blockHash: string;
+}
+
+export type ReceiptInfoProps = Props & ReceiptInfo;
+
+class Receipts extends React.Component<Props> {
   state = {
     receipts: [],
   };
@@ -10,7 +22,7 @@ class Receipts extends React.Component {
     this.fetchReceiptsList(this.props.blockHash);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: any) {
     if (prevProps.blockHash !== this.props.blockHash) {
       this.fetchReceiptsList(this.props.blockHash);
     }
@@ -26,8 +38,24 @@ class Receipts extends React.Component {
   };
   render() {
     console.log("Receipts", this.state.receipts);
+    const { receipts } = this.state;
 
-    return <div>Hello</div>;
+    return (
+      <>
+        {receipts && receipts.length > 0 ? (
+          receipts.map((receipt: ReceiptInfoProps, index) => (
+            <ActionGroup
+              key={`${receipt.receiptId}_${index}`}
+              actionGroup={receipt}
+              status={receipt.status}
+              title={"Batch Receipt"}
+            />
+          ))
+        ) : (
+          <Placeholder text="There is no receipts" />
+        )}
+      </>
+    );
   }
 }
 

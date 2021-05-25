@@ -105,7 +105,7 @@ export interface ReceiptOutcome {
 export interface ReceiptsOutcomeWrapper {
   receiptsOutcome?: ReceiptOutcome[];
 }
-interface RpcReceipt {
+export interface RpcReceipt {
   predecessor_id: string;
   receiver_id: string;
   receipt_id: string;

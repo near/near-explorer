@@ -72,15 +72,23 @@ class BlockDetail extends React.Component {
           )}
         </Content>
         {!this.props.err ? (
-          <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Transactions</h2>}
-          >
-            <Transactions blockHash={block.hash} />
+          <>
+            <Content
+              size="medium"
+              icon={<TransactionIcon style={{ width: "22px" }} />}
+              title={<h2>Transactions</h2>}
+            >
+              <Transactions blockHash={block.hash} />
+            </Content>
 
-            <Receipts blockHash={block.hash} />
-          </Content>
+            <Content
+              size="medium"
+              icon={<TransactionIcon style={{ width: "22px" }} />}
+              title={<h2>Receipts</h2>}
+            >
+              <Receipts blockHash={block.hash} />
+            </Content>
+          </>
         ) : null}
       </>
     );

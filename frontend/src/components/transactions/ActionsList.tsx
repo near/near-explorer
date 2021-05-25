@@ -15,9 +15,11 @@ export interface Props {
 class ActionList extends React.PureComponent<Props> {
   render() {
     const { transaction, viewMode, detalizationMode, showDetails } = this.props;
+    console.log(this.props.actions);
+
     let actionRows = this.props.actions.map((action, actionIndex) => (
       <ActionRow
-        key={transaction.hash + actionIndex}
+        key={transaction.hash || transaction.receiptId + actionIndex}
         action={action}
         transaction={transaction}
         viewMode={viewMode}
