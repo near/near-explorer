@@ -1,5 +1,7 @@
 import { getNearNetwork } from "../../libraries/config";
 
+const BN = require("bn.js");
+
 function preprocessCirculationSupplyEstimate() {
   const RAW_CIRCULATING_SUPPLY_ESTIMATE = `
     10/13/2020,156473909
@@ -1857,17 +1859,61 @@ export function getCirculatingSupplyToday() {
 }
 
 export default async function (req, res) {
-  // This API is currenlty providing computed estimation based on the inflation, so we only have it for mainnet
+  // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
+  // TODO remove whole this logic after transition will be finished
   const nearNetwork = getNearNetwork(req.socket.hostname);
   if (nearNetwork.name !== "mainnet") {
     res.status(404).end();
     return;
   }
 
-  const circulatingSupplyToday = getCirculatingSupplyToday();
+  try {
+    const circulatingSupplyFromCode = await new DetailsApi(
+      req
+    ).calculateCirculatingSupply();
 
-  res.send({
-    timestamp: circulatingSupplyToday.timestamp,
-    circulating_supply_in_yoctonear: circulatingSupplyToday.amount,
-  });
+    const circulatingSupplyForecast = getCirculatingSupplyToday();
+    const now = new BN(circulatingSupplyForecast.timestamp).mul(
+      new BN("1000000000")
+    );
+
+    let startMoment = new BN("1622505600000000000"); // Tue Jun 01 2021 00:00:00 GMT+0000
+    let endMoment = new BN("1625097600000000000"); // Thu Jul 01 2021 00:00:00 GMT+0000
+
+    let resultSupply;
+    if (now.lte(startMoment)) {
+      resultSupply = circulatingSupplyForecast.amount;
+    } else if (now.gte(endMoment)) {
+      resultSupply = circulatingSupplyFromCode.circulating_supply_in_yoctonear;
+    } else {
+      // we mix it, part of data from code is growing
+      const forecast = new BN(circulatingSupplyForecast.amount);
+      const fromCode = new BN(
+        circulatingSupplyFromCode.circulating_supply_in_yoctonear,
+        10
+      );
+      let transitionPeriodLength = endMoment.sub(startMoment);
+
+      // start, now, finish
+      // s__n____f
+      // partFromCode     = fromCode * len(s__n)   / len(s__n____f)
+      // partFromForecast = forecast * len(n____f) / len(s__n____f)
+      let partFromCode = fromCode
+        .mul(now.sub(startMoment))
+        .div(transitionPeriodLength);
+      let partFromForecast = forecast
+        .mul(endMoment.sub(now))
+        .div(transitionPeriodLength);
+
+      resultSupply = partFromCode.add(partFromForecast).toString();
+    }
+
+    res.send({
+      timestamp: circulatingSupplyForecast.timestamp,
+      circulating_supply_in_yoctonear: resultSupply,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(502).send(error);
+  }
 }
