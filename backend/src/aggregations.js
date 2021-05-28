@@ -237,6 +237,9 @@ const calculateCirculatingSupply = async (blockHeight) => {
   });
   const totalSupply = new BN(currentBlock.header.total_supply);
   const lockupAccountIds = await getAllLockupAccountIds(blockHeight);
+  console.log(
+    `Circulating supply: ${lockupAccountIds.length} lockups are found`
+  );
 
   let allLockupTokenAmounts = [];
   for (let account of lockupAccountIds) {
@@ -255,8 +258,14 @@ const calculateCirculatingSupply = async (blockHeight) => {
     (acc, current) => acc.add(current),
     new BN(0)
   );
+  console.log(
+    `Circulating supply: sum from all lockups ${lockedTokens.toString()}`
+  );
   const tokensFromSpecialAccounts = await getPermanentlyLockedTokens(
     blockHeight
+  );
+  console.log(
+    `Circulating supply: sum from special accounts ${tokensFromSpecialAccounts.toString()}`
   );
   CIRCULATING_SUPPLY = {
     block_height: blockHeight,

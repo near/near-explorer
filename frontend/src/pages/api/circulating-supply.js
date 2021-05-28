@@ -1871,8 +1871,14 @@ export default async function (req, res) {
     const circulatingSupplyFromCode = await new DetailsApi(
       req
     ).calculateCirculatingSupply();
+    console.log(
+      `Circulating supply calculation ${circulatingSupplyFromCode.circulating_supply_in_yoctonear}`
+    );
 
     const circulatingSupplyForecast = getCirculatingSupplyToday();
+    console.log(
+      `Circulating supply forecast ${circulatingSupplyForecast.amount}`
+    );
     const now = new BN(circulatingSupplyForecast.timestamp).mul(
       new BN("1000000000")
     );
@@ -1883,14 +1889,17 @@ export default async function (req, res) {
     let resultSupply;
     if (now.lte(startMoment)) {
       resultSupply = circulatingSupplyForecast.amount;
+      console.log(
+        `Circulating supply is fully taken from forecast (calculations ignored)`
+      );
     } else if (now.gte(endMoment)) {
       resultSupply = circulatingSupplyFromCode.circulating_supply_in_yoctonear;
+      console.log(`Circulating supply is fully calculated (forecast ignored)`);
     } else {
       // we mix it, part of data from code is growing
       const forecast = new BN(circulatingSupplyForecast.amount);
       const fromCode = new BN(
-        circulatingSupplyFromCode.circulating_supply_in_yoctonear,
-        10
+        circulatingSupplyFromCode.circulating_supply_in_yoctonear
       );
       let transitionPeriodLength = endMoment.sub(startMoment);
 
@@ -1904,6 +1913,9 @@ export default async function (req, res) {
       let partFromForecast = forecast
         .mul(endMoment.sub(now))
         .div(transitionPeriodLength);
+      console.log(
+        `Circulating supply is mixed, calculations part ${partFromCode.toString()}, forecast part ${partFromForecast.toString()}`
+      );
 
       resultSupply = partFromCode.add(partFromForecast).toString();
     }
