@@ -133,7 +133,7 @@ class ReceiptRow extends React.Component<Props> {
                     <ActionRow
                       key={receipt.receipt_id + index}
                       action={action}
-                      transaction={
+                      actionBlock={
                         {
                           receiverId: receipt.receiver_id,
                         } as T.TransactionInfo

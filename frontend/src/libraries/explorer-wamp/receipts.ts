@@ -1,3 +1,4 @@
+import BN from "bn.js";
 import { DATA_SOURCE_TYPE } from "../consts";
 
 import { ExplorerApi } from ".";
@@ -6,13 +7,43 @@ import TransactionsApi, {
   RpcReceipt,
   ReceiptExecutionOutcome,
   TransactionInfo,
+  Transaction,
 } from "./transactions";
 
 export type ReceiptInfo = RpcReceipt &
   TransactionInfo &
-  ReceiptExecutionOutcome;
+  ReceiptExecutionOutcome & {
+    executed_in_block_timestamp: number;
+    included_in_transaction_hash?: string;
+  };
+
+export type ActionGroupInfo = DbReceiptInfo | Transaction;
+
+export interface DbReceiptInfo {
+  actions?: Action[];
+  blockTimestamp: number;
+  receiptId: string;
+  gasBurnt: number;
+  receiverId: string;
+  signerId: string;
+  status?: ReceiptExecutionStatus;
+  includedInTransactionHash: string;
+  tokensBurnt: string;
+}
+
+export type ReceiptExecutionStatus =
+  | "Unknown"
+  | "Failure"
+  | "SuccessValue"
+  | "SuccessReceiptId";
 
 export default class ReceiptsApi extends ExplorerApi {
+  static indexerCompatibilityReceiptActionKinds = new Map([
+    ["SUCCESS_RECEIPT_ID", "SuccessReceiptId"],
+    ["SUCCESS_VALUE", "SuccessValue"],
+    ["FAILURE", "Failure"],
+    [null, "Unknown"],
+  ]);
   // expose receipts included in blockHash
   async queryReceiptsList(blockHash: string) {
     try {
@@ -33,6 +64,7 @@ export default class ReceiptsApi extends ExplorerApi {
             execution_outcomes.status,
             execution_outcomes.gas_burnt,
             execution_outcomes.tokens_burnt,
+            execution_outcomes.executed_in_block_timestamp,
             action_receipt_actions.action_kind AS kind,
             action_receipt_actions.args,
             transactions.transaction_hash AS included_in_transaction_hash
@@ -85,11 +117,16 @@ export default class ReceiptsApi extends ExplorerApi {
             if (!receiptById) {
               receiptByIdList.set(receipt.receipt_id, {
                 actions: actionsByReceiptId.get(receipt.receipt_id),
+                blockTimestamp: new BN(receipt.executed_in_block_timestamp)
+                  .divn(10 ** 6)
+                  .toNumber(),
                 gasBurnt: receipt.gas_burnt,
                 receiptId: receipt.receipt_id,
                 receiverId: receipt.receiver_id,
                 signerId: receipt.predecessor_id,
-                status: receipt.status,
+                status: ReceiptsApi.indexerCompatibilityReceiptActionKinds.get(
+                  receipt.status
+                ),
                 includedInTransactionHash: receipt.included_in_transaction_hash,
                 tokensBurnt: receipt.tokens_burnt,
               });
@@ -106,6 +143,34 @@ export default class ReceiptsApi extends ExplorerApi {
       return receipts;
     } catch (error) {
       console.error("Receipts.queryReceiptsList failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async queryReceiptsCountInBlock(blockHash: string) {
+    try {
+      let receiptsCount;
+      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
+        receiptsCount = undefined;
+      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+        receiptsCount = await this.call<any>("select:INDEXER_BACKEND", [
+          `SELECT
+            COUNT(receipt_id)
+          FROM receipts
+          WHERE receipts.included_in_block_hash = :blockHash`,
+          {
+            blockHash,
+          },
+        ]).then((receipts) =>
+          receipts.length === 0 ? undefined : receipts[0]
+        );
+        return receiptsCount;
+      }
+    } catch (error) {
+      console.error(
+        "Receipts.queryReceiptsCountInBlock failed to fetch data due to:"
+      );
       console.error(error);
       throw error;
     }

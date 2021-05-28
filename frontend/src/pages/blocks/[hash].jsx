@@ -48,6 +48,7 @@ class BlockDetail extends React.Component {
       totalSupply: new BN(this.props.totalSupply),
       gasPrice: new BN(this.props.gasPrice),
       gasUsed: new BN(this.props.gasUsed),
+      authorAccountId: this.props.authorAccountId,
     };
 
     return (

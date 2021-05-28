@@ -2,11 +2,8 @@ import BN from "bn.js";
 import { useContext } from "react";
 
 import { DatabaseContext } from "../../context/DatabaseProvider";
-import {
-  ExecutionStatus,
-  Transaction,
-} from "../../libraries/explorer-wamp/transactions";
-import { ReceiptInfoProps } from "../blocks/Receipts";
+import { TransactionInfo } from "../../libraries/explorer-wamp/transactions";
+import { DbReceiptInfo } from "../../libraries/explorer-wamp/receipts";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
 
@@ -15,17 +12,25 @@ import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 
 interface Props {
-  actionGroup: Transaction | ReceiptInfoProps;
-  status?: ExecutionStatus;
+  actionGroup: DbReceiptInfo | TransactionInfo;
+  actionLink?: React.ReactNode;
+  status?: React.ReactNode;
   viewMode?: ViewMode;
   title: string;
   icon?: React.ReactElement;
 }
 
-const ActionGroup = ({ actionGroup, status, viewMode, title, icon }: Props) => {
+const ActionGroup = ({
+  actionGroup,
+  actionLink,
+  status,
+  viewMode,
+  title,
+  icon,
+}: Props) => {
   const { finalityStatus } = useContext(DatabaseContext);
 
-  if (!actionGroup) return null;
+  if (!actionGroup?.actions) return null;
 
   const isFinal =
     typeof finalityStatus?.finalBlockTimestampNanosecond !== "undefined"
@@ -34,14 +39,13 @@ const ActionGroup = ({ actionGroup, status, viewMode, title, icon }: Props) => {
         )
       : undefined;
 
-  // console.log("actionGroup", actionGroup);
-
   return (
     <>
       {actionGroup.actions.length !== 1 ? (
         <ActionRowBlock
           viewMode={viewMode}
-          transaction={actionGroup}
+          actionBlock={actionGroup}
+          actionLink={actionLink}
           icon={icon ?? <BatchTransactionIcon />}
           title={title}
           status={status}
@@ -49,7 +53,8 @@ const ActionGroup = ({ actionGroup, status, viewMode, title, icon }: Props) => {
         >
           <ActionsList
             actions={actionGroup.actions}
-            transaction={actionGroup}
+            actionBlock={actionGroup}
+            actionLink={actionLink}
             viewMode={viewMode}
             detalizationMode="minimal"
           />
@@ -57,7 +62,8 @@ const ActionGroup = ({ actionGroup, status, viewMode, title, icon }: Props) => {
       ) : (
         <ActionRow
           action={actionGroup.actions[0]}
-          transaction={actionGroup}
+          actionBlock={actionGroup}
+          actionLink={actionLink}
           viewMode={viewMode}
           detalizationMode="detailed"
           status={status}

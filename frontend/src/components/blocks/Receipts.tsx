@@ -1,20 +1,22 @@
 import React from "react";
 
 import ReceiptsApi, {
-  ReceiptInfo,
+  DbReceiptInfo,
+  ActionGroupInfo,
 } from "../../libraries/explorer-wamp/receipts";
 
 import ActionGroup from "../transactions/ActionGroup";
 import Placeholder from "../utils/Placeholder";
+import ReceiptHashLink from "../utils/ReceiptHashLink";
+import ExecutionReceiptStatus from "../utils/ExecutionReceiptStatus";
 
 interface Props {
-  receiptId: string;
   blockHash: string;
 }
 
-export type ReceiptInfoProps = Props & ReceiptInfo;
+export type ReceiptInfoProps = Props & DbReceiptInfo;
 
-class Receipts extends React.Component<Props> {
+class Receipts extends React.Component<ReceiptInfoProps> {
   state = {
     receipts: [],
   };
@@ -43,11 +45,23 @@ class Receipts extends React.Component<Props> {
     return (
       <>
         {receipts && receipts.length > 0 ? (
-          receipts.map((receipt: ReceiptInfoProps, index) => (
+          receipts.map((receipt: DbReceiptInfo, index) => (
             <ActionGroup
               key={`${receipt.receiptId}_${index}`}
-              actionGroup={receipt}
-              status={receipt.status}
+              actionGroup={receipt as DbReceiptInfo}
+              actionLink={
+                <ReceiptHashLink
+                  transactionHash={receipt.includedInTransactionHash}
+                  receiptId={receipt.receiptId}
+                />
+              }
+              status={
+                receipt.status ? (
+                  <ExecutionReceiptStatus status={receipt.status} />
+                ) : (
+                  <>{"Fetching Status..."}</>
+                )
+              }
               title={"Batch Receipt"}
             />
           ))

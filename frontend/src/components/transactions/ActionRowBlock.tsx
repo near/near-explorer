@@ -2,23 +2,23 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
-import ExecutionStatus from "../utils/ExecutionStatus";
-import TransactionLink from "../utils/TransactionLink";
-import ReceiptHashLink from "../utils/ReceiptHashLink";
 import Timer from "../utils/Timer";
 import * as T from "../../libraries/explorer-wamp/transactions";
+import { DbReceiptInfo } from "../../libraries/explorer-wamp/receipts";
 
 export type ViewMode = "sparse" | "compact";
 export type DetalizationMode = "detailed" | "minimal";
 export interface Props {
-  transaction: T.Transaction;
+  actionBlock: DbReceiptInfo | T.Transaction;
+  actionLink?: React.ReactNode;
+  // actionBlock: any;
   viewMode: ViewMode;
   detalizationMode: DetalizationMode;
   className: string;
   icon: React.ReactElement;
   title: React.ReactElement | string;
   children?: React.ReactNode;
-  status?: T.ExecutionStatus;
+  status?: React.ReactNode;
   isFinal?: boolean;
 }
 
@@ -34,7 +34,8 @@ class ActionRowBlock extends React.Component<Props> {
       viewMode,
       detalizationMode,
       className,
-      transaction,
+      actionBlock,
+      actionLink,
       icon,
       title,
       status,
@@ -57,7 +58,7 @@ class ActionRowBlock extends React.Component<Props> {
                 {detalizationMode === "detailed" ? (
                   <Row noGutters>
                     <Col className="action-row-text">
-                      by <AccountLink accountId={transaction.signerId} />
+                      by <AccountLink accountId={actionBlock.signerId} />
                     </Col>
                   </Row>
                 ) : null}
@@ -65,35 +66,20 @@ class ActionRowBlock extends React.Component<Props> {
               {detalizationMode === "detailed" ? (
                 <Col md="4" xs="5" className="ml-auto text-right">
                   <Row>
-                    <Col className="action-row-txid">
-                      {transaction.receiptId ? (
-                        <ReceiptHashLink
-                          transactionHash={
-                            transaction.includedInTransactionHash
-                          }
-                          receiptId={transaction.receiptId}
-                        />
-                      ) : (
-                        <TransactionLink transactionHash={transaction.hash} />
-                      )}
-                    </Col>
+                    <Col className="action-row-txid">{actionLink}</Col>
                   </Row>
                   <Row>
                     <Col className="action-row-timer">
                       <span className="action-row-timer-status">
-                        {status ? (
-                          <ExecutionStatus status={status} />
-                        ) : (
-                          "Fetching Status..."
-                        )}
+                        {status}
                         {isFinal === undefined
                           ? "/Checking Finality..."
                           : isFinal === true
                           ? ""
                           : "/Finalizing"}
                       </span>{" "}
-                      {transaction.blockTimestamp && (
-                        <Timer time={transaction.blockTimestamp} />
+                      {actionBlock.blockTimestamp && (
+                        <Timer time={actionBlock.blockTimestamp} />
                       )}
                     </Col>
                   </Row>

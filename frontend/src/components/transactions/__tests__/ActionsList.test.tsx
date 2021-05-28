@@ -9,7 +9,7 @@ describe("<ActionsList />", () => {
     expect(
       renderer.create(
         <ActionsList
-          transaction={TRANSACTIONS[0]}
+          actionBlock={TRANSACTIONS[0]}
           actions={TRANSACTIONS[0].actions}
         />
       )
@@ -21,7 +21,7 @@ describe("<ActionsList />", () => {
       renderer.create(
         <ActionsList
           viewMode="compact"
-          transaction={TRANSACTIONS[0]}
+          actionBlock={TRANSACTIONS[0]}
           actions={TRANSACTIONS[0].actions}
         />
       )
@@ -32,7 +32,7 @@ describe("<ActionsList />", () => {
     expect(
       renderer.create(
         <ActionsList
-          transaction={TRANSACTIONS[1]}
+          actionBlock={TRANSACTIONS[1]}
           actions={TRANSACTIONS[1].actions}
           showDetails
         />

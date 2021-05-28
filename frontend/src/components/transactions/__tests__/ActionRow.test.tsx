@@ -10,7 +10,7 @@ describe("<ActionRow />", () => {
     expect(
       renderer.create(
         <ActionRow
-          transaction={TRANSACTIONS[0]}
+          actionBlock={TRANSACTIONS[0]}
           action={{
             kind: "CreateAccount",
             args: {},
@@ -25,7 +25,7 @@ describe("<ActionRow />", () => {
       renderer.create(
         <ActionRow
           viewMode="compact"
-          transaction={TRANSACTIONS[0]}
+          actionBlock={TRANSACTIONS[0]}
           action={{
             kind: "AddKey",
             args: {
@@ -55,7 +55,7 @@ describe("<ActionRow />", () => {
     expect(
       renderer.create(
         <ActionRow
-          transaction={TRANSACTIONS[0]}
+          actionBlock={TRANSACTIONS[0]}
           action={actionFunctionCall}
           showDetails
         />

@@ -58,7 +58,7 @@ class TransactionDetailsPage extends React.Component {
           >
             <ActionsList
               actions={this.props.actions}
-              transaction={this.props}
+              actionBlock={this.props}
               detalizationMode="minimal"
               showDetails
             />

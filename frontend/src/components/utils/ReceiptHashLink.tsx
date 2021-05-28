@@ -10,9 +10,9 @@ const ReceiptHashLink = ({ transactionHash, receiptId, children }: Props) => {
   return (
     <>
       {!transactionHash ? (
-        <a className="receipt-hash-link disabled" title={receiptId}>
+        <span className="receipt-hash-link disabled" title={receiptId}>
           {children || `${receiptId.substring(0, 7)}...`}
-        </a>
+        </span>
       ) : (
         <Link
           href="/transactions/[hash]"
@@ -25,8 +25,6 @@ const ReceiptHashLink = ({ transactionHash, receiptId, children }: Props) => {
       )}
       <style global jsx>{`
         .receipt-hash-link.disabled {
-          touch-action: none;
-          pointer-events: none;
           cursor: default;
           color: #24272a;
         }

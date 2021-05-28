@@ -5,11 +5,12 @@ import Balance from "../utils/Balance";
 import CodePreview from "../utils/CodePreview";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
+import { DbReceiptInfo } from "../../libraries/explorer-wamp/receipts";
 
 export interface Props<A> {
   actionKind: keyof TransactionMessageRenderers;
   actionArgs: A;
-  transaction: T.Transaction;
+  transaction: T.Transaction | DbReceiptInfo;
   showDetails?: boolean;
 }
 
