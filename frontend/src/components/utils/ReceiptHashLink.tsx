@@ -1,7 +1,7 @@
 import Link from "../utils/Link";
 
 export interface Props {
-  transactionHash: string;
+  transactionHash?: string | null;
   receiptId: string;
   children?: React.ReactNode;
 }

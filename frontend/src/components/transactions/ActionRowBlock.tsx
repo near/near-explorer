@@ -71,7 +71,7 @@ class ActionRowBlock extends React.Component<Props> {
                   <Row>
                     <Col className="action-row-timer">
                       <span className="action-row-timer-status">
-                        {status}
+                        {status ?? <>{"Fetching status..."}</>}
                         {isFinal === undefined
                           ? "/Checking Finality..."
                           : isFinal === true

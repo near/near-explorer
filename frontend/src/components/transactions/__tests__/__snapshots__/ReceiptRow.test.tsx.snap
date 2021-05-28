@@ -3,6 +3,7 @@
 exports[`<ReceiptRow /> renders Failure receipt 1`] = `
 <div
   className="receipt-row row no-gutters"
+  id="R1111111111111111111111111111111111111111111"
 >
   <div
     className="col"
@@ -276,6 +277,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       >
         <div
           className="receipt-row row no-gutters"
+          id="R2222222222222222222222222222222222222222222"
         >
           <div
             className="col"
@@ -501,6 +503,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
 exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
 <div
   className="receipt-row row no-gutters"
+  id="R1111111111111111111111111111111111111111111"
 >
   <div
     className="col"
@@ -764,6 +767,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
       >
         <div
           className="receipt-row row no-gutters"
+          id="R222222222222222222222222222222222222222222"
         >
           <div
             className="col"
@@ -1048,6 +1052,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               >
                 <div
                   className="receipt-row row no-gutters"
+                  id="R555555555555555555555555555555555555555555"
                 >
                   <div
                     className="col"
@@ -1278,6 +1283,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
       >
         <div
           className="receipt-row row no-gutters"
+          id="R3333333333333333333333333333333333333333333"
         >
           <div
             className="col"
@@ -1562,6 +1568,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               >
                 <div
                   className="receipt-row row no-gutters"
+                  id="R6666666666666666666666666666666666666666666"
                 >
                   <div
                     className="col"
@@ -1792,6 +1799,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
       >
         <div
           className="receipt-row row no-gutters"
+          id="R4444444444444444444444444444444444444444444"
         >
           <div
             className="col"
@@ -2017,6 +2025,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
 exports[`<ReceiptRow /> renders successful receipt 1`] = `
 <div
   className="receipt-row row no-gutters"
+  id="R1111111111111111111111111111111111111111111"
 >
   <div
     className="col"
@@ -2306,6 +2315,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       >
         <div
           className="receipt-row row no-gutters"
+          id="R2222222222222222222222222222222222222222222"
         >
           <div
             className="col"

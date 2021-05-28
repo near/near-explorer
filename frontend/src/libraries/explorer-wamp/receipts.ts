@@ -17,14 +17,14 @@ export type ReceiptInfo = RpcReceipt &
   };
 
 export interface DbReceiptInfo {
-  actions?: Action[];
+  actions: Action[];
   blockTimestamp: number;
   receiptId: string;
   gasBurnt: number;
   receiverId: string;
   signerId: string;
   status?: ReceiptExecutionStatus;
-  includedInTransactionHash: string;
+  includedInTransactionHash?: string | null;
   tokensBurnt: string;
 }
 
