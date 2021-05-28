@@ -1,11 +1,14 @@
 import moment from "moment";
 import BN from "bn.js";
+import { useEffect, useState } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
 import * as B from "../../libraries/explorer-wamp/blocks";
+import ReceiptsApi from "../../libraries/explorer-wamp/receipts";
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
+import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
@@ -16,6 +19,17 @@ export interface Props {
 }
 
 const BlockDetails = ({ block }: Props) => {
+  const [receiptsCount, setReceiptsCount] = useState<string>();
+  useEffect(() => {
+    new ReceiptsApi()
+      .queryReceiptsCountInBlock(block.hash)
+      .then(({ count }) => {
+        if (count) {
+          setReceiptsCount(count);
+        }
+      });
+  }, []);
+
   return (
     <DatabaseConsumer>
       {(context) => (
@@ -93,6 +107,22 @@ const BlockDetails = ({ block }: Props) => {
                         ? "Finalized"
                         : "Finalizing"
                     }
+                  />
+                </Col>
+              </Row>
+              <Row noGutters className="border-0">
+                <Col md="6">
+                  <CardCell
+                    title={"Receipts"}
+                    text={receiptsCount as string}
+                    className="border-0"
+                  />
+                </Col>
+                <Col md="6">
+                  <CardCell
+                    title={"Author"}
+                    text={<AccountLink accountId={block.authorAccountId} />}
+                    className="border-0"
                   />
                 </Col>
               </Row>

@@ -16,6 +16,7 @@ export type DetailedBlockInfo = BlockInfo & {
   totalSupply: BN;
   gasPrice: BN;
   gasUsed: BN;
+  authorAccountId: string;
 };
 
 export default class BlocksApi extends ExplorerApi {
@@ -133,6 +134,7 @@ export default class BlocksApi extends ExplorerApi {
               blocks.prev_block_hash AS prev_hash,
               blocks.gas_price AS gas_price,
               blocks.total_supply AS total_supply,
+              blocks.author_account_id AS author_account_id,
               COUNT(transactions.transaction_hash) AS transactions_count
             FROM (
               SELECT blocks.block_hash AS block_hash
@@ -195,6 +197,7 @@ export default class BlocksApi extends ExplorerApi {
         totalSupply: new BN(block.total_supply),
         gasUsed: gasUsedInBlock,
         gasPrice: new BN(block.gas_price),
+        authorAccountId: block.author_account_id,
       } as DetailedBlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");

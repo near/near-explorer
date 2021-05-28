@@ -7,7 +7,6 @@ import TransactionsApi, {
   RpcReceipt,
   ReceiptExecutionOutcome,
   TransactionInfo,
-  Transaction,
 } from "./transactions";
 
 export type ReceiptInfo = RpcReceipt &
@@ -16,8 +15,6 @@ export type ReceiptInfo = RpcReceipt &
     executed_in_block_timestamp: number;
     included_in_transaction_hash?: string;
   };
-
-export type ActionGroupInfo = DbReceiptInfo | Transaction;
 
 export interface DbReceiptInfo {
   actions?: Action[];
@@ -77,8 +74,6 @@ export default class ReceiptsApi extends ExplorerApi {
             blockHash,
           },
         ]);
-
-        console.log("ReceiptsApi", receipts);
 
         if (receipts) {
           const actionsArray = receipts.map(

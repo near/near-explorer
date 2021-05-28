@@ -22,7 +22,6 @@ class ActionList extends React.PureComponent<Props> {
       detalizationMode,
       showDetails,
     } = this.props;
-    console.log(this.props.actions);
 
     let actionRows = this.props.actions.map((action, actionIndex) => (
       <ActionRow

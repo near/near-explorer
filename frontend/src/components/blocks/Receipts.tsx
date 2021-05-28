@@ -2,7 +2,6 @@ import React from "react";
 
 import ReceiptsApi, {
   DbReceiptInfo,
-  ActionGroupInfo,
 } from "../../libraries/explorer-wamp/receipts";
 
 import ActionGroup from "../transactions/ActionGroup";
@@ -39,7 +38,6 @@ class Receipts extends React.Component<ReceiptInfoProps> {
     return null;
   };
   render() {
-    console.log("Receipts", this.state.receipts);
     const { receipts } = this.state;
 
     return (
