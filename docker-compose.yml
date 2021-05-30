@@ -12,15 +12,10 @@ services:
   backend:
     build: ./backend
     environment:
-      - NEAR_RPC_URL=https://rpc.testnet.near.org
-      # - NEAR_RPC_URL=https://rpc.betanet.near.org
-      # - NEAR_RPC_URL=https://rpc.mainnet.near.org
-      - NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json
-      # - NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json
-      # - NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json
       - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
       - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
     mem_limit: 1G
+    entrypoint: ["npm", "run", "start:testnet-with-indexer"]
 
   frontend:
     build: ./frontend
@@ -30,3 +25,4 @@ services:
       - WAMP_NEAR_EXPLORER_INTERNAL_URL=ws://wamp:8080/ws
     ports:
       - 3000:3000
+    command: ["npm", "run", "start:local-wamp-with-indexer-testnet"]
