@@ -33,11 +33,14 @@ class TransactionDetailsPage extends React.Component {
     const transaction = {
       actions: this.props.actions,
       blockTimestamp: this.props.blockTimestamp,
+      blockHash: this.props.blockHash,
       hash: this.props.hash,
       receipt: this.props.receipt,
       transactionOutcome: this.props.transactionOutcome,
+      receiptsOutcome: this.props.receiptsOutcome,
       signerId: this.props.signerId,
       receiverId: this.props.receiverId,
+      status: this.props.status,
     };
     return (
       <>
@@ -58,7 +61,7 @@ class TransactionDetailsPage extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
           ) : (
-            <TransactionDetails transaction={this.props} />
+            <TransactionDetails transaction={transaction} />
           )}
         </Content>
         {transaction.actions && (

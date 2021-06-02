@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ReceiptLink /> renders successfully in existing transaction 1`] = `
+<span
+  onClick={[Function]}
+>
+  <a
+    className="jsx-4207953579 receipt-hash-link"
+    href="/transactions/66WYKL9FcK1Av1WffDYwftm6t4iwUkJrnfZPjvZgsEB7#FNNA1kX7mBPZ5LD7t8RFAVNybvybVr8h5o3n5Xw86hUW"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    FNNA1kX...
+  </a>
+</span>
+`;
+
+exports[`<ReceiptLink /> renders successfully in non existing transaction 1`] = `
+<span
+  className="jsx-4207953579 receipt-hash-link disabled"
+  title="9zSjvFzm6BeNsco3fdNWqKNaYFkrj94AWWfGvgssQJuG"
+>
+  9zSjvFz...
+</span>
+`;
