@@ -38,50 +38,24 @@ Project Root
 -   Use PascalCase to name classes
 -   Use a single underscore in front of a method name to indicate private (non-public) methods
 
-## Run Frontend
+## Run Frontend for Development
 
-It is useful to have a live-updating dev-server during development, so here is the command:
-
-```
-$ npm run dev
-```
-
-However, you may also need to test it against a deployed version of Explorer backend, in which
-case you can use:
+It is useful to have a live-updating dev-server during development, and most of the time you can use the production Explorer backend:
 
 ```
-$ npm run dev:production-wamp-with-indexer-mainnet
+$ npm run dev:production-wamp-with-indexer-testnet
 ```
 
-Or you could run frontend and backend separately. Start frontend like this:
+NOTE: There is also configuration for mainnet, just use `dev:production-wamp-with-indexer-testnet` command.
+
+Or you could run frontend with a local backend.
+Follow the [backend instructions](../backend/README.md) and start frontend like this:
 
 ```
-$ npm run dev:local-wamp-with-indexer-mainnet
+$ npm run dev:local-wamp-with-indexer-testnet
 ```
 
-Then you need to start WAMP server:
-
-```
-$ docker-compose up -d wamp
-```
-
-After it you need to open `backend/config/` and create a `env-indexer-mainnet-local` file
-(or just copy `env-indexer-mainnet` and add `-local` prefix to the file name) and add/replace this strings
-(Also replace `...` with your credentials):
-
-```
-export NEAR_RPC_URL=https://archival-rpc.mainnet.near.org
-export NEAR_INDEXER_DATABASE_HOST=...
-export NEAR_INDEXER_DATABASE_NAME=mainnet_explorer
-export NEAR_INDEXER_DATABASE_USERNAME=...
-export NEAR_INDEXER_DATABASE_PASSWORD=...
-```
-
-When all preparation is done run backend:
-
-```
-$ npm run start:mainnet-with-indexer
-```
+## Run Frontend for Production
 
 If you want to build a release bundle and run it:
 
@@ -93,8 +67,10 @@ $ npm run start
 Also, there is a common command to run the release bundle against the deployed Explorer backend:
 
 ```
-$ npm run start:production-wamp
+$ npm run start:production-wamp-with-indexer-testnet
 ```
+
+NOTE: There is also configuration for mainnet, just use `start:production-wamp-with-indexer-mainnet` command.
 
 ## Run Tests
 
