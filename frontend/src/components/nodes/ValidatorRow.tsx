@@ -36,10 +36,18 @@ class ValidatorRow extends React.PureComponent<Props, State> {
     const { node, index, cellCount, validatorType } = this.props;
     let persntStake = 0;
     let cumulativeStake = 0;
-    let validatorFee = node.fee
-      ? `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`
-      : null;
-    let validatorDelegators = node.delegatorsCount ?? null;
+    let validatorFee =
+      typeof node.fee === "undefined"
+        ? null
+        : node.fee === null
+        ? "N/A"
+        : `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`;
+    let validatorDelegators =
+      typeof node.delegatorsCount === "undefined"
+        ? null
+        : node.delegatorsCount === null
+        ? "N/A"
+        : node.delegatorsCount;
     const nodeDetailsEnable = Boolean(
       (node.num_produced_blocks && node.num_expected_blocks) || node.nodeInfo
     );
