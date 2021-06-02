@@ -4,18 +4,19 @@ import actionIcons from "./ActionIcons";
 import ActionMessage from "./ActionMessage";
 import ActionRowBlock, { ViewMode, DetalizationMode } from "./ActionRowBlock";
 import * as T from "../../libraries/explorer-wamp/transactions";
-import { DbReceiptInfo } from "../../libraries/explorer-wamp/receipts";
 
 export interface Props {
   action: T.Action;
-  actionBlock: DbReceiptInfo | T.TransactionInfo;
-  actionLink?: React.ReactNode;
-  viewMode: ViewMode;
-  detalizationMode: DetalizationMode;
+  blockTimestamp?: number;
   className: string;
+  detailsLink?: React.ReactNode;
+  detalizationMode: DetalizationMode;
+  isFinal?: boolean;
+  receiverId: string;
+  signerId: string;
   showDetails?: boolean;
   status?: React.ReactNode;
-  isFinal?: boolean;
+  viewMode: ViewMode;
 }
 
 class ActionRow extends React.PureComponent<Props> {
@@ -31,8 +32,10 @@ class ActionRow extends React.PureComponent<Props> {
       viewMode,
       detalizationMode,
       className,
-      actionBlock,
-      actionLink,
+      signerId,
+      receiverId,
+      blockTimestamp,
+      detailsLink,
       action,
       showDetails,
       status,
@@ -44,12 +47,13 @@ class ActionRow extends React.PureComponent<Props> {
         viewMode={viewMode}
         detalizationMode={detalizationMode}
         className={className}
-        actionBlock={actionBlock}
-        actionLink={actionLink}
+        signerId={signerId}
+        blockTimestamp={blockTimestamp}
+        detailsLink={detailsLink}
         icon={ActionIcon && <ActionIcon />}
         title={
           <ActionMessage
-            transaction={actionBlock}
+            receiverId={receiverId}
             actionKind={action.kind}
             actionArgs={action.args}
             showDetails={showDetails}

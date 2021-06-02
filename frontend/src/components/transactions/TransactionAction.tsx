@@ -47,7 +47,7 @@ class TransactionAction extends React.PureComponent<Props, State> {
     return (
       <ActionGroup
         actionGroup={transaction as T.Transaction}
-        actionLink={<TransactionLink transactionHash={transaction.hash} />}
+        detailsLink={<TransactionLink transactionHash={transaction.hash} />}
         status={transactionStatus}
         viewMode={viewMode}
         title={"Batch Transaction"}

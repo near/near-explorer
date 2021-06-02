@@ -17,6 +17,7 @@ export type DetailedBlockInfo = BlockInfo & {
   gasPrice: BN;
   gasUsed: BN;
   authorAccountId: string;
+  receiptsCount: number;
 };
 
 export default class BlocksApi extends ExplorerApi {
@@ -135,7 +136,8 @@ export default class BlocksApi extends ExplorerApi {
               blocks.gas_price AS gas_price,
               blocks.total_supply AS total_supply,
               blocks.author_account_id AS author_account_id,
-              COUNT(transactions.transaction_hash) AS transactions_count
+              COUNT(transactions.transaction_hash) AS transactions_count,
+              COUNT(receipts.receipt_id) as receipts_count
             FROM (
               SELECT blocks.block_hash AS block_hash
               FROM blocks
@@ -145,6 +147,7 @@ export default class BlocksApi extends ExplorerApi {
                   : `WHERE blocks.block_height = :blockId`
               }
             ) as innerblocks
+            LEFT JOIN receipts ON receipts.included_in_block_hash = innerblocks.block_hash
             LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
             LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
             GROUP BY blocks.block_hash
@@ -198,6 +201,7 @@ export default class BlocksApi extends ExplorerApi {
         gasUsed: gasUsedInBlock,
         gasPrice: new BN(block.gas_price),
         authorAccountId: block.author_account_id,
+        receiptsCount: block.receipts_count,
       } as DetailedBlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");

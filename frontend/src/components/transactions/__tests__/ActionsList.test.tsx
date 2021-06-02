@@ -2,7 +2,7 @@ import renderer from "react-test-renderer";
 
 import ActionsList from "../ActionsList";
 import TransactionLink from "../../utils/TransactionLink";
-import ReceiptHashLink from "../../utils/ReceiptHashLink";
+import ReceiptLink from "../../utils/ReceiptLink";
 
 import { TRANSACTIONS, RECEIPTS } from "./common";
 
@@ -11,9 +11,11 @@ describe("<ActionsList />", () => {
     expect(
       renderer.create(
         <ActionsList
-          actionBlock={TRANSACTIONS[0]}
+          signerId={TRANSACTIONS[0].signerId}
+          receiverId={TRANSACTIONS[0].receiverId}
           actions={TRANSACTIONS[0].actions}
-          actionLink={
+          blockTimestamp={TRANSACTIONS[0].blockTimestamp}
+          detailsLink={
             <TransactionLink transactionHash={TRANSACTIONS[0].hash} />
           }
         />
@@ -25,10 +27,12 @@ describe("<ActionsList />", () => {
     expect(
       renderer.create(
         <ActionsList
-          actionBlock={RECEIPTS[1]}
+          signerId={RECEIPTS[1].signerId}
+          receiverId={RECEIPTS[1].receiverId}
+          blockTimestamp={RECEIPTS[1].blockTimestamp}
           actions={RECEIPTS[1].actions}
-          actionLink={
-            <ReceiptHashLink
+          detailsLink={
+            <ReceiptLink
               transactionHash={RECEIPTS[1].includedInTransactionHash}
               receiptId={RECEIPTS[1].receiptId}
             />
@@ -43,9 +47,11 @@ describe("<ActionsList />", () => {
       renderer.create(
         <ActionsList
           viewMode="compact"
-          actionBlock={TRANSACTIONS[0]}
+          signerId={TRANSACTIONS[0].signerId}
+          receiverId={TRANSACTIONS[0].receiverId}
+          blockTimestamp={TRANSACTIONS[0].blockTimestamp}
           actions={TRANSACTIONS[0].actions}
-          actionLink={
+          detailsLink={
             <TransactionLink transactionHash={TRANSACTIONS[0].hash} />
           }
         />
@@ -58,10 +64,12 @@ describe("<ActionsList />", () => {
       renderer.create(
         <ActionsList
           viewMode="compact"
-          actionBlock={RECEIPTS[7]}
+          signerId={RECEIPTS[7].signerId}
+          receiverId={RECEIPTS[7].receiverId}
+          blockTimestamp={RECEIPTS[7].blockTimestamp}
           actions={RECEIPTS[7].actions}
-          actionLink={
-            <ReceiptHashLink
+          detailsLink={
+            <ReceiptLink
               transactionHash={RECEIPTS[7].includedInTransactionHash}
               receiptId={RECEIPTS[7].receiptId}
             />
@@ -75,9 +83,11 @@ describe("<ActionsList />", () => {
     expect(
       renderer.create(
         <ActionsList
-          actionBlock={TRANSACTIONS[1]}
+          signerId={TRANSACTIONS[1].signerId}
+          receiverId={TRANSACTIONS[1].receiverId}
+          blockTimestamp={TRANSACTIONS[1].blockTimestamp}
           actions={TRANSACTIONS[1].actions}
-          actionLink={
+          detailsLink={
             <TransactionLink transactionHash={TRANSACTIONS[1].hash} />
           }
           showDetails
@@ -89,10 +99,12 @@ describe("<ActionsList />", () => {
   it("renders ActionsList for Receipts without transactionHash", () => {
     expect(
       <ActionsList
-        actionBlock={RECEIPTS[0]}
+        signerId={RECEIPTS[0].signerId}
+        receiverId={RECEIPTS[0].receiverId}
+        blockTimestamp={RECEIPTS[0].blockTimestamp}
         actions={RECEIPTS[0].actions}
-        actionLink={
-          <ReceiptHashLink
+        detailsLink={
+          <ReceiptLink
             transactionHash={RECEIPTS[0].includedInTransactionHash}
             receiptId={RECEIPTS[0].receiptId}
           />

@@ -3,15 +3,13 @@ import { Row, Col } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
 import Timer from "../utils/Timer";
-import * as T from "../../libraries/explorer-wamp/transactions";
-import { DbReceiptInfo } from "../../libraries/explorer-wamp/receipts";
 
 export type ViewMode = "sparse" | "compact";
 export type DetalizationMode = "detailed" | "minimal";
 export interface Props {
-  actionBlock: DbReceiptInfo | T.Transaction;
-  actionLink?: React.ReactNode;
-  // actionBlock: any;
+  signerId: string;
+  blockTimestamp?: number;
+  detailsLink?: React.ReactNode;
   viewMode: ViewMode;
   detalizationMode: DetalizationMode;
   className: string;
@@ -34,8 +32,9 @@ class ActionRowBlock extends React.Component<Props> {
       viewMode,
       detalizationMode,
       className,
-      actionBlock,
-      actionLink,
+      signerId,
+      blockTimestamp,
+      detailsLink,
       icon,
       title,
       status,
@@ -58,7 +57,7 @@ class ActionRowBlock extends React.Component<Props> {
                 {detalizationMode === "detailed" ? (
                   <Row noGutters>
                     <Col className="action-row-text">
-                      by <AccountLink accountId={actionBlock.signerId} />
+                      by <AccountLink accountId={signerId} />
                     </Col>
                   </Row>
                 ) : null}
@@ -66,7 +65,7 @@ class ActionRowBlock extends React.Component<Props> {
               {detalizationMode === "detailed" ? (
                 <Col md="4" xs="5" className="ml-auto text-right">
                   <Row>
-                    <Col className="action-row-txid">{actionLink}</Col>
+                    <Col className="action-row-txid">{detailsLink}</Col>
                   </Row>
                   <Row>
                     <Col className="action-row-timer">
@@ -78,9 +77,7 @@ class ActionRowBlock extends React.Component<Props> {
                           ? ""
                           : "/Finalizing"}
                       </span>{" "}
-                      {actionBlock.blockTimestamp && (
-                        <Timer time={actionBlock.blockTimestamp} />
-                      )}
+                      {blockTimestamp && <Timer time={blockTimestamp} />}
                     </Col>
                   </Row>
                 </Col>

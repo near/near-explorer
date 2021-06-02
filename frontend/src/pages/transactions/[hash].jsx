@@ -30,7 +30,15 @@ class TransactionDetailsPage extends React.Component {
   }
 
   render() {
-    const { hash } = this.props;
+    const transaction = {
+      actions: this.props.actions,
+      blockTimestamp: this.props.blockTimestamp,
+      hash: this.props.hash,
+      receipt: this.props.receipt,
+      transactionOutcome: this.props.transactionOutcome,
+      signerId: this.props.signerId,
+      receiverId: this.props.receiverId,
+    };
     return (
       <>
         <Head>
@@ -38,8 +46,11 @@ class TransactionDetailsPage extends React.Component {
         </Head>
         <Content
           title={
-            <h1>{`Transaction: ${hash.substring(0, 7)}...${hash.substring(
-              hash.length - 4
+            <h1>{`Transaction: ${transaction.hash.substring(
+              0,
+              7
+            )}...${transaction.hash.substring(
+              transaction.hash.length - 4
             )}`}</h1>
           }
           border={false}
@@ -50,30 +61,32 @@ class TransactionDetailsPage extends React.Component {
             <TransactionDetails transaction={this.props} />
           )}
         </Content>
-        {this.props.actions && (
+        {transaction.actions && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Actions</h2>}
           >
             <ActionsList
-              actions={this.props.actions}
-              actionBlock={this.props}
+              actions={transaction.actions}
+              signerId={transaction.signerId}
+              receiverId={transaction.receiverId}
+              blockTimestamp={transaction.blockTimestamp}
               detalizationMode="minimal"
               showDetails
             />
           </Content>
         )}
 
-        {this.props.receipt && (
+        {transaction.receipt && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Transaction Execution Plan</h2>}
           >
-            <TransactionOutcome transaction={this.props.transactionOutcome} />
+            <TransactionOutcome transaction={transaction.transactionOutcome} />
 
-            <ReceiptRow receipt={this.props.receipt} />
+            <ReceiptRow receipt={transaction.receipt} />
           </Content>
         )}
       </>

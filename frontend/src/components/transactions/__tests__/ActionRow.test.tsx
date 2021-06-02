@@ -3,7 +3,7 @@ import * as T from "../../../libraries/explorer-wamp/transactions";
 
 import ExecutionStatus from "../../utils/ExecutionStatus";
 import TransactionLink from "../../utils/TransactionLink";
-import ReceiptHashLink from "../../utils/ReceiptHashLink";
+import ReceiptLink from "../../utils/ReceiptLink";
 import ActionRow from "../ActionRow";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
@@ -13,10 +13,12 @@ describe("<ActionRow />", () => {
     expect(
       renderer.create(
         <ActionRow
-          actionBlock={TRANSACTIONS[0]}
-          actionLink={
+          signerId={TRANSACTIONS[0].signerId}
+          blockTimestamp={TRANSACTIONS[0].blockTimestamp}
+          detailsLink={
             <TransactionLink transactionHash={TRANSACTIONS[0].hash} />
           }
+          receiverId={TRANSACTIONS[0].receiverId}
           action={{
             kind: "CreateAccount",
             args: {},
@@ -30,10 +32,12 @@ describe("<ActionRow />", () => {
     expect(
       renderer.create(
         <ActionRow
-          actionBlock={TRANSACTIONS[0]}
-          actionLink={
+          signerId={TRANSACTIONS[0].signerId}
+          blockTimestamp={TRANSACTIONS[0].blockTimestamp}
+          detailsLink={
             <TransactionLink transactionHash={TRANSACTIONS[0].hash} />
           }
+          receiverId={TRANSACTIONS[0].receiverId}
           action={{
             kind: "CreateAccount",
             args: {},
@@ -52,10 +56,12 @@ describe("<ActionRow />", () => {
     expect(
       renderer.create(
         <ActionRow
-          actionBlock={RECEIPTS[7]}
+          signerId={RECEIPTS[7].signerId}
+          receiverId={RECEIPTS[7].receiverId}
+          blockTimestamp={RECEIPTS[7].blockTimestamp}
           action={RECEIPTS[7].actions[0]}
-          actionLink={
-            <ReceiptHashLink
+          detailsLink={
+            <ReceiptLink
               transactionHash={RECEIPTS[7].includedInTransactionHash}
               receiptId={RECEIPTS[7].receiptId}
             />
@@ -75,10 +81,12 @@ describe("<ActionRow />", () => {
       renderer.create(
         <ActionRow
           viewMode="compact"
-          actionBlock={TRANSACTIONS[0]}
-          actionLink={
+          signerId={TRANSACTIONS[0].signerId}
+          blockTimestamp={TRANSACTIONS[0].blockTimestamp}
+          detailsLink={
             <TransactionLink transactionHash={TRANSACTIONS[0].hash} />
           }
+          receiverId={TRANSACTIONS[0].receiverId}
           action={{
             kind: "AddKey",
             args: {
@@ -99,7 +107,9 @@ describe("<ActionRow />", () => {
       renderer.create(
         <ActionRow
           viewMode="compact"
-          actionBlock={RECEIPTS[1]}
+          detalizationMode="minimal"
+          signerId={RECEIPTS[1].signerId}
+          receiverId={RECEIPTS[1].receiverId}
           action={RECEIPTS[1].actions[0]}
         />
       )
@@ -120,7 +130,9 @@ describe("<ActionRow />", () => {
     expect(
       renderer.create(
         <ActionRow
-          actionBlock={TRANSACTIONS[0]}
+          signerId={TRANSACTIONS[0].signerId}
+          receiverId={TRANSACTIONS[0].receiverId}
+          blockTimestamp={TRANSACTIONS[0].blockTimestamp}
           action={actionFunctionCall}
           showDetails
         />

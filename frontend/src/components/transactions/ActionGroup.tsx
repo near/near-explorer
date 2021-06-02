@@ -13,7 +13,7 @@ import ActionsList from "./ActionsList";
 
 interface Props {
   actionGroup: DbReceiptInfo | TransactionInfo;
-  actionLink?: React.ReactNode;
+  detailsLink?: React.ReactNode;
   status?: React.ReactNode;
   viewMode?: ViewMode;
   title: string;
@@ -22,7 +22,7 @@ interface Props {
 
 const ActionGroup = ({
   actionGroup,
-  actionLink,
+  detailsLink,
   status,
   viewMode,
   title,
@@ -44,8 +44,9 @@ const ActionGroup = ({
       {actionGroup.actions.length !== 1 ? (
         <ActionRowBlock
           viewMode={viewMode}
-          actionBlock={actionGroup}
-          actionLink={actionLink}
+          signerId={actionGroup.signerId}
+          blockTimestamp={actionGroup.blockTimestamp}
+          detailsLink={detailsLink}
           icon={icon ?? <BatchTransactionIcon />}
           title={title}
           status={status}
@@ -53,8 +54,10 @@ const ActionGroup = ({
         >
           <ActionsList
             actions={actionGroup.actions}
-            actionBlock={actionGroup}
-            actionLink={actionLink}
+            blockTimestamp={actionGroup.blockTimestamp}
+            signerId={actionGroup.signerId}
+            receiverId={actionGroup.receiverId}
+            detailsLink={detailsLink}
             viewMode={viewMode}
             detalizationMode="minimal"
           />
@@ -62,8 +65,10 @@ const ActionGroup = ({
       ) : (
         <ActionRow
           action={actionGroup.actions[0]}
-          actionBlock={actionGroup}
-          actionLink={actionLink}
+          signerId={actionGroup.signerId}
+          blockTimestamp={actionGroup.blockTimestamp}
+          receiverId={actionGroup.receiverId}
+          detailsLink={detailsLink}
           viewMode={viewMode}
           detalizationMode="detailed"
           status={status}

@@ -19,6 +19,7 @@ describe("<BlockDetails />", () => {
             gasPrice: new BN("5000"),
             gasUsed: new BN("1000"),
             totalSupply: new BN(10).pow(new BN(24 + 9)),
+            receiptsCount: 5,
           }}
         />
       )

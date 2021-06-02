@@ -51,56 +51,6 @@ exports[`<ActionRow /> renders compact for receipt 1`] = `
             </span>
           </div>
         </div>
-        <div
-          className="row no-gutters"
-        >
-          <div
-            className="action-row-text col"
-          >
-            by 
-            <span
-              onClick={[Function]}
-            >
-              <a
-                className="jsx-3150401870 account-link"
-                href="/accounts/5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-              >
-                5ce78…ockup.near
-              </a>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        className="ml-auto text-right col-md-4 col-5"
-      >
-        <div
-          className="row"
-        >
-          <div
-            className="action-row-txid col"
-          />
-        </div>
-        <div
-          className="row"
-        >
-          <div
-            className="action-row-timer col"
-          >
-            <span
-              className="jsx-1246332424 action-row-timer-status"
-            >
-              Fetching status...
-              /Checking Finality...
-            </span>
-             
-            <span>
-              in 2y
-            </span>
-          </div>
-        </div>
       </div>
     </div>
   </div>

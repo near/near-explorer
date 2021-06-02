@@ -6,7 +6,7 @@ import ReceiptsApi, {
 
 import ActionGroup from "../transactions/ActionGroup";
 import Placeholder from "../utils/Placeholder";
-import ReceiptHashLink from "../utils/ReceiptHashLink";
+import ReceiptLink from "../utils/ReceiptLink";
 import ExecutionReceiptStatus from "../utils/ExecutionReceiptStatus";
 
 interface Props {
@@ -47,8 +47,8 @@ class Receipts extends React.Component<ReceiptInfoProps> {
             <ActionGroup
               key={`${receipt.receiptId}_${index}`}
               actionGroup={receipt as DbReceiptInfo}
-              actionLink={
-                <ReceiptHashLink
+              detailsLink={
+                <ReceiptLink
                   transactionHash={receipt.includedInTransactionHash}
                   receiptId={receipt.receiptId}
                 />
@@ -64,7 +64,7 @@ class Receipts extends React.Component<ReceiptInfoProps> {
             />
           ))
         ) : (
-          <Placeholder text="There is no receipts" />
+          <Placeholder>There is no receipts</Placeholder>
         )}
       </>
     );

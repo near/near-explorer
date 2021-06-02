@@ -52,7 +52,6 @@ interface InnerProps extends OuterProps {
 class Transactions extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
-    console.log("Transactions", this.props);
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         {items &&

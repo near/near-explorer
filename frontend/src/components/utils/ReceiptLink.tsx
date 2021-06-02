@@ -1,4 +1,4 @@
-import Link from "../utils/Link";
+import Link from "./Link";
 
 export interface Props {
   transactionHash?: string | null;
@@ -6,7 +6,7 @@ export interface Props {
   children?: React.ReactNode;
 }
 
-const ReceiptHashLink = ({ transactionHash, receiptId, children }: Props) => {
+const ReceiptLink = ({ transactionHash, receiptId, children }: Props) => {
   return (
     <>
       {!transactionHash ? (
@@ -33,4 +33,4 @@ const ReceiptHashLink = ({ transactionHash, receiptId, children }: Props) => {
   );
 };
 
-export default ReceiptHashLink;
+export default ReceiptLink;

@@ -11,7 +11,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"CreateAccount"}
           actionArgs={{}}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -23,7 +23,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"DeleteAccount"}
           actionArgs={{ beneficiary_id: "near" }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -35,7 +35,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"DeployContract"}
           actionArgs={{}}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -47,7 +47,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"FunctionCall"}
           actionArgs={{ method_name: "method_name", args: "e30=" }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe("<ActionMessage />", () => {
             method_name: "method_name",
             args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
           }}
-          transaction={TRANSACTIONS[1]}
+          receiverId={TRANSACTIONS[1].receiverId}
           showDetails
         />
       )
@@ -75,7 +75,7 @@ describe("<ActionMessage />", () => {
         <ActionMessage
           actionKind={"Transfer"}
           actionArgs={{ deposit: "1" }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -90,7 +90,7 @@ describe("<ActionMessage />", () => {
             stake: "1",
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -113,7 +113,7 @@ describe("<ActionMessage />", () => {
             },
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -141,7 +141,7 @@ describe("<ActionMessage />", () => {
             },
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -159,7 +159,7 @@ describe("<ActionMessage />", () => {
             },
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();
@@ -173,7 +173,7 @@ describe("<ActionMessage />", () => {
           actionArgs={{
             public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
-          transaction={TRANSACTIONS[0]}
+          receiverId={TRANSACTIONS[0].receiverId}
         />
       )
     ).toMatchSnapshot();

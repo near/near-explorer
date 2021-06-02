@@ -4,7 +4,7 @@ const EXECUTION_RECEIPT_STATUSES: Record<ReceiptExecutionStatus, string> = {
   Unknown: "Unknown",
   Failure: "Failed",
   SuccessValue: "Succeeded",
-  SuccessReceiptId: "SuccessReceiptId",
+  SuccessReceiptId: "Status is deferred to receipt",
 };
 
 export interface Props {

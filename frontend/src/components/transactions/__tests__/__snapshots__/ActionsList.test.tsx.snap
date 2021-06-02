@@ -2,32 +2,6 @@
 
 exports[`<ActionsList /> renders ActionsList for Receipts without transactionHash 1`] = `
 <ActionList
-  actionBlock={
-    Object {
-      "actions": Array [
-        Object {
-          "args": Object {
-            "deposit": "8403180157952936387200",
-          },
-          "kind": "Transfer",
-        },
-      ],
-      "blockTimestamp": 1621931941926,
-      "gasBurnt": 0,
-      "includedInTransactionHash": null,
-      "receiptId": "D6a85wNQ47v3dPy8bGF2WQpKQu5di2dnx4EMohm9f5fc",
-      "receiverId": "ig27.near",
-      "signerId": "system",
-      "status": "SuccessValue",
-      "tokensBurnt": "0",
-    }
-  }
-  actionLink={
-    <ReceiptHashLink
-      receiptId="D6a85wNQ47v3dPy8bGF2WQpKQu5di2dnx4EMohm9f5fc"
-      transactionHash={null}
-    />
-  }
   actions={
     Array [
       Object {
@@ -38,7 +12,16 @@ exports[`<ActionsList /> renders ActionsList for Receipts without transactionHas
       },
     ]
   }
+  blockTimestamp={1621931941926}
+  detailsLink={
+    <ReceiptLink
+      receiptId="D6a85wNQ47v3dPy8bGF2WQpKQu5di2dnx4EMohm9f5fc"
+      transactionHash={null}
+    />
+  }
+  receiverId="ig27.near"
   showDetails={true}
+  signerId="system"
 />
 `;
 
