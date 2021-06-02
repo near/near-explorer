@@ -15,7 +15,7 @@ interface Props {
 
 class Validators extends React.PureComponent<Props> {
   static defaultProps = {
-    itemsPerPage: 12,
+    itemsPerPage: 120,
   };
 
   state = {
