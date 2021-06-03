@@ -80,7 +80,7 @@ class BlockDetail extends React.Component {
               icon={<TransactionIcon style={{ width: "22px" }} />}
               title={<h2>Transactions</h2>}
             >
-              <Transactions blockHash={block.hash} />
+              <Transactions blockHash={block.hash} count={1000} />
             </Content>
 
             <Content

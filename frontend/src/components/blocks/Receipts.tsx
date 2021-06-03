@@ -6,6 +6,7 @@ import ReceiptsApi, {
 
 import ActionGroup from "../transactions/ActionGroup";
 import Placeholder from "../utils/Placeholder";
+import PaginationSpinner from "../utils/PaginationSpinner";
 import ReceiptLink from "../utils/ReceiptLink";
 import ExecutionReceiptStatus from "../utils/ExecutionReceiptStatus";
 
@@ -18,6 +19,7 @@ export type ReceiptInfoProps = Props & DbReceiptInfo;
 class Receipts extends React.Component<ReceiptInfoProps> {
   state = {
     receipts: [],
+    loading: true,
   };
   componentDidMount() {
     this.fetchReceiptsList(this.props.blockHash);
@@ -32,24 +34,26 @@ class Receipts extends React.Component<ReceiptInfoProps> {
   fetchReceiptsList = (blockHash: string) => {
     if (blockHash) {
       new ReceiptsApi().queryReceiptsList(blockHash).then((receipts) => {
-        this.setState({ receipts });
+        this.setState({ receipts, loading: false });
       });
     }
     return null;
   };
   render() {
-    const { receipts } = this.state;
+    const { receipts, loading } = this.state;
 
     return (
       <>
-        {receipts && receipts.length > 0 ? (
+        {loading ? (
+          <PaginationSpinner hidden={false} />
+        ) : receipts?.length > 0 ? (
           receipts.map((receipt: DbReceiptInfo, index) => (
             <ActionGroup
               key={`${receipt.receiptId}_${index}`}
               actionGroup={receipt as DbReceiptInfo}
               detailsLink={
                 <ReceiptLink
-                  transactionHash={receipt.includedInTransactionHash}
+                  transactionHash={receipt.originatedFromTransactionHash}
                   receiptId={receipt.receiptId}
                 />
               }

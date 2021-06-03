@@ -33,7 +33,7 @@ describe("<ActionsList />", () => {
           actions={RECEIPTS[1].actions}
           detailsLink={
             <ReceiptLink
-              transactionHash={RECEIPTS[1].includedInTransactionHash}
+              transactionHash={RECEIPTS[1].originatedFromTransactionHash}
               receiptId={RECEIPTS[1].receiptId}
             />
           }
@@ -70,7 +70,7 @@ describe("<ActionsList />", () => {
           actions={RECEIPTS[7].actions}
           detailsLink={
             <ReceiptLink
-              transactionHash={RECEIPTS[7].includedInTransactionHash}
+              transactionHash={RECEIPTS[7].originatedFromTransactionHash}
               receiptId={RECEIPTS[7].receiptId}
             />
           }
@@ -105,7 +105,7 @@ describe("<ActionsList />", () => {
         actions={RECEIPTS[0].actions}
         detailsLink={
           <ReceiptLink
-            transactionHash={RECEIPTS[0].includedInTransactionHash}
+            transactionHash={RECEIPTS[0].originatedFromTransactionHash}
             receiptId={RECEIPTS[0].receiptId}
           />
         }

@@ -13,7 +13,7 @@ export type ReceiptInfo = RpcReceipt &
   TransactionInfo &
   ReceiptExecutionOutcome & {
     executed_in_block_timestamp: number;
-    included_in_transaction_hash?: string;
+    originated_from_transaction_hash?: string;
   };
 
 export interface DbReceiptInfo {
@@ -24,7 +24,7 @@ export interface DbReceiptInfo {
   receiverId: string;
   signerId: string;
   status?: ReceiptExecutionStatus;
-  includedInTransactionHash?: string | null;
+  originatedFromTransactionHash?: string | null;
   tokensBurnt: string;
 }
 
@@ -55,7 +55,7 @@ export default class ReceiptsApi extends ExplorerApi {
         receipts = await this.call<any>("select:INDEXER_BACKEND", [
           `SELECT
             receipts.receipt_id,
-            receipts.receipt_kind,
+            receipts.originated_from_transaction_hash,
             receipts.predecessor_account_id AS predecessor_id,
             receipts.receiver_account_id AS receiver_id,
             execution_outcomes.status,
@@ -63,13 +63,12 @@ export default class ReceiptsApi extends ExplorerApi {
             execution_outcomes.tokens_burnt,
             execution_outcomes.executed_in_block_timestamp,
             action_receipt_actions.action_kind AS kind,
-            action_receipt_actions.args,
-            transactions.transaction_hash AS included_in_transaction_hash
+            action_receipt_actions.args
           FROM receipts
           LEFT JOIN execution_outcomes ON execution_outcomes.receipt_id = receipts.receipt_id
           LEFT JOIN action_receipt_actions ON action_receipt_actions.receipt_id = receipts.receipt_id
-          LEFT JOIN transactions ON transactions.converted_into_receipt_id = receipts.receipt_id
-          WHERE receipts.included_in_block_hash = :blockHash`,
+          WHERE receipts.included_in_block_hash = :blockHash
+          AND receipts.receipt_kind = 'ACTION'`,
           {
             blockHash,
           },
@@ -122,7 +121,8 @@ export default class ReceiptsApi extends ExplorerApi {
                 status: ReceiptsApi.indexerCompatibilityReceiptActionKinds.get(
                   receipt.status
                 ),
-                includedInTransactionHash: receipt.included_in_transaction_hash,
+                originatedFromTransactionHash:
+                  receipt.originated_from_transaction_hash,
                 tokensBurnt: receipt.tokens_burnt,
               });
             }
