@@ -102,6 +102,7 @@ export default class BlocksApi extends ExplorerApi {
   async getBlockInfo(blockId: string | number): Promise<DetailedBlockInfo> {
     try {
       let block;
+      let receiptsCount;
       if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
         block = await this.call<any>("select", [
           `SELECT
@@ -136,8 +137,7 @@ export default class BlocksApi extends ExplorerApi {
               blocks.gas_price AS gas_price,
               blocks.total_supply AS total_supply,
               blocks.author_account_id AS author_account_id,
-              COUNT(transactions.transaction_hash) AS transactions_count,
-              COUNT(receipts.receipt_id) as receipts_count
+              COUNT(transactions.transaction_hash) AS transactions_count
             FROM (
               SELECT blocks.block_hash AS block_hash
               FROM blocks
@@ -147,7 +147,6 @@ export default class BlocksApi extends ExplorerApi {
                   : `WHERE blocks.block_height = :blockId`
               }
             ) as innerblocks
-            LEFT JOIN receipts ON receipts.included_in_block_hash = innerblocks.block_hash
             LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
             LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
             GROUP BY blocks.block_hash
@@ -156,6 +155,19 @@ export default class BlocksApi extends ExplorerApi {
             blockId,
           },
         ]).then((it) => (it.length === 0 ? undefined : it[0]));
+
+        if (typeof blockId === "string") {
+          receiptsCount = await this.call<any>("select:INDEXER_BACKEND", [
+            `SELECT
+              COUNT(receipts.receipt_id)
+            FROM receipts
+            WHERE receipts.included_in_block_hash = :blockId
+            AND receipts.receipt_kind = 'ACTION'`,
+            {
+              blockId,
+            },
+          ]).then((it) => (it.length === 0 ? undefined : it[0].count));
+        }
       } else {
         throw Error(`unsupported data source ${this.dataSource}`);
       }
@@ -201,7 +213,7 @@ export default class BlocksApi extends ExplorerApi {
         gasUsed: gasUsedInBlock,
         gasPrice: new BN(block.gas_price),
         authorAccountId: block.author_account_id,
-        receiptsCount: block.receipts_count,
+        receiptsCount,
       } as DetailedBlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");
