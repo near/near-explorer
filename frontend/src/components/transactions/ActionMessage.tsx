@@ -88,8 +88,13 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   }: Props<T.FunctionCall>) => {
     let args;
     if (showDetails) {
-      if (!actionArgs.args) {
+      if (typeof actionArgs.args === "undefined") {
         args = <p>Loading...</p>;
+      } else if (
+        (typeof actionArgs.args === "string" && actionArgs.args.length === 0) ||
+        !actionArgs.args
+      ) {
+        args = <p>The arguments are empty</p>;
       } else {
         args = displayArgs(actionArgs.args);
       }
