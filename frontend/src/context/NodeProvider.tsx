@@ -17,20 +17,10 @@ export interface Props {
 }
 
 const NodeProvider = (props: Props) => {
-  const [currentValidators, dispatchValidators] = useState<
-    ValidationNodeInfo[]
-  >();
-  const [currentProposals, dispatchCurrentProposals] = useState<
-    ValidationNodeInfo[]
-  >();
-  const [onlineNodes, dispatchOnlineNodes] = useState<NodeInfo[]>();
-  const [onlineValidatingNodes, dispatchNodes] = useState<NodeInfo[]>();
+  const [currentContext, setContext] = useState<INodeContext>({});
 
-  const fetchNodeInfo = (_positionalArgs: any, namedArgs: INodeContext) => {
-    dispatchValidators(namedArgs.currentValidators);
-    dispatchCurrentProposals(namedArgs.currentProposals);
-    dispatchOnlineNodes(namedArgs.onlineNodes);
-    dispatchNodes(namedArgs.onlineValidatingNodes);
+  const fetchNodeInfo = (_positionalArgs: any, context: INodeContext) => {
+    setContext(context);
   };
 
   useEffect(() => {
@@ -43,14 +33,7 @@ const NodeProvider = (props: Props) => {
   }, []);
 
   return (
-    <NodeContext.Provider
-      value={{
-        currentValidators,
-        currentProposals,
-        onlineNodes,
-        onlineValidatingNodes,
-      }}
-    >
+    <NodeContext.Provider value={currentContext}>
       {props.children}
     </NodeContext.Provider>
   );

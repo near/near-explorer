@@ -15,7 +15,7 @@ interface Props {
 
 class Validators extends React.PureComponent<Props> {
   static defaultProps = {
-    itemsPerPage: 12,
+    itemsPerPage: 120,
   };
 
   state = {
@@ -49,13 +49,19 @@ class Validators extends React.PureComponent<Props> {
                 {validatorType ? (
                   <Table
                     className="validators-section"
-                    pagination={{
-                      className: "validators-node-pagination",
-                      pageCount: Math.ceil(validatorType.length / itemsPerPage),
-                      marginPagesDisplayed: 1,
-                      pageRangeDisplayed: 3,
-                      onPageChange: this.onPageChange,
-                    }}
+                    pagination={
+                      validatorType.length > itemsPerPage
+                        ? {
+                            className: "validators-node-pagination",
+                            pageCount: Math.ceil(
+                              validatorType.length / itemsPerPage
+                            ),
+                            marginPagesDisplayed: 1,
+                            pageRangeDisplayed: 3,
+                            onPageChange: this.onPageChange,
+                          }
+                        : undefined
+                    }
                   >
                     <thead>
                       <tr className="validators-header-row">
