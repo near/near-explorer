@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 import { DatabaseContext } from "../../context/DatabaseProvider";
 import { TransactionInfo } from "../../libraries/explorer-wamp/transactions";
-import { DbReceiptInfo } from "../../libraries/explorer-wamp/receipts";
+import { Receipt } from "../../libraries/explorer-wamp/receipts";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
 
@@ -12,7 +12,7 @@ import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 
 interface Props {
-  actionGroup: DbReceiptInfo | TransactionInfo;
+  actionGroup: Receipt | TransactionInfo;
   detailsLink?: React.ReactNode;
   status?: React.ReactNode;
   viewMode?: ViewMode;

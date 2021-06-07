@@ -2,21 +2,9 @@ import BN from "bn.js";
 import { DATA_SOURCE_TYPE } from "../consts";
 
 import { ExplorerApi } from ".";
-import TransactionsApi, {
-  Action,
-  RpcReceipt,
-  ReceiptExecutionOutcome,
-  TransactionInfo,
-} from "./transactions";
+import TransactionsApi, { Action } from "./transactions";
 
-export type ReceiptInfo = RpcReceipt &
-  TransactionInfo &
-  ReceiptExecutionOutcome & {
-    executed_in_block_timestamp: number;
-    originated_from_transaction_hash?: string;
-  };
-
-export interface DbReceiptInfo {
+export interface Receipt {
   actions: Action[];
   blockTimestamp: number;
   receiptId: string;
@@ -35,7 +23,10 @@ export type ReceiptExecutionStatus =
   | "SuccessReceiptId";
 
 export default class ReceiptsApi extends ExplorerApi {
-  static indexerCompatibilityReceiptActionKinds = new Map([
+  static indexerCompatibilityReceiptActionKinds = new Map<
+    string | null,
+    ReceiptExecutionStatus
+  >([
     ["SUCCESS_RECEIPT_ID", "SuccessReceiptId"],
     ["SUCCESS_VALUE", "SuccessValue"],
     ["FAILURE", "Failure"],
@@ -44,15 +35,8 @@ export default class ReceiptsApi extends ExplorerApi {
   // expose receipts included in blockHash
   async queryReceiptsList(blockHash: string) {
     try {
-      let receipts;
-      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-        receipts = undefined;
-      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-        const actionsByReceiptId = new Map();
-        const receiptByIdList = new Map();
-        const receiptsIds: string[] = [];
-
-        receipts = await this.call<any>("select:INDEXER_BACKEND", [
+      if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+        const receiptActions = await this.call<any>("select:INDEXER_BACKEND", [
           `SELECT
             receipts.receipt_id,
             receipts.originated_from_transaction_hash,
@@ -64,92 +48,68 @@ export default class ReceiptsApi extends ExplorerApi {
             execution_outcomes.executed_in_block_timestamp,
             action_receipt_actions.action_kind AS kind,
             action_receipt_actions.args
-          FROM receipts
-          LEFT JOIN execution_outcomes ON execution_outcomes.receipt_id = receipts.receipt_id
-          LEFT JOIN action_receipt_actions ON action_receipt_actions.receipt_id = receipts.receipt_id
+          FROM action_receipt_actions
+          LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+          LEFT JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
           WHERE receipts.included_in_block_hash = :blockHash
-          AND receipts.receipt_kind = 'ACTION'`,
+          AND receipts.receipt_kind = 'ACTION'
+          ORDER BY receipts.included_in_chunk_hash, receipts.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
           {
             blockHash,
           },
         ]);
 
-        if (receipts) {
-          const actionsArray = receipts.map(
-            ({ receipt_id, args, kind }: RpcReceipt & Action) => ({
-              receipt_id,
-              args,
-              kind,
-            })
-          );
-          actionsArray.forEach(
-            ({ receipt_id, args, kind }: RpcReceipt & Action) => {
-              const receiptAction = actionsByReceiptId.get(receipt_id);
-              if (receiptAction) {
-                receiptAction.push({
-                  args,
-                  kind: TransactionsApi.indexerCompatibilityActionKinds.get(
-                    kind
-                  ),
-                });
-              } else {
-                receiptsIds.push(receipt_id);
-                actionsByReceiptId.set(receipt_id, [
-                  {
-                    args,
-                    kind: TransactionsApi.indexerCompatibilityActionKinds.get(
-                      kind
-                    ),
-                  },
-                ]);
-              }
-            }
-          );
-
-          receipts.forEach((receipt: ReceiptInfo) => {
-            const receiptById = receiptByIdList.get(receipt.receipt_id);
-            if (!receiptById) {
-              receiptByIdList.set(receipt.receipt_id, {
-                actions: actionsByReceiptId.get(receipt.receipt_id),
-                blockTimestamp: new BN(receipt.executed_in_block_timestamp)
-                  .divn(10 ** 6)
-                  .toNumber(),
-                gasBurnt: receipt.gas_burnt,
-                receiptId: receipt.receipt_id,
-                receiverId: receipt.receiver_id,
-                signerId: receipt.predecessor_id,
-                status: ReceiptsApi.indexerCompatibilityReceiptActionKinds.get(
-                  receipt.status
-                ),
-                originatedFromTransactionHash:
-                  receipt.originated_from_transaction_hash,
-                tokensBurnt: receipt.tokens_burnt,
-              });
-            }
+        // The receipt actions are ordered in such a way that the actions for a single receipt go
+        // one after another in a correct order, so we can collect them linearly using a moving
+        // window based on the `previousReceiptId`.
+        let receipts: Receipt[] = [];
+        let actions: Action[];
+        let previousReceiptId: string = "";
+        for (const receiptAction of receiptActions) {
+          if (previousReceiptId !== receiptAction.receipt_id) {
+            previousReceiptId = receiptAction.receipt_id;
+            actions = [];
+            const receipt = {
+              actions,
+              blockTimestamp: new BN(receiptAction.executed_in_block_timestamp)
+                .divn(10 ** 6)
+                .toNumber(),
+              gasBurnt: receiptAction.gas_burnt,
+              receiptId: receiptAction.receipt_id,
+              receiverId: receiptAction.receiver_id,
+              signerId: receiptAction.predecessor_id,
+              status: ReceiptsApi.indexerCompatibilityReceiptActionKinds.get(
+                receiptAction.status
+              ),
+              originatedFromTransactionHash:
+                receiptAction.originated_from_transaction_hash,
+              tokensBurnt: receiptAction.tokens_burnt,
+            };
+            receipts.push(receipt);
+          }
+          actions!.push({
+            args: receiptAction.args,
+            kind: TransactionsApi.indexerCompatibilityActionKinds.get(
+              receiptAction.kind
+            )!,
           });
-
-          receipts = receiptsIds.map((receiptId) =>
-            receiptByIdList.get(receiptId)
-          );
         }
+        return receipts;
       } else {
         throw Error(`unsupported data source ${this.dataSource}`);
       }
-      return receipts;
     } catch (error) {
       console.error("Receipts.queryReceiptsList failed to fetch data due to:");
       console.error(error);
       throw error;
     }
+    return [];
   }
 
-  async queryReceiptsCountInBlock(blockHash: string) {
+  async queryReceiptsCountInBlock(blockHash: string): Promise<number> {
     try {
-      let receiptsCount;
-      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-        receiptsCount = undefined;
-      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-        receiptsCount = await this.call<any>("select:INDEXER_BACKEND", [
+      if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+        return await this.call<any>("select:INDEXER_BACKEND", [
           `SELECT
             COUNT(receipt_id)
           FROM receipts
@@ -157,10 +117,7 @@ export default class ReceiptsApi extends ExplorerApi {
           {
             blockHash,
           },
-        ]).then((receipts) =>
-          receipts.length === 0 ? undefined : receipts[0]
-        );
-        return receiptsCount;
+        ]).then((receipts) => receipts[0]);
       }
     } catch (error) {
       console.error(
@@ -169,5 +126,6 @@ export default class ReceiptsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+    return 0;
   }
 }

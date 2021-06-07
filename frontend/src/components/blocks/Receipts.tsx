@@ -1,8 +1,6 @@
 import React from "react";
 
-import ReceiptsApi, {
-  DbReceiptInfo,
-} from "../../libraries/explorer-wamp/receipts";
+import ReceiptsApi, { Receipt } from "../../libraries/explorer-wamp/receipts";
 
 import ActionGroup from "../transactions/ActionGroup";
 import Placeholder from "../utils/Placeholder";
@@ -14,7 +12,7 @@ interface Props {
   blockHash: string;
 }
 
-export type ReceiptInfoProps = Props & DbReceiptInfo;
+export type ReceiptInfoProps = Props & Receipt;
 
 class Receipts extends React.Component<ReceiptInfoProps> {
   state = {
@@ -47,10 +45,10 @@ class Receipts extends React.Component<ReceiptInfoProps> {
         {loading ? (
           <PaginationSpinner hidden={false} />
         ) : receipts?.length > 0 ? (
-          receipts.map((receipt: DbReceiptInfo, index) => (
+          receipts.map((receipt: Receipt, index) => (
             <ActionGroup
               key={`${receipt.receiptId}_${index}`}
-              actionGroup={receipt as DbReceiptInfo}
+              actionGroup={receipt as Receipt}
               detailsLink={
                 <ReceiptLink
                   transactionHash={receipt.originatedFromTransactionHash}

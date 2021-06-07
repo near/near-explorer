@@ -667,7 +667,7 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: T.Transaction = {
   },
 };
 
-export const RECEIPTS: R.DbReceiptInfo[] = [
+export const RECEIPTS: R.Receipt[] = [
   {
     actions: [
       { args: { deposit: "8403180157952936387200" }, kind: "Transfer" },
