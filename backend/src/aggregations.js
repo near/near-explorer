@@ -13,7 +13,7 @@ let CIRCULATING_SUPPLY = {
 
 // utils from https://github.com/near/account-lookup/blob/master/script.js
 const readOption = (reader, f, defaultValue) => {
-  let x = reader.read_u8();
+  let x = reader.readU8();
   return x === 1 ? f() : defaultValue;
 };
 
@@ -32,45 +32,45 @@ const viewLockupState = async (contractId, blockHeight) => {
       }
       let value = Buffer.from(result.values[0].value, "base64");
       let reader = new nearApi.utils.serialize.BinaryReader(value);
-      let owner = reader.read_string();
-      let lockupAmount = reader.read_u128();
-      let terminationWithdrawnTokens = reader.read_u128();
-      let lockupDuration = reader.read_u64();
+      let owner = reader.readString();
+      let lockupAmount = reader.readU128();
+      let terminationWithdrawnTokens = reader.readU128();
+      let lockupDuration = reader.readU64();
 
       let releaseDuration = readOption(
         reader,
-        () => reader.read_u64(),
+        () => reader.readU64(),
         new BN(0)
       );
       let lockupTimestamp = readOption(
         reader,
-        () => reader.read_u64(),
+        () => reader.readU64(),
         new BN(0)
       );
 
-      let tiType = reader.read_u8();
+      let tiType = reader.readU8();
       let transferInformation;
       if (tiType === 0) {
-        let transfersTimestamp = reader.read_u64();
+        let transfersTimestamp = reader.readU64();
         transferInformation = { transfersTimestamp };
       } else {
-        let transferPollAccountId = reader.read_string();
+        let transferPollAccountId = reader.readString();
         transferInformation = { transferPollAccountId };
       }
 
-      let vestingType = reader.read_u8();
+      let vestingType = reader.readU8();
       let vestingInformation;
       if (vestingType === 1) {
-        let vestingHash = reader.read_array(() => reader.read_u8());
+        let vestingHash = reader.readArray(() => reader.readU8());
         vestingInformation = { vestingHash };
       } else if (vestingType === 2) {
-        let start = reader.read_u64();
-        let cliff = reader.read_u64();
-        let end = reader.read_u64();
+        let start = reader.readU64();
+        let cliff = reader.readU64();
+        let end = reader.readU64();
         vestingInformation = { start, cliff, end };
       } else if (vestingType === 3) {
-        let unvestedAmount = reader.read_u128();
-        let terminationStatus = reader.read_u8();
+        let unvestedAmount = reader.readU128();
+        let terminationStatus = reader.readU8();
         vestingInformation = { unvestedAmount, terminationStatus };
       }
 

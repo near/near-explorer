@@ -371,21 +371,43 @@ async function main() {
       ]);
 
       for (const stakingPoolAccountId of stakingPoolsAccountId) {
-        const fee = await nearRpc.callViewMethod(
-          stakingPoolAccountId,
-          "get_reward_fee_fraction",
-          {}
-        );
-        const delegatorsCount = await nearRpc.callViewMethod(
-          stakingPoolAccountId,
-          "get_number_of_accounts",
-          {}
-        );
-        stakingPoolsInfo.set(stakingPoolAccountId, { fee, delegatorsCount });
+        try {
+          const account = await nearRpc.query({
+            request_type: "view_account",
+            account_id: stakingPoolAccountId,
+            finality: "final",
+          });
+          if (account.code_hash === "11111111111111111111111111111111") {
+            stakingPoolsInfo.set(stakingPoolAccountId, {
+              fee: null,
+              delegatorsCount: null,
+            });
+          } else {
+            const fee = await nearRpc.callViewMethod(
+              stakingPoolAccountId,
+              "get_reward_fee_fraction",
+              {}
+            );
+            const delegatorsCount = await nearRpc.callViewMethod(
+              stakingPoolAccountId,
+              "get_number_of_accounts",
+              {}
+            );
+            stakingPoolsInfo.set(stakingPoolAccountId, {
+              fee,
+              delegatorsCount,
+            });
+          }
+        } catch (error) {
+          console.warn(
+            `Regular regular fetching staking pool ${stakingPoolAccountId} info crashed due to:`,
+            error
+          );
+        }
       }
     } catch (error) {
       console.warn(
-        "Regular regular network info publishing crashed due to:",
+        "Regular regular fetching staking pools info crashed due to:",
         error
       );
     }
