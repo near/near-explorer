@@ -11,6 +11,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
+import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
@@ -37,6 +38,8 @@ class BlockDetail extends React.Component {
   }
 
   render() {
+    // Prepare the block object with all the right types and field names on render() since
+    // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
     const block = {
       hash: this.props.hash,
       height: this.props.height,
@@ -47,6 +50,8 @@ class BlockDetail extends React.Component {
       totalSupply: new BN(this.props.totalSupply),
       gasPrice: new BN(this.props.gasPrice),
       gasUsed: new BN(this.props.gasUsed),
+      authorAccountId: this.props.authorAccountId,
+      receiptsCount: this.props.receiptsCount,
     };
 
     return (
@@ -71,13 +76,23 @@ class BlockDetail extends React.Component {
           )}
         </Content>
         {!this.props.err ? (
-          <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Transactions</h2>}
-          >
-            <Transactions blockHash={block.hash} />
-          </Content>
+          <>
+            <Content
+              size="medium"
+              icon={<TransactionIcon style={{ width: "22px" }} />}
+              title={<h2>Transactions</h2>}
+            >
+              <Transactions blockHash={block.hash} count={1000} />
+            </Content>
+
+            <Content
+              size="medium"
+              icon={<TransactionIcon style={{ width: "22px" }} />}
+              title={<h2>Receipts</h2>}
+            >
+              <ReceiptsInBlock blockHash={block.hash} />
+            </Content>
+          </>
         ) : null}
       </>
     );

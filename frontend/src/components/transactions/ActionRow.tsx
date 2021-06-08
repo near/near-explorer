@@ -7,13 +7,16 @@ import * as T from "../../libraries/explorer-wamp/transactions";
 
 export interface Props {
   action: T.Action;
-  transaction: T.Transaction;
-  viewMode: ViewMode;
-  detalizationMode: DetalizationMode;
+  blockTimestamp?: number;
   className: string;
-  showDetails?: boolean;
-  status?: T.ExecutionStatus;
+  detailsLink?: React.ReactNode;
+  detalizationMode: DetalizationMode;
   isFinal?: boolean;
+  receiverId: string;
+  signerId: string;
+  showDetails?: boolean;
+  status?: React.ReactNode;
+  viewMode: ViewMode;
 }
 
 class ActionRow extends React.PureComponent<Props> {
@@ -29,7 +32,10 @@ class ActionRow extends React.PureComponent<Props> {
       viewMode,
       detalizationMode,
       className,
-      transaction,
+      signerId,
+      receiverId,
+      blockTimestamp,
+      detailsLink,
       action,
       showDetails,
       status,
@@ -41,11 +47,13 @@ class ActionRow extends React.PureComponent<Props> {
         viewMode={viewMode}
         detalizationMode={detalizationMode}
         className={className}
-        transaction={transaction}
+        signerId={signerId}
+        blockTimestamp={blockTimestamp}
+        detailsLink={detailsLink}
         icon={ActionIcon && <ActionIcon />}
         title={
           <ActionMessage
-            transaction={transaction}
+            receiverId={receiverId}
             actionKind={action.kind}
             actionArgs={action.args}
             showDetails={showDetails}

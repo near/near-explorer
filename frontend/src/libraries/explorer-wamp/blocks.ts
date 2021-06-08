@@ -16,6 +16,8 @@ export type DetailedBlockInfo = BlockInfo & {
   totalSupply: BN;
   gasPrice: BN;
   gasUsed: BN;
+  authorAccountId: string;
+  receiptsCount: number;
 };
 
 export default class BlocksApi extends ExplorerApi {
@@ -100,6 +102,7 @@ export default class BlocksApi extends ExplorerApi {
   async getBlockInfo(blockId: string | number): Promise<DetailedBlockInfo> {
     try {
       let block;
+      let receiptsCount;
       if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
         block = await this.call<any>("select", [
           `SELECT
@@ -133,6 +136,7 @@ export default class BlocksApi extends ExplorerApi {
               blocks.prev_block_hash AS prev_hash,
               blocks.gas_price AS gas_price,
               blocks.total_supply AS total_supply,
+              blocks.author_account_id AS author_account_id,
               COUNT(transactions.transaction_hash) AS transactions_count
             FROM (
               SELECT blocks.block_hash AS block_hash
@@ -151,6 +155,19 @@ export default class BlocksApi extends ExplorerApi {
             blockId,
           },
         ]).then((it) => (it.length === 0 ? undefined : it[0]));
+
+        if (typeof blockId === "string") {
+          receiptsCount = await this.call<any>("select:INDEXER_BACKEND", [
+            `SELECT
+              COUNT(receipts.receipt_id)
+            FROM receipts
+            WHERE receipts.included_in_block_hash = :blockId
+            AND receipts.receipt_kind = 'ACTION'`,
+            {
+              blockId,
+            },
+          ]).then((it) => (it.length === 0 ? undefined : it[0].count));
+        }
       } else {
         throw Error(`unsupported data source ${this.dataSource}`);
       }
@@ -195,6 +212,8 @@ export default class BlocksApi extends ExplorerApi {
         totalSupply: new BN(block.total_supply),
         gasUsed: gasUsedInBlock,
         gasPrice: new BN(block.gas_price),
+        authorAccountId: block.author_account_id,
+        receiptsCount,
       } as DetailedBlockInfo;
     } catch (error) {
       console.error("Blocks.getBlockInfo failed to fetch data due to:");

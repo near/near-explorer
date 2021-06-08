@@ -129,10 +129,6 @@ export interface ReceiptExecutionOutcome {
   gas_burnt: number;
 }
 
-export interface Receipt {
-  receipt?: NestedReceiptWithOutcome;
-}
-
 export interface TransactionOutcome {
   id: string;
   outcome: Outcome;
@@ -145,8 +141,7 @@ export interface TransactionOutcomeWrapper {
 
 export type Transaction = TransactionInfo &
   ReceiptsOutcomeWrapper &
-  TransactionOutcomeWrapper &
-  Receipt;
+  TransactionOutcomeWrapper & { receipt?: NestedReceiptWithOutcome };
 
 export interface TxPagination {
   endTimestamp: number;
@@ -162,7 +157,7 @@ export interface QueryArgs {
 }
 
 export default class TransactionsApi extends ExplorerApi {
-  static indexerCompatibilityActionKinds = new Map([
+  static indexerCompatibilityActionKinds = new Map<string, keyof RpcAction>([
     ["ADD_KEY", "AddKey"],
     ["CREATE_ACCOUNT", "CreateAccount"],
     ["DELETE_ACCOUNT", "DeleteAccount"],

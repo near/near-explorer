@@ -30,7 +30,21 @@ class TransactionDetailsPage extends React.Component {
   }
 
   render() {
-    const { hash } = this.props;
+    // Prepare the transaction object with all the right types and field names on render() since
+    // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
+    const transaction = {
+      actions: this.props.actions,
+      blockTimestamp: this.props.blockTimestamp,
+      blockHash: this.props.blockHash,
+      hash: this.props.hash,
+      receipt: this.props.receipt,
+      transactionOutcome: this.props.transactionOutcome,
+      receiptsOutcome: this.props.receiptsOutcome,
+      signerId: this.props.signerId,
+      receiverId: this.props.receiverId,
+      status: this.props.status,
+    };
+
     return (
       <>
         <Head>
@@ -38,8 +52,11 @@ class TransactionDetailsPage extends React.Component {
         </Head>
         <Content
           title={
-            <h1>{`Transaction: ${hash.substring(0, 7)}...${hash.substring(
-              hash.length - 4
+            <h1>{`Transaction: ${transaction.hash.substring(
+              0,
+              7
+            )}...${transaction.hash.substring(
+              transaction.hash.length - 4
             )}`}</h1>
           }
           border={false}
@@ -47,33 +64,35 @@ class TransactionDetailsPage extends React.Component {
           {this.props.err ? (
             `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
           ) : (
-            <TransactionDetails transaction={this.props} />
+            <TransactionDetails transaction={transaction} />
           )}
         </Content>
-        {this.props.actions && (
+        {transaction.actions && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Actions</h2>}
           >
             <ActionsList
-              actions={this.props.actions}
-              transaction={this.props}
+              actions={transaction.actions}
+              signerId={transaction.signerId}
+              receiverId={transaction.receiverId}
+              blockTimestamp={transaction.blockTimestamp}
               detalizationMode="minimal"
               showDetails
             />
           </Content>
         )}
 
-        {this.props.receipt && (
+        {transaction.receipt && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
             title={<h2>Transaction Execution Plan</h2>}
           >
-            <TransactionOutcome transaction={this.props.transactionOutcome} />
+            <TransactionOutcome transaction={transaction.transactionOutcome} />
 
-            <ReceiptRow receipt={this.props.receipt} />
+            <ReceiptRow receipt={transaction.receipt} />
           </Content>
         )}
       </>

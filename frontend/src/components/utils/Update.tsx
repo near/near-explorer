@@ -1,31 +1,16 @@
-interface Props {
-  children: string;
-}
+import Placeholder, { Props as PlaceholderProps } from "./Placeholder";
 
-const Update = ({ children }: Props) => {
+const Update = ({ children }: PlaceholderProps) => {
   return (
-    <div className="update">
-      <p className="update-text">
-        {children}
-        {` Refresh or Click to view the latest data.`}
-      </p>
+    <Placeholder className="update">
+      {children}
+      {` Refresh or Click to view the latest data.`}
       <style>{`
-      .update{
-        width: 100%;
-        background: rgba(106, 209, 227, 0.15);
-        color: #6ab9e3;
-        padding: 5px 10px;
-        cursor:pointer;
-      }
       .update:active{
         background: rgba(106, 209, 227, 0.5)
       }
-
-      .update-text {
-        margin: 3px;
-      }
       `}</style>
-    </div>
+    </Placeholder>
   );
 };
 

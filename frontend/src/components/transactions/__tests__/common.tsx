@@ -1,4 +1,5 @@
 import * as T from "../../../libraries/explorer-wamp/transactions";
+import * as R from "../../../libraries/explorer-wamp/receipts";
 
 export const TRANSACTIONS: T.Transaction[] = [
   // no action has deposit
@@ -665,3 +666,206 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: T.Transaction = {
     receiver_id: "receiver.test",
   },
 };
+
+export const RECEIPTS: R.Receipt[] = [
+  {
+    actions: [
+      { args: { deposit: "8403180157952936387200" }, kind: "Transfer" },
+    ],
+    blockTimestamp: 1621931941926,
+    gasBurnt: 0,
+    receiptId: "D6a85wNQ47v3dPy8bGF2WQpKQu5di2dnx4EMohm9f5fc",
+    receiverId: "ig27.near",
+    signerId: "system",
+    status: "SuccessValue",
+    originatedFromTransactionHash: null,
+    tokensBurnt: "0",
+  },
+  {
+    actions: [
+      {
+        args: {
+          gas: 25000000000000,
+          deposit: "0",
+          args_json: {
+            amount: "170000000000000000000000002",
+          },
+          args_base64:
+            "eyJhbW91bnQiOiIxNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIifQ==",
+          method_name: "on_staking_pool_withdraw",
+        },
+        kind: "FunctionCall",
+      },
+    ],
+    blockTimestamp: 1621931942764,
+    gasBurnt: 3398892960118,
+    receiptId: "BvG4qfnrxVfpqXrSgxxnfdrHYTKFjTcf2LtgEeX5Mzyz",
+    receiverId: "5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near",
+    signerId: "5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near",
+    status: "SuccessValue",
+    originatedFromTransactionHash: null,
+    tokensBurnt: "339889296011800000000",
+  },
+  {
+    actions: [
+      {
+        args: {
+          gas: 75000000000000,
+          deposit: "0",
+          args_json: { amount: "170000000000000000000000002" },
+          args_base64:
+            "eyJhbW91bnQiOiIxNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIifQ==",
+          method_name: "withdraw",
+        },
+        kind: "FunctionCall",
+      },
+    ],
+    blockTimestamp: 1621931941926,
+    gasBurnt: 5461623809433,
+    receiptId: "A7imDWVu3jS5J86nc7VauS947kTyjgVSmYsu29YgBCSN",
+    receiverId: "bisontrails.poolv1.near",
+    signerId: "5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near",
+    status: "SuccessValue",
+    originatedFromTransactionHash: null,
+    tokensBurnt: "546162380943300000000",
+  },
+  {
+    actions: [
+      {
+        args: { deposit: "60566073914760117389740" },
+        kind: "Transfer",
+      },
+    ],
+    blockTimestamp: 1621931941926,
+    gasBurnt: 0,
+    receiptId: "FiT82ZetgfvM4de3pte9f9WL4jrFtVjttYW9KL4Erj2b",
+    receiverId: "wbc992.near",
+    signerId: "system",
+    status: "SuccessValue",
+    originatedFromTransactionHash: null,
+    tokensBurnt: "0",
+  },
+  {
+    actions: [
+      {
+        args: {
+          gas: 20000000000000,
+          deposit: "0",
+          args_json: {
+            amount: "110000000000000000000000",
+            predecessor_account_id: "wbc992.near",
+          },
+          args_base64:
+            "eyJwcmVkZWNlc3Nvcl9hY2NvdW50X2lkIjoid2JjOTkyLm5lYXIiLCJhbW91bnQiOiIxMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ==",
+          method_name: "on_account_created",
+        },
+        kind: "FunctionCall",
+      },
+    ],
+    blockTimestamp: 1621931942764,
+    gasBurnt: 3247920255172,
+    receiptId: "2idRLoceeRzRaFpjALFTgvBTuutQTqDRJajMMssVgLuB",
+    receiverId: "near",
+    signerId: "near",
+    status: "SuccessValue",
+    originatedFromTransactionHash: null,
+    tokensBurnt: "324792025517200000000",
+  },
+  {
+    actions: [
+      { args: {}, kind: "CreateAccount" },
+      {
+        args: {
+          access_key: {
+            nonce: 0,
+            permission: { permission_kind: "FULL_ACCESS" },
+          },
+          public_key: "ed25519:8H5LgkRWx9gzFEL1VVmty2nLF15kaCpf1PqPveVepRwL",
+        },
+        kind: "AddKey",
+      },
+      { args: { deposit: "110000000000000000000000" }, kind: "Transfer" },
+    ],
+    blockTimestamp: 1621931941926,
+    gasBurnt: 424555062500,
+    receiptId: "GUswZE9PQijf7nrnjfNuWQXsYFjdr8vocqwxSuKt35Zx",
+    receiverId: "rongyuejing.near",
+    signerId: "near",
+    status: "SuccessValue",
+    originatedFromTransactionHash: null,
+    tokensBurnt: "42455506250000000000",
+  },
+  {
+    actions: [
+      { args: { deposit: "67402646702234962576368" }, kind: "Transfer" },
+    ],
+    blockTimestamp: 1621931941926,
+    gasBurnt: 0,
+    receiptId: "Fv9EQm4HTFWyZBk4KDjMVbgoSLfoTPfhEkTL4f1sd6km",
+    receiverId: "app.nearcrowd.near",
+    signerId: "system",
+    status: "SuccessValue",
+    originatedFromTransactionHash: null,
+    tokensBurnt: "0",
+  },
+  {
+    actions: [
+      {
+        args: {
+          gas: 30000000000000,
+          deposit: "0",
+          args_json: {
+            task_ordinal: 0,
+            solution_hash: [
+              224,
+              130,
+              95,
+              95,
+              252,
+              9,
+              65,
+              19,
+              238,
+              55,
+              10,
+              106,
+              114,
+              46,
+              214,
+              4,
+              43,
+              90,
+              233,
+              212,
+              225,
+              114,
+              158,
+              41,
+              239,
+              134,
+              191,
+              172,
+              142,
+              148,
+              50,
+              77,
+            ],
+          },
+          args_base64:
+            "eyJ0YXNrX29yZGluYWwiOjAsInNvbHV0aW9uX2hhc2giOlsyMjQsMTMwLDk1LDk1LDI1Miw5LDY1LDE5LDIzOCw1NSwxMCwxMDYsMTE0LDQ2LDIxNCw0LDQzLDkwLDIzMywyMTIsMjI1LDExNCwxNTgsNDEsMjM5LDEzNCwxOTEsMTcyLDE0MiwxNDgsNTAsNzddfQ==",
+          method_name: "submit_approved_solution",
+        },
+        kind: "FunctionCall",
+      },
+    ],
+    blockTimestamp: 1621931941926,
+    gasBurnt: 6048575020858,
+    receiptId: "7uADRkZL3b8HRbCRe3ML6yRyVZ46HHp1pEJKbxewq5Hg",
+    receiverId: "app.nearcrowd.near",
+    signerId: "elonmusk_tesla.near",
+    status: "SuccessValue",
+    originatedFromTransactionHash:
+      "2WDYbcuRyyRXJvrXkfFej9Vrv3s3GNTxVQAqKFTiEtGh",
+    tokensBurnt: "604857502085800000000",
+  },
+];

@@ -63,7 +63,12 @@ class ReceiptRow extends React.Component<Props> {
       tokensBurnedByReceipt = new BN(receipt.outcome.tokens_burnt);
     }
     return (
-      <Row noGutters className="receipt-row" key={receipt.receipt_id}>
+      <Row
+        noGutters
+        className="receipt-row"
+        key={receipt.receipt_id}
+        id={receipt.receipt_id}
+      >
         <Col>
           <Row noGutters>
             <Col className="receipt-row-title receipt-hash-title">
@@ -128,11 +133,8 @@ class ReceiptRow extends React.Component<Props> {
                     <ActionRow
                       key={receipt.receipt_id + index}
                       action={action}
-                      transaction={
-                        {
-                          receiverId: receipt.receiver_id,
-                        } as T.TransactionInfo
-                      }
+                      receiverId={receipt.receiver_id}
+                      signerId={receipt.predecessor_id}
                       detalizationMode="minimal"
                       showDetails
                     />

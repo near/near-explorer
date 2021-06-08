@@ -4,6 +4,7 @@ import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions"
 
 import FlipMove from "../utils/FlipMove";
 import ListHandler from "../utils/ListHandler";
+import Placeholder from "../utils/Placeholder";
 
 import TransactionAction from "./TransactionAction";
 
@@ -52,13 +53,17 @@ interface InnerProps extends OuterProps {
 class Transactions extends React.Component<InnerProps> {
   render() {
     const { items } = this.props;
+
+    if (items?.length === 0) {
+      return <Placeholder>There are no transactions</Placeholder>;
+    }
+
     return (
       <FlipMove duration={1000} staggerDurationBy={0}>
         {items &&
           items.map((transaction) => (
             <TransactionAction
               key={transaction.hash}
-              actions={transaction.actions}
               transaction={transaction}
             />
           ))}

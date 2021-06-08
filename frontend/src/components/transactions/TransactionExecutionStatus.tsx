@@ -10,8 +10,8 @@ const EXECUTION_STATUSES: Record<ExecutionStatus, string> = {
 export interface Props {
   status: ExecutionStatus;
 }
-const Status = ({ status }: Props) => {
+const TransactionExecutionStatusComponent = ({ status }: Props) => {
   return <>{EXECUTION_STATUSES[status]}</>;
 };
 
-export default Status;
+export default TransactionExecutionStatusComponent;

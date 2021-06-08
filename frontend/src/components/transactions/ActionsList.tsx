@@ -6,20 +6,36 @@ import { ViewMode, DetalizationMode } from "./ActionRowBlock";
 
 export interface Props {
   actions: T.Action[];
-  transaction: T.Transaction;
-  viewMode?: ViewMode;
+  blockTimestamp: number;
+  detailsLink?: React.ReactNode;
   detalizationMode?: DetalizationMode;
+  receiverId: string;
+  signerId: string;
   showDetails?: boolean;
+  viewMode?: ViewMode;
 }
 
 class ActionList extends React.PureComponent<Props> {
   render() {
-    const { transaction, viewMode, detalizationMode, showDetails } = this.props;
-    let actionRows = this.props.actions.map((action, actionIndex) => (
+    const {
+      actions,
+      blockTimestamp,
+      signerId,
+      receiverId,
+      detailsLink,
+      viewMode,
+      detalizationMode,
+      showDetails,
+    } = this.props;
+
+    let actionRows = actions.map((action, actionIndex) => (
       <ActionRow
-        key={transaction.hash + actionIndex}
+        key={signerId + actionIndex}
         action={action}
-        transaction={transaction}
+        signerId={signerId}
+        receiverId={receiverId}
+        blockTimestamp={blockTimestamp}
+        detailsLink={detailsLink}
         viewMode={viewMode}
         detalizationMode={detalizationMode}
         showDetails={showDetails}
