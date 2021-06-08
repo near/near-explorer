@@ -106,7 +106,7 @@ const ProtocolConfigInfo = () => {
           )}
         </Cell>
         <Cell
-          title="Epoch Lenght"
+          title="Epoch Length"
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
           {networkStats?.epochLength && <span>{networkStats.epochLength}</span>}
