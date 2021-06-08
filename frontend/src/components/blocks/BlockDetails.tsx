@@ -12,6 +12,7 @@ import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
 import Gas from "../utils/Gas";
 import GasPrice from "../utils/GasPrice";
+
 export interface Props {
   block: B.DetailedBlockInfo;
 }

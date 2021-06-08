@@ -11,7 +11,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
-import Receipts from "../../components/receipts/Receipts";
+import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
@@ -90,7 +90,7 @@ class BlockDetail extends React.Component {
               icon={<TransactionIcon style={{ width: "22px" }} />}
               title={<h2>Receipts</h2>}
             >
-              <Receipts blockHash={block.hash} />
+              <ReceiptsInBlock blockHash={block.hash} />
             </Content>
           </>
         ) : null}
