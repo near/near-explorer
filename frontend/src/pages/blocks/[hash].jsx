@@ -11,7 +11,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
-import Receipts from "../../components/blocks/Receipts";
+import Receipts from "../../components/receipts/Receipts";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
@@ -38,6 +38,8 @@ class BlockDetail extends React.Component {
   }
 
   render() {
+    // Prepare the block object with all the right types and field names on render() since
+    // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
     const block = {
       hash: this.props.hash,
       height: this.props.height,

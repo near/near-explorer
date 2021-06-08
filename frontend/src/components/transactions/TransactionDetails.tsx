@@ -10,10 +10,10 @@ import * as T from "../../libraries/explorer-wamp/transactions";
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
 import CardCell from "../utils/CardCell";
-import ExecutionStatus from "../utils/ExecutionStatus";
 import Balance from "../utils/Balance";
 import Gas from "../utils/Gas";
 import Term from "../utils/Term";
+import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 export interface Props {
   transaction: T.Transaction;
@@ -161,7 +161,9 @@ class TransactionDetails extends React.Component<Props, State> {
                   text={
                     <div style={{ fontSize: "21px" }}>
                       {transaction.status ? (
-                        <ExecutionStatus status={transaction.status} />
+                        <TransactionExecutionStatus
+                          status={transaction.status}
+                        />
                       ) : (
                         "Fetching Status... "
                       )}

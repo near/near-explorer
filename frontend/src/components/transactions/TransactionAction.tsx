@@ -2,9 +2,9 @@ import React from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import TransactionLink from "../utils/TransactionLink";
-import ExecutionStatus from "../utils/ExecutionStatus";
 import ActionGroup from "./ActionGroup";
 import { ViewMode } from "./ActionRowBlock";
+import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 export interface Props {
   transaction: T.Transaction;
@@ -37,7 +37,7 @@ class TransactionAction extends React.PureComponent<Props, State> {
     const { transaction, viewMode } = this.props;
     const { status } = this.state;
     const transactionStatus = status ? (
-      <ExecutionStatus status={status} />
+      <TransactionExecutionStatus status={status} />
     ) : (
       <>{"Fetching Status..."}</>
     );

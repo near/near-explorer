@@ -1,10 +1,10 @@
 import renderer from "react-test-renderer";
 import * as T from "../../../libraries/explorer-wamp/transactions";
 
-import ExecutionStatus from "../../utils/ExecutionStatus";
 import TransactionLink from "../../utils/TransactionLink";
 import ReceiptLink from "../../utils/ReceiptLink";
 import ActionRow from "../ActionRow";
+import TransactionExecutionStatus from "../TransactionExecutionStatus";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
 
@@ -43,7 +43,7 @@ describe("<ActionRow />", () => {
             args: {},
           }}
           status={
-            <ExecutionStatus
+            <TransactionExecutionStatus
               status={TRANSACTIONS[0].status ?? "SuccessValue"}
             />
           }
@@ -67,7 +67,7 @@ describe("<ActionRow />", () => {
             />
           }
           status={
-            <ExecutionStatus
+            <TransactionExecutionStatus
               status={TRANSACTIONS[0].status ?? "SuccessValue"}
             />
           }

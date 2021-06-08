@@ -55,7 +55,7 @@ class Transactions extends React.Component<InnerProps> {
     const { items } = this.props;
 
     if (items?.length === 0) {
-      return <Placeholder>There is no transactions</Placeholder>;
+      return <Placeholder>There are no transactions</Placeholder>;
     }
 
     return (

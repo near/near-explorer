@@ -6,7 +6,7 @@ import ActionGroup from "../transactions/ActionGroup";
 import Placeholder from "../utils/Placeholder";
 import PaginationSpinner from "../utils/PaginationSpinner";
 import ReceiptLink from "../utils/ReceiptLink";
-import ExecutionReceiptStatus from "../utils/ExecutionReceiptStatus";
+import ReceiptExecutionStatus from "./ReceiptExecutionStatus";
 
 interface Props {
   blockHash: string;
@@ -57,7 +57,7 @@ class Receipts extends React.Component<ReceiptInfoProps> {
               }
               status={
                 receipt.status ? (
-                  <ExecutionReceiptStatus status={receipt.status} />
+                  <ReceiptExecutionStatus status={receipt.status} />
                 ) : (
                   <>{"Fetching Status..."}</>
                 )
@@ -66,7 +66,7 @@ class Receipts extends React.Component<ReceiptInfoProps> {
             />
           ))
         ) : (
-          <Placeholder>There is no receipts</Placeholder>
+          <Placeholder>There are no receipts</Placeholder>
         )}
       </>
     );

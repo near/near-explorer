@@ -30,6 +30,8 @@ class TransactionDetailsPage extends React.Component {
   }
 
   render() {
+    // Prepare the transaction object with all the right types and field names on render() since
+    // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
     const transaction = {
       actions: this.props.actions,
       blockTimestamp: this.props.blockTimestamp,
@@ -42,6 +44,7 @@ class TransactionDetailsPage extends React.Component {
       receiverId: this.props.receiverId,
       status: this.props.status,
     };
+
     return (
       <>
         <Head>
