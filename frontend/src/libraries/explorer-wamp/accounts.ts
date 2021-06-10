@@ -199,7 +199,7 @@ export default class AccountsApi extends ExplorerApi {
 
   async isAccountIndexed(accountId: string): Promise<boolean> {
     try {
-      return this.call<any>("select:INDEXER_BACKEND", [
+      return await this.call<any>("select:INDEXER_BACKEND", [
         `SELECT
             account_id
           FROM accounts
