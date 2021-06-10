@@ -31,7 +31,7 @@ class Search extends React.Component {
       .getTransactionInfo(cleanedSearchValue)
       .catch(() => {});
     const accountPromise = new AccountsApi()
-      .queryAccount(cleanedSearchValue.toLowerCase())
+      .queryDbAccount(cleanedSearchValue.toLowerCase())
       .catch(() => {});
 
     const block = await blockPromise;

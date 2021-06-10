@@ -197,6 +197,32 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
+  async queryDbAccount(accountId: string): Promise<any> {
+    try {
+      let accountDetails;
+      if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
+        accountDetails = this.call<any>("select:INDEXER_BACKEND", [
+          `SELECT
+            account_id
+          FROM accounts
+          WHERE account_id = :accountId`,
+          {
+            accountId,
+          },
+        ]).then((it) =>
+          it.length === 0 || !it[0].account_id ? undefined : it[0].account_id
+        );
+      } else {
+        throw Error(`unsupported data source ${this.dataSource}`);
+      }
+      return accountDetails;
+    } catch (error) {
+      console.error("AccountsApi.queryDbAccount failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
+
   async queryAccount(accountId: string): Promise<any> {
     return await this.call<any>("get-account-details", [accountId]);
   }

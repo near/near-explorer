@@ -56,8 +56,12 @@ export default class ContractsApi extends ExplorerApi {
     };
 
     try {
-      const codeHash = await this.queryCodeHash(id);
-      if (codeHash !== "11111111111111111111111111111111") {
+      // codeHash precheck is requered due to deleted accounts
+      let codeHash;
+      await this.queryCodeHash(id)
+        .then((it) => (codeHash = it))
+        .catch(() => {});
+      if (codeHash && codeHash !== "11111111111111111111111111111111") {
         const [contractInfo, accessKeys] = await Promise.all([
           queryContractInfo(),
           this.queryAccessKey(id),
