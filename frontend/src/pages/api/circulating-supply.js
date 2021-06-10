@@ -1883,8 +1883,8 @@ export default async function (req, res) {
       new BN("1000000000")
     );
 
-    let startMoment = new BN("1622505600000000000"); // Tue Jun 01 2021 00:00:00 GMT+0000
-    let endMoment = new BN("1625097600000000000"); // Thu Jul 01 2021 00:00:00 GMT+0000
+    let startMoment = new BN("1623715200000000000"); // Tue Jun 15 2021 00:00:00 GMT+0000
+    let endMoment = new BN("1626307200000000000"); // Thu Jul 15 2021 00:00:00 GMT+0000
 
     let resultSupply;
     if (now.lte(startMoment)) {
