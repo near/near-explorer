@@ -211,6 +211,9 @@ class ReceiptRow extends React.Component<Props> {
             font-size: 14px;
             font-weight: 500;
             line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
 
           .receipt-row-status {

@@ -15,7 +15,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-4267416232"
+          className="jsx-3925159684"
         >
           Receipt:
         </b>
@@ -263,7 +263,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-text col"
       >
         <pre
-          className="jsx-4267416232"
+          className="jsx-3925159684"
         >
           000028066 listings not found
         </pre>
@@ -289,7 +289,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-4267416232"
+                  className="jsx-3925159684"
                 >
                   Receipt:
                 </b>
@@ -515,7 +515,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-4267416232"
+          className="jsx-3925159684"
         >
           Receipt:
         </b>
@@ -752,7 +752,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-text col"
       >
         <pre
-          className="jsx-4267416232"
+          className="jsx-3925159684"
         >
           Transfer 9807229473212706028 from signer.test to receiver.test
 Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
@@ -779,7 +779,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-4267416232"
+                  className="jsx-3925159684"
                 >
                   Receipt:
                 </b>
@@ -1064,7 +1064,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b
-                          className="jsx-4267416232"
+                          className="jsx-3925159684"
                         >
                           Receipt:
                         </b>
@@ -1295,7 +1295,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-4267416232"
+                  className="jsx-3925159684"
                 >
                   Receipt:
                 </b>
@@ -1580,7 +1580,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b
-                          className="jsx-4267416232"
+                          className="jsx-3925159684"
                         >
                           Receipt:
                         </b>
@@ -1811,7 +1811,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-4267416232"
+                  className="jsx-3925159684"
                 >
                   Receipt:
                 </b>
@@ -2037,7 +2037,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-4267416232"
+          className="jsx-3925159684"
         >
           Receipt:
         </b>
@@ -2327,7 +2327,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-4267416232"
+                  className="jsx-3925159684"
                 >
                   Receipt:
                 </b>

@@ -10,7 +10,6 @@ import Balance from "../utils/Balance";
 import { TableRow, TableCollapseRow } from "../utils/Table";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
-import TransactionLink from "../utils/TransactionLink";
 import ValidatingLabel from "./ValidatingLabel";
 import CumulativeStakeChart from "./CumulativeStakeChart";
 
@@ -138,24 +137,22 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                     )}
                   </Col>
 
-                  <Col>
+                  <Col className="validator-name">
                     <Row noGutters>
                       <Col
                         title={`@${node.account_id}`}
                         className="validator-nodes-text"
                       >
-                        {node.account_id.substring(0, 20)}...
+                        {node.account_id}
                       </Col>
                     </Row>
-                    {node.nodeInfo && (
+                    {node.public_key && (
                       <Row noGutters>
                         <Col
-                          title={node.nodeInfo.nodeId}
-                          className="validator-nodes-text"
+                          title={node.public_key}
+                          className="validator-nodes-text validator-node-pub-key"
                         >
-                          <TransactionLink
-                            transactionHash={node.nodeInfo.nodeId}
-                          />
+                          {node.public_key}
                         </Col>
                       </Row>
                     )}
@@ -387,6 +384,20 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                 color: #3f4045;
               }
 
+              .validator-node-pub-key {
+                color: #2b9af4;
+              }
+
+              .validator-name {
+                max-width: 250px;
+              }
+
+              .validator-name .validator-nodes-text {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
               .validator-nodes-details-title {
                 display: flex;
                 flex-wrap: nowrap;
@@ -436,6 +447,12 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                 color: #995200;
                 padding: 16px 50px;
                 font-size: 12px;
+              }
+
+              @media (min-width: 1200px) {
+                .validator-name {
+                  max-width: 420px;
+                }
               }
             `}</style>
           </>
