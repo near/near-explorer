@@ -48,320 +48,291 @@ let PARTNER_TOTAL_TRANSACTIONS_COUNT = null;
 let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = null;
 let PARTNER_UNIQUE_USER_AMOUNT = null;
 
+// This is a decorator that auto-retry failing function up to 5 times before giving up.
+// If the wrapped function fails 5 times in a row, the result value is going to be undefined.
+function retriable(wrapped) {
+  return async function () {
+    const functionName = wrapped.name;
+    let result;
+    for (let attempts = 1; ; ++attempts) {
+      console.log(`${functionName} is getting executed...`);
+      try {
+        result = await wrapped.apply(this, arguments);
+        break;
+      } catch (error) {
+        console.log(
+          `WARNING: ${functionName} failed to execute ${attempts} times due to:`,
+          error
+        );
+        if (attempts >= 5) {
+          return;
+        }
+      }
+    }
+    console.log(`${functionName} has succeeded`);
+    return result;
+  };
+}
+
 // function that query from indexer
 // transaction related
 async function aggregateTransactionsCountByDate() {
-  try {
-    const transactionsCountAggregatedByDate = await queryTransactionsCountAggregatedByDate();
-    TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = transactionsCountAggregatedByDate.map(
-      ({ date: dateString, transactions_count_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        transactionsCount: transactions_count_by_date,
-      })
-    );
-    console.log("TRANSACTIONS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const transactionsCountAggregatedByDate = await queryTransactionsCountAggregatedByDate();
+  TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = transactionsCountAggregatedByDate.map(
+    ({ date: dateString, transactions_count_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      transactionsCount: transactions_count_by_date,
+    })
+  );
 }
+aggregateTransactionsCountByDate = retriable(aggregateTransactionsCountByDate);
 
 async function aggregateTeragasUsedByDate() {
-  try {
-    const teragasUsedByDate = await queryTeragasUsedAggregatedByDate();
-    TERAGAS_USED_BY_DATE = teragasUsedByDate.map(
-      ({ date: dateString, teragas_used_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        teragasUsed: teragas_used_by_date,
-      })
-    );
-    console.log("TERAGAS_USED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const teragasUsedByDate = await queryTeragasUsedAggregatedByDate();
+  TERAGAS_USED_BY_DATE = teragasUsedByDate.map(
+    ({ date: dateString, teragas_used_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      teragasUsed: teragas_used_by_date,
+    })
+  );
 }
+aggregateTeragasUsedByDate = retriable(aggregateTeragasUsedByDate);
 
 async function aggregateDepositAmountByDate() {
-  try {
-    const depositAmountByDate = await queryDepositAmountAggregatedByDate();
-    DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = depositAmountByDate.map(
-      ({ date: dateString, total_deposit_amount }) => ({
-        date: formatDate(new Date(dateString)),
-        depositAmount: total_deposit_amount,
-      })
-    );
-    console.log("DEPOSIT_AMOUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const depositAmountByDate = await queryDepositAmountAggregatedByDate();
+  DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = depositAmountByDate.map(
+    ({ date: dateString, total_deposit_amount }) => ({
+      date: formatDate(new Date(dateString)),
+      depositAmount: total_deposit_amount,
+    })
+  );
 }
+aggregateDepositAmountByDate = retriable(aggregateDepositAmountByDate);
 
 // accounts
 async function aggregateNewAccountsCountByDate() {
-  try {
-    const newAccountsCountAggregatedByDate = await queryNewAccountsCountAggregatedByDate();
-    NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = newAccountsCountAggregatedByDate.map(
-      ({ date: dateString, new_accounts_count_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        accountsCount: new_accounts_count_by_date,
-      })
-    );
-    console.log("NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const newAccountsCountAggregatedByDate = await queryNewAccountsCountAggregatedByDate();
+  NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = newAccountsCountAggregatedByDate.map(
+    ({ date: dateString, new_accounts_count_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      accountsCount: new_accounts_count_by_date,
+    })
+  );
 }
+aggregateNewAccountsCountByDate = retriable(aggregateNewAccountsCountByDate);
 
 async function aggregateDeletedAccountsCountByDate() {
-  try {
-    const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsCountAggregatedByDate();
-    DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = deletedAccountsCountAggregatedByDate.map(
-      ({ date: dateString, deleted_accounts_count_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        accountsCount: deleted_accounts_count_by_date,
-      })
-    );
-    console.log("DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsCountAggregatedByDate();
+  DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = deletedAccountsCountAggregatedByDate.map(
+    ({ date: dateString, deleted_accounts_count_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      accountsCount: deleted_accounts_count_by_date,
+    })
+  );
 }
+aggregateDeletedAccountsCountByDate = retriable(
+  aggregateDeletedAccountsCountByDate
+);
 
 async function aggregateLiveAccountsCountByDate() {
-  try {
-    const genesisCount = await queryGenesisAccountCount();
-    ACCOUNTS_COUNT_IN_GENESIS = genesisCount.count;
-    if (
-      NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE &&
-      DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
-    ) {
-      const startDate = NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[0].date;
-      const dateArray = generateDateArray(startDate);
-      let changedAccountsCountByDate = dateArray.map((date) => ({
-        date: date,
-        accountsCount: 0,
-      }));
-      changedAccountsCountByDate[0].accountsCount = Number(
-        ACCOUNTS_COUNT_IN_GENESIS
+  const genesisCount = await queryGenesisAccountCount();
+  ACCOUNTS_COUNT_IN_GENESIS = genesisCount.count;
+  if (
+    NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE &&
+    DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
+  ) {
+    const startDate = NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[0].date;
+    const dateArray = generateDateArray(startDate);
+    let changedAccountsCountByDate = dateArray.map((date) => ({
+      date: date,
+      accountsCount: 0,
+    }));
+    changedAccountsCountByDate[0].accountsCount = Number(
+      ACCOUNTS_COUNT_IN_GENESIS
+    );
+
+    let newAccountMap = new Map();
+    for (let i = 0; i < NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
+      newAccountMap.set(
+        NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
+        Number(NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
       );
-
-      let newAccountMap = new Map();
-      for (let i = 0; i < NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
-        newAccountMap.set(
-          NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
-          Number(NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
-        );
-      }
-
-      let deletedAccountMap = new Map();
-      for (
-        let i = 0;
-        i < DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length;
-        i++
-      ) {
-        deletedAccountMap.set(
-          DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
-          Number(DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
-        );
-      }
-
-      for (let i = 0; i < changedAccountsCountByDate.length; i++) {
-        const newAccountsCount = newAccountMap.get(
-          changedAccountsCountByDate[i].date
-        );
-        if (newAccountsCount) {
-          changedAccountsCountByDate[i].accountsCount += newAccountsCount;
-        }
-        const deletedAccountsCount = deletedAccountMap.get(
-          changedAccountsCountByDate[i].date
-        );
-        if (deletedAccountsCount) {
-          changedAccountsCountByDate[i].accountsCount -= deletedAccountsCount;
-        }
-      }
-      LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = cumulativeAccountsCountArray(
-        changedAccountsCountByDate
-      );
-      console.log("LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE updated.");
     }
-  } catch (error) {
-    console.log(error);
+
+    let deletedAccountMap = new Map();
+    for (let i = 0; i < DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
+      deletedAccountMap.set(
+        DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
+        Number(DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
+      );
+    }
+
+    for (let i = 0; i < changedAccountsCountByDate.length; i++) {
+      const newAccountsCount = newAccountMap.get(
+        changedAccountsCountByDate[i].date
+      );
+      if (newAccountsCount) {
+        changedAccountsCountByDate[i].accountsCount += newAccountsCount;
+      }
+      const deletedAccountsCount = deletedAccountMap.get(
+        changedAccountsCountByDate[i].date
+      );
+      if (deletedAccountsCount) {
+        changedAccountsCountByDate[i].accountsCount -= deletedAccountsCount;
+      }
+    }
+    LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = cumulativeAccountsCountArray(
+      changedAccountsCountByDate
+    );
   }
 }
+aggregateLiveAccountsCountByDate = retriable(aggregateLiveAccountsCountByDate);
 
 async function aggregateActiveAccountsCountByDate() {
-  try {
-    const activeAccountsCountByDate = await queryActiveAccountsCountAggregatedByDate();
-    ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = activeAccountsCountByDate.map(
-      ({ date: dateString, active_accounts_count_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        accountsCount: active_accounts_count_by_date,
-      })
-    );
-    console.log("ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const activeAccountsCountByDate = await queryActiveAccountsCountAggregatedByDate();
+  ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = activeAccountsCountByDate.map(
+    ({ date: dateString, active_accounts_count_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      accountsCount: active_accounts_count_by_date,
+    })
+  );
 }
+aggregateActiveAccountsCountByDate = retriable(
+  aggregateActiveAccountsCountByDate
+);
 
 async function aggregateActiveAccountsCountByWeek() {
-  try {
-    const activeAccountsCountByWeek = await queryActiveAccountsCountAggregatedByWeek();
-    ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = activeAccountsCountByWeek.map(
-      ({ date: dateString, active_accounts_count_by_week }) => ({
-        date: formatDate(new Date(dateString)),
-        accountsCount: active_accounts_count_by_week,
-      })
-    );
-    console.log("ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const activeAccountsCountByWeek = await queryActiveAccountsCountAggregatedByWeek();
+  ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = activeAccountsCountByWeek.map(
+    ({ date: dateString, active_accounts_count_by_week }) => ({
+      date: formatDate(new Date(dateString)),
+      accountsCount: active_accounts_count_by_week,
+    })
+  );
 }
+aggregateActiveAccountsCountByWeek = retriable(
+  aggregateActiveAccountsCountByWeek
+);
 
 async function aggregateActiveAccountsList() {
-  try {
-    const activeAccountsList = await queryActiveAccountsList();
-    ACTIVE_ACCOUNTS_LIST = activeAccountsList.map(
-      ({
-        signer_account_id: account,
-        transactions_count: transactionsCount,
-      }) => ({
-        account,
-        transactionsCount,
-      })
-    );
-    console.log("ACTIVE_ACCOUNTS_LIST updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const activeAccountsList = await queryActiveAccountsList();
+  ACTIVE_ACCOUNTS_LIST = activeAccountsList.map(
+    ({
+      signer_account_id: account,
+      transactions_count: transactionsCount,
+    }) => ({
+      account,
+      transactionsCount,
+    })
+  );
 }
+aggregateActiveAccountsList = retriable(aggregateActiveAccountsList);
 
 // contracts
 async function aggregateNewContractsCountByDate() {
-  try {
-    const newContractsByDate = await queryNewContractsCountAggregatedByDate();
-    NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
-      ({ date: dateString, new_contracts_count_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        contractsCount: new_contracts_count_by_date,
-      })
-    );
-    console.log("NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const newContractsByDate = await queryNewContractsCountAggregatedByDate();
+  NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
+    ({ date: dateString, new_contracts_count_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      contractsCount: new_contracts_count_by_date,
+    })
+  );
 }
+aggregateNewContractsCountByDate = retriable(aggregateNewContractsCountByDate);
 
 async function aggregateActiveContractsCountByDate() {
-  try {
-    const activeContractsCountByDate = await queryActiveContractsCountAggregatedByDate();
-    ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
-      ({ date: dateString, active_contracts_count_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        contractsCount: active_contracts_count_by_date,
-      })
-    );
-    console.log("ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const activeContractsCountByDate = await queryActiveContractsCountAggregatedByDate();
+  ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
+    ({ date: dateString, active_contracts_count_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      contractsCount: active_contracts_count_by_date,
+    })
+  );
 }
+aggregateActiveContractsCountByDate = retriable(
+  aggregateActiveContractsCountByDate
+);
 
 async function aggregateUniqueDeployedContractsCountByDate() {
-  try {
-    const contractList = await queryUniqueDeployedContractsAggregatedByDate();
-    const contractsRows = contractList.map(
-      ({ date: dateString, deployed_contracts_by_date }) => ({
-        date: formatDate(new Date(dateString)),
-        deployedContracts: deployed_contracts_by_date,
-      })
-    );
-    let cumulativeContractsDeployedByDate = new Array();
-    let contractsDeployed = new Set([contractsRows[0].deployedContracts]);
+  const contractList = await queryUniqueDeployedContractsAggregatedByDate();
+  const contractsRows = contractList.map(
+    ({ date: dateString, deployed_contracts_by_date }) => ({
+      date: formatDate(new Date(dateString)),
+      deployedContracts: deployed_contracts_by_date,
+    })
+  );
+  let cumulativeContractsDeployedByDate = new Array();
+  let contractsDeployed = new Set([contractsRows[0].deployedContracts]);
 
-    for (let i = 1; i < contractsRows.length; i++) {
-      if (contractsRows[i].date !== contractsRows[i - 1].date) {
-        cumulativeContractsDeployedByDate.push({
-          date: contractsRows[i - 1].date,
-          contractsCount: contractsDeployed.size,
-        });
-      }
-      contractsDeployed.add(contractsRows[i].deployedContracts);
+  for (let i = 1; i < contractsRows.length; i++) {
+    if (contractsRows[i].date !== contractsRows[i - 1].date) {
+      cumulativeContractsDeployedByDate.push({
+        date: contractsRows[i - 1].date,
+        contractsCount: contractsDeployed.size,
+      });
     }
-    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsDeployedByDate;
-    console.log("UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE updated.");
-  } catch (error) {
-    console.log(error);
+    contractsDeployed.add(contractsRows[i].deployedContracts);
   }
+  UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsDeployedByDate;
 }
+aggregateUniqueDeployedContractsCountByDate = retriable(
+  aggregateUniqueDeployedContractsCountByDate
+);
 
 async function aggregateActiveContractsList() {
-  try {
-    const activeContractsList = await queryActiveContractsList();
-    ACTIVE_CONTRACTS_LIST = activeContractsList.map(
-      ({ receiver_account_id: contract, receipts_count: receiptsCount }) => ({
-        contract,
-        receiptsCount,
-      })
-    );
-    console.log("ACTIVE_CONTRACTS_LIST updated.");
-  } catch (error) {
-    console.log(error);
-  }
+  const activeContractsList = await queryActiveContractsList();
+  ACTIVE_CONTRACTS_LIST = activeContractsList.map(
+    ({ receiver_account_id: contract, receipts_count: receiptsCount }) => ({
+      contract,
+      receiptsCount,
+    })
+  );
 }
+aggregateActiveContractsList = retriable(aggregateActiveContractsList);
 
 // partner part
 async function aggregatePartnerTotalTransactionsCount() {
-  try {
-    const partnerTotalTransactionList = await queryPartnerTotalTransactions();
-    PARTNER_TOTAL_TRANSACTIONS_COUNT = partnerTotalTransactionList.map(
-      ({
-        receiver_account_id: account,
-        transactions_count: transactionsCount,
-      }) => ({
-        account,
-        transactionsCount,
-      })
-    );
-    console.log("PARTNER_TOTAL_TRANSACTIONS_COUNT updated");
-  } catch (error) {
-    console.log(error);
-  }
+  const partnerTotalTransactionList = await queryPartnerTotalTransactions();
+  PARTNER_TOTAL_TRANSACTIONS_COUNT = partnerTotalTransactionList.map(
+    ({
+      receiver_account_id: account,
+      transactions_count: transactionsCount,
+    }) => ({
+      account,
+      transactionsCount,
+    })
+  );
 }
+aggregatePartnerTotalTransactionsCount = retriable(
+  aggregatePartnerTotalTransactionsCount
+);
 
 async function aggregatePartnerFirst3MonthTransactionsCount() {
-  try {
-    const partnerFirst3MonthTransactionsCount = await queryPartnerFirstThreeMonthTransactions();
-    PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = partnerFirst3MonthTransactionsCount.map(
-      ({
-        receiver_account_id: account,
-        transactions_count: transactionsCount,
-      }) => ({
-        account,
-        transactionsCount,
-      })
-    );
-    console.log("PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT updated");
-    return partnerFirst3MonthTransactionsCount;
-  } catch (error) {
-    console.log(error);
-  }
+  const partnerFirst3MonthTransactionsCount = await queryPartnerFirstThreeMonthTransactions();
+  PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = partnerFirst3MonthTransactionsCount.map(
+    ({
+      receiver_account_id: account,
+      transactions_count: transactionsCount,
+    }) => ({
+      account,
+      transactionsCount,
+    })
+  );
 }
+aggregatePartnerFirst3MonthTransactionsCount = retriable(
+  aggregatePartnerFirst3MonthTransactionsCount
+);
 
 async function aggregateParterUniqueUserAmount() {
-  try {
-    const partnerUniqueUserAmount = await queryPartnerUniqueUserAmount();
-    PARTNER_UNIQUE_USER_AMOUNT = partnerUniqueUserAmount.map(
-      ({ receiver_account_id: account, user_amount: userAmount }) => ({
-        account,
-        userAmount,
-      })
-    );
-    console.log("PARTNER_UNIQUE_USER_AMOUNT updated");
-  } catch (error) {
-    console.log(error);
-  }
+  const partnerUniqueUserAmount = await queryPartnerUniqueUserAmount();
+  PARTNER_UNIQUE_USER_AMOUNT = partnerUniqueUserAmount.map(
+    ({ receiver_account_id: account, user_amount: userAmount }) => ({
+      account,
+      userAmount,
+    })
+  );
 }
+aggregateParterUniqueUserAmount = retriable(aggregateParterUniqueUserAmount);
 
 // get function that exposed to frontend
 // transaction related
