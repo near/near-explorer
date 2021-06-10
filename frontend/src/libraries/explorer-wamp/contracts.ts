@@ -56,8 +56,9 @@ export default class ContractsApi extends ExplorerApi {
     };
 
     try {
-      const codeHash = await this.queryCodeHash(id);
-      if (codeHash !== "11111111111111111111111111111111") {
+      // codeHash does not exist for deleted accounts
+      const codeHash = await this.queryCodeHash(id).catch(() => {});
+      if (codeHash && codeHash !== "11111111111111111111111111111111") {
         const [contractInfo, accessKeys] = await Promise.all([
           queryContractInfo(),
           this.queryAccessKey(id),

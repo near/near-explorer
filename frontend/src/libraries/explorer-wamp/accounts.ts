@@ -197,6 +197,26 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
+  async isAccountIndexed(accountId: string): Promise<boolean> {
+    try {
+      return await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT
+            account_id
+          FROM accounts
+          WHERE account_id = :accountId`,
+        {
+          accountId,
+        },
+      ]).then((it) => Boolean(it[0]?.account_id));
+    } catch (error) {
+      console.error(
+        "AccountsApi.isAccountIndexed failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
+
   async queryAccount(accountId: string): Promise<any> {
     return await this.call<any>("get-account-details", [accountId]);
   }
