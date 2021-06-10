@@ -197,27 +197,21 @@ export default class AccountsApi extends ExplorerApi {
     }
   }
 
-  async queryDbAccount(accountId: string): Promise<any> {
+  async isAccountIndexed(accountId: string): Promise<boolean> {
     try {
-      let accountDetails;
-      if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-        accountDetails = this.call<any>("select:INDEXER_BACKEND", [
-          `SELECT
+      return this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT
             account_id
           FROM accounts
           WHERE account_id = :accountId`,
-          {
-            accountId,
-          },
-        ]).then((it) =>
-          it.length === 0 || !it[0].account_id ? undefined : it[0].account_id
-        );
-      } else {
-        throw Error(`unsupported data source ${this.dataSource}`);
-      }
-      return accountDetails;
+        {
+          accountId,
+        },
+      ]).then((it) => Boolean(it[0]?.account_id));
     } catch (error) {
-      console.error("AccountsApi.queryDbAccount failed to fetch data due to:");
+      console.error(
+        "AccountsApi.isAccountIndexed failed to fetch data due to:"
+      );
       console.error(error);
       throw error;
     }
