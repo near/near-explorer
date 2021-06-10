@@ -1,10 +1,12 @@
 const BN = require("bn.js");
 const nearApi = require("near-api-js");
+const fs = require("fs");
 
 const { getAllLockupAccountIds, getLastYesterdayBlock } = require("./db-utils");
 const { nearRpc, queryFinalBlock } = require("./near");
 
 const DELAY_AFTER_FAILED_REQUEST = 3000;
+const CIRCULATING_SUPPLY_FILE = "./circulating.csv";
 
 let CIRCULATING_SUPPLY = {
   block_height: undefined,
@@ -227,10 +229,42 @@ async function findLastYesterdayBlockHeight() {
   return parseInt(yesterdayBlock.block_height);
 }
 
+// This is a temporary solution for persistent storing of circulating supply
+// Everything could go wrong here, we will ignore cache in this case
+function getCachedCirculatingSupply(blockHeight) {
+  try {
+    let data = fs.readFileSync(CIRCULATING_SUPPLY_FILE);
+    let lines = data.toString().trim().split("\n");
+    let lastValue = lines.pop().split(";");
+    if (lastValue.length !== 2) {
+      throw "2 values expected. We put there pairs height;supply";
+    }
+    let cachedBlockHeight = parseInt(lastValue[0]);
+    let cachedCirculatingSupply = new BN(lastValue[1]);
+    if (blockHeight <= cachedBlockHeight) {
+      if (blockHeight !== cachedBlockHeight) {
+        console.log(
+          `Circulating supply was requested for block ${blockHeight} while cache contains more fresh data (block ${cachedBlockHeight}), taking fresh data`
+        );
+      }
+      return cachedCirculatingSupply;
+    }
+  } catch (err) {
+    console.error("Can't get circulating supply value from cache: ", err);
+  }
+}
+
 const calculateCirculatingSupply = async (blockHeight) => {
   if (blockHeight === undefined) {
     blockHeight = await findLastYesterdayBlockHeight();
   }
+
+  let cached = getCachedCirculatingSupply(blockHeight);
+  if (cached) {
+    console.log(`circulatingSupply taken from cache: ${cached.toString()}`);
+    return cached;
+  }
+
   console.log(`calculateCirculatingSupply STARTED for block ${blockHeight}`);
   const currentBlock = await nearRpc.sendJsonRpc("block", {
     block_id: blockHeight,
@@ -274,6 +308,17 @@ const calculateCirculatingSupply = async (blockHeight) => {
       .sub(tokensFromSpecialAccounts)
       .toString(),
   };
+
+  fs.appendFileSync(
+    CIRCULATING_SUPPLY_FILE,
+    `${blockHeight};${CIRCULATING_SUPPLY.circulating_supply_in_yoctonear}\n`,
+    (err) => {
+      if (err) {
+        console.error("Can't cache circulating supply value:", err);
+      }
+    }
+  );
+
   console.log(
     `calculateCirculatingSupply FINISHED, ${CIRCULATING_SUPPLY.circulating_supply_in_yoctonear}`
   );
