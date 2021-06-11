@@ -1,4 +1,5 @@
 import { getNearNetwork } from "../../libraries/config";
+import DetailsApi from "../../libraries/explorer-wamp/details";
 
 const BN = require("bn.js");
 
@@ -1870,21 +1871,21 @@ export default async function (req, res) {
   try {
     const circulatingSupplyFromCode = await new DetailsApi(
       req
-    ).calculateCirculatingSupply();
+    ).getLatestCirculatingSupply();
     console.log(
-      `Circulating supply calculation ${circulatingSupplyFromCode.circulating_supply_in_yoctonear}`
+      `Circulating supply calculation ${circulatingSupplyFromCode.circulatingSupplyInYoctonear}`
     );
 
     const circulatingSupplyForecast = getCirculatingSupplyToday();
     console.log(
       `Circulating supply forecast ${circulatingSupplyForecast.amount}`
     );
-    const now = new BN(circulatingSupplyForecast.timestamp).mul(
-      new BN("1000000000")
-    );
+    const now = new BN(circulatingSupplyForecast.timestamp)
+      .muln(1000)
+      .muln(1000000);
 
-    let startMoment = new BN("1623715200000000000"); // Tue Jun 15 2021 00:00:00 GMT+0000
-    let endMoment = new BN("1626307200000000000"); // Thu Jul 15 2021 00:00:00 GMT+0000
+    let startMoment = new BN(Date.parse("2021-06-15 00:00:00+0")).muln(1000000);
+    let endMoment = new BN(Date.parse("2021-07-15 00:00:00+0")).muln(1000000);
 
     let resultSupply;
     if (now.lte(startMoment)) {
@@ -1893,14 +1894,12 @@ export default async function (req, res) {
         `Circulating supply is fully taken from forecast (calculations ignored)`
       );
     } else if (now.gte(endMoment)) {
-      resultSupply = circulatingSupplyFromCode.circulating_supply_in_yoctonear;
+      resultSupply = circulatingSupplyFromCode.circulatingSupplyInYoctonear.toString();
       console.log(`Circulating supply is fully calculated (forecast ignored)`);
     } else {
       // we mix it, part of data from code is growing
       const forecast = new BN(circulatingSupplyForecast.amount);
-      const fromCode = new BN(
-        circulatingSupplyFromCode.circulating_supply_in_yoctonear
-      );
+      const fromCode = circulatingSupplyFromCode.circulatingSupplyInYoctonear;
       let transitionPeriodLength = endMoment.sub(startMoment);
 
       // start, now, finish
