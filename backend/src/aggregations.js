@@ -6,7 +6,7 @@ const { getAllLockupAccountIds, getLastYesterdayBlock } = require("./db-utils");
 const { nearRpc, queryFinalBlock } = require("./near");
 
 const DELAY_AFTER_FAILED_REQUEST = 3000;
-const CIRCULATING_SUPPLY_FILE = "./circulating.csv";
+const CIRCULATING_SUPPLY_FILE = "./db/circulating.csv";
 
 let CIRCULATING_SUPPLY = {
   block_height: undefined,
