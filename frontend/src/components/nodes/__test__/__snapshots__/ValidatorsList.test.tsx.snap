@@ -6,11 +6,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-2866537324 collapse-row-arrow "
+      className="jsx-1618374794 collapse-row-arrow "
       onClick={[Function]}
     >
       <img
-        className="jsx-2866537324"
+        className="jsx-1618374794"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -20,12 +20,12 @@ Array [
       />
     </td>
     <td
-      className="jsx-2866537324 order"
+      className="jsx-1618374794 order"
     >
       25
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -44,7 +44,7 @@ Array [
           </span>
         </div>
         <div
-          className="col"
+          className="validator-name col"
         >
           <div
             className="row no-gutters"
@@ -53,48 +53,36 @@ Array [
               className="validator-nodes-text col"
               title="@astro-stakers.poolv1.near"
             >
-              astro-stakers.poolv1
-              ...
+              astro-stakers.poolv1.near
             </div>
           </div>
           <div
             className="row no-gutters"
           >
             <div
-              className="validator-nodes-text col"
-              title="ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28"
             >
-              <span
-                onClick={[Function]}
-              >
-                <a
-                  className="transaction-link"
-                  href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  ed25519...
-                </a>
-              </span>
+              ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28
             </div>
           </div>
         </div>
       </div>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       1%
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+      className="jsx-1618374794 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -112,11 +100,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-2866537324 collapse-row-arrow disable"
+      className="jsx-1618374794 collapse-row-arrow disable"
       onClick={[Function]}
     >
       <img
-        className="jsx-2866537324"
+        className="jsx-1618374794"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -126,12 +114,12 @@ Array [
       />
     </td>
     <td
-      className="jsx-2866537324 order"
+      className="jsx-1618374794 order"
     >
       26
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -150,7 +138,7 @@ Array [
           </span>
         </div>
         <div
-          className="col"
+          className="validator-name col"
         >
           <div
             className="row no-gutters"
@@ -159,27 +147,36 @@ Array [
               className="validator-nodes-text col"
               title="@chorusone.poolv1.near"
             >
-              chorusone.poolv1.nea
-              ...
+              chorusone.poolv1.near
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:AZwJAgu2qRxHwdpj8ioZEFGcc2jbaZGN7ZvUe7CuXtM7"
+            >
+              ed25519:AZwJAgu2qRxHwdpj8ioZEFGcc2jbaZGN7ZvUe7CuXtM7
             </div>
           </div>
         </div>
       </div>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       8%
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+      className="jsx-1618374794 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -202,11 +199,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-2866537324 collapse-row-arrow "
+      className="jsx-1618374794 collapse-row-arrow "
       onClick={[Function]}
     >
       <img
-        className="jsx-2866537324"
+        className="jsx-1618374794"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -216,12 +213,12 @@ Array [
       />
     </td>
     <td
-      className="jsx-2866537324 order"
+      className="jsx-1618374794 order"
     >
       25
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -240,7 +237,7 @@ Array [
           </span>
         </div>
         <div
-          className="col"
+          className="validator-name col"
         >
           <div
             className="row no-gutters"
@@ -249,48 +246,36 @@ Array [
               className="validator-nodes-text col"
               title="@astro-stakers.poolv1.near"
             >
-              astro-stakers.poolv1
-              ...
+              astro-stakers.poolv1.near
             </div>
           </div>
           <div
             className="row no-gutters"
           >
             <div
-              className="validator-nodes-text col"
-              title="ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28"
             >
-              <span
-                onClick={[Function]}
-              >
-                <a
-                  className="transaction-link"
-                  href="/transactions/ed25519:3iNqnvBgxJPXCxu6hNdvJso1PEAc1miAD35KQMBCA3a2"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  ed25519...
-                </a>
-              </span>
+              ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28
             </div>
           </div>
         </div>
       </div>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       1%
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+      className="jsx-1618374794 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -304,7 +289,7 @@ Array [
       </span>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="jsx-1486326988 cumulative-stake-chart"
@@ -338,11 +323,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-2866537324 collapse-row-arrow "
+      className="jsx-1618374794 collapse-row-arrow "
       onClick={[Function]}
     >
       <img
-        className="jsx-2866537324"
+        className="jsx-1618374794"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -352,12 +337,12 @@ Array [
       />
     </td>
     <td
-      className="jsx-2866537324 order"
+      className="jsx-1618374794 order"
     >
       26
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -376,7 +361,7 @@ Array [
           </span>
         </div>
         <div
-          className="col"
+          className="validator-name col"
         >
           <div
             className="row no-gutters"
@@ -385,27 +370,36 @@ Array [
               className="validator-nodes-text col"
               title="@baziliknear.poolv1.near"
             >
-              baziliknear.poolv1.n
-              ...
+              baziliknear.poolv1.near
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v"
+            >
+              ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v
             </div>
           </div>
         </div>
       </div>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       3%
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+      className="jsx-1618374794 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -419,7 +413,7 @@ Array [
       </span>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="jsx-1486326988 cumulative-stake-chart"
@@ -453,11 +447,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-2866537324 collapse-row-arrow "
+      className="jsx-1618374794 collapse-row-arrow "
       onClick={[Function]}
     >
       <img
-        className="jsx-2866537324"
+        className="jsx-1618374794"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -467,12 +461,12 @@ Array [
       />
     </td>
     <td
-      className="jsx-2866537324 order"
+      className="jsx-1618374794 order"
     >
       27
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -491,7 +485,7 @@ Array [
           </span>
         </div>
         <div
-          className="col"
+          className="validator-name col"
         >
           <div
             className="row no-gutters"
@@ -500,27 +494,36 @@ Array [
               className="validator-nodes-text col"
               title="@audit_one.poolv1.near"
             >
-              audit_one.poolv1.nea
-              ...
+              audit_one.poolv1.near
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:9x2LqdGVL8MKbAziezMhQjPCKKeFAaExeyJpVvBvGuAC"
+            >
+              ed25519:9x2LqdGVL8MKbAziezMhQjPCKKeFAaExeyJpVvBvGuAC
             </div>
           </div>
         </div>
       </div>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       7%
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-2866537324 text-right validator-nodes-text stake-text"
+      className="jsx-1618374794 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -534,7 +537,7 @@ Array [
       </span>
     </td>
     <td
-      className="jsx-2866537324"
+      className="jsx-1618374794"
     >
       <div
         className="jsx-1486326988 cumulative-stake-chart"
