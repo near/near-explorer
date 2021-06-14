@@ -9,7 +9,9 @@ export default async function (req, res) {
     return;
   }
 
-  const circulatingSupplyTodayInYoctoNEAR = getCirculatingSupplyToday().amount;
+  const circulatingSupplyTodayInYoctoNEAR = (
+    await getCirculatingSupplyToday(req)
+  ).amount;
   const circulatingSupplyTodayInNEAR = circulatingSupplyTodayInYoctoNEAR.substr(
     0,
     circulatingSupplyTodayInYoctoNEAR.length - 24

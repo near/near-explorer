@@ -1849,13 +1849,70 @@ function preprocessCirculationSupplyEstimate() {
 
 const CIRCULATING_SUPPLY_ESTIMATE = preprocessCirculationSupplyEstimate();
 
-export function getCirculatingSupplyToday() {
+function getCirculatingSupplyForecastToday() {
   const todayUnixDateTime = Math.floor(Date.now() / 1000);
   const todayUnixDate =
     todayUnixDateTime - (todayUnixDateTime % (60 * 60 * 24));
   return {
     timestamp: todayUnixDate,
     amount: CIRCULATING_SUPPLY_ESTIMATE.get(todayUnixDate),
+  };
+}
+
+export async function getCirculatingSupplyToday(req) {
+  const circulatingSupplyFromCode = await new DetailsApi(
+    req
+  ).getLatestCirculatingSupply();
+  console.log(
+    `Circulating supply calculation ${circulatingSupplyFromCode.circulatingSupplyInYoctonear}`
+  );
+
+  const circulatingSupplyForecast = getCirculatingSupplyForecastToday();
+  console.log(
+    `Circulating supply forecast ${circulatingSupplyForecast.amount}`
+  );
+  const now = new BN(circulatingSupplyForecast.timestamp)
+    .muln(1000)
+    .muln(1000000);
+
+  let startMoment = new BN(Date.parse("2021-06-20 00:00:00+0")).muln(1000000);
+  let endMoment = new BN(Date.parse("2021-07-20 00:00:00+0")).muln(1000000);
+
+  let resultSupply;
+  if (now.lte(startMoment)) {
+    resultSupply = circulatingSupplyForecast.amount;
+    console.log(
+      `Circulating supply is fully taken from forecast (calculations ignored)`
+    );
+  } else if (now.gte(endMoment)) {
+    resultSupply = circulatingSupplyFromCode.circulatingSupplyInYoctonear.toString();
+    console.log(`Circulating supply is fully calculated (forecast ignored)`);
+  } else {
+    // we mix it, part of data from code is growing
+    const forecast = new BN(circulatingSupplyForecast.amount);
+    const fromCode = circulatingSupplyFromCode.circulatingSupplyInYoctonear;
+    let transitionPeriodLength = endMoment.sub(startMoment);
+
+    // start, now, finish
+    // s__n____f
+    // partFromCode     = fromCode * len(s__n)   / len(s__n____f)
+    // partFromForecast = forecast * len(n____f) / len(s__n____f)
+    let partFromCode = fromCode
+      .mul(now.sub(startMoment))
+      .div(transitionPeriodLength);
+    let partFromForecast = forecast
+      .mul(endMoment.sub(now))
+      .div(transitionPeriodLength);
+
+    resultSupply = partFromCode.add(partFromForecast).toString();
+    console.log(
+      `Circulating supply is mixed, calculations part ${partFromCode.toString()}, forecast part ${partFromForecast.toString()}`
+    );
+  }
+
+  return {
+    timestamp: now.toString(),
+    amount: resultSupply,
   };
 }
 
@@ -1869,59 +1926,10 @@ export default async function (req, res) {
   }
 
   try {
-    const circulatingSupplyFromCode = await new DetailsApi(
-      req
-    ).getLatestCirculatingSupply();
-    console.log(
-      `Circulating supply calculation ${circulatingSupplyFromCode.circulatingSupplyInYoctonear}`
-    );
-
-    const circulatingSupplyForecast = getCirculatingSupplyToday();
-    console.log(
-      `Circulating supply forecast ${circulatingSupplyForecast.amount}`
-    );
-    const now = new BN(circulatingSupplyForecast.timestamp)
-      .muln(1000)
-      .muln(1000000);
-
-    let startMoment = new BN(Date.parse("2021-06-15 00:00:00+0")).muln(1000000);
-    let endMoment = new BN(Date.parse("2021-07-15 00:00:00+0")).muln(1000000);
-
-    let resultSupply;
-    if (now.lte(startMoment)) {
-      resultSupply = circulatingSupplyForecast.amount;
-      console.log(
-        `Circulating supply is fully taken from forecast (calculations ignored)`
-      );
-    } else if (now.gte(endMoment)) {
-      resultSupply = circulatingSupplyFromCode.circulatingSupplyInYoctonear.toString();
-      console.log(`Circulating supply is fully calculated (forecast ignored)`);
-    } else {
-      // we mix it, part of data from code is growing
-      const forecast = new BN(circulatingSupplyForecast.amount);
-      const fromCode = circulatingSupplyFromCode.circulatingSupplyInYoctonear;
-      let transitionPeriodLength = endMoment.sub(startMoment);
-
-      // start, now, finish
-      // s__n____f
-      // partFromCode     = fromCode * len(s__n)   / len(s__n____f)
-      // partFromForecast = forecast * len(n____f) / len(s__n____f)
-      let partFromCode = fromCode
-        .mul(now.sub(startMoment))
-        .div(transitionPeriodLength);
-      let partFromForecast = forecast
-        .mul(endMoment.sub(now))
-        .div(transitionPeriodLength);
-      console.log(
-        `Circulating supply is mixed, calculations part ${partFromCode.toString()}, forecast part ${partFromForecast.toString()}`
-      );
-
-      resultSupply = partFromCode.add(partFromForecast).toString();
-    }
-
+    const supply = await getCirculatingSupplyToday(req);
     res.send({
-      timestamp: circulatingSupplyForecast.timestamp,
-      circulating_supply_in_yoctonear: resultSupply,
+      timestamp: supply.timestamp,
+      circulating_supply_in_yoctonear: supply.amount,
     });
   } catch (error) {
     console.error(error);
