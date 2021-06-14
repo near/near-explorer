@@ -241,14 +241,19 @@ function getCachedCirculatingSupply(blockHeight) {
     }
     let cachedBlockHeight = parseInt(lastValue[0]);
     let cachedCirculatingSupply = new BN(lastValue[1]);
-    if (blockHeight <= cachedBlockHeight) {
-      if (blockHeight !== cachedBlockHeight) {
-        console.log(
-          `Circulating supply was requested for block ${blockHeight} while cache contains more fresh data (block ${cachedBlockHeight}), taking fresh data`
-        );
-      }
-      return cachedCirculatingSupply;
+    if (blockHeight < cachedBlockHeight) {
+      throw `This API could be invoked only for today's data. Latest cached for block ${cachedBlockHeight}, requested for block ${blockHeight}`;
     }
+    if (blockHeight !== cachedBlockHeight) {
+      console.warn(
+        `Taking last cached data, block ${cachedBlockHeight}. Info for requested block ${blockHeight} is not ready yet`
+      );
+    }
+    CIRCULATING_SUPPLY = {
+      block_height: cachedBlockHeight,
+      circulating_supply_in_yoctonear: cachedCirculatingSupply.toString(),
+    };
+    return cachedCirculatingSupply;
   } catch (err) {
     console.error("Can't get circulating supply value from cache: ", err);
   }
@@ -259,10 +264,12 @@ const calculateCirculatingSupply = async (blockHeight) => {
     blockHeight = await findLastYesterdayBlockHeight();
   }
 
-  let cached = getCachedCirculatingSupply(blockHeight);
-  if (cached) {
-    console.log(`circulatingSupply taken from cache: ${cached.toString()}`);
-    return cached;
+  if (!CIRCULATING_SUPPLY.circulating_supply_in_yoctonear) {
+    let cached = getCachedCirculatingSupply(blockHeight);
+    if (cached) {
+      console.log(`circulatingSupply taken from cache: ${cached.toString()}`);
+      return cached;
+    }
   }
 
   console.log(`calculateCirculatingSupply STARTED for block ${blockHeight}`);
@@ -325,6 +332,9 @@ const calculateCirculatingSupply = async (blockHeight) => {
 };
 
 const getCirculatingSupply = async () => {
+  if (!CIRCULATING_SUPPLY.circulating_supply_in_yoctonear) {
+    throw "Please wait, circulating supply is not calculated yet";
+  }
   return CIRCULATING_SUPPLY;
 };
 
