@@ -49,7 +49,7 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
         }
       }
     });
-  }, []);
+  }, [latestGasPrice]);
 
   const getOption = (title: string, data: Array<number>, name: string) => {
     return {

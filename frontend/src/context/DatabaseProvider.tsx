@@ -52,8 +52,25 @@ const DatabaseProvider = (props: Props) => {
       recentBlockProductionSpeed: number;
     }
   ) {
-    dispatchLatestBlockHeight(new BN(namedArgs.latestBlockHeight));
-    dispatchLatestGasPrice(new BN(namedArgs.latestGasPrice));
+    const latestBlockHeight = new BN(namedArgs.latestBlockHeight);
+    dispatchLatestBlockHeight((prevLatestBlockHeight) => {
+      if (
+        prevLatestBlockHeight &&
+        latestBlockHeight.eq(prevLatestBlockHeight)
+      ) {
+        return prevLatestBlockHeight;
+      }
+      return latestBlockHeight;
+    });
+
+    const latestGasPrice = new BN(namedArgs.latestGasPrice);
+    dispatchLatestGasPrice((prevLatestGasPrice) => {
+      if (prevLatestGasPrice && latestGasPrice.eq(prevLatestGasPrice)) {
+        return prevLatestGasPrice;
+      }
+      return latestGasPrice;
+    });
+
     dispatchRecentBlockProductionSpeed(namedArgs.recentBlockProductionSpeed);
   };
 
