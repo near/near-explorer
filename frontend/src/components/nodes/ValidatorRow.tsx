@@ -60,6 +60,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
     }
 
     if (
+      node.stake &&
       node.totalStake &&
       node?.cumulativeStakeAmount &&
       validatorType !== "proposals"
@@ -70,6 +71,8 @@ class ValidatorRow extends React.PureComponent<Props, State> {
           .div(node.totalStake)
           .toNumber() / 100;
     }
+
+    // console.log("node", node);
 
     return (
       <Translate>
