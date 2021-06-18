@@ -302,9 +302,8 @@ async function main() {
         currentProposals = await extendWithTelemetryInfo(
           epochStats.currentProposals
         );
-        const onlineValidatingNodes = pickOnlineValidatingNode(
-          currentValidators
-        );
+        const onlineValidatingNodes =
+          pickOnlineValidatingNode(currentValidators);
         const onlineNodes = await queryOnlineNodes();
 
         if (stakingPoolsInfo) {
@@ -427,7 +426,9 @@ async function main() {
     await startStatsAggregation();
   }
 
-  startRegularCalculationCirculatingSupply();
+  if (nearRpc.connection.url.includes("mainnet")) {
+    startRegularCalculationCirculatingSupply();
+  }
 }
 
 main();
