@@ -1875,8 +1875,8 @@ export async function getCirculatingSupplyToday(req) {
     .muln(1000)
     .muln(1000000);
 
-  let startMoment = new BN(Date.parse("2021-06-20 00:00:00+0")).muln(1000000);
-  let endMoment = new BN(Date.parse("2021-07-20 00:00:00+0")).muln(1000000);
+  let startMoment = new BN(Date.parse("2021-06-23 00:00:00+0")).muln(1000000);
+  let endMoment = new BN(Date.parse("2021-07-23 00:00:00+0")).muln(1000000);
 
   let resultSupply;
   if (now.lte(startMoment)) {
