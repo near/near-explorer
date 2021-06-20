@@ -1,6 +1,7 @@
 const moment = require("moment");
 
 const models = require("../models");
+const { wampNearNetworkName } = require("./config");
 
 const {
   isLegacySyncBackendEnabled,
@@ -426,7 +427,7 @@ async function main() {
     await startStatsAggregation();
   }
 
-  if (nearRpc.connection.url.includes("mainnet")) {
+  if (wampNearNetworkName === "mainnet") {
     startRegularCalculationCirculatingSupply();
   }
 }
