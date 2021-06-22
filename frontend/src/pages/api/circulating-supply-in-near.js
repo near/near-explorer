@@ -9,11 +9,18 @@ export default async function (req, res) {
     return;
   }
 
-  const circulatingSupplyTodayInYoctoNEAR = getCirculatingSupplyToday().amount;
-  const circulatingSupplyTodayInNEAR = circulatingSupplyTodayInYoctoNEAR.substr(
-    0,
-    circulatingSupplyTodayInYoctoNEAR.length - 24
-  );
+  try {
+    const circulatingSupplyTodayInYoctoNEAR = (
+      await getCirculatingSupplyToday(req)
+    ).amount;
+    const circulatingSupplyTodayInNEAR = circulatingSupplyTodayInYoctoNEAR.substr(
+      0,
+      circulatingSupplyTodayInYoctoNEAR.length - 24
+    );
 
-  res.send(circulatingSupplyTodayInNEAR);
+    res.send(circulatingSupplyTodayInNEAR);
+  } catch (error) {
+    console.error(error);
+    res.status(502).send(error);
+  }
 }

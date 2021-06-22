@@ -15,6 +15,7 @@ const {
   regularFetchStakingPoolsInfoInterval,
   regularStatsInterval,
   regularCalculateCirculatingSupplyInterval,
+  wampNearNetworkName,
 } = require("./config");
 
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
@@ -427,7 +428,9 @@ async function main() {
     await startStatsAggregation();
   }
 
-  startRegularCalculationCirculatingSupply();
+  if (wampNearNetworkName === "mainnet") {
+    startRegularCalculationCirculatingSupply();
+  }
 }
 
 main();

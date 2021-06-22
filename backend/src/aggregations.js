@@ -1,10 +1,12 @@
 const BN = require("bn.js");
 const nearApi = require("near-api-js");
+const fs = require("fs");
 
 const { getAllLockupAccountIds, getLastYesterdayBlock } = require("./db-utils");
 const { nearRpc, queryFinalBlock } = require("./near");
 
 const DELAY_AFTER_FAILED_REQUEST = 3000;
+const CIRCULATING_SUPPLY_FILE = "./db/circulating.csv";
 
 let CIRCULATING_SUPPLY = {
   block_height: undefined,
@@ -227,16 +229,58 @@ async function findLastYesterdayBlockHeight() {
   return parseInt(yesterdayBlock.block_height);
 }
 
+// This is a temporary solution for persistent storing of circulating supply
+// Everything could go wrong here, we will ignore cache in this case
+function getCachedCirculatingSupply(blockHeight) {
+  try {
+    let data = fs.readFileSync(CIRCULATING_SUPPLY_FILE);
+    let lines = data.toString().trim().split("\n");
+    let lastValue = lines.pop().split(";");
+    if (lastValue.length !== 2) {
+      throw "2 values expected. We put there pairs height;supply";
+    }
+    let cachedBlockHeight = parseInt(lastValue[0]);
+    let cachedCirculatingSupply = new BN(lastValue[1]);
+    if (blockHeight < cachedBlockHeight) {
+      throw `This API could be invoked only for today's data. Latest cached for block ${cachedBlockHeight}, requested for block ${blockHeight}`;
+    }
+    if (blockHeight !== cachedBlockHeight) {
+      console.warn(
+        `Taking last cached data, block ${cachedBlockHeight}. Info for requested block ${blockHeight} is not ready yet`
+      );
+    }
+    CIRCULATING_SUPPLY = {
+      block_height: cachedBlockHeight,
+      circulating_supply_in_yoctonear: cachedCirculatingSupply.toString(),
+    };
+    return cachedCirculatingSupply;
+  } catch (err) {
+    console.error("Can't get circulating supply value from cache: ", err);
+  }
+}
+
 const calculateCirculatingSupply = async (blockHeight) => {
   if (blockHeight === undefined) {
     blockHeight = await findLastYesterdayBlockHeight();
   }
+
+  if (!CIRCULATING_SUPPLY.circulating_supply_in_yoctonear) {
+    let cached = getCachedCirculatingSupply(blockHeight);
+    if (cached) {
+      console.log(`circulatingSupply taken from cache: ${cached.toString()}`);
+      return cached;
+    }
+  }
+
   console.log(`calculateCirculatingSupply STARTED for block ${blockHeight}`);
   const currentBlock = await nearRpc.sendJsonRpc("block", {
     block_id: blockHeight,
   });
   const totalSupply = new BN(currentBlock.header.total_supply);
   const lockupAccountIds = await getAllLockupAccountIds(blockHeight);
+  console.log(
+    `Circulating supply: ${lockupAccountIds.length} lockups are found`
+  );
 
   let allLockupTokenAmounts = [];
   for (let account of lockupAccountIds) {
@@ -255,8 +299,14 @@ const calculateCirculatingSupply = async (blockHeight) => {
     (acc, current) => acc.add(current),
     new BN(0)
   );
+  console.log(
+    `Circulating supply: sum from all lockups ${lockedTokens.toString()}`
+  );
   const tokensFromSpecialAccounts = await getPermanentlyLockedTokens(
     blockHeight
+  );
+  console.log(
+    `Circulating supply: sum from special accounts ${tokensFromSpecialAccounts.toString()}`
   );
   CIRCULATING_SUPPLY = {
     block_height: blockHeight,
@@ -265,12 +315,26 @@ const calculateCirculatingSupply = async (blockHeight) => {
       .sub(tokensFromSpecialAccounts)
       .toString(),
   };
+
+  fs.appendFileSync(
+    CIRCULATING_SUPPLY_FILE,
+    `${blockHeight};${CIRCULATING_SUPPLY.circulating_supply_in_yoctonear}\n`,
+    (err) => {
+      if (err) {
+        console.error("Can't cache circulating supply value:", err);
+      }
+    }
+  );
+
   console.log(
     `calculateCirculatingSupply FINISHED, ${CIRCULATING_SUPPLY.circulating_supply_in_yoctonear}`
   );
 };
 
 const getCirculatingSupply = async () => {
+  if (!CIRCULATING_SUPPLY.circulating_supply_in_yoctonear) {
+    throw "Please wait, circulating supply is not calculated yet";
+  }
   return CIRCULATING_SUPPLY;
 };
 
