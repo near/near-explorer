@@ -303,8 +303,9 @@ async function main() {
         currentProposals = await extendWithTelemetryInfo(
           epochStats.currentProposals
         );
-        const onlineValidatingNodes =
-          pickOnlineValidatingNode(currentValidators);
+        const onlineValidatingNodes = pickOnlineValidatingNode(
+          currentValidators
+        );
         const onlineNodes = await queryOnlineNodes();
 
         if (stakingPoolsInfo) {
