@@ -13,10 +13,13 @@ context("Dashboard search bar", () => {
             );
             cy.get(".search-wrapper form.search-box").submit();
             cy.wait(5000);
-            cy.url().should(
-              "include",
-              `/accounts/${mixedcaseAccountId.toLowerCase()}`
-            );
+
+            cy.location().should((loc) => {
+              expect(loc.pathname).to.include(
+                `/accounts/${mixedcaseAccountId.toLowerCase()}`
+              );
+            });
+
             cy.wait(3000);
             cy.request(
               "GET",

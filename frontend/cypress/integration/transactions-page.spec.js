@@ -2,6 +2,7 @@
 
 context("Transactions", () => {
   beforeEach(() => {
+    cy.intercept("GET", "/transactions").as("transactionsList");
     cy.visit("/transactions");
   });
 
@@ -10,6 +11,7 @@ context("Transactions", () => {
   });
 
   it("Check transactions row data", () => {
+    cy.wait("@transactionsList");
     cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
       "exist"
     );
@@ -21,9 +23,9 @@ context("Transactions", () => {
         cy.scrollTo("bottom")
           .get(
             ".infinite-scroll-component__outerdiv .infinite-scroll-component",
-            { timeout: 3000 }
+            { timeout: 5000 }
           )
-          .find(".action-sparse-row")
+          .find(".action-sparse-row", { timeout: 5000 })
           .should("have.length.greaterThan", itemsPerPage);
       });
 
@@ -42,6 +44,7 @@ context("Transactions", () => {
   });
 
   it("Check transaction details", () => {
+    cy.wait("@transactionsList");
     cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
       "exist"
     );
