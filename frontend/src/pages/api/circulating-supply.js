@@ -1919,7 +1919,7 @@ export async function getCirculatingSupplyToday(req) {
 export default async function (req, res) {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
   // TODO remove whole this logic after transition will be finished
-  const nearNetwork = getNearNetwork(req.socket.hostname);
+  const nearNetwork = getNearNetwork(req.headers.host);
   if (nearNetwork.name !== "mainnet") {
     res.status(404).end();
     return;
