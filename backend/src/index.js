@@ -1,7 +1,6 @@
 const moment = require("moment");
 
 const models = require("../models");
-const { wampNearNetworkName } = require("./config");
 
 const {
   isLegacySyncBackendEnabled,
@@ -16,6 +15,7 @@ const {
   regularFetchStakingPoolsInfoInterval,
   regularStatsInterval,
   regularCalculateCirculatingSupplyInterval,
+  wampNearNetworkName,
 } = require("./config");
 
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
