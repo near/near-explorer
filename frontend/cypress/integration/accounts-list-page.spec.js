@@ -10,9 +10,11 @@ context("Accounts List page", () => {
   });
 
   it("Check accounts row data", () => {
-    cy.wait(5000).get(".infinite-scroll-component__outerdiv").should("exist");
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+      "exist"
+    );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row .transaction-row-title")
+      .find("a .transaction-row .transaction-row-title", { timeout: 3000 })
       .should("exist")
       .and("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
@@ -30,23 +32,25 @@ context("Accounts List page", () => {
       .then(($el) => {
         let itemsPerPage = $el.length;
         cy.scrollTo("bottom");
-        cy.wait(5000)
-          .get(
-            ".infinite-scroll-component__outerdiv .infinite-scroll-component"
-          )
-          .find("a .transaction-row")
+        cy.get(
+          ".infinite-scroll-component__outerdiv .infinite-scroll-component",
+          { timeout: 5000 }
+        )
+          .find("a .transaction-row", { timeout: 3000 })
           .should("have.length.greaterThan", itemsPerPage);
       });
   });
 
   it("Check account details", () => {
-    cy.wait(5000).get(".infinite-scroll-component__outerdiv").should("exist");
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+      "exist"
+    );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find("a .transaction-row .transaction-row-title")
       .should("exist")
       .first()
       .click();
-    cy.wait(5000).get(".account-info-container").should("exist");
+    cy.get(".account-info-container", { timeout: 5000 }).should("exist");
     cy.get(".account-info-container .card-cell .card-body")
       .should("exist")
       .and("not.be.empty");
