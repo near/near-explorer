@@ -2,6 +2,7 @@
 
 context("Blocks List page", () => {
   beforeEach(() => {
+    cy.intercept("GET", "/blocks").as("blocksList");
     cy.visit("/blocks");
   });
 
@@ -10,6 +11,7 @@ context("Blocks List page", () => {
   });
 
   it("Check blocks row data", () => {
+    cy.wait("@blocksList");
     cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
       "exist"
     );
@@ -26,6 +28,7 @@ context("Blocks List page", () => {
   });
 
   it("Check block details", () => {
+    cy.wait("@blocksList");
     cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
       "exist"
     );

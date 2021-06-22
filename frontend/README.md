@@ -97,9 +97,10 @@ $ npm run build
 $ npm run e2e:test
 ```
 
-To run end-to-end testing against testnet:
+To run cypress testing against testnet:
 
 ```
+$ npm run build
 $ npm run test:ci
 ```
 

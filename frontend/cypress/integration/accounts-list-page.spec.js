@@ -14,7 +14,7 @@ context("Accounts List page", () => {
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row .transaction-row-title")
+      .find("a .transaction-row .transaction-row-title", { timeout: 3000 })
       .should("exist")
       .and("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
@@ -34,9 +34,9 @@ context("Accounts List page", () => {
         cy.scrollTo("bottom");
         cy.get(
           ".infinite-scroll-component__outerdiv .infinite-scroll-component",
-          { timeout: 3000 }
+          { timeout: 5000 }
         )
-          .find("a .transaction-row")
+          .find("a .transaction-row", { timeout: 3000 })
           .should("have.length.greaterThan", itemsPerPage);
       });
   });

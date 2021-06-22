@@ -12,16 +12,15 @@ context("Dashboard search bar", () => {
               mixedcaseAccountId
             );
             cy.get(".search-wrapper form.search-box").submit();
-            cy.wait(5000);
-            cy.url().should(
+            cy.url({ timeout: 5000 }).should(
               "include",
               `/accounts/${mixedcaseAccountId.toLowerCase()}`
             );
-            cy.wait(3000);
-            cy.request(
-              "GET",
-              `/accounts/${mixedcaseAccountId.toLowerCase()}`
-            ).then((resp) => {
+            cy.request({
+              method: "GET",
+              url: `/accounts/${mixedcaseAccountId.toLowerCase()}`,
+              timeout: 3000,
+            }).then((resp) => {
               expect(resp.status).to.eq(200);
             });
           })
