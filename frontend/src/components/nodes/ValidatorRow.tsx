@@ -108,6 +108,71 @@ class ValidatorRow extends React.PureComponent<Props, State> {
 
                   <td>
                     <Row noGutters className="align-items-center">
+                      {validatorType !== "nodePools" ? (
+                        <Col xs="2" className="validators-node-label">
+                          {validatorType === "proposals" ? (
+                            <ValidatingLabel
+                              type="pending"
+                              text="node staked to be new validating one"
+                              tooltipKey="nodes"
+                            >
+                              Pending
+                            </ValidatingLabel>
+                          ) : node.validatorStatus === "new" ? (
+                            <ValidatingLabel
+                              type="new"
+                              text="next epoch upcoming validating nodes"
+                              tooltipKey="new"
+                            >
+                              Next Epoch
+                            </ValidatingLabel>
+                          ) : node.validatorStatus === "removed" ? (
+                            <ValidatingLabel
+                              type="kickout"
+                              text="next epoch kick out nodes"
+                              tooltipKey="kickout"
+                            >
+                              Leaving
+                            </ValidatingLabel>
+                          ) : (
+                            <ValidatingLabel
+                              type="active"
+                              text="current validating nodes"
+                              tooltipKey="current"
+                            >
+                              Active
+                            </ValidatingLabel>
+                          )}
+                        </Col>
+                      ) : null}
+
+                      <Col className="validator-name">
+                        <Row noGutters>
+                          <Col
+                            title={`@${node.account_id}`}
+                            className="validator-nodes-text"
+                          >
+                            {node.account_id}
+                          </Col>
+                        </Row>
+                        {node.public_key && (
+                          <Row noGutters>
+                            <Col
+                              title={node.public_key}
+                              className="validator-nodes-text validator-node-pub-key"
+                            >
+                              {node.public_key}
+                            </Col>
+                          </Row>
+                        )}
+                      </Col>
+                    </Row>
+                  </td>
+
+                  <td className="order">{index}</td>
+
+                  <td>
+                    <Row noGutters className="align-items-center">
                       <Col xs="2" className="validators-node-label">
                         {validatorType === "proposals" ? (
                           <ValidatingLabel
