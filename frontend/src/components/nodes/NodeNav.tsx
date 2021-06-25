@@ -55,24 +55,8 @@ class NodeNav extends React.PureComponent<Props> {
                   </a>
                 </Link>
               </Col> */}
-                  {/* <Col
-                    xs="auto"
-                    className={`node-selector pt-2 pb-2 ${
-                      role === "proposals" ? `node-selected` : ""
-                    }`}
-                  >
-                    <Link href="/nodes/proposals">
-                      <a className="node-link" id="proposal-node">
-                        {translate("component.nodes.NodeNav.proposed")}{" "}
-                        <Badge pill className="nodes-amount-label proposed">
-                          {context.networkStats
-                            ? context.networkStats.currentProposalsCount
-                            : "--"}
-                        </Badge>
-                      </a>
-                    </Link>
-                  </Col> */}
-                  {/* <Col className="node-selector pt-2 pb-2">
+
+              {/* <Col className="node-selector pt-2 pb-2">
                 <Link href="/nodes/map">
                   <a className="node-link" id="node-map">
                     Nodes Map

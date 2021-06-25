@@ -30,7 +30,7 @@ class NodesContentHeader extends React.PureComponent<Props> {
                 {translate("component.nodes.NodesContentHeader.nodes")}
               </h1>
             </Col>
-            <Col xs="12">
+            <Col xs="12" style={{ visibility: "hidden" }}>
               <NodeNav role={this.props.navRole} />
             </Col>
           </Row>

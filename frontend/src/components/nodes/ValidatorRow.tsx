@@ -19,7 +19,7 @@ interface Props {
   node: N.ValidationNodeInfo;
   index: number;
   cellCount: number;
-  validatorType: string;
+  totalStake?: BN;
 }
 interface State {
   activeRow: boolean;
@@ -34,7 +34,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
     this.setState(({ activeRow }) => ({ activeRow: !activeRow }));
 
   render() {
-    const { node, index, cellCount, validatorType } = this.props;
+    const { node, index, cellCount, totalStake } = this.props;
     let persntStake = 0;
     let cumulativeStake = 0;
     let validatorFee =
@@ -53,129 +53,57 @@ class ValidatorRow extends React.PureComponent<Props, State> {
       (node.num_produced_blocks && node.num_expected_blocks) || node.nodeInfo
     );
 
-    if (node.stake && node.totalStake && validatorType !== "proposals") {
+    if (node.stake && totalStake) {
       persntStake =
-        new BN(node.stake).mul(new BN(10000)).div(node.totalStake).toNumber() /
-        100;
+        new BN(node.stake).mul(new BN(10000)).div(totalStake).toNumber() / 100;
     }
 
-    if (
-      node.stake &&
-      node.totalStake &&
-      node?.cumulativeStakeAmount &&
-      validatorType !== "proposals"
-    ) {
+    if (node.stake && totalStake && node?.cumulativeStakeAmount) {
       cumulativeStake =
-        new BN(node.cumulativeStakeAmount.total)
+        new BN(node.cumulativeStakeAmount)
           .mul(new BN(10000))
-          .div(node.totalStake)
+          .div(totalStake)
           .toNumber() / 100;
     }
-
-    // console.log("node", node);
 
     return (
       <Translate>
         {({ translate }) => (
-          <DatabaseConsumer>
-            {(context) => (
-              <>
-                <TableRow
-                  className="validator-nodes-row mx-0"
-                  collapse={this.state.activeRow}
-                  key={node.account_id}
-                >
-                  <td
-                    className={`collapse-row-arrow ${
-                      !nodeDetailsEnable ? "disable" : ""
-                    }`}
-                    onClick={this.handleClick}
+          <>
+            <DatabaseConsumer>
+              {(context) => (
+                <>
+                  <TableRow
+                    className="validator-nodes-row mx-0"
+                    collapse={this.state.activeRow}
+                    key={node.account_id}
                   >
-                    {this.state.activeRow ? (
-                      <img
-                        src="/static/images/icon-minimize.svg"
-                        style={{ width: "16px" }}
-                      />
-                    ) : (
-                      <img
-                        src="/static/images/icon-maximize.svg"
-                        style={{ width: "16px" }}
-                      />
-                    )}
-                  </td>
+                    <td
+                      className={`collapse-row-arrow ${
+                        !nodeDetailsEnable ? "disable" : ""
+                      }`}
+                      onClick={this.handleClick}
+                    >
+                      {this.state.activeRow ? (
+                        <img
+                          src="/static/images/icon-minimize.svg"
+                          style={{ width: "16px" }}
+                        />
+                      ) : (
+                        <img
+                          src="/static/images/icon-maximize.svg"
+                          style={{ width: "16px" }}
+                        />
+                      )}
+                    </td>
 
-                  <td className="order">{index}</td>
+                    <td className="order">{index}</td>
 
-                  <td>
-                    <Row noGutters className="align-items-center">
-                      {validatorType !== "nodePools" ? (
+                    <td>
+                      <Row noGutters className="align-items-center">
                         <Col xs="2" className="validators-node-label">
-                          {validatorType === "proposals" ? (
+                          {node.validatorStatus === "proposal" ? (
                             <ValidatingLabel
-                              type="pending"
-                              text="node staked to be new validating one"
-                              tooltipKey="nodes"
-                            >
-                              Pending
-                            </ValidatingLabel>
-                          ) : node.validatorStatus === "new" ? (
-                            <ValidatingLabel
-                              type="new"
-                              text="next epoch upcoming validating nodes"
-                              tooltipKey="new"
-                            >
-                              Next Epoch
-                            </ValidatingLabel>
-                          ) : node.validatorStatus === "removed" ? (
-                            <ValidatingLabel
-                              type="kickout"
-                              text="next epoch kick out nodes"
-                              tooltipKey="kickout"
-                            >
-                              Leaving
-                            </ValidatingLabel>
-                          ) : (
-                            <ValidatingLabel
-                              type="active"
-                              text="current validating nodes"
-                              tooltipKey="current"
-                            >
-                              Active
-                            </ValidatingLabel>
-                          )}
-                        </Col>
-                      ) : null}
-
-                      <Col className="validator-name">
-                        <Row noGutters>
-                          <Col
-                            title={`@${node.account_id}`}
-                            className="validator-nodes-text"
-                          >
-                            {node.account_id}
-                          </Col>
-                        </Row>
-                        {node.public_key && (
-                          <Row noGutters>
-                            <Col
-                              title={node.public_key}
-                              className="validator-nodes-text validator-node-pub-key"
-                            >
-                              {node.public_key}
-                            </Col>
-                          </Row>
-                        )}
-                      </Col>
-                    </Row>
-                  </td>
-
-                  <td className="order">{index}</td>
-
-                  <td>
-                    <Row noGutters className="align-items-center">
-                      <Col xs="2" className="validators-node-label">
-                        {validatorType === "proposals" ? (
-                          <ValidatingLabel
                             type="pending"
                             text={translate(
                               "component.nodes.ValidatorRow.state.pending.text"
@@ -186,84 +114,83 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                               "component.nodes.ValidatorRow.state.pending.title"
                             )}
                           </ValidatingLabel>
-                        ) : node.new ? (
-                          <ValidatingLabel
-                            type="new"
-                            text={translate(
-                              "component.nodes.ValidatorRow.state.new.text"
-                            ).toString()}
-                            tooltipKey="new"
-                          >
-                            {translate(
-                              "component.nodes.ValidatorRow.state.new.title"
-                            )}
-                          </ValidatingLabel>
-                        ) : node.removed ? (
-                          <ValidatingLabel
-                            type="kickout"
-                            text={translate(
-                              "component.nodes.ValidatorRow.state.kickout.text"
-                            ).toString()}
-                            tooltipKey="kickout"
-                          >
-                            {translate(
-                              "component.nodes.ValidatorRow.state.kickout.title"
-                            )}
-                          </ValidatingLabel>
-                        ) : (
-                          <ValidatingLabel
-                            type="active"
-                            text={translate(
-                              "component.nodes.ValidatorRow.state.active.text"
-                            ).toString()}
-                            tooltipKey="current"
-                          >
-                            {translate(
-                              "component.nodes.ValidatorRow.state.active.title"
-                            )}
-                          </ValidatingLabel>
-                        )}
-                      </Col>
+                          ) : node.validatorStatus === "new" ? (
+                            <ValidatingLabel
+                              type="new"
+                              text={translate(
+                                "component.nodes.ValidatorRow.state.new.text"
+                              ).toString()}
+                              tooltipKey="new"
+                            >
+                              {translate(
+                                "component.nodes.ValidatorRow.state.new.title"
+                              )}
+                            </ValidatingLabel>
+                          ) : node.validatorStatus === "leaving" ? (
+                            <ValidatingLabel
+                              type="kickout"
+                              text={translate(
+                                "component.nodes.ValidatorRow.state.kickout.text"
+                              ).toString()}
+                              tooltipKey="kickout"
+                            >
+                              {translate(
+                                "component.nodes.ValidatorRow.state.kickout.title"
+                              )}
+                            </ValidatingLabel>
+                          ) : node.validatorStatus === "active" ? (
+                            <ValidatingLabel
+                              type="active"
+                              text={translate(
+                                "component.nodes.ValidatorRow.state.active.text"
+                              ).toString()}
+                              tooltipKey="current"
+                            >
+                              {translate(
+                                "component.nodes.ValidatorRow.state.active.title"
+                              )}
+                            </ValidatingLabel>
+                          ) : null}
+                        </Col>
 
-                      <Col className="validator-name">
-                        <Row noGutters>
-                          <Col
-                            title={`@${node.account_id}`}
-                            className="validator-nodes-text"
-                          >
-                            {node.account_id}
-                          </Col>
-                        </Row>
-                        {node.public_key && (
+                        <Col className="validator-name">
                           <Row noGutters>
                             <Col
-                              title={node.public_key}
-                              className="validator-nodes-text validator-node-pub-key"
+                              title={`@${node.account_id}`}
+                              className="validator-nodes-text"
                             >
-                              {node.public_key}
+                              {node.account_id}
                             </Col>
                           </Row>
-                        )}
-                      </Col>
-                    </Row>
-                  </td>
+                          {node.public_key && (
+                            <Row noGutters>
+                              <Col
+                                title={node.public_key}
+                                className="validator-nodes-text validator-node-pub-key"
+                              >
+                                {node.public_key}
+                              </Col>
+                            </Row>
+                          )}
+                        </Col>
+                      </Row>
+                    </td>
 
-                  <td>
-                    {validatorFee ?? <Spinner animation="border" size="sm" />}
-                  </td>
-                  <td>
-                    {validatorDelegators ?? (
-                      <Spinner animation="border" size="sm" />
-                    )}
-                  </td>
-                  <td className="text-right validator-nodes-text stake-text">
-                    {node.stake ? (
-                      <Balance amount={node.stake} label="NEAR" />
-                    ) : (
-                      "-"
-                    )}
-                  </td>
-                  {validatorType !== "proposals" && (
+                    <td>
+                      {validatorFee ?? <Spinner animation="border" size="sm" />}
+                    </td>
+                    <td>
+                      {validatorDelegators ?? (
+                        <Spinner animation="border" size="sm" />
+                      )}
+                    </td>
+                    <td className="text-right validator-nodes-text stake-text">
+                      {node.stake ? (
+                        <Balance amount={node.stake} label="NEAR" />
+                      ) : (
+                        "-"
+                      )}
+                    </td>
                     <td>
                       <CumulativeStakeChart
                         value={{
@@ -429,7 +356,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                                       variant="secondary"
                                       className="agent-name-badge"
                                     >
-                                      {`v${node.nodeInfo.agentVersion} / ${node.nodeInfo.agentBuild}`}
+                                      {node.nodeInfo.agentName}
                                     </Badge>
                                   ) : (
                                     "..."
@@ -438,126 +365,148 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                               </Row>
                             </Col>
                           )}
-                      </Row>
-                    </td>
-                  </TableCollapseRow>
-                )}
+                          {node.nodeInfo?.agentVersion &&
+                            node.nodeInfo?.agentBuild && (
+                              <Col className="validator-nodes-content-cell">
+                                <Row noGutters>
+                                  <Col className="validator-nodes-details-title">
+                                    {"Node Agent Version / Build"}
+                                  </Col>
+                                </Row>
+                                <Row noGutters>
+                                  <Col>
+                                    {node.nodeInfo ? (
+                                      <Badge
+                                        variant="secondary"
+                                        className="agent-name-badge"
+                                      >
+                                        {`v${node.nodeInfo.agentVersion} / ${node.nodeInfo.agentBuild}`}
+                                      </Badge>
+                                    ) : (
+                                      "..."
+                                    )}
+                                  </Col>
+                                </Row>
+                              </Col>
+                            )}
+                        </Row>
+                      </td>
+                    </TableCollapseRow>
+                  )}
 
-                {validatorType !== "proposals" &&
-                  node?.cumulativeStakeAmount &&
-                  node?.cumulativeStakeAmount.networkHolderIndex + 1 ===
-                    index && (
+                  {node?.cumulativeStakeAmount && node?.networkHolder && (
                     <tr className="cumulative-stake-holders-row">
                       <td
                         colSpan={cellCount}
                         className="warning-text text-center"
                       >
                         {translate("component.nodes.ValidatorRow.warning_tip", {
-                          node_tip_max:
-                            node?.cumulativeStakeAmount.networkHolderIndex + 1,
+                          node_tip_max: index,
                         })}
                       </td>
                     </tr>
                   )}
+                </>
+              )}
+            </DatabaseConsumer>
 
-                <style jsx global>{`
-                  @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+            <style jsx global>{`
+              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
-                  .collapse-row-arrow {
-                    cursor: pointer;
-                  }
+              .collapse-row-arrow {
+                cursor: pointer;
+              }
 
-                  .collapse-row-arrow.disable {
-                    cursor: default;
-                    opacity: 0.3;
-                    pointer-events: none;
-                    touch-action: none;
-                  }
+              .collapse-row-arrow.disable {
+                cursor: default;
+                opacity: 0.3;
+                pointer-events: none;
+                touch-action: none;
+              }
 
-                  .validator-nodes-text {
-                    font-weight: 500;
-                    font-size: 14px;
-                    color: #3f4045;
-                  }
+              .validator-nodes-text {
+                font-weight: 500;
+                font-size: 14px;
+                color: #3f4045;
+              }
 
-                  .validator-node-pub-key {
-                    color: #2b9af4;
-                  }
+              .validator-node-pub-key {
+                color: #2b9af4;
+              }
 
-                  .validator-name {
-                    max-width: 250px;
-                  }
+              .validator-name {
+                max-width: 250px;
+              }
 
-                  .validator-name .validator-nodes-text {
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                  }
+              .validator-name .validator-nodes-text {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
 
-                  .validator-nodes-details-title {
-                    display: flex;
-                    flex-wrap: nowrap;
-                    font-size: 12px;
-                    color: #a2a2a8;
-                  }
+              .validator-nodes-details-title {
+                display: flex;
+                flex-wrap: nowrap;
+                font-size: 12px;
+                color: #a2a2a8;
+              }
 
-                  .validator-nodes-text.uptime {
-                    color: #72727a;
-                  }
+              .validator-nodes-text.uptime {
+                color: #72727a;
+              }
 
-                  .validator-nodes-text.stake-text {
-                    font-weight: 700;
-                  }
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
+              }
 
-                  .validator-nodes-content-row {
-                    padding-top: 16px;
-                    padding-bottom: 16px;
-                  }
+              .validator-nodes-content-row {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
 
-                  .validator-nodes-content-row > .validator-nodes-content-cell {
-                    padding: 0 22px;
-                    border-right: 1px solid #e5e5e6;
-                  }
+              .validator-nodes-content-row > .validator-nodes-content-cell {
+                padding: 0 22px;
+                border-right: 1px solid #e5e5e6;
+              }
 
-                  .validator-nodes-content-row
-                    > .validator-nodes-content-cell:last-child {
-                    border-right: none;
-                  }
+              .validator-nodes-content-row
+                > .validator-nodes-content-cell:last-child {
+                border-right: none;
+              }
 
-                  .agent-name-badge {
-                    background-color: #f0f0f1;
-                    color: #72727a;
-                    font-weight: 500;
-                    font-size: 12px;
-                    font-family: "Roboto Mono", monospace;
-                  }
+              .agent-name-badge {
+                background-color: #f0f0f1;
+                color: #72727a;
+                font-weight: 500;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+              }
 
-                  .validators-node-label {
-                    margin-right: 24px;
-                  }
+              .validators-node-label {
+                margin-right: 24px;
+              }
 
-                  .cumulative-stake-holders-row {
-                    background-color: #fff6ed;
-                  }
-                  .cumulative-stake-holders-row .warning-text {
-                    color: #995200;
-                    padding: 16px 50px;
-                    font-size: 12px;
-                  }
+              .cumulative-stake-holders-row {
+                background-color: #fff6ed;
+              }
+              .cumulative-stake-holders-row .warning-text {
+                color: #995200;
+                padding: 16px 50px;
+                font-size: 12px;
+              }
 
-                  @media (min-width: 1200px) {
-                    .validator-name {
-                      max-width: 420px;
-                    }
-                  }
-                `}</style>
-              </>
-            )}
-          </DatabaseConsumer>
+              @media (min-width: 1200px) {
+                .validator-name {
+                  max-width: 420px;
+                }
+              }
+            `}</style>
+          </>
         )}
       </Translate>
     );
   }
 }
+
 
 export default ValidatorRow;
