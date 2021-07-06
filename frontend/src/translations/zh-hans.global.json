@@ -28,10 +28,49 @@
     }
   },
   "component": {
+    "dashboard": {
+      "DashboardNode": {
+        "nodes_online": {
+          "title": "在线节点",
+          "desc": "在线节点的总数"
+        },
+        "nodes_validating": {
+          "title": "正在验证的节点",
+          "desc": "正在验证的节点的总数"
+        }
+      },
+      "DashboardBlock": {
+        "block_height": {
+          "title": "区块高度",
+          "desc1": "最新记录到区块链上的区块的高度。",
+          "desc2": "区块高度是区块链上最新的快的序号。",
+          "desc3": "例如，区块高度为1000意味着至多已经有1001个区块存在在区块链上（创世区块 + 随后的1000个区块）。在NEAR上，不能保证每个序号都有对应的区块产生，比如序号为982的区块并不一定存在。"
+        },
+        "avg_block_time": {
+          "title": "平均出块时间",
+          "desc": "产生一个区快的平均时间"
+        }
+      },
+      "DashboardTransaction": {
+        "24h_total": {
+          "title": "24小时总数",
+          "desc": "过于24小时内的交易数量。"
+        },
+        "gas_price": {
+          "title": "Gas价格",
+          "desc": "Tgas (TerraGas) 是 10^12 个单位Gas. 由于如果用 NEAR 计费，Gas的数字会相当小，所以TGas是更常用的。"
+        }
+      },
+      "DashboardTransactionHistoryChart": {
+        "14_day_history": {
+          "title": "过去14天历史"
+        }
+      }
+    },
     "utils": {
       "Search": {
         "title": "搜索",
-        "hint": "搜索账户ID、交易哈希、块哈希、块高度"
+        "hint": "搜索账户ID、交易哈希、区块哈希、区块高度"
       },
       "Header": {
         "home": "主页"
@@ -40,5 +79,9 @@
         "title": "探索"
       }
     }
+  },
+  "button": {
+    "view_all": "查看全部",
+    "docs": "查看文档"
   }
 }

@@ -2,6 +2,9 @@ import React from "react";
 
 import { Modal } from "react-bootstrap";
 import Mixpanel from "../../libraries/mixpanel";
+
+import { Translate } from "react-localize-redux";
+
 interface Props {
   title: string;
   text: string | React.ReactNode;
@@ -58,7 +61,7 @@ class Term extends React.Component<Props, State> {
                     Mixpanel.track("Explorer Docs Click", { href: href })
                   }
                 >
-                  docs
+                  <Translate id="button.docs" />
                 </a>
               )}
             </Modal.Body>

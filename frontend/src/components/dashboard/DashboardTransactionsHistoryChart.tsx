@@ -6,6 +6,8 @@ import moment from "moment";
 
 import { TransactionsCountStat } from "../../context/DatabaseProvider";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   transactionsCountHistory: TransactionsCountStat[];
 }
@@ -34,10 +36,12 @@ const DashboardTransactionHistoryChart = ({
     return nameMonth[month - 1] + " " + day;
   });
   const count = transactionsCountHistory.map((t) => t.total);
-  const getOption = () => {
+  const getOption = (translate: Function) => {
     return {
       title: {
-        text: "14 Day History ",
+        text: translate(
+          "component.dashboard.DashboardTransactionHistoryChart.14_day_history.title"
+        ).toString(),
       },
       tooltip: {
         trigger: "axis",
@@ -123,14 +127,18 @@ const DashboardTransactionHistoryChart = ({
     };
   };
   return (
-    <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "232px",
-        marginTop: "26px",
-        marginBottom: "26px",
-      }}
-    />
+    <Translate>
+      {({ translate }) => (
+        <ReactEcharts
+          option={getOption(translate)}
+          style={{
+            height: "232px",
+            marginTop: "26px",
+            marginBottom: "26px",
+          }}
+        />
+      )}
+    </Translate>
   );
 };
 
