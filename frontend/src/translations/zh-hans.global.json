@@ -2,6 +2,23 @@
   "app": {
     "name": "NEAR 浏览器"
   },
+  "model": {
+    "accounts": {
+      "title": "账户"
+    },
+    "blocks": {
+      "title": "区块"
+    },
+    "transactions": {
+      "title": "交易"
+    },
+    "nodes": {
+      "title": "节点"
+    },
+    "stats": {
+      "title_charts_and_stats": "图表 / 统计"
+    }
+  },
   "page": {
     "home": {
       "title": {
@@ -18,6 +35,9 @@
       },
       "Header": {
         "home": "主页"
+      },
+      "HeaderNavDropdown": {
+        "title": "探索"
       }
     }
   }

@@ -7,6 +7,8 @@ import IconNodes from "../../../public/static/images/icon-nodes.svg";
 import IconStats from "../../../public/static/images/icon-stats.svg";
 import IconTransactions from "../../../public/static/images/icon-transactions.svg";
 
+import { Translate } from "react-localize-redux";
+
 const MobileNavItem = ({ link, icon, text }) => {
   return (
     <Link href={link}>
@@ -72,111 +74,119 @@ class MobileNavDropdown extends React.Component {
 
   render() {
     return (
-      <>
-        <div
-          className={`mobile ${this.state.showMenu ? "change" : ""}`}
-          onClick={this.showMenu}
-        >
-          <div className="bar1"></div>
-          <div className="bar2"></div>
-          <div className="bar3"></div>
-
-          {this.state.showMenu ? (
+      <Translate>
+        {({ translate }) => (
+          <>
             <div
-              ref={(element) => {
-                this.dropdownMenu = element;
-              }}
-              className="dropdown-content"
+              className={`mobile ${this.state.showMenu ? "change" : ""}`}
+              onClick={this.showMenu}
             >
-              <div className="mobile-nav">
-                <Link href="/">
-                  <a style={{ color: "#F8F8F8", width: "100%" }}>Home</a>
-                </Link>
-              </div>
-              <div className="mobile-nav">Explore</div>
-              <MobileNavItem
-                link="/accounts"
-                icon={<IconAccounts className="header-icon" />}
-                text="Accounts"
-              />
-              <MobileNavItem
-                link="/blocks"
-                icon={<IconBlocks className="header-icon" />}
-                text="Blocks"
-              />
-              <MobileNavItem
-                link="/transactions"
-                icon={<IconTransactions className="header-icon" />}
-                text="Transactions"
-              />
-              <MobileNavItem
-                link="/nodes/validators"
-                icon={<IconNodes className="header-icon" />}
-                text="Nodes"
-              />
-              <MobileNavItem
-                link="/stats"
-                icon={<IconStats className="header-icon" />}
-                text="Charts & Stats"
-              />
+              <div className="bar1"></div>
+              <div className="bar2"></div>
+              <div className="bar3"></div>
+
+              {this.state.showMenu ? (
+                <div
+                  ref={(element) => {
+                    this.dropdownMenu = element;
+                  }}
+                  className="dropdown-content"
+                >
+                  <div className="mobile-nav">
+                    <Link href="/">
+                      <a style={{ color: "#F8F8F8", width: "100%" }}>
+                        <Translate id="component.utils.Header.home" />
+                      </a>
+                    </Link>
+                  </div>
+                  <div className="mobile-nav">
+                    {translate("component.utils.HeaderNavDropdown.title")}
+                  </div>
+                  <MobileNavItem
+                    link="/accounts"
+                    icon={<IconAccounts className="header-icon" />}
+                    text={translate("model.accounts.title")}
+                  />
+                  <MobileNavItem
+                    link="/blocks"
+                    icon={<IconBlocks className="header-icon" />}
+                    text={translate("model.blocks.title")}
+                  />
+                  <MobileNavItem
+                    link="/transactions"
+                    icon={<IconTransactions className="header-icon" />}
+                    text={translate("model.transactions.title")}
+                  />
+                  <MobileNavItem
+                    link="/nodes/validators"
+                    icon={<IconNodes className="header-icon" />}
+                    text={translate("model.nodes.title")}
+                  />
+                  <MobileNavItem
+                    link="/stats"
+                    icon={<IconStats className="header-icon" />}
+                    text={translate("model.stats.title_charts_and_stats")}
+                  />
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
 
-        <style jsx global>{`
-          .mobile {
-            display: inline-block;
-            cursor: pointer;
-          }
+            <style jsx global>{`
+              .mobile {
+                display: inline-block;
+                cursor: pointer;
+              }
 
-          .bar1,
-          .bar2,
-          .bar3 {
-            width: 18px;
-            height: 2px;
-            background-color: #000000;
-            margin: 6px 0;
-            transition: 0.4s;
-          }
+              .bar1,
+              .bar2,
+              .bar3 {
+                width: 18px;
+                height: 2px;
+                background-color: #000000;
+                margin: 6px 0;
+                transition: 0.4s;
+              }
 
-          /* Rotate first bar */
-          .change .bar1 {
-            -webkit-transform: rotate(-45deg) translate(-6px, 5px);
-            transform: rotate(-45deg) translate(-6px, 5px);
-          }
+              /* Rotate first bar */
+              .change .bar1 {
+                -webkit-transform: rotate(-45deg) translate(-6px, 5px);
+                transform: rotate(-45deg) translate(-6px, 5px);
+              }
 
-          /* Fade out the second bar */
-          .change .bar2 {
-            opacity: 0;
-          }
+              /* Fade out the second bar */
+              .change .bar2 {
+                opacity: 0;
+              }
 
-          /* Rotate last bar */
-          .change .bar3 {
-            -webkit-transform: rotate(45deg) translate(-6px, -5px);
-            transform: rotate(45deg) translate(-6px, -5px);
-          }
+              /* Rotate last bar */
+              .change .bar3 {
+                -webkit-transform: rotate(45deg) translate(-6px, -5px);
+                transform: rotate(45deg) translate(-6px, -5px);
+              }
 
-          .dropdown-content {
-            position: fixed;
-            width: 100%;
-            max-width: 100%;
-            left: 0;
-            top: 109px;
-            z-index: 2;
-            background: #25272a;
-            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-            text-align: left;
-          }
+              .dropdown-content {
+                position: fixed;
+                width: 100%;
+                max-width: 100%;
+                left: 0;
+                top: 109px;
+                z-index: 2;
+                background: #25272a;
+                box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+                text-align: left;
+              }
 
-          .mobile-nav {
-            padding-top: 14px;
-            padding-left: 16px;
-            padding-bottom: 15px;
-            color: #f8f8f8;
-            letter-spacing: 1px;
-          }
-        `}</style>
-      </>
+              .mobile-nav {
+                padding-top: 14px;
+                padding-left: 16px;
+                padding-bottom: 15px;
+                color: #f8f8f8;
+                letter-spacing: 1px;
+              }
+            `}</style>
+          </>
+        )}
+      </Translate>
     );
   }
 }

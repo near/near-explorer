@@ -8,6 +8,8 @@ import IconTransactions from "../../../public/static/images/icon-transactions.sv
 
 import Link from "../utils/Link";
 
+import { Translate } from "react-localize-redux";
+
 const HeaderNavItem = ({ link, icon, text }) => {
   return (
     <Link href={link}>
@@ -60,84 +62,88 @@ const HeaderNavItem = ({ link, icon, text }) => {
 };
 
 const HeaderNavDropdown = () => (
-  <Dropdown>
-    <Dropdown.Toggle className="chain-header">
-      Explore
-      <img src="/static/images/down-arrow.svg" className="dropdown-arrow" />
-    </Dropdown.Toggle>
-    <Dropdown.Menu className="header-dropdown-menu">
-      <HeaderNavItem
-        link="/accounts"
-        icon={<IconAccounts className="header-icon" />}
-        text="Accounts"
-      />
-      <HeaderNavItem
-        link="/blocks"
-        icon={<IconBlocks className="header-icon" />}
-        text="Blocks"
-      />
-      <HeaderNavItem
-        link="/transactions"
-        icon={<IconTransactions className="header-icon" />}
-        text="Transactions"
-      />
-      <HeaderNavItem
-        link="/nodes/validators"
-        icon={<IconNodes className="header-icon" />}
-        text="Nodes"
-      />
-      <HeaderNavItem
-        link="/stats"
-        icon={<IconStats className="header-icon" />}
-        text="Charts & Stats"
-      />
-    </Dropdown.Menu>
+  <Translate>
+    {({ translate }) => (
+      <Dropdown>
+        <Dropdown.Toggle className="chain-header">
+          {translate("component.utils.HeaderNavDropdown.title")}
+          <img src="/static/images/down-arrow.svg" className="dropdown-arrow" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="header-dropdown-menu">
+          <HeaderNavItem
+            link="/accounts"
+            icon={<IconAccounts className="header-icon" />}
+            text={translate("model.accounts.title")}
+          />
+          <HeaderNavItem
+            link="/blocks"
+            icon={<IconBlocks className="header-icon" />}
+            text={translate("model.blocks.title")}
+          />
+          <HeaderNavItem
+            link="/transactions"
+            icon={<IconTransactions className="header-icon" />}
+            text={translate("model.transactions.title")}
+          />
+          <HeaderNavItem
+            link="/nodes/validators"
+            icon={<IconNodes className="header-icon" />}
+            text={translate("model.nodes.title")}
+          />
+          <HeaderNavItem
+            link="/stats"
+            icon={<IconStats className="header-icon" />}
+            text={translate("model.stats.title_charts_and_stats")}
+          />
+        </Dropdown.Menu>
 
-    <style jsx global>{`
-      .chain-header {
-        color: #000000;
-        background: #ffffff;
-        border: none;
-        font-weight: 500;
-        width: 100%;
-      }
+        <style jsx global>{`
+          .chain-header {
+            color: #000000;
+            background: #ffffff;
+            border: none;
+            font-weight: 500;
+            width: 100%;
+          }
 
-      .chain-header:hover,
-      .chain-header:focus,
-      .chain-header:active,
-      .show > .btn-primary.dropdown-toggle {
-        background: #ffffff !important;
-        color: #000000 !important;
-        border: none;
-      }
+          .chain-header:hover,
+          .chain-header:focus,
+          .chain-header:active,
+          .show > .btn-primary.dropdown-toggle {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: none;
+          }
 
-      .dropdown-toggle::after {
-        content: none;
-      }
+          .dropdown-toggle::after {
+            content: none;
+          }
 
-      .header-dropdown-menu {
-        background: #25272a;
-        border-radius: 8px;
-        width: 267px;
-      }
+          .header-dropdown-menu {
+            background: #25272a;
+            border-radius: 8px;
+            width: 267px;
+          }
 
-      .dropdown-arrow {
-        margin-left: 9px;
-      }
+          .dropdown-arrow {
+            margin-left: 9px;
+          }
 
-      .show > .dropdown-toggle > .dropdown-arrow {
-        transform: rotate(180deg);
-      }
+          .show > .dropdown-toggle > .dropdown-arrow {
+            transform: rotate(180deg);
+          }
 
-      .show > .btn-primary.dropdown-toggle:focus {
-        box-shadow: none;
-      }
+          .show > .btn-primary.dropdown-toggle:focus {
+            box-shadow: none;
+          }
 
-      .btn-primary:focus {
-        box-shadow: none;
-      }
-    `}</style>
-  </Dropdown>
+          .btn-primary:focus {
+            box-shadow: none;
+          }
+        `}</style>
+      </Dropdown>
+    )}
+  </Translate>
 );
 
 export default HeaderNavDropdown;

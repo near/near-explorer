@@ -2,6 +2,23 @@
   "app": {
     "name": "NEAR Explorer"
   },
+  "model": {
+    "accounts": {
+      "title": "Accounts"
+    },
+    "blocks": {
+      "title": "Blocks"
+    },
+    "transactions": {
+      "title": "Transactions"
+    },
+    "nodes": {
+      "title": "Nodes"
+    },
+    "stats": {
+      "title_charts_and_stats": "Charts & Stats"
+    }
+  },
   "page": {
     "home": {
       "title": {
@@ -18,6 +35,9 @@
       },
       "Header": {
         "home": "Home"
+      },
+      "HeaderNavDropdown": {
+        "title": "Explore"
       }
     }
   }
