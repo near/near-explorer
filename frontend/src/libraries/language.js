@@ -1,9 +1,41 @@
-export default function getBrowserLocale(appLanguages) {
+import translations_en from "../translations/en.global.json";
+import translations_zh_hans from "../translations/zh-hans.global.json";
+
+export function getBrowserLocale(appLanguages) {
   if (typeof navigator !== "undefined" && navigator.languages) {
     return matchBrowserLocale(appLanguages, navigator.languages);
   } else {
     return undefined;
   }
+}
+
+export function setI18N(props) {
+  const languages = [
+    { name: "English", code: "en" },
+    { name: "简体中文", code: "zh-hans" },
+  ];
+
+  const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
+  const activeLang =
+    typeof window === "undefined"
+      ? languages[0].code
+      : localStorage.getItem("languageCode") ||
+        browserLanguage ||
+        languages[0].code;
+
+  props.initialize({
+    languages,
+    options: {
+      defaultLanguage: "en",
+      onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
+      renderToStaticMarkup: false,
+      renderInnerHtml: true,
+    },
+  });
+
+  props.addTranslationForLanguage(translations_en, "en");
+  props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
+  props.setActiveLanguage(activeLang);
 }
 
 function matchBrowserLocale(appLocales, browserLocales) {

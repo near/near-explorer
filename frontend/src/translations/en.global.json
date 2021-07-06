@@ -2,16 +2,23 @@
   "app": {
     "name": "NEAR Explorer"
   },
-  "home": {
-    "title": {
-      "explore": "Explore",
-      "near_blockchain": "the<br />NEAR Blockchain."
+  "page": {
+    "home": {
+      "title": {
+        "explore": "Explore",
+        "near_blockchain": "the<br />NEAR Blockchain."
+      }
     }
   },
-  "utils": {
-    "Search": {
-      "title": "Search",
-      "hint": "Search for Account ID, Txn hash, Block hash, or Block height"
+  "component": {
+    "utils": {
+      "Search": {
+        "title": "Search",
+        "hint": "Search for Account ID, Txn hash, Block hash, or Block height"
+      },
+      "Header": {
+        "home": "Home"
+      }
     }
   }
 }

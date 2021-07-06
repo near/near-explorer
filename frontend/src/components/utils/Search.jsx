@@ -84,7 +84,7 @@ class Search extends React.Component {
             <Translate>
               {({ translate }) => (
                 <FormControl
-                  placeholder={translate("utils.Search.hint")}
+                  placeholder={translate("component.utils.Search.hint")}
                   aria-label="Search"
                   aria-describedby="search"
                   autoCorrect="off"
@@ -96,7 +96,7 @@ class Search extends React.Component {
             </Translate>
             {this.props.dashboard && (
               <Button type="submit" variant="info" className="button-search">
-                <Translate id="utils.Search.title" />
+                <Translate id="component.utils.Search.title" />
               </Button>
             )}
           </InputGroup>

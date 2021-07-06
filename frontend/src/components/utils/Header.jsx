@@ -10,6 +10,8 @@ import Link from "./Link";
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
 
+import { Translate } from "react-localize-redux";
+
 const Header = () => {
   const router = useRouter();
 
@@ -65,7 +67,9 @@ const Header = () => {
           <Row>
             <Col md="5" className="align-self-center">
               <Link href="/">
-                <a className="header-home">Home</a>
+                <a className="header-home">
+                  <Translate id="component.utils.Header.home" />
+                </a>
               </Link>
             </Col>
             <Col md="7" className="align-self-center">

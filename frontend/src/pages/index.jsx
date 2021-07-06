@@ -10,41 +10,12 @@ import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 import { Translate, withLocalize } from "react-localize-redux";
-import translations_en from "../translations/en.global.json";
-import translations_zh_hans from "../translations/zh-hans.global.json";
-import getBrowserLocale from "../libraries/language.js";
+import { setI18N } from "../libraries/language.js";
 
 class Dashboard extends React.Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Landing Page");
-
-    // initialize language configuration
-    const languages = [
-      { name: "English", code: "en" },
-      { name: "简体中文", code: "zh-hans" },
-    ];
-
-    const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
-    const activeLang =
-      typeof window === "undefined"
-        ? languages[0].code
-        : localStorage.getItem("languageCode") ||
-          browserLanguage ||
-          languages[0].code;
-
-    this.props.initialize({
-      languages,
-      options: {
-        defaultLanguage: "en",
-        onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
-        renderToStaticMarkup: false,
-        renderInnerHtml: true,
-      },
-    });
-
-    this.props.addTranslationForLanguage(translations_en, "en");
-    this.props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
-    this.props.setActiveLanguage(activeLang);
+    setI18N(this.props);
   }
 
   render() {
@@ -56,9 +27,9 @@ class Dashboard extends React.Component {
         <Container>
           <h1 style={{ marginTop: "72px", marginLeft: "25px" }}>
             <span style={{ color: "#00C1DE" }}>
-              <Translate id="home.title.explore" />
+              <Translate id="page.home.title.explore" />
             </span>
-            <Translate id="home.title.near_blockchain" />
+            <Translate id="page.home.title.near_blockchain" />
           </h1>
           <Row className="inner-content" noGutters>
             <Col xs="12" className="d-none d-md-block d-lg-block">
