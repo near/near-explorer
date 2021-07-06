@@ -8,6 +8,9 @@ import IconStats from "../../../public/static/images/icon-stats.svg";
 import IconTransactions from "../../../public/static/images/icon-transactions.svg";
 
 import { Translate } from "react-localize-redux";
+import LanguageToggle from "../utils/LangSwitcher";
+const languagesIcon = "/static/images/icon-languages.svg";
+const downArrowIcon = "/static/images/icon-arrow-down.svg";
 
 const MobileNavItem = ({ link, icon, text }) => {
   return (
@@ -127,6 +130,9 @@ class MobileNavDropdown extends React.Component {
                     icon={<IconStats className="header-icon" />}
                     text={translate("model.stats.title_charts_and_stats")}
                   />
+                  <div className="mobile-nav">
+                    <LanguageToggle />
+                  </div>
                 </div>
               ) : null}
             </div>
@@ -182,6 +188,23 @@ class MobileNavDropdown extends React.Component {
                 padding-bottom: 15px;
                 color: #f8f8f8;
                 letter-spacing: 1px;
+              }
+
+              .mobile-nav .lang-selector {
+                appearance: none;
+                background: url(${languagesIcon}) no-repeat 0px center / 24px
+                    24px,
+                  url(${downArrowIcon}) no-repeat 95% / 16px;
+                border: 0;
+                color: #f8f8f8;
+                cursor: pointer;
+                height: 32px;
+                outline: none;
+                padding-right: 62px;
+                position: relative;
+                width: 100%;
+                z-index: 1;
+                text-indent: 32px;
               }
             `}</style>
           </>
