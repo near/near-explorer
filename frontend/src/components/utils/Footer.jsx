@@ -3,7 +3,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import Mixpanel from "../../libraries/mixpanel";
 
 import NearLogo from "../../../public/static/images/near_logo.svg";
-import Nearkats from "../../../public/static/images/nearkats.svg";
 
 const Footer = () => {
   return (
@@ -18,7 +17,7 @@ const Footer = () => {
             xs="12"
             md="6"
           >
-            © {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
+            &copy; {new Date().getFullYear()} NEAR Inc. All Rights Reserved.
             <br />
             <a
               className="footer-link-href"
@@ -56,11 +55,8 @@ const Footer = () => {
             Mixpanel.track("Explorer Click join the community");
           }}
         >
-          <Row noGutters>
-            <Col className="help-image" xs="5" md="5">
-              <Nearkats className="nearkat" />
-            </Col>
-            <Col className="align-self-start footer-help" xs="7" md="7">
+          <Row className="mx-0">
+            <Col className="align-self-center footer-help">
               <span className="need-help-contact">Questions?</span>
               <span className="need-help-contact need-help-contact-bottom">
                 Join the Community
@@ -110,15 +106,7 @@ const Footer = () => {
         .footer-help {
           text-align: left;
           line-height: 24px;
-          padding-top: 22px;
-          width: 175px;
-        }
-
-        .help-image {
-          position: relative;
-          z-index: 2;
-          left: 10px;
-          top: -7px;
+          padding: 22px;
         }
 
         .need-help-contact {
@@ -147,21 +135,24 @@ const Footer = () => {
           border: 1px solid #dadada;
           box-sizing: border-box;
           border-radius: 3px;
-          width: 368px;
           height: 92px;
         }
 
-        @media (max-width: 780px) {
+        @media (max-width: 767.98px) {
           .footer-container {
             flex-direction: column-reverse;
             padding: 0;
             height: 92px;
-            margin-top: 110px;
+            margin-top: 144px;
           }
 
           .nearlogo-wrapper {
             padding: 10px;
             width: 100%;
+          }
+
+          .footer-help {
+            text-align: center;
           }
 
           .need-help-contact {
@@ -170,11 +161,6 @@ const Footer = () => {
 
           .nearkat-wrapper {
             border: none;
-            width: auto;
-          }
-
-          .help-image {
-            top: -5px;
           }
         }
       `}</style>
