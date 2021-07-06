@@ -1,0 +1,17 @@
+{
+  "app": {
+    "name": "NEAR 浏览器"
+  },
+  "home": {
+    "title": {
+      "explore": "探索",
+      "near_blockchain": "<br />NEAR区块链"
+    }
+  },
+  "utils": {
+    "Search": {
+      "title": "搜索",
+      "hint": "搜索账户ID、交易哈希、块哈希、块高度"
+    }
+  }
+}
