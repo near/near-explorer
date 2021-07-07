@@ -25,9 +25,59 @@
         "explore": "Explore",
         "near_blockchain": " the<br />NEAR Blockchain."
       }
+    },
+    "accounts": {
+      "account": "Account"
     }
   },
   "component": {
+    "accounts": {
+      "AccountDetails": {
+        "transactions": {
+          "text": "Total transaction sent and received by this account. "
+        },
+        "storage_usage": {
+          "title": "Storage Used",
+          "text": "Total blockchain storage (in bytes) used by this account. "
+        },
+        "native_account_balance": {
+          "title": "Ⓝ Native Account Balance",
+          "text": "NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the \"total\" balance of all the tokens you may control through this account; see \"Aggregated Balace\" for more details. "
+        },
+        "validator_stake": {
+          "title": "Ⓝ Validator Stake",
+          "text": "<p> This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. </p> <p> This field only reflects NEAR balance for validators that stake to support the security of the network. If you’re staking (delegating) to a validator pool from a wallet, you will see \"0\" in this field. See the balance profile on Wallet for more balances aggregated for your convenience. </p>"
+        },
+        "balance_profile": {
+          "title": "Ⓝ Balance Profile",
+          "text": "NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate \"total\" balance, it is the best place. "
+        },
+        "created_at": {
+          "title": "Created At",
+          "text": "Date and time when this account was created. Some of the accounts are included in the very first block of the network called genesis. "
+        },
+        "created_by_transaction": {
+          "title": "Created By Transaction",
+          "text": "You can inspect the transaction which created this account. "
+        },
+        "deleted_at": {
+          "title": "Deleted At",
+          "text": "Date and time when this account was deleted. "
+        },
+        "deleted_by_transaction": {
+          "title": "Deleted By Transaction",
+          "text": "You can inspect the transaction which deleted this account. "
+        },
+        "lockup_account": {
+          "title": "Lockup Account",
+          "text": "Lockup is a special smart contract that ensures that the full amount or even a partial amount is not transferable until it is supposed to be. "
+        }
+      },
+      "AccountRow": {
+        "deleted_on": "Deleted on",
+        "created_on": "Created on"
+      }
+    },
     "dashboard": {
       "DashboardNode": {
         "nodes_online": {

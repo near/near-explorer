@@ -13,9 +13,13 @@ import { Translate, withLocalize } from "react-localize-redux";
 import { setI18N } from "../libraries/language.js";
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    setI18N(this.props);
+  }
+  
   componentDidMount() {
     Mixpanel.track("Explorer View Landing Page");
-    setI18N(this.props);
   }
 
   render() {

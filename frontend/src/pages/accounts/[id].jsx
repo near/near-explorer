@@ -13,6 +13,9 @@ import Content from "../../components/utils/Content";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
+import { setI18N } from "../../libraries/language.js";
+import { Translate, withLocalize } from "react-localize-redux";
+
 class AccountDetail extends React.Component {
   static async getInitialProps({ req, query: { id }, res }) {
     if (/[A-Z]/.test(id)) {
@@ -30,6 +33,11 @@ class AccountDetail extends React.Component {
       };
     }
   }
+  
+  constructor(props) {
+    super(props);
+    setI18N(this.props);
+  }
 
   componentDidMount() {
     Mixpanel.track("Explorer View Individual Account", {
@@ -45,7 +53,7 @@ class AccountDetail extends React.Component {
           <title>NEAR Explorer | Account</title>
         </Head>
         <Content
-          title={<h1>{`Account: @${account.accountId}`}</h1>}
+          title={<h1><Translate id="page.accounts.account"/>{`: @${account.accountId}`}</h1>}
           border={false}
         >
           {accountFetchingError ? (
@@ -76,4 +84,4 @@ class AccountDetail extends React.Component {
   }
 }
 
-export default AccountDetail;
+export default withLocalize(AccountDetail);

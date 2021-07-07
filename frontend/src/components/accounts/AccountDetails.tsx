@@ -14,6 +14,8 @@ import Balance from "../utils/Balance";
 import TransactionLink from "../utils/TransactionLink";
 import WalletLink from "../utils/WalletLink";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   account: A.Account;
   currentNearNetwork: NearNetwork;
@@ -23,262 +25,237 @@ class AccountDetails extends React.Component<Props> {
   render() {
     const { account, currentNearNetwork } = this.props;
     return (
-      <div className="account-info-container">
-        <Row noGutters>
-          <Col
-            xs="12"
-            md={typeof account.storageUsage === "undefined" ? "12" : "4"}
-          >
-            <CardCell
-              title={
-                <Term
-                  title={"Transactions"}
-                  text={"Total transaction sent and received by this account. "}
-                  href={"https://docs.near.org/docs/concepts/transaction"}
-                />
-              }
-              imgLink="/static/images/icon-m-transaction.svg"
-              text={
-                <>
-                  <span>
-                    &uarr;{account.outTransactionsCount.toLocaleString()}
-                  </span>
-                  &nbsp;&nbsp;
-                  <span>
-                    &darr;{account.inTransactionsCount.toLocaleString()}
-                  </span>
-                </>
-              }
-              className="border-0"
-            />
-          </Col>
-          {typeof account.storageUsage !== "undefined" && (
-            <Col xs="12" md={account.lockupAccountId ? "4" : "8"}>
-              <CardCell
-                title={
-                  <Term
-                    title={"Storage Used"}
-                    text={
-                      "Total blockchain storage (in bytes) used by this account. "
-                    }
-                    href={"https://docs.near.org/docs/concepts/storage-staking"}
-                  />
-                }
-                imgLink="/static/images/icon-storage.svg"
-                text={`${account.storageUsage.toLocaleString()} B`}
-              />
-            </Col>
-          )}
-          {account.lockupAccountId && (
-            <Col xs="12" md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Lockup Account"}
-                    text={
-                      "Lockup is a special smart contract that ensures that the full amount or even a partial amount is not transferable until it is supposed to be. "
-                    }
-                    href={
-                      "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
-                    }
-                  />
-                }
-                imgLink="/static/images/icon-m-transaction.svg"
-                text={
-                  account.lockupAccountId ? (
-                    <AccountLink accountId={account.lockupAccountId} />
-                  ) : (
-                    ""
-                  )
-                }
-              />
-            </Col>
-          )}
-        </Row>
-        {typeof account.nonStakedBalance !== "undefined" && (
-          <Row noGutters>
-            <Col xs="12" md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Ⓝ Native Account Balance"}
-                    text={
-                      'NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the "total" balance of all the tokens you may control through this account; see "Aggregated Balace" for more details. '
-                    }
-                    href={
-                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                    }
-                  />
-                }
-                text={<Balance amount={account.nonStakedBalance} />}
-                className="border-0"
-              />
-            </Col>
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Ⓝ Validator Stake"}
-                    text={
-                      <>
-                        <p>
-                          {
-                            "This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake."
-                          }
-                        </p>
-                        <p>
-                          {
-                            'This field only reflects NEAR balance for validators that stake to support the security of the network. If you’re staking (delegating) to a validator pool from a wallet, you will see "0" in this field. See the balance profile on Wallet for more balances aggregated for your convenience.'
-                          }
-                        </p>
-                      </>
-                    }
-                    href={
-                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                    }
-                  />
-                }
-                text={<Balance amount={account.stakedBalance} />}
-              />
-            </Col>
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Ⓝ Balance Profile"}
-                    text={
-                      'NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate "total" balance, it is the best place. '
-                    }
-                    href={
-                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                    }
-                  />
-                }
-                text={
-                  <WalletLink
-                    accountId={account.accountId}
-                    nearWalletProfilePrefix={
-                      currentNearNetwork.nearWalletProfilePrefix
-                    }
-                  />
-                }
-              />
-            </Col>
-          </Row>
-        )}
-        {account.deletedAtBlockTimestamp === null ||
-        typeof account.deletedAtBlockTimestamp === "undefined" ? (
-          <Row noGutters className="border-0">
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Created At"}
-                    text={
-                      "Date and time when this account was created. Some of the accounts are included in the very first block of the network called genesis. "
-                    }
-                    href={"https://docs.near.org/docs/concepts/account"}
-                  />
-                }
-                text={
-                  account.createdByTransactionHash === null ||
-                  account.createdByTransactionHash === "Genesis" ? (
-                    "Genesis"
-                  ) : account.createdAtBlockTimestamp ? (
-                    <>
-                      {moment(account.createdAtBlockTimestamp).format(
-                        "MMMM DD, YYYY [at] h:mm:ssa"
-                      )}
-                    </>
-                  ) : (
-                    "N/A"
-                  )
-                }
-                className="account-card-back border-0"
-              />
-            </Col>
-            {account.createdByTransactionHash === null ||
-            account.createdByTransactionHash === "Genesis" ? null : (
-              <Col md="8">
+      <Translate>
+        {({ translate }) => (
+          <div className="account-info-container">
+            <Row noGutters>
+              <Col
+                xs="12"
+                md={typeof account.storageUsage === "undefined" ? "12" : "4"}
+              >
                 <CardCell
                   title={
                     <Term
-                      title={"Created By Transaction"}
-                      text={
-                        "You can inspect the transaction which created this account. "
-                      }
-                      href={"https://docs.near.org/docs/concepts/account"}
+                      title={translate("model.transactions.title").toString()}
+                      text={translate("component.accounts.AccountDetails.transactions.text").toString()}
+                      href={"https://docs.near.org/docs/concepts/transaction"}
                     />
                   }
+                  imgLink="/static/images/icon-m-transaction.svg"
                   text={
                     <>
-                      {account.createdByTransactionHash}
-                      <TransactionLink
-                        transactionHash={account.createdByTransactionHash!}
-                      >
-                        <img
-                          className="transaction-link-icon"
-                          src={"/static/images/icon-m-copy.svg"}
-                        />
-                      </TransactionLink>
+                      <span>
+                        &uarr;{account.outTransactionsCount.toLocaleString()}
+                      </span>
+                      &nbsp;&nbsp;
+                      <span>
+                        &darr;{account.inTransactionsCount.toLocaleString()}
+                      </span>
                     </>
                   }
-                  className="account-card-back border-0"
+                  className="border-0"
                 />
               </Col>
-            )}
-          </Row>
-        ) : (
-          <Row noGutters className="border-0">
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Deleted At"}
-                    text={"Date and time when this account was deleted. "}
-                    href={"https://docs.near.org/docs/concepts/account"}
-                  />
-                }
-                text={
-                  <>
-                    {moment(account.deletedAtBlockTimestamp).format(
-                      "MMMM DD, YYYY [at] h:mm:ssa"
-                    )}
-                  </>
-                }
-                className="account-card-back border-0"
-              />
-            </Col>
-            <Col md="8">
-              <CardCell
-                title={
-                  <Term
-                    title={"Deleted By Transaction"}
-                    text={
-                      "You can inspect the transaction which deleted this account. "
-                    }
-                    href={"https://docs.near.org/docs/concepts/account"}
-                  />
-                }
-                text={
-                  <>
-                    {account.deletedByTransactionHash}
-                    <TransactionLink
-                      transactionHash={account.deletedByTransactionHash!}
-                    >
-                      <img
-                        className="transaction-link-icon"
-                        src={"/static/images/icon-m-copy.svg"}
+              {typeof account.storageUsage !== "undefined" && (
+                <Col xs="12" md={account.lockupAccountId ? "4" : "8"}>
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.storage_usage.title").toString()}
+                        text={translate("component.accounts.AccountDetails.storage_usage.text").toString()}
+                        href={"https://docs.near.org/docs/concepts/storage-staking"}
                       />
-                    </TransactionLink>
-                  </>
-                }
-                className="account-card-back border-0"
-              />
-            </Col>
-          </Row>
-        )}
-        <style jsx global>{`
+                    }
+                    imgLink="/static/images/icon-storage.svg"
+                    text={`${account.storageUsage.toLocaleString()} B`}
+                  />
+                </Col>
+              )}
+              {account.lockupAccountId && (
+                <Col xs="12" md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.lockup_account.title").toString()}
+                        text={translate("component.accounts.AccountDetails.lockup_account.text").toString()}
+                        href={
+                          "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
+                        }
+                      />
+                    }
+                    imgLink="/static/images/icon-m-transaction.svg"
+                    text={
+                      account.lockupAccountId ? (
+                        <AccountLink accountId={account.lockupAccountId} />
+                      ) : (
+                        ""
+                      )
+                    }
+                  />
+                </Col>
+              )}
+            </Row>
+            {typeof account.nonStakedBalance !== "undefined" && (
+              <Row noGutters>
+                <Col xs="12" md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.native_account_balance.title").toString()}
+                        text={translate("component.accounts.AccountDetails.native_account_balance.text").toString()}
+                        href={
+                          "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                        }
+                      />
+                    }
+                    text={<Balance amount={account.nonStakedBalance} />}
+                    className="border-0"
+                  />
+                </Col>
+                <Col md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.validator_stake.title").toString()}
+                        text={translate("component.accounts.AccountDetails.validator_stake.text", undefined, { renderInnerHtml: true })}
+                        href={
+                          "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                        }
+                      />
+                    }
+                    text={<Balance amount={account.stakedBalance} />}
+                  />
+                </Col>
+                <Col md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.balance_profile.title").toString()}
+                        text={translate("component.accounts.AccountDetails.balance_profile.text").toString()}
+                        href={
+                          "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                        }
+                      />
+                    }
+                    text={
+                      <WalletLink
+                        accountId={account.accountId}
+                        nearWalletProfilePrefix={
+                          currentNearNetwork.nearWalletProfilePrefix
+                        }
+                      />
+                    }
+                  />
+                </Col>
+              </Row>
+            )}
+            {account.deletedAtBlockTimestamp === null ||
+              typeof account.deletedAtBlockTimestamp === "undefined" ? (
+              <Row noGutters className="border-0">
+                <Col md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.created_at.title").toString()}
+                        text={translate("component.accounts.AccountDetails.created_at.text").toString()}
+                        href={"https://docs.near.org/docs/concepts/account"}
+                      />
+                    }
+                    text={
+                      account.createdByTransactionHash === null ||
+                        account.createdByTransactionHash === "Genesis" ? (
+                        "Genesis"
+                      ) : account.createdAtBlockTimestamp ? (
+                        <>
+                          {moment(account.createdAtBlockTimestamp).format(
+                            "MMMM DD, YYYY [at] h:mm:ssa"
+                          )}
+                        </>
+                      ) : (
+                        "N/A"
+                      )
+                    }
+                    className="account-card-back border-0"
+                  />
+                </Col>
+                {account.createdByTransactionHash === null ||
+                  account.createdByTransactionHash === "Genesis" ? null : (
+                  <Col md="8">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate("component.accounts.AccountDetails.created_by_transaction.title").toString()}
+                          text={translate("component.accounts.AccountDetails.created_by_transaction.text").toString()}
+                          href={"https://docs.near.org/docs/concepts/account"}
+                        />
+                      }
+                      text={
+                        <>
+                          {account.createdByTransactionHash}
+                          <TransactionLink
+                            transactionHash={account.createdByTransactionHash!}
+                          >
+                            <img
+                              className="transaction-link-icon"
+                              src={"/static/images/icon-m-copy.svg"}
+                            />
+                          </TransactionLink>
+                        </>
+                      }
+                      className="account-card-back border-0"
+                    />
+                  </Col>
+                )}
+              </Row>
+            ) : (
+              <Row noGutters className="border-0">
+                <Col md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.deleted_at.title").toString()}
+                        text={translate("component.accounts.AccountDetails.deleted_at.text").toString()}
+                        href={"https://docs.near.org/docs/concepts/account"}
+                      />
+                    }
+                    text={
+                      <>
+                        {moment(account.deletedAtBlockTimestamp).format(
+                          "MMMM DD, YYYY [at] h:mm:ssa"
+                        )}
+                      </>
+                    }
+                    className="account-card-back border-0"
+                  />
+                </Col>
+                <Col md="8">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate("component.accounts.AccountDetails.deleted_at.title").toString()}
+                        text={translate("component.accounts.AccountDetails.deleted_at.title").toString()}
+                        href={"https://docs.near.org/docs/concepts/account"}
+                      />
+                    }
+                    text={
+                      <>
+                        {account.deletedByTransactionHash}
+                        <TransactionLink
+                          transactionHash={account.deletedByTransactionHash!}
+                        >
+                          <img
+                            className="transaction-link-icon"
+                            src={"/static/images/icon-m-copy.svg"}
+                          />
+                        </TransactionLink>
+                      </>
+                    }
+                    className="account-card-back border-0"
+                  />
+                </Col>
+              </Row>
+            )}
+            <style jsx global>{`
           .account-info-container {
             border: solid 4px #e6e6e6;
             border-radius: 4px;
@@ -301,7 +278,9 @@ class AccountDetails extends React.Component<Props> {
             margin: 0 0 12px 12px;
           }
         `}</style>
-      </div>
+          </div>
+        )}
+      </Translate>
     );
   }
 }

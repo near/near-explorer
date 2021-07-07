@@ -8,6 +8,9 @@ import AccountsApi from "../../libraries/explorer-wamp/accounts";
 
 import Balance from "../utils/Balance";
 import Link from "../utils/Link";
+
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   accountId: string;
 }
@@ -52,41 +55,43 @@ class AccountRow extends React.Component<Props, State> {
       createdAtBlockTimestamp,
     } = this.state;
     return (
-      <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
-        <a style={{ textDecoration: "none" }}>
-          <Row className="transaction-row mx-0">
-            <Col md="auto" xs="1" className="pr-0">
-              <img
-                src={
-                  deletedAtBlockTimestamp
-                    ? "/static/images/icon-t-acct-delete.svg"
-                    : "/static/images/icon-t-acct.svg"
-                }
-                style={{ width: "15px" }}
-              />
-            </Col>
-            <Col md="7" xs="11" className="transaction-row-title pt-1">
-              {accountId}
-            </Col>
-            <Col
-              md="3"
-              xs="5"
-              className="ml-auto pt-1 text-right transaction-row-txid"
-            >
-              {deletedAtBlockTimestamp ? (
-                <div className="transaction-row-timer">
-                  Deleted on {moment(deletedAtBlockTimestamp).format("LL")}
-                </div>
-              ) : typeof nonStakedBalance !== "undefined" ? (
-                <>
-                  <Balance amount={nonStakedBalance} />
-                  <div className="transaction-row-timer">
-                    Created on {moment(createdAtBlockTimestamp).format("LL")}
-                  </div>
-                </>
-              ) : null}
-            </Col>
-            <style jsx global>{`
+      <Translate>
+        {({ translate }) => (
+          <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
+            <a style={{ textDecoration: "none" }}>
+              <Row className="transaction-row mx-0">
+                <Col md="auto" xs="1" className="pr-0">
+                  <img
+                    src={
+                      deletedAtBlockTimestamp
+                        ? "/static/images/icon-t-acct-delete.svg"
+                        : "/static/images/icon-t-acct.svg"
+                    }
+                    style={{ width: "15px" }}
+                  />
+                </Col>
+                <Col md="7" xs="11" className="transaction-row-title pt-1">
+                  {accountId}
+                </Col>
+                <Col
+                  md="3"
+                  xs="5"
+                  className="ml-auto pt-1 text-right transaction-row-txid"
+                >
+                  {deletedAtBlockTimestamp ? (
+                    <div className="transaction-row-timer">
+                      {translate("component.accounts.AccountRow.deleted_on").toString()} {moment(deletedAtBlockTimestamp).format("LL")}
+                    </div>
+                  ) : typeof nonStakedBalance !== "undefined" ? (
+                    <>
+                      <Balance amount={nonStakedBalance} />
+                      <div className="transaction-row-timer">
+                        {translate("component.accounts.AccountRow.created_on").toString()} {moment(createdAtBlockTimestamp).format("LL")}
+                      </div>
+                    </>
+                  ) : null}
+                </Col>
+                <style jsx global>{`
               .transaction-row {
                 padding-top: 10px;
                 padding-bottom: 10px;
@@ -129,9 +134,11 @@ class AccountRow extends React.Component<Props, State> {
                 font-weight: 500;
               }
             `}</style>
-          </Row>
-        </a>
-      </Link>
+              </Row>
+            </a>
+          </Link>
+        )}
+      </Translate>
     );
   }
 }
