@@ -9,6 +9,9 @@
     "blocks": {
       "title": "Blocks"
     },
+    "receipts": {
+      "title": "Receipts"
+    },
     "transactions": {
       "title": "Transactions"
     },
@@ -28,9 +31,58 @@
     },
     "accounts": {
       "account": "Account"
+    },
+    "blocks": {
+      "title": "Blocks"
     }
   },
   "component": {
+    "blocks": {
+      "ReceiptsInBlock": {
+        "no_receipts_words": "There are no receipts in this block"
+      },
+      "BlocksRow": {
+        "checking_finality": "Checking Finality...",
+        "finalized": "Finalized",
+        "finalizing": "Finalizing"
+      },
+      "BlockDetails": {
+        "transactions": {
+          "title": "Transactions",
+          "text": "Number of transactions in this block. "
+        },
+        "status": {
+          "title": "Status",
+          "text": "Current status of the block (finalizing or finalized). ",
+          "checking_finality": "Checking Finality...",
+          "finalized": "Finalized",
+          "finalizing": "Finalizing"
+        },
+        "author": {
+          "title": "Author"
+        },
+        "gas_used": {
+          "title": "Gas Used",
+          "text": "Total units of gas used by transactions in this block. "
+        },
+        "gas_prise": {
+          "title": "Gas Price",
+          "text": "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
+        },
+        "created": {
+          "title": "Created",
+          "text": "Timestamp of when this block finalized. "
+        },
+        "hash": {
+          "title": "Hash",
+          "text": "Unique identifier (hash) of this block. "
+        },
+        "parent_hash": {
+          "title": "Parent Hash",
+          "text": "Unique identifier (hash) of previous block. "
+        }
+      }
+    },
     "accounts": {
       "AccountDetails": {
         "transactions": {
@@ -130,8 +182,17 @@
       }
     }
   },
+  "utils": {
+    "Update": {
+      "refresh_words": " Refresh or Click to view the latest data."
+    },
+    "ListHandler": {
+      "last_block_words": "The latest block height is "
+    }
+  },
   "button": {
     "view_all": "View All",
-    "docs": "docs"
+    "docs": "docs",
+    "load_more": "Load More"
   }
 }

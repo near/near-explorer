@@ -6,6 +6,8 @@ import Receipts from "../receipts/Receipts";
 import Placeholder from "../utils/Placeholder";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
+import { Translate } from "react-localize-redux";
+
 interface Props {
   blockHash: string;
 }
@@ -41,15 +43,19 @@ class ReceiptsInBlock extends React.Component<Props, State> {
     const { receipts, loading } = this.state;
 
     return (
-      <>
-        {loading ? (
-          <PaginationSpinner hidden={false} />
-        ) : receipts.length > 0 ? (
-          <Receipts receipts={receipts} />
-        ) : (
-          <Placeholder>{"There are no receipts in this block"}</Placeholder>
+      <Translate>
+        {({ translate }) => (
+          <>
+            {loading ? (
+              <PaginationSpinner hidden={false} />
+            ) : receipts.length > 0 ? (
+              <Receipts receipts={receipts} />
+            ) : (
+              <Placeholder>{translate("component.blocks.ReceiptsInBlock.no_receipts_words").toString()}</Placeholder>
+            )}
+          </>
         )}
-      </>
+      </Translate>
     );
   }
 }

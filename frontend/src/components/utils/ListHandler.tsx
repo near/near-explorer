@@ -7,6 +7,8 @@ import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";
 
+import { Translate } from "react-localize-redux";
+
 interface Config {
   fetchDataFn: Function;
   count: number;
@@ -122,7 +124,7 @@ const Wrapper = (
             endTimestamp: this.state.items[this.state.items.length - 1]
               .createdAtBlockTimestamp
               ? this.state.items[this.state.items.length - 1]
-                  .createdAtBlockTimestamp
+                .createdAtBlockTimestamp
               : undefined,
             accountIndex: this.state.items[this.state.items.length - 1]
               .accountIndex,
@@ -151,48 +153,50 @@ const Wrapper = (
         return <PaginationSpinner hidden={false} />;
       }
       return (
-        <>
-          {!config.detailPage ? (
-            <DatabaseConsumer>
-              {(context) => (
-                <div
-                  onClick={() => {
-                    this.regularFetchInfo();
-                  }}
-                >
-                  {config.category === "Block" ? (
-                    <Update>{`The latest block height is #${context.latestBlockHeight}.`}</Update>
-                  ) : null}
-                </div>
-              )}
-            </DatabaseConsumer>
-          ) : null}
-          <InfiniteScroll
-            dataLength={this.state.items.length}
-            next={this.fetchMoreData}
-            hasMore={this.state.hasMore}
-            loader={
-              this.state.loading ? (
-                <PaginationSpinner hidden={false} />
-              ) : (
-                <>
-                  <button
-                    onClick={this.fetchMoreData}
-                    className="load-button"
-                    style={{
-                      display: this.state.hasMore ? "block" : "none",
-                    }}
-                  >
-                    Load More
-                  </button>
-                </>
-              )
-            }
-            style={{ overflowX: "hidden" }}
-          >
-            <WrappedComponent items={this.state.items} {...props} />
-          </InfiniteScroll>
-          <style jsx global>{`
+        <Translate>
+          {({ translate }) => (
+            <>
+              {!config.detailPage ? (
+                <DatabaseConsumer>
+                  {(context) => (
+                    <div
+                      onClick={() => {
+                        this.regularFetchInfo();
+                      }}
+                    >
+                      {config.category === "Block" ? (
+                        <Update>{`${translate("utils.ListHandler.last_block_words").toString()}#${context.latestBlockHeight}.`}</Update>
+                      ) : null}
+                    </div>
+                  )}
+                </DatabaseConsumer>
+              ) : null}
+              <InfiniteScroll
+                dataLength={this.state.items.length}
+                next={this.fetchMoreData}
+                hasMore={this.state.hasMore}
+                loader={
+                  this.state.loading ? (
+                    <PaginationSpinner hidden={false} />
+                  ) : (
+                    <>
+                      <button
+                        onClick={this.fetchMoreData}
+                        className="load-button"
+                        style={{
+                          display: this.state.hasMore ? "block" : "none",
+                        }}
+                      >
+                        {translate("button.load_more").toString()}
+                      </button>
+                    </>
+                  )
+                }
+                style={{ overflowX: "hidden" }}
+              >
+                <WrappedComponent items={this.state.items} {...props} />
+              </InfiniteScroll>
+              <style jsx global>{`
             .load-button {
               width: 100px;
               background-color: #f8f8f8;
@@ -210,7 +214,9 @@ const Wrapper = (
               border: none;
             }
           `}</style>
-        </>
+            </>
+          )}
+        </Translate>
       );
     }
   };
