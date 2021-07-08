@@ -37,6 +37,21 @@
     }
   },
   "component": {
+    "transactions": {
+      "Transactions": {
+        "no_transactions_words": "There are no transactions"
+      },
+      "ActionMessage": {
+        "FunctionCall": {
+          "words": "Called method: '${method_name}' in contract: ",
+          "arguments": "Arguments:"
+        },
+        "Transfer": {
+          "transferred": "Transferred ",
+          "to": " to "
+        }
+      }
+    },
     "blocks": {
       "ReceiptsInBlock": {
         "no_receipts_words": "There are no receipts in this block"

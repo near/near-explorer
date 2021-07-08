@@ -37,6 +37,21 @@
     }
   },
   "component": {
+    "transactions": {
+      "Transactions": {
+        "no_transactions_words": "没有交易"
+      },
+      "ActionMessage": {
+        "FunctionCall": {
+          "words": "调用合约'${method_name}'方法: ",
+          "arguments": "参数:"
+        },
+        "Transfer": {
+          "transferred": "转账 ",
+          "to": " 到 "
+        }
+      }
+    },
     "blocks": {
       "ReceiptsInBlock": {
         "no_receipts_words": "此区块中没有收据"
