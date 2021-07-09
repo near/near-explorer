@@ -17,7 +17,7 @@ class Dashboard extends React.Component {
     super(props);
     setI18N(this.props);
   }
-  
+
   componentDidMount() {
     Mixpanel.track("Explorer View Landing Page");
   }

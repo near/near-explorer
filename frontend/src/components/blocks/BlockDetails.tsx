@@ -33,9 +33,15 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={
                           <Term
-                            title={translate("component.blocks.BlockDetails.transactions.title").toString()}
-                            text={translate("component.blocks.BlockDetails.transactions.text").toString()}
-                            href={"https://docs.near.org/docs/concepts/transaction"}
+                            title={translate(
+                              "component.blocks.BlockDetails.transactions.title"
+                            ).toString()}
+                            text={translate(
+                              "component.blocks.BlockDetails.transactions.text"
+                            ).toString()}
+                            href={
+                              "https://docs.near.org/docs/concepts/transaction"
+                            }
                           />
                         }
                         imgLink="/static/images/icon-m-transaction.svg"
@@ -53,8 +59,12 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={
                           <Term
-                            title={translate("component.blocks.BlockDetails.status.title").toString()}
-                            text={translate("component.blocks.BlockDetails.status.text").toString()}
+                            title={translate(
+                              "component.blocks.BlockDetails.status.title"
+                            ).toString()}
+                            text={translate(
+                              "component.blocks.BlockDetails.status.text"
+                            ).toString()}
                             href={
                               "https://docs.near.org/docs/develop/front-end/rpc#block"
                             }
@@ -64,14 +74,20 @@ const BlockDetails = ({ block }: Props) => {
                         text={
                           typeof context.finalityStatus
                             ?.finalBlockTimestampNanosecond === "undefined"
-                            ? translate("component.blocks.BlockDetails.status.checking_finality").toString()
+                            ? translate(
+                                "component.blocks.BlockDetails.status.checking_finality"
+                              ).toString()
                             : new BN(block.timestamp).lte(
-                              context.finalityStatus.finalBlockTimestampNanosecond.divn(
-                                10 ** 6
+                                context.finalityStatus.finalBlockTimestampNanosecond.divn(
+                                  10 ** 6
+                                )
                               )
-                            )
-                              ? translate("component.blocks.BlockDetails.status.finalized").toString()
-                              : translate("component.blocks.BlockDetails.status.finalizing").toString()
+                            ? translate(
+                                "component.blocks.BlockDetails.status.finalized"
+                              ).toString()
+                            : translate(
+                                "component.blocks.BlockDetails.status.finalizing"
+                              ).toString()
                         }
                       />
                     </Col>
@@ -79,7 +95,9 @@ const BlockDetails = ({ block }: Props) => {
                   <Row noGutters>
                     <Col md="4">
                       <CardCell
-                        title={translate("component.blocks.BlockDetails.author.title").toString()}
+                        title={translate(
+                          "component.blocks.BlockDetails.author.title"
+                        ).toString()}
                         text={<AccountLink accountId={block.authorAccountId} />}
                         className="border-0"
                       />
@@ -88,8 +106,12 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={
                           <Term
-                            title={translate("component.blocks.BlockDetails.gas_used.title").toString()}
-                            text={translate("component.blocks.BlockDetails.gas_used.text").toString()}
+                            title={translate(
+                              "component.blocks.BlockDetails.gas_used.title"
+                            ).toString()}
+                            text={translate(
+                              "component.blocks.BlockDetails.gas_used.text"
+                            ).toString()}
                             href={"https://docs.near.org/docs/concepts/gas"}
                           />
                         }
@@ -101,8 +123,12 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={
                           <Term
-                            title={translate("component.blocks.BlockDetails.gas_prise.title").toString()}
-                            text={translate("component.blocks.BlockDetails.gas_prise.text").toString()}
+                            title={translate(
+                              "component.blocks.BlockDetails.gas_prise.title"
+                            ).toString()}
+                            text={translate(
+                              "component.blocks.BlockDetails.gas_prise.text"
+                            ).toString()}
                             href={"https://docs.near.org/docs/concepts/gas"}
                           />
                         }
@@ -116,8 +142,12 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={
                           <Term
-                            title={translate("component.blocks.BlockDetails.created.title").toString()}
-                            text={translate("component.blocks.BlockDetails.created.text").toString()}
+                            title={translate(
+                              "component.blocks.BlockDetails.created.title"
+                            ).toString()}
+                            text={translate(
+                              "component.blocks.BlockDetails.created.text"
+                            ).toString()}
                           />
                         }
                         text={moment(block.timestamp).format(
@@ -130,8 +160,12 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={
                           <Term
-                            title={translate("component.blocks.BlockDetails.hash.title").toString()}
-                            text={translate("component.blocks.BlockDetails.hash.text").toString()}
+                            title={translate(
+                              "component.blocks.BlockDetails.hash.title"
+                            ).toString()}
+                            text={translate(
+                              "component.blocks.BlockDetails.hash.text"
+                            ).toString()}
                           />
                         }
                         text={block.hash}
@@ -143,12 +177,17 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={
                           <Term
-                            title={translate("component.blocks.BlockDetails.parent_hash.title").toString()}
-                            text={translate("component.blocks.BlockDetails.parent_hash.text").toString()}
+                            title={translate(
+                              "component.blocks.BlockDetails.parent_hash.title"
+                            ).toString()}
+                            text={translate(
+                              "component.blocks.BlockDetails.parent_hash.text"
+                            ).toString()}
                           />
                         }
                         text={
-                          block.prevHash === "11111111111111111111111111111111" ? (
+                          block.prevHash ===
+                          "11111111111111111111111111111111" ? (
                             "Genesis"
                           ) : (
                             <BlockLink blockHash={block.prevHash}>
@@ -163,39 +202,39 @@ const BlockDetails = ({ block }: Props) => {
                 </Col>
               </Row>
               <style jsx global>{`
-            .block-info-container {
-              border: solid 4px #e6e6e6;
-              border-radius: 4px;
-            }
+                .block-info-container {
+                  border: solid 4px #e6e6e6;
+                  border-radius: 4px;
+                }
 
-            .block-info-container > .row {
-              border-bottom: 2px solid #e6e6e6;
-            }
+                .block-info-container > .row {
+                  border-bottom: 2px solid #e6e6e6;
+                }
 
-            .block-info-container > .row:last-of-type {
-              border-bottom: 0;
-            }
+                .block-info-container > .row:last-of-type {
+                  border-bottom: 0;
+                }
 
-            .block-info-header .card-cell-text {
-              font-size: 24px;
-            }
+                .block-info-header .card-cell-text {
+                  font-size: 24px;
+                }
 
-            .block-card-created-text {
-              font-size: 18px;
-              font-weight: 500;
-              color: #4a4f54;
-            }
+                .block-card-created-text {
+                  font-size: 18px;
+                  font-weight: 500;
+                  color: #4a4f54;
+                }
 
-            .block-card-parent-hash {
-              background-color: #f8f8f8;
-            }
+                .block-card-parent-hash {
+                  background-color: #f8f8f8;
+                }
 
-            @media (max-width: 768px) {
-              .block-info-container .card-cell {
-                border-left: 0;
-              }
-            }
-          `}</style>
+                @media (max-width: 768px) {
+                  .block-info-container .card-cell {
+                    border-left: 0;
+                  }
+                }
+              `}</style>
             </>
           )}
         </DatabaseConsumer>

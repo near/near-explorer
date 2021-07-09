@@ -80,60 +80,66 @@ class AccountRow extends React.Component<Props, State> {
                 >
                   {deletedAtBlockTimestamp ? (
                     <div className="transaction-row-timer">
-                      {translate("component.accounts.AccountRow.deleted_on").toString()} {moment(deletedAtBlockTimestamp).format("LL")}
+                      {translate(
+                        "component.accounts.AccountRow.deleted_on"
+                      ).toString()}{" "}
+                      {moment(deletedAtBlockTimestamp).format("LL")}
                     </div>
                   ) : typeof nonStakedBalance !== "undefined" ? (
                     <>
                       <Balance amount={nonStakedBalance} />
                       <div className="transaction-row-timer">
-                        {translate("component.accounts.AccountRow.created_on").toString()} {moment(createdAtBlockTimestamp).format("LL")}
+                        {translate(
+                          "component.accounts.AccountRow.created_on"
+                        ).toString()}{" "}
+                        {moment(createdAtBlockTimestamp).format("LL")}
                       </div>
                     </>
                   ) : null}
                 </Col>
                 <style jsx global>{`
-              .transaction-row {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                border-top: solid 2px #f8f8f8;
-              }
+                  .transaction-row {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    border-top: solid 2px #f8f8f8;
+                  }
 
-              .transaction-row:hover {
-                background: rgba(0, 0, 0, 0.1);
-              }
+                  .transaction-row:hover {
+                    background: rgba(0, 0, 0, 0.1);
+                  }
 
-              .transaction-row-title {
-                font-size: 14px;
-                font-weight: 500;
-                line-height: 1.29;
-                color: #24272a;
-                word-break: break-word;
-              }
+                  .transaction-row-title {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 1.29;
+                    color: #24272a;
+                    word-break: break-word;
+                  }
 
-              .transaction-row-text {
-                font-size: 12px;
-                font-weight: 500;
-                line-height: 1.5;
-                color: #999999;
-              }
+                  .transaction-row-text {
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 1.5;
+                    color: #999999;
+                  }
 
-              .transaction-row-txid {
-                font-size: 14px;
-                font-weight: 500;
-                line-height: 1.29;
-                color: #0072ce;
-              }
+                  .transaction-row-txid {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 1.29;
+                    color: #0072ce;
+                  }
 
-              .transaction-row-timer {
-                font-size: 12px;
-                color: #666666;
-                font-weight: 300;
-              }
+                  .transaction-row-timer {
+                    font-size: 12px;
+                    color: #666666;
+                    font-weight: 300;
+                  }
 
-              .transaction-row-timer-status {
-                font-weight: 500;
-              }
-            `}</style>
+                  .transaction-row-timer-status {
+                    font-weight: 500;
+                  }
+                `}</style>
               </Row>
             </a>
           </Link>

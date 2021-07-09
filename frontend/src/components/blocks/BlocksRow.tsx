@@ -28,8 +28,9 @@ class BlocksRow extends React.PureComponent<Props> {
               <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`}>
                 <a style={{ textDecoration: "none" }}>
                   <Row
-                    className={`transaction-row mx-0 ${this.props.cls === undefined ? "" : this.props.cls
-                      }`}
+                    className={`transaction-row mx-0 ${
+                      this.props.cls === undefined ? "" : this.props.cls
+                    }`}
                   >
                     <Col md="auto" xs="1" className="pr-0">
                       <img src="/static/images/icon-m-block.svg" />
@@ -42,7 +43,9 @@ class BlocksRow extends React.PureComponent<Props> {
                     </Col>
                     <Col md="7" xs="6">
                       <Row>
-                        <Col className="transaction-row-title">#{block.height}</Col>
+                        <Col className="transaction-row-title">
+                          #{block.height}
+                        </Col>
                       </Row>
                       <Row>
                         <Col className="transaction-row-text">
@@ -71,14 +74,20 @@ class BlocksRow extends React.PureComponent<Props> {
                           <span className="transaction-row-timer-status">
                             {typeof context.finalityStatus
                               ?.finalBlockTimestampNanosecond === "undefined"
-                              ? translate("component.blocks.BlocksRow.checking_finality").toString()
+                              ? translate(
+                                  "component.blocks.BlocksRow.checking_finality"
+                                ).toString()
                               : new BN(block.timestamp).lte(
-                                context.finalityStatus.finalBlockTimestampNanosecond.divn(
-                                  10 ** 6
+                                  context.finalityStatus.finalBlockTimestampNanosecond.divn(
+                                    10 ** 6
+                                  )
                                 )
-                              )
-                                ? translate("component.blocks.BlocksRow.finalized").toString()
-                                : translate("component.blocks.BlocksRow.finalizing").toString()}
+                              ? translate(
+                                  "component.blocks.BlocksRow.finalized"
+                                ).toString()
+                              : translate(
+                                  "component.blocks.BlocksRow.finalizing"
+                                ).toString()}
                           </span>
                           &nbsp;&nbsp;
                           <Timer time={block.timestamp} />
@@ -86,47 +95,47 @@ class BlocksRow extends React.PureComponent<Props> {
                       </Row>
                     </Col>
                     <style jsx global>{`
-                  .transaction-row {
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    border-top: solid 2px #f8f8f8;
-                  }
+                      .transaction-row {
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        border-top: solid 2px #f8f8f8;
+                      }
 
-                  .transaction-row:hover {
-                    background: rgba(0, 0, 0, 0.1);
-                  }
+                      .transaction-row:hover {
+                        background: rgba(0, 0, 0, 0.1);
+                      }
 
-                  .transaction-row-title {
-                    font-size: 14px;
-                    font-weight: 500;
-                    line-height: 1.29;
-                    color: #24272a;
-                  }
+                      .transaction-row-title {
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 1.29;
+                        color: #24272a;
+                      }
 
-                  .transaction-row-text {
-                    font-size: 12px;
-                    font-weight: 500;
-                    line-height: 1.5;
-                    color: #999999;
-                  }
+                      .transaction-row-text {
+                        font-size: 12px;
+                        font-weight: 500;
+                        line-height: 1.5;
+                        color: #999999;
+                      }
 
-                  .transaction-row-txid {
-                    font-size: 14px;
-                    font-weight: 500;
-                    line-height: 1.29;
-                    color: #0072ce;
-                  }
+                      .transaction-row-txid {
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 1.29;
+                        color: #0072ce;
+                      }
 
-                  .transaction-row-timer {
-                    font-size: 12px;
-                    color: #999999;
-                    font-weight: 100;
-                  }
+                      .transaction-row-timer {
+                        font-size: 12px;
+                        color: #999999;
+                        font-weight: 100;
+                      }
 
-                  .transaction-row-timer-status {
-                    font-weight: 500;
-                  }
-                `}</style>
+                      .transaction-row-timer-status {
+                        font-weight: 500;
+                      }
+                    `}</style>
                   </Row>
                 </a>
               </Link>

@@ -37,7 +37,9 @@ class AccountDetails extends React.Component<Props> {
                   title={
                     <Term
                       title={translate("model.transactions.title").toString()}
-                      text={translate("component.accounts.AccountDetails.transactions.text").toString()}
+                      text={translate(
+                        "component.accounts.AccountDetails.transactions.text"
+                      ).toString()}
                       href={"https://docs.near.org/docs/concepts/transaction"}
                     />
                   }
@@ -61,9 +63,15 @@ class AccountDetails extends React.Component<Props> {
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.storage_usage.title").toString()}
-                        text={translate("component.accounts.AccountDetails.storage_usage.text").toString()}
-                        href={"https://docs.near.org/docs/concepts/storage-staking"}
+                        title={translate(
+                          "component.accounts.AccountDetails.storage_usage.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.storage_usage.text"
+                        ).toString()}
+                        href={
+                          "https://docs.near.org/docs/concepts/storage-staking"
+                        }
                       />
                     }
                     imgLink="/static/images/icon-storage.svg"
@@ -76,8 +84,12 @@ class AccountDetails extends React.Component<Props> {
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.lockup_account.title").toString()}
-                        text={translate("component.accounts.AccountDetails.lockup_account.text").toString()}
+                        title={translate(
+                          "component.accounts.AccountDetails.lockup_account.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.lockup_account.text"
+                        ).toString()}
                         href={
                           "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
                         }
@@ -101,8 +113,12 @@ class AccountDetails extends React.Component<Props> {
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.native_account_balance.title").toString()}
-                        text={translate("component.accounts.AccountDetails.native_account_balance.text").toString()}
+                        title={translate(
+                          "component.accounts.AccountDetails.native_account_balance.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.native_account_balance.text"
+                        ).toString()}
                         href={
                           "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
                         }
@@ -116,8 +132,14 @@ class AccountDetails extends React.Component<Props> {
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.validator_stake.title").toString()}
-                        text={translate("component.accounts.AccountDetails.validator_stake.text", undefined, { renderInnerHtml: true })}
+                        title={translate(
+                          "component.accounts.AccountDetails.validator_stake.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.validator_stake.text",
+                          undefined,
+                          { renderInnerHtml: true }
+                        )}
                         href={
                           "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
                         }
@@ -130,8 +152,12 @@ class AccountDetails extends React.Component<Props> {
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.balance_profile.title").toString()}
-                        text={translate("component.accounts.AccountDetails.balance_profile.text").toString()}
+                        title={translate(
+                          "component.accounts.AccountDetails.balance_profile.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.balance_profile.text"
+                        ).toString()}
                         href={
                           "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
                         }
@@ -150,20 +176,24 @@ class AccountDetails extends React.Component<Props> {
               </Row>
             )}
             {account.deletedAtBlockTimestamp === null ||
-              typeof account.deletedAtBlockTimestamp === "undefined" ? (
+            typeof account.deletedAtBlockTimestamp === "undefined" ? (
               <Row noGutters className="border-0">
                 <Col md="4">
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.created_at.title").toString()}
-                        text={translate("component.accounts.AccountDetails.created_at.text").toString()}
+                        title={translate(
+                          "component.accounts.AccountDetails.created_at.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.created_at.text"
+                        ).toString()}
                         href={"https://docs.near.org/docs/concepts/account"}
                       />
                     }
                     text={
                       account.createdByTransactionHash === null ||
-                        account.createdByTransactionHash === "Genesis" ? (
+                      account.createdByTransactionHash === "Genesis" ? (
                         "Genesis"
                       ) : account.createdAtBlockTimestamp ? (
                         <>
@@ -179,13 +209,17 @@ class AccountDetails extends React.Component<Props> {
                   />
                 </Col>
                 {account.createdByTransactionHash === null ||
-                  account.createdByTransactionHash === "Genesis" ? null : (
+                account.createdByTransactionHash === "Genesis" ? null : (
                   <Col md="8">
                     <CardCell
                       title={
                         <Term
-                          title={translate("component.accounts.AccountDetails.created_by_transaction.title").toString()}
-                          text={translate("component.accounts.AccountDetails.created_by_transaction.text").toString()}
+                          title={translate(
+                            "component.accounts.AccountDetails.created_by_transaction.title"
+                          ).toString()}
+                          text={translate(
+                            "component.accounts.AccountDetails.created_by_transaction.text"
+                          ).toString()}
                           href={"https://docs.near.org/docs/concepts/account"}
                         />
                       }
@@ -213,8 +247,12 @@ class AccountDetails extends React.Component<Props> {
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.deleted_at.title").toString()}
-                        text={translate("component.accounts.AccountDetails.deleted_at.text").toString()}
+                        title={translate(
+                          "component.accounts.AccountDetails.deleted_at.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.deleted_at.text"
+                        ).toString()}
                         href={"https://docs.near.org/docs/concepts/account"}
                       />
                     }
@@ -232,8 +270,12 @@ class AccountDetails extends React.Component<Props> {
                   <CardCell
                     title={
                       <Term
-                        title={translate("component.accounts.AccountDetails.deleted_at.title").toString()}
-                        text={translate("component.accounts.AccountDetails.deleted_at.title").toString()}
+                        title={translate(
+                          "component.accounts.AccountDetails.deleted_at.title"
+                        ).toString()}
+                        text={translate(
+                          "component.accounts.AccountDetails.deleted_at.title"
+                        ).toString()}
                         href={"https://docs.near.org/docs/concepts/account"}
                       />
                     }
@@ -256,28 +298,28 @@ class AccountDetails extends React.Component<Props> {
               </Row>
             )}
             <style jsx global>{`
-          .account-info-container {
-            border: solid 4px #e6e6e6;
-            border-radius: 4px;
-          }
+              .account-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
+              }
 
-          .account-info-container > .row:first-of-type .card-cell-text {
-            font-size: 24px;
-          }
+              .account-info-container > .row:first-of-type .card-cell-text {
+                font-size: 24px;
+              }
 
-          .account-info-container > .row {
-            border-bottom: 2px solid #e6e6e6;
-          }
+              .account-info-container > .row {
+                border-bottom: 2px solid #e6e6e6;
+              }
 
-          .account-card-back {
-            background-color: #f8f8f8;
-          }
+              .account-card-back {
+                background-color: #f8f8f8;
+              }
 
-          .transaction-link-icon {
-            width: 15px;
-            margin: 0 0 12px 12px;
-          }
-        `}</style>
+              .transaction-link-icon {
+                width: 15px;
+                margin: 0 0 12px 12px;
+              }
+            `}</style>
           </div>
         )}
       </Translate>

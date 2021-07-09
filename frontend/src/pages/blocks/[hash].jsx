@@ -71,10 +71,11 @@ class BlockDetail extends React.Component {
             </Head>
             <Content
               title={
-                <h1>{`${translate("page.blocks.title").toString()} ${block.height
+                <h1>{`${translate("page.blocks.title").toString()} ${
+                  block.height
                     ? `#${block.height}`
                     : `${block.hash.substring(0, 7)}...`
-                  }`}</h1>
+                }`}</h1>
               }
               border={false}
             >
@@ -89,7 +90,9 @@ class BlockDetail extends React.Component {
                 <Content
                   size="medium"
                   icon={<TransactionIcon style={{ width: "22px" }} />}
-                  title={<h2>{translate("model.transactions.title").toString()}</h2>}
+                  title={
+                    <h2>{translate("model.transactions.title").toString()}</h2>
+                  }
                 >
                   <Transactions blockHash={block.hash} count={1000} />
                 </Content>
@@ -97,7 +100,9 @@ class BlockDetail extends React.Component {
                 <Content
                   size="medium"
                   icon={<TransactionIcon style={{ width: "22px" }} />}
-                  title={<h2>{translate("model.receipts.title").toString()}</h2>}
+                  title={
+                    <h2>{translate("model.receipts.title").toString()}</h2>
+                  }
                 >
                   <ReceiptsInBlock blockHash={block.hash} />
                 </Content>

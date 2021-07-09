@@ -100,7 +100,9 @@ class TransactionDetailsPage extends React.Component {
                 icon={<TransactionIcon style={{ width: "22px" }} />}
                 title={<h2>Transaction Execution Plan</h2>}
               >
-                <TransactionOutcome transaction={transaction.transactionOutcome} />
+                <TransactionOutcome
+                  transaction={transaction.transactionOutcome}
+                />
 
                 <ReceiptRow receipt={transaction.receipt} />
               </Content>

@@ -12,7 +12,7 @@ class AccountsPage extends React.PureComponent {
   componentDidMount() {
     Mixpanel.track("Explorer View Accounts Page");
   }
-  
+
   constructor(props) {
     super(props);
     setI18N(this.props);
@@ -24,7 +24,13 @@ class AccountsPage extends React.PureComponent {
         <Head>
           <title>NEAR Explorer | Accounts</title>
         </Head>
-        <Content title={<h1><Translate id="model.accounts.title" /></h1>}>
+        <Content
+          title={
+            <h1>
+              <Translate id="model.accounts.title" />
+            </h1>
+          }
+        >
           <Accounts />
         </Content>
       </>

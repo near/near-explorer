@@ -26,7 +26,9 @@ class BlocksPage extends React.PureComponent {
             <Head>
               <title>NEAR Explorer | Blocks</title>
             </Head>
-            <Content title={<h1>{translate("model.blocks.title").toString()}</h1>}>
+            <Content
+              title={<h1>{translate("model.blocks.title").toString()}</h1>}
+            >
               <Blocks />
             </Content>
           </>

@@ -124,7 +124,7 @@ const Wrapper = (
             endTimestamp: this.state.items[this.state.items.length - 1]
               .createdAtBlockTimestamp
               ? this.state.items[this.state.items.length - 1]
-                .createdAtBlockTimestamp
+                  .createdAtBlockTimestamp
               : undefined,
             accountIndex: this.state.items[this.state.items.length - 1]
               .accountIndex,
@@ -165,7 +165,9 @@ const Wrapper = (
                       }}
                     >
                       {config.category === "Block" ? (
-                        <Update>{`${translate("utils.ListHandler.last_block_words").toString()}#${context.latestBlockHeight}.`}</Update>
+                        <Update>{`${translate(
+                          "utils.ListHandler.last_block_words"
+                        ).toString()}#${context.latestBlockHeight}.`}</Update>
                       ) : null}
                     </div>
                   )}
@@ -197,23 +199,23 @@ const Wrapper = (
                 <WrappedComponent items={this.state.items} {...props} />
               </InfiniteScroll>
               <style jsx global>{`
-            .load-button {
-              width: 100px;
-              background-color: #f8f8f8;
-              display: block;
-              text-align: center;
-              text-decoration: none;
-              font-size: 14px;
-              color: #0072ce;
-              font-weight: bold;
-              text-transform: uppercase;
-              margin: 20px auto;
-              border-radius: 30px;
-              padding: 8px 0;
-              cursor: pointer;
-              border: none;
-            }
-          `}</style>
+                .load-button {
+                  width: 100px;
+                  background-color: #f8f8f8;
+                  display: block;
+                  text-align: center;
+                  text-decoration: none;
+                  font-size: 14px;
+                  color: #0072ce;
+                  font-weight: bold;
+                  text-transform: uppercase;
+                  margin: 20px auto;
+                  border-radius: 30px;
+                  padding: 8px 0;
+                  cursor: pointer;
+                  border: none;
+                }
+              `}</style>
             </>
           )}
         </Translate>

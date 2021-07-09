@@ -33,7 +33,7 @@ class AccountDetail extends React.Component {
       };
     }
   }
-  
+
   constructor(props) {
     super(props);
     setI18N(this.props);
@@ -53,7 +53,12 @@ class AccountDetail extends React.Component {
           <title>NEAR Explorer | Account</title>
         </Head>
         <Content
-          title={<h1><Translate id="page.accounts.account"/>{`: @${account.accountId}`}</h1>}
+          title={
+            <h1>
+              <Translate id="page.accounts.account" />
+              {`: @${account.accountId}`}
+            </h1>
+          }
           border={false}
         >
           {accountFetchingError ? (

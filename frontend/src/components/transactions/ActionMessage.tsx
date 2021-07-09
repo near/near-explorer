@@ -98,11 +98,19 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     }
     return (
       <>
-        <Translate id="component.transactions.ActionMessage.FunctionCall.words" data={{ method_name: actionArgs.method_name }} />
+        <Translate
+          id="component.transactions.ActionMessage.FunctionCall.words"
+          data={{ method_name: actionArgs.method_name }}
+        />
         <AccountLink accountId={receiverId} />
         {showDetails ? (
           <dl>
-            <dt><Translate id="component.transactions.ActionMessage.FunctionCall.arguments" data={{ method_name: actionArgs.method_name }} /></dt>
+            <dt>
+              <Translate
+                id="component.transactions.ActionMessage.FunctionCall.arguments"
+                data={{ method_name: actionArgs.method_name }}
+              />
+            </dt>
             <dd>{args}</dd>
           </dl>
         ) : null}
@@ -145,13 +153,14 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
             />
             {`: ${actionArgs.public_key.substring(0, 15)}...`}
             <p>
-              {`with permission to call ${actionArgs.access_key.permission.FunctionCall.method_names
-                .length > 0
-                ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
-                  ", "
-                )})`
-                : "any"
-                } methods and nonce ${actionArgs.access_key.nonce}`}
+              {`with permission to call ${
+                actionArgs.access_key.permission.FunctionCall.method_names
+                  .length > 0
+                  ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
+                      ", "
+                    )})`
+                  : "any"
+              } methods and nonce ${actionArgs.access_key.nonce}`}
             </p>
           </>
         )
