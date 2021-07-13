@@ -29,7 +29,7 @@ const DashboardNode = () => (
                       ).toString()}
                       text={
                         translate(
-                          "component.dashboard.DashboardNode.nodes_online.desc"
+                          "component.dashboard.DashboardNode.nodes_online.text"
                         ).toString() + " "
                       }
                       href={
@@ -50,7 +50,7 @@ const DashboardNode = () => (
                       ).toString()}
                       text={
                         translate(
-                          "component.dashboard.DashboardNode.nodes_validating.desc"
+                          "component.dashboard.DashboardNode.nodes_validating.text"
                         ).toString() + " "
                       }
                       href={

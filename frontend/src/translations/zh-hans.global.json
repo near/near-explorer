@@ -149,33 +149,33 @@
       "DashboardNode": {
         "nodes_online": {
           "title": "在线节点",
-          "desc": "在线节点的总数"
+          "text": "在线节点的总数"
         },
         "nodes_validating": {
           "title": "正在验证的节点",
-          "desc": "正在验证的节点的总数"
+          "text": "正在验证的节点的总数"
         }
       },
       "DashboardBlock": {
         "block_height": {
           "title": "区块高度",
-          "desc1": "最新记录到区块链上的区块的高度。",
-          "desc2": "区块高度是区块链上最新的快的序号。",
-          "desc3": "例如，区块高度为1000意味着至多已经有1001个区块存在在区块链上（创世区块 + 随后的1000个区块）。在NEAR上，不能保证每个序号都有对应的区块产生，比如序号为982的区块并不一定存在。"
+          "text1": "最新记录到区块链上的区块的高度。",
+          "text2": "区块高度是区块链上最新的快的序号。",
+          "text3": "例如，区块高度为1000意味着至多已经有1001个区块存在在区块链上（创世区块 + 随后的1000个区块）。在NEAR上，不能保证每个序号都有对应的区块产生，比如序号为982的区块并不一定存在。"
         },
         "avg_block_time": {
           "title": "平均出块时间",
-          "desc": "产生一个区快的平均时间"
+          "text": "产生一个区快的平均时间"
         }
       },
       "DashboardTransaction": {
         "24h_total": {
           "title": "24小时总数",
-          "desc": "过于24小时内的交易数量。"
+          "text": "过于24小时内的交易数量。"
         },
         "gas_price": {
           "title": "Gas价格",
-          "desc": "Tgas (TerraGas) 是 10^12 个单位Gas. 由于如果用 NEAR 计费，Gas的数字会相当小，所以TGas是更常用的。"
+          "text": "Tgas (TerraGas) 是 10^12 个单位Gas. 由于如果用 NEAR 计费，Gas的数字会相当小，所以TGas是更常用的。"
         }
       },
       "DashboardTransactionHistoryChart": {

@@ -43,17 +43,17 @@ const DashboardBlock = ({ className }: Props) => (
                         <>
                           <p>
                             {translate(
-                              "component.dashboard.DashboardBlock.block_height.desc1"
+                              "component.dashboard.DashboardBlock.block_height.text1"
                             )}
                           </p>
                           <p>
                             {translate(
-                              "component.dashboard.DashboardBlock.block_height.desc2"
+                              "component.dashboard.DashboardBlock.block_height.text2"
                             )}
                           </p>
                           <p>
                             {translate(
-                              "component.dashboard.DashboardBlock.block_height.desc3"
+                              "component.dashboard.DashboardBlock.block_height.text3"
                             )}
                           </p>
                         </>
@@ -74,7 +74,7 @@ const DashboardBlock = ({ className }: Props) => (
                       ).toString()}
                       text={
                         translate(
-                          "component.dashboard.DashboardBlock.avg_block_time.desc"
+                          "component.dashboard.DashboardBlock.avg_block_time.text"
                         ).toString() + " "
                       }
                     />
