@@ -6,6 +6,8 @@ import CodePreview from "../utils/CodePreview";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props<A> {
   actionKind: keyof TransactionMessageRenderers;
   actionArgs: A;
@@ -96,11 +98,19 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     }
     return (
       <>
-        {`Called method: '${actionArgs.method_name}' in contract: `}
+        <Translate
+          id="component.transactions.ActionMessage.FunctionCall.words"
+          data={{ method_name: actionArgs.method_name }}
+        />
         <AccountLink accountId={receiverId} />
         {showDetails ? (
           <dl>
-            <dt>Arguments:</dt>
+            <dt>
+              <Translate
+                id="component.transactions.ActionMessage.FunctionCall.arguments"
+                data={{ method_name: actionArgs.method_name }}
+              />
+            </dt>
             <dd>{args}</dd>
           </dl>
         ) : null}
@@ -109,9 +119,9 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   },
   Transfer: ({ receiverId, actionArgs: { deposit } }: Props<T.Transfer>) => (
     <>
-      {`Transferred `}
+      <Translate id="component.transactions.ActionMessage.Transfer.transferred" />
       <Balance amount={deposit} />
-      {` to `}
+      <Translate id="component.transactions.ActionMessage.Transfer.to" />
       <AccountLink accountId={receiverId} />
     </>
   ),

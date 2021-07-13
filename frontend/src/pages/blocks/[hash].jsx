@@ -15,6 +15,9 @@ import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
+import { setI18N } from "../../libraries/language.js";
+import { Translate, withLocalize } from "react-localize-redux";
+
 class BlockDetail extends React.Component {
   static async getInitialProps({ req, query: { hash } }) {
     try {
@@ -29,6 +32,11 @@ class BlockDetail extends React.Component {
     } catch (err) {
       return { hash, err };
     }
+  }
+
+  constructor(props) {
+    super(props);
+    setI18N(this.props);
   }
 
   componentDidMount() {
@@ -55,48 +63,56 @@ class BlockDetail extends React.Component {
     };
 
     return (
-      <>
-        <Head>
-          <title>NEAR Explorer | Block</title>
-        </Head>
-        <Content
-          title={
-            <h1>{`Block ${
-              block.height
-                ? `#${block.height}`
-                : `${block.hash.substring(0, 7)}...`
-            }`}</h1>
-          }
-          border={false}
-        >
-          {this.props.err ? (
-            `Information is not available at the moment. Please, check if the block hash is correct or try later.`
-          ) : (
-            <BlockDetails block={block} />
-          )}
-        </Content>
-        {!this.props.err ? (
+      <Translate>
+        {({ translate }) => (
           <>
+            <Head>
+              <title>NEAR Explorer | Block</title>
+            </Head>
             <Content
-              size="medium"
-              icon={<TransactionIcon style={{ width: "22px" }} />}
-              title={<h2>Transactions</h2>}
+              title={
+                <h1>{`${translate("page.blocks.title").toString()} ${
+                  block.height
+                    ? `#${block.height}`
+                    : `${block.hash.substring(0, 7)}...`
+                }`}</h1>
+              }
+              border={false}
             >
-              <Transactions blockHash={block.hash} count={1000} />
+              {this.props.err ? (
+                `Information is not available at the moment. Please, check if the block hash is correct or try later.`
+              ) : (
+                <BlockDetails block={block} />
+              )}
             </Content>
+            {!this.props.err ? (
+              <>
+                <Content
+                  size="medium"
+                  icon={<TransactionIcon style={{ width: "22px" }} />}
+                  title={
+                    <h2>{translate("model.transactions.title").toString()}</h2>
+                  }
+                >
+                  <Transactions blockHash={block.hash} count={1000} />
+                </Content>
 
-            <Content
-              size="medium"
-              icon={<TransactionIcon style={{ width: "22px" }} />}
-              title={<h2>Receipts</h2>}
-            >
-              <ReceiptsInBlock blockHash={block.hash} />
-            </Content>
+                <Content
+                  size="medium"
+                  icon={<TransactionIcon style={{ width: "22px" }} />}
+                  title={
+                    <h2>{translate("model.receipts.title").toString()}</h2>
+                  }
+                >
+                  <ReceiptsInBlock blockHash={block.hash} />
+                </Content>
+              </>
+            ) : null}
           </>
-        ) : null}
-      </>
+        )}
+      </Translate>
     );
   }
 }
 
-export default BlockDetail;
+export default withLocalize(BlockDetail);
