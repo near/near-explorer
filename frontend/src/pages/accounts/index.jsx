@@ -27,7 +27,7 @@ class AccountsPage extends React.PureComponent {
         <Content
           title={
             <h1>
-              <Translate id="model.accounts.title" />
+              <Translate id="common.accounts.accounts" />
             </h1>
           }
         >

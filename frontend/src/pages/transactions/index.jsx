@@ -28,7 +28,9 @@ class TransactionsPage extends React.Component {
             </Head>
             <Content
               title={
-                <h1>{translate("model.transactions.title").toString()}</h1>
+                <h1>
+                  {translate("common.transactions.transactions").toString()}
+                </h1>
               }
             >
               <Transactions />

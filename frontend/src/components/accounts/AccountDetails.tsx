@@ -36,7 +36,9 @@ class AccountDetails extends React.Component<Props> {
                 <CardCell
                   title={
                     <Term
-                      title={translate("model.transactions.title").toString()}
+                      title={translate(
+                        "common.transactions.transactions"
+                      ).toString()}
                       text={translate(
                         "component.accounts.AccountDetails.transactions.text"
                       ).toString()}

@@ -2,9 +2,10 @@
   "app": {
     "name": "NEAR 浏览器"
   },
-  "model": {
+  "common": {
     "accounts": {
-      "title": "账户"
+      "account": "账户",
+      "accounts": "账户"
     },
     "blocks": {
       "title": "区块"
@@ -13,7 +14,7 @@
       "title": "收据"
     },
     "transactions": {
-      "title": "交易"
+      "transactions": "交易"
     },
     "nodes": {
       "title": "节点"
@@ -33,7 +34,10 @@
       }
     },
     "accounts": {
-      "account": "账户"
+      "account": "账户",
+      "error": {
+        "account_fetching": "中文_Information is not available at the moment. Please, check if the account name is correct or try later."
+      }
     },
     "blocks": {
       "title": "区块"

@@ -51,7 +51,7 @@ const BlockDetails = ({ block }: Props) => {
                     </Col>
                     <Col md="4">
                       <CardCell
-                        title={translate("model.receipts.title").toString()}
+                        title={translate("common.receipts.title").toString()}
                         text={block.receiptsCount.toString()}
                       />
                     </Col>

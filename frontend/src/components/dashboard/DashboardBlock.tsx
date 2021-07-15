@@ -22,7 +22,7 @@ const DashboardBlock = ({ className }: Props) => (
           <DashboardCard
             className={`block-card ${className || ""}`}
             iconPath="/static/images/icon-blocks.svg"
-            title={translate("model.blocks.title").toString()}
+            title={translate("common.blocks.title").toString()}
             headerRight={
               <Link href="/blocks">
                 <a>
@@ -84,7 +84,7 @@ const DashboardBlock = ({ className }: Props) => (
                     typeof context.recentBlockProductionSpeed !== "undefined"
                       ? `${(1.0 / context.recentBlockProductionSpeed).toFixed(
                           4
-                        )} ${translate("model.unit.seconds").toString()}`
+                        )} ${translate("common.unit.seconds").toString()}`
                       : undefined
                   }
                 />

@@ -55,14 +55,14 @@ class AccountDetail extends React.Component {
         <Content
           title={
             <h1>
-              <Translate id="page.accounts.account" />
+              <Translate id="common.accounts.account" />
               {`: @${account.accountId}`}
             </h1>
           }
           border={false}
         >
           {accountFetchingError ? (
-            `Information is not available at the moment. Please, check if the account name is correct or try later.`
+            <Translate id="page.accounts.error.account_fetching" />
           ) : (
             <AccountDetails
               account={account}
@@ -78,7 +78,11 @@ class AccountDetail extends React.Component {
             <Content
               size="medium"
               icon={<TransactionIcon style={{ width: "22px" }} />}
-              title={<h2>Transactions</h2>}
+              title={
+                <h2>
+                  <Translate id="common.transactions.transactions" />
+                </h2>
+              }
             >
               <Transactions accountId={account.accountId} count={10} />
             </Content>

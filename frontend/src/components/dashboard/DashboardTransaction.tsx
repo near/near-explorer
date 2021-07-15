@@ -22,7 +22,7 @@ const DashboardTransaction = () => {
             <DashboardCard
               className="transaction-card"
               iconPath="/static/images/icon-transactions.svg"
-              title={translate("model.transactions.title").toString()}
+              title={translate("common.transactions.transactions").toString()}
               headerRight={
                 <Link href="/transactions">
                   <a>

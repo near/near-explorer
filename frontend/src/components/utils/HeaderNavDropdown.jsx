@@ -73,27 +73,27 @@ const HeaderNavDropdown = () => (
           <HeaderNavItem
             link="/accounts"
             icon={<IconAccounts className="header-icon" />}
-            text={translate("model.accounts.title")}
+            text={translate("common.accounts.accounts")}
           />
           <HeaderNavItem
             link="/blocks"
             icon={<IconBlocks className="header-icon" />}
-            text={translate("model.blocks.title")}
+            text={translate("common.blocks.title")}
           />
           <HeaderNavItem
             link="/transactions"
             icon={<IconTransactions className="header-icon" />}
-            text={translate("model.transactions.title")}
+            text={translate("common.transactions.transactions")}
           />
           <HeaderNavItem
             link="/nodes/validators"
             icon={<IconNodes className="header-icon" />}
-            text={translate("model.nodes.title")}
+            text={translate("common.nodes.title")}
           />
           <HeaderNavItem
             link="/stats"
             icon={<IconStats className="header-icon" />}
-            text={translate("model.stats.title_charts_and_stats")}
+            text={translate("common.stats.title_charts_and_stats")}
           />
         </Dropdown.Menu>
 

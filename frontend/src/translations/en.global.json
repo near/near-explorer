@@ -2,9 +2,10 @@
   "app": {
     "name": "NEAR Explorer"
   },
-  "model": {
+  "common": {
     "accounts": {
-      "title": "Accounts"
+      "account": "Account",
+      "accounts": "Accounts"
     },
     "blocks": {
       "title": "Blocks"
@@ -13,7 +14,7 @@
       "title": "Receipts"
     },
     "transactions": {
-      "title": "Transactions"
+      "transactions": "Transactions"
     },
     "nodes": {
       "title": "Nodes"
@@ -33,7 +34,10 @@
       }
     },
     "accounts": {
-      "account": "Account"
+      "account": "Account",
+      "error": {
+        "account_fetching": "Information is not available at the moment. Please, check if the account name is correct or try later."
+      }
     },
     "blocks": {
       "title": "Blocks"

@@ -91,7 +91,9 @@ class BlockDetail extends React.Component {
                   size="medium"
                   icon={<TransactionIcon style={{ width: "22px" }} />}
                   title={
-                    <h2>{translate("model.transactions.title").toString()}</h2>
+                    <h2>
+                      {translate("common.transactions.transactions").toString()}
+                    </h2>
                   }
                 >
                   <Transactions blockHash={block.hash} count={1000} />
@@ -101,7 +103,7 @@ class BlockDetail extends React.Component {
                   size="medium"
                   icon={<TransactionIcon style={{ width: "22px" }} />}
                   title={
-                    <h2>{translate("model.receipts.title").toString()}</h2>
+                    <h2>{translate("common.receipts.title").toString()}</h2>
                   }
                 >
                   <ReceiptsInBlock blockHash={block.hash} />

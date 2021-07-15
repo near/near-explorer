@@ -16,7 +16,7 @@ const DashboardNode = () => (
         {({ networkStats }) => (
           <DashboardCard
             iconPath="/static/images/icon-nodes.svg"
-            title={translate("model.nodes.title").toString()}
+            title={translate("common.nodes.title").toString()}
             className="node-card"
           >
             <Row noGutters>
