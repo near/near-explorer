@@ -78,7 +78,7 @@ const HeaderNavDropdown = () => (
           <HeaderNavItem
             link="/blocks"
             icon={<IconBlocks className="header-icon" />}
-            text={translate("common.blocks.title")}
+            text={translate("common.blocks.blocks")}
           />
           <HeaderNavItem
             link="/transactions"

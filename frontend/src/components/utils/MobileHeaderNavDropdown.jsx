@@ -113,7 +113,7 @@ class MobileNavDropdown extends React.Component {
                   <MobileNavItem
                     link="/blocks"
                     icon={<IconBlocks className="header-icon" />}
-                    text={translate("common.blocks.title")}
+                    text={translate("common.blocks.blocks")}
                   />
                   <MobileNavItem
                     link="/transactions"

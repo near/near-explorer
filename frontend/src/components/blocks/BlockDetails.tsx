@@ -51,7 +51,9 @@ const BlockDetails = ({ block }: Props) => {
                     </Col>
                     <Col md="4">
                       <CardCell
-                        title={translate("common.receipts.title").toString()}
+                        title={translate(
+                          "component.blocks.BlockDetails.receipts.title"
+                        ).toString()}
                         text={block.receiptsCount.toString()}
                       />
                     </Col>
@@ -75,19 +77,15 @@ const BlockDetails = ({ block }: Props) => {
                           typeof context.finalityStatus
                             ?.finalBlockTimestampNanosecond === "undefined"
                             ? translate(
-                                "component.blocks.BlockDetails.status.checking_finality"
+                                "common.blocks.checking_finality"
                               ).toString()
                             : new BN(block.timestamp).lte(
                                 context.finalityStatus.finalBlockTimestampNanosecond.divn(
                                   10 ** 6
                                 )
                               )
-                            ? translate(
-                                "component.blocks.BlockDetails.status.finalized"
-                              ).toString()
-                            : translate(
-                                "component.blocks.BlockDetails.status.finalizing"
-                              ).toString()
+                            ? translate("common.blocks.finalized").toString()
+                            : translate("common.blocks.finalizing").toString()
                         }
                       />
                     </Col>
@@ -124,10 +122,10 @@ const BlockDetails = ({ block }: Props) => {
                         title={
                           <Term
                             title={translate(
-                              "component.blocks.BlockDetails.gas_prise.title"
+                              "component.blocks.BlockDetails.gas_price.title"
                             ).toString()}
                             text={translate(
-                              "component.blocks.BlockDetails.gas_prise.text"
+                              "component.blocks.BlockDetails.gas_price.text"
                             ).toString()}
                             href={"https://docs.near.org/docs/concepts/gas"}
                           />

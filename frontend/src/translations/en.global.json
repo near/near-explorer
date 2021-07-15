@@ -8,7 +8,10 @@
       "accounts": "Accounts"
     },
     "blocks": {
-      "title": "Blocks"
+      "blocks": "Blocks",
+      "checking_finality": "Checking Finality...",
+      "finalized": "Finalized",
+      "finalizing": "Finalizing"
     },
     "receipts": {
       "title": "Receipts"
@@ -63,22 +66,17 @@
       "ReceiptsInBlock": {
         "no_receipts_words": "There are no receipts in this block"
       },
-      "BlocksRow": {
-        "checking_finality": "Checking Finality...",
-        "finalized": "Finalized",
-        "finalizing": "Finalizing"
-      },
       "BlockDetails": {
         "transactions": {
           "title": "Transactions",
           "text": "Number of transactions in this block. "
         },
+        "receipts": {
+          "title": "Receipts"
+        },
         "status": {
           "title": "Status",
-          "text": "Current status of the block (finalizing or finalized). ",
-          "checking_finality": "Checking Finality...",
-          "finalized": "Finalized",
-          "finalizing": "Finalizing"
+          "text": "Current status of the block (finalizing or finalized). "
         },
         "author": {
           "title": "Author"
@@ -87,7 +85,7 @@
           "title": "Gas Used",
           "text": "Total units of gas used by transactions in this block. "
         },
-        "gas_prise": {
+        "gas_price": {
           "title": "Gas Price",
           "text": "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
         },

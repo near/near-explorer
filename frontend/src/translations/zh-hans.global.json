@@ -8,7 +8,10 @@
       "accounts": "账户"
     },
     "blocks": {
-      "title": "区块"
+      "blocks": "区块",
+      "checking_finality": "检查确定状态...",
+      "finalized": "已确定",
+      "finalizing": "确定中"
     },
     "receipts": {
       "title": "收据"
@@ -63,22 +66,17 @@
       "ReceiptsInBlock": {
         "no_receipts_words": "此区块中没有收据"
       },
-      "BlocksRow": {
-        "checking_finality": "检查完成状态...",
-        "finalized": "已完成",
-        "finalizing": "完成中"
-      },
       "BlockDetails": {
         "transactions": {
-          "title": "交易",
+          "title": "交易数",
           "text": "该区块的交易数. "
+        },
+        "receipts": {
+          "title": "收据数"
         },
         "status": {
           "title": "状态",
-          "text": "块的当前状态(完成中或已完成). ",
-          "checking_finality": "检查完成状态...",
-          "finalized": "已完成",
-          "finalizing": "完成中"
+          "text": "块的当前状态(确定中或已确定). "
         },
         "author": {
           "title": "作者"
@@ -87,7 +85,7 @@
           "title": "Gas用量",
           "text": "该区块中交易使用的gas总量. "
         },
-        "gas_prise": {
+        "gas_price": {
           "title": "Gas价格",
           "text": "中文_A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
         },
