@@ -75,16 +75,18 @@ class BlocksRow extends React.PureComponent<Props> {
                             {typeof context.finalityStatus
                               ?.finalBlockTimestampNanosecond === "undefined"
                               ? translate(
-                                  "common.blocks.checking_finality"
+                                  "common.blocks.status.checking_finality"
                                 ).toString()
                               : new BN(block.timestamp).lte(
                                   context.finalityStatus.finalBlockTimestampNanosecond.divn(
                                     10 ** 6
                                   )
                                 )
-                              ? translate("common.blocks.finalized").toString()
+                              ? translate(
+                                  "common.blocks.status.finalized"
+                                ).toString()
                               : translate(
-                                  "common.blocks.finalizing"
+                                  "common.blocks.status.finalizing"
                                 ).toString()}
                           </span>
                           &nbsp;&nbsp;

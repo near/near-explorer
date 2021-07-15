@@ -9,15 +9,25 @@
     },
     "blocks": {
       "blocks": "Blocks",
-      "checking_finality": "Checking Finality...",
-      "finalized": "Finalized",
-      "finalizing": "Finalizing"
+      "status": {
+        "fetching_status": "Fetching Status...",
+        "checking_finality": "Checking Finality...",
+        "finalized": "Finalized",
+        "finalizing": "Finalizing"
+      }
     },
     "receipts": {
       "title": "Receipts"
     },
     "transactions": {
-      "transactions": "Transactions"
+      "transactions": "Transactions",
+      "status": {
+        "fetching_status": "Fetching Status...",
+        "NotStarted": "Not started",
+        "Started": "Started",
+        "Failure": "Failed",
+        "SuccessValue": "Succeeded"
+      }
     },
     "nodes": {
       "title": "Nodes"
@@ -60,6 +70,9 @@
           "transferred": "Transferred ",
           "to": " to "
         }
+      },
+      "TransactionAction": {
+        "batch_transaction": "Batch Transaction"
       }
     },
     "blocks": {

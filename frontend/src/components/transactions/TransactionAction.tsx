@@ -6,6 +6,8 @@ import ActionGroup from "./ActionGroup";
 import { ViewMode } from "./ActionRowBlock";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   transaction: T.Transaction;
   viewMode?: ViewMode;
@@ -36,22 +38,29 @@ class TransactionAction extends React.PureComponent<Props, State> {
   render() {
     const { transaction, viewMode } = this.props;
     const { status } = this.state;
-    const transactionStatus = status ? (
-      <TransactionExecutionStatus status={status} />
-    ) : (
-      <>{"Fetching Status..."}</>
-    );
     if (!transaction.actions) {
       return null;
     }
     return (
-      <ActionGroup
-        actionGroup={transaction as T.Transaction}
-        detailsLink={<TransactionLink transactionHash={transaction.hash} />}
-        status={transactionStatus}
-        viewMode={viewMode}
-        title={"Batch Transaction"}
-      />
+      <Translate>
+        {({ translate }) => (
+          <ActionGroup
+            actionGroup={transaction as T.Transaction}
+            detailsLink={<TransactionLink transactionHash={transaction.hash} />}
+            status={
+              status ? (
+                <TransactionExecutionStatus status={status} />
+              ) : (
+                <Translate id="common.transactions.status.fetching_status" />
+              )
+            }
+            viewMode={viewMode}
+            title={translate(
+              "component.transactions.TransactionAction.batch_transaction"
+            ).toString()}
+          />
+        )}
+      </Translate>
     );
   }
 }

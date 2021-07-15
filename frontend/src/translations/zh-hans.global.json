@@ -9,15 +9,25 @@
     },
     "blocks": {
       "blocks": "区块",
-      "checking_finality": "检查确定状态...",
-      "finalized": "已确定",
-      "finalizing": "确定中"
+      "status": {
+        "fetching_status": "获取状态...",
+        "checking_finality": "检查确定状态...",
+        "finalized": "已确定",
+        "finalizing": "确定中"
+      }
     },
     "receipts": {
       "title": "收据"
     },
     "transactions": {
-      "transactions": "交易"
+      "transactions": "交易",
+      "status": {
+        "fetching_status": "获取状态...",
+        "NotStarted": "未开始",
+        "Started": "已开始",
+        "Failure": "失败",
+        "SuccessValue": "成功"
+      }
     },
     "nodes": {
       "title": "节点"
@@ -53,13 +63,16 @@
       },
       "ActionMessage": {
         "FunctionCall": {
-          "words": "调用合约'${method_name}'方法: ",
+          "words": "调用合约 '${method_name}' 方法: ",
           "arguments": "参数:"
         },
         "Transfer": {
           "transferred": "转账 ",
           "to": " 到 "
         }
+      },
+      "TransactionAction": {
+        "batch_transaction": "批量交易"
       }
     },
     "blocks": {
