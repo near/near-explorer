@@ -62,13 +62,37 @@
         "no_transactions_words": "没有交易"
       },
       "ActionMessage": {
+        "CreateAccount": {
+          "new_account_created": "创建新账户: "
+        },
+        "DeleteAccount": {
+          "delete_account": "删除账户 ",
+          "and_transfer_fund_to": " 并将剩余资金转移到 "
+        },
+        "DeployContract": {
+          "contract_deployed": "部署合约: "
+        },
         "FunctionCall": {
-          "words": "调用合约 '${method_name}' 方法: ",
+          "called_method": "调用方法 '${method_name}' 在合约: ",
           "arguments": "参数:"
         },
         "Transfer": {
           "transferred": "转账 ",
           "to": " 到 "
+        },
+        "Stake": {
+          "staked": "质押: ",
+          "with_key": "用密钥 ${public_key}..."
+        },
+        "AddKey": {
+          "new_key_added": "添加新密钥 ",
+          "with_permission_and_nounce": "具有 ${permission} 权限，nonce为 ${nonce}",
+          "access_key_added_for_contract": "访问密钥已添加到合约 ",
+          "with_permission_call_method_and_nounce": "具有调用 ${methods} 方法的权限，nonce为 ${nonce}",
+          "any": "任何"
+        },
+        "DeleteKey": {
+          "key_deleted": "删除密钥: ${public_key}..."
         }
       },
       "TransactionAction": {

@@ -60,21 +60,21 @@ export const displayArgs = (args: string) => {
 const transactionMessageRenderers: TransactionMessageRenderers = {
   CreateAccount: ({ receiverId }: Props<T.CreateAccount>) => (
     <>
-      {"New account created: "}
+      <Translate id="component.transactions.ActionMessage.CreateAccount.new_account_created" />
       <AccountLink accountId={receiverId} />
     </>
   ),
   DeleteAccount: ({ receiverId, actionArgs }: Props<T.DeleteAccount>) => (
     <>
-      {"Delete account "}
+      <Translate id="component.transactions.ActionMessage.DeleteAccount.delete_account" />
       <AccountLink accountId={receiverId} />
-      {" and transfer remaining funds to "}
+      <Translate id="component.transactions.ActionMessage.DeleteAccount.and_transfer_fund_to" />
       <AccountLink accountId={actionArgs.beneficiary_id} />
     </>
   ),
   DeployContract: ({ receiverId }: Props<T.DeployContract>) => (
     <>
-      {"Contract deployed: "}
+      <Translate id="component.transactions.ActionMessage.DeployContract.contract_deployed" />
       <AccountLink accountId={receiverId} />
     </>
   ),
@@ -99,7 +99,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
     return (
       <>
         <Translate
-          id="component.transactions.ActionMessage.FunctionCall.words"
+          id="component.transactions.ActionMessage.FunctionCall.called_method"
           data={{ method_name: actionArgs.method_name }}
         />
         <AccountLink accountId={receiverId} />
@@ -127,8 +127,12 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   ),
   Stake: ({ actionArgs: { stake, public_key } }: Props<T.Stake>) => (
     <>
-      {`Staked: `}
-      <Balance amount={stake} /> {`with ${public_key.substring(0, 15)}...`}
+      <Translate id="component.transactions.ActionMessage.Stake.staked" />
+      <Balance amount={stake} />
+      <Translate
+        id="component.transactions.ActionMessage.Stake.with_key"
+        data={{ public_key: public_key.substring(0, 15) }}
+      />
     </>
   ),
   AddKey: ({ receiverId, actionArgs }: Props<T.AddKey>) => (
@@ -136,48 +140,74 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       {typeof actionArgs.access_key.permission === "object" ? (
         actionArgs.access_key.permission.permission_kind ? (
           <>
-            {"New key added for "}
+            <Translate id="component.transactions.ActionMessage.AddKey.new_key_added" />
             <AccountLink accountId={receiverId} />
             {`: ${actionArgs.public_key.substring(0, 15)}...`}
             <p>
-              {`with permission ${actionArgs.access_key.permission.permission_kind} and nonce ${actionArgs.access_key.nonce}`}
+              <Translate
+                id="component.transactions.ActionMessage.AddKey.with_permission_and_nounce"
+                data={{
+                  permission: actionArgs.access_key.permission.permission_kind,
+                  nonce: actionArgs.access_key.nonce,
+                }}
+              />
             </p>
           </>
         ) : (
           <>
-            {"Access key added for contract "}
+            <Translate id="component.transactions.ActionMessage.AddKey.access_key_added_for_contract" />
             <AccountLink
               accountId={
                 actionArgs.access_key.permission.FunctionCall.receiver_id
               }
             />
             {`: ${actionArgs.public_key.substring(0, 15)}...`}
-            <p>
-              {`with permission to call ${
-                actionArgs.access_key.permission.FunctionCall.method_names
-                  .length > 0
-                  ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
-                      ", "
-                    )})`
-                  : "any"
-              } methods and nonce ${actionArgs.access_key.nonce}`}
-            </p>
+            <Translate>
+              {({ translate }) => (
+                <p>
+                  {translate(
+                    "component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce",
+                    {
+                      methods:
+                        actionArgs.access_key.permission.FunctionCall
+                          .method_names.length > 0
+                          ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
+                              ", "
+                            )})`
+                          : translate(
+                              "component.transactions.ActionMessage.AddKey.any"
+                            ),
+                      nonce: actionArgs.access_key.nonce,
+                    }
+                  )}
+                </p>
+              )}
+            </Translate>
           </>
         )
       ) : (
         <>
-          {"New key added for "}
+          <Translate id="component.transactions.ActionMessage.AddKey.new_key_added" />
           <AccountLink accountId={receiverId} />
           {`: ${actionArgs.public_key.substring(0, 15)}...`}
           <p>
-            {`with permission ${actionArgs.access_key.permission} and nonce ${actionArgs.access_key.nonce}`}
+            <Translate
+              id="component.transactions.ActionMessage.AddKey.with_permission_and_nounce"
+              data={{
+                permission: actionArgs.access_key.permission,
+                nonce: actionArgs.access_key.nonce,
+              }}
+            />
           </p>
         </>
       )}
     </>
   ),
   DeleteKey: ({ actionArgs: { public_key } }: Props<T.DeleteKey>) => (
-    <>{`Key deleted: ${public_key.substring(0, 15)}...`}</>
+    <Translate
+      id="component.transactions.ActionMessage.DeleteKey.key_deleted"
+      data={{ public_key: public_key.substring(0, 15) }}
+    />
   ),
 };
 

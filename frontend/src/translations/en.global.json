@@ -62,13 +62,37 @@
         "no_transactions_words": "There are no transactions"
       },
       "ActionMessage": {
+        "CreateAccount": {
+          "new_account_created": "New account created: "
+        },
+        "DeleteAccount": {
+          "delete_account": "Delete account ",
+          "and_transfer_fund_to": " and transfer remaining funds to "
+        },
+        "DeployContract": {
+          "contract_deployed": "Contract deployed: "
+        },
         "FunctionCall": {
-          "words": "Called method: '${method_name}' in contract: ",
+          "called_method": "Called method: '${method_name}' in contract: ",
           "arguments": "Arguments:"
         },
         "Transfer": {
           "transferred": "Transferred ",
           "to": " to "
+        },
+        "Stake": {
+          "staked": "Staked: ",
+          "with_key": "with ${public_key}..."
+        },
+        "AddKey": {
+          "new_key_added": "New key added for ",
+          "with_permission_and_nounce": "with permission ${permission} and nonce ${nonce}",
+          "access_key_added_for_contract": "Access key added for contract ",
+          "with_permission_call_method_and_nounce": "with permission to call ${methods} methods and nonce ${nonce}",
+          "any": "any"
+        },
+        "DeleteKey": {
+          "key_deleted": "Key deleted: ${public_key}..."
         }
       },
       "TransactionAction": {
