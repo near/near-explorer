@@ -37,7 +37,7 @@ class AccountDetails extends React.Component<Props> {
                   title={
                     <Term
                       title={translate(
-                        "common.transactions.transactions"
+                        "component.accounts.AccountDetails.transactions.title"
                       ).toString()}
                       text={translate(
                         "component.accounts.AccountDetails.transactions.text"

@@ -108,22 +108,23 @@
     "accounts": {
       "AccountDetails": {
         "transactions": {
+          "title": "交易数",
           "text": "此帐户发送和接收的总交易量. "
         },
         "storage_usage": {
-          "title": "存储占用",
+          "title": "存储用量",
           "text": "中文_Total blockchain storage (in bytes) used by this account. "
         },
         "native_account_balance": {
-          "title": "Ⓝ 本地账户余额",
+          "title": "Ⓝ 原生账户余额",
           "text": "中文_NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the \"total\" balance of all the tokens you may control through this account; see \"Aggregated Balace\" for more details. "
         },
         "validator_stake": {
-          "title": "Ⓝ 验证者质押",
+          "title": "Ⓝ 验证节点质押",
           "text": "中文_<p> This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. </p> <p> This field only reflects NEAR balance for validators that stake to support the security of the network. If you’re staking (delegating) to a validator pool from a wallet, you will see \"0\" in this field. See the balance profile on Wallet for more balances aggregated for your convenience. </p>"
         },
         "balance_profile": {
-          "title": "Ⓝ 余额概况",
+          "title": "Ⓝ 余额总览",
           "text": "中文_NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate \"total\" balance, it is the best place. "
         },
         "created_at": {

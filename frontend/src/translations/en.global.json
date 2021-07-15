@@ -108,6 +108,7 @@
     "accounts": {
       "AccountDetails": {
         "transactions": {
+          "title": "Transactions",
           "text": "Total transaction sent and received by this account. "
         },
         "storage_usage": {
