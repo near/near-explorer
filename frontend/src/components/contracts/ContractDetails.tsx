@@ -58,7 +58,7 @@ class ContractDetails extends React.Component<Props, State> {
 
   render() {
     const { locked, transactionHash, timestamp, codeHash } = this.state;
-    let lockedShow;
+    let lockedShow: string | JSX.Element;
     if (locked !== undefined) {
       lockedShow =
         locked === true ? (
