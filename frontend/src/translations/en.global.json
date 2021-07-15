@@ -20,6 +20,7 @@
       "title": "Receipts"
     },
     "transactions": {
+      "transaction": "Transaction",
       "transactions": "Transactions",
       "status": {
         "fetching_status": "Fetching Status...",
@@ -28,6 +29,9 @@
         "Failure": "Failed",
         "SuccessValue": "Succeeded"
       }
+    },
+    "actions": {
+      "actions": "Actions"
     },
     "nodes": {
       "title": "Nodes"
@@ -54,6 +58,9 @@
     },
     "blocks": {
       "title": "Blocks"
+    },
+    "transactions": {
+      "transaction_execution_plan": "Transaction Execution Plan"
     }
   },
   "component": {
@@ -100,6 +107,48 @@
       },
       "ActionRowBlock": {
         "by": "by"
+      },
+      "TransactionDetails": {
+        "signed_by": {
+          "title": "Signed by",
+          "text": "Account that signed and sent the transaction."
+        },
+        "receiver": {
+          "title": "Receiver",
+          "text": "Account receiving the transaction."
+        },
+        "status": {
+          "title": "Status",
+          "text": "Current status of the transaction (Pending, Succeeded, Failed/Finalized or non finalized)."
+        },
+        "transaction_fee": {
+          "title": "Transaction Fee",
+          "text": "Total fee paid in NEAR to execute this transaction."
+        },
+        "deposit_value": {
+          "title": "Deposit Value",
+          "text": "Sum of all NEAR tokens transferred from the Signing account to the Receiver account. This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s)."
+        },
+        "gas_used": {
+          "title": "Gas Used",
+          "text": "Units of gas required to execute this transaction."
+        },
+        "attached_gas": {
+          "title": "Attached Gas",
+          "text": "Units of gas attached to the transaction (this is often higher than 'Gas Used')."
+        },
+        "created": {
+          "title": "Created",
+          "text": "Timestamp of when this transaction was submitted."
+        },
+        "hash": {
+          "title": "Hash",
+          "text": "Unique identifier (hash) of this transaction."
+        },
+        "block_hash": {
+          "title": "Block Hash",
+          "text": "Unique identifier (hash) of the block this transaction was included in."
+        }
       }
     },
     "blocks": {

@@ -20,6 +20,7 @@
       "title": "收据"
     },
     "transactions": {
+      "transaction": "交易",
       "transactions": "交易",
       "status": {
         "fetching_status": "获取状态...",
@@ -28,6 +29,9 @@
         "Failure": "失败",
         "SuccessValue": "成功"
       }
+    },
+    "actions": {
+      "actions": "操作"
     },
     "nodes": {
       "title": "节点"
@@ -54,6 +58,9 @@
     },
     "blocks": {
       "title": "区块"
+    },
+    "transactions": {
+      "transaction_execution_plan": "交易执行计划"
     }
   },
   "component": {
@@ -100,6 +107,48 @@
       },
       "ActionRowBlock": {
         "by": "发起者"
+      },
+      "TransactionDetails": {
+        "signed_by": {
+          "title": "签名账户",
+          "text": "签名并发送交易的账户"
+        },
+        "receiver": {
+          "title": "接收账户",
+          "text": "接收交易的账户"
+        },
+        "status": {
+          "title": "状态",
+          "text": "交易的当前状态（待定、成功、失败，以及已确认、未确认）"
+        },
+        "transaction_fee": {
+          "title": "交易费",
+          "text": "为执行本交易支付的费用，以NEAR计费"
+        },
+        "deposit_value": {
+          "title": "存款额",
+          "text": "从签名账户转账到接收账户的所有NEAR通证之和，包含转账操作中发送的通证，以及函数调用（Function Call）操作中附加的NEAR通证"
+        },
+        "gas_used": {
+          "title": "Gas用量",
+          "text": "执行本交易所需的单位Gas数量"
+        },
+        "attached_gas": {
+          "title": "附加的Gas",
+          "text": "附加到本交易的单位Gas数量（通常高于'Gas用量'）"
+        },
+        "created": {
+          "title": "创建于",
+          "text": "本交易提交时刻的时间戳"
+        },
+        "hash": {
+          "title": "交易哈希",
+          "text": "本交易的唯一的ID（哈希）"
+        },
+        "block_hash": {
+          "title": "区块哈希",
+          "text": "包含了本交易的区块的唯一ID（哈希）"
+        }
       }
     },
     "blocks": {

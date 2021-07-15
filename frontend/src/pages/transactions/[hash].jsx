@@ -62,12 +62,15 @@ class TransactionDetailsPage extends React.Component {
             </Head>
             <Content
               title={
-                <h1>{`Transaction: ${transaction.hash.substring(
-                  0,
-                  7
-                )}...${transaction.hash.substring(
-                  transaction.hash.length - 4
-                )}`}</h1>
+                <h1>
+                  <Translate id="common.transactions.transaction" />
+                  {`: ${transaction.hash.substring(
+                    0,
+                    7
+                  )}...${transaction.hash.substring(
+                    transaction.hash.length - 4
+                  )}`}
+                </h1>
               }
               border={false}
             >
@@ -81,7 +84,11 @@ class TransactionDetailsPage extends React.Component {
               <Content
                 size="medium"
                 icon={<TransactionIcon style={{ width: "22px" }} />}
-                title={<h2>Actions</h2>}
+                title={
+                  <h2>
+                    <Translate id="common.actions.actions" />
+                  </h2>
+                }
               >
                 <ActionsList
                   actions={transaction.actions}
@@ -98,7 +105,11 @@ class TransactionDetailsPage extends React.Component {
               <Content
                 size="medium"
                 icon={<TransactionIcon style={{ width: "22px" }} />}
-                title={<h2>Transaction Execution Plan</h2>}
+                title={
+                  <h2>
+                    <Translate id="page.transactions.transaction_execution_plan" />
+                  </h2>
+                }
               >
                 <TransactionOutcome
                   transaction={transaction.transactionOutcome}
