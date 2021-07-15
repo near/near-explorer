@@ -10,6 +10,8 @@ import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
 import TransactionLink from "../utils/TransactionLink";
 
+import { Translate } from "react-localize-redux";
+
 interface Props {
   accountId: string;
 }
@@ -58,148 +60,144 @@ class ContractDetails extends React.Component<Props, State> {
     const { locked, transactionHash, timestamp, codeHash } = this.state;
     let lockedShow;
     if (locked !== undefined) {
-      lockedShow = locked === true ? "Yes" : "No";
+      lockedShow =
+        locked === true ? (
+          <Translate id="common.state.yes" />
+        ) : (
+          <Translate id="common.state.no" />
+        );
     }
     if (!codeHash) {
       return <></>;
     }
     return (
-      <>
-        <div className="contract-title">
-          <img
-            src={"/static/images/icon-d-contract.svg"}
-            className="card-cell-title-img"
-          />
-          CONTRACT
-        </div>
-        <div className="contract-info-container">
-          <Row noGutters className="border-0">
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Last Updated"}
-                    text={"Latest time the contract deployed. "}
-                    href={
-                      "https://docs.near.org/docs/develop/basics/getting-started"
-                    }
-                  />
-                }
-                text={
-                  timestamp
-                    ? moment(timestamp).format("MMMM DD, YYYY [at] h:mm:ssa")
-                    : "N/A"
-                }
-                className="block-card-created-text border-0"
+      <Translate>
+        {({ translate }) => (
+          <>
+            <div className="contract-title">
+              <img
+                src={"/static/images/icon-d-contract.svg"}
+                className="card-cell-title-img"
               />
-            </Col>
-            <Col md="8">
-              <CardCell
-                title={
-                  <Term
-                    title={"Transaction Hash"}
+              <Translate id="common.contracts.contract" />
+            </div>
+            <div className="contract-info-container">
+              <Row noGutters className="border-0">
+                <Col md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate(
+                          "component.contracts.ContractDetails.last_updated.title"
+                        ).toString()}
+                        text={translate(
+                          "component.contracts.ContractDetails.last_updated.text"
+                        )}
+                        href={
+                          "https://docs.near.org/docs/develop/basics/getting-started"
+                        }
+                      />
+                    }
                     text={
-                      "The transaction unique identifier (hash) that the contract is latest deployed. "
+                      timestamp
+                        ? moment(timestamp).format(
+                            "MMMM DD, YYYY [at] h:mm:ssa"
+                          )
+                        : translate("common.state.not_available").toString()
                     }
+                    className="block-card-created-text border-0"
                   />
-                }
-                text={
-                  transactionHash ? (
-                    <TransactionLink transactionHash={transactionHash}>
-                      {transactionHash}
-                    </TransactionLink>
-                  ) : (
-                    "N/A"
-                  )
-                }
-                className="block-card-created border-0"
-              />
-            </Col>
-          </Row>
-          <Row noGutters className="border-0">
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={"Locked?"}
+                </Col>
+                <Col md="8">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate(
+                          "component.contracts.ContractDetails.transaction_hash.title"
+                        ).toString()}
+                        text={translate(
+                          "component.contracts.ContractDetails.transaction_hash.text"
+                        )}
+                      />
+                    }
                     text={
-                      <>
-                        <p>
-                          {`Locked contract means that there are no access keys allowing the
-                          contract code to be re-deployed.`}
-                        </p>
-                        <p>
-                          {`In general case, the code can be re-deployed by:`}
-                          <ol>
-                            <li>a transaction with a deploy-code action</li>
-                            <li>
-                              the contract itself can implement a function call
-                              that will trigger deploy-code action
-                            </li>
-                          </ol>
-                        </p>
-                        <p>
-                          {`To re-deploy the code with a transaction, the transaction has to be
-                          signed with a full-access key. If there is no such key on the contract,
-                          there is no way to re-deploy the code unless there is a dedicated support
-                          in the contract code itself, and thus we mark such contracts as locked.`}
-                        </p>
-                        <p>
-                          {`If there is at least one full-access key registered on the contract
-                          account, the contract is not locked.`}
-                        </p>
-                      </>
+                      transactionHash ? (
+                        <TransactionLink transactionHash={transactionHash}>
+                          {transactionHash}
+                        </TransactionLink>
+                      ) : (
+                        translate("common.state.not_available").toString()
+                      )
                     }
+                    className="block-card-created border-0"
                   />
-                }
-                text={lockedShow ? lockedShow : ""}
-                className="block-card-created-text account-card-back border-0"
-              />
-            </Col>
-            <Col md="8">
-              <CardCell
-                title={
-                  <Term
-                    title={"Code Hash"}
-                    text={
-                      "Checksum (SHA-256 in base58 encoding) of the contract binary. "
+                </Col>
+              </Row>
+              <Row noGutters className="border-0">
+                <Col md="4">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate(
+                          "component.contracts.ContractDetails.locked.title"
+                        ).toString()}
+                        text={translate(
+                          "component.contracts.ContractDetails.locked.text"
+                        )}
+                      />
                     }
+                    text={lockedShow ? lockedShow : ""}
+                    className="block-card-created-text account-card-back border-0"
                   />
-                }
-                text={codeHash ? codeHash : ""}
-                className="block-card-created account-card-back border-0"
-              />
-            </Col>
-          </Row>
-        </div>
-        <style jsx global>{`
-          .contract-title {
-            position: relative;
-            z-index: 1;
-            padding: 8px;
-            width: 140px;
-            top: 16px;
-            margin-top: 32px;
-            margin-left: 50px;
-            background: #ffffff;
-            box-sizing: border-box;
-            border-radius: 25px;
-            font-size: 14px;
-            line-height: 16px;
-            color: #999999;
-            font-weight: 500;
-            letter-spacing: 1.75px;
-            text-transform: uppercase;
-          }
+                </Col>
+                <Col md="8">
+                  <CardCell
+                    title={
+                      <Term
+                        title={translate(
+                          "component.contracts.ContractDetails.code_hash.title"
+                        ).toString()}
+                        text={translate(
+                          "component.contracts.ContractDetails.code_hash.text"
+                        )}
+                      />
+                    }
+                    text={codeHash ? codeHash : ""}
+                    className="block-card-created account-card-back border-0"
+                  />
+                </Col>
+              </Row>
+            </div>
+            <style jsx global>{`
+              .contract-title {
+                position: relative;
+                z-index: 1;
+                padding: 8px;
+                width: 140px;
+                top: 16px;
+                margin-top: 32px;
+                margin-left: 50px;
+                background: #ffffff;
+                box-sizing: border-box;
+                border-radius: 25px;
+                font-size: 14px;
+                line-height: 16px;
+                color: #999999;
+                font-weight: 500;
+                letter-spacing: 1.75px;
+                text-transform: uppercase;
+              }
 
-          .contract-info-container {
-            border: solid 4px #e6e6e6;
-            border-radius: 4px;
-            margin: 0 15px;
-            background: #f8f8f8;
-          }
-        `}</style>
-      </>
+              .contract-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
+                margin: 0 15px;
+                background: #f8f8f8;
+              }
+            `}</style>
+          </>
+        )}
+      </Translate>
     );
   }
 }

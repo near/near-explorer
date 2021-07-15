@@ -42,6 +42,9 @@
       "predecessor_id": "前任账户ID",
       "receiver_id": "接收账户ID"
     },
+    "contracts": {
+      "contract": "合约"
+    },
     "nodes": {
       "title": "节点"
     },
@@ -50,6 +53,11 @@
     },
     "unit": {
       "seconds": "秒"
+    },
+    "state": {
+      "not_available": "无",
+      "yes": "是",
+      "no": "否"
     }
   },
   "page": {
@@ -256,6 +264,26 @@
       "AccountRow": {
         "deleted_on": "删除于",
         "created_on": "创建于"
+      }
+    },
+    "contracts": {
+      "ContractDetails": {
+        "last_updated": {
+          "title": "上次更新",
+          "text": "合约的最近一次部署时间"
+        },
+        "transaction_hash": {
+          "title": "交易哈希",
+          "text": "合约最近一次部署的交易的唯一ID（哈希）"
+        },
+        "locked": {
+          "title": "锁定合约?",
+          "text": "<p>锁定合约是指该合约已经没有访问密钥可用于合约的重新部署。</p><p>在大多数情况下，代码可以通过如下方式重新部署:<ol><li>通过直接包含了重新部署代码的操作的交易</li><li>合约本身可以实现函数调用用于触发部署代码的操作</li></ol></p><p>为了发起交易重新部署合约代码，交易必须用完全访问密钥（full-access key）签名才行。如果合约上已经没有这样的密钥了，那就无法重新部署合约，除非合约代码里实现了专门的支持，这样的合约我们认为它是锁定了的。</p><p>如果合约上注册了至少一个完全访问密钥（full-access key），它就不是锁定的。</p>"
+        },
+        "code_hash": {
+          "title": "代码哈希",
+          "text": "合约二进制数据的校验和（SHA-256通过 base58编码）"
+        }
       }
     },
     "dashboard": {
