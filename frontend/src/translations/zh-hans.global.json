@@ -73,7 +73,7 @@
           "contract_deployed": "部署合约: "
         },
         "FunctionCall": {
-          "called_method": "调用方法 '${method_name}' 在合约: ",
+          "called_method": "调用 '${method_name}' 方法于合约: ",
           "arguments": "参数:"
         },
         "Transfer": {
@@ -97,6 +97,9 @@
       },
       "TransactionAction": {
         "batch_transaction": "批量交易"
+      },
+      "ActionRowBlock": {
+        "by": "发起者"
       }
     },
     "blocks": {

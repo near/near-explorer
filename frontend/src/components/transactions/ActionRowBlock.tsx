@@ -64,7 +64,8 @@ class ActionRowBlock extends React.Component<Props> {
                     {detalizationMode === "detailed" ? (
                       <Row noGutters>
                         <Col className="action-row-text">
-                          by <AccountLink accountId={signerId} />
+                          <Translate id="component.transactions.ActionRowBlock.by" />{" "}
+                          <AccountLink accountId={signerId} />
                         </Col>
                       </Row>
                     ) : null}

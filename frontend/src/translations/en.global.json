@@ -97,6 +97,9 @@
       },
       "TransactionAction": {
         "batch_transaction": "Batch Transaction"
+      },
+      "ActionRowBlock": {
+        "by": "by"
       }
     },
     "blocks": {
