@@ -20,6 +20,9 @@
     },
     "stats": {
       "title_charts_and_stats": "图表 / 统计"
+    },
+    "unit": {
+      "seconds": "秒"
     }
   },
   "page": {
@@ -180,7 +183,8 @@
       },
       "DashboardTransactionHistoryChart": {
         "14_day_history": {
-          "title": "过去14天历史"
+          "title": "过去14天历史",
+          "transactions": "交易数"
         }
       }
     },

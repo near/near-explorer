@@ -20,6 +20,9 @@
     },
     "stats": {
       "title_charts_and_stats": "Charts & Stats"
+    },
+    "unit": {
+      "seconds": "s"
     }
   },
   "page": {
@@ -180,7 +183,8 @@
       },
       "DashboardTransactionHistoryChart": {
         "14_day_history": {
-          "title": "14 Day History"
+          "title": "14 Day History",
+          "transactions": "Txns"
         }
       }
     },

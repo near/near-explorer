@@ -86,7 +86,7 @@ const DashboardBlock = ({ className }: Props) => (
                     typeof context.recentBlockProductionSpeed !== "undefined"
                       ? `${(1.0 / context.recentBlockProductionSpeed).toFixed(
                           4
-                        )} s`
+                        )} ${translate("model.unit.seconds").toString()}`
                       : undefined
                   }
                 />

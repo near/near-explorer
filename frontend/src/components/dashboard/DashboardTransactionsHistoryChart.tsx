@@ -41,13 +41,15 @@ const DashboardTransactionHistoryChart = ({
       title: {
         text: translate(
           "component.dashboard.DashboardTransactionHistoryChart.14_day_history.title"
-        ).toString(),
+        ),
       },
       tooltip: {
         trigger: "axis",
         position: "top",
         backgroundColor: "#25272A",
-        formatter: "{b0}<br />Txns: {c0}",
+        formatter: `{b0}<br />${translate(
+          "component.dashboard.DashboardTransactionHistoryChart.14_day_history.transactions"
+        )}: {c0}`,
       },
       grid: {
         left: "5%",
