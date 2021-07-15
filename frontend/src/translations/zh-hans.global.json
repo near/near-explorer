@@ -16,9 +16,6 @@
         "finalizing": "确定中"
       }
     },
-    "receipts": {
-      "title": "收据"
-    },
     "transactions": {
       "transaction": "交易",
       "transactions": "交易",
@@ -28,10 +25,22 @@
         "Started": "已开始",
         "Failure": "失败",
         "SuccessValue": "成功"
+      },
+      "execution": {
+        "convert_transaction_to_receipt": "将交易转换为收据",
+        "gas_burned": "销毁的Gas",
+        "tokens_burned": "销毁的Tokens"
       }
     },
     "actions": {
       "actions": "操作"
+    },
+    "receipts": {
+      "receipt": "收据",
+      "receipt_id": "收据ID",
+      "executed_in_block": "执行时所在的区块",
+      "predecessor_id": "前任账户ID",
+      "receiver_id": "接收账户ID"
     },
     "nodes": {
       "title": "节点"
@@ -149,6 +158,15 @@
           "title": "区块哈希",
           "text": "包含了本交易的区块的唯一ID（哈希）"
         }
+      },
+      "ReceiptRow": {
+        "result": "结果",
+        "no_result": "没有结果",
+        "empty_result": "结果为空",
+        "failure": "失败",
+        "success_receipt_id": "成功收据ID",
+        "no_logs": "没有日志",
+        "no_actions": "没有操作"
       }
     },
     "blocks": {
@@ -304,6 +322,8 @@
   "button": {
     "view_all": "查看全部",
     "docs": "查看文档",
-    "load_more": "载入更多"
+    "load_more": "载入更多",
+    "show_more": "显示更多",
+    "show_less": "折叠显示"
   }
 }

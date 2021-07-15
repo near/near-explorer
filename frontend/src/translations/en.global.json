@@ -16,9 +16,6 @@
         "finalizing": "Finalizing"
       }
     },
-    "receipts": {
-      "title": "Receipts"
-    },
     "transactions": {
       "transaction": "Transaction",
       "transactions": "Transactions",
@@ -28,10 +25,22 @@
         "Started": "Started",
         "Failure": "Failed",
         "SuccessValue": "Succeeded"
+      },
+      "execution": {
+        "convert_transaction_to_receipt": "Convert Transaction To Receipt",
+        "gas_burned": "Gas Burned",
+        "tokens_burned": "Tokens Burned"
       }
     },
     "actions": {
       "actions": "Actions"
+    },
+    "receipts": {
+      "receipt": "Receipt",
+      "receipt_id": "Receipt ID",
+      "executed_in_block": "Executed in Block",
+      "predecessor_id": "Predecessor ID",
+      "receiver_id": "Receiver ID"
     },
     "nodes": {
       "title": "Nodes"
@@ -149,6 +158,15 @@
           "title": "Block Hash",
           "text": "Unique identifier (hash) of the block this transaction was included in."
         }
+      },
+      "ReceiptRow": {
+        "result": "Result",
+        "no_result": "No result",
+        "empty_result": "Empty result",
+        "failure": "Failure",
+        "success_receipt_id": "SuccessReceiptId",
+        "no_logs": "No logs",
+        "no_actions": "No actions"
       }
     },
     "blocks": {
@@ -304,6 +322,8 @@
   "button": {
     "view_all": "View All",
     "docs": "docs",
-    "load_more": "Load More"
+    "load_more": "Load More",
+    "show_more": "Show more",
+    "show_less": "Show less"
   }
 }

@@ -36,16 +36,9 @@ interface TransactionMessageRenderers {
   DeleteKey: React.FC<Props<T.DeleteKey>>;
 }
 
-const COLLAPSE_ARGS_OPTIONS = {
-  collapseText: "Show more",
-  expandText: "Show less",
-  minHeight: 200,
-  maxHeight: 600,
-};
-
 export const displayArgs = (args: string) => {
   const decodedArgs = Buffer.from(args, "base64");
-  let prettyArgs;
+  let prettyArgs: string;
   try {
     const parsedJSONArgs = JSON.parse(decodedArgs.toString());
     prettyArgs = JSON.stringify(parsedJSONArgs, null, 2);
@@ -53,7 +46,19 @@ export const displayArgs = (args: string) => {
     prettyArgs = hexy(decodedArgs, { format: "twos" });
   }
   return (
-    <CodePreview collapseOptions={COLLAPSE_ARGS_OPTIONS} value={prettyArgs} />
+    <Translate>
+      {({ translate }) => (
+        <CodePreview
+          collapseOptions={{
+            collapseText: translate("button.show_more").toString(),
+            expandText: translate("button.show_less").toString(),
+            minHeight: 200,
+            maxHeight: 600,
+          }}
+          value={prettyArgs}
+        />
+      )}
+    </Translate>
   );
 };
 

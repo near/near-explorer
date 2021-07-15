@@ -13,6 +13,8 @@ import { truncateAccountId } from "../../libraries/formatting";
 import { displayArgs } from "./ActionMessage";
 import ActionRow from "./ActionRow";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   receipt: T.NestedReceiptWithOutcome;
 }
@@ -25,13 +27,19 @@ class ReceiptRow extends React.Component<Props> {
     if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
       const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
       if (SuccessValue === null) {
-        statusInfo = "No result";
+        statusInfo = (
+          <Translate id="component.transactions.ReceiptRow.no_result" />
+        );
       } else if (SuccessValue.length === 0) {
-        statusInfo = "Empty result";
+        statusInfo = (
+          <Translate id="component.transactions.ReceiptRow.empty_result" />
+        );
       } else {
         statusInfo = (
           <>
-            <i>Result: </i>
+            <i>
+              <Translate id="component.transactions.ReceiptRow.result" />:{" "}
+            </i>
             {displayArgs(SuccessValue)}
           </>
         );
@@ -40,7 +48,9 @@ class ReceiptRow extends React.Component<Props> {
       const { Failure } = receipt.outcome.status as T.ReceiptFailure;
       statusInfo = (
         <>
-          <i>Failure: </i>
+          <i>
+            <Translate id="component.transactions.ReceiptRow.failure" />:{" "}
+          </i>
           <pre>{JSON.stringify(Failure, null, 2)}</pre>
         </>
       );
@@ -50,7 +60,10 @@ class ReceiptRow extends React.Component<Props> {
       const { SuccessReceiptId } = receipt.outcome.status as T.ReceiptSuccessId;
       statusInfo = (
         <>
-          <i>SuccessReceiptId: </i>
+          <i>
+            <Translate id="component.transactions.ReceiptRow.success_receipt_id" />
+            :{" "}
+          </i>
           <pre>{SuccessReceiptId}</pre>
         </>
       );
@@ -72,24 +85,32 @@ class ReceiptRow extends React.Component<Props> {
         <Col>
           <Row noGutters>
             <Col className="receipt-row-title receipt-hash-title">
-              <b>Receipt:</b>
+              <b>
+                <Translate id="common.receipts.receipt" />:
+              </b>
             </Col>
           </Row>
 
           <Row noGutters className="receipt-row-section">
-            <Col className="receipt-row-title">Receipt ID:</Col>
+            <Col className="receipt-row-title">
+              <Translate id="common.receipts.receipt_id" />:
+            </Col>
             <Col className="receipt-row-receipt-hash">{receipt.receipt_id}</Col>
           </Row>
 
           <Row noGutters className="receipt-row-section">
-            <Col className="receipt-row-title">Executed in Block:</Col>
+            <Col className="receipt-row-title">
+              <Translate id="common.receipts.executed_in_block" />:
+            </Col>
             <Col className="receipt-row-receipt-hash">
               <BlockLink blockHash={receipt.block_hash} />
             </Col>
           </Row>
 
           <Row noGutters className="receipt-row-section">
-            <Col className="receipt-row-title">Predecessor ID:</Col>
+            <Col className="receipt-row-title">
+              <Translate id="common.receipts.predecessor_id" />:
+            </Col>
             <Col
               className="receipt-row-receipt-hash"
               title={receipt.predecessor_id}
@@ -99,7 +120,9 @@ class ReceiptRow extends React.Component<Props> {
           </Row>
 
           <Row noGutters className="receipt-row-section">
-            <Col className="receipt-row-title">Receiver ID:</Col>
+            <Col className="receipt-row-title">
+              <Translate id="common.receipts.receiver_id" />:
+            </Col>
             <Col
               className="receipt-row-receipt-hash"
               title={receipt.receiver_id}
@@ -109,14 +132,18 @@ class ReceiptRow extends React.Component<Props> {
           </Row>
 
           <Row noGutters className="receipt-row-section">
-            <Col className="receipt-row-title">Gas Burned:</Col>
+            <Col className="receipt-row-title">
+              <Translate id="common.transactions.execution.gas_burned" />:
+            </Col>
             <Col className="receipt-row-receipt-hash">
               {gasBurnedByReceipt ? <Gas gas={gasBurnedByReceipt} /> : "..."}
             </Col>
           </Row>
 
           <Row noGutters className="receipt-row-section">
-            <Col className="receipt-row-title">Tokens Burned:</Col>
+            <Col className="receipt-row-title">
+              <Translate id="common.transactions.execution.tokens_burned" />:
+            </Col>
             <Col className="receipt-row-receipt-hash">
               {tokensBurnedByReceipt ? (
                 <Balance amount={tokensBurnedByReceipt.toString()} />
@@ -128,18 +155,20 @@ class ReceiptRow extends React.Component<Props> {
 
           <Row noGutters className="receipt-row-section">
             <Col className="receipt-row-text">
-              {receipt.actions && receipt.actions.length > 0
-                ? receipt.actions.map((action: T.Action, index: number) => (
-                    <ActionRow
-                      key={receipt.receipt_id + index}
-                      action={action}
-                      receiverId={receipt.receiver_id}
-                      signerId={receipt.predecessor_id}
-                      detalizationMode="minimal"
-                      showDetails
-                    />
-                  ))
-                : "No actions"}
+              {receipt.actions && receipt.actions.length > 0 ? (
+                receipt.actions.map((action: T.Action, index: number) => (
+                  <ActionRow
+                    key={receipt.receipt_id + index}
+                    action={action}
+                    receiverId={receipt.receiver_id}
+                    signerId={receipt.predecessor_id}
+                    detalizationMode="minimal"
+                    showDetails
+                  />
+                ))
+              ) : (
+                <Translate id="component.transactions.ReceiptRow.no_actions" />
+              )}
             </Col>
           </Row>
 
@@ -150,7 +179,7 @@ class ReceiptRow extends React.Component<Props> {
           <Row noGutters className="receipt-row-section">
             <Col className="receipt-row-text">
               {receipt.outcome.logs.length === 0 ? (
-                "No logs"
+                <Translate id="component.transactions.ReceiptRow.no_logs" />
               ) : (
                 <pre>{receipt.outcome.logs.join("\n")}</pre>
               )}
