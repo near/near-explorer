@@ -72,11 +72,9 @@ const DashboardBlock = ({ className }: Props) => (
                       title={translate(
                         "component.dashboard.DashboardBlock.avg_block_time.title"
                       ).toString()}
-                      text={
-                        translate(
-                          "component.dashboard.DashboardBlock.avg_block_time.text"
-                        ).toString() + " "
-                      }
+                      text={translate(
+                        "component.dashboard.DashboardBlock.avg_block_time.text"
+                      ).toString()}
                     />
                   }
                   loading={

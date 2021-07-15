@@ -51,7 +51,7 @@ class Term extends React.Component<Props, State> {
               <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {text}
+              {text}{" "}
               {href && (
                 <a
                   href={href}

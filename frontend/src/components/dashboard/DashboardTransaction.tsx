@@ -39,11 +39,9 @@ const DashboardTransaction = () => {
                         title={translate(
                           "component.dashboard.DashboardTransaction.24h_total.title"
                         ).toString()}
-                        text={
-                          translate(
-                            "component.dashboard.DashboardTransaction.24h_total.text"
-                          ).toString() + " "
-                        }
+                        text={translate(
+                          "component.dashboard.DashboardTransaction.24h_total.text"
+                        ).toString()}
                         href={"https://docs.near.org/docs/concepts/transaction"}
                       />
                     }
@@ -60,11 +58,9 @@ const DashboardTransaction = () => {
                         title={translate(
                           "component.dashboard.DashboardTransaction.gas_price.title"
                         ).toString()}
-                        text={
-                          translate(
-                            "component.dashboard.DashboardTransaction.gas_price.text"
-                          ).toString() + " "
-                        }
+                        text={translate(
+                          "component.dashboard.DashboardTransaction.gas_price.text"
+                        ).toString()}
                         href={"https://docs.near.org/docs/concepts/gas"}
                       />
                     }

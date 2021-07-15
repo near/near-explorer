@@ -27,11 +27,9 @@ const DashboardNode = () => (
                       title={translate(
                         "component.dashboard.DashboardNode.nodes_online.title"
                       ).toString()}
-                      text={
-                        translate(
-                          "component.dashboard.DashboardNode.nodes_online.text"
-                        ).toString() + " "
-                      }
+                      text={translate(
+                        "component.dashboard.DashboardNode.nodes_online.text"
+                      ).toString()}
                       href={
                         "https://docs.near.org/docs/validator/staking#run-the-node"
                       }
@@ -48,11 +46,9 @@ const DashboardNode = () => (
                       title={translate(
                         "component.dashboard.DashboardNode.nodes_validating.title"
                       ).toString()}
-                      text={
-                        translate(
-                          "component.dashboard.DashboardNode.nodes_validating.text"
-                        ).toString() + " "
-                      }
+                      text={translate(
+                        "component.dashboard.DashboardNode.nodes_validating.text"
+                      ).toString()}
                       href={
                         "https://docs.near.org/docs/roles/integrator/faq#validators"
                       }
