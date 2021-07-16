@@ -70,7 +70,7 @@
     "accounts": {
       "account": "账户",
       "error": {
-        "account_fetching": "中文_Information is not available at the moment. Please, check if the account name is correct or try later."
+        "account_fetching": "当前信息不可用。请检查账户名称是否正确或稍后再次尝试。"
       }
     },
     "blocks": {
@@ -184,37 +184,37 @@
       "BlockDetails": {
         "transactions": {
           "title": "交易数",
-          "text": "该区块的交易数. "
+          "text": "该区块的交易数。"
         },
         "receipts": {
           "title": "收据数"
         },
         "status": {
           "title": "状态",
-          "text": "块的当前状态(确定中或已确定). "
+          "text": "块的当前状态(确定中或已确定)。"
         },
         "author": {
           "title": "作者"
         },
         "gas_used": {
           "title": "Gas用量",
-          "text": "该区块中交易使用的gas总量. "
+          "text": "该区块中交易使用的gas总量。"
         },
         "gas_price": {
           "title": "Gas价格",
-          "text": "中文_A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
+          "text": "1Tgas = 1*10^12 Gas。NEAR的 Gas 成本很低，这也是为什么Tgas得到更普遍使用的原因。"
         },
         "created": {
           "title": "创建于",
-          "text": "区块完成时的时间戳. "
+          "text": "区块完成时的时间戳。"
         },
         "hash": {
           "title": "哈希",
-          "text": "该区块的唯一标识符(哈希). "
+          "text": "该区块的唯一标识符(哈希)。"
         },
         "parent_hash": {
           "title": "父哈希",
-          "text": "前一个区块的唯一标识符(哈希). "
+          "text": "前一个区块的唯一标识符(哈希)。"
         }
       }
     },
@@ -226,39 +226,39 @@
         },
         "storage_usage": {
           "title": "存储用量",
-          "text": "中文_Total blockchain storage (in bytes) used by this account. "
+          "text": "该账户使用的全部区块链存储空间（以字节计算）。"
         },
         "native_account_balance": {
           "title": "Ⓝ 原生账户余额",
-          "text": "中文_NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the \"total\" balance of all the tokens you may control through this account; see \"Aggregated Balace\" for more details. "
+          "text": "NEAR Protocol为每个账户定义了一种流动余额，该余额被直接用来支付由该账户发布的交易，不过这笔余额并非您可能通过该账户控制的全部通证的总余额。更多细节请查看\"聚合余额\"          "
         },
         "validator_stake": {
           "title": "Ⓝ 验证节点质押",
-          "text": "中文_<p> This NEAR is actively being used to back a validator and secure the network. When you decide to unstake this NEAR, it will take some time to be shown in your Available Balance, as NEAR takes 3 epochs (~36 hours) to unstake. </p> <p> This field only reflects NEAR balance for validators that stake to support the security of the network. If you’re staking (delegating) to a validator pool from a wallet, you will see \"0\" in this field. See the balance profile on Wallet for more balances aggregated for your convenience. </p>"
+          "text": "<p>该通证正在被用来支持验证节点以确保网络安全。在NEAR赎回质押需要3个周期（~36小时），因此当您决定赎回该通证后，可能过一段时间之后该信息才会在您的可用余额中得到展示。</p> <p> 该区域仅为质押通证，为网络安全提供支持的验证节点显示NEAR余额。如果您正通过钱包向验证节点池质押（委托），您会在此区域看到\"0\"，您可通过钱包的余额信息页面查看我们为您聚合的余额情况。</p>"
         },
         "balance_profile": {
           "title": "Ⓝ 余额总览",
-          "text": "中文_NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate \"total\" balance, it is the best place. "
+          "text": "NEAR通证可能会被锁在合约中，也可能会被质押和委托，有时在没有您的帮助下我们甚至无法对其进行追踪。钱包信息页面会展示我们通过各种渠道聚集的绝大多数余额，如果您想估算\"总\"余额，钱包信息页面会是个好工具。"
         },
         "created_at": {
           "title": "创建于",
-          "text": "中文_Date and time when this account was created. Some of the accounts are included in the very first block of the network called genesis. "
+          "text": "该账户的创建日期。某些账户被收录在网络的第一个区块（创世区块）中。"
         },
         "created_by_transaction": {
           "title": "被交易创建",
-          "text": "中文_You can inspect the transaction which created this account. "
+          "text": "您可以检查创建该账户的交易。"
         },
         "deleted_at": {
           "title": "删除于",
-          "text": "中文_Date and time when this account was deleted. "
+          "text": "该账户的删除日期。"
         },
         "deleted_by_transaction": {
           "title": "被交易删除",
-          "text": "中文_You can inspect the transaction which deleted this account. "
+          "text": "您可以检查删除该账户的交易。"
         },
         "lockup_account": {
-          "title": "锁仓账户",
-          "text": "中文_Lockup is a special smart contract that ensures that the full amount or even a partial amount is not transferable until it is supposed to be. "
+          "title": "锁定账户",
+          "text": "锁定账户/合约是一种特殊的智能合约，可确保全部通证甚至是部分通证在规定解锁日期之前是不可转账状态。"
         }
       },
       "AccountRow": {
