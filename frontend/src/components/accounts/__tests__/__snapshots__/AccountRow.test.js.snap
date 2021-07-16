@@ -21,7 +21,7 @@ exports[`<AccountRow /> renders with long name 1`] = `
         className="pr-0 col-md-auto col-1"
       >
         <img
-          className="jsx-1815143583"
+          className="jsx-2652304458"
           src="/static/images/icon-t-acct.svg"
           style={
             Object {
@@ -64,7 +64,7 @@ exports[`<AccountRow /> renders with short name 1`] = `
         className="pr-0 col-md-auto col-1"
       >
         <img
-          className="jsx-1815143583"
+          className="jsx-2652304458"
           src="/static/images/icon-t-acct.svg"
           style={
             Object {
