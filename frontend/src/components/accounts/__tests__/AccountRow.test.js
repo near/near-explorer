@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 import Enzyme, { shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 Enzyme.configure({ adapter: new Adapter() });
@@ -31,7 +31,7 @@ describe("<AccountRow />", () => {
 
   it("renders with short name", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <AccountRow
           accountId="account"
           createdAt={Number(new Date(2019, 1, 1))}
@@ -42,7 +42,7 @@ describe("<AccountRow />", () => {
 
   it("renders with long name", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <AccountRow
           accountId="b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
           createdAt={Number(new Date(2019, 1, 1))}

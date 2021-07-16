@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import ReceiptRow from "../ReceiptRow";
 
@@ -11,7 +11,7 @@ import {
 describe("<ReceiptRow />", () => {
   it("renders successful receipt", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ReceiptRow
           receipt={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!}
           key={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!.receipt_id}
@@ -22,7 +22,7 @@ describe("<ReceiptRow />", () => {
 
   it("renders receipt with many outcome receipts", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ReceiptRow
           receipt={TRANSACTION_WITH_MANY_RECEIPTS.receipt!}
           key={TRANSACTION_WITH_MANY_RECEIPTS.receipt!.receipt_id}
@@ -33,7 +33,7 @@ describe("<ReceiptRow />", () => {
 
   it("renders Failure receipt", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ReceiptRow
           receipt={TRANSACTION_WITH_FAILING_RECEIPT.receipt!}
           key={TRANSACTION_WITH_FAILING_RECEIPT.receipt!.receipt_id}

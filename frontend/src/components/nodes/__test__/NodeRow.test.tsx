@@ -1,11 +1,11 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import NodeRow from "../NodeRow";
 
 describe("<NodeRow />", () => {
   it("renders", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <NodeRow
           node={{
             ipAddress: "1.1.1.1",

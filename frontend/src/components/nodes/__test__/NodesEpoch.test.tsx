@@ -1,11 +1,11 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import NodesEpoch from "../NodesEpoch";
 
 describe("<NodesEpoch />", () => {
   it("renders", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <NodesEpoch
           epochLength={43200}
           epochStartHeight={36647454}

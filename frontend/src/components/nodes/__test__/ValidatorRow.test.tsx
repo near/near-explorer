@@ -1,13 +1,13 @@
 import BN from "bn.js";
 
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import ValidatorRow from "../ValidatorRow";
 
 describe("<ValidatorRow />", () => {
   it("renders row on Validators tab", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ValidatorRow
           key="dokiacapital.pool.6fb1358"
           node={{
@@ -36,7 +36,7 @@ describe("<ValidatorRow />", () => {
 
   it("renders row on Proposals tab", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ValidatorRow
           key="magic.poolv1.near"
           node={{

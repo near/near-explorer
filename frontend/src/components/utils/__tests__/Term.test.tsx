@@ -1,11 +1,11 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import Term from "../Term";
 
 describe("<CardCell />", () => {
   it("renders", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <Term
           title={"Nodes Online"}
           text={

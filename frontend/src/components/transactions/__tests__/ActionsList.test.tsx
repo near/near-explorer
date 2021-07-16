@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import ActionsList from "../ActionsList";
 import TransactionLink from "../../utils/TransactionLink";
@@ -9,7 +9,7 @@ import { TRANSACTIONS, RECEIPTS } from "./common";
 describe("<ActionsList />", () => {
   it("renders sparsely by default for Transactions", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ActionsList
           signerId={TRANSACTIONS[0].signerId}
           receiverId={TRANSACTIONS[0].receiverId}
@@ -25,7 +25,7 @@ describe("<ActionsList />", () => {
 
   it("renders sparsely by default for Receipts", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ActionsList
           signerId={RECEIPTS[1].signerId}
           receiverId={RECEIPTS[1].receiverId}
@@ -44,7 +44,7 @@ describe("<ActionsList />", () => {
 
   it("renders compact for Transaction", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ActionsList
           viewMode="compact"
           signerId={TRANSACTIONS[0].signerId}
@@ -61,7 +61,7 @@ describe("<ActionsList />", () => {
 
   it("renders compact for Receipts", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ActionsList
           viewMode="compact"
           signerId={RECEIPTS[7].signerId}
@@ -81,7 +81,7 @@ describe("<ActionsList />", () => {
 
   it("renders functioncall by default", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ActionsList
           signerId={TRANSACTIONS[1].signerId}
           receiverId={TRANSACTIONS[1].receiverId}

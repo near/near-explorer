@@ -1,11 +1,11 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import BlocksRow from "../BlocksRow";
 
 describe("<BlocksRow />", () => {
   it("renders", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <BlocksRow
           block={{
             transactionsCount: 3,

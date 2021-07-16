@@ -1,11 +1,11 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/test";
 
 import ValidatorsList from "../ValidatorsList";
 
 describe("<ValidatorsList />", () => {
   it("renders validators list", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ValidatorsList
           validators={[
             {
@@ -75,7 +75,7 @@ describe("<ValidatorsList />", () => {
 
   it("renders proposals list", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <ValidatorsList
           validators={[
             {
