@@ -37,6 +37,7 @@
     },
     "receipts": {
       "receipt": "Receipt",
+      "receipts": "Receipts",
       "receipt_id": "Receipt ID",
       "executed_in_block": "Executed in Block",
       "predecessor_id": "Predecessor ID",
@@ -49,7 +50,13 @@
       "title": "Nodes"
     },
     "stats": {
-      "title_charts_and_stats": "Charts & Stats"
+      "title": "Stats",
+      "title_charts_and_stats": "Charts & Stats",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "total": "Total",
+      "unique": "Unique",
+      "live": "Live"
     },
     "unit": {
       "seconds": "s"
@@ -322,6 +329,57 @@
           "title": "14 Day History",
           "transactions": "Txns"
         }
+      }
+    },
+    "stats": {
+      "ProtocolConfigInfo": {
+        "genesis_started": "Genesis Started",
+        "genesis_protocol_or_current_protocol": "Genesis Protocol / Current Protocol",
+        "genesis_height": "Genesis Height",
+        "epoch_length": "Epoch Length",
+        "genesis_total_supply": "Genesis Total Supply",
+        "accounts_in_genesis": "Accounts in Genesis",
+        "total_supply": "Total Supply",
+        "live_accounts": "Live Accounts"
+      },
+      "TransactionsByDate": {
+        "daily_number_of_transactions": "Daily Number of Transactions",
+        "total_number_of_transactions": "Total Number of Transactions"
+      },
+      "GasUsedByDate": {
+        "daily_amount_of_used_tera_gas": "Daily Amount of Used Tera Gas",
+        "tera_gas": "Tera gas",
+        "total_amount_of_used_tera_gas": "Total Amount of Used Tera Gas",
+        "gas_fee": "Gas Fee",
+        "daily_gas_fee_in_near": "Daily Gas Fee in NEAR",
+        "fee": "fee"
+      },
+      "NewAccountsByDate": {
+        "daily_number_of_new_accounts": "Daily Number of New Accounts",
+        "daily_number_of_live_accounts": "Daily Number of Live Accounts",
+        "total_number_of_new_accounts": "Total Number of New Accounts"
+      },
+      "NewContractsByDate": {
+        "daily_number_of_new_contracts": "Daily Number of New Contracts",
+        "total_number_of_new_contracts": "Total Number of New Contracts",
+        "total_number_of_unique_contracts": "Total Number of Unique Contracts"
+      },
+      "ActiveAccountsByDate": {
+        "daily_number_of_active_accounts": "Daily Number of Active Accounts",
+        "weekly_number_of_active_accounts": "Weekly Number of Active Accounts"
+      },
+      "ActiveContractsByDate": {
+        "daily_number_of_active_contracts": "Daily Number of Active Contracts"
+      },
+      "ActiveAccountsList": {
+        "title": "Top 10 of Active Accounts in last 14 days"
+      },
+      "ActiveContractsList": {
+        "title": "Top 10 of Active Contracts in last 14 days"
+      },
+      "StakingBar": {
+        "title": "Stake Volume for Validating Nodes",
+        "total_stake_volume_for_current_epoch_is": "Total Stake Volume for current epoch is"
       }
     },
     "utils": {

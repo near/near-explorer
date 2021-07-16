@@ -7,6 +7,8 @@ import { utils } from "near-api-js";
 
 import { ValidationNodeInfo } from "../../libraries/explorer-wamp/nodes";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   validators: ValidationNodeInfo[];
 }
@@ -28,10 +30,10 @@ const StakingBar = ({ validators }: Props) => {
   let totalStake = utils.format.formatNearAmount(totalStakeBN.toString(), 5);
   let height = 20 * validators.length;
 
-  const getOption = () => {
+  const getOption = (translate: Function) => {
     return {
       title: {
-        text: "Stake Volume for Validating Nodes",
+        text: translate("component.stats.StakingBar.title"),
       },
       grid: { containLabel: true },
       tooltip: {
@@ -62,21 +64,27 @@ const StakingBar = ({ validators }: Props) => {
   };
 
   return (
-    <>
-      <h2>
-        Total Stake Volume for current epoch is{" "}
-        <strong style={{ color: "#0072ce" }}>{totalStake}</strong> Ⓝ
-      </h2>
-      <ReactEcharts
-        option={getOption()}
-        style={{
-          height: height.toString() + "px",
-          width: "100%",
-          marginTop: "26px",
-          marginLeft: "24px",
-        }}
-      />
-    </>
+    <Translate>
+      {({ translate }) => (
+        <>
+          <h2>
+            {translate(
+              "component.stats.StakingBar.total_stake_volume_for_current_epoch_is"
+            ).toString()}{" "}
+            <strong style={{ color: "#0072ce" }}>{totalStake}</strong> Ⓝ
+          </h2>
+          <ReactEcharts
+            option={getOption(translate)}
+            style={{
+              height: height.toString() + "px",
+              width: "100%",
+              marginTop: "26px",
+              marginLeft: "24px",
+            }}
+          />
+        </>
+      )}
+    </Translate>
   );
 };
 

@@ -8,6 +8,8 @@ import { cumulativeSumArray } from "../../libraries/stats";
 
 import { Props } from "./TransactionsByDate";
 
+import { Translate } from "react-localize-redux";
+
 const NewContractsByDate = ({ chartStyle }: Props) => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
@@ -121,38 +123,57 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Tabs defaultActiveKey="daily" id="newContractsByDate">
-      <Tab eventKey="daily" title="Daily">
-        <ReactEcharts
-          option={getOption(
-            "Daily Number of New Contracts",
-            newContractsByDate,
-            date
-          )}
-          style={chartStyle}
-        />
-      </Tab>
-      <Tab eventKey="total" title="Total">
-        <ReactEcharts
-          option={getOption(
-            "Total Number of New Contracts",
-            cumulativeNewContractsByDate,
-            date
-          )}
-          style={chartStyle}
-        />
-      </Tab>
-      <Tab eventKey="unique" title="Unique">
-        <ReactEcharts
-          option={getOption(
-            "Daily Number of Unique Contracts",
-            uniqueDeployedContractsByDate,
-            date
-          )}
-          style={chartStyle}
-        />
-      </Tab>
-    </Tabs>
+    <Translate>
+      {({ translate }) => (
+        <Tabs defaultActiveKey="daily" id="newContractsByDate">
+          <Tab
+            eventKey="daily"
+            title={translate("common.stats.daily").toString()}
+          >
+            <ReactEcharts
+              option={getOption(
+                translate(
+                  "component.stats.NewContractsByDate.daily_number_of_new_contracts"
+                ).toString(),
+                newContractsByDate,
+                date
+              )}
+              style={chartStyle}
+            />
+          </Tab>
+          <Tab
+            eventKey="total"
+            title={translate("common.stats.total").toString()}
+          >
+            <ReactEcharts
+              option={getOption(
+                translate(
+                  "component.stats.NewContractsByDate.total_number_of_new_contracts"
+                ).toString(),
+                cumulativeNewContractsByDate,
+                date
+              )}
+              style={chartStyle}
+            />
+          </Tab>
+          <Tab
+            eventKey="unique"
+            title={translate("common.stats.unique").toString()}
+          >
+            <ReactEcharts
+              option={getOption(
+                translate(
+                  "component.stats.NewContractsByDate.total_number_of_unique_contracts"
+                ).toString(),
+                uniqueDeployedContractsByDate,
+                date
+              )}
+              style={chartStyle}
+            />
+          </Tab>
+        </Tabs>
+      )}
+    </Translate>
   );
 };
 

@@ -7,6 +7,8 @@ import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
 
 import { Props } from "./TransactionsByDate";
 
+import { Translate } from "react-localize-redux";
+
 const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   const [activeAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
@@ -121,28 +123,42 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
-      <Tab eventKey="daily" title="Daily">
-        <ReactEcharts
-          option={getOption(
-            "Daily Number of Active Accounts",
-            activeAccountsByDate,
-            date
-          )}
-          style={chartStyle}
-        />
-      </Tab>
-      <Tab eventKey="weekly" title="Weekly">
-        <ReactEcharts
-          option={getOption(
-            "Weekly Number of Active Accounts",
-            activeAccountsByWeek,
-            week
-          )}
-          style={chartStyle}
-        />
-      </Tab>
-    </Tabs>
+    <Translate>
+      {({ translate }) => (
+        <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
+          <Tab
+            eventKey="daily"
+            title={translate("common.stats.daily").toString()}
+          >
+            <ReactEcharts
+              option={getOption(
+                translate(
+                  "component.stats.ActiveAccountsByDate.daily_number_of_active_accounts"
+                ).toString(),
+                activeAccountsByDate,
+                date
+              )}
+              style={chartStyle}
+            />
+          </Tab>
+          <Tab
+            eventKey="weekly"
+            title={translate("common.stats.weekly").toString()}
+          >
+            <ReactEcharts
+              option={getOption(
+                translate(
+                  "component.stats.ActiveAccountsByDate.weekly_number_of_active_accounts"
+                ).toString(),
+                activeAccountsByWeek,
+                week
+              )}
+              style={chartStyle}
+            />
+          </Tab>
+        </Tabs>
+      )}
+    </Translate>
   );
 };
 

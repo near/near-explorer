@@ -37,6 +37,7 @@
     },
     "receipts": {
       "receipt": "收据",
+      "receipts": "收据",
       "receipt_id": "收据ID",
       "executed_in_block": "执行时所在的区块",
       "predecessor_id": "前任账户ID",
@@ -49,7 +50,13 @@
       "title": "节点"
     },
     "stats": {
-      "title_charts_and_stats": "图表 / 统计"
+      "title": "统计",
+      "title_charts_and_stats": "图表 / 统计",
+      "daily": "每天",
+      "weekly": "每周",
+      "total": "总数",
+      "unique": "单独",
+      "live": "存活"
     },
     "unit": {
       "seconds": "秒"
@@ -284,6 +291,57 @@
           "title": "代码哈希",
           "text": "合约二进制数据的校验和（SHA-256通过 base58编码）"
         }
+      }
+    },
+    "stats": {
+      "ProtocolConfigInfo": {
+        "genesis_started": "创世区块时间",
+        "genesis_protocol_or_current_protocol": "创世协议版本 / 当前协议版本",
+        "genesis_height": "创世区块高度",
+        "epoch_length": "周期长度",
+        "genesis_total_supply": "创世总供给量",
+        "accounts_in_genesis": "创世时账户数",
+        "total_supply": "当前总供给量",
+        "live_accounts": "当前存活账户"
+      },
+      "TransactionsByDate": {
+        "daily_number_of_transactions": "日交易量",
+        "total_number_of_transactions": "总交易量"
+      },
+      "GasUsedByDate": {
+        "daily_amount_of_used_tera_gas": "日TGas使用量",
+        "tera_gas": "Tgas",
+        "total_amount_of_used_tera_gas": "总TGas使用量",
+        "gas_fee": "Gas费",
+        "daily_gas_fee_in_near": "以NEAR计算的每日Gas费",
+        "fee": "费用"
+      },
+      "NewAccountsByDate": {
+        "daily_number_of_new_accounts": "日新增账户数",
+        "daily_number_of_live_accounts": "日活跃账户数",
+        "total_number_of_new_accounts": "总新增账户数"
+      },
+      "NewContractsByDate": {
+        "daily_number_of_new_contracts": "日新增合约数",
+        "total_number_of_new_contracts": "总新增合约数",
+        "daily_number_of_unique_contracts": "总单独合约数"
+      },
+      "ActiveAccountsByDate": {
+        "daily_number_of_active_accounts": "日活跃账户数",
+        "weekly_number_of_active_accounts": "周活跃账户数"
+      },
+      "ActiveContractsByDate": {
+        "daily_number_of_active_contracts": "日活跃合约数"
+      },
+      "ActiveAccountsList": {
+        "title": "过去14天最活跃的10个账户"
+      },
+      "ActiveContractsList": {
+        "title": "过去14天最活跃的10个合约"
+      },
+      "StakingBar": {
+        "title": "验证节点的质押量",
+        "total_stake_volume_for_current_epoch_is": "当前周期的总质押数量是"
       }
     },
     "dashboard": {
