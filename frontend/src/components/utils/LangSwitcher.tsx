@@ -1,5 +1,6 @@
 import React from "react";
 import { withLocalize } from "react-localize-redux";
+import { setMomentLocale } from "../../libraries/language";
 
 interface Lang {
   code: string;
@@ -14,6 +15,7 @@ const LanguageToggle = ({
   const selectLangauge = (code: string) => {
     setActiveLanguage(code);
     localStorage.setItem("languageCode", code);
+    setMomentLocale(code);
   };
 
   return (

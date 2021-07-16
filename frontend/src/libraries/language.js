@@ -1,5 +1,6 @@
 import translations_en from "../translations/en.global.json";
 import translations_zh_hans from "../translations/zh-hans.global.json";
+import moment from "moment";
 
 function uniq(arr) {
   return arr.filter((el, index, self) => self.indexOf(el) === index);
@@ -125,6 +126,11 @@ function findBestSupportedLocale(appLocales, browserLocales) {
   }
 }
 
+export function setMomentLocale(code) {
+  const locale = code === "zh-hans" ? "zh-cn" : "en";
+  moment.locale(locale);
+}
+
 export function setI18N(props) {
   const languages = [
     { name: "English", code: "en" },
@@ -152,4 +158,6 @@ export function setI18N(props) {
   props.addTranslationForLanguage(translations_en, "en");
   props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
   props.setActiveLanguage(activeLang);
+
+  setMomentLocale(activeLang);
 }
