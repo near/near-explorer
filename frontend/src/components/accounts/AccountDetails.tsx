@@ -273,10 +273,10 @@ class AccountDetails extends React.Component<Props> {
                     title={
                       <Term
                         title={translate(
-                          "component.accounts.AccountDetails.deleted_at.title"
+                          "component.accounts.AccountDetails.deleted_by_transaction.title"
                         ).toString()}
                         text={translate(
-                          "component.accounts.AccountDetails.deleted_at.title"
+                          "component.accounts.AccountDetails.deleted_by_transaction.text"
                         ).toString()}
                         href={"https://docs.near.org/docs/concepts/account"}
                       />
