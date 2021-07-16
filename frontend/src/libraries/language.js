@@ -1,3 +1,10 @@
+/**
+ * The functions in the language module reused the implementation in NEAR Wallet
+ *
+ * - https://github.com/near/near-wallet/blob/master/src/utils/getBrowserLocale.js
+ * - https://github.com/near/near-wallet/blob/master/src/utils/getUserLocale.js
+ */
+
 import translations_en from "../translations/en.global.json";
 import translations_zh_hans from "../translations/zh-hans.global.json";
 import moment from "moment";
