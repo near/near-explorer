@@ -13,8 +13,7 @@ import Content from "../../components/utils/Content";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import { setI18N } from "../../libraries/language.js";
-import { Translate, withLocalize } from "react-localize-redux";
+import { Translate } from "react-localize-redux";
 
 class AccountDetail extends React.Component {
   static async getInitialProps({ req, query: { id }, res }) {
@@ -32,11 +31,6 @@ class AccountDetail extends React.Component {
         accountFetchingError,
       };
     }
-  }
-
-  constructor(props) {
-    super(props);
-    setI18N(this.props);
   }
 
   componentDidMount() {
@@ -93,4 +87,4 @@ class AccountDetail extends React.Component {
   }
 }
 
-export default withLocalize(AccountDetail);
+export default AccountDetail;

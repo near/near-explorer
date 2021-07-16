@@ -15,8 +15,7 @@ import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
-import { setI18N } from "../../libraries/language.js";
-import { Translate, withLocalize } from "react-localize-redux";
+import { Translate } from "react-localize-redux";
 
 class BlockDetail extends React.Component {
   static async getInitialProps({ req, query: { hash } }) {
@@ -32,11 +31,6 @@ class BlockDetail extends React.Component {
     } catch (err) {
       return { hash, err };
     }
-  }
-
-  constructor(props) {
-    super(props);
-    setI18N(this.props);
   }
 
   componentDidMount() {
@@ -117,4 +111,4 @@ class BlockDetail extends React.Component {
   }
 }
 
-export default withLocalize(BlockDetail);
+export default BlockDetail;

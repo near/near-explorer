@@ -9,15 +9,9 @@ import Search from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
-import { Translate, withLocalize } from "react-localize-redux";
-import { setI18N } from "../libraries/language.js";
+import { Translate } from "react-localize-redux";
 
 class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    setI18N(this.props);
-  }
-
   componentDidMount() {
     Mixpanel.track("Explorer View Landing Page");
   }
@@ -99,4 +93,4 @@ class Dashboard extends React.Component {
   }
 }
 
-export default withLocalize(Dashboard);
+export default Dashboard;

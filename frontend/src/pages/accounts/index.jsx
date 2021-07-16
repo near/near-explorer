@@ -5,17 +5,11 @@ import Mixpanel from "../../libraries/mixpanel";
 import Accounts from "../../components/accounts/Accounts";
 import Content from "../../components/utils/Content";
 
-import { setI18N } from "../../libraries/language.js";
-import { Translate, withLocalize } from "react-localize-redux";
+import { Translate } from "react-localize-redux";
 
 class AccountsPage extends React.PureComponent {
   componentDidMount() {
     Mixpanel.track("Explorer View Accounts Page");
-  }
-
-  constructor(props) {
-    super(props);
-    setI18N(this.props);
   }
 
   render() {
@@ -38,4 +32,4 @@ class AccountsPage extends React.PureComponent {
   }
 }
 
-export default withLocalize(AccountsPage);
+export default AccountsPage;

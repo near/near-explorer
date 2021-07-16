@@ -5,15 +5,9 @@ import Mixpanel from "../../libraries/mixpanel";
 import Blocks from "../../components/blocks/Blocks";
 import Content from "../../components/utils/Content";
 
-import { setI18N } from "../../libraries/language.js";
-import { Translate, withLocalize } from "react-localize-redux";
+import { Translate } from "react-localize-redux";
 
 class BlocksPage extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    setI18N(this.props);
-  }
-
   componentDidMount() {
     Mixpanel.track("Explorer View Blocks Page");
   }
@@ -38,4 +32,4 @@ class BlocksPage extends React.PureComponent {
   }
 }
 
-export default withLocalize(BlocksPage);
+export default BlocksPage;

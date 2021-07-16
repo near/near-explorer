@@ -14,8 +14,7 @@ import TransactionDetails from "../../components/transactions/TransactionDetails
 import TransactionOutcome from "../../components/transactions/TransactionOutcome";
 import Content from "../../components/utils/Content";
 
-import { setI18N } from "../../libraries/language.js";
-import { Translate, withLocalize } from "react-localize-redux";
+import { Translate } from "react-localize-redux";
 
 class TransactionDetailsPage extends React.Component {
   static async getInitialProps({ req, query: { hash } }) {
@@ -30,11 +29,6 @@ class TransactionDetailsPage extends React.Component {
     Mixpanel.track("Explorer View Individual Transaction Page", {
       transaction_hash: this.props.hash,
     });
-  }
-
-  constructor(props) {
-    super(props);
-    setI18N(this.props);
   }
 
   render() {
@@ -125,4 +119,4 @@ class TransactionDetailsPage extends React.Component {
   }
 }
 
-export default withLocalize(TransactionDetailsPage);
+export default TransactionDetailsPage;

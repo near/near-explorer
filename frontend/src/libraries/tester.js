@@ -1,27 +1,12 @@
-import React from "react";
 import renderer from "react-test-renderer";
-import { setI18N } from "./language";
-import { LocalizeProvider, withLocalize } from "react-localize-redux";
+import { LocalizeProvider } from "react-localize-redux";
+import LocalizeWrapper from "../components/utils/LocalizeWrapper";
 
 export const renderI18nElement = (nextElement, options) => {
   return renderer.create(
     <LocalizeProvider>
-      <LocalizedWrapperComponent>{nextElement}</LocalizedWrapperComponent>
+      <LocalizeWrapper>{nextElement}</LocalizeWrapper>
     </LocalizeProvider>,
     options
   );
 };
-
-class WrapperComponent extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    setI18N(this.props);
-  }
-
-  render() {
-    const { children } = this.props;
-    return <>{children}</>;
-  }
-}
-
-const LocalizedWrapperComponent = withLocalize(WrapperComponent);
