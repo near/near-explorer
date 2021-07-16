@@ -53,8 +53,8 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={translate(
                           "component.blocks.BlockDetails.receipts.title"
-                        )}
-                        text={block.receiptsCount}
+                        ).toString()}
+                        text={block.receiptsCount.toString()}
                       />
                     </Col>
                     <Col md="4">
@@ -99,7 +99,7 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={translate(
                           "component.blocks.BlockDetails.author.title"
-                        )}
+                        ).toString()}
                         text={<AccountLink accountId={block.authorAccountId} />}
                         className="border-0"
                       />

@@ -57,7 +57,7 @@ class TransactionAction extends React.PureComponent<Props, State> {
             viewMode={viewMode}
             title={translate(
               "component.transactions.TransactionAction.batch_transaction"
-            )}
+            ).toString()}
           />
         )}
       </Translate>

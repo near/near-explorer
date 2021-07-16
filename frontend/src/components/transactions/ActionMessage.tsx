@@ -133,7 +133,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   Stake: ({ actionArgs: { stake, public_key } }: Props<T.Stake>) => (
     <>
       <Translate id="component.transactions.ActionMessage.Stake.staked" />
-      <Balance amount={stake} />
+      <Balance amount={stake} />{" "}
       <Translate
         id="component.transactions.ActionMessage.Stake.with_key"
         data={{ public_key: public_key.substring(0, 15) }}

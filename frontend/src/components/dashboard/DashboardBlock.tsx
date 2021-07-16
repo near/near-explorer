@@ -22,7 +22,7 @@ const DashboardBlock = ({ className }: Props) => (
           <DashboardCard
             className={`block-card ${className || ""}`}
             iconPath="/static/images/icon-blocks.svg"
-            title={translate("common.blocks.blocks")}
+            title={translate("common.blocks.blocks").toString()}
             headerRight={
               <Link href="/blocks">
                 <a>
