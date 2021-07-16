@@ -7,6 +7,8 @@ import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
+import { Translate } from "react-localize-redux";
+
 class Search extends React.Component {
   state = { searchValue: "" };
 
@@ -79,18 +81,22 @@ class Search extends React.Component {
                 </InputGroup.Text>
               </InputGroup.Prepend>
             )}
-            <FormControl
-              placeholder="Search for Account ID, Txn hash, Block hash, or Block height"
-              aria-label="Search"
-              aria-describedby="search"
-              autoCorrect="off"
-              autoCapitalize="none"
-              onChange={this.handleSearchValueChange}
-              className="search-field"
-            />
+            <Translate>
+              {({ translate }) => (
+                <FormControl
+                  placeholder={translate("component.utils.Search.hint")}
+                  aria-label="Search"
+                  aria-describedby="search"
+                  autoCorrect="off"
+                  autoCapitalize="none"
+                  onChange={this.handleSearchValueChange}
+                  className="search-field"
+                />
+              )}
+            </Translate>
             {this.props.dashboard && (
               <Button type="submit" variant="info" className="button-search">
-                Search
+                <Translate id="component.utils.Search.title" />
               </Button>
             )}
           </InputGroup>

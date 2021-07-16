@@ -9,6 +9,8 @@ import Search from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
+import { Translate } from "react-localize-redux";
+
 class Dashboard extends React.Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Landing Page");
@@ -22,9 +24,10 @@ class Dashboard extends React.Component {
         </Head>
         <Container>
           <h1 style={{ marginTop: "72px", marginLeft: "25px" }}>
-            <span style={{ color: "#00C1DE" }}>Explore</span> the
-            <br />
-            NEAR Blockchain.
+            <span style={{ color: "#00C1DE" }}>
+              <Translate id="page.home.title.explore" />
+            </span>
+            <Translate id="page.home.title.near_blockchain" />
           </h1>
           <Row className="inner-content" noGutters>
             <Col xs="12" className="d-none d-md-block d-lg-block">

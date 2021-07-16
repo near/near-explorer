@@ -15,6 +15,8 @@ import Gas from "../utils/Gas";
 import Term from "../utils/Term";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   transaction: T.Transaction;
 }
@@ -115,221 +117,272 @@ class TransactionDetails extends React.Component<Props, State> {
     const { transaction } = this.props;
     const { deposit, transactionFee, gasUsed, gasAttached } = this.state;
     return (
-      <DatabaseConsumer>
-        {(context) => (
-          <div className="transaction-info-container">
-            <Row noGutters>
-              <Col md="5">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Signed by"}
-                      text={"Account that signed and sent the transaction. "}
-                      href={"https://docs.near.org/docs/concepts/account"}
-                    />
-                  }
-                  imgLink="/static/images/icon-m-user.svg"
-                  text={<AccountLink accountId={transaction.signerId} />}
-                  className="border-0"
-                />
-              </Col>
-              <Col md="4">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Receiver"}
-                      text={"Account receiving the transaction. "}
-                      href={"https://docs.near.org/docs/concepts/account"}
-                    />
-                  }
-                  imgLink="/static/images/icon-m-user.svg"
-                  text={<AccountLink accountId={transaction.receiverId} />}
-                />
-              </Col>
-              <Col md="3">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Status"}
-                      text={
-                        "Current status of the transaction (Pending, Succeeded, Failed/Finalized or non finalized). "
-                      }
-                      href={"https://docs.near.org/docs/concepts/transaction"}
-                    />
-                  }
-                  imgLink="/static/images/icon-t-status.svg"
-                  text={
-                    <div style={{ fontSize: "21px" }}>
-                      {transaction.status ? (
-                        <TransactionExecutionStatus
-                          status={transaction.status}
+      <Translate>
+        {({ translate }) => (
+          <DatabaseConsumer>
+            {(context) => (
+              <div className="transaction-info-container">
+                <Row noGutters>
+                  <Col md="5">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.signed_by.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.signed_by.text"
+                          )}
+                          href={"https://docs.near.org/docs/concepts/account"}
                         />
-                      ) : (
-                        "Fetching Status... "
+                      }
+                      imgLink="/static/images/icon-m-user.svg"
+                      text={<AccountLink accountId={transaction.signerId} />}
+                      className="border-0"
+                    />
+                  </Col>
+                  <Col md="4">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.receiver.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.receiver.text"
+                          )}
+                          href={"https://docs.near.org/docs/concepts/account"}
+                        />
+                      }
+                      imgLink="/static/images/icon-m-user.svg"
+                      text={<AccountLink accountId={transaction.receiverId} />}
+                    />
+                  </Col>
+                  <Col md="3">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.status.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.status.text"
+                          )}
+                          href={
+                            "https://docs.near.org/docs/concepts/transaction"
+                          }
+                        />
+                      }
+                      imgLink="/static/images/icon-t-status.svg"
+                      text={
+                        <div style={{ fontSize: "21px" }}>
+                          {transaction.status ? (
+                            <TransactionExecutionStatus
+                              status={transaction.status}
+                            />
+                          ) : (
+                            translate("common.blocks.status.fetching_status")
+                          )}
+                          {typeof context.finalityStatus
+                            ?.finalBlockTimestampNanosecond === "undefined"
+                            ? "/" +
+                              translate(
+                                "common.blocks.status.checking_finality"
+                              )
+                            : new BN(transaction.blockTimestamp).lte(
+                                context.finalityStatus?.finalBlockTimestampNanosecond.divn(
+                                  10 ** 6
+                                )
+                              )
+                            ? ""
+                            : "/" +
+                              translate("common.blocks.status.finalizing")}
+                        </div>
+                      }
+                    />
+                  </Col>
+                </Row>
+                <Row noGutters>
+                  <Col md="3">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.transaction_fee.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.transaction_fee.text"
+                          )}
+                          href={
+                            "https://docs.near.org/docs/concepts/transaction"
+                          }
+                        />
+                      }
+                      imgLink="/static/images/icon-m-size.svg"
+                      text={
+                        transactionFee ? (
+                          <Balance amount={transactionFee.toString()} />
+                        ) : (
+                          "..."
+                        )
+                      }
+                      className="border-0"
+                    />
+                  </Col>
+                  <Col md="3">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.deposit_value.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.deposit_value.text"
+                          )}
+                          href={
+                            "https://near.org/papers/economics-in-sharded-blockchain/"
+                          }
+                        />
+                      }
+                      imgLink="/static/images/icon-m-filter.svg"
+                      text={
+                        deposit ? (
+                          <Balance amount={deposit.toString()} />
+                        ) : (
+                          "..."
+                        )
+                      }
+                    />
+                  </Col>
+                  <Col md="3">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.gas_used.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.gas_used.text"
+                          )}
+                          href={
+                            "https://docs.near.org/docs/concepts/transaction"
+                          }
+                        />
+                      }
+                      imgLink="/static/images/icon-m-size.svg"
+                      text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
+                    />
+                  </Col>
+                  <Col md="3">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.attached_gas.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.attached_gas.text"
+                          )}
+                        />
+                      }
+                      imgLink="/static/images/icon-m-size.svg"
+                      text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
+                    />
+                  </Col>
+                </Row>
+                <Row noGutters className="border-0">
+                  <Col md="4">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.created.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.created.text"
+                          )}
+                          href={
+                            "https://docs.near.org/docs/concepts/transaction"
+                          }
+                        />
+                      }
+                      text={moment(transaction.blockTimestamp).format(
+                        "MMMM DD, YYYY [at] h:mm:ssa"
                       )}
-                      {typeof context.finalityStatus
-                        ?.finalBlockTimestampNanosecond === "undefined"
-                        ? "/Checking Finality..."
-                        : new BN(transaction.blockTimestamp).lte(
-                            context.finalityStatus?.finalBlockTimestampNanosecond.divn(
-                              10 ** 6
-                            )
-                          )
-                        ? ""
-                        : "/Finalizing"}
-                    </div>
-                  }
-                />
-              </Col>
-            </Row>
-            <Row noGutters>
-              <Col md="3">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Transaction Fee"}
+                      className="border-0"
+                    />
+                  </Col>
+                  <Col md="8">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.hash.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.hash.text"
+                          )}
+                          href={
+                            "https://docs.near.org/docs/concepts/transaction"
+                          }
+                        />
+                      }
+                      text={transaction.hash}
+                      className="border-0"
+                    />
+                  </Col>
+                </Row>
+                <Row noGutters>
+                  <Col md="12">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.transactions.TransactionDetails.block_hash.title"
+                          )}
+                          text={translate(
+                            "component.transactions.TransactionDetails.block_hash.text"
+                          )}
+                        />
+                      }
                       text={
-                        "Total fee paid in NEAR to execute this transaction. "
+                        <BlockLink blockHash={transaction.blockHash}>
+                          {transaction.blockHash}
+                        </BlockLink>
                       }
-                      href={"https://docs.near.org/docs/concepts/transaction"}
+                      className="transaction-card-block-hash border-0"
                     />
+                  </Col>
+                </Row>
+                <style jsx global>{`
+                  .transaction-info-container {
+                    border: solid 4px #e6e6e6;
+                    border-radius: 4px;
                   }
-                  imgLink="/static/images/icon-m-size.svg"
-                  text={
-                    transactionFee ? (
-                      <Balance amount={transactionFee.toString()} />
-                    ) : (
-                      "..."
-                    )
-                  }
-                  className="border-0"
-                />
-              </Col>
-              <Col md="3">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Deposit Value"}
-                      text={`Sum of all NEAR tokens transferred from the Signing account to the Receiver account.
-                            This includes tokens sent in a Transfer action(s), and as deposits on Function Call action(s). `}
-                      href={
-                        "https://near.org/papers/economics-in-sharded-blockchain/"
-                      }
-                    />
-                  }
-                  imgLink="/static/images/icon-m-filter.svg"
-                  text={
-                    deposit ? <Balance amount={deposit.toString()} /> : "..."
-                  }
-                />
-              </Col>
-              <Col md="3">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Gas Used"}
-                      text={
-                        "Units of gas required to execute this transaction. "
-                      }
-                      href={"https://docs.near.org/docs/concepts/transaction"}
-                    />
-                  }
-                  imgLink="/static/images/icon-m-size.svg"
-                  text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
-                />
-              </Col>
-              <Col md="3">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Attached Gas"}
-                      text={
-                        "Units of gas attached to the transaction (this is often higher than 'Gas Used'). "
-                      }
-                    />
-                  }
-                  imgLink="/static/images/icon-m-size.svg"
-                  text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
-                />
-              </Col>
-            </Row>
-            <Row noGutters className="border-0">
-              <Col md="4">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Created"}
-                      text={
-                        "Timestamp of when this transaction was submitted. "
-                      }
-                      href={"https://docs.near.org/docs/concepts/transaction"}
-                    />
-                  }
-                  text={moment(transaction.blockTimestamp).format(
-                    "MMMM DD, YYYY [at] h:mm:ssa"
-                  )}
-                  className="border-0"
-                />
-              </Col>
-              <Col md="8">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Hash"}
-                      text={"Unique identifier (hash) of this transaction. "}
-                      href={"https://docs.near.org/docs/concepts/transaction"}
-                    />
-                  }
-                  text={transaction.hash}
-                  className="border-0"
-                />
-              </Col>
-            </Row>
-            <Row noGutters>
-              <Col md="12">
-                <CardCell
-                  title={
-                    <Term
-                      title={"Block Hash"}
-                      text={
-                        "Unique identifier (hash) of the block this transaction was included in. "
-                      }
-                    />
-                  }
-                  text={
-                    <BlockLink blockHash={transaction.blockHash}>
-                      {transaction.blockHash}
-                    </BlockLink>
-                  }
-                  className="transaction-card-block-hash border-0"
-                />
-              </Col>
-            </Row>
-            <style jsx global>{`
-              .transaction-info-container {
-                border: solid 4px #e6e6e6;
-                border-radius: 4px;
-              }
 
-              .transaction-info-container > .row {
-                border-bottom: 2px solid #e6e6e6;
-              }
+                  .transaction-info-container > .row {
+                    border-bottom: 2px solid #e6e6e6;
+                  }
 
-              .transaction-info-container > .row:last-of-type {
-                border-bottom: 0;
-              }
+                  .transaction-info-container > .row:last-of-type {
+                    border-bottom: 0;
+                  }
 
-              .transaction-info-container > .row:first-of-type .card-cell-text {
-                font-size: 24px;
-              }
+                  .transaction-info-container
+                    > .row:first-of-type
+                    .card-cell-text {
+                    font-size: 24px;
+                  }
 
-              .transaction-card-block-hash {
-                background-color: #f8f8f8;
-              }
-            `}</style>
-          </div>
+                  .transaction-card-block-hash {
+                    background-color: #f8f8f8;
+                  }
+                `}</style>
+              </div>
+            )}
+          </DatabaseConsumer>
         )}
-      </DatabaseConsumer>
+      </Translate>
     );
   }
 }

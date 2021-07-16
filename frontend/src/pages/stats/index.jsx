@@ -16,6 +16,8 @@ import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 
+import { Translate } from "react-localize-redux";
+
 class Stats extends React.PureComponent {
   componentDidMount() {
     Mixpanel.track("Explorer View Stats page");
@@ -33,7 +35,13 @@ class Stats extends React.PureComponent {
         <Head>
           <title>NEAR Explorer | Stats</title>
         </Head>
-        <Content title={<h1>Stats</h1>}>
+        <Content
+          title={
+            <h1>
+              <Translate id="common.stats.title" />
+            </h1>
+          }
+        >
           <div id="protocolConfiguration">
             <NetworkStatsProvider>
               <ProtocolConfigInfo />

@@ -6,6 +6,8 @@ import { truncateAccountId } from "../../libraries/formatting";
 
 import { Props } from "./TransactionsByDate";
 
+import { Translate } from "react-localize-redux";
+
 const ActiveAccountsList = ({ chartStyle }: Props) => {
   const [activeAccounts, setAccounts] = useState(Array());
   const [count, setCount] = useState(Array());
@@ -26,10 +28,10 @@ const ActiveAccountsList = ({ chartStyle }: Props) => {
     });
   }, []);
 
-  const getOption = () => {
+  const getOption = (translate: Function) => {
     return {
       title: {
-        text: "Top 10 of Active Accounts in last 14 days",
+        text: translate("component.stats.ActiveAccountsList.title"),
       },
       grid: { containLabel: true },
       tooltip: {
@@ -40,7 +42,7 @@ const ActiveAccountsList = ({ chartStyle }: Props) => {
       },
       xAxis: [
         {
-          name: "Transactions",
+          name: translate("common.transactions.transactions"),
           type: "value",
         },
       ],
@@ -59,7 +61,13 @@ const ActiveAccountsList = ({ chartStyle }: Props) => {
     };
   };
 
-  return <ReactEcharts option={getOption()} style={chartStyle} />;
+  return (
+    <Translate>
+      {({ translate }) => (
+        <ReactEcharts option={getOption(translate)} style={chartStyle} />
+      )}
+    </Translate>
+  );
 };
 
 export default ActiveAccountsList;

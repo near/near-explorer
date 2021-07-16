@@ -11,6 +11,8 @@ import NetworkProvider from "../context/NetworkProvider";
 import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import { LocalizeProvider } from "react-localize-redux";
+import LocalizeWrapper from "../components/utils/LocalizeWrapper";
 
 const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
@@ -51,7 +53,7 @@ class _App extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <>
+      <LocalizeProvider>
         <Head>
           <link
             rel="shortcut icon"
@@ -78,10 +80,12 @@ class _App extends App {
               className="background-img"
             />
             <DatabaseProvider>
-              <Component
-                {...pageProps}
-                currentNearNetwork={this.props.currentNearNetwork}
-              />
+              <LocalizeWrapper>
+                <Component
+                  {...pageProps}
+                  currentNearNetwork={this.props.currentNearNetwork}
+                />
+              </LocalizeWrapper>
             </DatabaseProvider>
           </div>
           <Footer />
@@ -155,7 +159,7 @@ class _App extends App {
             />
           </>
         ) : null}
-      </>
+      </LocalizeProvider>
     );
   }
 }

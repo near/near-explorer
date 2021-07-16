@@ -13,6 +13,8 @@ import Content from "../../components/utils/Content";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
+import { Translate } from "react-localize-redux";
+
 class AccountDetail extends React.Component {
   static async getInitialProps({ req, query: { id }, res }) {
     if (/[A-Z]/.test(id)) {
@@ -45,11 +47,16 @@ class AccountDetail extends React.Component {
           <title>NEAR Explorer | Account</title>
         </Head>
         <Content
-          title={<h1>{`Account: @${account.accountId}`}</h1>}
+          title={
+            <h1>
+              <Translate id="common.accounts.account" />
+              {`: @${account.accountId}`}
+            </h1>
+          }
           border={false}
         >
           {accountFetchingError ? (
-            `Information is not available at the moment. Please, check if the account name is correct or try later.`
+            <Translate id="page.accounts.error.account_fetching" />
           ) : (
             <AccountDetails
               account={account}
@@ -65,7 +72,11 @@ class AccountDetail extends React.Component {
             <Content
               size="medium"
               icon={<TransactionIcon style={{ width: "22px" }} />}
-              title={<h2>Transactions</h2>}
+              title={
+                <h2>
+                  <Translate id="common.transactions.transactions" />
+                </h2>
+              }
             >
               <Transactions accountId={account.accountId} count={10} />
             </Content>

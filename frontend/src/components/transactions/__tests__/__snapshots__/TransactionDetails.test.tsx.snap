@@ -2,7 +2,7 @@
 
 exports[`<TransactionDetails /> renders no deposit 1`] = `
 <div
-  className="jsx-2096637733 transaction-info-container"
+  className="jsx-2925423050 transaction-info-container"
 >
   <div
     className="row no-gutters"
@@ -144,7 +144,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-2096637733"
+                className="jsx-2925423050"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -474,7 +474,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
 
 exports[`<TransactionDetails /> renders with one small deposit 1`] = `
 <div
-  className="jsx-2096637733 transaction-info-container"
+  className="jsx-2925423050 transaction-info-container"
 >
   <div
     className="row no-gutters"
@@ -616,7 +616,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-2096637733"
+                className="jsx-2925423050"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -946,7 +946,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
 
 exports[`<TransactionDetails /> renders with two big deposit 1`] = `
 <div
-  className="jsx-2096637733 transaction-info-container"
+  className="jsx-2925423050 transaction-info-container"
 >
   <div
     className="row no-gutters"
@@ -1088,7 +1088,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-2096637733"
+                className="jsx-2925423050"
                 style={
                   Object {
                     "fontSize": "21px",

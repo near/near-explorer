@@ -8,6 +8,8 @@ import StatsApi, {
 } from "../../libraries/explorer-wamp/stats";
 import { cumulativeSumArray } from "../../libraries/stats";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   chartStyle: object;
 }
@@ -112,23 +114,34 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Tabs defaultActiveKey="daily" id="transactionByDate">
-      <Tab eventKey="daily" title="Daily">
-        <ReactEcharts
-          option={getOption("Daily Number of Transactions", transactionsByDate)}
-          style={chartStyle}
-        />
-      </Tab>
-      <Tab eventKey="total" title="Total">
-        <ReactEcharts
-          option={getOption(
-            "Total Number of Transactions",
-            cumulativeTransactionsByDate
-          )}
-          style={chartStyle}
-        />
-      </Tab>
-    </Tabs>
+    <Translate>
+      {({ translate }) => (
+        <Tabs defaultActiveKey="daily" id="transactionByDate">
+          <Tab eventKey="daily" title={translate("common.stats.daily")}>
+            <ReactEcharts
+              option={getOption(
+                translate(
+                  "component.stats.TransactionsByDate.daily_number_of_transactions"
+                ).toString(),
+                transactionsByDate
+              )}
+              style={chartStyle}
+            />
+          </Tab>
+          <Tab eventKey="total" title={translate("common.stats.total")}>
+            <ReactEcharts
+              option={getOption(
+                translate(
+                  "component.stats.TransactionsByDate.total_number_of_transactions"
+                ).toString(),
+                cumulativeTransactionsByDate
+              )}
+              style={chartStyle}
+            />
+          </Tab>
+        </Tabs>
+      )}
+    </Translate>
   );
 };
 

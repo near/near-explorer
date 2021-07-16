@@ -4,6 +4,8 @@ import { Row, Col } from "react-bootstrap";
 import AccountLink from "../utils/AccountLink";
 import Timer from "../utils/Timer";
 
+import { Translate } from "react-localize-redux";
+
 export type ViewMode = "sparse" | "compact";
 export type DetalizationMode = "detailed" | "minimal";
 export interface Props {
@@ -44,48 +46,66 @@ class ActionRowBlock extends React.Component<Props> {
 
     return (
       <>
-        <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
-          <Col xs="auto">
-            <div className="action-row-img">{icon}</div>
-          </Col>
-          <Col className="action-row-details">
-            <Row noGutters className="action-row-message">
-              <Col md="8" xs="7">
-                <Row noGutters>
-                  <Col className="action-row-title">{title}</Col>
-                </Row>
-                {detalizationMode === "detailed" ? (
-                  <Row noGutters>
-                    <Col className="action-row-text">
-                      by <AccountLink accountId={signerId} />
-                    </Col>
-                  </Row>
-                ) : null}
+        <Translate>
+          {({ translate }) => (
+            <Row
+              noGutters
+              className={`action-${viewMode}-row mx-0 ${className}`}
+            >
+              <Col xs="auto">
+                <div className="action-row-img">{icon}</div>
               </Col>
-              {detalizationMode === "detailed" ? (
-                <Col md="4" xs="5" className="ml-auto text-right">
-                  <Row>
-                    <Col className="action-row-txid">{detailsLink}</Col>
-                  </Row>
-                  <Row>
-                    <Col className="action-row-timer">
-                      <span className="action-row-timer-status">
-                        {status ?? <>{"Fetching status..."}</>}
-                        {isFinal === undefined
-                          ? "/Checking Finality..."
-                          : isFinal === true
-                          ? ""
-                          : "/Finalizing"}
-                      </span>{" "}
-                      {blockTimestamp && <Timer time={blockTimestamp} />}
+              <Col className="action-row-details">
+                <Row noGutters className="action-row-message">
+                  <Col md="8" xs="7">
+                    <Row noGutters>
+                      <Col className="action-row-title">{title}</Col>
+                    </Row>
+                    {detalizationMode === "detailed" ? (
+                      <Row noGutters>
+                        <Col className="action-row-text">
+                          <Translate id="component.transactions.ActionRowBlock.by" />{" "}
+                          <AccountLink accountId={signerId} />
+                        </Col>
+                      </Row>
+                    ) : null}
+                  </Col>
+                  {detalizationMode === "detailed" ? (
+                    <Col md="4" xs="5" className="ml-auto text-right">
+                      <Row>
+                        <Col className="action-row-txid">{detailsLink}</Col>
+                      </Row>
+                      <Row>
+                        <Col className="action-row-timer">
+                          <span className="action-row-timer-status">
+                            {status ?? (
+                              <>
+                                {translate(
+                                  "common.blocks.status.fetching_status"
+                                )}
+                              </>
+                            )}
+                            {isFinal === undefined
+                              ? "/" +
+                                translate(
+                                  "common.blocks.status.checking_finality"
+                                )
+                              : isFinal === true
+                              ? ""
+                              : "/" +
+                                translate("common.blocks.status.finalizing")}
+                          </span>{" "}
+                          {blockTimestamp && <Timer time={blockTimestamp} />}
+                        </Col>
+                      </Row>
                     </Col>
-                  </Row>
-                </Col>
-              ) : null}
+                  ) : null}
+                </Row>
+                {children}
+              </Col>
             </Row>
-            {children}
-          </Col>
-        </Row>
+          )}
+        </Translate>
         <style jsx global>
           {`
             .action-sparse-row {

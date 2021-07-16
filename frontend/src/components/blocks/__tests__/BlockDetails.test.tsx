@@ -1,13 +1,13 @@
 import BN from "bn.js";
 
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/tester";
 
 import BlockDetails from "../BlockDetails";
 
 describe("<BlockDetails />", () => {
   it("renders", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <BlockDetails
           block={{
             authorAccountId: "near.near",

@@ -10,6 +10,11 @@ import Link from "./Link";
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
 
+import { Translate } from "react-localize-redux";
+import LanguageToggle from "../utils/LangSwitcher";
+const languagesIcon = "/static/images/icon-languages.svg";
+const downArrowIcon = "/static/images/down-arrow.svg";
+
 const Header = () => {
   const router = useRouter();
 
@@ -63,12 +68,17 @@ const Header = () => {
           md="auto"
         >
           <Row>
-            <Col md="5" className="align-self-center">
+            <Col md="4" className="align-self-center">
+              <LanguageToggle />
+            </Col>
+            <Col md="3" className="align-self-center">
               <Link href="/">
-                <a className="header-home">Home</a>
+                <a className="header-home">
+                  <Translate id="component.utils.Header.home" />
+                </a>
               </Link>
             </Col>
-            <Col md="7" className="align-self-center">
+            <Col md="5" className="align-self-center">
               <HeaderNavDropdown />
             </Col>
           </Row>
@@ -113,6 +123,26 @@ const Header = () => {
           .header-container {
             padding: 0 0 14px 0;
           }
+        }
+
+        .lang-selector {
+          appearance: none;
+          background: url(${languagesIcon}) no-repeat 10px center / 20px 20px,
+            url(${downArrowIcon}) no-repeat 85% 12px / 10px;
+          border: 0;
+          cursor: pointer;
+          font-size: 16px;
+          height: 32px;
+          outline: none;
+          padding-right: 54px;
+          position: relative;
+          user-select: none;
+          width: 54px;
+          z-index: 1;
+        }
+
+        .lang-selector::-ms-expand {
+          display: none;
         }
       `}</style>
     </Container>

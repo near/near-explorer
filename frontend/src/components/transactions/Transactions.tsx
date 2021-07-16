@@ -8,6 +8,8 @@ import Placeholder from "../utils/Placeholder";
 
 import TransactionAction from "./TransactionAction";
 
+import { Translate } from "react-localize-redux";
+
 export interface OuterProps {
   accountId?: string;
   blockHash?: string;
@@ -55,7 +57,11 @@ class Transactions extends React.Component<InnerProps> {
     const { items } = this.props;
 
     if (items?.length === 0) {
-      return <Placeholder>There are no transactions</Placeholder>;
+      return (
+        <Placeholder>
+          <Translate id="component.transactions.Transactions.no_transactions_words" />
+        </Placeholder>
+      );
     }
 
     return (

@@ -1,16 +1,22 @@
 import Placeholder, { Props as PlaceholderProps } from "./Placeholder";
 
+import { Translate } from "react-localize-redux";
+
 const Update = ({ children }: PlaceholderProps) => {
   return (
-    <Placeholder className="update">
-      {children}
-      {` Refresh or Click to view the latest data.`}
-      <style>{`
+    <Translate>
+      {({ translate }) => (
+        <Placeholder className="update">
+          {children}
+          {translate("utils.Update.refresh_words")}
+          <style>{`
       .update:active{
         background: rgba(106, 209, 227, 0.5)
       }
       `}</style>
-    </Placeholder>
+        </Placeholder>
+      )}
+    </Translate>
   );
 };
 

@@ -118,7 +118,8 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >
@@ -166,7 +167,7 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
             <span
               className="jsx-1246332424 action-row-timer-status"
             >
-              Fetching status...
+              Fetching Status...
               /Checking Finality...
             </span>
              
@@ -277,7 +278,8 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >
@@ -312,7 +314,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             <span
               className="jsx-1246332424 action-row-timer-status"
             >
-              Fetching status...
+              Fetching Status...
               /Checking Finality...
             </span>
              
@@ -384,7 +386,8 @@ exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >
@@ -504,7 +507,8 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >
@@ -552,7 +556,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
             <span
               className="jsx-1246332424 action-row-timer-status"
             >
-              Fetching status...
+              Fetching Status...
               /Checking Finality...
             </span>
              
@@ -624,7 +628,8 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >

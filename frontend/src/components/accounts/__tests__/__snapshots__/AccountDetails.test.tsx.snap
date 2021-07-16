@@ -2,7 +2,7 @@
 
 exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`] = `
 <div
-  className="jsx-1225256684 account-info-container"
+  className="jsx-3866967115 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -42,14 +42,14 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↑
                 7
               </span>
                 
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↓
                 10
@@ -338,7 +338,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
 
 exports[`<AccountDetails /> renders with account created at genesis 1`] = `
 <div
-  className="jsx-1225256684 account-info-container"
+  className="jsx-3866967115 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -378,14 +378,14 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↑
                 7
               </span>
                 
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↓
                 10
@@ -674,7 +674,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
 
 exports[`<AccountDetails /> renders with account deletion at 1`] = `
 <div
-  className="jsx-1225256684 account-info-container"
+  className="jsx-3866967115 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -714,14 +714,14 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↑
                 7
               </span>
                 
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↓
                 10
@@ -1045,7 +1045,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="jsx-1225256684 transaction-link-icon"
+                    className="jsx-3866967115 transaction-link-icon"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -1061,7 +1061,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
 
 exports[`<AccountDetails /> renders with lockup account 1`] = `
 <div
-  className="jsx-1225256684 account-info-container"
+  className="jsx-3866967115 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -1101,14 +1101,14 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↑
                 7
               </span>
                 
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↓
                 10
@@ -1432,7 +1432,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="jsx-1225256684 transaction-link-icon"
+                    className="jsx-3866967115 transaction-link-icon"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -1448,7 +1448,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
 
 exports[`<AccountDetails /> renders without lockup account 1`] = `
 <div
-  className="jsx-1225256684 account-info-container"
+  className="jsx-3866967115 account-info-container"
 >
   <div
     className="row no-gutters"
@@ -1488,14 +1488,14 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↑
                 7
               </span>
                 
               <span
-                className="jsx-1225256684"
+                className="jsx-3866967115"
               >
                 ↓
                 10
@@ -1768,7 +1768,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="jsx-1225256684 transaction-link-icon"
+                    className="jsx-3866967115 transaction-link-icon"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>

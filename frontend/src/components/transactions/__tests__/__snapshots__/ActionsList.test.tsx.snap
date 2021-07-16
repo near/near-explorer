@@ -82,7 +82,8 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >
@@ -130,7 +131,7 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
             <span
               className="jsx-1246332424 action-row-timer-status"
             >
-              Fetching status...
+              Fetching Status...
               /Checking Finality...
             </span>
              
@@ -203,7 +204,8 @@ Array [
             <div
               className="action-row-text col"
             >
-              by 
+              by
+               
               <span
                 onClick={[Function]}
               >
@@ -251,7 +253,7 @@ Array [
               <span
                 className="jsx-1246332424 action-row-timer-status"
               >
-                Fetching status...
+                Fetching Status...
                 /Checking Finality...
               </span>
                
@@ -324,7 +326,8 @@ Array [
             <div
               className="action-row-text col"
             >
-              by 
+              by
+               
               <span
                 onClick={[Function]}
               >
@@ -372,7 +375,7 @@ Array [
               <span
                 className="jsx-1246332424 action-row-timer-status"
               >
-                Fetching status...
+                Fetching Status...
                 /Checking Finality...
               </span>
                
@@ -484,7 +487,8 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >
@@ -532,7 +536,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
             <span
               className="jsx-1246332424 action-row-timer-status"
             >
-              Fetching status...
+              Fetching Status...
               /Checking Finality...
             </span>
              
@@ -604,7 +608,8 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
           <div
             className="action-row-text col"
           >
-            by 
+            by
+             
             <span
               onClick={[Function]}
             >
@@ -646,7 +651,7 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
             <span
               className="jsx-1246332424 action-row-timer-status"
             >
-              Fetching status...
+              Fetching Status...
               /Checking Finality...
             </span>
              
@@ -719,7 +724,8 @@ Array [
             <div
               className="action-row-text col"
             >
-              by 
+              by
+               
               <span
                 onClick={[Function]}
               >
@@ -767,7 +773,7 @@ Array [
               <span
                 className="jsx-1246332424 action-row-timer-status"
               >
-                Fetching status...
+                Fetching Status...
                 /Checking Finality...
               </span>
                
@@ -840,7 +846,8 @@ Array [
             <div
               className="action-row-text col"
             >
-              by 
+              by
+               
               <span
                 onClick={[Function]}
               >
@@ -888,7 +895,7 @@ Array [
               <span
                 className="jsx-1246332424 action-row-timer-status"
               >
-                Fetching status...
+                Fetching Status...
                 /Checking Finality...
               </span>
                

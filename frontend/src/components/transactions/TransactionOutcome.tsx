@@ -6,6 +6,8 @@ import * as T from "../../libraries/explorer-wamp/transactions";
 import Gas from "../utils/Gas";
 import Balance from "../utils/Balance";
 
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   transaction: T.TransactionOutcome;
 }
@@ -20,19 +22,25 @@ class TransactionOutcome extends React.Component<Props> {
         <Col>
           <Row noGutters>
             <Col className="transaction-outcome-row-title main">
-              <b>Convert Transaction To Receipt</b>
+              <b>
+                <Translate id="common.transactions.execution.convert_transaction_to_receipt" />
+              </b>
             </Col>
           </Row>
 
           <Row noGutters className="transaction-outcome-row mx-0 pl-4">
-            <Col className="transaction-outcome-row-title">Gas Burned:</Col>
+            <Col className="transaction-outcome-row-title">
+              <Translate id="common.transactions.execution.gas_burned" />:
+            </Col>
             <Col className="transaction-outcome-row-text">
               {gasBurnt ? <Gas gas={gasBurnt} /> : "..."}
             </Col>
           </Row>
 
           <Row noGutters className="transaction-outcome-row mx-0 pl-4">
-            <Col className="transaction-outcome-row-title">Tokens Burned:</Col>
+            <Col className="transaction-outcome-row-title">
+              <Translate id="common.transactions.execution.tokens_burned" />:
+            </Col>
             <Col className="transaction-outcome-row-text">
               {tokensBurnt ? (
                 <Balance amount={tokensBurnt.toString()} />

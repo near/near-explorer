@@ -80,6 +80,7 @@
     "react-dom": "^16.14.0",
     "react-flip-move": "^3.0.3",
     "react-infinite-scroll-component": "^5.1.0",
+    "react-localize-redux": "^3.5.3",
     "react-motion": "^0.5.2",
     "react-paginate": "^7.1.2",
     "react-text-collapse": "^0.5.2",

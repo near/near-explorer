@@ -14,6 +14,8 @@ import TransactionDetails from "../../components/transactions/TransactionDetails
 import TransactionOutcome from "../../components/transactions/TransactionOutcome";
 import Content from "../../components/utils/Content";
 
+import { Translate } from "react-localize-redux";
+
 class TransactionDetailsPage extends React.Component {
   static async getInitialProps({ req, query: { hash } }) {
     try {
@@ -46,56 +48,73 @@ class TransactionDetailsPage extends React.Component {
     };
 
     return (
-      <>
-        <Head>
-          <title>NEAR Explorer | Transaction</title>
-        </Head>
-        <Content
-          title={
-            <h1>{`Transaction: ${transaction.hash.substring(
-              0,
-              7
-            )}...${transaction.hash.substring(
-              transaction.hash.length - 4
-            )}`}</h1>
-          }
-          border={false}
-        >
-          {this.props.err ? (
-            `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
-          ) : (
-            <TransactionDetails transaction={transaction} />
-          )}
-        </Content>
-        {transaction.actions && (
-          <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Actions</h2>}
-          >
-            <ActionsList
-              actions={transaction.actions}
-              signerId={transaction.signerId}
-              receiverId={transaction.receiverId}
-              blockTimestamp={transaction.blockTimestamp}
-              detalizationMode="minimal"
-              showDetails
-            />
-          </Content>
-        )}
+      <Translate>
+        {({ translate }) => (
+          <>
+            <Head>
+              <title>NEAR Explorer | Transaction</title>
+            </Head>
+            <Content
+              title={
+                <h1>
+                  <Translate id="common.transactions.transaction" />
+                  {`: ${transaction.hash.substring(
+                    0,
+                    7
+                  )}...${transaction.hash.substring(
+                    transaction.hash.length - 4
+                  )}`}
+                </h1>
+              }
+              border={false}
+            >
+              {this.props.err ? (
+                `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
+              ) : (
+                <TransactionDetails transaction={transaction} />
+              )}
+            </Content>
+            {transaction.actions && (
+              <Content
+                size="medium"
+                icon={<TransactionIcon style={{ width: "22px" }} />}
+                title={
+                  <h2>
+                    <Translate id="common.actions.actions" />
+                  </h2>
+                }
+              >
+                <ActionsList
+                  actions={transaction.actions}
+                  signerId={transaction.signerId}
+                  receiverId={transaction.receiverId}
+                  blockTimestamp={transaction.blockTimestamp}
+                  detalizationMode="minimal"
+                  showDetails
+                />
+              </Content>
+            )}
 
-        {transaction.receipt && (
-          <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Transaction Execution Plan</h2>}
-          >
-            <TransactionOutcome transaction={transaction.transactionOutcome} />
+            {transaction.receipt && (
+              <Content
+                size="medium"
+                icon={<TransactionIcon style={{ width: "22px" }} />}
+                title={
+                  <h2>
+                    <Translate id="page.transactions.transaction_execution_plan" />
+                  </h2>
+                }
+              >
+                <TransactionOutcome
+                  transaction={transaction.transactionOutcome}
+                />
 
-            <ReceiptRow receipt={transaction.receipt} />
-          </Content>
+                <ReceiptRow receipt={transaction.receipt} />
+              </Content>
+            )}
+          </>
         )}
-      </>
+      </Translate>
     );
   }
 }

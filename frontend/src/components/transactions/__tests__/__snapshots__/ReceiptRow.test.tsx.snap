@@ -17,7 +17,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         <b
           className="jsx-3925159684"
         >
-          Receipt:
+          Receipt
+          :
         </b>
       </div>
     </div>
@@ -27,7 +28,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receipt ID:
+        Receipt ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -41,7 +43,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Executed in Block:
+        Executed in Block
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -66,7 +69,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Predecessor ID:
+        Predecessor ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -81,7 +85,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receiver ID:
+        Receiver ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -96,7 +101,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Gas Burned:
+        Gas Burned
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -110,7 +116,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Tokens Burned:
+        Tokens Burned
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -236,7 +243,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-status col"
       >
         <i>
-          Failure: 
+          Failure
+          :
+           
         </i>
         <pre>
           {
@@ -291,7 +300,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 <b
                   className="jsx-3925159684"
                 >
-                  Receipt:
+                  Receipt
+                  :
                 </b>
               </div>
             </div>
@@ -301,7 +311,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID:
+                Receipt ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -315,7 +326,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block:
+                Executed in Block
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -340,7 +352,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID:
+                Predecessor ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -355,7 +368,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID:
+                Receiver ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -370,7 +384,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned:
+                Gas Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -384,7 +399,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned:
+                Tokens Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -517,7 +533,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         <b
           className="jsx-3925159684"
         >
-          Receipt:
+          Receipt
+          :
         </b>
       </div>
     </div>
@@ -527,7 +544,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receipt ID:
+        Receipt ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -541,7 +559,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Executed in Block:
+        Executed in Block
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -566,7 +585,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Predecessor ID:
+        Predecessor ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -581,7 +601,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receiver ID:
+        Receiver ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -596,7 +617,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Gas Burned:
+        Gas Burned
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -610,7 +632,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Tokens Burned:
+        Tokens Burned
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -738,7 +761,9 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-status col"
       >
         <i>
-          SuccessReceiptId: 
+          SuccessReceiptId
+          :
+           
         </i>
         <pre>
           R3333333333333333333333333333333333333333333
@@ -781,7 +806,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 <b
                   className="jsx-3925159684"
                 >
-                  Receipt:
+                  Receipt
+                  :
                 </b>
               </div>
             </div>
@@ -791,7 +817,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID:
+                Receipt ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -805,7 +832,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block:
+                Executed in Block
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -830,7 +858,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID:
+                Predecessor ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -845,7 +874,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID:
+                Receiver ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -860,7 +890,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned:
+                Gas Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -874,7 +905,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned:
+                Tokens Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1001,7 +1033,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-status col"
               >
                 <i>
-                  Result: 
+                  Result
+                  :
+                   
                 </i>
                 <div>
                   <div
@@ -1066,7 +1100,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         <b
                           className="jsx-3925159684"
                         >
-                          Receipt:
+                          Receipt
+                          :
                         </b>
                       </div>
                     </div>
@@ -1076,7 +1111,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receipt ID:
+                        Receipt ID
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1090,7 +1126,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Executed in Block:
+                        Executed in Block
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1115,7 +1152,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Predecessor ID:
+                        Predecessor ID
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1130,7 +1168,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receiver ID:
+                        Receiver ID
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1145,7 +1184,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Gas Burned:
+                        Gas Burned
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1159,7 +1199,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Tokens Burned:
+                        Tokens Burned
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1297,7 +1338,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 <b
                   className="jsx-3925159684"
                 >
-                  Receipt:
+                  Receipt
+                  :
                 </b>
               </div>
             </div>
@@ -1307,7 +1349,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID:
+                Receipt ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1321,7 +1364,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block:
+                Executed in Block
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1346,7 +1390,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID:
+                Predecessor ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1361,7 +1406,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID:
+                Receiver ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1376,7 +1422,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned:
+                Gas Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1390,7 +1437,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned:
+                Tokens Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1517,7 +1565,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-status col"
               >
                 <i>
-                  Result: 
+                  Result
+                  :
+                   
                 </i>
                 <div>
                   <div
@@ -1582,7 +1632,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         <b
                           className="jsx-3925159684"
                         >
-                          Receipt:
+                          Receipt
+                          :
                         </b>
                       </div>
                     </div>
@@ -1592,7 +1643,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receipt ID:
+                        Receipt ID
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1606,7 +1658,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Executed in Block:
+                        Executed in Block
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1631,7 +1684,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Predecessor ID:
+                        Predecessor ID
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1646,7 +1700,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receiver ID:
+                        Receiver ID
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1661,7 +1716,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Gas Burned:
+                        Gas Burned
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1675,7 +1731,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Tokens Burned:
+                        Tokens Burned
+                        :
                       </div>
                       <div
                         className="receipt-row-receipt-hash col"
@@ -1813,7 +1870,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 <b
                   className="jsx-3925159684"
                 >
-                  Receipt:
+                  Receipt
+                  :
                 </b>
               </div>
             </div>
@@ -1823,7 +1881,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID:
+                Receipt ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1837,7 +1896,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block:
+                Executed in Block
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1862,7 +1922,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID:
+                Predecessor ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1877,7 +1938,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID:
+                Receiver ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1892,7 +1954,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned:
+                Gas Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -1906,7 +1969,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned:
+                Tokens Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -2039,7 +2103,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         <b
           className="jsx-3925159684"
         >
-          Receipt:
+          Receipt
+          :
         </b>
       </div>
     </div>
@@ -2049,7 +2114,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receipt ID:
+        Receipt ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -2063,7 +2129,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Executed in Block:
+        Executed in Block
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -2088,7 +2155,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Predecessor ID:
+        Predecessor ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -2103,7 +2171,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receiver ID:
+        Receiver ID
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -2118,7 +2187,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Gas Burned:
+        Gas Burned
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -2132,7 +2202,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Tokens Burned:
+        Tokens Burned
+        :
       </div>
       <div
         className="receipt-row-receipt-hash col"
@@ -2261,7 +2332,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-status col"
       >
         <i>
-          Result: 
+          Result
+          :
+           
         </i>
         <div>
           <div
@@ -2329,7 +2402,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 <b
                   className="jsx-3925159684"
                 >
-                  Receipt:
+                  Receipt
+                  :
                 </b>
               </div>
             </div>
@@ -2339,7 +2413,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID:
+                Receipt ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -2353,7 +2428,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block:
+                Executed in Block
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -2378,7 +2454,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID:
+                Predecessor ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -2393,7 +2470,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID:
+                Receiver ID
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -2408,7 +2486,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned:
+                Gas Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"
@@ -2422,7 +2501,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned:
+                Tokens Burned
+                :
               </div>
               <div
                 className="receipt-row-receipt-hash col"

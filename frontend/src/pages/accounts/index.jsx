@@ -5,6 +5,8 @@ import Mixpanel from "../../libraries/mixpanel";
 import Accounts from "../../components/accounts/Accounts";
 import Content from "../../components/utils/Content";
 
+import { Translate } from "react-localize-redux";
+
 class AccountsPage extends React.PureComponent {
   componentDidMount() {
     Mixpanel.track("Explorer View Accounts Page");
@@ -16,7 +18,13 @@ class AccountsPage extends React.PureComponent {
         <Head>
           <title>NEAR Explorer | Accounts</title>
         </Head>
-        <Content title={<h1>Accounts</h1>}>
+        <Content
+          title={
+            <h1>
+              <Translate id="common.accounts.accounts" />
+            </h1>
+          }
+        >
           <Accounts />
         </Content>
       </>

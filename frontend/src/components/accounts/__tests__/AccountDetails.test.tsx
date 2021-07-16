@@ -1,11 +1,11 @@
-import renderer from "react-test-renderer";
+import { renderI18nElement } from "../../../libraries/tester";
 
 import AccountDetails from "../AccountDetails";
 
 describe("<AccountDetails />", () => {
   it("renders with account created at genesis (legacy)", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <AccountDetails
           account={{
             accountId: "megan.near",
@@ -33,7 +33,7 @@ describe("<AccountDetails />", () => {
 
   it("renders with account created at genesis", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <AccountDetails
           account={{
             accountId: "megan.near",
@@ -61,7 +61,7 @@ describe("<AccountDetails />", () => {
 
   it("renders with account deletion at", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <AccountDetails
           account={{
             accountId: "megan.near",
@@ -90,7 +90,7 @@ describe("<AccountDetails />", () => {
 
   it("renders with lockup account", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <AccountDetails
           account={{
             accountId: "megan.near",
@@ -119,7 +119,7 @@ describe("<AccountDetails />", () => {
 
   it("renders without lockup account", () => {
     expect(
-      renderer.create(
+      renderI18nElement(
         <AccountDetails
           account={{
             accountId: "near.near",

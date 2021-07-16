@@ -5,6 +5,8 @@ import Mixpanel from "../../libraries/mixpanel";
 import Blocks from "../../components/blocks/Blocks";
 import Content from "../../components/utils/Content";
 
+import { Translate } from "react-localize-redux";
+
 class BlocksPage extends React.PureComponent {
   componentDidMount() {
     Mixpanel.track("Explorer View Blocks Page");
@@ -12,14 +14,18 @@ class BlocksPage extends React.PureComponent {
 
   render() {
     return (
-      <>
-        <Head>
-          <title>NEAR Explorer | Blocks</title>
-        </Head>
-        <Content title={<h1>Blocks</h1>}>
-          <Blocks />
-        </Content>
-      </>
+      <Translate>
+        {({ translate }) => (
+          <>
+            <Head>
+              <title>NEAR Explorer | Blocks</title>
+            </Head>
+            <Content title={<h1>{translate("common.blocks.blocks")}</h1>}>
+              <Blocks />
+            </Content>
+          </>
+        )}
+      </Translate>
     );
   }
 }
