@@ -11,13 +11,18 @@ const LanguageToggle = ({
   activeLanguage,
   setActiveLanguage,
 }: any) => {
+  const selectLangauge = (code: string) => {
+    setActiveLanguage(code);
+    localStorage.setItem("languageCode", code);
+  };
+
   return (
     <>
       <select
         className="lang-selector"
         name="lang"
         value={activeLanguage && activeLanguage.code}
-        onChange={(e) => setActiveLanguage(e.target.value)}
+        onChange={(e) => selectLangauge(e.target.value)}
       >
         {languages.map((lang: Lang) => (
           <option key={lang.code} value={lang.code}>
