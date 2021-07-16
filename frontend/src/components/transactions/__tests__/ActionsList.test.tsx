@@ -1,4 +1,4 @@
-import { renderI18nElement } from "../../../libraries/test";
+import { renderI18nElement } from "../../../libraries/tester";
 
 import ActionsList from "../ActionsList";
 import TransactionLink from "../../utils/TransactionLink";

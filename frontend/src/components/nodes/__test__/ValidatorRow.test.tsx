@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import { renderI18nElement } from "../../../libraries/test";
+import { renderI18nElement } from "../../../libraries/tester";
 
 import ValidatorRow from "../ValidatorRow";
 

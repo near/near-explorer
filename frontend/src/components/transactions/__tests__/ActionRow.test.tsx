@@ -1,4 +1,4 @@
-import { renderI18nElement } from "../../../libraries/test";
+import { renderI18nElement } from "../../../libraries/tester";
 import * as T from "../../../libraries/explorer-wamp/transactions";
 
 import TransactionLink from "../../utils/TransactionLink";

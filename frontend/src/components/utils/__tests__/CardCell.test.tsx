@@ -1,4 +1,4 @@
-import { renderI18nElement } from "../../../libraries/test";
+import { renderI18nElement } from "../../../libraries/tester";
 
 import CardCell from "../CardCell";
 
