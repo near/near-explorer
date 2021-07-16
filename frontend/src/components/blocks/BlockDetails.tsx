@@ -35,10 +35,10 @@ const BlockDetails = ({ block }: Props) => {
                           <Term
                             title={translate(
                               "component.blocks.BlockDetails.transactions.title"
-                            ).toString()}
+                            )}
                             text={translate(
                               "component.blocks.BlockDetails.transactions.text"
-                            ).toString()}
+                            )}
                             href={
                               "https://docs.near.org/docs/concepts/transaction"
                             }
@@ -53,8 +53,8 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={translate(
                           "component.blocks.BlockDetails.receipts.title"
-                        ).toString()}
-                        text={block.receiptsCount.toString()}
+                        )}
+                        text={block.receiptsCount}
                       />
                     </Col>
                     <Col md="4">
@@ -63,10 +63,10 @@ const BlockDetails = ({ block }: Props) => {
                           <Term
                             title={translate(
                               "component.blocks.BlockDetails.status.title"
-                            ).toString()}
+                            )}
                             text={translate(
                               "component.blocks.BlockDetails.status.text"
-                            ).toString()}
+                            )}
                             href={
                               "https://docs.near.org/docs/develop/front-end/rpc#block"
                             }
@@ -99,7 +99,7 @@ const BlockDetails = ({ block }: Props) => {
                       <CardCell
                         title={translate(
                           "component.blocks.BlockDetails.author.title"
-                        ).toString()}
+                        )}
                         text={<AccountLink accountId={block.authorAccountId} />}
                         className="border-0"
                       />
@@ -110,10 +110,10 @@ const BlockDetails = ({ block }: Props) => {
                           <Term
                             title={translate(
                               "component.blocks.BlockDetails.gas_used.title"
-                            ).toString()}
+                            )}
                             text={translate(
                               "component.blocks.BlockDetails.gas_used.text"
-                            ).toString()}
+                            )}
                             href={"https://docs.near.org/docs/concepts/gas"}
                           />
                         }
@@ -127,10 +127,10 @@ const BlockDetails = ({ block }: Props) => {
                           <Term
                             title={translate(
                               "component.blocks.BlockDetails.gas_price.title"
-                            ).toString()}
+                            )}
                             text={translate(
                               "component.blocks.BlockDetails.gas_price.text"
-                            ).toString()}
+                            )}
                             href={"https://docs.near.org/docs/concepts/gas"}
                           />
                         }
@@ -146,10 +146,10 @@ const BlockDetails = ({ block }: Props) => {
                           <Term
                             title={translate(
                               "component.blocks.BlockDetails.created.title"
-                            ).toString()}
+                            )}
                             text={translate(
                               "component.blocks.BlockDetails.created.text"
-                            ).toString()}
+                            )}
                           />
                         }
                         text={moment(block.timestamp).format(
@@ -164,10 +164,10 @@ const BlockDetails = ({ block }: Props) => {
                           <Term
                             title={translate(
                               "component.blocks.BlockDetails.hash.title"
-                            ).toString()}
+                            )}
                             text={translate(
                               "component.blocks.BlockDetails.hash.text"
-                            ).toString()}
+                            )}
                           />
                         }
                         text={block.hash}
@@ -181,10 +181,10 @@ const BlockDetails = ({ block }: Props) => {
                           <Term
                             title={translate(
                               "component.blocks.BlockDetails.parent_hash.title"
-                            ).toString()}
+                            )}
                             text={translate(
                               "component.blocks.BlockDetails.parent_hash.text"
-                            ).toString()}
+                            )}
                           />
                         }
                         text={

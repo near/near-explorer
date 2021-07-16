@@ -6,7 +6,7 @@ import Mixpanel from "../../libraries/mixpanel";
 import { Translate } from "react-localize-redux";
 
 interface Props {
-  title: string;
+  title: string | React.ReactNode;
   text: string | React.ReactNode;
   href?: string;
 }

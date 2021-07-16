@@ -21,11 +21,7 @@ class TransactionsPage extends React.Component {
               <title>NEAR Explorer | Transactions</title>
             </Head>
             <Content
-              title={
-                <h1>
-                  {translate("common.transactions.transactions").toString()}
-                </h1>
-              }
+              title={<h1>{translate("common.transactions.transactions")}</h1>}
             >
               <Transactions />
             </Content>

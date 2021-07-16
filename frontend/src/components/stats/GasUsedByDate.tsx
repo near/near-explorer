@@ -134,10 +134,7 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
     <Translate>
       {({ translate }) => (
         <Tabs defaultActiveKey="daily" id="gasUsedByDate">
-          <Tab
-            eventKey="daily"
-            title={translate("common.stats.daily").toString()}
-          >
+          <Tab eventKey="daily" title={translate("common.stats.daily")}>
             <ReactEcharts
               option={getOption(
                 translate(
@@ -149,10 +146,7 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
               style={chartStyle}
             />
           </Tab>
-          <Tab
-            eventKey="total"
-            title={translate("common.stats.total").toString()}
-          >
+          <Tab eventKey="total" title={translate("common.stats.total")}>
             <ReactEcharts
               option={getOption(
                 translate(
@@ -167,9 +161,7 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
           {feeUsedByDate.length > 0 && (
             <Tab
               eventKey="fee"
-              title={translate(
-                "component.stats.GasUsedByDate.gas_fee"
-              ).toString()}
+              title={translate("component.stats.GasUsedByDate.gas_fee")}
             >
               <ReactEcharts
                 option={getOption(

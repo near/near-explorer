@@ -89,7 +89,7 @@ class ContractDetails extends React.Component<Props, State> {
                       <Term
                         title={translate(
                           "component.contracts.ContractDetails.last_updated.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.contracts.ContractDetails.last_updated.text"
                         )}
@@ -114,7 +114,7 @@ class ContractDetails extends React.Component<Props, State> {
                       <Term
                         title={translate(
                           "component.contracts.ContractDetails.transaction_hash.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.contracts.ContractDetails.transaction_hash.text"
                         )}
@@ -140,7 +140,7 @@ class ContractDetails extends React.Component<Props, State> {
                       <Term
                         title={translate(
                           "component.contracts.ContractDetails.locked.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.contracts.ContractDetails.locked.text"
                         )}
@@ -156,7 +156,7 @@ class ContractDetails extends React.Component<Props, State> {
                       <Term
                         title={translate(
                           "component.contracts.ContractDetails.code_hash.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.contracts.ContractDetails.code_hash.text"
                         )}

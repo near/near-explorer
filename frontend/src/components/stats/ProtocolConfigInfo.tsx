@@ -76,7 +76,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.genesis_started"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
             >
               {networkStats?.genesisTime && (
@@ -94,7 +94,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.genesis_protocol_or_current_protocol"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
             >
               {genesisProtocolVersion && networkStats?.epochProtocolVersion && (
@@ -110,7 +110,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.genesis_height"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
             >
               {networkStats && (
@@ -122,7 +122,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.epoch_length"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
             >
               {networkStats?.epochLength && (
@@ -135,7 +135,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.genesis_total_supply"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
             >
               {genesisTotaSupply && (
@@ -160,7 +160,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.accounts_in_genesis"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
             >
               {genesisAccountsAmount}
@@ -169,7 +169,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.total_supply"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
             >
               {epochTotalSupply && (
@@ -192,7 +192,7 @@ const ProtocolConfigInfo = () => {
             <Cell
               title={translate(
                 "component.stats.ProtocolConfigInfo.live_accounts"
-              ).toString()}
+              )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
             >
               {liveAccountsCount}

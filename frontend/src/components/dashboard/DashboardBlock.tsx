@@ -22,7 +22,7 @@ const DashboardBlock = ({ className }: Props) => (
           <DashboardCard
             className={`block-card ${className || ""}`}
             iconPath="/static/images/icon-blocks.svg"
-            title={translate("common.blocks.blocks").toString()}
+            title={translate("common.blocks.blocks")}
             headerRight={
               <Link href="/blocks">
                 <a>
@@ -38,7 +38,7 @@ const DashboardBlock = ({ className }: Props) => (
                     <Term
                       title={translate(
                         "component.dashboard.DashboardBlock.block_height.title"
-                      ).toString()}
+                      )}
                       text={translate(
                         "component.dashboard.DashboardBlock.block_height.text"
                       )}
@@ -55,10 +55,10 @@ const DashboardBlock = ({ className }: Props) => (
                     <Term
                       title={translate(
                         "component.dashboard.DashboardBlock.avg_block_time.title"
-                      ).toString()}
+                      )}
                       text={translate(
                         "component.dashboard.DashboardBlock.avg_block_time.text"
-                      ).toString()}
+                      )}
                     />
                   }
                   loading={

@@ -38,10 +38,10 @@ class AccountDetails extends React.Component<Props> {
                     <Term
                       title={translate(
                         "component.accounts.AccountDetails.transactions.title"
-                      ).toString()}
+                      )}
                       text={translate(
                         "component.accounts.AccountDetails.transactions.text"
-                      ).toString()}
+                      )}
                       href={"https://docs.near.org/docs/concepts/transaction"}
                     />
                   }
@@ -67,10 +67,10 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.storage_usage.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.storage_usage.text"
-                        ).toString()}
+                        )}
                         href={
                           "https://docs.near.org/docs/concepts/storage-staking"
                         }
@@ -88,10 +88,10 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.lockup_account.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.lockup_account.text"
-                        ).toString()}
+                        )}
                         href={
                           "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
                         }
@@ -117,10 +117,10 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.native_account_balance.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.native_account_balance.text"
-                        ).toString()}
+                        )}
                         href={
                           "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
                         }
@@ -136,7 +136,7 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.validator_stake.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.validator_stake.text",
                           undefined,
@@ -156,10 +156,10 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.balance_profile.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.balance_profile.text"
-                        ).toString()}
+                        )}
                         href={
                           "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
                         }
@@ -186,10 +186,10 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.created_at.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.created_at.text"
-                        ).toString()}
+                        )}
                         href={"https://docs.near.org/docs/concepts/account"}
                       />
                     }
@@ -218,10 +218,10 @@ class AccountDetails extends React.Component<Props> {
                         <Term
                           title={translate(
                             "component.accounts.AccountDetails.created_by_transaction.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.accounts.AccountDetails.created_by_transaction.text"
-                          ).toString()}
+                          )}
                           href={"https://docs.near.org/docs/concepts/account"}
                         />
                       }
@@ -251,10 +251,10 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.deleted_at.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.deleted_at.text"
-                        ).toString()}
+                        )}
                         href={"https://docs.near.org/docs/concepts/account"}
                       />
                     }
@@ -274,10 +274,10 @@ class AccountDetails extends React.Component<Props> {
                       <Term
                         title={translate(
                           "component.accounts.AccountDetails.deleted_by_transaction.title"
-                        ).toString()}
+                        )}
                         text={translate(
                           "component.accounts.AccountDetails.deleted_by_transaction.text"
-                        ).toString()}
+                        )}
                         href={"https://docs.near.org/docs/concepts/account"}
                       />
                     }

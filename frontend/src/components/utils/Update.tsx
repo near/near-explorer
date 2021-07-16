@@ -8,7 +8,7 @@ const Update = ({ children }: PlaceholderProps) => {
       {({ translate }) => (
         <Placeholder className="update">
           {children}
-          {translate("utils.Update.refresh_words").toString()}
+          {translate("utils.Update.refresh_words")}
           <style>{`
       .update:active{
         background: rgba(106, 209, 227, 0.5)

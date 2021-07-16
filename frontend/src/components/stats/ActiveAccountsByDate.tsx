@@ -126,10 +126,7 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
     <Translate>
       {({ translate }) => (
         <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
-          <Tab
-            eventKey="daily"
-            title={translate("common.stats.daily").toString()}
-          >
+          <Tab eventKey="daily" title={translate("common.stats.daily")}>
             <ReactEcharts
               option={getOption(
                 translate(
@@ -141,10 +138,7 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
               style={chartStyle}
             />
           </Tab>
-          <Tab
-            eventKey="weekly"
-            title={translate("common.stats.weekly").toString()}
-          >
+          <Tab eventKey="weekly" title={translate("common.stats.weekly")}>
             <ReactEcharts
               option={getOption(
                 translate(

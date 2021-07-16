@@ -16,7 +16,7 @@ const DashboardNode = () => (
         {({ networkStats }) => (
           <DashboardCard
             iconPath="/static/images/icon-nodes.svg"
-            title={translate("common.nodes.title").toString()}
+            title={translate("common.nodes.title")}
             className="node-card"
           >
             <Row noGutters>
@@ -26,10 +26,10 @@ const DashboardNode = () => (
                     <Term
                       title={translate(
                         "component.dashboard.DashboardNode.nodes_online.title"
-                      ).toString()}
+                      )}
                       text={translate(
                         "component.dashboard.DashboardNode.nodes_online.text"
-                      ).toString()}
+                      )}
                       href={
                         "https://docs.near.org/docs/validator/staking#run-the-node"
                       }
@@ -45,10 +45,10 @@ const DashboardNode = () => (
                     <Term
                       title={translate(
                         "component.dashboard.DashboardNode.nodes_validating.title"
-                      ).toString()}
+                      )}
                       text={translate(
                         "component.dashboard.DashboardNode.nodes_validating.text"
-                      ).toString()}
+                      )}
                       href={
                         "https://docs.near.org/docs/roles/integrator/faq#validators"
                       }

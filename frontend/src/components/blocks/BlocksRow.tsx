@@ -85,9 +85,7 @@ class BlocksRow extends React.PureComponent<Props> {
                               ? translate(
                                   "common.blocks.status.finalized"
                                 ).toString()
-                              : translate(
-                                  "common.blocks.status.finalizing"
-                                ).toString()}
+                              : translate("common.blocks.status.finalizing")}
                           </span>
                           &nbsp;&nbsp;
                           <Timer time={block.timestamp} />

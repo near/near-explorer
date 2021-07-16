@@ -129,10 +129,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.signed_by.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.signed_by.text"
-                          ).toString()}
+                          )}
                           href={"https://docs.near.org/docs/concepts/account"}
                         />
                       }
@@ -147,10 +147,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.receiver.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.receiver.text"
-                          ).toString()}
+                          )}
                           href={"https://docs.near.org/docs/concepts/account"}
                         />
                       }
@@ -164,10 +164,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.status.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.status.text"
-                          ).toString()}
+                          )}
                           href={
                             "https://docs.near.org/docs/concepts/transaction"
                           }
@@ -209,10 +209,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.transaction_fee.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.transaction_fee.text"
-                          ).toString()}
+                          )}
                           href={
                             "https://docs.near.org/docs/concepts/transaction"
                           }
@@ -235,10 +235,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.deposit_value.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.deposit_value.text"
-                          ).toString()}
+                          )}
                           href={
                             "https://near.org/papers/economics-in-sharded-blockchain/"
                           }
@@ -260,10 +260,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.gas_used.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.gas_used.text"
-                          ).toString()}
+                          )}
                           href={
                             "https://docs.near.org/docs/concepts/transaction"
                           }
@@ -279,10 +279,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.attached_gas.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.attached_gas.text"
-                          ).toString()}
+                          )}
                         />
                       }
                       imgLink="/static/images/icon-m-size.svg"
@@ -297,10 +297,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.created.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.created.text"
-                          ).toString()}
+                          )}
                           href={
                             "https://docs.near.org/docs/concepts/transaction"
                           }
@@ -318,10 +318,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.hash.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.hash.text"
-                          ).toString()}
+                          )}
                           href={
                             "https://docs.near.org/docs/concepts/transaction"
                           }
@@ -339,10 +339,10 @@ class TransactionDetails extends React.Component<Props, State> {
                         <Term
                           title={translate(
                             "component.transactions.TransactionDetails.block_hash.title"
-                          ).toString()}
+                          )}
                           text={translate(
                             "component.transactions.TransactionDetails.block_hash.text"
-                          ).toString()}
+                          )}
                         />
                       }
                       text={

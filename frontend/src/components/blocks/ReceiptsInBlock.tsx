@@ -54,7 +54,7 @@ class ReceiptsInBlock extends React.Component<Props, State> {
               <Placeholder>
                 {translate(
                   "component.blocks.ReceiptsInBlock.no_receipts_words"
-                ).toString()}
+                )}
               </Placeholder>
             )}
           </>
