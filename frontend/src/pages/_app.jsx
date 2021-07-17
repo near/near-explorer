@@ -33,10 +33,11 @@ class _App extends App {
     //
     // https://github.com/zeit/next.js#runtime-configuration
 
-    let currentNearNetwork, cookies;
+    let currentNearNetwork, cookies, acceptedLanguages;
     if (typeof window === "undefined") {
       currentNearNetwork = getNearNetwork(appContext.ctx.req.headers.host);
       cookies = appContext.ctx.req.headers.cookie;
+      acceptedLanguages = appContext.ctx.req.headers["accept-language"];
     } else {
       currentNearNetwork = getNearNetwork(window.location.host);
     }
@@ -44,6 +45,7 @@ class _App extends App {
       currentNearNetwork,
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
       cookies,
+      acceptedLanguages,
     };
   }
 
@@ -54,11 +56,11 @@ class _App extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, cookies, acceptedLanguages } = this.props;
 
     return (
       <LocalizeProvider
-        initialize={getI18nConfigForProvider(this.props.cookies)}
+        initialize={getI18nConfigForProvider({ cookies, acceptedLanguages })}
       >
         <Head>
           <link

@@ -57,6 +57,20 @@ const DEBUG_LOG = false;
 
 const debugLog = (...args) => DEBUG_LOG && console.log(...args);
 
+/**
+ * Parses locales provided from browser through `accept-language` header.
+ * @param {string} input
+ * @return {string[]} An array of locale codes. Priority determined by order in array.
+ **/
+export const parseAcceptLanguage = (input) => {
+  // Example input: en-US,en;q=0.9,nb;q=0.8,no;q=0.7
+  // Contains tags separated by comma.
+  // Each tag consists of locale code (2-3 letter language code) and optionally country code
+  // after dash. Tag can also contain score after semicolon, that is assumed to match order
+  // so it's not explicitly used.
+  return input.split(",").map((tag) => tag.split(";")[0]);
+};
+
 export function getBrowserLocale(appLanguages) {
   const browserLanguages = getUserLocales();
 
@@ -69,6 +83,22 @@ export function getBrowserLocale(appLanguages) {
     browserLanguages.length > 0
   ) {
     return findBestSupportedLocale(appLanguages, browserLanguages);
+  }
+}
+
+export function getAcceptedLocale(appLanguages, acceptedLanguages) {
+  acceptedLanguages =
+    acceptedLanguages && parseAcceptLanguage(acceptedLanguages);
+
+  debugLog("Languages from Accepted Languages header:", acceptedLanguages);
+
+  if (
+    appLanguages &&
+    appLanguages.length > 0 &&
+    acceptedLanguages &&
+    acceptedLanguages.length > 0
+  ) {
+    return findBestSupportedLocale(appLanguages, acceptedLanguages);
   }
 }
 
@@ -139,13 +169,23 @@ export function setMomentLocale(code) {
   moment.locale(locale);
 }
 
-function getLangauge(languages, cookies) {
-  return (
-    new Cookies(cookies || undefined).get("NEXT_LOCALE") ||
-    (typeof window !== "undefined" &&
-      getBrowserLocale(languages.map((l) => l.code))) ||
-    languages[0].code
-  );
+function getLangauge(languages, { cookies, acceptedLanguages }) {
+  if (typeof window === "undefined") {
+    return (
+      new Cookies(cookies || undefined).get("NEXT_LOCALE") ||
+      getAcceptedLocale(
+        languages.map((l) => l.code),
+        acceptedLanguages
+      ) ||
+      languages[0].code
+    );
+  } else {
+    return (
+      new Cookies().get("NEXT_LOCALE") ||
+      getBrowserLocale(languages.map((l) => l.code)) ||
+      languages[0].code
+    );
+  }
 }
 
 function getI18nConfig() {
@@ -163,11 +203,11 @@ function getI18nConfig() {
   };
 }
 
-export function getI18nConfigForProvider(cookies) {
+export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
   if (typeof window === "undefined") {
     const config = getI18nConfig();
     const { languages } = config;
-    const activeLang = getLangauge(languages, cookies);
+    const activeLang = getLangauge(languages, { cookies, acceptedLanguages });
     if (activeLang === "zh-hans") {
       config.translation = translations_zh_hans;
     } else {
@@ -181,7 +221,7 @@ export function setI18N(props) {
   const config = getI18nConfig();
   const { languages } = config;
   const { cookies } = props;
-  const activeLang = getLangauge(languages, cookies);
+  const activeLang = getLangauge(languages, { cookies });
 
   props.initialize(config);
   props.addTranslationForLanguage(translations_en, "en");
