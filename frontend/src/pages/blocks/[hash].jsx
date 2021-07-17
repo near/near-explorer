@@ -94,7 +94,7 @@ class BlockDetail extends React.Component {
                 <Content
                   size="medium"
                   icon={<TransactionIcon style={{ width: "22px" }} />}
-                  title={<h2>{translate("common.receipts.title")}</h2>}
+                  title={<h2>{translate("common.receipts.receipts")}</h2>}
                 >
                   <ReceiptsInBlock blockHash={block.hash} />
                 </Content>
