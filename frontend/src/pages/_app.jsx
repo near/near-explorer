@@ -11,8 +11,10 @@ import NetworkProvider from "../context/NetworkProvider";
 import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import { LocalizeProvider } from "react-localize-redux";
 import LocalizeWrapper from "../components/utils/LocalizeWrapper";
+import { getI18nConfigForProvider } from "../libraries/language";
 
 const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
@@ -31,15 +33,19 @@ class _App extends App {
     //
     // https://github.com/zeit/next.js#runtime-configuration
 
-    let currentNearNetwork;
+    let currentNearNetwork, cookies, acceptedLanguages;
     if (typeof window === "undefined") {
       currentNearNetwork = getNearNetwork(appContext.ctx.req.headers.host);
+      cookies = appContext.ctx.req.headers.cookie;
+      acceptedLanguages = appContext.ctx.req.headers["accept-language"];
     } else {
       currentNearNetwork = getNearNetwork(window.location.host);
     }
     return {
       currentNearNetwork,
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
+      cookies,
+      acceptedLanguages,
     };
   }
 
@@ -50,10 +56,12 @@ class _App extends App {
   }
 
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, pageProps, cookies, acceptedLanguages } = this.props;
 
     return (
-      <LocalizeProvider>
+      <LocalizeProvider
+        initialize={getI18nConfigForProvider({ cookies, acceptedLanguages })}
+      >
         <Head>
           <link
             rel="shortcut icon"
