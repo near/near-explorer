@@ -138,11 +138,32 @@ export function setMomentLocale(code) {
   moment.locale(locale);
 }
 
+function getI18nConfig() {
+  return {
+    languages: [
+      { name: "English", code: "en" },
+      { name: "简体中文", code: "zh-hans" },
+    ],
+    options: {
+      defaultLanguage: "en",
+      onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
+      renderToStaticMarkup: false,
+      renderInnerHtml: true,
+    },
+  };
+}
+
+export function getI18nConfigForProvider() {
+  if (typeof window === "undefined") {
+    const config = getI18nConfig();
+    config.translation = translations_en;
+    return config;
+  }
+}
+
 export function setI18N(props) {
-  const languages = [
-    { name: "English", code: "en" },
-    { name: "简体中文", code: "zh-hans" },
-  ];
+  const config = getI18nConfig();
+  const { languages } = config;
 
   const activeLang =
     typeof window === "undefined"
@@ -151,16 +172,7 @@ export function setI18N(props) {
         getBrowserLocale(languages.map((l) => l.code)) ||
         languages[0].code;
 
-  props.initialize({
-    languages,
-    options: {
-      defaultLanguage: "en",
-      onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
-      renderToStaticMarkup: false,
-      renderInnerHtml: true,
-    },
-  });
-
+  props.initialize(config);
   props.addTranslationForLanguage(translations_en, "en");
   props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
   props.setActiveLanguage(activeLang);

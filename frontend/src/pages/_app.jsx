@@ -11,8 +11,10 @@ import NetworkProvider from "../context/NetworkProvider";
 import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import { LocalizeProvider } from "react-localize-redux";
 import LocalizeWrapper from "../components/utils/LocalizeWrapper";
+import { getI18nConfigForProvider } from "../libraries/language";
 
 const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
@@ -53,7 +55,7 @@ class _App extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <LocalizeProvider>
+      <LocalizeProvider initialize={getI18nConfigForProvider()}>
         <Head>
           <link
             rel="shortcut icon"
