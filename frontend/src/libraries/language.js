@@ -144,12 +144,11 @@ export function setI18N(props) {
     { name: "简体中文", code: "zh-hans" },
   ];
 
-  const browserLanguage = getBrowserLocale(languages.map((l) => l.code));
   const activeLang =
     typeof window === "undefined"
       ? languages[0].code
       : localStorage.getItem("languageCode") ||
-        browserLanguage ||
+        getBrowserLocale(languages.map((l) => l.code)) ||
         languages[0].code;
 
   props.initialize({
