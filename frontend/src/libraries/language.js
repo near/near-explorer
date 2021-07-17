@@ -169,7 +169,7 @@ export function setMomentLocale(code) {
   moment.locale(locale);
 }
 
-function getLangauge(languages, { cookies, acceptedLanguages }) {
+function getLanguage(languages, { cookies, acceptedLanguages }) {
   if (typeof window === "undefined") {
     return (
       new Cookies(cookies || undefined).get("NEXT_LOCALE") ||
@@ -207,7 +207,7 @@ export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
   if (typeof window === "undefined") {
     const config = getI18nConfig();
     const { languages } = config;
-    const activeLang = getLangauge(languages, { cookies, acceptedLanguages });
+    const activeLang = getLanguage(languages, { cookies, acceptedLanguages });
     if (activeLang === "zh-hans") {
       config.translation = translations_zh_hans;
     } else {
@@ -221,7 +221,7 @@ export function setI18N(props) {
   const config = getI18nConfig();
   const { languages } = config;
   const { cookies } = props;
-  const activeLang = getLangauge(languages, { cookies });
+  const activeLang = getLanguage(languages, { cookies });
 
   props.initialize(config);
   props.addTranslationForLanguage(translations_en, "en");
