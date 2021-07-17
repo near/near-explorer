@@ -33,15 +33,17 @@ class _App extends App {
     //
     // https://github.com/zeit/next.js#runtime-configuration
 
-    let currentNearNetwork;
+    let currentNearNetwork, cookies;
     if (typeof window === "undefined") {
       currentNearNetwork = getNearNetwork(appContext.ctx.req.headers.host);
+      cookies = appContext.ctx.req.headers.cookie;
     } else {
       currentNearNetwork = getNearNetwork(window.location.host);
     }
     return {
       currentNearNetwork,
       ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
+      cookies,
     };
   }
 
@@ -55,7 +57,9 @@ class _App extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <LocalizeProvider initialize={getI18nConfigForProvider()}>
+      <LocalizeProvider
+        initialize={getI18nConfigForProvider(this.props.cookies)}
+      >
         <Head>
           <link
             rel="shortcut icon"

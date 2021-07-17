@@ -1,6 +1,7 @@
 import React from "react";
 import { withLocalize } from "react-localize-redux";
 import { setMomentLocale } from "../../libraries/language";
+import Cookies from "universal-cookie";
 
 interface Lang {
   code: string;
@@ -14,7 +15,7 @@ const LanguageToggle = ({
 }: any) => {
   const selectLanguage = (code: string) => {
     setActiveLanguage(code);
-    localStorage.setItem("languageCode", code);
+    new Cookies().set("NEXT_LOCALE", code);
     setMomentLocale(code);
   };
 

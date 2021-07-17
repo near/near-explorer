@@ -8,6 +8,7 @@
 import translations_en from "../translations/en.global.json";
 import translations_zh_hans from "../translations/zh-hans.global.json";
 import moment from "moment";
+import Cookies from "universal-cookie";
 
 function uniq(arr) {
   return arr.filter((el, index, self) => self.indexOf(el) === index);
@@ -138,6 +139,15 @@ export function setMomentLocale(code) {
   moment.locale(locale);
 }
 
+function getLangauge(languages, cookies) {
+  return (
+    new Cookies(cookies || undefined).get("NEXT_LOCALE") ||
+    (typeof window !== "undefined" &&
+      getBrowserLocale(languages.map((l) => l.code))) ||
+    languages[0].code
+  );
+}
+
 function getI18nConfig() {
   return {
     languages: [
@@ -153,10 +163,16 @@ function getI18nConfig() {
   };
 }
 
-export function getI18nConfigForProvider() {
+export function getI18nConfigForProvider(cookies) {
   if (typeof window === "undefined") {
     const config = getI18nConfig();
-    config.translation = translations_en;
+    const { languages } = config;
+    const activeLang = getLangauge(languages, cookies);
+    if (activeLang === "zh-hans") {
+      config.translation = translations_zh_hans;
+    } else {
+      config.translation = translations_en;
+    }
     return config;
   }
 }
@@ -164,13 +180,8 @@ export function getI18nConfigForProvider() {
 export function setI18N(props) {
   const config = getI18nConfig();
   const { languages } = config;
-
-  const activeLang =
-    typeof window === "undefined"
-      ? languages[0].code
-      : localStorage.getItem("languageCode") ||
-        getBrowserLocale(languages.map((l) => l.code)) ||
-        languages[0].code;
+  const { cookies } = props;
+  const activeLang = getLangauge(languages, cookies);
 
   props.initialize(config);
   props.addTranslationForLanguage(translations_en, "en");

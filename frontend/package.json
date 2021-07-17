@@ -84,7 +84,8 @@
     "react-motion": "^0.5.2",
     "react-paginate": "^7.1.2",
     "react-text-collapse": "^0.5.2",
-    "styled-components": "^4.4.0"
+    "styled-components": "^4.4.0",
+    "universal-cookie": "^4.0.4"
   },
   "devDependencies": {
     "@types/autobahn": "^18.10.0",
