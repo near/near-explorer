@@ -8,6 +8,8 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 
 import ValidatorsList from "./ValidatorsList";
 
+import { Translate } from "react-localize-redux";
+
 interface Props {
   type: string;
   itemsPerPage: number;
@@ -37,70 +39,92 @@ class Validators extends React.PureComponent<Props> {
     const { type, itemsPerPage } = this.props;
 
     return (
-      <>
-        <NodeConsumer>
-          {(context) => {
-            const validatorType =
-              type === "validators"
-                ? context.currentValidators
-                : context.currentProposals;
-            return (
-              <>
-                {validatorType ? (
-                  <Table
-                    className="validators-section"
-                    pagination={
-                      validatorType.length > itemsPerPage
-                        ? {
-                            className: "validators-node-pagination",
-                            pageCount: Math.ceil(
-                              validatorType.length / itemsPerPage
-                            ),
-                            marginPagesDisplayed: 1,
-                            pageRangeDisplayed: 3,
-                            onPageChange: this.onPageChange,
-                          }
-                        : undefined
-                    }
-                  >
-                    <thead>
-                      <tr className="validators-header-row">
-                        <th />
-                        <th>#</th>
-                        <th>Validator</th>
-                        <th>Fee</th>
-                        <th>Delegators</th>
-                        <th className="text-right">Stake</th>
-                        {type !== "proposals" && <th>Cumulative Stake</th>}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ValidatorsList
-                        validators={validatorType}
-                        pages={{
-                          startPage,
-                          endPage,
-                          activePage,
-                          itemsPerPage,
-                        }}
-                        cellCount={type === "validators" ? 7 : 6}
-                        validatorType={type}
-                      />
-                    </tbody>
-                  </Table>
-                ) : (
-                  <PaginationSpinner hidden={false} />
-                )}
-              </>
-            );
-          }}
-        </NodeConsumer>
-        <style jsx global>{`
-          .validators-node-pagination {
-            background-color: #ffffff;
-          }
-        `}</style>
-      </>
+      <Translate>
+        {({ translate }) => (
+          <>
+            <NodeConsumer>
+              {(context) => {
+                const validatorType =
+                  type === "validators"
+                    ? context.currentValidators
+                    : context.currentProposals;
+                return (
+                  <>
+                    {validatorType ? (
+                      <Table
+                        className="validators-section"
+                        pagination={
+                          validatorType.length > itemsPerPage
+                            ? {
+                                className: "validators-node-pagination",
+                                pageCount: Math.ceil(
+                                  validatorType.length / itemsPerPage
+                                ),
+                                marginPagesDisplayed: 1,
+                                pageRangeDisplayed: 3,
+                                onPageChange: this.onPageChange,
+                              }
+                            : undefined
+                        }
+                      >
+                        <thead>
+                          <tr className="validators-header-row">
+                            <th />
+                            <th>#</th>
+                            <th>
+                              {translate(
+                                "component.nodes.Validators.Validator"
+                              )}
+                            </th>
+                            <th>
+                              {translate("component.nodes.Validators.Fee")}
+                            </th>
+                            <th>
+                              {translate(
+                                "component.nodes.Validators.Delegators"
+                              )}
+                            </th>
+                            <th className="text-right">
+                              {translate("component.nodes.Validators.Stake")}
+                            </th>
+                            {type !== "proposals" && (
+                              <th>
+                                {translate(
+                                  "component.nodes.Validators.CumulativeStake"
+                                )}
+                              </th>
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <ValidatorsList
+                            validators={validatorType}
+                            pages={{
+                              startPage,
+                              endPage,
+                              activePage,
+                              itemsPerPage,
+                            }}
+                            cellCount={type === "validators" ? 7 : 6}
+                            validatorType={type}
+                          />
+                        </tbody>
+                      </Table>
+                    ) : (
+                      <PaginationSpinner hidden={false} />
+                    )}
+                  </>
+                );
+              }}
+            </NodeConsumer>
+            <style jsx global>{`
+              .validators-node-pagination {
+                background-color: #ffffff;
+              }
+            `}</style>
+          </>
+        )}
+      </Translate>
     );
   }
 }
