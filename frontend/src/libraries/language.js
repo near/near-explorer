@@ -7,7 +7,7 @@
 
 import translations_en from "../translations/en.global.json";
 import translations_zh_hans from "../translations/zh-hans.global.json";
-import moment from "moment";
+import moment from "./moment";
 import Cookies from "universal-cookie";
 
 function uniq(arr) {
@@ -166,6 +166,7 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 
 export function setMomentLocale(code) {
   const locale = code === "zh-hans" ? "zh-cn" : "en";
+  // `moment.locale()` must be called after `moment.updateLocale()` are configured
   moment.locale(locale);
 }
 
