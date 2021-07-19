@@ -15,7 +15,7 @@ context("Nodes", () => {
 
   it("Check validators list", () => {
     cy.url().should("include", "/nodes/validators");
-    cy.get(".validator-nodes-row td", { timeout: 20000 }).should("exist");
+    cy.get(".validator-nodes-row td", { timeout: 40000 }).should("exist");
   });
 
   // it("Check online nodes tab", () => {

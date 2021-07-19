@@ -2,7 +2,7 @@
 
 exports[`<TransactionDetails /> renders no deposit 1`] = `
 <div
-  className="jsx-1302829068 transaction-info-container"
+  className="jsx-3516519872 transaction-info-container"
 >
   <div
     className="header-row row no-gutters"
@@ -144,7 +144,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-1302829068"
+                className="jsx-3516519872"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -204,7 +204,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 
+
                 Ⓝ
               </span>
             </div>
@@ -253,7 +253,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 0
-                 
+
                 Ⓝ
               </span>
             </div>
@@ -474,7 +474,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
 
 exports[`<TransactionDetails /> renders with one small deposit 1`] = `
 <div
-  className="jsx-1302829068 transaction-info-container"
+  className="jsx-3516519872 transaction-info-container"
 >
   <div
     className="header-row row no-gutters"
@@ -616,7 +616,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-1302829068"
+                className="jsx-3516519872"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -676,7 +676,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 
+
                 Ⓝ
               </span>
             </div>
@@ -725,7 +725,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 
+
                 Ⓝ
               </span>
             </div>
@@ -946,7 +946,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
 
 exports[`<TransactionDetails /> renders with two big deposit 1`] = `
 <div
-  className="jsx-1302829068 transaction-info-container"
+  className="jsx-3516519872 transaction-info-container"
 >
   <div
     className="header-row row no-gutters"
@@ -1088,7 +1088,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-1302829068"
+                className="jsx-3516519872"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -1148,7 +1148,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 &lt;0.00001
-                 
+
                 Ⓝ
               </span>
             </div>
@@ -1197,7 +1197,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 onMouseOver={[Function]}
               >
                 0.00014
-                 
+
                 Ⓝ
               </span>
             </div>
