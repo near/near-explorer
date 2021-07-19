@@ -88,6 +88,64 @@
     }
   },
   "component": {
+    "nodes": {
+      "Validators": {
+        "Validator": "验证者",
+        "Fee": "费用",
+        "Delegators": "委托人",
+        "Stake": "质押",
+        "CumulativeStake": "累计质押"
+      },
+      "ValidatorRow": {
+        "state": {
+          "Active": {
+            "text": "当前验证节点",
+            "title": "有效的"
+          },
+          "New": {
+            "title": "新的",
+            "text": "下一时段即将到来的验证节点"
+          },
+          "Kickout": {
+            "title": "被踢出",
+            "text": "下一个时段被踢出的节点"
+          },
+          "Pending": {
+            "title": "待定",
+            "text": "节点将要被标记为新的验证节点"
+          }
+        },
+        "WarningTip": "前${node_tip_max}个验证者持有了超过33%的累积质押。委托给下面的验证者可以改善网络的去中心化。"
+      },
+      "NodesEpoch": {
+        "CurrentEpochStart": "当前时段开始在",
+        "Block": "区块",
+        "complete": "完成",
+        "remaining": "剩余"
+      },
+      "NodesContentHeader": {
+        "Nodes": "节点"
+      },
+      "NodeNav": {
+        "Validating": "验证中",
+        "Proposed": "建议的"
+      },
+      "NodesCard": {
+        "NodesValidating": "验证中的节点",
+        "TotalSupply": "总供应量",
+        "TotalStake": "总质押量",
+        "SeatPrice": "席位价格"
+      },
+      "Nodes": {
+        "Validator": "验证者"
+      },
+      "NodeRow": {
+        "Online": {
+          "title": "在线",
+          "text": "在线节点"
+        }
+      }
+    },
     "transactions": {
       "Transactions": {
         "no_transactions_words": "没有交易"

@@ -88,6 +88,64 @@
     }
   },
   "component": {
+    "nodes": {
+      "Validators": {
+        "Validator": "Validator",
+        "Fee": "Fee",
+        "Delegators": "Delegators",
+        "Stake": "Stake",
+        "CumulativeStake": "Cumulative Stake"
+      },
+      "ValidatorRow": {
+        "state": {
+          "Active": {
+            "text": "current validating nodes",
+            "title": "Active"
+          },
+          "New": {
+            "title": "New",
+            "text": "next epoch upcoming validating nodes"
+          },
+          "Kickout": {
+            "title": "Kickout",
+            "text": "next epoch kick out nodes"
+          },
+          "Pending": {
+            "title": "Pending",
+            "text": "node staked to be new validating one"
+          }
+        },
+        "WarningTip": "Validators 1 - ${node_tip_max} hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network."
+      },
+      "NodesEpoch": {
+        "CurrentEpochStart": "Current Epoch Start",
+        "Block": "Block",
+        "complete": "complete",
+        "remaining": "remaining"
+      },
+      "NodesContentHeader": {
+        "Nodes": "Nodes"
+      },
+      "NodeNav": {
+        "Validating": "Validating",
+        "Proposed": "Proposed"
+      },
+      "NodesCard": {
+        "NodesValidating": "Nodes validating",
+        "TotalSupply": "Total Supply",
+        "TotalStake": "Total Stake",
+        "SeatPrice": "Seat Price"
+      },
+      "Nodes": {
+        "Validator": "Validator"
+      },
+      "NodeRow": {
+        "Online": {
+          "title": "Online",
+          "text": "online nodes"
+        }
+      }
+    },
     "transactions": {
       "Transactions": {
         "no_transactions_words": "There are no transactions"

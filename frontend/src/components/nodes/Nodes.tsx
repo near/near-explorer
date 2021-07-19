@@ -9,6 +9,8 @@ import { Table } from "../utils/Table";
 import NodeRow from "./NodeRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
+import { Translate } from "react-localize-redux";
+
 const itemsPerPage = 10;
 class Nodes extends React.Component {
   state = {
@@ -27,47 +29,51 @@ class Nodes extends React.Component {
   render() {
     const { activePage, startPage, endPage } = this.state;
     return (
-      <NodeConsumer>
-        {(context) => (
-          <>
-            {context.onlineNodes ? (
-              <Table
-                className="online-nodes-section"
-                pagination={{
-                  className: "online-nodes-pagination",
-                  pageCount: Math.ceil(
-                    context.onlineNodes.length / itemsPerPage
-                  ),
-                  marginPagesDisplayed: 1,
-                  pageRangeDisplayed: 3,
-                  onPageChange: this.onPageChange,
-                }}
-              >
-                <thead>
-                  <tr className="online-nodes-header-row">
-                    <th />
-                    <th>#</th>
-                    <th>Validator</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {context.onlineNodes
-                    .slice(startPage - 1, endPage)
-                    .map((node: N.NodeInfo, index: number) => (
-                      <NodeRow
-                        key={node.nodeId}
-                        node={node}
-                        index={activePage * itemsPerPage + index + 1}
-                      />
-                    ))}
-                </tbody>
-              </Table>
-            ) : (
-              <PaginationSpinner hidden={false} />
+      <Translate>
+        {({ translate }) => (
+          <NodeConsumer>
+            {(context) => (
+              <>
+                {context.onlineNodes ? (
+                  <Table
+                    className="online-nodes-section"
+                    pagination={{
+                      className: "online-nodes-pagination",
+                      pageCount: Math.ceil(
+                        context.onlineNodes.length / itemsPerPage
+                      ),
+                      marginPagesDisplayed: 1,
+                      pageRangeDisplayed: 3,
+                      onPageChange: this.onPageChange,
+                    }}
+                  >
+                    <thead>
+                      <tr className="online-nodes-header-row">
+                        <th />
+                        <th>#</th>
+                        <th>{translate("component.nodes.Nodes.Validator")}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {context.onlineNodes
+                        .slice(startPage - 1, endPage)
+                        .map((node: N.NodeInfo, index: number) => (
+                          <NodeRow
+                            key={node.nodeId}
+                            node={node}
+                            index={activePage * itemsPerPage + index + 1}
+                          />
+                        ))}
+                    </tbody>
+                  </Table>
+                ) : (
+                  <PaginationSpinner hidden={false} />
+                )}
+              </>
             )}
-          </>
+          </NodeConsumer>
         )}
-      </NodeConsumer>
+      </Translate>
     );
   }
 }
