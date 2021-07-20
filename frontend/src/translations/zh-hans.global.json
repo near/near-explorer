@@ -450,6 +450,13 @@
       },
       "HeaderNavDropdown": {
         "title": "浏览"
+      },
+      "Footer": {
+        "PrivacyPolicy": "隐私政策",
+        "TermsOfService": "服务条款",
+        "AllRightsReserved": "版权所有",
+        "JoinTheCommunity": "加入社区",
+        "Questions": "有问题"
       }
     }
   },

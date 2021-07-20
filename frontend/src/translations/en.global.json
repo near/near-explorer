@@ -450,6 +450,13 @@
       },
       "HeaderNavDropdown": {
         "title": "Explore"
+      },
+      "Footer": {
+        "PrivacyPolicy": "Privacy Policy",
+        "TermsOfService": "Terms of Service",
+        "AllRightsReserved": "All Rights Reserved",
+        "JoinTheCommunity": "Join the Community",
+        "Questions": "Questions"
       }
     }
   },
