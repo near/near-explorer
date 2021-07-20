@@ -42,10 +42,9 @@ class NodesEpoch extends React.PureComponent<Props> {
                     <Col>
                       {translate(
                         "component.nodes.NodesEpoch.CurrentEpochStart"
-                      )}
-                      :{" "}
+                      ) + ":"}
                       <span className="text-value">
-                        {translate("component.nodes.NodesEpoch.Block")} #
+                        {translate("component.nodes.NodesEpoch.Block") + " #"}
                         {epochStartHeight}
                       </span>
                     </Col>
@@ -59,7 +58,7 @@ class NodesEpoch extends React.PureComponent<Props> {
                     </Col>
                     <Col xs="12">
                       <span className="text-value">
-                        {translate("component.nodes.NodesEpoch.Block")} #
+                        {translate("component.nodes.NodesEpoch.Block") + " #"}
                         {epochStartHeight}
                       </span>
                     </Col>
@@ -68,8 +67,8 @@ class NodesEpoch extends React.PureComponent<Props> {
 
                 <Col sm="5" className="text-right d-none d-md-block ">
                   <span className="text-value persnt-remains">
-                    {epochProgress.toFixed(0)}%{" "}
-                    {translate("component.nodes.NodesEpoch.complete")}
+                    {epochProgress.toFixed(0)}
+                    {"% " + translate("component.nodes.NodesEpoch.complete")}
                   </span>
                   {` (${moment
                     .utc(timeRemaining)
