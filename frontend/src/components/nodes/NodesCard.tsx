@@ -66,7 +66,9 @@ class NodesCard extends React.PureComponent {
                   <Col xs="12" sm="6" md="6" xl="2">
                     <Row noGutters>
                       <Col xs="12" className="nodes-card-title">
-                        {translate("component.nodes.NodesCard.NodesValidating")}
+                        {translate(
+                          "component.nodes.NodesCard.nodes_validating"
+                        )}
                       </Col>
                       <Col xs="12" className="nodes-card-text validating">
                         {context.networkStats ? (
@@ -81,7 +83,7 @@ class NodesCard extends React.PureComponent {
                   <Col xs="12" sm="6" md="6" xl="3">
                     <Row noGutters>
                       <Col xs="12" className="nodes-card-title">
-                        {translate("component.nodes.NodesCard.TotalSupply")}
+                        {translate("component.nodes.NodesCard.total_supply")}
                       </Col>
                       <Col xs="12" className="nodes-card-text">
                         {context.epochStartBlock ? (
@@ -99,7 +101,7 @@ class NodesCard extends React.PureComponent {
                   <Col xs="12" md="6" xl="3">
                     <Row noGutters>
                       <Col xs="12" className="nodes-card-title">
-                        {translate("component.nodes.NodesCard.TotalStake")}
+                        {translate("component.nodes.NodesCard.total_stake")}
                       </Col>
                       <Col xs="12" className="nodes-card-text">
                         {context.networkStats ? (
@@ -117,7 +119,7 @@ class NodesCard extends React.PureComponent {
                   <Col xs="12" md="6" xl="4">
                     <Row noGutters>
                       <Col xs="12" className="nodes-card-title">
-                        {translate("component.nodes.NodesCard.SeatPrice")}
+                        {translate("component.nodes.NodesCard.seat_price")}
                       </Col>
                       <Col xs="12" className="nodes-card-text">
                         {context.networkStats ? (

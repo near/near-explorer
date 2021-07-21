@@ -76,11 +76,11 @@ class NodeRow extends React.PureComponent<Props, State> {
                         <ValidatingLabel
                           type="active"
                           text={translate(
-                            "component.nodes.NodeRow.Online.text"
+                            "component.nodes.NodeRow.online.text"
                           ).toString()}
                           tooltipKey="nodes"
                         >
-                          {translate("component.nodes.NodeRow.Online.title")}
+                          {translate("component.nodes.NodeRow.online.title")}
                         </ValidatingLabel>
                       </Col>
 

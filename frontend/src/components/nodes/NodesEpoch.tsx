@@ -41,10 +41,10 @@ class NodesEpoch extends React.PureComponent<Props> {
                   <Row className="d-none d-md-flex">
                     <Col>
                       {translate(
-                        "component.nodes.NodesEpoch.CurrentEpochStart"
+                        "component.nodes.NodesEpoch.current_epoch_start"
                       ) + ":"}
                       <span className="text-value">
-                        {translate("component.nodes.NodesEpoch.Block") + " #"}
+                        {translate("component.nodes.NodesEpoch.block") + " #"}
                         {epochStartHeight}
                       </span>
                     </Col>
@@ -53,12 +53,12 @@ class NodesEpoch extends React.PureComponent<Props> {
                   <Row className="d-xs-flex d-md-none">
                     <Col xs="12">
                       {translate(
-                        "component.nodes.NodesEpoch.CurrentEpochStart"
+                        "component.nodes.NodesEpoch.current_epoch_start"
                       )}
                     </Col>
                     <Col xs="12">
                       <span className="text-value">
-                        {translate("component.nodes.NodesEpoch.Block") + " #"}
+                        {translate("component.nodes.NodesEpoch.block") + " #"}
                         {epochStartHeight}
                       </span>
                     </Col>

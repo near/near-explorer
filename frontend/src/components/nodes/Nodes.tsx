@@ -51,7 +51,7 @@ class Nodes extends React.Component {
                       <tr className="online-nodes-header-row">
                         <th />
                         <th>#</th>
-                        <th>{translate("component.nodes.Nodes.Validator")}</th>
+                        <th>{translate("component.nodes.Nodes.validator")}</th>
                       </tr>
                     </thead>
                     <tbody>

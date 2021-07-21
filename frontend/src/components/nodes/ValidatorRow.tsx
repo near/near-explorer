@@ -110,48 +110,48 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                           <ValidatingLabel
                             type="pending"
                             text={translate(
-                              "component.nodes.ValidatorRow.state.Pending.text"
+                              "component.nodes.ValidatorRow.state.pending.text"
                             ).toString()}
                             tooltipKey="nodes"
                           >
                             {translate(
-                              "component.nodes.ValidatorRow.state.Pending.title"
+                              "component.nodes.ValidatorRow.state.pending.title"
                             )}
                           </ValidatingLabel>
                         ) : node.new ? (
                           <ValidatingLabel
                             type="new"
                             text={translate(
-                              "component.nodes.ValidatorRow.state.New.text"
+                              "component.nodes.ValidatorRow.state.new.text"
                             ).toString()}
                             tooltipKey="new"
                           >
                             {translate(
-                              "component.nodes.ValidatorRow.state.New.title"
+                              "component.nodes.ValidatorRow.state.new.title"
                             )}
                           </ValidatingLabel>
                         ) : node.removed ? (
                           <ValidatingLabel
                             type="kickout"
                             text={translate(
-                              "component.nodes.ValidatorRow.state.Kickout.text"
+                              "component.nodes.ValidatorRow.state.kickout.text"
                             ).toString()}
                             tooltipKey="kickout"
                           >
                             {translate(
-                              "component.nodes.ValidatorRow.state.Kickout.title"
+                              "component.nodes.ValidatorRow.state.kickout.title"
                             )}
                           </ValidatingLabel>
                         ) : (
                           <ValidatingLabel
                             type="active"
                             text={translate(
-                              "component.nodes.ValidatorRow.state.Active.text"
+                              "component.nodes.ValidatorRow.state.active.text"
                             ).toString()}
                             tooltipKey="current"
                           >
                             {translate(
-                              "component.nodes.ValidatorRow.state.Active.title"
+                              "component.nodes.ValidatorRow.state.active.title"
                             )}
                           </ValidatingLabel>
                         )}
@@ -382,7 +382,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                         colSpan={cellCount}
                         className="warning-text text-center"
                       >
-                        {translate("component.nodes.ValidatorRow.WarningTip", {
+                        {translate("component.nodes.ValidatorRow.warning_tip", {
                           node_tip_max:
                             node?.cumulativeStakeAmount.networkHolderIndex + 1,
                         })}

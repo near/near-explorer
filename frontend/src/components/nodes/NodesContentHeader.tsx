@@ -27,7 +27,7 @@ class NodesContentHeader extends React.PureComponent<Props> {
             </Col>
             <Col className="content-title">
               <h1 style={{ fontSize: "31px", marginBottom: "0px" }}>
-                {translate("component.nodes.NodesContentHeader.Nodes")}
+                {translate("component.nodes.NodesContentHeader.nodes")}
               </h1>
             </Col>
             <Col xs="12">

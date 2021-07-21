@@ -26,7 +26,7 @@ const Footer = () => {
                 md="6"
               >
                 &copy; {new Date().getFullYear()} NEAR Inc.{" "}
-                {translate("component.utils.Footer.AllRightsReserved")}.
+                {translate("component.utils.Footer.all_rights_reserved")}.
                 <br />
                 <a
                   className="footer-link-href"
@@ -37,7 +37,7 @@ const Footer = () => {
                     Mixpanel.track("Explorer Click terms of service");
                   }}
                 >
-                  {translate("component.utils.Footer.TermsOfService")}
+                  {translate("component.utils.Footer.terms_of_service")}
                 </a>
                 &nbsp;|&nbsp;
                 <a
@@ -49,7 +49,7 @@ const Footer = () => {
                     Mixpanel.track("Explorer Click privacy policy");
                   }}
                 >
-                  {translate("component.utils.Footer.PrivacyPolicy")}
+                  {translate("component.utils.Footer.privacy_policy")}
                 </a>
               </Col>
             </Row>
@@ -67,10 +67,10 @@ const Footer = () => {
               <Row className="mx-0">
                 <Col className="align-self-center footer-help">
                   <span className="need-help-contact">
-                    {translate("component.utils.Footer.Questions")}?
+                    {translate("component.utils.Footer.questions")}?
                   </span>
                   <span className="need-help-contact need-help-contact-bottom">
-                    {translate("component.utils.Footer.JoinTheCommunity")}
+                    {translate("component.utils.Footer.join_the_community")}
                   </span>
                 </Col>
               </Row>

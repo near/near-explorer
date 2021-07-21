@@ -90,57 +90,57 @@
   "component": {
     "nodes": {
       "Validators": {
-        "Validator": "Validator",
-        "Fee": "Fee",
-        "Delegators": "Delegators",
-        "Stake": "Stake",
-        "CumulativeStake": "Cumulative Stake"
+        "validator": "Validator",
+        "fee": "Fee",
+        "delegators": "Delegators",
+        "stake": "Stake",
+        "cumulative_stake": "Cumulative Stake"
       },
       "ValidatorRow": {
         "state": {
-          "Active": {
+          "active": {
             "text": "current validating nodes",
             "title": "Active"
           },
-          "New": {
+          "new": {
             "title": "New",
             "text": "next epoch upcoming validating nodes"
           },
-          "Kickout": {
+          "kickout": {
             "title": "Kickout",
             "text": "next epoch kick out nodes"
           },
-          "Pending": {
+          "pending": {
             "title": "Pending",
             "text": "node staked to be new validating one"
           }
         },
-        "WarningTip": "Validators 1 - ${node_tip_max} hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network."
+        "warning_tip": "Validators 1 - ${node_tip_max} hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network."
       },
       "NodesEpoch": {
-        "CurrentEpochStart": "Current Epoch Start",
-        "Block": "Block",
+        "current_epoch_start": "Current Epoch Start",
+        "block": "Block",
         "complete": "complete",
         "remaining": "remaining"
       },
       "NodesContentHeader": {
-        "Nodes": "Nodes"
+        "nodes": "Nodes"
       },
       "NodeNav": {
-        "Validating": "Validating",
-        "Proposed": "Proposed"
+        "validating": "Validating",
+        "proposed": "Proposed"
       },
       "NodesCard": {
-        "NodesValidating": "Nodes validating",
-        "TotalSupply": "Total Supply",
-        "TotalStake": "Total Stake",
-        "SeatPrice": "Seat Price"
+        "nodes_validating": "Nodes validating",
+        "total_supply": "Total Supply",
+        "total_stake": "Total Stake",
+        "seat_price": "Seat Price"
       },
       "Nodes": {
-        "Validator": "Validator"
+        "validator": "Validator"
       },
       "NodeRow": {
-        "Online": {
+        "online": {
           "title": "Online",
           "text": "online nodes"
         }
@@ -452,11 +452,11 @@
         "title": "Explore"
       },
       "Footer": {
-        "PrivacyPolicy": "Privacy Policy",
-        "TermsOfService": "Terms of Service",
-        "AllRightsReserved": "All Rights Reserved",
-        "JoinTheCommunity": "Join the Community",
-        "Questions": "Questions"
+        "privacy_policy": "Privacy Policy",
+        "terms_of_service": "Terms of Service",
+        "all_rights_reserved": "All Rights Reserved",
+        "join_the_community": "Join the Community",
+        "questions": "Questions"
       }
     }
   },

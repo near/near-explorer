@@ -29,7 +29,7 @@ class NodeNav extends React.PureComponent<Props> {
                   >
                     <Link href="/nodes/validators">
                       <a className="node-link" id="validator-node">
-                        {translate("component.nodes.NodeNav.Validating")}{" "}
+                        {translate("component.nodes.NodeNav.validating")}{" "}
                         <Badge pill className="nodes-amount-label validating">
                           {context.networkStats
                             ? context.networkStats.currentValidatorsCount
@@ -63,7 +63,7 @@ class NodeNav extends React.PureComponent<Props> {
                   >
                     <Link href="/nodes/proposals">
                       <a className="node-link" id="proposal-node">
-                        {translate("component.nodes.NodeNav.Proposed")}{" "}
+                        {translate("component.nodes.NodeNav.proposed")}{" "}
                         <Badge pill className="nodes-amount-label proposed">
                           {context.networkStats
                             ? context.networkStats.currentProposalsCount

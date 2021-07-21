@@ -73,24 +73,24 @@ class Validators extends React.PureComponent<Props> {
                             <th>#</th>
                             <th>
                               {translate(
-                                "component.nodes.Validators.Validator"
+                                "component.nodes.Validators.validator"
                               )}
                             </th>
                             <th>
-                              {translate("component.nodes.Validators.Fee")}
+                              {translate("component.nodes.Validators.fee")}
                             </th>
                             <th>
                               {translate(
-                                "component.nodes.Validators.Delegators"
+                                "component.nodes.Validators.delegators"
                               )}
                             </th>
                             <th className="text-right">
-                              {translate("component.nodes.Validators.Stake")}
+                              {translate("component.nodes.Validators.stake")}
                             </th>
                             {type !== "proposals" && (
                               <th>
                                 {translate(
-                                  "component.nodes.Validators.CumulativeStake"
+                                  "component.nodes.Validators.cumulative_stake"
                                 )}
                               </th>
                             )}
