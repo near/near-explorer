@@ -90,9 +90,9 @@
   "component": {
     "nodes": {
       "Validators": {
-        "validator": "验证者",
+        "validator": "验证节点",
         "fee": "费用",
-        "delegators": "委托人",
+        "delegators": "委托人数",
         "stake": "质押",
         "cumulative_stake": "累计质押"
       },
@@ -104,21 +104,21 @@
           },
           "new": {
             "title": "新的",
-            "text": "下一时段即将到来的验证节点"
+            "text": "下一周期即将到来的验证节点"
           },
           "kickout": {
             "title": "被踢出",
-            "text": "下一个时段被踢出的节点"
+            "text": "下一周期被踢出的节点"
           },
           "pending": {
             "title": "待定",
             "text": "节点将要被标记为新的验证节点"
           }
         },
-        "warning_tip": "前${node_tip_max}个验证者持有了超过33%的累积质押。委托给下面的验证者可以改善网络的去中心化。"
+        "warning_tip": "前${node_tip_max}个验证节点持有了超过33%的累积质押。委托给下面的验证节点可以改善网络的去中心化。"
       },
       "NodesEpoch": {
-        "current_epoch_start": "当前时段开始在",
+        "current_epoch_start": "当前周期开始在",
         "block": "区块",
         "complete": "完成",
         "remaining": "剩余"
@@ -127,17 +127,17 @@
         "nodes": "节点"
       },
       "NodeNav": {
-        "validating": "验证中",
-        "proposed": "建议的"
+        "validating": "正在验证",
+        "proposed": "已经提议"
       },
       "NodesCard": {
-        "nodes_validating": "验证中的节点",
+        "nodes_validating": "正在验证的节点",
         "total_supply": "总供应量",
         "total_stake": "总质押量",
         "seat_price": "席位价格"
       },
       "Nodes": {
-        "validator": "验证者"
+        "validator": "验证节点"
       },
       "NodeRow": {
         "online": {
