@@ -88,6 +88,14 @@
     }
   },
   "component": {
+    "receipts": {
+      "ReceiptExecutionStatus": {
+        "unknown": "Unknown",
+        "failure": "Failed",
+        "success_value": "Succeeded",
+        "success_receiptId": "Succeeded"
+      }
+    },
     "nodes": {
       "Validators": {
         "validator": "Validator",

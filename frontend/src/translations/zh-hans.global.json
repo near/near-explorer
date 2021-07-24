@@ -88,6 +88,14 @@
     }
   },
   "component": {
+    "receipts": {
+      "ReceiptExecutionStatus": {
+        "unknown": "未知",
+        "failure": "失败",
+        "success_value": "成功",
+        "success_receiptId": "成功"
+      }
+    },
     "nodes": {
       "Validators": {
         "validator": "验证节点",
