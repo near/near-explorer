@@ -63,7 +63,7 @@ class ValidatorsPage extends React.Component {
             </Container>
             <NodeProvider>
               <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
-                <Validators type="validators" />
+                <Validators nearNetwork={this.props.currentNearNetwork.name} />
               </Container>
             </NodeProvider>
           </Content>

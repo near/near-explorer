@@ -2,13 +2,14 @@ const nearApi = require("near-api-js");
 
 const BN = require("bn.js");
 
-const { nearRpcUrl } = require("./config");
+const { nearRpcUrl, wampNearNetworkName } = require("./config");
 const { queryNodeValidators } = require("./db-utils");
 
 const nearRpc = new nearApi.providers.JsonRpcProvider(nearRpcUrl);
 
 let seatPrice = null;
 let totalStake = null;
+let poolDetails = null;
 let currentEpochStartHeight = null;
 let totalValidatorsPool = new Map();
 
@@ -38,6 +39,13 @@ const queryEpochStats = async () => {
   const currentValidators = getCurrentNodes(epochStatus);
   const currentPools = await queryNodeValidators();
 
+  if (wampNearNetworkName === "mainnet") {
+    poolDetails = await nearRpc.callViewMethod("name.near", "get_all_fields", {
+      from_index: 0,
+      limit: 100,
+    });
+  }
+
   currentValidators.forEach((validator, i) => {
     if (!currentValidators[i].validatorStatus) {
       currentValidators[i].validatorStatus = "active";
@@ -63,10 +71,20 @@ const queryEpochStats = async () => {
   currentPools.forEach((pool) => {
     const activePool = totalValidatorsPool.get(pool.account_id);
     if (activePool) {
-      totalValidatorsPool.set(pool.account_id, activePool);
+      totalValidatorsPool.set(pool.account_id, {
+        ...activePool,
+        poolDetails:
+          wampNearNetworkName === "mainnet"
+            ? { ...poolDetails[pool.account_id] }
+            : null,
+      });
     } else {
       totalValidatorsPool.set(pool.account_id, {
         account_id: pool.account_id,
+        poolDetails:
+          wampNearNetworkName === "mainnet"
+            ? { ...poolDetails[pool.account_id] }
+            : null,
       });
     }
   });

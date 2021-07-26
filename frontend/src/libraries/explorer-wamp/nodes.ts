@@ -30,9 +30,20 @@ export interface BaseValidationNodeInfo {
   nodeInfo?: NodeInfo;
 }
 
+export interface PoolDetails {
+  country?: string;
+  country_code?: string;
+  description?: string;
+  discord?: string;
+  email?: string;
+  twitter?: string;
+  url?: string;
+}
+
 export interface StakingPoolInfo {
   fee: { numerator: number; denominator: number };
   delegatorsCount: number;
+  poolDetails?: PoolDetails;
 }
 
 export type ValidationNodeInfo = BaseValidationNodeInfo & StakingPoolInfo;

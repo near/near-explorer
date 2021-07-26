@@ -2,6 +2,7 @@ import BN from "bn.js";
 import React from "react";
 
 import { Badge, Row, Col, Spinner } from "react-bootstrap";
+import ReactCountryFlag from "react-country-flag";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as N from "../../libraries/explorer-wamp/nodes";
@@ -24,6 +25,21 @@ interface Props {
 interface State {
   activeRow: boolean;
 }
+
+const DefaultCountryFlag = () => (
+  <div
+    style={{
+      width: "22px",
+      lineHeight: "16px",
+      backgroundColor: "#f0f0f1",
+      color: "#72727a",
+      fontSize: "8px",
+      textAlign: "center",
+    }}
+  >
+    ?
+  </div>
+);
 
 class ValidatorRow extends React.PureComponent<Props, State> {
   state = {
@@ -49,8 +65,16 @@ class ValidatorRow extends React.PureComponent<Props, State> {
         : node.delegatorsCount === null
         ? "N/A"
         : node.delegatorsCount;
-    const nodeDetailsEnable = Boolean(
-      (node.num_produced_blocks && node.num_expected_blocks) || node.nodeInfo
+    const nodeProduceBlocks =
+      node.num_produced_blocks && node.num_expected_blocks;
+    const poolDetalisEvailable = [
+      "url",
+      "email",
+      "twitter",
+      "discord",
+      "description",
+    ].some(
+      (key) => node.poolDetails && Object.keys(node.poolDetails).includes(key)
     );
     // compute increaced stake of validator in the next epoch
     const stakeProposed =
@@ -97,9 +121,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                     key={node.account_id}
                   >
                     <td
-                      className={`collapse-row-arrow ${
-                        !nodeDetailsEnable ? "disable" : ""
-                      }`}
+                      className="collapse-row-arrow"
                       onClick={this.handleClick}
                     >
                       {this.state.activeRow ? (
@@ -107,7 +129,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                           src="/static/images/icon-minimize.svg"
                           style={{ width: "16px" }}
                         />
-                      ) : (
+                        ) : (
                         <img
                           src="/static/images/icon-maximize.svg"
                           style={{ width: "16px" }}
@@ -116,22 +138,37 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                     </td>
 
                     <td className="order">{index}</td>
+                    <td className="country-flag">
+                      {node.poolDetails?.country_code ? (
+                        <ReactCountryFlag
+                          svg
+                          countryCode={node.poolDetails?.country_code}
+                          aria-label={node.poolDetails?.country}
+                          style={{
+                            width: "22px",
+                            lineHeight: "14px",
+                          }}
+                        />
+                      ) : (
+                        <DefaultCountryFlag />
+                      )}
+                    </td>
 
                     <td>
                       <Row noGutters className="align-items-center">
                         <Col xs="2" className="validators-node-label">
                           {node.validatorStatus === "proposal" ? (
                             <ValidatingLabel
-                            type="pending"
-                            text={translate(
-                              "component.nodes.ValidatorRow.state.pending.text"
-                            ).toString()}
-                            tooltipKey="nodes"
-                          >
-                            {translate(
-                              "component.nodes.ValidatorRow.state.pending.title"
-                            )}
-                          </ValidatingLabel>
+                              type="pending"
+                              text={translate(
+                                "component.nodes.ValidatorRow.state.pending.text"
+                              ).toString()}
+                              tooltipKey="nodes"
+                              >
+                              {translate(
+                                "component.nodes.ValidatorRow.state.pending.title"
+                              )}
+                            </ValidatingLabel>
                           ) : node.validatorStatus === "new" ? (
                             <ValidatingLabel
                               type="new"
@@ -202,6 +239,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                         <Spinner animation="border" size="sm" />
                       )}
                     </td>
+
                     <td className="text-right validator-nodes-text stake-text">
                       {node.stake ? (
                         <Balance amount={node.stake} label="NEAR" />
@@ -224,6 +262,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                         </>
                       )}
                     </td>
+
                     <td>
                       <CumulativeStakeChart
                         value={{
@@ -232,10 +271,8 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                         }}
                       />
                     </td>
-                  )}
                 </TableRow>
 
-                {nodeDetailsEnable && (
                   <TableCollapseRow
                     className="validator-nodes-details-row"
                     collapse={this.state.activeRow}
@@ -421,119 +458,222 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                                   </Col>
                                 </Row>
                               </Col>
-                            )}
+                          )}
                         </Row>
-                      </td>
-                    </TableCollapseRow>
-                  )}
+
+                      <Row noGutters className="validator-nodes-content-row">
+                        {node?.poolDetails && poolDetalisEvailable ? (
+                          <>
+                            {node.poolDetails.url && (
+                              <Col className="validator-nodes-content-cell" xs="auto">
+                                <Row noGutters>
+                                  <Col className="validator-nodes-details-title">
+                                    Web
+                                  </Col>
+                                </Row>
+                                <Row noGutters>
+                                  <Col className="validator-nodes-text">
+                                    <a
+                                      href={`http://${node.poolDetails.url}`}
+                                      target="_blank"
+                                    >
+                                      {node.poolDetails.url}
+                                    </a>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            )}
+                            {node.poolDetails.email && (
+                              <Col className="validator-nodes-content-cell" xs="auto">
+                                <Row noGutters>
+                                  <Col className="validator-nodes-details-title">
+                                    Email
+                                  </Col>
+                                </Row>
+                                <Row noGutters>
+                                  <Col className="validator-nodes-text">
+                                    <a href={`mailto:${node.poolDetails.email}`}>
+                                      {node.poolDetails.email}
+                                    </a>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            )}
+                            {node.poolDetails.twitter && (
+                              <Col className="validator-nodes-content-cell" xs="auto">
+                                <Row noGutters>
+                                  <Col className="validator-nodes-details-title">
+                                    Twitter
+                                  </Col>
+                                </Row>
+                                <Row noGutters>
+                                  <Col className="validator-nodes-text">
+                                    <a
+                                      href={`https://twitter.com/${node.poolDetails.twitter}`}
+                                      target="_blank"
+                                    >
+                                      {node.poolDetails.twitter}
+                                    </a>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            )}
+                            {node.poolDetails.discord && (
+                              <Col className="validator-nodes-content-cell" xs="auto">
+                                <Row noGutters>
+                                  <Col className="validator-nodes-details-title">
+                                    Discord
+                                  </Col>
+                                </Row>
+                                <Row noGutters>
+                                  <Col className="validator-nodes-text">
+                                    <a
+                                      href={node.poolDetails.discord}
+                                      target="_blank"
+                                    >
+                                      {node.poolDetails.discord}
+                                    </a>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            )}
+                            {node.poolDetails.description && (
+                              <Col className="validator-nodes-content-cell">
+                                <Row noGutters>
+                                  <Col className="validator-nodes-details-title">
+                                    Description
+                                  </Col>
+                                </Row>
+                                <Row noGutters>
+                                  <Col className="validator-nodes-text">
+                                    <small>{node.poolDetails.description}</small>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            )}
+                          </>
+                        ) : (
+                          <Col className="validator-nodes-content-cell">
+                            <p className="text-center">
+                              If you are node owner feel free to fill all{" "}
+                              <a
+                                href="https://github.com/zavodil/near-pool-details#description"
+                                target="_blank"
+                              >
+                                data
+                              </a>{" "}
+                              to promote your own node!
+                            </p>
+                          </Col>
+                        )}
+                      </Row>
+                    </td>
+                  </TableCollapseRow>
 
                   {node?.cumulativeStakeAmount && node?.networkHolder && (
                     <tr className="cumulative-stake-holders-row">
-                      <td
-                        colSpan={cellCount}
-                        className="warning-text text-center"
-                      >
-                        {translate("component.nodes.ValidatorRow.warning_tip", {
-                          node_tip_max: index,
-                        })}
+                      <td colSpan={cellCount} className="warning-text text-center">
+                        Validators 1 - {index} hold a cumulative stake above 33%.
+                        Delegating to the validators below improves the
+                        decentralization of the network.
                       </td>
                     </tr>
                   )}
+
+                  <style jsx global>{`
+                    @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+
+                    .collapse-row-arrow {
+                      cursor: pointer;
+                    }
+
+                    .collapse-row-arrow.disable {
+                      cursor: default;
+                      opacity: 0.3;
+                      pointer-events: none;
+                      touch-action: none;
+                    }
+
+                    .validator-nodes-text {
+                      font-weight: 500;
+                      font-size: 14px;
+                      color: #3f4045;
+                    }
+
+                    .validator-node-pub-key {
+                      color: #2b9af4;
+                    }
+
+                    .validator-name {
+                      max-width: 250px;
+                    }
+
+                    .validator-name .validator-nodes-text {
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    }
+
+                    .validator-nodes-details-title {
+                      display: flex;
+                      flex-wrap: nowrap;
+                      font-size: 12px;
+                      color: #a2a2a8;
+                    }
+
+                    .validator-nodes-text.uptime {
+                      color: #72727a;
+                    }
+
+                    .validator-nodes-text.stake-text {
+                      font-weight: 700;
+                    }
+
+                    .validator-nodes-content-row {
+                      padding-top: 16px;
+                      padding-bottom: 16px;
+                    }
+
+                    .validator-nodes-content-row > .validator-nodes-content-cell {
+                      padding: 0 22px;
+                      border-right: 1px solid #e5e5e6;
+                    }
+
+                    .validator-nodes-content-row
+                      > .validator-nodes-content-cell:last-child {
+                      border-right: none;
+                    }
+
+                    .agent-name-badge {
+                      background-color: #f0f0f1;
+                      color: #72727a;
+                      font-weight: 500;
+                      font-size: 12px;
+                      font-family: "Roboto Mono", monospace;
+                    }
+
+                    .validators-node-label {
+                      margin-right: 24px;
+                    }
+
+                    .cumulative-stake-holders-row {
+                      background-color: #fff6ed;
+                    }
+                    .cumulative-stake-holders-row .warning-text {
+                      color: #995200;
+                      padding: 16px 50px;
+                      font-size: 12px;
+                    }
+
+                    @media (min-width: 1200px) {
+                      .validator-name {
+                        max-width: 420px;
+                      }
+                    }
+                  `}</style>
                 </>
               )}
             </DatabaseConsumer>
-
-            <style jsx global>{`
-              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
-
-              .collapse-row-arrow {
-                cursor: pointer;
-              }
-
-              .collapse-row-arrow.disable {
-                cursor: default;
-                opacity: 0.3;
-                pointer-events: none;
-                touch-action: none;
-              }
-
-              .validator-nodes-text {
-                font-weight: 500;
-                font-size: 14px;
-                color: #3f4045;
-              }
-
-              .validator-node-pub-key {
-                color: #2b9af4;
-              }
-
-              .validator-name {
-                max-width: 250px;
-              }
-
-              .validator-name .validator-nodes-text {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-
-              .validator-nodes-details-title {
-                display: flex;
-                flex-wrap: nowrap;
-                font-size: 12px;
-                color: #a2a2a8;
-              }
-
-              .validator-nodes-text.uptime {
-                color: #72727a;
-              }
-
-              .validator-nodes-text.stake-text {
-                font-weight: 700;
-              }
-
-              .validator-nodes-content-row {
-                padding-top: 16px;
-                padding-bottom: 16px;
-              }
-
-              .validator-nodes-content-row > .validator-nodes-content-cell {
-                padding: 0 22px;
-                border-right: 1px solid #e5e5e6;
-              }
-
-              .validator-nodes-content-row
-                > .validator-nodes-content-cell:last-child {
-                border-right: none;
-              }
-
-              .agent-name-badge {
-                background-color: #f0f0f1;
-                color: #72727a;
-                font-weight: 500;
-                font-size: 12px;
-                font-family: "Roboto Mono", monospace;
-              }
-
-              .validators-node-label {
-                margin-right: 24px;
-              }
-
-              .cumulative-stake-holders-row {
-                background-color: #fff6ed;
-              }
-              .cumulative-stake-holders-row .warning-text {
-                color: #995200;
-                padding: 16px 50px;
-                font-size: 12px;
-              }
-
-              @media (min-width: 1200px) {
-                .validator-name {
-                  max-width: 420px;
-                }
-              }
-            `}</style>
           </>
         )}
       </Translate>

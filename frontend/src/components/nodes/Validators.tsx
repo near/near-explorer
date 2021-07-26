@@ -11,7 +11,7 @@ import ValidatorsList from "./ValidatorsList";
 import { Translate } from "react-localize-redux";
 
 interface Props {
-  type: string;
+  nearNetwork: string;
   itemsPerPage: number;
 }
 
@@ -36,7 +36,7 @@ class Validators extends React.PureComponent<Props> {
 
   render() {
     const { activePage, startPage, endPage } = this.state;
-    const { type, itemsPerPage } = this.props;
+    const { itemsPerPage } = this.props;
 
     return (
       <Translate>
@@ -66,6 +66,7 @@ class Validators extends React.PureComponent<Props> {
                         <tr className="validators-header-row">
                           <th />
                           <th>#</th>
+                          <th>Location</th>
                           <th>
                             {translate(
                               "component.nodes.Validators.validator"
@@ -82,13 +83,11 @@ class Validators extends React.PureComponent<Props> {
                           <th className="text-right">
                             {translate("component.nodes.Validators.stake")}
                           </th>
-                          {type !== "proposals" && (
-                            <th>
-                              {translate(
-                                "component.nodes.Validators.cumulative_stake"
-                              )}
-                            </th>
-                          )}
+                          <th>
+                            {translate(
+                              "component.nodes.Validators.cumulative_stake"
+                            )}
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -100,21 +99,21 @@ class Validators extends React.PureComponent<Props> {
                             activePage,
                             itemsPerPage,
                           }}
-                          cellCount={7}
+                          cellCount={8}
                         />
                       </tbody>
                     </Table>
                   ) : (
                     <PaginationSpinner hidden={false} />
                   )}
+                  <style jsx global>{`
+                    .validators-node-pagination {
+                      background-color: #ffffff;
+                    }
+                  `}</style>
                 </>
               )}
             </NodeConsumer>
-            <style jsx global>{`
-              .validators-node-pagination {
-                background-color: #ffffff;
-              }
-            `}</style>
           </>
         )}
       </Translate>
