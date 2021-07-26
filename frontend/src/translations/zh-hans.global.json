@@ -369,8 +369,9 @@
         "live_accounts": "当前存活账户"
       },
       "TransactionsByDate": {
-        "daily_number_of_transactions": "日交易量",
-        "total_number_of_transactions": "总交易量"
+        "daily_number_of_transactions": "日交易数",
+        "total_number_of_transactions": "总交易数",
+        "transactions": "交易数"
       },
       "GasUsedByDate": {
         "daily_amount_of_used_tera_gas": "日TGas使用量",
@@ -382,20 +383,24 @@
       },
       "NewAccountsByDate": {
         "daily_number_of_new_accounts": "日新增账户数",
-        "daily_number_of_live_accounts": "日活跃账户数",
-        "total_number_of_new_accounts": "总新增账户数"
+        "daily_number_of_live_accounts": "日存活账户数",
+        "total_number_of_new_accounts": "总新增账户数",
+        "new_accounts": "新账户数"
       },
       "NewContractsByDate": {
         "daily_number_of_new_contracts": "日新增合约数",
         "total_number_of_new_contracts": "总新增合约数",
-        "daily_number_of_unique_contracts": "总单独合约数"
+        "daily_number_of_unique_contracts": "总单独合约数",
+        "new_contracts": "新合约数"
       },
       "ActiveAccountsByDate": {
         "daily_number_of_active_accounts": "日活跃账户数",
-        "weekly_number_of_active_accounts": "周活跃账户数"
+        "weekly_number_of_active_accounts": "周活跃账户数",
+        "active_accounts": "活跃账户数"
       },
       "ActiveContractsByDate": {
-        "daily_number_of_active_contracts": "日活跃合约数"
+        "daily_number_of_active_contracts": "日活跃合约数",
+        "active_contracts": "活跃合约数"
       },
       "ActiveAccountsList": {
         "title": "过去14天最活跃的10个账户"

@@ -37,7 +37,11 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
     });
   }, []);
 
-  const getOption = (title: string, data: Array<number>) => {
+  const getOption = (
+    title: string,
+    seriesName: string,
+    data: Array<number>
+  ) => {
     return {
       title: {
         text: title,
@@ -85,7 +89,7 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
       ],
       series: [
         {
-          name: "Txns",
+          name: seriesName,
           type: "line",
           lineStyle: {
             color: "#00C1DE",
@@ -123,6 +127,9 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
                 translate(
                   "component.stats.TransactionsByDate.daily_number_of_transactions"
                 ).toString(),
+                translate(
+                  "component.stats.TransactionsByDate.transactions"
+                ).toString(),
                 transactionsByDate
               )}
               style={chartStyle}
@@ -133,6 +140,9 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
               option={getOption(
                 translate(
                   "component.stats.TransactionsByDate.total_number_of_transactions"
+                ).toString(),
+                translate(
+                  "component.stats.TransactionsByDate.transactions"
                 ).toString(),
                 cumulativeTransactionsByDate
               )}

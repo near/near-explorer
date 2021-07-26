@@ -44,6 +44,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
 
   const getOption = (
     title: string,
+    seriesName: string,
     data: Array<number>,
     date: Array<string>
   ) => {
@@ -94,7 +95,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
       ],
       series: [
         {
-          name: "New Contracts",
+          name: seriesName,
           type: "line",
           lineStyle: {
             color: "#48d4ab",
@@ -132,6 +133,9 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
                 translate(
                   "component.stats.NewContractsByDate.daily_number_of_new_contracts"
                 ).toString(),
+                translate(
+                  "component.stats.NewContractsByDate.new_contracts"
+                ).toString(),
                 newContractsByDate,
                 date
               )}
@@ -144,6 +148,9 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
                 translate(
                   "component.stats.NewContractsByDate.total_number_of_new_contracts"
                 ).toString(),
+                translate(
+                  "component.stats.NewContractsByDate.new_contracts"
+                ).toString(),
                 cumulativeNewContractsByDate,
                 date
               )}
@@ -155,6 +162,9 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
               option={getOption(
                 translate(
                   "component.stats.NewContractsByDate.total_number_of_unique_contracts"
+                ).toString(),
+                translate(
+                  "component.stats.NewContractsByDate.new_contracts"
                 ).toString(),
                 uniqueDeployedContractsByDate,
                 date

@@ -408,7 +408,8 @@
       },
       "TransactionsByDate": {
         "daily_number_of_transactions": "Daily Number of Transactions",
-        "total_number_of_transactions": "Total Number of Transactions"
+        "total_number_of_transactions": "Total Number of Transactions",
+        "transactions": "Txns"
       },
       "GasUsedByDate": {
         "daily_amount_of_used_tera_gas": "Daily Amount of Used Tera Gas",
@@ -421,19 +422,23 @@
       "NewAccountsByDate": {
         "daily_number_of_new_accounts": "Daily Number of New Accounts",
         "daily_number_of_live_accounts": "Daily Number of Live Accounts",
-        "total_number_of_new_accounts": "Total Number of New Accounts"
+        "total_number_of_new_accounts": "Total Number of New Accounts",
+        "new_accounts": "New Accounts"
       },
       "NewContractsByDate": {
         "daily_number_of_new_contracts": "Daily Number of New Contracts",
         "total_number_of_new_contracts": "Total Number of New Contracts",
-        "total_number_of_unique_contracts": "Total Number of Unique Contracts"
+        "total_number_of_unique_contracts": "Total Number of Unique Contracts",
+        "new_contracts": "New Contracts"
       },
       "ActiveAccountsByDate": {
         "daily_number_of_active_accounts": "Daily Number of Active Accounts",
-        "weekly_number_of_active_accounts": "Weekly Number of Active Accounts"
+        "weekly_number_of_active_accounts": "Weekly Number of Active Accounts",
+        "active_accounts": "Active Accounts"
       },
       "ActiveContractsByDate": {
-        "daily_number_of_active_contracts": "Daily Number of Active Contracts"
+        "daily_number_of_active_contracts": "Daily Number of Active Contracts",
+        "active_contracts": "Active Contracts"
       },
       "ActiveAccountsList": {
         "title": "Top 10 of Active Accounts in last 14 days"

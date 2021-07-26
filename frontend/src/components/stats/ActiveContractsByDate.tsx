@@ -27,7 +27,11 @@ const ActiveContractsByDate = ({ chartStyle }: Props) => {
     });
   }, []);
 
-  const getOption = (title: string, data: Array<number>) => {
+  const getOption = (
+    title: string,
+    seriesName: string,
+    data: Array<number>
+  ) => {
     return {
       title: {
         text: title,
@@ -75,7 +79,7 @@ const ActiveContractsByDate = ({ chartStyle }: Props) => {
       ],
       series: [
         {
-          name: "Active Contracts",
+          name: seriesName,
           type: "line",
           lineStyle: {
             color: "#04a7bf",
@@ -110,6 +114,9 @@ const ActiveContractsByDate = ({ chartStyle }: Props) => {
           option={getOption(
             translate(
               "component.stats.ActiveContractsByDate.daily_number_of_active_contracts"
+            ).toString(),
+            translate(
+              "component.stats.ActiveContractsByDate.active_contracts"
             ).toString(),
             newContractsByDate
           )}

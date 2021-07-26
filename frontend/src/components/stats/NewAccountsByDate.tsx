@@ -47,6 +47,7 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
 
   const getOption = (
     title: string,
+    seriesName: string,
     data: Array<number>,
     date: Array<string>
   ) => {
@@ -97,7 +98,7 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
       ],
       series: [
         {
-          name: "New Accounts",
+          name: seriesName,
           type: "line",
           lineStyle: {
             color: "#48d4ab",
@@ -135,6 +136,9 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
                 translate(
                   "component.stats.NewAccountsByDate.daily_number_of_new_accounts"
                 ).toString(),
+                translate(
+                  "component.stats.NewAccountsByDate.new_accounts"
+                ).toString(),
                 newAccountsByDate,
                 date
               )}
@@ -147,6 +151,9 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
                 translate(
                   "component.stats.NewAccountsByDate.daily_number_of_live_accounts"
                 ).toString(),
+                translate(
+                  "component.stats.NewAccountsByDate.new_accounts"
+                ).toString(),
                 liveAccountsByDate,
                 liveDate
               )}
@@ -158,6 +165,9 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
               option={getOption(
                 translate(
                   "component.stats.NewAccountsByDate.total_number_of_new_accounts"
+                ).toString(),
+                translate(
+                  "component.stats.NewAccountsByDate.new_accounts"
                 ).toString(),
                 cumulativeNewAccountsByDate,
                 date

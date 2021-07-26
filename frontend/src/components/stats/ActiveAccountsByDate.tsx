@@ -44,6 +44,7 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
 
   const getOption = (
     title: string,
+    seriesName: string,
     data: Array<number>,
     date: Array<string>
   ) => {
@@ -94,7 +95,7 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
       ],
       series: [
         {
-          name: "Active Accounts",
+          name: seriesName,
           type: "line",
           lineStyle: {
             color: "#04a7bf",
@@ -132,6 +133,9 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
                 translate(
                   "component.stats.ActiveAccountsByDate.daily_number_of_active_accounts"
                 ).toString(),
+                translate(
+                  "component.stats.ActiveAccountsByDate.active_accounts"
+                ).toString(),
                 activeAccountsByDate,
                 date
               )}
@@ -143,6 +147,9 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
               option={getOption(
                 translate(
                   "component.stats.ActiveAccountsByDate.weekly_number_of_active_accounts"
+                ).toString(),
+                translate(
+                  "component.stats.ActiveAccountsByDate.active_accounts"
                 ).toString(),
                 activeAccountsByWeek,
                 week
