@@ -24,7 +24,25 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
     2
   </td>
   <td
-    className="jsx-1991982184"
+    className="jsx-1618374794 country-flag"
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#f0f0f1",
+          "color": "#72727a",
+          "fontSize": "8px",
+          "lineHeight": "16px",
+          "textAlign": "center",
+          "width": "22px",
+        }
+      }
+    >
+      ?
+    </div>
+  </td>
+  <td
+    className="jsx-1618374794"
   >
     <div
       className="align-items-center row no-gutters"
@@ -167,7 +185,25 @@ Array [
       1
     </td>
     <td
-      className="jsx-1991982184"
+      className="jsx-1618374794 country-flag"
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#f0f0f1",
+            "color": "#72727a",
+            "fontSize": "8px",
+            "lineHeight": "16px",
+            "textAlign": "center",
+            "width": "22px",
+          }
+        }
+      >
+        ?
+      </div>
+    </td>
+    <td
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -320,6 +356,24 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
     className="jsx-1618374794 order"
   >
     3
+  </td>
+  <td
+    className="jsx-1618374794 country-flag"
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "#f0f0f1",
+          "color": "#72727a",
+          "fontSize": "8px",
+          "lineHeight": "16px",
+          "textAlign": "center",
+          "width": "22px",
+        }
+      }
+    >
+      ?
+    </div>
   </td>
   <td
     className="jsx-1618374794"

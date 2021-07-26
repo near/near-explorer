@@ -25,7 +25,25 @@ Array [
       25
     </td>
     <td
-      className="jsx-1991982184"
+      className="jsx-1618374794 country-flag"
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#f0f0f1",
+            "color": "#72727a",
+            "fontSize": "8px",
+            "lineHeight": "16px",
+            "textAlign": "center",
+            "width": "22px",
+          }
+        }
+      >
+        ?
+      </div>
+    </td>
+    <td
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -332,7 +350,25 @@ Array [
       26
     </td>
     <td
-      className="jsx-1991982184"
+      className="jsx-1618374794 country-flag"
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#f0f0f1",
+            "color": "#72727a",
+            "fontSize": "8px",
+            "lineHeight": "16px",
+            "textAlign": "center",
+            "width": "22px",
+          }
+        }
+      >
+        ?
+      </div>
+    </td>
+    <td
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"
@@ -473,7 +509,25 @@ Array [
       27
     </td>
     <td
-      className="jsx-1991982184"
+      className="jsx-1618374794 country-flag"
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#f0f0f1",
+            "color": "#72727a",
+            "fontSize": "8px",
+            "lineHeight": "16px",
+            "textAlign": "center",
+            "width": "22px",
+          }
+        }
+      >
+        ?
+      </div>
+    </td>
+    <td
+      className="jsx-1618374794"
     >
       <div
         className="align-items-center row no-gutters"

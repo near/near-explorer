@@ -11,7 +11,6 @@ import ValidatorsList from "./ValidatorsList";
 import { Translate } from "react-localize-redux";
 
 interface Props {
-  nearNetwork: string;
   itemsPerPage: number;
 }
 

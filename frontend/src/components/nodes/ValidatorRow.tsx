@@ -2,7 +2,6 @@ import BN from "bn.js";
 import React from "react";
 
 import { Badge, Row, Col, Spinner } from "react-bootstrap";
-import ReactCountryFlag from "react-country-flag";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as N from "../../libraries/explorer-wamp/nodes";
@@ -11,6 +10,7 @@ import Balance from "../utils/Balance";
 import { TableRow, TableCollapseRow } from "../utils/Table";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
+import CountryFlag from "../utils/CountryFlag";
 import ValidatingLabel from "./ValidatingLabel";
 import CumulativeStakeChart from "./CumulativeStakeChart";
 
@@ -25,21 +25,6 @@ interface Props {
 interface State {
   activeRow: boolean;
 }
-
-const DefaultCountryFlag = () => (
-  <div
-    style={{
-      width: "22px",
-      lineHeight: "16px",
-      backgroundColor: "#f0f0f1",
-      color: "#72727a",
-      fontSize: "8px",
-      textAlign: "center",
-    }}
-  >
-    ?
-  </div>
-);
 
 class ValidatorRow extends React.PureComponent<Props, State> {
   state = {
@@ -67,7 +52,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
         : node.delegatorsCount;
     const nodeProduceBlocks =
       node.num_produced_blocks && node.num_expected_blocks;
-    const poolDetalisEvailable = [
+    const poolDetailsAvailable = [
       "url",
       "email",
       "twitter",
@@ -139,19 +124,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
 
                     <td className="order">{index}</td>
                     <td className="country-flag">
-                      {node.poolDetails?.country_code ? (
-                        <ReactCountryFlag
-                          svg
-                          countryCode={node.poolDetails?.country_code}
-                          aria-label={node.poolDetails?.country}
-                          style={{
-                            width: "22px",
-                            lineHeight: "14px",
-                          }}
-                        />
-                      ) : (
-                        <DefaultCountryFlag />
-                      )}
+                      <CountryFlag countryCode={node.poolDetails?.country_code} />
                     </td>
 
                     <td>
@@ -239,7 +212,6 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                         <Spinner animation="border" size="sm" />
                       )}
                     </td>
-
                     <td className="text-right validator-nodes-text stake-text">
                       {node.stake ? (
                         <Balance amount={node.stake} label="NEAR" />
@@ -262,7 +234,6 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                         </>
                       )}
                     </td>
-
                     <td>
                       <CumulativeStakeChart
                         value={{
@@ -462,7 +433,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                         </Row>
 
                       <Row noGutters className="validator-nodes-content-row">
-                        {node?.poolDetails && poolDetalisEvailable ? (
+                        {node?.poolDetails && poolDetailsAvailable ? (
                           <>
                             {node.poolDetails.url && (
                               <Col className="validator-nodes-content-cell" xs="auto">
@@ -573,9 +544,9 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                   {node?.cumulativeStakeAmount && node?.networkHolder && (
                     <tr className="cumulative-stake-holders-row">
                       <td colSpan={cellCount} className="warning-text text-center">
-                        Validators 1 - {index} hold a cumulative stake above 33%.
-                        Delegating to the validators below improves the
-                        decentralization of the network.
+                        {translate("component.nodes.ValidatorRow.warning_tip", {
+                          node_tip_max: index
+                        })}
                       </td>
                     </tr>
                   )}
