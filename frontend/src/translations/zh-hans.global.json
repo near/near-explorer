@@ -41,7 +41,13 @@
       "receipt_id": "收据ID",
       "executed_in_block": "执行时所在的区块",
       "predecessor_id": "前任账户ID",
-      "receiver_id": "接收账户ID"
+      "receiver_id": "接收账户ID",
+      "status": {
+        "Unknown": "未知",
+        "Failure": "失败",
+        "SuccessValue": "成功",
+        "SuccessReceiptId": "成功"
+      }
     },
     "contracts": {
       "contract": "合约"
@@ -88,14 +94,6 @@
     }
   },
   "component": {
-    "receipts": {
-      "ReceiptExecutionStatus": {
-        "unknown": "未知",
-        "failure": "失败",
-        "success_value": "成功",
-        "success_receiptId": "成功"
-      }
-    },
     "nodes": {
       "Validators": {
         "validator": "验证节点",

@@ -41,7 +41,13 @@
       "receipt_id": "Receipt ID",
       "executed_in_block": "Executed in Block",
       "predecessor_id": "Predecessor ID",
-      "receiver_id": "Receiver ID"
+      "receiver_id": "Receiver ID",
+      "status": {
+        "Unknown": "Unknown",
+        "Failure": "Failed",
+        "SuccessValue": "Succeeded",
+        "SuccessReceiptId": "Succeeded"
+      }
     },
     "contracts": {
       "contract": "Contract"
@@ -88,14 +94,6 @@
     }
   },
   "component": {
-    "receipts": {
-      "ReceiptExecutionStatus": {
-        "unknown": "Unknown",
-        "failure": "Failed",
-        "success_value": "Succeeded",
-        "success_receiptId": "Succeeded"
-      }
-    },
     "nodes": {
       "Validators": {
         "validator": "Validator",
