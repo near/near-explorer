@@ -154,7 +154,7 @@
     },
     "transactions": {
       "Transactions": {
-        "no_transactions_words": "There are no transactions"
+        "no_transactions": "There are no transactions"
       },
       "ActionMessage": {
         "CreateAccount": {
@@ -250,7 +250,7 @@
     },
     "blocks": {
       "ReceiptsInBlock": {
-        "no_receipts_words": "There are no receipts in this block"
+        "no_receipts": "There are no receipts in this block"
       },
       "BlockDetails": {
         "transactions": {
@@ -468,10 +468,10 @@
   },
   "utils": {
     "Update": {
-      "refresh_words": " Refresh or Click to view the latest data."
+      "refresh": " Refresh or Click to view the latest data."
     },
     "ListHandler": {
-      "last_block_words": "The latest block height is "
+      "last_block": "The latest block height is "
     }
   },
   "button": {

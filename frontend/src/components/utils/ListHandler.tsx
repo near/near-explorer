@@ -166,7 +166,7 @@ const Wrapper = (
                     >
                       {config.category === "Block" ? (
                         <Update>{`${translate(
-                          "utils.ListHandler.last_block_words"
+                          "utils.ListHandler.last_block"
                         ).toString()}#${context.latestBlockHeight}.`}</Update>
                       ) : null}
                     </div>

@@ -154,7 +154,7 @@
     },
     "transactions": {
       "Transactions": {
-        "no_transactions_words": "没有交易"
+        "no_transactions": "没有交易"
       },
       "ActionMessage": {
         "CreateAccount": {
@@ -250,7 +250,7 @@
     },
     "blocks": {
       "ReceiptsInBlock": {
-        "no_receipts_words": "此区块中没有收据"
+        "no_receipts": "此区块中没有收据"
       },
       "BlockDetails": {
         "transactions": {
@@ -468,10 +468,10 @@
   },
   "utils": {
     "Update": {
-      "refresh_words": " 刷新或单击以查看最新数据."
+      "refresh": " 刷新或单击以查看最新数据."
     },
     "ListHandler": {
-      "last_block_words": "最后的区块高度是"
+      "last_block": "最后的区块高度是"
     }
   },
   "button": {
