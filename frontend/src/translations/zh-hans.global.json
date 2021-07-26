@@ -100,7 +100,7 @@
         "fee": "费用",
         "delegators": "委托人数",
         "stake": "质押",
-        "cumulative_stake": "累计质押"
+        "cumulative_stake": "累积质押"
       },
       "ValidatorRow": {
         "state": {
