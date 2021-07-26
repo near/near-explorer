@@ -5,7 +5,7 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
   className="jsx-4079813474 table-row validator-nodes-row mx-0 "
 >
   <td
-    className="jsx-1991982184 collapse-row-arrow disable"
+    className="jsx-1618374794 collapse-row-arrow"
     onClick={[Function]}
   >
     <img
@@ -148,7 +148,7 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-1991982184 collapse-row-arrow "
+      className="jsx-1618374794 collapse-row-arrow"
       onClick={[Function]}
     >
       <img
@@ -290,13 +290,9 @@ Array [
       className="jsx-1991982184 warning-text text-center"
       colSpan={7}
     >
-<<<<<<< HEAD
-      Validators 1 - 1 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
-=======
       Validators 1 -
       1
        hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
->>>>>>> 60ef334 (Cleanup and update tests)
     </td>
   </tr>,
 ]
@@ -307,7 +303,7 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
   className="jsx-4079813474 table-row validator-nodes-row mx-0 "
 >
   <td
-    className="jsx-1618374794 collapse-row-arrow "
+    className="jsx-1618374794 collapse-row-arrow"
     onClick={[Function]}
   >
     <img
