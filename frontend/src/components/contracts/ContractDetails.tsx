@@ -101,7 +101,9 @@ class ContractDetails extends React.Component<Props, State> {
                     text={
                       timestamp
                         ? moment(timestamp).format(
-                            "MMMM DD, YYYY [at] h:mm:ssa"
+                            translate(
+                              "common.date_time.date_time_format"
+                            ).toString()
                           )
                         : translate("common.state.not_available").toString()
                     }

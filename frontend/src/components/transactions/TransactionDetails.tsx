@@ -307,7 +307,9 @@ class TransactionDetails extends React.Component<Props, State> {
                         />
                       }
                       text={moment(transaction.blockTimestamp).format(
-                        "MMMM DD, YYYY [at] h:mm:ssa"
+                        translate(
+                          "common.date_time.date_time_format"
+                        ).toString()
                       )}
                       className="border-0"
                     />
