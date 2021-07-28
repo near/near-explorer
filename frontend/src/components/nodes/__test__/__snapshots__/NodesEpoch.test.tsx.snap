@@ -19,7 +19,7 @@ exports[`<NodesEpoch /> renders 1`] = `
           <div
             className="col"
           >
-            Current Epoch Start:
+            Current Epoch Start: 
             <span
               className="jsx-2616163488 text-value"
             >
