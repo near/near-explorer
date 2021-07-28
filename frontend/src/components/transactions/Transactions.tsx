@@ -59,7 +59,7 @@ class Transactions extends React.Component<InnerProps> {
     if (items?.length === 0) {
       return (
         <Placeholder>
-          <Translate id="component.transactions.Transactions.no_transactions_words" />
+          <Translate id="component.transactions.Transactions.no_transactions" />
         </Placeholder>
       );
     }

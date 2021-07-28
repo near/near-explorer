@@ -41,7 +41,13 @@
       "receipt_id": "Receipt ID",
       "executed_in_block": "Executed in Block",
       "predecessor_id": "Predecessor ID",
-      "receiver_id": "Receiver ID"
+      "receiver_id": "Receiver ID",
+      "status": {
+        "Unknown": "Unknown",
+        "Failure": "Failed",
+        "SuccessValue": "Succeeded",
+        "SuccessReceiptId": "Succeeded"
+      }
     },
     "contracts": {
       "contract": "Contract"
@@ -88,9 +94,67 @@
     }
   },
   "component": {
+    "nodes": {
+      "Validators": {
+        "validator": "Validator",
+        "fee": "Fee",
+        "delegators": "Delegators",
+        "stake": "Stake",
+        "cumulative_stake": "Cumulative Stake"
+      },
+      "ValidatorRow": {
+        "state": {
+          "active": {
+            "text": "current validating nodes",
+            "title": "Active"
+          },
+          "new": {
+            "title": "New",
+            "text": "next epoch upcoming validating nodes"
+          },
+          "kickout": {
+            "title": "Kickout",
+            "text": "next epoch kick out nodes"
+          },
+          "pending": {
+            "title": "Pending",
+            "text": "node staked to be new validating one"
+          }
+        },
+        "warning_tip": "Validators 1 - ${node_tip_max} hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network."
+      },
+      "NodesEpoch": {
+        "current_epoch_start": "Current Epoch Start",
+        "block": "Block",
+        "complete": "complete",
+        "remaining": "remaining"
+      },
+      "NodesContentHeader": {
+        "nodes": "Nodes"
+      },
+      "NodeNav": {
+        "validating": "Validating",
+        "proposed": "Proposed"
+      },
+      "NodesCard": {
+        "nodes_validating": "Nodes validating",
+        "total_supply": "Total Supply",
+        "total_stake": "Total Stake",
+        "seat_price": "Seat Price"
+      },
+      "Nodes": {
+        "validator": "Validator"
+      },
+      "NodeRow": {
+        "online": {
+          "title": "Online",
+          "text": "online nodes"
+        }
+      }
+    },
     "transactions": {
       "Transactions": {
-        "no_transactions_words": "There are no transactions"
+        "no_transactions": "There are no transactions"
       },
       "ActionMessage": {
         "CreateAccount": {
@@ -186,7 +250,7 @@
     },
     "blocks": {
       "ReceiptsInBlock": {
-        "no_receipts_words": "There are no receipts in this block"
+        "no_receipts": "There are no receipts in this block"
       },
       "BlockDetails": {
         "transactions": {
@@ -344,7 +408,8 @@
       },
       "TransactionsByDate": {
         "daily_number_of_transactions": "Daily Number of Transactions",
-        "total_number_of_transactions": "Total Number of Transactions"
+        "total_number_of_transactions": "Total Number of Transactions",
+        "transactions": "Txns"
       },
       "GasUsedByDate": {
         "daily_amount_of_used_tera_gas": "Daily Amount of Used Tera Gas",
@@ -357,19 +422,23 @@
       "NewAccountsByDate": {
         "daily_number_of_new_accounts": "Daily Number of New Accounts",
         "daily_number_of_live_accounts": "Daily Number of Live Accounts",
-        "total_number_of_new_accounts": "Total Number of New Accounts"
+        "total_number_of_new_accounts": "Total Number of New Accounts",
+        "new_accounts": "New Accounts"
       },
       "NewContractsByDate": {
         "daily_number_of_new_contracts": "Daily Number of New Contracts",
         "total_number_of_new_contracts": "Total Number of New Contracts",
-        "total_number_of_unique_contracts": "Total Number of Unique Contracts"
+        "total_number_of_unique_contracts": "Total Number of Unique Contracts",
+        "new_contracts": "New Contracts"
       },
       "ActiveAccountsByDate": {
         "daily_number_of_active_accounts": "Daily Number of Active Accounts",
-        "weekly_number_of_active_accounts": "Weekly Number of Active Accounts"
+        "weekly_number_of_active_accounts": "Weekly Number of Active Accounts",
+        "active_accounts": "Active Accounts"
       },
       "ActiveContractsByDate": {
-        "daily_number_of_active_contracts": "Daily Number of Active Contracts"
+        "daily_number_of_active_contracts": "Daily Number of Active Contracts",
+        "active_contracts": "Active Contracts"
       },
       "ActiveAccountsList": {
         "title": "Top 10 of Active Accounts in last 14 days"
@@ -392,15 +461,22 @@
       },
       "HeaderNavDropdown": {
         "title": "Explore"
+      },
+      "Footer": {
+        "privacy_policy": "Privacy Policy",
+        "terms_of_service": "Terms of Service",
+        "all_rights_reserved": "All Rights Reserved",
+        "join_the_community": "Join the Community",
+        "questions": "Questions"
       }
     }
   },
   "utils": {
     "Update": {
-      "refresh_words": " Refresh or Click to view the latest data."
+      "refresh": " Refresh or Click to view the latest data."
     },
     "ListHandler": {
-      "last_block_words": "The latest block height is "
+      "last_block": "The latest block height is "
     }
   },
   "button": {

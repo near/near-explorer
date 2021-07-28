@@ -20,9 +20,8 @@ exports[`<NodesEpoch /> renders 1`] = `
             className="col"
           >
             Current Epoch Start:
-             
             <span
-              className="jsx-1835548364 text-value"
+              className="jsx-2616163488 text-value"
             >
               Block #
               36647454
@@ -41,7 +40,7 @@ exports[`<NodesEpoch /> renders 1`] = `
             className="col-12"
           >
             <span
-              className="jsx-1835548364 text-value"
+              className="jsx-2616163488 text-value"
             >
               Block #
               36647454
@@ -53,7 +52,7 @@ exports[`<NodesEpoch /> renders 1`] = `
         className="text-right d-none d-md-block  col-sm-5"
       >
         <span
-          className="jsx-1835548364 text-value persnt-remains"
+          className="jsx-2616163488 text-value persnt-remains"
         >
           50
           % complete
@@ -70,7 +69,7 @@ exports[`<NodesEpoch /> renders 1`] = `
             className="rc-progress-circle progress-bar-content"
             label={
               <span
-                className="jsx-1835548364 circle-progress-label"
+                className="jsx-2616163488 circle-progress-label"
               >
                 50
                 %
@@ -122,7 +121,7 @@ exports[`<NodesEpoch /> renders 1`] = `
             className="jsx-3982235594 progress-bar-label"
           >
             <span
-              className="jsx-1835548364 circle-progress-label"
+              className="jsx-2616163488 circle-progress-label"
             >
               50
               %

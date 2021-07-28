@@ -52,9 +52,7 @@ class ReceiptsInBlock extends React.Component<Props, State> {
               <Receipts receipts={receipts} />
             ) : (
               <Placeholder>
-                {translate(
-                  "component.blocks.ReceiptsInBlock.no_receipts_words"
-                )}
+                {translate("component.blocks.ReceiptsInBlock.no_receipts")}
               </Placeholder>
             )}
           </>

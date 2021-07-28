@@ -41,7 +41,13 @@
       "receipt_id": "收据ID",
       "executed_in_block": "执行时所在的区块",
       "predecessor_id": "前任账户ID",
-      "receiver_id": "接收账户ID"
+      "receiver_id": "接收账户ID",
+      "status": {
+        "Unknown": "未知",
+        "Failure": "失败",
+        "SuccessValue": "成功",
+        "SuccessReceiptId": "成功"
+      }
     },
     "contracts": {
       "contract": "合约"
@@ -88,9 +94,67 @@
     }
   },
   "component": {
+    "nodes": {
+      "Validators": {
+        "validator": "验证节点",
+        "fee": "费用",
+        "delegators": "委托人数",
+        "stake": "质押",
+        "cumulative_stake": "累积质押"
+      },
+      "ValidatorRow": {
+        "state": {
+          "active": {
+            "text": "当前验证节点",
+            "title": "有效的"
+          },
+          "new": {
+            "title": "新的",
+            "text": "下一周期即将到来的验证节点"
+          },
+          "kickout": {
+            "title": "被踢出",
+            "text": "下一周期被踢出的节点"
+          },
+          "pending": {
+            "title": "待定",
+            "text": "节点将要被标记为新的验证节点"
+          }
+        },
+        "warning_tip": "前${node_tip_max}个验证节点持有了超过33%的累积质押。委托给下面的验证节点可以改善网络的去中心化。"
+      },
+      "NodesEpoch": {
+        "current_epoch_start": "当前周期开始在",
+        "block": "区块",
+        "complete": "完成",
+        "remaining": "剩余"
+      },
+      "NodesContentHeader": {
+        "nodes": "节点"
+      },
+      "NodeNav": {
+        "validating": "正在验证",
+        "proposed": "已经提议"
+      },
+      "NodesCard": {
+        "nodes_validating": "正在验证的节点",
+        "total_supply": "总供应量",
+        "total_stake": "总质押量",
+        "seat_price": "席位价格"
+      },
+      "Nodes": {
+        "validator": "验证节点"
+      },
+      "NodeRow": {
+        "online": {
+          "title": "在线",
+          "text": "在线节点"
+        }
+      }
+    },
     "transactions": {
       "Transactions": {
-        "no_transactions_words": "没有交易"
+        "no_transactions": "没有交易"
       },
       "ActionMessage": {
         "CreateAccount": {
@@ -186,7 +250,7 @@
     },
     "blocks": {
       "ReceiptsInBlock": {
-        "no_receipts_words": "此区块中没有收据"
+        "no_receipts": "此区块中没有收据"
       },
       "BlockDetails": {
         "transactions": {
@@ -305,8 +369,9 @@
         "live_accounts": "当前存活账户"
       },
       "TransactionsByDate": {
-        "daily_number_of_transactions": "日交易量",
-        "total_number_of_transactions": "总交易量"
+        "daily_number_of_transactions": "日交易数",
+        "total_number_of_transactions": "总交易数",
+        "transactions": "交易数"
       },
       "GasUsedByDate": {
         "daily_amount_of_used_tera_gas": "日TGas使用量",
@@ -318,20 +383,24 @@
       },
       "NewAccountsByDate": {
         "daily_number_of_new_accounts": "日新增账户数",
-        "daily_number_of_live_accounts": "日活跃账户数",
-        "total_number_of_new_accounts": "总新增账户数"
+        "daily_number_of_live_accounts": "日存活账户数",
+        "total_number_of_new_accounts": "总新增账户数",
+        "new_accounts": "新账户数"
       },
       "NewContractsByDate": {
         "daily_number_of_new_contracts": "日新增合约数",
         "total_number_of_new_contracts": "总新增合约数",
-        "daily_number_of_unique_contracts": "总单独合约数"
+        "daily_number_of_unique_contracts": "总单独合约数",
+        "new_contracts": "新合约数"
       },
       "ActiveAccountsByDate": {
         "daily_number_of_active_accounts": "日活跃账户数",
-        "weekly_number_of_active_accounts": "周活跃账户数"
+        "weekly_number_of_active_accounts": "周活跃账户数",
+        "active_accounts": "活跃账户数"
       },
       "ActiveContractsByDate": {
-        "daily_number_of_active_contracts": "日活跃合约数"
+        "daily_number_of_active_contracts": "日活跃合约数",
+        "active_contracts": "活跃合约数"
       },
       "ActiveAccountsList": {
         "title": "过去14天最活跃的10个账户"
@@ -392,15 +461,22 @@
       },
       "HeaderNavDropdown": {
         "title": "浏览"
+      },
+      "Footer": {
+        "privacy_policy": "隐私政策",
+        "terms_of_service": "服务条款",
+        "all_rights_reserved": "版权所有",
+        "join_the_community": "加入社区",
+        "questions": "有问题"
       }
     }
   },
   "utils": {
     "Update": {
-      "refresh_words": " 刷新或单击以查看最新数据."
+      "refresh": " 刷新或单击以查看最新数据."
     },
     "ListHandler": {
-      "last_block_words": "最后的区块高度是"
+      "last_block": "最后的区块高度是"
     }
   },
   "button": {
