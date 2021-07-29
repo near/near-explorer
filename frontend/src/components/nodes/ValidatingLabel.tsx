@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { StakingStatus } from "../../libraries/explorer-wamp/nodes";
@@ -9,7 +9,7 @@ interface Props {
   tooltipKey: string;
 }
 
-class ValidatingLabel extends React.PureComponent<Props> {
+class ValidatingLabel extends PureComponent<Props> {
   render() {
     const { type, text, tooltipKey, children } = this.props;
     return (

@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import Link from "../utils/Link";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
@@ -57,7 +57,7 @@ const MobileNavItem = ({ link, icon, text }) => {
   );
 };
 
-class MobileNavDropdown extends React.Component {
+class MobileNavDropdown extends Component {
   state = { showMenu: false };
 
   showMenu = (event) => {

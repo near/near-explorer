@@ -1,5 +1,5 @@
 import Head from "next/head";
-
+import { Component } from "react";
 import Mixpanel from "../../libraries/mixpanel";
 
 import Content from "../../components/utils/Content";
@@ -7,7 +7,7 @@ import Transactions from "../../components/transactions/Transactions";
 
 import { Translate } from "react-localize-redux";
 
-class TransactionsPage extends React.Component {
+class TransactionsPage extends Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Transactions Page");
   }

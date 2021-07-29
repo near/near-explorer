@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 
 import actionIcons from "./ActionIcons";
 import ActionMessage from "./ActionMessage";
@@ -19,7 +19,7 @@ export interface Props {
   viewMode: ViewMode;
 }
 
-class ActionRow extends React.PureComponent<Props> {
+class ActionRow extends PureComponent<Props> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",

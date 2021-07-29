@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import TransactionLink from "../utils/TransactionLink";
@@ -17,7 +17,7 @@ interface State {
   status?: T.ExecutionStatus;
 }
 
-class TransactionAction extends React.PureComponent<Props, State> {
+class TransactionAction extends PureComponent<Props, State> {
   static defaultProps = {
     viewMode: "sparse",
   };

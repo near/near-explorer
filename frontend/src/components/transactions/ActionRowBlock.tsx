@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
@@ -22,7 +22,7 @@ export interface Props {
   isFinal?: boolean;
 }
 
-class ActionRowBlock extends React.Component<Props> {
+class ActionRowBlock extends Component<Props> {
   static defaultProps = {
     viewMode: "sparse",
     detalizationMode: "detailed",

@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 
 import { NetworkStatsConsumer } from "../../context/NetworkStatsProvider";
@@ -11,7 +11,7 @@ interface Props {
   role: string;
 }
 
-class NodeNav extends React.PureComponent<Props> {
+class NodeNav extends PureComponent<Props> {
   render() {
     const { role } = this.props;
     return (

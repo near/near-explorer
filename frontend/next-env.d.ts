@@ -1,10 +1,3 @@
 /// <reference types="next" />
-
-declare module "*.svg" {
-  const content: React.FC;
-  export default content;
-}
-
-declare module "react-text-collapse";
-
-declare module "*"; // for datamaps npm
+/// <reference types="next/types/global" />
+/// <reference types="next/image-types/global" />

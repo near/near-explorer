@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
@@ -10,7 +10,7 @@ export interface OuterProps {
   count: number;
 }
 
-class AccountsWrapper extends React.Component<OuterProps> {
+class AccountsWrapper extends Component<OuterProps> {
   static defaultProps = {
     count: 15,
   };
@@ -41,7 +41,7 @@ interface InnerProps extends OuterProps {
   items: A.AccountBasicInfo[];
 }
 
-class Accounts extends React.Component<InnerProps> {
+class Accounts extends Component<InnerProps> {
   render() {
     const { items } = this.props;
     return (

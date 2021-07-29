@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import React from "react";
+import { Component } from "react";
 
 import { Translate } from "react-localize-redux";
 
@@ -19,7 +19,7 @@ interface State {
 
 const networkHolder: Set<number> = new Set();
 
-class ValidatorRow extends React.Component<Props, State> {
+class ValidatorRow extends Component<Props, State> {
   state = {
     activeRow: false,
   };

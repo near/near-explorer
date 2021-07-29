@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
@@ -9,7 +9,7 @@ import BlocksRow from "./BlocksRow";
 
 import { OuterProps } from "../accounts/Accounts";
 
-class BlocksWrapper extends React.Component<OuterProps> {
+class BlocksWrapper extends Component<OuterProps> {
   static defaultProps = {
     count: 15,
   };
@@ -37,7 +37,7 @@ export interface InnerProps extends OuterProps {
   items: B.BlockInfo[];
 }
 
-class Blocks extends React.Component<InnerProps> {
+class Blocks extends Component<InnerProps> {
   render() {
     const { items } = this.props;
     return (

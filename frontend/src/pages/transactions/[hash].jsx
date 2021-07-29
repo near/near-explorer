@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import React from "react";
+import { Component } from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
@@ -16,7 +16,7 @@ import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
 
-class TransactionDetailsPage extends React.Component {
+class TransactionDetailsPage extends Component {
   static async getInitialProps({ req, query: { hash } }) {
     try {
       return await new TransactionsApi(req).getTransactionInfo(hash);

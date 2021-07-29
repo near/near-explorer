@@ -1,5 +1,5 @@
 import Head from "next/head";
-
+import { PureComponent } from "react";
 import Mixpanel from "../../libraries/mixpanel";
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 import NetworkStatsProvider from "../../context/NetworkStatsProvider";
@@ -18,7 +18,7 @@ import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 
 import { Translate } from "react-localize-redux";
 
-class Stats extends React.PureComponent {
+class Stats extends PureComponent {
   componentDidMount() {
     Mixpanel.track("Explorer View Stats page");
   }

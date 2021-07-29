@@ -1,8 +1,8 @@
 import Head from "next/head";
-
+import { Component } from "react";
 import Content from "../../components/utils/Content";
 
-class Contracts extends React.Component {
+class Contracts extends Component {
   render() {
     return (
       <>

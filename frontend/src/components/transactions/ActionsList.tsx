@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import ActionRow from "./ActionRow";
@@ -15,7 +15,7 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-class ActionList extends React.PureComponent<Props> {
+class ActionList extends PureComponent<Props> {
   render() {
     const {
       actions,

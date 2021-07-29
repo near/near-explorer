@@ -1,10 +1,10 @@
 import Head from "next/head";
-
+import { Component } from "react";
 import Mixpanel from "../../libraries/mixpanel";
 
 import NodesMap from "../../components/nodes/NodesMap";
 import NodeProvider from "../../context/NodeProvider";
-class Map extends React.Component {
+class Map extends Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Node Map Page");
   }

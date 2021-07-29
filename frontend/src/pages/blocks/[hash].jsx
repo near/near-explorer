@@ -2,7 +2,7 @@ import BN from "bn.js";
 
 import Head from "next/head";
 
-import React from "react";
+import { Component } from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
@@ -17,7 +17,7 @@ import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
 
-class BlockDetail extends React.Component {
+class BlockDetail extends Component {
   static async getInitialProps({ req, query: { hash } }) {
     try {
       const block = await new BlocksApi(req).getBlockInfo(hash);

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Component } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -11,7 +12,7 @@ import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 import { Translate } from "react-localize-redux";
 
-class Dashboard extends React.Component {
+class Dashboard extends Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Landing Page");
   }

@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import React from "react";
+import { Component } from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 
@@ -12,7 +12,7 @@ interface Props {
   pages: any;
 }
 
-class ValidatorsList extends React.Component<Props> {
+class ValidatorsList extends Component<Props> {
   render() {
     const {
       validators,

@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
@@ -16,7 +16,7 @@ export interface OuterProps {
   count: number;
 }
 
-class TransactionsWrapper extends React.Component<OuterProps> {
+class TransactionsWrapper extends Component<OuterProps> {
   static defaultProps = {
     count: 15,
   };
@@ -52,7 +52,7 @@ interface InnerProps extends OuterProps {
   items: T.Transaction[];
 }
 
-class Transactions extends React.Component<InnerProps> {
+class Transactions extends Component<InnerProps> {
   render() {
     const { items } = this.props;
 
