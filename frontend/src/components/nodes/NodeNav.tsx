@@ -39,30 +39,30 @@ class NodeNav extends React.PureComponent<Props> {
                     </Link>
                   </Col>
                   {/* <Col
-                xs="auto"
-                className={`node-selector pt-2 pb-2 ${
-                  role === "online-nodes" ? `node-selected` : ""
-                }`}
-              >
-                <Link href="/nodes/online-nodes">
-                  <a className="node-link" id="online-node">
-                    Online{" "}
-                    <Badge pill className="nodes-amount-label online">
-                      {typeof context.onlineNodeAmount !== "undefined"
-                        ? context.onlineNodeAmount
-                        : "--"}
-                    </Badge>
-                  </a>
-                </Link>
-              </Col> */}
+                    xs="auto"
+                    className={`node-selector pt-2 pb-2 ${
+                      role === "online-nodes" ? `node-selected` : ""
+                    }`}
+                  >
+                    <Link href="/nodes/online-nodes">
+                      <a className="node-link" id="online-node">
+                        Online{" "}
+                        <Badge pill className="nodes-amount-label online">
+                          {typeof context.onlineNodeAmount !== "undefined"
+                            ? context.onlineNodeAmount
+                            : "--"}
+                        </Badge>
+                      </a>
+                    </Link>
+                  </Col> */}
 
-              {/* <Col className="node-selector pt-2 pb-2">
-                <Link href="/nodes/map">
-                  <a className="node-link" id="node-map">
-                    Nodes Map
-                  </a>
-                </Link>
-              </Col> */}
+                  {/* <Col className="node-selector pt-2 pb-2">
+                    <Link href="/nodes/map">
+                      <a className="node-link" id="node-map">
+                        Nodes Map
+                      </a>
+                    </Link>
+                  </Col> */}
                 </Row>
                 <style jsx global>{`
                   .node-selector {

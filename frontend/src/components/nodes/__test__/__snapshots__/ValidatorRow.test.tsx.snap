@@ -5,11 +5,11 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
   className="jsx-4079813474 table-row validator-nodes-row mx-0 "
 >
   <td
-    className="jsx-1618374794 collapse-row-arrow"
+    className="jsx-3251437413 collapse-row-arrow"
     onClick={[Function]}
   >
     <img
-      className="jsx-1991982184"
+      className="jsx-3251437413"
       src="/static/images/icon-maximize.svg"
       style={
         Object {
@@ -19,12 +19,12 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
     />
   </td>
   <td
-    className="jsx-1991982184 order"
+    className="jsx-3251437413 order"
   >
     2
   </td>
   <td
-    className="jsx-1618374794 country-flag"
+    className="jsx-3251437413 country-flag"
   >
     <div
       style={
@@ -42,7 +42,7 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
     </div>
   </td>
   <td
-    className="jsx-1618374794"
+    className="jsx-3251437413"
   >
     <div
       className="align-items-center row no-gutters"
@@ -57,7 +57,7 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          Leaving
+          Kickout
         </span>
       </div>
       <div
@@ -87,17 +87,17 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
     </div>
   </td>
   <td
-    className="jsx-1991982184"
+    className="jsx-3251437413"
   >
     10%
   </td>
   <td
-    className="jsx-1991982184"
+    className="jsx-3251437413"
   >
     11
   </td>
   <td
-    className="jsx-1991982184 text-right validator-nodes-text stake-text"
+    className="jsx-3251437413 text-right validator-nodes-text stake-text"
   >
     <span
       onBlur={[Function]}
@@ -106,14 +106,14 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
       onMouseOver={[Function]}
     >
       91,037.77039
-
+       
       NEAR
     </span>
     <br
-      className="jsx-1618374794"
+      className="jsx-3251437413"
     />
     <small
-      className="jsx-1618374794"
+      className="jsx-3251437413"
     >
       +
       <span
@@ -123,13 +123,13 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
         onMouseOver={[Function]}
       >
         4,701,218.17312
-
+         
         NEAR
       </span>
     </small>
   </td>
   <td
-    className="jsx-1618374794"
+    className="jsx-3251437413"
   >
     <div
       className="jsx-1486326988 cumulative-stake-chart"
@@ -166,11 +166,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-1618374794 collapse-row-arrow"
+      className="jsx-3251437413 collapse-row-arrow"
       onClick={[Function]}
     >
       <img
-        className="jsx-1991982184"
+        className="jsx-3251437413"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -180,30 +180,28 @@ Array [
       />
     </td>
     <td
-      className="jsx-1991982184 order"
+      className="jsx-3251437413 order"
     >
       1
     </td>
     <td
-      className="jsx-1618374794 country-flag"
+      className="jsx-3251437413 country-flag"
     >
-      <div
+      <img
+        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/us.svg"
         style={
           Object {
-            "backgroundColor": "#f0f0f1",
-            "color": "#72727a",
-            "fontSize": "8px",
-            "lineHeight": "16px",
-            "textAlign": "center",
+            "display": "inline-block",
+            "height": "1em",
+            "lineHeight": "14px",
+            "verticalAlign": "middle",
             "width": "22px",
           }
         }
-      >
-        ?
-      </div>
+      />
     </td>
     <td
-      className="jsx-1618374794"
+      className="jsx-3251437413"
     >
       <div
         className="align-items-center row no-gutters"
@@ -248,17 +246,17 @@ Array [
       </div>
     </td>
     <td
-      className="jsx-1991982184"
+      className="jsx-3251437413"
     >
       10%
     </td>
     <td
-      className="jsx-1991982184"
+      className="jsx-3251437413"
     >
       11
     </td>
     <td
-      className="jsx-1991982184 text-right validator-nodes-text stake-text"
+      className="jsx-3251437413 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -267,14 +265,14 @@ Array [
         onMouseOver={[Function]}
       >
         91,037.77039
-
+         
         NEAR
       </span>
       <br
-        className="jsx-1618374794"
+        className="jsx-3251437413"
       />
       <small
-        className="jsx-1618374794"
+        className="jsx-3251437413"
       >
         +
         <span
@@ -284,13 +282,13 @@ Array [
           onMouseOver={[Function]}
         >
           4,701,218.17312
-
+           
           NEAR
         </span>
       </small>
     </td>
     <td
-      className="jsx-1991982184"
+      className="jsx-3251437413"
     >
       <div
         className="jsx-1486326988 cumulative-stake-chart"
@@ -320,15 +318,13 @@ Array [
     </td>
   </tr>,
   <tr
-    className="jsx-1991982184 cumulative-stake-holders-row"
+    className="jsx-3251437413 cumulative-stake-holders-row"
   >
     <td
-      className="jsx-1991982184 warning-text text-center"
-      colSpan={7}
+      className="jsx-3251437413 warning-text text-center"
+      colSpan={8}
     >
-      Validators 1 -
-      1
-       hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
+      Validators 1 - 1 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
     </td>
   </tr>,
 ]
@@ -339,11 +335,11 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
   className="jsx-4079813474 table-row validator-nodes-row mx-0 "
 >
   <td
-    className="jsx-1618374794 collapse-row-arrow"
+    className="jsx-3251437413 collapse-row-arrow"
     onClick={[Function]}
   >
     <img
-      className="jsx-1618374794"
+      className="jsx-3251437413"
       src="/static/images/icon-maximize.svg"
       style={
         Object {
@@ -353,12 +349,12 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
     />
   </td>
   <td
-    className="jsx-1618374794 order"
+    className="jsx-3251437413 order"
   >
     3
   </td>
   <td
-    className="jsx-1618374794 country-flag"
+    className="jsx-3251437413 country-flag"
   >
     <div
       style={
@@ -376,7 +372,7 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
     </div>
   </td>
   <td
-    className="jsx-1618374794"
+    className="jsx-3251437413"
   >
     <div
       className="align-items-center row no-gutters"
@@ -411,17 +407,17 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
     </div>
   </td>
   <td
-    className="jsx-1618374794"
+    className="jsx-3251437413"
   >
     10%
   </td>
   <td
-    className="jsx-1618374794"
+    className="jsx-3251437413"
   >
     11
   </td>
   <td
-    className="jsx-1618374794 text-right validator-nodes-text stake-text"
+    className="jsx-3251437413 text-right validator-nodes-text stake-text"
   >
     <span
       onBlur={[Function]}
@@ -430,14 +426,14 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
       onMouseOver={[Function]}
     >
       91,037.77039
-
+       
       NEAR
     </span>
     <br
-      className="jsx-1618374794"
+      className="jsx-3251437413"
     />
     <small
-      className="jsx-1618374794"
+      className="jsx-3251437413"
     >
       +
       <span
@@ -447,13 +443,13 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
         onMouseOver={[Function]}
       >
         4,701,218.17312
-
+         
         NEAR
       </span>
     </small>
   </td>
   <td
-    className="jsx-1618374794"
+    className="jsx-3251437413"
   >
     <div
       className="jsx-1486326988 cumulative-stake-chart"

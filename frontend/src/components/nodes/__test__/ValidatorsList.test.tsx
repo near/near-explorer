@@ -32,6 +32,14 @@ describe("<ValidatorsList />", () => {
                 longitude: null,
                 city: null,
               },
+              poolDetails: {
+                country_code: "us",
+                description: "Test description 1",
+                discord: "https://discord.com",
+                email: "testemail@email.com",
+                twitter: "@test1",
+                url: "explorer.near.org",
+              },
               fee: { numerator: 1, denominator: 100 },
               delegators: 1304,
             },
@@ -47,6 +55,13 @@ describe("<ValidatorsList />", () => {
               num_produced_blocks: 13,
               num_expected_blocks: 13,
               nodeInfo: undefined,
+              poolDetails: {
+                country_code: "us",
+                description: "Test description 2",
+                discord: "https://discord.com",
+                email: "testemail@email.com",
+                twitter: "@test2",
+              },
               fee: { numerator: 7, denominator: 100 },
               delegators: 27,
             },
@@ -62,6 +77,7 @@ describe("<ValidatorsList />", () => {
               num_produced_blocks: 14,
               num_expected_blocks: 14,
               nodeInfo: undefined,
+              poolDetails: undefined,
               fee: { numerator: 3, denominator: 100 },
               delegators: 135,
             },
@@ -72,7 +88,7 @@ describe("<ValidatorsList />", () => {
             activePage: 2,
             itemsPerPage: 12,
           }}
-          cellCount={7}
+          cellCount={8}
         />
       )
     ).toMatchSnapshot();

@@ -52,7 +52,8 @@ class Validators extends React.PureComponent<Props> {
                           ? {
                               className: "validators-node-pagination",
                               pageCount: Math.ceil(
-                                context.totalValidatorsPool.length / itemsPerPage
+                                context.totalValidatorsPool.length /
+                                  itemsPerPage
                               ),
                               marginPagesDisplayed: 1,
                               pageRangeDisplayed: 3,
@@ -67,17 +68,11 @@ class Validators extends React.PureComponent<Props> {
                           <th>#</th>
                           <th>Location</th>
                           <th>
-                            {translate(
-                              "component.nodes.Validators.validator"
-                            )}
+                            {translate("component.nodes.Validators.validator")}
                           </th>
+                          <th>{translate("component.nodes.Validators.fee")}</th>
                           <th>
-                            {translate("component.nodes.Validators.fee")}
-                          </th>
-                          <th>
-                            {translate(
-                              "component.nodes.Validators.delegators"
-                            )}
+                            {translate("component.nodes.Validators.delegators")}
                           </th>
                           <th className="text-right">
                             {translate("component.nodes.Validators.stake")}
