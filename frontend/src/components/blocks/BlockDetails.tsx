@@ -153,7 +153,9 @@ const BlockDetails = ({ block }: Props) => {
                           />
                         }
                         text={moment(block.timestamp).format(
-                          "MMMM DD, YYYY [at] h:mm:ssa"
+                          translate(
+                            "common.date_time.date_time_format"
+                          ).toString()
                         )}
                         className="block-card-created border-0"
                       />

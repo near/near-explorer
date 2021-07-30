@@ -200,7 +200,9 @@ class AccountDetails extends React.Component<Props> {
                       ) : account.createdAtBlockTimestamp ? (
                         <>
                           {moment(account.createdAtBlockTimestamp).format(
-                            "MMMM DD, YYYY [at] h:mm:ssa"
+                            translate(
+                              "common.date_time.date_time_format"
+                            ).toString()
                           )}
                         </>
                       ) : (
@@ -261,7 +263,9 @@ class AccountDetails extends React.Component<Props> {
                     text={
                       <>
                         {moment(account.deletedAtBlockTimestamp).format(
-                          "MMMM DD, YYYY [at] h:mm:ssa"
+                          translate(
+                            "common.date_time.date_time_format"
+                          ).toString()
                         )}
                       </>
                     }

@@ -42,7 +42,7 @@ class NodesEpoch extends React.PureComponent<Props> {
                     <Col>
                       {translate(
                         "component.nodes.NodesEpoch.current_epoch_start"
-                      ) + ":"}
+                      ) + ": "}
                       <span className="text-value">
                         {translate("component.nodes.NodesEpoch.block") + " #"}
                         {epochStartHeight}

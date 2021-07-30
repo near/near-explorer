@@ -27,7 +27,7 @@
         "SuccessValue": "成功"
       },
       "execution": {
-        "convert_transaction_to_receipt": "将交易转换为收据",
+        "convert_transaction_to_receipt": "将交易转换为回执",
         "gas_burned": "销毁的Gas",
         "tokens_burned": "销毁的Tokens"
       }
@@ -36,9 +36,9 @@
       "actions": "操作"
     },
     "receipts": {
-      "receipt": "收据",
-      "receipts": "收据",
-      "receipt_id": "收据ID",
+      "receipt": "交易回执",
+      "receipts": "交易回执",
+      "receipt_id": "交易回执ID",
       "executed_in_block": "执行时所在的区块",
       "predecessor_id": "前任账户ID",
       "receiver_id": "接收账户ID",
@@ -71,6 +71,11 @@
       "not_available": "无",
       "yes": "是",
       "no": "否"
+    },
+    "date_time": {
+      "date_time_format": "MoDo, YYYY, ah:mm:ss",
+      "date_format": "MoDo, YYYY",
+      "time_format": "a h:mm:ss"
     }
   },
   "page": {
@@ -243,14 +248,14 @@
         "no_result": "没有结果",
         "empty_result": "结果为空",
         "failure": "失败",
-        "success_receipt_id": "成功收据ID",
+        "success_receipt_id": "成功交易回执ID",
         "no_logs": "没有日志",
         "no_actions": "没有操作"
       }
     },
     "blocks": {
       "ReceiptsInBlock": {
-        "no_receipts": "此区块中没有收据"
+        "no_receipts": "此区块中没有交易回执"
       },
       "BlockDetails": {
         "transactions": {
@@ -258,7 +263,7 @@
           "text": "该区块的交易数。"
         },
         "receipts": {
-          "title": "收据数"
+          "title": "交易回执数"
         },
         "status": {
           "title": "状态",

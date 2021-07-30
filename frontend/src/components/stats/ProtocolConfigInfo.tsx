@@ -82,10 +82,14 @@ const ProtocolConfigInfo = () => {
               {networkStats?.genesisTime && (
                 <>
                   <span>
-                    {moment(networkStats?.genesisTime).format("MMMM DD, YYYY")}
+                    {moment(networkStats?.genesisTime).format(
+                      translate("common.date_time.date_format").toString()
+                    )}
                   </span>
                   <div style={{ fontSize: "10px", lineHeight: "1" }}>
-                    {moment(networkStats?.genesisTime).format("[at] h:mm:ssa")}
+                    {moment(networkStats?.genesisTime).format(
+                      translate("common.date_time.time_format").toString()
+                    )}
                   </div>
                 </>
               )}
