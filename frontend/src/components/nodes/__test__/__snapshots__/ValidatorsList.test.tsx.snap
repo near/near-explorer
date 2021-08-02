@@ -6,11 +6,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-3251437413 collapse-row-arrow"
+      className="jsx-2649708289 collapse-row-arrow"
       onClick={[Function]}
     >
       <img
-        className="jsx-3251437413"
+        className="jsx-2649708289"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -20,14 +20,18 @@ Array [
       />
     </td>
     <td
-      className="jsx-3251437413 order"
+      className="jsx-2649708289 order"
     >
       25
     </td>
     <td
-      className="jsx-3251437413 country-flag"
+      className="jsx-2649708289 country-flag"
     >
       <img
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/us.svg"
         style={
           Object {
@@ -41,7 +45,7 @@ Array [
       />
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="align-items-center row no-gutters"
@@ -86,19 +90,19 @@ Array [
       </div>
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       1%
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-3251437413 text-right validator-nodes-text stake-text"
+      className="jsx-2649708289 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -111,10 +115,10 @@ Array [
         NEAR
       </span>
       <br
-        className="jsx-3251437413"
+        className="jsx-2649708289"
       />
       <small
-        className="jsx-3251437413"
+        className="jsx-2649708289"
       >
         -
         <span
@@ -130,7 +134,7 @@ Array [
       </small>
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="jsx-1486326988 cumulative-stake-chart"
@@ -139,7 +143,7 @@ Array [
           className="jsx-1486326988 total-value"
           style={
             Object {
-              "width": "0%",
+              "width": "-250.93%",
             }
           }
         />
@@ -163,11 +167,11 @@ Array [
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-3251437413 collapse-row-arrow"
+      className="jsx-2649708289 collapse-row-arrow"
       onClick={[Function]}
     >
       <img
-        className="jsx-3251437413"
+        className="jsx-2649708289"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -177,12 +181,12 @@ Array [
       />
     </td>
     <td
-      className="jsx-3251437413 order"
+      className="jsx-2649708289 order"
     >
       26
     </td>
     <td
-      className="jsx-3251437413 country-flag"
+      className="jsx-2649708289 country-flag"
     >
       <div
         style={
@@ -200,7 +204,7 @@ Array [
       </div>
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="align-items-center row no-gutters"
@@ -245,19 +249,19 @@ Array [
       </div>
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       3%
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-3251437413 text-right validator-nodes-text stake-text"
+      className="jsx-2649708289 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -270,10 +274,10 @@ Array [
         NEAR
       </span>
       <br
-        className="jsx-3251437413"
+        className="jsx-2649708289"
       />
       <small
-        className="jsx-3251437413"
+        className="jsx-2649708289"
       >
         +
         <span
@@ -289,7 +293,7 @@ Array [
       </small>
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="jsx-1486326988 cumulative-stake-chart"
@@ -306,27 +310,37 @@ Array [
           className="jsx-1486326988 current-value"
           style={
             Object {
-              "width": "0%",
+              "width": "52.17%",
             }
           }
         />
         <div
           className="jsx-1486326988 cumulative-stake-label"
         >
-          N/A
+          52.17%
         </div>
       </div>
+    </td>
+  </tr>,
+  <tr
+    className="jsx-2649708289 cumulative-stake-holders-row"
+  >
+    <td
+      className="jsx-2649708289 warning-text text-center"
+      colSpan={8}
+    >
+      Validators 1 - 26 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
     </td>
   </tr>,
   <tr
     className="jsx-4079813474 table-row validator-nodes-row mx-0 "
   >
     <td
-      className="jsx-3251437413 collapse-row-arrow"
+      className="jsx-2649708289 collapse-row-arrow"
       onClick={[Function]}
     >
       <img
-        className="jsx-3251437413"
+        className="jsx-2649708289"
         src="/static/images/icon-maximize.svg"
         style={
           Object {
@@ -336,14 +350,18 @@ Array [
       />
     </td>
     <td
-      className="jsx-3251437413 order"
+      className="jsx-2649708289 order"
     >
       27
     </td>
     <td
-      className="jsx-3251437413 country-flag"
+      className="jsx-2649708289 country-flag"
     >
       <img
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/us.svg"
         style={
           Object {
@@ -357,7 +375,7 @@ Array [
       />
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="align-items-center row no-gutters"
@@ -402,19 +420,19 @@ Array [
       </div>
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       7%
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="spinner-border spinner-border-sm"
       />
     </td>
     <td
-      className="jsx-3251437413 text-right validator-nodes-text stake-text"
+      className="jsx-2649708289 text-right validator-nodes-text stake-text"
     >
       <span
         onBlur={[Function]}
@@ -427,10 +445,10 @@ Array [
         NEAR
       </span>
       <br
-        className="jsx-3251437413"
+        className="jsx-2649708289"
       />
       <small
-        className="jsx-3251437413"
+        className="jsx-2649708289"
       >
         +
         <span
@@ -446,7 +464,7 @@ Array [
       </small>
     </td>
     <td
-      className="jsx-3251437413"
+      className="jsx-2649708289"
     >
       <div
         className="jsx-1486326988 cumulative-stake-chart"
@@ -455,7 +473,7 @@ Array [
           className="jsx-1486326988 total-value"
           style={
             Object {
-              "width": "0%",
+              "width": "52.18%",
             }
           }
         />
@@ -463,14 +481,14 @@ Array [
           className="jsx-1486326988 current-value"
           style={
             Object {
-              "width": "0%",
+              "width": "47.82%",
             }
           }
         />
         <div
           className="jsx-1486326988 cumulative-stake-label"
         >
-          N/A
+          100%
         </div>
       </div>
     </td>

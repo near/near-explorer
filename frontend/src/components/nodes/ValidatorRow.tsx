@@ -1,7 +1,15 @@
 import BN from "bn.js";
 import React from "react";
 
-import { Badge, Row, Col, Spinner } from "react-bootstrap";
+import {
+  Badge,
+  Row,
+  Col,
+  Spinner,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
+import { countries } from "country-data";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as N from "../../libraries/explorer-wamp/nodes";
@@ -124,9 +132,24 @@ class ValidatorRow extends React.PureComponent<Props, State> {
 
                     <td className="order">{index}</td>
                     <td className="country-flag">
-                      <CountryFlag
-                        countryCode={node.poolDetails?.country_code}
-                      />
+                      <OverlayTrigger
+                        overlay={
+                          <Tooltip
+                            id={`${node.poolDetails?.country_code}_${index}`}
+                          >
+                            {node.poolDetails?.country_code &&
+                            typeof node.poolDetails?.country_code !== undefined
+                              ? countries[
+                                  node.poolDetails?.country_code?.toUpperCase()
+                                ].name
+                              : node.poolDetails?.country}
+                          </Tooltip>
+                        }
+                      >
+                        <CountryFlag
+                          countryCode={node.poolDetails?.country_code}
+                        />
+                      </OverlayTrigger>
                     </td>
 
                     <td>
@@ -663,7 +686,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
 
                     @media (min-width: 1200px) {
                       .validator-name {
-                        max-width: 420px;
+                        max-width: 370px;
                       }
                     }
                   `}</style>

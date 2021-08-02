@@ -2,10 +2,6 @@ import BN from "bn.js";
 import React from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
-import {
-  NetworkStatsContext,
-  NetworkStatsContextProps,
-} from "../../context/NetworkStatsProvider";
 
 import ValidatorRow from "./ValidatorRow";
 
@@ -25,11 +21,10 @@ class ValidatorsList extends React.PureComponent<Props> {
       cellCount,
     } = this.props;
 
-    const { networkStats }: NetworkStatsContextProps = this.context;
-
     let validatorsList = validators.sort(
-      (a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) =>
-        new BN(b.stake).sub(new BN(a.stake))
+      (a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) => {
+        return new BN(b.stake).sub(new BN(a.stake));
+      }
     );
 
     // filter validators list by 'active' and 'leaving' validators to culculate cumulative
@@ -38,6 +33,11 @@ class ValidatorsList extends React.PureComponent<Props> {
       (i: N.ValidationNodeInfo) =>
         i.validatorStatus &&
         ["active", "leaving"].indexOf(i.validatorStatus) >= 0
+    );
+
+    const totalStake = activeValidatorsList.reduce(
+      (acc: BN, node: N.ValidationNodeInfo) => acc.add(new BN(node.stake)),
+      new BN(0)
     );
 
     activeValidatorsList.forEach(
@@ -58,13 +58,14 @@ class ValidatorsList extends React.PureComponent<Props> {
     });
 
     validatorsList.some((validator: N.ValidationNodeInfo, index: number) =>
-      networkStats?.totalStake &&
+      totalStake &&
       validator.cumulativeStakeAmount &&
-      validator.cumulativeStakeAmount.gt(networkStats.totalStake.divn(3))
+      validator.cumulativeStakeAmount.gt(totalStake.divn(3))
         ? (validatorsList[index].networkHolder = true)
         : false
     );
 
+    console.log("Update");
     return (
       <>
         {validatorsList
@@ -75,14 +76,12 @@ class ValidatorsList extends React.PureComponent<Props> {
               node={node}
               index={activePage * itemsPerPage + index + 1}
               cellCount={cellCount}
-              totalStake={networkStats?.totalStake}
+              totalStake={totalStake}
             />
           ))}
       </>
     );
   }
 }
-
-ValidatorsList.contextType = NetworkStatsContext;
 
 export default ValidatorsList;

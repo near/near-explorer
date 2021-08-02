@@ -62,6 +62,7 @@
     "autobahn": "^20.9.2",
     "bn.js": "^5.2.0",
     "bootstrap": "^4.6.0",
+    "country-data": "0.0.31",
     "d3": "^5.16.0",
     "echarts": "^4.9.0",
     "echarts-for-react": "^2.0.16",
