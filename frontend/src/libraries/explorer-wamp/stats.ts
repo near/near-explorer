@@ -156,10 +156,4 @@ export default class StatsApi extends ExplorerApi {
   async getTotalFee(daysCount: number): Promise<number> {
     return await this.call<any>("nearcore-total-fee-count", [daysCount]);
   }
-
-  async getTotalFeePerDays(daysCount: number): Promise<number> {
-    return await this.call<any>("nearcore-total-fee-count-per-days", [
-      daysCount,
-    ]);
-  }
 }

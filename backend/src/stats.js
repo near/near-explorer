@@ -421,10 +421,6 @@ async function getTotalFee(daysCount) {
   return await calculateFeesByDay(daysCount);
 }
 
-async function getTotalFeePerDays(daysCount) {
-  return await calculateFeePerDay(daysCount);
-}
-
 // aggregate part
 // transaction related
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
@@ -477,4 +473,3 @@ exports.getPartnerUniqueUserAmount = getPartnerUniqueUserAmount;
 
 exports.getGenesisAccountsCount = getGenesisAccountsCount;
 exports.getTotalFee = getTotalFee;
-exports.getTotalFeePerDays = getTotalFeePerDays;
