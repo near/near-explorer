@@ -152,4 +152,8 @@ export default class StatsApi extends ExplorerApi {
   async genesisAccountsCount(): Promise<number> {
     return await this.call<number>("nearcore-genesis-accounts-count");
   }
+
+  async getTotalFee(daysCount: number): Promise<number> {
+    return await this.call<any>("nearcore-total-fee-count", [daysCount]);
+  }
 }

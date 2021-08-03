@@ -318,6 +318,10 @@ wampHandlers["nearcore-genesis-accounts-count"] = async () => {
   return await stats.getGenesisAccountsCount();
 };
 
+wampHandlers["nearcore-total-fee-count"] = async ([daysCount]) => {
+  return await stats.getTotalFee(daysCount);
+};
+
 // set up wamp
 function setupWamp() {
   const wamp = new autobahn.Connection({
