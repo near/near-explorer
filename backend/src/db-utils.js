@@ -571,7 +571,7 @@ const calculateFeesByDay = async (days = 1) => {
       LEFT OUTER JOIN receipts on receipts.originated_from_transaction_hash = transactions.transaction_hash
       JOIN execution_outcomes eo on eo.receipt_id = receipts.receipt_id
       WHERE
-        block_timestamp > (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${days} day')) AS bigint) * 1000 * 1000 * 1000)
+        block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${days} day')) AS bigint) * 1000 * 1000 * 1000)
       AND
         block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
       GROUP BY date
