@@ -101,7 +101,8 @@ export default class AccountsApi extends ExplorerApi {
           },
         ]).then((accounts) => accounts[0]);
       } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-        return await this.call<any>("select:INDEXER_BACKEND", [
+        return { inTransactionsCount: "-", outTransactionsCount: "-" };
+        /*return await this.call<any>("select:INDEXER_BACKEND", [
           `SELECT out_transactions_count.out_transactions_count, in_transactions_count.in_transactions_count FROM
             (SELECT
                 COUNT(transactions.transaction_hash) AS out_transactions_count
@@ -125,7 +126,7 @@ export default class AccountsApi extends ExplorerApi {
             inTransactionsCount: accounts[0].in_transactions_count,
             outTransactionsCount: accounts[0].out_transactions_count,
           };
-        });
+        });*/
       } else {
         throw Error(`unsupported data source ${this.dataSource}`);
       }
