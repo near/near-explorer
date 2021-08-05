@@ -40,10 +40,12 @@ const queryEpochStats = async () => {
   const currentPools = await queryNodeValidators();
 
   if (wampNearNetworkName === "mainnet") {
-    poolDetails = await nearRpc.callViewMethod("name.near", "get_all_fields", {
-      from_index: 0,
-      limit: 100,
-    });
+    poolDetails =
+      poolDetails ||
+      (await nearRpc.callViewMethod("name.near", "get_all_fields", {
+        from_index: 0,
+        limit: 100,
+      }));
   }
 
   currentValidators.forEach((validator, i) => {

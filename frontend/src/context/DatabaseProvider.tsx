@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useCallback } from "react";
 
 import {
   ExplorerApi,
@@ -44,55 +44,64 @@ const DatabaseProvider = (props: Props) => {
     TransactionsCountStat[]
   >();
 
-  const storeBlocksStats = function (
-    _positionalArgs: any,
-    namedArgs: {
-      latestBlockHeight: string;
-      latestGasPrice: string;
-      recentBlockProductionSpeed: number;
-    }
-  ) {
-    const latestBlockHeight = new BN(namedArgs.latestBlockHeight);
-    dispatchLatestBlockHeight((prevLatestBlockHeight) => {
-      if (
-        prevLatestBlockHeight &&
-        latestBlockHeight.eq(prevLatestBlockHeight)
-      ) {
-        return prevLatestBlockHeight;
+  const storeBlocksStats = useCallback(
+    (
+      _positionalArgs: any,
+      namedArgs: {
+        latestBlockHeight: string;
+        latestGasPrice: string;
+        recentBlockProductionSpeed: number;
       }
-      return latestBlockHeight;
-    });
+    ) => {
+      const latestBlockHeight = new BN(namedArgs.latestBlockHeight);
+      dispatchLatestBlockHeight((prevLatestBlockHeight) => {
+        if (
+          prevLatestBlockHeight &&
+          latestBlockHeight.eq(prevLatestBlockHeight)
+        ) {
+          return prevLatestBlockHeight;
+        }
+        return latestBlockHeight;
+      });
 
-    const latestGasPrice = new BN(namedArgs.latestGasPrice);
-    dispatchLatestGasPrice((prevLatestGasPrice) => {
-      if (prevLatestGasPrice && latestGasPrice.eq(prevLatestGasPrice)) {
-        return prevLatestGasPrice;
+      const latestGasPrice = new BN(namedArgs.latestGasPrice);
+      dispatchLatestGasPrice((prevLatestGasPrice) => {
+        if (prevLatestGasPrice && latestGasPrice.eq(prevLatestGasPrice)) {
+          return prevLatestGasPrice;
+        }
+        return latestGasPrice;
+      });
+
+      dispatchRecentBlockProductionSpeed(namedArgs.recentBlockProductionSpeed);
+    },
+    []
+  );
+
+  const storeTransactionsStats = useCallback(
+    (
+      _positionalArgs: any,
+      namedArgs: {
+        transactionsCountHistory: TransactionsCountStat[];
+        recentTransactionsCount: TransactionsCountStat[];
       }
-      return latestGasPrice;
-    });
+    ) => {
+      dispatchTransactionsCountHistory(namedArgs.transactionsCountHistory);
+      dispatchRecentTransactionsCount(namedArgs.recentTransactionsCount);
+    },
+    []
+  );
 
-    dispatchRecentBlockProductionSpeed(namedArgs.recentBlockProductionSpeed);
-  };
-
-  const storeTransactionsStats = function (
-    _positionalArgs: any,
-    namedArgs: {
-      transactionsCountHistory: TransactionsCountStat[];
-      recentTransactionsCount: TransactionsCountStat[];
-    }
-  ) {
-    dispatchTransactionsCountHistory(namedArgs.transactionsCountHistory);
-    dispatchRecentTransactionsCount(namedArgs.recentTransactionsCount);
-  };
-
-  const storeFinalityStatus = (_positionalArgs: any, namedArgs: any) => {
-    dispatchFinalityStatus({
-      finalBlockTimestampNanosecond: new BN(
-        namedArgs.finalBlockTimestampNanosecond
-      ),
-      finalBlockHeight: namedArgs.finalBlockHeight,
-    });
-  };
+  const storeFinalityStatus = useCallback(
+    (_positionalArgs: any, namedArgs: any) => {
+      dispatchFinalityStatus({
+        finalBlockTimestampNanosecond: new BN(
+          namedArgs.finalBlockTimestampNanosecond
+        ),
+        finalBlockHeight: namedArgs.finalBlockHeight,
+      });
+    },
+    []
+  );
 
   useEffect(() => {
     const explorerApi = new ExplorerApi();

@@ -65,7 +65,6 @@ class ValidatorsList extends React.PureComponent<Props> {
         : false
     );
 
-    console.log("Update");
     return (
       <>
         {validatorsList

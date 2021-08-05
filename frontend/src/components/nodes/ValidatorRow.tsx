@@ -477,6 +477,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                                   <Col className="validator-nodes-text">
                                     <a
                                       href={`http://${node.poolDetails.url}`}
+                                      rel="noreferrer noopener"
                                       target="_blank"
                                     >
                                       {node.poolDetails.url}
@@ -520,6 +521,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                                   <Col className="validator-nodes-text">
                                     <a
                                       href={`https://twitter.com/${node.poolDetails.twitter}`}
+                                      rel="noreferrer noopener"
                                       target="_blank"
                                     >
                                       {node.poolDetails.twitter}
@@ -542,6 +544,7 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                                   <Col className="validator-nodes-text">
                                     <a
                                       href={node.poolDetails.discord}
+                                      rel="noreferrer noopener"
                                       target="_blank"
                                     >
                                       {node.poolDetails.discord}
