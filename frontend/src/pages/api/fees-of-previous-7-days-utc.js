@@ -4,11 +4,14 @@ import StatsApi from "../../libraries/explorer-wamp/stats";
 
 export default async function (req, res) {
   try {
-    const feeCountPerDay = await new StatsApi(req).getTotalFee(7);
-    const resp = feeCountPerDay.map((i) => ({
-      date: moment(i?.date).format("YYYY-MM-DD"),
-      collected_fee_in_yoctonear: i?.fee,
-    }));
+    let resp = [];
+    for (let i = 1; i <= 7; i++) {
+      const feeCountPerDay = await new StatsApi(req).getTotalFee(i);
+      resp.push({
+        date: moment(feeCountPerDay?.date).format("YYYY-MM-DD"),
+        collected_fee_in_yoctonear: feeCountPerDay?.fee,
+      });
+    }
     res.send(resp);
   } catch (error) {
     console.error(error);

@@ -6,8 +6,8 @@ export default async function (req, res) {
   try {
     const feeCountPerDay = await new StatsApi(req).getTotalFee(1);
     const resp = {
-      date: moment(feeCountPerDay[0]?.date).format("YYYY-MM-DD"),
-      collected_fee_in_yoctonear: feeCountPerDay[0]?.fee,
+      date: moment(feeCountPerDay?.date).format("YYYY-MM-DD"),
+      collected_fee_in_yoctonear: feeCountPerDay?.fee,
     };
     res.send(resp);
   } catch (error) {
