@@ -14,7 +14,7 @@ interface Props {
   itemsPerPage: number;
 }
 
-class Validators extends React.PureComponent<Props> {
+class Validators extends React.Component<Props> {
   static defaultProps = {
     itemsPerPage: 120,
   };
@@ -93,7 +93,6 @@ class Validators extends React.PureComponent<Props> {
                             activePage,
                             itemsPerPage,
                           }}
-                          cellCount={8}
                         />
                       </tbody>
                     </Table>

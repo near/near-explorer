@@ -10,15 +10,13 @@ const epochValidatorsStake = new Map();
 interface Props {
   validators: any;
   pages: any;
-  cellCount: number;
 }
 
-class ValidatorsList extends React.PureComponent<Props> {
+class ValidatorsList extends React.Component<Props> {
   render() {
     const {
       validators,
       pages: { startPage, endPage, activePage, itemsPerPage },
-      cellCount,
     } = this.props;
 
     let validatorsList = validators.sort(
@@ -74,7 +72,6 @@ class ValidatorsList extends React.PureComponent<Props> {
               key={node.account_id}
               node={node}
               index={activePage * itemsPerPage + index + 1}
-              cellCount={cellCount}
               totalStake={totalStake}
             />
           ))}

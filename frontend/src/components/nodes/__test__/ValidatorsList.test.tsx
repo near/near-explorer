@@ -88,7 +88,6 @@ describe("<ValidatorsList />", () => {
             activePage: 2,
             itemsPerPage: 12,
           }}
-          cellCount={8}
         />
       )
     ).toMatchSnapshot();

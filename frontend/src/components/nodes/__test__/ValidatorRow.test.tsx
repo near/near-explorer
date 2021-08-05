@@ -35,7 +35,6 @@ describe("<ValidatorRow />", () => {
           }}
           totalStake={new BN("91037770393145811562101780866")}
           index={1}
-          cellCount={8}
         />
       )
     ).toMatchSnapshot();
@@ -69,7 +68,6 @@ describe("<ValidatorRow />", () => {
           }}
           totalStake={new BN("91037770393145811562101780866")}
           index={2}
-          cellCount={8}
         />
       )
     ).toMatchSnapshot();
@@ -96,7 +94,6 @@ describe("<ValidatorRow />", () => {
           }}
           totalStake={new BN("91037770393145811562101780866")}
           index={3}
-          cellCount={8}
         />
       )
     ).toMatchSnapshot();
