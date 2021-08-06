@@ -562,6 +562,11 @@ const getLastYesterdayBlock = async (timestamp) => {
 
 // pass 'days' to set period of calculation
 const calculateFeesByDay = async (days = 1) => {
+  if (!(days >= 1 && days <= 7)) {
+    throw Exception(
+      "calculateFeesByDay can only handle `days` values in range 1..7"
+    );
+  }
   return await querySingleRow(
     [
       `SELECT
@@ -571,7 +576,9 @@ const calculateFeesByDay = async (days = 1) => {
       WHERE
         executed_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${days} day')) AS bigint) * 1000 * 1000 * 1000)
       AND
-        executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)`,
+        executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${
+          days - 1
+        } day')) AS bigint) * 1000 * 1000 * 1000)`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
