@@ -1,0 +1,494 @@
+{
+  "app": {
+    "name": "Trình duyệt NEAR"
+  },
+  "common": {
+    "accounts": {
+      "account": "Tài khoản",
+      "accounts": "Các tài khoản"
+    },
+    "blocks": {
+      "blocks": "Các khối",
+      "status": {
+        "fetching_status": "Đang kiểm Trạng thái...",
+        "checking_finality": "Đang kiểm Tính hoàn tất...",
+        "finalized": "Đã hoàn tất",
+        "finalizing": "Đang hoàn tất"
+      }
+    },
+    "transactions": {
+      "transaction": "Giao dịch",
+      "transactions": "Các giao dịch",
+      "status": {
+        "fetching_status": "Đang lấy thông tin Trạng thái...",
+        "NotStarted": "Chưa bắt đầu",
+        "Started": "Đã bắt đầu",
+        "Failure": "Đã thất bại",
+        "SuccessValue": "Đã thành công"
+      },
+      "execution": {
+        "convert_transaction_to_receipt": "Chuyển Giao Dịch Thành Biên Nhận",
+        "gas_burned": "Gas Đã Đốt",
+        "tokens_burned": "Các Token Đã Đốt"
+      }
+    },
+    "actions": {
+      "actions": "Các hoạt động"
+    },
+    "receipts": {
+      "receipt": "Biên nhận",
+      "receipts": "Các biên nhận",
+      "receipt_id": "Biên nhận ID",
+      "executed_in_block": "Đã được thực hiện trong Khối",
+      "predecessor_id": "ID Người tiền nhiệm",
+      "receiver_id": "ID Người nhận",
+      "status": {
+        "Unknown": "Không xác định",
+        "Failure": "Đã thất bại",
+        "SuccessValue": "Đã thành công",
+        "SuccessReceiptId": "Đã thành công"
+      }
+    },
+    "contracts": {
+      "contract": "Hợp đồng"
+    },
+    "nodes": {
+      "title": "Các Node"
+    },
+    "stats": {
+      "title": "Thống kê",
+      "title_charts_and_stats": "Biểu đồ & Thống kê",
+      "daily": "Hàng ngày",
+      "weekly": "Hàng tuần",
+      "total": "Tổng",
+      "unique": "Duy nhất",
+      "live": "Hoạt động"
+    },
+    "unit": {
+      "seconds": "giây"
+    },
+    "state": {
+      "not_available": "Không có sẵn",
+      "yes": "Có",
+      "no": "Không"
+    },
+    "date_time": {
+      "date_time_format": "Do MMMM YYYY, h:mm:ss a",
+      "date_format": "Do MMMM YYYY",
+      "time_format": "h:mm:ss a"
+    }
+  },
+  "page": {
+    "home": {
+      "title": {
+        "explore": "Khám phá",
+        "near_blockchain": "<br />NEAR Blockchain."
+      }
+    },
+    "accounts": {
+      "account": "Tài khoản",
+      "error": {
+        "account_fetching": "Hiện tại chưa thấy thông tin. Xin vui lòng kiểm tra lại tên tài khoản, hoặc thử lại vào lúc khác."
+      }
+    },
+    "blocks": {
+      "title": "Các Khối"
+    },
+    "transactions": {
+      "transaction_execution_plan": "Kế hoạch Thực thi Giao dịch"
+    }
+  },
+  "component": {
+    "nodes": {
+      "Validators": {
+        "validator": "Nhà xác thực",
+        "fee": "Phí",
+        "delegators": "Người ký gửi",
+        "stake": "Stake Ký gửi",
+        "cumulative_stake": "Stake Tích lũy"
+      },
+      "ValidatorRow": {
+        "state": {
+          "active": {
+            "text": "các node đang xác thực",
+            "title": "Hoạt động"
+          },
+          "new": {
+            "title": "Mới",
+            "text": "các node sẽ có trong epoch kế tiếp"
+          },
+          "kickout": {
+            "title": "Bị loại",
+            "text": "các node bị loại ở epoch kế tiếp"
+          },
+          "pending": {
+            "title": "Đang chờ",
+            "text": "node được ký gởi để thành nhà xác thực mới"
+          }
+        },
+        "warning_tip": "Các nhà xác thực 1 - ${node_tip_max} đang tích lũy stake trên 33%. Việc ký gửi cho những nhà xác thực bên dưới sẽ cải thiện tính phân tán cho mạng lưới."
+      },
+      "NodesEpoch": {
+        "current_epoch_start": "Epoch Hiện Tại Khởi Động",
+        "block": "Khối",
+        "complete": "hoàn thành",
+        "remaining": "còn lại"
+      },
+      "NodesContentHeader": {
+        "nodes": "Các Node"
+      },
+      "NodeNav": {
+        "validating": "Đang xác thực",
+        "proposed": "Đã đề xuất"
+      },
+      "NodesCard": {
+        "nodes_validating": "Các Node đang xác thực",
+        "total_supply": "Tổng Cung",
+        "total_stake": "Tổng Stake ký gởi",
+        "seat_price": "Giá Chỗ"
+      },
+      "Nodes": {
+        "validator": "Nhà xác thực"
+      },
+      "NodeRow": {
+        "online": {
+          "title": "Trực tuyến",
+          "text": "những node đang trực tuyến"
+        }
+      }
+    },
+    "transactions": {
+      "Transactions": {
+        "no_transactions": "Không có giao dịch nào"
+      },
+      "ActionMessage": {
+        "CreateAccount": {
+          "new_account_created": "Tài khoản mới đã tạo: "
+        },
+        "DeleteAccount": {
+          "delete_account": "Xóa tài khoản ",
+          "and_transfer_fund_to": " và chuyển số quỹ còn lại đến "
+        },
+        "DeployContract": {
+          "contract_deployed": "Hợp đồng đã triển khai: "
+        },
+        "FunctionCall": {
+          "called_method": "Đã gọi phương thức: '${method_name}' trong hợp đồng: ",
+          "arguments": "Các tham số:"
+        },
+        "Transfer": {
+          "transferred": "Đã chuyển ",
+          "to": " đến "
+        },
+        "Stake": {
+          "staked": "Đã ký gửi: ",
+          "with_key": "với ${public_key}..."
+        },
+        "AddKey": {
+          "new_key_added": "Khóa mới đã thêm cho ",
+          "with_permission_and_nounce": "với thẩm quyền ${permission} và số nonce ${nonce}",
+          "access_key_added_for_contract": "Đã thêm khóa truy cập cho hợp đồng ",
+          "with_permission_call_method_and_nounce": "với thẩm quyền gọi các method ${methods} và số nonce ${nonce}",
+          "any": "bất kì"
+        },
+        "DeleteKey": {
+          "key_deleted": "Đã xóa Khóa: ${public_key}..."
+        }
+      },
+      "TransactionAction": {
+        "batch_transaction": "Giao dịch hàng loạt"
+      },
+      "ActionRowBlock": {
+        "by": "bởi"
+      },
+      "TransactionDetails": {
+        "signed_by": {
+          "title": "Đã ký bởi",
+          "text": "Tài khoản đã ký và gởi giao dịch."
+        },
+        "receiver": {
+          "title": "Người nhận",
+          "text": "Tài khoản nhận giao dịch."
+        },
+        "status": {
+          "title": "Trạng thái",
+          "text": "Trạng thái hiện tại của giao dịch (Đang chờ, Thành công, Thất bại/Đã hoàn tất hoặc Chưa hoàn tất)."
+        },
+        "transaction_fee": {
+          "title": "Phí Giao dịch",
+          "text": "Tổng phí NEAR được trả để thực hiện giao dịch này."
+        },
+        "deposit_value": {
+          "title": "Giá trị gởi",
+          "text": "Tổng token NEAR đã gởi từ tài khoản Ký đến tài khoản Nhận. Bao gồm cả những token đã gởi trong (các) hành động Transfer, và các khoản gởi trong (các) hành động Function Call."
+        },
+        "gas_used": {
+          "title": "Gas đã dùng",
+          "text": "Các đơn vị gas cần để thực thi giao dịch này."
+        },
+        "attached_gas": {
+          "title": "Gas đính kèm",
+          "text": "Các đơn vị gas đính kèm giao dịch (Thường là sẽ cao hơn 'Gas đã dùng')."
+        },
+        "created": {
+          "title": "Đã tạo",
+          "text": "Thời điểm giao dịch này được đệ trình."
+        },
+        "hash": {
+          "title": "Băm",
+          "text": "Định danh duy nhất (băm) của giao dịch này."
+        },
+        "block_hash": {
+          "title": "Băm của Khối",
+          "text": "Định danh duy nhất (băm) của khối chứa giao dịch này."
+        }
+      },
+      "ReceiptRow": {
+        "result": "Kết quả",
+        "no_result": "Không có kết quả",
+        "empty_result": "Kết quả trống",
+        "failure": "Thất bại",
+        "success_receipt_id": "IdBiênNhậnThànhCông",
+        "no_logs": "Không có log",
+        "no_actions": "Không có hành động"
+      }
+    },
+    "blocks": {
+      "ReceiptsInBlock": {
+        "no_receipts": "Không có biên nhận trong block này"
+      },
+      "BlockDetails": {
+        "transactions": {
+          "title": "Các Giao Dịch",
+          "text": "Số các giao dịch trong block này. "
+        },
+        "receipts": {
+          "title": "Các Biên Nhận"
+        },
+        "status": {
+          "title": "Trạng Thái",
+          "text": "Trạng thái hiện hành của block (Đang hoàn tất hoặc Đã hoàn tất). "
+        },
+        "author": {
+          "title": "Người Tạo"
+        },
+        "gas_used": {
+          "title": "Gas Đã Dùng",
+          "text": "Tổng các đơn vị gas cần để thực thi những giao dịch trong khối này. "
+        },
+        "gas_price": {
+          "title": "Giá Gas",
+          "text": "Một đơn vị Tgas (TeraGas) là 1*10^12 đơn vị gas. Chi phí gas của NEAR rất thấp, đó là lý do tại sao Tgas được sử dụng phổ biến hơn. "
+        },
+        "created": {
+          "title": "Đã Tạo",
+          "text": "Thời điểm khối này được hoàn tất. "
+        },
+        "hash": {
+          "title": "Băm",
+          "text": "Định danh duy nhất (băm) của khối này. "
+        },
+        "parent_hash": {
+          "title": "Băm Cha",
+          "text": "Định danh duy nhất (băm) của khối trước. "
+        }
+      }
+    },
+    "accounts": {
+      "AccountDetails": {
+        "transactions": {
+          "title": "Các giao dịch",
+          "text": "Tổng giao dịch được gởi và nhận bởi tài khoản này. "
+        },
+        "storage_usage": {
+          "title": "Bộ Nhớ Đã Sử Dụng",
+          "text": "Tổng bộ nhớ blockchain (đơn vị bytes) đã sử dụng bởi tài khoản này. "
+        },
+        "native_account_balance": {
+          "title": "Ⓝ Số Dư Tài Khoản Gốc",
+          "text": "Giao thức NEAR xác định một số dư thanh khoản cho từng tài khoản, số dư này được sử dụng trực tiếp để thanh toán cho các giao dịch do tài khoản này phát hành, nhưng nó không phải là số dư \"tổng\" của tất cả các token bạn có thể kiểm soát thông qua tài khoản này; xem \"Số Dư Tổng Hợp\" để biết thêm chi tiết. "
+        },
+        "validator_stake": {
+          "title": "Ⓝ Stake Ký Gửi Nhà Xác Thực",
+          "text": "<p> NEAR này đang được tích cực sử dụng để hỗ trợ nhà xác thực và bảo mật mạng. Khi bạn quyết định hủy ký gửi NEAR này, sẽ mất một thời gian để hiển thị trong Số Dư Khả Dụng của bạn, vì NEAR phải mất 3 kỷ (~36 giờ) để hủy ký gửi. </p> <p> Trường này chỉ phản ánh số dư NEAR ở những nhà xác thực có ký gửi để hỗ trợ bảo mật mạng. Nếu bạn đang ký gửi (ủy thác) vào nhóm các nhà xác thực từ ví, bạn sẽ thấy \"0\" trong trường này. Xem hồ sơ số dư trên Ví để biết thêm số dư tổng hợp nếu cần. </p>"
+        },
+        "balance_profile": {
+          "title": "Ⓝ Hồ Sơ Số Dư",
+          "text": "Các token NEAR có thể bị khóa trong hợp đồng, ký gửi, và ủy quyền. Đôi khi chúng tôi cũng không thể theo dõi chúng nếu không có sự giúp đỡ của bạn. Trang Hồ Sơ trên Ví là nơi quy tụ hầu hết các số dư mà chúng tôi có thể tổng hợp từ nhiều nguồn khác nhau, vì vậy nếu bạn muốn ước tính số dư \"tổng\" thì đây là nơi tốt nhất. "
+        },
+        "created_at": {
+          "title": "Được tạo lúc",
+          "text": "Ngày và giờ tài khoản này được tạo. Một số tài khoản được gắn trong những khối đầu tiên của mạng được gọi là tài khoản khởi điểm (genesis). "
+        },
+        "created_by_transaction": {
+          "title": "Được Tạo Bởi Giao Dịch",
+          "text": "Bạn có thể kiểm tra giao dịch đã tạo tài khoản này. "
+        },
+        "deleted_at": {
+          "title": "Được Xóa Lúc",
+          "text": "Ngày và giờ tài khoản này được xóa. "
+        },
+        "deleted_by_transaction": {
+          "title": "Được Xóa Bởi Giao Dịch",
+          "text": "Bạn có thể kiểm tra giao dịch đã xóa tài khoản này. "
+        },
+        "lockup_account": {
+          "title": "Tài Khoản khóa",
+          "text": "Khóa là một hợp đồng thông minh đặc biệt, nhằm đảm bảo rằng toàn bộ hoặc một phần tài khoản không thể chuyển nhượng được, cho đến khi nó được phép. "
+        }
+      },
+      "AccountRow": {
+        "deleted_on": "Được xóa lúc",
+        "created_on": "Được tạo lúc"
+      }
+    },
+    "contracts": {
+      "ContractDetails": {
+        "last_updated": {
+          "title": "Cập nhật lần cuối",
+          "text": "Thời gian gần nhất hợp đồng được triển khai."
+        },
+        "transaction_hash": {
+          "title": "Băm của Giao dịch",
+          "text": "Định danh duy nhất (băm) của giao dịch mà hợp đồng được triển khai lần gần nhất."
+        },
+        "locked": {
+          "title": "Bị khóa?",
+          "text": "<p>Hợp đồng bị khóa có nghĩa là không có khóa truy cập nào cho phép triển khai lại code của hợp đồng. </p><p>Thông thường, code có thể được triển khai lại bằng:<ol><li>một giao dịch với một hành động deploy-code</li><li>bản thân hợp đồng có thể triển khai một lệnh gọi hàm để kích hoạt hành động deploy-code</li></ol></p><p>Để triển khai lại code của một giao dịch, giao dịch đó phải được ký bằng khóa toàn-quyền-truy-cập. Nếu không có khóa như vậy trên hợp đồng, không có cách nào để triển khai lại code trừ khi có sự hỗ trợ riêng trong code của chính hợp đồng đó, và do đó chúng tôi đánh dấu các hợp đồng đó là đã bị khóa.</p><p>Nếu có ít nhất một khóa toàn-quyền-truy-cập được đăng ký trên tài khoản hợp đồng, hợp đồng không bị khóa.</p>"
+        },
+        "code_hash": {
+          "title": "Băm của Code",
+          "text": "Checksum (SHA-256 trong mã hóa base58) nhị phân của hợp đồng."
+        }
+      }
+    },
+    "dashboard": {
+      "DashboardNode": {
+        "nodes_online": {
+          "title": "Node trực tuyến",
+          "text": "Tổng số những node đang trực tuyến."
+        },
+        "nodes_validating": {
+          "title": "Node đang xác thực",
+          "text": "Tổng số những node đang xác thực."
+        }
+      },
+      "DashboardBlock": {
+        "block_height": {
+          "title": "Chiều Cao Khối",
+          "text": "<p>Chiều cao khối gần đây nhất đã được ghi lại vào blockchain.</p><p>Chiều cao khối là số thứ tự của khối gần đây nhất trong blockchain.</p><p>Ví dụ: chiều cao khối là 1000 cho biết rằng tối đa 1001 khối có thể tồn tại trong blockchain (khối khởi điểm + các khối 0-1000). Trong NEAR, không đảm bảo là sẽ có một khối cho mỗi số thứ tự, ví dụ: khối 982 không nhất thiết phải tồn tại.</p>"
+        },
+        "avg_block_time": {
+          "title": "Thời gian khối trung bình",
+          "text": "Thời gian trung bình để tạo ra một khối."
+        }
+      },
+      "DashboardTransaction": {
+        "24h_total": {
+          "title": "Tổng 24 giờ",
+          "text": "Tổng số giao dịch trong 24 giờ gần nhất."
+        },
+        "gas_price": {
+          "title": "Giá Gas",
+          "text": "Một đơn vị Tgas (TeraGas) là 1*10^12 đơn vị gas. Chi phí gas của NEAR rất thấp, đó là lý do tại sao Tgas được sử dụng phổ biến hơn."
+        }
+      },
+      "DashboardTransactionHistoryChart": {
+        "14_day_history": {
+          "title": "Lịch sử 14 ngày",
+          "transactions": "GD"
+        }
+      }
+    },
+    "stats": {
+      "ProtocolConfigInfo": {
+        "genesis_started": "Genesis Đã Bắt Đầu",
+        "genesis_protocol_or_current_protocol": "Giao Thức Genesis / Giao Thức Hiện Tại",
+        "genesis_height": "Chiều Cao Genesis",
+        "epoch_length": "Chiều dài Epoch",
+        "genesis_total_supply": "Tổng Cung Genesis",
+        "accounts_in_genesis": "Tài Khoản Trong Genesis",
+        "total_supply": "Tổng Cung",
+        "live_accounts": "Tài khoản hoạt động"
+      },
+      "TransactionsByDate": {
+        "daily_number_of_transactions": "Số giao dịch hàng ngày",
+        "total_number_of_transactions": "Tổng số giao dịch",
+        "transactions": "GD"
+      },
+      "GasUsedByDate": {
+        "daily_amount_of_used_tera_gas": "Lượng Tera Gas đã sử dụng hàng ngày",
+        "tera_gas": "Tera gas",
+        "total_amount_of_used_tera_gas": "Tổng Tera Gas đã sử dụng",
+        "gas_fee": "Phí Gas",
+        "daily_gas_fee_in_near": "Phí Gas Hàng Ngày tính bằng NEAR",
+        "fee": "phí"
+      },
+      "NewAccountsByDate": {
+        "daily_number_of_new_accounts": "Số Tài Khoản Mới Hàng Ngày",
+        "daily_number_of_live_accounts": "Số Tài Khoản Hoạt Động Hàng Ngày",
+        "total_number_of_new_accounts": "Tổng Số Tài Khoản Mới",
+        "new_accounts": "Các Tài Khoản Mới"
+      },
+      "NewContractsByDate": {
+        "daily_number_of_new_contracts": "Số Hợp Đồng Mới Hàng Ngày",
+        "total_number_of_new_contracts": "Tổng Số Hợp Đồng Mới",
+        "total_number_of_unique_contracts": "Tổng Số Hợp Đồng Duy Nhất",
+        "new_contracts": "Các Hợp Đồng Mới"
+      },
+      "ActiveAccountsByDate": {
+        "daily_number_of_active_accounts": "Số Tài Khoản Hoạt Động Hàng Ngày",
+        "weekly_number_of_active_accounts": "Số Tài Khoản Hoạt Động Hàng Tuần",
+        "active_accounts": "Các Tài Khoản Hoạt Động"
+      },
+      "ActiveContractsByDate": {
+        "daily_number_of_active_contracts": "Số Hợp Đồng Hoạt Động Hàng Ngày",
+        "active_contracts": "Các Hợp Đồng Hoạt Động"
+      },
+      "ActiveAccountsList": {
+        "title": "10 Tài Khoản hoạt động hàng đầu trong 14 ngày qua"
+      },
+      "ActiveContractsList": {
+        "title": "10 Hợp Đồng hoạt động hàng đầu trong 14 ngày qua"
+      },
+      "StakingBar": {
+        "title": "Khối lượng Stake ký gửi để xác thực các Node",
+        "total_stake_volume_for_current_epoch_is": "Tổng khối lượng Stake ký gửi của kỷ(epoch) hiện tại là"
+      }
+    },
+    "utils": {
+      "Search": {
+        "title": "Tìm kiếm",
+        "hint": "Tìm ID Tài Khoản, băm Giao Dịch, băm Khối, chiều cao Khối"
+      },
+      "Header": {
+        "home": "Trang Chủ"
+      },
+      "HeaderNavDropdown": {
+        "title": "Khám Phá"
+      },
+      "Footer": {
+        "privacy_policy": "Chính Sách Bảo Mật",
+        "terms_of_service": "Điều Khoản Dịch Vụ",
+        "all_rights_reserved": "Đã Đăng Ký Bản Quyền",
+        "join_the_community": "Tham Gia vào Cộng Đồng",
+        "questions": "Các Câu Hỏi"
+      }
+    }
+  },
+  "utils": {
+    "Update": {
+      "refresh": " Làm mới hoặc Nhấp vào để xem dữ liệu mới nhất."
+    },
+    "ListHandler": {
+      "last_block": "Chiều cao khối mới nhất là "
+    }
+  },
+  "button": {
+    "view_all": "Xem Tất Cả",
+    "docs": "tài liệu",
+    "load_more": "Tải Thêm",
+    "show_more": "Hiển thị thêm",
+    "show_less": "Hiển thị ít hơn"
+  }
+}

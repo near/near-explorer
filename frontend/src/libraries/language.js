@@ -7,6 +7,7 @@
 
 import translations_en from "../translations/en.global.json";
 import translations_zh_hans from "../translations/zh-hans.global.json";
+import translations_vi from "../translations/vi.global.json";
 import moment from "./moment";
 import Cookies from "universal-cookie";
 
@@ -165,7 +166,7 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 }
 
 export function setMomentLocale(code) {
-  const locale = code === "zh-hans" ? "zh-cn" : "en";
+  const locale = code === "zh-hans" ? "zh-cn" : code === "vi" ? "vi" : "en";
   // `moment.locale()` must be called after `moment.updateLocale()` are configured
   moment.locale(locale);
 }
@@ -194,6 +195,7 @@ function getI18nConfig() {
     languages: [
       { name: "English", code: "en" },
       { name: "简体中文", code: "zh-hans" },
+      { name: "Tiếng Việt", code: "vi" },
     ],
     options: {
       defaultLanguage: "en",
@@ -212,7 +214,11 @@ export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
     if (activeLang === "zh-hans") {
       config.translation = translations_zh_hans;
     } else {
-      config.translation = translations_en;
+      if (activeLang === "vi") {
+        config.translation = translations_vi;
+      } else {
+        config.translation = translations_en;
+      }
     }
     return config;
   }
@@ -227,6 +233,7 @@ export function setI18N(props) {
   props.initialize(config);
   props.addTranslationForLanguage(translations_en, "en");
   props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
+  props.addTranslationForLanguage(translations_vi, "vi");
   props.setActiveLanguage(activeLang);
 
   setMomentLocale(activeLang);

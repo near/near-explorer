@@ -44,4 +44,25 @@ moment.updateLocale("zh", {
   },
 });
 
+moment.updateLocale("vi", {
+  relativeTime: {
+    past: (input) => {
+      return input === "vừa xong" ? "1 giây trước" : input + " trước";
+    },
+    s: "vừa xong",
+    future: "trong %s",
+    ss: "%d giây",
+    m: "1 phút",
+    mm: "%d phút",
+    h: "1 giờ",
+    hh: "%d giờ",
+    d: "1 ngày",
+    dd: "%d ngày",
+    M: "1 tháng",
+    MM: "%d tháng",
+    y: "1 năm",
+    yy: "%d năm",
+  },
+});
+
 export default moment;
