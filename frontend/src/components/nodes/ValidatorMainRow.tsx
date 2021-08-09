@@ -22,9 +22,9 @@ interface Props {
   validatorFee: string | null;
   validatorDelegators: number | string | null;
   stake: string;
-  stakeProposed?: string;
+  proposedStakePerNextEpoch?: string;
   cumulativeStake: number;
-  persntStake: number;
+  totalStakeInPersnt: number;
   handleClick: React.MouseEventHandler;
 }
 
@@ -41,22 +41,26 @@ class ValidatorMainRow extends PureComponent<Props> {
       validatorFee,
       validatorDelegators,
       stake,
-      stakeProposed,
+      proposedStakePerNextEpoch,
       cumulativeStake,
-      persntStake,
+      totalStakeInPersnt,
       handleClick,
     } = this.props;
 
     const stakeProposedAmount =
-      stakeProposed &&
-      (new BN(stake).gt(new BN(stakeProposed))
+      proposedStakePerNextEpoch &&
+      (new BN(stake).gt(new BN(proposedStakePerNextEpoch))
         ? {
-            value: new BN(stake).sub(new BN(stakeProposed)).toString(),
+            value: new BN(stake)
+              .sub(new BN(proposedStakePerNextEpoch))
+              .toString(),
             increace: false,
           }
-        : new BN(stake).lt(new BN(stakeProposed))
+        : new BN(stake).lt(new BN(proposedStakePerNextEpoch))
         ? {
-            value: new BN(stakeProposed).sub(new BN(stake)).toString(),
+            value: new BN(proposedStakePerNextEpoch)
+              .sub(new BN(stake))
+              .toString(),
             increace: true,
           }
         : "same");
@@ -110,9 +114,6 @@ class ValidatorMainRow extends PureComponent<Props> {
                         ).toString()}
                         tooltipKey="nodes"
                       >
-                        {/* {translate(
-                          "component.nodes.ValidatorRow.state.pending.title"
-                        )} */}
                         Proposal
                       </ValidatingLabel>
                     ) : validatorStatus === "new" ? (
@@ -151,7 +152,15 @@ class ValidatorMainRow extends PureComponent<Props> {
                           "component.nodes.ValidatorRow.state.active.title"
                         )}
                       </ValidatingLabel>
-                    ) : null}
+                    ) : (
+                      <ValidatingLabel
+                        type="inactive"
+                        text="inactive node"
+                        tooltipKey="inactive"
+                      >
+                        Inactive
+                      </ValidatingLabel>
+                    )}
                   </Col>
 
                   <Col className="validator-name">
@@ -213,7 +222,7 @@ class ValidatorMainRow extends PureComponent<Props> {
               </td>
               <td>
                 <CumulativeStakeChart
-                  total={cumulativeStake - persntStake}
+                  total={cumulativeStake - totalStakeInPersnt}
                   current={cumulativeStake}
                 />
               </td>

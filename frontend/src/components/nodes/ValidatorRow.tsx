@@ -27,7 +27,7 @@ class ValidatorRow extends React.Component<Props, State> {
 
   render() {
     const { node, index, totalStake } = this.props;
-    let persntStake = 0;
+    let totalStakeInPersnt = 0;
     let cumulativeStake = 0;
     let validatorFee =
       typeof node.fee === "undefined"
@@ -43,7 +43,7 @@ class ValidatorRow extends React.Component<Props, State> {
         : node.delegatorsCount;
 
     if (node.stake && totalStake) {
-      persntStake =
+      totalStakeInPersnt =
         new BN(node.stake).mul(new BN(10000)).div(totalStake).toNumber() / 100;
     }
 
@@ -70,9 +70,9 @@ class ValidatorRow extends React.Component<Props, State> {
               validatorFee={validatorFee}
               validatorDelegators={validatorDelegators}
               stake={node.stake}
-              stakeProposed={node.stakeProposed}
+              proposedStakePerNextEpoch={node.stakeProposed}
               cumulativeStake={cumulativeStake}
-              persntStake={persntStake}
+              totalStakeInPersnt={totalStakeInPersnt}
               handleClick={this.handleClick}
             />
 
@@ -80,7 +80,7 @@ class ValidatorRow extends React.Component<Props, State> {
               isRowActive={this.state.activeRow}
               producedBlocks={node.num_produced_blocks}
               expectedBlocks={node.num_expected_blocks}
-              validatorsLatestBlock={node.nodeInfo?.lastHeight}
+              latestProducedValidatorBlock={node.nodeInfo?.lastHeight}
               lastSeen={node.nodeInfo?.lastSeen}
               agentName={node.nodeInfo?.agentName}
               agentVersion={node.nodeInfo?.agentVersion}

@@ -346,7 +346,17 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
     >
       <div
         className="validators-node-label col-2"
-      />
+      >
+        <span
+          className="validating-label inactive badge"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          Inactive
+        </span>
+      </div>
       <div
         className="validator-name col"
       >
