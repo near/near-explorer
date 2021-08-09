@@ -110,9 +110,10 @@ class ValidatorMainRow extends PureComponent<Props> {
                         ).toString()}
                         tooltipKey="nodes"
                       >
-                        {translate(
+                        {/* {translate(
                           "component.nodes.ValidatorRow.state.pending.title"
-                        )}
+                        )} */}
+                        Proposal
                       </ValidatingLabel>
                     ) : validatorStatus === "new" ? (
                       <ValidatingLabel
@@ -185,7 +186,11 @@ class ValidatorMainRow extends PureComponent<Props> {
                 )}
               </td>
               <td className="text-right validator-nodes-text stake-text">
-                {stake ? <Balance amount={stake} label="NEAR" /> : "-"}
+                {stake ? (
+                  <Balance amount={stake} label="NEAR" fracDigits={0} />
+                ) : (
+                  "-"
+                )}
                 {stakeProposedAmount && (
                   <>
                     <br />
@@ -198,6 +203,7 @@ class ValidatorMainRow extends PureComponent<Props> {
                           <Balance
                             amount={stakeProposedAmount.value}
                             label="NEAR"
+                            fracDigits={0}
                           />
                         </>
                       )}

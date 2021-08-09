@@ -98,9 +98,7 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
-      91,037.77039
-       
-      NEAR
+      91,038 NEAR
     </span>
     <br />
     <small>
@@ -111,9 +109,7 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        4,701,218.17312
-         
-        NEAR
+        4,701,218 NEAR
       </span>
     </small>
   </td>
@@ -248,9 +244,7 @@ Array [
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        91,037.77039
-         
-        NEAR
+        91,038 NEAR
       </span>
       <br />
       <small>
@@ -261,9 +255,7 @@ Array [
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          4,701,218.17312
-           
-          NEAR
+          4,701,218 NEAR
         </span>
       </small>
     </td>
@@ -296,10 +288,10 @@ Array [
     </td>
   </tr>,
   <tr
-    className="jsx-1273140815 cumulative-stake-holders-row"
+    className="jsx-2313885636 cumulative-stake-holders-row"
   >
     <td
-      className="jsx-1273140815 warning-text text-center"
+      className="jsx-2313885636 warning-text text-center"
       colSpan={8}
     >
       Validators 1 - 1 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
@@ -396,9 +388,7 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
-      91,037.77039
-       
-      NEAR
+      91,038 NEAR
     </span>
     <br />
     <small>
@@ -409,9 +399,7 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        4,701,218.17312
-         
-        NEAR
+        4,701,218 NEAR
       </span>
     </small>
   </td>
