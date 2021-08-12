@@ -4,7 +4,10 @@ import React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import * as A from "../../libraries/explorer-wamp/accounts";
+import AccountsApi, {
+  Account,
+  AccountStats,
+} from "../../libraries/explorer-wamp/accounts";
 import { NearNetwork } from "../../libraries/config";
 
 import CardCell from "../utils/CardCell";
@@ -17,13 +20,50 @@ import WalletLink from "../utils/WalletLink";
 import { Translate } from "react-localize-redux";
 
 export interface Props {
-  account: A.Account;
+  account: Account;
   currentNearNetwork: NearNetwork;
 }
 
+interface State {
+  transactionCount?: AccountStats;
+}
+
 class AccountDetails extends React.Component<Props> {
+  state: State = {
+    transactionCount: {},
+  };
+
+  collectTransactionCount = async () => {
+    new AccountsApi()
+      .queryTransactionCount(this.props.account.accountId)
+      .then((transactionCount) => {
+        if (transactionCount) {
+          this.setState({ transactionCount });
+        }
+        return;
+      })
+      .catch((error) => console.error(error));
+  };
+
+  componentDidMount() {
+    this.collectTransactionCount();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.account.accountId !== this.props.account.accountId) {
+      this.setState({ transactionCount: {} });
+      this.collectTransactionCount();
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({ transactionCount: {} });
+  }
+
   render() {
     const { account, currentNearNetwork } = this.props;
+    const { transactionCount } = this.state;
+
     return (
       <Translate>
         {({ translate }) => (
@@ -50,19 +90,19 @@ class AccountDetails extends React.Component<Props> {
                     <>
                       <span>
                         &uarr;
-                        {typeof account.outTransactionsCount === undefined ? (
-                          <Spinner animation="border" variant="secondary" />
+                        {transactionCount?.outTransactionsCount ? (
+                          transactionCount.outTransactionsCount.toLocaleString()
                         ) : (
-                          account.outTransactionsCount.toLocaleString()
+                          <Spinner animation="border" variant="secondary" />
                         )}
                       </span>
                       &nbsp;&nbsp;
                       <span>
                         &darr;
-                        {typeof account.inTransactionsCount === undefined ? (
-                          <Spinner animation="border" variant="secondary" />
+                        {transactionCount?.inTransactionsCount ? (
+                          transactionCount.inTransactionsCount.toLocaleString()
                         ) : (
-                          account.inTransactionsCount.toLocaleString()
+                          <Spinner animation="border" variant="secondary" />
                         )}
                       </span>
                     </>

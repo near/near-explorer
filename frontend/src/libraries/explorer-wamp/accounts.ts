@@ -10,9 +10,9 @@ export interface AccountBasicInfo {
   deletedAtBlockTimestamp: number | null;
 }
 
-interface AccountStats {
-  inTransactionsCount: number;
-  outTransactionsCount: number;
+export interface AccountStats {
+  inTransactionsCount?: number;
+  outTransactionsCount?: number;
 }
 
 interface AccountInfo {
@@ -88,7 +88,18 @@ export default class AccountsApi extends ExplorerApi {
       };
     };
 
-    const queryTransactionCount = async () => {
+    const [accountInfo, accountBasic] = await Promise.all([
+      this.queryAccount(accountId),
+      queryBasicInfo(),
+    ]);
+    return {
+      ...accountInfo,
+      ...accountBasic,
+    };
+  }
+
+  async queryTransactionCount(accountId: string): Promise<AccountStats> {
+    try {
       if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
         return await this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
@@ -129,19 +140,13 @@ export default class AccountsApi extends ExplorerApi {
       } else {
         throw Error(`unsupported data source ${this.dataSource}`);
       }
-    };
-
-    const [accountInfo, accountBasic] = await Promise.all([
-      this.queryAccount(accountId),
-      queryBasicInfo(),
-    ]);
-    // accountStats is loaded separately to prevent infinite loader on heavy accounts
-    const accountStats = await queryTransactionCount();
-    return {
-      ...accountInfo,
-      ...accountBasic,
-      ...accountStats,
-    };
+    } catch (error) {
+      console.error(
+        "AccountsApi.queryTransactionCount failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
   }
 
   async getAccounts(
