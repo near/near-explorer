@@ -4,10 +4,7 @@ import React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import AccountsApi, {
-  Account,
-  AccountStats,
-} from "../../libraries/explorer-wamp/accounts";
+import AccountsApi, { Account } from "../../libraries/explorer-wamp/accounts";
 import { NearNetwork } from "../../libraries/config";
 
 import CardCell from "../utils/CardCell";
@@ -25,24 +22,32 @@ export interface Props {
 }
 
 interface State {
-  transactionCount?: AccountStats;
+  outTransactionsCount?: number;
+  inTransactionsCount?: number;
 }
 
 class AccountDetails extends React.Component<Props> {
-  state: State = {
-    transactionCount: {},
-  };
+  state: State = {};
 
   collectTransactionCount = async () => {
     new AccountsApi()
-      .queryTransactionCount(this.props.account.accountId)
-      .then((transactionCount) => {
-        if (transactionCount) {
-          this.setState({ transactionCount });
+      .queryAccountStats(this.props.account.accountId)
+      .then((accountStats) => {
+        if (accountStats) {
+          this.setState({
+            outTransactionsCount: accountStats.outTransactionsCount,
+            inTransactionsCount: accountStats.inTransactionsCount,
+          });
         }
         return;
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.warn(
+          "Account information retrieval failed for ",
+          this.props.account.accountId,
+          error
+        );
+      });
   };
 
   componentDidMount() {
@@ -51,18 +56,26 @@ class AccountDetails extends React.Component<Props> {
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.account.accountId !== this.props.account.accountId) {
-      this.setState({ transactionCount: {} });
-      this.collectTransactionCount();
+      this.setState(
+        {
+          outTransactionsCount: undefined,
+          inTransactionsCount: undefined,
+        },
+        this.collectTransactionCount
+      );
     }
   }
 
   componentWillUnmount() {
-    this.setState({ transactionCount: {} });
+    this.setState({
+      outTransactionsCount: undefined,
+      inTransactionsCount: undefined,
+    });
   }
 
   render() {
     const { account, currentNearNetwork } = this.props;
-    const { transactionCount } = this.state;
+    const { outTransactionsCount, inTransactionsCount } = this.state;
 
     return (
       <Translate>
@@ -90,8 +103,8 @@ class AccountDetails extends React.Component<Props> {
                     <>
                       <span>
                         &uarr;
-                        {transactionCount?.outTransactionsCount ? (
-                          transactionCount.outTransactionsCount.toLocaleString()
+                        {outTransactionsCount !== undefined ? (
+                          outTransactionsCount.toLocaleString()
                         ) : (
                           <Spinner animation="border" variant="secondary" />
                         )}
@@ -99,8 +112,8 @@ class AccountDetails extends React.Component<Props> {
                       &nbsp;&nbsp;
                       <span>
                         &darr;
-                        {transactionCount?.inTransactionsCount ? (
-                          transactionCount.inTransactionsCount.toLocaleString()
+                        {inTransactionsCount !== undefined ? (
+                          inTransactionsCount.toLocaleString()
                         ) : (
                           <Spinner animation="border" variant="secondary" />
                         )}

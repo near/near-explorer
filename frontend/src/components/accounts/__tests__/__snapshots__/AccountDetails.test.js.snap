@@ -45,14 +45,18 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 className="jsx-3866967115"
               >
                 ↑
-                7
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
                 
               <span
                 className="jsx-3866967115"
               >
                 ↓
-                10
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
             </div>
           </div>
@@ -381,14 +385,18 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 className="jsx-3866967115"
               >
                 ↑
-                7
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
                 
               <span
                 className="jsx-3866967115"
               >
                 ↓
-                10
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
             </div>
           </div>
@@ -717,14 +725,18 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 className="jsx-3866967115"
               >
                 ↑
-                7
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
                 
               <span
                 className="jsx-3866967115"
               >
                 ↓
-                10
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
             </div>
           </div>
@@ -1104,14 +1116,18 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 className="jsx-3866967115"
               >
                 ↑
-                7
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
                 
               <span
                 className="jsx-3866967115"
               >
                 ↓
-                10
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
             </div>
           </div>
@@ -1491,14 +1507,18 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 className="jsx-3866967115"
               >
                 ↑
-                7
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
                 
               <span
                 className="jsx-3866967115"
               >
                 ↓
-                10
+                <div
+                  className="spinner-border text-secondary"
+                />
               </span>
             </div>
           </div>

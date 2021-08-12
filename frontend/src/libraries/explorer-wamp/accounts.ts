@@ -11,8 +11,8 @@ export interface AccountBasicInfo {
 }
 
 export interface AccountStats {
-  inTransactionsCount?: number;
-  outTransactionsCount?: number;
+  inTransactionsCount: number;
+  outTransactionsCount: number;
 }
 
 interface AccountInfo {
@@ -22,7 +22,7 @@ interface AccountInfo {
   lockupAccountId?: string;
 }
 
-export type Account = AccountBasicInfo & AccountStats & AccountInfo;
+export type Account = AccountBasicInfo & AccountInfo;
 
 export interface AccountPagination {
   endTimestamp?: number;
@@ -98,7 +98,7 @@ export default class AccountsApi extends ExplorerApi {
     };
   }
 
-  async queryTransactionCount(accountId: string): Promise<AccountStats> {
+  async queryAccountStats(accountId: string): Promise<AccountStats> {
     try {
       if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
         return await this.call<AccountStats[]>("select", [
@@ -142,7 +142,7 @@ export default class AccountsApi extends ExplorerApi {
       }
     } catch (error) {
       console.error(
-        "AccountsApi.queryTransactionCount failed to fetch data due to:"
+        "AccountsApi.queryAccountStats failed to fetch data due to:"
       );
       console.error(error);
       throw error;
