@@ -154,7 +154,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                  d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
                   fill="#ccc"
                 />
               </svg>
@@ -437,7 +437,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                          d="m0 18 9-9-9-9zm18-9L9 0v18z"
                           fill="#8dd4bd"
                         />
                       </svg>
@@ -670,7 +670,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                  d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
                   fill="#ccc"
                 />
               </svg>
@@ -943,7 +943,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                          d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
                           fill="#ccc"
                         />
                       </svg>
@@ -1237,7 +1237,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                                  d="m0 18 9-9-9-9zm18-9L9 0v18z"
                                   fill="#8dd4bd"
                                 />
                               </svg>
@@ -1475,7 +1475,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                          d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
                           fill="#ccc"
                         />
                       </svg>
@@ -1769,7 +1769,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                                  d="m0 18 9-9-9-9zm18-9L9 0v18z"
                                   fill="#8dd4bd"
                                 />
                               </svg>
@@ -2007,7 +2007,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                          d="m0 18 9-9-9-9zm18-9L9 0v18z"
                           fill="#8dd4bd"
                         />
                       </svg>
@@ -2240,7 +2240,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+                  d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
                   fill="#ccc"
                 />
               </svg>
@@ -2539,7 +2539,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M0 18l9-9-9-9zm18-9L9 0v18z"
+                          d="m0 18 9-9-9-9zm18-9L9 0v18z"
                           fill="#8dd4bd"
                         />
                       </svg>

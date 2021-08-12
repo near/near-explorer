@@ -15,7 +15,7 @@ exports[`<ActionRow /> renders compact for receipt 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+          d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
           fill="#ccc"
         />
       </svg>
@@ -197,7 +197,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+          d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
           fill="#ccc"
         />
       </svg>
@@ -344,7 +344,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M0 9l6 6L9 0zm12-6L9 18l9-9z"
+          d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
           fill="#ccc"
         />
       </svg>
@@ -465,7 +465,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M11.26 9l-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
+          d="m11.26 9-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
           fill="#0071ce"
         />
       </svg>
@@ -586,7 +586,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M11.26 9l-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
+          d="m11.26 9-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
           fill="#0071ce"
         />
       </svg>
