@@ -2,7 +2,7 @@ import moment from "moment";
 
 import React from "react";
 
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 
 import * as A from "../../libraries/explorer-wamp/accounts";
 import { NearNetwork } from "../../libraries/config";
@@ -49,11 +49,21 @@ class AccountDetails extends React.Component<Props> {
                   text={
                     <>
                       <span>
-                        &uarr;{account.outTransactionsCount.toLocaleString()}
+                        &uarr;
+                        {typeof account.outTransactionsCount === undefined ? (
+                          <Spinner animation="border" variant="secondary" />
+                        ) : (
+                          account.outTransactionsCount.toLocaleString()
+                        )}
                       </span>
                       &nbsp;&nbsp;
                       <span>
-                        &darr;{account.inTransactionsCount.toLocaleString()}
+                        &darr;
+                        {typeof account.inTransactionsCount === undefined ? (
+                          <Spinner animation="border" variant="secondary" />
+                        ) : (
+                          account.inTransactionsCount.toLocaleString()
+                        )}
                       </span>
                     </>
                   }

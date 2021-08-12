@@ -131,11 +131,12 @@ export default class AccountsApi extends ExplorerApi {
       }
     };
 
-    const [accountInfo, accountBasic, accountStats] = await Promise.all([
+    const [accountInfo, accountBasic] = await Promise.all([
       this.queryAccount(accountId),
       queryBasicInfo(),
-      queryTransactionCount(),
     ]);
+    // accountStats is loaded separately to prevent infinite loader on heavy accounts
+    const accountStats = await queryTransactionCount();
     return {
       ...accountInfo,
       ...accountBasic,
