@@ -68,10 +68,10 @@ const Header = () => {
           md="auto"
         >
           <Row>
-            <Col md="4" className="align-self-center">
+            <Col md="3" className="align-self-center">
               <LanguageToggle />
             </Col>
-            <Col md="3" className="align-self-center">
+            <Col md="4" className="align-self-center">
               <Link href="/">
                 <a className="header-home">
                   <Translate id="component.utils.Header.home" />
