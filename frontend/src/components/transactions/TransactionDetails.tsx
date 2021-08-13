@@ -122,7 +122,7 @@ class TransactionDetails extends React.Component<Props, State> {
           <DatabaseConsumer>
             {(context) => (
               <div className="transaction-info-container">
-                <Row noGutters>
+                <Row noGutters className="header-row">
                   <Col md="5">
                     <CardCell
                       title={
@@ -156,6 +156,7 @@ class TransactionDetails extends React.Component<Props, State> {
                       }
                       imgLink="/static/images/icon-m-user.svg"
                       text={<AccountLink accountId={transaction.receiverId} />}
+                      className="border-sm-0"
                     />
                   </Col>
                   <Col md="3">
@@ -199,6 +200,7 @@ class TransactionDetails extends React.Component<Props, State> {
                               translate("common.blocks.status.finalizing")}
                         </div>
                       }
+                      className="border-sm-0"
                     />
                   </Col>
                 </Row>
@@ -252,6 +254,7 @@ class TransactionDetails extends React.Component<Props, State> {
                           "..."
                         )
                       }
+                      className="border-sm-0"
                     />
                   </Col>
                   <Col md="3">
@@ -271,6 +274,7 @@ class TransactionDetails extends React.Component<Props, State> {
                       }
                       imgLink="/static/images/icon-m-size.svg"
                       text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
+                      className="border-sm-0"
                     />
                   </Col>
                   <Col md="3">
@@ -287,6 +291,7 @@ class TransactionDetails extends React.Component<Props, State> {
                       }
                       imgLink="/static/images/icon-m-size.svg"
                       text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
+                      className="border-sm-0"
                     />
                   </Col>
                 </Row>
@@ -370,14 +375,18 @@ class TransactionDetails extends React.Component<Props, State> {
                     border-bottom: 0;
                   }
 
-                  .transaction-info-container
-                    > .row:first-of-type
-                    .card-cell-text {
+                  .transaction-info-container .header-row .card-cell-text {
                     font-size: 24px;
                   }
 
                   .transaction-card-block-hash {
                     background-color: #f8f8f8;
+                  }
+
+                  @media (max-width: 767.98px) {
+                    .transaction-info-container .border-sm-0 {
+                      border: 0;
+                    }
                   }
                 `}</style>
               </div>

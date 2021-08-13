@@ -2,10 +2,10 @@
 
 exports[`<TransactionDetails /> renders no deposit 1`] = `
 <div
-  className="jsx-2925423050 transaction-info-container"
+  className="jsx-1302829068 transaction-info-container"
 >
   <div
-    className="row no-gutters"
+    className="header-row row no-gutters"
   >
     <div
       className="col-md-5"
@@ -62,7 +62,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -113,7 +113,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -144,7 +144,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-2925423050"
+                className="jsx-1302829068"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -216,7 +216,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -265,7 +265,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -305,7 +305,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -474,10 +474,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
 
 exports[`<TransactionDetails /> renders with one small deposit 1`] = `
 <div
-  className="jsx-2925423050 transaction-info-container"
+  className="jsx-1302829068 transaction-info-container"
 >
   <div
-    className="row no-gutters"
+    className="header-row row no-gutters"
   >
     <div
       className="col-md-5"
@@ -534,7 +534,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -585,7 +585,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -616,7 +616,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-2925423050"
+                className="jsx-1302829068"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -688,7 +688,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -737,7 +737,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -777,7 +777,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -946,10 +946,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
 
 exports[`<TransactionDetails /> renders with two big deposit 1`] = `
 <div
-  className="jsx-2925423050 transaction-info-container"
+  className="jsx-1302829068 transaction-info-container"
 >
   <div
-    className="row no-gutters"
+    className="header-row row no-gutters"
   >
     <div
       className="col-md-5"
@@ -1006,7 +1006,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1057,7 +1057,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1088,7 +1088,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <div
-                className="jsx-2925423050"
+                className="jsx-1302829068"
                 style={
                   Object {
                     "fontSize": "21px",
@@ -1160,7 +1160,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1209,7 +1209,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1249,7 +1249,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell  card"
+        className="card-cell border-sm-0 card"
       >
         <div
           className="card-body"

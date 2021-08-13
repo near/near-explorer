@@ -10,7 +10,7 @@ export interface AccountBasicInfo {
   deletedAtBlockTimestamp: number | null;
 }
 
-interface AccountStats {
+export interface AccountStats {
   inTransactionsCount: number;
   outTransactionsCount: number;
 }
@@ -22,7 +22,7 @@ interface AccountInfo {
   lockupAccountId?: string;
 }
 
-export type Account = AccountBasicInfo & AccountStats & AccountInfo;
+export type Account = AccountBasicInfo & AccountInfo;
 
 export interface AccountPagination {
   endTimestamp?: number;
@@ -88,7 +88,18 @@ export default class AccountsApi extends ExplorerApi {
       };
     };
 
-    const queryTransactionCount = async () => {
+    const [accountInfo, accountBasic] = await Promise.all([
+      this.queryAccount(accountId),
+      queryBasicInfo(),
+    ]);
+    return {
+      ...accountInfo,
+      ...accountBasic,
+    };
+  }
+
+  async queryAccountStats(accountId: string): Promise<AccountStats> {
+    try {
       if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
         return await this.call<AccountStats[]>("select", [
           `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
@@ -129,18 +140,13 @@ export default class AccountsApi extends ExplorerApi {
       } else {
         throw Error(`unsupported data source ${this.dataSource}`);
       }
-    };
-
-    const [accountInfo, accountBasic, accountStats] = await Promise.all([
-      this.queryAccount(accountId),
-      queryBasicInfo(),
-      queryTransactionCount(),
-    ]);
-    return {
-      ...accountInfo,
-      ...accountBasic,
-      ...accountStats,
-    };
+    } catch (error) {
+      console.error(
+        "AccountsApi.queryAccountStats failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
   }
 
   async getAccounts(

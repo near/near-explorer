@@ -2,9 +2,9 @@ import moment from "moment";
 
 import React from "react";
 
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 
-import * as A from "../../libraries/explorer-wamp/accounts";
+import AccountsApi, { Account } from "../../libraries/explorer-wamp/accounts";
 import { NearNetwork } from "../../libraries/config";
 
 import CardCell from "../utils/CardCell";
@@ -17,13 +17,66 @@ import WalletLink from "../utils/WalletLink";
 import { Translate } from "react-localize-redux";
 
 export interface Props {
-  account: A.Account;
+  account: Account;
   currentNearNetwork: NearNetwork;
 }
 
+interface State {
+  outTransactionsCount?: number;
+  inTransactionsCount?: number;
+}
+
 class AccountDetails extends React.Component<Props> {
+  state: State = {};
+
+  collectTransactionCount = async () => {
+    new AccountsApi()
+      .queryAccountStats(this.props.account.accountId)
+      .then((accountStats) => {
+        if (accountStats) {
+          this.setState({
+            outTransactionsCount: accountStats.outTransactionsCount,
+            inTransactionsCount: accountStats.inTransactionsCount,
+          });
+        }
+        return;
+      })
+      .catch((error) => {
+        console.warn(
+          "Account information retrieval failed for ",
+          this.props.account.accountId,
+          error
+        );
+      });
+  };
+
+  componentDidMount() {
+    this.collectTransactionCount();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.account.accountId !== this.props.account.accountId) {
+      this.setState(
+        {
+          outTransactionsCount: undefined,
+          inTransactionsCount: undefined,
+        },
+        this.collectTransactionCount
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      outTransactionsCount: undefined,
+      inTransactionsCount: undefined,
+    });
+  }
+
   render() {
     const { account, currentNearNetwork } = this.props;
+    const { outTransactionsCount, inTransactionsCount } = this.state;
+
     return (
       <Translate>
         {({ translate }) => (
@@ -49,11 +102,21 @@ class AccountDetails extends React.Component<Props> {
                   text={
                     <>
                       <span>
-                        &uarr;{account.outTransactionsCount.toLocaleString()}
+                        &uarr;
+                        {outTransactionsCount !== undefined ? (
+                          outTransactionsCount.toLocaleString()
+                        ) : (
+                          <Spinner animation="border" variant="secondary" />
+                        )}
                       </span>
                       &nbsp;&nbsp;
                       <span>
-                        &darr;{account.inTransactionsCount.toLocaleString()}
+                        &darr;
+                        {inTransactionsCount !== undefined ? (
+                          inTransactionsCount.toLocaleString()
+                        ) : (
+                          <Spinner animation="border" variant="secondary" />
+                        )}
                       </span>
                     </>
                   }
