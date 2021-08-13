@@ -562,20 +562,23 @@ const getLastYesterdayBlock = async (timestamp) => {
 
 // pass 'days' to set period of calculation
 const calculateFeesByDay = async (days = 1) => {
-  return await queryRows(
+  if (!(days >= 1 && days <= 7)) {
+    throw Exception(
+      "calculateFeesByDay can only handle `days` values in range 1..7"
+    );
+  }
+  return await querySingleRow(
     [
       `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(eo.executed_in_block_timestamp, 1000*1000*1000))) AS date,
-        SUM(transactions.receipt_conversion_tokens_burnt + eo.tokens_burnt) AS fee
-      FROM transactions
-      LEFT OUTER JOIN receipts on receipts.originated_from_transaction_hash = transactions.transaction_hash
-      JOIN execution_outcomes eo on eo.receipt_id = receipts.receipt_id
+        DATE_TRUNC('day', NOW() - INTERVAL '${days} day') AS date,
+        SUM(execution_outcomes.tokens_burnt) AS fee
+      FROM execution_outcomes
       WHERE
-        block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${days} day')) AS bigint) * 1000 * 1000 * 1000)
+        executed_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${days} day')) AS bigint) * 1000 * 1000 * 1000)
       AND
-        block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+        executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${
+          days - 1
+        } day')) AS bigint) * 1000 * 1000 * 1000)`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
