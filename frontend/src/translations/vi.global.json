@@ -23,8 +23,8 @@
         "fetching_status": "Đang lấy thông tin Trạng thái...",
         "NotStarted": "Chưa bắt đầu",
         "Started": "Đã bắt đầu",
-        "Failure": "Đã thất bại",
-        "SuccessValue": "Đã thành công"
+        "Failure": "Thất bại",
+        "SuccessValue": "Thành công"
       },
       "execution": {
         "convert_transaction_to_receipt": "Chuyển Giao Dịch Thành Biên Nhận",
@@ -44,9 +44,9 @@
       "receiver_id": "ID Người nhận",
       "status": {
         "Unknown": "Không xác định",
-        "Failure": "Đã thất bại",
-        "SuccessValue": "Đã thành công",
-        "SuccessReceiptId": "Đã thành công"
+        "Failure": "Thất bại",
+        "SuccessValue": "Thành công",
+        "SuccessReceiptId": "Thành công"
       }
     },
     "contracts": {
@@ -101,7 +101,7 @@
   "component": {
     "nodes": {
       "Validators": {
-        "validator": "Nhà xác thực",
+        "validator": "Node xác thực",
         "fee": "Phí",
         "delegators": "Người ký gửi",
         "stake": "Stake Ký gửi",
@@ -123,10 +123,10 @@
           },
           "pending": {
             "title": "Đang chờ",
-            "text": "node được ký gởi để thành nhà xác thực mới"
+            "text": "node được ký gửi để thành node xác thực mới"
           }
         },
-        "warning_tip": "Các nhà xác thực 1 - ${node_tip_max} đang tích lũy stake trên 33%. Việc ký gửi cho những nhà xác thực bên dưới sẽ cải thiện tính phân tán cho mạng lưới."
+        "warning_tip": "Các node xác thực 1 - ${node_tip_max} đang tích lũy stake trên 33%. Việc ký gửi cho những node xác thực bên dưới sẽ cải thiện tính phân tán cho mạng lưới."
       },
       "NodesEpoch": {
         "current_epoch_start": "Epoch Hiện Tại Khởi Động",
@@ -144,11 +144,11 @@
       "NodesCard": {
         "nodes_validating": "Các Node đang xác thực",
         "total_supply": "Tổng Cung",
-        "total_stake": "Tổng Stake ký gởi",
+        "total_stake": "Tổng Stake ký gửi",
         "seat_price": "Giá Chỗ"
       },
       "Nodes": {
-        "validator": "Nhà xác thực"
+        "validator": "Node xác thực"
       },
       "NodeRow": {
         "online": {
@@ -204,7 +204,7 @@
       "TransactionDetails": {
         "signed_by": {
           "title": "Đã ký bởi",
-          "text": "Tài khoản đã ký và gởi giao dịch."
+          "text": "Tài khoản đã ký và gửi giao dịch."
         },
         "receiver": {
           "title": "Người nhận",
@@ -219,8 +219,8 @@
           "text": "Tổng phí NEAR được trả để thực hiện giao dịch này."
         },
         "deposit_value": {
-          "title": "Giá trị gởi",
-          "text": "Tổng token NEAR đã gởi từ tài khoản Ký đến tài khoản Nhận. Bao gồm cả những token đã gởi trong (các) hành động Transfer, và các khoản gởi trong (các) hành động Function Call."
+          "title": "Giá trị gửi",
+          "text": "Tổng token NEAR đã gửi từ tài khoản Ký đến tài khoản Nhận. Bao gồm cả những token đã gửi trong (các) hành động Transfer, và các khoản gửi trong (các) hành động Function Call."
         },
         "gas_used": {
           "title": "Gas đã dùng",
@@ -274,7 +274,7 @@
         },
         "gas_used": {
           "title": "Gas Đã Dùng",
-          "text": "Tổng các đơn vị gas cần để thực thi những giao dịch trong khối này. "
+          "text": "Tổng số đơn vị gas cần để thực thi những giao dịch trong khối này. "
         },
         "gas_price": {
           "title": "Giá Gas",
@@ -298,7 +298,7 @@
       "AccountDetails": {
         "transactions": {
           "title": "Các giao dịch",
-          "text": "Tổng giao dịch được gởi và nhận bởi tài khoản này. "
+          "text": "Tổng giao dịch được gửi và nhận bởi tài khoản này. "
         },
         "storage_usage": {
           "title": "Bộ Nhớ Đã Sử Dụng",
@@ -306,15 +306,15 @@
         },
         "native_account_balance": {
           "title": "Ⓝ Số Dư Tài Khoản Gốc",
-          "text": "Giao thức NEAR xác định một số dư thanh khoản cho từng tài khoản, số dư này được sử dụng trực tiếp để thanh toán cho các giao dịch do tài khoản này phát hành, nhưng nó không phải là số dư \"tổng\" của tất cả các token bạn có thể kiểm soát thông qua tài khoản này; xem \"Số Dư Tổng Hợp\" để biết thêm chi tiết. "
+          "text": "Giao thức NEAR xác định một số dư thanh khoản cho từng tài khoản, số dư này được sử dụng trực tiếp để thanh toán cho các giao dịch do tài khoản này thực hiện, nhưng đó không phải là số dư \"tổng\" của tất cả các token bạn có thể kiểm soát thông qua tài khoản này; xem \"Số Dư Tổng Hợp\" để biết thêm chi tiết. "
         },
         "validator_stake": {
-          "title": "Ⓝ Stake Ký Gửi Nhà Xác Thực",
-          "text": "<p> NEAR này đang được tích cực sử dụng để hỗ trợ nhà xác thực và bảo mật mạng. Khi bạn quyết định hủy ký gửi NEAR này, sẽ mất một thời gian để hiển thị trong Số Dư Khả Dụng của bạn, vì NEAR phải mất 3 kỷ (~36 giờ) để hủy ký gửi. </p> <p> Trường này chỉ phản ánh số dư NEAR ở những nhà xác thực có ký gửi để hỗ trợ bảo mật mạng. Nếu bạn đang ký gửi (ủy thác) vào nhóm các nhà xác thực từ ví, bạn sẽ thấy \"0\" trong trường này. Xem hồ sơ số dư trên Ví để biết thêm số dư tổng hợp nếu cần. </p>"
+          "title": "Ⓝ Stake Ký Gửi Node Xác Thực",
+          "text": "<p> NEAR này đang được tích cực sử dụng để hỗ trợ cho node xác thực và để bảo mật mạng. Khi bạn quyết định hủy ký gửi NEAR này, sẽ mất một thời gian để hiển thị trong Số Dư Khả Dụng, vì NEAR phải cần 3 kỷ (~36 giờ) để hủy ký gửi. </p> <p> Trường này chỉ phản ánh số NEAR được ký gửi ở những node xác thực đang hỗ trợ bảo mật mạng. Nếu bạn đang ký gửi (ủy thác) vào nhóm các node xác thực trên ví, bạn sẽ thấy \"0\" trong trường này. Xem hồ sơ số dư trên Ví để biết thêm về số dư tổng hợp nếu cần. </p>"
         },
         "balance_profile": {
           "title": "Ⓝ Hồ Sơ Số Dư",
-          "text": "Các token NEAR có thể bị khóa trong hợp đồng, ký gửi, và ủy quyền. Đôi khi chúng tôi cũng không thể theo dõi chúng nếu không có sự giúp đỡ của bạn. Trang Hồ Sơ trên Ví là nơi quy tụ hầu hết các số dư mà chúng tôi có thể tổng hợp từ nhiều nguồn khác nhau, vì vậy nếu bạn muốn ước tính số dư \"tổng\" thì đây là nơi tốt nhất. "
+          "text": "Các token NEAR có thể bị khóa trong hợp đồng, ký gửi, và ủy quyền. Đôi khi chúng tôi cũng không thể theo dõi các khoản đó nếu không được sự giúp đỡ của bạn. Trang Hồ Sơ trên Ví là nơi hiển thị hầu hết các số dư mà chúng tôi có thể tổng hợp từ nhiều nguồn khác nhau, vì vậy nếu bạn muốn ước tính số dư \"tổng\" thì đây là nơi tốt nhất. "
         },
         "created_at": {
           "title": "Được tạo lúc",
@@ -366,11 +366,11 @@
       "DashboardNode": {
         "nodes_online": {
           "title": "Node trực tuyến",
-          "text": "Tổng số những node đang trực tuyến."
+          "text": "Tổng số lượng node đang trực tuyến."
         },
         "nodes_validating": {
           "title": "Node đang xác thực",
-          "text": "Tổng số những node đang xác thực."
+          "text": "Tổng số lượng node đang xác thực."
         }
       },
       "DashboardBlock": {
@@ -385,7 +385,7 @@
       },
       "DashboardTransaction": {
         "24h_total": {
-          "title": "Tổng 24 giờ",
+          "title": "24 giờ qua",
           "text": "Tổng số giao dịch trong 24 giờ gần nhất."
         },
         "gas_price": {
@@ -478,7 +478,7 @@
   },
   "utils": {
     "Update": {
-      "refresh": " Làm mới hoặc Nhấp vào để xem dữ liệu mới nhất."
+      "refresh": " Làm mới trang, hoặc Nhấp vào để xem dữ liệu mới nhất."
     },
     "ListHandler": {
       "last_block": "Chiều cao khối mới nhất là "
