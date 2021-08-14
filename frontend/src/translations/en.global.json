@@ -101,6 +101,7 @@
   "component": {
     "nodes": {
       "Validators": {
+        "location": "Location",
         "validator": "Validator",
         "fee": "Fee",
         "delegators": "Delegators",
@@ -108,6 +109,9 @@
         "cumulative_stake": "Cumulative Stake"
       },
       "ValidatorRow": {
+        "warning_tip": "Validators 1 - ${node_tip_max} hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network."
+      },
+      "ValidatorMainRow": {
         "state": {
           "active": {
             "text": "current validating nodes",
@@ -121,31 +125,50 @@
             "title": "Kickout",
             "text": "next epoch kick out nodes"
           },
-          "pending": {
-            "title": "Pending",
+          "proposal": {
+            "title": "Proposal",
             "text": "node staked to be new validating one"
+          },
+          "idle": {
+            "title": "Idle",
+            "text": "idle node"
           }
         },
+        "same_proposed_stake": "same"
+      },
+      "ValidatorTelemetryRow": {
         "uptime": {
-          "title": "Uptime",
-          "text": "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks"
+          "text": "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks.",
+          "title": "Uptime"
         },
-        "latest_block": {
-          "title": "Latest block",
-          "text": "The block height the validation node reported in the most recent telemetry heartbeat."
+        "latest_produced_block": {
+          "text": "The block height the validation node reported in the most recent telemetry heartbeat.",
+          "title": "Latest block"
         },
         "latest_telemetry_update": {
-          "title": "Latest Telemetry Update",
-          "text": "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore)."
+          "text": "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore).",
+          "title": "Latest Telemetry Update"
         },
-        "node_agent_name": {
-          "title": "Node Agent Name",
-          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is <a href=\"https://github.com/near/nearcore\">the official implementation</a>. "
+        "agent_name": {
+          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is ${agent_name_tip}.",
+          "title": "Node Agent Name"
         },
-        "node_agent_version_or_build": {
-          "title": "Node Agent Version / Build"
+        "agent_version": {
+          "title": "Node Agent Version"
         },
-        "warning_tip": "Validators 1 - ${node_tip_max} hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network."
+        "agent_build": {
+          "title": "Build"
+        }
+      },
+      "ValidatorMetadataRow": {
+        "pool_info": {
+          "website": "Web",
+          "email": "Email",
+          "twitter": "Twitter",
+          "discord": "Discord",
+          "description": "Description"
+        },
+        "pool_info_tip": "If you are node owner feel free to fill all ${info_tip_text} to promote your own node!"
       },
       "NodesEpoch": {
         "current_epoch_start": "Current Epoch Start",
@@ -508,6 +531,8 @@
     "docs": "docs",
     "load_more": "Load More",
     "show_more": "Show more",
-    "show_less": "Show less"
+    "show_less": "Show less",
+    "data": "data",
+    "rc_official_implementation": "the official implementation"
   }
 }

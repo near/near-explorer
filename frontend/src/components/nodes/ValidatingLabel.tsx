@@ -31,7 +31,7 @@ class ValidatingLabel extends React.PureComponent<Props> {
               color: #008d6a;
             }
 
-            .validating-label.pending {
+            .validating-label.proposal {
               background-color: #6ad1e3;
               color: #11869a;
             }
@@ -45,7 +45,7 @@ class ValidatingLabel extends React.PureComponent<Props> {
               background-color: #dc3545;
               color: #ffffff;
             }
-            .validating-label.inactive {
+            .validating-label.idle {
               background-color: #e5e5e6;
               color: #72727a;
             }

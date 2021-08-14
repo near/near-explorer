@@ -70,7 +70,7 @@ class ValidatorRow extends React.Component<Props, State> {
               validatorFee={validatorFee}
               validatorDelegators={validatorDelegators}
               stake={node.stake}
-              proposedStakePerNextEpoch={node.stakeProposed}
+              proposedStakeForNextEpoch={node.stakeProposed}
               cumulativeStake={cumulativeStake}
               totalStakeInPersnt={totalStakeInPersnt}
               handleClick={this.handleClick}
@@ -176,6 +176,10 @@ class ValidatorRow extends React.Component<Props, State> {
 
               .validators-node-label {
                 margin-right: 24px;
+              }
+
+              .cumulative-stake-chart {
+                min-width: 100px;
               }
 
               .cumulative-stake-holders-row {

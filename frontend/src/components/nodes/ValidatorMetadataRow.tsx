@@ -1,6 +1,7 @@
 import { PureComponent } from "react";
 
 import { Row, Col } from "react-bootstrap";
+import { Translate } from "react-localize-redux";
 
 interface Props {
   poolWebsite?: string;
@@ -28,105 +29,132 @@ class ValidatorMetadataRow extends PureComponent<Props> {
       Boolean(poolDescription);
 
     return (
-      <Row noGutters className="validator-nodes-content-row">
-        {poolDetailsAvailable ? (
-          <>
-            {poolWebsite && (
-              <Col className="validator-nodes-content-cell" xs="auto">
-                <Row noGutters>
-                  <Col className="validator-nodes-details-title">Web</Col>
-                </Row>
-                <Row noGutters>
-                  <Col className="validator-nodes-text">
-                    <a
-                      href={`http://${poolWebsite}`}
-                      rel="noreferrer noopener"
-                      target="_blank"
-                    >
-                      {poolWebsite}
-                    </a>
+      <Translate>
+        {({ translate }) => (
+          <Row noGutters className="validator-nodes-content-row">
+            {poolDetailsAvailable ? (
+              <>
+                {poolWebsite && (
+                  <Col className="validator-nodes-content-cell" xs="auto">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        {translate(
+                          "component.nodes.ValidatorMetadataRow.pool_info.website"
+                        )}
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        <a
+                          href={`http://${poolWebsite}`}
+                          rel="noreferrer noopener"
+                          target="_blank"
+                        >
+                          {poolWebsite}
+                        </a>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Col>
-            )}
-            {poolEmail && (
-              <Col className="validator-nodes-content-cell" xs="auto">
-                <Row noGutters>
-                  <Col className="validator-nodes-details-title">Email</Col>
-                </Row>
-                <Row noGutters>
-                  <Col className="validator-nodes-text">
-                    <a href={`mailto:${poolEmail}`}>{poolEmail}</a>
+                )}
+                {poolEmail && (
+                  <Col className="validator-nodes-content-cell" xs="auto">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        {translate(
+                          "component.nodes.ValidatorMetadataRow.pool_info.email"
+                        )}
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        <a href={`mailto:${poolEmail}`}>{poolEmail}</a>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Col>
-            )}
-            {poolTwitter && (
-              <Col className="validator-nodes-content-cell" xs="auto">
-                <Row noGutters>
-                  <Col className="validator-nodes-details-title">Twitter</Col>
-                </Row>
-                <Row noGutters>
-                  <Col className="validator-nodes-text">
-                    <a
-                      href={`https://twitter.com/${poolTwitter}`}
-                      rel="noreferrer noopener"
-                      target="_blank"
-                    >
-                      {poolTwitter}
-                    </a>
+                )}
+                {poolTwitter && (
+                  <Col className="validator-nodes-content-cell" xs="auto">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        {translate(
+                          "component.nodes.ValidatorMetadataRow.pool_info.twitter"
+                        )}
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        <a
+                          href={`https://twitter.com/${poolTwitter}`}
+                          rel="noreferrer noopener"
+                          target="_blank"
+                        >
+                          {poolTwitter}
+                        </a>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Col>
-            )}
-            {poolDiscord && (
-              <Col className="validator-nodes-content-cell" xs="auto">
-                <Row noGutters>
-                  <Col className="validator-nodes-details-title">Discord</Col>
-                </Row>
-                <Row noGutters>
-                  <Col className="validator-nodes-text">
-                    <a
-                      href={poolDiscord}
-                      rel="noreferrer noopener"
-                      target="_blank"
-                    >
-                      {poolDiscord}
-                    </a>
+                )}
+                {poolDiscord && (
+                  <Col className="validator-nodes-content-cell" xs="auto">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        {translate(
+                          "component.nodes.ValidatorMetadataRow.pool_info.discord"
+                        )}
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        <a
+                          href={poolDiscord}
+                          rel="noreferrer noopener"
+                          target="_blank"
+                        >
+                          {poolDiscord}
+                        </a>
+                      </Col>
+                    </Row>
                   </Col>
-                </Row>
-              </Col>
-            )}
-            {poolDescription && (
+                )}
+                {poolDescription && (
+                  <Col className="validator-nodes-content-cell">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        {translate(
+                          "component.nodes.ValidatorMetadataRow.pool_info.description"
+                        )}
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        <small>{poolDescription}</small>
+                      </Col>
+                    </Row>
+                  </Col>
+                )}
+              </>
+            ) : (
               <Col className="validator-nodes-content-cell">
-                <Row noGutters>
-                  <Col className="validator-nodes-details-title">
-                    Description
-                  </Col>
-                </Row>
-                <Row noGutters>
-                  <Col className="validator-nodes-text">
-                    <small>{poolDescription}</small>
-                  </Col>
-                </Row>
+                <p className="text-center">
+                  {translate(
+                    "component.nodes.ValidatorMetadataRow.pool_info_tip",
+                    {
+                      info_tip_text: (
+                        <a
+                          href="https://github.com/zavodil/near-pool-details#description"
+                          target="_blank"
+                        >
+                          <Translate id="button.data" />
+                        </a>
+                      ),
+                    }
+                  )}
+                </p>
               </Col>
             )}
-          </>
-        ) : (
-          <Col className="validator-nodes-content-cell">
-            <p className="text-center">
-              If you are node owner feel free to fill all{" "}
-              <a
-                href="https://github.com/zavodil/near-pool-details#description"
-                target="_blank"
-              >
-                data
-              </a>{" "}
-              to promote your own node!
-            </p>
-          </Col>
+          </Row>
         )}
-      </Row>
+      </Translate>
     );
   }
 }

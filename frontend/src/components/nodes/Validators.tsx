@@ -66,7 +66,9 @@ class Validators extends React.Component<Props> {
                         <tr className="validators-header-row">
                           <th />
                           <th>#</th>
-                          <th>Location</th>
+                          <th>
+                            {translate("component.nodes.Validators.location")}
+                          </th>
                           <th>
                             {translate("component.nodes.Validators.validator")}
                           </th>

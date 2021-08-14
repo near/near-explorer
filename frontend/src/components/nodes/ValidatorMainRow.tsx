@@ -22,7 +22,7 @@ interface Props {
   validatorFee: string | null;
   validatorDelegators: number | string | null;
   stake: string;
-  proposedStakePerNextEpoch?: string;
+  proposedStakeForNextEpoch?: string;
   cumulativeStake: number;
   totalStakeInPersnt: number;
   handleClick: React.MouseEventHandler;
@@ -41,24 +41,24 @@ class ValidatorMainRow extends PureComponent<Props> {
       validatorFee,
       validatorDelegators,
       stake,
-      proposedStakePerNextEpoch,
+      proposedStakeForNextEpoch,
       cumulativeStake,
       totalStakeInPersnt,
       handleClick,
     } = this.props;
 
     const stakeProposedAmount =
-      proposedStakePerNextEpoch &&
-      (new BN(stake).gt(new BN(proposedStakePerNextEpoch))
+      proposedStakeForNextEpoch &&
+      (new BN(stake).gt(new BN(proposedStakeForNextEpoch))
         ? {
             value: new BN(stake)
-              .sub(new BN(proposedStakePerNextEpoch))
+              .sub(new BN(proposedStakeForNextEpoch))
               .toString(),
             increace: false,
           }
-        : new BN(stake).lt(new BN(proposedStakePerNextEpoch))
+        : new BN(stake).lt(new BN(proposedStakeForNextEpoch))
         ? {
-            value: new BN(proposedStakePerNextEpoch)
+            value: new BN(proposedStakeForNextEpoch)
               .sub(new BN(stake))
               .toString(),
             increace: true,
@@ -108,57 +108,63 @@ class ValidatorMainRow extends PureComponent<Props> {
                   <Col xs="2" className="validators-node-label">
                     {validatorStatus === "proposal" ? (
                       <ValidatingLabel
-                        type="pending"
+                        type="proposal"
                         text={translate(
-                          "component.nodes.ValidatorRow.state.pending.text"
+                          "component.nodes.ValidatorMainRow.state.proposal.text"
                         ).toString()}
                         tooltipKey="nodes"
                       >
-                        Proposal
+                        {translate(
+                          "component.nodes.ValidatorMainRow.state.proposal.title"
+                        )}
                       </ValidatingLabel>
                     ) : validatorStatus === "new" ? (
                       <ValidatingLabel
                         type="new"
                         text={translate(
-                          "component.nodes.ValidatorRow.state.new.text"
+                          "component.nodes.ValidatorMainRow.state.new.text"
                         ).toString()}
                         tooltipKey="new"
                       >
                         {translate(
-                          "component.nodes.ValidatorRow.state.new.title"
+                          "component.nodes.ValidatorMainRow.state.new.title"
                         )}
                       </ValidatingLabel>
                     ) : validatorStatus === "leaving" ? (
                       <ValidatingLabel
                         type="kickout"
                         text={translate(
-                          "component.nodes.ValidatorRow.state.kickout.text"
+                          "component.nodes.ValidatorMainRow.state.kickout.text"
                         ).toString()}
                         tooltipKey="kickout"
                       >
                         {translate(
-                          "component.nodes.ValidatorRow.state.kickout.title"
+                          "component.nodes.ValidatorMainRow.state.kickout.title"
                         )}
                       </ValidatingLabel>
                     ) : validatorStatus === "active" ? (
                       <ValidatingLabel
                         type="active"
                         text={translate(
-                          "component.nodes.ValidatorRow.state.active.text"
+                          "component.nodes.ValidatorMainRow.state.active.text"
                         ).toString()}
                         tooltipKey="current"
                       >
                         {translate(
-                          "component.nodes.ValidatorRow.state.active.title"
+                          "component.nodes.ValidatorMainRow.state.active.title"
                         )}
                       </ValidatingLabel>
                     ) : (
                       <ValidatingLabel
-                        type="inactive"
-                        text="inactive node"
-                        tooltipKey="inactive"
+                        type="idle"
+                        text={translate(
+                          "component.nodes.ValidatorMainRow.state.idle.text"
+                        ).toString()}
+                        tooltipKey="idle"
                       >
-                        Inactive
+                        {translate(
+                          "component.nodes.ValidatorMainRow.state.idle.title"
+                        )}
                       </ValidatingLabel>
                     )}
                   </Col>
@@ -205,7 +211,11 @@ class ValidatorMainRow extends PureComponent<Props> {
                     <br />
                     <small>
                       {typeof stakeProposedAmount === "string" ? (
-                        "same"
+                        <>
+                          {translate(
+                            "component.nodes.ValidatorMainRow.same_proposed_stake"
+                          )}
+                        </>
                       ) : (
                         <>
                           {stakeProposedAmount.increace ? "+" : "-"}

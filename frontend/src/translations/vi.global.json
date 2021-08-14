@@ -101,6 +101,7 @@
   "component": {
     "nodes": {
       "Validators": {
+        "location": "Location",
         "validator": "Node xác thực",
         "fee": "Phí",
         "delegators": "Người ký gửi",
@@ -108,6 +109,9 @@
         "cumulative_stake": "Stake Tích lũy"
       },
       "ValidatorRow": {
+        "warning_tip": "Các node xác thực 1 - ${node_tip_max} đang tích lũy stake trên 33%. Việc ký gửi cho những node xác thực bên dưới sẽ cải thiện tính phân tán cho mạng lưới."
+      },
+      "ValidatorMainRow": {
         "state": {
           "active": {
             "text": "các node đang xác thực",
@@ -121,31 +125,50 @@
             "title": "Bị loại",
             "text": "các node bị loại ở epoch kế tiếp"
           },
-          "pending": {
-            "title": "Đang chờ",
+          "proposal": {
+            "title": "Proposal",
             "text": "node được ký gửi để thành node xác thực mới"
+          },
+          "idle": {
+            "title": "Idle",
+            "text": "idle node"
           }
         },
+        "same_proposed_stake": "same"
+      },
+      "ValidatorTelemetryRow": {
         "uptime": {
-          "title": "Uptime",
-          "text": "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks"
+          "text": "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks.",
+          "title": "Uptime"
         },
-        "latest_block": {
-          "title": "Latest block",
-          "text": "The block height the validation node reported in the most recent telemetry heartbeat."
+        "latest_produced_block": {
+          "text": "The block height the validation node reported in the most recent telemetry heartbeat.",
+          "title": "Latest block"
         },
         "latest_telemetry_update": {
-          "title": "Latest Telemetry Update",
-          "text": "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore)."
+          "text": "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore).",
+          "title": "Latest Telemetry Update"
         },
-        "node_agent_name": {
-          "title": "Node Agent Name",
-          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is <a href=\"https://github.com/near/nearcore\">the official implementation</a>. "
+        "agent_name": {
+          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is ${agent_name_tip}.",
+          "title": "Node Agent Name"
         },
-        "node_agent_version_or_build": {
-          "title": "Node Agent Version / Build"
+        "agent_version": {
+          "title": "Node Agent Version"
         },
-        "warning_tip": "Các node xác thực 1 - ${node_tip_max} đang tích lũy stake trên 33%. Việc ký gửi cho những node xác thực bên dưới sẽ cải thiện tính phân tán cho mạng lưới."
+        "agent_build": {
+          "title": "Build"
+        }
+      },
+      "ValidatorMetadataRow": {
+        "pool_info": {
+          "website": "Web",
+          "email": "Email",
+          "twitter": "Twitter",
+          "discord": "Discord",
+          "description": "Description"
+        },
+        "pool_info_tip": "If you are node owner feel free to fill all ${info_tip_text} to promote your own node!"
       },
       "NodesEpoch": {
         "current_epoch_start": "Epoch Hiện Tại Khởi Động",
@@ -508,6 +531,8 @@
     "docs": "tài liệu",
     "load_more": "Tải Thêm",
     "show_more": "Hiển thị thêm",
-    "show_less": "Hiển thị ít hơn"
+    "show_less": "Hiển thị ít hơn",
+    "data": "data",
+    "rc_official_implementation": "the official implementation"
   }
 }

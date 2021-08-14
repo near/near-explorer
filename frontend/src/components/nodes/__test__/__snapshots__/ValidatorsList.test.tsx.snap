@@ -289,10 +289,10 @@ Array [
     </td>
   </tr>,
   <tr
-    className="jsx-2313885636 cumulative-stake-holders-row"
+    className="jsx-3940587247 cumulative-stake-holders-row"
   >
     <td
-      className="jsx-2313885636 warning-text text-center"
+      className="jsx-3940587247 warning-text text-center"
       colSpan={8}
     >
       Validators 1 - 26 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
