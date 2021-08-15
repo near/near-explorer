@@ -126,6 +126,25 @@
             "text": "节点将要被标记为新的验证节点"
           }
         },
+        "uptime": {
+          "title": "在线率",
+          "text": "在线率是通过已产生出块数与预期出块数的比值估算的"
+        },
+        "latest_block": {
+          "title": "最后区块",
+          "text": "验证节点在最近的检测心跳中上报的块高度。"
+        },
+        "latest_telemetry_update": {
+          "title": "最后检测更新",
+          "text": "检测是来自节点的常规通知，其中包括诸如最新已知块高度和 NEAR 协议代理 (nearcore) 版本等通用信息。"
+        },
+        "node_agent_name": {
+          "title": "节点代理名称",
+          "text": "NEAR协议可以有多种实现，'节点代理名称'是该实现的名称, 其中'near-rs'是<a href=\"https://github.com/near/nearcore\">官方实现</a>。"
+        },
+        "node_agent_version_or_build": {
+          "title": "节点代理版本 / 构建id"
+        },
         "warning_tip": "前${node_tip_max}个验证节点持有了超过33%的累积质押。委托给下面的验证节点可以改善网络的去中心化。"
       },
       "NodesEpoch": {
