@@ -126,6 +126,25 @@
             "text": "node staked to be new validating one"
           }
         },
+        "uptime": {
+          "title": "Uptime",
+          "text": "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks"
+        },
+        "latest_block": {
+          "title": "Latest block",
+          "text": "The block height the validation node reported in the most recent telemetry heartbeat."
+        },
+        "latest_telemetry_update": {
+          "title": "Latest Telemetry Update",
+          "text": "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore)."
+        },
+        "node_agent_name": {
+          "title": "Node Agent Name",
+          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is <a href=\"https://github.com/near/nearcore\">the official implementation</a>. "
+        },
+        "node_agent_version_or_build": {
+          "title": "Node Agent Version / Build"
+        },
         "warning_tip": "Validators 1 - ${node_tip_max} hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network."
       },
       "NodesEpoch": {

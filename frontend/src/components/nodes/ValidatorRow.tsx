@@ -219,10 +219,12 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                             <Row noGutters>
                               <Col className="validator-nodes-details-title">
                                 <Term
-                                  title={"Uptime"}
-                                  text={
-                                    "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks"
-                                  }
+                                  title={translate(
+                                    "component.nodes.ValidatorRow.uptime.title"
+                                  )}
+                                  text={translate(
+                                    "component.nodes.ValidatorRow.uptime.text"
+                                  )}
                                   href="https://nomicon.io/Economics/README.html#rewards-calculation"
                                 />
                               </Col>
@@ -253,10 +255,12 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                             <Row noGutters>
                               <Col className="validator-nodes-details-title">
                                 <Term
-                                  title={"Latest block"}
-                                  text={
-                                    "The block height the validation node reported in the most recent telemetry heartbeat."
-                                  }
+                                  title={translate(
+                                    "component.nodes.ValidatorRow.latest_block.title"
+                                  )}
+                                  text={translate(
+                                    "component.nodes.ValidatorRow.latest_block.text"
+                                  )}
                                 />
                               </Col>
                             </Row>
@@ -290,10 +294,12 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                             <Row noGutters>
                               <Col className="validator-nodes-details-title">
                                 <Term
-                                  title={"Latest Telemetry Update"}
-                                  text={
-                                    "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore)."
-                                  }
+                                  title={translate(
+                                    "component.nodes.ValidatorRow.latest_telemetry_update.title"
+                                  )}
+                                  text={translate(
+                                    "component.nodes.ValidatorRow.latest_telemetry_update.text"
+                                  )}
                                 />
                               </Col>
                             </Row>
@@ -313,18 +319,12 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                             <Row noGutters>
                               <Col className="validator-nodes-details-title">
                                 <Term
-                                  title={"Node Agent Name"}
-                                  text={
-                                    <>
-                                      {
-                                        "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is "
-                                      }
-                                      <a href="https://github.com/near/nearcore">
-                                        {"the official implementation"}
-                                      </a>
-                                      {"."}
-                                    </>
-                                  }
+                                  title={translate(
+                                    "component.nodes.ValidatorRow.node_agent_name.title"
+                                  )}
+                                  text={translate(
+                                    "component.nodes.ValidatorRow.node_agent_name.text"
+                                  )}
                                 />
                               </Col>
                             </Row>
@@ -349,7 +349,9 @@ class ValidatorRow extends React.PureComponent<Props, State> {
                             <Col className="validator-nodes-content-cell">
                               <Row noGutters>
                                 <Col className="validator-nodes-details-title">
-                                  {"Node Agent Version / Build"}
+                                  {translate(
+                                    "component.nodes.ValidatorRow.node_agent_version_or_build.title"
+                                  )}
                                 </Col>
                               </Row>
                               <Row noGutters>
