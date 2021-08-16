@@ -138,26 +138,23 @@
       },
       "ValidatorTelemetryRow": {
         "uptime": {
-          "text": "Uptime is estimated by the ratio of the number of produced blocks to the number of expected blocks.",
-          "title": "Uptime"
+          "text": "在线率是通过已产生出块数与预期出块数的比值估算的",
+          "title": "在线率"
         },
         "latest_produced_block": {
-          "text": "The block height the validation node reported in the most recent telemetry heartbeat.",
-          "title": "Latest block"
+          "text": "验证节点在最近的检测心跳中上报的块高度。",
+          "title": "最新区块"
         },
         "latest_telemetry_update": {
-          "text": "Telemetry is a regular notification coming from the nodes which includes generic information like the latest known block height, and the version of NEAR Protocol agent (nearcore).",
-          "title": "Latest Telemetry Update"
+          "text": "检测是来自节点的常规通知，其中包括诸如最新已知块高度和 NEAR 协议代理 (nearcore) 版本等通用信息。",
+          "title": "最新检测更新"
         },
-        "agent_name": {
-          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is ${agent_name_tip}.",
-          "title": "Node Agent Name"
+        "node_agent_name": {
+          "text": "NEAR协议可以有多种实现，'节点代理名称'是该实现的名称, 其中'near-rs'是<a href=\"https://github.com/near/nearcore\">官方实现</a>。",
+          "title": "节点代理名称"
         },
-        "agent_version": {
-          "title": "Node Agent Version"
-        },
-        "agent_build": {
-          "title": "Build"
+        "node_agent_version_or_build": {
+          "title": "节点代理版本 / 构建ID"
         }
       },
       "ValidatorMetadataRow": {
@@ -168,7 +165,7 @@
           "discord": "Discord",
           "description": "Description"
         },
-        "pool_info_tip": "If you are node owner feel free to fill all ${info_tip_text} to promote your own node!"
+        "pool_info_tip": "If you are node owner feel free to fill all <a href=\"https://github.com/zavodil/near-pool-details#description\" target=\"_blank\">data</a> to promote your own node!"
       },
       "NodesEpoch": {
         "current_epoch_start": "当前周期开始在",
@@ -531,8 +528,6 @@
     "docs": "查看文档",
     "load_more": "载入更多",
     "show_more": "显示更多",
-    "show_less": "折叠显示",
-    "data": "data",
-    "rc_official_implementation": "the official implementation"
+    "show_less": "折叠显示"
   }
 }

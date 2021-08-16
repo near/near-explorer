@@ -148,14 +148,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                               "component.nodes.ValidatorTelemetryRow.agent_name.title"
                             )}
                             text={translate(
-                              "component.nodes.ValidatorTelemetryRow.agent_name.text",
-                              {
-                                agent_name_tip: (
-                                  <a href="https://github.com/near/nearcore">
-                                    <Translate id="buttons.rc_official_implementation" />
-                                  </a>
-                                ),
-                              }
+                              "component.nodes.ValidatorTelemetryRow.node_agent_name.text"
                             )}
                           />
                         </Col>
@@ -181,11 +174,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                       <Row noGutters>
                         <Col className="validator-nodes-details-title">
                           {translate(
-                            "component.nodes.ValidatorTelemetryRow.agent_version.title"
-                          )}
-                          &nbsp;/&nbsp;
-                          {translate(
-                            "component.nodes.ValidatorTelemetryRow.agent_build.title"
+                            "component.nodes.ValidatorTelemetryRow.node_agent_version_or_build.title"
                           )}
                         </Col>
                       </Row>
