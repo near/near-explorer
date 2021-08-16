@@ -148,7 +148,16 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                               "component.nodes.ValidatorTelemetryRow.agent_name.title"
                             )}
                             text={translate(
-                              "component.nodes.ValidatorTelemetryRow.node_agent_name.text"
+                              "component.nodes.ValidatorTelemetryRow.node_agent_name.text",
+                              {
+                                agent_name_url: (
+                                  <a href="https://github.com/near/nearcore">
+                                    {translate(
+                                      "component.nodes.ValidatorTelemetryRow.agent_name.url_text"
+                                    )}
+                                  </a>
+                                ),
+                              }
                             )}
                           />
                         </Col>

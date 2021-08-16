@@ -150,7 +150,8 @@
           "title": "最新检测更新"
         },
         "node_agent_name": {
-          "text": "NEAR协议可以有多种实现，'节点代理名称'是该实现的名称, 其中'near-rs'是<a href=\"https://github.com/near/nearcore\">官方实现</a>。",
+          "text": "NEAR协议可以有多种实现，'节点代理名称'是该实现的名称, 其中'near-rs'是${agent_name_url}。",
+          "url_text": "官方实现",
           "title": "节点代理名称"
         },
         "node_agent_version_or_build": {
@@ -165,7 +166,10 @@
           "discord": "Discord",
           "description": "Description"
         },
-        "pool_info_tip": "If you are node owner feel free to fill all <a href=\"https://github.com/zavodil/near-pool-details#description\" target=\"_blank\">data</a> to promote your own node!"
+        "pool_info_tip": {
+          "text": "If you are node owner feel free to fill all ${pool_info_url} to promote your own node!",
+          "url_text": "data"
+        }
       },
       "NodesEpoch": {
         "current_epoch_start": "当前周期开始在",

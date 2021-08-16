@@ -150,7 +150,8 @@
           "title": "Latest Telemetry Update"
         },
         "node_agent_name": {
-          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is <a href=\"https://github.com/near/nearcore\">the official implementation</a>.",
+          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is ${agent_name_url}.",
+          "url_text": "the official implementation",
           "title": "Node Agent Name"
         },
         "node_agent_version_or_build": {
@@ -165,7 +166,10 @@
           "discord": "Discord",
           "description": "Description"
         },
-        "pool_info_tip": "If you are node owner feel free to fill all <a href=\"https://github.com/zavodil/near-pool-details#description\" target=\"_blank\">data</a> to promote your own node!"
+        "pool_info_tip": {
+          "text": "If you are node owner feel free to fill all ${pool_info_url} to promote your own node!",
+          "url_text": "data"
+        }
       },
       "NodesEpoch": {
         "current_epoch_start": "Epoch Hiện Tại Khởi Động",

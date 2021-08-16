@@ -137,7 +137,19 @@ class ValidatorMetadataRow extends PureComponent<Props> {
               <Col className="validator-nodes-content-cell">
                 <p className="text-center">
                   {translate(
-                    "component.nodes.ValidatorMetadataRow.pool_info_tip"
+                    "component.nodes.ValidatorMetadataRow.pool_info_tip.text",
+                    {
+                      pool_info_url: (
+                        <a
+                          href="https://github.com/zavodil/near-pool-details#description"
+                          target="_blank"
+                        >
+                          {translate(
+                            "component.nodes.ValidatorMetadataRow.pool_info_tip.url_text"
+                          )}
+                        </a>
+                      ),
+                    }
                   )}
                 </p>
               </Col>
