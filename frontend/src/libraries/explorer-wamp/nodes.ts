@@ -24,11 +24,20 @@ export interface BaseValidationNodeInfo {
   stake: string;
   stakeProposed?: string;
   cumulativeStakeAmount?: BN;
-  validatorStatus?: "active" | "new" | "leaving" | "proposal";
+  stakingStatus?: StakingStatus;
   networkHolder?: boolean;
   shards?: [number];
   nodeInfo?: NodeInfo;
 }
+
+export type StakingStatus =
+  | "active"
+  | "new"
+  | "leaving"
+  | "proposal"
+  | "idle"
+  | "newcomer"
+  | "on-hold";
 
 export interface PoolDetails {
   country?: string;

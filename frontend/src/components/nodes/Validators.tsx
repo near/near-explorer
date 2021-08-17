@@ -44,16 +44,15 @@ class Validators extends React.Component<Props> {
             <NodeConsumer>
               {(context) => (
                 <>
-                  {context.totalValidatorsPool ? (
+                  {context.stakingNodes ? (
                     <Table
                       className="validators-section"
                       pagination={
-                        context.totalValidatorsPool.length > itemsPerPage
+                        context.stakingNodes.length > itemsPerPage
                           ? {
                               className: "validators-node-pagination",
                               pageCount: Math.ceil(
-                                context.totalValidatorsPool.length /
-                                  itemsPerPage
+                                context.stakingNodes.length / itemsPerPage
                               ),
                               marginPagesDisplayed: 1,
                               pageRangeDisplayed: 3,
@@ -88,7 +87,7 @@ class Validators extends React.Component<Props> {
                       </thead>
                       <tbody>
                         <ValidatorsList
-                          validators={context.totalValidatorsPool}
+                          validators={context.stakingNodes}
                           pages={{
                             startPage,
                             endPage,

@@ -131,7 +131,15 @@
           },
           "idle": {
             "title": "Idle",
-            "text": "idle node"
+            "text": "staking pool that has less than 20% of the current seat price"
+          },
+          "newcomer": {
+            "title": "Newcomer",
+            "text": "staking pool that has at least 20% of the current seat price"
+          },
+          "on_hold": {
+            "title": "On hold",
+            "text": "staking pool has enough tokens to validate, but hasn’t submitted a stake proposal yet"
           }
         },
         "same_proposed_stake": "same"

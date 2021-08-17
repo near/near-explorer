@@ -6,9 +6,8 @@ import { NodeInfo, ValidationNodeInfo } from "../libraries/explorer-wamp/nodes";
 export interface INodeContext {
   currentValidators?: ValidationNodeInfo[];
   onlineNodes?: NodeInfo[];
-  currentProposals?: ValidationNodeInfo[];
   onlineValidatingNodes?: NodeInfo[];
-  totalValidatorsPool?: ValidationNodeInfo[];
+  stakingNodes?: ValidationNodeInfo[];
 }
 
 const NodeContext = createContext<INodeContext>({});

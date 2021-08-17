@@ -48,6 +48,11 @@ exports.regularPublishNetworkInfoInterval =
 exports.regularFetchStakingPoolsInfoInterval =
   parseInt(process.env.NEAR_REGULAR_FETCH_STAKING_POOLS_INFO_INTERVAL) || 15000;
 
+exports.regularFetchStakingPoolsMetadataInfoInterval =
+  parseInt(
+    process.env.NEAR_REGULAR_FETCH_STAKING_POOLS_METADATA_INFO_INTERVAL
+  ) || 60000 * 10;
+
 exports.regularStatsInterval =
   parseInt(process.env.NEAR_REGULAR_STATS_INTERVAL) || 3600000;
 

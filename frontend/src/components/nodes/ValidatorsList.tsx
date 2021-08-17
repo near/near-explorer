@@ -29,8 +29,7 @@ class ValidatorsList extends React.Component<Props> {
     // stake only for those validators
     const activeValidatorsList = validatorsList.filter(
       (i: N.ValidationNodeInfo) =>
-        i.validatorStatus &&
-        ["active", "leaving"].indexOf(i.validatorStatus) >= 0
+        i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
     );
 
     const totalStake = activeValidatorsList.reduce(
@@ -62,6 +61,8 @@ class ValidatorsList extends React.Component<Props> {
         ? (validatorsList[index].networkHolder = true)
         : false
     );
+
+    // console.log(validatorsList);
 
     return (
       <>

@@ -21,7 +21,7 @@ describe("<ValidatorRow />", () => {
             stakeProposed: "4792255943512030289565031148674",
             cumulativeStakeAmount: new BN("91037770393145811562101780866"),
             networkHolder: true,
-            validatorStatus: "active",
+            stakingStatus: "active",
             poolDetails: {
               country_code: "us",
               description: "Test description 1",
@@ -55,7 +55,7 @@ describe("<ValidatorRow />", () => {
             stake: "91037770393145811562101780866",
             stakeProposed: "4792255943512030289565031148674",
             networkHolder: true,
-            validatorStatus: "leaving",
+            stakingStatus: "leaving",
             poolDetails: {
               description: "Test description 2",
               discord: "https://discord.com",

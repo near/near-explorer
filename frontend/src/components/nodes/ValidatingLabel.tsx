@@ -49,6 +49,14 @@ class ValidatingLabel extends React.PureComponent<Props> {
               background-color: #e5e5e6;
               color: #72727a;
             }
+            .validating-label.on-hold {
+              background-color: #2d9cdb;
+              color: #ffffff;
+            }
+            .validating-label.newcomer {
+              background-color: #f2994a;
+              color: #ffffff;
+            }
           `}</style>
         </Badge>
       </OverlayTrigger>

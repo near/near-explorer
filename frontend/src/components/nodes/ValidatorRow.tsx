@@ -65,7 +65,7 @@ class ValidatorRow extends React.Component<Props, State> {
               index={index}
               countryCode={node.poolDetails?.country_code}
               country={node.poolDetails?.country}
-              validatorStatus={node.validatorStatus}
+              stakingStatus={node.stakingStatus}
               publicKey={node.public_key}
               validatorFee={validatorFee}
               validatorDelegators={validatorDelegators}

@@ -5,6 +5,8 @@ import { Row, Col, Spinner, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Translate } from "react-localize-redux";
 import { countries } from "country-data";
 
+import * as N from "../../libraries/explorer-wamp/nodes";
+
 import Balance from "../utils/Balance";
 import { TableRow } from "../utils/Table";
 import CountryFlag from "../utils/CountryFlag";
@@ -17,7 +19,7 @@ interface Props {
   index: number;
   countryCode?: string;
   country?: string;
-  validatorStatus?: "active" | "new" | "leaving" | "proposal";
+  stakingStatus?: N.StakingStatus;
   publicKey?: string;
   validatorFee: string | null;
   validatorDelegators: number | string | null;
@@ -36,7 +38,7 @@ class ValidatorMainRow extends PureComponent<Props> {
       index,
       countryCode,
       country,
-      validatorStatus,
+      stakingStatus,
       publicKey,
       validatorFee,
       validatorDelegators,
@@ -106,7 +108,7 @@ class ValidatorMainRow extends PureComponent<Props> {
               <td>
                 <Row noGutters className="align-items-center">
                   <Col xs="2" className="validators-node-label">
-                    {validatorStatus === "proposal" ? (
+                    {stakingStatus === "proposal" ? (
                       <ValidatingLabel
                         type="proposal"
                         text={translate(
@@ -118,7 +120,7 @@ class ValidatorMainRow extends PureComponent<Props> {
                           "component.nodes.ValidatorMainRow.state.proposal.title"
                         )}
                       </ValidatingLabel>
-                    ) : validatorStatus === "new" ? (
+                    ) : stakingStatus === "new" ? (
                       <ValidatingLabel
                         type="new"
                         text={translate(
@@ -130,7 +132,7 @@ class ValidatorMainRow extends PureComponent<Props> {
                           "component.nodes.ValidatorMainRow.state.new.title"
                         )}
                       </ValidatingLabel>
-                    ) : validatorStatus === "leaving" ? (
+                    ) : stakingStatus === "leaving" ? (
                       <ValidatingLabel
                         type="kickout"
                         text={translate(
@@ -142,7 +144,7 @@ class ValidatorMainRow extends PureComponent<Props> {
                           "component.nodes.ValidatorMainRow.state.kickout.title"
                         )}
                       </ValidatingLabel>
-                    ) : validatorStatus === "active" ? (
+                    ) : stakingStatus === "active" ? (
                       <ValidatingLabel
                         type="active"
                         text={translate(
@@ -154,7 +156,7 @@ class ValidatorMainRow extends PureComponent<Props> {
                           "component.nodes.ValidatorMainRow.state.active.title"
                         )}
                       </ValidatingLabel>
-                    ) : (
+                    ) : stakingStatus === "idle" ? (
                       <ValidatingLabel
                         type="idle"
                         text={translate(
@@ -166,7 +168,31 @@ class ValidatorMainRow extends PureComponent<Props> {
                           "component.nodes.ValidatorMainRow.state.idle.title"
                         )}
                       </ValidatingLabel>
-                    )}
+                    ) : stakingStatus === "newcomer" ? (
+                      <ValidatingLabel
+                        type="newcomer"
+                        text={translate(
+                          "component.nodes.ValidatorMainRow.state.newcomer.text"
+                        ).toString()}
+                        tooltipKey="newcomer"
+                      >
+                        {translate(
+                          "component.nodes.ValidatorMainRow.state.newcomer.title"
+                        )}
+                      </ValidatingLabel>
+                    ) : stakingStatus === "on-hold" ? (
+                      <ValidatingLabel
+                        type="on-hold"
+                        text={translate(
+                          "component.nodes.ValidatorMainRow.state.on_hold.text"
+                        ).toString()}
+                        tooltipKey="on-hold"
+                      >
+                        {translate(
+                          "component.nodes.ValidatorMainRow.state.on_hold.title"
+                        )}
+                      </ValidatingLabel>
+                    ) : null}
                   </Col>
 
                   <Col className="validator-name">

@@ -2,16 +2,15 @@ const nearApi = require("near-api-js");
 
 const BN = require("bn.js");
 
-const { nearRpcUrl, wampNearNetworkName } = require("./config");
+const { nearRpcUrl } = require("./config");
 const { queryNodeValidators } = require("./db-utils");
 
 const nearRpc = new nearApi.providers.JsonRpcProvider(nearRpcUrl);
 
 let seatPrice = null;
 let totalStake = null;
-let poolDetails = null;
 let currentEpochStartHeight = null;
-let totalValidatorsPool = new Map();
+let stakingNodes = new Map();
 
 // TODO: Provide an equivalent method in near-api-js, so we don't need to hack it around.
 nearRpc.callViewMethod = async function (contractName, methodName, args) {
@@ -39,54 +38,47 @@ const queryEpochStats = async () => {
   const currentValidators = getCurrentNodes(epochStatus);
   const currentPools = await queryNodeValidators();
 
-  if (wampNearNetworkName === "mainnet") {
-    poolDetails =
-      poolDetails ||
-      (await nearRpc.callViewMethod("name.near", "get_all_fields", {
-        from_index: 0,
-        limit: 100,
-      }));
-  }
-
+  // loop over 'active' validators to apply stakingStatus='active'
+  // and push those validators to common Map()
   currentValidators.forEach((validator, i) => {
-    if (!currentValidators[i].validatorStatus) {
-      currentValidators[i].validatorStatus = "active";
+    if (!currentValidators[i].stakingStatus) {
+      currentValidators[i].stakingStatus = "active";
     }
-    totalValidatorsPool.set(validator.account_id, validator);
+    stakingNodes.set(validator.account_id, validator);
   });
 
+  // loop over proposed validators to apply stakingStatus='proposal'
+  // and if proposed validators already exist in common Map()
+  // we add stakeProposed to this validator because of different
+  // amount of stake from current to next epoch
   currentProposals.forEach((proposal) => {
-    const activeValidator = totalValidatorsPool.get(proposal.account_id);
+    const activeValidator = stakingNodes.get(proposal.account_id);
     if (activeValidator) {
-      totalValidatorsPool.set(proposal.account_id, {
+      stakingNodes.set(proposal.account_id, {
         ...activeValidator,
         stakeProposed: proposal.stake,
       });
     } else {
-      totalValidatorsPool.set(proposal.account_id, {
+      stakingNodes.set(proposal.account_id, {
         ...proposal,
-        validatorStatus: "proposal",
+        stakingStatus: "proposal",
       });
     }
   });
 
+  // loop over all pools from 'name.near' account
+  // to get metadata about those accounts (country, country flag, ect.) and
+  // push them to commom Map().
+  // this data will be shown on 'mainnet' only because 'name.near' exists only there
   currentPools.forEach((pool) => {
-    const activePool = totalValidatorsPool.get(pool.account_id);
+    const activePool = stakingNodes.get(pool.account_id);
     if (activePool) {
-      totalValidatorsPool.set(pool.account_id, {
+      stakingNodes.set(pool.account_id, {
         ...activePool,
-        poolDetails:
-          wampNearNetworkName === "mainnet"
-            ? { ...poolDetails[pool.account_id] }
-            : null,
       });
     } else {
-      totalValidatorsPool.set(pool.account_id, {
+      stakingNodes.set(pool.account_id, {
         account_id: pool.account_id,
-        poolDetails:
-          wampNearNetworkName === "mainnet"
-            ? { ...poolDetails[pool.account_id] }
-            : null,
       });
     }
   });
@@ -116,8 +108,7 @@ const queryEpochStats = async () => {
     epochStartHeight,
     epochProtocolVersion,
     currentValidators,
-    currentProposals,
-    totalValidatorsPool,
+    stakingNodes,
     totalStake,
     seatPrice,
     genesisTime,
@@ -127,7 +118,7 @@ const queryEpochStats = async () => {
 
 const setValidatorStatus = (validators, status) => {
   for (let i = 0; i < validators.length; i++) {
-    validators[i].validatorStatus = status;
+    validators[i].stakingStatus = status;
   }
 };
 
