@@ -11,11 +11,10 @@ import ValidatorsList from "./ValidatorsList";
 import { Translate } from "react-localize-redux";
 
 interface Props {
-  type: string;
   itemsPerPage: number;
 }
 
-class Validators extends React.PureComponent<Props> {
+class Validators extends React.Component<Props> {
   static defaultProps = {
     itemsPerPage: 120,
   };
@@ -36,92 +35,79 @@ class Validators extends React.PureComponent<Props> {
 
   render() {
     const { activePage, startPage, endPage } = this.state;
-    const { type, itemsPerPage } = this.props;
+    const { itemsPerPage } = this.props;
 
     return (
       <Translate>
         {({ translate }) => (
           <>
             <NodeConsumer>
-              {(context) => {
-                const validatorType =
-                  type === "validators"
-                    ? context.currentValidators
-                    : context.currentProposals;
-                return (
-                  <>
-                    {validatorType ? (
-                      <Table
-                        className="validators-section"
-                        pagination={
-                          validatorType.length > itemsPerPage
-                            ? {
-                                className: "validators-node-pagination",
-                                pageCount: Math.ceil(
-                                  validatorType.length / itemsPerPage
-                                ),
-                                marginPagesDisplayed: 1,
-                                pageRangeDisplayed: 3,
-                                onPageChange: this.onPageChange,
-                              }
-                            : undefined
-                        }
-                      >
-                        <thead>
-                          <tr className="validators-header-row">
-                            <th />
-                            <th>#</th>
-                            <th>
-                              {translate(
-                                "component.nodes.Validators.validator"
-                              )}
-                            </th>
-                            <th>
-                              {translate("component.nodes.Validators.fee")}
-                            </th>
-                            <th>
-                              {translate(
-                                "component.nodes.Validators.delegators"
-                              )}
-                            </th>
-                            <th className="text-right">
-                              {translate("component.nodes.Validators.stake")}
-                            </th>
-                            {type !== "proposals" && (
-                              <th>
-                                {translate(
-                                  "component.nodes.Validators.cumulative_stake"
-                                )}
-                              </th>
+              {(context) => (
+                <>
+                  {context.stakingNodes ? (
+                    <Table
+                      className="validators-section"
+                      pagination={
+                        context.stakingNodes.length > itemsPerPage
+                          ? {
+                              className: "validators-node-pagination",
+                              pageCount: Math.ceil(
+                                context.stakingNodes.length / itemsPerPage
+                              ),
+                              marginPagesDisplayed: 1,
+                              pageRangeDisplayed: 3,
+                              onPageChange: this.onPageChange,
+                            }
+                          : undefined
+                      }
+                    >
+                      <thead>
+                        <tr className="validators-header-row">
+                          <th />
+                          <th>#</th>
+                          <th>
+                            {translate("component.nodes.Validators.location")}
+                          </th>
+                          <th>
+                            {translate("component.nodes.Validators.validator")}
+                          </th>
+                          <th>{translate("component.nodes.Validators.fee")}</th>
+                          <th>
+                            {translate("component.nodes.Validators.delegators")}
+                          </th>
+                          <th className="text-right">
+                            {translate("component.nodes.Validators.stake")}
+                          </th>
+                          <th>
+                            {translate(
+                              "component.nodes.Validators.cumulative_stake"
                             )}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <ValidatorsList
-                            validators={validatorType}
-                            pages={{
-                              startPage,
-                              endPage,
-                              activePage,
-                              itemsPerPage,
-                            }}
-                            cellCount={type === "validators" ? 7 : 6}
-                            validatorType={type}
-                          />
-                        </tbody>
-                      </Table>
-                    ) : (
-                      <PaginationSpinner hidden={false} />
-                    )}
-                  </>
-                );
-              }}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ValidatorsList
+                          validators={context.stakingNodes}
+                          pages={{
+                            startPage,
+                            endPage,
+                            activePage,
+                            itemsPerPage,
+                          }}
+                        />
+                      </tbody>
+                    </Table>
+                  ) : (
+                    <PaginationSpinner hidden={false} />
+                  )}
+                  <style jsx global>{`
+                    .validators-node-pagination {
+                      background-color: #ffffff;
+                    }
+                  `}</style>
+                </>
+              )}
             </NodeConsumer>
-            <style jsx global>{`
-              .validators-node-pagination {
-                background-color: #ffffff;
-              }
-            `}</style>
           </>
         )}
       </Translate>

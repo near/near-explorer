@@ -5,55 +5,55 @@ import * as N from "../../libraries/explorer-wamp/nodes";
 
 import ValidatorRow from "./ValidatorRow";
 
+const epochValidatorsStake = new Map();
+
 interface Props {
   validators: any;
   pages: any;
-  cellCount: number;
-  validatorType: string;
 }
 
-class ValidatorsList extends React.PureComponent<Props> {
-  calculateStake = (nodeIndex: number, totalStake: BN) => {
-    let total = new BN(0);
-    let networkHolderIndex = [];
-    let networkStakeSafeAmount = totalStake.divn(3);
-
-    for (let i = 0; i <= nodeIndex; i++) {
-      total = total.add(new BN(this.props.validators[i].stake));
-
-      if (total.gt(networkStakeSafeAmount)) {
-        networkHolderIndex.push(i);
-      }
-    }
-    return { total, networkHolderIndex: networkHolderIndex[0] };
-  };
-
+class ValidatorsList extends React.Component<Props> {
   render() {
     const {
       validators,
       pages: { startPage, endPage, activePage, itemsPerPage },
-      cellCount,
-      validatorType,
     } = this.props;
-    const totalStake = validators.reduce(
-      (acc: BN, node: any) => acc.add(new BN(node.stake)),
-      new BN(0)
+
+    let validatorsList = validators.sort(
+      (a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) => {
+        return new BN(b.currentStake).sub(new BN(a.currentStake));
+      }
     );
 
-    const validatorsList = validators
-      .sort((a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) =>
-        new BN(b.stake).sub(new BN(a.stake))
-      )
-      .map((node: N.ValidationNodeInfo, index: number) => {
-        if (validatorType === "validators") {
-          return {
-            ...node,
-            totalStake: totalStake,
-            cumulativeStakeAmount: this.calculateStake(index, totalStake),
-          };
+    // filter validators list by 'active' and 'leaving' validators to culculate cumulative
+    // stake only for those validators
+    const activeValidatorsList = validatorsList.filter(
+      (i: N.ValidationNodeInfo) =>
+        i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
+    );
+
+    const totalStake = activeValidatorsList.reduce(
+      (acc: BN, node: N.ValidationNodeInfo) =>
+        acc.add(new BN(node.currentStake)),
+      new BN(0)
+    ) as BN;
+
+    activeValidatorsList.forEach(
+      (validator: N.ValidationNodeInfo, index: number) => {
+        let total = new BN(0);
+        for (let i = 0; i <= index; i++) {
+          total = total.add(new BN(activeValidatorsList[i].currentStake));
+          epochValidatorsStake.set(validator.account_id, total);
         }
-        return node;
-      });
+      }
+    );
+
+    validatorsList.forEach((validator: N.ValidationNodeInfo, index: number) => {
+      const validatorCumStake = epochValidatorsStake.get(validator.account_id);
+      if (validatorCumStake) {
+        validatorsList[index].cumulativeStakeAmount = validatorCumStake;
+      }
+    });
 
     return (
       <>
@@ -64,8 +64,7 @@ class ValidatorsList extends React.PureComponent<Props> {
               key={node.account_id}
               node={node}
               index={activePage * itemsPerPage + index + 1}
-              cellCount={cellCount}
-              validatorType={validatorType}
+              totalStake={totalStake}
             />
           ))}
       </>

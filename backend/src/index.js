@@ -1,4 +1,5 @@
 const moment = require("moment");
+const BN = require("bn.js");
 
 const models = require("../models");
 
@@ -16,6 +17,7 @@ const {
   regularStatsInterval,
   regularCalculateCirculatingSupplyInterval,
   wampNearNetworkName,
+  regularFetchStakingPoolsMetadataInfoInterval,
 } = require("./config");
 
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
@@ -61,8 +63,9 @@ const {
 const { calculateCirculatingSupply } = require("./aggregations");
 
 let currentValidators = [];
-let currentProposals = [];
+let stakingNodes = [];
 let stakingPoolsInfo = new Map();
+let stakingPoolsMetadataInfo = new Map();
 
 async function startLegacySync() {
   console.log("Starting NEAR Explorer legacy syncing service...");
@@ -297,30 +300,53 @@ async function main() {
     try {
       if (wamp.session) {
         const epochStats = await queryEpochStats();
-        currentValidators = await extendWithTelemetryInfo(
-          epochStats.currentValidators
-        );
-        currentProposals = await extendWithTelemetryInfo(
-          epochStats.currentProposals
-        );
+
+        currentValidators = epochStats.currentValidators;
+
+        stakingNodes = await extendWithTelemetryInfo([
+          ...epochStats.stakingNodes.values(),
+        ]);
+
         const onlineValidatingNodes = pickOnlineValidatingNode(
-          currentValidators
+          stakingNodes.filter(
+            (i) => i.stakingStatus && i.stakingStatus !== "proposal"
+          )
         );
+
         const onlineNodes = await queryOnlineNodes();
 
         if (stakingPoolsInfo) {
-          currentValidators.forEach((validator) => {
+          stakingNodes.forEach((validator) => {
             const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
             if (stakingPoolInfo) {
               validator.fee = stakingPoolInfo.fee;
               validator.delegatorsCount = stakingPoolInfo.delegatorsCount;
-            }
-          });
-          currentProposals.forEach((validator) => {
-            const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
-            if (stakingPoolInfo) {
-              validator.fee = stakingPoolInfo.fee;
-              validator.delegatorsCount = stakingPoolInfo.delegatorsCount;
+              validator.currentStake = stakingPoolInfo.currentStake;
+              validator.poolDetails = stakingPoolsMetadataInfo.get(
+                validator.account_id
+              );
+
+              if (!validator.stakingStatus) {
+                if (
+                  new BN(validator.currentStake).gt(
+                    new BN(epochStats.seatPrice)
+                  )
+                ) {
+                  validator.stakingStatus = "on-hold";
+                } else if (
+                  new BN(validator.currentStake).gte(
+                    new BN(epochStats.seatPrice).muln(20).divn(100)
+                  )
+                ) {
+                  validator.stakingStatus = "newcomer";
+                } else if (
+                  new BN(validator.currentStake).lt(
+                    new BN(epochStats.seatPrice).muln(20).divn(100)
+                  )
+                ) {
+                  validator.stakingStatus = "idle";
+                }
+              }
             }
           });
         }
@@ -330,8 +356,8 @@ async function main() {
           {
             onlineNodes,
             currentValidators,
-            currentProposals,
             onlineValidatingNodes,
+            stakingNodes,
           },
           wamp
         );
@@ -339,7 +365,6 @@ async function main() {
           "network-stats",
           {
             currentValidatorsCount: currentValidators.length,
-            currentProposalsCount: currentProposals.length,
             onlineNodesCount: onlineNodes.length,
             epochLength: epochStats.epochLength,
             epochStartHeight: epochStats.epochStartHeight,
@@ -354,61 +379,112 @@ async function main() {
       }
       console.log("Regular regular network info publishing is completed.");
     } catch (error) {
-      console.warn(
-        "Regular regular network info publishing crashed due to:",
-        error
-      );
+      console.warn("Regular network info publishing crashed due to:", error);
     }
     setTimeout(regularPublishNetworkInfo, regularPublishNetworkInfoInterval);
   };
   setTimeout(regularPublishNetworkInfo, 0);
 
+  // Periodic check of validators' metadata info (country, country_flag, etc.)
+  // This query works only for 'mainnet'
+  function startRegularFetchStakingPoolsMetadataInfo() {
+    const regularFetchStakingPoolsMetadataInfo = async () => {
+      console.log(`Starting regular fetching staking pools metadata info...`);
+      try {
+        const queryRowsCount = 100;
+        const fetchPoolsMetadataInfo = (counter = 0) => {
+          return nearRpc.callViewMethod("name.near", "get_all_fields", {
+            from_index: counter,
+            limit: queryRowsCount,
+          });
+        };
+        let metadataInfo = await fetchPoolsMetadataInfo();
+
+        for (
+          let i = 0;
+          Object.keys(metadataInfo).length !== 0;
+          i += queryRowsCount
+        ) {
+          metadataInfo = await fetchPoolsMetadataInfo(i);
+
+          Object.keys(metadataInfo).map((account_id) => {
+            stakingPoolsMetadataInfo.set(account_id, {
+              ...metadataInfo[account_id],
+            });
+          });
+        }
+      } catch (error) {
+        console.warn(
+          "Regular fetching staking pools metadata info crashed due to:",
+          error
+        );
+      }
+      setTimeout(
+        regularFetchStakingPoolsMetadataInfo,
+        regularFetchStakingPoolsMetadataInfoInterval
+      );
+    };
+    setTimeout(regularFetchStakingPoolsMetadataInfo, 0);
+  }
+
   // Periodic check of validators' staking pool fee and delegators count
   const regularFetchStakingPoolsInfo = async () => {
     try {
-      const stakingPoolsAccountId = new Set([
-        ...currentValidators.map(({ account_id }) => account_id),
-        ...currentProposals.map(({ account_id }) => account_id),
-      ]);
+      if (stakingNodes.length > 0) {
+        for (let i = 0; i < stakingNodes.length; i++) {
+          const { account_id, currentStake: currentNodeStake } = stakingNodes[
+            i
+          ];
 
-      for (const stakingPoolAccountId of stakingPoolsAccountId) {
-        try {
-          const account = await nearRpc.query({
-            request_type: "view_account",
-            account_id: stakingPoolAccountId,
-            finality: "final",
-          });
-          if (account.code_hash === "11111111111111111111111111111111") {
-            stakingPoolsInfo.set(stakingPoolAccountId, {
-              fee: null,
-              delegatorsCount: null,
+          try {
+            const account = await nearRpc.query({
+              request_type: "view_account",
+              account_id: account_id,
+              finality: "final",
             });
-          } else {
-            const fee = await nearRpc.callViewMethod(
-              stakingPoolAccountId,
-              "get_reward_fee_fraction",
-              {}
+
+            const currentStake =
+              currentNodeStake ??
+              (await nearRpc.callViewMethod(
+                account_id,
+                "get_total_staked_balance",
+                {}
+              ));
+
+            if (account.code_hash === "11111111111111111111111111111111") {
+              stakingPoolsInfo.set(account_id, {
+                fee: null,
+                delegatorsCount: null,
+                currentStake,
+              });
+            } else {
+              const fee = await nearRpc.callViewMethod(
+                account_id,
+                "get_reward_fee_fraction",
+                {}
+              );
+              const delegatorsCount = await nearRpc.callViewMethod(
+                account_id,
+                "get_number_of_accounts",
+                {}
+              );
+              stakingPoolsInfo.set(account_id, {
+                fee,
+                delegatorsCount,
+                currentStake,
+              });
+            }
+          } catch (error) {
+            console.warn(
+              `Regular fetching staking pool ${account_id} info crashed due to:`,
+              error
             );
-            const delegatorsCount = await nearRpc.callViewMethod(
-              stakingPoolAccountId,
-              "get_number_of_accounts",
-              {}
-            );
-            stakingPoolsInfo.set(stakingPoolAccountId, {
-              fee,
-              delegatorsCount,
-            });
           }
-        } catch (error) {
-          console.warn(
-            `Regular regular fetching staking pool ${stakingPoolAccountId} info crashed due to:`,
-            error
-          );
         }
       }
     } catch (error) {
       console.warn(
-        "Regular regular fetching staking pools info crashed due to:",
+        "Regular fetching staking pools info crashed due to:",
         error
       );
     }
@@ -430,6 +506,7 @@ async function main() {
 
   if (wampNearNetworkName === "mainnet") {
     startRegularCalculationCirculatingSupply();
+    startRegularFetchStakingPoolsMetadataInfo();
   }
 }
 

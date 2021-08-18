@@ -3,43 +3,46 @@ import BN from "bn.js";
 import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const FRAC_DIGITS = 5;
+class Balance extends React.PureComponent {
+  render() {
+    const {
+      amount,
+      label = null,
+      className = undefined,
+      formulatedAmount = undefined,
+      fracDigits = 5,
+    } = this.props;
 
-const Balance = ({
-  amount,
-  label = null,
-  className = undefined,
-  formulatedAmount = undefined,
-}) => {
-  if (!amount) {
-    throw new Error("amount property should not be null");
+    if (!amount) {
+      throw new Error("amount property should not be null");
+    }
+
+    const defaultLabel = "Ⓝ";
+
+    let amountShow = !formulatedAmount
+      ? formatNEAR(amount, fracDigits)
+      : formulatedAmount;
+    let amountPrecise = showInYocto(amount);
+    return (
+      <OverlayTrigger
+        placement={"bottom"}
+        overlay={<Tooltip>{amountPrecise}</Tooltip>}
+      >
+        <span className={className}>
+          {`${amountShow} ${label ?? defaultLabel}`}
+        </span>
+      </OverlayTrigger>
+    );
   }
+}
 
-  const defaultLabel = "Ⓝ";
-
-  let amountShow = !formulatedAmount ? formatNEAR(amount) : formulatedAmount;
-  let amountPrecise = showInYocto(amount);
-  return (
-    <OverlayTrigger
-      placement={"bottom"}
-      overlay={<Tooltip>{amountPrecise}</Tooltip>}
-    >
-      <span className={className}>
-        {amountShow} {label ?? defaultLabel}
-      </span>
-    </OverlayTrigger>
-  );
-};
-
-export const formatNEAR = (amount) => {
-  let ret = utils.format.formatNearAmount(amount.toString(), FRAC_DIGITS);
+export const formatNEAR = (amount, fracDigits = 5) => {
+  let ret = utils.format.formatNearAmount(amount.toString(), fracDigits);
 
   if (amount === "0") {
     return amount;
   } else if (ret === "0") {
-    return `<${
-      !FRAC_DIGITS ? `0` : `0.${"0".repeat((FRAC_DIGITS || 1) - 1)}1`
-    }`;
+    return `<${!fracDigits ? `0` : `0.${"0".repeat((fracDigits || 1) - 1)}1`}`;
   }
   return ret;
 };

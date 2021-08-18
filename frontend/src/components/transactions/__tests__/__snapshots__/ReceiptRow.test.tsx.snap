@@ -128,9 +128,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          0.00034
-           
-          Ⓝ
+          0.00034 Ⓝ
         </span>
       </div>
     </div>
@@ -411,9 +409,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  0
-                   
-                  Ⓝ
+                  0 Ⓝ
                 </span>
               </div>
             </div>
@@ -465,9 +461,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                               onMouseOut={[Function]}
                               onMouseOver={[Function]}
                             >
-                              0.00353
-                               
-                              Ⓝ
+                              0.00353 Ⓝ
                             </span>
                              to 
                             <span
@@ -644,9 +638,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          0.00209
-           
-          Ⓝ
+          0.00209 Ⓝ
         </span>
       </div>
     </div>
@@ -917,9 +909,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  0.00041
-                   
-                  Ⓝ
+                  0.00041 Ⓝ
                 </span>
               </div>
             </div>
@@ -1211,9 +1201,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onMouseOut={[Function]}
                           onMouseOver={[Function]}
                         >
-                          0
-                           
-                          Ⓝ
+                          0 Ⓝ
                         </span>
                       </div>
                     </div>
@@ -1265,9 +1253,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       onMouseOut={[Function]}
                                       onMouseOver={[Function]}
                                     >
-                                      0.00269
-                                       
-                                      Ⓝ
+                                      0.00269 Ⓝ
                                     </span>
                                      to 
                                     <span
@@ -1449,9 +1435,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  0.00035
-                   
-                  Ⓝ
+                  0.00035 Ⓝ
                 </span>
               </div>
             </div>
@@ -1743,9 +1727,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onMouseOut={[Function]}
                           onMouseOver={[Function]}
                         >
-                          0
-                           
-                          Ⓝ
+                          0 Ⓝ
                         </span>
                       </div>
                     </div>
@@ -1797,9 +1779,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       onMouseOut={[Function]}
                                       onMouseOver={[Function]}
                                     >
-                                      0.00068
-                                       
-                                      Ⓝ
+                                      0.00068 Ⓝ
                                     </span>
                                      to 
                                     <span
@@ -1981,9 +1961,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  0
-                   
-                  Ⓝ
+                  0 Ⓝ
                 </span>
               </div>
             </div>
@@ -2035,9 +2013,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               onMouseOut={[Function]}
                               onMouseOver={[Function]}
                             >
-                              0.00104
-                               
-                              Ⓝ
+                              0.00104 Ⓝ
                             </span>
                              to 
                             <span
@@ -2214,9 +2190,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          0.00061
-           
-          Ⓝ
+          0.00061 Ⓝ
         </span>
       </div>
     </div>
@@ -2513,9 +2487,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   onMouseOut={[Function]}
                   onMouseOver={[Function]}
                 >
-                  0
-                   
-                  Ⓝ
+                  0 Ⓝ
                 </span>
               </div>
             </div>
@@ -2567,9 +2539,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                               onMouseOut={[Function]}
                               onMouseOver={[Function]}
                             >
-                              0.01844
-                               
-                              Ⓝ
+                              0.01844 Ⓝ
                             </span>
                              to 
                             <span

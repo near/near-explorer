@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState, useCallback } from "react";
 
 import { ExplorerApi } from "../libraries/explorer-wamp";
 import { NodeInfo, ValidationNodeInfo } from "../libraries/explorer-wamp/nodes";
@@ -6,8 +6,8 @@ import { NodeInfo, ValidationNodeInfo } from "../libraries/explorer-wamp/nodes";
 export interface INodeContext {
   currentValidators?: ValidationNodeInfo[];
   onlineNodes?: NodeInfo[];
-  currentProposals?: ValidationNodeInfo[];
   onlineValidatingNodes?: NodeInfo[];
+  stakingNodes?: ValidationNodeInfo[];
 }
 
 const NodeContext = createContext<INodeContext>({});
@@ -19,9 +19,12 @@ export interface Props {
 const NodeProvider = (props: Props) => {
   const [currentContext, setContext] = useState<INodeContext>({});
 
-  const fetchNodeInfo = (_positionalArgs: any, context: INodeContext) => {
-    setContext(context);
-  };
+  const fetchNodeInfo = useCallback(
+    (_positionalArgs: any, context: INodeContext) => {
+      setContext(context);
+    },
+    []
+  );
 
   useEffect(() => {
     const explorerApi = new ExplorerApi();

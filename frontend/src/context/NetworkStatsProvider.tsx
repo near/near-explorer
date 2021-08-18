@@ -7,7 +7,7 @@ import BlocksApi, {
 
 export interface NetworkStats {
   currentValidatorsCount: number;
-  currentProposalsCount: number;
+  currentPoolsCount: number;
   onlineNodesCount: number;
   epochLength: number;
   epochStartHeight: number;
@@ -47,7 +47,7 @@ const NetworkStatsProvider = (props: Props) => {
   const storeNetworkStats = (_positionalArgs: any, namedArgs: any) => {
     dispatchNetworkStats({
       currentValidatorsCount: namedArgs.currentValidatorsCount,
-      currentProposalsCount: namedArgs.currentProposalsCount,
+      currentPoolsCount: namedArgs.currentPoolsCount,
       onlineNodesCount: namedArgs.onlineNodesCount,
       epochLength: namedArgs.epochLength,
       epochStartHeight: namedArgs.epochStartHeight,

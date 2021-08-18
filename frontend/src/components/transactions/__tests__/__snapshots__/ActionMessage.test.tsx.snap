@@ -219,9 +219,7 @@ Array [
     onMouseOut={[Function]}
     onMouseOver={[Function]}
   >
-    &lt;0.00001
-     
-    Ⓝ
+    &lt;0.00001 Ⓝ
   </span>,
   " ",
   "with ed25519:BgXFiJS...",
@@ -237,9 +235,7 @@ Array [
     onMouseOut={[Function]}
     onMouseOver={[Function]}
   >
-    &lt;0.00001
-     
-    Ⓝ
+    &lt;0.00001 Ⓝ
   </span>,
   " to ",
   <span

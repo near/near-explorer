@@ -21,31 +21,41 @@ export interface BaseValidationNodeInfo {
   num_produced_blocks?: number;
   num_expected_blocks?: number;
   public_key: string;
-  stake: string;
-  new?: boolean;
-  removed?: boolean;
+  currentStake: string;
+  proposedStake?: string;
+  cumulativeStakeAmount?: BN;
+  stakingStatus?: StakingStatus;
+  networkHolder?: boolean;
   shards?: [number];
   nodeInfo?: NodeInfo;
+}
+
+export type StakingStatus =
+  | "active"
+  | "joining"
+  | "leaving"
+  | "proposal"
+  | "idle"
+  | "newcomer"
+  | "on-hold";
+
+export interface PoolDetails {
+  country?: string;
+  country_code?: string;
+  description?: string;
+  discord?: string;
+  email?: string;
+  twitter?: string;
+  url?: string;
 }
 
 export interface StakingPoolInfo {
   fee: { numerator: number; denominator: number };
   delegatorsCount: number;
+  poolDetails?: PoolDetails;
 }
 
-export interface StakeInfo {
-  cumulativeStakeAmount: CumulativeStake;
-  totalStake: BN;
-}
-
-export type ValidationNodeInfo = BaseValidationNodeInfo &
-  StakingPoolInfo &
-  StakeInfo;
-
-interface CumulativeStake {
-  total: BN;
-  networkHolderIndex: number;
-}
+export type ValidationNodeInfo = BaseValidationNodeInfo & StakingPoolInfo;
 
 export interface NodeStats {
   validatorsCount: number;

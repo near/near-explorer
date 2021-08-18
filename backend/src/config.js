@@ -48,6 +48,11 @@ exports.regularPublishNetworkInfoInterval =
 exports.regularFetchStakingPoolsInfoInterval =
   parseInt(process.env.NEAR_REGULAR_FETCH_STAKING_POOLS_INFO_INTERVAL) || 15000;
 
+exports.regularFetchStakingPoolsMetadataInfoInterval =
+  parseInt(
+    process.env.NEAR_REGULAR_FETCH_STAKING_POOLS_METADATA_INFO_INTERVAL
+  ) || 60000 * 10;
+
 exports.regularStatsInterval =
   parseInt(process.env.NEAR_REGULAR_STATS_INTERVAL) || 3600000;
 
@@ -68,3 +73,10 @@ exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;
 
 exports.nearLockupAccountIdSuffix =
   process.env.NEAR_LOCKUP_ACCOUNT_SUFFIX || "lockup.near";
+
+exports.nearStakingPoolAccountSuffix =
+  process.env.WAMP_NEAR_NETWORK_NAME === "mainnet"
+    ? ".poolv1.near"
+    : process.env.WAMP_NEAR_NETWORK_NAME === "testnet"
+    ? ".f863973.m0"
+    : process.env.NEAR_STAKING_POOL_ACCOUNT_SUFFIX;

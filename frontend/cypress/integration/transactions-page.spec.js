@@ -12,7 +12,7 @@ context("Transactions", () => {
 
   it("Check transactions row data", () => {
     cy.wait("@transactionsList");
-    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 20000 }).should(
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
@@ -45,7 +45,7 @@ context("Transactions", () => {
 
   it("Check transaction details", () => {
     cy.wait("@transactionsList");
-    cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
+    cy.get(".infinite-scroll-component__outerdiv", { timeout: 20000 }).should(
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")

@@ -63,7 +63,7 @@ exports[`<NodesEpoch /> renders 1`] = `
         className="text-right d-xs-block d-md-none col-5"
       >
         <div
-          className="jsx-3982235594 progress-bar circle node-epoch-circle-progress"
+          className="jsx-2667301188 progress-bar circle node-epoch-circle-progress"
         >
           <svg
             className="rc-progress-circle progress-bar-content"
@@ -118,7 +118,7 @@ exports[`<NodesEpoch /> renders 1`] = `
             />
           </svg>
           <div
-            className="jsx-3982235594 progress-bar-label"
+            className="jsx-2667301188 progress-bar-label"
           >
             <span
               className="jsx-2616163488 circle-progress-label"
@@ -135,7 +135,7 @@ exports[`<NodesEpoch /> renders 1`] = `
     className="d-none d-md-block px-0 col-12"
   >
     <div
-      className="jsx-3982235594 progress-bar line node-epoch-line-progress"
+      className="jsx-2667301188 progress-bar line node-epoch-line-progress"
     >
       <svg
         className="rc-progress-line progress-bar-content"
