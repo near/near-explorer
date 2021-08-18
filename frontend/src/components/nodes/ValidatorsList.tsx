@@ -21,7 +21,7 @@ class ValidatorsList extends React.Component<Props> {
 
     let validatorsList = validators.sort(
       (a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) => {
-        return new BN(b.stake).sub(new BN(a.stake));
+        return new BN(b.currentStake).sub(new BN(a.currentStake));
       }
     );
 
@@ -33,15 +33,16 @@ class ValidatorsList extends React.Component<Props> {
     );
 
     const totalStake = activeValidatorsList.reduce(
-      (acc: BN, node: N.ValidationNodeInfo) => acc.add(new BN(node.stake)),
+      (acc: BN, node: N.ValidationNodeInfo) =>
+        acc.add(new BN(node.currentStake)),
       new BN(0)
-    );
+    ) as BN;
 
     activeValidatorsList.forEach(
       (validator: N.ValidationNodeInfo, index: number) => {
         let total = new BN(0);
         for (let i = 0; i <= index; i++) {
-          total = total.add(new BN(activeValidatorsList[i].stake));
+          total = total.add(new BN(activeValidatorsList[i].currentStake));
           epochValidatorsStake.set(validator.account_id, total);
         }
       }
@@ -53,16 +54,6 @@ class ValidatorsList extends React.Component<Props> {
         validatorsList[index].cumulativeStakeAmount = validatorCumStake;
       }
     });
-
-    validatorsList.some((validator: N.ValidationNodeInfo, index: number) =>
-      totalStake &&
-      validator.cumulativeStakeAmount &&
-      validator.cumulativeStakeAmount.gt(totalStake.divn(3))
-        ? (validatorsList[index].networkHolder = true)
-        : false
-    );
-
-    // console.log(validatorsList);
 
     return (
       <>

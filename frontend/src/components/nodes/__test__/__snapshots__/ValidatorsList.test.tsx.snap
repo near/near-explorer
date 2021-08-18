@@ -51,13 +51,13 @@ Array [
           className="validators-node-label col-2"
         >
           <span
-            className="validating-label new badge"
+            className="validating-label joining badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            New
+            Joining
           </span>
         </div>
         <div

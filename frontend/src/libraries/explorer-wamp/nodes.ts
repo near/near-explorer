@@ -21,8 +21,8 @@ export interface BaseValidationNodeInfo {
   num_produced_blocks?: number;
   num_expected_blocks?: number;
   public_key: string;
-  stake: string;
-  stakeProposed?: string;
+  currentStake: string;
+  proposedStake?: string;
   cumulativeStakeAmount?: BN;
   stakingStatus?: StakingStatus;
   networkHolder?: boolean;
@@ -32,7 +32,7 @@ export interface BaseValidationNodeInfo {
 
 export type StakingStatus =
   | "active"
-  | "new"
+  | "joining"
   | "leaving"
   | "proposal"
   | "idle"

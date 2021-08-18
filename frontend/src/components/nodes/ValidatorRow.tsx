@@ -17,6 +17,8 @@ interface State {
   activeRow: boolean;
 }
 
+const networkHolder: Set<number> = new Set();
+
 class ValidatorRow extends React.Component<Props, State> {
   state = {
     activeRow: false,
@@ -42,17 +44,29 @@ class ValidatorRow extends React.Component<Props, State> {
         ? "N/A"
         : node.delegatorsCount;
 
-    if (node.stake && totalStake) {
+    if (node.currentStake && totalStake) {
       totalStakeInPersnt =
-        new BN(node.stake).mul(new BN(10000)).div(totalStake).toNumber() / 100;
+        new BN(node.currentStake)
+          .mul(new BN(10000))
+          .div(totalStake)
+          .toNumber() / 100;
     }
 
-    if (node.stake && totalStake && node.cumulativeStakeAmount) {
+    if (node.currentStake && totalStake && node.cumulativeStakeAmount) {
       cumulativeStake =
         new BN(new BN(node.cumulativeStakeAmount))
           .mul(new BN(10000))
           .div(totalStake)
           .toNumber() / 100;
+    }
+
+    if (
+      networkHolder.size === 0 &&
+      totalStake &&
+      node.cumulativeStakeAmount &&
+      node.cumulativeStakeAmount.gt(totalStake.divn(3))
+    ) {
+      networkHolder.add(index);
     }
 
     return (
@@ -69,8 +83,8 @@ class ValidatorRow extends React.Component<Props, State> {
               publicKey={node.public_key}
               validatorFee={validatorFee}
               validatorDelegators={validatorDelegators}
-              stake={node.stake}
-              proposedStakeForNextEpoch={node.stakeProposed}
+              currentStake={node.currentStake}
+              proposedStakeForNextEpoch={node.proposedStake}
               cumulativeStake={cumulativeStake}
               totalStakeInPersnt={totalStakeInPersnt}
               handleClick={this.handleClick}
@@ -92,7 +106,7 @@ class ValidatorRow extends React.Component<Props, State> {
               poolDescription={node.poolDetails?.description}
             />
 
-            {node.cumulativeStakeAmount && node.networkHolder && (
+            {node.cumulativeStakeAmount && networkHolder.has(index) && (
               <tr className="cumulative-stake-holders-row">
                 <td colSpan={8} className="warning-text text-center">
                   {translate("component.nodes.ValidatorRow.warning_tip", {

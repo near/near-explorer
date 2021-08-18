@@ -37,7 +37,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
       Boolean(agentVersion) ||
       Boolean(agentBuild);
 
-    if (isTelemetryAvailable) return null;
+    if (!isTelemetryAvailable) return null;
 
     return (
       <Translate>
@@ -145,7 +145,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                         <Col className="validator-nodes-details-title">
                           <Term
                             title={translate(
-                              "component.nodes.ValidatorTelemetryRow.agent_name.title"
+                              "component.nodes.ValidatorTelemetryRow.node_agent_name.title"
                             )}
                             text={translate(
                               "component.nodes.ValidatorTelemetryRow.node_agent_name.text",
@@ -153,7 +153,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                                 agent_name_url: (
                                   <a href="https://github.com/near/nearcore">
                                     {translate(
-                                      "component.nodes.ValidatorTelemetryRow.agent_name.url_text"
+                                      "component.nodes.ValidatorTelemetryRow.node_agent_name.url_text"
                                     )}
                                   </a>
                                 ),

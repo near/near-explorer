@@ -1,5 +1,5 @@
 const { DS_INDEXER_BACKEND, PARTNER_LIST } = require("./consts");
-const { nearPoolAccountSuffix } = require("./config");
+const { nearStakingPoolAccountSuffix } = require("./config");
 const models = require("../models");
 const BN = require("bn.js");
 
@@ -92,7 +92,7 @@ const queryNodeValidators = async () => {
       `SELECT
       account_id
     FROM accounts
-    WHERE account_id LIKE '%${nearPoolAccountSuffix}'`,
+    WHERE account_id LIKE '%${nearStakingPoolAccountSuffix}'`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );

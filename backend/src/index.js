@@ -321,22 +321,26 @@ async function main() {
             if (stakingPoolInfo) {
               validator.fee = stakingPoolInfo.fee;
               validator.delegatorsCount = stakingPoolInfo.delegatorsCount;
-              validator.stake = stakingPoolInfo.stake;
+              validator.currentStake = stakingPoolInfo.currentStake;
               validator.poolDetails = stakingPoolsMetadataInfo.get(
                 validator.account_id
               );
 
               if (!validator.stakingStatus) {
-                if (new BN(validator.stake).gt(new BN(epochStats.seatPrice))) {
+                if (
+                  new BN(validator.currentStake).gt(
+                    new BN(epochStats.seatPrice)
+                  )
+                ) {
                   validator.stakingStatus = "on-hold";
                 } else if (
-                  new BN(validator.stake).gte(
+                  new BN(validator.currentStake).gte(
                     new BN(epochStats.seatPrice).muln(20).divn(100)
                   )
                 ) {
                   validator.stakingStatus = "newcomer";
                 } else if (
-                  new BN(validator.stake).lt(
+                  new BN(validator.currentStake).lt(
                     new BN(epochStats.seatPrice).muln(20).divn(100)
                   )
                 ) {
@@ -428,7 +432,9 @@ async function main() {
     try {
       if (stakingNodes.length > 0) {
         for (let i = 0; i < stakingNodes.length; i++) {
-          const { account_id, stake: poolStake } = stakingNodes[i];
+          const { account_id, currentStake: currentNodeStake } = stakingNodes[
+            i
+          ];
 
           try {
             const account = await nearRpc.query({
@@ -437,10 +443,19 @@ async function main() {
               finality: "final",
             });
 
+            const currentStake =
+              currentNodeStake ??
+              (await nearRpc.callViewMethod(
+                account_id,
+                "get_total_staked_balance",
+                {}
+              ));
+
             if (account.code_hash === "11111111111111111111111111111111") {
               stakingPoolsInfo.set(account_id, {
                 fee: null,
                 delegatorsCount: null,
+                currentStake,
               });
             } else {
               const fee = await nearRpc.callViewMethod(
@@ -453,17 +468,10 @@ async function main() {
                 "get_number_of_accounts",
                 {}
               );
-              const stake =
-                poolStake ??
-                (await nearRpc.callViewMethod(
-                  account_id,
-                  "get_total_staked_balance",
-                  {}
-                ));
               stakingPoolsInfo.set(account_id, {
                 fee,
                 delegatorsCount,
-                stake,
+                currentStake,
               });
             }
           } catch (error) {

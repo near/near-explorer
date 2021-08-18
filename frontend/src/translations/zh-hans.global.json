@@ -117,8 +117,8 @@
             "text": "当前验证节点",
             "title": "有效的"
           },
-          "new": {
-            "title": "新的",
+          "joining": {
+            "title": "Joining",
             "text": "下一周期即将到来的验证节点"
           },
           "kickout": {
@@ -141,8 +141,7 @@
             "title": "On hold",
             "text": "staking pool has enough tokens to validate, but hasn’t submitted a stake proposal yet"
           }
-        },
-        "same_proposed_stake": "same"
+        }
       },
       "ValidatorTelemetryRow": {
         "uptime": {

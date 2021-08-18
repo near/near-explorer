@@ -74,11 +74,9 @@ exports.genesisRecordsUrl = process.env.NEAR_GENESIS_RECORDS_URL;
 exports.nearLockupAccountIdSuffix =
   process.env.NEAR_LOCKUP_ACCOUNT_SUFFIX || "lockup.near";
 
-exports.nearPoolAccountSuffix =
+exports.nearStakingPoolAccountSuffix =
   process.env.WAMP_NEAR_NETWORK_NAME === "mainnet"
     ? ".poolv1.near"
     : process.env.WAMP_NEAR_NETWORK_NAME === "testnet"
     ? ".f863973.m0"
-    : process.env.WAMP_NEAR_NETWORK_NAME === "guildnet"
-    ? ".stake.guildnet"
-    : process.env.NEAR_POOL_ACCOUNT_SUFFIX;
+    : process.env.NEAR_STAKING_POOL_ACCOUNT_SUFFIX;

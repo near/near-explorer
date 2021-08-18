@@ -23,7 +23,7 @@ interface Props {
   publicKey?: string;
   validatorFee: string | null;
   validatorDelegators: number | string | null;
-  stake: string;
+  currentStake?: string;
   proposedStakeForNextEpoch?: string;
   cumulativeStake: number;
   totalStakeInPersnt: number;
@@ -42,7 +42,7 @@ class ValidatorMainRow extends PureComponent<Props> {
       publicKey,
       validatorFee,
       validatorDelegators,
-      stake,
+      currentStake,
       proposedStakeForNextEpoch,
       cumulativeStake,
       totalStakeInPersnt,
@@ -50,22 +50,23 @@ class ValidatorMainRow extends PureComponent<Props> {
     } = this.props;
 
     const stakeProposedAmount =
+      currentStake &&
       proposedStakeForNextEpoch &&
-      (new BN(stake).gt(new BN(proposedStakeForNextEpoch))
+      (new BN(currentStake).gt(new BN(proposedStakeForNextEpoch))
         ? {
-            value: new BN(stake)
+            value: new BN(currentStake)
               .sub(new BN(proposedStakeForNextEpoch))
               .toString(),
             increace: false,
           }
-        : new BN(stake).lt(new BN(proposedStakeForNextEpoch))
+        : new BN(currentStake).lt(new BN(proposedStakeForNextEpoch))
         ? {
             value: new BN(proposedStakeForNextEpoch)
-              .sub(new BN(stake))
+              .sub(new BN(currentStake))
               .toString(),
             increace: true,
           }
-        : "same");
+        : undefined);
 
     return (
       <Translate>
@@ -120,16 +121,16 @@ class ValidatorMainRow extends PureComponent<Props> {
                           "component.nodes.ValidatorMainRow.state.proposal.title"
                         )}
                       </ValidatingLabel>
-                    ) : stakingStatus === "new" ? (
+                    ) : stakingStatus === "joining" ? (
                       <ValidatingLabel
-                        type="new"
+                        type="joining"
                         text={translate(
-                          "component.nodes.ValidatorMainRow.state.new.text"
+                          "component.nodes.ValidatorMainRow.state.joining.text"
                         ).toString()}
-                        tooltipKey="new"
+                        tooltipKey="joining"
                       >
                         {translate(
-                          "component.nodes.ValidatorMainRow.state.new.title"
+                          "component.nodes.ValidatorMainRow.state.joining.title"
                         )}
                       </ValidatingLabel>
                     ) : stakingStatus === "leaving" ? (
@@ -227,8 +228,14 @@ class ValidatorMainRow extends PureComponent<Props> {
                 )}
               </td>
               <td className="text-right validator-nodes-text stake-text">
-                {stake ? (
-                  <Balance amount={stake} label="NEAR" fracDigits={0} />
+                {currentStake ? (
+                  <Balance amount={currentStake} label="NEAR" fracDigits={0} />
+                ) : proposedStakeForNextEpoch ? (
+                  <Balance
+                    amount={proposedStakeForNextEpoch}
+                    label="NEAR"
+                    fracDigits={0}
+                  />
                 ) : (
                   "-"
                 )}
@@ -236,13 +243,7 @@ class ValidatorMainRow extends PureComponent<Props> {
                   <>
                     <br />
                     <small>
-                      {typeof stakeProposedAmount === "string" ? (
-                        <>
-                          {translate(
-                            "component.nodes.ValidatorMainRow.same_proposed_stake"
-                          )}
-                        </>
-                      ) : (
+                      {typeof stakeProposedAmount !== undefined && (
                         <>
                           {stakeProposedAmount.increace ? "+" : "-"}
                           <Balance
