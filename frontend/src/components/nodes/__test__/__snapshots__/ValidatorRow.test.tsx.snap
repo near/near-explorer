@@ -98,7 +98,9 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
-      91,038 NEAR
+      91,038
+       
+      NEAR
     </span>
     <br />
     <small>
@@ -109,7 +111,9 @@ exports[`<ValidatorRow /> renders Validators row without cumulative stake 1`] = 
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        4,701,218 NEAR
+        4,701,218
+         
+        NEAR
       </span>
     </small>
   </td>
@@ -244,7 +248,9 @@ Array [
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        91,038 NEAR
+        91,038
+         
+        NEAR
       </span>
       <br />
       <small>
@@ -255,7 +261,9 @@ Array [
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          4,701,218 NEAR
+          4,701,218
+           
+          NEAR
         </span>
       </small>
     </td>
@@ -388,7 +396,9 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
       onMouseOut={[Function]}
       onMouseOver={[Function]}
     >
-      91,038 NEAR
+      91,038
+       
+      NEAR
     </span>
     <br />
     <small>
@@ -399,7 +409,9 @@ exports[`<ValidatorRow /> renders simple Validators row 1`] = `
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        4,701,218 NEAR
+        4,701,218
+         
+        NEAR
       </span>
     </small>
   </td>

@@ -194,7 +194,9 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0.00065 Ⓝ
+                0.00065
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -237,7 +239,9 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0 Ⓝ
+                0
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -530,7 +534,9 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0.00065 Ⓝ
+                0.00065
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -573,7 +579,9 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0 Ⓝ
+                0
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -866,7 +874,9 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0.00065 Ⓝ
+                0.00065
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -909,7 +919,9 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0 Ⓝ
+                0
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -1253,7 +1265,9 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0.00065 Ⓝ
+                0.00065
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -1296,7 +1310,9 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0 Ⓝ
+                0
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -1589,7 +1605,9 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                &lt;0.00001 Ⓝ
+                &lt;0.00001
+                 
+                Ⓝ
               </span>
             </div>
           </div>
@@ -1632,7 +1650,9 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                0 Ⓝ
+                0
+                 
+                Ⓝ
               </span>
             </div>
           </div>

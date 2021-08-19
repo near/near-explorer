@@ -149,12 +149,8 @@ const ProtocolConfigInfo = () => {
                     formulatedAmount={formatWithCommas(
                       genesisTotaSupply.toFixed(1)
                     )}
-                    label={
-                      <>
-                        <span className="balance-suffix">M</span>
-                        <NearBadge />
-                      </>
-                    }
+                    suffix={<span className="balance-suffix">M</span>}
+                    label={<NearBadge />}
                     className="protocol-metric-value"
                   />
                 </span>
@@ -182,12 +178,8 @@ const ProtocolConfigInfo = () => {
                   formulatedAmount={formatWithCommas(
                     epochTotalSupply.toFixed(1)
                   )}
-                  label={
-                    <>
-                      <span className="balance-suffix">M</span>
-                      <NearBadge />
-                    </>
-                  }
+                  suffix={<span className="balance-suffix">M</span>}
+                  label={<NearBadge />}
                   className="protocol-metric-value"
                 />
               )}
@@ -216,9 +208,6 @@ const ProtocolConfigInfo = () => {
               align-items: center;
             }
 
-            .near-badge {
-              margin-left: 10px;
-            }
             .balance-suffix {
               font-size: 25px;
               line-height: 35px;
