@@ -1,15 +1,13 @@
 import BN from "bn.js";
 
 import React from "react";
-import { Col, Row, OverlayTrigger, Tooltip, Spinner } from "react-bootstrap";
-
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Translate } from "react-localize-redux";
 import { utils } from "near-api-js";
 
-import { NetworkStatsConsumer } from "../../context/NetworkStatsProvider";
 import { showInYocto, formatWithCommas } from "../utils/Balance";
+import { InfoCard, InfoCardCell as Cell } from "../utils/InfoCard";
 import NearBadge from "./NearBadge";
-
-import { Translate } from "react-localize-redux";
 
 const NodeBalance = ({
   amount,
@@ -47,161 +45,126 @@ const NodeBalance = ({
     >
       <span className="node-balance-text">
         {value}
-        {suffix && <span className="node-balance-suffix">{suffix}</span>}{" "}
+        {suffix && <span className="node-balance-suffix">{suffix}</span>}
+        &nbsp;
         <NearBadge />
       </span>
     </OverlayTrigger>
   );
 };
 
-class NodesCard extends React.PureComponent {
+interface Props {
+  currentValidatorsCount?: number;
+  totalSupply?: string;
+  totalStake?: string;
+  seatPrice?: string;
+}
+
+class NodesCard extends React.PureComponent<Props> {
   render() {
+    const {
+      currentValidatorsCount,
+      totalSupply,
+      totalStake,
+      seatPrice,
+    } = this.props;
+
     return (
       <Translate>
         {({ translate }) => (
-          <NetworkStatsConsumer>
-            {(context) => (
-              <>
-                <Row noGutters className="nodes-card">
-                  <Col xs="12" sm="6" md="6" xl="2">
-                    <Row noGutters>
-                      <Col xs="12" className="nodes-card-title">
-                        {translate(
-                          "component.nodes.NodesCard.nodes_validating"
-                        )}
-                      </Col>
-                      <Col xs="12" className="nodes-card-text validating">
-                        {context.networkStats ? (
-                          context.networkStats.currentValidatorsCount
-                        ) : (
-                          <Spinner animation="border" size="sm" />
-                        )}
-                      </Col>
-                    </Row>
-                  </Col>
+          <>
+            <InfoCard className="nodes-card">
+              <Cell
+                title={translate("component.nodes.NodesCard.nodes_validating")}
+                cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
+              >
+                {currentValidatorsCount !== undefined && (
+                  <span className="validating">{currentValidatorsCount}</span>
+                )}
+              </Cell>
 
-                  <Col xs="12" sm="6" md="6" xl="3">
-                    <Row noGutters>
-                      <Col xs="12" className="nodes-card-title">
-                        {translate("component.nodes.NodesCard.total_supply")}
-                      </Col>
-                      <Col xs="12" className="nodes-card-text">
-                        {context.epochStartBlock ? (
-                          <NodeBalance
-                            amount={context.epochStartBlock.totalSupply}
-                            type="totalSupply"
-                          />
-                        ) : (
-                          <Spinner animation="border" size="sm" />
-                        )}
-                      </Col>
-                    </Row>
-                  </Col>
+              <Cell
+                title={translate("component.nodes.NodesCard.total_supply")}
+                cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+              >
+                {totalSupply && (
+                  <NodeBalance
+                    amount={new BN(totalSupply)}
+                    type="totalSupply"
+                  />
+                )}
+              </Cell>
 
-                  <Col xs="12" md="6" xl="3">
-                    <Row noGutters>
-                      <Col xs="12" className="nodes-card-title">
-                        {translate("component.nodes.NodesCard.total_stake")}
-                      </Col>
-                      <Col xs="12" className="nodes-card-text">
-                        {context.networkStats ? (
-                          <NodeBalance
-                            amount={context.networkStats.totalStake}
-                            type="totalStakeAmount"
-                          />
-                        ) : (
-                          <Spinner animation="border" size="sm" />
-                        )}
-                      </Col>
-                    </Row>
-                  </Col>
+              <Cell
+                title={translate("component.nodes.NodesCard.total_stake")}
+                cellOptions={{ xs: "12", md: "6", xl: "3" }}
+              >
+                {totalStake && (
+                  <NodeBalance
+                    amount={new BN(totalStake)}
+                    type="totalStakeAmount"
+                  />
+                )}
+              </Cell>
 
-                  <Col xs="12" md="6" xl="4">
-                    <Row noGutters>
-                      <Col xs="12" className="nodes-card-title">
-                        {translate("component.nodes.NodesCard.seat_price")}
-                      </Col>
-                      <Col xs="12" className="nodes-card-text">
-                        {context.networkStats ? (
-                          <NodeBalance
-                            amount={context.networkStats.seatPrice}
-                            type="seatPriceAmount"
-                          />
-                        ) : (
-                          <Spinner animation="border" size="sm" />
-                        )}
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-                <style jsx global>{`
-                  .nodes-card {
-                    background: #ffffff;
-                    border: 1px solid #f0f0f1;
-                    box-shadow: 0px 2px 2px rgba(17, 22, 24, 0.04);
-                    border-radius: 8px;
-                    padding: 48px 32px;
-                    margin-top: 50px;
-                  }
+              <Cell
+                title={translate("component.nodes.NodesCard.seat_price")}
+                cellOptions={{ xs: "12", md: "6", xl: "4" }}
+              >
+                {seatPrice && (
+                  <NodeBalance
+                    amount={new BN(seatPrice)}
+                    type="seatPriceAmount"
+                  />
+                )}
+              </Cell>
+            </InfoCard>
+            <style jsx global>{`
+              .nodes-card {
+                background: #ffffff;
+                border: 1px solid #f0f0f1;
+                box-shadow: 0px 2px 2px rgba(17, 22, 24, 0.04);
+                border-radius: 8px;
+                padding: 48px 32px;
+                margin-top: 50px;
+              }
 
-                  .nodes-card-title {
-                    color: #a2a2a8;
-                    font-weight: 500;
-                    font-size: 14px;
-                    line-height: 17px;
-                    margin: 8px 0;
-                  }
+              .validating {
+                color: #00c08b;
+              }
 
-                  .nodes-card-text {
-                    font-weight: 900;
-                    font-size: 31px;
-                    line-height: 130%;
-                    color: #272729;
-                    font-feature-settings: "zero", on;
-                  }
+              .node-balance-text {
+                display: flex;
+                align-items: center;
+              }
 
-                  .node-balance-text {
-                    display: flex;
-                    align-items: center;
-                  }
+              .node-balance-suffix {
+                font-size: 25px;
+                line-height: 35px;
+                align-self: flex-end;
+              }
 
-                  .node-balance-suffix {
-                    font-size: 25px;
-                    line-height: 35px;
-                    align-self: flex-end;
-                  }
+              @media (max-width: 768px) {
+                .nodes-card {
+                  margin-top: 32px;
+                  padding: 8px 16px 16px;
+                }
 
-                  .near-badge {
-                    margin-left: 10px;
-                  }
-
-                  .nodes-card-text.validating {
-                    color: #00c08b;
-                  }
-
-                  @media (max-width: 768px) {
-                    .nodes-card {
-                      margin-top: 32px;
-                      padding: 8px 16px 16px;
-                    }
-
-                    .nodes-card-text {
-                      font-size: 20px;
-                    }
-                    .node-balance-suffix {
-                      font-size: 14px;
-                      line-height: 22px;
-                    }
-                  }
-                  @media (max-width: 355px) {
-                    .nodes-card-text {
-                      font-size: 14px;
-                    }
-                  }
-                `}</style>
-              </>
-            )}
-          </NetworkStatsConsumer>
+                .nodes-card .info-card-text {
+                  font-size: 20px;
+                }
+                .node-balance-suffix {
+                  font-size: 14px;
+                  line-height: 22px;
+                }
+              }
+              @media (max-width: 355px) {
+                .nodes-card .info-card-text {
+                  font-size: 14px;
+                }
+              }
+            `}</style>
+          </>
         )}
       </Translate>
     );

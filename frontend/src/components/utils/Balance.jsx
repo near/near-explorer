@@ -8,6 +8,7 @@ class Balance extends React.PureComponent {
     const {
       amount,
       label = null,
+      suffix = undefined,
       className = undefined,
       formulatedAmount = undefined,
       fracDigits = 5,
@@ -29,7 +30,10 @@ class Balance extends React.PureComponent {
         overlay={<Tooltip>{amountPrecise}</Tooltip>}
       >
         <span className={className}>
-          {`${amountShow} ${label ?? defaultLabel}`}
+          {amountShow}
+          {suffix}
+          &nbsp;
+          {label ?? defaultLabel}
         </span>
       </OverlayTrigger>
     );
