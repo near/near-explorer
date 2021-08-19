@@ -59,7 +59,18 @@ class ValidatorsPage extends React.Component {
             header={<NodesContentHeader navRole="validators" />}
           >
             <Container>
-              <NodesCard />
+              <NetworkStatsConsumer>
+                {({ networkStats, epochStartBlock }) => (
+                  <NodesCard
+                    currentValidatorsCount={
+                      networkStats?.currentValidatorsCount
+                    }
+                    totalSupply={epochStartBlock?.totalSupply.toString()}
+                    totalStake={networkStats?.totalStake.toString()}
+                    seatPrice={networkStats?.seatPrice.toString()}
+                  />
+                )}
+              </NetworkStatsConsumer>
             </Container>
             <NodeProvider>
               <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
