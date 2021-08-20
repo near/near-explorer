@@ -121,7 +121,7 @@
             "title": "Joining",
             "text": "下一周期即将到来的验证节点"
           },
-          "kickout": {
+          "leaving": {
             "title": "被踢出",
             "text": "下一周期被踢出的节点"
           },

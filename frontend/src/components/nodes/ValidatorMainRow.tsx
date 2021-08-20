@@ -135,14 +135,14 @@ class ValidatorMainRow extends PureComponent<Props> {
                       </ValidatingLabel>
                     ) : stakingStatus === "leaving" ? (
                       <ValidatingLabel
-                        type="kickout"
+                        type="leaving"
                         text={translate(
-                          "component.nodes.ValidatorMainRow.state.kickout.text"
+                          "component.nodes.ValidatorMainRow.state.leaving.text"
                         ).toString()}
-                        tooltipKey="kickout"
+                        tooltipKey="leaving"
                       >
                         {translate(
-                          "component.nodes.ValidatorMainRow.state.kickout.title"
+                          "component.nodes.ValidatorMainRow.state.leaving.title"
                         )}
                       </ValidatingLabel>
                     ) : stakingStatus === "active" ? (

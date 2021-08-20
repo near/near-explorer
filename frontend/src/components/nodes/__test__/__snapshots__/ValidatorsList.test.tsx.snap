@@ -197,7 +197,7 @@ Array [
           className="validators-node-label col-2"
         >
           <span
-            className="validating-label kickout badge"
+            className="validating-label leaving badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
