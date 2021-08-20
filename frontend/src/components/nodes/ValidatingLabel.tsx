@@ -1,9 +1,11 @@
 import React from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 
+import { StakingStatus } from "../../libraries/explorer-wamp/nodes";
+
 interface Props {
   text: string;
-  type: string;
+  type: StakingStatus;
   tooltipKey: string;
 }
 
@@ -36,12 +38,12 @@ class ValidatingLabel extends React.PureComponent<Props> {
               color: #11869a;
             }
 
-            .validating-label.new {
+            .validating-label.joining {
               background-color: #ffc107;
               color: #ffffff;
             }
 
-            .validating-label.kickout {
+            .validating-label.leaving {
               background-color: #dc3545;
               color: #ffffff;
             }

@@ -121,7 +121,7 @@
             "title": "Joining",
             "text": "các node sẽ có trong epoch kế tiếp"
           },
-          "kickout": {
+          "leaving": {
             "title": "Bị loại",
             "text": "các node bị loại ở epoch kế tiếp"
           },
