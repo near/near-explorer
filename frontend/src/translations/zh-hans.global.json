@@ -101,7 +101,7 @@
   "component": {
     "nodes": {
       "Validators": {
-        "location": "Location",
+        "location": "位置",
         "validator": "验证节点",
         "fee": "费用",
         "delegators": "委托人数",
@@ -118,7 +118,7 @@
             "title": "有效的"
           },
           "joining": {
-            "title": "Joining",
+            "title": "加入中",
             "text": "下一周期即将到来的验证节点"
           },
           "leaving": {
@@ -126,20 +126,20 @@
             "text": "下一周期被踢出的节点"
           },
           "proposal": {
-            "title": "Proposal",
+            "title": "提案",
             "text": "节点将要被标记为新的验证节点"
           },
           "idle": {
-            "title": "Idle",
-            "text": "staking pool that has less than 20% of the current seat price"
+            "title": "空闲",
+            "text": "低于当前席位价格20%的质押池"
           },
           "newcomer": {
-            "title": "Newcomer",
-            "text": "staking pool that has at least 20% of the current seat price"
+            "title": "新手",
+            "text": "至少拥有当前席位价格20%的质押池"
           },
           "on_hold": {
-            "title": "On hold",
-            "text": "staking pool has enough tokens to validate, but hasn’t submitted a stake proposal yet"
+            "title": "挂起",
+            "text": "质押有足够的代币进行验证，但尚未提交权益提案"
           }
         }
       },
@@ -167,15 +167,15 @@
       },
       "ValidatorMetadataRow": {
         "pool_info": {
-          "website": "Web",
-          "email": "Email",
+          "website": "网站",
+          "email": "邮箱",
           "twitter": "Twitter",
           "discord": "Discord",
-          "description": "Description"
+          "description": "描述"
         },
         "pool_info_tip": {
-          "text": "If you are node owner feel free to fill all ${pool_info_url} to promote your own node!",
-          "url_text": "data"
+          "text": "如果您是节点所有者，请填写${pool_info_url}以推广您的节点！",
+          "url_text": "相关信息"
         }
       },
       "NodesEpoch": {

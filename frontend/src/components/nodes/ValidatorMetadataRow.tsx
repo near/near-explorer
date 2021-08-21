@@ -46,7 +46,11 @@ class ValidatorMetadataRow extends PureComponent<Props> {
                     <Row noGutters>
                       <Col className="validator-nodes-text">
                         <a
-                          href={`http://${poolWebsite}`}
+                          href={
+                            poolWebsite.startsWith("http")
+                              ? poolWebsite
+                              : `http://${poolWebsite}`
+                          }
                           rel="noreferrer noopener"
                           target="_blank"
                         >
