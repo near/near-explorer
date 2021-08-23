@@ -47,7 +47,7 @@ class ValidatorMetadataRow extends PureComponent<Props> {
                       <Col className="validator-nodes-text">
                         <a
                           href={
-                            poolWebsite?.startsWith("http")
+                            poolWebsite.startsWith("http")
                               ? poolWebsite
                               : `http://${poolWebsite}`
                           }
