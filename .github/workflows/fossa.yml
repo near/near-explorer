@@ -1,8 +1,9 @@
 name: Fossa Compliance Scanning
 
 on:
-  - pull_request
-  - push
+  push:
+    branches:
+      - 'master'
 
 jobs:
   build:
