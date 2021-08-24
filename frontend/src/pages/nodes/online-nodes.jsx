@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import React from "react";
+import { Component } from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
@@ -16,7 +16,7 @@ import NetworkStatsProvider, {
   NetworkStatsConsumer,
 } from "../../context/NetworkStatsProvider";
 
-class OnlineNodes extends React.Component {
+class OnlineNodes extends Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Online Node page");
   }

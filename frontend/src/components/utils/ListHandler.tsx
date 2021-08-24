@@ -1,6 +1,6 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import React from "react";
+import { Component } from "react";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
@@ -21,7 +21,7 @@ const Wrapper = (
   config: Config,
   props?: any
 ) => {
-  return class extends React.Component {
+  return class extends Component {
     constructor(props: any) {
       super(props);
     }

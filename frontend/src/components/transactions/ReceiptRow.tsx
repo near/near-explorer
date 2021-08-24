@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import React from "react";
+import { Component } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -19,7 +19,7 @@ export interface Props {
   receipt: T.NestedReceiptWithOutcome;
 }
 
-class ReceiptRow extends React.Component<Props> {
+class ReceiptRow extends Component<Props> {
   render() {
     const { receipt } = this.props;
 

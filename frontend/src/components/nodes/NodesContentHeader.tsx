@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 import { Col, Row } from "react-bootstrap";
 
 import NodeNav from "./NodeNav";
@@ -16,7 +16,7 @@ const NodesIcon = () => (
   />
 );
 
-class NodesContentHeader extends React.PureComponent<Props> {
+class NodesContentHeader extends PureComponent<Props> {
   render() {
     return (
       <Translate>

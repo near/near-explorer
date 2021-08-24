@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import React from "react";
+import { Component } from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 
@@ -26,7 +26,7 @@ interface State {
   inTransactionsCount?: number;
 }
 
-class AccountDetails extends React.Component<Props> {
+class AccountDetails extends Component<Props> {
   state: State = {};
 
   collectTransactionCount = async () => {

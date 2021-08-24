@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import { NodeConsumer } from "../../context/NodeProvider";
@@ -12,7 +12,7 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 import { Translate } from "react-localize-redux";
 
 const itemsPerPage = 10;
-class Nodes extends React.Component {
+class Nodes extends Component {
   state = {
     activePage: 0,
     startPage: 1,

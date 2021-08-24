@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -14,7 +14,7 @@ export interface Props {
   children: React.ReactNode;
 }
 
-class Content extends React.Component<Props> {
+class Content extends Component<Props> {
   static defaultProps = {
     size: "big",
     border: true,

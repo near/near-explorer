@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import { Receipt } from "../../libraries/explorer-wamp/receipts";
 
@@ -10,7 +10,7 @@ interface Props {
   receipts: Receipt[];
 }
 
-class Receipts extends React.Component<Props> {
+class Receipts extends Component<Props> {
   render() {
     return (
       <>

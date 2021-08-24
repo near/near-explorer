@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import ReceiptsApi, { Receipt } from "../../libraries/explorer-wamp/receipts";
 
@@ -17,7 +17,7 @@ interface State {
   loading: boolean;
 }
 
-class ReceiptsInBlock extends React.Component<Props, State> {
+class ReceiptsInBlock extends Component<Props, State> {
   state = {
     receipts: [],
     loading: true,

@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import React from "react";
+import { Component } from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
@@ -17,7 +17,7 @@ import NetworkStatsProvider, {
   NetworkStatsConsumer,
 } from "../../context/NetworkStatsProvider";
 
-class ValidatorsPage extends React.Component {
+class ValidatorsPage extends Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Validator Node page");
   }

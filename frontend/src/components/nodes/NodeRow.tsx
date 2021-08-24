@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 import { Badge, Row, Col } from "react-bootstrap";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
@@ -30,7 +30,7 @@ export const statusIdentifier = new Map([
   ["BodySync", "Syncing body"],
   ["NoSync", ""],
 ]);
-class NodeRow extends React.PureComponent<Props, State> {
+class NodeRow extends PureComponent<Props, State> {
   state = {
     activeRow: false,
   };

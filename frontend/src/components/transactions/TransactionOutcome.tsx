@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import React from "react";
+import { Component } from "react";
 import { Row, Col } from "react-bootstrap";
 
 import * as T from "../../libraries/explorer-wamp/transactions";
@@ -12,7 +12,7 @@ export interface Props {
   transaction: T.TransactionOutcome;
 }
 
-class TransactionOutcome extends React.Component<Props> {
+class TransactionOutcome extends Component<Props> {
   render() {
     const { transaction } = this.props;
     const gasBurnt = new BN(transaction.outcome?.gas_burnt ?? 0);

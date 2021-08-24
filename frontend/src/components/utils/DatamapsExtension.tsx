@@ -1,7 +1,7 @@
 import Datamaps from "datamaps";
 import * as d3 from "d3";
 
-import React from "react";
+import { Component } from "react";
 
 const equal = require("fast-deep-equal");
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
   fills: object;
 }
 
-class Datamap extends React.Component<Props> {
+class Datamap extends Component<Props> {
   map: any;
 
   componentDidMount() {

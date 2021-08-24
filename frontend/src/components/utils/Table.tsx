@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 
 import { Table as BaseTable } from "react-bootstrap";
 
@@ -11,7 +11,7 @@ interface Props {
   pagination?: PaginationProps;
 }
 
-class TableRow extends React.PureComponent<Props> {
+class TableRow extends PureComponent<Props> {
   render() {
     const { className, children, collapse } = this.props;
     const expanded = collapse ? "expanded" : "";
@@ -66,7 +66,7 @@ class TableRow extends React.PureComponent<Props> {
   }
 }
 
-class TableCollapseRow extends React.PureComponent<Props> {
+class TableCollapseRow extends PureComponent<Props> {
   render() {
     const { className, children, collapse } = this.props;
     if (!collapse) return null;

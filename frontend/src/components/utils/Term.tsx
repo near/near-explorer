@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 
 import { Modal } from "react-bootstrap";
 import Mixpanel from "../../libraries/mixpanel";
@@ -15,7 +15,7 @@ interface State {
   isModalShown: boolean;
 }
 
-class Term extends React.Component<Props, State> {
+class Term extends Component<Props, State> {
   state: State = { isModalShown: false };
 
   preventClickPropagation = (e: any) => {

@@ -1,4 +1,5 @@
 import Router from "next/router";
+import { Component } from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import Mixpanel from "../../libraries/mixpanel";
@@ -9,7 +10,7 @@ import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 
 import { Translate } from "react-localize-redux";
 
-class Search extends React.Component {
+class Search extends Component {
   state = { searchValue: "" };
 
   handleSearch = async (event) => {

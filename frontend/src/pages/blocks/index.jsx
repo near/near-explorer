@@ -1,5 +1,5 @@
 import Head from "next/head";
-
+import { PureComponent } from "react";
 import Mixpanel from "../../libraries/mixpanel";
 
 import Blocks from "../../components/blocks/Blocks";
@@ -7,7 +7,7 @@ import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
 
-class BlocksPage extends React.PureComponent {
+class BlocksPage extends PureComponent {
   componentDidMount() {
     Mixpanel.track("Explorer View Blocks Page");
   }

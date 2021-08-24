@@ -2,7 +2,7 @@ import BN from "bn.js";
 import moment from "../../libraries/moment";
 
 import { Row, Col } from "react-bootstrap";
-import React from "react";
+import { Component } from "react";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import * as T from "../../libraries/explorer-wamp/transactions";
@@ -28,7 +28,7 @@ export interface State {
   transactionFee?: BN;
 }
 
-class TransactionDetails extends React.Component<Props, State> {
+class TransactionDetails extends Component<Props, State> {
   state: State = {};
 
   collectDeposit(actions: T.Action[]): BN {

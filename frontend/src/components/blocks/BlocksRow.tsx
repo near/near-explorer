@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import React from "react";
+import { PureComponent } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -17,7 +17,7 @@ export interface Props {
   cls?: string;
 }
 
-class BlocksRow extends React.PureComponent<Props> {
+class BlocksRow extends PureComponent<Props> {
   render() {
     const { block } = this.props;
     return (

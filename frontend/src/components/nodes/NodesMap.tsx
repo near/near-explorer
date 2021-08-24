@@ -3,7 +3,7 @@ import moment from "moment";
 
 import dynamic from "next/dynamic";
 
-import React from "react";
+import { Component } from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import { NodeContext } from "../../context/NodeProvider";
@@ -31,7 +31,7 @@ interface State {
   nodeClusters: [];
 }
 
-class NodesMap extends React.Component<State> {
+class NodesMap extends Component<State> {
   state: State = {
     nodesData: [],
     nodesType: "",

@@ -1,4 +1,4 @@
-import React from "react";
+import { PureComponent } from "react";
 import moment from "moment";
 
 import { Row, Col } from "react-bootstrap";
@@ -15,7 +15,7 @@ interface Props {
   latestBlockTimestamp: number;
 }
 
-class NodesEpoch extends React.PureComponent<Props> {
+class NodesEpoch extends PureComponent<Props> {
   render() {
     const {
       epochStartHeight,

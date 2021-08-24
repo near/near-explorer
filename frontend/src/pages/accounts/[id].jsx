@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import React from "react";
+import { Component } from "react";
 import { Container } from "react-bootstrap";
 
 import Mixpanel from "../../libraries/mixpanel";
@@ -15,7 +15,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 
 import { Translate } from "react-localize-redux";
 
-class AccountDetail extends React.Component {
+class AccountDetail extends Component {
   static async getInitialProps({ req, query: { id }, res }) {
     if (/[A-Z]/.test(id)) {
       res.writeHead(301, { Location: `/accounts/${id.toLowerCase()}` });

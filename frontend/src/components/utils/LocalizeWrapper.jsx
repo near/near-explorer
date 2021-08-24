@@ -1,8 +1,8 @@
-import React from "react";
+import { PureComponent } from "react";
 import { setI18N } from "../../libraries/language";
 import { withLocalize } from "react-localize-redux";
 
-class LocalizeWrapper extends React.PureComponent {
+class LocalizeWrapper extends PureComponent {
   constructor(props) {
     super(props);
     setI18N(this.props);

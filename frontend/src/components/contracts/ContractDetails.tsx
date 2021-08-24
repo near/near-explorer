@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import React from "react";
+import { Component } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -23,7 +23,7 @@ interface State {
   codeHash?: string;
 }
 
-class ContractDetails extends React.Component<Props, State> {
+class ContractDetails extends Component<Props, State> {
   state: State = {};
 
   collectContractInfo = async () => {

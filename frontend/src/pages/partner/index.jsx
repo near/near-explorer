@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Component } from "react";
 import Mixpanel from "../../libraries/mixpanel";
 
 import Content from "../../components/utils/Content";
@@ -6,7 +7,7 @@ import Content from "../../components/utils/Content";
 import PartnerTotalTransactionList from "../../components/stats/PartnerTotalTransactionList";
 import PartnerFirst3MonthTransactionslist from "../../components/stats/PartnerFirst3MonthTransactionsList";
 
-class Partner extends React.Component {
+class Partner extends Component {
   componentDidMount() {
     Mixpanel.track("Explorer View Partner page");
   }

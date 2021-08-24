@@ -1,7 +1,7 @@
 import BN from "bn.js";
 import moment from "moment";
 
-import React from "react";
+import { Component } from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
@@ -21,7 +21,7 @@ export interface State {
   createdAtBlockTimestamp?: number | null;
 }
 
-class AccountRow extends React.Component<Props, State> {
+class AccountRow extends Component<Props, State> {
   state: State = {};
 
   _getDetail = async () => {

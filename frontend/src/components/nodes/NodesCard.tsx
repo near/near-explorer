@@ -1,8 +1,9 @@
 import BN from "bn.js";
 
-import React from "react";
+import { PureComponent } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Translate } from "react-localize-redux";
+
 import { utils } from "near-api-js";
 
 import { showInYocto, formatWithCommas } from "../utils/Balance";
@@ -60,7 +61,7 @@ interface Props {
   seatPrice?: string;
 }
 
-class NodesCard extends React.PureComponent<Props> {
+class NodesCard extends PureComponent<Props> {
   render() {
     const {
       currentValidatorsCount,
