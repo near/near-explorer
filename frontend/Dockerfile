@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:12 AS build
+FROM mhart/alpine-node:16 AS build
 
 WORKDIR /near-explorer/frontend
 ENV HOME=/tmp
@@ -12,7 +12,7 @@ COPY ./ ./
 RUN npm run build
 
 
-FROM mhart/alpine-node:12
+FROM mhart/alpine-node:16
 
 WORKDIR /near-explorer/frontend
 ENV HOME=/tmp \
