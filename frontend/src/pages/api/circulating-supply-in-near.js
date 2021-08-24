@@ -1,8 +1,8 @@
 import { getNearNetwork } from "../../libraries/config";
-import { getCirculatingSupplyToday } from "./circulating-supply";
+import { ExplorerApi } from "../../libraries/explorer-wamp";
 
 export default async function (req, res) {
-  // This API is currenlty providing computed estimation based on the inflation, so we only have it for mainnet
+  // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
   const nearNetwork = getNearNetwork(req.headers.host);
   if (nearNetwork.name !== "mainnet") {
     res.status(404).end();
@@ -10,15 +10,11 @@ export default async function (req, res) {
   }
 
   try {
-    const circulatingSupplyTodayInYoctoNEAR = (
-      await getCirculatingSupplyToday(req)
-    ).amount;
-    const circulatingSupplyTodayInNEAR = circulatingSupplyTodayInYoctoNEAR.substr(
-      0,
-      circulatingSupplyTodayInYoctoNEAR.length - 24
+    const supply = await new ExplorerApi(req).call(
+      "get-latest-circulating-supply"
     );
-
-    res.send(circulatingSupplyTodayInNEAR);
+    const supplyInYoctoNEAR = supply.circulating_supply_in_yoctonear;
+    res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));
   } catch (error) {
     console.error(error);
     res.status(502).send(error);
