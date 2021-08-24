@@ -6,7 +6,7 @@ import { getNearNetwork, NearNetwork } from "../config";
 import { DATA_SOURCE_TYPE } from "../consts";
 
 interface IPromisePair {
-  resolve: (value?: autobahn.Session) => void;
+  resolve: (value: autobahn.Session) => void;
   reject: (value?: string) => void;
 }
 
@@ -71,10 +71,10 @@ export class ExplorerApi {
   }
 
   // Establish and handle concurrent requests to establish WAMP connection.
-  static getWampSession(): Promise<autobahn.Session | any> {
+  static getWampSession(): Promise<autobahn.Session> {
     return new Promise(
       (
-        resolve: (value?: autobahn.Session) => void,
+        resolve: (value: autobahn.Session) => void,
         reject: (value?: string) => void
       ) => {
         if (ExplorerApi.wamp.transport.info.type === "websocket") {
@@ -90,7 +90,7 @@ export class ExplorerApi {
           // Establish new session
           ExplorerApi.awaitingOnSession.push({ resolve, reject });
 
-          ExplorerApi.wamp.onopen = (session) => {
+          ExplorerApi.wamp.onopen = (session: autobahn.Session) => {
             Object.entries(
               ExplorerApi.subscriptions
             ).forEach(([topic, { handler, options }]) =>
