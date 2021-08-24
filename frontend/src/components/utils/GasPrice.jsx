@@ -1,4 +1,3 @@
-import React from "react";
 import BN from "bn.js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 

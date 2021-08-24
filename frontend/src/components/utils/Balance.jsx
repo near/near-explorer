@@ -1,9 +1,10 @@
 /// Copied from near-wallet project:
 import BN from "bn.js";
+import { PureComponent } from "react";
 import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-class Balance extends React.PureComponent {
+class Balance extends PureComponent {
   render() {
     const {
       amount,

@@ -71,7 +71,7 @@ export class ExplorerApi {
   }
 
   // Establish and handle concurrent requests to establish WAMP connection.
-  static getWampSession(): Promise<autobahn.Session> {
+  static getWampSession(): Promise<autobahn.Session | any> {
     return new Promise(
       (
         resolve: (value?: autobahn.Session) => void,
