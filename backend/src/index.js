@@ -15,7 +15,6 @@ const {
   regularPublishNetworkInfoInterval,
   regularFetchStakingPoolsInfoInterval,
   regularStatsInterval,
-  regularCalculateCirculatingSupplyInterval,
   wampNearNetworkName,
   regularFetchStakingPoolsMetadataInfoInterval,
 } = require("./config");
@@ -59,8 +58,6 @@ const {
   aggregateParterUniqueUserAmount,
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
-
-const { calculateCirculatingSupply } = require("./aggregations");
 
 let currentValidators = [];
 let stakingNodes = [];
@@ -238,25 +235,6 @@ function startStatsAggregation() {
     setTimeout(regularStatsAggregate, regularStatsInterval);
   };
   setTimeout(regularStatsAggregate, 0);
-}
-
-function startRegularCalculationCirculatingSupply() {
-  const regularCalculateCirculatingSupply = async () => {
-    console.log(`Starting regular calculation of circulating supply...`);
-    try {
-      await calculateCirculatingSupply();
-    } catch (error) {
-      console.warn(
-        "regular calculation of circulating supply is crashed due to:",
-        error
-      );
-    }
-    setTimeout(
-      regularCalculateCirculatingSupply,
-      regularCalculateCirculatingSupplyInterval
-    );
-  };
-  setTimeout(regularCalculateCirculatingSupply, 0);
 }
 
 async function main() {
@@ -505,7 +483,6 @@ async function main() {
   }
 
   if (wampNearNetworkName === "mainnet") {
-    startRegularCalculationCirculatingSupply();
     startRegularFetchStakingPoolsMetadataInfo();
   }
 }

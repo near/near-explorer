@@ -542,32 +542,13 @@ const queryPartnerUniqueUserAmount = async () => {
   );
 };
 
-const getLockupAccountIds = async (blockHeight) => {
-  return await queryRows(
-    [
-      `SELECT accounts.account_id
-       FROM accounts
-                LEFT JOIN receipts AS receipts_start ON accounts.created_by_receipt_id = receipts_start.receipt_id
-                LEFT JOIN blocks AS blocks_start ON receipts_start.included_in_block_hash = blocks_start.block_hash
-                LEFT JOIN receipts AS receipts_end ON accounts.deleted_by_receipt_id = receipts_end.receipt_id
-                LEFT JOIN blocks AS blocks_end ON receipts_end.included_in_block_hash = blocks_end.block_hash
-       WHERE accounts.account_id like '%.lockup.near'
-         AND (blocks_start.block_height IS NULL OR blocks_start.block_height <= :blockHeight)
-         AND (blocks_end.block_height IS NULL OR blocks_end.block_height >= :blockHeight);`,
-      { blockHeight: blockHeight },
-    ],
-    { dataSource: DS_INDEXER_BACKEND }
-  );
-};
-
-const getLastYesterdayBlock = async (timestamp) => {
+const queryLatestCirculatingSupply = async () => {
   return await querySingleRow(
     [
-      `SELECT block_height
-       FROM blocks
-       WHERE block_timestamp < :blockTimestamp
-       ORDER BY block_timestamp DESC LIMIT 1;`,
-      { blockTimestamp: timestamp.toString() },
+      `SELECT circulating_tokens_supply, computed_at_block_timestamp
+       FROM aggregated__circulating_supply
+       ORDER BY computed_at_block_timestamp DESC
+       LIMIT 1;`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
@@ -636,8 +617,7 @@ exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTra
 exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
 
 // circulating supply
-exports.getAllLockupAccountIds = getLockupAccountIds;
-exports.getLastYesterdayBlock = getLastYesterdayBlock;
+exports.queryLatestCirculatingSupply = queryLatestCirculatingSupply;
 
 // calculate fee
 exports.calculateFeesByDay = calculateFeesByDay;

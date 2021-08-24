@@ -15,8 +15,8 @@ const {
   queryDepositAmountAggregatedByDate,
   queryPartnerUniqueUserAmount,
   queryGenesisAccountCount,
+  queryLatestCirculatingSupply,
   calculateFeesByDay,
-  calculateFeePerDay,
 } = require("./db-utils");
 const {
   formatDate,
@@ -413,6 +413,16 @@ async function getPartnerUniqueUserAmount() {
   return PARTNER_UNIQUE_USER_AMOUNT;
 }
 
+// circulating supply
+async function getLatestCirculatingSupply() {
+  const latestCirculatingSupply = await queryLatestCirculatingSupply();
+  return {
+    timestamp: latestCirculatingSupply.computed_at_block_timestamp,
+    circulating_supply_in_yoctonear:
+      latestCirculatingSupply.circulating_tokens_supply,
+  };
+}
+
 async function getGenesisAccountsCount() {
   return ACCOUNTS_COUNT_IN_GENESIS;
 }
@@ -470,6 +480,9 @@ exports.getActiveContractsList = getActiveContractsList;
 exports.getPartnerTotalTransactionsCount = getPartnerTotalTransactionsCount;
 exports.getPartnerFirst3MonthTransactionsCount = getPartnerFirst3MonthTransactionsCount;
 exports.getPartnerUniqueUserAmount = getPartnerUniqueUserAmount;
+
+// circulating supply
+exports.getLatestCirculatingSupply = getLatestCirculatingSupply;
 
 exports.getGenesisAccountsCount = getGenesisAccountsCount;
 exports.getTotalFee = getTotalFee;

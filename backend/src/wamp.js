@@ -3,7 +3,6 @@ const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
 
-const aggregations = require("./aggregations");
 const stats = require("./stats");
 const models = require("../models");
 
@@ -116,7 +115,7 @@ wampHandlers["nearcore-genesis-protocol-configuration"] = async ([blockId]) => {
 };
 
 wampHandlers["get-latest-circulating-supply"] = async () => {
-  return aggregations.getCirculatingSupply();
+  return await stats.getLatestCirculatingSupply();
 };
 
 wampHandlers["get-account-details"] = async ([accountId]) => {
