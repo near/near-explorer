@@ -255,10 +255,7 @@ async function main() {
   const regularPublishTransactionsCount = async () => {
     console.log("Starting regular transactions count for week check...");
     try {
-      if (wamp.session) {
-        transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
-        console.log("Regular transactions count for week is completed.");
-      }
+      transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
     } catch (error) {
       console.warn(
         "Regular transactions count for week crashed due to:",
