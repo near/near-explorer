@@ -205,70 +205,43 @@ const queryDashboardBlocksStats = async (options) => {
   };
 };
 
-const queryDashboardTransactionsStats = async (options) => {
-  async function queryTransactionsCountHistory({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT DATE_TRUNC('day', TO_TIMESTAMP(DIV(block_timestamp, 1000*1000*1000))) AS date, COUNT(transaction_hash) AS total
-                FROM transactions
-                WHERE
-                  block_timestamp > (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '15 day')) AS bigint) * 1000 * 1000 * 1000)
-                  AND
-                  block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-                GROUP BY date
-                ORDER BY date`;
-    } else {
-      query = `SELECT strftime('%Y-%m-%d', block_timestamp/1000, 'unixepoch') AS date, COUNT(hash) AS total
-                FROM transactions
-                WHERE
-                  (block_timestamp/1000) > (strftime('%s','now') / (60 * 60 * 24) - 15) * 60 * 60 * 24
-                  AND
-                  (block_timestamp/1000) < (strftime('%s','now') / (60 * 60 * 24)) * 60 * 60 * 24
-                GROUP BY date
-                ORDER BY date`;
-    }
-    return (
-      await queryRows([query], { dataSource })
-    ).map(({ total, ...rest }) => ({ total: parseInt(total), ...rest }));
-  }
+const queryTransactionsCountHistoryForTwoWeeks = async () => {
+  const query = await queryRows(
+    [
+      `SELECT DATE_TRUNC('day', TO_TIMESTAMP(DIV(block_timestamp, 1000*1000*1000))) AS date, COUNT(transaction_hash) AS total
+      FROM transactions
+      WHERE
+        block_timestamp > (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '15 day')) AS bigint) * 1000 * 1000 * 1000)
+        AND
+        block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
+      GROUP BY date
+      ORDER BY date`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
 
-  async function queryRecentTransactionsCount({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT
-                DATE_TRUNC('day', TO_TIMESTAMP(DIV(block_timestamp, 1000*1000*1000) - (MOD(CAST(EXTRACT(EPOCH FROM NOW()) AS integer), (60 * 60 * 24))))) AS date,
-                COUNT(transaction_hash) AS total
-              FROM transactions
-              WHERE
-                block_timestamp > (CAST(EXTRACT(EPOCH FROM NOW() - INTERVAL '2 day') AS bigint) * 1000 * 1000 * 1000)
-              GROUP BY date
-              ORDER BY date DESC`;
-    } else {
-      query = `SELECT
-                  strftime('%Y-%m-%d', block_timestamp/1000 - strftime('%s','now') % (60 * 60 * 24), 'unixepoch') AS date,
-                  COUNT(hash) AS total
-              FROM transactions
-              WHERE
-                (block_timestamp/1000) > (strftime('%s','now') - 60 * 60 * 24 * 2)
-              GROUP BY date
-              ORDER BY date DESC`;
-    }
-    return (
-      await queryRows([query], { dataSource })
-    ).map(({ total, ...rest }) => ({ total: parseInt(total), ...rest }));
-  }
+  return query.map(({ total, ...rest }) => ({
+    total: parseInt(total),
+    ...rest,
+  }));
+};
 
-  const [
-    transactionsCountHistory,
-    recentTransactionsCount,
-  ] = await Promise.all([
-    queryTransactionsCountHistory(options),
-    queryRecentTransactionsCount(options),
-  ]);
-  return {
-    transactionsCountHistory,
-    recentTransactionsCount,
-  };
+const queryRecentTransactionsCount = async () => {
+  const { total } = await querySingleRow(
+    [
+      `SELECT
+        COUNT(transaction_hash) AS total
+      FROM transactions
+      WHERE
+        block_timestamp > (CAST(EXTRACT(EPOCH FROM NOW() - INTERVAL '1 day') AS bigint) * 1000 * 1000 * 1000)`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+
+  if (!total) {
+    return undefined;
+  }
+  return parseInt(total);
 };
 
 // query for statistics and charts
@@ -589,7 +562,8 @@ exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryGenesisAccountCount = queryGenesisAccountCount;
 
 // dashboard
-exports.queryDashboardTransactionsStats = queryDashboardTransactionsStats;
+exports.queryTransactionsCountHistoryForTwoWeeks = queryTransactionsCountHistoryForTwoWeeks;
+exports.queryRecentTransactionsCount = queryRecentTransactionsCount;
 exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 
 // stats

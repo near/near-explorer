@@ -19,8 +19,8 @@ export interface DbContext {
   latestBlockHeight?: BN;
   latestGasPrice?: BN;
   recentBlockProductionSpeed?: number;
-  transactionsCountHistory?: TransactionsCountStat[];
-  recentTransactionsCount?: TransactionsCountStat[];
+  transactionsCountHistoryForTwoWeeks?: TransactionsCountStat[];
+  recentTransactionsCount?: number;
 }
 
 const DatabaseContext = createContext<DbContext>({});
@@ -37,12 +37,14 @@ const DatabaseProvider = (props: Props) => {
     recentBlockProductionSpeed,
     dispatchRecentBlockProductionSpeed,
   ] = useState<number>();
-  const [transactionsCountHistory, dispatchTransactionsCountHistory] = useState<
-    TransactionsCountStat[]
-  >();
-  const [recentTransactionsCount, dispatchRecentTransactionsCount] = useState<
-    TransactionsCountStat[]
-  >();
+  const [
+    transactionsCountHistoryForTwoWeeks,
+    dispatchTransactionsCountHistory,
+  ] = useState<TransactionsCountStat[]>();
+  const [
+    recentTransactionsCount,
+    dispatchRecentTransactionsCount,
+  ] = useState<number>();
 
   const storeBlocksStats = useCallback(
     (
@@ -81,11 +83,13 @@ const DatabaseProvider = (props: Props) => {
     (
       _positionalArgs: any,
       namedArgs: {
-        transactionsCountHistory: TransactionsCountStat[];
-        recentTransactionsCount: TransactionsCountStat[];
+        transactionsCountHistoryForTwoWeeks: TransactionsCountStat[];
+        recentTransactionsCount: number;
       }
     ) => {
-      dispatchTransactionsCountHistory(namedArgs.transactionsCountHistory);
+      dispatchTransactionsCountHistory(
+        namedArgs.transactionsCountHistoryForTwoWeeks
+      );
       dispatchRecentTransactionsCount(namedArgs.recentTransactionsCount);
     },
     []
@@ -134,7 +138,7 @@ const DatabaseProvider = (props: Props) => {
         latestBlockHeight,
         latestGasPrice,
         recentBlockProductionSpeed,
-        transactionsCountHistory,
+        transactionsCountHistoryForTwoWeeks,
         recentTransactionsCount,
       }}
     >

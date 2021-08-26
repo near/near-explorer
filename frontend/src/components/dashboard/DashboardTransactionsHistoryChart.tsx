@@ -1,10 +1,9 @@
-import React from "react";
-
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 import moment from "moment";
 
 import { TransactionsCountStat } from "../../context/DatabaseProvider";
+import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { Translate } from "react-localize-redux";
 
@@ -128,6 +127,10 @@ const DashboardTransactionHistoryChart = ({
       ],
     };
   };
+
+  if (transactionsCountHistory.length === 0) {
+    return <PaginationSpinner hidden={false} />;
+  }
   return (
     <Translate>
       {({ translate }) => (

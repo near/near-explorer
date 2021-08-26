@@ -37,7 +37,8 @@ const {
   pickOnlineValidatingNode,
   getSyncedGenesis,
   queryDashboardBlocksStats,
-  queryDashboardTransactionsStats,
+  queryTransactionsCountHistoryForTwoWeeks,
+  queryRecentTransactionsCount,
 } = require("./db-utils");
 
 const {
@@ -59,6 +60,7 @@ const {
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
 
+let transactionsCountHistoryForTwoWeeks = [];
 let currentValidators = [];
 let stakingNodes = [];
 let stakingPoolsInfo = new Map();
@@ -171,10 +173,9 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
     console.log(`Starting regular data stats check from ${dataSource}...`);
     try {
       if (wamp.session) {
-        const [blocksStats, transactionsStats] = await Promise.all([
-          queryDashboardBlocksStats({ dataSource }),
-          queryDashboardTransactionsStats({ dataSource }),
-        ]);
+        const blocksStats = await queryDashboardBlocksStats({ dataSource });
+        const recentTransactionsCount = await queryRecentTransactionsCount();
+
         wampPublish(
           getDataSourceSpecificTopicName("chain-blocks-stats", dataSource),
           blocksStats,
@@ -185,7 +186,10 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
             "chain-transactions-stats",
             dataSource
           ),
-          transactionsStats,
+          {
+            transactionsCountHistoryForTwoWeeks,
+            recentTransactionsCount,
+          },
           wamp
         );
       }
@@ -246,6 +250,24 @@ async function main() {
   console.log("Starting WAMP worker...");
   wamp.open();
 
+  // regular transactions count
+  const regularPublishTransactionsCount = async () => {
+    console.log("Starting regular transactions count for week check...");
+    try {
+      if (wamp.session) {
+        transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
+        console.log("Regular transactions count for week is completed.");
+      }
+    } catch (error) {
+      console.warn(
+        "Regular transactions count for week crashed due to:",
+        error
+      );
+    }
+    setTimeout(regularPublishTransactionsCount, 3600000);
+  };
+  setTimeout(regularPublishTransactionsCount, 0);
+
   // regularly publish the latest information about the height and timestamp of the final block
   const regularPublishFinalityStatus = async () => {
     console.log("Starting regular final timestamp check...");
@@ -263,7 +285,7 @@ async function main() {
       }
       console.log("Regular final timestamp check is completed.");
     } catch (error) {
-      console.warn("Regular final timestamp check  crashed due to:", error);
+      console.warn("Regular final timestamp check crashed due to:", error);
     }
     setTimeout(
       regularPublishFinalityStatus,
@@ -355,7 +377,7 @@ async function main() {
           wamp
         );
       }
-      console.log("Regular regular network info publishing is completed.");
+      console.log("Regular network info publishing is completed.");
     } catch (error) {
       console.warn("Regular network info publishing crashed due to:", error);
     }
