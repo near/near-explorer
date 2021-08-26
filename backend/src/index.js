@@ -17,6 +17,7 @@ const {
   regularStatsInterval,
   wampNearNetworkName,
   regularFetchStakingPoolsMetadataInfoInterval,
+  regularPublishTransactionCountForTwoWeeksInterval,
 } = require("./config");
 
 const { DS_LEGACY_SYNC_BACKEND, DS_INDEXER_BACKEND } = require("./consts");
@@ -264,7 +265,10 @@ async function main() {
         error
       );
     }
-    setTimeout(regularPublishTransactionsCount, 3600000);
+    setTimeout(
+      regularPublishTransactionsCount,
+      regularPublishTransactionCountForTwoWeeksInterval
+    );
   };
   setTimeout(regularPublishTransactionsCount, 0);
 
