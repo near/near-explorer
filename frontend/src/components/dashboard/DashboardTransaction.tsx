@@ -1,4 +1,5 @@
 import { Col, Row } from "react-bootstrap";
+import { Translate } from "react-localize-redux";
 
 import { DatabaseConsumer } from "../../context/DatabaseProvider";
 
@@ -9,8 +10,6 @@ import GasPrice from "../utils/GasPrice";
 import Link from "../utils/Link";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
-
-import { Translate } from "react-localize-redux";
 
 const DashboardTransaction = () => {
   return (
@@ -47,7 +46,7 @@ const DashboardTransaction = () => {
                     loading={
                       typeof context.recentTransactionsCount === "undefined"
                     }
-                    text={context.recentTransactionsCount?.[0].total.toLocaleString()}
+                    text={context.recentTransactionsCount?.toLocaleString()}
                   />
                 </Col>
                 <Col xs="12" md="8">
@@ -72,12 +71,13 @@ const DashboardTransaction = () => {
                   />
                 </Col>
               </Row>
-              {typeof context.transactionsCountHistory !== "undefined" ? (
+              {typeof context.transactionsCountHistoryForTwoWeeks !==
+              "undefined" ? (
                 <Row className="transaction-charts">
                   <Col md="12">
                     <DashboardTransactionsHistoryChart
                       transactionsCountHistory={
-                        context.transactionsCountHistory
+                        context.transactionsCountHistoryForTwoWeeks
                       }
                     />
                   </Col>

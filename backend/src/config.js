@@ -76,3 +76,8 @@ exports.nearStakingPoolAccountSuffix =
     : process.env.WAMP_NEAR_NETWORK_NAME === "testnet"
     ? ".f863973.m0"
     : process.env.NEAR_STAKING_POOL_ACCOUNT_SUFFIX;
+
+exports.regularPublishTransactionCountForTwoWeeksInterval =
+  parseInt(
+    process.env.NEAR_REGULAR_PUBLISH_TRANSACTION_COUNT_FOR_TWO_WEEKS_INTERVAL
+  ) || 60000 * 10;
