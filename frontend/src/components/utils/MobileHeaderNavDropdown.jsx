@@ -62,9 +62,19 @@ class MobileNavDropdown extends Component {
 
   showMenu = (event) => {
     event.preventDefault();
-    this.setState({ showMenu: true }, () => {
-      document.addEventListener("click", this.closeMenu);
-    });
+    event.stopPropagation();
+    if (
+      this.dropdownWrapper.contains(this.dropdownMenu) &&
+      !this.dropdownMenu.contains(event.target)
+    ) {
+      this.setState({ showMenu: false }, () => {
+        document.removeEventListener("click", this.closeMenu);
+      });
+    } else {
+      this.setState({ showMenu: true }, () => {
+        document.addEventListener("click", this.closeMenu);
+      });
+    }
   };
 
   closeMenu = (event) => {
@@ -75,6 +85,10 @@ class MobileNavDropdown extends Component {
     }
   };
 
+  componentWillUnmount() {
+    document.removeEventListener("click", this.closeMenu);
+  }
+
   render() {
     return (
       <Translate>
@@ -83,6 +97,9 @@ class MobileNavDropdown extends Component {
             <div
               className={`mobile ${this.state.showMenu ? "change" : ""}`}
               onClick={this.showMenu}
+              ref={(element) => {
+                this.dropdownWrapper = element;
+              }}
             >
               <div className="bar1"></div>
               <div className="bar2"></div>
