@@ -61,6 +61,8 @@ const {
   aggregateLiveAccountsCountByDate,
 } = require("./stats");
 
+const nonValidatingNodeStatuses = ["on-hold", "newcomer", "idle"];
+
 let transactionsCountHistoryForTwoWeeks = [];
 let currentValidators = [];
 let stakingNodes = [];
@@ -327,7 +329,10 @@ async function main() {
                 validator.account_id
               );
 
-              if (!validator.stakingStatus) {
+              if (
+                !validator.stakingStatus ||
+                nonValidatingNodeStatuses.indexOf(validator.stakingStatus) >= 0
+              ) {
                 if (
                   new BN(validator.currentStake).gt(
                     new BN(epochStats.seatPrice)
@@ -433,24 +438,32 @@ async function main() {
     try {
       if (stakingNodes.length > 0) {
         for (let i = 0; i < stakingNodes.length; i++) {
-          const { account_id, currentStake: currentNodeStake } = stakingNodes[
-            i
-          ];
+          const {
+            account_id,
+            stakingStatus,
+            currentStake: activeNodeStake,
+          } = stakingNodes[i];
 
           try {
+            let currentStake = activeNodeStake;
             const account = await nearRpc.query({
               request_type: "view_account",
               account_id: account_id,
               finality: "final",
             });
 
-            const currentStake =
-              currentNodeStake ??
-              (await nearRpc.callViewMethod(
+            // query and update 'currentStake' for 'on-hold', 'newcomer' and 'idle' nodes
+            // because other nodes receive 'currentStake' from 'queryEpochStats()'
+            if (
+              !stakingStatus ||
+              nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
+            ) {
+              currentStake = await nearRpc.callViewMethod(
                 account_id,
                 "get_total_staked_balance",
                 {}
-              ));
+              );
+            }
 
             if (account.code_hash === "11111111111111111111111111111111") {
               stakingPoolsInfo.set(account_id, {

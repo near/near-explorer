@@ -1,5 +1,6 @@
 import BN from "bn.js";
 import { Component } from "react";
+import { utils } from "near-api-js";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 
@@ -21,6 +22,24 @@ class ValidatorsList extends Component<Props> {
 
     let validatorsList = validators.sort(
       (a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) => {
+        const aCurrentStake = new BN(a.currentStake)
+          .div(utils.format.NEAR_NOMINATION)
+          .toNumber()
+          .toFixed(0);
+        const bCurrentStake = new BN(b.currentStake)
+          .div(utils.format.NEAR_NOMINATION)
+          .toNumber()
+          .toFixed(0);
+
+        // sort validators by 'proposedStake' if 'currentStake' of those validators are same
+        // that's why we need to round 'currentStake' to 'toFixed(0)'
+        if (
+          (a.proposedStake || b.proposedStake) &&
+          new BN(bCurrentStake).eq(new BN(aCurrentStake))
+        ) {
+          return new BN(b.proposedStake || 0).sub(new BN(a.proposedStake || 0));
+        }
+
         return new BN(b.currentStake).sub(new BN(a.currentStake));
       }
     );
