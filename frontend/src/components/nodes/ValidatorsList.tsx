@@ -35,7 +35,7 @@ class ValidatorsList extends Component<Props> {
         // that's why we need to round 'currentStake' to 'toFixed(0)'
         if (
           (a.proposedStake || b.proposedStake) &&
-          new BN(bCurrentStake).eq(new BN(aCurrentStake))
+          bCurrentStake === aCurrentStake
         ) {
           return new BN(b.proposedStake || 0).sub(new BN(a.proposedStake || 0));
         }
