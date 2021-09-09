@@ -1,6 +1,5 @@
 import BN from "bn.js";
 import { Component } from "react";
-import { utils } from "near-api-js";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 
@@ -22,29 +21,36 @@ class ValidatorsList extends Component<Props> {
 
     let validatorsList = validators.sort(
       (a: N.ValidationNodeInfo, b: N.ValidationNodeInfo) => {
-        const aCurrentStake = new BN(a.currentStake)
-          .div(utils.format.NEAR_NOMINATION)
-          .toNumber()
-          .toFixed(0);
-        const bCurrentStake = new BN(b.currentStake)
-          .div(utils.format.NEAR_NOMINATION)
-          .toNumber()
-          .toFixed(0);
-
-        // sort validators by 'proposedStake' if 'currentStake' of those validators are same
-        // that's why we need to round 'currentStake' to 'toFixed(0)'
+        // we take "active", "joining", "leaving" validators and sort them firstly
+        // after then we sort the rest
+        const validatingGroup = ["active", "joining", "leaving"];
         if (
-          (a.proposedStake || b.proposedStake) &&
-          bCurrentStake === aCurrentStake
+          a.stakingStatus &&
+          validatingGroup.indexOf(a.stakingStatus) >= 0 &&
+          b.stakingStatus &&
+          validatingGroup.indexOf(b.stakingStatus) >= 0
         ) {
-          return new BN(b.proposedStake || 0).sub(new BN(a.proposedStake || 0));
+          return new BN(b.currentStake).cmp(new BN(a.currentStake));
+        } else if (
+          (a.proposedStake || b.proposedStake) &&
+          a.stakingStatus &&
+          validatingGroup.indexOf(a.stakingStatus) < 0 &&
+          b.stakingStatus &&
+          validatingGroup.indexOf(b.stakingStatus) < 0
+        ) {
+          return new BN(b.proposedStake || 0).cmp(new BN(a.proposedStake || 0));
+        } else if (
+          a.stakingStatus &&
+          validatingGroup.indexOf(a.stakingStatus) < 0 &&
+          b.stakingStatus &&
+          validatingGroup.indexOf(b.stakingStatus) < 0
+        ) {
+          return new BN(b.currentStake).cmp(new BN(a.currentStake));
         }
-
-        return new BN(b.currentStake).sub(new BN(a.currentStake));
       }
     );
 
-    // filter validators list by 'active' and 'leaving' validators to culculate cumulative
+    // filter validators list by 'active' and 'leaving' validators to calculate cumulative
     // stake only for those validators
     const activeValidatorsList = validatorsList.filter(
       (i: N.ValidationNodeInfo) =>

@@ -335,6 +335,154 @@ Array [
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
+        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/us.svg"
+        style={
+          Object {
+            "display": "inline-block",
+            "height": "1em",
+            "lineHeight": "14px",
+            "verticalAlign": "middle",
+            "width": "22px",
+          }
+        }
+      />
+    </td>
+    <td>
+      <div
+        className="align-items-center row no-gutters"
+      >
+        <div
+          className="validators-node-label col-2"
+        >
+          <span
+            className="validating-label active badge"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            Active
+          </span>
+        </div>
+        <div
+          className="validator-name col"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="@audit_one.poolv1.near"
+            >
+              audit_one.poolv1.near
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:9x2LqdGVL8MKbAziezMhQjPCKKeFAaExeyJpVvBvGuAC"
+            >
+              ed25519:9x2LqdGVL8MKbAziezMhQjPCKKeFAaExeyJpVvBvGuAC
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td>
+      7%
+    </td>
+    <td>
+      <div
+        className="spinner-border spinner-border-sm"
+      />
+    </td>
+    <td
+      className="text-right validator-nodes-text stake-text"
+    >
+      <span
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        3,698,683
+         
+        NEAR
+      </span>
+      <br />
+      <small>
+        +
+        <span
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          1,093,573
+           
+          NEAR
+        </span>
+      </small>
+    </td>
+    <td>
+      <div
+        className="jsx-1785419880 cumulative-stake-chart"
+      >
+        <div
+          className="jsx-1785419880 total-value"
+          style={
+            Object {
+              "width": "52.18%",
+            }
+          }
+        />
+        <div
+          className="jsx-1785419880 current-value"
+          style={
+            Object {
+              "width": "47.82%",
+            }
+          }
+        />
+        <div
+          className="jsx-1785419880 cumulative-stake-label"
+        >
+          100%
+        </div>
+      </div>
+    </td>
+  </tr>,
+  <tr
+    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+  >
+    <td
+      className="collapse-row-arrow"
+      onClick={[Function]}
+    >
+      <img
+        src="/static/images/icon-maximize.svg"
+        style={
+          Object {
+            "width": "16px",
+          }
+        }
+      />
+    </td>
+    <td
+      className="order"
+    >
+      28
+    </td>
+    <td
+      className="country-flag"
+    >
+      <img
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
         src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ru.svg"
         style={
           Object {
@@ -463,7 +611,7 @@ Array [
     <td
       className="order"
     >
-      28
+      29
     </td>
     <td
       className="country-flag"
@@ -584,154 +732,6 @@ Array [
           className="jsx-1785419880 cumulative-stake-label"
         >
           N/A
-        </div>
-      </div>
-    </td>
-  </tr>,
-  <tr
-    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
-  >
-    <td
-      className="collapse-row-arrow"
-      onClick={[Function]}
-    >
-      <img
-        src="/static/images/icon-maximize.svg"
-        style={
-          Object {
-            "width": "16px",
-          }
-        }
-      />
-    </td>
-    <td
-      className="order"
-    >
-      29
-    </td>
-    <td
-      className="country-flag"
-    >
-      <img
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/us.svg"
-        style={
-          Object {
-            "display": "inline-block",
-            "height": "1em",
-            "lineHeight": "14px",
-            "verticalAlign": "middle",
-            "width": "22px",
-          }
-        }
-      />
-    </td>
-    <td>
-      <div
-        className="align-items-center row no-gutters"
-      >
-        <div
-          className="validators-node-label col-2"
-        >
-          <span
-            className="validating-label active badge"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-          >
-            Active
-          </span>
-        </div>
-        <div
-          className="validator-name col"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="validator-nodes-text col"
-              title="@audit_one.poolv1.near"
-            >
-              audit_one.poolv1.near
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="validator-nodes-text validator-node-pub-key col"
-              title="ed25519:9x2LqdGVL8MKbAziezMhQjPCKKeFAaExeyJpVvBvGuAC"
-            >
-              ed25519:9x2LqdGVL8MKbAziezMhQjPCKKeFAaExeyJpVvBvGuAC
-            </div>
-          </div>
-        </div>
-      </div>
-    </td>
-    <td>
-      7%
-    </td>
-    <td>
-      <div
-        className="spinner-border spinner-border-sm"
-      />
-    </td>
-    <td
-      className="text-right validator-nodes-text stake-text"
-    >
-      <span
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-      >
-        3,698,683
-         
-        NEAR
-      </span>
-      <br />
-      <small>
-        +
-        <span
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-        >
-          1,093,573
-           
-          NEAR
-        </span>
-      </small>
-    </td>
-    <td>
-      <div
-        className="jsx-1785419880 cumulative-stake-chart"
-      >
-        <div
-          className="jsx-1785419880 total-value"
-          style={
-            Object {
-              "width": "52.18%",
-            }
-          }
-        />
-        <div
-          className="jsx-1785419880 current-value"
-          style={
-            Object {
-              "width": "47.82%",
-            }
-          }
-        />
-        <div
-          className="jsx-1785419880 cumulative-stake-label"
-        >
-          100%
         </div>
       </div>
     </td>

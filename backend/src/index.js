@@ -329,6 +329,12 @@ async function main() {
                 validator.account_id
               );
 
+              // '!validator.stakingStatus' occured at the first start
+              // when we query all pool accounts from database.
+              // Before this moment we'll have the validators with statuses
+              // 'active', 'joining', 'leaving' and 'proposal'.
+              // So here we set, check and regulary re-check is validators
+              // still has those statuses
               if (
                 !validator.stakingStatus ||
                 nonValidatingNodeStatuses.indexOf(validator.stakingStatus) >= 0
@@ -458,13 +464,17 @@ async function main() {
               !stakingStatus ||
               nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
             ) {
-              currentStake = await nearRpc.callViewMethod(
-                account_id,
-                "get_total_staked_balance",
-                {}
-              );
+              currentStake = await nearRpc
+                .callViewMethod(account_id, "get_total_staked_balance", {})
+                .catch((_error) => {
+                  // for some accounts on 'testnet' we can't get 'currentStake'
+                  // because they looks like pool accounts but they are not so
+                  // that's why we catch this error to avoid unnecessary errors in console
+                  return null;
+                });
             }
 
+            // 'code_hash' === 11111111111111111111111111111111 refers to testnet only
             if (account.code_hash === "11111111111111111111111111111111") {
               stakingPoolsInfo.set(account_id, {
                 fee: null,
@@ -472,16 +482,22 @@ async function main() {
                 currentStake,
               });
             } else {
-              const fee = await nearRpc.callViewMethod(
-                account_id,
-                "get_reward_fee_fraction",
-                {}
-              );
-              const delegatorsCount = await nearRpc.callViewMethod(
-                account_id,
-                "get_number_of_accounts",
-                {}
-              );
+              const fee = await nearRpc
+                .callViewMethod(account_id, "get_reward_fee_fraction", {})
+                .catch((_error) => {
+                  // for some accounts on 'testnet' we can't get 'fee'
+                  // because they looks like pool accounts but they are not so
+                  // that's why we catch this error to avoid unnecessary errors in console
+                  return null;
+                });
+              const delegatorsCount = await nearRpc
+                .callViewMethod(account_id, "get_number_of_accounts", {})
+                .catch((_error) => {
+                  // for some accounts on 'testnet' we can't get 'delegatorsCount'
+                  // because they looks like pool accounts but they are not so
+                  // that's why we catch this error to avoid unnecessary errors in console
+                  return null;
+                });
               stakingPoolsInfo.set(account_id, {
                 fee,
                 delegatorsCount,
