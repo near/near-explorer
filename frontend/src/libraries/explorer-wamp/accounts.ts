@@ -69,9 +69,10 @@ export default class AccountsApi extends ExplorerApi {
       }
 
       if (accountsBasicInfo.length === 0) {
-        return {
-          accountId,
-        } as AccountBasicInfo;
+        throw {
+          account_id: accountId,
+          status: 404,
+        };
       }
       const accountBasicInfo = accountsBasicInfo[0];
       return {
