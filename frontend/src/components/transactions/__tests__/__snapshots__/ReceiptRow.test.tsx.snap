@@ -15,7 +15,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-3925159684"
+          className="jsx-3966245134"
         >
           Receipt
           :
@@ -32,9 +32,20 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="receipt-row-receipt-hash trancate-link col"
       >
-        R1111111111111111111111111111111111111111111
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-4207953579 receipt-hash-link"
+            href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            R1111111111111111111111111111111111111111111
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -47,7 +58,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="receipt-row-receipt-hash trancate-link col"
       >
         <span
           onClick={[Function]}
@@ -58,7 +69,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             onClick={[Function]}
             onMouseEnter={[Function]}
           >
-            B111111...
+            B111111111111111111111111111111111111111111
           </a>
         </span>
       </div>
@@ -76,7 +87,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-receipt-hash col"
         title="signer.test"
       >
-        signer.test
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-3150401870 account-link"
+            href="/accounts/signer.test"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            signer.test
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -92,7 +114,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-receipt-hash col"
         title="receiver.test"
       >
-        receiver.test
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-3150401870 account-link"
+            href="/accounts/receiver.test"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            receiver.test
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -272,7 +305,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-text col"
       >
         <pre
-          className="jsx-3925159684"
+          className="jsx-3966245134"
         >
           000028066 listings not found
         </pre>
@@ -298,7 +331,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3925159684"
+                  className="jsx-3966245134"
                 >
                   Receipt
                   :
@@ -315,9 +348,20 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
-                R2222222222222222222222222222222222222222222
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-4207953579 receipt-hash-link"
+                    href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    R2222222222222222222222222222222222222222222
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -330,7 +374,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -341,7 +385,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                   >
-                    B222222...
+                    B222222222222222222222222222222222222222222
                   </a>
                 </span>
               </div>
@@ -359,7 +403,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="receipt-row-receipt-hash col"
                 title="system"
               >
-                system
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/system"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    system
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -375,7 +430,18 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="receipt-row-receipt-hash col"
                 title="receiver.test"
               >
-                receiver.test
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/receiver.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    receiver.test
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -531,7 +597,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-3925159684"
+          className="jsx-3966245134"
         >
           Receipt
           :
@@ -548,9 +614,20 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="receipt-row-receipt-hash trancate-link col"
       >
-        R1111111111111111111111111111111111111111111
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-4207953579 receipt-hash-link"
+            href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            R1111111111111111111111111111111111111111111
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -563,7 +640,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="receipt-row-receipt-hash trancate-link col"
       >
         <span
           onClick={[Function]}
@@ -574,7 +651,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             onClick={[Function]}
             onMouseEnter={[Function]}
           >
-            B222222...
+            B222222222222222222222222222222222222222222
           </a>
         </span>
       </div>
@@ -592,7 +669,18 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-receipt-hash col"
         title="signer.test"
       >
-        signer.test
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-3150401870 account-link"
+            href="/accounts/signer.test"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            signer.test
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -608,7 +696,18 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-receipt-hash col"
         title="receiver.test"
       >
-        receiver.test
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-3150401870 account-link"
+            href="/accounts/receiver.test"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            receiver.test
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -777,7 +876,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-text col"
       >
         <pre
-          className="jsx-3925159684"
+          className="jsx-3966245134"
         >
           Transfer 9807229473212706028 from signer.test to receiver.test
 Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
@@ -804,7 +903,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3925159684"
+                  className="jsx-3966245134"
                 >
                   Receipt
                   :
@@ -821,9 +920,20 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
-                R222222222222222222222222222222222222222222
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-4207953579 receipt-hash-link"
+                    href="/transactions/T1111111111111111111111111111111111111111111#R222222222222222222222222222222222222222222"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    R222222222222222222222222222222222222222222
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -836,7 +946,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -847,7 +957,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                   >
-                    B333333...
+                    B333333333333333333333333333333333333333333
                   </a>
                 </span>
               </div>
@@ -865,7 +975,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
                 title="signer1.test"
               >
-                signer1.test
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/signer1.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    signer1.test
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -881,7 +1002,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
                 title="receiver.test"
               >
-                receiver.test
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/receiver.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    receiver.test
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1098,7 +1230,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b
-                          className="jsx-3925159684"
+                          className="jsx-3966245134"
                         >
                           Receipt
                           :
@@ -1115,9 +1247,20 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="receipt-row-receipt-hash trancate-link col"
                       >
-                        R555555555555555555555555555555555555555555
+                        <span
+                          onClick={[Function]}
+                        >
+                          <a
+                            className="jsx-4207953579 receipt-hash-link"
+                            href="/transactions/T1111111111111111111111111111111111111111111#R555555555555555555555555555555555555555555"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            R555555555555555555555555555555555555555555
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1130,7 +1273,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="receipt-row-receipt-hash trancate-link col"
                       >
                         <span
                           onClick={[Function]}
@@ -1141,7 +1284,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             onClick={[Function]}
                             onMouseEnter={[Function]}
                           >
-                            B444444...
+                            B444444444444444444444444444444444444444444
                           </a>
                         </span>
                       </div>
@@ -1159,7 +1302,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-receipt-hash col"
                         title="system"
                       >
-                        system
+                        <span
+                          onClick={[Function]}
+                        >
+                          <a
+                            className="jsx-3150401870 account-link"
+                            href="/accounts/system"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            system
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1175,7 +1329,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-receipt-hash col"
                         title="receiver.test"
                       >
-                        receiver.test
+                        <span
+                          onClick={[Function]}
+                        >
+                          <a
+                            className="jsx-3150401870 account-link"
+                            href="/accounts/receiver.test"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            receiver.test
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1336,7 +1501,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3925159684"
+                  className="jsx-3966245134"
                 >
                   Receipt
                   :
@@ -1353,9 +1518,20 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
-                R3333333333333333333333333333333333333333333
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-4207953579 receipt-hash-link"
+                    href="/transactions/T1111111111111111111111111111111111111111111#R3333333333333333333333333333333333333333333"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    R3333333333333333333333333333333333333333333
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1368,7 +1544,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -1379,7 +1555,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                   >
-                    B444444...
+                    B4444444444444444444444444444444444444444444
                   </a>
                 </span>
               </div>
@@ -1397,7 +1573,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
                 title="signer1.test"
               >
-                signer1.test
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/signer1.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    signer1.test
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1413,7 +1600,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
                 title="receiver1.test"
               >
-                receiver1.test
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/receiver1.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    receiver1.test
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1630,7 +1828,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b
-                          className="jsx-3925159684"
+                          className="jsx-3966245134"
                         >
                           Receipt
                           :
@@ -1647,9 +1845,20 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="receipt-row-receipt-hash trancate-link col"
                       >
-                        R6666666666666666666666666666666666666666666
+                        <span
+                          onClick={[Function]}
+                        >
+                          <a
+                            className="jsx-4207953579 receipt-hash-link"
+                            href="/transactions/T1111111111111111111111111111111111111111111#R6666666666666666666666666666666666666666666"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            R6666666666666666666666666666666666666666666
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1662,7 +1871,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="receipt-row-receipt-hash trancate-link col"
                       >
                         <span
                           onClick={[Function]}
@@ -1673,7 +1882,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             onClick={[Function]}
                             onMouseEnter={[Function]}
                           >
-                            B666666...
+                            B666666666666666666666666666666666666666666
                           </a>
                         </span>
                       </div>
@@ -1691,7 +1900,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-receipt-hash col"
                         title="system"
                       >
-                        system
+                        <span
+                          onClick={[Function]}
+                        >
+                          <a
+                            className="jsx-3150401870 account-link"
+                            href="/accounts/system"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            system
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1707,7 +1927,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-receipt-hash col"
                         title="receiver.test"
                       >
-                        receiver.test
+                        <span
+                          onClick={[Function]}
+                        >
+                          <a
+                            className="jsx-3150401870 account-link"
+                            href="/accounts/receiver.test"
+                            onClick={[Function]}
+                            onMouseEnter={[Function]}
+                          >
+                            receiver.test
+                          </a>
+                        </span>
                       </div>
                     </div>
                     <div
@@ -1868,7 +2099,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3925159684"
+                  className="jsx-3966245134"
                 >
                   Receipt
                   :
@@ -1885,9 +2116,20 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
-                R4444444444444444444444444444444444444444444
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-4207953579 receipt-hash-link"
+                    href="/transactions/T1111111111111111111111111111111111111111111#R4444444444444444444444444444444444444444444"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    R4444444444444444444444444444444444444444444
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1900,7 +2142,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -1911,7 +2153,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                   >
-                    B555555...
+                    B555555555555555555555555555555555555555555
                   </a>
                 </span>
               </div>
@@ -1929,7 +2171,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
                 title="system"
               >
-                system
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/system"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    system
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -1945,7 +2198,18 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-receipt-hash col"
                 title="receiver.test"
               >
-                receiver.test
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/receiver.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    receiver.test
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -2101,7 +2365,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-3925159684"
+          className="jsx-3966245134"
         >
           Receipt
           :
@@ -2118,9 +2382,20 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="receipt-row-receipt-hash trancate-link col"
       >
-        R1111111111111111111111111111111111111111111
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-4207953579 receipt-hash-link"
+            href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            R1111111111111111111111111111111111111111111
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -2133,7 +2408,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="receipt-row-receipt-hash trancate-link col"
       >
         <span
           onClick={[Function]}
@@ -2144,7 +2419,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             onClick={[Function]}
             onMouseEnter={[Function]}
           >
-            B222222...
+            B222222222222222222222222222222222222222222
           </a>
         </span>
       </div>
@@ -2162,7 +2437,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-receipt-hash col"
         title="signer.test"
       >
-        signer.test
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-3150401870 account-link"
+            href="/accounts/signer.test"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            signer.test
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -2178,7 +2464,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-receipt-hash col"
         title="receiver.test"
       >
-        receiver.test
+        <span
+          onClick={[Function]}
+        >
+          <a
+            className="jsx-3150401870 account-link"
+            href="/accounts/receiver.test"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            receiver.test
+          </a>
+        </span>
       </div>
     </div>
     <div
@@ -2400,7 +2697,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3925159684"
+                  className="jsx-3966245134"
                 >
                   Receipt
                   :
@@ -2417,9 +2714,20 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
-                R2222222222222222222222222222222222222222222
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-4207953579 receipt-hash-link"
+                    href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    R2222222222222222222222222222222222222222222
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -2432,7 +2740,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="receipt-row-receipt-hash trancate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -2443,7 +2751,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                   >
-                    B333333...
+                    B333333333333333333333333333333333333333333
                   </a>
                 </span>
               </div>
@@ -2461,7 +2769,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="receipt-row-receipt-hash col"
                 title="system"
               >
-                system
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/system"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    system
+                  </a>
+                </span>
               </div>
             </div>
             <div
@@ -2477,7 +2796,18 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="receipt-row-receipt-hash col"
                 title="receiver.test"
               >
-                receiver.test
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="jsx-3150401870 account-link"
+                    href="/accounts/receiver.test"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    receiver.test
+                  </a>
+                </span>
               </div>
             </div>
             <div

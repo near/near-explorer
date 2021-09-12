@@ -109,7 +109,10 @@ class TransactionDetailsPage extends Component {
                   transaction={transaction.transactionOutcome}
                 />
 
-                <ReceiptRow receipt={transaction.receipt} />
+                <ReceiptRow
+                  receipt={transaction.receipt}
+                  transactionHash={transaction.hash}
+                />
               </Content>
             )}
           </>
