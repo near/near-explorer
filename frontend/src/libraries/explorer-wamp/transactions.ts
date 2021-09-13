@@ -1,7 +1,5 @@
 import BN from "bn.js";
 
-import { DATA_SOURCE_TYPE } from "../consts";
-
 import { ExplorerApi } from ".";
 
 export type ExecutionStatus =
@@ -168,117 +166,6 @@ export default class TransactionsApi extends ExplorerApi {
     ["TRANSFER", "Transfer"],
   ]);
 
-  async getTransactions(queries: QueryArgs) {
-    if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-      return await this.getTransactionsFromLegacy(queries);
-    } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-      return await this.getTransactionsFromIndexer(queries);
-    } else {
-      throw Error(`unsupported data source ${this.dataSource}`);
-    }
-  }
-
-  async getTransactionsFromLegacy(queries: QueryArgs): Promise<Transaction[]> {
-    const {
-      signerId,
-      receiverId,
-      transactionHash,
-      blockHash,
-      paginationIndexer,
-    } = queries;
-    const whereClause = [];
-    if (signerId) {
-      whereClause.push(`signer_id = :signerId`);
-    }
-    if (receiverId) {
-      whereClause.push(`receiver_id = :receiverId`);
-    }
-    if (transactionHash) {
-      whereClause.push(`hash = :transactionHash`);
-    }
-    if (blockHash) {
-      whereClause.push(`block_hash = :blockHash`);
-    }
-    let WHEREClause;
-    if (whereClause.length > 0) {
-      if (paginationIndexer) {
-        WHEREClause = `WHERE (${whereClause.join(
-          " OR "
-        )}) AND (block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex))`;
-      } else {
-        WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
-      }
-    } else {
-      if (paginationIndexer) {
-        WHEREClause = `WHERE block_timestamp < :endTimestamp OR (block_timestamp = :endTimestamp AND transaction_index < :transactionIndex)`;
-      } else {
-        WHEREClause = "";
-      }
-    }
-    try {
-      const transactions = await this.call<TransactionInfo[]>("select", [
-        `SELECT hash, signer_id as signerId, receiver_id as receiverId,
-              block_hash as blockHash, block_timestamp as blockTimestamp, transaction_index as transactionIndex
-          FROM transactions
-          ${WHEREClause}
-          ORDER BY block_timestamp DESC, transaction_index DESC
-          LIMIT :limit`,
-        {
-          ...queries,
-          endTimestamp: queries.paginationIndexer?.endTimestamp,
-          transactionIndex: queries.paginationIndexer?.transactionIndex,
-        },
-      ]);
-
-      if (transactions.length > 0) {
-        let transactionHashes = transactions.map(
-          (transaction) => transaction.hash
-        );
-        const actionsArray = await this.call<any>("select", [
-          `SELECT transaction_hash, action_type as kind, action_args as args
-            FROM actions
-            WHERE transaction_hash IN (:transactionHashes)
-            ORDER BY action_index`,
-          { transactionHashes },
-        ]);
-        const actionsByTransactionHash = new Map();
-        actionsArray.forEach((action: any) => {
-          const transactionActions = actionsByTransactionHash.get(
-            action.transaction_hash
-          );
-          if (transactionActions) {
-            transactionActions.push(action);
-          } else {
-            actionsByTransactionHash.set(action.transaction_hash, [action]);
-          }
-        });
-        transactions.map((transaction) => {
-          const transactionActions = actionsByTransactionHash.get(
-            transaction.hash
-          );
-          if (transactionActions) {
-            transaction.actions = transactionActions.map((action: any) => {
-              return {
-                kind: action.kind,
-                args:
-                  typeof action.args === "string"
-                    ? JSON.parse(action.args)
-                    : action.args,
-              };
-            });
-          }
-        });
-      }
-      return transactions as Transaction[];
-    } catch (error) {
-      console.error(
-        "Transactions.getTransactionsFromLegacy failed to fetch data due to:"
-      );
-      console.error(error);
-      throw error;
-    }
-  }
-
   async getTransactionsFromIndexer(queries: QueryArgs): Promise<Transaction[]> {
     const {
       signerId,
@@ -438,7 +325,7 @@ export default class TransactionsApi extends ExplorerApi {
     transactionHash: string
   ): Promise<Transaction | null> {
     try {
-      const transactionInfo = await this.getTransactions({
+      const transactionInfo = await this.getTransactionsFromIndexer({
         transactionHash,
         limit: 1,
       }).then((it) => it[0] || undefined);

@@ -3,7 +3,6 @@ import getConfig from "next/config";
 import autobahn from "autobahn";
 
 import { getNearNetwork, NearNetwork } from "../config";
-import { DATA_SOURCE_TYPE } from "../consts";
 
 interface IPromisePair {
   resolve: (value: autobahn.Session) => void;
@@ -153,9 +152,5 @@ export class ExplorerApi {
 }
 
 export function instrumentTopicNameWithDataSource(topicName: string) {
-  const explorerApi = new ExplorerApi();
-  if (explorerApi.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-    return topicName;
-  }
-  return `${topicName}:${explorerApi.dataSource}`;
+  return `${topicName}:${new ExplorerApi().dataSource}`;
 }
