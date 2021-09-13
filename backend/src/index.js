@@ -474,7 +474,8 @@ async function main() {
                 });
             }
 
-            // 'code_hash' === 11111111111111111111111111111111 refers to testnet only
+            // 'code_hash' === 11111111111111111111111111111111 is when the validator
+            // does not have a staking-pool contract on it (common on testnet)
             if (account.code_hash === "11111111111111111111111111111111") {
               stakingPoolsInfo.set(account_id, {
                 fee: null,

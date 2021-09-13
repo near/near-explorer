@@ -15,7 +15,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-3966245134"
+          className="jsx-1757047684"
         >
           Receipt
           :
@@ -32,7 +32,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash trancate-link col"
+        className="receipt-row-receipt-hash truncate-link col"
       >
         <span
           onClick={[Function]}
@@ -58,7 +58,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash trancate-link col"
+        className="receipt-row-receipt-hash truncate-link col"
       >
         <span
           onClick={[Function]}
@@ -305,7 +305,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-text col"
       >
         <pre
-          className="jsx-3966245134"
+          className="jsx-1757047684"
         >
           000028066 listings not found
         </pre>
@@ -331,7 +331,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3966245134"
+                  className="jsx-1757047684"
                 >
                   Receipt
                   :
@@ -348,7 +348,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -374,7 +374,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -597,7 +597,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-3966245134"
+          className="jsx-1757047684"
         >
           Receipt
           :
@@ -614,7 +614,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash trancate-link col"
+        className="receipt-row-receipt-hash truncate-link col"
       >
         <span
           onClick={[Function]}
@@ -640,7 +640,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash trancate-link col"
+        className="receipt-row-receipt-hash truncate-link col"
       >
         <span
           onClick={[Function]}
@@ -876,7 +876,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-text col"
       >
         <pre
-          className="jsx-3966245134"
+          className="jsx-1757047684"
         >
           Transfer 9807229473212706028 from signer.test to receiver.test
 Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
@@ -903,7 +903,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3966245134"
+                  className="jsx-1757047684"
                 >
                   Receipt
                   :
@@ -920,7 +920,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -946,7 +946,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -1230,7 +1230,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b
-                          className="jsx-3966245134"
+                          className="jsx-1757047684"
                         >
                           Receipt
                           :
@@ -1247,7 +1247,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash trancate-link col"
+                        className="receipt-row-receipt-hash truncate-link col"
                       >
                         <span
                           onClick={[Function]}
@@ -1273,7 +1273,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash trancate-link col"
+                        className="receipt-row-receipt-hash truncate-link col"
                       >
                         <span
                           onClick={[Function]}
@@ -1501,7 +1501,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3966245134"
+                  className="jsx-1757047684"
                 >
                   Receipt
                   :
@@ -1518,7 +1518,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -1544,7 +1544,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -1828,7 +1828,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b
-                          className="jsx-3966245134"
+                          className="jsx-1757047684"
                         >
                           Receipt
                           :
@@ -1845,7 +1845,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash trancate-link col"
+                        className="receipt-row-receipt-hash truncate-link col"
                       >
                         <span
                           onClick={[Function]}
@@ -1871,7 +1871,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash trancate-link col"
+                        className="receipt-row-receipt-hash truncate-link col"
                       >
                         <span
                           onClick={[Function]}
@@ -2099,7 +2099,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3966245134"
+                  className="jsx-1757047684"
                 >
                   Receipt
                   :
@@ -2116,7 +2116,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -2142,7 +2142,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -2365,7 +2365,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b
-          className="jsx-3966245134"
+          className="jsx-1757047684"
         >
           Receipt
           :
@@ -2382,7 +2382,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash trancate-link col"
+        className="receipt-row-receipt-hash truncate-link col"
       >
         <span
           onClick={[Function]}
@@ -2408,7 +2408,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         :
       </div>
       <div
-        className="receipt-row-receipt-hash trancate-link col"
+        className="receipt-row-receipt-hash truncate-link col"
       >
         <span
           onClick={[Function]}
@@ -2697,7 +2697,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b
-                  className="jsx-3966245134"
+                  className="jsx-1757047684"
                 >
                   Receipt
                   :
@@ -2714,7 +2714,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}
@@ -2740,7 +2740,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash trancate-link col"
+                className="receipt-row-receipt-hash truncate-link col"
               >
                 <span
                   onClick={[Function]}

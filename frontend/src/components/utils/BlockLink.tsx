@@ -1,14 +1,14 @@
 import Link from "../utils/Link";
 export interface Props {
   blockHash: string;
-  trancate?: boolean;
+  truncate?: boolean;
   children?: React.ReactNode;
 }
 
-const BlockLink = ({ blockHash, children, trancate = true }: Props) => (
+const BlockLink = ({ blockHash, children, truncate = true }: Props) => (
   <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
     <a className="block-link">
-      {children || (trancate ? `${blockHash.substring(0, 7)}...` : blockHash)}
+      {children || (truncate ? `${blockHash.substring(0, 7)}...` : blockHash)}
     </a>
   </Link>
 );

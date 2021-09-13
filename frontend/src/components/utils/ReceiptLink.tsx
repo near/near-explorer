@@ -3,14 +3,14 @@ import Link from "./Link";
 export interface Props {
   transactionHash?: string | null;
   receiptId: string;
-  trancate?: boolean;
+  truncate?: boolean;
   children?: React.ReactNode;
 }
 
 const ReceiptLink = ({
   transactionHash,
   receiptId,
-  trancate = true,
+  truncate = true,
   children,
 }: Props) => {
   return (
@@ -18,7 +18,7 @@ const ReceiptLink = ({
       {!transactionHash ? (
         <span className="receipt-hash-link disabled" title={receiptId}>
           {children ||
-            (trancate ? `${receiptId.substring(0, 7)}...` : receiptId)}
+            (truncate ? `${receiptId.substring(0, 7)}...` : receiptId)}
         </span>
       ) : (
         <Link
@@ -27,7 +27,7 @@ const ReceiptLink = ({
         >
           <a className="receipt-hash-link">
             {children ||
-              (trancate ? `${receiptId.substring(0, 7)}...` : receiptId)}
+              (truncate ? `${receiptId.substring(0, 7)}...` : receiptId)}
           </a>
         </Link>
       )}

@@ -24,28 +24,29 @@ class ValidatorsList extends Component<Props> {
         // we take "active", "joining", "leaving" validators and sort them firstly
         // after then we sort the rest
         const validatingGroup = ["active", "joining", "leaving"];
-        if (
-          a.stakingStatus &&
-          validatingGroup.indexOf(a.stakingStatus) >= 0 &&
-          b.stakingStatus &&
-          validatingGroup.indexOf(b.stakingStatus) >= 0
-        ) {
+
+        const aInValidatingGroup =
+          a.stakingStatus && validatingGroup.indexOf(a.stakingStatus) >= 0;
+        const bInValidatingGroup =
+          b.stakingStatus && validatingGroup.indexOf(b.stakingStatus) >= 0;
+
+        if (aInValidatingGroup && bInValidatingGroup) {
           return new BN(b.currentStake).cmp(new BN(a.currentStake));
-        } else if (
-          (a.proposedStake || b.proposedStake) &&
-          a.stakingStatus &&
-          validatingGroup.indexOf(a.stakingStatus) < 0 &&
-          b.stakingStatus &&
-          validatingGroup.indexOf(b.stakingStatus) < 0
-        ) {
-          return new BN(b.proposedStake || 0).cmp(new BN(a.proposedStake || 0));
-        } else if (
-          a.stakingStatus &&
-          validatingGroup.indexOf(a.stakingStatus) < 0 &&
-          b.stakingStatus &&
-          validatingGroup.indexOf(b.stakingStatus) < 0
-        ) {
-          return new BN(b.currentStake).cmp(new BN(a.currentStake));
+        } else {
+          const aStake = BN.max(
+            new BN(b.proposedStake || 0),
+            new BN(b.currentStake || 0)
+          );
+          const bStake = BN.max(
+            new BN(a.proposedStake || 0),
+            new BN(a.currentStake || 0)
+          );
+
+          if (aInValidatingGroup || bInValidatingGroup) {
+            return -1;
+          }
+
+          return aStake.cmp(bStake);
         }
       }
     );
