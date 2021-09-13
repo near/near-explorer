@@ -19,7 +19,18 @@ export default async function (req, res) {
       rpc_latest_block_height: rpcFinalBlock.header.height,
       indexer_latest_block_height: indexerFinalBlock[0].height,
     };
-    res.status(200).send(statusResponse);
+
+    let responseCode = 503;
+    if (
+      Math.abs(
+        status.rpc_latest_block_height -
+          statusResponse.indexer_latest_block_height
+      ) <= 30
+    ) {
+      responseCode = 200;
+    }
+
+    res.status(responseCode).send(statusResponse);
   } catch (error) {
     console.error(error);
     res.status(502).send(error);
