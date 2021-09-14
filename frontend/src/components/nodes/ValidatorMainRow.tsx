@@ -21,8 +21,8 @@ interface Props {
   country?: string;
   stakingStatus?: N.StakingStatus;
   publicKey?: string;
-  validatorFee: string | null;
-  validatorDelegators: number | string | null;
+  validatorFee?: string | null;
+  validatorDelegators?: number | string | null;
   currentStake?: string;
   proposedStakeForNextEpoch?: string;
   cumulativeStake: number;
@@ -220,11 +220,21 @@ class ValidatorMainRow extends PureComponent<Props> {
               </td>
 
               <td>
-                {validatorFee ?? <Spinner animation="border" size="sm" />}
+                {validatorFee === undefined ? (
+                  <Spinner animation="border" size="sm" />
+                ) : validatorFee === null ? (
+                  translate("common.state.not_available")
+                ) : (
+                  validatorFee
+                )}
               </td>
               <td>
-                {validatorDelegators ?? (
+                {validatorDelegators === undefined ? (
                   <Spinner animation="border" size="sm" />
+                ) : validatorDelegators === null ? (
+                  translate("common.state.not_available")
+                ) : (
+                  validatorDelegators
                 )}
               </td>
               <td className="text-right validator-nodes-text stake-text">

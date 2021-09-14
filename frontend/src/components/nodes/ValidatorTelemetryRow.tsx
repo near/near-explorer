@@ -74,7 +74,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                             </span>
                           </>
                         ) : (
-                          "N/A"
+                          translate("common.state.not_available")
                         )}
                       </Col>
                     </Row>
@@ -113,7 +113,8 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                         } validator-nodes-text`}
                         md={3}
                       >
-                        {` ${latestProducedValidatorBlock ?? "N/A"}`}
+                        {latestProducedValidatorBlock ??
+                          translate("common.state.not_available")}
                       </Col>
                     </Row>
                   </Col>
@@ -133,7 +134,11 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                     </Row>
                     <Row noGutters>
                       <Col className="validator-nodes-text">
-                        {lastSeen ? <Timer time={lastSeen} /> : "N/A"}
+                        {lastSeen ? (
+                          <Timer time={lastSeen} />
+                        ) : (
+                          translate("common.state.not_available")
+                        )}
                       </Col>
                     </Row>
                   </Col>
@@ -161,7 +166,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                       </Col>
                     </Row>
                     <Row noGutters>
-                      <Col>
+                      <Col className="validator-nodes-text">
                         {agentName ? (
                           <Badge
                             variant="secondary"
@@ -170,7 +175,7 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                             {agentName}
                           </Badge>
                         ) : (
-                          "N/A"
+                          translate("common.state.not_available")
                         )}
                       </Col>
                     </Row>
@@ -185,24 +190,19 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
                       </Col>
                     </Row>
                     <Row noGutters>
-                      <Col>
+                      <Col className="validator-nodes-text">
                         {agentVersion || agentBuild ? (
                           <Badge
                             variant="secondary"
                             className="agent-name-badge"
                           >
-                            <>
-                              {!agentVersion
-                                ? "-"
-                                : // 'agentVersion' of some validators may be string-like only
-                                agentVersion && /[0-9]/.test(agentVersion)
-                                ? `v${agentVersion}`
-                                : agentVersion}{" "}
-                              / {agentBuild ? `${agentBuild}` : "-"}
-                            </>
+                            {`${agentVersion ?? "-"}
+                              /
+                              ${agentBuild ?? "-"}
+                            `}
                           </Badge>
                         ) : (
-                          "N/A"
+                          translate("common.state.not_available")
                         )}
                       </Col>
                     </Row>

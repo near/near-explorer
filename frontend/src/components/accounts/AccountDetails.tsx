@@ -269,7 +269,7 @@ class AccountDetails extends Component<Props> {
                           )}
                         </>
                       ) : (
-                        "N/A"
+                        translate("common.state.not_available").toString()
                       )
                     }
                     className="account-card-back border-0"
