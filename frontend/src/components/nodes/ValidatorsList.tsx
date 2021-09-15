@@ -32,6 +32,10 @@ class ValidatorsList extends Component<Props> {
 
         if (aInValidatingGroup && bInValidatingGroup) {
           return new BN(b.currentStake).cmp(new BN(a.currentStake));
+        } else if (aInValidatingGroup) {
+          return -1;
+        } else if (bInValidatingGroup) {
+          return 1;
         } else {
           const aStake = BN.max(
             new BN(b.proposedStake || 0),
@@ -41,11 +45,6 @@ class ValidatorsList extends Component<Props> {
             new BN(a.proposedStake || 0),
             new BN(a.currentStake || 0)
           );
-
-          if (aInValidatingGroup || bInValidatingGroup) {
-            return -1;
-          }
-
           return aStake.cmp(bStake);
         }
       }
