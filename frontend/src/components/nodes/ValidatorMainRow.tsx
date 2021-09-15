@@ -30,6 +30,12 @@ interface Props {
   handleClick: React.MouseEventHandler;
 }
 
+const yoctoNearToNear = new BN(1)
+  .muln(10 ** 6)
+  .muln(10 ** 6)
+  .muln(10 ** 6)
+  .muln(10 ** 6);
+
 class ValidatorMainRow extends PureComponent<Props> {
   render() {
     const {
@@ -246,11 +252,23 @@ class ValidatorMainRow extends PureComponent<Props> {
                       {typeof stakeProposedAmount !== undefined && (
                         <>
                           {stakeProposedAmount.increace ? "+" : "-"}
-                          <Balance
-                            amount={stakeProposedAmount.value}
-                            label="NEAR"
-                            fracDigits={0}
-                          />
+                          {Number(
+                            new BN(stakeProposedAmount.value).div(
+                              yoctoNearToNear
+                            )
+                          ) < 1 ? (
+                            <Balance
+                              amount={stakeProposedAmount.value}
+                              label="NEAR"
+                              fracDigits={4}
+                            />
+                          ) : (
+                            <Balance
+                              amount={stakeProposedAmount.value}
+                              label="NEAR"
+                              fracDigits={0}
+                            />
+                          )}
                         </>
                       )}
                     </small>
