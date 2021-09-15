@@ -16,3 +16,5 @@ export NEAR_INDEXER_DATABASE_PASSWORD=nearprotocol
 if [ -e ./env-indexer-mainnet-local ]; then
     . ./env-indexer-mainnet-local
 fi
+
+# TODO do we need to add public read-only creds to our analytics db?

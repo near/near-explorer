@@ -359,16 +359,8 @@ async function getDeletedAccountCountBydate() {
   return DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
 }
 
-async function getNewContractsCountByDate() {
-  return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
-}
-
 async function getUniqueDeployedContractsCountByDate() {
   return UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
-}
-
-async function getActiveContractsCountByDate() {
-  return ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
 }
 
 async function getActiveAccountsCountByDate() {
