@@ -54,7 +54,7 @@ class ValidatorRow extends Component<Props, State> {
 
     if (node.currentStake && totalStake && node.cumulativeStakeAmount) {
       cumulativeStake =
-        new BN(new BN(node.cumulativeStakeAmount))
+        node.cumulativeStakeAmount
           .mul(new BN(10000))
           .div(totalStake)
           .toNumber() / 100;

@@ -26,22 +26,20 @@ Array [
     <td
       className="country-flag"
     >
-      <img
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ru.svg"
+      <div
         style={
           Object {
-            "display": "inline-block",
-            "height": "1em",
-            "lineHeight": "14px",
-            "verticalAlign": "middle",
+            "backgroundColor": "#f0f0f1",
+            "color": "#72727a",
+            "fontSize": "8px",
+            "lineHeight": "16px",
+            "textAlign": "center",
             "width": "22px",
           }
         }
-      />
+      >
+        ?
+      </div>
     </td>
     <td>
       <div
@@ -51,13 +49,13 @@ Array [
           className="validators-node-label col-2"
         >
           <span
-            className="validating-label proposal badge"
+            className="validating-label active badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Proposal
+            Active
           </span>
         </div>
         <div
@@ -68,21 +66,29 @@ Array [
           >
             <div
               className="validator-nodes-text col"
-              title="@genesislab.poolv1.near"
+              title="@staked.poolv1.near"
             >
-              genesislab.poolv1.near
+              staked.poolv1.near
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ"
+            >
+              ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ
             </div>
           </div>
         </div>
       </div>
     </td>
     <td>
-      4%
+      10%
     </td>
     <td>
-      <div
-        className="spinner-border spinner-border-sm"
-      />
+      874
     </td>
     <td
       className="text-right validator-nodes-text stake-text"
@@ -93,7 +99,7 @@ Array [
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        4,035,443
+        42,476,926
          
         NEAR
       </span>
@@ -106,7 +112,7 @@ Array [
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          756,812
+          108,628
            
           NEAR
         </span>
@@ -120,7 +126,7 @@ Array [
           className="jsx-1785419880 total-value"
           style={
             Object {
-              "width": "-52.17%",
+              "width": "0%",
             }
           }
         />
@@ -128,16 +134,26 @@ Array [
           className="jsx-1785419880 current-value"
           style={
             Object {
-              "width": "0%",
+              "width": "50.14%",
             }
           }
         />
         <div
           className="jsx-1785419880 cumulative-stake-label"
         >
-          N/A
+          50.14%
         </div>
       </div>
+    </td>
+  </tr>,
+  <tr
+    className="jsx-3940587247 cumulative-stake-holders-row"
+  >
+    <td
+      className="jsx-3940587247 warning-text text-center"
+      colSpan={8}
+    >
+      Validators 1 - 25 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
     </td>
   </tr>,
   <tr
@@ -187,13 +203,13 @@ Array [
           className="validators-node-label col-2"
         >
           <span
-            className="validating-label on-hold badge"
+            className="validating-label active badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            On hold
+            Active
           </span>
         </div>
         <div
@@ -204,9 +220,9 @@ Array [
           >
             <div
               className="validator-nodes-text col"
-              title="@certusone.poolv1.near"
+              title="@bisontrails.poolv1.near"
             >
-              certusone.poolv1.near
+              bisontrails.poolv1.near
             </div>
           </div>
           <div
@@ -214,9 +230,9 @@ Array [
           >
             <div
               className="validator-nodes-text validator-node-pub-key col"
-              title="ed25519:4kwUVNSZ61BT3xbc1fL718UP2RqgvMa5aAYBaoav1wvk"
+              title="ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62"
             >
-              ed25519:4kwUVNSZ61BT3xbc1fL718UP2RqgvMa5aAYBaoav1wvk
+              ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62
             </div>
           </div>
         </div>
@@ -226,7 +242,7 @@ Array [
       10%
     </td>
     <td>
-      70
+      436
     </td>
     <td
       className="text-right validator-nodes-text stake-text"
@@ -237,20 +253,20 @@ Array [
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        3,714,537
+        20,814,924
          
         NEAR
       </span>
       <br />
       <small>
-        -
+        +
         <span
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          4,408
+          1,545
            
           NEAR
         </span>
@@ -264,7 +280,7 @@ Array [
           className="jsx-1785419880 total-value"
           style={
             Object {
-              "width": "-48.02%",
+              "width": "50.15%",
             }
           }
         />
@@ -272,14 +288,14 @@ Array [
           className="jsx-1785419880 current-value"
           style={
             Object {
-              "width": "0%",
+              "width": "24.57%",
             }
           }
         />
         <div
           className="jsx-1785419880 cumulative-stake-label"
         >
-          N/A
+          74.72%
         </div>
       </div>
     </td>
@@ -308,132 +324,12 @@ Array [
     <td
       className="country-flag"
     >
-      <div
-        style={
-          Object {
-            "backgroundColor": "#f0f0f1",
-            "color": "#72727a",
-            "fontSize": "8px",
-            "lineHeight": "16px",
-            "textAlign": "center",
-            "width": "22px",
-          }
-        }
-      >
-        ?
-      </div>
-    </td>
-    <td>
-      <div
-        className="align-items-center row no-gutters"
-      >
-        <div
-          className="validators-node-label col-2"
-        >
-          <span
-            className="validating-label newcomer badge"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-          >
-            Newcomer
-          </span>
-        </div>
-        <div
-          className="validator-name col"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="validator-nodes-text col"
-              title="@huobipool.poolv1.near"
-            >
-              huobipool.poolv1.near
-            </div>
-          </div>
-        </div>
-      </div>
-    </td>
-    <td>
-      10%
-    </td>
-    <td>
-      11
-    </td>
-    <td
-      className="text-right validator-nodes-text stake-text"
-    >
-      <span
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-      >
-        1,206,083
-         
-        NEAR
-      </span>
-    </td>
-    <td>
-      <div
-        className="jsx-1785419880 cumulative-stake-chart"
-      >
-        <div
-          className="jsx-1785419880 total-value"
-          style={
-            Object {
-              "width": "-15.59%",
-            }
-          }
-        />
-        <div
-          className="jsx-1785419880 current-value"
-          style={
-            Object {
-              "width": "0%",
-            }
-          }
-        />
-        <div
-          className="jsx-1785419880 cumulative-stake-label"
-        >
-          N/A
-        </div>
-      </div>
-    </td>
-  </tr>,
-  <tr
-    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
-  >
-    <td
-      className="collapse-row-arrow"
-      onClick={[Function]}
-    >
-      <img
-        src="/static/images/icon-maximize.svg"
-        style={
-          Object {
-            "width": "16px",
-          }
-        }
-      />
-    </td>
-    <td
-      className="order"
-    >
-      28
-    </td>
-    <td
-      className="country-flag"
-    >
       <img
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
-        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/us.svg"
+        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/aq.svg"
         style={
           Object {
             "display": "inline-block",
@@ -453,13 +349,13 @@ Array [
           className="validators-node-label col-2"
         >
           <span
-            className="validating-label joining badge"
+            className="validating-label active badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Joining
+            Active
           </span>
         </div>
         <div
@@ -492,9 +388,7 @@ Array [
       1%
     </td>
     <td>
-      <div
-        className="spinner-border spinner-border-sm"
-      />
+      1774
     </td>
     <td
       className="text-right validator-nodes-text stake-text"
@@ -505,20 +399,20 @@ Array [
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        19,407,280
+        17,776,328
          
         NEAR
       </span>
       <br />
       <small>
-        -
+        +
         <span
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          15,708,597
+          712
            
           NEAR
         </span>
@@ -532,7 +426,151 @@ Array [
           className="jsx-1785419880 total-value"
           style={
             Object {
-              "width": "-250.93%",
+              "width": "74.72999999999999%",
+            }
+          }
+        />
+        <div
+          className="jsx-1785419880 current-value"
+          style={
+            Object {
+              "width": "20.980000000000004%",
+            }
+          }
+        />
+        <div
+          className="jsx-1785419880 cumulative-stake-label"
+        >
+          95.71%
+        </div>
+      </div>
+    </td>
+  </tr>,
+  <tr
+    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+  >
+    <td
+      className="collapse-row-arrow"
+      onClick={[Function]}
+    >
+      <img
+        src="/static/images/icon-maximize.svg"
+        style={
+          Object {
+            "width": "16px",
+          }
+        }
+      />
+    </td>
+    <td
+      className="order"
+    >
+      28
+    </td>
+    <td
+      className="country-flag"
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "#f0f0f1",
+            "color": "#72727a",
+            "fontSize": "8px",
+            "lineHeight": "16px",
+            "textAlign": "center",
+            "width": "22px",
+          }
+        }
+      >
+        ?
+      </div>
+    </td>
+    <td>
+      <div
+        className="align-items-center row no-gutters"
+      >
+        <div
+          className="validators-node-label col-2"
+        >
+          <span
+            className="validating-label joining badge"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}
+          >
+            Joining
+          </span>
+        </div>
+        <div
+          className="validator-name col"
+        >
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text col"
+              title="@baziliknear.poolv1.near"
+            >
+              baziliknear.poolv1.near
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+          >
+            <div
+              className="validator-nodes-text validator-node-pub-key col"
+              title="ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v"
+            >
+              ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+    <td>
+      3%
+    </td>
+    <td>
+      148
+    </td>
+    <td
+      className="text-right validator-nodes-text stake-text"
+    >
+      <span
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+      >
+        3,735,553
+         
+        NEAR
+      </span>
+      <br />
+      <small>
+        +
+        <span
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          569
+           
+          NEAR
+        </span>
+      </small>
+    </td>
+    <td>
+      <div
+        className="jsx-1785419880 cumulative-stake-chart"
+      >
+        <div
+          className="jsx-1785419880 total-value"
+          style={
+            Object {
+              "width": "-4.41%",
             }
           }
         />
@@ -576,20 +614,22 @@ Array [
     <td
       className="country-flag"
     >
-      <div
+      <img
+        onBlur={[Function]}
+        onFocus={[Function]}
+        onMouseOut={[Function]}
+        onMouseOver={[Function]}
+        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ro.svg"
         style={
           Object {
-            "backgroundColor": "#f0f0f1",
-            "color": "#72727a",
-            "fontSize": "8px",
-            "lineHeight": "16px",
-            "textAlign": "center",
+            "display": "inline-block",
+            "height": "1em",
+            "lineHeight": "14px",
+            "verticalAlign": "middle",
             "width": "22px",
           }
         }
-      >
-        ?
-      </div>
+      />
     </td>
     <td>
       <div
@@ -616,9 +656,9 @@ Array [
           >
             <div
               className="validator-nodes-text col"
-              title="@baziliknear.poolv1.near"
+              title="@01node.poolv1.near"
             >
-              baziliknear.poolv1.near
+              01node.poolv1.near
             </div>
           </div>
           <div
@@ -626,21 +666,19 @@ Array [
           >
             <div
               className="validator-nodes-text validator-node-pub-key col"
-              title="ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v"
+              title="ed25519:5xz7EbcnPqabwoFezdJBxieK8S7XLsdHHuLwM4vLLhFt"
             >
-              ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v
+              ed25519:5xz7EbcnPqabwoFezdJBxieK8S7XLsdHHuLwM4vLLhFt
             </div>
           </div>
         </div>
       </div>
     </td>
     <td>
-      3%
+      1%
     </td>
     <td>
-      <div
-        className="spinner-border spinner-border-sm"
-      />
+      512
     </td>
     <td
       className="text-right validator-nodes-text stake-text"
@@ -651,20 +689,20 @@ Array [
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        4,035,443
+        3,632,096
          
         NEAR
       </span>
       <br />
       <small>
-        +
+        -
         <span
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          756,812
+          3,508
            
           NEAR
         </span>
@@ -678,7 +716,7 @@ Array [
           className="jsx-1785419880 total-value"
           style={
             Object {
-              "width": "0%",
+              "width": "95.72%",
             }
           }
         />
@@ -686,26 +724,16 @@ Array [
           className="jsx-1785419880 current-value"
           style={
             Object {
-              "width": "52.17%",
+              "width": "4.280000000000001%",
             }
           }
         />
         <div
           className="jsx-1785419880 cumulative-stake-label"
         >
-          52.17%
+          100%
         </div>
       </div>
-    </td>
-  </tr>,
-  <tr
-    className="jsx-3940587247 cumulative-stake-holders-row"
-  >
-    <td
-      className="jsx-3940587247 warning-text text-center"
-      colSpan={8}
-    >
-      Validators 1 - 29 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
     </td>
   </tr>,
 ]

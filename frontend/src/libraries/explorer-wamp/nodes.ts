@@ -2,7 +2,7 @@ import BN from "bn.js";
 
 export interface NodeInfo {
   ipAddress: string;
-  accountId: string;
+  accountId?: string;
   nodeId: string;
   lastSeen: number;
   lastHeight: number;
@@ -20,7 +20,7 @@ export interface BaseValidationNodeInfo {
   is_slashed?: boolean;
   num_produced_blocks?: number;
   num_expected_blocks?: number;
-  public_key: string;
+  public_key?: string;
   currentStake: string;
   proposedStake?: string;
   cumulativeStakeAmount?: BN;
