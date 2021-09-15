@@ -45,6 +45,16 @@ const sequelizeIndexerBackendReadOnly = new Sequelize(
   }
 );
 
+const sequelizeAnalyticsBackendReadOnly = new Sequelize(
+  dbConfig.analyticsDatabase.database,
+  dbConfig.analyticsDatabase.username,
+  dbConfig.analyticsDatabase.password,
+  {
+    host: dbConfig.analyticsDatabase.host,
+    dialect: dbConfig.analyticsDatabase.dialect,
+  }
+);
+
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
@@ -67,6 +77,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelizeLegacySyncBackend = sequelizeLegacySyncBackend;
 db.sequelizeLegacySyncBackendReadOnly = sequelizeLegacySyncBackendReadOnly;
 db.sequelizeIndexerBackendReadOnly = sequelizeIndexerBackendReadOnly;
+db.sequelizeAnalyticsBackendReadOnly = sequelizeAnalyticsBackendReadOnly;
 db.Sequelize = Sequelize;
 
 db.resetDatabase = function resetDatabase({ saveBackup }) {
