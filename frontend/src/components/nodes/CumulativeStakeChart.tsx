@@ -1,4 +1,5 @@
 import { PureComponent } from "react";
+import { Translate } from "react-localize-redux";
 
 interface Props {
   total: number;
@@ -21,7 +22,11 @@ class CumulativeStakeChart extends PureComponent<Props> {
           }}
         />
         <div className="cumulative-stake-label">
-          {current ? `${current}%` : "N/A"}
+          {current ? (
+            `${current}%`
+          ) : (
+            <Translate id="common.state.not_available" />
+          )}
         </div>
         <style global jsx>{`
           .cumulative-stake-chart {
@@ -52,6 +57,7 @@ class CumulativeStakeChart extends PureComponent<Props> {
             color: #0072ce;
             font-size: 14px;
             font-weight: 500;
+            max-width: 75px;
           }
         `}</style>
       </div>

@@ -46,163 +46,167 @@ class ValidatorTelemetryRow extends PureComponent<Props> {
             <DatabaseConsumer>
               {({ latestBlockHeight }) => (
                 <Row noGutters className="validator-nodes-content-row">
-                  {producedBlocks && expectedBlocks && (
-                    <Col className="validator-nodes-content-cell">
-                      <Row noGutters>
-                        <Col className="validator-nodes-details-title">
-                          <Term
-                            title={translate(
-                              "component.nodes.ValidatorTelemetryRow.uptime.title"
-                            )}
-                            text={translate(
-                              "component.nodes.ValidatorTelemetryRow.uptime.text"
-                            )}
-                            href="https://nomicon.io/Economics/README.html#rewards-calculation"
-                          />
-                        </Col>
-                      </Row>
-                      <Row noGutters>
-                        <Col className="validator-nodes-text uptime">
-                          {producedBlocks !== undefined &&
-                          expectedBlocks !== undefined ? (
-                            <>
-                              {(
-                                (producedBlocks / expectedBlocks) *
-                                100
-                              ).toFixed(3)}
-                              % &nbsp;
-                              <span>
-                                ({producedBlocks}/{expectedBlocks})
-                              </span>
-                            </>
-                          ) : null}
-                        </Col>
-                      </Row>
-                    </Col>
-                  )}
-                  {latestProducedValidatorBlock && (
-                    <Col className="validator-nodes-content-cell">
-                      <Row noGutters>
-                        <Col className="validator-nodes-details-title">
-                          <Term
-                            title={translate(
-                              "component.nodes.ValidatorTelemetryRow.latest_produced_block.title"
-                            )}
-                            text={translate(
-                              "component.nodes.ValidatorTelemetryRow.latest_produced_block.text"
-                            )}
-                          />
-                        </Col>
-                      </Row>
-                      <Row noGutters>
-                        <Col
-                          className={`${
-                            typeof latestBlockHeight === "undefined"
-                              ? ""
-                              : Math.abs(
-                                  latestProducedValidatorBlock -
-                                    latestBlockHeight.toNumber()
-                                ) > 1000
-                              ? "text-danger"
-                              : Math.abs(
-                                  latestProducedValidatorBlock -
-                                    latestBlockHeight.toNumber()
-                                ) > 50
-                              ? "text-warning"
-                              : ""
-                          } validator-nodes-text`}
-                          md={3}
-                        >
-                          {` ${latestProducedValidatorBlock}`}
-                        </Col>
-                      </Row>
-                    </Col>
-                  )}
-                  {lastSeen && (
-                    <Col className="validator-nodes-content-cell">
-                      <Row noGutters>
-                        <Col className="validator-nodes-details-title">
-                          <Term
-                            title={translate(
-                              "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.title"
-                            )}
-                            text={translate(
-                              "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.text"
-                            )}
-                          />
-                        </Col>
-                      </Row>
-                      <Row noGutters>
-                        <Col className="validator-nodes-text">
-                          {lastSeen ? <Timer time={lastSeen} /> : "..."}
-                        </Col>
-                      </Row>
-                    </Col>
-                  )}
-                  {agentName && (
-                    <Col className="validator-nodes-content-cell">
-                      <Row noGutters>
-                        <Col className="validator-nodes-details-title">
-                          <Term
-                            title={translate(
-                              "component.nodes.ValidatorTelemetryRow.node_agent_name.title"
-                            )}
-                            text={translate(
-                              "component.nodes.ValidatorTelemetryRow.node_agent_name.text",
-                              {
-                                agent_name_url: (
-                                  <a href="https://github.com/near/nearcore">
-                                    {translate(
-                                      "component.nodes.ValidatorTelemetryRow.node_agent_name.url_text"
-                                    )}
-                                  </a>
-                                ),
-                              }
-                            )}
-                          />
-                        </Col>
-                      </Row>
-                      <Row noGutters>
-                        <Col>
-                          {agentName ? (
-                            <Badge
-                              variant="secondary"
-                              className="agent-name-badge"
-                            >
-                              {agentName}
-                            </Badge>
-                          ) : (
-                            "..."
+                  <Col className="validator-nodes-content-cell">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        <Term
+                          title={translate(
+                            "component.nodes.ValidatorTelemetryRow.uptime.title"
                           )}
-                        </Col>
-                      </Row>
-                    </Col>
-                  )}
-                  {agentVersion && agentBuild && (
-                    <Col className="validator-nodes-content-cell">
-                      <Row noGutters>
-                        <Col className="validator-nodes-details-title">
-                          {translate(
-                            "component.nodes.ValidatorTelemetryRow.node_agent_version_or_build.title"
+                          text={translate(
+                            "component.nodes.ValidatorTelemetryRow.uptime.text"
                           )}
-                        </Col>
-                      </Row>
-                      <Row noGutters>
-                        <Col>
-                          {agentVersion && agentBuild ? (
-                            <Badge
-                              variant="secondary"
-                              className="agent-name-badge"
-                            >
-                              {`v${agentVersion} / ${agentBuild}`}
-                            </Badge>
-                          ) : (
-                            "..."
+                          href="https://nomicon.io/Economics/README.html#rewards-calculation"
+                        />
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text uptime">
+                        {producedBlocks !== undefined &&
+                        expectedBlocks !== undefined ? (
+                          <>
+                            {((producedBlocks / expectedBlocks) * 100).toFixed(
+                              3
+                            )}
+                            % &nbsp;
+                            <span>
+                              ({producedBlocks}/{expectedBlocks})
+                            </span>
+                          </>
+                        ) : (
+                          translate("common.state.not_available")
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+
+                  <Col className="validator-nodes-content-cell">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        <Term
+                          title={translate(
+                            "component.nodes.ValidatorTelemetryRow.latest_produced_block.title"
                           )}
-                        </Col>
-                      </Row>
-                    </Col>
-                  )}
+                          text={translate(
+                            "component.nodes.ValidatorTelemetryRow.latest_produced_block.text"
+                          )}
+                        />
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col
+                        className={`${
+                          typeof latestBlockHeight === "undefined" ||
+                          latestProducedValidatorBlock === undefined
+                            ? ""
+                            : Math.abs(
+                                latestProducedValidatorBlock -
+                                  latestBlockHeight.toNumber()
+                              ) > 1000
+                            ? "text-danger"
+                            : Math.abs(
+                                latestProducedValidatorBlock -
+                                  latestBlockHeight.toNumber()
+                              ) > 50
+                            ? "text-warning"
+                            : ""
+                        } validator-nodes-text`}
+                        md={3}
+                      >
+                        {latestProducedValidatorBlock ??
+                          translate("common.state.not_available")}
+                      </Col>
+                    </Row>
+                  </Col>
+
+                  <Col className="validator-nodes-content-cell">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        <Term
+                          title={translate(
+                            "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.title"
+                          )}
+                          text={translate(
+                            "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.text"
+                          )}
+                        />
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        {lastSeen ? (
+                          <Timer time={lastSeen} />
+                        ) : (
+                          translate("common.state.not_available")
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+
+                  <Col className="validator-nodes-content-cell">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        <Term
+                          title={translate(
+                            "component.nodes.ValidatorTelemetryRow.node_agent_name.title"
+                          )}
+                          text={translate(
+                            "component.nodes.ValidatorTelemetryRow.node_agent_name.text",
+                            {
+                              agent_name_url: (
+                                <a href="https://github.com/near/nearcore">
+                                  {translate(
+                                    "component.nodes.ValidatorTelemetryRow.node_agent_name.url_text"
+                                  )}
+                                </a>
+                              ),
+                            }
+                          )}
+                        />
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        {agentName ? (
+                          <Badge
+                            variant="secondary"
+                            className="agent-name-badge"
+                          >
+                            {agentName}
+                          </Badge>
+                        ) : (
+                          translate("common.state.not_available")
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+
+                  <Col className="validator-nodes-content-cell">
+                    <Row noGutters>
+                      <Col className="validator-nodes-details-title">
+                        {translate(
+                          "component.nodes.ValidatorTelemetryRow.node_agent_version_or_build.title"
+                        )}
+                      </Col>
+                    </Row>
+                    <Row noGutters>
+                      <Col className="validator-nodes-text">
+                        {agentVersion || agentBuild ? (
+                          <Badge
+                            variant="secondary"
+                            className="agent-name-badge"
+                          >
+                            {`${agentVersion ?? "-"}
+                              /
+                              ${agentBuild ?? "-"}
+                            `}
+                          </Badge>
+                        ) : (
+                          translate("common.state.not_available")
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
                 </Row>
               )}
             </DatabaseConsumer>
