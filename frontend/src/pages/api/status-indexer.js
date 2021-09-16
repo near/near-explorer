@@ -23,7 +23,7 @@ export default async function (req, res) {
     let responseCode = 503;
     if (
       Math.abs(
-        status.rpc_latest_block_height -
+        statusResponse.rpc_latest_block_height -
           statusResponse.indexer_latest_block_height
       ) <= 30
     ) {
