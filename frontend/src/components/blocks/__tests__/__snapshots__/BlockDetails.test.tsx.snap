@@ -238,7 +238,7 @@ exports[`<BlockDetails /> renders 1`] = `
                   onMouseOver={[Function]}
                 >
                   &lt;0.00001
-                   Ⓝ/Tgas
+                   Ⓝ/Gas
                 </span>
               </div>
             </div>

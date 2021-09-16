@@ -1,6 +1,6 @@
 const {
   queryTransactionsCountAggregatedByDate,
-  queryTeragasUsedAggregatedByDate,
+  queryGasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
   queryDeletedAccountsCountAggregatedByDate,
   queryUniqueDeployedContractsAggregatedByDate,
@@ -27,7 +27,7 @@ const {
 // term that store data from query
 // transaction related
 let TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = null;
-let TERAGAS_USED_BY_DATE = null;
+let GAS_USED_BY_DATE = null;
 let DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = null;
 
 // accounts
@@ -89,16 +89,16 @@ async function aggregateTransactionsCountByDate() {
 }
 aggregateTransactionsCountByDate = retriable(aggregateTransactionsCountByDate);
 
-async function aggregateTeragasUsedByDate() {
-  const teragasUsedByDate = await queryTeragasUsedAggregatedByDate();
-  TERAGAS_USED_BY_DATE = teragasUsedByDate.map(
-    ({ date: dateString, teragas_used_by_date }) => ({
+async function aggregateGasUsedByDate() {
+  const gasUsedByDate = await queryGasUsedAggregatedByDate();
+  GAS_USED_BY_DATE = gasUsedByDate.map(
+    ({ date: dateString, gas_used_by_date }) => ({
       date: formatDate(new Date(dateString)),
-      teragasUsed: teragas_used_by_date,
+      gasUsed: gas_used_by_date,
     })
   );
 }
-aggregateTeragasUsedByDate = retriable(aggregateTeragasUsedByDate);
+aggregateGasUsedByDate = retriable(aggregateGasUsedByDate);
 
 async function aggregateDepositAmountByDate() {
   const depositAmountByDate = await queryDepositAmountAggregatedByDate();
@@ -342,8 +342,8 @@ async function getTransactionsByDate() {
   return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
 }
 
-async function getTeragasUsedByDate() {
-  return TERAGAS_USED_BY_DATE;
+async function getGasUsedByDate() {
+  return GAS_USED_BY_DATE;
 }
 
 async function getDepositAmountByDate() {
@@ -426,7 +426,7 @@ async function getTotalFee(daysCount) {
 // aggregate part
 // transaction related
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
-exports.aggregateTeragasUsedByDate = aggregateTeragasUsedByDate;
+exports.aggregateGasUsedByDate = aggregateGasUsedByDate;
 exports.aggregateDepositAmountByDate = aggregateDepositAmountByDate;
 
 // accounts
@@ -451,7 +451,7 @@ exports.aggregateParterUniqueUserAmount = aggregateParterUniqueUserAmount;
 // get method
 // transaction related
 exports.getTransactionsByDate = getTransactionsByDate;
-exports.getTeragasUsedByDate = getTeragasUsedByDate;
+exports.getGasUsedByDate = getGasUsedByDate;
 exports.getDepositAmountByDate = getDepositAmountByDate;
 
 // accounts

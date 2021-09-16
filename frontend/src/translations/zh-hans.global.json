@@ -328,7 +328,7 @@
         },
         "gas_price": {
           "title": "Gas价格",
-          "text": "1Tgas = 1*10^12 Gas。NEAR的 Gas 成本很低，这也是为什么Tgas得到更普遍使用的原因。"
+          "text": "TODO translate this description "
         },
         "created": {
           "title": "创建于",
@@ -429,9 +429,8 @@
         "transactions": "交易数"
       },
       "GasUsedByDate": {
-        "daily_amount_of_used_tera_gas": "日TGas使用量",
-        "tera_gas": "Tgas",
-        "total_amount_of_used_tera_gas": "总TGas使用量",
+        "daily_amount_of_used_gas": "日Gas使用量",
+        "total_amount_of_used_gas": "总Gas使用量",
         "gas_fee": "Gas费",
         "daily_gas_fee_in_near": "以NEAR计算的每日Gas费",
         "fee": "费用"
@@ -496,7 +495,7 @@
         },
         "gas_price": {
           "title": "Gas价格",
-          "text": "Tgas (TerraGas) 是 10^12 个单位Gas. 由于如果用 NEAR 计费，Gas的数字会相当小，所以TGas是更常用的。"
+          "text": "TODO Translate this description "
         }
       },
       "DashboardTransactionHistoryChart": {

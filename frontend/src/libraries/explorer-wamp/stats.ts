@@ -6,9 +6,9 @@ export interface TransactionsByDate {
   transactionsCount: number;
 }
 
-export interface TeragasUsedByDate {
+export interface GasUsedByDate {
   date: string;
-  teragasUsed: number;
+  gasUsed: number;
 }
 
 export interface AccountsByDate {
@@ -58,10 +58,8 @@ export default class StatsApi extends ExplorerApi {
     );
   }
 
-  async teragasUsedAggregatedByDate(): Promise<TeragasUsedByDate[]> {
-    return await this.call<TeragasUsedByDate[]>(
-      "teragas-used-aggregated-by-date"
-    );
+  async gasUsedAggregatedByDate(): Promise<GasUsedByDate[]> {
+    return await this.call<GasUsedByDate[]>("gas-used-aggregated-by-date");
   }
 
   async depositAggregatedByDate(): Promise<TotalDepositAmount[]> {

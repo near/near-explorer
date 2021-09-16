@@ -270,20 +270,15 @@ const queryTransactionsCountAggregatedByDate = async () => {
   );
 };
 
-// TODO we have data here, but we need to change teragas -> gas
-const queryTeragasUsedAggregatedByDate = async () => {
+const queryGasUsedAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(blocks.block_timestamp, 1000*1000*1000))) AS date,
-        DIV(SUM(chunks.gas_used), 1000000000000) AS teragas_used_by_date
-      FROM blocks
-      JOIN chunks ON chunks.included_in_block_hash = blocks.block_hash
-      WHERE blocks.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day AS date,
+              gas_used          AS gas_used_by_date
+       FROM daily_gas_used
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -566,7 +561,7 @@ exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 // stats
 // transaction related
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
-exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
+exports.queryGasUsedAggregatedByDate = queryGasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 
 // accounts
