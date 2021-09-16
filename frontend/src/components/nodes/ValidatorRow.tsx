@@ -33,15 +33,15 @@ class ValidatorRow extends Component<Props, State> {
     let cumulativeStake = 0;
     let validatorFee =
       typeof node.fee === "undefined"
-        ? null
+        ? undefined
         : node.fee === null
-        ? "N/A"
+        ? null
         : `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`;
     let validatorDelegators =
       typeof node.delegatorsCount === "undefined"
-        ? null
+        ? undefined
         : node.delegatorsCount === null
-        ? "N/A"
+        ? null
         : node.delegatorsCount;
 
     if (node.currentStake && totalStake) {

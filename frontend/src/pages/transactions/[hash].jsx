@@ -48,76 +48,68 @@ class TransactionDetailsPage extends Component {
     };
 
     return (
-      <Translate>
-        {({ translate }) => (
-          <>
-            <Head>
-              <title>NEAR Explorer | Transaction</title>
-            </Head>
-            <Content
-              title={
-                <h1>
-                  <Translate id="common.transactions.transaction" />
-                  {`: ${transaction.hash.substring(
-                    0,
-                    7
-                  )}...${transaction.hash.substring(
-                    transaction.hash.length - 4
-                  )}`}
-                </h1>
-              }
-              border={false}
-            >
-              {this.props.err ? (
-                `Information is not available at the moment. Please, check if the transaction hash is correct or try later.`
-              ) : (
-                <TransactionDetails transaction={transaction} />
-              )}
-            </Content>
-            {transaction.actions && (
-              <Content
-                size="medium"
-                icon={<TransactionIcon style={{ width: "22px" }} />}
-                title={
-                  <h2>
-                    <Translate id="common.actions.actions" />
-                  </h2>
-                }
-              >
-                <ActionsList
-                  actions={transaction.actions}
-                  signerId={transaction.signerId}
-                  receiverId={transaction.receiverId}
-                  blockTimestamp={transaction.blockTimestamp}
-                  detalizationMode="minimal"
-                  showDetails
-                />
-              </Content>
-            )}
-
-            {transaction.receipt && (
-              <Content
-                size="medium"
-                icon={<TransactionIcon style={{ width: "22px" }} />}
-                title={
-                  <h2>
-                    <Translate id="page.transactions.transaction_execution_plan" />
-                  </h2>
-                }
-              >
-                <TransactionOutcome
-                  transaction={transaction.transactionOutcome}
-                />
-
-                <ReceiptRow
-                  receipt={transaction.receipt}
-                  transactionHash={transaction.hash}
-                />
-              </Content>
-            )}
-          </>
+      <>
+        <Head>
+          <title>NEAR Explorer | Transaction</title>
+        </Head>
+        <Content
+          title={
+            <h1>
+              <Translate id="common.transactions.transaction" />
+              {`: ${transaction.hash.substring(
+                0,
+                7
+              )}...${transaction.hash.substring(transaction.hash.length - 4)}`}
+            </h1>
+          }
+          border={false}
+        >
+          {this.props.err ? (
+            <Translate id="page.transactions.error.transaction_fetching" />
+          ) : (
+            <TransactionDetails transaction={transaction} />
+          )}
+        </Content>
+        {transaction.actions && (
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={
+              <h2>
+                <Translate id="common.actions.actions" />
+              </h2>
+            }
+          >
+            <ActionsList
+              actions={transaction.actions}
+              signerId={transaction.signerId}
+              receiverId={transaction.receiverId}
+              blockTimestamp={transaction.blockTimestamp}
+              detalizationMode="minimal"
+              showDetails
+            />
+          </Content>
         )}
-      </Translate>
+
+        {transaction.receipt && (
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={
+              <h2>
+                <Translate id="page.transactions.transaction_execution_plan" />
+              </h2>
+            }
+          >
+            <TransactionOutcome transaction={transaction.transactionOutcome} />
+
+            <ReceiptRow
+              receipt={transaction.receipt}
+              transactionHash={transaction.hash}
+            />
+          </Content>
+        )}
+      </>
     );
   }
 }

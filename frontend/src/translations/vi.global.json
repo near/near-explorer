@@ -88,14 +88,21 @@
     "accounts": {
       "account": "Tài khoản",
       "error": {
-        "account_fetching": "Hiện tại chưa thấy thông tin. Xin vui lòng kiểm tra lại tên tài khoản, hoặc thử lại vào lúc khác."
+        "account_fetching": "Hiện tại chưa thấy thông tin. Xin vui lòng kiểm tra lại tên tài khoản, hoặc thử lại vào lúc khác.",
+        "account_not_found": "Account ${account_id} not found. Please, check if the account name is correct or try later."
       }
     },
     "blocks": {
-      "title": "Các Khối"
+      "title": "Các Khối",
+      "error": {
+        "block_fetching": "Information is not available at the moment. Please, check if the block hash is correct or try later."
+      }
     },
     "transactions": {
-      "transaction_execution_plan": "Kế hoạch Thực thi Giao dịch"
+      "transaction_execution_plan": "Kế hoạch Thực thi Giao dịch",
+      "error": {
+        "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+      }
     }
   },
   "component": {

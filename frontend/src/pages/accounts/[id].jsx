@@ -55,7 +55,12 @@ class AccountDetail extends Component {
           }
           border={false}
         >
-          {accountFetchingError ? (
+          {accountFetchingError?.status === 404 ? (
+            <Translate
+              id="page.accounts.error.account_not_found"
+              data={{ account_id: accountFetchingError.account_id }}
+            />
+          ) : accountFetchingError ? (
             <Translate id="page.accounts.error.account_fetching" />
           ) : (
             <AccountDetails

@@ -121,10 +121,10 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
   </td>
   <td>
     <div
-      className="jsx-1785419880 cumulative-stake-chart"
+      className="jsx-2437284421 cumulative-stake-chart"
     >
       <div
-        className="jsx-1785419880 total-value"
+        className="jsx-2437284421 total-value"
         style={
           Object {
             "width": "96.7%",
@@ -132,7 +132,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
         }
       />
       <div
-        className="jsx-1785419880 current-value"
+        className="jsx-2437284421 current-value"
         style={
           Object {
             "width": "20.980000000000004%",
@@ -140,7 +140,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
         }
       />
       <div
-        className="jsx-1785419880 cumulative-stake-label"
+        className="jsx-2437284421 cumulative-stake-label"
       >
         117.68%
       </div>
@@ -268,10 +268,10 @@ exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 
   </td>
   <td>
     <div
-      className="jsx-1785419880 cumulative-stake-chart"
+      className="jsx-2437284421 cumulative-stake-chart"
     >
       <div
-        className="jsx-1785419880 total-value"
+        className="jsx-2437284421 total-value"
         style={
           Object {
             "width": "50.15%",
@@ -279,7 +279,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 
         }
       />
       <div
-        className="jsx-1785419880 current-value"
+        className="jsx-2437284421 current-value"
         style={
           Object {
             "width": "24.57%",
@@ -287,7 +287,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 
         }
       />
       <div
-        className="jsx-1785419880 cumulative-stake-label"
+        className="jsx-2437284421 cumulative-stake-label"
       >
         74.72%
       </div>
@@ -391,10 +391,10 @@ exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = 
   </td>
   <td>
     <div
-      className="jsx-1785419880 cumulative-stake-chart"
+      className="jsx-2437284421 cumulative-stake-chart"
     >
       <div
-        className="jsx-1785419880 total-value"
+        className="jsx-2437284421 total-value"
         style={
           Object {
             "width": "0%",
@@ -402,7 +402,7 @@ exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = 
         }
       />
       <div
-        className="jsx-1785419880 current-value"
+        className="jsx-2437284421 current-value"
         style={
           Object {
             "width": "0%",
@@ -410,7 +410,7 @@ exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = 
         }
       />
       <div
-        className="jsx-1785419880 cumulative-stake-label"
+        className="jsx-2437284421 cumulative-stake-label"
       >
         N/A
       </div>
@@ -539,10 +539,10 @@ Array [
     </td>
     <td>
       <div
-        className="jsx-1785419880 cumulative-stake-chart"
+        className="jsx-2437284421 cumulative-stake-chart"
       >
         <div
-          className="jsx-1785419880 total-value"
+          className="jsx-2437284421 total-value"
           style={
             Object {
               "width": "0%",
@@ -550,7 +550,7 @@ Array [
           }
         />
         <div
-          className="jsx-1785419880 current-value"
+          className="jsx-2437284421 current-value"
           style={
             Object {
               "width": "50.14%",
@@ -558,7 +558,7 @@ Array [
           }
         />
         <div
-          className="jsx-1785419880 cumulative-stake-label"
+          className="jsx-2437284421 cumulative-stake-label"
         >
           50.14%
         </div>
