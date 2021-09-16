@@ -438,21 +438,13 @@ export default class TransactionsApi extends ExplorerApi {
     transactionHash: string
   ): Promise<Transaction | null> {
     try {
-      let transactionInfo = await this.getTransactions({
+      const transactionInfo = await this.getTransactions({
         transactionHash,
         limit: 1,
-      }).then((it) => it[0] || null);
-      if (transactionInfo === null) {
-        transactionInfo = {
-          status: "NotStarted",
-          hash: transactionHash,
-          signerId: "",
-          receiverId: "",
-          blockHash: "",
-          blockTimestamp: 0,
-          transactionIndex: 0,
-          actions: [],
-        };
+      }).then((it) => it[0] || undefined);
+
+      if (transactionInfo === undefined) {
+        throw new Error("transaction not found");
       } else {
         const transactionExtraInfo = await this.call<any>("nearcore-tx", [
           transactionInfo.hash,

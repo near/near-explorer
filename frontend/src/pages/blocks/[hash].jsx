@@ -74,7 +74,7 @@ class BlockDetail extends Component {
               border={false}
             >
               {this.props.err ? (
-                `Information is not available at the moment. Please, check if the block hash is correct or try later.`
+                <>{translate("page.blocks.error.block_fetching")}</>
               ) : (
                 <BlockDetails block={block} />
               )}
