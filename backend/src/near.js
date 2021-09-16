@@ -38,15 +38,9 @@ const queryEpochStats = async () => {
   const currentValidators = getCurrentNodes(epochStatus);
   const currentPools = await queryNodeValidators();
 
-  // loop over 'active' validators to apply stakingStatus='active'
-  // and push those validators to common Map()
+  // loop over 'active' validators to push those validators to common Map()
   currentValidators.forEach((validator, i) => {
     const { stake, ...currentValidator } = validator;
-
-    if (!currentValidators[i].stakingStatus) {
-      currentValidators[i].stakingStatus = "active";
-    }
-
     stakingNodes.set(validator.account_id, {
       ...currentValidator,
       currentStake: stake,
@@ -141,6 +135,7 @@ const getCurrentNodes = (epochStatus) => {
     newValidators,
     removedValidators,
   } = nearApi.validators.diffEpochValidators(currentValidators, nextValidators);
+  setValidatorStatus(currentValidators, "active");
   setValidatorStatus(newValidators, "joining");
   setValidatorStatus(removedValidators, "leaving");
   currentValidators = currentValidators.concat(newValidators);
