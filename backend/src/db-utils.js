@@ -23,16 +23,6 @@ const queryRows = async (args, options) => {
   return await query(args, options || {});
 };
 
-// genesis
-const getSyncedGenesis = async (options) => {
-  return await querySingleRow(
-    [
-      `SELECT genesis_time AS genesisTime, genesis_height AS genesisHeight, chain_id AS chainId FROM genesis`,
-    ],
-    options
-  );
-};
-
 const queryGenesisAccountCount = async () => {
   return await querySingleRow(
     [
@@ -114,35 +104,32 @@ const queryOnlineNodes = async () => {
 // query for new dashboard
 const queryDashboardBlocksStats = async (options) => {
   async function queryLatestBlockHeight({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`;
-    } else {
-      query = `SELECT height AS block_height FROM blocks ORDER BY height DESC LIMIT 1`;
-    }
-    return (await querySingleRow([query], { dataSource })).block_height;
+    return (
+      await querySingleRow(
+        [`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`],
+        { dataSource }
+      )
+    ).block_height;
   }
 
   async function queryLatestGasPrice({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`;
-    } else {
-      query = `SELECT gas_price FROM blocks ORDER BY height DESC LIMIT 1`;
-    }
-    return (await querySingleRow([query], { dataSource })).gas_price;
+    return (
+      await querySingleRow(
+        [`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`],
+        { dataSource }
+      )
+    ).gas_price;
   }
 
   async function queryRecentBlockProductionSpeed({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT block_timestamp AS latest_block_timestamp FROM blocks ORDER BY block_timestamp DESC LIMIT 1`;
-    } else {
-      query = `SELECT timestamp AS latest_block_timestamp FROM blocks ORDER BY timestamp DESC LIMIT 1`;
-    }
-    const latestBlockTimestampOrNone = await querySingleRow([query], {
-      dataSource,
-    });
+    const latestBlockTimestampOrNone = await querySingleRow(
+      [
+        `SELECT
+          block_timestamp AS latest_block_timestamp
+        FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
+      ],
+      { dataSource }
+    );
     if (!latestBlockTimestampOrNone) {
       return 0;
     }
@@ -162,16 +149,12 @@ const queryDashboardBlocksStats = async (options) => {
       return 0;
     }
 
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
-        WHERE block_timestamp > (CAST(:latestBlockTimestamp - 60 AS bigint) * 1000 * 1000 * 1000)`;
-    } else {
-      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
-        WHERE timestamp > (:latestBlockTimestamp - 60 * 1000)`;
-    }
     const result = await querySingleRow(
       [
-        query,
+        `SELECT
+          COUNT(*) AS blocks_count_60_seconds_before
+        FROM blocks
+        WHERE block_timestamp > (CAST(:latestBlockTimestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
         {
           latestBlockTimestamp:
             dataSource == DS_INDEXER_BACKEND
@@ -558,7 +541,6 @@ exports.pickOnlineValidatingNode = pickOnlineValidatingNode;
 exports.queryNodeValidators = queryNodeValidators;
 
 // genesis
-exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryGenesisAccountCount = queryGenesisAccountCount;
 
 // dashboard
