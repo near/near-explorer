@@ -88,14 +88,21 @@
     "accounts": {
       "account": "Account",
       "error": {
-        "account_fetching": "Information is not available at the moment. Please, check if the account name is correct or try later."
+        "account_fetching": "Information is not available at the moment. Please, check if the account name is correct or try later.",
+        "account_not_found": "Account ${account_id} not found. Please, check if the account name is correct or try later."
       }
     },
     "blocks": {
-      "title": "Blocks"
+      "title": "Blocks",
+      "error": {
+        "block_fetching": "Information is not available at the moment. Please, check if the block hash is correct or try later."
+      }
     },
     "transactions": {
-      "transaction_execution_plan": "Transaction Execution Plan"
+      "transaction_execution_plan": "Transaction Execution Plan",
+      "error": {
+        "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+      }
     }
   },
   "component": {

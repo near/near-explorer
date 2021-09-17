@@ -21,14 +21,20 @@ interface Props {
   country?: string;
   stakingStatus?: N.StakingStatus;
   publicKey?: string;
-  validatorFee: string | null;
-  validatorDelegators: number | string | null;
+  validatorFee?: string | null;
+  validatorDelegators?: number | string | null;
   currentStake?: string;
   proposedStakeForNextEpoch?: string;
   cumulativeStake: number;
   totalStakeInPersnt: number;
   handleClick: React.MouseEventHandler;
 }
+
+const yoctoNearToNear = new BN(1)
+  .muln(10 ** 6)
+  .muln(10 ** 6)
+  .muln(10 ** 6)
+  .muln(10 ** 6);
 
 class ValidatorMainRow extends PureComponent<Props> {
   render() {
@@ -220,11 +226,21 @@ class ValidatorMainRow extends PureComponent<Props> {
               </td>
 
               <td>
-                {validatorFee ?? <Spinner animation="border" size="sm" />}
+                {validatorFee === undefined ? (
+                  <Spinner animation="border" size="sm" />
+                ) : validatorFee === null ? (
+                  translate("common.state.not_available")
+                ) : (
+                  validatorFee
+                )}
               </td>
               <td>
-                {validatorDelegators ?? (
+                {validatorDelegators === undefined ? (
                   <Spinner animation="border" size="sm" />
+                ) : validatorDelegators === null ? (
+                  translate("common.state.not_available")
+                ) : (
+                  validatorDelegators
                 )}
               </td>
               <td className="text-right validator-nodes-text stake-text">
@@ -246,11 +262,23 @@ class ValidatorMainRow extends PureComponent<Props> {
                       {typeof stakeProposedAmount !== undefined && (
                         <>
                           {stakeProposedAmount.increace ? "+" : "-"}
-                          <Balance
-                            amount={stakeProposedAmount.value}
-                            label="NEAR"
-                            fracDigits={0}
-                          />
+                          {Number(
+                            new BN(stakeProposedAmount.value).div(
+                              yoctoNearToNear
+                            )
+                          ) < 1 ? (
+                            <Balance
+                              amount={stakeProposedAmount.value}
+                              label="NEAR"
+                              fracDigits={4}
+                            />
+                          ) : (
+                            <Balance
+                              amount={stakeProposedAmount.value}
+                              label="NEAR"
+                              fracDigits={0}
+                            />
+                          )}
                         </>
                       )}
                     </small>

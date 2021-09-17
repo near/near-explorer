@@ -88,14 +88,21 @@
     "accounts": {
       "account": "账户",
       "error": {
-        "account_fetching": "当前信息不可用。请检查账户名称是否正确或稍后再次尝试。"
+        "account_fetching": "当前信息不可用。请检查账户名称是否正确或稍后再次尝试。",
+        "account_not_found": "Account ${account_id} not found. Please, check if the account name is correct or try later."
       }
     },
     "blocks": {
-      "title": "区块"
+      "title": "区块",
+      "error": {
+        "block_fetching": "Information is not available at the moment. Please, check if the block hash is correct or try later."
+      }
     },
     "transactions": {
-      "transaction_execution_plan": "交易执行计划"
+      "transaction_execution_plan": "交易执行计划",
+      "error": {
+        "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+      }
     }
   },
   "component": {

@@ -97,11 +97,11 @@ class ReceiptRow extends Component<Props> {
             <Col className="receipt-row-title">
               <Translate id="common.receipts.receipt_id" />:
             </Col>
-            <Col className="receipt-row-receipt-hash trancate-link">
+            <Col className="receipt-row-receipt-hash truncate-link">
               <ReceiptLink
                 transactionHash={transactionHash}
                 receiptId={receipt.receipt_id}
-                trancate={false}
+                truncate={false}
               />
             </Col>
           </Row>
@@ -110,8 +110,8 @@ class ReceiptRow extends Component<Props> {
             <Col className="receipt-row-title">
               <Translate id="common.receipts.executed_in_block" />:
             </Col>
-            <Col className="receipt-row-receipt-hash trancate-link">
-              <BlockLink blockHash={receipt.block_hash} trancate={false} />
+            <Col className="receipt-row-receipt-hash truncate-link">
+              <BlockLink blockHash={receipt.block_hash} truncate={false} />
             </Col>
           </Row>
 
@@ -256,7 +256,7 @@ class ReceiptRow extends Component<Props> {
             text-overflow: ellipsis;
           }
 
-          .receipt-row-receipt-hash.trancate-link {
+          .receipt-row-receipt-hash.truncate-link {
             color: #007bff;
           }
 
