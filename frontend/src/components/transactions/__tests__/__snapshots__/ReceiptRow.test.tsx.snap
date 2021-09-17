@@ -140,7 +140,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        3 Gas
+        3 Tgas
       </div>
     </div>
     <div
@@ -722,7 +722,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        20 Gas
+        20 Tgas
       </div>
     </div>
     <div
@@ -1028,7 +1028,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-receipt-hash col"
               >
-                4 Gas
+                4 Tgas
               </div>
             </div>
             <div
@@ -1626,7 +1626,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-receipt-hash col"
               >
-                3 Gas
+                3 Tgas
               </div>
             </div>
             <div
@@ -2490,7 +2490,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-receipt-hash col"
       >
-        6 Gas
+        6 Tgas
       </div>
     </div>
     <div

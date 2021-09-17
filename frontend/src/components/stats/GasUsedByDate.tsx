@@ -5,7 +5,7 @@ import echarts from "echarts";
 import BN from "bn.js";
 import { utils } from "near-api-js";
 
-import StatsApi, { GasUsedByDate } from "../../libraries/explorer-wamp/stats";
+import StatsApi from "../../libraries/explorer-wamp/stats";
 import { cumulativeSumArray } from "../../libraries/stats";
 
 import { DatabaseContext } from "../../context/DatabaseProvider";
