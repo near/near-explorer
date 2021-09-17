@@ -26,16 +26,18 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
   useEffect(() => {
     new StatsApi().gasUsedAggregatedByDate().then((gasUsed) => {
       if (gasUsed) {
-        const gas = gasUsed.map((gas: GasUsedByDate) => Number(gas.gasUsed));
-        setTotal(cumulativeSumArray(gas));
-        setGasUsedByDate(gas);
-        const date = gasUsed.map((gas: GasUsedByDate) => gas.date.slice(0, 10));
+        const petagas = gasUsed.map(({ gasUsed }) =>
+          new BN(gasUsed).divn(1000000).divn(1000000).divn(1000).toNumber()
+        );
+        setTotal(cumulativeSumArray(petagas));
+        setGasUsedByDate(petagas);
+        const date = gasUsed.map(({ date }) => date.slice(0, 10));
         setDate(date);
 
         if (latestGasPrice) {
-          const fee = gasUsed.map((gas: GasUsedByDate) =>
+          const fee = gasUsed.map(({ gasUsed }) =>
             utils.format.formatNearAmount(
-              new BN(gas.gasUsed).mul(latestGasPrice).toString(),
+              new BN(gasUsed).mul(latestGasPrice).toString(),
               5
             )
           );
@@ -134,7 +136,7 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
                   "component.stats.GasUsedByDate.daily_amount_of_used_gas"
                 ).toString(),
                 gasUsedByDate,
-                translate("component.stats.GasUsedByDate.gas").toString()
+                translate("component.stats.GasUsedByDate.petagas").toString()
               )}
               style={chartStyle}
             />
@@ -146,7 +148,7 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
                   "component.stats.GasUsedByDate.total_amount_of_used_gas"
                 ).toString(),
                 cumulativeGasUsedByDate,
-                translate("component.stats.GasUsedByDate.gas").toString()
+                translate("component.stats.GasUsedByDate.petagas").toString()
               )}
               style={chartStyle}
             />
@@ -162,7 +164,7 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
                     "component.stats.GasUsedByDate.daily_gas_fee_in_near"
                   ).toString(),
                   feeUsedByDate,
-                  translate("component.stats.GasUsedByDate.fee").toString()
+                  "NEAR"
                 )}
                 style={chartStyle}
               />

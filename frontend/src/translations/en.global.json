@@ -328,7 +328,7 @@
         },
         "gas_price": {
           "title": "Gas Price",
-          "text": "TODO Check this description $NEAR price for the Gas in current Epoch. "
+          "text": "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
         },
         "created": {
           "title": "Created",
@@ -440,7 +440,7 @@
         },
         "gas_price": {
           "title": "Gas Price",
-          "text": "TODO Check this description $NEAR price for the Gas in current Epoch. "
+          "text": "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
         }
       },
       "DashboardTransactionHistoryChart": {
@@ -469,6 +469,7 @@
       "GasUsedByDate": {
         "daily_amount_of_used_gas": "Daily Amount of Used Gas",
         "total_amount_of_used_gas": "Total Amount of Used Gas",
+        "petagas": "PetaGas",
         "gas_fee": "Gas Fee",
         "daily_gas_fee_in_near": "Daily Gas Fee in NEAR",
         "fee": "fee"

@@ -42,6 +42,7 @@ const sequelizeIndexerBackendReadOnly = new Sequelize(
   {
     host: dbConfig.indexerDatabase.host,
     dialect: dbConfig.indexerDatabase.dialect,
+    logging: false,
   }
 );
 

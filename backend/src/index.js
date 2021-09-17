@@ -214,7 +214,7 @@ function startStatsAggregation() {
       // transactions related
       await aggregateTransactionsCountByDate();
       await aggregateGasUsedByDate();
-      await aggregateDepositAmountByDate();
+      //await aggregateDepositAmountByDate();
 
       // account
       await aggregateNewAccountsCountByDate();

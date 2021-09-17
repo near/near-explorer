@@ -328,7 +328,7 @@
         },
         "gas_price": {
           "title": "Gas价格",
-          "text": "TODO translate this description "
+          "text": "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
         },
         "created": {
           "title": "创建于",
@@ -431,6 +431,7 @@
       "GasUsedByDate": {
         "daily_amount_of_used_gas": "日Gas使用量",
         "total_amount_of_used_gas": "总Gas使用量",
+        "petagas": "PetaGas",
         "gas_fee": "Gas费",
         "daily_gas_fee_in_near": "以NEAR计算的每日Gas费",
         "fee": "费用"
@@ -495,7 +496,7 @@
         },
         "gas_price": {
           "title": "Gas价格",
-          "text": "TODO Translate this description "
+          "text": "A unit of Tgas (TeraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used. "
         }
       },
       "DashboardTransactionHistoryChart": {
