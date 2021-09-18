@@ -65,4 +65,26 @@ moment.updateLocale("vi", {
   },
 });
 
+moment.updateLocale("ru", {
+  relativeTime: {
+    past: (input) => {
+      return input === "только что" ? "1 сек" : input + " назад";
+    },
+    s: "только что",
+    future: "через %сек",
+    ss: "%d секунд",
+    m: "1 мин",
+    mm: "%d минут",
+    h: "1 час",
+    hh: "%d часов",
+    d: "1 день",
+    dd: "%d дней",
+    M: "1 месяц",
+    MM: "%d месяцев",
+    y: "1 год",
+    yy: "%d лет",
+  },
+});
+
+
 export default moment;

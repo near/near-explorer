@@ -8,6 +8,7 @@
 import translations_en from "../translations/en.global.json";
 import translations_zh_hans from "../translations/zh-hans.global.json";
 import translations_vi from "../translations/vi.global.json";
+import translations_ru from "../translations/ru.global.json";
 import moment from "./moment";
 import Cookies from "universal-cookie";
 
@@ -166,7 +167,7 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 }
 
 export function setMomentLocale(code) {
-  const locale = code === "zh-hans" ? "zh-cn" : code === "vi" ? "vi" : "en";
+  const locale = code === "zh-hans" ? "zh-cn" : code === "vi" ? "vi" : code === "en" ? "en" : "ru";
   // `moment.locale()` must be called after `moment.updateLocale()` are configured
   moment.locale(locale);
 }
@@ -196,6 +197,7 @@ function getI18nConfig() {
       { name: "English", code: "en" },
       { name: "简体中文", code: "zh-hans" },
       { name: "Tiếng Việt", code: "vi" },
+      { name: "Русский", code: "ru" },
     ],
     options: {
       defaultLanguage: "en",
@@ -211,12 +213,15 @@ export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
     const config = getI18nConfig();
     const { languages } = config;
     const activeLang = getLanguage(languages, { cookies, acceptedLanguages });
-    if (activeLang === "zh-hans") {
-      config.translation = translations_zh_hans;
+    if (activeLang === "ru") {
+      config.translation = translations_ru;
     } else {
-      if (activeLang === "vi") {
-        config.translation = translations_vi;
-      } else {
+        if (activeLang === "zh-hans") {
+         config.translation = translations_zh_hans;
+        } else {
+         if (activeLang === "vi") {
+           config.translation = translations_vi;
+         } else {
         config.translation = translations_en;
       }
     }
@@ -234,7 +239,8 @@ export function setI18N(props) {
   props.addTranslationForLanguage(translations_en, "en");
   props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
   props.addTranslationForLanguage(translations_vi, "vi");
+  props.addTranslationForLanguage(translations_ru, "ru");
   props.setActiveLanguage(activeLang);
 
   setMomentLocale(activeLang);
-}
+}}
