@@ -167,7 +167,7 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 }
 
 export function setMomentLocale(code) {
-  const locale = code === "zh-hans" ? "zh-cn" : code === "vi" ? "vi" : code === "en" ? "en" : "ru";
+  const locale = code === "zh-hans" ? "zh-cn" : code === "vi" ? "vi" : code === "ru" ? "ru" : "en";
   // `moment.locale()` must be called after `moment.updateLocale()` are configured
   moment.locale(locale);
 }
@@ -215,14 +215,18 @@ export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
     const activeLang = getLanguage(languages, { cookies, acceptedLanguages });
     if (activeLang === "ru") {
       config.translation = translations_ru;
-    } else {
-        if (activeLang === "zh-hans") {
-         config.translation = translations_zh_hans;
-        } else {
-         if (activeLang === "vi") {
-           config.translation = translations_vi;
-         } else {
-        config.translation = translations_en;
+    }
+    else {
+      if (activeLang === "zh-hans") {
+        config.translation = translations_zh_hans;
+      }
+      else {
+        if (activeLang === "vi") {
+          config.translation = translations_vi;
+        }
+        else {
+          config.translation = translations_en;
+        }
       }
     }
     return config;
@@ -243,4 +247,4 @@ export function setI18N(props) {
   props.setActiveLanguage(activeLang);
 
   setMomentLocale(activeLang);
-}}
+  }
