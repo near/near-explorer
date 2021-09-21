@@ -234,7 +234,8 @@
           "arguments": "Параметры:"
         },
         "Transfer": {
-          "transferred": "Переведено "
+          "transferred": "Переведено ",
+          "to": "  "
         },
         "Stake": {
           "staked": "В стейкинге: ",
