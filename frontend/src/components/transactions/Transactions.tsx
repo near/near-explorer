@@ -25,7 +25,7 @@ class TransactionsWrapper extends Component<OuterProps> {
     count: number,
     paginationIndexer?: T.TxPagination
   ) => {
-    return await new TransactionsApi().getTransactionsFromIndexer({
+    return await new TransactionsApi().getTransactions({
       signerId: this.props.accountId,
       receiverId: this.props.accountId,
       blockHash: this.props.blockHash,

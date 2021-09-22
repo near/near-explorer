@@ -166,7 +166,7 @@ export default class TransactionsApi extends ExplorerApi {
     ["TRANSFER", "Transfer"],
   ]);
 
-  async getTransactionsFromIndexer(queries: QueryArgs): Promise<Transaction[]> {
+  async getTransactions(queries: QueryArgs): Promise<Transaction[]> {
     const {
       signerId,
       receiverId,
@@ -298,7 +298,7 @@ export default class TransactionsApi extends ExplorerApi {
       return transactions;
     } catch (error) {
       console.error(
-        "Transactions.getTransactionsFromIndexer failed to fetch data due to:"
+        "Transactions.getTransactions failed to fetch data due to:"
       );
       console.error(error);
       throw error;
@@ -325,7 +325,7 @@ export default class TransactionsApi extends ExplorerApi {
     transactionHash: string
   ): Promise<Transaction | null> {
     try {
-      const transactionInfo = await this.getTransactionsFromIndexer({
+      const transactionInfo = await this.getTransactions({
         transactionHash,
         limit: 1,
       }).then((it) => it[0] || undefined);
