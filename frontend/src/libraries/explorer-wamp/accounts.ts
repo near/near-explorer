@@ -1,5 +1,3 @@
-import { DATA_SOURCE_TYPE } from "../consts";
-
 import { ExplorerApi } from ".";
 
 export interface AccountBasicInfo {
@@ -34,39 +32,24 @@ type PaginatedAccountBasicInfo = AccountBasicInfo & AccountPagination;
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(accountId: string): Promise<Account> {
     const queryBasicInfo = async () => {
-      let accountsBasicInfo;
-      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-        accountsBasicInfo = await this.call<any>("select", [
-          `SELECT account_id AS account_id, created_at_block_timestamp AS created_at_block_timestamp, created_by_transaction_hash AS created_by_transaction_hash
-            FROM accounts
-            WHERE account_id = :accountId
-          `,
-          {
-            accountId,
-          },
-        ]);
-      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-        accountsBasicInfo = await this.call<any>("select:INDEXER_BACKEND", [
-          `SELECT
-              inneraccounts.account_id,
-              DIV(creation_receipt.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp,
-              creation_receipt.originated_from_transaction_hash AS created_by_transaction_hash,
-              DIV(deletion_receipt.included_in_block_timestamp, 1000*1000) AS deleted_at_block_timestamp,
-              deletion_receipt.originated_from_transaction_hash AS deleted_by_transaction_hash
-            FROM (
-              SELECT account_id, created_by_receipt_id, deleted_by_receipt_id
-                  FROM accounts
-                  WHERE account_id = :account_id
-            ) AS inneraccounts
-            LEFT JOIN receipts AS creation_receipt ON creation_receipt.receipt_id = inneraccounts.created_by_receipt_id
-            LEFT JOIN receipts AS deletion_receipt ON deletion_receipt.receipt_id = inneraccounts.deleted_by_receipt_id`,
-          {
-            account_id: accountId,
-          },
-        ]);
-      } else {
-        throw Error(`unsupported data source ${this.dataSource}`);
-      }
+      const accountsBasicInfo = await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT
+            inneraccounts.account_id,
+            DIV(creation_receipt.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp,
+            creation_receipt.originated_from_transaction_hash AS created_by_transaction_hash,
+            DIV(deletion_receipt.included_in_block_timestamp, 1000*1000) AS deleted_at_block_timestamp,
+            deletion_receipt.originated_from_transaction_hash AS deleted_by_transaction_hash
+          FROM (
+            SELECT account_id, created_by_receipt_id, deleted_by_receipt_id
+                FROM accounts
+                WHERE account_id = :account_id
+          ) AS inneraccounts
+          LEFT JOIN receipts AS creation_receipt ON creation_receipt.receipt_id = inneraccounts.created_by_receipt_id
+          LEFT JOIN receipts AS deletion_receipt ON deletion_receipt.receipt_id = inneraccounts.deleted_by_receipt_id`,
+        {
+          account_id: accountId,
+        },
+      ]);
 
       if (accountsBasicInfo.length === 0) {
         throw {
@@ -101,46 +84,31 @@ export default class AccountsApi extends ExplorerApi {
 
   async queryAccountStats(accountId: string): Promise<AccountStats> {
     try {
-      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-        return await this.call<AccountStats[]>("select", [
-          `SELECT outTransactionsCount.outTransactionsCount, inTransactionsCount.inTransactionsCount FROM
-            (SELECT COUNT(transactions.hash) as outTransactionsCount FROM transactions
-              WHERE signer_id = :accountId) as outTransactionsCount,
-            (SELECT COUNT(transactions.hash) as inTransactionsCount FROM transactions
-              WHERE receiver_id = :accountId) as inTransactionsCount`,
-          {
-            accountId,
-          },
-        ]).then((accounts) => accounts[0]);
-      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-        return await this.call<any>("select:INDEXER_BACKEND", [
-          `SELECT out_transactions_count.out_transactions_count, in_transactions_count.in_transactions_count FROM
-            (SELECT
-                COUNT(transactions.transaction_hash) AS out_transactions_count
-              FROM transactions
-              WHERE signer_account_id = :account_id
-            ) AS out_transactions_count,
-            (SELECT
-                COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
-              FROM transactions
-              LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
-              WHERE
-                receipts.receiver_account_id = :account_id
-                AND
-                transactions.signer_account_id != :account_id
-            ) AS in_transactions_count`,
-          {
-            account_id: accountId,
-          },
-        ]).then((accounts) => {
-          return {
-            inTransactionsCount: accounts[0].in_transactions_count,
-            outTransactionsCount: accounts[0].out_transactions_count,
-          };
-        });
-      } else {
-        throw Error(`unsupported data source ${this.dataSource}`);
-      }
+      return await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT out_transactions_count.out_transactions_count, in_transactions_count.in_transactions_count FROM
+          (SELECT
+              COUNT(transactions.transaction_hash) AS out_transactions_count
+            FROM transactions
+            WHERE signer_account_id = :account_id
+          ) AS out_transactions_count,
+          (SELECT
+              COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
+            FROM transactions
+            LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
+            WHERE
+              receipts.receiver_account_id = :account_id
+              AND
+              transactions.signer_account_id != :account_id
+          ) AS in_transactions_count`,
+        {
+          account_id: accountId,
+        },
+      ]).then((accounts) => {
+        return {
+          inTransactionsCount: accounts[0].in_transactions_count,
+          outTransactionsCount: accounts[0].out_transactions_count,
+        };
+      });
     } catch (error) {
       console.error(
         "AccountsApi.queryAccountStats failed to fetch data due to:"
@@ -155,39 +123,18 @@ export default class AccountsApi extends ExplorerApi {
     paginationIndexer?: AccountPagination
   ): Promise<PaginatedAccountBasicInfo[]> {
     try {
-      let accounts;
-      if (this.dataSource === DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND) {
-        accounts = await this.call<any>("select", [
-          `SELECT account_id as account_id, created_at_block_timestamp, account_index
-            FROM accounts
-            ${
-              paginationIndexer
-                ? `WHERE created_at_block_timestamp < :endTimestamp OR (created_at_block_timestamp = :endTimestamp AND account_index < :accountIndex)`
-                : ""
-            }
-            ORDER BY created_at_block_timestamp DESC, account_index DESC
-            LIMIT :limit`,
-          {
-            limit,
-            ...paginationIndexer,
-          },
-        ]);
-      } else if (this.dataSource === DATA_SOURCE_TYPE.INDEXER_BACKEND) {
-        accounts = await this.call<any>("select:INDEXER_BACKEND", [
-          `SELECT account_id AS account_id, id AS account_index, DIV(receipts.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp
-            FROM accounts
-            LEFT JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
-            ${paginationIndexer ? `WHERE id < :account_index` : ""}
-            ORDER BY account_index DESC
-            LIMIT :limit`,
-          {
-            limit,
-            account_index: paginationIndexer?.accountIndex,
-          },
-        ]);
-      } else {
-        throw Error(`unsupported data source ${this.dataSource}`);
-      }
+      let accounts = await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT account_id AS account_id, id AS account_index, DIV(receipts.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp
+          FROM accounts
+          LEFT JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
+          ${paginationIndexer ? `WHERE id < :account_index` : ""}
+          ORDER BY account_index DESC
+          LIMIT :limit`,
+        {
+          limit,
+          account_index: paginationIndexer?.accountIndex,
+        },
+      ]);
 
       accounts = accounts.map((account: any) => {
         return {
