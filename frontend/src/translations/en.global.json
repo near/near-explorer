@@ -310,6 +310,11 @@
         "no_actions": "No actions"
       }
     },
+    "receipts": {
+      "ReceiptAction": {
+        "batch_receipt": "Batch Receipt"
+      }
+    },
     "blocks": {
       "ReceiptsInBlock": {
         "no_receipts": "There are no receipts in this block"

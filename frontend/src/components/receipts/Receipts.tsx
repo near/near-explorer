@@ -6,6 +6,8 @@ import ActionGroup from "../transactions/ActionGroup";
 import ReceiptLink from "../utils/ReceiptLink";
 import ReceiptExecutionStatus from "./ReceiptExecutionStatus";
 
+import { Translate } from "react-localize-redux";
+
 interface Props {
   receipts: Receipt[];
 }
@@ -13,28 +15,35 @@ interface Props {
 class Receipts extends Component<Props> {
   render() {
     return (
-      <>
-        {this.props.receipts.map((receipt: Receipt, index) => (
-          <ActionGroup
-            key={`${receipt.receiptId}_${index}`}
-            actionGroup={receipt}
-            detailsLink={
-              <ReceiptLink
-                transactionHash={receipt.originatedFromTransactionHash}
-                receiptId={receipt.receiptId}
+      <Translate>
+        {({ translate }) => (
+          <>
+            {this.props.receipts.map((receipt: Receipt, index) => (
+              <ActionGroup
+                key={`${receipt.receiptId}_${index}`}
+                actionGroup={receipt}
+                detailsLink={
+                  <ReceiptLink
+                    transactionHash={receipt.originatedFromTransactionHash}
+                    receiptId={receipt.receiptId}
+                  />
+                }
+                status={
+                  receipt.status ? (
+                    <ReceiptExecutionStatus status={receipt.status} />
+                  ) : (
+                    <>{"Fetching Status..."}</>
+                  )
+                }
+                title={translate(
+                  "component.transactions.TransactionAction.batch_transaction"
+                ).toString()}
               />
-            }
-            status={
-              receipt.status ? (
-                <ReceiptExecutionStatus status={receipt.status} />
-              ) : (
-                <>{"Fetching Status..."}</>
-              )
-            }
-            title={"Batch Receipt"}
-          />
-        ))}
-      </>
+            ))}
+          </>
+        )}
+        ;
+      </Translate>
     );
   }
 }
