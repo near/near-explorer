@@ -173,7 +173,7 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 //}
 
 export function setMomentLocale(code) {
-  const locale = code;
+  let locale = code;
   switch (code) {
     case "ru":
       locale = "ru";
