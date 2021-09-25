@@ -122,7 +122,7 @@
         "state": {
           "active": {
             "title": "Активный",
-            "text": "текущие проверяющиq узел"
+            "text": "текущий проверочный узел"
           },
           "joining": {
             "title": "Присоединение",
@@ -487,8 +487,8 @@
         "fee": "комиссия"
       },
       "NewAccountsByDate": {
-        "daily_number_of_new_accounts": "Ежедневное количество новых аккаунтов",
-        "daily_number_of_live_accounts": "Ежедневное количество активных аккаунтов",
+        "daily_number_of_new_accounts": "Суточное количество новых аккаунтов",
+        "daily_number_of_live_accounts": "Суточное количество активных аккаунтов",
         "total_number_of_new_accounts": "Общее количество новых аккаунтов",
         "new_accounts": "Новые аккаунты"
       },
@@ -499,7 +499,7 @@
         "new_contracts": "Новые контракты"
       },
       "ActiveAccountsByDate": {
-        "daily_number_of_active_accounts": "Ежедневное количество активных аккаунтов",
+        "daily_number_of_active_accounts": "Суточное количество активных аккаунтов",
         "weekly_number_of_active_accounts": "Еженедельное количество активных аккаунтов",
         "active_accounts": "Активные аккуанты"
       },

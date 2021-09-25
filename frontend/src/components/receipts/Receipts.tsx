@@ -36,7 +36,7 @@ class Receipts extends Component<Props> {
                   )
                 }
                 title={translate(
-                  "component.transactions.TransactionAction.batch_transaction"
+                  "component.trыansactions.TransactionAction.batch_transaction"
                 ).toString()}
               />
             ))}
