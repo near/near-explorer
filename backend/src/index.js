@@ -30,7 +30,7 @@ const {
 } = require("./db-utils");
 
 const {
-  aggregateTeragasUsedByDate,
+  aggregateGasUsedByDate,
   aggregateTransactionsCountByDate,
   aggregateNewAccountsCountByDate,
   aggregateDeletedAccountsCountByDate,
@@ -104,7 +104,7 @@ function startStatsAggregation() {
       //stats part
       // transactions related
       await aggregateTransactionsCountByDate();
-      await aggregateTeragasUsedByDate();
+      await aggregateGasUsedByDate();
       await aggregateDepositAmountByDate();
 
       // account

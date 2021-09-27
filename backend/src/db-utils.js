@@ -253,8 +253,7 @@ const queryTransactionsCountAggregatedByDate = async () => {
   );
 };
 
-// TODO fix it, we change teragas to petagas
-const queryTeragasUsedAggregatedByDate = async () => {
+const queryGasUsedAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT collected_for_day AS date,
@@ -509,7 +508,7 @@ exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 // stats
 // transaction related
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
-exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
+exports.queryGasUsedAggregatedByDate = queryGasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 
 // accounts

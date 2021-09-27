@@ -5,44 +5,39 @@ import echarts from "echarts";
 import BN from "bn.js";
 import { utils } from "near-api-js";
 
-import StatsApi, {
-  TeragasUsedByDate,
-} from "../../libraries/explorer-wamp/stats";
+import StatsApi from "../../libraries/explorer-wamp/stats";
 import { cumulativeSumArray } from "../../libraries/stats";
 
 import { DatabaseContext } from "../../context/DatabaseProvider";
 
 import { Props } from "./TransactionsByDate";
-import { TGAS } from "../utils/Gas";
 
 import { Translate } from "react-localize-redux";
 
-const GasUsedByDate = ({ chartStyle }: Props) => {
-  const [teragasUsedByDate, setTeragasUsedByDate] = useState(Array());
+const GasUsedByDateChart = ({ chartStyle }: Props) => {
+  const [gasUsedByDate, setGasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
-  const [cumulativeTeragasUsedByDate, setTotal] = useState(Array());
+  const [cumulativeGasUsedByDate, setTotal] = useState(Array());
 
   const [feeUsedByDate, setFee] = useState(Array());
 
   const { latestGasPrice } = useContext(DatabaseContext);
 
   useEffect(() => {
-    new StatsApi().teragasUsedAggregatedByDate().then((teragasUsed) => {
-      if (teragasUsed) {
-        const gas = teragasUsed.map((gas: TeragasUsedByDate) =>
-          Number(gas.teragasUsed)
+    new StatsApi().gasUsedAggregatedByDate().then((gasUsed) => {
+      if (gasUsed) {
+        const petagas = gasUsed.map(({ gasUsed }) =>
+          new BN(gasUsed).divn(1000000).divn(1000000).divn(1000).toNumber()
         );
-        setTotal(cumulativeSumArray(gas));
-        setTeragasUsedByDate(gas);
-        const date = teragasUsed.map((gas: TeragasUsedByDate) =>
-          gas.date.slice(0, 10)
-        );
+        setTotal(cumulativeSumArray(petagas));
+        setGasUsedByDate(petagas);
+        const date = gasUsed.map(({ date }) => date.slice(0, 10));
         setDate(date);
 
         if (latestGasPrice) {
-          const fee = teragasUsed.map((gas: TeragasUsedByDate) =>
+          const fee = gasUsed.map(({ gasUsed }) =>
             utils.format.formatNearAmount(
-              new BN(gas.teragasUsed).mul(latestGasPrice).mul(TGAS).toString(),
+              new BN(gasUsed).mul(latestGasPrice).toString(),
               5
             )
           );
@@ -138,10 +133,10 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
             <ReactEcharts
               option={getOption(
                 translate(
-                  "component.stats.GasUsedByDate.daily_amount_of_used_tera_gas"
+                  "component.stats.GasUsedByDate.daily_amount_of_used_gas"
                 ).toString(),
-                teragasUsedByDate,
-                translate("component.stats.GasUsedByDate.tera_gas").toString()
+                gasUsedByDate,
+                translate("component.stats.GasUsedByDate.petagas").toString()
               )}
               style={chartStyle}
             />
@@ -150,10 +145,10 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
             <ReactEcharts
               option={getOption(
                 translate(
-                  "component.stats.GasUsedByDate.total_amount_of_used_tera_gas"
+                  "component.stats.GasUsedByDate.total_amount_of_used_gas"
                 ).toString(),
-                cumulativeTeragasUsedByDate,
-                translate("component.stats.GasUsedByDate.tera_gas").toString()
+                cumulativeGasUsedByDate,
+                translate("component.stats.GasUsedByDate.petagas").toString()
               )}
               style={chartStyle}
             />
@@ -169,7 +164,7 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
                     "component.stats.GasUsedByDate.daily_gas_fee_in_near"
                   ).toString(),
                   feeUsedByDate,
-                  translate("component.stats.GasUsedByDate.fee").toString()
+                  "NEAR"
                 )}
                 style={chartStyle}
               />
@@ -181,4 +176,4 @@ const GasUsedByDate = ({ chartStyle }: Props) => {
   );
 };
 
-export default GasUsedByDate;
+export default GasUsedByDateChart;

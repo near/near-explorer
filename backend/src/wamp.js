@@ -73,13 +73,6 @@ wampHandlers["select:INDEXER_BACKEND"] = async ([query, replacements]) => {
   });
 };
 
-wampHandlers["select:ANALYTICS_BACKEND"] = async ([query, replacements]) => {
-  return await models.sequelizeAnalyticsBackendReadOnly.query(query, {
-    replacements,
-    type: models.Sequelize.QueryTypes.SELECT,
-  });
-};
-
 // rpc endpoint
 wampHandlers["nearcore-view-account"] = async ([accountId]) => {
   return await nearRpc.sendJsonRpc("query", {
@@ -259,8 +252,8 @@ wampHandlers["transactions-count-aggregated-by-date"] = async () => {
   return await stats.getTransactionsByDate();
 };
 
-wampHandlers["teragas-used-aggregated-by-date"] = async () => {
-  return await stats.getTeragasUsedByDate();
+wampHandlers["gas-used-aggregated-by-date"] = async () => {
+  return await stats.getGasUsedByDate();
 };
 
 wampHandlers["deposit-amount-aggregated-by-date"] = async () => {
