@@ -436,9 +436,9 @@
         "transactions": "交易数"
       },
       "GasUsedByDate": {
-        "daily_amount_of_used_tera_gas": "日TGas使用量",
-        "tera_gas": "Tgas",
-        "total_amount_of_used_tera_gas": "总TGas使用量",
+        "daily_amount_of_used_gas": "日Gas使用量",
+        "petagas": "PetaGas",
+        "total_amount_of_used_gas": "总Gas使用量",
         "gas_fee": "Gas费",
         "daily_gas_fee_in_near": "以NEAR计算的每日Gas费",
         "fee": "费用"

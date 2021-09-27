@@ -252,8 +252,8 @@ wampHandlers["transactions-count-aggregated-by-date"] = async () => {
   return await stats.getTransactionsByDate();
 };
 
-wampHandlers["teragas-used-aggregated-by-date"] = async () => {
-  return await stats.getTeragasUsedByDate();
+wampHandlers["gas-used-aggregated-by-date"] = async () => {
+  return await stats.getGasUsedByDate();
 };
 
 wampHandlers["deposit-amount-aggregated-by-date"] = async () => {

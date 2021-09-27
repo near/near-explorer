@@ -474,9 +474,9 @@
         "transactions": "Txns"
       },
       "GasUsedByDate": {
-        "daily_amount_of_used_tera_gas": "Daily Amount of Used Tera Gas",
-        "tera_gas": "Tera gas",
-        "total_amount_of_used_tera_gas": "Total Amount of Used Tera Gas",
+        "daily_amount_of_used_gas": "Daily Amount of Used Gas",
+        "petagas": "PetaGas",
+        "total_amount_of_used_gas": "Total Amount of Used Gas",
         "gas_fee": "Gas Fee",
         "daily_gas_fee_in_near": "Daily Gas Fee in NEAR",
         "fee": "fee"

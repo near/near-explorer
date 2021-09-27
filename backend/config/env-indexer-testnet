@@ -11,6 +11,11 @@ export NEAR_INDEXER_DATABASE_NAME=testnet_explorer
 export NEAR_INDEXER_DATABASE_USERNAME=public_readonly
 export NEAR_INDEXER_DATABASE_PASSWORD=nearprotocol
 
+export NEAR_ANALYTICS_DATABASE_HOST=35.241.197.241
+export NEAR_ANALYTICS_DATABASE_NAME=indexer_analytics_testnet
+export NEAR_ANALYTICS_DATABASE_USERNAME=public_readonly
+export NEAR_ANALYTICS_DATABASE_PASSWORD=nearprotocol
+
 # To override the above values during local development, create the file with
 # `-local` suffix and export all the necessary environment variables there
 if [ -e ./env-indexer-testnet-local ]; then

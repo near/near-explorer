@@ -1,18 +1,30 @@
-const { DS_INDEXER_BACKEND, PARTNER_LIST } = require("./consts");
+const {
+  DS_INDEXER_BACKEND,
+  DS_ANALYTICS_BACKEND,
+  PARTNER_LIST,
+} = require("./consts");
 const { nearStakingPoolAccountSuffix } = require("./config");
 const models = require("../models");
 const BN = require("bn.js");
 
 const query = async ([query, replacements], { dataSource }) => {
-  const sequelize =
-    dataSource === DS_INDEXER_BACKEND
-      ? models.sequelizeIndexerBackendReadOnly
-      : models.sequelizeLegacySyncBackendReadOnly;
+  const sequelize = getSequelize(dataSource);
   return await sequelize.query(query, {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT,
   });
 };
+
+function getSequelize(dataSource) {
+  switch (dataSource) {
+    case DS_INDEXER_BACKEND:
+      return models.sequelizeIndexerBackendReadOnly;
+    case DS_ANALYTICS_BACKEND:
+      return models.sequelizeAnalyticsBackendReadOnly;
+    default:
+      return models.sequelizeLegacySyncBackendReadOnly;
+  }
+}
 
 const querySingleRow = async (args, options) => {
   const result = await query(args, options || {});
@@ -232,52 +244,36 @@ const queryRecentTransactionsCount = async () => {
 const queryTransactionsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(transactions.block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(*) AS transactions_count_by_date
-      FROM transactions
-      WHERE transactions.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day  AS date,
+              transactions_count AS transactions_count_by_date
+       FROM daily_transactions_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
-const queryTeragasUsedAggregatedByDate = async () => {
+const queryGasUsedAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(blocks.block_timestamp, 1000*1000*1000))) AS date,
-        DIV(SUM(chunks.gas_used), 1000000000000) AS teragas_used_by_date
-      FROM blocks
-      JOIN chunks ON chunks.included_in_block_hash = blocks.block_hash
-      WHERE blocks.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day AS date,
+              gas_used          AS gas_used_by_date
+       FROM daily_gas_used
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryDepositAmountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', to_timestamp(execution_outcomes.executed_in_block_timestamp / 1000000000)) AS date,
-        SUM((action_receipt_actions.args->>'deposit')::numeric) AS total_deposit_amount
-      FROM action_receipt_actions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE receipts.predecessor_account_id != 'system'
-      AND action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
-      AND (action_receipt_actions.args->>'deposit')::numeric > 0
-      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND execution_outcomes.executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day AS date,
+              deposit_amount    AS total_deposit_amount
+       FROM daily_deposit_amount
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -285,66 +281,48 @@ const queryDepositAmountAggregatedByDate = async () => {
 const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000)) AS date,
-        COUNT(created_by_receipt_id) AS new_accounts_count_by_date
-      FROM accounts
-      JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
-      WHERE receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day  AS date,
+              new_accounts_count AS new_accounts_count_by_date
+       FROM daily_new_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryDeletedAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000)) AS date,
-        COUNT(accounts.deleted_by_receipt_id) AS deleted_accounts_count_by_date
-      FROM accounts
-      JOIN receipts ON receipts.receipt_id = accounts.deleted_by_receipt_id
-      WHERE receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day      AS date,
+              deleted_accounts_count AS deleted_accounts_count_by_date
+       FROM daily_deleted_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(transactions.block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT transactions.signer_account_id) AS active_accounts_count_by_date
-      FROM transactions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
-      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND transactions.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day     AS date,
+              active_accounts_count AS active_accounts_count_by_date
+       FROM daily_active_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveAccountsCountAggregatedByWeek = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('week', TO_TIMESTAMP(DIV(transactions.block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT transactions.signer_account_id) AS active_accounts_count_by_week
-      FROM transactions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
-      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND transactions.block_timestamp < ((CAST(EXTRACT(EPOCH FROM DATE_TRUNC('week', NOW())) AS bigint)) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_week    AS date,
+              active_accounts_count AS active_accounts_count_by_week
+       FROM weekly_active_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -352,16 +330,15 @@ const queryActiveAccountsList = async () => {
   return await queryRows(
     [
       `SELECT
-        signer_account_id,
-        COUNT(*) AS transactions_count
-      FROM transactions
-      WHERE transactions.block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '2 week')) AS bigint) * 1000 * 1000 * 1000)
-      AND transactions.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY signer_account_id
-      ORDER BY transactions_count DESC
-      LIMIT 10`,
+       account_id,
+       SUM(transactions_count) AS transactions_count
+       FROM daily_transactions_per_account_count
+       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
+       GROUP BY account_id
+       ORDER BY transactions_count DESC
+       LIMIT 10`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -369,71 +346,51 @@ const queryActiveAccountsList = async () => {
 const queryNewContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(receipts.included_in_block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT receipts.receiver_account_id) AS new_contracts_count_by_date
-      FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
-      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day   AS date,
+              new_contracts_count AS new_contracts_count_by_date
+       FROM daily_new_contracts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryUniqueDeployedContractsAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(receipts.included_in_block_timestamp, 1000*1000*1000))) AS date,
-        args->>'code_sha256' AS deployed_contracts_by_date
-      FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_kind = 'DEPLOY_CONTRACT'
-      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date, deployed_contracts_by_date
-      ORDER BY date`,
+      `SELECT collected_for_day          AS date,
+              new_unique_contracts_count AS deployed_contracts_by_date
+       FROM daily_new_unique_contracts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(execution_outcomes.executed_in_block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT execution_outcomes.executor_account_id) AS active_contracts_count_by_date
-      FROM action_receipt_actions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
-      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND execution_outcomes.executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day      AS date,
+              active_contracts_count AS active_contracts_count_by_date
+       FROM daily_active_contracts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveContractsList = async () => {
   return await queryRows(
     [
-      `SELECT
-        receiver_account_id,
-        COUNT(receipts.receipt_id) AS receipts_count
-      FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
-      AND receipts.included_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '2 week')) AS bigint) * 1000 * 1000 * 1000)
-      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY receiver_account_id
-      ORDER BY receipts_count DESC
-      LIMIT 10`,
+      `SELECT contract_id,
+              SUM(receipts_count) AS receipts_count
+       FROM daily_receipts_per_contract_count
+       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
+       GROUP BY contract_id
+       ORDER BY receipts_count DESC
+       LIMIT 10`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -551,7 +508,7 @@ exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 // stats
 // transaction related
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
-exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
+exports.queryGasUsedAggregatedByDate = queryGasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 
 // accounts

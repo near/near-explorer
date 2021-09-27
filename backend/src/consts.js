@@ -1,4 +1,5 @@
 exports.DS_INDEXER_BACKEND = "INDEXER_BACKEND";
+exports.DS_ANALYTICS_BACKEND = "ANALYTICS_BACKEND";
 exports.PARTNER_LIST = [
   "cheese.zest.near",
   "miguel.zest.near",

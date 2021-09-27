@@ -11,6 +11,11 @@ export NEAR_INDEXER_DATABASE_NAME=mainnet_explorer
 export NEAR_INDEXER_DATABASE_USERNAME=public_readonly
 export NEAR_INDEXER_DATABASE_PASSWORD=nearprotocol
 
+export NEAR_ANALYTICS_DATABASE_HOST=34.78.19.198
+export NEAR_ANALYTICS_DATABASE_NAME=indexer_analytics_mainnet
+export NEAR_ANALYTICS_DATABASE_USERNAME=public_readonly
+export NEAR_ANALYTICS_DATABASE_PASSWORD=nearprotocol
+
 # To override the above values during local development, create the file with
 # `-local` suffix and export all the necessary environment variables there
 if [ -e ./env-indexer-mainnet-local ]; then
