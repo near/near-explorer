@@ -8,7 +8,7 @@ export interface TransactionsByDate {
 
 export interface GasUsedByDate {
   date: string;
-  gasUsed: number;
+  gasUsed: string;
 }
 
 export interface AccountsByDate {
