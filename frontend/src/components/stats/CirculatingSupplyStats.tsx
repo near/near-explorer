@@ -1,7 +1,6 @@
 import BN from "bn.js";
 import React, { useEffect, useState } from "react";
 import { Translate } from "react-localize-redux";
-import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 
@@ -51,18 +50,19 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
       .catch((error) => console.error(error));
   }, []);
 
-  const getOption = (
-    title: string,
-    seriesName: string,
-    data: Array<number>,
-    date: Array<string>
-  ) => {
+  const getOption = (title: string, seriesNameArray: Array<string>) => {
     return {
       title: {
         text: title,
       },
       tooltip: {
         trigger: "axis",
+        axisPointer: {
+          type: "cross",
+          label: {
+            backgroundColor: "#6a7985",
+          },
+        },
       },
       grid: {
         left: "3%",
@@ -104,29 +104,66 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
       ],
       series: [
         {
-          name: seriesName,
+          name: seriesNameArray[0],
           type: "line",
           lineStyle: {
-            color: "#48d4ab",
+            color: "#4d84d6",
             width: 2,
           },
           symbol: "circle",
           itemStyle: {
-            color: "#25272A",
+            color: "#4d84d6",
           },
           areaStyle: {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
               {
                 offset: 0,
-                color: "rgb(72, 212, 171)",
+                color: "rgb(21, 99, 214)",
               },
               {
-                offset: 1,
-                color: "rgb(201, 255, 239)",
+                offset: 0,
+                color: "rgb(197, 221, 255)",
               },
             ]),
           },
-          data: data,
+          emphasis: {
+            focus: "series",
+            itemStyle: {
+              color: "#25272A",
+            },
+          },
+          data: totalTokensSupply,
+        },
+        {
+          name: seriesNameArray[1],
+          type: "line",
+          lineStyle: {
+            color: "#04a7bf",
+            width: 2,
+          },
+          symbol: "circle",
+          itemStyle: {
+            color: "#04a7bf",
+          },
+          areaStyle: {
+            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+              {
+                offset: 0,
+                color: "rgb(4, 167, 191)",
+              },
+              {
+                offset: 0,
+                color: "rgb(201, 248, 255)",
+              },
+            ]),
+          },
+          emphasis: {
+            focus: "series",
+            itemStyle: {
+              color: "#25272A",
+            },
+          },
+          data: circulatingSupplyByDate,
         },
       ],
     };
@@ -135,34 +172,24 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
   return (
     <Translate>
       {({ translate }) => (
-        <Tabs defaultActiveKey="daily" id="circulatingSupplyByDate">
-          <Tab eventKey="daily" title="Daily">
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.CirculatingSupplyStats.daily_circulating_supply"
-                ).toString(),
-                "NEAR",
-                circulatingSupplyByDate,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="total" title="Total">
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.CirculatingSupplyStats.total_tokens_supply"
-                ).toString(),
-                "NEAR",
-                totalTokensSupply,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-        </Tabs>
+        <>
+          <ReactEcharts
+            option={getOption(
+              translate(
+                "component.stats.CirculatingSupplyStats.circulating_supply"
+              ).toString(),
+              [
+                `${translate(
+                  "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply"
+                ).toString()}`,
+                `${translate(
+                  "component.stats.CirculatingSupplyStats.tooltip.circulating_supply"
+                ).toString()}`,
+              ]
+            )}
+            style={chartStyle}
+          />
+        </>
       )}
     </Translate>
   );
