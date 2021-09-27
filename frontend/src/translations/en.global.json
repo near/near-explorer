@@ -468,6 +468,10 @@
         "total_supply": "Total Supply",
         "live_accounts": "Live Accounts"
       },
+      "CirculatingSupplyStats": {
+        "daily_circulating_supply": "Daily Circulating Supply",
+        "total_tokens_supply": "Total Tokens Supply"
+      },
       "TransactionsByDate": {
         "daily_number_of_transactions": "Daily Number of Transactions",
         "total_number_of_transactions": "Total Number of Transactions",

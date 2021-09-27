@@ -313,12 +313,17 @@ wampHandlers["partner-unique-user-amount"] = async () => {
   return await stats.getPartnerUniqueUserAmount();
 };
 
+// genesis stats
 wampHandlers["nearcore-genesis-accounts-count"] = async () => {
   return await stats.getGenesisAccountsCount();
 };
 
 wampHandlers["nearcore-total-fee-count"] = async ([daysCount]) => {
   return await stats.getTotalFee(daysCount);
+};
+
+wampHandlers["circulating-supply-stats"] = async () => {
+  return await stats.getCirculatingSupplyByDate();
 };
 
 // set up wamp

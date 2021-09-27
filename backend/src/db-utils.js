@@ -491,6 +491,20 @@ const calculateFeesByDay = async (days = 1) => {
   );
 };
 
+const queryCirculatingSupply = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        DATE_TRUNC('day', TO_TIMESTAMP(DIV(computed_at_block_timestamp, 1000*1000*1000))) AS date,
+        DIV(circulating_tokens_supply, 1000*1000*1000) AS circulating_tokens_supply,
+        DIV(total_tokens_supply, 1000*1000*1000) as total_tokens_supply
+       FROM aggregated__circulating_supply
+       ORDER BY date`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
@@ -531,6 +545,7 @@ exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
 
 // circulating supply
 exports.queryLatestCirculatingSupply = queryLatestCirculatingSupply;
+exports.queryCirculatingSupply = queryCirculatingSupply;
 
 // calculate fee
 exports.calculateFeesByDay = calculateFeesByDay;

@@ -15,6 +15,7 @@ import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
+import CirculatingSupplyStats from "../../components/stats/CirculatingSupplyStats";
 
 import { Translate } from "react-localize-redux";
 
@@ -46,6 +47,9 @@ class Stats extends PureComponent {
             <NetworkStatsProvider>
               <ProtocolConfigInfo />
             </NetworkStatsProvider>
+          </div>
+          <div id="circulatingSupply">
+            <CirculatingSupplyStats chartStyle={chartStyle} />
           </div>
           <div id="transactionsByDate">
             <TransactionsByDate chartStyle={chartStyle} />
