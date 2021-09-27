@@ -219,10 +219,7 @@ aggregateActiveAccountsCountByWeek = retriable(
 async function aggregateActiveAccountsList() {
   const activeAccountsList = await queryActiveAccountsList();
   ACTIVE_ACCOUNTS_LIST = activeAccountsList.map(
-    ({
-      signer_account_id: account,
-      transactions_count: transactionsCount,
-    }) => ({
+    ({ account_id: account, transactions_count: transactionsCount }) => ({
       account,
       transactionsCount,
     })
@@ -284,7 +281,7 @@ aggregateUniqueDeployedContractsCountByDate = retriable(
 async function aggregateActiveContractsList() {
   const activeContractsList = await queryActiveContractsList();
   ACTIVE_CONTRACTS_LIST = activeContractsList.map(
-    ({ receiver_account_id: contract, receipts_count: receiptsCount }) => ({
+    ({ contract_id: contract, receipts_count: receiptsCount }) => ({
       contract,
       receiptsCount,
     })
