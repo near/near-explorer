@@ -254,12 +254,17 @@ aggregateActiveContractsCountByDate = retriable(
 
 async function aggregateUniqueDeployedContractsCountByDate() {
   const contractsCountByDate = await queryUniqueDeployedContractsCountAggregatedByDate();
-  UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = contractsCountByDate.map(
-    ({ date: dateString, contracts_count_by_date }) => ({
-      date: formatDate(new Date(dateString)),
-      contractsCount: contracts_count_by_date,
-    })
-  );
+  let cumulativeContractsCountByDate = [];
+  let cumulative_sum = 0;
+
+  for (let i = 0; i < contractsCountByDate.length; i++) {
+    cumulative_sum += contractsCountByDate[i].contracts_count_by_date;
+    cumulativeContractsCountByDate.push({
+      date: formatDate(new Date(contractsCountByDate[i].date)),
+      contractsCount: cumulative_sum,
+    });
+  }
+  UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsCountByDate;
 }
 aggregateUniqueDeployedContractsCountByDate = retriable(
   aggregateUniqueDeployedContractsCountByDate
