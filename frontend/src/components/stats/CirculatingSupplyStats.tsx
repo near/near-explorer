@@ -50,11 +50,8 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
       .catch((error) => console.error(error));
   }, []);
 
-  const getOption = (title: string, seriesNameArray: Array<string>) => {
+  const getOption = (seriesNameArray: Array<string>) => {
     return {
-      title: {
-        text: title,
-      },
       tooltip: {
         trigger: "axis",
         axisPointer: {
@@ -88,6 +85,7 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
               color: "white",
             },
           },
+          name: "NEAR",
         },
       ],
       dataZoom: [
@@ -173,22 +171,45 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
     <Translate>
       {({ translate }) => (
         <>
+          <h4>
+            {translate(
+              "component.stats.CirculatingSupplyStats.circulating_supply"
+            ).toString()}
+          </h4>
+          <h6>
+            {translate(
+              "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply_explain"
+            ).toString()}
+          </h6>
           <ReactEcharts
-            option={getOption(
-              translate(
-                "component.stats.CirculatingSupplyStats.circulating_supply"
-              ).toString(),
-              [
-                `${translate(
-                  "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply"
-                ).toString()}`,
-                `${translate(
-                  "component.stats.CirculatingSupplyStats.tooltip.circulating_supply"
-                ).toString()}`,
-              ]
-            )}
-            style={chartStyle}
+            option={getOption([
+              `${translate(
+                "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply"
+              ).toString()}`,
+              `${translate(
+                "component.stats.CirculatingSupplyStats.tooltip.circulating_supply"
+              ).toString()}`,
+            ])}
+            style={{
+              ...chartStyle,
+              marginTop: "5px",
+            }}
           />
+          <style jsx global>{`
+            h4,
+            h6 {
+              margin-left: 30px;
+            }
+            h4 {
+              font-size: 18px;
+              font-weight: 700;
+            }
+            h6 {
+              color: #a2a2a8;
+              font-size: 14px;
+              font-weight: 500;
+            }
+          `}</style>
         </>
       )}
     </Translate>

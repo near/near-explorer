@@ -472,7 +472,8 @@
         "circulating_supply": "Circulating Supply Stats",
         "tooltip": {
           "circulating_supply": "circulating supply",
-          "total_tokens_supply": "total tokens supply"
+          "total_tokens_supply": "total supply",
+          "total_tokens_supply_explain": "tokens that are publicly available and circulating in the market"
         }
       },
       "TransactionsByDate": {
