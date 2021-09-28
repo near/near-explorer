@@ -355,11 +355,11 @@ const queryNewContractsCountAggregatedByDate = async () => {
   );
 };
 
-const queryUniqueDeployedContractsAggregatedByDate = async () => {
+const queryUniqueDeployedContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
       `SELECT collected_for_day          AS date,
-              new_unique_contracts_count AS deployed_contracts_by_date
+              new_unique_contracts_count AS contracts_count_by_date
        FROM daily_new_unique_contracts_count
        ORDER BY date`,
     ],
@@ -520,7 +520,7 @@ exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggre
 
 // contracts
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
-exports.queryUniqueDeployedContractsAggregatedByDate = queryUniqueDeployedContractsAggregatedByDate;
+exports.queryUniqueDeployedContractsCountAggregatedByDate = queryUniqueDeployedContractsCountAggregatedByDate;
 exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
 exports.queryActiveContractsList = queryActiveContractsList;
 
