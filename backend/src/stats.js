@@ -3,7 +3,7 @@ const {
   queryGasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
   queryDeletedAccountsCountAggregatedByDate,
-  queryUniqueDeployedContractsAggregatedByDate,
+  queryUniqueDeployedContractsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByWeek,
   queryNewContractsCountAggregatedByDate,
@@ -253,26 +253,18 @@ aggregateActiveContractsCountByDate = retriable(
 );
 
 async function aggregateUniqueDeployedContractsCountByDate() {
-  const contractList = await queryUniqueDeployedContractsAggregatedByDate();
-  const contractsRows = contractList.map(
-    ({ date: dateString, deployed_contracts_by_date }) => ({
-      date: formatDate(new Date(dateString)),
-      deployedContracts: deployed_contracts_by_date,
-    })
-  );
-  let cumulativeContractsDeployedByDate = new Array();
-  let contractsDeployed = new Set([contractsRows[0].deployedContracts]);
+  const contractsCountByDate = await queryUniqueDeployedContractsCountAggregatedByDate();
+  let cumulativeContractsCountByDate = [];
+  let cumulative_sum = 0;
 
-  for (let i = 1; i < contractsRows.length; i++) {
-    if (contractsRows[i].date !== contractsRows[i - 1].date) {
-      cumulativeContractsDeployedByDate.push({
-        date: contractsRows[i - 1].date,
-        contractsCount: contractsDeployed.size,
-      });
-    }
-    contractsDeployed.add(contractsRows[i].deployedContracts);
+  for (let i = 0; i < contractsCountByDate.length; i++) {
+    cumulative_sum += contractsCountByDate[i].contracts_count_by_date;
+    cumulativeContractsCountByDate.push({
+      date: formatDate(new Date(contractsCountByDate[i].date)),
+      contractsCount: cumulative_sum,
+    });
   }
-  UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsDeployedByDate;
+  UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = cumulativeContractsCountByDate;
 }
 aggregateUniqueDeployedContractsCountByDate = retriable(
   aggregateUniqueDeployedContractsCountByDate
