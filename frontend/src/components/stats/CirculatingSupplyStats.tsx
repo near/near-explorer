@@ -24,10 +24,12 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
             circulatingTokensSupply: new BN(circulatingTokensSupply)
               .divn(10 ** 6)
               .divn(10 ** 6)
+              .divn(10 ** 3)
               .toNumber(),
             totalTokensSupply: new BN(totalTokensSupply)
               .divn(10 ** 6)
               .divn(10 ** 6)
+              .divn(10 ** 3)
               .toNumber(),
           })
         );

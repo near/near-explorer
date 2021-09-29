@@ -3,6 +3,7 @@ import { PureComponent } from "react";
 import Mixpanel from "../../libraries/mixpanel";
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 import NetworkStatsProvider from "../../context/NetworkStatsProvider";
+import { NetworkConsumer } from "../../context/NetworkProvider";
 
 import Content from "../../components/utils/Content";
 import TransactionsByDate from "../../components/stats/TransactionsByDate";
@@ -48,9 +49,15 @@ class Stats extends PureComponent {
               <ProtocolConfigInfo />
             </NetworkStatsProvider>
           </div>
-          <div id="circulatingSupply">
-            <CirculatingSupplyStats chartStyle={chartStyle} />
-          </div>
+          <NetworkConsumer>
+            {({ currentNearNetwork }) =>
+              currentNearNetwork.name === "mainnet" ? (
+                <div id="circulatingSupply">
+                  <CirculatingSupplyStats chartStyle={chartStyle} />
+                </div>
+              ) : null
+            }
+          </NetworkConsumer>
           <div id="transactionsByDate">
             <TransactionsByDate chartStyle={chartStyle} />
           </div>
