@@ -496,8 +496,8 @@ const queryCirculatingSupply = async () => {
     [
       `SELECT
         DATE_TRUNC('day', TO_TIMESTAMP(DIV(computed_at_block_timestamp, 1000*1000*1000))) AS date,
-        DIV(circulating_tokens_supply, 1000*1000*1000) AS circulating_tokens_supply,
-        DIV(total_tokens_supply, 1000*1000*1000) as total_tokens_supply
+        circulating_tokens_supply,
+        total_tokens_supply
        FROM aggregated__circulating_supply
        ORDER BY date`,
     ],

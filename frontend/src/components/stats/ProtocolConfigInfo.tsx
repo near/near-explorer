@@ -1,6 +1,7 @@
 import moment from "moment";
 import BN from "bn.js";
 import React, { useEffect, useState, useContext } from "react";
+import { utils } from "near-api-js";
 
 import StatsApi from "../../libraries/explorer-wamp/stats";
 import { NetworkStatsContext } from "../../context/NetworkStatsProvider";
@@ -24,16 +25,14 @@ const ProtocolConfigInfo = () => {
 
   let epochTotalSupply = epochStartBlock?.totalSupply
     ? new BN(epochStartBlock.totalSupply.toString())
-        .div(new BN((10 ** 20).toString()))
-        .div(new BN((10 ** 4).toString()))
+        .div(utils.format.NEAR_NOMINATION)
         .toNumber() /
       10 ** 6
     : null;
 
   const genesisTotaSupply = totalGenesisSupply
     ? new BN(totalGenesisSupply.toString())
-        .div(new BN((10 ** 20).toString()))
-        .div(new BN((10 ** 4).toString()))
+        .div(utils.format.NEAR_NOMINATION)
         .toNumber() /
       10 ** 6
     : null;
