@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Translate } from "react-localize-redux";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
+import { utils } from "near-api-js";
 
 import StatsApi from "../../libraries/explorer-wamp/stats";
 import { Props } from "./TransactionsByDate";
@@ -22,12 +23,10 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
           ({ date, circulatingTokensSupply, totalTokensSupply }) => ({
             date,
             circulatingTokensSupply: new BN(circulatingTokensSupply)
-              .divn(10 ** 6)
-              .divn(10 ** 6)
+              .div(utils.format.NEAR_NOMINATION)
               .toNumber(),
             totalTokensSupply: new BN(totalTokensSupply)
-              .divn(10 ** 6)
-              .divn(10 ** 6)
+              .div(utils.format.NEAR_NOMINATION)
               .toNumber(),
           })
         );
