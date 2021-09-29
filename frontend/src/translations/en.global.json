@@ -473,7 +473,7 @@
         "tooltip": {
           "circulating_supply": "circulating supply",
           "total_tokens_supply": "total supply",
-          "total_tokens_supply_explain": "tokens that are publicly available and circulating in the market"
+          "total_tokens_supply_explain": "NEAR tokens that are available for circulation on the market (i.e. not locked in lockup contracts)"
         }
       },
       "TransactionsByDate": {
