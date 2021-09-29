@@ -129,7 +129,7 @@ const Header = () => {
           appearance: none;
           background: url(${languagesIcon}) no-repeat 10px center / 20px 20px,
             url(${downArrowIcon}) no-repeat 85% 12px / 10px;
-          border: 0;
+          border: 0px none;
           cursor: pointer;
           font-size: 16px;
           height: 32px;
@@ -139,6 +139,7 @@ const Header = () => {
           user-select: none;
           width: 54px;
           z-index: 1;
+          text-indent: 54px;
         }
 
         .lang-selector::-ms-expand {

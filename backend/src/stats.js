@@ -16,6 +16,7 @@ const {
   queryPartnerUniqueUserAmount,
   queryGenesisAccountCount,
   queryLatestCirculatingSupply,
+  queryCirculatingSupply,
   calculateFeesByDay,
 } = require("./db-utils");
 const {
@@ -49,6 +50,9 @@ let ACTIVE_CONTRACTS_LIST = null;
 let PARTNER_TOTAL_TRANSACTIONS_COUNT = null;
 let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = null;
 let PARTNER_UNIQUE_USER_AMOUNT = null;
+
+// circulating supply
+let CIRCULATING_SUPPLY_BY_DATE = null;
 
 // This is a decorator that auto-retry failing function up to 5 times before giving up.
 // If the wrapped function fails 5 times in a row, the result value is going to be undefined.
@@ -320,6 +324,19 @@ async function aggregateParterUniqueUserAmount() {
 }
 aggregateParterUniqueUserAmount = retriable(aggregateParterUniqueUserAmount);
 
+async function aggregateCirculatingSupplyByDate() {
+  const queryCirculatingSupplyByDate = await queryCirculatingSupply();
+  CIRCULATING_SUPPLY_BY_DATE = queryCirculatingSupplyByDate.map(
+    ({ date, circulating_tokens_supply, total_tokens_supply }) => ({
+      date: formatDate(new Date(date)),
+      circulatingTokensSupply: circulating_tokens_supply,
+      totalTokensSupply: total_tokens_supply,
+    })
+  );
+}
+
+aggregateCirculatingSupplyByDate = retriable(aggregateCirculatingSupplyByDate);
+
 // get function that exposed to frontend
 // transaction related
 async function getTransactionsByDate() {
@@ -407,6 +424,10 @@ async function getTotalFee(daysCount) {
   return await calculateFeesByDay(daysCount);
 }
 
+async function getCirculatingSupplyByDate() {
+  return CIRCULATING_SUPPLY_BY_DATE;
+}
+
 // aggregate part
 // transaction related
 exports.aggregateTransactionsCountByDate = aggregateTransactionsCountByDate;
@@ -431,6 +452,9 @@ exports.aggregateActiveContractsList = aggregateActiveContractsList;
 exports.aggregatePartnerTotalTransactionsCount = aggregatePartnerTotalTransactionsCount;
 exports.aggregatePartnerFirst3MonthTransactionsCount = aggregatePartnerFirst3MonthTransactionsCount;
 exports.aggregateParterUniqueUserAmount = aggregateParterUniqueUserAmount;
+
+// circulating supply
+exports.aggregateCirculatingSupplyByDate = aggregateCirculatingSupplyByDate;
 
 // get method
 // transaction related
@@ -459,6 +483,7 @@ exports.getPartnerUniqueUserAmount = getPartnerUniqueUserAmount;
 
 // circulating supply
 exports.getLatestCirculatingSupply = getLatestCirculatingSupply;
+exports.getCirculatingSupplyByDate = getCirculatingSupplyByDate;
 
 exports.getGenesisAccountsCount = getGenesisAccountsCount;
 exports.getTotalFee = getTotalFee;

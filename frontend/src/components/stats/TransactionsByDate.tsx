@@ -116,7 +116,6 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
       ],
     };
   };
-
   return (
     <Translate>
       {({ translate }) => (

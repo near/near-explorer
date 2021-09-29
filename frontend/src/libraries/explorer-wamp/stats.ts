@@ -154,4 +154,8 @@ export default class StatsApi extends ExplorerApi {
   async getTotalFee(daysCount: number): Promise<number> {
     return await this.call<any>("nearcore-total-fee-count", [daysCount]);
   }
+
+  async getCirculaitngSupplyStats(): Promise<any[]> {
+    return await this.call<any>("circulating-supply-stats");
+  }
 }

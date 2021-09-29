@@ -46,6 +46,7 @@ const {
   aggregateDepositAmountByDate,
   aggregateParterUniqueUserAmount,
   aggregateLiveAccountsCountByDate,
+  aggregateCirculatingSupplyByDate,
 } = require("./stats");
 
 const nonValidatingNodeStatuses = ["on-hold", "newcomer", "idle"];
@@ -102,6 +103,9 @@ function startStatsAggregation() {
     console.log("Starting Regular Stats Aggregation...");
     try {
       //stats part
+      // circulating supply
+      await aggregateCirculatingSupplyByDate();
+
       // transactions related
       await aggregateTransactionsCountByDate();
       await aggregateGasUsedByDate();

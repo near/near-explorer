@@ -468,6 +468,14 @@
         "total_supply": "Total Supply",
         "live_accounts": "Live Accounts"
       },
+      "CirculatingSupplyStats": {
+        "circulating_supply": "Circulating Supply Stats",
+        "tooltip": {
+          "circulating_supply": "circulating supply",
+          "total_tokens_supply": "total supply",
+          "total_tokens_supply_explain": "NEAR tokens that are available for circulation on the market (i.e. not locked in lockup contracts)"
+        }
+      },
       "TransactionsByDate": {
         "daily_number_of_transactions": "Daily Number of Transactions",
         "total_number_of_transactions": "Total Number of Transactions",
