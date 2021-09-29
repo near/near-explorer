@@ -140,7 +140,7 @@ function startStatsAggregation() {
 async function main() {
   console.log("Starting Explorer backend...");
 
-  await models.sequelizeLegacySyncBackend.sync();
+  await models.sequelizeLegacySyncBackend.sync(); // rename to sequelizeTelemetryBackend
 
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");
