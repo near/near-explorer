@@ -58,14 +58,7 @@ const saveNodeIntoDatabase = async (nodeInfo) => {
   });
 };
 
-// select query directly to database && indexer
-wampHandlers["select"] = async ([query, replacements]) => {
-  return await models.sequelizeLegacySyncBackendReadOnly.query(query, {
-    replacements,
-    type: models.Sequelize.QueryTypes.SELECT,
-  });
-};
-
+// select query directly from indexer
 wampHandlers["select:INDEXER_BACKEND"] = async ([query, replacements]) => {
   return await models.sequelizeIndexerBackendReadOnly.query(query, {
     replacements,
