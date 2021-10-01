@@ -60,8 +60,7 @@ const extendWithTelemetryInfo = async (nodes) => {
         agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
-      WHERE account_id IN (:accountArray)
-      ORDER BY node_id DESC`,
+      WHERE account_id IN (:accountArray)`,
       { accountArray },
     ],
     { dataSource: DS_TELEMETRY_BACKEND }
@@ -74,7 +73,7 @@ const extendWithTelemetryInfo = async (nodes) => {
         accountId,
         ipAddress: nodeInfo.ip_address,
         nodeId: nodeInfo.node_id,
-        lastSeen: parseInt(nodeInfo.last_seen),
+        lastSeen: nodeInfo.last_seen,
         lastHeight: parseInt(nodeInfo.last_height),
         status: nodeInfo.status,
         agentName: nodeInfo.agent_name,
@@ -124,7 +123,7 @@ const queryOnlineNodes = async () => {
         agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
-      WHERE last_seen > (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('seconds', NOW() - INTERVAL '60 seconds')) AS bigint) * 1000)
+      WHERE last_seen > DATE_TRUNC('seconds', NOW() - INTERVAL '60 seconds')
       ORDER BY is_validator ASC, node_id DESC`,
     ],
     { dataSource: DS_TELEMETRY_BACKEND }
@@ -134,7 +133,7 @@ const queryOnlineNodes = async () => {
     accountId: onlineNode.account_id,
     ipAddress: onlineNode.ip_address,
     nodeId: onlineNode.node_id,
-    lastSeen: parseInt(onlineNode.last_seen),
+    lastSeen: onlineNode.last_seen,
     lastHeight: parseInt(onlineNode.last_height),
     status: onlineNode.status,
     agentName: onlineNode.agent_name,

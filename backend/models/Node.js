@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
       },
       lastSeen: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.DATE,
         allowNull: false,
       },
       lastHeight: {
