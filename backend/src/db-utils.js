@@ -55,9 +55,9 @@ const extendWithTelemetryInfo = async (nodes) => {
   const accountArray = nodes.map((node) => node.account_id);
   let nodesInfo = await queryRows(
     [
-      `SELECT ip_address AS ipAddress, account_id AS accountId, node_id AS nodeId,
-        last_seen AS lastSeen, last_height AS lastHeight,status,
-        agent_name AS agentName, agent_version AS agentVersion, agent_build AS agentBuild,
+      `SELECT ip_address, account_id, node_id,
+        last_seen, last_height, status,
+        agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
       WHERE account_id IN (:accountArray)
@@ -69,8 +69,21 @@ const extendWithTelemetryInfo = async (nodes) => {
   let nodeMap = new Map();
   if (nodesInfo && nodesInfo.length > 0) {
     for (let i = 0; i < nodesInfo.length; i++) {
-      const { accountId, ...nodeInfo } = nodesInfo[i];
-      nodeMap.set(accountId, nodeInfo);
+      const { account_id: accountId, ...nodeInfo } = nodesInfo[i];
+      nodeMap.set(accountId, {
+        accountId,
+        ipAddress: nodeInfo.ip_address,
+        nodeId: nodeInfo.node_id,
+        lastSeen: parseInt(nodeInfo.last_seen),
+        lastHeight: parseInt(nodeInfo.last_height),
+        status: nodeInfo.status,
+        agentName: nodeInfo.agent_name,
+        agentVersion: nodeInfo.agent_version,
+        agentBuild: nodeInfo.agent_build,
+        latitude: nodeInfo.latitude,
+        longitude: nodeInfo.longitude,
+        city: nodeInfo.city,
+      });
     }
   }
 
@@ -104,11 +117,11 @@ const queryNodeValidators = async () => {
 };
 
 const queryOnlineNodes = async () => {
-  return await queryRows(
+  const query = await queryRows(
     [
-      `SELECT ip_address AS ipAddress, account_id AS accountId, node_id AS nodeId,
-        last_seen AS lastSeen, last_height AS lastHeight,status,
-        agent_name AS agentName, agent_version AS agentVersion, agent_build AS agentBuild,
+      `SELECT ip_address, account_id, node_id,
+        last_seen, last_height, status,
+        agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
       WHERE last_seen > (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('seconds', NOW() - INTERVAL '60 seconds')) AS bigint) * 1000)
@@ -116,6 +129,21 @@ const queryOnlineNodes = async () => {
     ],
     { dataSource: DS_TELEMETRY_BACKEND }
   );
+
+  return query.map((onlineNode) => ({
+    accountId: onlineNode.account_id,
+    ipAddress: onlineNode.ip_address,
+    nodeId: onlineNode.node_id,
+    lastSeen: parseInt(onlineNode.last_seen),
+    lastHeight: parseInt(onlineNode.last_height),
+    status: onlineNode.status,
+    agentName: onlineNode.agent_name,
+    agentVersion: onlineNode.agent_version,
+    agentBuild: onlineNode.agent_build,
+    latitude: onlineNode.latitude,
+    longitude: onlineNode.longitude,
+    city: onlineNode.city,
+  }));
 };
 
 // query for new dashboard
@@ -208,9 +236,7 @@ const queryDashboardBlocksStats = async (options) => {
 const queryTransactionsCountHistoryForTwoWeeks = async () => {
   const query = await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(transaction_hash) AS total
+      `SELECT DATE_TRUNC('day', TO_TIMESTAMP(DIV(block_timestamp, 1000*1000*1000))) AS date, COUNT(transaction_hash) AS total
       FROM transactions
       WHERE
         block_timestamp > (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '15 day')) AS bigint) * 1000 * 1000 * 1000)
@@ -251,11 +277,10 @@ const queryRecentTransactionsCount = async () => {
 const queryTransactionsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        collected_for_day AS date,
-        transactions_count AS transactions_count_by_date
-      FROM daily_transactions_count
-      ORDER BY date`,
+      `SELECT collected_for_day  AS date,
+              transactions_count AS transactions_count_by_date
+       FROM daily_transactions_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -264,11 +289,10 @@ const queryTransactionsCountAggregatedByDate = async () => {
 const queryGasUsedAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        collected_for_day AS date,
-        gas_used AS gas_used_by_date
-      FROM daily_gas_used
-      ORDER BY date`,
+      `SELECT collected_for_day AS date,
+              gas_used          AS gas_used_by_date
+       FROM daily_gas_used
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -277,11 +301,10 @@ const queryGasUsedAggregatedByDate = async () => {
 const queryDepositAmountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        collected_for_day AS date,
-        deposit_amount AS total_deposit_amount
-      FROM daily_deposit_amount
-      ORDER BY date`,
+      `SELECT collected_for_day AS date,
+              deposit_amount    AS total_deposit_amount
+       FROM daily_deposit_amount
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -291,11 +314,10 @@ const queryDepositAmountAggregatedByDate = async () => {
 const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        collected_for_day AS date,
-        new_accounts_count AS new_accounts_count_by_date
-      FROM daily_new_accounts_count
-      ORDER BY date`,
+      `SELECT collected_for_day  AS date,
+              new_accounts_count AS new_accounts_count_by_date
+       FROM daily_new_accounts_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -304,11 +326,10 @@ const queryNewAccountsCountAggregatedByDate = async () => {
 const queryDeletedAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        collected_for_day AS date,
-        deleted_accounts_count AS deleted_accounts_count_by_date
-      FROM daily_deleted_accounts_count
-      ORDER BY date`,
+      `SELECT collected_for_day      AS date,
+              deleted_accounts_count AS deleted_accounts_count_by_date
+       FROM daily_deleted_accounts_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -317,10 +338,10 @@ const queryDeletedAccountsCountAggregatedByDate = async () => {
 const queryActiveAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT collected_for_day AS date,
-        active_accounts_count AS active_accounts_count_by_date
-      FROM daily_active_accounts_count
-      ORDER BY date`,
+      `SELECT collected_for_day     AS date,
+              active_accounts_count AS active_accounts_count_by_date
+       FROM daily_active_accounts_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -329,11 +350,10 @@ const queryActiveAccountsCountAggregatedByDate = async () => {
 const queryActiveAccountsCountAggregatedByWeek = async () => {
   return await queryRows(
     [
-      `SELECT
-        collected_for_week AS date,
-        active_accounts_count AS active_accounts_count_by_week
-      FROM weekly_active_accounts_count
-      ORDER BY date`,
+      `SELECT collected_for_week    AS date,
+              active_accounts_count AS active_accounts_count_by_week
+       FROM weekly_active_accounts_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -343,13 +363,13 @@ const queryActiveAccountsList = async () => {
   return await queryRows(
     [
       `SELECT
-        account_id,
-        SUM(transactions_count) AS transactions_count
-      FROM daily_transactions_per_account_count
-      WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
-      GROUP BY account_id
-      ORDER BY transactions_count DESC
-      LIMIT 10`,
+       account_id,
+       SUM(transactions_count) AS transactions_count
+       FROM daily_transactions_per_account_count
+       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
+       GROUP BY account_id
+       ORDER BY transactions_count DESC
+       LIMIT 10`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -359,10 +379,10 @@ const queryActiveAccountsList = async () => {
 const queryNewContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT collected_for_day AS date,
-        new_contracts_count AS new_contracts_count_by_date
-      FROM daily_new_contracts_count
-      ORDER BY date`,
+      `SELECT collected_for_day   AS date,
+              new_contracts_count AS new_contracts_count_by_date
+       FROM daily_new_contracts_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -371,10 +391,10 @@ const queryNewContractsCountAggregatedByDate = async () => {
 const queryUniqueDeployedContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT collected_for_day AS date,
-        new_unique_contracts_count AS contracts_count_by_date
-      FROM daily_new_unique_contracts_count
-      ORDER BY date`,
+      `SELECT collected_for_day          AS date,
+              new_unique_contracts_count AS contracts_count_by_date
+       FROM daily_new_unique_contracts_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -383,10 +403,10 @@ const queryUniqueDeployedContractsCountAggregatedByDate = async () => {
 const queryActiveContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT collected_for_day AS date,
-        active_contracts_count AS active_contracts_count_by_date
-      FROM daily_active_contracts_count
-      ORDER BY date`,
+      `SELECT collected_for_day      AS date,
+              active_contracts_count AS active_contracts_count_by_date
+       FROM daily_active_contracts_count
+       ORDER BY date`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -396,12 +416,12 @@ const queryActiveContractsList = async () => {
   return await queryRows(
     [
       `SELECT contract_id,
-        SUM(receipts_count) AS receipts_count
-      FROM daily_receipts_per_contract_count
-      WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
-      GROUP BY contract_id
-      ORDER BY receipts_count DESC
-      LIMIT 10`,
+              SUM(receipts_count) AS receipts_count
+       FROM daily_receipts_per_contract_count
+       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
+       GROUP BY contract_id
+       ORDER BY receipts_count DESC
+       LIMIT 10`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
   );
@@ -472,9 +492,9 @@ const queryLatestCirculatingSupply = async () => {
   return await querySingleRow(
     [
       `SELECT circulating_tokens_supply, computed_at_block_timestamp
-      FROM aggregated__circulating_supply
-      ORDER BY computed_at_block_timestamp DESC
-      LIMIT 1;`,
+       FROM aggregated__circulating_supply
+       ORDER BY computed_at_block_timestamp DESC
+       LIMIT 1;`,
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
