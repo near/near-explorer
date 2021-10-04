@@ -52,10 +52,7 @@ export default class AccountsApi extends ExplorerApi {
       ]);
 
       if (accountsBasicInfo.length === 0) {
-        throw {
-          account_id: accountId,
-          status: 404,
-        };
+        throw "account_not_found";
       }
       const accountBasicInfo = accountsBasicInfo[0];
       return {
