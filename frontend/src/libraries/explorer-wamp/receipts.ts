@@ -119,4 +119,22 @@ export default class ReceiptsApi extends ExplorerApi {
       throw error;
     }
   }
+
+  async isReceiptInTransactionIndexed(receiptId: string) {
+    try {
+      return await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT
+          receipt_id, originated_from_transaction_hash
+         FROM receipts
+         WHERE receipt_id = :receiptId`,
+        { receiptId },
+      ]).then((receipt) => receipt[0]);
+    } catch (error) {
+      console.error(
+        "Receipts.isReceiptInTransactionIndexed failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
 }
