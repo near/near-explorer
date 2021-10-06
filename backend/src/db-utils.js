@@ -25,7 +25,7 @@ function getSequelize(dataSource) {
     case DS_TELEMETRY_BACKEND:
       return models.sequelizeTelemetryBackendReadOnly;
     default:
-      return models.sequelizeTelemetryBackendReadOnly;
+      throw Error("getSequelize() has no default dataSource");
   }
 }
 
@@ -123,7 +123,7 @@ const queryOnlineNodes = async () => {
         agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
-      WHERE last_seen > DATE_TRUNC('seconds', NOW() - INTERVAL '60 seconds')
+      WHERE last_seen > NOW() - INTERVAL '60 seconds'
       ORDER BY is_validator ASC, node_id DESC`,
     ],
     { dataSource: DS_TELEMETRY_BACKEND }
@@ -502,7 +502,7 @@ const queryLatestCirculatingSupply = async () => {
 // pass 'days' to set period of calculation
 const calculateFeesByDay = async (days = 1) => {
   if (!(days >= 1 && days <= 7)) {
-    throw Exception(
+    throw Error(
       "calculateFeesByDay can only handle `days` values in range 1..7"
     );
   }
