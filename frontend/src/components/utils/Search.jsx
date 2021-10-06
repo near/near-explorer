@@ -38,7 +38,7 @@ class Search extends Component {
       .isAccountIndexed(cleanedSearchValue.toLowerCase())
       .catch(() => {});
     const receiptInTransactionPromise = new ReceiptsApi()
-      .receiptInTransaction(cleanedSearchValue)
+      .getTransactionHashByReceiptId(cleanedSearchValue)
       .catch(() => {});
 
     const block = await blockPromise;

@@ -21,6 +21,11 @@ export type ReceiptExecutionStatus =
   | "SuccessValue"
   | "SuccessReceiptId";
 
+interface TransactionHashByReceiptId {
+  receiptId: string;
+  originatedFromTransactionHash?: string | null;
+}
+
 export default class ReceiptsApi extends ExplorerApi {
   static indexerCompatibilityReceiptActionKinds = new Map<
     string | null,
@@ -120,7 +125,9 @@ export default class ReceiptsApi extends ExplorerApi {
     }
   }
 
-  async receiptInTransaction(receiptId: string) {
+  async getTransactionHashByReceiptId(
+    receiptId: string
+  ): Promise<TransactionHashByReceiptId> {
     try {
       return await this.call<any>("select:INDEXER_BACKEND", [
         `SELECT
@@ -138,7 +145,7 @@ export default class ReceiptsApi extends ExplorerApi {
       });
     } catch (error) {
       console.error(
-        "Receipts.receiptInTransaction failed to fetch data due to:"
+        "Receipts.getTransactionHashByReceiptId failed to fetch data due to:"
       );
       console.error(error);
       throw error;
