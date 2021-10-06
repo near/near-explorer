@@ -38,7 +38,7 @@ class Search extends Component {
       .isAccountIndexed(cleanedSearchValue.toLowerCase())
       .catch(() => {});
     const receiptInTransactionPromise = new ReceiptsApi()
-      .isReceiptInTransactionIndexed(cleanedSearchValue)
+      .receiptInTransaction(cleanedSearchValue)
       .catch(() => {});
 
     const block = await blockPromise;
@@ -58,9 +58,9 @@ class Search extends Component {
       return Router.push("/accounts/" + searchValue.toLowerCase());
     }
     const receipt = await receiptInTransactionPromise;
-    if (receipt && receipt.originated_from_transaction_hash) {
+    if (receipt && receipt.originatedFromTransactionHash) {
       return Router.push(
-        `/transactions/${receipt.originated_from_transaction_hash}#${receipt.receipt_id}`
+        `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
       );
     }
     Mixpanel.track("Explorer Search result not found", { detail: searchValue });
