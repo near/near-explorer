@@ -21,9 +21,11 @@ export type ReceiptExecutionStatus =
   | "SuccessValue"
   | "SuccessReceiptId";
 
+// from the search side 'originatedFromTransactionHash'
+// can't be null
 interface TransactionHashByReceiptId {
   receiptId: string;
-  originatedFromTransactionHash?: string | null;
+  originatedFromTransactionHash: string;
 }
 
 export default class ReceiptsApi extends ExplorerApi {
