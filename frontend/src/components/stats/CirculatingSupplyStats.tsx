@@ -2,7 +2,7 @@ import BN from "bn.js";
 import React, { useEffect, useState } from "react";
 import { Translate } from "react-localize-redux";
 import ReactEcharts from "echarts-for-react";
-import echarts from "echarts";
+import * as echarts from "echarts";
 import { utils } from "near-api-js";
 
 import StatsApi from "../../libraries/explorer-wamp/stats";

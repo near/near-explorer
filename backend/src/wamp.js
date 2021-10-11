@@ -19,21 +19,46 @@ const {
   nearLockupAccountIdSuffix,
 } = require("./config");
 
-const { nearRpc } = require("./near");
+const { nearRpc, stakingNodes } = require("./near");
 
 const wampHandlers = {};
 
 // node
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   let geo = geoip.lookup(nodeInfo.ip_address);
+  const messageJSON = {
+    agent: nodeInfo.agent,
+    system: nodeInfo.system,
+    chain: nodeInfo.chain,
+  };
+  const message = new TextEncoder().encode(messageJSON);
+  const publicKey = stakingNodes.get(nodeInfo.chain.account_id).public_key;
+  // we want to validate "active" validators only
+  const isValidator =
+    stakingNodes.get(nodeInfo.chain.account_id).stakingStatus === "active" ||
+    false;
+  const publicKeyEncode = utils.PublicKey.from(publicKey).data;
+  const isVerified = nacl.sign.detached.verify(
+    message,
+    utils.serialize.base_decode(
+      nodeInfo.signature.substring(8, nodeInfo.signature.length)
+    ),
+    publicKeyEncode
+  );
   if (geo) {
     nodeInfo.latitude = geo.ll[0];
     nodeInfo.longitude = geo.ll[1];
     nodeInfo.city = geo.city;
-  } else {
+  } else if (!geo) {
     console.warn("Node Telemetry failed to lookup geoIP for ", nodeInfo);
+  } else if ((isValidator && isVerified) || !isValidator) {
+    // if validator has "active" stakingStatus and pass verification of his own account
+    // then we'll add the data to database
+    // otherwise we'll let to add the data about some validator if it isn't the "active" one
+    return saveNodeIntoDatabase(nodeInfo);
+  } else {
+    return;
   }
-  return saveNodeIntoDatabase(nodeInfo);
 };
 
 const saveNodeIntoDatabase = async (nodeInfo) => {

@@ -145,3 +145,4 @@ const getCurrentNodes = (epochStatus) => {
 exports.nearRpc = nearRpc;
 exports.queryFinalBlock = queryFinalBlock;
 exports.queryEpochStats = queryEpochStats;
+exports.stakingNodes = stakingNodes;
