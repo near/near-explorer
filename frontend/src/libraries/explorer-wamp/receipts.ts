@@ -21,6 +21,13 @@ export type ReceiptExecutionStatus =
   | "SuccessValue"
   | "SuccessReceiptId";
 
+// from the search side 'originatedFromTransactionHash'
+// can't be null
+interface TransactionHashByReceiptId {
+  receiptId: string;
+  originatedFromTransactionHash: string;
+}
+
 export default class ReceiptsApi extends ExplorerApi {
   static indexerCompatibilityReceiptActionKinds = new Map<
     string | null,
@@ -114,6 +121,33 @@ export default class ReceiptsApi extends ExplorerApi {
     } catch (error) {
       console.error(
         "Receipts.queryReceiptsCountInBlock failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getTransactionHashByReceiptId(
+    receiptId: string
+  ): Promise<TransactionHashByReceiptId> {
+    try {
+      return await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT
+          receipt_id, originated_from_transaction_hash
+         FROM receipts
+         WHERE receipt_id = :receiptId
+         LIMIT 1`,
+        { receiptId },
+      ]).then((receipt) => {
+        return {
+          receiptId: receipt[0].receipt_id,
+          originatedFromTransactionHash:
+            receipt[0].originated_from_transaction_hash,
+        };
+      });
+    } catch (error) {
+      console.error(
+        "Receipts.getTransactionHashByReceiptId failed to fetch data due to:"
       );
       console.error(error);
       throw error;
