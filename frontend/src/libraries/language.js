@@ -201,7 +201,7 @@ function getI18nConfig() {
       defaultLanguage: "en",
       onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
       renderToStaticMarkup: false,
-      renderInnerHtml: true,
+      renderInnerHtml: false,
     },
   };
 }

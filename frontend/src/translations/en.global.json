@@ -82,7 +82,7 @@
     "home": {
       "title": {
         "explore": "Explore",
-        "near_blockchain": " the<br />NEAR Blockchain."
+        "near_blockchain": " the \nNEAR Blockchain."
       }
     },
     "accounts": {
