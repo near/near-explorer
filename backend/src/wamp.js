@@ -2,6 +2,8 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
+const nacl = require("tweetnacl");
+const { utils } = require("near-api-js");
 
 const stats = require("./stats");
 const receipts = require("./receipts");
@@ -19,46 +21,51 @@ const {
   nearLockupAccountIdSuffix,
 } = require("./config");
 
-const { nearRpc, stakingNodes } = require("./near");
+const { nearRpc, getStakingNodesList } = require("./near");
 
 const wampHandlers = {};
 
 // node
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
   let geo = geoip.lookup(nodeInfo.ip_address);
-  const messageJSON = {
-    agent: nodeInfo.agent,
-    system: nodeInfo.system,
-    chain: nodeInfo.chain,
-  };
-  const message = new TextEncoder().encode(messageJSON);
-  const publicKey = stakingNodes.get(nodeInfo.chain.account_id).public_key;
+  const stakingNodesList = await getStakingNodesList();
+  const stakingNode = stakingNodesList.get(nodeInfo.chain.account_id);
   // we want to validate "active" validators only
-  const isValidator =
-    stakingNodes.get(nodeInfo.chain.account_id).stakingStatus === "active" ||
-    false;
-  const publicKeyEncode = utils.PublicKey.from(publicKey).data;
-  const isVerified = nacl.sign.detached.verify(
-    message,
-    utils.serialize.base_decode(
-      nodeInfo.signature.substring(8, nodeInfo.signature.length)
-    ),
-    publicKeyEncode
-  );
+  const isValidator = stakingNode?.stakingStatus === "active";
+
   if (geo) {
     nodeInfo.latitude = geo.ll[0];
     nodeInfo.longitude = geo.ll[1];
     nodeInfo.city = geo.city;
-  } else if (!geo) {
-    console.warn("Node Telemetry failed to lookup geoIP for ", nodeInfo);
-  } else if ((isValidator && isVerified) || !isValidator) {
-    // if validator has "active" stakingStatus and pass verification of his own account
-    // then we'll add the data to database
-    // otherwise we'll let to add the data about some validator if it isn't the "active" one
-    return saveNodeIntoDatabase(nodeInfo);
   } else {
-    return;
+    console.warn("Node Telemetry failed to lookup geoIP for ", nodeInfo);
   }
+
+  if (isValidator) {
+    const messageJSON = {
+      agent: nodeInfo.agent,
+      system: nodeInfo.system,
+      chain: nodeInfo.chain,
+    };
+    const message = new TextEncoder().encode(messageJSON);
+    const publicKey = utils.PublicKey.from(stakingNode.public_key);
+    const isVerified = nacl.sign.detached.verify(
+      message,
+      utils.serialize.base_decode(
+        nodeInfo.signature.substring(8, nodeInfo.signature.length)
+      ),
+      publicKey.data
+    );
+
+    if (!isVerified) {
+      console.warn(
+        "We ignore fake telemetry data about validation node: ",
+        nodeInfo
+      );
+      return;
+    }
+  }
+  return saveNodeIntoDatabase(nodeInfo);
 };
 
 const saveNodeIntoDatabase = async (nodeInfo) => {

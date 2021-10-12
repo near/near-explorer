@@ -10,7 +10,7 @@ export default async function (req, res) {
 
     res.send({});
 
-    return await new ExplorerApi(req).call("node-telemetry", [
+    new ExplorerApi(req).call("node-telemetry", [
       {
         ...req.body,
         ip_address: ip_address,
