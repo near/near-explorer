@@ -64,6 +64,7 @@ class Dashboard extends Component {
             h1 {
               font-size: 38px;
               line-height: 46px;
+              white-space: pre-line;
             }
 
             @media (max-width: 1200px) {

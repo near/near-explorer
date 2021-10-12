@@ -40,7 +40,9 @@ const DashboardBlock = ({ className }: Props) => (
                         "component.dashboard.DashboardBlock.block_height.title"
                       )}
                       text={translate(
-                        "component.dashboard.DashboardBlock.block_height.text"
+                        "component.dashboard.DashboardBlock.block_height.text",
+                        undefined,
+                        { renderInnerHtml: true }
                       )}
                       href={"https://docs.near.org/docs/concepts/new-to-near"}
                     />
