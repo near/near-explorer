@@ -4,28 +4,27 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || "development";
 const dbConfig = require(__dirname + "/../config/database");
 const db = {};
 
-const sequelizeLegacySyncBackend = new Sequelize(
-  dbConfig.legacySyncDatabase.database,
-  dbConfig.legacySyncDatabase.username,
-  dbConfig.legacySyncDatabase.password,
+const sequelizeTelemetryBackend = new Sequelize(
+  dbConfig.telemetryDatabase.database,
+  dbConfig.telemetryDatabase.username,
+  dbConfig.telemetryDatabase.password,
   {
-    ...dbConfig.legacySyncDatabase,
+    ...dbConfig.telemetryDatabase,
     logging: false,
   }
 );
 
-const sequelizeLegacySyncBackendReadOnly = new Sequelize(
-  dbConfig.legacySyncDatabase.database,
-  dbConfig.legacySyncDatabase.username,
-  dbConfig.legacySyncDatabase.password,
+const sequelizeTelemetryBackendReadOnly = new Sequelize(
+  dbConfig.telemetryDatabase.database,
+  dbConfig.telemetryDatabase.username,
+  dbConfig.telemetryDatabase.password,
   {
-    ...dbConfig.legacySyncDatabase,
+    ...dbConfig.telemetryDatabase,
     dialectOptions: {
-      ...dbConfig.legacySyncDatabase.dialectOptions,
+      ...dbConfig.telemetryDatabase.dialectOptions,
       // Set SQLITE_OPEN_READONLY mode. Read more:
       // * http://www.sqlite.org/c3ref/open.html
       // * http://www.sqlite.org/c3ref/c_open_autoproxy.html
@@ -62,7 +61,7 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
-    const model = sequelizeLegacySyncBackend["import"](
+    const model = sequelizeTelemetryBackend["import"](
       path.join(__dirname, file)
     );
     db[model.name] = model;
@@ -74,29 +73,10 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-db.sequelizeLegacySyncBackend = sequelizeLegacySyncBackend;
-db.sequelizeLegacySyncBackendReadOnly = sequelizeLegacySyncBackendReadOnly;
+db.sequelizeTelemetryBackend = sequelizeTelemetryBackend;
+db.sequelizeTelemetryBackendReadOnly = sequelizeTelemetryBackendReadOnly;
 db.sequelizeIndexerBackendReadOnly = sequelizeIndexerBackendReadOnly;
 db.sequelizeAnalyticsBackendReadOnly = sequelizeAnalyticsBackendReadOnly;
 db.Sequelize = Sequelize;
-
-db.resetDatabase = function resetDatabase({ saveBackup }) {
-  if (dbConfig.legacySyncDatabase.dialect !== "sqlite") {
-    console.error(
-      `resetDatabase only supports sqlite dialect, but '${dbConfig.legacySyncDatabase.dialect}' found. No action is taken.`
-    );
-    return;
-  }
-  if (saveBackup) {
-    fs.renameSync(
-      dbConfig.legacySyncDatabase.storage,
-      `${
-        dbConfig.legacySyncDatabase.storage
-      }.${new Date().toISOString().replace(/:/g, "-")}`
-    );
-  } else {
-    fs.unlinkSync(dbConfig.legacySyncDatabase.storage);
-  }
-};
 
 module.exports = db;

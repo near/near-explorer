@@ -1,6 +1,7 @@
 const {
   DS_INDEXER_BACKEND,
   DS_ANALYTICS_BACKEND,
+  DS_TELEMETRY_BACKEND,
   PARTNER_LIST,
 } = require("./consts");
 const { nearStakingPoolAccountSuffix } = require("./config");
@@ -21,8 +22,10 @@ function getSequelize(dataSource) {
       return models.sequelizeIndexerBackendReadOnly;
     case DS_ANALYTICS_BACKEND:
       return models.sequelizeAnalyticsBackendReadOnly;
+    case DS_TELEMETRY_BACKEND:
+      return models.sequelizeTelemetryBackendReadOnly;
     default:
-      return models.sequelizeLegacySyncBackendReadOnly;
+      throw Error("getSequelize() has no default dataSource");
   }
 }
 
@@ -50,24 +53,36 @@ const queryGenesisAccountCount = async () => {
 // query for node information
 const extendWithTelemetryInfo = async (nodes) => {
   const accountArray = nodes.map((node) => node.account_id);
-  let nodesInfo = await queryRows([
-    `SELECT ip_address AS ipAddress, account_id AS accountId, node_id AS nodeId,
-        last_seen AS lastSeen, last_height AS lastHeight,status,
-        agent_name AS agentName, agent_version AS agentVersion, agent_build AS agentBuild,
+  let nodesInfo = await queryRows(
+    [
+      `SELECT ip_address, account_id, node_id,
+        last_seen, last_height, status,
+        agent_name, agent_version, agent_build,
         latitude, longitude, city
-    FROM nodes
-    WHERE account_id IN (:accountArray)
-    ORDER BY node_id DESC
-          `,
-    {
-      accountArray,
-    },
-  ]);
+      FROM nodes
+      WHERE account_id IN (:accountArray)`,
+      { accountArray },
+    ],
+    { dataSource: DS_TELEMETRY_BACKEND }
+  );
   let nodeMap = new Map();
   if (nodesInfo && nodesInfo.length > 0) {
     for (let i = 0; i < nodesInfo.length; i++) {
-      const { accountId, ...nodeInfo } = nodesInfo[i];
-      nodeMap.set(accountId, nodeInfo);
+      const { account_id: accountId, ...nodeInfo } = nodesInfo[i];
+      nodeMap.set(accountId, {
+        accountId,
+        ipAddress: nodeInfo.ip_address,
+        nodeId: nodeInfo.node_id,
+        lastSeen: nodeInfo.last_seen,
+        lastHeight: parseInt(nodeInfo.last_height),
+        status: nodeInfo.status,
+        agentName: nodeInfo.agent_name,
+        agentVersion: nodeInfo.agent_version,
+        agentBuild: nodeInfo.agent_build,
+        latitude: nodeInfo.latitude,
+        longitude: nodeInfo.longitude,
+        city: nodeInfo.city,
+      });
     }
   }
 
@@ -101,16 +116,33 @@ const queryNodeValidators = async () => {
 };
 
 const queryOnlineNodes = async () => {
-  return await queryRows([
-    `SELECT ip_address AS ipAddress, account_id AS accountId, node_id AS nodeId,
-      last_seen AS lastSeen, last_height AS lastHeight,status,
-      agent_name AS agentName, agent_version AS agentVersion, agent_build AS agentBuild,
-      latitude, longitude, city
-    FROM nodes
-    WHERE last_seen > (strftime('%s','now') - 60) * 1000
-    ORDER BY is_validator ASC, node_id DESC
-        `,
-  ]);
+  const query = await queryRows(
+    [
+      `SELECT ip_address, account_id, node_id,
+        last_seen, last_height, status,
+        agent_name, agent_version, agent_build,
+        latitude, longitude, city
+      FROM nodes
+      WHERE last_seen > NOW() - INTERVAL '60 seconds'
+      ORDER BY is_validator ASC, node_id DESC`,
+    ],
+    { dataSource: DS_TELEMETRY_BACKEND }
+  );
+
+  return query.map((onlineNode) => ({
+    accountId: onlineNode.account_id,
+    ipAddress: onlineNode.ip_address,
+    nodeId: onlineNode.node_id,
+    lastSeen: onlineNode.last_seen,
+    lastHeight: parseInt(onlineNode.last_height),
+    status: onlineNode.status,
+    agentName: onlineNode.agent_name,
+    agentVersion: onlineNode.agent_version,
+    agentBuild: onlineNode.agent_build,
+    latitude: onlineNode.latitude,
+    longitude: onlineNode.longitude,
+    city: onlineNode.city,
+  }));
 };
 
 // query for new dashboard
@@ -470,7 +502,7 @@ const queryLatestCirculatingSupply = async () => {
 // pass 'days' to set period of calculation
 const calculateFeesByDay = async (days = 1) => {
   if (!(days >= 1 && days <= 7)) {
-    throw Exception(
+    throw Error(
       "calculateFeesByDay can only handle `days` values in range 1..7"
     );
   }
