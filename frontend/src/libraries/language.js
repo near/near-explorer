@@ -166,12 +166,6 @@ function findBestSupportedLocale(appLocales, browserLocales) {
   }
 }
 
-//export function setMomentLocale(code) {
-//const locale = code === "zh-hans" ? "zh-cn" : code === "vi" ? "vi" : code === "ru" ? "ru" : "en";
-// `moment.locale()` must be called after `moment.updateLocale()` are configured
-//moment.locale(locale);
-//}
-
 export function setMomentLocale(code) {
   let locale;
   switch (code) {
@@ -228,20 +222,27 @@ function getI18nConfig() {
 
 export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
   if (typeof window === "undefined") {
-    const config = getI18nConfig();
+    let config = getI18nConfig();
     const { languages } = config;
     const activeLang = getLanguage(languages, { cookies, acceptedLanguages });
-    if (activeLang === "ru") {
-      config.translation = translations_ru;
-    } else {
-      if (activeLang === "zh-hans") {
-        config.translation = translations_zh_hans;
-      } else {
-        if (activeLang === "vi") {
-          config.translation = translations_vi;
-        } else {
-          config.translation = translations_en;
+    switch (activeLang) {
+      case "ru":
+        {
+          config.translation = translations_ru;
         }
+        break;
+      case "zh-hans":
+        {
+          config.translation = translations_zh_hans;
+        }
+        break;
+      case "vi":
+        {
+          config.translation = translations_vi;
+        }
+        break;
+      default: {
+        config.translation = translations_en;
       }
     }
     return config;

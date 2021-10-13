@@ -1,5 +1,9 @@
 import moment from "moment";
 
+import "moment/locale/ru";
+import "moment/locale/zh-cn";
+import "moment/locale/vi";
+
 moment.relativeTimeThreshold("ss", 1);
 
 moment.updateLocale("en", {
