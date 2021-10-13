@@ -97,6 +97,11 @@ export default class StatsApi extends ExplorerApi {
     return await this.call<Account[]>("active-accounts-list");
   }
 
+  // blocks
+  async firstProducedBlockTimestamp(): Promise<string> {
+    return await this.call<string>("first-produced-block-timestamp");
+  }
+
   // contracts
   async newContractsCountAggregatedByDate(): Promise<ContractsByDate[]> {
     return await this.call<ContractsByDate[]>(

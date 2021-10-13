@@ -18,6 +18,7 @@ const {
   queryLatestCirculatingSupply,
   queryCirculatingSupply,
   calculateFeesByDay,
+  queryFirstProducedBlockTimestamp,
 } = require("./db-utils");
 const {
   formatDate,
@@ -376,6 +377,14 @@ async function getLiveAccountsCountByDate() {
   return LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE;
 }
 
+// blocks
+async function getFirstProducedBlockTimestamp() {
+  const {
+    first_produced_block_timestamp: firstProducedBlockTimestamp,
+  } = await queryFirstProducedBlockTimestamp();
+  return firstProducedBlockTimestamp;
+}
+
 async function getActiveAccountsList() {
   return ACTIVE_ACCOUNTS_LIST;
 }
@@ -441,6 +450,9 @@ exports.aggregateLiveAccountsCountByDate = aggregateLiveAccountsCountByDate;
 exports.aggregateActiveAccountsCountByDate = aggregateActiveAccountsCountByDate;
 exports.aggregateActiveAccountsCountByWeek = aggregateActiveAccountsCountByWeek;
 exports.aggregateActiveAccountsList = aggregateActiveAccountsList;
+
+// blocks
+exports.getFirstProducedBlockTimestamp = getFirstProducedBlockTimestamp;
 
 // contracts
 exports.aggregateNewContractsCountByDate = aggregateNewContractsCountByDate;

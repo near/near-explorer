@@ -20,6 +20,10 @@ const ProtocolConfigInfo = () => {
   ] = useState<number>();
   const [liveAccountsCount, setLiveAccountsCount] = useState<number>();
   const [genesisAccountsAmount, setGenesisAccountsAmount] = useState<number>();
+  const [
+    firstProducedBlockTimestamp,
+    setFirstProducedBlockTimestamp,
+  ] = useState<string>();
 
   const { networkStats, epochStartBlock } = useContext(NetworkStatsContext);
 
@@ -65,6 +69,12 @@ const ProtocolConfigInfo = () => {
         setGenesisAccountsAmount(count);
       }
     });
+
+    new StatsApi().firstProducedBlockTimestamp().then((blockTimestamp) => {
+      if (blockTimestamp) {
+        setFirstProducedBlockTimestamp(blockTimestamp);
+      }
+    });
   }, []);
 
   return (
@@ -74,23 +84,16 @@ const ProtocolConfigInfo = () => {
           <InfoCard className="protocol-config">
             <Cell
               title={translate(
-                "component.stats.ProtocolConfigInfo.genesis_started"
+                "component.stats.ProtocolConfigInfo.first_produced_block"
               )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
             >
-              {networkStats?.genesisTime && (
-                <>
-                  <span>
-                    {moment(networkStats?.genesisTime).format(
-                      translate("common.date_time.date_format").toString()
-                    )}
-                  </span>
-                  <div style={{ fontSize: "10px", lineHeight: "1" }}>
-                    {moment(networkStats?.genesisTime).format(
-                      translate("common.date_time.time_format").toString()
-                    )}
-                  </div>
-                </>
+              {firstProducedBlockTimestamp && (
+                <span>
+                  {moment(firstProducedBlockTimestamp).format(
+                    translate("common.date_time.date_format").toString()
+                  )}
+                </span>
               )}
             </Cell>
 
