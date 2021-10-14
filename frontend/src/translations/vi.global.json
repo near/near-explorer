@@ -253,7 +253,8 @@
         }
       },
       "TransactionAction": {
-        "batch_transaction": "Giao dịch hàng loạt"
+        "batch_transaction": "Giao dịch hàng loạt",
+        "fetching_status": "Đang kiểm Trạng thái..."
       },
       "ActionRowBlock": {
         "by": "bởi"

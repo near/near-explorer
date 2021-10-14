@@ -14,26 +14,17 @@ export interface Props {
 const DashboardTransactionHistoryChart = ({
   transactionsCountHistory,
 }: Props) => {
-  const nameMonth = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const date = transactionsCountHistory.map((t) => {
-    let time = moment(t.date, "YYYY/MM/DD");
-    let month = Number(time.format("M"));
-    let day = time.format("D");
-    return nameMonth[month - 1] + " " + day;
-  });
+  const getDate = (translate: Function) => {
+    const date = transactionsCountHistory.map((t) =>
+      moment(t.date).format(
+        translate(
+          "component.dashboard.DashboardTransactionHistoryChart.date_format"
+        )
+      )
+    );
+    return date;
+  };
+
   const count = transactionsCountHistory.map((t) => t.total);
   const getOption = (translate: Function) => {
     return {
@@ -63,7 +54,7 @@ const DashboardTransactionHistoryChart = ({
         {
           type: "category",
           boundaryGap: false,
-          data: date,
+          data: getDate(translate),
           axisLine: {
             show: false,
           },

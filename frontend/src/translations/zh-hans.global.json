@@ -253,7 +253,8 @@
         }
       },
       "TransactionAction": {
-        "batch_transaction": "批量交易"
+        "batch_transaction": "批量交易",
+        "fetching_status": "获取状态..."
       },
       "ActionRowBlock": {
         "by": "发起者"

@@ -253,7 +253,8 @@
         }
       },
       "TransactionAction": {
-        "batch_transaction": "Пакетная транзакция"
+        "batch_transaction": "Пакетная транзакция",
+        "fetching_status": "Получение статуса..."
       },
       "ActionRowBlock": {
         "by": "_"
@@ -312,7 +313,8 @@
     },
     "receipts": {
       "ReceiptAction": {
-        "batch_receipt": "Пакетная квитанция"
+        "batch_receipt": "Пакетная квитанция",
+        "fetching_status": "Получение статуса..."
       }
     },
     "blocks": {
@@ -458,7 +460,8 @@
       "DashboardTransactionHistoryChart": {
         "14_day_history": {
           "title": "История за 14 дней",
-          "transactions": "Количество транзакций за 14 дней"
+          "transactions": "Количество транзакций за 14 дней",
+          "date_format": "D MMM"
         }
       }
     },

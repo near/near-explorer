@@ -176,7 +176,7 @@ export function setMomentLocale(code) {
       locale = "vi";
       break;
     case "zn-hans":
-      locale = "zn-hans";
+      locale = "zn-ch";
       break;
     default:
       locale = "en";
@@ -227,23 +227,16 @@ export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
     const activeLang = getLanguage(languages, { cookies, acceptedLanguages });
     switch (activeLang) {
       case "ru":
-        {
-          config.translation = translations_ru;
-        }
+        config.translation = translations_ru;
         break;
       case "zh-hans":
-        {
-          config.translation = translations_zh_hans;
-        }
+        config.translation = translations_zh_hans;
         break;
       case "vi":
-        {
-          config.translation = translations_vi;
-        }
+        config.translation = translations_vi;
         break;
-      default: {
+      default:
         config.translation = translations_en;
-      }
     }
     return config;
   }
