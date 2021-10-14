@@ -82,7 +82,7 @@
     "home": {
       "title": {
         "explore": "Khám phá",
-        "near_blockchain": "<br />NEAR Blockchain."
+        "near_blockchain": "\nNEAR Blockchain."
       }
     },
     "accounts": {
@@ -475,9 +475,9 @@
         "transactions": "GD"
       },
       "GasUsedByDate": {
-        "daily_amount_of_used_tera_gas": "Lượng Tera Gas đã sử dụng hàng ngày",
-        "tera_gas": "Tera gas",
-        "total_amount_of_used_tera_gas": "Tổng Tera Gas đã sử dụng",
+        "daily_amount_of_used_gas": "Lượng Gas đã sử dụng hàng ngày",
+        "petagas": "PetaGas",
+        "total_amount_of_used_gas": "Tổng Gas đã sử dụng",
         "gas_fee": "Phí Gas",
         "daily_gas_fee_in_near": "Phí Gas Hàng Ngày tính bằng NEAR",
         "fee": "phí"

@@ -14,7 +14,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeNewContractsByDate, setTotal] = useState(Array());
-  const [uniqueDeployedContractsByDate, setUnique] = useState(Array());
+  const [cumulativeUniqueContractsByDate, setUniqueTotal] = useState(Array());
 
   useEffect(() => {
     new StatsApi().newContractsCountAggregatedByDate().then((contracts) => {
@@ -37,7 +37,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
           const uniqueContracts = contracts.map((contract: ContractsByDate) =>
             Number(contract.contractsCount)
           );
-          setUnique(uniqueContracts);
+          setUniqueTotal(cumulativeSumArray(uniqueContracts));
         }
       });
   }, []);
@@ -166,7 +166,7 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
                 translate(
                   "component.stats.NewContractsByDate.new_contracts"
                 ).toString(),
-                uniqueDeployedContractsByDate,
+                cumulativeUniqueContractsByDate,
                 date
               )}
               style={chartStyle}

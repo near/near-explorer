@@ -144,7 +144,9 @@ class ContractDetails extends Component<Props, State> {
                           "component.contracts.ContractDetails.locked.title"
                         )}
                         text={translate(
-                          "component.contracts.ContractDetails.locked.text"
+                          "component.contracts.ContractDetails.locked.text",
+                          undefined,
+                          { renderInnerHtml: true }
                         )}
                       />
                     }

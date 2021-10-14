@@ -1,18 +1,33 @@
-const { DS_INDEXER_BACKEND, PARTNER_LIST } = require("./consts");
+const {
+  DS_INDEXER_BACKEND,
+  DS_ANALYTICS_BACKEND,
+  DS_TELEMETRY_BACKEND,
+  PARTNER_LIST,
+} = require("./consts");
 const { nearStakingPoolAccountSuffix } = require("./config");
 const models = require("../models");
 const BN = require("bn.js");
 
 const query = async ([query, replacements], { dataSource }) => {
-  const sequelize =
-    dataSource === DS_INDEXER_BACKEND
-      ? models.sequelizeIndexerBackendReadOnly
-      : models.sequelizeLegacySyncBackendReadOnly;
+  const sequelize = getSequelize(dataSource);
   return await sequelize.query(query, {
     replacements,
     type: models.Sequelize.QueryTypes.SELECT,
   });
 };
+
+function getSequelize(dataSource) {
+  switch (dataSource) {
+    case DS_INDEXER_BACKEND:
+      return models.sequelizeIndexerBackendReadOnly;
+    case DS_ANALYTICS_BACKEND:
+      return models.sequelizeAnalyticsBackendReadOnly;
+    case DS_TELEMETRY_BACKEND:
+      return models.sequelizeTelemetryBackendReadOnly;
+    default:
+      throw Error("getSequelize() has no default dataSource");
+  }
+}
 
 const querySingleRow = async (args, options) => {
   const result = await query(args, options || {});
@@ -21,16 +36,6 @@ const querySingleRow = async (args, options) => {
 
 const queryRows = async (args, options) => {
   return await query(args, options || {});
-};
-
-// genesis
-const getSyncedGenesis = async (options) => {
-  return await querySingleRow(
-    [
-      `SELECT genesis_time AS genesisTime, genesis_height AS genesisHeight, chain_id AS chainId FROM genesis`,
-    ],
-    options
-  );
 };
 
 const queryGenesisAccountCount = async () => {
@@ -48,24 +53,36 @@ const queryGenesisAccountCount = async () => {
 // query for node information
 const extendWithTelemetryInfo = async (nodes) => {
   const accountArray = nodes.map((node) => node.account_id);
-  let nodesInfo = await queryRows([
-    `SELECT ip_address AS ipAddress, account_id AS accountId, node_id AS nodeId,
-        last_seen AS lastSeen, last_height AS lastHeight,status,
-        agent_name AS agentName, agent_version AS agentVersion, agent_build AS agentBuild,
+  let nodesInfo = await queryRows(
+    [
+      `SELECT ip_address, account_id, node_id,
+        last_seen, last_height, status,
+        agent_name, agent_version, agent_build,
         latitude, longitude, city
-    FROM nodes
-    WHERE account_id IN (:accountArray)
-    ORDER BY node_id DESC
-          `,
-    {
-      accountArray,
-    },
-  ]);
+      FROM nodes
+      WHERE account_id IN (:accountArray)`,
+      { accountArray },
+    ],
+    { dataSource: DS_TELEMETRY_BACKEND }
+  );
   let nodeMap = new Map();
   if (nodesInfo && nodesInfo.length > 0) {
     for (let i = 0; i < nodesInfo.length; i++) {
-      const { accountId, ...nodeInfo } = nodesInfo[i];
-      nodeMap.set(accountId, nodeInfo);
+      const { account_id: accountId, ...nodeInfo } = nodesInfo[i];
+      nodeMap.set(accountId, {
+        accountId,
+        ipAddress: nodeInfo.ip_address,
+        nodeId: nodeInfo.node_id,
+        lastSeen: nodeInfo.last_seen,
+        lastHeight: parseInt(nodeInfo.last_height),
+        status: nodeInfo.status,
+        agentName: nodeInfo.agent_name,
+        agentVersion: nodeInfo.agent_version,
+        agentBuild: nodeInfo.agent_build,
+        latitude: nodeInfo.latitude,
+        longitude: nodeInfo.longitude,
+        city: nodeInfo.city,
+      });
     }
   }
 
@@ -99,50 +116,64 @@ const queryNodeValidators = async () => {
 };
 
 const queryOnlineNodes = async () => {
-  return await queryRows([
-    `SELECT ip_address AS ipAddress, account_id AS accountId, node_id AS nodeId,
-      last_seen AS lastSeen, last_height AS lastHeight,status,
-      agent_name AS agentName, agent_version AS agentVersion, agent_build AS agentBuild,
-      latitude, longitude, city
-    FROM nodes
-    WHERE last_seen > (strftime('%s','now') - 60) * 1000
-    ORDER BY is_validator ASC, node_id DESC
-        `,
-  ]);
+  const query = await queryRows(
+    [
+      `SELECT ip_address, account_id, node_id,
+        last_seen, last_height, status,
+        agent_name, agent_version, agent_build,
+        latitude, longitude, city
+      FROM nodes
+      WHERE last_seen > NOW() - INTERVAL '60 seconds'
+      ORDER BY is_validator ASC, node_id DESC`,
+    ],
+    { dataSource: DS_TELEMETRY_BACKEND }
+  );
+
+  return query.map((onlineNode) => ({
+    accountId: onlineNode.account_id,
+    ipAddress: onlineNode.ip_address,
+    nodeId: onlineNode.node_id,
+    lastSeen: onlineNode.last_seen,
+    lastHeight: parseInt(onlineNode.last_height),
+    status: onlineNode.status,
+    agentName: onlineNode.agent_name,
+    agentVersion: onlineNode.agent_version,
+    agentBuild: onlineNode.agent_build,
+    latitude: onlineNode.latitude,
+    longitude: onlineNode.longitude,
+    city: onlineNode.city,
+  }));
 };
 
 // query for new dashboard
 const queryDashboardBlocksStats = async (options) => {
   async function queryLatestBlockHeight({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`;
-    } else {
-      query = `SELECT height AS block_height FROM blocks ORDER BY height DESC LIMIT 1`;
-    }
-    return (await querySingleRow([query], { dataSource })).block_height;
+    return (
+      await querySingleRow(
+        [`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`],
+        { dataSource }
+      )
+    ).block_height;
   }
 
   async function queryLatestGasPrice({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`;
-    } else {
-      query = `SELECT gas_price FROM blocks ORDER BY height DESC LIMIT 1`;
-    }
-    return (await querySingleRow([query], { dataSource })).gas_price;
+    return (
+      await querySingleRow(
+        [`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`],
+        { dataSource }
+      )
+    ).gas_price;
   }
 
   async function queryRecentBlockProductionSpeed({ dataSource }) {
-    let query;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT block_timestamp AS latest_block_timestamp FROM blocks ORDER BY block_timestamp DESC LIMIT 1`;
-    } else {
-      query = `SELECT timestamp AS latest_block_timestamp FROM blocks ORDER BY timestamp DESC LIMIT 1`;
-    }
-    const latestBlockTimestampOrNone = await querySingleRow([query], {
-      dataSource,
-    });
+    const latestBlockTimestampOrNone = await querySingleRow(
+      [
+        `SELECT
+          block_timestamp AS latest_block_timestamp
+        FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
+      ],
+      { dataSource }
+    );
     if (!latestBlockTimestampOrNone) {
       return 0;
     }
@@ -162,16 +193,12 @@ const queryDashboardBlocksStats = async (options) => {
       return 0;
     }
 
-    if (dataSource === DS_INDEXER_BACKEND) {
-      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
-        WHERE block_timestamp > (CAST(:latestBlockTimestamp - 60 AS bigint) * 1000 * 1000 * 1000)`;
-    } else {
-      query = `SELECT COUNT(*) AS blocks_count_60_seconds_before FROM blocks
-        WHERE timestamp > (:latestBlockTimestamp - 60 * 1000)`;
-    }
     const result = await querySingleRow(
       [
-        query,
+        `SELECT
+          COUNT(*) AS blocks_count_60_seconds_before
+        FROM blocks
+        WHERE block_timestamp > (CAST(:latestBlockTimestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
         {
           latestBlockTimestamp:
             dataSource == DS_INDEXER_BACKEND
@@ -249,52 +276,36 @@ const queryRecentTransactionsCount = async () => {
 const queryTransactionsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(transactions.block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(*) AS transactions_count_by_date
-      FROM transactions
-      WHERE transactions.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day  AS date,
+              transactions_count AS transactions_count_by_date
+       FROM daily_transactions_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
-const queryTeragasUsedAggregatedByDate = async () => {
+const queryGasUsedAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(blocks.block_timestamp, 1000*1000*1000))) AS date,
-        DIV(SUM(chunks.gas_used), 1000000000000) AS teragas_used_by_date
-      FROM blocks
-      JOIN chunks ON chunks.included_in_block_hash = blocks.block_hash
-      WHERE blocks.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day AS date,
+              gas_used          AS gas_used_by_date
+       FROM daily_gas_used
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryDepositAmountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', to_timestamp(execution_outcomes.executed_in_block_timestamp / 1000000000)) AS date,
-        SUM((action_receipt_actions.args->>'deposit')::numeric) AS total_deposit_amount
-      FROM action_receipt_actions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE receipts.predecessor_account_id != 'system'
-      AND action_receipt_actions.action_kind IN ('FUNCTION_CALL', 'TRANSFER')
-      AND (action_receipt_actions.args->>'deposit')::numeric > 0
-      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND execution_outcomes.executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day AS date,
+              deposit_amount    AS total_deposit_amount
+       FROM daily_deposit_amount
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -302,66 +313,48 @@ const queryDepositAmountAggregatedByDate = async () => {
 const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000)) AS date,
-        COUNT(created_by_receipt_id) AS new_accounts_count_by_date
-      FROM accounts
-      JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
-      WHERE receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day  AS date,
+              new_accounts_count AS new_accounts_count_by_date
+       FROM daily_new_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryDeletedAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(receipts.included_in_block_timestamp / 1000000000)) AS date,
-        COUNT(accounts.deleted_by_receipt_id) AS deleted_accounts_count_by_date
-      FROM accounts
-      JOIN receipts ON receipts.receipt_id = accounts.deleted_by_receipt_id
-      WHERE receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day      AS date,
+              deleted_accounts_count AS deleted_accounts_count_by_date
+       FROM daily_deleted_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveAccountsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(transactions.block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT transactions.signer_account_id) AS active_accounts_count_by_date
-      FROM transactions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
-      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND transactions.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day     AS date,
+              active_accounts_count AS active_accounts_count_by_date
+       FROM daily_active_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveAccountsCountAggregatedByWeek = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('week', TO_TIMESTAMP(DIV(transactions.block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT transactions.signer_account_id) AS active_accounts_count_by_week
-      FROM transactions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = transactions.converted_into_receipt_id
-      WHERE execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND transactions.block_timestamp < ((CAST(EXTRACT(EPOCH FROM DATE_TRUNC('week', NOW())) AS bigint)) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_week    AS date,
+              active_accounts_count AS active_accounts_count_by_week
+       FROM weekly_active_accounts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -369,16 +362,15 @@ const queryActiveAccountsList = async () => {
   return await queryRows(
     [
       `SELECT
-        signer_account_id,
-        COUNT(*) AS transactions_count
-      FROM transactions
-      WHERE transactions.block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '2 week')) AS bigint) * 1000 * 1000 * 1000)
-      AND transactions.block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY signer_account_id
-      ORDER BY transactions_count DESC
-      LIMIT 10`,
+       account_id,
+       SUM(transactions_count) AS transactions_count
+       FROM daily_transactions_per_account_count
+       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
+       GROUP BY account_id
+       ORDER BY transactions_count DESC
+       LIMIT 10`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -386,71 +378,51 @@ const queryActiveAccountsList = async () => {
 const queryNewContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(receipts.included_in_block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT receipts.receiver_account_id) AS new_contracts_count_by_date
-      FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
-      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day   AS date,
+              new_contracts_count AS new_contracts_count_by_date
+       FROM daily_new_contracts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
-const queryUniqueDeployedContractsAggregatedByDate = async () => {
+const queryUniqueDeployedContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(receipts.included_in_block_timestamp, 1000*1000*1000))) AS date,
-        args->>'code_sha256' AS deployed_contracts_by_date
-      FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_kind = 'DEPLOY_CONTRACT'
-      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date, deployed_contracts_by_date
-      ORDER BY date`,
+      `SELECT collected_for_day          AS date,
+              new_unique_contracts_count AS contracts_count_by_date
+       FROM daily_new_unique_contracts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveContractsCountAggregatedByDate = async () => {
   return await queryRows(
     [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(execution_outcomes.executed_in_block_timestamp, 1000*1000*1000))) AS date,
-        COUNT(DISTINCT execution_outcomes.executor_account_id) AS active_contracts_count_by_date
-      FROM action_receipt_actions
-      JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
-      AND execution_outcomes.status IN ('SUCCESS_VALUE', 'SUCCESS_RECEIPT_ID')
-      AND execution_outcomes.executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
-      ORDER BY date`,
+      `SELECT collected_for_day      AS date,
+              active_contracts_count AS active_contracts_count_by_date
+       FROM daily_active_contracts_count
+       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
 const queryActiveContractsList = async () => {
   return await queryRows(
     [
-      `SELECT
-        receiver_account_id,
-        COUNT(receipts.receipt_id) AS receipts_count
-      FROM action_receipt_actions
-      JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-      WHERE action_receipt_actions.action_kind = 'FUNCTION_CALL'
-      AND receipts.included_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '2 week')) AS bigint) * 1000 * 1000 * 1000)
-      AND receipts.included_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY receiver_account_id
-      ORDER BY receipts_count DESC
-      LIMIT 10`,
+      `SELECT contract_id,
+              SUM(receipts_count) AS receipts_count
+       FROM daily_receipts_per_contract_count
+       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
+       GROUP BY contract_id
+       ORDER BY receipts_count DESC
+       LIMIT 10`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 };
 
@@ -530,7 +502,7 @@ const queryLatestCirculatingSupply = async () => {
 // pass 'days' to set period of calculation
 const calculateFeesByDay = async (days = 1) => {
   if (!(days >= 1 && days <= 7)) {
-    throw Exception(
+    throw Error(
       "calculateFeesByDay can only handle `days` values in range 1..7"
     );
   }
@@ -551,6 +523,20 @@ const calculateFeesByDay = async (days = 1) => {
   );
 };
 
+const queryCirculatingSupply = async () => {
+  return await queryRows(
+    [
+      `SELECT
+        DATE_TRUNC('day', TO_TIMESTAMP(DIV(computed_at_block_timestamp, 1000*1000*1000))) AS date,
+        circulating_tokens_supply,
+        total_tokens_supply
+       FROM aggregated__circulating_supply
+       ORDER BY date`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
@@ -558,7 +544,6 @@ exports.pickOnlineValidatingNode = pickOnlineValidatingNode;
 exports.queryNodeValidators = queryNodeValidators;
 
 // genesis
-exports.getSyncedGenesis = getSyncedGenesis;
 exports.queryGenesisAccountCount = queryGenesisAccountCount;
 
 // dashboard
@@ -569,7 +554,7 @@ exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 // stats
 // transaction related
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
-exports.queryTeragasUsedAggregatedByDate = queryTeragasUsedAggregatedByDate;
+exports.queryGasUsedAggregatedByDate = queryGasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
 
 // accounts
@@ -581,7 +566,7 @@ exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggre
 
 // contracts
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
-exports.queryUniqueDeployedContractsAggregatedByDate = queryUniqueDeployedContractsAggregatedByDate;
+exports.queryUniqueDeployedContractsCountAggregatedByDate = queryUniqueDeployedContractsCountAggregatedByDate;
 exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
 exports.queryActiveContractsList = queryActiveContractsList;
 
@@ -592,6 +577,7 @@ exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
 
 // circulating supply
 exports.queryLatestCirculatingSupply = queryLatestCirculatingSupply;
+exports.queryCirculatingSupply = queryCirculatingSupply;
 
 // calculate fee
 exports.calculateFeesByDay = calculateFeesByDay;

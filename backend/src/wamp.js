@@ -58,14 +58,7 @@ const saveNodeIntoDatabase = async (nodeInfo) => {
   });
 };
 
-// select query directly to database && indexer
-wampHandlers["select"] = async ([query, replacements]) => {
-  return await models.sequelizeLegacySyncBackendReadOnly.query(query, {
-    replacements,
-    type: models.Sequelize.QueryTypes.SELECT,
-  });
-};
-
+// select query directly from indexer
 wampHandlers["select:INDEXER_BACKEND"] = async ([query, replacements]) => {
   return await models.sequelizeIndexerBackendReadOnly.query(query, {
     replacements,
@@ -252,8 +245,8 @@ wampHandlers["transactions-count-aggregated-by-date"] = async () => {
   return await stats.getTransactionsByDate();
 };
 
-wampHandlers["teragas-used-aggregated-by-date"] = async () => {
-  return await stats.getTeragasUsedByDate();
+wampHandlers["gas-used-aggregated-by-date"] = async () => {
+  return await stats.getGasUsedByDate();
 };
 
 wampHandlers["deposit-amount-aggregated-by-date"] = async () => {
@@ -313,12 +306,17 @@ wampHandlers["partner-unique-user-amount"] = async () => {
   return await stats.getPartnerUniqueUserAmount();
 };
 
+// genesis stats
 wampHandlers["nearcore-genesis-accounts-count"] = async () => {
   return await stats.getGenesisAccountsCount();
 };
 
 wampHandlers["nearcore-total-fee-count"] = async ([daysCount]) => {
   return await stats.getTotalFee(daysCount);
+};
+
+wampHandlers["circulating-supply-stats"] = async () => {
+  return await stats.getCirculatingSupplyByDate();
 };
 
 // set up wamp

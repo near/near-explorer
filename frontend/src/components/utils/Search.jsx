@@ -7,6 +7,7 @@ import Mixpanel from "../../libraries/mixpanel";
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
+import ReceiptsApi from "../../libraries/explorer-wamp/receipts";
 
 import { Translate } from "react-localize-redux";
 
@@ -36,6 +37,9 @@ class Search extends Component {
     const accountPromise = new AccountsApi()
       .isAccountIndexed(cleanedSearchValue.toLowerCase())
       .catch(() => {});
+    const receiptInTransactionPromise = new ReceiptsApi()
+      .getTransactionHashByReceiptId(cleanedSearchValue)
+      .catch(() => {});
 
     const block = await blockPromise;
     if (block) {
@@ -52,6 +56,12 @@ class Search extends Component {
     if (await accountPromise) {
       Mixpanel.track("Explorer Search for account", { account: searchValue });
       return Router.push("/accounts/" + searchValue.toLowerCase());
+    }
+    const receipt = await receiptInTransactionPromise;
+    if (receipt && receipt.originatedFromTransactionHash) {
+      return Router.push(
+        `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
+      );
     }
     Mixpanel.track("Explorer Search result not found", { detail: searchValue });
     alert("Result not found!");
