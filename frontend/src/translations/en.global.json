@@ -243,9 +243,9 @@
         },
         "AddKey": {
           "new_key_added": "New key added for ",
-          "with_permission_and_nounce": "with permission ${permission} and nonce ${nonce}",
+          "with_permission_and_nounce": "with permission ${permission}",
           "access_key_added_for_contract": "Access key added for contract ",
-          "with_permission_call_method_and_nounce": "with permission to call ${methods} methods and nonce ${nonce}",
+          "with_permission_call_method_and_nounce": "with permission to call ${methods} methods",
           "any": "any"
         },
         "DeleteKey": {
@@ -460,9 +460,9 @@
       "DashboardTransactionHistoryChart": {
         "14_day_history": {
           "title": "14 Day History",
-          "transactions": "Txns",
-          "date_format": "MMM D"
-        }
+          "transactions": "Txns"
+        },
+        "date_format": "MMM D"
       }
     },
     "stats": {
