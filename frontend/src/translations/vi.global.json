@@ -311,6 +311,12 @@
         "no_actions": "Không có hành động"
       }
     },
+    "receipts": {
+      "ReceiptAction": {
+        "batch_receipt": "Batch Receipt",
+        "fetching_status": "Fetching Status..."
+      }
+    },
     "blocks": {
       "ReceiptsInBlock": {
         "no_receipts": "Không có biên nhận trong block này"
@@ -455,7 +461,8 @@
         "14_day_history": {
           "title": "Lịch sử 14 ngày",
           "transactions": "GD"
-        }
+        },
+        "date_format": "MMM D"
       }
     },
     "stats": {

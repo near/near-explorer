@@ -311,6 +311,12 @@
         "no_actions": "没有操作"
       }
     },
+    "receipts": {
+      "ReceiptAction": {
+        "batch_receipt": "Batch Receipt",
+        "fetching_status": "Fetching Status..."
+      }
+    },
     "blocks": {
       "ReceiptsInBlock": {
         "no_receipts": "此区块中没有交易回执"
@@ -511,7 +517,8 @@
         "14_day_history": {
           "title": "过去14天历史",
           "transactions": "交易数"
-        }
+        },
+        "date_format": "MoDo"
       }
     },
     "utils": {

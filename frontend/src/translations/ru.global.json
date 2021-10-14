@@ -460,9 +460,9 @@
       "DashboardTransactionHistoryChart": {
         "14_day_history": {
           "title": "История за 14 дней",
-          "transactions": "Количество транзакций за 14 дней",
-          "date_format": "D MMM"
-        }
+          "transactions": "Количество транзакций за 14 дней"
+        },
+        "date_format": "D MMM"
       }
     },
     "stats": {

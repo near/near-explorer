@@ -32,11 +32,15 @@ class Receipts extends Component<Props> {
                   receipt.status ? (
                     <ReceiptExecutionStatus status={receipt.status} />
                   ) : (
-                    <>{"Fetching Status..."}</>
+                    <>
+                      {translate(
+                        "component.receipts.ReceiptAction.fetching_status"
+                      )}
+                    </>
                   )
                 }
                 title={translate(
-                  "component.transactions.TransactionAction.batch_transaction"
+                  "component.receipts.ReceiptAction.batch_transaction"
                 ).toString()}
               />
             ))}

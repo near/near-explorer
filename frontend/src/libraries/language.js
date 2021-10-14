@@ -175,8 +175,8 @@ export function setMomentLocale(code) {
     case "vi":
       locale = "vi";
       break;
-    case "zn-hans":
-      locale = "zn-ch";
+    case "zh-hans":
+      locale = "zh-cn";
       break;
     default:
       locale = "en";
