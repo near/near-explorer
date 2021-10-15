@@ -1,12 +1,11 @@
 import { Component } from "react";
+import { Translate } from "react-localize-redux";
 
 import { Receipt } from "../../libraries/explorer-wamp/receipts";
 
 import ActionGroup from "../transactions/ActionGroup";
 import ReceiptLink from "../utils/ReceiptLink";
 import ReceiptExecutionStatus from "./ReceiptExecutionStatus";
-
-import { Translate } from "react-localize-redux";
 
 interface Props {
   receipts: Receipt[];
@@ -40,13 +39,12 @@ class Receipts extends Component<Props> {
                   )
                 }
                 title={translate(
-                  "component.receipts.ReceiptAction.batch_transaction"
+                  "component.receipts.ReceiptAction.batch_receipt"
                 ).toString()}
               />
             ))}
           </>
         )}
-        ;
       </Translate>
     );
   }
