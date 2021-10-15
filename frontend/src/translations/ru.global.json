@@ -82,7 +82,7 @@
     "home": {
       "title": {
         "explore": "Исследуйте",
-        "near_blockchain": "<br />NEAR Блокчейн"
+        "near_blockchain": "\nNEAR Блокчейн"
       }
     },
     "accounts": {
