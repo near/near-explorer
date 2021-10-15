@@ -114,7 +114,7 @@ class ValidatorMainRow extends PureComponent<Props> {
 
               <td>
                 <Row noGutters className="align-items-center">
-                  <Col xs="2" className="validators-node-label">
+                  <Col className="validators-node-label">
                     {stakingStatus === "proposal" ? (
                       <ValidatingLabel
                         type="proposal"

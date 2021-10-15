@@ -253,7 +253,8 @@
         }
       },
       "TransactionAction": {
-        "batch_transaction": "批量交易"
+        "batch_transaction": "批量交易",
+        "fetching_status": "获取状态..."
       },
       "ActionRowBlock": {
         "by": "发起者"
@@ -308,6 +309,12 @@
         "success_receipt_id": "成功交易回执ID",
         "no_logs": "没有日志",
         "no_actions": "没有操作"
+      }
+    },
+    "receipts": {
+      "ReceiptAction": {
+        "batch_receipt": "Batch Receipt",
+        "fetching_status": "Fetching Status..."
       }
     },
     "blocks": {
@@ -510,7 +517,8 @@
         "14_day_history": {
           "title": "过去14天历史",
           "transactions": "交易数"
-        }
+        },
+        "date_format": "MoDo"
       }
     },
     "utils": {

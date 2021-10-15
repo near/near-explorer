@@ -253,7 +253,8 @@
         }
       },
       "TransactionAction": {
-        "batch_transaction": "Giao dịch hàng loạt"
+        "batch_transaction": "Giao dịch hàng loạt",
+        "fetching_status": "Đang kiểm Trạng thái..."
       },
       "ActionRowBlock": {
         "by": "bởi"
@@ -308,6 +309,12 @@
         "success_receipt_id": "IdBiênNhậnThànhCông",
         "no_logs": "Không có log",
         "no_actions": "Không có hành động"
+      }
+    },
+    "receipts": {
+      "ReceiptAction": {
+        "batch_receipt": "Batch Receipt",
+        "fetching_status": "Fetching Status..."
       }
     },
     "blocks": {
@@ -454,7 +461,8 @@
         "14_day_history": {
           "title": "Lịch sử 14 ngày",
           "transactions": "GD"
-        }
+        },
+        "date_format": "MMM D"
       }
     },
     "stats": {

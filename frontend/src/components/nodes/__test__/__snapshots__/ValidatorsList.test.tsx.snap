@@ -46,7 +46,7 @@ Array [
         className="align-items-center row no-gutters"
       >
         <div
-          className="validators-node-label col-2"
+          className="validators-node-label col"
         >
           <span
             className="validating-label active badge"
@@ -147,10 +147,10 @@ Array [
     </td>
   </tr>,
   <tr
-    className="jsx-3940587247 cumulative-stake-holders-row"
+    className="jsx-1966533806 cumulative-stake-holders-row"
   >
     <td
-      className="jsx-3940587247 warning-text text-center"
+      className="jsx-1966533806 warning-text text-center"
       colSpan={8}
     >
       Validators 1 - 25 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
@@ -200,7 +200,7 @@ Array [
         className="align-items-center row no-gutters"
       >
         <div
-          className="validators-node-label col-2"
+          className="validators-node-label col"
         >
           <span
             className="validating-label active badge"
@@ -346,7 +346,7 @@ Array [
         className="align-items-center row no-gutters"
       >
         <div
-          className="validators-node-label col-2"
+          className="validators-node-label col"
         >
           <span
             className="validating-label active badge"
@@ -490,7 +490,7 @@ Array [
         className="align-items-center row no-gutters"
       >
         <div
-          className="validators-node-label col-2"
+          className="validators-node-label col"
         >
           <span
             className="validating-label joining badge"
@@ -636,7 +636,7 @@ Array [
         className="align-items-center row no-gutters"
       >
         <div
-          className="validators-node-label col-2"
+          className="validators-node-label col"
         >
           <span
             className="validating-label leaving badge"

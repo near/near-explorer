@@ -190,6 +190,7 @@ class ValidatorRow extends Component<Props, State> {
 
               .validators-node-label {
                 margin-right: 24px;
+                max-width: 138px;
               }
 
               .cumulative-stake-chart {

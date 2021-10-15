@@ -243,9 +243,9 @@
         },
         "AddKey": {
           "new_key_added": "New key added for ",
-          "with_permission_and_nounce": "with permission ${permission} and nonce ${nonce}",
+          "with_permission_and_nounce": "with permission ${permission}",
           "access_key_added_for_contract": "Access key added for contract ",
-          "with_permission_call_method_and_nounce": "with permission to call ${methods} methods and nonce ${nonce}",
+          "with_permission_call_method_and_nounce": "with permission to call ${methods} methods",
           "any": "any"
         },
         "DeleteKey": {
@@ -253,7 +253,8 @@
         }
       },
       "TransactionAction": {
-        "batch_transaction": "Batch Transaction"
+        "batch_transaction": "Batch Transaction",
+        "fetching_status": "Fetching Status..."
       },
       "ActionRowBlock": {
         "by": "by"
@@ -308,6 +309,12 @@
         "success_receipt_id": "SuccessReceiptId",
         "no_logs": "No logs",
         "no_actions": "No actions"
+      }
+    },
+    "receipts": {
+      "ReceiptAction": {
+        "batch_receipt": "Batch Receipt",
+        "fetching_status": "Fetching Status..."
       }
     },
     "blocks": {
@@ -454,7 +461,8 @@
         "14_day_history": {
           "title": "14 Day History",
           "transactions": "Txns"
-        }
+        },
+        "date_format": "MMM D"
       }
     },
     "stats": {

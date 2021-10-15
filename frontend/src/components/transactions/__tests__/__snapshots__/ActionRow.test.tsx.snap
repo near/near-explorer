@@ -108,7 +108,7 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
             </span>
             : ed25519:8LXEySy...
             <p>
-              with permission FullAccess and nonce 0
+              with permission FullAccess
             </p>
           </div>
         </div>

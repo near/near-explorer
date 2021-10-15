@@ -1,5 +1,9 @@
 import moment from "moment";
 
+import "moment/locale/ru";
+import "moment/locale/zh-cn";
+import "moment/locale/vi";
+
 moment.relativeTimeThreshold("ss", 1);
 
 moment.updateLocale("en", {
@@ -64,5 +68,54 @@ moment.updateLocale("vi", {
     yy: "%d năm",
   },
 });
+
+moment.updateLocale("ru", {
+  relativeTime: {
+    past: (input) => {
+      return input === "только что" ? "1 сек" : input + " назад";
+    },
+    future: "через %s",
+    past: "%s назад",
+    s: "секунд",
+    ss: relativeTimeWithPlural,
+    m: relativeTimeWithPlural,
+    mm: relativeTimeWithPlural,
+    h: "час",
+    hh: relativeTimeWithPlural,
+    d: "день",
+    dd: relativeTimeWithPlural,
+    w: "неделя",
+    ww: relativeTimeWithPlural,
+    M: "месяц",
+    MM: relativeTimeWithPlural,
+    y: "год",
+    yy: relativeTimeWithPlural,
+  },
+});
+
+function plural(word, num) {
+  var forms = word.split("_");
+  return num % 10 === 1 && num % 100 !== 11
+    ? forms[0]
+    : num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20)
+    ? forms[1]
+    : forms[2];
+}
+function relativeTimeWithPlural(number, withoutSuffix, key) {
+  var format = {
+    ss: withoutSuffix ? "секунда_секунды_секунд" : "секунду_секунды_секунд",
+    mm: withoutSuffix ? "минута_минуты_минут" : "минуту_минуты_минут",
+    hh: "час_часа_часов",
+    dd: "день_дня_дней",
+    ww: "неделя_недели_недель",
+    MM: "месяц_месяца_месяцев",
+    yy: "год_года_лет",
+  };
+  if (key === "m") {
+    return withoutSuffix ? "минута" : "минуту";
+  } else {
+    return number + " " + plural(format[key], +number);
+  }
+}
 
 export default moment;

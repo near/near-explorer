@@ -8,6 +8,7 @@
 import translations_en from "../translations/en.global.json";
 import translations_zh_hans from "../translations/zh-hans.global.json";
 import translations_vi from "../translations/vi.global.json";
+import translations_ru from "../translations/ru.global.json";
 import moment from "./moment";
 import Cookies from "universal-cookie";
 
@@ -166,8 +167,20 @@ function findBestSupportedLocale(appLocales, browserLocales) {
 }
 
 export function setMomentLocale(code) {
-  const locale = code === "zh-hans" ? "zh-cn" : code === "vi" ? "vi" : "en";
-  // `moment.locale()` must be called after `moment.updateLocale()` are configured
+  let locale;
+  switch (code) {
+    case "ru":
+      locale = "ru";
+      break;
+    case "vi":
+      locale = "vi";
+      break;
+    case "zh-hans":
+      locale = "zh-cn";
+      break;
+    default:
+      locale = "en";
+  }
   moment.locale(locale);
 }
 
@@ -196,6 +209,7 @@ function getI18nConfig() {
       { name: "English", code: "en" },
       { name: "简体中文", code: "zh-hans" },
       { name: "Tiếng Việt", code: "vi" },
+      { name: "Русский", code: "ru" },
     ],
     options: {
       defaultLanguage: "en",
@@ -208,17 +222,21 @@ function getI18nConfig() {
 
 export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
   if (typeof window === "undefined") {
-    const config = getI18nConfig();
+    let config = getI18nConfig();
     const { languages } = config;
     const activeLang = getLanguage(languages, { cookies, acceptedLanguages });
-    if (activeLang === "zh-hans") {
-      config.translation = translations_zh_hans;
-    } else {
-      if (activeLang === "vi") {
+    switch (activeLang) {
+      case "ru":
+        config.translation = translations_ru;
+        break;
+      case "zh-hans":
+        config.translation = translations_zh_hans;
+        break;
+      case "vi":
         config.translation = translations_vi;
-      } else {
+        break;
+      default:
         config.translation = translations_en;
-      }
     }
     return config;
   }
@@ -234,6 +252,7 @@ export function setI18N(props) {
   props.addTranslationForLanguage(translations_en, "en");
   props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
   props.addTranslationForLanguage(translations_vi, "vi");
+  props.addTranslationForLanguage(translations_ru, "ru");
   props.setActiveLanguage(activeLang);
 
   setMomentLocale(activeLang);
