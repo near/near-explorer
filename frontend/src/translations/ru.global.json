@@ -476,17 +476,25 @@
         "total_supply": "Общее предложение",
         "live_accounts": "Реальные счета"
       },
+      "CirculatingSupplyStats": {
+        "circulating_supply": "Статистика оборотного предложения",
+        "tooltip": {
+          "circulating_supply": "оборотное предложение",
+          "total_tokens_supply": "общее предложение",
+          "total_tokens_supply_explain": "Токены NEAR, доступные для обращения на рынке (т.е.не заблокированные в закрытых контрактах)"
+        }
+      },
       "TransactionsByDate": {
         "daily_number_of_transactions": "Суточное количество транзакций",
         "total_number_of_transactions": "Общее количество транзакций",
         "transactions": "Количество транзакций"
       },
       "GasUsedByDate": {
-        "daily_amount_of_used_tera_gas": "Суточное количество использованного Tgas ",
-        "tera_gas": "Tgas",
-        "total_amount_of_used_tera_gas": "Общее количество использованного Tgas ",
+        "daily_amount_of_used_gas": "Суточное количество использованного газа",
+        "petagas": "PetaGas",
+        "total_amount_of_used_gas": "Общее количество использованного газа",
         "gas_fee": "Комиссия за газ",
-        "daily_gas_fee_in_near": "Ежедневная комиссия за газ в NEAR ",
+        "daily_gas_fee_in_near": "Суточная комиссия за газ в NEAR",
         "fee": "комиссия"
       },
       "NewAccountsByDate": {

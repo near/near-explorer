@@ -476,6 +476,14 @@
         "total_supply": "Tổng Cung",
         "live_accounts": "Tài khoản hoạt động"
       },
+      "CirculatingSupplyStats": {
+        "circulating_supply": "Số liệu Thống kê về nguồn Cung lưu Hành",
+        "tooltip": {
+          "circulating_supply": "Cung Cấp Tuần Hoàn",
+          "total_tokens_supply": "Tổng Cung",
+          "total_tokens_supply_explain": "NEAR mã thông báo có sẵn để lưu hành trên thị trường (tức là không bị khóa trong hợp đồng khóa)"
+        }
+      },
       "TransactionsByDate": {
         "daily_number_of_transactions": "Số giao dịch hàng ngày",
         "total_number_of_transactions": "Tổng số giao dịch",
