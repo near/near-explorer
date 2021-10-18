@@ -24,15 +24,17 @@ class Search extends Component {
     const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
     if (maybeBlockHeight.match(/^\d{1,20}$/)) {
       const blockHeight = parseInt(maybeBlockHeight);
-      blockPromise = new BlocksApi().getBlockInfo(blockHeight).catch(() => {});
+      blockPromise = new BlocksApi()
+        .getBlockByHashOrId(blockHeight)
+        .catch(() => {});
     } else {
       blockPromise = new BlocksApi()
-        .getBlockInfo(cleanedSearchValue)
+        .getBlockByHashOrId(cleanedSearchValue)
         .catch(() => {});
     }
 
     const transactionPromise = new TransactionsApi()
-      .getTransactionInfo(cleanedSearchValue)
+      .isTransactionIndexed(cleanedSearchValue)
       .catch(() => {});
     const accountPromise = new AccountsApi()
       .isAccountIndexed(cleanedSearchValue.toLowerCase())
@@ -43,11 +45,11 @@ class Search extends Component {
 
     const block = await blockPromise;
     if (block) {
-      Mixpanel.track("Explorer Search for block", { block: block.hash });
-      return Router.push("/blocks/" + block.hash);
+      Mixpanel.track("Explorer Search for block", { block: block });
+      return Router.push("/blocks/" + block);
     }
     const transaction = await transactionPromise;
-    if (transaction && transaction.signerId) {
+    if (transaction) {
       Mixpanel.track("Explorer Search for transaction", {
         transaction: searchValue,
       });

@@ -429,4 +429,22 @@ export default class TransactionsApi extends ExplorerApi {
       throw error;
     }
   }
+
+  async isTransactionIndexed(transactionHash: string): Promise<boolean> {
+    try {
+      return await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT transaction_hash
+         FROM transactions
+         WHERE transaction_hash = :transactionHash
+         LIMIT 1`,
+        { transactionHash },
+      ]).then((it) => Boolean(it[0]?.transaction_hash));
+    } catch (error) {
+      console.error(
+        "Transactions.isTransactionIndexed failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
 }
