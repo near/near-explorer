@@ -150,4 +150,22 @@ export default class BlocksApi extends ExplorerApi {
       throw error;
     }
   }
+
+  async getBlockByHashOrId(blockId: string | number): Promise<string> {
+    try {
+      const searchCriteria =
+        typeof blockId === "string" ? "block_hash" : "block_height";
+      return await this.call<any>("select:INDEXER_BACKEND", [
+        `SELECT block_hash
+         FROM blocks
+         WHERE ${searchCriteria} = :blockId
+         LIMIT 1`,
+        { blockId },
+      ]).then((it) => it[0]?.block_hash);
+    } catch (error) {
+      console.error("Blocks.getBlockByHashOrId failed to fetch data due to:");
+      console.error(error);
+      throw error;
+    }
+  }
 }
