@@ -467,6 +467,7 @@
     },
     "stats": {
       "ProtocolConfigInfo": {
+        "first_produced_block": "First produced block",
         "genesis_started": "Genesis Đã Bắt Đầu",
         "genesis_protocol_or_current_protocol": "Giao Thức Genesis / Giao Thức Hiện Tại",
         "genesis_height": "Chiều Cao Genesis",

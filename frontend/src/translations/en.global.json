@@ -467,6 +467,7 @@
     },
     "stats": {
       "ProtocolConfigInfo": {
+        "first_produced_block": "First produced block",
         "genesis_started": "Genesis Started",
         "genesis_protocol_or_current_protocol": "Genesis Protocol / Current Protocol",
         "genesis_height": "Genesis Height",

@@ -428,6 +428,7 @@
     },
     "stats": {
       "ProtocolConfigInfo": {
+        "first_produced_block": "First produced block",
         "genesis_started": "创世区块时间",
         "genesis_protocol_or_current_protocol": "创世协议版本 / 当前协议版本",
         "genesis_height": "创世区块高度",

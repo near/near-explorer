@@ -537,6 +537,19 @@ const queryCirculatingSupply = async () => {
   );
 };
 
+const queryFirstProducedBlockTimestamp = async () => {
+  return await querySingleRow(
+    [
+      `SELECT
+        TO_TIMESTAMP(DIV(block_timestamp, 1000 * 1000 * 1000))::date AS first_produced_block_timestamp
+       FROM blocks
+       ORDER BY blocks.block_timestamp
+       LIMIT 1`,
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
@@ -563,6 +576,9 @@ exports.queryDeletedAccountsCountAggregatedByDate = queryDeletedAccountsCountAgg
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveAccountsList = queryActiveAccountsList;
 exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggregatedByWeek;
+
+// blocks
+exports.queryFirstProducedBlockTimestamp = queryFirstProducedBlockTimestamp;
 
 // contracts
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
