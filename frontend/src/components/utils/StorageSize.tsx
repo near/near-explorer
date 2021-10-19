@@ -6,7 +6,7 @@ interface Props {
 }
 const StorageSize = ({ value }: Props) => {
   let showStorage;
-  const bite = "B";
+  const byte = "B";
   const kilo = 10 ** 3;
 
   const units = [
@@ -23,7 +23,7 @@ const StorageSize = ({ value }: Props) => {
       }
     }
   } else {
-    showStorage = `${value} ${bite}`;
+    showStorage = `${value} ${byte}`;
   }
 
   return (
@@ -31,7 +31,7 @@ const StorageSize = ({ value }: Props) => {
       placement={"bottom"}
       overlay={
         <Tooltip id={`storage_size_${value}`}>
-          {`${formatWithCommas(value)} ${bite}`}
+          {`${formatWithCommas(value)} ${byte}`}
         </Tooltip>
       }
     >
