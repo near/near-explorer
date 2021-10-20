@@ -547,6 +547,12 @@
     },
     "ListHandler": {
       "last_block": "Высота последнего блока составляет "
+    },
+    "StorageSize": {
+      "bytes": "байт",
+      "kilo_bytes": "килобайт",
+      "mega_bytes": "мегабайт",
+      "giga_bytes": "гигабайт"
     }
   },
   "button": {
