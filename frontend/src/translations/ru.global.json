@@ -467,6 +467,7 @@
     },
     "stats": {
       "ProtocolConfigInfo": {
+        "first_produced_block": "Первый произведенный блок",
         "genesis_started": "Начало генезиса",
         "genesis_protocol_or_current_protocol": "Протокол генезиса / текущий протокол",
         "genesis_height": "Высота генезиса",
