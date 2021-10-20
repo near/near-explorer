@@ -556,6 +556,12 @@
     },
     "ListHandler": {
       "last_block": "The latest block height is "
+    },
+    "StorageSize": {
+      "bytes": "B",
+      "kilo_bytes": "kB",
+      "mega_bytes": "MB",
+      "giga_bytes": "GB"
     }
   },
   "button": {
