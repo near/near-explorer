@@ -13,6 +13,7 @@ import AccountLink from "../utils/AccountLink";
 import Balance from "../utils/Balance";
 import TransactionLink from "../utils/TransactionLink";
 import WalletLink from "../utils/WalletLink";
+import StorageSize from "../utils/StorageSize";
 
 import { Translate } from "react-localize-redux";
 
@@ -140,7 +141,7 @@ class AccountDetails extends Component<Props> {
                       />
                     }
                     imgLink="/static/images/icon-storage.svg"
-                    text={`${account.storageUsage.toLocaleString()} B`}
+                    text={<StorageSize value={Number(account.storageUsage)} />}
                   />
                 </Col>
               )}

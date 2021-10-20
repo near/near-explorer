@@ -274,6 +274,11 @@ wampHandlers["active-accounts-list"] = async () => {
   return await stats.getActiveAccountsList();
 };
 
+// blocks
+wampHandlers["first-produced-block-timestamp"] = async () => {
+  return await stats.getFirstProducedBlockTimestamp();
+};
+
 // contracts
 wampHandlers["new-contracts-count-aggregated-by-date"] = async () => {
   return await stats.getNewContractsCountByDate();

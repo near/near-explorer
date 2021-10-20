@@ -467,6 +467,7 @@
     },
     "stats": {
       "ProtocolConfigInfo": {
+        "first_produced_block": "First produced block",
         "genesis_started": "Genesis Started",
         "genesis_protocol_or_current_protocol": "Genesis Protocol / Current Protocol",
         "genesis_height": "Genesis Height",
@@ -555,6 +556,12 @@
     },
     "ListHandler": {
       "last_block": "The latest block height is "
+    },
+    "StorageSize": {
+      "bytes": "B",
+      "kilo_bytes": "kB",
+      "mega_bytes": "MB",
+      "giga_bytes": "GB"
     }
   },
   "button": {

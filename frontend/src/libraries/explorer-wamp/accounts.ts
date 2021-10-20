@@ -157,7 +157,8 @@ export default class AccountsApi extends ExplorerApi {
         `SELECT
             account_id
           FROM accounts
-          WHERE account_id = :accountId`,
+          WHERE account_id = :accountId
+          LIMIT 1`,
         {
           accountId,
         },

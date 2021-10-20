@@ -97,7 +97,14 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              876 B
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                876 B
+              </span>
             </div>
           </div>
         </div>
@@ -437,7 +444,14 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              876 B
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                876 B
+              </span>
             </div>
           </div>
         </div>
@@ -777,7 +791,14 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              876 B
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                876 B
+              </span>
             </div>
           </div>
         </div>
@@ -1168,7 +1189,14 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              876 B
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                876 B
+              </span>
             </div>
           </div>
         </div>
@@ -1559,7 +1587,14 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              1876 B
+              <span
+                onBlur={[Function]}
+                onFocus={[Function]}
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}
+              >
+                2 kB
+              </span>
             </div>
           </div>
         </div>
