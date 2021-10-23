@@ -4,6 +4,7 @@ const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
 
 const stats = require("./stats");
+const receipts = require("./receipts");
 const models = require("../models");
 
 const {
@@ -322,6 +323,15 @@ wampHandlers["nearcore-total-fee-count"] = async ([daysCount]) => {
 
 wampHandlers["circulating-supply-stats"] = async () => {
   return await stats.getCirculatingSupplyByDate();
+};
+
+// receipts
+wampHandlers["receipts-count-in-block"] = async ([blockHash]) => {
+  console.log("========== blockHash ============", blockHash);
+  return await receipts.getReceiptsCountInBlock(blockHash);
+};
+wampHandlers["transaction-hash-by-receipt-id"] = async ([receiptId]) => {
+  return await receipts.getTransactionHashByReceiptId(receiptId);
 };
 
 // set up wamp

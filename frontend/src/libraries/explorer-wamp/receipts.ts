@@ -108,49 +108,15 @@ export default class ReceiptsApi extends ExplorerApi {
   }
 
   async queryReceiptsCountInBlock(blockHash: string): Promise<number> {
-    try {
-      return await this.call<any>("select:INDEXER_BACKEND", [
-        `SELECT
-          COUNT(receipt_id)
-        FROM receipts
-        WHERE receipts.included_in_block_hash = :blockHash`,
-        {
-          blockHash,
-        },
-      ]).then((receipts) => receipts[0]);
-    } catch (error) {
-      console.error(
-        "Receipts.queryReceiptsCountInBlock failed to fetch data due to:"
-      );
-      console.error(error);
-      throw error;
-    }
+    return await this.call<number>("receipts-count-in-block", [blockHash]);
   }
 
   async getTransactionHashByReceiptId(
     receiptId: string
   ): Promise<TransactionHashByReceiptId> {
-    try {
-      return await this.call<any>("select:INDEXER_BACKEND", [
-        `SELECT
-          receipt_id, originated_from_transaction_hash
-         FROM receipts
-         WHERE receipt_id = :receiptId
-         LIMIT 1`,
-        { receiptId },
-      ]).then((receipt) => {
-        return {
-          receiptId: receipt[0].receipt_id,
-          originatedFromTransactionHash:
-            receipt[0].originated_from_transaction_hash,
-        };
-      });
-    } catch (error) {
-      console.error(
-        "Receipts.getTransactionHashByReceiptId failed to fetch data due to:"
-      );
-      console.error(error);
-      throw error;
-    }
+    return await this.call<TransactionHashByReceiptId>(
+      "transaction-hash-by-receipt-id",
+      [receiptId]
+    );
   }
 }

@@ -550,6 +550,34 @@ const queryFirstProducedBlockTimestamp = async () => {
   );
 };
 
+// receipts
+const queryReceiptsCountInBlock = async (blockHash) => {
+  return await querySingleRow(
+    [
+      `SELECT
+        COUNT(receipt_id)
+       FROM receipts
+       WHERE receipts.included_in_block_hash = :blockHash`,
+      { blockHash },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryTransactionHashByReceiptId = async (receiptId) => {
+  return await querySingleRow(
+    [
+      `SELECT
+        receipt_id, originated_from_transaction_hash
+       FROM receipts
+       WHERE receipt_id = :receiptId
+       LIMIT 1`,
+      { receiptId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
@@ -597,3 +625,7 @@ exports.queryCirculatingSupply = queryCirculatingSupply;
 
 // calculate fee
 exports.calculateFeesByDay = calculateFeesByDay;
+
+// receipts
+exports.queryReceiptsCountInBlock = queryReceiptsCountInBlock;
+exports.queryTransactionHashByReceiptId = queryTransactionHashByReceiptId;
