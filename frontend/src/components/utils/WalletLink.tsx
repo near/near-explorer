@@ -1,5 +1,7 @@
 import { truncateAccountId } from "../../libraries/formatting";
 import Mixpanel from "../../libraries/mixpanel";
+import { Translate } from "react-localize-redux";
+
 export interface Props {
   accountId: string;
   nearWalletProfilePrefix: string;
@@ -19,7 +21,12 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
         className="account-link"
         href={`${nearWalletProfilePrefix}/${accountId}`}
       >
-        {`${truncateAccountId(accountId, 20)} on Wallet`}
+        {`${truncateAccountId(accountId, 20)}`}
+        <Translate>
+          {({ translate }) =>
+            translate("component.stats.WalletLink.on_wallet").toString()
+          }
+        </Translate>
       </a>
       <style jsx>{`
         .account-link {
