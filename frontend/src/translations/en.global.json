@@ -562,16 +562,16 @@
       "kilo_bytes": "kB",
       "mega_bytes": "MB",
       "giga_bytes": "GB"
+    },
+    "WalletLink": {
+      "on": "on"
+    },
+    "button": {
+      "view_all": "View All",
+      "docs": "docs",
+      "load_more": "Load More",
+      "show_more": "Show more",
+      "show_less": "Show less"
     }
-  },
-  "WalletLink": {
-    "on": "on"
-  },
-  "button": {
-    "view_all": "View All",
-    "docs": "docs",
-    "load_more": "Load More",
-    "show_more": "Show more",
-    "show_less": "Show less"
   }
 }

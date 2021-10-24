@@ -562,16 +562,16 @@
       "kilo_bytes": "килобайт",
       "mega_bytes": "мегабайт",
       "giga_bytes": "гигабайт"
+    },
+    "WalletLink": {
+      "on": "на"
+    },
+    "button": {
+      "view_all": "Смотреть все",
+      "docs": "Документация",
+      "load_more": "Загрузить ещё",
+      "show_more": "Показать ещё",
+      "show_less": "Скрыть"
     }
-  },
-  "WalletLink": {
-    "on": "на"
-  },
-  "button": {
-    "view_all": "Смотреть все",
-    "docs": "Документация",
-    "load_more": "Загрузить ещё",
-    "show_more": "Показать ещё",
-    "show_less": "Скрыть"
   }
 }
