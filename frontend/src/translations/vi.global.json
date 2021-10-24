@@ -478,11 +478,11 @@
         "live_accounts": "Tài khoản hoạt động"
       },
       "CirculatingSupplyStats": {
-        "circulating_supply": "Số liệu Thống kê về nguồn Cung lưu Hành",
+        "circulating_supply": "Circulating Supply Stats",
         "tooltip": {
-          "circulating_supply": "Cung Cấp Tuần Hoàn",
-          "total_tokens_supply": "Tổng Cung",
-          "total_tokens_supply_explain": "NEAR mã thông báo có sẵn để lưu hành trên thị trường (tức là không bị khóa trong hợp đồng khóa)"
+          "circulating_supply": "circulating supply",
+          "total_tokens_supply": "total supply",
+          "total_tokens_supply_explain": "NEAR tokens that are available for circulation on the market (i.e. not locked in lockup contracts)"
         }
       },
       "TransactionsByDate": {

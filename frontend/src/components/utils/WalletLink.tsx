@@ -1,6 +1,6 @@
+import { Translate } from "react-localize-redux";
 import { truncateAccountId } from "../../libraries/formatting";
 import Mixpanel from "../../libraries/mixpanel";
-import { Translate } from "react-localize-redux";
 
 export interface Props {
   accountId: string;
@@ -14,26 +14,27 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
       walletPrefix: nearWalletProfilePrefix,
     });
   return (
-    <span onClick={clicked}>
-      <a
-        target="_blank"
-        rel="noopener"
-        className="account-link"
-        href={`${nearWalletProfilePrefix}/${accountId}`}
-      >
-        {`${truncateAccountId(accountId, 20)}`}
-        <Translate>
-          {({ translate }) =>
-            translate("component.stats.WalletLink.on_wallet").toString()
-          }
-        </Translate>
-      </a>
-      <style jsx>{`
-        .account-link {
-          white-space: nowrap;
-        }
-      `}</style>
-    </span>
+    <Translate>
+      {({ translate }) => (
+        <span onClick={clicked}>
+          <a
+            target="_blank"
+            rel="noopener"
+            className="account-link"
+            href={`${nearWalletProfilePrefix}/${accountId}`}
+          >
+            {truncateAccountId(accountId, 20)}
+            &nbsp;
+            {`${translate("utils.WalletLink.on")} Wallet`}
+          </a>
+          <style jsx>{`
+            .account-link {
+              white-space: nowrap;
+            }
+          `}</style>
+        </span>
+      )}
+    </Translate>
   );
 };
 

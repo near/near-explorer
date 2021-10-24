@@ -378,8 +378,7 @@
         },
         "balance_profile": {
           "title": "Ⓝ Balance Profile",
-          "text": "NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate \"total\" balance, it is the best place. ",
-          "on_wallet": "on Wallet"
+          "text": "NEAR tokens can be locked in contracts, staked, and delegated, and sometimes we cannot even track them down without your help. Wallet Profile page is the place where we consolidate most of the balances we can aggregate from various sources, so if you want to estimate \"total\" balance, it is the best place. "
         },
         "created_at": {
           "title": "Created At",
@@ -564,6 +563,9 @@
       "mega_bytes": "MB",
       "giga_bytes": "GB"
     }
+  },
+  "WalletLink": {
+    "on": "on"
   },
   "button": {
     "view_all": "View All",

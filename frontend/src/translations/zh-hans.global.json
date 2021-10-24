@@ -439,11 +439,11 @@
         "live_accounts": "当前存活账户"
       },
       "CirculatingSupplyStats": {
-        "circulating_supply": "循环供应统计",
+        "circulating_supply": "Circulating Supply Stats",
         "tooltip": {
-          "circulating_supply": "循环供应",
-          "total_tokens_supply": "当前总供给量",
-          "total_tokens_supply_explain": "可在市场上流通的 NEAR 代币（即未锁定在锁定合约中）"
+          "circulating_supply": "circulating supply",
+          "total_tokens_supply": "total supply",
+          "total_tokens_supply_explain": "NEAR tokens that are available for circulation on the market (i.e. not locked in lockup contracts)"
         }
       },
       "TransactionsByDate": {
