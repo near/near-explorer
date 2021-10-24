@@ -565,13 +565,13 @@
     },
     "WalletLink": {
       "on": "on"
-    },
-    "button": {
-      "view_all": "View All",
-      "docs": "docs",
-      "load_more": "Load More",
-      "show_more": "Show more",
-      "show_less": "Show less"
     }
+  },
+  "button": {
+    "view_all": "View All",
+    "docs": "docs",
+    "load_more": "Load More",
+    "show_more": "Show more",
+    "show_less": "Show less"
   }
 }
