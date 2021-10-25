@@ -562,6 +562,9 @@
       "kilo_bytes": "kB",
       "mega_bytes": "MB",
       "giga_bytes": "GB"
+    },
+    "WalletLink": {
+      "on": "on"
     }
   },
   "button": {

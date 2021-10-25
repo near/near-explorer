@@ -286,11 +286,11 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
+                className="jsx-615674607"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="jsx-615674607 account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
@@ -633,11 +633,11 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
+                className="jsx-615674607"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="jsx-615674607 account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
@@ -980,11 +980,11 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
+                className="jsx-615674607"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="jsx-615674607 account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
@@ -1378,11 +1378,11 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
+                className="jsx-615674607"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="jsx-615674607 account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
@@ -1725,11 +1725,11 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
+                className="jsx-615674607"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="jsx-615674607 account-link"
                   href="http://wallet/profile/near.near"
                   rel="noopener"
                   target="_blank"

@@ -438,6 +438,14 @@
         "total_supply": "当前总供给量",
         "live_accounts": "当前存活账户"
       },
+      "CirculatingSupplyStats": {
+        "circulating_supply": "Circulating Supply Stats",
+        "tooltip": {
+          "circulating_supply": "circulating supply",
+          "total_tokens_supply": "total supply",
+          "total_tokens_supply_explain": "NEAR tokens that are available for circulation on the market (i.e. not locked in lockup contracts)"
+        }
+      },
       "TransactionsByDate": {
         "daily_number_of_transactions": "日交易数",
         "total_number_of_transactions": "总交易数",

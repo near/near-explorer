@@ -477,6 +477,14 @@
         "total_supply": "Tổng Cung",
         "live_accounts": "Tài khoản hoạt động"
       },
+      "CirculatingSupplyStats": {
+        "circulating_supply": "Circulating Supply Stats",
+        "tooltip": {
+          "circulating_supply": "circulating supply",
+          "total_tokens_supply": "total supply",
+          "total_tokens_supply_explain": "NEAR tokens that are available for circulation on the market (i.e. not locked in lockup contracts)"
+        }
+      },
       "TransactionsByDate": {
         "daily_number_of_transactions": "Số giao dịch hàng ngày",
         "total_number_of_transactions": "Tổng số giao dịch",
