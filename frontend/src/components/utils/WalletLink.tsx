@@ -14,27 +14,27 @@ const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
       walletPrefix: nearWalletProfilePrefix,
     });
   return (
-    <Translate>
-      {({ translate }) => (
-        <span onClick={clicked}>
-          <a
-            target="_blank"
-            rel="noopener"
-            className="account-link"
-            href={`${nearWalletProfilePrefix}/${accountId}`}
-          >
-            {`${truncateAccountId(accountId, 20)} ${translate(
-              "utils.WalletLink.on"
-            )} Wallet`}
-          </a>
-          <style jsx>{`
-            .account-link {
-              white-space: nowrap;
-            }
-          `}</style>
-        </span>
-      )}
-    </Translate>
+    <span onClick={clicked}>
+      <a
+        target="_blank"
+        rel="noopener"
+        className="account-link"
+        href={`${nearWalletProfilePrefix}/${accountId}`}
+      >
+        <Translate
+          id="utils.WalletLink"
+          data={{
+            account_id: truncateAccountId(accountId, 20).toString(),
+            wallet_name: "Wallet",
+          }}
+        />
+      </a>
+      <style jsx>{`
+        .account-link {
+          white-space: nowrap;
+        }
+      `}</style>
+    </span>
   );
 };
 
