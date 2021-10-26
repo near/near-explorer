@@ -93,7 +93,7 @@
       }
     },
     "blocks": {
-      "title": "Blocks",
+      "title": "Block",
       "error": {
         "block_fetching": "Information is not available at the moment. Please, check if the block hash is correct or try later."
       }
@@ -467,7 +467,7 @@
     },
     "stats": {
       "ProtocolConfigInfo": {
-        "first_produced_block": "First produced block",
+        "first_produced_block": "First Produced Block",
         "genesis_started": "Genesis Started",
         "genesis_protocol_or_current_protocol": "Genesis Protocol / Current Protocol",
         "genesis_height": "Genesis Height",
@@ -563,9 +563,7 @@
       "mega_bytes": "MB",
       "giga_bytes": "GB"
     },
-    "WalletLink": {
-      "on": "on"
-    }
+    "WalletLink": "${account_id} on ${wallet_name}"
   },
   "button": {
     "view_all": "View All",
