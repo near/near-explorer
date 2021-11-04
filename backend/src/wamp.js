@@ -5,6 +5,11 @@ const { sha256 } = require("js-sha256");
 
 const stats = require("./stats");
 const receipts = require("./receipts");
+const transactions = require("./transactions");
+const contracts = require("./contracts");
+const blocks = require("./blocks");
+const chunks = require("./chunks");
+const accounts = require("./accounts");
 const models = require("../models");
 
 const {
@@ -254,6 +259,38 @@ wampHandlers["deposit-amount-aggregated-by-date"] = async () => {
   return await stats.getDepositAmountByDate();
 };
 
+wampHandlers["transactions-list"] = async ([limit, paginationIndexer]) => {
+  return await transactions.getTransactionsList(limit, paginationIndexer);
+};
+
+wampHandlers["transactions-list-by-account-id"] = async ([
+  accountId,
+  limit,
+  paginationIndexer,
+]) => {
+  return await transactions.getAccountTransactionsList(
+    accountId,
+    limit,
+    paginationIndexer
+  );
+};
+
+wampHandlers["transactions-list-by-block-hash"] = async ([
+  blockHash,
+  limit,
+  paginationIndexer,
+]) => {
+  return await transactions.getTransactionsListInBlock(
+    blockHash,
+    limit,
+    paginationIndexer
+  );
+};
+
+wampHandlers["transaction-info"] = async ([transactionHash]) => {
+  return await transactions.getTransactionInfo(transactionHash);
+};
+
 // accounts
 wampHandlers["new-accounts-count-aggregated-by-date"] = async () => {
   return await stats.getNewAccountsCountByDate();
@@ -275,9 +312,37 @@ wampHandlers["active-accounts-list"] = async () => {
   return await stats.getActiveAccountsList();
 };
 
+wampHandlers["is-account-indexed"] = async ([accountId]) => {
+  return await accounts.isAccountIndexed(accountId);
+};
+
+wampHandlers["accounts-list"] = async ([limit, paginationIndexer]) => {
+  return await accounts.getAccountsList(limit, paginationIndexer);
+};
+
+wampHandlers["account-transactions-count"] = async ([accountId]) => {
+  return await accounts.getAccountTransactionsCount(accountId);
+};
+
+wampHandlers["account-info"] = async ([accountId]) => {
+  return await accounts.getAccountInfo(accountId);
+};
+
 // blocks
 wampHandlers["first-produced-block-timestamp"] = async () => {
   return await stats.getFirstProducedBlockTimestamp();
+};
+
+wampHandlers["blocks-list"] = async ([limit, paginationIndexer]) => {
+  return await blocks.getBlocksList(limit, paginationIndexer);
+};
+
+wampHandlers["block-info"] = async ([blockId]) => {
+  return await blocks.getBlockInfo(blockId);
+};
+
+wampHandlers["block-by-hash-or-id"] = async ([blockId]) => {
+  return await blocks.getBlockByHashOrId(blockId);
 };
 
 // contracts
@@ -327,11 +392,28 @@ wampHandlers["circulating-supply-stats"] = async () => {
 
 // receipts
 wampHandlers["receipts-count-in-block"] = async ([blockHash]) => {
-  console.log("========== blockHash ============", blockHash);
   return await receipts.getReceiptsCountInBlock(blockHash);
 };
 wampHandlers["transaction-hash-by-receipt-id"] = async ([receiptId]) => {
   return await receipts.getTransactionHashByReceiptId(receiptId);
+};
+wampHandlers["receipts-list-by-block-hash"] = async ([blockHash]) => {
+  return await receipts.getReceiptsList(blockHash);
+};
+
+// transactions
+wampHandlers["is-transaction-indexed"] = async ([transactionHash]) => {
+  return await transactions.getIsTransactionIndexed(transactionHash);
+};
+
+// contracts
+wampHandlers["contract-info-by-account-id"] = async ([accountId]) => {
+  return await contracts.getContractInfo(accountId);
+};
+
+// chunks
+wampHandlers["gas-used-in-chunks"] = async ([blockHash]) => {
+  return await chunks.getGasUsedInChunks(blockHash);
 };
 
 // set up wamp

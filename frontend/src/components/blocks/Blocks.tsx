@@ -34,7 +34,7 @@ class BlocksWrapper extends Component<OuterProps> {
 export default BlocksWrapper;
 
 export interface InnerProps extends OuterProps {
-  items: B.BlockInfo[];
+  items: B.BlocksListInfo[];
 }
 
 class Blocks extends Component<InnerProps> {
