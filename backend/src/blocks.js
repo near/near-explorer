@@ -3,6 +3,8 @@ const {
   queryBlockInfo,
   queryBlockByHashOrId,
 } = require("./db-utils");
+const { getGasUsedInChunks } = require("./chunks");
+const { getReceiptsCountInBlock } = require("./receipts");
 
 async function getBlocksList(limit, paginationIndexer) {
   const blocksList = await queryBlocksList(limit, paginationIndexer);
@@ -16,7 +18,15 @@ async function getBlocksList(limit, paginationIndexer) {
 }
 
 async function getBlockInfo(blockId) {
-  const blockInfo = await queryBlockInfo(blockId);
+  const blockHash = await getBlockByHashOrId(blockId);
+  if (!blockHash) {
+    return undefined;
+  }
+  const [blockInfo, gasUsed, receiptsCount] = await Promise.all([
+    queryBlockInfo(blockHash),
+    getGasUsedInChunks(blockHash),
+    getReceiptsCountInBlock(blockHash),
+  ]);
   return {
     hash: blockInfo.hash,
     prevHash: blockInfo.prev_hash,
@@ -26,6 +36,8 @@ async function getBlockInfo(blockId) {
     totalSupply: blockInfo.total_supply,
     gasPrice: blockInfo.gas_price,
     authorAccountId: blockInfo.author_account_id,
+    receiptsCount,
+    gasUsed,
   };
 }
 

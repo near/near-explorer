@@ -16,7 +16,7 @@ import GasPrice from "../utils/GasPrice";
 import { Translate } from "react-localize-redux";
 
 export interface Props {
-  block: B.DetailedBlockInfo;
+  block: B.BlockInfo;
 }
 
 const BlockDetails = ({ block }: Props) => {

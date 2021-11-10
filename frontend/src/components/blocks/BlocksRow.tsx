@@ -13,7 +13,7 @@ import Link from "../utils/Link";
 import { Translate } from "react-localize-redux";
 
 export interface Props {
-  block: B.BlocksListInfo;
+  block: B.Block;
   cls?: string;
 }
 

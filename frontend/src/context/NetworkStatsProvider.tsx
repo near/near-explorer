@@ -1,9 +1,7 @@
 import BN from "bn.js";
 import React, { createContext, useEffect, useState } from "react";
 import { ExplorerApi } from "../libraries/explorer-wamp/index";
-import BlocksApi, {
-  DetailedBlockInfo,
-} from "../libraries/explorer-wamp/blocks";
+import BlocksApi, { BlockInfo } from "../libraries/explorer-wamp/blocks";
 
 export interface NetworkStats {
   currentValidatorsCount: number;
@@ -27,7 +25,7 @@ export interface FinalityStatus {
 export interface NetworkStatsContextProps {
   networkStats?: NetworkStats;
   finalityStatus?: FinalityStatus;
-  epochStartBlock?: DetailedBlockInfo;
+  epochStartBlock?: BlockInfo;
 }
 
 const NetworkStatsContext = createContext<NetworkStatsContextProps>({});
@@ -38,10 +36,7 @@ export interface Props {
 
 const NetworkStatsProvider = (props: Props) => {
   const [networkStats, dispatchNetworkStats] = useState<NetworkStats>();
-  const [
-    epochStartBlock,
-    dispatchEpochStartBlock,
-  ] = useState<DetailedBlockInfo>();
+  const [epochStartBlock, dispatchEpochStartBlock] = useState<BlockInfo>();
   const [finalityStatus, dispatchFinalityStatus] = useState<FinalityStatus>();
 
   const storeNetworkStats = (_positionalArgs: any, namedArgs: any) => {
