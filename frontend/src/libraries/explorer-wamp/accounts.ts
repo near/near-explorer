@@ -32,16 +32,13 @@ type PaginatedAccountBasicInfo = AccountBasicInfo & AccountPagination;
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(accountId: string): Promise<Account> {
     try {
-      const isAccountExist = await this.isAccountIndexed(accountId);
-
-      if (!isAccountExist) {
-        throw new Error("account not found");
-      }
-
       const [accountBasic, accountInfo] = await Promise.all([
         this.getAccountBaseInfo(accountId),
         this.getAccountDetails(accountId),
       ]);
+      if (!accountBasic || !accountInfo) {
+        throw new Error("account info not found");
+      }
       return {
         ...accountBasic,
         ...accountInfo,
@@ -73,7 +70,21 @@ export default class AccountsApi extends ExplorerApi {
   }
 
   async isAccountIndexed(accountId: string): Promise<boolean> {
-    return await this.call<boolean>("is-account-indexed", [accountId]);
+    try {
+      const isAccountExist = await this.call<boolean>("is-account-indexed", [
+        accountId,
+      ]);
+      if (!isAccountExist) {
+        throw new Error("account not found");
+      }
+      return isAccountExist;
+    } catch (error) {
+      console.error(
+        "AccountsApi.isAccountIndexed failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
   }
 
   async getAccountBaseInfo(accountId: string): Promise<AccountBasicInfo> {

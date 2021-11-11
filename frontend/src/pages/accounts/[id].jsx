@@ -23,12 +23,22 @@ class AccountDetail extends Component {
     }
 
     try {
-      const account = await new AccountsApi(req).getAccountInfo(id);
-      return { account };
-    } catch (accountFetchingError) {
+      const isAccountExist = await new AccountsApi(req).isAccountIndexed(id);
+      if (isAccountExist) {
+        try {
+          const account = await new AccountsApi(req).getAccountInfo(id);
+          return { account };
+        } catch (accountFetchingError) {
+          return {
+            account: { accountId: id },
+            accountFetchingError,
+          };
+        }
+      }
+    } catch (accountError) {
       return {
         account: { accountId: id },
-        accountFetchingError,
+        accountError,
       };
     }
   }
@@ -40,7 +50,12 @@ class AccountDetail extends Component {
   }
 
   render() {
-    const { account, accountFetchingError, currentNearNetwork } = this.props;
+    const {
+      account,
+      accountError,
+      accountFetchingError,
+      currentNearNetwork,
+    } = this.props;
     return (
       <>
         <Head>
@@ -55,9 +70,14 @@ class AccountDetail extends Component {
           }
           border={false}
         >
-          {accountFetchingError ? (
+          {accountError ? (
             <Translate
               id="page.accounts.error.account_not_found"
+              data={{ account_id: account.accountId }}
+            />
+          ) : accountFetchingError ? (
+            <Translate
+              id="page.accounts.error.account_fetching"
               data={{ account_id: account.accountId }}
             />
           ) : (
@@ -67,7 +87,7 @@ class AccountDetail extends Component {
             />
           )}
         </Content>
-        {accountFetchingError ? null : (
+        {accountError || accountFetchingError ? null : (
           <>
             <Container>
               <ContractDetails accountId={account.accountId} />
