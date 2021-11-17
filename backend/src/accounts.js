@@ -1,8 +1,9 @@
 const {
   queryIsAccountIndexed,
   queryAccountsList,
-  queryAccountTransactionsCount,
   queryAccountInfo,
+  queryAccountOutcomeTransactionsCount,
+  queryAccountIncomeTransactionsCount,
 } = require("./db-utils");
 
 async function isAccountIndexed(accountId) {
@@ -20,10 +21,13 @@ async function getAccountsList(limit, paginationIndexer) {
 }
 
 async function getAccountTransactionsCount(accountId) {
-  const accountStats = await queryAccountTransactionsCount(accountId);
+  const [outcomeTransactions, incomeTransactions] = await Promise.all([
+    queryAccountOutcomeTransactionsCount(accountId),
+    queryAccountIncomeTransactionsCount(accountId),
+  ]);
   return {
-    inTransactionsCount: parseInt(accountStats.in_transactions_count),
-    outTransactionsCount: parseInt(accountStats.out_transactions_count),
+    inTransactionsCount: parseInt(incomeTransactions),
+    outTransactionsCount: parseInt(outcomeTransactions),
   };
 }
 
