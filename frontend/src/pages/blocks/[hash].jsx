@@ -20,7 +20,14 @@ import { Translate } from "react-localize-redux";
 class BlockDetail extends Component {
   static async getInitialProps({ req, query: { hash } }) {
     try {
-      return await new BlocksApi(req).getBlockInfo(hash);
+      const block = await new BlocksApi(req).getBlockInfo(hash);
+      return {
+        ...block,
+        // the return value should be a serializable object per Next.js documentation, so we map BN to strings
+        totalSupply: block.totalSupply.toString(),
+        gasPrice: block.gasPrice.toString(),
+        gasUsed: block.gasUsed.toString(),
+      };
     } catch (err) {
       return { hash, err };
     }

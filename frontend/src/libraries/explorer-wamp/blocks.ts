@@ -1,5 +1,5 @@
+import BN from "bn.js";
 import { ExplorerApi } from ".";
-import ReceptsApi from "./receipts";
 export interface Block {
   hash: string;
   height: number;
@@ -9,10 +9,10 @@ export interface Block {
 }
 
 export type BlockInfo = Block & {
-  totalSupply: string;
-  gasPrice: string;
+  totalSupply: BN;
+  gasPrice: BN;
   authorAccountId: string;
-  gasUsed: string;
+  gasUsed: BN;
   receiptsCount: number;
 };
 
@@ -29,11 +29,18 @@ export default class BlocksApi extends ExplorerApi {
       }
       const [gasUsed, receiptsCount] = await Promise.all([
         this.getGasUsedInBlock(block.hash),
-        new ReceptsApi().queryReceiptsCountInBlock(block.hash),
+        this.call<number>("receipts-count-in-block", [block.hash]),
       ]);
       return {
-        ...block,
-        gasUsed,
+        hash: block.hash,
+        prevHash: block.prevHash,
+        height: block.height,
+        timestamp: block.timestamp,
+        transactionsCount: block.transactionsCount,
+        totalSupply: new BN(block.totalSupply),
+        gasUsed: new BN(gasUsed),
+        gasPrice: new BN(block.gasPrice),
+        authorAccountId: block.authorAccountId,
         receiptsCount,
       };
     } catch (error) {

@@ -118,7 +118,7 @@ const BlockDetails = ({ block }: Props) => {
                           />
                         }
                         imgLink="/static/images/icon-m-size.svg"
-                        text={<Gas gas={new BN(block.gasUsed)} />}
+                        text={<Gas gas={block.gasUsed} />}
                       />
                     </Col>
                     <Col md="4">
