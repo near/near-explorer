@@ -588,6 +588,17 @@ const queryAccountTransactionsCount = async (accountId) => {
 };
 
 const queryAccountOutcomeTransactionsCount = async (accountId) => {
+  const {
+    last_day_collected_timestamp: lastDayCollectedTimestamp,
+  } = await querySingleRow(
+    [
+      `SELECT (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', collected_for_day + INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000) AS last_day_collected_timestamp
+       FROM daily_outgoing_transactions_per_account_count
+       ORDER BY collected_for_day DESC
+       LIMIT 1`,
+    ],
+    { dataSource: DS_ANALYTICS_BACKEND }
+  );
   async function queryOutcomeTransactionsCountFromAnalytics(accountId) {
     const query = await querySingleRow(
       [
@@ -605,16 +616,22 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
     }
     return parseInt(query.out_transactions_count);
   }
-  async function queryTransactionsCountFromIndexerForLastDay(accountId) {
+  async function queryTransactionsCountFromIndexerForLastDay(
+    accountId,
+    lastDayCollectedTimestamp
+  ) {
     const query = await querySingleRow(
       [
         `SELECT
          COUNT(transactions.transaction_hash) AS out_transactions_count
          FROM transactions
          WHERE signer_account_id = :account_id
-         AND transactions.block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000)
+         AND transactions.block_timestamp >= :last_day_collected_timestamp
          LIMIT 1`,
-        { account_id: accountId },
+        {
+          account_id: accountId,
+          last_day_collected_timestamp: lastDayCollectedTimestamp,
+        },
       ],
       { dataSource: DS_INDEXER_BACKEND }
     );
@@ -626,7 +643,10 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
 
   const [analyticsTxCount, indexerTxCount] = await Promise.all([
     queryOutcomeTransactionsCountFromAnalytics(accountId),
-    queryTransactionsCountFromIndexerForLastDay(accountId),
+    queryTransactionsCountFromIndexerForLastDay(
+      accountId,
+      lastDayCollectedTimestamp
+    ),
   ]);
   return analyticsTxCount + indexerTxCount;
 };
@@ -636,7 +656,7 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
     last_day_collected_timestamp: lastDayCollectedTimestamp,
   } = await querySingleRow(
     [
-      `SELECT (CAST(EXTRACT(EPOCH FROM collected_for_day) AS bigint) * 1000 * 1000 * 1000) AS last_day_collected_timestamp
+      `SELECT (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', collected_for_day + INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000) AS last_day_collected_timestamp
        FROM daily_ingoing_transactions_per_account_count
        ORDER BY collected_for_day DESC
        LIMIT 1`,
@@ -670,8 +690,8 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
         `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
          FROM transactions
          LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
-            AND transactions.block_timestamp > :last_day_collected_timestamp
-         WHERE receipts.included_in_block_timestamp > :last_day_collected_timestamp
+            AND transactions.block_timestamp >= :last_day_collected_timestamp
+         WHERE receipts.included_in_block_timestamp >= :last_day_collected_timestamp
             AND transactions.signer_account_id != :requested_account_id
             AND receipts.receiver_account_id = :requested_account_id`,
         {
