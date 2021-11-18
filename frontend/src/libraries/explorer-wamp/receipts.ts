@@ -51,7 +51,7 @@ export default class ReceiptsApi extends ExplorerApi {
     }
   }
 
-  async getTransactionHashByReceiptId(
+  async getReceiptInTransaction(
     receiptId: string
   ): Promise<TransactionHashByReceiptId> {
     return await this.call<TransactionHashByReceiptId>(

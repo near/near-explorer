@@ -1,5 +1,5 @@
 const {
-  queryIsAccountIndexed,
+  queryIndexedAccount,
   queryAccountsList,
   queryAccountInfo,
   queryAccountOutcomeTransactionsCount,
@@ -7,7 +7,7 @@ const {
 } = require("./db-utils");
 
 async function isAccountIndexed(accountId) {
-  const account = await queryIsAccountIndexed(accountId);
+  const account = await queryIndexedAccount(accountId);
   return Boolean(account?.account_id);
 }
 
@@ -26,8 +26,10 @@ async function getAccountTransactionsCount(accountId) {
     queryAccountIncomeTransactionsCount(accountId),
   ]);
   return {
-    inTransactionsCount: parseInt(incomeTransactions),
-    outTransactionsCount: parseInt(outcomeTransactions),
+    inTransactionsCount: incomeTransactions ? parseInt(incomeTransactions) : 0,
+    outTransactionsCount: outcomeTransactions
+      ? parseInt(outcomeTransactions)
+      : 0,
   };
 }
 
@@ -39,7 +41,9 @@ async function getAccountInfo(accountId) {
   return {
     accountId: accountInfo.account_id,
     createdByTransactionHash: accountInfo.created_by_transaction_hash,
-    createdAtBlockTimestamp: parseInt(accountInfo.created_at_block_timestamp),
+    createdAtBlockTimestamp: accountInfo.created_at_block_timestamp
+      ? parseInt(accountInfo.created_at_block_timestamp)
+      : null,
     deletedByTransactionHash: accountInfo.deleted_by_transaction_hash || null,
     deletedAtBlockTimestamp: accountInfo.deleted_at_block_timestamp
       ? parseInt(accountInfo.deleted_at_block_timestamp)

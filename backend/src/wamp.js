@@ -395,7 +395,7 @@ wampHandlers["receipts-count-in-block"] = async ([blockHash]) => {
   return await receipts.getReceiptsCountInBlock(blockHash);
 };
 wampHandlers["transaction-hash-by-receipt-id"] = async ([receiptId]) => {
-  return await receipts.getTransactionHashByReceiptId(receiptId);
+  return await receipts.getReceiptInTransaction(receiptId);
 };
 wampHandlers["receipts-list-by-block-hash"] = async ([blockHash]) => {
   return await receipts.getReceiptsList(blockHash);

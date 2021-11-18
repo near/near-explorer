@@ -1,6 +1,6 @@
 const {
   queryReceiptsCountInBlock,
-  queryTransactionHashByReceiptId,
+  queryReceiptInTransaction,
   queryReceiptsList,
 } = require("./db-utils");
 
@@ -69,8 +69,8 @@ async function getReceiptsCountInBlock(blockHash) {
   return parseInt(receiptsCount.count);
 }
 
-async function getTransactionHashByReceiptId(receiptId) {
-  const transactionInfo = await queryTransactionHashByReceiptId(receiptId);
+async function getReceiptInTransaction(receiptId) {
+  const transactionInfo = await queryReceiptInTransaction(receiptId);
   if (!transactionInfo) {
     return undefined;
   }
@@ -82,6 +82,6 @@ async function getTransactionHashByReceiptId(receiptId) {
 }
 
 exports.getReceiptsCountInBlock = getReceiptsCountInBlock;
-exports.getTransactionHashByReceiptId = getTransactionHashByReceiptId;
+exports.getReceiptInTransaction = getReceiptInTransaction;
 exports.getIndexerCompatibilityReceiptActionKinds = getIndexerCompatibilityReceiptActionKinds;
 exports.getReceiptsList = getReceiptsList;

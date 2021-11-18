@@ -1,5 +1,5 @@
 const {
-  queryIsTransactionIndexed,
+  queryIndexedTransaction,
   queryTransactionsList,
   queryTransactionsActionsList,
   queryAccountTransactionsList,
@@ -42,7 +42,7 @@ async function getIndexerCompatibilityTransactionActionKinds() {
 }
 
 async function getIsTransactionIndexed(transactionHash) {
-  const transaction = await queryIsTransactionIndexed(transactionHash);
+  const transaction = await queryIndexedTransaction(transactionHash);
   return Boolean(transaction?.transaction_hash);
 }
 
