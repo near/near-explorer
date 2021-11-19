@@ -140,7 +140,11 @@ function startStatsAggregation() {
 async function main() {
   console.log("Starting Explorer backend...");
 
-  await models.sequelizeTelemetryBackend.sync();
+  try {
+    await models.sequelizeTelemetryBackend.sync();
+  } catch (error) {
+    console.warn("Starting Telemetry backend crashed due to:", error);
+  }
 
   const wamp = setupWamp();
   console.log("Starting WAMP worker...");
