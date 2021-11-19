@@ -28,7 +28,7 @@ class ContractDetails extends Component<Props, State> {
 
   collectContractInfo = async () => {
     new ContractsApi()
-      .getContractInfo(this.props.accountId)
+      .getExtendedContractInfo(this.props.accountId)
       .then((contractInfo) => {
         if (contractInfo) {
           this.setState({

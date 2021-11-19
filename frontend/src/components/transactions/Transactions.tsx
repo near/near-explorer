@@ -25,13 +25,24 @@ class TransactionsWrapper extends Component<OuterProps> {
     count: number,
     paginationIndexer?: T.TxPagination
   ) => {
-    return await new TransactionsApi().getTransactions({
-      signerId: this.props.accountId,
-      receiverId: this.props.accountId,
-      blockHash: this.props.blockHash,
-      limit: count,
-      paginationIndexer: paginationIndexer,
-    });
+    if (this.props.accountId) {
+      return await new TransactionsApi().getAccountTransactionsList(
+        this.props.accountId,
+        count,
+        paginationIndexer
+      );
+    }
+    if (this.props.blockHash) {
+      return await new TransactionsApi().getTransactionsListInBlock(
+        this.props.blockHash,
+        count,
+        paginationIndexer
+      );
+    }
+    return await new TransactionsApi().getTransactions(
+      count,
+      paginationIndexer
+    );
   };
 
   config = {

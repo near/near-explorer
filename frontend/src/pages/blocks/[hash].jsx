@@ -24,7 +24,7 @@ class BlockDetail extends Component {
       return {
         ...block,
         // the return value should be a serializable object per Next.js documentation, so we map BN to strings
-        totalSupply: block.gasPrice.toString(),
+        totalSupply: block.totalSupply.toString(),
         gasPrice: block.gasPrice.toString(),
         gasUsed: block.gasUsed.toString(),
       };
@@ -48,7 +48,6 @@ class BlockDetail extends Component {
       timestamp: this.props.timestamp,
       prevHash: this.props.prevHash,
       transactionsCount: this.props.transactionsCount,
-      // `props` should be a serializable object per Next.js documentation, so we map back from strings to BN
       totalSupply: new BN(this.props.totalSupply),
       gasPrice: new BN(this.props.gasPrice),
       gasUsed: new BN(this.props.gasUsed),

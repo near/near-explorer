@@ -1,5 +1,9 @@
 import { ExplorerApi } from ".";
 
+interface BaseContractInfo {
+  blockTimestamp: number;
+  hash: string;
+}
 interface ContractInfo {
   transactionHash?: string;
   timestamp?: number;
@@ -10,44 +14,28 @@ interface ContractInfo {
 type Contract = ContractInfo | undefined;
 
 export default class ContractsApi extends ExplorerApi {
-  async getContractInfo(id: string): Promise<Contract> {
-    const queryContractInfo = async () => {
-      return await this.call<any>("select:INDEXER_BACKEND", [
-        `SELECT
-          DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
-          receipts.originated_from_transaction_hash AS hash
-        FROM action_receipt_actions
-        LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-        WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT' AND action_receipt_actions.receipt_receiver_account_id = :id
-        ORDER BY action_receipt_actions.receipt_included_in_block_timestamp DESC
-        LIMIT 1`,
-        {
-          id,
-        },
-      ]).then((info) => {
-        if (info.length === 0) {
-          return undefined;
-        }
-        return {
-          block_timestamp: parseInt(info[0].block_timestamp),
-          hash: info[0].hash,
-        };
-      });
-    };
+  async getContractInfoByAccountId(
+    accountId: string
+  ): Promise<BaseContractInfo> {
+    return await this.call<BaseContractInfo>("contract-info-by-account-id", [
+      accountId,
+    ]);
+  }
 
+  async getExtendedContractInfo(id: string): Promise<Contract> {
     try {
       // codeHash does not exist for deleted accounts
       const codeHash = await this.queryCodeHash(id).catch(() => {});
       if (codeHash && codeHash !== "11111111111111111111111111111111") {
         const [contractInfo, accessKeys] = await Promise.all([
-          queryContractInfo(),
+          this.getContractInfoByAccountId(id),
           this.queryAccessKey(id),
         ]);
         if (contractInfo !== undefined) {
           return {
             codeHash,
             transactionHash: contractInfo.hash,
-            timestamp: contractInfo.block_timestamp,
+            timestamp: contractInfo.blockTimestamp,
             accessKeys: accessKeys.keys,
           };
         } else {
@@ -61,7 +49,7 @@ export default class ContractsApi extends ExplorerApi {
       }
     } catch (error) {
       console.error(
-        "ContractsApi.getContractInfo failed to fetch data due to:"
+        "ContractsApi.getExtendedContractInfo failed to fetch data due to:"
       );
       console.error(error);
       throw error;

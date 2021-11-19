@@ -1,5 +1,3 @@
-import BN from "bn.js";
-
 import { ExplorerApi } from ".";
 
 export type ExecutionStatus =
@@ -8,16 +6,18 @@ export type ExecutionStatus =
   | "Failure"
   | "SuccessValue";
 
-export interface TransactionInfo {
-  actions: Action[];
+export interface TransactionBaseInfo {
   hash: string;
   signerId: string;
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
   transactionIndex: number;
-  status?: ExecutionStatus;
+  actions: Action[];
 }
+export type TransactionInfo = TransactionBaseInfo & {
+  status?: ExecutionStatus;
+};
 
 export interface CreateAccount {}
 
@@ -145,160 +145,58 @@ export interface TxPagination {
   endTimestamp: number;
   transactionIndex: number;
 }
-export interface QueryArgs {
-  signerId?: string;
-  receiverId?: string;
-  transactionHash?: string;
-  blockHash?: string;
-  limit: number;
-  paginationIndexer?: TxPagination;
-}
 
 export default class TransactionsApi extends ExplorerApi {
-  static indexerCompatibilityActionKinds = new Map<string, keyof RpcAction>([
-    ["ADD_KEY", "AddKey"],
-    ["CREATE_ACCOUNT", "CreateAccount"],
-    ["DELETE_ACCOUNT", "DeleteAccount"],
-    ["DELETE_KEY", "DeleteKey"],
-    ["DEPLOY_CONTRACT", "DeployContract"],
-    ["FUNCTION_CALL", "FunctionCall"],
-    ["STAKE", "Stake"],
-    ["TRANSFER", "Transfer"],
-  ]);
-
-  async getTransactions(queries: QueryArgs): Promise<Transaction[]> {
-    const {
-      signerId,
-      receiverId,
-      transactionHash,
-      blockHash,
-      paginationIndexer,
-      limit,
-    } = queries;
-    const whereClause = [];
-    if (signerId || receiverId) {
-      const accountIdWhereClause = [];
-      if (signerId) {
-        accountIdWhereClause.push(
-          `receipts.predecessor_account_id = :signer_id`
-        );
-      }
-      if (receiverId) {
-        accountIdWhereClause.push(
-          `receipts.receiver_account_id = :receiver_id`
-        );
-      }
-      whereClause.push(
-        `transaction_hash IN (SELECT originated_from_transaction_hash FROM receipts WHERE ${accountIdWhereClause.join(
-          " OR "
-        )})`
-      );
-    }
-    if (transactionHash) {
-      whereClause.push(`transactions.transaction_hash = :transaction_hash`);
-    }
-    if (blockHash) {
-      whereClause.push(`transactions.included_in_block_hash = :block_hash`);
-    }
-    let WHEREClause;
-    if (whereClause.length > 0) {
-      if (paginationIndexer) {
-        WHEREClause = `WHERE (${whereClause.join(
-          " OR "
-        )}) AND (transactions.block_timestamp < :end_timestamp OR (transactions.block_timestamp = :end_timestamp AND transactions.index_in_chunk < :transaction_index))`;
-      } else {
-        WHEREClause = `WHERE ${whereClause.join(" OR ")}`;
-      }
-    } else {
-      if (paginationIndexer) {
-        WHEREClause = `WHERE transactions.block_timestamp < :end_timestamp OR (transactions.block_timestamp = :end_timestamp AND transactions.index_in_chunk < :transaction_index)`;
-      } else {
-        WHEREClause = "";
-      }
-    }
+  async getTransactions(
+    limit = 15,
+    paginationIndexer?: TxPagination
+  ): Promise<Transaction[]> {
     try {
-      let transactions = await this.call<any>("select:INDEXER_BACKEND", [
-        `SELECT
-            transactions.transaction_hash as hash,
-            transactions.signer_account_id as signer_id,
-            transactions.receiver_account_id as receiver_id,
-            transactions.included_in_block_hash as block_hash,
-            DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
-            transactions.index_in_chunk as transaction_index
-          FROM transactions
-          ${WHEREClause}
-          ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
-          LIMIT :limit`,
-        {
-          signer_id: signerId,
-          receiver_id: receiverId,
-          transaction_hash: transactionHash,
-          block_hash: blockHash,
-          end_timestamp: queries.paginationIndexer
-            ? new BN(queries.paginationIndexer.endTimestamp)
-                .muln(10 ** 6)
-                .toString()
-            : undefined,
-          transaction_index: queries.paginationIndexer?.transactionIndex,
-          limit,
-        },
+      return await this.call<TransactionBaseInfo[]>("transactions-list", [
+        limit,
+        paginationIndexer,
       ]);
-
-      if (transactions.length > 0) {
-        let transactionHashes = transactions.map(
-          (transaction: any) => transaction.hash
-        );
-        const actionsArray = await this.call<any>("select:INDEXER_BACKEND", [
-          `SELECT transaction_hash, action_kind as kind, args
-            FROM transaction_actions
-            WHERE transaction_hash IN (:transactionHashes)`,
-          { transactionHashes },
-        ]);
-        const actionsByTransactionHash = new Map();
-        actionsArray.forEach((action: any) => {
-          const transactionActions = actionsByTransactionHash.get(
-            action.transaction_hash
-          );
-          if (transactionActions) {
-            transactionActions.push(action);
-          } else {
-            actionsByTransactionHash.set(action.transaction_hash, [action]);
-          }
-        });
-        transactions.map((transaction: any) => {
-          const transactionActions = actionsByTransactionHash.get(
-            transaction.hash
-          );
-          if (transactionActions) {
-            transaction.actions = transactionActions.map((action: any) => {
-              return {
-                kind: TransactionsApi.indexerCompatibilityActionKinds.get(
-                  action.kind
-                ),
-                args:
-                  typeof action.args === "string"
-                    ? JSON.parse(action.args)
-                    : action.args,
-              };
-            });
-          }
-        });
-      }
-      transactions = transactions.map((transaction: any) => {
-        return {
-          hash: transaction.hash,
-          signerId: transaction.signer_id,
-          receiverId: transaction.receiver_id,
-          blockHash: transaction.block_hash,
-          blockTimestamp: parseInt(transaction.block_timestamp),
-          transactionIndex: transaction.transaction_index,
-          actions: transaction.actions,
-        };
-      });
-      return transactions;
     } catch (error) {
       console.error(
-        "Transactions.getTransactions failed to fetch data due to:"
+        "TransactionsApi.getTransactions failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getAccountTransactionsList(
+    accountId: string,
+    limit = 15,
+    paginationIndexer?: TxPagination
+  ): Promise<Transaction[]> {
+    try {
+      return await this.call<TransactionBaseInfo[]>(
+        "transactions-list-by-account-id",
+        [accountId, limit, paginationIndexer]
+      );
+    } catch (error) {
+      console.error(
+        "TransactionsApi.getAccountTransactionsList failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
+  }
+
+  async getTransactionsListInBlock(
+    blockHash: string,
+    limit = 15,
+    paginationIndexer?: TxPagination
+  ): Promise<Transaction[]> {
+    try {
+      return await this.call<TransactionBaseInfo[]>(
+        "transactions-list-by-block-hash",
+        [blockHash, limit, paginationIndexer]
+      );
+    } catch (error) {
+      console.error(
+        "TransactionsApi.getTransactionsListInBlock failed to fetch data due to:"
       );
       console.error(error);
       throw error;
@@ -325,10 +223,9 @@ export default class TransactionsApi extends ExplorerApi {
     transactionHash: string
   ): Promise<Transaction | null> {
     try {
-      const transactionInfo = await this.getTransactions({
+      const transactionInfo = await this.call<any>("transaction-info", [
         transactionHash,
-        limit: 1,
-      }).then((it) => it[0] || undefined);
+      ]);
 
       if (transactionInfo === undefined) {
         throw new Error("transaction not found");
@@ -423,7 +320,7 @@ export default class TransactionsApi extends ExplorerApi {
       return transactionInfo;
     } catch (error) {
       console.error(
-        "Transactions.getTransactionInfo failed to fetch data due to:"
+        "TransactionsApi.getTransactionInfo failed to fetch data due to:"
       );
       console.error(error);
       throw error;
@@ -431,20 +328,8 @@ export default class TransactionsApi extends ExplorerApi {
   }
 
   async isTransactionIndexed(transactionHash: string): Promise<boolean> {
-    try {
-      return await this.call<any>("select:INDEXER_BACKEND", [
-        `SELECT transaction_hash
-         FROM transactions
-         WHERE transaction_hash = :transactionHash
-         LIMIT 1`,
-        { transactionHash },
-      ]).then((it) => Boolean(it[0]?.transaction_hash));
-    } catch (error) {
-      console.error(
-        "Transactions.isTransactionIndexed failed to fetch data due to:"
-      );
-      console.error(error);
-      throw error;
-    }
+    return await this.call<boolean>("is-transaction-indexed", [
+      transactionHash,
+    ]);
   }
 }

@@ -32,7 +32,7 @@ class AccountDetails extends Component<Props> {
 
   collectTransactionCount = async () => {
     new AccountsApi()
-      .queryAccountStats(this.props.account.accountId)
+      .getAccountTransactionsCount(this.props.account.accountId)
       .then((accountStats) => {
         if (accountStats) {
           this.setState({

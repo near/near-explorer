@@ -29,6 +29,11 @@ function getSequelize(dataSource) {
   }
 }
 
+// we query block by id or hash in several places
+// so can use this helper
+const blockSearchCriteria = (blockId) =>
+  typeof blockId === "string" ? "block_hash" : "block_height";
+
 const querySingleRow = async (args, options) => {
   const result = await query(args, options || {});
   return result[0];
@@ -198,9 +203,9 @@ const queryDashboardBlocksStats = async (options) => {
         `SELECT
           COUNT(*) AS blocks_count_60_seconds_before
         FROM blocks
-        WHERE block_timestamp > (CAST(:latestBlockTimestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
+        WHERE block_timestamp > (CAST(:latest_block_timestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
         {
-          latestBlockTimestamp:
+          latest_block_timestamp:
             dataSource == DS_INDEXER_BACKEND
               ? latestBlockEpochTimeBN.toNumber()
               : latestBlockEpochTimeBN.muln(1000).toNumber(),
@@ -309,6 +314,158 @@ const queryDepositAmountAggregatedByDate = async () => {
   );
 };
 
+const queryTransactionsList = async (limit = 15, paginationIndexer) => {
+  return await queryRows(
+    [
+      `SELECT
+        transactions.transaction_hash as hash,
+        transactions.signer_account_id as signer_id,
+        transactions.receiver_account_id as receiver_id,
+        transactions.included_in_block_hash as block_hash,
+        DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
+        transactions.index_in_chunk as transaction_index
+       FROM transactions
+       ${
+         paginationIndexer
+           ? `WHERE transactions.block_timestamp < :end_timestamp
+       OR (transactions.block_timestamp = :end_timestamp
+       AND transactions.index_in_chunk < :transaction_index)`
+           : ""
+       }
+       ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
+       LIMIT :limit`,
+      {
+        end_timestamp: paginationIndexer
+          ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
+          : undefined,
+        transaction_index: paginationIndexer?.transactionIndex,
+        limit,
+      },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryAccountTransactionsList = async (
+  accountId,
+  limit = 15,
+  paginationIndexer
+) => {
+  return await queryRows(
+    [
+      `SELECT transactions.transaction_hash AS hash,
+              transactions.signer_account_id AS signer_id,
+              transactions.receiver_account_id AS receiver_id,
+              transactions.included_in_block_hash AS block_hash,
+              DIV(transactions.block_timestamp, 1000 * 1000) AS block_timestamp,
+              transactions.index_in_chunk AS transaction_index
+      FROM transactions
+      ${
+        paginationIndexer
+          ? `WHERE (transaction_hash IN
+              (SELECT originated_from_transaction_hash
+              FROM receipts
+              WHERE receipts.predecessor_account_id = :account_id
+                OR receipts.receiver_account_id = :account_id))
+      AND (transactions.block_timestamp < :end_timestamp
+            OR (transactions.block_timestamp = :end_timestamp
+                AND transactions.index_in_chunk < :transaction_index))`
+          : `WHERE transaction_hash IN
+            (SELECT originated_from_transaction_hash
+            FROM receipts
+            WHERE receipts.predecessor_account_id = :account_id
+              OR receipts.receiver_account_id = :account_id)`
+      }
+      ORDER BY transactions.block_timestamp DESC,
+              transactions.index_in_chunk DESC
+      LIMIT :limit`,
+      {
+        account_id: accountId,
+        end_timestamp: paginationIndexer
+          ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
+          : undefined,
+        transaction_index: paginationIndexer?.transactionIndex,
+        limit,
+      },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryTransactionsListInBlock = async (
+  blockHash,
+  limit = 15,
+  paginationIndexer
+) => {
+  return await queryRows(
+    [
+      `SELECT
+        transactions.transaction_hash as hash,
+        transactions.signer_account_id as signer_id,
+        transactions.receiver_account_id as receiver_id,
+        transactions.included_in_block_hash as block_hash,
+        DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
+        transactions.index_in_chunk as transaction_index
+       FROM transactions
+       WHERE transactions.included_in_block_hash = :block_hash
+       ${
+         paginationIndexer
+           ? `AND (transactions.block_timestamp < :end_timestamp
+       OR (transactions.block_timestamp = :end_timestamp
+       AND transactions.index_in_chunk < :transaction_index)`
+           : ""
+       }
+       ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
+       LIMIT :limit`,
+      {
+        block_hash: blockHash,
+        end_timestamp: paginationIndexer
+          ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
+          : undefined,
+        transaction_index: paginationIndexer?.transactionIndex,
+        limit,
+      },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryTransactionsActionsList = async (transactionHashes) => {
+  return await queryRows(
+    [
+      `SELECT
+        transaction_hash,
+        action_kind AS kind,
+        args
+       FROM transaction_actions
+       WHERE transaction_hash IN (:transaction_hashes)
+       ORDER BY transaction_hash`,
+      { transaction_hashes: transactionHashes },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryTransactionInfo = async (transactionHash) => {
+  return await querySingleRow(
+    [
+      `SELECT
+        transactions.transaction_hash as hash,
+        transactions.signer_account_id as signer_id,
+        transactions.receiver_account_id as receiver_id,
+        transactions.included_in_block_hash as block_hash,
+        DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
+        transactions.index_in_chunk as transaction_index
+       FROM transactions
+       WHERE transactions.transaction_hash = :transaction_hash
+       ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
+       LIMIT 1`,
+      { transaction_hash: transactionHash },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // accounts
 const queryNewAccountsCountAggregatedByDate = async () => {
   return await queryRows(
@@ -361,16 +518,197 @@ const queryActiveAccountsCountAggregatedByWeek = async () => {
 const queryActiveAccountsList = async () => {
   return await queryRows(
     [
-      `SELECT
-       account_id,
-       SUM(transactions_count) AS transactions_count
-       FROM daily_transactions_per_account_count
+      `SELECT account_id,
+              SUM(outgoing_transactions_count) AS outgoing_transactions_count
+       FROM daily_outgoing_transactions_per_account_count
        WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
        GROUP BY account_id
-       ORDER BY transactions_count DESC
+       ORDER BY outgoing_transactions_count DESC
        LIMIT 10`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
+  );
+};
+
+const queryIndexedAccount = async (accountId) => {
+  return await querySingleRow(
+    [
+      `SELECT account_id
+       FROM accounts
+       WHERE account_id = :account_id
+       LIMIT 1`,
+      { account_id: accountId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryAccountsList = async (limit = 15, paginationIndexer) => {
+  return await queryRows(
+    [
+      `SELECT account_id AS account_id,
+              id AS account_index,
+              DIV(receipts.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp
+       FROM accounts
+       LEFT JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
+       ${paginationIndexer ? `WHERE id < :account_index` : ""}
+       ORDER BY account_index DESC
+       LIMIT :limit`,
+      {
+        limit,
+        account_index: paginationIndexer?.accountIndex,
+      },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryAccountOutcomeTransactionsCount = async (accountId) => {
+  async function queryOutcomeTransactionsCountFromAnalytics(accountId) {
+    const query = await querySingleRow(
+      [
+        `SELECT SUM(outgoing_transactions_count) AS out_transactions_count,
+                MAX(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', collected_for_day + INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000) AS last_day_collected_timestamp
+         FROM daily_outgoing_transactions_per_account_count
+         WHERE account_id = :account_id`,
+        { account_id: accountId },
+      ],
+      { dataSource: DS_ANALYTICS_BACKEND }
+    );
+    return {
+      out_transactions_count: query?.out_transactions_count
+        ? parseInt(query.out_transactions_count)
+        : 0,
+      last_day_collected_timestamp: query?.last_day_collected_timestamp
+        ? parseInt(query.last_day_collected_timestamp)
+        : undefined,
+    };
+  }
+  async function queryOutcomeTransactionsCountFromIndexerForLastDay(
+    accountId,
+    lastDayCollectedTimestamp
+  ) {
+    const query = await querySingleRow(
+      [
+        `SELECT
+         COUNT(transactions.transaction_hash) AS out_transactions_count
+         FROM transactions
+         WHERE signer_account_id = :account_id
+         AND transactions.block_timestamp >= :last_day_collected_timestamp`,
+        {
+          account_id: accountId,
+          last_day_collected_timestamp: lastDayCollectedTimestamp,
+        },
+      ],
+      { dataSource: DS_INDEXER_BACKEND }
+    );
+    if (!query || !query.out_transactions_count) {
+      return 0;
+    }
+    return parseInt(query.out_transactions_count);
+  }
+
+  const {
+    out_transactions_count: outTxCountFromAnalytics,
+    last_day_collected_timestamp: lastDayCollectedTimestamp,
+  } = await queryOutcomeTransactionsCountFromAnalytics(accountId);
+
+  // if last_day_collected_timestamp = undefined then there are no any data
+  // or account is not exist
+  if (!lastDayCollectedTimestamp) {
+    return undefined;
+  }
+  const outTxCountFromIndexer = await queryOutcomeTransactionsCountFromIndexerForLastDay(
+    accountId,
+    lastDayCollectedTimestamp
+  );
+  return outTxCountFromAnalytics + outTxCountFromIndexer;
+};
+
+const queryAccountIncomeTransactionsCount = async (accountId) => {
+  async function queryIncomeTransactionsCountFromAnalytics(accountId) {
+    const query = await querySingleRow(
+      [
+        `SELECT SUM(ingoing_transactions_count) as in_transactions_count,
+                MAX(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', collected_for_day + INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000) AS last_day_collected_timestamp
+         FROM daily_ingoing_transactions_per_account_count
+         WHERE account_id = :account_id`,
+        { account_id: accountId },
+      ],
+      { dataSource: DS_ANALYTICS_BACKEND }
+    );
+    return {
+      in_transactions_count: query?.in_transactions_count
+        ? parseInt(query.in_transactions_count)
+        : 0,
+      last_day_collected_timestamp: query?.last_day_collected_timestamp
+        ? parseInt(query.last_day_collected_timestamp)
+        : undefined,
+    };
+  }
+
+  async function queryIncomeTransactionsCountFromIndexerForLastDay(
+    accountId,
+    lastDayCollectedTimestamp
+  ) {
+    const query = await querySingleRow(
+      [
+        `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
+         FROM transactions
+         LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
+            AND transactions.block_timestamp >= :last_day_collected_timestamp
+         WHERE receipts.included_in_block_timestamp >= :last_day_collected_timestamp
+            AND transactions.signer_account_id != :requested_account_id
+            AND receipts.receiver_account_id = :requested_account_id`,
+        {
+          last_day_collected_timestamp: lastDayCollectedTimestamp,
+          requested_account_id: accountId,
+        },
+      ],
+      { dataSource: DS_INDEXER_BACKEND }
+    );
+    if (!query || !query.in_transactions_count) {
+      return 0;
+    }
+    return parseInt(query.in_transactions_count);
+  }
+
+  const {
+    in_transactions_count: inTxCountFromAnalytics,
+    last_day_collected_timestamp: lastDayCollectedTimestamp,
+  } = await queryIncomeTransactionsCountFromAnalytics(accountId);
+
+  // if last_day_collected_timestamp = undefined then there are no any data
+  // or account is not exist
+  if (!lastDayCollectedTimestamp) {
+    return undefined;
+  }
+  const inTxCountFromIndexer = await queryIncomeTransactionsCountFromIndexerForLastDay(
+    accountId,
+    lastDayCollectedTimestamp
+  );
+  return inTxCountFromAnalytics + inTxCountFromIndexer;
+};
+
+const queryAccountInfo = async (accountId) => {
+  return await querySingleRow(
+    [
+      `SELECT
+        inneraccounts.account_id,
+        DIV(creation_receipt.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp,
+        creation_receipt.originated_from_transaction_hash AS created_by_transaction_hash,
+        DIV(deletion_receipt.included_in_block_timestamp, 1000*1000) AS deleted_at_block_timestamp,
+        deletion_receipt.originated_from_transaction_hash AS deleted_by_transaction_hash
+       FROM (
+         SELECT account_id, created_by_receipt_id, deleted_by_receipt_id
+             FROM accounts
+             WHERE account_id = :account_id
+       ) AS inneraccounts
+       LEFT JOIN receipts AS creation_receipt ON creation_receipt.receipt_id = inneraccounts.created_by_receipt_id
+       LEFT JOIN receipts AS deletion_receipt ON deletion_receipt.receipt_id = inneraccounts.deleted_by_receipt_id`,
+      { account_id: accountId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
   );
 };
 
@@ -550,6 +888,182 @@ const queryFirstProducedBlockTimestamp = async () => {
   );
 };
 
+// blocks
+const queryBlocksList = async (limit = 15, paginationIndexer) => {
+  return await queryRows(
+    [
+      `SELECT
+        blocks.block_hash AS hash,
+        blocks.block_height AS height,
+        DIV(blocks.block_timestamp, 1000*1000) AS timestamp,
+        blocks.prev_block_hash AS prev_hash,
+        COUNT(transactions.transaction_hash) AS transactions_count
+      FROM (
+        SELECT blocks.block_hash AS block_hash
+        FROM blocks
+        ${
+          paginationIndexer
+            ? `WHERE blocks.block_timestamp < :pagination_indexer`
+            : ""
+        }
+        ORDER BY blocks.block_height DESC
+        LIMIT :limit
+      ) AS innerblocks
+      LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
+      LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
+      GROUP BY blocks.block_hash
+      ORDER BY blocks.block_timestamp DESC`,
+      {
+        limit,
+        pagination_indexer: paginationIndexer,
+      },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryBlockInfo = async (blockId) => {
+  const searchCriteria = blockSearchCriteria(blockId);
+  return await querySingleRow(
+    [
+      `SELECT
+        blocks.block_hash AS hash,
+        blocks.block_height AS height,
+        DIV(blocks.block_timestamp, 1000*1000) AS timestamp,
+        blocks.prev_block_hash AS prev_hash,
+        blocks.gas_price AS gas_price,
+        blocks.total_supply AS total_supply,
+        blocks.author_account_id AS author_account_id,
+        COUNT(transactions.transaction_hash) AS transactions_count
+      FROM (
+        SELECT blocks.block_hash AS block_hash
+        FROM blocks
+        WHERE blocks.${searchCriteria} = :block_id
+      ) AS innerblocks
+      LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
+      LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
+      GROUP BY blocks.block_hash
+      ORDER BY blocks.block_timestamp DESC
+      LIMIT 1`,
+      { block_id: blockId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryBlockByHashOrId = async (blockId) => {
+  const searchCriteria = blockSearchCriteria(blockId);
+  return await querySingleRow(
+    [
+      `SELECT block_hash
+       FROM blocks
+       WHERE ${searchCriteria} = :block_id
+       LIMIT 1`,
+      { block_id: blockId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+// receipts
+const queryReceiptsCountInBlock = async (blockHash) => {
+  return await querySingleRow(
+    [
+      `SELECT
+        COUNT(receipt_id)
+       FROM receipts
+       WHERE receipts.included_in_block_hash = :block_hash
+       AND receipts.receipt_kind = 'ACTION'`,
+      { block_hash: blockHash },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryReceiptInTransaction = async (receiptId) => {
+  return await querySingleRow(
+    [
+      `SELECT
+        receipt_id, originated_from_transaction_hash
+       FROM receipts
+       WHERE receipt_id = :receipt_id
+       LIMIT 1`,
+      { receipt_id: receiptId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryIndexedTransaction = async (transactionHash) => {
+  return await querySingleRow(
+    [
+      `SELECT transaction_hash
+       FROM transactions
+       WHERE transaction_hash = :transaction_hash
+       LIMIT 1`,
+      { transaction_hash: transactionHash },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+// expose receipts included in blockHash
+const queryReceiptsList = async (blockHash) => {
+  return await queryRows(
+    [
+      `SELECT
+        receipts.receipt_id,
+        receipts.originated_from_transaction_hash,
+        receipts.predecessor_account_id AS predecessor_id,
+        receipts.receiver_account_id AS receiver_id,
+        execution_outcomes.status,
+        execution_outcomes.gas_burnt,
+        execution_outcomes.tokens_burnt,
+        execution_outcomes.executed_in_block_timestamp,
+        action_receipt_actions.action_kind AS kind,
+        action_receipt_actions.args
+       FROM action_receipt_actions
+       LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+       LEFT JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
+       WHERE receipts.included_in_block_hash = :block_hash
+       AND receipts.receipt_kind = 'ACTION'
+       ORDER BY receipts.included_in_chunk_hash, receipts.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
+      { block_hash: blockHash },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+const queryContractInfo = async (accountId) => {
+  return await querySingleRow(
+    [
+      `SELECT
+        DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
+        receipts.originated_from_transaction_hash AS hash
+       FROM action_receipt_actions
+       LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT' AND action_receipt_actions.receipt_receiver_account_id = :account_id
+       ORDER BY action_receipt_actions.receipt_included_in_block_timestamp DESC
+       LIMIT 1`,
+      { account_id: accountId },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
+// chunks
+const queryGasUsedInChunks = async (blockHash) => {
+  return await queryRows(
+    [
+      `SELECT SUM(gas_used) AS gas_used
+       FROM chunks
+       WHERE included_in_block_hash = :block_hash`,
+      { block_hash: blockHash },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // node part
 exports.queryOnlineNodes = queryOnlineNodes;
 exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
@@ -564,11 +1078,16 @@ exports.queryTransactionsCountHistoryForTwoWeeks = queryTransactionsCountHistory
 exports.queryRecentTransactionsCount = queryRecentTransactionsCount;
 exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
 
-// stats
 // transaction related
 exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
 exports.queryGasUsedAggregatedByDate = queryGasUsedAggregatedByDate;
 exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
+exports.queryIndexedTransaction = queryIndexedTransaction;
+exports.queryTransactionsList = queryTransactionsList;
+exports.queryTransactionsActionsList = queryTransactionsActionsList;
+exports.queryAccountTransactionsList = queryAccountTransactionsList;
+exports.queryTransactionsListInBlock = queryTransactionsListInBlock;
+exports.queryTransactionInfo = queryTransactionInfo;
 
 // accounts
 exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
@@ -576,15 +1095,24 @@ exports.queryDeletedAccountsCountAggregatedByDate = queryDeletedAccountsCountAgg
 exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
 exports.queryActiveAccountsList = queryActiveAccountsList;
 exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggregatedByWeek;
+exports.queryIndexedAccount = queryIndexedAccount;
+exports.queryAccountsList = queryAccountsList;
+exports.queryAccountInfo = queryAccountInfo;
+exports.queryAccountOutcomeTransactionsCount = queryAccountOutcomeTransactionsCount;
+exports.queryAccountIncomeTransactionsCount = queryAccountIncomeTransactionsCount;
 
 // blocks
 exports.queryFirstProducedBlockTimestamp = queryFirstProducedBlockTimestamp;
+exports.queryBlocksList = queryBlocksList;
+exports.queryBlockInfo = queryBlockInfo;
+exports.queryBlockByHashOrId = queryBlockByHashOrId;
 
 // contracts
 exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
 exports.queryUniqueDeployedContractsCountAggregatedByDate = queryUniqueDeployedContractsCountAggregatedByDate;
 exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
 exports.queryActiveContractsList = queryActiveContractsList;
+exports.queryContractInfo = queryContractInfo;
 
 // partner
 exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
@@ -597,3 +1125,11 @@ exports.queryCirculatingSupply = queryCirculatingSupply;
 
 // calculate fee
 exports.calculateFeesByDay = calculateFeesByDay;
+
+// receipts
+exports.queryReceiptsCountInBlock = queryReceiptsCountInBlock;
+exports.queryReceiptInTransaction = queryReceiptInTransaction;
+exports.queryReceiptsList = queryReceiptsList;
+
+// chunks
+exports.queryGasUsedInChunks = queryGasUsedInChunks;
