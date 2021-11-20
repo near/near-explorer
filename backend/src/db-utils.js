@@ -519,11 +519,11 @@ const queryActiveAccountsList = async () => {
   return await queryRows(
     [
       `SELECT account_id,
-              SUM(outgoing_transactions_count) AS outgoing_transactions_count
+              SUM(outgoing_transactions_count) AS transactions_count
        FROM daily_outgoing_transactions_per_account_count
        WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
        GROUP BY account_id
-       ORDER BY outgoing_transactions_count DESC
+       ORDER BY transactions_count DESC
        LIMIT 10`,
     ],
     { dataSource: DS_ANALYTICS_BACKEND }
