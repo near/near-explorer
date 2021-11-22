@@ -143,7 +143,10 @@ async function main() {
   try {
     await models.sequelizeTelemetryBackend.sync();
   } catch (error) {
-    console.warn("Initialization of Telemetry database failed, but Explorer backend can operate without it. Explorer backend won't be able to handle telemetry reports. More details about the error:", error);
+    console.warn(
+      "Initialization of Telemetry database failed, but Explorer backend can operate without it. Explorer backend won't be able to handle telemetry reports. More details about the error:",
+      error
+    );
   }
 
   const wamp = setupWamp();
