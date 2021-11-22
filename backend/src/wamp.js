@@ -64,14 +64,6 @@ const saveNodeIntoDatabase = async (nodeInfo) => {
   });
 };
 
-// select query directly from indexer
-wampHandlers["select:INDEXER_BACKEND"] = async ([query, replacements]) => {
-  return await models.sequelizeIndexerBackendReadOnly.query(query, {
-    replacements,
-    type: models.Sequelize.QueryTypes.SELECT,
-  });
-};
-
 // rpc endpoint
 wampHandlers["nearcore-view-account"] = async ([accountId]) => {
   return await nearRpc.sendJsonRpc("query", {
