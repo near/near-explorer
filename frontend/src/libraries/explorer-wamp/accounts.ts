@@ -36,9 +36,6 @@ export default class AccountsApi extends ExplorerApi {
         this.getAccountBaseInfo(accountId),
         this.getAccountDetails(accountId),
       ]);
-      if (!accountBasic || !accountInfo) {
-        throw new Error("account info not found");
-      }
       return {
         ...accountBasic,
         ...accountInfo,
@@ -88,7 +85,21 @@ export default class AccountsApi extends ExplorerApi {
   }
 
   async getAccountBaseInfo(accountId: string): Promise<AccountBasicInfo> {
-    return await this.call<AccountBasicInfo>("account-info", [accountId]);
+    try {
+      const accountInfo = await this.call<AccountBasicInfo>("account-info", [
+        accountId,
+      ]);
+      if (!accountInfo) {
+        throw new Error("account info not found");
+      }
+      return accountInfo;
+    } catch (error) {
+      console.error(
+        "AccountsApi.getAccountBaseInfo failed to fetch data due to:"
+      );
+      console.error(error);
+      throw error;
+    }
   }
 
   async getAccountDetails(accountId: string): Promise<any> {

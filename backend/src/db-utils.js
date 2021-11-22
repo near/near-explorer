@@ -588,17 +588,20 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
     accountId,
     lastDayCollectedTimestamp
   ) {
+    // since analytics are collected for the previous day,
+    // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
+    // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
+    const timestamp =
+      lastDayCollectedTimestamp ||
+      `(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000)`;
     const query = await querySingleRow(
       [
         `SELECT
          COUNT(transactions.transaction_hash) AS out_transactions_count
          FROM transactions
          WHERE signer_account_id = :account_id
-         AND transactions.block_timestamp >= :last_day_collected_timestamp`,
-        {
-          account_id: accountId,
-          last_day_collected_timestamp: lastDayCollectedTimestamp,
-        },
+         AND transactions.block_timestamp >= ${timestamp}`,
+        { account_id: accountId },
       ],
       { dataSource: DS_INDEXER_BACKEND }
     );
@@ -612,12 +615,6 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
     out_transactions_count: outTxCountFromAnalytics,
     last_day_collected_timestamp: lastDayCollectedTimestamp,
   } = await queryOutcomeTransactionsCountFromAnalytics(accountId);
-
-  // if last_day_collected_timestamp = undefined then there are no any data
-  // or account is not exist
-  if (!lastDayCollectedTimestamp) {
-    return undefined;
-  }
   const outTxCountFromIndexer = await queryOutcomeTransactionsCountFromIndexerForLastDay(
     accountId,
     lastDayCollectedTimestamp
@@ -651,19 +648,22 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
     accountId,
     lastDayCollectedTimestamp
   ) {
+    // since analytics are collected for the previous day,
+    // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
+    // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
+    const timestamp =
+      lastDayCollectedTimestamp ||
+      `(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000)`;
     const query = await querySingleRow(
       [
         `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
          FROM transactions
          LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
-            AND transactions.block_timestamp >= :last_day_collected_timestamp
-         WHERE receipts.included_in_block_timestamp >= :last_day_collected_timestamp
+            AND transactions.block_timestamp >= ${timestamp}
+         WHERE receipts.included_in_block_timestamp >= ${timestamp}
             AND transactions.signer_account_id != :requested_account_id
             AND receipts.receiver_account_id = :requested_account_id`,
-        {
-          last_day_collected_timestamp: lastDayCollectedTimestamp,
-          requested_account_id: accountId,
-        },
+        { requested_account_id: accountId },
       ],
       { dataSource: DS_INDEXER_BACKEND }
     );
@@ -677,12 +677,6 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
     in_transactions_count: inTxCountFromAnalytics,
     last_day_collected_timestamp: lastDayCollectedTimestamp,
   } = await queryIncomeTransactionsCountFromAnalytics(accountId);
-
-  // if last_day_collected_timestamp = undefined then there are no any data
-  // or account is not exist
-  if (!lastDayCollectedTimestamp) {
-    return undefined;
-  }
   const inTxCountFromIndexer = await queryIncomeTransactionsCountFromIndexerForLastDay(
     accountId,
     lastDayCollectedTimestamp
