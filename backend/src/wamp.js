@@ -27,18 +27,51 @@ const wampHandlers = {};
 
 // node
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
+  if (!nodeInfo.hasOwnProperty("agent")) {
+    // This seems to be an old format, and all our nodes should support the new
+    // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
+    // reports.
+    return;
+  }
   let geo = geoip.lookup(nodeInfo.ip_address);
   const stakingNodesList = await getStakingNodesList();
   const stakingNode = stakingNodesList.get(nodeInfo.chain.account_id);
   // we want to validate "active" validators only
   const isValidator = stakingNode?.stakingStatus === "active";
 
+  const telemetryInfo = {
+    ipAddress: nodeInfo.ip_address,
+    lastSeen: Date.now(),
+    nodeId: nodeInfo.chain.node_id,
+    moniker: nodeInfo.chain.account_id || "",
+    accountId: nodeInfo.chain.account_id || "",
+    lastHeight: nodeInfo.chain.latest_block_height,
+    peerCount: nodeInfo.chain.num_peers,
+    isValidator: nodeInfo.chain.is_validator,
+    lastHash: nodeInfo.chain.latest_block_hash,
+    signature: nodeInfo.signature || "",
+    agentName: nodeInfo.agent.name,
+    agentVersion: nodeInfo.agent.version,
+    agentBuild: nodeInfo.agent.build,
+    status: nodeInfo.chain.status,
+  };
+
   if (geo) {
-    nodeInfo.latitude = geo.ll[0];
-    nodeInfo.longitude = geo.ll[1];
-    nodeInfo.city = geo.city;
-  } else {
-    console.warn("Node Telemetry failed to lookup geoIP for ", nodeInfo);
+    telemetryInfo.latitude = geo.ll[0];
+    telemetryInfo.longitude = geo.ll[1];
+    telemetryInfo.city = geo.city;
+  }
+
+  for (let field in telemetryInfo) {
+    const fieldValue = telemetryInfo[field];
+    const isFieldValueNull = models.Node.rawAttributes[field].allowNull;
+    if (
+      (fieldValue === null || typeof fieldValue === "undefined") &&
+      !isFieldValueNull
+    ) {
+      console.warn("Node Telemetry missed required field: ", field);
+      return;
+    }
   }
 
   if (isValidator) {
@@ -52,7 +85,7 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     const isVerified = nacl.sign.detached.verify(
       message,
       utils.serialize.base_decode(
-        nodeInfo.signature.substring(8, nodeInfo.signature.length)
+        telemetryInfo.signature.substring(8, telemetryInfo.signature.length)
       ),
       publicKey.data
     );
@@ -65,35 +98,7 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
       return;
     }
   }
-  return saveNodeIntoDatabase(nodeInfo);
-};
-
-const saveNodeIntoDatabase = async (nodeInfo) => {
-  if (!nodeInfo.hasOwnProperty("agent")) {
-    // This seems to be an old format, and all our nodes should support the new
-    // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
-    // reports.
-    return;
-  }
-  return await models.Node.upsert({
-    ipAddress: nodeInfo.ip_address,
-    latitude: nodeInfo.latitude,
-    longitude: nodeInfo.longitude,
-    city: nodeInfo.city,
-    lastSeen: Date.now(),
-    nodeId: nodeInfo.chain.node_id,
-    moniker: nodeInfo.chain.account_id,
-    accountId: nodeInfo.chain.account_id,
-    lastHeight: nodeInfo.chain.latest_block_height,
-    peerCount: nodeInfo.chain.num_peers,
-    isValidator: nodeInfo.chain.is_validator,
-    lastHash: nodeInfo.chain.latest_block_hash,
-    signature: nodeInfo.signature || "",
-    agentName: nodeInfo.agent.name,
-    agentVersion: nodeInfo.agent.version,
-    agentBuild: nodeInfo.agent.build,
-    status: nodeInfo.chain.status,
-  });
+  return await models.Node.upsert(telemetryInfo);
 };
 
 // rpc endpoint
