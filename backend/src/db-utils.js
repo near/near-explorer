@@ -706,6 +706,40 @@ const queryAccountInfo = async (accountId) => {
   );
 };
 
+const queryAccountActivity = async (accountId, limit = 100) => {
+  return await queryRows(
+    [
+      `SELECT TO_TIMESTAMP(DIV(account_changes.changed_in_block_timestamp, 1000 * 1000 * 1000))::date AS timestamp,
+              account_changes.update_reason,
+              account_changes.affected_account_nonstaked_balance AS nonstaked_balance,
+              account_changes.affected_account_staked_balance AS staked_balance,
+              account_changes.affected_account_storage_usage AS storage_usage,
+              receipts.receipt_id,
+              receipts.predecessor_account_id AS receipt_signer_id,
+              receipts.receiver_account_id AS receipt_receiver_id,
+              transactions.signer_account_id AS transaction_signer_id,
+              transactions.receiver_account_id AS transaction_receiver_id,
+              transaction_actions.action_kind AS transaction_transaction_kind,
+              transaction_actions.args AS transaction_args,
+              action_receipt_actions.action_kind AS receipt_kind,
+              action_receipt_actions.args AS receipt_args
+       FROM account_changes
+       LEFT JOIN transactions ON transactions.transaction_hash = account_changes.caused_by_transaction_hash
+       LEFT JOIN receipts ON receipts.receipt_id = account_changes.caused_by_receipt_id
+       LEFT JOIN transaction_actions ON transaction_actions.transaction_hash = account_changes.caused_by_transaction_hash
+       LEFT JOIN action_receipt_actions ON action_receipt_actions.receipt_id = receipts.receipt_id
+       WHERE account_changes.affected_account_id = :account_id
+       ORDER BY account_changes.changed_in_block_timestamp DESC
+       LIMIT :limit`,
+      {
+        account_id: accountId,
+        limit,
+      },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+};
+
 // contracts
 const queryNewContractsCountAggregatedByDate = async () => {
   return await queryRows(
@@ -1094,6 +1128,7 @@ exports.queryAccountsList = queryAccountsList;
 exports.queryAccountInfo = queryAccountInfo;
 exports.queryAccountOutcomeTransactionsCount = queryAccountOutcomeTransactionsCount;
 exports.queryAccountIncomeTransactionsCount = queryAccountIncomeTransactionsCount;
+exports.queryAccountActivity = queryAccountActivity;
 
 // blocks
 exports.queryFirstProducedBlockTimestamp = queryFirstProducedBlockTimestamp;
