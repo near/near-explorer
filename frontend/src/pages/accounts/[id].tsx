@@ -3,6 +3,7 @@ import Head from "next/head";
 import { Container } from "react-bootstrap";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
+import ActivilyList from "../../components/activity/ActivityList";
 import ContractDetails from "../../components/contracts/ContractDetails";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
@@ -70,6 +71,21 @@ const AccountDetail: NextPage<Props> = ({
           <Container>
             <ContractDetails accountId={accountId} />
           </Container>
+
+          <Content
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Activity (simple version)</h2>}
+          >
+            <ActivilyList accountId={accountId} />
+          </Content>
+
+          <Content
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Activity (extended version)</h2>}
+          >
+            <ActivilyList accountId={accountId} extended />
+          </Content>
+
           <Content
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
