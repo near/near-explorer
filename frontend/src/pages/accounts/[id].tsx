@@ -74,16 +74,9 @@ const AccountDetail: NextPage<Props> = ({
 
           <Content
             icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Activity (simple version)</h2>}
+            title={<h2>Activity</h2>}
           >
             <ActivilyList accountId={accountId} />
-          </Content>
-
-          <Content
-            icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>Activity (extended version)</h2>}
-          >
-            <ActivilyList accountId={accountId} extended />
           </Content>
 
           <Content

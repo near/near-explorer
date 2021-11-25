@@ -429,10 +429,6 @@ export type ProcedureTypes = {
     args: [string];
     result: any;
   };
-  "account-activity-v2": {
-    args: [string];
-    result: any;
-  };
   "account-transactions-count": {
     args: [string];
     result: AccountTransactionsCount;

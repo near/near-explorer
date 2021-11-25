@@ -5,47 +5,32 @@ import Balance from "../utils/Balance";
 
 interface Props {
   accountId: string;
-  extended: boolean;
 }
 interface State {
   accountActivity?: object[];
 }
 
 class ActivityList extends PureComponent<Props> {
-  static defaultProps = {
-    extended: false,
-  };
   state: State = {};
 
-  fetchAccountActivities = (accountId: string, extended: boolean) => {
-    if (!extended) {
-      new AccountsApi()
-        .getAccountActivity(accountId)
-        .then((accountActivity) => {
-          this.setState({ accountActivity });
-        })
-        .catch((error) => {
-          throw error;
-        });
-    } else {
-      new AccountsApi()
-        .getExtendedAccountActivity(accountId)
-        .then((accountActivity) => {
-          this.setState({ accountActivity });
-        })
-        .catch((error) => {
-          throw error;
-        });
-    }
+  fetchAccountActivities = (accountId: string) => {
+    new AccountsApi()
+      .getAccountActivity(accountId)
+      .then((accountActivity) => {
+        this.setState({ accountActivity });
+      })
+      .catch((error) => {
+        throw error;
+      });
   };
 
   componentDidMount() {
-    this.fetchAccountActivities(this.props.accountId, this.props.extended);
+    this.fetchAccountActivities(this.props.accountId);
   }
 
   componentDidUpdate(prevProps: any) {
     if (prevProps.accountId !== this.props.accountId) {
-      this.fetchAccountActivities(this.props.accountId, this.props.extended);
+      this.fetchAccountActivities(this.props.accountId);
     }
   }
 
@@ -68,8 +53,8 @@ class ActivityList extends PureComponent<Props> {
             </tr>
           </thead>
           <tbody>
-            {accountActivity.map((activity: any) => (
-              <tr key={activity.receiptId}>
+            {accountActivity.map((activity: any, index: number) => (
+              <tr key={`${activity.timestamp}_${index}`}>
                 <td>{activity.signerId}</td>
                 <td>{activity.receiverId}</td>
                 <td>{activity.action.kind}</td>
