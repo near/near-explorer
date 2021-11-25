@@ -4,7 +4,12 @@ const {
   queryAccountInfo,
   queryAccountOutcomeTransactionsCount,
   queryAccountIncomeTransactionsCount,
+  queryAccountActivity,
 } = require("./db-utils");
+
+const {
+  getIndexerCompatibilityTransactionActionKinds,
+} = require("./transactions");
 
 async function isAccountIndexed(accountId) {
   const account = await queryIndexedAccount(accountId);
@@ -51,7 +56,42 @@ async function getAccountInfo(accountId) {
   };
 }
 
+async function getAccountActivity(accountId) {
+  const accountActivity = await queryAccountActivity(accountId);
+  if (!accountActivity) {
+    return undefined;
+  }
+  const indexerCompatibilityTransactionActionKinds = await getIndexerCompatibilityTransactionActionKinds();
+  return accountActivity.map((activity) => ({
+    timestamp: activity.timestamp,
+    updateReason: activity.update_reason,
+    nonstakedBalance: activity.nonstaked_balance,
+    stakedBalance: activity.staked_balance,
+    storageUsage: activity.storage_usage,
+    signerId: activity.receipt_signer_id || activity.transaction_signer_id,
+    receiverId:
+      activity.receipt_receiver_id || activity.transaction_receiver_id,
+    action: {
+      kind: activity.transaction_transaction_kind
+        ? indexerCompatibilityTransactionActionKinds.get(
+            activity.transaction_transaction_kind
+          )
+        : activity.receipt_kind
+        ? indexerCompatibilityTransactionActionKinds.get(activity.receipt_kind)
+        : activity.update_reason,
+      args: activity.transaction_args
+        ? typeof activity.transaction_args === "string"
+          ? JSON.parse(activity.transaction_args)
+          : activity.transaction_args
+        : typeof activity.receipt_args === "string"
+        ? JSON.parse(activity.receipt_args)
+        : activity.receipt_args,
+    },
+  }));
+}
+
 exports.isAccountIndexed = isAccountIndexed;
 exports.getAccountsList = getAccountsList;
 exports.getAccountTransactionsCount = getAccountTransactionsCount;
 exports.getAccountInfo = getAccountInfo;
+exports.getAccountActivity = getAccountActivity;

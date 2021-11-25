@@ -320,6 +320,10 @@ wampHandlers["account-info"] = async ([accountId]) => {
   return await accounts.getAccountInfo(accountId);
 };
 
+wampHandlers["account-activity"] = async ([accountId]) => {
+  return await accounts.getAccountActivity(accountId);
+};
+
 // blocks
 wampHandlers["first-produced-block-timestamp"] = async () => {
   return await stats.getFirstProducedBlockTimestamp();
