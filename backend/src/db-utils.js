@@ -8,6 +8,8 @@ const { nearStakingPoolAccountSuffix } = require("./config");
 const models = require("../models");
 const BN = require("bn.js");
 
+const ONE_DAY_TIMESTAMP_MILISEC = 24 * 60 * 60 * 1000;
+
 const query = async ([query, replacements], { dataSource }) => {
   const sequelize = getSequelize(dataSource);
   return await sequelize.query(query, {
@@ -568,20 +570,24 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
     const query = await querySingleRow(
       [
         `SELECT SUM(outgoing_transactions_count) AS out_transactions_count,
-                MAX(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', collected_for_day + INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000) AS last_day_collected_timestamp
+                MAX(collected_for_day) AS last_day_collected
          FROM daily_outgoing_transactions_per_account_count
          WHERE account_id = :account_id`,
         { account_id: accountId },
       ],
       { dataSource: DS_ANALYTICS_BACKEND }
     );
+    const lastDayCollectedTimestamp = query?.last_day_collected
+      ? (new Date(query.last_day_collected).getTime() +
+          ONE_DAY_TIMESTAMP_MILISEC) *
+        1000 *
+        1000
+      : undefined;
     return {
       out_transactions_count: query?.out_transactions_count
         ? parseInt(query.out_transactions_count)
         : 0,
-      last_day_collected_timestamp: query?.last_day_collected_timestamp
-        ? parseInt(query.last_day_collected_timestamp)
-        : undefined,
+      last_day_collected_timestamp: lastDayCollectedTimestamp,
     };
   }
   async function queryOutcomeTransactionsCountFromIndexerForLastDay(
@@ -593,15 +599,18 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
     // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
     const timestamp =
       lastDayCollectedTimestamp ||
-      `(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000)`;
+      (new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC) * 1000 * 1000;
     const query = await querySingleRow(
       [
         `SELECT
          COUNT(transactions.transaction_hash) AS out_transactions_count
          FROM transactions
          WHERE signer_account_id = :account_id
-         AND transactions.block_timestamp >= ${timestamp}`,
-        { account_id: accountId },
+         AND transactions.block_timestamp >= :timestamp`,
+        {
+          account_id: accountId,
+          timestamp,
+        },
       ],
       { dataSource: DS_INDEXER_BACKEND }
     );
@@ -627,20 +636,24 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
     const query = await querySingleRow(
       [
         `SELECT SUM(ingoing_transactions_count) as in_transactions_count,
-                MAX(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', collected_for_day + INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000) AS last_day_collected_timestamp
+                MAX(collected_for_day) AS last_day_collected
          FROM daily_ingoing_transactions_per_account_count
          WHERE account_id = :account_id`,
         { account_id: accountId },
       ],
       { dataSource: DS_ANALYTICS_BACKEND }
     );
+    const lastDayCollectedTimestamp = query?.last_day_collected
+      ? (new Date(query.last_day_collected).getTime() +
+          ONE_DAY_TIMESTAMP_MILISEC) *
+        1000 *
+        1000
+      : undefined;
     return {
       in_transactions_count: query?.in_transactions_count
         ? parseInt(query.in_transactions_count)
         : 0,
-      last_day_collected_timestamp: query?.last_day_collected_timestamp
-        ? parseInt(query.last_day_collected_timestamp)
-        : undefined,
+      last_day_collected_timestamp: lastDayCollectedTimestamp,
     };
   }
 
@@ -653,17 +666,20 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
     // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
     const timestamp =
       lastDayCollectedTimestamp ||
-      `(CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '1 day')) AS bigint) * 1000 * 1000 * 1000)`;
+      (new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC) * 1000 * 1000;
     const query = await querySingleRow(
       [
         `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
          FROM transactions
          LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
-            AND transactions.block_timestamp >= ${timestamp}
-         WHERE receipts.included_in_block_timestamp >= ${timestamp}
+            AND transactions.block_timestamp >= :timestamp
+         WHERE receipts.included_in_block_timestamp >= :timestamp
             AND transactions.signer_account_id != :requested_account_id
             AND receipts.receiver_account_id = :requested_account_id`,
-        { requested_account_id: accountId },
+        {
+          requested_account_id: accountId,
+          timestamp,
+        },
       ],
       { dataSource: DS_INDEXER_BACKEND }
     );
