@@ -578,10 +578,10 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
       { dataSource: DS_ANALYTICS_BACKEND }
     );
     const lastDayCollectedTimestamp = query?.last_day_collected
-      ? (new Date(query.last_day_collected).getTime() +
-          ONE_DAY_TIMESTAMP_MILISEC) *
-        1000 *
-        1000
+      ? new BN(new Date(query.last_day_collected).getTime())
+          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+          .muln(10 ** 6)
+          .toString()
       : undefined;
     return {
       out_transactions_count: query?.out_transactions_count
@@ -599,7 +599,10 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
     // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
     const timestamp =
       lastDayCollectedTimestamp ||
-      (new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC) * 1000 * 1000;
+      new BN(new Date().getTime())
+        .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+        .muln(10 ** 6)
+        .toString();
     const query = await querySingleRow(
       [
         `SELECT
@@ -644,10 +647,10 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
       { dataSource: DS_ANALYTICS_BACKEND }
     );
     const lastDayCollectedTimestamp = query?.last_day_collected
-      ? (new Date(query.last_day_collected).getTime() +
-          ONE_DAY_TIMESTAMP_MILISEC) *
-        1000 *
-        1000
+      ? new BN(new Date(query.last_day_collected).getTime())
+          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+          .muln(10 ** 6)
+          .toString()
       : undefined;
     return {
       in_transactions_count: query?.in_transactions_count
@@ -666,7 +669,10 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
     // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
     const timestamp =
       lastDayCollectedTimestamp ||
-      (new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC) * 1000 * 1000;
+      new BN(new Date().getTime())
+        .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+        .muln(10 ** 6)
+        .toString();
     const query = await querySingleRow(
       [
         `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
