@@ -242,16 +242,13 @@ const queryDashboardBlocksStats = async (options) => {
 const queryTransactionsCountHistoryForTwoWeeks = async () => {
   const query = await queryRows(
     [
-      `SELECT DATE_TRUNC('day', TO_TIMESTAMP(DIV(block_timestamp, 1000*1000*1000))) AS date, COUNT(transaction_hash) AS total
-      FROM transactions
-      WHERE
-        block_timestamp > (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '15 day')) AS bigint) * 1000 * 1000 * 1000)
-        AND
-        block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW())) AS bigint) * 1000 * 1000 * 1000)
-      GROUP BY date
+      `SELECT collected_for_day AS date,
+              transactions_count AS total
+      FROM daily_transactions_count
+      WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
       ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DS_ANALYTICS_BACKEND }
   );
 
   return query.map(({ total, ...rest }) => ({
