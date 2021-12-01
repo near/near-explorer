@@ -185,7 +185,7 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     lockupAccountInfo,
     lockupLockedBalance,
     lockupStakingPoolAccountId,
-    genesisConfig,
+    protocolConfig,
   ] = await Promise.all([
     nearRpc
       .sendJsonRpc("query", {
@@ -210,7 +210,7 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
     nearRpc
       .callViewMethod(lockupAccountId, "get_staking_pool_account_id", {})
       .catch(ignore_if_does_not_exist),
-    nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {}),
+    nearRpc.sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
   ]);
 
   if (accountInfo === null) {
@@ -219,7 +219,7 @@ wampHandlers["get-account-details"] = async ([accountId]) => {
 
   const storageUsage = new BN(accountInfo.storage_usage);
   const storageAmountPerByte = new BN(
-    genesisConfig.runtime_config.storage_amount_per_byte
+    protocolConfig.runtime_config.storage_amount_per_byte
   );
   const stakedBalance = new BN(accountInfo.locked);
   const nonStakedBalance = new BN(accountInfo.amount);
@@ -360,6 +360,10 @@ wampHandlers["account-transactions-count"] = async ([accountId]) => {
 
 wampHandlers["account-info"] = async ([accountId]) => {
   return await accounts.getAccountInfo(accountId);
+};
+
+wampHandlers["account-activity"] = async ([accountId]) => {
+  return await accounts.getAccountActivity(accountId);
 };
 
 // blocks
