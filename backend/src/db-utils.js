@@ -1103,7 +1103,7 @@ const queryContractInfo = async (accountId) => {
 
 // chunks
 const queryGasUsedInChunks = async (blockHash) => {
-  return await queryRows(
+  return await querySingleRow(
     [
       `SELECT SUM(gas_used) AS gas_used
        FROM chunks
