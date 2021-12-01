@@ -2,6 +2,8 @@ const autobahn = require("autobahn");
 const BN = require("bn.js");
 const geoip = require("geoip-lite");
 const { sha256 } = require("js-sha256");
+const nacl = require("tweetnacl");
+const { utils } = require("near-api-js");
 
 const stats = require("./stats");
 const receipts = require("./receipts");
@@ -19,39 +21,32 @@ const {
   nearLockupAccountIdSuffix,
 } = require("./config");
 
-const { nearRpc } = require("./near");
+const { nearRpc, getStakingNodesList } = require("./near");
 
 const wampHandlers = {};
 
 // node
 wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
-  let geo = geoip.lookup(nodeInfo.ip_address);
-  if (geo) {
-    nodeInfo.latitude = geo.ll[0];
-    nodeInfo.longitude = geo.ll[1];
-    nodeInfo.city = geo.city;
-  } else {
-    console.warn("Node Telemetry failed to lookup geoIP for ", nodeInfo);
-  }
-  return saveNodeIntoDatabase(nodeInfo);
-};
-
-const saveNodeIntoDatabase = async (nodeInfo) => {
   if (!nodeInfo.hasOwnProperty("agent")) {
     // This seems to be an old format, and all our nodes should support the new
     // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
     // reports.
     return;
   }
-  return await models.Node.upsert({
+  let geo = geoip.lookup(nodeInfo.ip_address);
+  const stakingNodesList = await getStakingNodesList();
+  const stakingNode = stakingNodesList.get(nodeInfo.chain.account_id);
+  // we want to validate "active" validators only
+  const isValidator = stakingNode?.stakingStatus === "active";
+
+  const telemetryInfo = {
     ipAddress: nodeInfo.ip_address,
-    latitude: nodeInfo.latitude,
-    longitude: nodeInfo.longitude,
-    city: nodeInfo.city,
     lastSeen: Date.now(),
     nodeId: nodeInfo.chain.node_id,
-    moniker: nodeInfo.chain.account_id,
-    accountId: nodeInfo.chain.account_id,
+    // moniker has never been really used or implemented on nearcore side
+    moniker: nodeInfo.chain.account_id || "",
+    // accountId must be non-empty when the telemetry is submitted by validation nodes
+    accountId: nodeInfo.chain.account_id || "",
     lastHeight: nodeInfo.chain.latest_block_height,
     peerCount: nodeInfo.chain.num_peers,
     isValidator: nodeInfo.chain.is_validator,
@@ -61,7 +56,54 @@ const saveNodeIntoDatabase = async (nodeInfo) => {
     agentVersion: nodeInfo.agent.version,
     agentBuild: nodeInfo.agent.build,
     status: nodeInfo.chain.status,
-  });
+  };
+
+  if (geo) {
+    telemetryInfo.latitude = geo.ll[0];
+    telemetryInfo.longitude = geo.ll[1];
+    telemetryInfo.city = geo.city;
+  }
+
+  for (let field in telemetryInfo) {
+    const fieldValue = telemetryInfo[field];
+    const isFieldValueNull = models.Node.rawAttributes[field].allowNull;
+    if (
+      (fieldValue === null || typeof fieldValue === "undefined") &&
+      !isFieldValueNull
+    ) {
+      console.warn("Node Telemetry missed required field: ", field);
+      return;
+    }
+  }
+
+  // TODO: fix the signature verification. Given that the JSON payload is signed, it creates a challenge to serialize the same JSON string without `signature` field.
+  /*
+  if (isValidator) {
+    const messageJSON = {
+      agent: nodeInfo.agent,
+      system: nodeInfo.system,
+      chain: nodeInfo.chain,
+    };
+    const message = new TextEncoder().encode(messageJSON);
+    const publicKey = utils.PublicKey.from(stakingNode.public_key);
+    const isVerified = nacl.sign.detached.verify(
+      message,
+      utils.serialize.base_decode(
+        telemetryInfo.signature.substring(8, telemetryInfo.signature.length)
+      ),
+      publicKey.data
+    );
+
+    if (!isVerified) {
+      console.warn(
+        "We ignore fake telemetry data about validation node: ",
+        nodeInfo
+      );
+      return;
+    }
+  }
+  */
+  return await models.Node.upsert(telemetryInfo);
 };
 
 // rpc endpoint

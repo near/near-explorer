@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
-import echarts from "echarts";
+import * as echarts from "echarts";
 import { Tabs, Tab } from "react-bootstrap";
 
 import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";

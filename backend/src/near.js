@@ -142,6 +142,14 @@ const getCurrentNodes = (epochStatus) => {
   return currentValidators;
 };
 
+async function getStakingNodesList() {
+  if (stakingNodes.size === 0) {
+    await queryEpochStats();
+  }
+  return stakingNodes;
+}
+
 exports.nearRpc = nearRpc;
 exports.queryFinalBlock = queryFinalBlock;
 exports.queryEpochStats = queryEpochStats;
+exports.getStakingNodesList = getStakingNodesList;

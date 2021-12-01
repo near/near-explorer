@@ -1,5 +1,5 @@
 import ReactEcharts from "echarts-for-react";
-import echarts from "echarts";
+import * as echarts from "echarts";
 import moment from "moment";
 
 import { TransactionsCountStat } from "../../context/DatabaseProvider";

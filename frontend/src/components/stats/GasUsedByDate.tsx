@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
-import echarts from "echarts";
+import * as echarts from "echarts";
 import BN from "bn.js";
 import { utils } from "near-api-js";
 
