@@ -43,7 +43,9 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     ipAddress: nodeInfo.ip_address,
     lastSeen: Date.now(),
     nodeId: nodeInfo.chain.node_id,
+    // moniker has never been really used or implemented on nearcore side
     moniker: nodeInfo.chain.account_id || "",
+    // accountId must be non-empty when the telemetry is submitted by validation nodes
     accountId: nodeInfo.chain.account_id || "",
     lastHeight: nodeInfo.chain.latest_block_height,
     peerCount: nodeInfo.chain.num_peers,
@@ -74,6 +76,8 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     }
   }
 
+  // TODO: fix the signature verification. Given that the JSON payload is signed, it creates a challenge to serialize the same JSON string without `signature` field.
+  /*
   if (isValidator) {
     const messageJSON = {
       agent: nodeInfo.agent,
@@ -98,6 +102,7 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
       return;
     }
   }
+  */
   return await models.Node.upsert(telemetryInfo);
 };
 
