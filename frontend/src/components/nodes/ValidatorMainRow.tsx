@@ -103,7 +103,7 @@ class ValidatorMainRow extends PureComponent<Props> {
                   overlay={
                     <Tooltip id={`${countryCode}_${index}`}>
                       {countryCode && typeof countryCode !== undefined
-                        ? countries[countryCode.toUpperCase()].name
+                        ? countries[countryCode.toUpperCase()]?.name ?? country
                         : country}
                     </Tooltip>
                   }
