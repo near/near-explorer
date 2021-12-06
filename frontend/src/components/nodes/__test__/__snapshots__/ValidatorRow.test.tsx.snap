@@ -26,6 +26,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
     className="country-flag"
   >
     <img
+      id="AQ_3"
       onBlur={[Function]}
       onFocus={[Function]}
       onMouseOut={[Function]}
@@ -179,6 +180,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 
         Object {
           "backgroundColor": "#f0f0f1",
           "color": "#72727a",
+          "display": "inline-block",
           "fontSize": "8px",
           "lineHeight": "16px",
           "textAlign": "center",
@@ -326,6 +328,7 @@ exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = 
         Object {
           "backgroundColor": "#f0f0f1",
           "color": "#72727a",
+          "display": "inline-block",
           "fontSize": "8px",
           "lineHeight": "16px",
           "textAlign": "center",
@@ -450,6 +453,7 @@ Array [
           Object {
             "backgroundColor": "#f0f0f1",
             "color": "#72727a",
+            "display": "inline-block",
             "fontSize": "8px",
             "lineHeight": "16px",
             "textAlign": "center",

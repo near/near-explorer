@@ -1,9 +1,8 @@
 import BN from "bn.js";
 import React, { PureComponent } from "react";
 
-import { Row, Col, Spinner, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 import { Translate } from "react-localize-redux";
-import { countries } from "country-data";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 
@@ -99,17 +98,11 @@ class ValidatorMainRow extends PureComponent<Props> {
 
               <td className="order">{index}</td>
               <td className="country-flag">
-                <OverlayTrigger
-                  overlay={
-                    <Tooltip id={`${countryCode}_${index}`}>
-                      {countryCode && typeof countryCode !== undefined
-                        ? countries[countryCode.toUpperCase()]?.name ?? country
-                        : country}
-                    </Tooltip>
-                  }
-                >
-                  <CountryFlag countryCode={countryCode} />
-                </OverlayTrigger>
+                <CountryFlag
+                  id={`${countryCode || "country"}_${index}`}
+                  countryCode={countryCode}
+                  country={country}
+                />
               </td>
 
               <td>
