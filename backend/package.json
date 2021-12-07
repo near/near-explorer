@@ -28,7 +28,7 @@
     "geoip-lite": "^1.4.2",
     "js-sha256": "^0.9.0",
     "moment": "^2.29.1",
-    "near-api-js": "^0.41.0",
+    "near-api-js": "^0.44.0",
     "pg": "^8.5.1",
     "request": "^2.88.2",
     "sequelize": "^6.11.0",

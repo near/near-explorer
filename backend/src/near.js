@@ -5,7 +5,9 @@ const BN = require("bn.js");
 const { nearRpcUrl } = require("./config");
 const { queryNodeValidators } = require("./db-utils");
 
-const nearRpc = new nearApi.providers.JsonRpcProvider(nearRpcUrl);
+const nearRpc = new nearApi.providers.JsonRpcProvider({
+  url: nearRpcUrl,
+});
 
 let seatPrice = null;
 let totalStake = null;
