@@ -26,7 +26,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
     className="country-flag"
   >
     <img
-      id="AQ_3"
+      id="country_flag_astro-stakers.poolv1.near"
       onBlur={[Function]}
       onFocus={[Function]}
       onMouseOut={[Function]}

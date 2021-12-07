@@ -28,15 +28,14 @@ const DefaultCountryFlag = () => (
 const CountryFlag = (props: Props) => {
   // sometimes in 'country' can be actually countryCode
   let countryCode: string | undefined = props.countryCode?.toUpperCase();
-  if (countryCode && !(countryCode in countries)) {
+  if (!(countryCode! in countries)) {
     const countryAsCountryCode = props.country?.toUpperCase();
-    if (countryAsCountryCode && countryAsCountryCode in countries) {
+    if (countryAsCountryCode! in countries) {
       countryCode = countryAsCountryCode;
     }
   }
-  const countryLabel: string | undefined = countryCode
-    ? countries[countryCode]?.name
-    : props.country;
+  const countryLabel: string | undefined =
+    countries[countryCode!]?.name ?? props.country;
 
   return (
     <>

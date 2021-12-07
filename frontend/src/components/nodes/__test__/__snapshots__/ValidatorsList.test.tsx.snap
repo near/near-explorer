@@ -327,7 +327,7 @@ Array [
       className="country-flag"
     >
       <img
-        id="AQ_27"
+        id="country_flag_astro-stakers.poolv1.near"
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
@@ -619,7 +619,7 @@ Array [
       className="country-flag"
     >
       <img
-        id="ro_29"
+        id="country_flag_01node.poolv1.near"
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
