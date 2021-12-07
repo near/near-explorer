@@ -31,6 +31,7 @@ Array [
           Object {
             "backgroundColor": "#f0f0f1",
             "color": "#72727a",
+            "display": "inline-block",
             "fontSize": "8px",
             "lineHeight": "16px",
             "textAlign": "center",
@@ -185,6 +186,7 @@ Array [
           Object {
             "backgroundColor": "#f0f0f1",
             "color": "#72727a",
+            "display": "inline-block",
             "fontSize": "8px",
             "lineHeight": "16px",
             "textAlign": "center",
@@ -325,6 +327,7 @@ Array [
       className="country-flag"
     >
       <img
+        id="country_flag_astro-stakers.poolv1.near"
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
@@ -475,6 +478,7 @@ Array [
           Object {
             "backgroundColor": "#f0f0f1",
             "color": "#72727a",
+            "display": "inline-block",
             "fontSize": "8px",
             "lineHeight": "16px",
             "textAlign": "center",
@@ -615,6 +619,7 @@ Array [
       className="country-flag"
     >
       <img
+        id="country_flag_01node.poolv1.near"
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
