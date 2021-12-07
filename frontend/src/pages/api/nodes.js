@@ -10,12 +10,14 @@ export default async function (req, res) {
 
     res.send({});
 
-    new ExplorerApi(req).call("node-telemetry", [
-      {
-        ...req.body,
-        ip_address: ip_address,
-      },
-    ]);
+    new ExplorerApi(req)
+      .call("node-telemetry", [
+        {
+          ...req.body,
+          ip_address: ip_address,
+        },
+      ])
+      .catch(() => {});
   } catch (error) {
     console.log(error);
     res.status(400).send(error);

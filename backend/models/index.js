@@ -61,8 +61,11 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
-    const model = sequelizeTelemetryBackend["import"](
-      path.join(__dirname, file)
+    // since sequelize ^v6 we should use this structure
+    // https://stackoverflow.com/questions/62917111/sequelize-import-is-not-a-function
+    const model = require(path.join(__dirname, file))(
+      sequelizeTelemetryBackend,
+      Sequelize.DataTypes
     );
     db[model.name] = model;
   });
