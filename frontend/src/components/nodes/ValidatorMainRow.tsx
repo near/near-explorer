@@ -99,7 +99,7 @@ class ValidatorMainRow extends PureComponent<Props> {
               <td className="order">{index}</td>
               <td className="country-flag">
                 <CountryFlag
-                  id={`${countryCode || "country"}_${index}`}
+                  id={`country_flag_${account_id}`}
                   countryCode={countryCode}
                   country={country}
                 />
