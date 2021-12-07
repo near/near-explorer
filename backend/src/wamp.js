@@ -21,7 +21,7 @@ const {
   nearLockupAccountIdSuffix,
 } = require("./config");
 
-const { nearRpc, getStakingNodesList } = require("./near");
+const { nearRpc } = require("./near");
 
 const wampHandlers = {};
 
@@ -34,10 +34,13 @@ wampHandlers["node-telemetry"] = async ([nodeInfo]) => {
     return;
   }
   let geo = geoip.lookup(nodeInfo.ip_address);
-  const stakingNodesList = await getStakingNodesList();
-  const stakingNode = stakingNodesList.get(nodeInfo.chain.account_id);
+
+  // TODO update validators list ones per epoch
+
+  // const stakingNodesList = await getStakingNodesList();
+  // const stakingNode = stakingNodesList.get(nodeInfo.chain.account_id);
   // we want to validate "active" validators only
-  const isValidator = stakingNode?.stakingStatus === "active";
+  // const isValidator = stakingNode?.stakingStatus === "active";
 
   const telemetryInfo = {
     ipAddress: nodeInfo.ip_address,
