@@ -37,16 +37,16 @@ const queryEpochStats = async () => {
     );
 
   const currentProposals = epochStatus.current_proposals;
-  const currentValidators = getCurrentNodes(epochStatus);
+  const currentNodes = getCurrentNodes(epochStatus);
   const currentPools = await queryNodeValidators();
 
   // loop over 'active' validators to push those validators to common Map()
-  currentValidators.forEach((validator, i) => {
-    const { stake, ...currentValidator } = validator;
-    stakingNodes.set(validator.account_id, {
-      ...currentValidator,
+  currentNodes.forEach((node, i) => {
+    const { stake, ...currentNode } = node;
+    stakingNodes.set(node.account_id, {
+      ...currentNode,
       currentStake: stake,
-      stakingStatus: currentValidators[i].stakingStatus,
+      stakingStatus: currentNodes[i].stakingStatus,
     });
   });
 
@@ -104,7 +104,7 @@ const queryEpochStats = async () => {
       .findSeatPrice(epochStatus.current_validators, numSeats)
       .toString();
 
-    totalStake = currentValidators
+    totalStake = currentNodes
       .reduce((acc, node) => acc.add(new BN(node.stake)), new BN(0))
       .toString();
   }
@@ -113,7 +113,10 @@ const queryEpochStats = async () => {
     epochLength,
     epochStartHeight,
     epochProtocolVersion,
-    currentValidators,
+    // we must kick of 'joining' validators as they are not part of current epoch
+    currentValidators: currentNodes.filter(
+      (i) => ["active", "leaving"].indexOf(i.stakingStatus) >= 0
+    ),
     stakingNodes,
     totalStake,
     seatPrice,
