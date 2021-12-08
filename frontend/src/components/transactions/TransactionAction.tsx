@@ -30,7 +30,8 @@ class TransactionAction extends PureComponent<Props, State> {
 
   fetchStatus = async () => {
     const status = await new TransactionsApi().getTransactionStatus(
-      this.props.transaction
+      this.props.transaction.hash,
+      this.props.transaction.signerId
     );
     this.setState({ status });
   };
