@@ -22,32 +22,34 @@ export default class BlocksApi extends ExplorerApi {
   }
 
   async getBlockInfo(blockId: string | number): Promise<BlockInfo> {
+    let block;
     try {
-      const block = await this.call<BlockInfo>("block-info", [blockId]);
-      if (!block) {
-        throw new Error("block not found");
-      }
-      const [gasUsed, receiptsCount] = await Promise.all([
-        this.getGasUsedInBlock(block.hash),
-        this.call<number>("receipts-count-in-block", [block.hash]),
-      ]);
-      return {
-        hash: block.hash,
-        prevHash: block.prevHash,
-        height: block.height,
-        timestamp: block.timestamp,
-        transactionsCount: block.transactionsCount,
-        totalSupply: new BN(block.totalSupply),
-        gasUsed: new BN(gasUsed),
-        gasPrice: new BN(block.gasPrice),
-        authorAccountId: block.authorAccountId,
-        receiptsCount,
-      };
+      block = await this.call<BlockInfo>("block-info", [blockId]);
     } catch (error) {
-      console.error("Blocks.getBlockInfo failed to fetch data due to:");
+      console.error("BlocksApi.getBlockInfo failed to fetch data due to:");
       console.error(error);
       throw error;
     }
+
+    if (!block) {
+      throw new Error(`BlocksApi.getBlockInfo: block '${blockId}' not found`);
+    }
+    const [gasUsed, receiptsCount] = await Promise.all([
+      this.getGasUsedInBlock(block.hash),
+      this.call<number>("receipts-count-in-block", [block.hash]),
+    ]);
+    return {
+      hash: block.hash,
+      prevHash: block.prevHash,
+      height: block.height,
+      timestamp: block.timestamp,
+      transactionsCount: block.transactionsCount,
+      totalSupply: new BN(block.totalSupply),
+      gasUsed: new BN(gasUsed),
+      gasPrice: new BN(block.gasPrice),
+      authorAccountId: block.authorAccountId,
+      receiptsCount,
+    };
   }
 
   async getBlockByHashOrId(blockId: string | number): Promise<string> {
@@ -55,18 +57,19 @@ export default class BlocksApi extends ExplorerApi {
   }
 
   async getGasUsedInBlock(blockHash: string): Promise<string> {
+    let gasUsed;
     try {
-      const gasUsed = await this.call<string>("gas-used-in-chunks", [
-        blockHash,
-      ]);
-      if (!gasUsed) {
-        throw new Error("gasUsed in block not found");
-      }
-      return gasUsed;
+      gasUsed = await this.call<string>("gas-used-in-chunks", [blockHash]);
     } catch (error) {
-      console.error("Blocks.getGasUsedInBlock failed to fetch data due to:");
+      console.error("BlocksApi.getGasUsedInBlock failed to fetch data due to:");
       console.error(error);
       throw error;
     }
+    if (!gasUsed) {
+      throw new Error(
+        `BlocksApi.getGasUsedInBlock: failed to fetch gasUsed in block '${blockHash}'`
+      );
+    }
+    return gasUsed;
   }
 }
