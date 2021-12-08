@@ -52,7 +52,7 @@ async function getTransactionsList(limit, paginationIndexer) {
     paginationIndexer
   );
   if (transactionsList.length === 0) {
-    return undefined;
+    return [];
   }
   return await createTransactionsList(transactionsList);
 }
@@ -64,7 +64,7 @@ async function getAccountTransactionsList(accountId, limit, paginationIndexer) {
     paginationIndexer
   );
   if (accountTxList.length === 0) {
-    return undefined;
+    return [];
   }
   return await createTransactionsList(accountTxList);
 }
@@ -76,7 +76,7 @@ async function getTransactionsListInBlock(blockHash, limit, paginationIndexer) {
     paginationIndexer
   );
   if (txListInBlock.length === 0) {
-    return undefined;
+    return [];
   }
   return await createTransactionsList(txListInBlock);
 }

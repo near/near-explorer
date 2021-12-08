@@ -962,7 +962,9 @@ const queryBlocksList = async (limit = 15, paginationIndexer) => {
       ORDER BY blocks.block_timestamp DESC`,
       {
         limit,
-        pagination_indexer: paginationIndexer,
+        pagination_indexer: paginationIndexer
+          ? new BN(paginationIndexer).muln(10 ** 6).toString()
+          : undefined,
       },
     ],
     { dataSource: DS_INDEXER_BACKEND }
