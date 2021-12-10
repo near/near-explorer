@@ -25,10 +25,6 @@ const queryFinalBlock = async () => {
 };
 
 const queryEpochStats = async () => {
-  const networkGenesisConfig = await nearRpc.sendJsonRpc(
-    "EXPERIMENTAL_genesis_config",
-    {}
-  );
   const networkProtocolConfig = await nearRpc.sendJsonRpc(
     "EXPERIMENTAL_protocol_config",
     { finality: "final" }
@@ -97,7 +93,6 @@ const queryEpochStats = async () => {
     epoch_start_height: epochStartHeight,
     current_validators: currentValidators,
   } = epochStatus;
-  const { minimum_stake_ratio: epochMinStakeRatio } = networkGenesisConfig;
   const {
     epoch_length: epochLength,
     genesis_time: genesisTime,
@@ -107,6 +102,9 @@ const queryEpochStats = async () => {
 
   if (currentEpochStartHeight !== epochStartHeight) {
     // Update seat_price and total_stake each time when epoch starts
+    const {
+      minimum_stake_ratio: epochMinStakeRatio,
+    } = await nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {});
     currentEpochStartHeight = epochStartHeight;
     // for 'protocol_version' less then 49 'epochMinStakeRatio' = undefined
     // and it works correct because 'findSeatPrice' method handles this
