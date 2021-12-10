@@ -46,7 +46,7 @@ It is useful to have a live-updating dev-server during development, and most of 
 $ npm run dev:production-wamp-with-indexer-testnet
 ```
 
-NOTE: There is also configuration for mainnet, just use `dev:production-wamp-with-indexer-testnet` command.
+NOTE: There is also configuration for mainnet, just use `dev:production-wamp-with-indexer-mainnet` command.
 
 Or you could run frontend with a local backend.
 Follow the [backend instructions](../backend/README.md) and start frontend like this:
