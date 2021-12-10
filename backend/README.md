@@ -52,11 +52,11 @@ If you maintain your own Indexer for Explorer database or NEAR Archival Node, yo
 Your local config file may look like:
 
 ```
-export NEAR_RPC_URL=https://archival-rpc.testnet.near.org
-export NEAR_INDEXER_DATABASE_HOST=35.184.214.98
-export NEAR_INDEXER_DATABASE_NAME=testnet_explorer
-export NEAR_INDEXER_DATABASE_USERNAME=public_readonly
-export NEAR_INDEXER_DATABASE_PASSWORD=nearprotocol
+export NEAR_ARCHIVAL_RPC_URL=https://archival-rpc.testnet.near.org
+export NEAR_READ_ONLY_INDEXER_DATABASE_HOST=testnet.db.explorer.indexer.near.dev
+export NEAR_READ_ONLY_INDEXER_DATABASE_NAME=testnet_explorer
+export NEAR_READ_ONLY_INDEXER_DATABASE_USERNAME=public_readonly
+export NEAR_READ_ONLY_INDEXER_DATABASE_PASSWORD=nearprotocol
 ```
 
 When all preparation is done run backend:

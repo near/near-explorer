@@ -2,11 +2,11 @@ const nearApi = require("near-api-js");
 
 const BN = require("bn.js");
 
-const { nearRpcUrl } = require("./config");
+const { nearArchivalRpcUrl } = require("./config");
 const { queryNodeValidators } = require("./db-utils");
 
 const nearRpc = new nearApi.providers.JsonRpcProvider({
-  url: nearRpcUrl,
+  url: nearArchivalRpcUrl,
 });
 
 let seatPrice = null;
