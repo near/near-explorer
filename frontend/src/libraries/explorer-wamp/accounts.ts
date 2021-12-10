@@ -67,14 +67,11 @@ export default class AccountsApi extends ExplorerApi {
   }
 
   async isAccountIndexed(accountId: string): Promise<boolean> {
+    let isAccountExist;
     try {
-      const isAccountExist = await this.call<boolean>("is-account-indexed", [
+      isAccountExist = await this.call<boolean>("is-account-indexed", [
         accountId,
       ]);
-      if (!isAccountExist) {
-        throw new Error("account not found");
-      }
-      return isAccountExist;
     } catch (error) {
       console.error(
         "AccountsApi.isAccountIndexed failed to fetch data due to:"
@@ -82,17 +79,19 @@ export default class AccountsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+    if (!isAccountExist) {
+      throw new Error(`
+        AccountsApi.isAccountIndexed: account '${accountId}' not found`);
+    }
+    return isAccountExist;
   }
 
   async getAccountBaseInfo(accountId: string): Promise<AccountBasicInfo> {
+    let accountInfo;
     try {
-      const accountInfo = await this.call<AccountBasicInfo>("account-info", [
+      accountInfo = await this.call<AccountBasicInfo>("account-info", [
         accountId,
       ]);
-      if (!accountInfo) {
-        throw new Error("account info not found");
-      }
-      return accountInfo;
     } catch (error) {
       console.error(
         "AccountsApi.getAccountBaseInfo failed to fetch data due to:"
@@ -100,6 +99,12 @@ export default class AccountsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+    if (!accountInfo) {
+      throw new Error(
+        `AccountsApi.getAccountBaseInfo: info for '${accountId}' not found`
+      );
+    }
+    return accountInfo;
   }
 
   async getAccountDetails(accountId: string): Promise<any> {

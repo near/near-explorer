@@ -34,14 +34,11 @@ export default class ReceiptsApi extends ExplorerApi {
   }
 
   async queryReceiptsCountInBlock(blockHash: string): Promise<number> {
+    let receiptsCount;
     try {
-      const receiptsCount = await this.call<number>("receipts-count-in-block", [
+      receiptsCount = await this.call<number>("receipts-count-in-block", [
         blockHash,
       ]);
-      if (receiptsCount === undefined) {
-        throw new Error("receiptsCount in block not found");
-      }
-      return receiptsCount;
     } catch (error) {
       console.error(
         "ReceiptsApi.queryReceiptsCountInBlock failed to fetch data due to:"
@@ -49,6 +46,12 @@ export default class ReceiptsApi extends ExplorerApi {
       console.error(error);
       throw error;
     }
+    if (receiptsCount === undefined) {
+      throw new Error(
+        `ReceiptsApi.queryReceiptsCountInBlock: failed to fetch receiptsCount in block '${blockHash}'`
+      );
+    }
+    return receiptsCount;
   }
 
   async getReceiptInTransaction(
