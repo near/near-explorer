@@ -140,6 +140,8 @@ function startStatsAggregation() {
 async function main() {
   console.log("Starting Explorer backend...");
 
+  // Skip initializing Telemetry database if the backend is not configured to
+  // save telemety data (it is absolutely fine for local development)
   if (models.sequelizeTelemetryBackend) {
     await models.sequelizeTelemetryBackend.sync();
   }

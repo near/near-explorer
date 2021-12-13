@@ -1,3 +1,5 @@
+// NOTE: The fallback names of the env variables are here for backward compatibility only.
+// Prefer using the explicit READ_ONLY_*/WRITE_ONLY_* configuration options.
 module.exports = {
   readOnlyIndexerDatabase: {
     dialect: "postgres",
