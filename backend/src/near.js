@@ -30,7 +30,7 @@ const queryEpochStats = async () => {
     { finality: "final" }
   );
   const epochStatus = await nearRpc.sendJsonRpc("validators", [null]);
-  const numSeats =
+  const maxNumberOfSeats =
     networkProtocolConfig.num_block_producer_seats +
     networkProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
       (a, b) => a + b
@@ -89,7 +89,10 @@ const queryEpochStats = async () => {
     }
   });
 
-  const { epoch_start_height: epochStartHeight } = epochStatus;
+  const {
+    epoch_start_height: epochStartHeight,
+    current_validators: currentValidators,
+  } = epochStatus;
   const {
     epoch_length: epochLength,
     genesis_time: genesisTime,
@@ -99,9 +102,19 @@ const queryEpochStats = async () => {
 
   if (currentEpochStartHeight !== epochStartHeight) {
     // Update seat_price and total_stake each time when epoch starts
+    const {
+      minimum_stake_ratio: epochMinStakeRatio,
+    } = await nearRpc.sendJsonRpc("EXPERIMENTAL_genesis_config", {});
     currentEpochStartHeight = epochStartHeight;
+    // for 'protocol_version' less then 49 'epochMinStakeRatio' = undefined
+    // and it works correct because 'findSeatPrice' method handles this
     seatPrice = nearApi.validators
-      .findSeatPrice(epochStatus.current_validators, numSeats)
+      .findSeatPrice(
+        currentValidators,
+        maxNumberOfSeats,
+        epochMinStakeRatio,
+        epochProtocolVersion
+      )
       .toString();
 
     totalStake = currentNodes
