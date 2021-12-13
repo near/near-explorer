@@ -332,7 +332,7 @@ Array [
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
-        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/aq.svg"
+        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.4/flags/4x3/aq.svg"
         style={
           Object {
             "display": "inline-block",
@@ -624,7 +624,7 @@ Array [
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
-        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/ro.svg"
+        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.4/flags/4x3/ro.svg"
         style={
           Object {
             "display": "inline-block",
