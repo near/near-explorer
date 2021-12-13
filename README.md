@@ -38,10 +38,16 @@ A: It is recommended to use `docker-compose` to run all the services and then st
 you want to develop locally (`docker-compose stop frontend`). (Follow the execution instructions
 written in the relevant README file of the subproject)
 
-Q: How to query internal Explorer database from CLI?
+Q: How to query Explorer backend from CLI?
 
-A: Having the backend running, you can query it from CLI just like you can do from the frontend.
-To do that, you can use an auxulary tool in the `./cli` folder. See the README there.
+A: Having the backend running, you can query it from CLI just like you can do from the frontend using [wamp-cli](https://www.npmjs.com/package/wamp-cli):
+
+```bash
+$ npm install wamp-cli
+$ ./node_modules/.bin/wampc ws://localhost:8080/ws near-explorer
+
+> session.call('com.nearprotocol.mainnet.explorer.nearcore-view-account', ["frol.near"]).then(console.log);
+```
 
 Q: How to auto-format the source code on commit?
 
