@@ -5,9 +5,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "env NODE_ENV=production node src/index.js",
-    "start:betanet": "env NEAR_RPC_URL=https://rpc.betanet.near.org WAMP_NEAR_NETWORK_NAME=betanet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/betanet/genesis.json npm run start",
-    "start:testnet": "env NEAR_RPC_URL=https://rpc.testnet.near.org WAMP_NEAR_NETWORK_NAME=testnet NEAR_GENESIS_RECORDS_URL=https://s3-us-west-1.amazonaws.com/build.nearprotocol.com/nearcore-deploy/testnet/genesis.json npm run start",
-    "start:mainnet": "env NEAR_RPC_URL=https://rpc.mainnet.near.org WAMP_NEAR_NETWORK_NAME=mainnet NEAR_GENESIS_RECORDS_URL=https://raw.githubusercontent.com/nearprotocol/nearcore/master/neard/res/mainnet_genesis.json npm run start",
     "start:with-indexer": "env NEAR_IS_INDEXER_BACKEND_ENABLED=true npm run start",
     "start:testnet-with-indexer": "cd ./config && . ./env-indexer-testnet && cd .. && npm run start:with-indexer",
     "start:mainnet-with-indexer": "cd ./config && . ./env-indexer-mainnet && cd .. && npm run start:with-indexer"

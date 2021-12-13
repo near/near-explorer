@@ -140,13 +140,10 @@ function startStatsAggregation() {
 async function main() {
   console.log("Starting Explorer backend...");
 
-  try {
+  // Skip initializing Telemetry database if the backend is not configured to
+  // save telemety data (it is absolutely fine for local development)
+  if (models.sequelizeTelemetryBackend) {
     await models.sequelizeTelemetryBackend.sync();
-  } catch (error) {
-    console.warn(
-      "Initialization of Telemetry database failed, but Explorer backend can operate without it. Explorer backend won't be able to handle telemetry reports. More details about the error:",
-      error
-    );
   }
 
   const wamp = setupWamp();

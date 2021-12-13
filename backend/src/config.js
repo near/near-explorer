@@ -1,4 +1,5 @@
-exports.nearRpcUrl = process.env.NEAR_RPC_URL || "http://localhost:3030";
+exports.nearArchivalRpcUrl =
+  process.env.NEAR_ARCHIVAL_RPC_URL || "http://localhost:3030";
 
 exports.debugLogs =
   (process.env.NEAR_DEBUG_LOGS || "TRUE").toUpperCase() !== "FALSE";
