@@ -21,7 +21,6 @@ exports[`<BlocksRow /> renders 1`] = `
         className="pr-0 col-md-auto col-1"
       >
         <img
-          className="jsx-3833595686"
           src="/static/images/icon-m-block.svg"
         />
       </div>
@@ -29,7 +28,6 @@ exports[`<BlocksRow /> renders 1`] = `
         className="pr-0 col-md-auto col-1"
       >
         <img
-          className="jsx-3833595686"
           src="/static/images/icon-m-block.svg"
           style={
             Object {
@@ -64,7 +62,6 @@ exports[`<BlocksRow /> renders 1`] = `
                 className="col-md-auto"
               >
                 <img
-                  className="jsx-3833595686"
                   src="/static/images/icon-m-transaction.svg"
                   style={
                     Object {
@@ -97,7 +94,7 @@ exports[`<BlocksRow /> renders 1`] = `
             className="transaction-row-timer col"
           >
             <span
-              className="jsx-3833595686 transaction-row-timer-status"
+              className="transaction-row-timer-status"
             >
               Checking Finality...
             </span>
@@ -108,6 +105,50 @@ exports[`<BlocksRow /> renders 1`] = `
           </div>
         </div>
       </div>
+      <style>
+        
+                      .transaction-row {
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        border-top: solid 2px #f8f8f8;
+                      }
+
+                      .transaction-row:hover {
+                        background: rgba(0, 0, 0, 0.1);
+                      }
+
+                      .transaction-row-title {
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 1.29;
+                        color: #24272a;
+                      }
+
+                      .transaction-row-text {
+                        font-size: 12px;
+                        font-weight: 500;
+                        line-height: 1.5;
+                        color: #999999;
+                      }
+
+                      .transaction-row-txid {
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 1.29;
+                        color: #0072ce;
+                      }
+
+                      .transaction-row-timer {
+                        font-size: 12px;
+                        color: #999999;
+                        font-weight: 100;
+                      }
+
+                      .transaction-row-timer-status {
+                        font-weight: 500;
+                      }
+                    
+      </style>
     </div>
   </a>
 </span>

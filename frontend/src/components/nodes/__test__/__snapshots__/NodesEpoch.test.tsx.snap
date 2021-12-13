@@ -21,7 +21,7 @@ exports[`<NodesEpoch /> renders 1`] = `
           >
             Current Epoch Start: 
             <span
-              className="jsx-2616163488 text-value"
+              className="text-value"
             >
               Block #
               36647454
@@ -40,7 +40,7 @@ exports[`<NodesEpoch /> renders 1`] = `
             className="col-12"
           >
             <span
-              className="jsx-2616163488 text-value"
+              className="text-value"
             >
               Block #
               36647454
@@ -52,7 +52,7 @@ exports[`<NodesEpoch /> renders 1`] = `
         className="text-right d-none d-md-block  col-sm-5"
       >
         <span
-          className="jsx-2616163488 text-value persnt-remains"
+          className="text-value persnt-remains"
         >
           50
           % complete
@@ -63,13 +63,13 @@ exports[`<NodesEpoch /> renders 1`] = `
         className="text-right d-xs-block d-md-none col-5"
       >
         <div
-          className="jsx-2667301188 progress-bar circle node-epoch-circle-progress"
+          className="progress-bar circle node-epoch-circle-progress"
         >
           <svg
             className="rc-progress-circle progress-bar-content"
             label={
               <span
-                className="jsx-2616163488 circle-progress-label"
+                className="circle-progress-label"
               >
                 50
                 %
@@ -118,16 +118,41 @@ exports[`<NodesEpoch /> renders 1`] = `
             />
           </svg>
           <div
-            className="jsx-2667301188 progress-bar-label"
+            className="progress-bar-label"
           >
             <span
-              className="jsx-2616163488 circle-progress-label"
+              className="circle-progress-label"
             >
               50
               %
             </span>
           </div>
         </div>
+        <style>
+          
+          .progress-bar {
+            background: transparent;
+            position: relative;
+          }
+
+          .progress-bar .progress-bar-content {
+            background: transparent;
+          }
+
+          .progress-bar .rc-progress-line-path,
+          .progress-bar .rc-progress-circle-path {
+            stroke-linecap: square;
+          }
+
+          .progress-bar .progress-bar-label {
+            position: absolute;
+            width: 100%;
+            margin: auto;
+            font-size: 12px;
+            font-weight: 500;
+          }
+        
+        </style>
       </div>
     </div>
   </div>
@@ -135,7 +160,7 @@ exports[`<NodesEpoch /> renders 1`] = `
     className="d-none d-md-block px-0 col-12"
   >
     <div
-      className="jsx-2667301188 progress-bar line node-epoch-line-progress"
+      className="progress-bar line node-epoch-line-progress"
     >
       <svg
         className="rc-progress-line progress-bar-content"
@@ -170,6 +195,68 @@ exports[`<NodesEpoch /> renders 1`] = `
         />
       </svg>
     </div>
+    <style>
+      
+          .progress-bar {
+            background: transparent;
+            position: relative;
+          }
+
+          .progress-bar .progress-bar-content {
+            background: transparent;
+          }
+
+          .progress-bar .rc-progress-line-path,
+          .progress-bar .rc-progress-circle-path {
+            stroke-linecap: square;
+          }
+
+          .progress-bar .progress-bar-label {
+            position: absolute;
+            width: 100%;
+            margin: auto;
+            font-size: 12px;
+            font-weight: 500;
+          }
+        
+    </style>
   </div>
+  <style>
+    
+              .nodes-epoch {
+                background-color: #292526;
+                color: #d5d4d8;
+                font-size: 16px;
+                font-weight: 500;
+              }
+
+              .nodes-epoch .nodes-epoch-content {
+                margin: 15px 0;
+              }
+
+              .nodes-epoch .nodes-epoch-content .text-value {
+                color: #37dbf4;
+              }
+
+              .nodes-epoch .nodes-epoch-content .text-value.persnt-remains {
+                font-weight: 700;
+              }
+
+              .node-epoch-line-progress {
+                padding-left: 0;
+                padding-right: 0;
+                height: 4px;
+              }
+
+              .node-epoch-circle-progress {
+                margin-left: auto;
+                width: 40px;
+              }
+
+              .node-epoch-circle-progress .circle-progress-label {
+                color: #d5d4d8;
+              }
+            
+  </style>
 </div>
 `;

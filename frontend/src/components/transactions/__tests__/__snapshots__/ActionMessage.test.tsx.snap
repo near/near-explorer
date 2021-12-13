@@ -7,7 +7,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -15,6 +15,13 @@ Array [
       receiver.test
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
   ": ed25519:BgXFiJS...",
   <p>
     with permission FullAccess
@@ -29,7 +36,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/stake"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -37,6 +44,13 @@ Array [
       stake
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
   ": ed25519:BgXFiJS...",
   <p>
     with permission to call any methods
@@ -51,7 +65,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/stake"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -59,6 +73,13 @@ Array [
       stake
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
   ": ed25519:BgXFiJS...",
   <p>
     with permission to call (add_request, delete_request, confirm, add_request_and_confirm) methods
@@ -73,7 +94,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -81,6 +102,13 @@ Array [
       receiver.test
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
 ]
 `;
 
@@ -91,7 +119,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -99,12 +127,19 @@ Array [
       receiver.test
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
   " and transfer remaining funds to ",
   <span
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/near"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -112,6 +147,13 @@ Array [
       near
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
 ]
 `;
 
@@ -124,7 +166,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -132,6 +174,13 @@ Array [
       receiver.test
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
 ]
 `;
 
@@ -142,7 +191,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -150,6 +199,13 @@ Array [
       receiver.test
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
 ]
 `;
 
@@ -160,7 +216,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/receiver2.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -168,6 +224,13 @@ Array [
       receiver2.test
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
   <dl>
     <dt>
       Arguments:
@@ -184,7 +247,7 @@ Array [
           }
         >
           <textarea
-            className="jsx-2493677144 code-preview"
+            className="code-preview"
             readOnly={true}
             value="{
   \\"text\\": \\"when ico?\\"
@@ -205,6 +268,19 @@ Array [
           </div>
         </div>
       </div>
+      <style>
+        
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+      </style>
     </dd>
   </dl>,
 ]
@@ -246,7 +322,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="jsx-3150401870 account-link"
+      className="account-link"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -254,5 +330,12 @@ Array [
       receiver.test
     </a>
   </span>,
+  <style>
+    
+        .account-link {
+          white-space: nowrap;
+        }
+      
+  </style>,
 ]
 `;

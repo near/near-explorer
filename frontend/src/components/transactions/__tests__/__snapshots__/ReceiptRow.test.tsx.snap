@@ -14,9 +14,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title receipt-hash-title col"
       >
-        <b
-          className="jsx-1757047684"
-        >
+        <b>
           Receipt
           :
         </b>
@@ -38,7 +36,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-4207953579 receipt-hash-link"
+            className="receipt-hash-link"
             href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -46,6 +44,14 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
+        <style>
+          
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -91,7 +97,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-3150401870 account-link"
+            className="account-link"
             href="/accounts/signer.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -99,6 +105,13 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             signer.test
           </a>
         </span>
+        <style>
+          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -118,7 +131,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-3150401870 account-link"
+            className="account-link"
             href="/accounts/receiver.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -126,6 +139,13 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             receiver.test
           </a>
         </span>
+        <style>
+          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -180,7 +200,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             className="col-auto"
           >
             <div
-              className="jsx-1246332424 action-row-img"
+              className="action-row-img"
             >
               <svg
                 viewBox="0 0 18 18"
@@ -213,7 +233,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                       onClick={[Function]}
                     >
                       <a
-                        className="jsx-3150401870 account-link"
+                        className="account-link"
                         href="/accounts/receiver.test"
                         onClick={[Function]}
                         onMouseEnter={[Function]}
@@ -221,6 +241,13 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                         receiver.test
                       </a>
                     </span>
+                    <style>
+                      
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                    </style>
                     <dl>
                       <dt>
                         Arguments:
@@ -237,7 +264,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                             }
                           >
                             <textarea
-                              className="jsx-2493677144 code-preview"
+                              className="code-preview"
                               readOnly={true}
                               value="{
   \\"listing_id\\": \\"000028066\\",
@@ -259,6 +286,19 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                             </div>
                           </div>
                         </div>
+                        <style>
+                          
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+                        </style>
                       </dd>
                     </dl>
                   </div>
@@ -267,6 +307,123 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+        </style>
       </div>
     </div>
     <div
@@ -304,9 +461,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-text col"
       >
-        <pre
-          className="jsx-1757047684"
-        >
+        <pre>
           000028066 listings not found
         </pre>
       </div>
@@ -330,9 +485,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title receipt-hash-title col"
               >
-                <b
-                  className="jsx-1757047684"
-                >
+                <b>
                   Receipt
                   :
                 </b>
@@ -354,7 +507,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-4207953579 receipt-hash-link"
+                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -362,6 +515,14 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     R2222222222222222222222222222222222222222222
                   </a>
                 </span>
+                <style>
+                  
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -407,7 +568,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/system"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -415,6 +576,13 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     system
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -434,7 +602,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -442,6 +610,13 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     receiver.test
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -496,7 +671,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     className="col-auto"
                   >
                     <div
-                      className="jsx-1246332424 action-row-img"
+                      className="action-row-img"
                     >
                       <svg
                         viewBox="0 0 18 18"
@@ -540,7 +715,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                               onClick={[Function]}
                             >
                               <a
-                                className="jsx-3150401870 account-link"
+                                className="account-link"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -548,12 +723,136 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                                 receiver.test
                               </a>
                             </span>
+                            <style>
+                              
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                            </style>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <style>
+                  
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -575,10 +874,120 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               </div>
             </div>
           </div>
+          <style>
+            
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+          </style>
         </div>
       </div>
     </div>
   </div>
+  <style>
+    
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+  </style>
 </div>
 `;
 
@@ -596,9 +1005,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title receipt-hash-title col"
       >
-        <b
-          className="jsx-1757047684"
-        >
+        <b>
           Receipt
           :
         </b>
@@ -620,7 +1027,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-4207953579 receipt-hash-link"
+            className="receipt-hash-link"
             href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -628,6 +1035,14 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
+        <style>
+          
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -673,7 +1088,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-3150401870 account-link"
+            className="account-link"
             href="/accounts/signer.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -681,6 +1096,13 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             signer.test
           </a>
         </span>
+        <style>
+          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -700,7 +1122,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-3150401870 account-link"
+            className="account-link"
             href="/accounts/receiver.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -708,6 +1130,13 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             receiver.test
           </a>
         </span>
+        <style>
+          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -762,7 +1191,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             className="col-auto"
           >
             <div
-              className="jsx-1246332424 action-row-img"
+              className="action-row-img"
             >
               <svg
                 viewBox="0 0 18 18"
@@ -795,7 +1224,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                       onClick={[Function]}
                     >
                       <a
-                        className="jsx-3150401870 account-link"
+                        className="account-link"
                         href="/accounts/receiver.test"
                         onClick={[Function]}
                         onMouseEnter={[Function]}
@@ -803,6 +1232,13 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                         receiver.test
                       </a>
                     </span>
+                    <style>
+                      
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                    </style>
                     <dl>
                       <dt>
                         Arguments:
@@ -819,7 +1255,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                             }
                           >
                             <textarea
-                              className="jsx-2493677144 code-preview"
+                              className="code-preview"
                               readOnly={true}
                               value="{
   \\"receiver_id\\": \\"farm.berryclub.ek.near\\",
@@ -843,6 +1279,19 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                             </div>
                           </div>
                         </div>
+                        <style>
+                          
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+                        </style>
                       </dd>
                     </dl>
                   </div>
@@ -851,6 +1300,123 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+        </style>
       </div>
     </div>
     <div
@@ -875,9 +1441,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-text col"
       >
-        <pre
-          className="jsx-1757047684"
-        >
+        <pre>
           Transfer 9807229473212706028 from signer.test to receiver.test
 Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
         </pre>
@@ -902,9 +1466,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title receipt-hash-title col"
               >
-                <b
-                  className="jsx-1757047684"
-                >
+                <b>
                   Receipt
                   :
                 </b>
@@ -926,7 +1488,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-4207953579 receipt-hash-link"
+                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R222222222222222222222222222222222222222222"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -934,6 +1496,14 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R222222222222222222222222222222222222222222
                   </a>
                 </span>
+                <style>
+                  
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -979,7 +1549,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/signer1.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -987,6 +1557,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     signer1.test
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -1006,7 +1583,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1014,6 +1591,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver.test
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -1068,7 +1652,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     className="col-auto"
                   >
                     <div
-                      className="jsx-1246332424 action-row-img"
+                      className="action-row-img"
                     >
                       <svg
                         viewBox="0 0 18 18"
@@ -1101,7 +1685,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               onClick={[Function]}
                             >
                               <a
-                                className="jsx-3150401870 account-link"
+                                className="account-link"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -1109,6 +1693,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver.test
                               </a>
                             </span>
+                            <style>
+                              
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                            </style>
                             <dl>
                               <dt>
                                 Arguments:
@@ -1125,7 +1716,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     }
                                   >
                                     <textarea
-                                      className="jsx-2493677144 code-preview"
+                                      className="code-preview"
                                       readOnly={true}
                                       value="{
   \\"sender_id\\": \\"leonardwcai.near\\",
@@ -1148,6 +1739,19 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </div>
                                   </div>
                                 </div>
+                                <style>
+                                  
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+                                </style>
                               </dd>
                             </dl>
                           </div>
@@ -1156,6 +1760,123 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
+                <style>
+                  
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1180,7 +1901,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     }
                   >
                     <textarea
-                      className="jsx-2493677144 code-preview"
+                      className="code-preview"
                       readOnly={true}
                       value="\\"0\\""
                     />
@@ -1199,6 +1920,19 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
+                <style>
+                  
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -1229,9 +1963,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title receipt-hash-title col"
                       >
-                        <b
-                          className="jsx-1757047684"
-                        >
+                        <b>
                           Receipt
                           :
                         </b>
@@ -1253,7 +1985,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onClick={[Function]}
                         >
                           <a
-                            className="jsx-4207953579 receipt-hash-link"
+                            className="receipt-hash-link"
                             href="/transactions/T1111111111111111111111111111111111111111111#R555555555555555555555555555555555555555555"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -1261,6 +1993,14 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             R555555555555555555555555555555555555555555
                           </a>
                         </span>
+                        <style>
+                          
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+                        </style>
                       </div>
                     </div>
                     <div
@@ -1306,7 +2046,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onClick={[Function]}
                         >
                           <a
-                            className="jsx-3150401870 account-link"
+                            className="account-link"
                             href="/accounts/system"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -1314,6 +2054,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             system
                           </a>
                         </span>
+                        <style>
+                          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                        </style>
                       </div>
                     </div>
                     <div
@@ -1333,7 +2080,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onClick={[Function]}
                         >
                           <a
-                            className="jsx-3150401870 account-link"
+                            className="account-link"
                             href="/accounts/receiver.test"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -1341,6 +2088,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             receiver.test
                           </a>
                         </span>
+                        <style>
+                          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                        </style>
                       </div>
                     </div>
                     <div
@@ -1395,7 +2149,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             className="col-auto"
                           >
                             <div
-                              className="jsx-1246332424 action-row-img"
+                              className="action-row-img"
                             >
                               <svg
                                 viewBox="0 0 18 18"
@@ -1439,7 +2193,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       onClick={[Function]}
                                     >
                                       <a
-                                        className="jsx-3150401870 account-link"
+                                        className="account-link"
                                         href="/accounts/receiver.test"
                                         onClick={[Function]}
                                         onMouseEnter={[Function]}
@@ -1447,12 +2201,136 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         receiver.test
                                       </a>
                                     </span>
+                                    <style>
+                                      
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                                    </style>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <style>
+                          
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+                        </style>
                       </div>
                     </div>
                     <div
@@ -1474,10 +2352,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                   </div>
+                  <style>
+                    
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+                  </style>
                 </div>
               </div>
             </div>
           </div>
+          <style>
+            
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+          </style>
         </div>
       </div>
     </div>
@@ -1500,9 +2488,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title receipt-hash-title col"
               >
-                <b
-                  className="jsx-1757047684"
-                >
+                <b>
                   Receipt
                   :
                 </b>
@@ -1524,7 +2510,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-4207953579 receipt-hash-link"
+                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R3333333333333333333333333333333333333333333"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1532,6 +2518,14 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R3333333333333333333333333333333333333333333
                   </a>
                 </span>
+                <style>
+                  
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -1577,7 +2571,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/signer1.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1585,6 +2579,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     signer1.test
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -1604,7 +2605,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/receiver1.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1612,6 +2613,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver1.test
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -1666,7 +2674,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     className="col-auto"
                   >
                     <div
-                      className="jsx-1246332424 action-row-img"
+                      className="action-row-img"
                     >
                       <svg
                         viewBox="0 0 18 18"
@@ -1699,7 +2707,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               onClick={[Function]}
                             >
                               <a
-                                className="jsx-3150401870 account-link"
+                                className="account-link"
                                 href="/accounts/receiver1.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -1707,6 +2715,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver1.test
                               </a>
                             </span>
+                            <style>
+                              
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                            </style>
                             <dl>
                               <dt>
                                 Arguments:
@@ -1723,7 +2738,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     }
                                   >
                                     <textarea
-                                      className="jsx-2493677144 code-preview"
+                                      className="code-preview"
                                       readOnly={true}
                                       value="{
   \\"sender_id\\": \\"leonardwcai.near\\",
@@ -1746,6 +2761,19 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </div>
                                   </div>
                                 </div>
+                                <style>
+                                  
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+                                </style>
                               </dd>
                             </dl>
                           </div>
@@ -1754,6 +2782,123 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
+                <style>
+                  
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1778,7 +2923,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     }
                   >
                     <textarea
-                      className="jsx-2493677144 code-preview"
+                      className="code-preview"
                       readOnly={true}
                       value="\\"9807229473212706028\\""
                     />
@@ -1797,6 +2942,19 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
+                <style>
+                  
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -1827,9 +2985,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title receipt-hash-title col"
                       >
-                        <b
-                          className="jsx-1757047684"
-                        >
+                        <b>
                           Receipt
                           :
                         </b>
@@ -1851,7 +3007,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onClick={[Function]}
                         >
                           <a
-                            className="jsx-4207953579 receipt-hash-link"
+                            className="receipt-hash-link"
                             href="/transactions/T1111111111111111111111111111111111111111111#R6666666666666666666666666666666666666666666"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -1859,6 +3015,14 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             R6666666666666666666666666666666666666666666
                           </a>
                         </span>
+                        <style>
+                          
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+                        </style>
                       </div>
                     </div>
                     <div
@@ -1904,7 +3068,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onClick={[Function]}
                         >
                           <a
-                            className="jsx-3150401870 account-link"
+                            className="account-link"
                             href="/accounts/system"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -1912,6 +3076,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             system
                           </a>
                         </span>
+                        <style>
+                          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                        </style>
                       </div>
                     </div>
                     <div
@@ -1931,7 +3102,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           onClick={[Function]}
                         >
                           <a
-                            className="jsx-3150401870 account-link"
+                            className="account-link"
                             href="/accounts/receiver.test"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -1939,6 +3110,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             receiver.test
                           </a>
                         </span>
+                        <style>
+                          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                        </style>
                       </div>
                     </div>
                     <div
@@ -1993,7 +3171,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             className="col-auto"
                           >
                             <div
-                              className="jsx-1246332424 action-row-img"
+                              className="action-row-img"
                             >
                               <svg
                                 viewBox="0 0 18 18"
@@ -2037,7 +3215,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       onClick={[Function]}
                                     >
                                       <a
-                                        className="jsx-3150401870 account-link"
+                                        className="account-link"
                                         href="/accounts/receiver.test"
                                         onClick={[Function]}
                                         onMouseEnter={[Function]}
@@ -2045,12 +3223,136 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         receiver.test
                                       </a>
                                     </span>
+                                    <style>
+                                      
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                                    </style>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
+                        <style>
+                          
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+                        </style>
                       </div>
                     </div>
                     <div
@@ -2072,10 +3374,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                   </div>
+                  <style>
+                    
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+                  </style>
                 </div>
               </div>
             </div>
           </div>
+          <style>
+            
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+          </style>
         </div>
       </div>
     </div>
@@ -2098,9 +3510,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title receipt-hash-title col"
               >
-                <b
-                  className="jsx-1757047684"
-                >
+                <b>
                   Receipt
                   :
                 </b>
@@ -2122,7 +3532,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-4207953579 receipt-hash-link"
+                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R4444444444444444444444444444444444444444444"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2130,6 +3540,14 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R4444444444444444444444444444444444444444444
                   </a>
                 </span>
+                <style>
+                  
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -2175,7 +3593,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/system"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2183,6 +3601,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     system
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -2202,7 +3627,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2210,6 +3635,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver.test
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -2264,7 +3696,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     className="col-auto"
                   >
                     <div
-                      className="jsx-1246332424 action-row-img"
+                      className="action-row-img"
                     >
                       <svg
                         viewBox="0 0 18 18"
@@ -2308,7 +3740,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               onClick={[Function]}
                             >
                               <a
-                                className="jsx-3150401870 account-link"
+                                className="account-link"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -2316,12 +3748,136 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver.test
                               </a>
                             </span>
+                            <style>
+                              
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                            </style>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <style>
+                  
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -2343,10 +3899,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
           </div>
+          <style>
+            
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+          </style>
         </div>
       </div>
     </div>
   </div>
+  <style>
+    
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+  </style>
 </div>
 `;
 
@@ -2364,9 +4030,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title receipt-hash-title col"
       >
-        <b
-          className="jsx-1757047684"
-        >
+        <b>
           Receipt
           :
         </b>
@@ -2388,7 +4052,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-4207953579 receipt-hash-link"
+            className="receipt-hash-link"
             href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -2396,6 +4060,14 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
+        <style>
+          
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -2441,7 +4113,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-3150401870 account-link"
+            className="account-link"
             href="/accounts/signer.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -2449,6 +4121,13 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             signer.test
           </a>
         </span>
+        <style>
+          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -2468,7 +4147,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           onClick={[Function]}
         >
           <a
-            className="jsx-3150401870 account-link"
+            className="account-link"
             href="/accounts/receiver.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -2476,6 +4155,13 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             receiver.test
           </a>
         </span>
+        <style>
+          
+        .account-link {
+          white-space: nowrap;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -2530,7 +4216,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             className="col-auto"
           >
             <div
-              className="jsx-1246332424 action-row-img"
+              className="action-row-img"
             >
               <svg
                 viewBox="0 0 18 18"
@@ -2563,7 +4249,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                       onClick={[Function]}
                     >
                       <a
-                        className="jsx-3150401870 account-link"
+                        className="account-link"
                         href="/accounts/receiver.test"
                         onClick={[Function]}
                         onMouseEnter={[Function]}
@@ -2571,6 +4257,13 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                         receiver.test
                       </a>
                     </span>
+                    <style>
+                      
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                    </style>
                     <dl>
                       <dt>
                         Arguments:
@@ -2587,7 +4280,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                             }
                           >
                             <textarea
-                              className="jsx-2493677144 code-preview"
+                              className="code-preview"
                               readOnly={true}
                               value="{
   \\"request\\": {
@@ -2612,6 +4305,19 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                             </div>
                           </div>
                         </div>
+                        <style>
+                          
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+                        </style>
                       </dd>
                     </dl>
                   </div>
@@ -2620,6 +4326,123 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+        </style>
       </div>
     </div>
     <div
@@ -2644,7 +4467,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             }
           >
             <textarea
-              className="jsx-2493677144 code-preview"
+              className="code-preview"
               readOnly={true}
               value="{
   \\"left\\": 29647268,
@@ -2666,6 +4489,19 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+        .code-preview {
+          font-family: "Source Code Pro", monospace;
+          background: #424957;
+          color: white;
+          padding: 20px;
+          width: 100%;
+          height: 99%;
+        }
+      
+        </style>
       </div>
     </div>
     <div
@@ -2696,9 +4532,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title receipt-hash-title col"
               >
-                <b
-                  className="jsx-1757047684"
-                >
+                <b>
                   Receipt
                   :
                 </b>
@@ -2720,7 +4554,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-4207953579 receipt-hash-link"
+                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2728,6 +4562,14 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     R2222222222222222222222222222222222222222222
                   </a>
                 </span>
+                <style>
+                  
+        .receipt-hash-link.disabled {
+          cursor: default;
+          color: #24272a;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -2773,7 +4615,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/system"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2781,6 +4623,13 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     system
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -2800,7 +4649,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   onClick={[Function]}
                 >
                   <a
-                    className="jsx-3150401870 account-link"
+                    className="account-link"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2808,6 +4657,13 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     receiver.test
                   </a>
                 </span>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </div>
             </div>
             <div
@@ -2862,7 +4718,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     className="col-auto"
                   >
                     <div
-                      className="jsx-1246332424 action-row-img"
+                      className="action-row-img"
                     >
                       <svg
                         viewBox="0 0 18 18"
@@ -2906,7 +4762,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                               onClick={[Function]}
                             >
                               <a
-                                className="jsx-3150401870 account-link"
+                                className="account-link"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -2914,12 +4770,136 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                                 receiver.test
                               </a>
                             </span>
+                            <style>
+                              
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                            </style>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <style>
+                  
+            .action-sparse-row {
+              padding-top: 10px;
+              padding-bottom: 10px;
+              border-top: solid 2px #f8f8f8;
+            }
+            .action-sparse-row .action-sparse-row {
+              border-top: 0;
+            }
+
+            .action-compact-row .action-row-message {
+              margin-bottom: 1em;
+            }
+
+            .action-compact-row .action-row-details {
+              border-bottom: 2px solid #f8f8f8;
+              margin: 0.1em 0 0;
+              padding-bottom: 8px;
+            }
+
+            .action-row-details .action-row-details {
+              border: 0;
+            }
+
+            .action-compact-row .action-row-img {
+              width: 24px;
+              height: 24px;
+              border: solid 2px #f8f8f8;
+              background-color: #ffffff;
+              border-radius: 50%;
+              margin-right: 8px;
+              text-align: center;
+              line-height: 1.1;
+            }
+
+            .action-sparse-row .action-row-img {
+              margin: 10px;
+              display: inline;
+              height: 20px;
+              width: 20px;
+            }
+
+            .action-sparse-row .action-row-img svg {
+              height: 16px;
+              width: 16px;
+            }
+
+            .action-row-bottom {
+              border-bottom: solid 2px #f8f8f8;
+            }
+
+            .action-compact-row .action-row-img svg {
+              height: 12px;
+              width: 12px;
+            }
+
+            .action-sparse-row .action-row-toggler {
+              width: 10px;
+              margin: 10px;
+            }
+
+            .action-row-title {
+              font-size: 14px;
+              font-weight: 500;
+              color: #24272a;
+            }
+
+            .action-row-title a {
+              color: #666;
+            }
+
+            .action-row-title a:hover {
+              color: #24272a;
+            }
+
+            .action-row-text {
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 1.5;
+              color: #999999;
+            }
+
+            .action-row-text a {
+              color: #999999;
+            }
+
+            .action-row-text a:hover {
+              color: #24272a;
+            }
+
+            .action-row-txid {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.29;
+              color: #0072ce;
+            }
+
+            .action-row-timer {
+              font-size: 12px;
+              color: #999999;
+              font-weight: 100;
+            }
+
+            .action-row-timer-status {
+              font-weight: 500;
+            }
+
+            pre {
+              white-space: pre-wrap; /* Since CSS 2.1 */
+              white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+              white-space: -pre-wrap; /* Opera 4-6 */
+              white-space: -o-pre-wrap; /* Opera 7 */
+              word-wrap: break-word; /* Internet Explorer 5.5+ */
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -2941,9 +4921,119 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               </div>
             </div>
           </div>
+          <style>
+            
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+          </style>
         </div>
       </div>
     </div>
   </div>
+  <style>
+    
+          .receipt-row {
+            padding-top: 10px;
+            padding-bottom: 30px;
+          }
+
+          .receipt-row-section {
+            padding-top: 10px;
+            padding-left: 1.5rem;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .executed-receipt-row .receipt-row {
+            padding-left: 1.5rem;
+            padding-bottom: 0;
+            border-left: 2px solid #e5e5e5;
+          }
+
+          .receipt-hash-title {
+            padding-bottom: 10px;
+          }
+
+          .receipt-row-title {
+            font-size: 14px;
+            line-height: 1.29;
+            color: #24272a;
+          }
+
+          .receipt-row-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #999999;
+          }
+
+          .receipt-row-receipt-hash {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+
+          .receipt-row-receipt-hash.truncate-link {
+            color: #007bff;
+          }
+
+          .receipt-row-status {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 500;
+          }
+        
+  </style>
 </div>
 `;
