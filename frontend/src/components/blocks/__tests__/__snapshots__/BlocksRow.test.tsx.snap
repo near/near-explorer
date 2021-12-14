@@ -105,7 +105,10 @@ exports[`<BlocksRow /> renders 1`] = `
           </div>
         </div>
       </div>
-      <style>
+      <style
+        global={true}
+        jsx={true}
+      >
         
                       .transaction-row {
                         padding-top: 10px;

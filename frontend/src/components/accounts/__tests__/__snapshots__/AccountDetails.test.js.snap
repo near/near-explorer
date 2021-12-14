@@ -36,7 +36,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -73,7 +76,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -151,7 +157,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -183,7 +192,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -261,7 +273,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -294,7 +309,9 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   gjtur…ockup.near
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -304,7 +321,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -382,7 +402,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -416,7 +439,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -490,7 +516,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -524,7 +553,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -598,7 +630,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -630,7 +665,9 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 >
                   megan.near on Wallet
                 </a>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -641,7 +678,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -719,7 +759,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -744,7 +787,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -794,7 +840,10 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               .account-info-container {
                 border: solid 4px #e6e6e6;
@@ -858,7 +907,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -895,7 +947,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -973,7 +1028,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1005,7 +1063,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1083,7 +1144,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1116,7 +1180,9 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   gjtur…ockup.near
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1126,7 +1192,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1204,7 +1273,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1238,7 +1310,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1312,7 +1387,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1346,7 +1424,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1420,7 +1501,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1452,7 +1536,9 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 >
                   megan.near on Wallet
                 </a>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -1463,7 +1549,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1541,7 +1630,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1566,7 +1658,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1616,7 +1711,10 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               .account-info-container {
                 border: solid 4px #e6e6e6;
@@ -1680,7 +1778,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1717,7 +1818,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1795,7 +1899,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1827,7 +1934,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1905,7 +2015,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1938,7 +2051,9 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   gjtur…ockup.near
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1948,7 +2063,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2026,7 +2144,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2060,7 +2181,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2134,7 +2258,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2168,7 +2295,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2242,7 +2372,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2274,7 +2407,9 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 >
                   megan.near on Wallet
                 </a>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -2285,7 +2420,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2363,7 +2501,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2388,7 +2529,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2462,7 +2606,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2502,7 +2649,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2552,7 +2702,10 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               .account-info-container {
                 border: solid 4px #e6e6e6;
@@ -2616,7 +2769,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2653,7 +2809,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2731,7 +2890,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2763,7 +2925,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2841,7 +3006,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2874,7 +3042,9 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   gjtur…ockup.near
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -2884,7 +3054,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2962,7 +3135,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2996,7 +3172,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3070,7 +3249,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3104,7 +3286,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3178,7 +3363,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3210,7 +3398,9 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 >
                   megan.near on Wallet
                 </a>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -3221,7 +3411,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3299,7 +3492,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3324,7 +3520,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3398,7 +3597,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3438,7 +3640,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3488,7 +3693,10 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               .account-info-container {
                 border: solid 4px #e6e6e6;
@@ -3552,7 +3760,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3589,7 +3800,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3667,7 +3881,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3699,7 +3916,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3777,7 +3997,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3811,7 +4034,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3885,7 +4111,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3919,7 +4148,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3993,7 +4225,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -4025,7 +4260,9 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 >
                   near.near on Wallet
                 </a>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -4036,7 +4273,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -4114,7 +4354,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -4139,7 +4382,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -4213,7 +4459,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -4253,7 +4502,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -4303,7 +4555,10 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               .account-info-container {
                 border: solid 4px #e6e6e6;

@@ -22,7 +22,10 @@ exports[`<CardCell /> renders 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
       .card-cell {
         border-style: solid;

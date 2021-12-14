@@ -15,7 +15,9 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -44,7 +46,9 @@ Array [
       stake
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -73,7 +77,9 @@ Array [
       stake
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -102,7 +108,9 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -127,7 +135,9 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -147,7 +157,9 @@ Array [
       near
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -174,7 +186,9 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -199,7 +213,9 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -224,7 +240,9 @@ Array [
       receiver2.test
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
@@ -268,7 +286,9 @@ Array [
           </div>
         </div>
       </div>
-      <style>
+      <style
+        jsx={true}
+      >
         
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -330,7 +350,9 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style>
+  <style
+    jsx={true}
+  >
     
         .account-link {
           white-space: nowrap;
