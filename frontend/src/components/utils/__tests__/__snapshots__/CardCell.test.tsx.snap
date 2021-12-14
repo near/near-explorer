@@ -22,5 +22,52 @@ exports[`<CardCell /> renders 1`] = `
       </div>
     </div>
   </div>
+  <style>
+    
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+  </style>
 </div>
 `;

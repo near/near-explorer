@@ -2,7 +2,7 @@
 
 exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`] = `
 <div
-  className="jsx-3866967115 account-info-container"
+  className="account-info-container"
 >
   <div
     className="row no-gutters"
@@ -23,36 +23,48 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↑
                 <div
                   className="spinner-border text-secondary"
                 />
               </span>
                 
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↓
                 <div
                   className="spinner-border text-secondary"
@@ -61,6 +73,53 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -79,19 +138,35 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -108,6 +183,53 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -126,19 +248,35 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Lockup Account
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -148,7 +286,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -156,9 +294,63 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   gjtur…ockup.near
                 </a>
               </span>
+              <style>
+                
+        .account-link {
+          white-space: nowrap;
+        }
+      
+              </style>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -182,14 +374,30 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               Ⓝ Native Account Balance
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -208,6 +416,53 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -227,14 +482,30 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               Ⓝ Validator Stake
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -253,6 +524,53 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -272,35 +590,104 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               Ⓝ Balance Profile
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
                 >
                   megan.near on Wallet
                 </a>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </span>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -324,14 +711,30 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               Created At
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -341,15 +744,87 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
+  <style>
+    
+              .account-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
+              }
+
+              .account-info-container &gt; .row:first-of-type .card-cell-text {
+                font-size: 24px;
+              }
+
+              .account-info-container &gt; .row {
+                border-bottom: 2px solid #e6e6e6;
+              }
+
+              .account-card-back {
+                background-color: #f8f8f8;
+              }
+
+              .transaction-link-icon {
+                width: 15px;
+                margin: 0 0 12px 12px;
+              }
+            
+  </style>
 </div>
 `;
 
 exports[`<AccountDetails /> renders with account created at genesis 1`] = `
 <div
-  className="jsx-3866967115 account-info-container"
+  className="account-info-container"
 >
   <div
     className="row no-gutters"
@@ -370,36 +845,48 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↑
                 <div
                   className="spinner-border text-secondary"
                 />
               </span>
                 
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↓
                 <div
                   className="spinner-border text-secondary"
@@ -408,6 +895,53 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -426,19 +960,35 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -455,6 +1005,53 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -473,19 +1070,35 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Lockup Account
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -495,7 +1108,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -503,9 +1116,63 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   gjtur…ockup.near
                 </a>
               </span>
+              <style>
+                
+        .account-link {
+          white-space: nowrap;
+        }
+      
+              </style>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -529,14 +1196,30 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               Ⓝ Native Account Balance
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -555,6 +1238,53 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -574,14 +1304,30 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               Ⓝ Validator Stake
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -600,6 +1346,53 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -619,35 +1412,104 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               Ⓝ Balance Profile
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
                 >
                   megan.near on Wallet
                 </a>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </span>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -671,14 +1533,30 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               Created At
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -688,15 +1566,87 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
+  <style>
+    
+              .account-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
+              }
+
+              .account-info-container &gt; .row:first-of-type .card-cell-text {
+                font-size: 24px;
+              }
+
+              .account-info-container &gt; .row {
+                border-bottom: 2px solid #e6e6e6;
+              }
+
+              .account-card-back {
+                background-color: #f8f8f8;
+              }
+
+              .transaction-link-icon {
+                width: 15px;
+                margin: 0 0 12px 12px;
+              }
+            
+  </style>
 </div>
 `;
 
 exports[`<AccountDetails /> renders with account deletion at 1`] = `
 <div
-  className="jsx-3866967115 account-info-container"
+  className="account-info-container"
 >
   <div
     className="row no-gutters"
@@ -717,36 +1667,48 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↑
                 <div
                   className="spinner-border text-secondary"
                 />
               </span>
                 
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↓
                 <div
                   className="spinner-border text-secondary"
@@ -755,6 +1717,53 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -773,19 +1782,35 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -802,6 +1827,53 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -820,19 +1892,35 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Lockup Account
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -842,7 +1930,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -850,9 +1938,63 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   gjtur…ockup.near
                 </a>
               </span>
+              <style>
+                
+        .account-link {
+          white-space: nowrap;
+        }
+      
+              </style>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -876,14 +2018,30 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               Ⓝ Native Account Balance
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -902,6 +2060,53 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -921,14 +2126,30 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               Ⓝ Validator Stake
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -947,6 +2168,53 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -966,35 +2234,104 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               Ⓝ Balance Profile
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
                 >
                   megan.near on Wallet
                 </a>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </span>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -1018,14 +2355,30 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               Deleted At
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1035,6 +2388,53 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1054,14 +2454,30 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               Deleted By Transaction
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1078,7 +2494,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="jsx-3866967115 transaction-link-icon"
+                    className="transaction-link-icon"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -1086,15 +2502,87 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
+  <style>
+    
+              .account-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
+              }
+
+              .account-info-container &gt; .row:first-of-type .card-cell-text {
+                font-size: 24px;
+              }
+
+              .account-info-container &gt; .row {
+                border-bottom: 2px solid #e6e6e6;
+              }
+
+              .account-card-back {
+                background-color: #f8f8f8;
+              }
+
+              .transaction-link-icon {
+                width: 15px;
+                margin: 0 0 12px 12px;
+              }
+            
+  </style>
 </div>
 `;
 
 exports[`<AccountDetails /> renders with lockup account 1`] = `
 <div
-  className="jsx-3866967115 account-info-container"
+  className="account-info-container"
 >
   <div
     className="row no-gutters"
@@ -1115,36 +2603,48 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↑
                 <div
                   className="spinner-border text-secondary"
                 />
               </span>
                 
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↓
                 <div
                   className="spinner-border text-secondary"
@@ -1153,6 +2653,53 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1171,19 +2718,35 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1200,6 +2763,53 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1218,19 +2828,35 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Lockup Account
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1240,7 +2866,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="/accounts/gjturigjgkjnfidsjffjsa.lockup.near"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -1248,9 +2874,63 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   gjtur…ockup.near
                 </a>
               </span>
+              <style>
+                
+        .account-link {
+          white-space: nowrap;
+        }
+      
+              </style>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -1274,14 +2954,30 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               Ⓝ Native Account Balance
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1300,6 +2996,53 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1319,14 +3062,30 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               Ⓝ Validator Stake
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1345,6 +3104,53 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1364,35 +3170,104 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               Ⓝ Balance Profile
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="http://wallet/profile/megan.near"
                   rel="noopener"
                   target="_blank"
                 >
                   megan.near on Wallet
                 </a>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </span>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -1416,14 +3291,30 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               Created At
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1433,6 +3324,53 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1452,14 +3390,30 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               Created By Transaction
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1476,7 +3430,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="jsx-3866967115 transaction-link-icon"
+                    className="transaction-link-icon"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -1484,15 +3438,87 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
+  <style>
+    
+              .account-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
+              }
+
+              .account-info-container &gt; .row:first-of-type .card-cell-text {
+                font-size: 24px;
+              }
+
+              .account-info-container &gt; .row {
+                border-bottom: 2px solid #e6e6e6;
+              }
+
+              .account-card-back {
+                background-color: #f8f8f8;
+              }
+
+              .transaction-link-icon {
+                width: 15px;
+                margin: 0 0 12px 12px;
+              }
+            
+  </style>
 </div>
 `;
 
 exports[`<AccountDetails /> renders without lockup account 1`] = `
 <div
-  className="jsx-3866967115 account-info-container"
+  className="account-info-container"
 >
   <div
     className="row no-gutters"
@@ -1513,36 +3539,48 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
               Transactions
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↑
                 <div
                   className="spinner-border text-secondary"
                 />
               </span>
                 
-              <span
-                className="jsx-3866967115"
-              >
+              <span>
                 ↓
                 <div
                   className="spinner-border text-secondary"
@@ -1551,6 +3589,53 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1569,19 +3654,35 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
               <img
-                className="jsx-1735495307 card-cell-title-img"
+                className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
               Storage Used
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1598,6 +3699,53 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -1621,14 +3769,30 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               Ⓝ Native Account Balance
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1647,6 +3811,53 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1666,14 +3877,30 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               Ⓝ Validator Stake
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1692,6 +3919,53 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1711,35 +3985,104 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               Ⓝ Balance Profile
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
               <span
-                className="jsx-3150401870"
                 onClick={[Function]}
               >
                 <a
-                  className="jsx-3150401870 account-link"
+                  className="account-link"
                   href="http://wallet/profile/near.near"
                   rel="noopener"
                   target="_blank"
                 >
                   near.near on Wallet
                 </a>
+                <style>
+                  
+        .account-link {
+          white-space: nowrap;
+        }
+      
+                </style>
               </span>
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
@@ -1763,14 +4106,30 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               Created At
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1780,6 +4139,53 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
     <div
@@ -1799,14 +4205,30 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               Created By Transaction
               <div
-                className="jsx-782042476 term-helper"
+                className="term-helper"
                 onClick={[Function]}
               >
                 <img
-                  className="jsx-782042476 info"
+                  className="info"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
+                <style>
+                  
+            .term-helper {
+              display: inline-block;
+              width: 14px;
+              height: 14px;
+            }
+
+            .term-helper .info {
+              vertical-align: text-bottom;
+              margin-left: 5px;
+              width: 16px;
+              cursor: pointer;
+            }
+          
+                </style>
               </div>
             </div>
             <div
@@ -1823,7 +4245,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="jsx-3866967115 transaction-link-icon"
+                    className="transaction-link-icon"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -1831,8 +4253,80 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             </div>
           </div>
         </div>
+        <style>
+          
+      .card-cell {
+        border-style: solid;
+        border-color: #e6e6e6;
+        border-width: 0 0 0 2px;
+        border-radius: 0;
+        height: 100%;
+      }
+      .card-cell-title {
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: #999999;
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .card-cell-title-img {
+        width: 12px !important;
+        margin-right: 8px;
+        margin-top: -3px;
+      }
+      .card-cell-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #24272a;
+      }
+      .card-cell a {
+        font-weight: 500;
+        color: #6ad1e3;
+        text-decoration: none !important;
+      }
+      .card-cell a:hover {
+        color: #6ad1e3;
+      }
+      .card-cell .term-helper .info {
+        display: none;
+      }
+      .card-cell:hover .term-helper .info {
+        display: block;
+      }
+      @media (max-width: 800px) {
+        .card-cell:hover .term-helper .info {
+          display: block;
+        }
+      }
+    
+        </style>
       </div>
     </div>
   </div>
+  <style>
+    
+              .account-info-container {
+                border: solid 4px #e6e6e6;
+                border-radius: 4px;
+              }
+
+              .account-info-container &gt; .row:first-of-type .card-cell-text {
+                font-size: 24px;
+              }
+
+              .account-info-container &gt; .row {
+                border-bottom: 2px solid #e6e6e6;
+              }
+
+              .account-card-back {
+                background-color: #f8f8f8;
+              }
+
+              .transaction-link-icon {
+                width: 15px;
+                margin: 0 0 12px 12px;
+              }
+            
+  </style>
 </div>
 `;

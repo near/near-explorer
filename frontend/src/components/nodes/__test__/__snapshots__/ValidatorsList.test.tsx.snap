@@ -3,7 +3,7 @@
 exports[`<ValidatorsList /> renders validators list 1`] = `
 Array [
   <tr
-    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+    className="table-row validator-nodes-row mx-0 "
   >
     <td
       className="collapse-row-arrow"
@@ -57,6 +57,49 @@ Array [
             onMouseOver={[Function]}
           >
             Active
+            <style>
+              
+            .validating-label {
+              padding: 2px 8px;
+              border-radius: 50px;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 150%;
+            }
+
+            .validating-label.active {
+              background-color: #c8f6e0;
+              color: #008d6a;
+            }
+
+            .validating-label.proposal {
+              background-color: #6ad1e3;
+              color: #11869a;
+            }
+
+            .validating-label.joining {
+              background-color: #ffc107;
+              color: #ffffff;
+            }
+
+            .validating-label.leaving {
+              background-color: #dc3545;
+              color: #ffffff;
+            }
+            .validating-label.idle {
+              background-color: #e5e5e6;
+              color: #72727a;
+            }
+            .validating-label.on-hold {
+              background-color: #2d9cdb;
+              color: #ffffff;
+            }
+            .validating-label.newcomer {
+              background-color: #f2994a;
+              color: #ffffff;
+            }
+          
+            </style>
           </span>
         </div>
         <div
@@ -121,10 +164,10 @@ Array [
     </td>
     <td>
       <div
-        className="jsx-2437284421 cumulative-stake-chart"
+        className="cumulative-stake-chart"
       >
         <div
-          className="jsx-2437284421 total-value"
+          className="total-value"
           style={
             Object {
               "width": "0%",
@@ -132,7 +175,7 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 current-value"
+          className="current-value"
           style={
             Object {
               "width": "50.14%",
@@ -140,25 +183,201 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 cumulative-stake-label"
+          className="cumulative-stake-label"
         >
           50.14%
         </div>
+        <style>
+          
+          .cumulative-stake-chart {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f9ff;
+            position: relative;
+            display: flex;
+          }
+          .total-value,
+          .current-value {
+            display: block;
+            height: 75px;
+          }
+          .total-value {
+            background-color: #d6edff;
+          }
+          .current-value {
+            background-color: #8fcdff;
+          }
+          .cumulative-stake-label {
+            position: absolute;
+            top: 0;
+            right: 24px;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            color: #0072ce;
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 75px;
+          }
+        
+        </style>
       </div>
     </td>
   </tr>,
+  <style>
+    
+          .table-row {
+            background-color: #ffffff;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            box-shadow: inset 0px -1px 0px #f0f0f0;
+          }
+          .table-row td {
+            border-top: none;
+            vertical-align: middle;
+          }
+
+          .table-row td.order {
+            color: #a2a2a8;
+            font-size: 14px;
+            font-weight: 600;
+          }
+
+          .table-row .row {
+            flex-wrap: nowrap;
+          }
+
+          .table-row.expanded {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
+              inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            margin-top: 16px;
+            margin-bottom: 16px;
+          }
+
+          .table-row.expanded + .table-expand-row {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
+              inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            height: auto;
+            opacity: 1;
+          }
+
+          .table-row.expanded:first-child {
+            margin-top: 0;
+          }
+        
+  </style>,
   <tr
-    className="jsx-1966533806 cumulative-stake-holders-row"
+    className="cumulative-stake-holders-row"
   >
     <td
-      className="jsx-1966533806 warning-text text-center"
+      className="warning-text text-center"
       colSpan={8}
     >
       Validators 1 - 25 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
     </td>
   </tr>,
+  <style>
+    
+              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+
+              .collapse-row-arrow {
+                cursor: pointer;
+              }
+
+              .collapse-row-arrow.disable {
+                cursor: default;
+                opacity: 0.3;
+                pointer-events: none;
+                touch-action: none;
+              }
+
+              .validator-nodes-text {
+                font-weight: 500;
+                font-size: 14px;
+                color: #3f4045;
+              }
+
+              .validator-node-pub-key {
+                color: #2b9af4;
+              }
+
+              .validator-name {
+                max-width: 250px;
+              }
+
+              .validator-name .validator-nodes-text {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              .validator-nodes-details-title {
+                display: flex;
+                flex-wrap: nowrap;
+                font-size: 12px;
+                color: #a2a2a8;
+              }
+
+              .validator-nodes-text.uptime {
+                color: #72727a;
+              }
+
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
+              }
+
+              .validator-nodes-content-row {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
+
+              .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+                padding: 0 22px;
+                border-right: 1px solid #e5e5e6;
+              }
+
+              .validator-nodes-content-row
+                &gt; .validator-nodes-content-cell:last-child {
+                border-right: none;
+              }
+
+              .agent-name-badge {
+                background-color: #f0f0f1;
+                color: #72727a;
+                font-weight: 500;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+              }
+
+              .validators-node-label {
+                margin-right: 24px;
+                max-width: 138px;
+              }
+
+              .cumulative-stake-chart {
+                min-width: 100px;
+              }
+
+              .cumulative-stake-holders-row {
+                background-color: #fff6ed;
+              }
+              .cumulative-stake-holders-row .warning-text {
+                color: #995200;
+                padding: 16px 50px;
+                font-size: 12px;
+              }
+
+              @media (min-width: 1200px) {
+                .validator-name {
+                  max-width: 370px;
+                }
+              }
+            
+  </style>,
   <tr
-    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+    className="table-row validator-nodes-row mx-0 "
   >
     <td
       className="collapse-row-arrow"
@@ -212,6 +431,49 @@ Array [
             onMouseOver={[Function]}
           >
             Active
+            <style>
+              
+            .validating-label {
+              padding: 2px 8px;
+              border-radius: 50px;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 150%;
+            }
+
+            .validating-label.active {
+              background-color: #c8f6e0;
+              color: #008d6a;
+            }
+
+            .validating-label.proposal {
+              background-color: #6ad1e3;
+              color: #11869a;
+            }
+
+            .validating-label.joining {
+              background-color: #ffc107;
+              color: #ffffff;
+            }
+
+            .validating-label.leaving {
+              background-color: #dc3545;
+              color: #ffffff;
+            }
+            .validating-label.idle {
+              background-color: #e5e5e6;
+              color: #72727a;
+            }
+            .validating-label.on-hold {
+              background-color: #2d9cdb;
+              color: #ffffff;
+            }
+            .validating-label.newcomer {
+              background-color: #f2994a;
+              color: #ffffff;
+            }
+          
+            </style>
           </span>
         </div>
         <div
@@ -276,10 +538,10 @@ Array [
     </td>
     <td>
       <div
-        className="jsx-2437284421 cumulative-stake-chart"
+        className="cumulative-stake-chart"
       >
         <div
-          className="jsx-2437284421 total-value"
+          className="total-value"
           style={
             Object {
               "width": "50.15%",
@@ -287,7 +549,7 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 current-value"
+          className="current-value"
           style={
             Object {
               "width": "24.57%",
@@ -295,15 +557,191 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 cumulative-stake-label"
+          className="cumulative-stake-label"
         >
           74.72%
         </div>
+        <style>
+          
+          .cumulative-stake-chart {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f9ff;
+            position: relative;
+            display: flex;
+          }
+          .total-value,
+          .current-value {
+            display: block;
+            height: 75px;
+          }
+          .total-value {
+            background-color: #d6edff;
+          }
+          .current-value {
+            background-color: #8fcdff;
+          }
+          .cumulative-stake-label {
+            position: absolute;
+            top: 0;
+            right: 24px;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            color: #0072ce;
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 75px;
+          }
+        
+        </style>
       </div>
     </td>
   </tr>,
+  <style>
+    
+          .table-row {
+            background-color: #ffffff;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            box-shadow: inset 0px -1px 0px #f0f0f0;
+          }
+          .table-row td {
+            border-top: none;
+            vertical-align: middle;
+          }
+
+          .table-row td.order {
+            color: #a2a2a8;
+            font-size: 14px;
+            font-weight: 600;
+          }
+
+          .table-row .row {
+            flex-wrap: nowrap;
+          }
+
+          .table-row.expanded {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
+              inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            margin-top: 16px;
+            margin-bottom: 16px;
+          }
+
+          .table-row.expanded + .table-expand-row {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
+              inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            height: auto;
+            opacity: 1;
+          }
+
+          .table-row.expanded:first-child {
+            margin-top: 0;
+          }
+        
+  </style>,
+  <style>
+    
+              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+
+              .collapse-row-arrow {
+                cursor: pointer;
+              }
+
+              .collapse-row-arrow.disable {
+                cursor: default;
+                opacity: 0.3;
+                pointer-events: none;
+                touch-action: none;
+              }
+
+              .validator-nodes-text {
+                font-weight: 500;
+                font-size: 14px;
+                color: #3f4045;
+              }
+
+              .validator-node-pub-key {
+                color: #2b9af4;
+              }
+
+              .validator-name {
+                max-width: 250px;
+              }
+
+              .validator-name .validator-nodes-text {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              .validator-nodes-details-title {
+                display: flex;
+                flex-wrap: nowrap;
+                font-size: 12px;
+                color: #a2a2a8;
+              }
+
+              .validator-nodes-text.uptime {
+                color: #72727a;
+              }
+
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
+              }
+
+              .validator-nodes-content-row {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
+
+              .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+                padding: 0 22px;
+                border-right: 1px solid #e5e5e6;
+              }
+
+              .validator-nodes-content-row
+                &gt; .validator-nodes-content-cell:last-child {
+                border-right: none;
+              }
+
+              .agent-name-badge {
+                background-color: #f0f0f1;
+                color: #72727a;
+                font-weight: 500;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+              }
+
+              .validators-node-label {
+                margin-right: 24px;
+                max-width: 138px;
+              }
+
+              .cumulative-stake-chart {
+                min-width: 100px;
+              }
+
+              .cumulative-stake-holders-row {
+                background-color: #fff6ed;
+              }
+              .cumulative-stake-holders-row .warning-text {
+                color: #995200;
+                padding: 16px 50px;
+                font-size: 12px;
+              }
+
+              @media (min-width: 1200px) {
+                .validator-name {
+                  max-width: 370px;
+                }
+              }
+            
+  </style>,
   <tr
-    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+    className="table-row validator-nodes-row mx-0 "
   >
     <td
       className="collapse-row-arrow"
@@ -359,6 +797,49 @@ Array [
             onMouseOver={[Function]}
           >
             Active
+            <style>
+              
+            .validating-label {
+              padding: 2px 8px;
+              border-radius: 50px;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 150%;
+            }
+
+            .validating-label.active {
+              background-color: #c8f6e0;
+              color: #008d6a;
+            }
+
+            .validating-label.proposal {
+              background-color: #6ad1e3;
+              color: #11869a;
+            }
+
+            .validating-label.joining {
+              background-color: #ffc107;
+              color: #ffffff;
+            }
+
+            .validating-label.leaving {
+              background-color: #dc3545;
+              color: #ffffff;
+            }
+            .validating-label.idle {
+              background-color: #e5e5e6;
+              color: #72727a;
+            }
+            .validating-label.on-hold {
+              background-color: #2d9cdb;
+              color: #ffffff;
+            }
+            .validating-label.newcomer {
+              background-color: #f2994a;
+              color: #ffffff;
+            }
+          
+            </style>
           </span>
         </div>
         <div
@@ -423,10 +904,10 @@ Array [
     </td>
     <td>
       <div
-        className="jsx-2437284421 cumulative-stake-chart"
+        className="cumulative-stake-chart"
       >
         <div
-          className="jsx-2437284421 total-value"
+          className="total-value"
           style={
             Object {
               "width": "74.72999999999999%",
@@ -434,7 +915,7 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 current-value"
+          className="current-value"
           style={
             Object {
               "width": "20.980000000000004%",
@@ -442,15 +923,191 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 cumulative-stake-label"
+          className="cumulative-stake-label"
         >
           95.71%
         </div>
+        <style>
+          
+          .cumulative-stake-chart {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f9ff;
+            position: relative;
+            display: flex;
+          }
+          .total-value,
+          .current-value {
+            display: block;
+            height: 75px;
+          }
+          .total-value {
+            background-color: #d6edff;
+          }
+          .current-value {
+            background-color: #8fcdff;
+          }
+          .cumulative-stake-label {
+            position: absolute;
+            top: 0;
+            right: 24px;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            color: #0072ce;
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 75px;
+          }
+        
+        </style>
       </div>
     </td>
   </tr>,
+  <style>
+    
+          .table-row {
+            background-color: #ffffff;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            box-shadow: inset 0px -1px 0px #f0f0f0;
+          }
+          .table-row td {
+            border-top: none;
+            vertical-align: middle;
+          }
+
+          .table-row td.order {
+            color: #a2a2a8;
+            font-size: 14px;
+            font-weight: 600;
+          }
+
+          .table-row .row {
+            flex-wrap: nowrap;
+          }
+
+          .table-row.expanded {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
+              inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            margin-top: 16px;
+            margin-bottom: 16px;
+          }
+
+          .table-row.expanded + .table-expand-row {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
+              inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            height: auto;
+            opacity: 1;
+          }
+
+          .table-row.expanded:first-child {
+            margin-top: 0;
+          }
+        
+  </style>,
+  <style>
+    
+              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+
+              .collapse-row-arrow {
+                cursor: pointer;
+              }
+
+              .collapse-row-arrow.disable {
+                cursor: default;
+                opacity: 0.3;
+                pointer-events: none;
+                touch-action: none;
+              }
+
+              .validator-nodes-text {
+                font-weight: 500;
+                font-size: 14px;
+                color: #3f4045;
+              }
+
+              .validator-node-pub-key {
+                color: #2b9af4;
+              }
+
+              .validator-name {
+                max-width: 250px;
+              }
+
+              .validator-name .validator-nodes-text {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              .validator-nodes-details-title {
+                display: flex;
+                flex-wrap: nowrap;
+                font-size: 12px;
+                color: #a2a2a8;
+              }
+
+              .validator-nodes-text.uptime {
+                color: #72727a;
+              }
+
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
+              }
+
+              .validator-nodes-content-row {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
+
+              .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+                padding: 0 22px;
+                border-right: 1px solid #e5e5e6;
+              }
+
+              .validator-nodes-content-row
+                &gt; .validator-nodes-content-cell:last-child {
+                border-right: none;
+              }
+
+              .agent-name-badge {
+                background-color: #f0f0f1;
+                color: #72727a;
+                font-weight: 500;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+              }
+
+              .validators-node-label {
+                margin-right: 24px;
+                max-width: 138px;
+              }
+
+              .cumulative-stake-chart {
+                min-width: 100px;
+              }
+
+              .cumulative-stake-holders-row {
+                background-color: #fff6ed;
+              }
+              .cumulative-stake-holders-row .warning-text {
+                color: #995200;
+                padding: 16px 50px;
+                font-size: 12px;
+              }
+
+              @media (min-width: 1200px) {
+                .validator-name {
+                  max-width: 370px;
+                }
+              }
+            
+  </style>,
   <tr
-    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+    className="table-row validator-nodes-row mx-0 "
   >
     <td
       className="collapse-row-arrow"
@@ -504,6 +1161,49 @@ Array [
             onMouseOver={[Function]}
           >
             Joining
+            <style>
+              
+            .validating-label {
+              padding: 2px 8px;
+              border-radius: 50px;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 150%;
+            }
+
+            .validating-label.active {
+              background-color: #c8f6e0;
+              color: #008d6a;
+            }
+
+            .validating-label.proposal {
+              background-color: #6ad1e3;
+              color: #11869a;
+            }
+
+            .validating-label.joining {
+              background-color: #ffc107;
+              color: #ffffff;
+            }
+
+            .validating-label.leaving {
+              background-color: #dc3545;
+              color: #ffffff;
+            }
+            .validating-label.idle {
+              background-color: #e5e5e6;
+              color: #72727a;
+            }
+            .validating-label.on-hold {
+              background-color: #2d9cdb;
+              color: #ffffff;
+            }
+            .validating-label.newcomer {
+              background-color: #f2994a;
+              color: #ffffff;
+            }
+          
+            </style>
           </span>
         </div>
         <div
@@ -568,10 +1268,10 @@ Array [
     </td>
     <td>
       <div
-        className="jsx-2437284421 cumulative-stake-chart"
+        className="cumulative-stake-chart"
       >
         <div
-          className="jsx-2437284421 total-value"
+          className="total-value"
           style={
             Object {
               "width": "-4.41%",
@@ -579,7 +1279,7 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 current-value"
+          className="current-value"
           style={
             Object {
               "width": "0%",
@@ -587,15 +1287,191 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 cumulative-stake-label"
+          className="cumulative-stake-label"
         >
           N/A
         </div>
+        <style>
+          
+          .cumulative-stake-chart {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f9ff;
+            position: relative;
+            display: flex;
+          }
+          .total-value,
+          .current-value {
+            display: block;
+            height: 75px;
+          }
+          .total-value {
+            background-color: #d6edff;
+          }
+          .current-value {
+            background-color: #8fcdff;
+          }
+          .cumulative-stake-label {
+            position: absolute;
+            top: 0;
+            right: 24px;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            color: #0072ce;
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 75px;
+          }
+        
+        </style>
       </div>
     </td>
   </tr>,
+  <style>
+    
+          .table-row {
+            background-color: #ffffff;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            box-shadow: inset 0px -1px 0px #f0f0f0;
+          }
+          .table-row td {
+            border-top: none;
+            vertical-align: middle;
+          }
+
+          .table-row td.order {
+            color: #a2a2a8;
+            font-size: 14px;
+            font-weight: 600;
+          }
+
+          .table-row .row {
+            flex-wrap: nowrap;
+          }
+
+          .table-row.expanded {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
+              inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            margin-top: 16px;
+            margin-bottom: 16px;
+          }
+
+          .table-row.expanded + .table-expand-row {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
+              inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            height: auto;
+            opacity: 1;
+          }
+
+          .table-row.expanded:first-child {
+            margin-top: 0;
+          }
+        
+  </style>,
+  <style>
+    
+              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+
+              .collapse-row-arrow {
+                cursor: pointer;
+              }
+
+              .collapse-row-arrow.disable {
+                cursor: default;
+                opacity: 0.3;
+                pointer-events: none;
+                touch-action: none;
+              }
+
+              .validator-nodes-text {
+                font-weight: 500;
+                font-size: 14px;
+                color: #3f4045;
+              }
+
+              .validator-node-pub-key {
+                color: #2b9af4;
+              }
+
+              .validator-name {
+                max-width: 250px;
+              }
+
+              .validator-name .validator-nodes-text {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              .validator-nodes-details-title {
+                display: flex;
+                flex-wrap: nowrap;
+                font-size: 12px;
+                color: #a2a2a8;
+              }
+
+              .validator-nodes-text.uptime {
+                color: #72727a;
+              }
+
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
+              }
+
+              .validator-nodes-content-row {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
+
+              .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+                padding: 0 22px;
+                border-right: 1px solid #e5e5e6;
+              }
+
+              .validator-nodes-content-row
+                &gt; .validator-nodes-content-cell:last-child {
+                border-right: none;
+              }
+
+              .agent-name-badge {
+                background-color: #f0f0f1;
+                color: #72727a;
+                font-weight: 500;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+              }
+
+              .validators-node-label {
+                margin-right: 24px;
+                max-width: 138px;
+              }
+
+              .cumulative-stake-chart {
+                min-width: 100px;
+              }
+
+              .cumulative-stake-holders-row {
+                background-color: #fff6ed;
+              }
+              .cumulative-stake-holders-row .warning-text {
+                color: #995200;
+                padding: 16px 50px;
+                font-size: 12px;
+              }
+
+              @media (min-width: 1200px) {
+                .validator-name {
+                  max-width: 370px;
+                }
+              }
+            
+  </style>,
   <tr
-    className="jsx-4079813474 table-row validator-nodes-row mx-0 "
+    className="table-row validator-nodes-row mx-0 "
   >
     <td
       className="collapse-row-arrow"
@@ -651,6 +1527,49 @@ Array [
             onMouseOver={[Function]}
           >
             Kickout
+            <style>
+              
+            .validating-label {
+              padding: 2px 8px;
+              border-radius: 50px;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 150%;
+            }
+
+            .validating-label.active {
+              background-color: #c8f6e0;
+              color: #008d6a;
+            }
+
+            .validating-label.proposal {
+              background-color: #6ad1e3;
+              color: #11869a;
+            }
+
+            .validating-label.joining {
+              background-color: #ffc107;
+              color: #ffffff;
+            }
+
+            .validating-label.leaving {
+              background-color: #dc3545;
+              color: #ffffff;
+            }
+            .validating-label.idle {
+              background-color: #e5e5e6;
+              color: #72727a;
+            }
+            .validating-label.on-hold {
+              background-color: #2d9cdb;
+              color: #ffffff;
+            }
+            .validating-label.newcomer {
+              background-color: #f2994a;
+              color: #ffffff;
+            }
+          
+            </style>
           </span>
         </div>
         <div
@@ -715,10 +1634,10 @@ Array [
     </td>
     <td>
       <div
-        className="jsx-2437284421 cumulative-stake-chart"
+        className="cumulative-stake-chart"
       >
         <div
-          className="jsx-2437284421 total-value"
+          className="total-value"
           style={
             Object {
               "width": "95.72%",
@@ -726,7 +1645,7 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 current-value"
+          className="current-value"
           style={
             Object {
               "width": "4.280000000000001%",
@@ -734,12 +1653,188 @@ Array [
           }
         />
         <div
-          className="jsx-2437284421 cumulative-stake-label"
+          className="cumulative-stake-label"
         >
           100%
         </div>
+        <style>
+          
+          .cumulative-stake-chart {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f9ff;
+            position: relative;
+            display: flex;
+          }
+          .total-value,
+          .current-value {
+            display: block;
+            height: 75px;
+          }
+          .total-value {
+            background-color: #d6edff;
+          }
+          .current-value {
+            background-color: #8fcdff;
+          }
+          .cumulative-stake-label {
+            position: absolute;
+            top: 0;
+            right: 24px;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            color: #0072ce;
+            font-size: 14px;
+            font-weight: 500;
+            max-width: 75px;
+          }
+        
+        </style>
       </div>
     </td>
   </tr>,
+  <style>
+    
+          .table-row {
+            background-color: #ffffff;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            box-shadow: inset 0px -1px 0px #f0f0f0;
+          }
+          .table-row td {
+            border-top: none;
+            vertical-align: middle;
+          }
+
+          .table-row td.order {
+            color: #a2a2a8;
+            font-size: 14px;
+            font-weight: 600;
+          }
+
+          .table-row .row {
+            flex-wrap: nowrap;
+          }
+
+          .table-row.expanded {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
+              inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            margin-top: 16px;
+            margin-bottom: 16px;
+          }
+
+          .table-row.expanded + .table-expand-row {
+            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
+              inset -1px 0px 0px #2b9af4;
+            transition: height 0.5s 0.5s, opacity 0.5s;
+            height: auto;
+            opacity: 1;
+          }
+
+          .table-row.expanded:first-child {
+            margin-top: 0;
+          }
+        
+  </style>,
+  <style>
+    
+              @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+
+              .collapse-row-arrow {
+                cursor: pointer;
+              }
+
+              .collapse-row-arrow.disable {
+                cursor: default;
+                opacity: 0.3;
+                pointer-events: none;
+                touch-action: none;
+              }
+
+              .validator-nodes-text {
+                font-weight: 500;
+                font-size: 14px;
+                color: #3f4045;
+              }
+
+              .validator-node-pub-key {
+                color: #2b9af4;
+              }
+
+              .validator-name {
+                max-width: 250px;
+              }
+
+              .validator-name .validator-nodes-text {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
+
+              .validator-nodes-details-title {
+                display: flex;
+                flex-wrap: nowrap;
+                font-size: 12px;
+                color: #a2a2a8;
+              }
+
+              .validator-nodes-text.uptime {
+                color: #72727a;
+              }
+
+              .validator-nodes-text.stake-text {
+                font-weight: 700;
+              }
+
+              .validator-nodes-content-row {
+                padding-top: 16px;
+                padding-bottom: 16px;
+              }
+
+              .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+                padding: 0 22px;
+                border-right: 1px solid #e5e5e6;
+              }
+
+              .validator-nodes-content-row
+                &gt; .validator-nodes-content-cell:last-child {
+                border-right: none;
+              }
+
+              .agent-name-badge {
+                background-color: #f0f0f1;
+                color: #72727a;
+                font-weight: 500;
+                font-size: 12px;
+                font-family: "Roboto Mono", monospace;
+              }
+
+              .validators-node-label {
+                margin-right: 24px;
+                max-width: 138px;
+              }
+
+              .cumulative-stake-chart {
+                min-width: 100px;
+              }
+
+              .cumulative-stake-holders-row {
+                background-color: #fff6ed;
+              }
+              .cumulative-stake-holders-row .warning-text {
+                color: #995200;
+                padding: 16px 50px;
+                font-size: 12px;
+              }
+
+              @media (min-width: 1200px) {
+                .validator-name {
+                  max-width: 370px;
+                }
+              }
+            
+  </style>,
 ]
 `;

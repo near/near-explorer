@@ -21,7 +21,6 @@ exports[`<AccountRow /> renders with long name 1`] = `
         className="pr-0 col-md-auto col-1"
       >
         <img
-          className="jsx-2652304458"
           src="/static/images/icon-t-acct.svg"
           style={
             Object {
@@ -38,6 +37,51 @@ exports[`<AccountRow /> renders with long name 1`] = `
       <div
         className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
       />
+      <style>
+        
+                  .transaction-row {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    border-top: solid 2px #f8f8f8;
+                  }
+
+                  .transaction-row:hover {
+                    background: rgba(0, 0, 0, 0.1);
+                  }
+
+                  .transaction-row-title {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 1.29;
+                    color: #24272a;
+                    word-break: break-word;
+                  }
+
+                  .transaction-row-text {
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 1.5;
+                    color: #999999;
+                  }
+
+                  .transaction-row-txid {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 1.29;
+                    color: #0072ce;
+                  }
+
+                  .transaction-row-timer {
+                    font-size: 12px;
+                    color: #666666;
+                    font-weight: 300;
+                  }
+
+                  .transaction-row-timer-status {
+                    font-weight: 500;
+                  }
+                
+      </style>
     </div>
   </a>
 </span>
@@ -64,7 +108,6 @@ exports[`<AccountRow /> renders with short name 1`] = `
         className="pr-0 col-md-auto col-1"
       >
         <img
-          className="jsx-2652304458"
           src="/static/images/icon-t-acct.svg"
           style={
             Object {
@@ -81,6 +124,51 @@ exports[`<AccountRow /> renders with short name 1`] = `
       <div
         className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
       />
+      <style>
+        
+                  .transaction-row {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    border-top: solid 2px #f8f8f8;
+                  }
+
+                  .transaction-row:hover {
+                    background: rgba(0, 0, 0, 0.1);
+                  }
+
+                  .transaction-row-title {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 1.29;
+                    color: #24272a;
+                    word-break: break-word;
+                  }
+
+                  .transaction-row-text {
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 1.5;
+                    color: #999999;
+                  }
+
+                  .transaction-row-txid {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 1.29;
+                    color: #0072ce;
+                  }
+
+                  .transaction-row-timer {
+                    font-size: 12px;
+                    color: #666666;
+                    font-weight: 300;
+                  }
+
+                  .transaction-row-timer-status {
+                    font-weight: 500;
+                  }
+                
+      </style>
     </div>
   </a>
 </span>
