@@ -37,7 +37,10 @@ exports[`<AccountRow /> renders with long name 1`] = `
       <div
         className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
       />
-      <style>
+      <style
+        global={true}
+        jsx={true}
+      >
         
                   .transaction-row {
                     padding-top: 10px;
@@ -124,7 +127,10 @@ exports[`<AccountRow /> renders with short name 1`] = `
       <div
         className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
       />
-      <style>
+      <style
+        global={true}
+        jsx={true}
+      >
         
                   .transaction-row {
                     padding-top: 10px;

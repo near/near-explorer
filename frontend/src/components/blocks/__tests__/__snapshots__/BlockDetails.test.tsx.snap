@@ -40,7 +40,10 @@ Array [
                       onClick={[Function]}
                       src="/static/images/icon-info.svg"
                     />
-                    <style>
+                    <style
+                      global={true}
+                      jsx={true}
+                    >
                       
             .term-helper {
               display: inline-block;
@@ -65,7 +68,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -138,7 +144,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -216,7 +225,10 @@ Array [
                       onClick={[Function]}
                       src="/static/images/icon-info.svg"
                     />
-                    <style>
+                    <style
+                      global={true}
+                      jsx={true}
+                    >
                       
             .term-helper {
               display: inline-block;
@@ -241,7 +253,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -326,7 +341,9 @@ Array [
                       near.near
                     </a>
                   </span>
-                  <style>
+                  <style
+                    jsx={true}
+                  >
                     
         .account-link {
           white-space: nowrap;
@@ -336,7 +353,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -414,7 +434,10 @@ Array [
                       onClick={[Function]}
                       src="/static/images/icon-info.svg"
                     />
-                    <style>
+                    <style
+                      global={true}
+                      jsx={true}
+                    >
                       
             .term-helper {
               display: inline-block;
@@ -439,7 +462,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -517,7 +543,10 @@ Array [
                       onClick={[Function]}
                       src="/static/images/icon-info.svg"
                     />
-                    <style>
+                    <style
+                      global={true}
+                      jsx={true}
+                    >
                       
             .term-helper {
               display: inline-block;
@@ -550,7 +579,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -628,7 +660,10 @@ Array [
                       onClick={[Function]}
                       src="/static/images/icon-info.svg"
                     />
-                    <style>
+                    <style
+                      global={true}
+                      jsx={true}
+                    >
                       
             .term-helper {
               display: inline-block;
@@ -653,7 +688,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -727,7 +765,10 @@ Array [
                       onClick={[Function]}
                       src="/static/images/icon-info.svg"
                     />
-                    <style>
+                    <style
+                      global={true}
+                      jsx={true}
+                    >
                       
             .term-helper {
               display: inline-block;
@@ -752,7 +793,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -830,7 +874,10 @@ Array [
                       onClick={[Function]}
                       src="/static/images/icon-info.svg"
                     />
-                    <style>
+                    <style
+                      global={true}
+                      jsx={true}
+                    >
                       
             .term-helper {
               display: inline-block;
@@ -866,7 +913,10 @@ Array [
                 </div>
               </div>
             </div>
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
       .card-cell {
         border-style: solid;
@@ -918,7 +968,10 @@ Array [
       </div>
     </div>
   </div>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
                 .block-info-container {
                   border: solid 4px #e6e6e6;

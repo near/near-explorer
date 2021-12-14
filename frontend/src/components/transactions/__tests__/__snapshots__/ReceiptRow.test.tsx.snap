@@ -44,7 +44,10 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
         .receipt-hash-link.disabled {
           cursor: default;
@@ -105,7 +108,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             signer.test
           </a>
         </span>
-        <style>
+        <style
+          jsx={true}
+        >
           
         .account-link {
           white-space: nowrap;
@@ -139,7 +144,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             receiver.test
           </a>
         </span>
-        <style>
+        <style
+          jsx={true}
+        >
           
         .account-link {
           white-space: nowrap;
@@ -202,15 +209,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             <div
               className="action-row-img"
             >
-              <svg
-                viewBox="0 0 18 18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-                  fill="#ccc"
-                />
-              </svg>
+              <test-file-stub />
             </div>
           </div>
           <div
@@ -241,7 +240,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                         receiver.test
                       </a>
                     </span>
-                    <style>
+                    <style
+                      jsx={true}
+                    >
                       
         .account-link {
           white-space: nowrap;
@@ -286,7 +287,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                             </div>
                           </div>
                         </div>
-                        <style>
+                        <style
+                          jsx={true}
+                        >
                           
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -307,7 +310,10 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
             .action-sparse-row {
               padding-top: 10px;
@@ -515,7 +521,10 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     R2222222222222222222222222222222222222222222
                   </a>
                 </span>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
         .receipt-hash-link.disabled {
           cursor: default;
@@ -576,7 +585,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     system
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -610,7 +621,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     receiver.test
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -673,15 +686,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     <div
                       className="action-row-img"
                     >
-                      <svg
-                        viewBox="0 0 18 18"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m0 18 9-9-9-9zm18-9L9 0v18z"
-                          fill="#8dd4bd"
-                        />
-                      </svg>
+                      <test-file-stub />
                     </div>
                   </div>
                   <div
@@ -723,7 +728,9 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                                 receiver.test
                               </a>
                             </span>
-                            <style>
+                            <style
+                              jsx={true}
+                            >
                               
         .account-link {
           white-space: nowrap;
@@ -736,7 +743,10 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     </div>
                   </div>
                 </div>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .action-sparse-row {
               padding-top: 10px;
@@ -874,7 +884,10 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               </div>
             </div>
           </div>
-          <style>
+          <style
+            global={true}
+            jsx={true}
+          >
             
           .receipt-row {
             padding-top: 10px;
@@ -933,7 +946,10 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .receipt-row {
             padding-top: 10px;
@@ -1035,7 +1051,10 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
         .receipt-hash-link.disabled {
           cursor: default;
@@ -1096,7 +1115,9 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             signer.test
           </a>
         </span>
-        <style>
+        <style
+          jsx={true}
+        >
           
         .account-link {
           white-space: nowrap;
@@ -1130,7 +1151,9 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             receiver.test
           </a>
         </span>
-        <style>
+        <style
+          jsx={true}
+        >
           
         .account-link {
           white-space: nowrap;
@@ -1193,15 +1216,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             <div
               className="action-row-img"
             >
-              <svg
-                viewBox="0 0 18 18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-                  fill="#ccc"
-                />
-              </svg>
+              <test-file-stub />
             </div>
           </div>
           <div
@@ -1232,7 +1247,9 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                         receiver.test
                       </a>
                     </span>
-                    <style>
+                    <style
+                      jsx={true}
+                    >
                       
         .account-link {
           white-space: nowrap;
@@ -1279,7 +1296,9 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                             </div>
                           </div>
                         </div>
-                        <style>
+                        <style
+                          jsx={true}
+                        >
                           
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -1300,7 +1319,10 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
             .action-sparse-row {
               padding-top: 10px;
@@ -1496,7 +1518,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R222222222222222222222222222222222222222222
                   </a>
                 </span>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
         .receipt-hash-link.disabled {
           cursor: default;
@@ -1557,7 +1582,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     signer1.test
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -1591,7 +1618,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver.test
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -1654,15 +1683,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     <div
                       className="action-row-img"
                     >
-                      <svg
-                        viewBox="0 0 18 18"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-                          fill="#ccc"
-                        />
-                      </svg>
+                      <test-file-stub />
                     </div>
                   </div>
                   <div
@@ -1693,7 +1714,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver.test
                               </a>
                             </span>
-                            <style>
+                            <style
+                              jsx={true}
+                            >
                               
         .account-link {
           white-space: nowrap;
@@ -1739,7 +1762,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </div>
                                   </div>
                                 </div>
-                                <style>
+                                <style
+                                  jsx={true}
+                                >
                                   
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -1760,7 +1785,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .action-sparse-row {
               padding-top: 10px;
@@ -1920,7 +1948,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -1993,7 +2023,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             R555555555555555555555555555555555555555555
                           </a>
                         </span>
-                        <style>
+                        <style
+                          global={true}
+                          jsx={true}
+                        >
                           
         .receipt-hash-link.disabled {
           cursor: default;
@@ -2054,7 +2087,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             system
                           </a>
                         </span>
-                        <style>
+                        <style
+                          jsx={true}
+                        >
                           
         .account-link {
           white-space: nowrap;
@@ -2088,7 +2123,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             receiver.test
                           </a>
                         </span>
-                        <style>
+                        <style
+                          jsx={true}
+                        >
                           
         .account-link {
           white-space: nowrap;
@@ -2151,15 +2188,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             <div
                               className="action-row-img"
                             >
-                              <svg
-                                viewBox="0 0 18 18"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="m0 18 9-9-9-9zm18-9L9 0v18z"
-                                  fill="#8dd4bd"
-                                />
-                              </svg>
+                              <test-file-stub />
                             </div>
                           </div>
                           <div
@@ -2201,7 +2230,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         receiver.test
                                       </a>
                                     </span>
-                                    <style>
+                                    <style
+                                      jsx={true}
+                                    >
                                       
         .account-link {
           white-space: nowrap;
@@ -2214,7 +2245,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             </div>
                           </div>
                         </div>
-                        <style>
+                        <style
+                          global={true}
+                          jsx={true}
+                        >
                           
             .action-sparse-row {
               padding-top: 10px;
@@ -2352,7 +2386,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                   </div>
-                  <style>
+                  <style
+                    global={true}
+                    jsx={true}
+                  >
                     
           .receipt-row {
             padding-top: 10px;
@@ -2411,7 +2448,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
           </div>
-          <style>
+          <style
+            global={true}
+            jsx={true}
+          >
             
           .receipt-row {
             padding-top: 10px;
@@ -2518,7 +2558,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R3333333333333333333333333333333333333333333
                   </a>
                 </span>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
         .receipt-hash-link.disabled {
           cursor: default;
@@ -2579,7 +2622,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     signer1.test
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -2613,7 +2658,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver1.test
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -2676,15 +2723,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     <div
                       className="action-row-img"
                     >
-                      <svg
-                        viewBox="0 0 18 18"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-                          fill="#ccc"
-                        />
-                      </svg>
+                      <test-file-stub />
                     </div>
                   </div>
                   <div
@@ -2715,7 +2754,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver1.test
                               </a>
                             </span>
-                            <style>
+                            <style
+                              jsx={true}
+                            >
                               
         .account-link {
           white-space: nowrap;
@@ -2761,7 +2802,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </div>
                                   </div>
                                 </div>
-                                <style>
+                                <style
+                                  jsx={true}
+                                >
                                   
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -2782,7 +2825,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .action-sparse-row {
               padding-top: 10px;
@@ -2942,7 +2988,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -3015,7 +3063,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             R6666666666666666666666666666666666666666666
                           </a>
                         </span>
-                        <style>
+                        <style
+                          global={true}
+                          jsx={true}
+                        >
                           
         .receipt-hash-link.disabled {
           cursor: default;
@@ -3076,7 +3127,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             system
                           </a>
                         </span>
-                        <style>
+                        <style
+                          jsx={true}
+                        >
                           
         .account-link {
           white-space: nowrap;
@@ -3110,7 +3163,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             receiver.test
                           </a>
                         </span>
-                        <style>
+                        <style
+                          jsx={true}
+                        >
                           
         .account-link {
           white-space: nowrap;
@@ -3173,15 +3228,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             <div
                               className="action-row-img"
                             >
-                              <svg
-                                viewBox="0 0 18 18"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="m0 18 9-9-9-9zm18-9L9 0v18z"
-                                  fill="#8dd4bd"
-                                />
-                              </svg>
+                              <test-file-stub />
                             </div>
                           </div>
                           <div
@@ -3223,7 +3270,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         receiver.test
                                       </a>
                                     </span>
-                                    <style>
+                                    <style
+                                      jsx={true}
+                                    >
                                       
         .account-link {
           white-space: nowrap;
@@ -3236,7 +3285,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             </div>
                           </div>
                         </div>
-                        <style>
+                        <style
+                          global={true}
+                          jsx={true}
+                        >
                           
             .action-sparse-row {
               padding-top: 10px;
@@ -3374,7 +3426,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                   </div>
-                  <style>
+                  <style
+                    global={true}
+                    jsx={true}
+                  >
                     
           .receipt-row {
             padding-top: 10px;
@@ -3433,7 +3488,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
           </div>
-          <style>
+          <style
+            global={true}
+            jsx={true}
+          >
             
           .receipt-row {
             padding-top: 10px;
@@ -3540,7 +3598,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R4444444444444444444444444444444444444444444
                   </a>
                 </span>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
         .receipt-hash-link.disabled {
           cursor: default;
@@ -3601,7 +3662,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     system
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -3635,7 +3698,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver.test
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -3698,15 +3763,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     <div
                       className="action-row-img"
                     >
-                      <svg
-                        viewBox="0 0 18 18"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m0 18 9-9-9-9zm18-9L9 0v18z"
-                          fill="#8dd4bd"
-                        />
-                      </svg>
+                      <test-file-stub />
                     </div>
                   </div>
                   <div
@@ -3748,7 +3805,9 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver.test
                               </a>
                             </span>
-                            <style>
+                            <style
+                              jsx={true}
+                            >
                               
         .account-link {
           white-space: nowrap;
@@ -3761,7 +3820,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .action-sparse-row {
               padding-top: 10px;
@@ -3899,7 +3961,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
           </div>
-          <style>
+          <style
+            global={true}
+            jsx={true}
+          >
             
           .receipt-row {
             padding-top: 10px;
@@ -3958,7 +4023,10 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .receipt-row {
             padding-top: 10px;
@@ -4060,7 +4128,10 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
         .receipt-hash-link.disabled {
           cursor: default;
@@ -4121,7 +4192,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             signer.test
           </a>
         </span>
-        <style>
+        <style
+          jsx={true}
+        >
           
         .account-link {
           white-space: nowrap;
@@ -4155,7 +4228,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             receiver.test
           </a>
         </span>
-        <style>
+        <style
+          jsx={true}
+        >
           
         .account-link {
           white-space: nowrap;
@@ -4218,15 +4293,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             <div
               className="action-row-img"
             >
-              <svg
-                viewBox="0 0 18 18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-                  fill="#ccc"
-                />
-              </svg>
+              <test-file-stub />
             </div>
           </div>
           <div
@@ -4257,7 +4324,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                         receiver.test
                       </a>
                     </span>
-                    <style>
+                    <style
+                      jsx={true}
+                    >
                       
         .account-link {
           white-space: nowrap;
@@ -4305,7 +4374,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                             </div>
                           </div>
                         </div>
-                        <style>
+                        <style
+                          jsx={true}
+                        >
                           
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -4326,7 +4397,10 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
             .action-sparse-row {
               padding-top: 10px;
@@ -4489,7 +4563,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          jsx={true}
+        >
           
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -4562,7 +4638,10 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     R2222222222222222222222222222222222222222222
                   </a>
                 </span>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
         .receipt-hash-link.disabled {
           cursor: default;
@@ -4623,7 +4702,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     system
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -4657,7 +4738,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     receiver.test
                   </a>
                 </span>
-                <style>
+                <style
+                  jsx={true}
+                >
                   
         .account-link {
           white-space: nowrap;
@@ -4720,15 +4803,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     <div
                       className="action-row-img"
                     >
-                      <svg
-                        viewBox="0 0 18 18"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m0 18 9-9-9-9zm18-9L9 0v18z"
-                          fill="#8dd4bd"
-                        />
-                      </svg>
+                      <test-file-stub />
                     </div>
                   </div>
                   <div
@@ -4770,7 +4845,9 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                                 receiver.test
                               </a>
                             </span>
-                            <style>
+                            <style
+                              jsx={true}
+                            >
                               
         .account-link {
           white-space: nowrap;
@@ -4783,7 +4860,10 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     </div>
                   </div>
                 </div>
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .action-sparse-row {
               padding-top: 10px;
@@ -4921,7 +5001,10 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               </div>
             </div>
           </div>
-          <style>
+          <style
+            global={true}
+            jsx={true}
+          >
             
           .receipt-row {
             padding-top: 10px;
@@ -4980,7 +5063,10 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .receipt-row {
             padding-top: 10px;

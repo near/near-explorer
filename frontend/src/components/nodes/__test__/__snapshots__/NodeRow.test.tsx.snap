@@ -47,7 +47,10 @@ Array [
             onMouseOver={[Function]}
           >
             Online
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
             .validating-label {
               padding: 2px 8px;
@@ -140,7 +143,10 @@ Array [
       </div>
     </td>
   </tr>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .table-row {
             background-color: #ffffff;
@@ -184,7 +190,10 @@ Array [
           }
         
   </style>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
                   @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
