@@ -21,7 +21,8 @@
     "lib": ["dom", "es2015", "es2016"],
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "incremental": true
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "additional.d.ts", "**/*.ts", "**/*.tsx"]
