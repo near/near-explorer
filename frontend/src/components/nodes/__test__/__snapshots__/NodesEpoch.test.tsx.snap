@@ -128,7 +128,10 @@ exports[`<NodesEpoch /> renders 1`] = `
             </span>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
           .progress-bar {
             background: transparent;
@@ -195,7 +198,10 @@ exports[`<NodesEpoch /> renders 1`] = `
         />
       </svg>
     </div>
-    <style>
+    <style
+      global={true}
+      jsx={true}
+    >
       
           .progress-bar {
             background: transparent;
@@ -221,7 +227,10 @@ exports[`<NodesEpoch /> renders 1`] = `
         
     </style>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               .nodes-epoch {
                 background-color: #292526;

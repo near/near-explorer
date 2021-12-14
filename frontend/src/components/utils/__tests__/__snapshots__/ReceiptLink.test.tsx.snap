@@ -14,7 +14,10 @@ Array [
       FNNA1kX...
     </a>
   </span>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
         .receipt-hash-link.disabled {
           cursor: default;
@@ -33,7 +36,10 @@ Array [
   >
     9zSjvFz...
   </span>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
         .receipt-hash-link.disabled {
           cursor: default;

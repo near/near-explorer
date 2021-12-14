@@ -59,7 +59,10 @@ Array [
             onMouseOver={[Function]}
           >
             Active
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
             .validating-label {
               padding: 2px 8px;
@@ -189,7 +192,10 @@ Array [
         >
           117.68%
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
           .cumulative-stake-chart {
             width: 100%;
@@ -226,7 +232,10 @@ Array [
       </div>
     </td>
   </tr>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .table-row {
             background-color: #ffffff;
@@ -270,7 +279,10 @@ Array [
           }
         
   </style>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
@@ -428,7 +440,10 @@ Array [
             onMouseOver={[Function]}
           >
             Active
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
             .validating-label {
               padding: 2px 8px;
@@ -558,7 +573,10 @@ Array [
         >
           74.72%
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
           .cumulative-stake-chart {
             width: 100%;
@@ -595,7 +613,10 @@ Array [
       </div>
     </td>
   </tr>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .table-row {
             background-color: #ffffff;
@@ -639,7 +660,10 @@ Array [
           }
         
   </style>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
@@ -797,7 +821,10 @@ Array [
             onMouseOver={[Function]}
           >
             Idle
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
             .validating-label {
               padding: 2px 8px;
@@ -903,7 +930,10 @@ Array [
         >
           N/A
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
           .cumulative-stake-chart {
             width: 100%;
@@ -940,7 +970,10 @@ Array [
       </div>
     </td>
   </tr>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .table-row {
             background-color: #ffffff;
@@ -984,7 +1017,10 @@ Array [
           }
         
   </style>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
@@ -1142,7 +1178,10 @@ Array [
             onMouseOver={[Function]}
           >
             Active
-            <style>
+            <style
+              global={true}
+              jsx={true}
+            >
               
             .validating-label {
               padding: 2px 8px;
@@ -1272,7 +1311,10 @@ Array [
         >
           50.14%
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
           .cumulative-stake-chart {
             width: 100%;
@@ -1309,7 +1351,10 @@ Array [
       </div>
     </td>
   </tr>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
           .table-row {
             background-color: #ffffff;
@@ -1363,7 +1408,10 @@ Array [
       Validators 1 - 1 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
     </td>
   </tr>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
               @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 

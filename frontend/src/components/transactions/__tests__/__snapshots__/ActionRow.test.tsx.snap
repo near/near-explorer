@@ -11,15 +11,7 @@ Array [
       <div
         className="action-row-img"
       >
-        <svg
-          viewBox="0 0 18 18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-            fill="#ccc"
-          />
-        </svg>
+        <test-file-stub />
       </div>
     </div>
     <div
@@ -50,7 +42,9 @@ Array [
                   5ce78…ockup.near
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -63,7 +57,10 @@ Array [
       </div>
     </div>
   </div>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
             .action-sparse-row {
               padding-top: 10px;
@@ -194,15 +191,7 @@ Array [
       <div
         className="action-row-img"
       >
-        <svg
-          viewBox="0 0 18 18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M18 18v-3.6L8.92 5.32A4.5 4.5 0 1 0 4.5 9a4.47 4.47 0 0 0 .82-.08L14.4 18zM3 4.5A1.5 1.5 0 1 1 4.5 6 1.5 1.5 0 0 1 3 4.5z"
-            fill="#5ace84"
-          />
-        </svg>
+        <test-file-stub />
       </div>
     </div>
     <div
@@ -233,7 +222,9 @@ Array [
                   receiver.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -266,7 +257,9 @@ Array [
                   signer.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -321,7 +314,10 @@ Array [
       </div>
     </div>
   </div>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
             .action-sparse-row {
               padding-top: 10px;
@@ -452,15 +448,7 @@ Array [
       <div
         className="action-row-img"
       >
-        <svg
-          viewBox="0 0 18 18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-            fill="#ccc"
-          />
-        </svg>
+        <test-file-stub />
       </div>
     </div>
     <div
@@ -491,7 +479,9 @@ Array [
                   receiver.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -535,7 +525,9 @@ Array [
                       </div>
                     </div>
                   </div>
-                  <style>
+                  <style
+                    jsx={true}
+                  >
                     
         @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
         .code-preview {
@@ -572,7 +564,9 @@ Array [
                   signer.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -614,7 +608,10 @@ Array [
       </div>
     </div>
   </div>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
             .action-sparse-row {
               padding-top: 10px;
@@ -745,15 +742,7 @@ Array [
       <div
         className="action-row-img"
       >
-        <svg
-          viewBox="0 0 18 18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m0 9 6 6L9 0zm12-6L9 18l9-9z"
-            fill="#ccc"
-          />
-        </svg>
+        <test-file-stub />
       </div>
     </div>
     <div
@@ -784,7 +773,9 @@ Array [
                   app.nearcrowd.near
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -813,7 +804,9 @@ Array [
                   elonmusk_tesla.near
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -844,7 +837,10 @@ Array [
                   7uADRkZ...
                 </a>
               </span>
-              <style>
+              <style
+                global={true}
+                jsx={true}
+              >
                 
         .receipt-hash-link.disabled {
           cursor: default;
@@ -876,7 +872,10 @@ Array [
       </div>
     </div>
   </div>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
             .action-sparse-row {
               padding-top: 10px;
@@ -1007,15 +1006,7 @@ Array [
       <div
         className="action-row-img"
       >
-        <svg
-          viewBox="0 0 18 18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m11.26 9-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
-            fill="#0071ce"
-          />
-        </svg>
+        <test-file-stub />
       </div>
     </div>
     <div
@@ -1046,7 +1037,9 @@ Array [
                   receiver.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1075,7 +1068,9 @@ Array [
                   signer.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1130,7 +1125,10 @@ Array [
       </div>
     </div>
   </div>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
             .action-sparse-row {
               padding-top: 10px;
@@ -1261,15 +1259,7 @@ Array [
       <div
         className="action-row-img"
       >
-        <svg
-          viewBox="0 0 18 18"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="m11.26 9-.34-.45a4.5 4.5 0 1 0-3.84 0L6.74 9A7 7 0 0 0 0 16v2h18v-2a7 7 0 0 0-6.74-7z"
-            fill="#0071ce"
-          />
-        </svg>
+        <test-file-stub />
       </div>
     </div>
     <div
@@ -1300,7 +1290,9 @@ Array [
                   receiver.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1329,7 +1321,9 @@ Array [
                   signer.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1384,7 +1378,10 @@ Array [
       </div>
     </div>
   </div>,
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
             .action-sparse-row {
               padding-top: 10px;

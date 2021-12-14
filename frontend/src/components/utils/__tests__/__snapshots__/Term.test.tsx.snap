@@ -12,7 +12,10 @@ Array [
       onClick={[Function]}
       src="/static/images/icon-info.svg"
     />
-    <style>
+    <style
+      global={true}
+      jsx={true}
+    >
       
             .term-helper {
               display: inline-block;

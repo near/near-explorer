@@ -36,7 +36,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -69,7 +72,9 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   signer.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -79,7 +84,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -157,7 +165,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -190,7 +201,9 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   receiver.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -200,7 +213,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -278,7 +294,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -312,7 +331,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -394,7 +416,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -428,7 +453,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -506,7 +534,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -540,7 +571,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -618,7 +652,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -643,7 +680,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -721,7 +761,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -746,7 +789,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -824,7 +870,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -849,7 +898,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -923,7 +975,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -948,7 +1003,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1026,7 +1084,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1062,7 +1123,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1112,7 +1176,10 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
                   .transaction-info-container {
                     border: solid 4px #e6e6e6;
@@ -1181,7 +1248,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1214,7 +1284,9 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   signer2.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1224,7 +1296,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1302,7 +1377,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1335,7 +1413,9 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   receiver2.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -1345,7 +1425,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1423,7 +1506,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1457,7 +1543,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1539,7 +1628,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1573,7 +1665,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1651,7 +1746,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1685,7 +1783,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1763,7 +1864,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1788,7 +1892,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1866,7 +1973,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1891,7 +2001,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -1969,7 +2082,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -1994,7 +2110,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2068,7 +2187,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2093,7 +2215,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2171,7 +2296,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2207,7 +2335,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2257,7 +2388,10 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
                   .transaction-info-container {
                     border: solid 4px #e6e6e6;
@@ -2326,7 +2460,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2359,7 +2496,9 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   signer2.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -2369,7 +2508,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2447,7 +2589,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2480,7 +2625,9 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   receiver2.test
                 </a>
               </span>
-              <style>
+              <style
+                jsx={true}
+              >
                 
         .account-link {
           white-space: nowrap;
@@ -2490,7 +2637,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2568,7 +2718,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2602,7 +2755,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2684,7 +2840,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2718,7 +2877,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2796,7 +2958,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2830,7 +2995,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -2908,7 +3076,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -2933,7 +3104,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3011,7 +3185,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3036,7 +3213,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3114,7 +3294,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3139,7 +3322,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3213,7 +3399,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3238,7 +3427,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3316,7 +3508,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style>
+                <style
+                  global={true}
+                  jsx={true}
+                >
                   
             .term-helper {
               display: inline-block;
@@ -3352,7 +3547,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style>
+        <style
+          global={true}
+          jsx={true}
+        >
           
       .card-cell {
         border-style: solid;
@@ -3402,7 +3600,10 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       </div>
     </div>
   </div>
-  <style>
+  <style
+    global={true}
+    jsx={true}
+  >
     
                   .transaction-info-container {
                     border: solid 4px #e6e6e6;
