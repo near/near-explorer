@@ -6,7 +6,16 @@ module.exports = {
       "babel-jest",
       {
         plugins: ["inline-react-svg"],
-        presets: ["next/babel"],
+        presets: [
+          [
+            "next/babel",
+            {
+              "styled-jsx": {
+                "babel-test": true,
+              },
+            },
+          ],
+        ],
       },
     ],
   },
