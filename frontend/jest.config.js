@@ -19,6 +19,7 @@ module.exports = {
       },
     ],
   },
+  testEnvironment: "jsdom",
   testPathIgnorePatterns: ["<rootDir>/.next/", "<rootDir>/node_modules/"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   collectCoverage: false,
