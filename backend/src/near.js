@@ -40,27 +40,26 @@ const queryEpochStats = async () => {
   const currentNodes = getCurrentNodes(epochStatus);
   const currentPools = await queryNodeValidators();
 
-  // loop over 'active' validators to push those validators to common Map()
-  currentNodes.forEach((node, i) => {
-    const { stake, ...currentNode } = node;
-    stakingNodes.set(node.account_id, {
-      ...currentNode,
-      currentStake: stake,
-      stakingStatus: currentNodes[i].stakingStatus,
-    });
+  // loop over 'active', 'joining' and 'leaving' validators
+  // and push those validators to Map()
+  currentNodes.forEach((node) => {
+    stakingNodes.set(node.account_id, node);
   });
 
   // loop over proposed validators to apply stakingStatus='proposal'
-  // and if proposed validators already exist in common Map()
+  // and if proposed validators already exist in 'currentNodesMap' Map()
   // we add proposedStake to this validator because of different
   // amount of stake from current to next epoch
   currentProposals.forEach((proposal) => {
     const { stake, ...proposalValidator } = proposal;
-    const activeValidator = stakingNodes.get(proposal.account_id);
+    const currentValidator = stakingNodes.get(proposal.account_id);
 
-    if (activeValidator) {
+    if (
+      currentValidator &&
+      ["active", "joining"].indexOf(currentValidator.stakingStatus) >= 0
+    ) {
       stakingNodes.set(proposal.account_id, {
-        ...activeValidator,
+        ...currentValidator,
         proposedStake: proposal.stake,
       });
     } else {
@@ -139,9 +138,14 @@ const queryEpochStats = async () => {
 };
 
 const setValidatorStatus = (validators, status) => {
-  for (let i = 0; i < validators.length; i++) {
-    validators[i].stakingStatus = status;
-  }
+  return validators.map((v) => {
+    const { stake, ...validator } = v;
+    return {
+      ...validator,
+      currentStake: stake,
+      stakingStatus: status,
+    };
+  });
 };
 
 const getCurrentNodes = (epochStatus) => {
@@ -149,15 +153,24 @@ const getCurrentNodes = (epochStatus) => {
     current_validators: currentValidators,
     next_validators: nextValidators,
   } = epochStatus;
-  const {
+
+  let {
     newValidators,
     removedValidators,
   } = nearApi.validators.diffEpochValidators(currentValidators, nextValidators);
-  setValidatorStatus(currentValidators, "active");
-  setValidatorStatus(newValidators, "joining");
-  setValidatorStatus(removedValidators, "leaving");
-  currentValidators = currentValidators.concat(newValidators);
-  return currentValidators;
+
+  const removedValidatorsSet = new Set(
+    removedValidators.map((i) => i.account_id)
+  );
+  const activeValidators = currentValidators.filter(
+    (v) => !removedValidatorsSet.has(v.account_id)
+  );
+
+  nextValidators = setValidatorStatus(newValidators, "joining");
+  removedValidators = setValidatorStatus(removedValidators, "leaving");
+  currentValidators = setValidatorStatus(activeValidators, "active");
+
+  return [...currentValidators, ...nextValidators, ...removedValidators];
 };
 
 async function getStakingNodesList() {
