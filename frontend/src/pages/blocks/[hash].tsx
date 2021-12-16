@@ -8,7 +8,7 @@ import Mixpanel from "../../libraries/mixpanel";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import BlocksApi from "../../libraries/explorer-wamp/blocks";
+import BlocksApi, { BlockInfo } from "../../libraries/explorer-wamp/blocks";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
 import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
@@ -16,9 +16,28 @@ import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
+import { NextPageContext } from "next";
 
-class BlockDetail extends Component {
-  static async getInitialProps({ req, query: { hash } }) {
+type SuccessfulProps = BlockInfo & {
+  totalSupply: string;
+  gasPrice: string;
+  gasUsed: string;
+};
+
+type FailedProps = {
+  hash: string;
+  err: unknown;
+};
+
+type Props = SuccessfulProps | FailedProps;
+
+class BlockDetail extends Component<Props> {
+  static async getInitialProps({
+    req,
+    query: { hash: rawHash },
+  }: NextPageContext) {
+    // Change to string[] if pagename changes from `[hash]` to `[...hash]`
+    const hash = rawHash as string;
     try {
       const block = await new BlocksApi(req).getBlockInfo(hash);
       return {
@@ -42,18 +61,21 @@ class BlockDetail extends Component {
   render() {
     // Prepare the block object with all the right types and field names on render() since
     // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
-    const block = {
-      hash: this.props.hash,
-      height: this.props.height,
-      timestamp: this.props.timestamp,
-      prevHash: this.props.prevHash,
-      transactionsCount: this.props.transactionsCount,
-      totalSupply: new BN(this.props.totalSupply),
-      gasPrice: new BN(this.props.gasPrice),
-      gasUsed: new BN(this.props.gasUsed),
-      authorAccountId: this.props.authorAccountId,
-      receiptsCount: this.props.receiptsCount,
-    };
+    const block =
+      "err" in this.props
+        ? undefined
+        : {
+            hash: this.props.hash,
+            height: this.props.height,
+            timestamp: this.props.timestamp,
+            prevHash: this.props.prevHash,
+            transactionsCount: this.props.transactionsCount,
+            totalSupply: new BN(this.props.totalSupply),
+            gasPrice: new BN(this.props.gasPrice),
+            gasUsed: new BN(this.props.gasUsed),
+            authorAccountId: this.props.authorAccountId,
+            receiptsCount: this.props.receiptsCount,
+          };
 
     return (
       <Translate>
@@ -65,20 +87,20 @@ class BlockDetail extends Component {
             <Content
               title={
                 <h1>{`${translate("page.blocks.title").toString()} ${
-                  block.height
+                  block
                     ? `#${block.height}`
-                    : `${block.hash.substring(0, 7)}...`
+                    : `${this.props.hash.substring(0, 7)}...`
                 }`}</h1>
               }
               border={false}
             >
-              {this.props.err ? (
+              {!block ? (
                 <>{translate("page.blocks.error.block_fetching")}</>
               ) : (
                 <BlockDetails block={block} />
               )}
             </Content>
-            {!this.props.err ? (
+            {!("err" in this.props) ? (
               <>
                 <Content
                   size="medium"
@@ -87,7 +109,7 @@ class BlockDetail extends Component {
                     <h2>{translate("common.transactions.transactions")}</h2>
                   }
                 >
-                  <Transactions blockHash={block.hash} count={1000} />
+                  <Transactions blockHash={this.props.hash} count={1000} />
                 </Content>
 
                 <Content
@@ -95,7 +117,7 @@ class BlockDetail extends Component {
                   icon={<TransactionIcon style={{ width: "22px" }} />}
                   title={<h2>{translate("common.receipts.receipts")}</h2>}
                 >
-                  <ReceiptsInBlock blockHash={block.hash} />
+                  <ReceiptsInBlock blockHash={this.props.hash} />
                 </Content>
               </>
             ) : null}

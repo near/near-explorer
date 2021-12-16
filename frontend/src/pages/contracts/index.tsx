@@ -9,7 +9,7 @@ class Contracts extends Component {
         <Head>
           <title>NEAR Explorer | Contracts</title>
         </Head>
-        <Content title={<h1>Contracts</h1>} count=""></Content>
+        <Content title={<h1>Contracts</h1>}></Content>
       </>
     );
   }

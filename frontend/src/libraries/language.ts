@@ -11,12 +11,27 @@ import translations_vi from "../translations/vi.global.json";
 import translations_ru from "../translations/ru.global.json";
 import moment from "./moment";
 import Cookies from "universal-cookie";
+import {
+  InitializePayload,
+  LocalizeContextProps,
+  NamedLanguage,
+} from "react-localize-redux";
 
-function uniq(arr) {
+interface Language {
+  code: string;
+  score: number;
+}
+
+interface LanguageInput {
+  cookies?: string;
+  acceptedLanguages?: string;
+}
+
+function uniq<T>(arr: T[]): T[] {
   return arr.filter((el, index, self) => self.indexOf(el) === index);
 }
 
-function normalizeLocales(arr) {
+function normalizeLocales(arr: string[]): string[] {
   return arr.map((el) => {
     if (!el || el.indexOf("-") === -1 || el.toLowerCase() !== el) {
       return el;
@@ -27,8 +42,8 @@ function normalizeLocales(arr) {
   });
 }
 
-function getUserLocales() {
-  let languageList = [];
+function getUserLocales(): string[] {
+  let languageList: string[] = [];
 
   if (typeof window !== "undefined") {
     const { navigator } = window;
@@ -36,17 +51,10 @@ function getUserLocales() {
     if (navigator.languages) {
       languageList = languageList.concat(navigator.languages);
     }
+    // https://caniuse.com/mdn-api_navigator_language
+    // 97.31% users have this property as of 2021-12-15
     if (navigator.language) {
       languageList.push(navigator.language);
-    }
-    if (navigator.userLanguage) {
-      languageList.push(navigator.userLanguage);
-    }
-    if (navigator.browserLanguage) {
-      languageList.push(navigator.browserLanguage);
-    }
-    if (navigator.systemLanguage) {
-      languageList.push(navigator.systemLanguage);
     }
   }
 
@@ -57,14 +65,14 @@ function getUserLocales() {
 
 const DEBUG_LOG = false;
 
-const debugLog = (...args) => DEBUG_LOG && console.log(...args);
+const debugLog = (...args: unknown[]) => DEBUG_LOG && console.log(...args);
 
 /**
  * Parses locales provided from browser through `accept-language` header.
- * @param {string} input
- * @return {string[]} An array of locale codes. Priority determined by order in array.
+ * @param input
+ * @return An array of locale codes. Priority determined by order in array.
  **/
-export const parseAcceptLanguage = (input) => {
+export const parseAcceptLanguage = (input: string): string[] => {
   // Example input: en-US,en;q=0.9,nb;q=0.8,no;q=0.7
   // Contains tags separated by comma.
   // Each tag consists of locale code (2-3 letter language code) and optionally country code
@@ -73,7 +81,7 @@ export const parseAcceptLanguage = (input) => {
   return input.split(",").map((tag) => tag.split(";")[0]);
 };
 
-export function getBrowserLocale(appLanguages) {
+export function getBrowserLocale(appLanguages: string[]): string | undefined {
   const browserLanguages = getUserLocales();
 
   debugLog("Languages from browser:", browserLanguages);
@@ -88,8 +96,11 @@ export function getBrowserLocale(appLanguages) {
   }
 }
 
-export function getAcceptedLocale(appLanguages, acceptedLanguages) {
-  acceptedLanguages =
+export function getAcceptedLocale(
+  appLanguages: string[],
+  acceptedLanguages?: string
+): string | undefined {
+  const parsedAcceptedLanguages =
     acceptedLanguages && parseAcceptLanguage(acceptedLanguages);
 
   debugLog("Languages from Accepted Languages header:", acceptedLanguages);
@@ -97,15 +108,18 @@ export function getAcceptedLocale(appLanguages, acceptedLanguages) {
   if (
     appLanguages &&
     appLanguages.length > 0 &&
-    acceptedLanguages &&
-    acceptedLanguages.length > 0
+    parsedAcceptedLanguages &&
+    parsedAcceptedLanguages.length > 0
   ) {
-    return findBestSupportedLocale(appLanguages, acceptedLanguages);
+    return findBestSupportedLocale(appLanguages, parsedAcceptedLanguages);
   }
 }
 
-function findBestSupportedLocale(appLocales, browserLocales) {
-  const matchedLocales = {};
+function findBestSupportedLocale(
+  appLocales: string[],
+  browserLocales: string[]
+): string | undefined {
+  const matchedLocales: Record<string, Language> = {};
 
   // Process special mappings
   const walletLocales = browserLocales.map((locale) => {
@@ -138,13 +152,14 @@ function findBestSupportedLocale(appLocales, browserLocales) {
         const existingMatch = matchedLocales[matchedPartialLocale];
 
         // Deduct a thousandth for being non-exact match.
+        const newMatchScore = 0.999 - index / walletLocales.length;
         const newMatch = {
           code: matchedPartialLocale,
-          score: 0.999 - index / walletLocales.length,
+          score: newMatchScore,
         };
         if (
           !existingMatch ||
-          (existingMatch && existingMatch.score <= matchedPartialLocale.score)
+          (existingMatch && existingMatch.score <= newMatchScore)
         ) {
           debugLog("Found language-only match:", {
             browserLocale,
@@ -166,7 +181,7 @@ function findBestSupportedLocale(appLocales, browserLocales) {
   }
 }
 
-export function setMomentLocale(code) {
+export function setMomentLocale(code: string): void {
   let locale;
   switch (code) {
     case "ru":
@@ -184,7 +199,10 @@ export function setMomentLocale(code) {
   moment.locale(locale);
 }
 
-function getLanguage(languages, { cookies, acceptedLanguages }) {
+function getLanguage(
+  languages: NamedLanguage[],
+  { cookies, acceptedLanguages }: LanguageInput = {}
+) {
   if (typeof window === "undefined") {
     return (
       new Cookies(cookies || undefined).get("NEXT_LOCALE") ||
@@ -203,7 +221,7 @@ function getLanguage(languages, { cookies, acceptedLanguages }) {
   }
 }
 
-function getI18nConfig() {
+function getI18nConfig(): InitializePayload {
   return {
     languages: [
       { name: "English", code: "en" },
@@ -220,11 +238,17 @@ function getI18nConfig() {
   };
 }
 
-export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
+export function getI18nConfigForProvider({
+  cookies,
+  acceptedLanguages,
+}: LanguageInput): InitializePayload | undefined {
   if (typeof window === "undefined") {
     let config = getI18nConfig();
     const { languages } = config;
-    const activeLang = getLanguage(languages, { cookies, acceptedLanguages });
+    const activeLang = getLanguage(languages as NamedLanguage[], {
+      cookies,
+      acceptedLanguages,
+    });
     switch (activeLang) {
       case "ru":
         config.translation = translations_ru;
@@ -242,11 +266,10 @@ export function getI18nConfigForProvider({ cookies, acceptedLanguages }) {
   }
 }
 
-export function setI18N(props) {
+export function setI18N(props: LocalizeContextProps): void {
   const config = getI18nConfig();
   const { languages } = config;
-  const { cookies } = props;
-  const activeLang = getLanguage(languages, { cookies });
+  const activeLang = getLanguage(languages as NamedLanguage[]);
 
   props.initialize(config);
   props.addTranslationForLanguage(translations_en, "en");

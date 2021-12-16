@@ -2,10 +2,16 @@ import { createContext } from "react";
 
 import { NearNetwork } from "../libraries/config";
 
-const NetworkContext = createContext({});
+const NetworkContext = createContext<{
+  currentNearNetwork?: NearNetwork;
+  nearNetworks?: [NearNetwork];
+}>({});
 
-export interface Props {
+export interface CurrentNetworkProps {
   currentNearNetwork: NearNetwork;
+}
+
+export interface Props extends CurrentNetworkProps {
   nearNetworks: [NearNetwork];
   children: React.ReactNode;
 }

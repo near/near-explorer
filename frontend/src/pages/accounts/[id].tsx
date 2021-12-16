@@ -4,7 +4,8 @@ import { Component } from "react";
 import { Container } from "react-bootstrap";
 
 import Mixpanel from "../../libraries/mixpanel";
-import AccountsApi from "../../libraries/explorer-wamp/accounts";
+import AccountsApi, { Account } from "../../libraries/explorer-wamp/accounts";
+import { PageNetworkProps } from "../_app";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
 import ContractDetails from "../../components/contracts/ContractDetails";
@@ -14,10 +15,27 @@ import Content from "../../components/utils/Content";
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import { Translate } from "react-localize-redux";
+import { NextPageContext } from "next";
 
-class AccountDetail extends Component {
-  static async getInitialProps({ req, query: { id }, res }) {
-    if (/[A-Z]/.test(id)) {
+interface Props extends PageNetworkProps {
+  account:
+    | Account
+    | {
+        accountId: string;
+      };
+  accountFetchingError?: unknown;
+  accountError?: unknown;
+}
+
+class AccountDetail extends Component<Props> {
+  static async getInitialProps({
+    req,
+    query: { id: rawId },
+    res,
+  }: NextPageContext) {
+    // Change to string[] if pagename changes from `[id]` to `[...id]`
+    const id = rawId as string;
+    if (/[A-Z]/.test(id) && res) {
       res.writeHead(301, { Location: `/accounts/${id.toLowerCase()}` });
       res.end();
     }

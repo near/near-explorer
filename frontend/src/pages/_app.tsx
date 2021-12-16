@@ -1,8 +1,8 @@
-import App from "next/app";
+import App, { AppContext } from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 
-import { getNearNetwork } from "../libraries/config";
+import { getNearNetwork, NearNetwork } from "../libraries/config";
 import Mixpanel from "../libraries/mixpanel";
 
 import Header from "../components/utils/Header";
@@ -20,8 +20,14 @@ const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
 } = getConfig();
 
-class _App extends App {
-  static async getInitialProps(appContext) {
+interface Props {
+  cookies?: string;
+  acceptedLanguages?: string;
+  currentNearNetwork: NearNetwork;
+}
+
+class _App extends App<Props> {
+  static async getInitialProps(appContext: AppContext) {
     // WARNING: Do not remove this getInitialProps implementation as it
     // will enable Automatic Prerendering, which does not work fine with
     // `publicRuntimeConfig`:
@@ -35,15 +41,18 @@ class _App extends App {
 
     let currentNearNetwork, cookies, acceptedLanguages;
     if (typeof window === "undefined") {
-      currentNearNetwork = getNearNetwork(appContext.ctx.req.headers.host);
-      cookies = appContext.ctx.req.headers.cookie;
-      acceptedLanguages = appContext.ctx.req.headers["accept-language"];
+      const req = appContext.ctx.req;
+      if (req) {
+        currentNearNetwork = getNearNetwork(req.headers.host);
+        cookies = req.headers.cookie;
+        acceptedLanguages = req.headers["accept-language"];
+      }
     } else {
       currentNearNetwork = getNearNetwork(window.location.host);
     }
     return {
       currentNearNetwork,
-      ...(await App.getInitialProps({ ...appContext, currentNearNetwork })),
+      ...(await App.getInitialProps(appContext)),
       cookies,
       acceptedLanguages,
     };
@@ -60,7 +69,10 @@ class _App extends App {
 
     return (
       <LocalizeProvider
-        initialize={getI18nConfigForProvider({ cookies, acceptedLanguages })}
+        initialize={getI18nConfigForProvider({
+          cookies,
+          acceptedLanguages,
+        })}
       >
         <Head>
           <link
@@ -171,5 +183,7 @@ class _App extends App {
     );
   }
 }
+
+export type { CurrentNetworkProps as PageNetworkProps } from "../context/NetworkProvider";
 
 export default _App;

@@ -18,7 +18,7 @@ import StorageSize from "../utils/StorageSize";
 import { Translate } from "react-localize-redux";
 
 export interface Props {
-  account: Account;
+  account: Partial<Omit<Account, "accountId">> & { accountId: string };
   currentNearNetwork: NearNetwork;
 }
 
@@ -173,74 +173,75 @@ class AccountDetails extends Component<Props> {
                 </Col>
               )}
             </Row>
-            {typeof account.nonStakedBalance !== "undefined" && (
-              <Row noGutters>
-                <Col xs="12" md="4">
-                  <CardCell
-                    title={
-                      <Term
-                        title={translate(
-                          "component.accounts.AccountDetails.native_account_balance.title"
-                        )}
-                        text={translate(
-                          "component.accounts.AccountDetails.native_account_balance.text"
-                        )}
-                        href={
-                          "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                        }
-                      />
-                    }
-                    text={<Balance amount={account.nonStakedBalance} />}
-                    className="border-0"
-                  />
-                </Col>
-                <Col md="4">
-                  <CardCell
-                    title={
-                      <Term
-                        title={translate(
-                          "component.accounts.AccountDetails.validator_stake.title"
-                        )}
-                        text={translate(
-                          "component.accounts.AccountDetails.validator_stake.text",
-                          undefined,
-                          { renderInnerHtml: true }
-                        )}
-                        href={
-                          "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                        }
-                      />
-                    }
-                    text={<Balance amount={account.stakedBalance} />}
-                  />
-                </Col>
-                <Col md="4">
-                  <CardCell
-                    title={
-                      <Term
-                        title={translate(
-                          "component.accounts.AccountDetails.balance_profile.title"
-                        )}
-                        text={translate(
-                          "component.accounts.AccountDetails.balance_profile.text"
-                        )}
-                        href={
-                          "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                        }
-                      />
-                    }
-                    text={
-                      <WalletLink
-                        accountId={account.accountId}
-                        nearWalletProfilePrefix={
-                          currentNearNetwork.nearWalletProfilePrefix
-                        }
-                      />
-                    }
-                  />
-                </Col>
-              </Row>
-            )}
+            {typeof account.nonStakedBalance !== "undefined" &&
+              typeof account.stakedBalance !== "undefined" && (
+                <Row noGutters>
+                  <Col xs="12" md="4">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.accounts.AccountDetails.native_account_balance.title"
+                          )}
+                          text={translate(
+                            "component.accounts.AccountDetails.native_account_balance.text"
+                          )}
+                          href={
+                            "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                          }
+                        />
+                      }
+                      text={<Balance amount={account.nonStakedBalance} />}
+                      className="border-0"
+                    />
+                  </Col>
+                  <Col md="4">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.accounts.AccountDetails.validator_stake.title"
+                          )}
+                          text={translate(
+                            "component.accounts.AccountDetails.validator_stake.text",
+                            undefined,
+                            { renderInnerHtml: true }
+                          )}
+                          href={
+                            "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                          }
+                        />
+                      }
+                      text={<Balance amount={account.stakedBalance} />}
+                    />
+                  </Col>
+                  <Col md="4">
+                    <CardCell
+                      title={
+                        <Term
+                          title={translate(
+                            "component.accounts.AccountDetails.balance_profile.title"
+                          )}
+                          text={translate(
+                            "component.accounts.AccountDetails.balance_profile.text"
+                          )}
+                          href={
+                            "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+                          }
+                        />
+                      }
+                      text={
+                        <WalletLink
+                          accountId={account.accountId}
+                          nearWalletProfilePrefix={
+                            currentNearNetwork.nearWalletProfilePrefix
+                          }
+                        />
+                      }
+                    />
+                  </Col>
+                </Row>
+              )}
             {account.deletedAtBlockTimestamp === null ||
             typeof account.deletedAtBlockTimestamp === "undefined" ? (
               <Row noGutters className="border-0">

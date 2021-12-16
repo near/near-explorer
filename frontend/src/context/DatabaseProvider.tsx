@@ -1,6 +1,12 @@
 import BN from "bn.js";
 
-import React, { createContext, useEffect, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+  FC,
+} from "react";
 
 import {
   ExplorerApi,
@@ -25,11 +31,7 @@ export interface DbContext {
 
 const DatabaseContext = createContext<DbContext>({});
 
-export interface Props {
-  children: React.Component;
-}
-
-const DatabaseProvider = (props: Props) => {
+const DatabaseProvider: FC = (props) => {
   const [finalityStatus, dispatchFinalityStatus] = useState<FinalityStatus>();
   const [latestBlockHeight, dispatchLatestBlockHeight] = useState<BN>();
   const [latestGasPrice, dispatchLatestGasPrice] = useState<BN>();

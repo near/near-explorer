@@ -11,8 +11,8 @@ export interface NearNetwork {
   nearWalletProfilePrefix: string;
 }
 
-export function getNearNetwork(hostname: string): NearNetwork {
-  let nearNetwork = nearNetworkAliases[hostname];
+export function getNearNetwork(hostname?: string): NearNetwork {
+  let nearNetwork = hostname && nearNetworkAliases[hostname];
   if (nearNetwork === undefined) {
     nearNetwork = nearNetworks[0];
   }
