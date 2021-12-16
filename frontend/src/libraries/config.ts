@@ -1,15 +1,9 @@
+import { ExplorerConfig, NearNetwork } from "next.config";
 import getConfig from "next/config";
 
 const {
   publicRuntimeConfig: { nearNetworks, nearNetworkAliases },
-} = getConfig();
-
-export interface NearNetwork {
-  name: string;
-  explorerLink: string;
-  aliases: [string];
-  nearWalletProfilePrefix: string;
-}
+} = getConfig() as ExplorerConfig;
 
 export function getNearNetwork(hostname: string): NearNetwork {
   let nearNetwork = nearNetworkAliases[hostname];

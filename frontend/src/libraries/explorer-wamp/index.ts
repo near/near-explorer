@@ -2,7 +2,8 @@ import getConfig from "next/config";
 
 import autobahn from "autobahn";
 
-import { getNearNetwork, NearNetwork } from "../config";
+import { getNearNetwork } from "../config";
+import { ExplorerConfig, NearNetwork } from "next.config";
 
 interface IPromisePair {
   resolve: (value: autobahn.Session) => void;
@@ -27,7 +28,10 @@ export class ExplorerApi {
   nearNetwork: NearNetwork;
 
   constructor(apiPrefixSource?: any) {
-    const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
+    const {
+      publicRuntimeConfig,
+      serverRuntimeConfig,
+    } = getConfig() as ExplorerConfig;
 
     this.dataSource = publicRuntimeConfig.nearExplorerDataSource;
 

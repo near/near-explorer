@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { NearNetwork } from "../libraries/config";
+import { NearNetwork } from "next.config";
 
 const NetworkContext = createContext({});
 
