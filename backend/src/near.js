@@ -40,53 +40,62 @@ const queryEpochStats = async () => {
   const currentNodes = getCurrentNodes(epochStatus);
   const currentPools = await queryNodeValidators();
 
-  // loop over 'active', 'joining' and 'leaving' validators
-  // and push those validators to Map()
-  currentNodes.forEach((node) => {
-    stakingNodes.set(node.account_id, node);
+  // collect all ids
+  const currentPoolsIds = new Set([
+    ...currentPools.map(({ account_id }) => account_id),
+    ...currentNodes.map(({ account_id }) => account_id),
+    ...currentProposals.map(({ account_id }) => account_id),
+  ]);
+
+  // collect current validators and proposal to separate Map()
+  // to keep their list up-to-date
+  const currentValidatorsMap = new Map();
+  const currentProposalsMap = new Map();
+  currentNodes.forEach((i) => {
+    currentValidatorsMap.set(i.account_id, i);
+  });
+  currentProposals.forEach((v) => {
+    currentProposalsMap.set(v.account_id, v);
   });
 
-  // loop over proposed validators to apply stakingStatus='proposal'
-  // and if proposed validators already exist in 'currentNodesMap' Map()
-  // we add proposedStake to this validator because of different
-  // amount of stake from current to next epoch
-  currentProposals.forEach((proposal) => {
-    const { stake, ...proposalValidator } = proposal;
-    const currentValidator = stakingNodes.get(proposal.account_id);
+  // loop over all pools and
 
-    if (
-      currentValidator &&
-      ["active", "joining"].indexOf(currentValidator.stakingStatus) >= 0
-    ) {
-      stakingNodes.set(proposal.account_id, {
-        ...currentValidator,
-        proposedStake: proposal.stake,
+  for (const stakingPool of currentPoolsIds) {
+    const activeValidator = currentValidatorsMap.get(stakingPool);
+    const proposalValidator = currentProposalsMap.get(stakingPool);
+    // if current validator included in list of proposals
+    // we add proposedStake to this validator because of different
+    // amount of stake from current to next epoch
+    if (activeValidator && proposalValidator) {
+      stakingNodes.set(stakingPool, {
+        ...activeValidator,
+        proposedStake: proposalValidator.stake,
       });
-    } else {
-      stakingNodes.set(proposal.account_id, {
-        ...proposalValidator,
+    } else if (activeValidator && !proposalValidator) {
+      // if current validators isn't included in proposals list
+      // we display it as is (mostly for 'leaving' stakingStatus)
+      stakingNodes.set(stakingPool, {
+        ...activeValidator,
+      });
+    } else if (!activeValidator && proposalValidator) {
+      // if proposal validator isn't included in current validators list
+      // we display it with "proposal" stakingStatus
+      // and only 'proposedStake' instead of 'currentStake'
+      const { stake, ...proposal } = proposalValidator;
+      stakingNodes.set(stakingPool, {
+        ...proposal,
         proposedStake: stake,
         stakingStatus: "proposal",
       });
-    }
-  });
-
-  // loop over all pools from 'name.near' account
-  // to get metadata about those accounts (country, country flag, ect.) and
-  // push them to commom Map().
-  // this data will be shown on 'mainnet' only because 'name.near' exists only there
-  currentPools.forEach((pool) => {
-    const activePool = stakingNodes.get(pool.account_id);
-    if (activePool) {
-      stakingNodes.set(pool.account_id, {
-        ...activePool,
-      });
     } else {
-      stakingNodes.set(pool.account_id, {
-        account_id: pool.account_id,
+      // if some validator isn't included in current and proposal
+      // we just push 'account_id' to query for 'fee', 'delegators', 'stake'
+      // from rpc and 'name.near' contract
+      stakingNodes.set(stakingPool, {
+        account_id: stakingPool,
       });
     }
-  });
+  }
 
   const {
     epoch_start_height: epochStartHeight,
@@ -98,6 +107,9 @@ const queryEpochStats = async () => {
     genesis_height: genesisHeight,
     protocol_version: epochProtocolVersion,
   } = networkProtocolConfig;
+  const currentEpochValidatingNodes = currentNodes.filter(
+    (node) => ["active", "leaving"].indexOf(node.stakingStatus) >= 0
+  );
 
   if (currentEpochStartHeight !== epochStartHeight) {
     // Update seat_price and total_stake each time when epoch starts
@@ -116,7 +128,7 @@ const queryEpochStats = async () => {
       )
       .toString();
 
-    totalStake = currentNodes
+    totalStake = currentValidators
       .reduce((acc, node) => acc.add(new BN(node.stake)), new BN(0))
       .toString();
   }
@@ -126,9 +138,7 @@ const queryEpochStats = async () => {
     epochStartHeight,
     epochProtocolVersion,
     // we must kick of 'joining' validators as they are not part of current epoch
-    currentValidators: currentNodes.filter(
-      (i) => ["active", "leaving"].indexOf(i.stakingStatus) >= 0
-    ),
+    currentValidators: currentEpochValidatingNodes,
     stakingNodes,
     totalStake,
     seatPrice,
