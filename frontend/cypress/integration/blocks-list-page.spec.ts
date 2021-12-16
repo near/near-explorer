@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Blocks List page", () => {
   beforeEach(() => {
     cy.intercept("GET", "/blocks").as("blocksList");
@@ -51,7 +49,7 @@ context("Blocks List page", () => {
           ".infinite-scroll-component__outerdiv .infinite-scroll-component"
         ).then(($childEl) => {
           if ($childEl.find(".action-sparse-row").length > 0) {
-            cy.get($childEl)
+            cy.get($childEl.toString())
               .find(".action-sparse-row")
               .should("exist")
               .and("not.be.empty");

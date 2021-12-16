@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Transactions", () => {
   beforeEach(() => {
     cy.intercept("GET", "/transactions").as("transactionsList");

@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Dashboard", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -30,7 +28,7 @@ context("Dashboard", () => {
       .should("exist")
       .each(($el) =>
         cy
-          .get($el)
+          .get($el.toString())
           .children(".col")
           .find(".card-cell-text")
           .not(".spinner-border")
@@ -47,7 +45,9 @@ context("Dashboard", () => {
     })
       .should("exist")
       .each(($el) =>
-        cy.get($el, { timeout: 10000 }).should("not.equal", $el.text())
+        cy
+          .get($el.toString(), { timeout: 10000 })
+          .should("not.equal", $el.text())
       );
   });
 
@@ -66,7 +66,7 @@ context("Dashboard", () => {
       .should("exist")
       .within(($element) =>
         cy
-          .get($element, { timeout: 10000 })
+          .get($element.toString(), { timeout: 10000 })
           .should("not.equal", $element.text())
       );
 
