@@ -103,7 +103,10 @@ export function getAcceptedLocale(
   const parsedAcceptedLanguages =
     acceptedLanguages && parseAcceptLanguage(acceptedLanguages);
 
-  debugLog("Languages from Accepted Languages header:", acceptedLanguages);
+  debugLog(
+    "Languages from Accepted Languages header:",
+    parsedAcceptedLanguages
+  );
 
   if (
     appLanguages &&
