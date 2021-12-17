@@ -30,7 +30,7 @@ Project Root
 ## Naming Conventions
 
 -   Use PascalCase to name React Components (put them into `src/components/` structure), and
-    `export default` an unnamed component (function or class)
+    `export default` an unnamed component
 -   Use kebab-case to name general modules (put them into `src/libraries/` structure)
 -   Use kebab-case and [Dynamic Routing rules](https://github.com/zeit/next.js/#dynamic-routing) to
     name the pages (put them into `src/pages/` structure)

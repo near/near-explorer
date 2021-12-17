@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Component } from "react";
+import { useEffect } from "react";
 
 import Mixpanel from "../../libraries/mixpanel";
 
@@ -16,97 +16,93 @@ import NodeProvider from "../../context/NodeProvider";
 import NetworkStatsProvider, {
   NetworkStatsConsumer,
 } from "../../context/NetworkStatsProvider";
+import { NextPage } from "next";
 
-class ValidatorsPage extends Component {
-  componentDidMount() {
+const ValidatorsPage: NextPage = () => {
+  useEffect(() => {
     Mixpanel.track("Explorer View Validator Node page");
-  }
+  }, []);
+  return (
+    <>
+      <Head>
+        <title>NEAR Explorer | Nodes</title>
+      </Head>
 
-  render() {
-    return (
-      <>
-        <Head>
-          <title>NEAR Explorer | Nodes</title>
-        </Head>
+      <NetworkStatsProvider>
+        <Container fluid>
+          <NetworkStatsConsumer>
+            {({ networkStats, epochStartBlock, finalityStatus }) => {
+              if (!networkStats || !epochStartBlock || !finalityStatus) {
+                return null;
+              }
+              return (
+                <NodesEpoch
+                  epochLength={networkStats.epochLength}
+                  epochStartHeight={epochStartBlock.height}
+                  epochStartTimestamp={epochStartBlock.timestamp}
+                  latestBlockHeight={finalityStatus.finalBlockHeight}
+                  latestBlockTimestamp={finalityStatus.finalBlockTimestampNanosecond
+                    .divn(10 ** 6)
+                    .toNumber()}
+                />
+              );
+            }}
+          </NetworkStatsConsumer>
+        </Container>
 
-        <NetworkStatsProvider>
-          <Container fluid>
+        <Content
+          border={false}
+          fluid
+          contentFluid
+          className="nodes-page"
+          header={<NodesContentHeader navRole="validators" />}
+        >
+          <Container>
             <NetworkStatsConsumer>
-              {({ networkStats, epochStartBlock, finalityStatus }) => {
-                if (!networkStats || !epochStartBlock || !finalityStatus) {
-                  return null;
-                }
-                return (
-                  <NodesEpoch
-                    epochLength={networkStats.epochLength}
-                    epochStartHeight={epochStartBlock.height}
-                    epochStartTimestamp={epochStartBlock.timestamp}
-                    latestBlockHeight={finalityStatus.finalBlockHeight}
-                    latestBlockTimestamp={finalityStatus.finalBlockTimestampNanosecond
-                      .divn(10 ** 6)
-                      .toNumber()}
-                  />
-                );
-              }}
+              {({ networkStats, epochStartBlock }) => (
+                <NodesCard
+                  currentValidatorsCount={networkStats?.currentValidatorsCount}
+                  totalSupply={epochStartBlock?.totalSupply.toString()}
+                  totalStake={networkStats?.totalStake.toString()}
+                  seatPrice={networkStats?.seatPrice.toString()}
+                />
+              )}
             </NetworkStatsConsumer>
           </Container>
-
-          <Content
-            border={false}
-            fluid
-            contentFluid
-            className="nodes-page"
-            header={<NodesContentHeader navRole="validators" />}
-          >
-            <Container>
-              <NetworkStatsConsumer>
-                {({ networkStats, epochStartBlock }) => (
-                  <NodesCard
-                    currentValidatorsCount={
-                      networkStats?.currentValidatorsCount
-                    }
-                    totalSupply={epochStartBlock?.totalSupply.toString()}
-                    totalStake={networkStats?.totalStake.toString()}
-                    seatPrice={networkStats?.seatPrice.toString()}
-                  />
-                )}
-              </NetworkStatsConsumer>
+          <NodeProvider>
+            <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
+              <Validators />
             </Container>
-            <NodeProvider>
-              <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
-                <Validators />
-              </Container>
-            </NodeProvider>
-          </Content>
-        </NetworkStatsProvider>
-        <style global jsx>{`
-          .nodes-page {
-            background-color: #ffffff;
-          }
+          </NodeProvider>
+        </Content>
+      </NetworkStatsProvider>
+      <style global jsx>{`
+        .nodes-page {
+          background-color: #ffffff;
+        }
 
-          @media (max-width: 576px) {
-            .nodes-page > .container-fluid,
-            .nodes-page > .container-fluid > .container {
-              padding-left: 0;
-              padding-right: 0;
-            }
+        @media (max-width: 576px) {
+          .nodes-page > .container-fluid,
+          .nodes-page > .container-fluid > .container {
+            padding-left: 0;
+            padding-right: 0;
           }
-          @media (min-width: 576px) {
-            .content-header {
-              padding-left: 32px;
-              padding-right: 32px;
-            }
-          }
+        }
+        @media (min-width: 576px) {
           .content-header {
-            background: #fafafa;
-            margin-left: -15px;
-            margin-right: -15px;
-            padding-bottom: 0;
+            padding-left: 32px;
+            padding-right: 32px;
           }
-        `}</style>
-      </>
-    );
-  }
-}
+        }
+        .content-header {
+          background: #fafafa;
+          margin-left: -15px;
+          margin-right: -15px;
+          padding-bottom: 0;
+        }
+      `}</style>
+    </>
+  );
+};
 
 export default ValidatorsPage;

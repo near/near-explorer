@@ -17,19 +17,19 @@ Array [
       jsx={true}
     >
       
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
     </style>
   </div>,
 ]

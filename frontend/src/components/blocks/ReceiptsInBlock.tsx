@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { FC, useState, useEffect } from "react";
 
 import ReceiptsApi, { Receipt } from "../../libraries/explorer-wamp/receipts";
 
@@ -12,54 +12,38 @@ interface Props {
   blockHash: string;
 }
 
-interface State {
-  receipts: Receipt[];
-  loading: boolean;
-}
+const ReceiptsInBlock: FC<Props> = ({ blockHash }) => {
+  const [receipts, setReceipts] = useState<Receipt[]>([]);
+  const [loading, setLoading] = useState(true);
 
-class ReceiptsInBlock extends Component<Props, State> {
-  state = {
-    receipts: [],
-    loading: true,
-  };
-  componentDidMount() {
-    this.fetchReceiptsList(this.props.blockHash);
-  }
-
-  componentDidUpdate(prevProps: any) {
-    if (prevProps.blockHash !== this.props.blockHash) {
-      this.fetchReceiptsList(this.props.blockHash);
+  useEffect(() => {
+    if (!blockHash) {
+      return;
     }
-  }
+    setLoading(true);
+    new ReceiptsApi().queryReceiptsList(blockHash).then((receipts) => {
+      setReceipts(receipts);
+      setLoading(false);
+    });
+  }, [blockHash, setReceipts, setLoading]);
 
-  fetchReceiptsList = (blockHash: string): void => {
-    if (blockHash) {
-      new ReceiptsApi().queryReceiptsList(blockHash).then((receipts) => {
-        this.setState({ receipts, loading: false });
-      });
-    }
-  };
-  render() {
-    const { receipts, loading } = this.state;
-
-    return (
-      <Translate>
-        {({ translate }) => (
-          <>
-            {loading ? (
-              <PaginationSpinner hidden={false} />
-            ) : receipts.length > 0 ? (
-              <Receipts receipts={receipts} />
-            ) : (
-              <Placeholder>
-                {translate("component.blocks.ReceiptsInBlock.no_receipts")}
-              </Placeholder>
-            )}
-          </>
-        )}
-      </Translate>
-    );
-  }
-}
+  return (
+    <Translate>
+      {({ translate }) => (
+        <>
+          {loading ? (
+            <PaginationSpinner hidden={false} />
+          ) : receipts.length > 0 ? (
+            <Receipts receipts={receipts} />
+          ) : (
+            <Placeholder>
+              {translate("component.blocks.ReceiptsInBlock.no_receipts")}
+            </Placeholder>
+          )}
+        </>
+      )}
+    </Translate>
+  );
+};
 
 export default ReceiptsInBlock;

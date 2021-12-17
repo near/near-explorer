@@ -41,19 +41,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -162,19 +162,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -278,19 +278,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -407,19 +407,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -521,19 +521,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -635,19 +635,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -764,19 +764,19 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -845,28 +845,28 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
     jsx={true}
   >
     
-              .account-info-container {
-                border: solid 4px #e6e6e6;
-                border-radius: 4px;
-              }
+            .account-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-              .account-info-container &gt; .row:first-of-type .card-cell-text {
-                font-size: 24px;
-              }
+            .account-info-container &gt; .row:first-of-type .card-cell-text {
+              font-size: 24px;
+            }
 
-              .account-info-container &gt; .row {
-                border-bottom: 2px solid #e6e6e6;
-              }
+            .account-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-              .account-card-back {
-                background-color: #f8f8f8;
-              }
+            .account-card-back {
+              background-color: #f8f8f8;
+            }
 
-              .transaction-link-icon {
-                width: 15px;
-                margin: 0 0 12px 12px;
-              }
-            
+            .transaction-link-icon {
+              width: 15px;
+              margin: 0 0 12px 12px;
+            }
+          
   </style>
 </div>
 `;
@@ -912,19 +912,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1033,19 +1033,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1149,19 +1149,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1278,19 +1278,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1392,19 +1392,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1506,19 +1506,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1635,19 +1635,19 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1716,28 +1716,28 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
     jsx={true}
   >
     
-              .account-info-container {
-                border: solid 4px #e6e6e6;
-                border-radius: 4px;
-              }
+            .account-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-              .account-info-container &gt; .row:first-of-type .card-cell-text {
-                font-size: 24px;
-              }
+            .account-info-container &gt; .row:first-of-type .card-cell-text {
+              font-size: 24px;
+            }
 
-              .account-info-container &gt; .row {
-                border-bottom: 2px solid #e6e6e6;
-              }
+            .account-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-              .account-card-back {
-                background-color: #f8f8f8;
-              }
+            .account-card-back {
+              background-color: #f8f8f8;
+            }
 
-              .transaction-link-icon {
-                width: 15px;
-                margin: 0 0 12px 12px;
-              }
-            
+            .transaction-link-icon {
+              width: 15px;
+              margin: 0 0 12px 12px;
+            }
+          
   </style>
 </div>
 `;
@@ -1783,19 +1783,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -1904,19 +1904,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2020,19 +2020,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2149,19 +2149,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2263,19 +2263,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2377,19 +2377,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2506,19 +2506,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2611,19 +2611,19 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2707,28 +2707,28 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
     jsx={true}
   >
     
-              .account-info-container {
-                border: solid 4px #e6e6e6;
-                border-radius: 4px;
-              }
+            .account-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-              .account-info-container &gt; .row:first-of-type .card-cell-text {
-                font-size: 24px;
-              }
+            .account-info-container &gt; .row:first-of-type .card-cell-text {
+              font-size: 24px;
+            }
 
-              .account-info-container &gt; .row {
-                border-bottom: 2px solid #e6e6e6;
-              }
+            .account-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-              .account-card-back {
-                background-color: #f8f8f8;
-              }
+            .account-card-back {
+              background-color: #f8f8f8;
+            }
 
-              .transaction-link-icon {
-                width: 15px;
-                margin: 0 0 12px 12px;
-              }
-            
+            .transaction-link-icon {
+              width: 15px;
+              margin: 0 0 12px 12px;
+            }
+          
   </style>
 </div>
 `;
@@ -2774,19 +2774,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -2895,19 +2895,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3011,19 +3011,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3140,19 +3140,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3254,19 +3254,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3368,19 +3368,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3497,19 +3497,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3602,19 +3602,19 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3698,28 +3698,28 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     jsx={true}
   >
     
-              .account-info-container {
-                border: solid 4px #e6e6e6;
-                border-radius: 4px;
-              }
+            .account-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-              .account-info-container &gt; .row:first-of-type .card-cell-text {
-                font-size: 24px;
-              }
+            .account-info-container &gt; .row:first-of-type .card-cell-text {
+              font-size: 24px;
+            }
 
-              .account-info-container &gt; .row {
-                border-bottom: 2px solid #e6e6e6;
-              }
+            .account-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-              .account-card-back {
-                background-color: #f8f8f8;
-              }
+            .account-card-back {
+              background-color: #f8f8f8;
+            }
 
-              .transaction-link-icon {
-                width: 15px;
-                margin: 0 0 12px 12px;
-              }
-            
+            .transaction-link-icon {
+              width: 15px;
+              margin: 0 0 12px 12px;
+            }
+          
   </style>
 </div>
 `;
@@ -3765,19 +3765,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -3886,19 +3886,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -4002,19 +4002,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -4116,19 +4116,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -4230,19 +4230,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -4359,19 +4359,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -4464,19 +4464,19 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   jsx={true}
                 >
                   
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        
                 </style>
               </div>
             </div>
@@ -4560,28 +4560,28 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     jsx={true}
   >
     
-              .account-info-container {
-                border: solid 4px #e6e6e6;
-                border-radius: 4px;
-              }
+            .account-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-              .account-info-container &gt; .row:first-of-type .card-cell-text {
-                font-size: 24px;
-              }
+            .account-info-container &gt; .row:first-of-type .card-cell-text {
+              font-size: 24px;
+            }
 
-              .account-info-container &gt; .row {
-                border-bottom: 2px solid #e6e6e6;
-              }
+            .account-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-              .account-card-back {
-                background-color: #f8f8f8;
-              }
+            .account-card-back {
+              background-color: #f8f8f8;
+            }
 
-              .transaction-link-icon {
-                width: 15px;
-                margin: 0 0 12px 12px;
-              }
-            
+            .transaction-link-icon {
+              width: 15px;
+              margin: 0 0 12px 12px;
+            }
+          
   </style>
 </div>
 `;

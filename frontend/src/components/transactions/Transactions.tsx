@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { FC, useCallback } from "react";
 
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
@@ -13,80 +13,75 @@ import { Translate } from "react-localize-redux";
 export interface OuterProps {
   accountId?: string;
   blockHash?: string;
-  count: number;
+  count?: number;
 }
 
-class TransactionsWrapper extends Component<OuterProps> {
-  static defaultProps = {
-    count: 15,
-  };
+const TRANSACTIONS_PER_PAGE = 15;
 
-  fetchTransactions = async (
-    count: number,
-    paginationIndexer?: T.TxPagination
-  ) => {
-    if (this.props.accountId) {
-      return await new TransactionsApi().getAccountTransactionsList(
-        this.props.accountId,
-        count,
-        paginationIndexer
-      );
-    }
-    if (this.props.blockHash) {
-      return await new TransactionsApi().getTransactionsListInBlock(
-        this.props.blockHash,
-        count,
-        paginationIndexer
-      );
-    }
-    return await new TransactionsApi().getTransactions(
-      count,
-      paginationIndexer
-    );
-  };
+const TransactionsWrapper: FC<OuterProps> = ({
+  accountId,
+  blockHash,
+  count = TRANSACTIONS_PER_PAGE,
+}) => {
+  const fetchDataFn = useCallback(
+    (count: number, paginationIndexer?: T.TxPagination) => {
+      if (accountId) {
+        return new TransactionsApi().getAccountTransactionsList(
+          accountId,
+          count,
+          paginationIndexer
+        );
+      }
+      if (blockHash) {
+        return new TransactionsApi().getTransactionsListInBlock(
+          blockHash,
+          count,
+          paginationIndexer
+        );
+      }
+      return new TransactionsApi().getTransactions(count, paginationIndexer);
+    },
+    [accountId, blockHash]
+  );
+  return (
+    <TransactionsList
+      count={count}
+      fetchDataFn={fetchDataFn}
+      detailPage={accountId || blockHash ? true : false}
+    />
+  );
+};
 
-  config = {
-    fetchDataFn: this.fetchTransactions,
-    count: this.props.count,
-    category: "Transaction",
-    detailPage: this.props.accountId || this.props.blockHash ? true : false,
-  };
-
-  TransactionsList = ListHandler(Transactions, this.config);
-
-  render() {
-    return <this.TransactionsList />;
-  }
-}
-
-interface InnerProps extends OuterProps {
+interface InnerProps {
   items: T.Transaction[];
 }
 
-class Transactions extends Component<InnerProps> {
-  render() {
-    const { items } = this.props;
-
-    if (items?.length === 0) {
-      return (
-        <Placeholder>
-          <Translate id="component.transactions.Transactions.no_transactions" />
-        </Placeholder>
-      );
-    }
-
+const Transactions: FC<InnerProps> = ({ items }) => {
+  if (items?.length === 0) {
     return (
-      <FlipMove duration={1000} staggerDurationBy={0}>
-        {items &&
-          items.map((transaction) => (
-            <TransactionAction
-              key={transaction.hash}
-              transaction={transaction}
-            />
-          ))}
-      </FlipMove>
+      <Placeholder>
+        <Translate id="component.transactions.Transactions.no_transactions" />
+      </Placeholder>
     );
   }
-}
+
+  return (
+    <FlipMove duration={1000} staggerDurationBy={0}>
+      {items &&
+        items.map((transaction) => (
+          <TransactionAction key={transaction.hash} transaction={transaction} />
+        ))}
+    </FlipMove>
+  );
+};
+
+const TransactionsList = ListHandler({
+  Component: Transactions,
+  category: "Transaction",
+  paginationIndexer: (items) => ({
+    endTimestamp: items[items.length - 1].blockTimestamp,
+    transactionIndex: items[items.length - 1].transactionIndex,
+  }),
+});
 
 export default TransactionsWrapper;

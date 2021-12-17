@@ -1,15 +1,13 @@
-import ReactPaginate from "react-paginate";
+import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+
+export type OnPageChange = ReactPaginateProps["onPageChange"];
 
 export interface Props {
   className: string;
   pageCount: number;
   marginPagesDisplayed: number;
   pageRangeDisplayed: number;
-  onPageChange: Function;
-}
-
-export interface onPageChange {
-  selected: number;
+  onPageChange: OnPageChange;
 }
 
 const Arrow = () => (

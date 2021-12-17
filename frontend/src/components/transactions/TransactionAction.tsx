@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import { FC, useEffect, useState } from "react";
 import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
 
 import TransactionLink from "../utils/TransactionLink";
@@ -13,57 +13,37 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-interface State {
-  status?: T.ExecutionStatus;
-}
-
-class TransactionAction extends PureComponent<Props, State> {
-  static defaultProps = {
-    viewMode: "sparse",
-  };
-
-  state: State = {};
-
-  componentDidMount() {
-    this.fetchStatus();
+const TransactionAction: FC<Props> = ({ transaction, viewMode = "sparse" }) => {
+  const [status, setStatus] = useState();
+  useEffect(() => {
+    new TransactionsApi()
+      .getTransactionStatus(transaction.hash, transaction.signerId)
+      .then(setStatus);
+  }, []);
+  if (!transaction.actions) {
+    return null;
   }
-
-  fetchStatus = async () => {
-    const status = await new TransactionsApi().getTransactionStatus(
-      this.props.transaction.hash,
-      this.props.transaction.signerId
-    );
-    this.setState({ status });
-  };
-
-  render() {
-    const { transaction, viewMode } = this.props;
-    const { status } = this.state;
-    if (!transaction.actions) {
-      return null;
-    }
-    return (
-      <Translate>
-        {({ translate }) => (
-          <ActionGroup
-            actionGroup={transaction as T.Transaction}
-            detailsLink={<TransactionLink transactionHash={transaction.hash} />}
-            status={
-              status ? (
-                <TransactionExecutionStatus status={status} />
-              ) : (
-                <Translate id="common.transactions.status.fetching_status" />
-              )
-            }
-            viewMode={viewMode}
-            title={translate(
-              "component.transactions.TransactionAction.batch_transaction"
-            ).toString()}
-          />
-        )}
-      </Translate>
-    );
-  }
-}
+  return (
+    <Translate>
+      {({ translate }) => (
+        <ActionGroup
+          actionGroup={transaction as T.Transaction}
+          detailsLink={<TransactionLink transactionHash={transaction.hash} />}
+          status={
+            status ? (
+              <TransactionExecutionStatus status={status} />
+            ) : (
+              <Translate id="common.transactions.status.fetching_status" />
+            )
+          }
+          viewMode={viewMode}
+          title={translate(
+            "component.transactions.TransactionAction.batch_transaction"
+          ).toString()}
+        />
+      )}
+    </Translate>
+  );
+};
 
 export default TransactionAction;

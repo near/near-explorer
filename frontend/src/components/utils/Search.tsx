@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { ChangeEvent, Component, FormEvent } from "react";
+import { FC, useState, useCallback, FormEvent } from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import Mixpanel from "../../libraries/mixpanel";
@@ -15,278 +15,269 @@ interface Props {
   dashboard?: boolean;
 }
 
-class Search extends Component<Props> {
-  state = { searchValue: "" };
+const Search: FC<Props> = ({ dashboard }) => {
+  const [value, setValue] = useState("");
+  const onSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
 
-  handleSearch = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+      const cleanedSearchValue = value.replace(/\s/g, "");
 
-    const { searchValue } = this.state;
-    const cleanedSearchValue = searchValue.replace(/\s/g, "");
+      let blockPromise;
+      const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
+      if (maybeBlockHeight.match(/^\d{1,20}$/)) {
+        const blockHeight = parseInt(maybeBlockHeight);
+        blockPromise = new BlocksApi()
+          .getBlockByHashOrId(blockHeight)
+          .catch(() => {});
+      } else {
+        blockPromise = new BlocksApi()
+          .getBlockByHashOrId(cleanedSearchValue)
+          .catch(() => {});
+      }
 
-    let blockPromise;
-    const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
-    if (maybeBlockHeight.match(/^\d{1,20}$/)) {
-      const blockHeight = parseInt(maybeBlockHeight);
-      blockPromise = new BlocksApi()
-        .getBlockByHashOrId(blockHeight)
+      const transactionPromise = new TransactionsApi()
+        .isTransactionIndexed(cleanedSearchValue)
         .catch(() => {});
-    } else {
-      blockPromise = new BlocksApi()
-        .getBlockByHashOrId(cleanedSearchValue)
+      const accountPromise = new AccountsApi()
+        .isAccountIndexed(cleanedSearchValue.toLowerCase())
         .catch(() => {});
-    }
+      const receiptInTransactionPromise = new ReceiptsApi()
+        .getReceiptInTransaction(cleanedSearchValue)
+        .catch(() => {});
 
-    const transactionPromise = new TransactionsApi()
-      .isTransactionIndexed(cleanedSearchValue)
-      .catch(() => {});
-    const accountPromise = new AccountsApi()
-      .isAccountIndexed(cleanedSearchValue.toLowerCase())
-      .catch(() => {});
-    const receiptInTransactionPromise = new ReceiptsApi()
-      .getReceiptInTransaction(cleanedSearchValue)
-      .catch(() => {});
-
-    const block = await blockPromise;
-    if (block) {
-      Mixpanel.track("Explorer Search for block", { block: block });
-      Router.push("/blocks/" + block);
-      return;
-    }
-    const transaction = await transactionPromise;
-    if (transaction) {
-      Mixpanel.track("Explorer Search for transaction", {
-        transaction: searchValue,
+      const block = await blockPromise;
+      if (block) {
+        Mixpanel.track("Explorer Search for block", { block: block });
+        return Router.push("/blocks/" + block);
+      }
+      const transaction = await transactionPromise;
+      if (transaction) {
+        Mixpanel.track("Explorer Search for transaction", {
+          transaction: value,
+        });
+        return Router.push("/transactions/" + value);
+      }
+      if (await accountPromise) {
+        Mixpanel.track("Explorer Search for account", { account: value });
+        return Router.push("/accounts/" + value.toLowerCase());
+      }
+      const receipt = await receiptInTransactionPromise;
+      if (receipt && receipt.originatedFromTransactionHash) {
+        return Router.push(
+          `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
+        );
+      }
+      Mixpanel.track("Explorer Search result not found", {
+        detail: value,
       });
-      Router.push("/transactions/" + searchValue);
-      return;
-    }
-    if (await accountPromise) {
-      Mixpanel.track("Explorer Search for account", { account: searchValue });
-      Router.push("/accounts/" + searchValue.toLowerCase());
-      return;
-    }
-    const receipt = await receiptInTransactionPromise;
-    if (receipt && receipt.originatedFromTransactionHash) {
-      Router.push(
-        `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
-      );
-      return;
-    }
-    Mixpanel.track("Explorer Search result not found", { detail: searchValue });
-    alert("Result not found!");
-  };
+      alert("Result not found!");
+    },
+    [value]
+  );
+  const onChange = useCallback((event) => setValue(event.currentTarget.value), [
+    setValue,
+  ]);
 
-  handleSearchValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event) {
-      const value = event.target !== null ? event.target.value : "";
-      this.setState({ searchValue: value });
-    }
-  };
-
-  render() {
-    return (
-      <form
-        onSubmit={this.handleSearch}
-        className={`search-box ${!this.props.dashboard ? "compact" : ""}`}
-      >
-        <Row noGutters className="search-box">
-          <InputGroup>
-            {!this.props.dashboard && (
-              <InputGroup.Prepend>
-                <InputGroup.Text id="search">
-                  <img
-                    src="/static/images/icon-search.svg"
-                    className="search-icon"
-                  />
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-            )}
-            <Translate>
-              {({ translate }) => (
-                <FormControl
-                  placeholder={
-                    translate("component.utils.Search.hint") as string
-                  }
-                  aria-label="Search"
-                  aria-describedby="search"
-                  autoCorrect="off"
-                  autoCapitalize="none"
-                  onChange={this.handleSearchValueChange}
-                  className="search-field"
+  return (
+    <form
+      onSubmit={onSubmit}
+      className={`search-box ${!dashboard ? "compact" : ""}`}
+    >
+      <Row noGutters className="search-box">
+        <InputGroup>
+          {!dashboard && (
+            <InputGroup.Prepend>
+              <InputGroup.Text id="search">
+                <img
+                  src="/static/images/icon-search.svg"
+                  className="search-icon"
                 />
-              )}
-            </Translate>
-            {this.props.dashboard && (
-              <Button type="submit" variant="info" className="button-search">
-                <Translate id="component.utils.Search.title" />
-              </Button>
+              </InputGroup.Text>
+            </InputGroup.Prepend>
+          )}
+          <Translate>
+            {({ translate }) => (
+              <FormControl
+                placeholder={translate("component.utils.Search.hint") as string}
+                aria-label="Search"
+                aria-describedby="search"
+                autoCorrect="off"
+                autoCapitalize="none"
+                onChange={onChange}
+                className="search-field"
+              />
             )}
-          </InputGroup>
-        </Row>
-        <style jsx global>{`
-          .search-box {
-            background: white;
-            width: 740px;
-            max-width: 100%;
-            height: 49px;
-            margin: auto;
-            border-radius: 8px;
-          }
+          </Translate>
+          {dashboard && (
+            <Button type="submit" variant="info" className="button-search">
+              <Translate id="component.utils.Search.title" />
+            </Button>
+          )}
+        </InputGroup>
+      </Row>
+      <style jsx global>{`
+        .search-box {
+          background: white;
+          width: 740px;
+          max-width: 100%;
+          height: 49px;
+          margin: auto;
+          border-radius: 8px;
+        }
 
+        .search-box.compact {
+          width: 520px;
+          height: 40px;
+        }
+
+        .search-box.compact .search-box {
+          width: inherit;
+          height: inherit;
+        }
+
+        .search-box.compact .search-field {
+          background-color: #fafafa;
+          border-left: none;
+          border-right: 2px solid #eaebeb;
+          border-radius: 0 8px 8px 0;
+          padding-left: 0;
+        }
+
+        .search-box.compact .input-group-prepend .input-group-text {
+          border: 2px solid #eaebeb;
+          border-radius: 8px 0 0 8px;
+          border-right: none;
+          transition: border-color 0.15s ease-in-out,
+            box-shadow 0.15s ease-in-out;
+        }
+
+        .search-box.compact .input-group::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          display: block;
+          width: 1rem;
+          height: calc(100% - 8px);
+          margin: auto 4px auto auto;
+          filter: blur(2px);
+          background: #fafafa;
+          opacity: 0.9;
+        }
+
+        .input-group {
+          border-radius: 8px;
+        }
+
+        .input-group:focus-within {
+          box-shadow: 0px 0px 0px 4px #c2e4ff;
+          border-radius: 10px;
+          background: white;
+        }
+
+        .input-group:focus-within .search-field,
+        .input-group:focus-within .input-group-prepend .input-group-text {
+          border-color: #0072ce !important;
+          background-color: white;
+        }
+
+        .search-box.compact .input-group:focus-within::after {
+          background: white;
+        }
+
+        @media (max-width: 1000px) {
+          .search-box,
           .search-box.compact {
-            width: 520px;
-            height: 40px;
+            width: 100%;
           }
+        }
 
-          .search-box.compact .search-box {
-            width: inherit;
-            height: inherit;
-          }
+        .input-group:hover {
+          background: #f8f9fb;
+          border-radius: 8px;
+        }
 
-          .search-box.compact .search-field {
-            background-color: #fafafa;
-            border-left: none;
-            border-right: 2px solid #eaebeb;
-            border-radius: 0 8px 8px 0;
-            padding-left: 0;
-          }
+        .input-group:hover .search-field,
+        .input-group:hover .input-group-prepend .input-group-text {
+          border-color: #cdcfd1;
+        }
 
-          .search-box.compact .input-group-prepend .input-group-text {
-            border: 2px solid #eaebeb;
-            border-radius: 8px 0 0 8px;
-            border-right: none;
-            transition: border-color 0.15s ease-in-out,
-              box-shadow 0.15s ease-in-out;
-          }
+        .input-group-text {
+          background: #fafafa;
+          height: 100%;
+        }
 
-          .search-box.compact .input-group::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            display: block;
-            width: 1rem;
-            height: calc(100% - 8px);
-            margin: auto 4px auto auto;
-            filter: blur(2px);
-            background: #fafafa;
-            opacity: 0.9;
-          }
+        .input-group-text::placeholder {
+          color: #a1a1a9;
+        }
 
-          .input-group {
-            border-radius: 8px;
-          }
+        .search-field {
+          background: #ffffff;
+          border-left: inherit;
+          border: 2px solid #eaebeb;
+          border-right: none;
+          border-radius: 8px 0 0 8px;
+          box-shadow: none !important;
+          padding-right: 0.313rem;
+        }
 
-          .input-group:focus-within {
-            box-shadow: 0px 0px 0px 4px #c2e4ff;
-            border-radius: 10px;
-            background: white;
-          }
+        .search-field::placeholder {
+          color: #8d9396;
+        }
 
-          .input-group:focus-within .search-field,
-          .input-group:focus-within .input-group-prepend .input-group-text {
-            border-color: #0072ce !important;
-            background-color: white;
-          }
+        .search-field:disabled,
+        .search-field[disabled] {
+          background: #eaebeb;
+        }
 
-          .search-box.compact .input-group:focus-within::after {
-            background: white;
-          }
+        .form-control:focus-within {
+          box-shadow: none;
+        }
 
-          @media (max-width: 1000px) {
-            .search-box,
-            .search-box.compact {
-              width: 100%;
-            }
-          }
+        .input-group .button-search::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -1.25rem;
+          bottom: 0;
+          display: block;
+          width: 1rem;
+          height: calc(100% - 8px);
+          margin: auto 4px auto auto;
+          filter: blur(2px);
+          background: white;
+          opacity: 0.9;
+        }
 
-          .input-group:hover {
-            background: #f8f9fb;
-            border-radius: 8px;
-          }
+        .button-search {
+          position: relative;
+          background: #0072ce;
+          border: 2px solid #0072ce;
+          border-radius: 0px 8px 8px 0px;
+          padding: 10px 30px;
+        }
 
-          .input-group:hover .search-field,
-          .input-group:hover .input-group-prepend .input-group-text {
-            border-color: #cdcfd1;
-          }
+        .button-search:hover {
+          background: #2b9af4;
+          border-color: #0072ce;
+        }
 
-          .input-group-text {
-            background: #fafafa;
-            height: 100%;
-          }
+        .btn-info.button-search:not(:disabled):active,
+        .btn-info.button-search:not(:disabled):active:focus,
+        .btn-info.button-search:not(:disabled):focus {
+          background-color: #2b9af4;
+          border-color: #0072ce;
+          box-shadow: none;
+        }
 
-          .input-group-text::placeholder {
-            color: #a1a1a9;
-          }
-
-          .search-field {
-            background: #ffffff;
-            border-left: inherit;
-            border: 2px solid #eaebeb;
-            border-right: none;
-            border-radius: 8px 0 0 8px;
-            box-shadow: none !important;
-            padding-right: 0.313rem;
-          }
-
-          .search-field::placeholder {
-            color: #8d9396;
-          }
-
-          .search-field:disabled,
-          .search-field[disabled] {
-            background: #eaebeb;
-          }
-
-          .form-control:focus-within {
-            box-shadow: none;
-          }
-
-          .input-group .button-search::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -1.25rem;
-            bottom: 0;
-            display: block;
-            width: 1rem;
-            height: calc(100% - 8px);
-            margin: auto 4px auto auto;
-            filter: blur(2px);
-            background: white;
-            opacity: 0.9;
-          }
-
-          .button-search {
-            position: relative;
-            background: #0072ce;
-            border: 2px solid #0072ce;
-            border-radius: 0px 8px 8px 0px;
-            padding: 10px 30px;
-          }
-
-          .button-search:hover {
-            background: #2b9af4;
-            border-color: #0072ce;
-          }
-
-          .btn-info.button-search:not(:disabled):active,
-          .btn-info.button-search:not(:disabled):active:focus,
-          .btn-info.button-search:not(:disabled):focus {
-            background-color: #2b9af4;
-            border-color: #0072ce;
-            box-shadow: none;
-          }
-
-          .form-control {
-            height: 100% !important;
-          }
-        `}</style>
-      </form>
-    );
-  }
-}
+        .form-control {
+          height: 100% !important;
+        }
+      `}</style>
+    </form>
+  );
+};
 
 export default Search;
