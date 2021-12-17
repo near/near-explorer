@@ -4,7 +4,7 @@ import { ExplorerApi } from "../../libraries/explorer-wamp";
 
 const handler: NextApiHandler = async (req, res) => {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
-  const nearNetwork = getNearNetwork(req.headers.host);
+  const nearNetwork = getNearNetwork(req.headers.host!);
   if (nearNetwork.name !== "mainnet") {
     res.status(404).end();
     return;
