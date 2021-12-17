@@ -69,7 +69,7 @@ context("Dashboard", () => {
       .should("exist")
       .first()
       .invoke("text")
-      .should("match", /^[\d ]+$/);
+      .should("match", /^[\d ,]+$/);
 
     cy.get(
       ".dashboard-card.transaction-card .transaction-card-number >div:last-child"
