@@ -1,6 +1,7 @@
+import { NextApiHandler } from "next";
 import { ExplorerApi } from "../../libraries/explorer-wamp";
 
-export default async function (req, res) {
+const handler: NextApiHandler = async (req, res) => {
   try {
     await new ExplorerApi(req).call("nearcore-status");
   } catch (error) {
@@ -8,4 +9,6 @@ export default async function (req, res) {
     return;
   }
   res.send({});
-}
+};
+
+export default handler;
