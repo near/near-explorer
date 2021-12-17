@@ -8,3 +8,4 @@ declare module "*.svg" {
 declare module "react-text-collapse";
 declare module "echarts-for-react";
 declare module "react-paginate";
+declare module "json-2-prom";

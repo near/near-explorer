@@ -1,12 +1,13 @@
+import { NextApiHandler } from "next";
 import { ExplorerApi } from "../../libraries/explorer-wamp";
 
-export default async function (req, res) {
+const handler: NextApiHandler = async (req, res) => {
   try {
     let ip_address =
       req.headers["x-forwarded-for"] ||
       req.connection.remoteAddress ||
       req.socket.remoteAddress ||
-      req.connection.socket.remoteAddress;
+      req.connection.remoteAddress;
 
     res.send({});
 
@@ -23,4 +24,6 @@ export default async function (req, res) {
     res.status(400).send(error);
     return;
   }
-}
+};
+
+export default handler;

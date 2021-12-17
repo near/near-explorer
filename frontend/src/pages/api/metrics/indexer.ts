@@ -1,14 +1,14 @@
-import { getNearNetwork } from "../../../libraries/config";
+import { NextApiHandler } from "next";
 import { ExplorerApi } from "../../../libraries/explorer-wamp";
 import BlocksApi from "../../../libraries/explorer-wamp/blocks";
 import json2Prom from "json-2-prom";
 
-export default async function (req, res) {
+const handler: NextApiHandler = async (req, res) => {
   try {
-    const rpcFinalBlock = await new ExplorerApi(req).call(
+    const rpcFinalBlock = await new ExplorerApi(req).call<any>(
       "nearcore-final-block"
     );
-    const indexerFinalBlock = await new BlocksApi(req).getBlocks(1, null);
+    const indexerFinalBlock = await new BlocksApi(req).getBlocks(1);
 
     const prometheusResponse = json2Prom([
       {
@@ -38,4 +38,6 @@ export default async function (req, res) {
     console.error(error);
     res.status(502).send(error);
   }
-}
+};
+
+export default handler;
