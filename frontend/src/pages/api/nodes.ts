@@ -6,8 +6,7 @@ const handler: NextApiHandler = async (req, res) => {
     let ip_address =
       req.headers["x-forwarded-for"] ||
       req.connection.remoteAddress ||
-      req.socket.remoteAddress ||
-      req.connection.remoteAddress;
+      req.socket.remoteAddress;
 
     res.send({});
 
