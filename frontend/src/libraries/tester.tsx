@@ -1,9 +1,15 @@
-import renderer from "react-test-renderer";
+import renderer, {
+  ReactTestRenderer,
+  TestRendererOptions,
+} from "react-test-renderer";
 import { LocalizeProvider } from "react-localize-redux";
 import LocalizeWrapper from "../components/utils/LocalizeWrapper";
 
-export const renderI18nElement = (nextElement, options) => {
-  let root;
+export const renderI18nElement = (
+  nextElement: React.ReactNode,
+  options?: TestRendererOptions
+): ReactTestRenderer => {
+  let root: ReactTestRenderer;
   renderer.act(() => {
     root = renderer.create(
       <LocalizeProvider>
@@ -12,5 +18,5 @@ export const renderI18nElement = (nextElement, options) => {
       options
     );
   });
-  return root;
+  return root!;
 };
