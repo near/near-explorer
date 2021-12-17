@@ -1,9 +1,10 @@
+import { NextApiHandler } from "next";
 import { getNearNetwork } from "../../libraries/config";
 import { ExplorerApi } from "../../libraries/explorer-wamp";
 
-export default async function (req, res) {
+const handler: NextApiHandler = async (req, res) => {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
-  const nearNetwork = getNearNetwork(req.headers.host);
+  const nearNetwork = getNearNetwork(req.headers.host!);
   if (nearNetwork.name !== "mainnet") {
     res.status(404).end();
     return;
@@ -15,4 +16,6 @@ export default async function (req, res) {
     console.error(error);
     res.status(502).send(error);
   }
-}
+};
+
+export default handler;
