@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component, FC, ReactNode } from "react";
 import Link from "../utils/Link";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
@@ -12,7 +12,13 @@ import LanguageToggle from "../utils/LangSwitcher";
 const languagesIcon = "/static/images/icon-languages.svg";
 const downArrowIcon = "/static/images/icon-arrow-down.svg";
 
-const MobileNavItem = ({ link, icon, text }) => {
+interface Props {
+  link: string;
+  icon: ReactNode;
+  text: ReactNode;
+}
+
+const MobileNavItem: FC<Props> = ({ link, icon, text }) => {
   return (
     <Link href={link}>
       <a className="header-nav-item">
@@ -59,13 +65,15 @@ const MobileNavItem = ({ link, icon, text }) => {
 
 class MobileNavDropdown extends Component {
   state = { showMenu: false };
+  dropdownWrapper: HTMLDivElement | null = null;
+  dropdownMenu: HTMLDivElement | null = null;
 
-  showMenu = (event) => {
+  showMenu = (event: MouseEvent | React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.stopPropagation();
     if (
-      this.dropdownWrapper.contains(this.dropdownMenu) &&
-      !this.dropdownMenu.contains(event.target)
+      this.dropdownWrapper?.contains(this.dropdownMenu) &&
+      !this.dropdownMenu?.contains(event.target as Node | null)
     ) {
       this.setState({ showMenu: false }, () => {
         document.removeEventListener("click", this.closeMenu);
@@ -77,8 +85,8 @@ class MobileNavDropdown extends Component {
     }
   };
 
-  closeMenu = (event) => {
-    if (!this.dropdownMenu.contains(event.target)) {
+  closeMenu = (event: MouseEvent | React.MouseEvent<HTMLDivElement>) => {
+    if (!this.dropdownMenu?.contains(event.target as Node | null)) {
       this.setState({ showMenu: false }, () => {
         document.removeEventListener("click", this.closeMenu);
       });

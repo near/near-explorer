@@ -49,7 +49,7 @@ const StorageSize = ({ value }: Props) => {
           placement={"bottom"}
           overlay={
             <Tooltip id={`storage_size_${value}`}>
-              {`${formatWithCommas(value)} ${translate(
+              {`${formatWithCommas(value.toString())} ${translate(
                 "utils.StorageSize.bytes"
               )}`}
             </Tooltip>

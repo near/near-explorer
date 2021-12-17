@@ -1,3 +1,5 @@
+import { FC } from "react";
+
 import { Container, Row, Col } from "react-bootstrap";
 
 import Mixpanel from "../../libraries/mixpanel";
@@ -6,7 +8,7 @@ import NearLogo from "../../../public/static/images/near_logo.svg";
 
 import { Translate } from "react-localize-redux";
 
-const Footer = () => {
+const Footer: FC = () => {
   return (
     <Translate>
       {({ translate }) => (
