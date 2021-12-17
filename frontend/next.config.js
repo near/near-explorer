@@ -1,3 +1,9 @@
+// Jest registers ts-node for us, double run of ts-node/register will break code
+const tsNodeRegistrer = process[Symbol.for("ts-node.register.instance")];
+if (tsNodeRegistrer) {
+  tsNodeRegistrer.enabled(false);
+}
+
 const config = require("./tsconfig.json");
 require("ts-node").register({
   ...config,
