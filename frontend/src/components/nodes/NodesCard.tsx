@@ -38,7 +38,7 @@ const NodeBalance = ({
     value = amount;
   }
 
-  const amountPrecise = showInYocto(amount);
+  const amountPrecise = showInYocto(amount.toString());
   return (
     <OverlayTrigger
       placement={"bottom"}

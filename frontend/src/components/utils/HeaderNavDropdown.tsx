@@ -1,3 +1,4 @@
+import { FC, ReactNode } from "react";
 import { Dropdown } from "react-bootstrap";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
@@ -10,7 +11,13 @@ import Link from "../utils/Link";
 
 import { Translate } from "react-localize-redux";
 
-const HeaderNavItem = ({ link, icon, text }) => {
+interface Props {
+  link: string;
+  icon: ReactNode;
+  text: ReactNode;
+}
+
+const HeaderNavItem: FC<Props> = ({ link, icon, text }) => {
   return (
     <Link href={link}>
       <a className="header-nav-item">
@@ -61,7 +68,7 @@ const HeaderNavItem = ({ link, icon, text }) => {
   );
 };
 
-const HeaderNavDropdown = () => (
+const HeaderNavDropdown: FC = () => (
   <Translate>
     {({ translate }) => (
       <Dropdown>

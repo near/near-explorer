@@ -1,9 +1,15 @@
+import { FC } from "react";
 import { Dropdown } from "react-bootstrap";
 
 import { NetworkConsumer } from "../../context/NetworkProvider";
 import Mixpanel from "../../libraries/mixpanel";
 
-const HeaderDropdownItem = ({ link, title }) => {
+interface Props {
+  link: string;
+  title: string;
+}
+
+const HeaderDropdownItem: FC<Props> = ({ link, title }) => {
   return (
     <Dropdown.Item
       className="header-network-item-dropdown"
@@ -18,13 +24,13 @@ const HeaderDropdownItem = ({ link, title }) => {
   );
 };
 
-const HeaderNetworkDropdown = () => (
+const HeaderNetworkDropdown: FC = () => (
   <NetworkConsumer>
     {(context) => (
       <Dropdown>
         <Dropdown.Toggle className="header-network" variant="secondary">
           <div className="network-icon"></div>
-          {context.currentNearNetwork.name}
+          {context.currentNearNetwork?.name}
           <img
             className="icon-right"
             src="/static/images/icon-network-right.svg"
@@ -35,7 +41,7 @@ const HeaderNetworkDropdown = () => (
           />
         </Dropdown.Toggle>
         <Dropdown.Menu className="header-network-dropdown-menu">
-          {context.nearNetworks.map((network) => {
+          {context.nearNetworks?.map((network) => {
             return (
               <HeaderDropdownItem
                 key={network.name}
@@ -111,11 +117,11 @@ const HeaderNetworkDropdown = () => (
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: ${context.currentNearNetwork.name === "mainnet"
+            background: ${context.currentNearNetwork?.name === "mainnet"
               ? "#00C08B"
-              : context.currentNearNetwork.name === "testnet"
+              : context.currentNearNetwork?.name === "testnet"
               ? "#E9B870"
-              : context.currentNearNetwork.name === "betanet"
+              : context.currentNearNetwork?.name === "betanet"
               ? "#00C1DE"
               : "#0072CE"};
           }

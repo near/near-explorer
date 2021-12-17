@@ -1,6 +1,11 @@
+import { FC } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 
-const PaginationSpinner = ({ hidden }) => (
+interface Props {
+  hidden?: boolean;
+}
+
+const PaginationSpinner: FC<Props> = ({ hidden }) => (
   <div style={{ display: hidden ? "none" : "default" }}>
     <Row>
       <Col xs="auto" className="mx-auto">

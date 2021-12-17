@@ -1,10 +1,19 @@
 /// Copied from near-wallet project:
 import BN from "bn.js";
-import { PureComponent } from "react";
+import { PureComponent, ReactNode } from "react";
 import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-class Balance extends PureComponent {
+interface Props {
+  amount: string | BN;
+  label?: ReactNode;
+  suffix?: ReactNode;
+  className?: string;
+  formulatedAmount?: string;
+  fracDigits?: number;
+}
+
+class Balance extends PureComponent<Props> {
   render() {
     const {
       amount,
@@ -24,11 +33,11 @@ class Balance extends PureComponent {
     let amountShow = !formulatedAmount
       ? formatNEAR(amount, fracDigits)
       : formulatedAmount;
-    let amountPrecise = showInYocto(amount);
+    let amountPrecise = showInYocto(amount.toString());
     return (
       <OverlayTrigger
         placement={"bottom"}
-        overlay={<Tooltip>{amountPrecise}</Tooltip>}
+        overlay={<Tooltip id="balance">{amountPrecise}</Tooltip>}
       >
         <span className={className}>
           {amountShow}
@@ -41,7 +50,7 @@ class Balance extends PureComponent {
   }
 }
 
-export const formatNEAR = (amount, fracDigits = 5) => {
+export const formatNEAR = (amount: string | BN, fracDigits = 5): string => {
   let ret = utils.format.formatNearAmount(amount.toString(), fracDigits);
 
   if (amount === "0") {
@@ -52,11 +61,11 @@ export const formatNEAR = (amount, fracDigits = 5) => {
   return ret;
 };
 
-export const showInYocto = (amountStr) => {
+export const showInYocto = (amountStr: string) => {
   return formatWithCommas(amountStr) + " yoctoⓃ";
 };
 
-export const formatWithCommas = (value) => {
+export const formatWithCommas = (value: string): string => {
   const pattern = /(-?\d+)(\d{3})/;
   while (pattern.test(value)) {
     value = value.toString().replace(pattern, "$1,$2");
