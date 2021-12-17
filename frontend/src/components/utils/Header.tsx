@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useRouter } from "next/router";
 
@@ -15,7 +16,7 @@ import LanguageToggle from "../utils/LangSwitcher";
 const languagesIcon = "/static/images/icon-languages.svg";
 const downArrowIcon = "/static/images/down-arrow.svg";
 
-const Header = () => {
+const Header: FC = () => {
   const router = useRouter();
 
   return (

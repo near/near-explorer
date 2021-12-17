@@ -144,7 +144,7 @@ const ProtocolConfigInfo = () => {
               )}
               cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
             >
-              {genesisTotaSupply && (
+              {genesisTotaSupply && totalGenesisSupply && (
                 <span className="genesis-text">
                   <Balance
                     amount={totalGenesisSupply}

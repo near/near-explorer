@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { Component } from "react";
+import { ChangeEvent, Component, FormEvent } from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import Mixpanel from "../../libraries/mixpanel";
@@ -11,10 +11,14 @@ import ReceiptsApi from "../../libraries/explorer-wamp/receipts";
 
 import { Translate } from "react-localize-redux";
 
-class Search extends Component {
+interface Props {
+  dashboard?: boolean;
+}
+
+class Search extends Component<Props> {
   state = { searchValue: "" };
 
-  handleSearch = async (event) => {
+  handleSearch = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { searchValue } = this.state;
@@ -46,30 +50,34 @@ class Search extends Component {
     const block = await blockPromise;
     if (block) {
       Mixpanel.track("Explorer Search for block", { block: block });
-      return Router.push("/blocks/" + block);
+      Router.push("/blocks/" + block);
+      return;
     }
     const transaction = await transactionPromise;
     if (transaction) {
       Mixpanel.track("Explorer Search for transaction", {
         transaction: searchValue,
       });
-      return Router.push("/transactions/" + searchValue);
+      Router.push("/transactions/" + searchValue);
+      return;
     }
     if (await accountPromise) {
       Mixpanel.track("Explorer Search for account", { account: searchValue });
-      return Router.push("/accounts/" + searchValue.toLowerCase());
+      Router.push("/accounts/" + searchValue.toLowerCase());
+      return;
     }
     const receipt = await receiptInTransactionPromise;
     if (receipt && receipt.originatedFromTransactionHash) {
-      return Router.push(
+      Router.push(
         `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
       );
+      return;
     }
     Mixpanel.track("Explorer Search result not found", { detail: searchValue });
     alert("Result not found!");
   };
 
-  handleSearchValueChange = (event) => {
+  handleSearchValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event) {
       const value = event.target !== null ? event.target.value : "";
       this.setState({ searchValue: value });
@@ -79,7 +87,7 @@ class Search extends Component {
   render() {
     return (
       <form
-        onSubmit={this.handleSearch}
+        onSubmit={(e) => this.handleSearch(e)}
         className={`search-box ${!this.props.dashboard ? "compact" : ""}`}
       >
         <Row noGutters className="search-box">
@@ -97,7 +105,9 @@ class Search extends Component {
             <Translate>
               {({ translate }) => (
                 <FormControl
-                  placeholder={translate("component.utils.Search.hint")}
+                  placeholder={
+                    translate("component.utils.Search.hint") as string
+                  }
                   aria-label="Search"
                   aria-describedby="search"
                   autoCorrect="off"

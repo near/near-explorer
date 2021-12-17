@@ -1,8 +1,19 @@
 import { PureComponent } from "react";
 import Moment from "../../libraries/moment";
 
-class Timer extends PureComponent {
-  constructor(props) {
+interface Props {
+  time?: number;
+}
+
+interface State {
+  time: Date | number;
+  timeStr: string;
+}
+
+class Timer extends PureComponent<Props, State> {
+  timer?: number;
+
+  constructor(props: Props) {
     super(props);
 
     const time = props.time === undefined ? new Date() : props.time;
@@ -13,7 +24,7 @@ class Timer extends PureComponent {
   }
 
   componentDidMount() {
-    this.timer = setInterval(() => this.tick(), 1000);
+    this.timer = window.setInterval(() => this.tick(), 1000);
   }
 
   componentWillUnmount() {
@@ -28,7 +39,7 @@ class Timer extends PureComponent {
     });
   }
 
-  formatTime(time) {
+  formatTime(time: number | Date) {
     return Moment(time).fromNow();
   }
 
