@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Account Details navigation", () => {
   it("Direct navigation to /accounts/:accountId page should work for accounts in lower/upper/mixed case", () => {
     cy.fixture("mixedcase-account-ids.json")

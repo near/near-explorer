@@ -5,7 +5,7 @@ import { Component } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 
 import AccountsApi, { Account } from "../../libraries/explorer-wamp/accounts";
-import { NearNetwork } from "../../libraries/config";
+import { NearNetwork } from "next.config";
 
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";

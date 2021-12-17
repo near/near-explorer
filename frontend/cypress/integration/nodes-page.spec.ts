@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Nodes", () => {
   beforeEach(() => {
     cy.visit("/nodes/validators");

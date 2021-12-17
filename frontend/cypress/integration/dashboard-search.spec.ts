@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Dashboard search bar", () => {
   it("Search from the dashboard page should work for accounts in lower/upper/mixed case", () => {
     cy.fixture("mixedcase-account-ids.json")

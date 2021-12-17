@@ -1,8 +1,8 @@
-const moment = require("moment");
-
+import moment from "moment";
+import { NextApiHandler } from "next";
 import StatsApi from "../../libraries/explorer-wamp/stats";
 
-export default async function (req, res) {
+const handler: NextApiHandler = async (req, res) => {
   try {
     const feeCountPerDay = await new StatsApi(req).getTotalFee(1);
     const resp = {
@@ -14,4 +14,6 @@ export default async function (req, res) {
     console.error(error);
     res.status(502).send(error);
   }
-}
+};
+
+export default handler;
