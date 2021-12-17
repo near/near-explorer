@@ -87,7 +87,7 @@ class Search extends Component<Props> {
   render() {
     return (
       <form
-        onSubmit={(e) => this.handleSearch(e)}
+        onSubmit={this.handleSearch}
         className={`search-box ${!this.props.dashboard ? "compact" : ""}`}
       >
         <Row noGutters className="search-box">
