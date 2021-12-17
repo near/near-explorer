@@ -5,8 +5,8 @@ const {
   publicRuntimeConfig: { nearNetworks, nearNetworkAliases },
 } = getConfig() as ExplorerConfig;
 
-export function getNearNetwork(hostname: string): NearNetwork {
-  let nearNetwork = nearNetworkAliases[hostname];
+export function getNearNetwork(hostname?: string): NearNetwork {
+  let nearNetwork = hostname ? nearNetworkAliases[hostname] : undefined;
   if (nearNetwork === undefined) {
     nearNetwork = nearNetworks[0];
   }

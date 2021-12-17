@@ -51,7 +51,7 @@ class Stats extends PureComponent {
           </div>
           <NetworkConsumer>
             {({ currentNearNetwork }) =>
-              currentNearNetwork.name === "mainnet" ? (
+              currentNearNetwork?.name === "mainnet" ? (
                 <div id="circulatingSupply">
                   <CirculatingSupplyStats chartStyle={chartStyle} />
                 </div>

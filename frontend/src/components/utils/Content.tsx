@@ -10,8 +10,7 @@ export interface Props {
   fluid?: boolean;
   contentFluid?: boolean;
   icon?: React.ReactNode;
-  className: string;
-  children: React.ReactNode;
+  className?: string;
 }
 
 class Content extends Component<Props> {

@@ -12,11 +12,7 @@ export interface INodeContext {
 
 const NodeContext = createContext<INodeContext>({});
 
-export interface Props {
-  children: React.Component;
-}
-
-const NodeProvider = (props: Props) => {
+const NodeProvider: React.FC = (props) => {
   const [currentContext, setContext] = useState<INodeContext>({});
 
   const fetchNodeInfo = useCallback(

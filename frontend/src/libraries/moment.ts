@@ -71,9 +71,6 @@ moment.updateLocale("vi", {
 
 moment.updateLocale("ru", {
   relativeTime: {
-    past: (input) => {
-      return input === "только что" ? "1 сек" : input + " назад";
-    },
     future: "через %s",
     past: "%s назад",
     s: "секунд",
@@ -93,7 +90,7 @@ moment.updateLocale("ru", {
   },
 });
 
-function plural(word, num) {
+function plural(word: string, num: number): string {
   var forms = word.split("_");
   return num % 10 === 1 && num % 100 !== 11
     ? forms[0]
@@ -101,8 +98,12 @@ function plural(word, num) {
     ? forms[1]
     : forms[2];
 }
-function relativeTimeWithPlural(number, withoutSuffix, key) {
-  var format = {
+function relativeTimeWithPlural(
+  number: number,
+  withoutSuffix: boolean,
+  key: string
+) {
+  const format: Record<string, string> = {
     ss: withoutSuffix ? "секунда_секунды_секунд" : "секунду_секунды_секунд",
     mm: withoutSuffix ? "минута_минуты_минут" : "минуту_минуты_минут",
     hh: "час_часа_часов",

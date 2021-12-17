@@ -6,7 +6,9 @@ import Mixpanel from "../../libraries/mixpanel";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import TransactionsApi from "../../libraries/explorer-wamp/transactions";
+import TransactionsApi, {
+  Transaction,
+} from "../../libraries/explorer-wamp/transactions";
 
 import ActionsList from "../../components/transactions/ActionsList";
 import ReceiptRow from "../../components/transactions/ReceiptRow";
@@ -15,9 +17,24 @@ import TransactionOutcome from "../../components/transactions/TransactionOutcome
 import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
+import { NextPageContext } from "next";
 
-class TransactionDetailsPage extends Component {
-  static async getInitialProps({ req, query: { hash } }) {
+type SuccessfulProps = Transaction | null;
+
+type FailedProps = {
+  hash: string;
+  err: unknown;
+};
+
+type Props = SuccessfulProps | FailedProps;
+
+class TransactionDetailsPage extends Component<Props> {
+  static async getInitialProps({
+    req,
+    query: { hash: rawHash },
+  }: NextPageContext) {
+    // Change to string[] if pagename changes from `[hash]` to `[...hash]`
+    const hash = rawHash as string;
     try {
       return await new TransactionsApi(req).getTransactionInfo(hash);
     } catch (err) {
@@ -34,18 +51,7 @@ class TransactionDetailsPage extends Component {
   render() {
     // Prepare the transaction object with all the right types and field names on render() since
     // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
-    const transaction = {
-      actions: this.props.actions,
-      blockTimestamp: this.props.blockTimestamp,
-      blockHash: this.props.blockHash,
-      hash: this.props.hash,
-      receipt: this.props.receipt,
-      transactionOutcome: this.props.transactionOutcome,
-      receiptsOutcome: this.props.receiptsOutcome,
-      signerId: this.props.signerId,
-      receiverId: this.props.receiverId,
-      status: this.props.status,
-    };
+    const transaction = "err" in this.props ? undefined : this.props;
 
     return (
       <>
@@ -56,21 +62,21 @@ class TransactionDetailsPage extends Component {
           title={
             <h1>
               <Translate id="common.transactions.transaction" />
-              {`: ${transaction.hash.substring(
+              {`: ${this.props.hash.substring(
                 0,
                 7
-              )}...${transaction.hash.substring(transaction.hash.length - 4)}`}
+              )}...${this.props.hash.substring(this.props.hash.length - 4)}`}
             </h1>
           }
           border={false}
         >
-          {this.props.err ? (
+          {!transaction ? (
             <Translate id="page.transactions.error.transaction_fetching" />
           ) : (
             <TransactionDetails transaction={transaction} />
           )}
         </Content>
-        {transaction.actions && (
+        {transaction && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
@@ -91,7 +97,7 @@ class TransactionDetailsPage extends Component {
           </Content>
         )}
 
-        {transaction.receipt && (
+        {transaction?.receipt && (
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
@@ -101,7 +107,11 @@ class TransactionDetailsPage extends Component {
               </h2>
             }
           >
-            <TransactionOutcome transaction={transaction.transactionOutcome} />
+            {transaction.transactionOutcome && (
+              <TransactionOutcome
+                transaction={transaction.transactionOutcome}
+              />
+            )}
 
             <ReceiptRow
               receipt={transaction.receipt}
