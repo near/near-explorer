@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Dashboard", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -24,17 +22,19 @@ context("Dashboard", () => {
     cy.get(
       ".card-area .dashboard-card.node-card .dashboard-card-header"
     ).contains("Nodes");
-    cy.get(".card-area .dashboard-card.node-card a .long-card-cell.href-cell", {
-      timeout: 5000,
-    })
+    cy.get(".card-area .dashboard-card.node-card .spinner-border", {
+      timeout: 15000,
+    }).should("not.exist");
+    cy.get(
+      ".card-area .dashboard-card.node-card .long-card-cell .card-cell-text",
+      {
+        timeout: 5000,
+      }
+    )
       .should("exist")
-      .each(($el) =>
-        cy
-          .get($el)
-          .children(".col")
-          .find(".card-cell-text")
-          .not(".spinner-border")
-      );
+      .first()
+      .invoke("text")
+      .should("match", /^\d+$/);
   });
 
   it("Blocks card is visible", () => {
@@ -42,13 +42,16 @@ context("Dashboard", () => {
     cy.get(
       ".card-area .dashboard-card.block-card .dashboard-card-header"
     ).contains("Blocks");
-    cy.get(".card-area .dashboard-card.block-card .card-cell-text", {
-      timeout: 5000,
-    })
+    cy.get(
+      ".card-area .dashboard-card.block-card .long-card-cell .card-cell-text",
+      {
+        timeout: 5000,
+      }
+    )
       .should("exist")
-      .each(($el) =>
-        cy.get($el, { timeout: 10000 }).should("not.equal", $el.text())
-      );
+      .first()
+      .invoke("text")
+      .should("match", /^\d+$/);
   });
 
   it("Transactions card is visible", () => {
@@ -56,19 +59,17 @@ context("Dashboard", () => {
     cy.get(".dashboard-card.transaction-card .dashboard-card-header").contains(
       "Transactions"
     );
-    cy.get(
-      ".dashboard-card.transaction-card .transaction-card-number >div:first-child"
-    ).should("exist");
+
     cy.get(
       ".dashboard-card.transaction-card .transaction-card-number >div:first-child .long-card-cell .card-cell-text",
-      { timeout: 5000 }
+      {
+        timeout: 5000,
+      }
     )
       .should("exist")
-      .within(($element) =>
-        cy
-          .get($element, { timeout: 10000 })
-          .should("not.equal", $element.text())
-      );
+      .first()
+      .invoke("text")
+      .should("match", /^[\d ,]+$/);
 
     cy.get(
       ".dashboard-card.transaction-card .transaction-card-number >div:last-child"

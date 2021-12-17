@@ -1,5 +1,3 @@
-/// <reference types="Cypress" />
-
 context("Accounts List page", () => {
   beforeEach(() => {
     cy.visit("/accounts");
@@ -22,7 +20,10 @@ context("Accounts List page", () => {
       .should("exist")
       .then(($el) => {
         if ($el.children().length > 0) {
-          cy.get($el).children("span").should("exist").and("not.be.empty");
+          cy.get($el.toString())
+            .children("span")
+            .should("exist")
+            .and("not.be.empty");
         }
       });
 
