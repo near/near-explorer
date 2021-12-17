@@ -1,5 +1,4 @@
 import { NextConfig } from "next";
-import { DATA_SOURCE_TYPE } from "./src/libraries/consts.js";
 
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
 
@@ -8,6 +7,10 @@ export interface NearNetwork {
   explorerLink: string;
   aliases: string[];
   nearWalletProfilePrefix: string;
+}
+
+enum DataSource {
+  LegacySyncBackend = "LEGACY_SYNC_BACKEND",
 }
 
 let nearNetworks: NearNetwork[];
@@ -54,8 +57,7 @@ const config: ExplorerConfig & NextConfig = {
     nearNetworks,
     nearNetworkAliases,
     nearExplorerDataSource:
-      process.env.NEAR_EXPLORER_DATA_SOURCE ||
-      DATA_SOURCE_TYPE.LEGACY_SYNC_BACKEND,
+      process.env.NEAR_EXPLORER_DATA_SOURCE || DataSource.LegacySyncBackend,
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,

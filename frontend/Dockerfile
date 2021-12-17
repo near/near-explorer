@@ -20,7 +20,6 @@ ENV HOME=/tmp \
 COPY --from=build /near-explorer/production_node_modules ./node_modules
 COPY --from=build /near-explorer/frontend/public ./public
 COPY --from=build /near-explorer/frontend/next.config.js ./
-COPY --from=build /near-explorer/frontend/src/libraries/consts.js ./src/libraries/consts.js
 COPY --from=build /near-explorer/frontend/.next ./.next
 COPY --from=build /near-explorer/frontend/package.json ./package.json
 

@@ -1,8 +1,9 @@
 import App, { AppContext } from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
+import { NearNetwork } from "next.config";
 
-import { getNearNetwork, NearNetwork } from "../libraries/config";
+import { getNearNetwork } from "../libraries/config";
 import Mixpanel from "../libraries/mixpanel";
 
 import Header from "../components/utils/Header";
