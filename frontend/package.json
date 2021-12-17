@@ -4,7 +4,7 @@
   "description": "NEAR blockchain explorer",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "npm run typecheck && TZ=UTC jest",
+    "test": "npm run typecheck && env TZ=UTC jest",
     "dev": "next",
     "dev:local-wamp-with-indexer": "env NEAR_EXPLORER_DATA_SOURCE=INDEXER_BACKEND WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run dev",
     "dev:local-wamp-with-indexer-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.testnet.near.org/profile\"}]' npm run dev:local-wamp-with-indexer",
