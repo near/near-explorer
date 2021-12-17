@@ -36,7 +36,6 @@ class BlockDetail extends Component<Props> {
     req,
     query: { hash: rawHash },
   }: NextPageContext) {
-    // Change to string[] if pagename changes from `[hash]` to `[...hash]`
     const hash = rawHash as string;
     try {
       const block = await new BlocksApi(req).getBlockInfo(hash);

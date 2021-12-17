@@ -33,7 +33,6 @@ class AccountDetail extends Component<Props> {
     query: { id: rawId },
     res,
   }: NextPageContext) {
-    // Change to string[] if pagename changes from `[id]` to `[...id]`
     const id = rawId as string;
     if (/[A-Z]/.test(id) && res) {
       res.writeHead(301, { Location: `/accounts/${id.toLowerCase()}` });
