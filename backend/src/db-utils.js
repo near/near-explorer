@@ -67,7 +67,8 @@ const extendWithTelemetryInfo = async (nodes) => {
         agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
-      WHERE account_id IN (:accountArray)`,
+      WHERE account_id IN (:accountArray)
+      ORDER BY last_seen`,
       { accountArray },
     ],
     { dataSource: DS_TELEMETRY_BACKEND }
