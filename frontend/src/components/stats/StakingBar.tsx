@@ -14,17 +14,20 @@ export interface Props {
 }
 
 const StakingBar = ({ validators }: Props) => {
-  validators.sort((v1: any, v2: any) => {
-    let diff = new BN(v1.stake).sub(new BN(v2.stake)).toString();
+  validators.sort((v1: ValidationNodeInfo, v2: ValidationNodeInfo) => {
+    let diff = new BN(v1.currentStake).sub(new BN(v2.currentStake)).toString();
     return Number(diff.slice(0, 5));
   });
-  const validatorsName = validators.map((v: any) => v.account_id);
-  const validatorsStake = validators.map((v: any) => {
-    let stake = utils.format.formatNearAmount(v.stake, 0).toString();
+  const validatorsName = validators.map(
+    (v: ValidationNodeInfo) => v.account_id
+  );
+  const validatorsStake = validators.map((v: ValidationNodeInfo) => {
+    let stake = utils.format.formatNearAmount(v.currentStake, 0).toString();
     return parseFloat(stake.replace(/,/g, ""));
   });
   let totalStakeBN = validators.reduce(
-    (acc: BN, validator: any) => acc.add(new BN(validator.stake)),
+    (acc: BN, validator: ValidationNodeInfo) =>
+      acc.add(new BN(validator.currentStake)),
     new BN(0)
   );
   let totalStake = utils.format.formatNearAmount(totalStakeBN.toString(), 5);
