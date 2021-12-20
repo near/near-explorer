@@ -14,7 +14,7 @@ import Content from "../../components/utils/Content";
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import { Translate } from "react-localize-redux";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useNearNetwork } from "src/hooks/use-near-network";
 
 interface Props {
@@ -92,11 +92,18 @@ const AccountDetail: NextPage<Props> = ({
   );
 };
 
-AccountDetail.getInitialProps = async ({ req, query: { id: rawId }, res }) => {
-  const id = rawId as string;
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { id: string }
+> = async ({ req, params, res }) => {
+  const id = params!.id;
   if (/[A-Z]/.test(id) && res) {
-    res.writeHead(301, { Location: `/accounts/${id.toLowerCase()}` });
-    res.end();
+    return {
+      redirect: {
+        permanent: true,
+        destination: `/accounts/${id.toLowerCase()}`,
+      },
+    };
   }
 
   try {
@@ -104,22 +111,30 @@ AccountDetail.getInitialProps = async ({ req, query: { id: rawId }, res }) => {
     if (isAccountExist) {
       try {
         const account = await new AccountsApi(req).getAccountInfo(id);
-        return { account };
+        return {
+          props: { account },
+        };
       } catch (accountFetchingError) {
         return {
-          account: { accountId: id },
-          accountFetchingError,
+          props: {
+            account: { accountId: id },
+            accountFetchingError,
+          },
         };
       }
     }
   } catch (accountError) {
     return {
-      account: { accountId: id },
-      accountError,
+      props: {
+        account: { accountId: id },
+        accountError,
+      },
     };
   }
   return {
-    account: { accountId: id },
+    props: {
+      account: { accountId: id },
+    },
   };
 };
 

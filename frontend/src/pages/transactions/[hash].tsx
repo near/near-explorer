@@ -17,16 +17,13 @@ import TransactionOutcome from "../../components/transactions/TransactionOutcome
 import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 
-type SuccessfulProps = Transaction | null;
-
-type FailedProps = {
+type Props = {
   hash: string;
-  err: unknown;
+  transaction?: Transaction;
+  err?: unknown;
 };
-
-type Props = SuccessfulProps | FailedProps;
 
 const TransactionDetailsPage: NextPage<Props> = (props) => {
   useEffect(() => {
@@ -37,7 +34,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
 
   // Prepare the transaction object with all the right types and field names on render() since
   // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
-  const transaction = "err" in props ? undefined : props;
+  const transaction = props.transaction;
 
   return (
     <>
@@ -106,15 +103,24 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
   );
 };
 
-TransactionDetailsPage.getInitialProps = async ({
-  req,
-  query: { hash: rawHash },
-}) => {
-  const hash = rawHash as string;
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { hash: string }
+> = async ({ req, params }) => {
+  const hash = params!.hash;
   try {
-    return await new TransactionsApi(req).getTransactionInfo(hash);
+    return {
+      props: {
+        hash,
+        transaction:
+          (await new TransactionsApi(req).getTransactionInfo(hash)) ||
+          undefined,
+      },
+    };
   } catch (err) {
-    return { hash, err };
+    return {
+      props: { hash, err },
+    };
   }
 };
 
