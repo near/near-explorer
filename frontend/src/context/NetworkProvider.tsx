@@ -29,8 +29,6 @@ const NetworkProvider = (props: Props) => {
   );
 };
 
-const NetworkConsumer = NetworkContext.Consumer;
-
-export { NetworkConsumer, NetworkContext };
+export { NetworkContext };
 
 export default NetworkProvider;

@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import { FC } from "react";
 import { Col, Row } from "react-bootstrap";
 
 import NodeNav from "./NodeNav";
@@ -16,28 +16,24 @@ const NodesIcon = () => (
   />
 );
 
-class NodesContentHeader extends PureComponent<Props> {
-  render() {
-    return (
-      <Translate>
-        {({ translate }) => (
-          <Row noGutters>
-            <Col xs="auto" className="content-icon-col">
-              <NodesIcon />
-            </Col>
-            <Col className="content-title">
-              <h1 style={{ fontSize: "31px", marginBottom: "0px" }}>
-                {translate("component.nodes.NodesContentHeader.nodes")}
-              </h1>
-            </Col>
-            <Col xs="12" style={{ visibility: "hidden" }}>
-              <NodeNav role={this.props.navRole} />
-            </Col>
-          </Row>
-        )}
-      </Translate>
-    );
-  }
-}
+const NodesContentHeader: FC<Props> = ({ navRole }) => (
+  <Translate>
+    {({ translate }) => (
+      <Row noGutters>
+        <Col xs="auto" className="content-icon-col">
+          <NodesIcon />
+        </Col>
+        <Col className="content-title">
+          <h1 style={{ fontSize: "31px", marginBottom: "0px" }}>
+            {translate("component.nodes.NodesContentHeader.nodes")}
+          </h1>
+        </Col>
+        <Col xs="12" style={{ visibility: "hidden" }}>
+          <NodeNav role={navRole} />
+        </Col>
+      </Row>
+    )}
+  </Translate>
+);
 
 export default NodesContentHeader;

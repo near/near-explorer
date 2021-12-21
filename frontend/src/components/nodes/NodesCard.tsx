@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import { PureComponent } from "react";
+import { FC } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Translate } from "react-localize-redux";
 
@@ -61,115 +61,103 @@ interface Props {
   seatPrice?: string;
 }
 
-class NodesCard extends PureComponent<Props> {
-  render() {
-    const {
-      currentValidatorsCount,
-      totalSupply,
-      totalStake,
-      seatPrice,
-    } = this.props;
+const NodesCard: FC<Props> = ({
+  currentValidatorsCount,
+  totalSupply,
+  totalStake,
+  seatPrice,
+}) => (
+  <Translate>
+    {({ translate }) => (
+      <>
+        <InfoCard className="nodes-card">
+          <Cell
+            title={translate("component.nodes.NodesCard.nodes_validating")}
+            cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
+          >
+            {currentValidatorsCount !== undefined && (
+              <span className="validating">{currentValidatorsCount}</span>
+            )}
+          </Cell>
 
-    return (
-      <Translate>
-        {({ translate }) => (
-          <>
-            <InfoCard className="nodes-card">
-              <Cell
-                title={translate("component.nodes.NodesCard.nodes_validating")}
-                cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
-              >
-                {currentValidatorsCount !== undefined && (
-                  <span className="validating">{currentValidatorsCount}</span>
-                )}
-              </Cell>
+          <Cell
+            title={translate("component.nodes.NodesCard.total_supply")}
+            cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+          >
+            {totalSupply && (
+              <NodeBalance amount={new BN(totalSupply)} type="totalSupply" />
+            )}
+          </Cell>
 
-              <Cell
-                title={translate("component.nodes.NodesCard.total_supply")}
-                cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-              >
-                {totalSupply && (
-                  <NodeBalance
-                    amount={new BN(totalSupply)}
-                    type="totalSupply"
-                  />
-                )}
-              </Cell>
+          <Cell
+            title={translate("component.nodes.NodesCard.total_stake")}
+            cellOptions={{ xs: "12", md: "6", xl: "3" }}
+          >
+            {totalStake && (
+              <NodeBalance
+                amount={new BN(totalStake)}
+                type="totalStakeAmount"
+              />
+            )}
+          </Cell>
 
-              <Cell
-                title={translate("component.nodes.NodesCard.total_stake")}
-                cellOptions={{ xs: "12", md: "6", xl: "3" }}
-              >
-                {totalStake && (
-                  <NodeBalance
-                    amount={new BN(totalStake)}
-                    type="totalStakeAmount"
-                  />
-                )}
-              </Cell>
+          <Cell
+            title={translate("component.nodes.NodesCard.seat_price")}
+            cellOptions={{ xs: "12", md: "6", xl: "4" }}
+          >
+            {seatPrice && (
+              <NodeBalance amount={new BN(seatPrice)} type="seatPriceAmount" />
+            )}
+          </Cell>
+        </InfoCard>
+        <style jsx global>{`
+          .nodes-card {
+            background: #ffffff;
+            border: 1px solid #f0f0f1;
+            box-shadow: 0px 2px 2px rgba(17, 22, 24, 0.04);
+            border-radius: 8px;
+            padding: 48px 32px;
+            margin-top: 50px;
+          }
 
-              <Cell
-                title={translate("component.nodes.NodesCard.seat_price")}
-                cellOptions={{ xs: "12", md: "6", xl: "4" }}
-              >
-                {seatPrice && (
-                  <NodeBalance
-                    amount={new BN(seatPrice)}
-                    type="seatPriceAmount"
-                  />
-                )}
-              </Cell>
-            </InfoCard>
-            <style jsx global>{`
-              .nodes-card {
-                background: #ffffff;
-                border: 1px solid #f0f0f1;
-                box-shadow: 0px 2px 2px rgba(17, 22, 24, 0.04);
-                border-radius: 8px;
-                padding: 48px 32px;
-                margin-top: 50px;
-              }
+          .validating {
+            color: #00c08b;
+          }
 
-              .validating {
-                color: #00c08b;
-              }
+          .node-balance-text {
+            display: flex;
+            align-items: center;
+          }
 
-              .node-balance-text {
-                display: flex;
-                align-items: center;
-              }
+          .node-balance-suffix {
+            font-size: 25px;
+            line-height: 35px;
+            align-self: flex-end;
+          }
 
-              .node-balance-suffix {
-                font-size: 25px;
-                line-height: 35px;
-                align-self: flex-end;
-              }
+          @media (max-width: 768px) {
+            .nodes-card {
+              margin-top: 32px;
+              padding: 8px 16px 16px;
+            }
 
-              @media (max-width: 768px) {
-                .nodes-card {
-                  margin-top: 32px;
-                  padding: 8px 16px 16px;
-                }
-
-                .nodes-card .info-card-text {
-                  font-size: 20px;
-                }
-                .node-balance-suffix {
-                  font-size: 14px;
-                  line-height: 22px;
-                }
-              }
-              @media (max-width: 355px) {
-                .nodes-card .info-card-text {
-                  font-size: 14px;
-                }
-              }
-            `}</style>
-          </>
-        )}
-      </Translate>
-    );
-  }
-}
+            .nodes-card .info-card-text {
+              font-size: 20px;
+            }
+            .node-balance-suffix {
+              font-size: 14px;
+              line-height: 22px;
+            }
+          }
+          @media (max-width: 355px) {
+            .nodes-card .info-card-text {
+              font-size: 14px;
+            }
+          }
+        `}</style>
+      </>
+    )}
+  </Translate>
+);
 
 export default NodesCard;
