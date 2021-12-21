@@ -80,7 +80,7 @@ const Validators: FC = () => {
                           startPage,
                           endPage,
                           activePage,
-                          ITEMS_PER_PAGE,
+                          itemsPerPage: ITEMS_PER_PAGE,
                         }}
                       />
                     </tbody>

@@ -9,7 +9,12 @@ const epochValidatorsStake = new Map();
 
 interface Props {
   validators: N.ValidationNodeInfo[];
-  pages: any;
+  pages: {
+    startPage: number;
+    endPage: number;
+    activePage: number;
+    itemsPerPage: number;
+  };
 }
 
 const ValidatorsList: FC<Props> = ({

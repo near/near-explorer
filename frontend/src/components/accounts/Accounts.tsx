@@ -25,7 +25,9 @@ const Accounts: FC<InnerProps> = ({ items }) => (
   <FlipMove duration={1000} staggerDurationBy={0}>
     {items &&
       items.map((account) => (
-        <AccountRow key={account.accountId} accountId={account.accountId} />
+        <div key={account.accountId}>
+          <AccountRow accountId={account.accountId} />
+        </div>
       ))}
   </FlipMove>
 );

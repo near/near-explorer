@@ -19,7 +19,7 @@ const TransactionAction: FC<Props> = ({ transaction, viewMode = "sparse" }) => {
     new TransactionsApi()
       .getTransactionStatus(transaction.hash, transaction.signerId)
       .then(setStatus);
-  }, []);
+  }, [transaction.hash, transaction.signerId]);
   if (!transaction.actions) {
     return null;
   }
