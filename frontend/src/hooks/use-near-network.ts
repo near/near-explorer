@@ -1,6 +1,6 @@
 import { NearNetwork } from "next.config";
 import { useContext } from "react";
-import { NetworkContext } from "src/context/NetworkProvider";
+import { NetworkContext } from "../context/NetworkProvider";
 
 export const useNearNetwork = (): {
   currentNetwork: NearNetwork;
