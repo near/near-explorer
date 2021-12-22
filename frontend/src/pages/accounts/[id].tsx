@@ -15,7 +15,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
-import { useNearNetwork } from "src/hooks/use-near-network";
+import { useNearNetwork } from "../../hooks/use-near-network";
 
 interface Props {
   account:

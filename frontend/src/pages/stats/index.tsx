@@ -16,7 +16,7 @@ import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 import CirculatingSupplyStats from "../../components/stats/CirculatingSupplyStats";
-import { useNearNetwork } from "src/hooks/use-near-network";
+import { useNearNetwork } from "../../hooks/use-near-network";
 
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
