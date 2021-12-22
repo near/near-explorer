@@ -2,13 +2,14 @@ import { FC } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Mixpanel from "../../libraries/mixpanel";
-
 import NearLogo from "../../../public/static/images/near_logo.svg";
 
 import { Translate } from "react-localize-redux";
+import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 const Footer: FC = () => {
+  const track = useAnalyticsTrack();
+
   return (
     <Translate>
       {({ translate }) => (
@@ -35,9 +36,7 @@ const Footer: FC = () => {
                   href="https://near.org/privacy/"
                   target="_blank"
                   rel="noopener"
-                  onClick={() => {
-                    Mixpanel.track("Explorer Click terms of service");
-                  }}
+                  onClick={() => track("Explorer Click terms of service")}
                 >
                   {translate("component.utils.Footer.terms_of_service")}
                 </a>
@@ -47,9 +46,7 @@ const Footer: FC = () => {
                   href="https://near.org/privacy/"
                   target="_blank"
                   rel="noopener"
-                  onClick={() => {
-                    Mixpanel.track("Explorer Click privacy policy");
-                  }}
+                  onClick={() => track("Explorer Click privacy policy")}
                 >
                   {translate("component.utils.Footer.privacy_policy")}
                 </a>
@@ -62,9 +59,7 @@ const Footer: FC = () => {
               href="http://near.chat"
               target="_blank"
               rel="noopener"
-              onClick={() => {
-                Mixpanel.track("Explorer Click join the community");
-              }}
+              onClick={() => track("Explorer Click join the community")}
             >
               <Row className="mx-0">
                 <Col className="align-self-center footer-help">

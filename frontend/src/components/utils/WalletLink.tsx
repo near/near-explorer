@@ -1,20 +1,24 @@
+import { FC } from "react";
 import { Translate } from "react-localize-redux";
+import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 import { truncateAccountId } from "../../libraries/formatting";
-import Mixpanel from "../../libraries/mixpanel";
 
 export interface Props {
   accountId: string;
   nearWalletProfilePrefix: string;
 }
 
-const WalletLink = ({ accountId, nearWalletProfilePrefix }: Props) => {
-  const clicked = () =>
-    Mixpanel.track("Explorer Click for wallet profile", {
-      accountId: accountId,
-      walletPrefix: nearWalletProfilePrefix,
-    });
+const WalletLink: FC<Props> = ({ accountId, nearWalletProfilePrefix }) => {
+  const track = useAnalyticsTrack();
   return (
-    <span onClick={clicked}>
+    <span
+      onClick={() =>
+        track("Explorer Click for wallet profile", {
+          accountId: accountId,
+          walletPrefix: nearWalletProfilePrefix,
+        })
+      }
+    >
       <a
         target="_blank"
         rel="noopener"

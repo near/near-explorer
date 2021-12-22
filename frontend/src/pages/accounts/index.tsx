@@ -1,17 +1,15 @@
 import Head from "next/head";
-import { useEffect } from "react";
-import Mixpanel from "../../libraries/mixpanel";
 
 import Accounts from "../../components/accounts/Accounts";
 import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 const AccountsPage: NextPage = () => {
-  useEffect(() => {
-    Mixpanel.track("Explorer View Accounts Page");
-  }, []);
+  useAnalyticsTrackOnMount("Explorer View Accounts Page");
+
   return (
     <>
       <Head>

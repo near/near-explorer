@@ -1,9 +1,7 @@
 import Head from "next/head";
 
-import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 
-import Mixpanel from "../../libraries/mixpanel";
 import AccountsApi, { Account } from "../../libraries/explorer-wamp/accounts";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
@@ -16,6 +14,7 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
 import { useNearNetwork } from "../../hooks/use-near-network";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 interface Props {
   account:
@@ -33,11 +32,9 @@ const AccountDetail: NextPage<Props> = ({
   accountFetchingError,
 }) => {
   const { currentNetwork } = useNearNetwork();
-  useEffect(() => {
-    Mixpanel.track("Explorer View Individual Account", {
-      accountId: account.accountId,
-    });
-  }, []);
+  useAnalyticsTrackOnMount("Explorer View Individual Account", {
+    accountId: account.accountId,
+  });
 
   return (
     <>

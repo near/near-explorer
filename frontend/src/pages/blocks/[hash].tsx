@@ -2,10 +2,6 @@ import BN from "bn.js";
 
 import Head from "next/head";
 
-import { useEffect } from "react";
-
-import Mixpanel from "../../libraries/mixpanel";
-
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import BlocksApi, { BlockInfo } from "../../libraries/explorer-wamp/blocks";
@@ -17,6 +13,7 @@ import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 type SuccessfulProps = Omit<
   BlockInfo,
@@ -35,11 +32,9 @@ type FailedProps = {
 type Props = SuccessfulProps | FailedProps;
 
 const BlockDetail: NextPage<Props> = (props) => {
-  useEffect(() => {
-    Mixpanel.track("Explorer View Individual Block", {
-      block: props.hash,
-    });
-  }, []);
+  useAnalyticsTrackOnMount("Explorer View Individual Block", {
+    block: props.hash,
+  });
 
   // Prepare the block object with all the right types and field names on render() since
   // `getInitialProps` can only return basic types to be serializable after Server-side Rendering

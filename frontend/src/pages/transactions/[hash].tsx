@@ -1,9 +1,5 @@
 import Head from "next/head";
 
-import { useEffect } from "react";
-
-import Mixpanel from "../../libraries/mixpanel";
-
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import TransactionsApi, {
@@ -18,6 +14,7 @@ import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 type SuccessfulProps = Transaction | null;
 
@@ -29,11 +26,9 @@ type FailedProps = {
 type Props = SuccessfulProps | FailedProps;
 
 const TransactionDetailsPage: NextPage<Props> = (props) => {
-  useEffect(() => {
-    Mixpanel.track("Explorer View Individual Transaction Page", {
-      transaction_hash: props.hash,
-    });
-  }, []);
+  useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
+    transaction_hash: props.hash,
+  });
 
   // Prepare the transaction object with all the right types and field names on render() since
   // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
