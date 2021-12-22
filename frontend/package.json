@@ -87,6 +87,7 @@
     "@types/react-dom": "^16.9.14",
     "@types/react-paginate": "^7.1.1",
     "@types/react-test-renderer": "^17.0.1",
+    "@welldone-software/why-did-you-render": "^6.2.3",
     "autoprefixer": "^10.4.0",
     "cypress": "^8.7.0",
     "file-loader": "^3.0.1",
