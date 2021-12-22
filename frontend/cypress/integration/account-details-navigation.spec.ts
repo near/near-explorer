@@ -17,7 +17,7 @@ context("Account Details navigation", () => {
       });
   });
 
-  it("Direct navigation to /accounts/:accountId page with account ID in upper/mixed case should return HTTP 301 (Permanent Redirect)", () => {
+  it("Direct navigation to /accounts/:accountId page with account ID in upper/mixed case should return HTTP 308 (Permanent Redirect)", () => {
     cy.fixture("mixedcase-account-ids.json")
       .as("mixedcaseAccountIds")
       .then((mixedcaseAccountId) => {
@@ -31,7 +31,7 @@ context("Account Details navigation", () => {
               if (mixedcaseAccountId === mixedcaseAccountId.toLowerCase()) {
                 expect(resp.status).to.eq(200);
               } else {
-                expect(resp.status).to.eq(301);
+                expect(resp.status).to.eq(308);
                 expect(resp.redirectedToUrl).to.include(
                   `/accounts/${mixedcaseAccountId.toLowerCase()}`
                 );
