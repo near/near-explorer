@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { FC, useCallback, useState } from "react";
 
 import { Modal } from "react-bootstrap";
 import Mixpanel from "../../libraries/mixpanel";
@@ -11,79 +11,69 @@ interface Props {
   href?: string;
 }
 
-interface State {
-  isModalShown: boolean;
-}
+const Term: FC<Props> = ({ title, text, href }) => {
+  const [isModalShown, setModalShown] = useState(false);
 
-class Term extends Component<Props, State> {
-  state: State = { isModalShown: false };
-
-  preventClickPropagation = (e: any) => {
+  const showModal = useCallback(
+    (e) => {
+      e.preventDefault();
+      setModalShown(true);
+    },
+    [setModalShown]
+  );
+  const hideModal = useCallback(() => {
+    setModalShown(false);
+  }, [setModalShown]);
+  const preventClickPropagation = useCallback((e) => {
     e.stopPropagation();
-  };
+  }, []);
 
-  showModal = (e: any) => {
-    e.preventDefault();
-    this.setState({ isModalShown: true });
-  };
+  return (
+    <>
+      {title}
+      <div className="term-helper" onClick={preventClickPropagation}>
+        <img
+          src="/static/images/icon-info.svg"
+          className="info"
+          onClick={showModal}
+        />
+        <Modal centered show={isModalShown} onHide={hideModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {text}{" "}
+            {href && (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener"
+                onClick={() =>
+                  Mixpanel.track("Explorer Docs Click", { href: href })
+                }
+              >
+                <Translate id="button.docs" />
+              </a>
+            )}
+          </Modal.Body>
+        </Modal>
+        <style jsx global>{`
+          .term-helper {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+          }
 
-  hideModal = () => {
-    this.setState({ isModalShown: false });
-  };
-
-  render() {
-    const { title, text, href } = this.props;
-    return (
-      <>
-        {title}
-        <div className="term-helper" onClick={this.preventClickPropagation}>
-          <img
-            src="/static/images/icon-info.svg"
-            className="info"
-            onClick={this.showModal}
-          />
-          <Modal
-            centered
-            show={this.state.isModalShown}
-            onHide={this.hideModal}
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>{title}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              {text}{" "}
-              {href && (
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener"
-                  onClick={() =>
-                    Mixpanel.track("Explorer Docs Click", { href: href })
-                  }
-                >
-                  <Translate id="button.docs" />
-                </a>
-              )}
-            </Modal.Body>
-          </Modal>
-          <style jsx global>{`
-            .term-helper {
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-            }
-
-            .term-helper .info {
-              vertical-align: text-bottom;
-              margin-left: 5px;
-              width: 16px;
-              cursor: pointer;
-            }
-          `}</style>
-        </div>
-      </>
-    );
-  }
-}
+          .term-helper .info {
+            vertical-align: text-bottom;
+            margin-left: 5px;
+            width: 16px;
+            cursor: pointer;
+          }
+        `}</style>
+      </div>
+    </>
+  );
+};
 
 export default Term;

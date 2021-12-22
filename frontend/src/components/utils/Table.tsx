@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import { FC } from "react";
 
 import { Table as BaseTable } from "react-bootstrap";
 
@@ -11,86 +11,82 @@ interface Props {
   pagination?: PaginationProps;
 }
 
-class TableRow extends PureComponent<Props> {
-  render() {
-    const { className, children, collapse } = this.props;
-    const expanded = collapse ? "expanded" : "";
+const TableRow: FC<Props> = ({ className, children, collapse }) => {
+  const expanded = collapse ? "expanded" : "";
 
-    return (
-      <>
-        <tr className={`table-row ${className} ${expanded}`}>{children}</tr>
-        <style global jsx>{`
-          .table-row {
-            background-color: #ffffff;
-            flex-wrap: nowrap;
-            white-space: nowrap;
-            box-shadow: inset 0px -1px 0px #f0f0f0;
-          }
-          .table-row td {
-            border-top: none;
-            vertical-align: middle;
-          }
+  return (
+    <>
+      <tr className={`table-row ${className} ${expanded}`}>{children}</tr>
+      <style global jsx>{`
+        .table-row {
+          background-color: #ffffff;
+          flex-wrap: nowrap;
+          white-space: nowrap;
+          box-shadow: inset 0px -1px 0px #f0f0f0;
+        }
+        .table-row td {
+          border-top: none;
+          vertical-align: middle;
+        }
 
-          .table-row td.order {
-            color: #a2a2a8;
-            font-size: 14px;
-            font-weight: 600;
-          }
+        .table-row td.order {
+          color: #a2a2a8;
+          font-size: 14px;
+          font-weight: 600;
+        }
 
-          .table-row .row {
-            flex-wrap: nowrap;
-          }
+        .table-row .row {
+          flex-wrap: nowrap;
+        }
 
-          .table-row.expanded {
-            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
-              inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
-            transition: height 0.5s 0.5s, opacity 0.5s;
-            margin-top: 16px;
-            margin-bottom: 16px;
-          }
+        .table-row.expanded {
+          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
+            inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
+          transition: height 0.5s 0.5s, opacity 0.5s;
+          margin-top: 16px;
+          margin-bottom: 16px;
+        }
 
-          .table-row.expanded + .table-expand-row {
-            box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
-              inset -1px 0px 0px #2b9af4;
-            transition: height 0.5s 0.5s, opacity 0.5s;
-            height: auto;
-            opacity: 1;
-          }
+        .table-row.expanded + .table-expand-row {
+          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
+            inset -1px 0px 0px #2b9af4;
+          transition: height 0.5s 0.5s, opacity 0.5s;
+          height: auto;
+          opacity: 1;
+        }
 
-          .table-row.expanded:first-child {
-            margin-top: 0;
-          }
-        `}</style>
-      </>
-    );
+        .table-row.expanded:first-child {
+          margin-top: 0;
+        }
+      `}</style>
+    </>
+  );
+};
+
+const TableCollapseRow: FC<Props> = ({ className, children, collapse }) => {
+  if (!collapse) {
+    return null;
   }
-}
 
-class TableCollapseRow extends PureComponent<Props> {
-  render() {
-    const { className, children, collapse } = this.props;
-    if (!collapse) return null;
+  return (
+    <>
+      <tr className={`table-expand-row ${className}`}>{children}</tr>
+      <style global jsx>{`
+        .table-expand-row {
+          transition: height 0.5s 0.5s, opacity 0.5s;
+          height: 0px;
+          opacity: 0;
+        }
 
-    return (
-      <>
-        <tr className={`table-expand-row ${className}`}>{children}</tr>
-        <style global jsx>{`
-          .table-expand-row {
-            transition: height 0.5s 0.5s, opacity 0.5s;
-            height: 0px;
-            opacity: 0;
-          }
+        .table-expand-row td {
+          border-top: none;
+        }
+      `}</style>
+    </>
+  );
+};
 
-          .table-expand-row td {
-            border-top: none;
-          }
-        `}</style>
-      </>
-    );
-  }
-}
-
-const Table = ({ className, children, pagination }: Props) => (
+const Table: FC<Props> = ({ className, children, pagination }) => (
   <div className={`table-section ${className}`}>
     <BaseTable responsive className="table-section-wrapper">
       {children}
@@ -139,4 +135,5 @@ const Table = ({ className, children, pagination }: Props) => (
   </div>
 );
 
+export type { OnPageChange } from "../utils/Pagination";
 export { Table, TableRow, TableCollapseRow };

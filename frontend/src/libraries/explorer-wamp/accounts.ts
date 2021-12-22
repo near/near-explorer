@@ -27,7 +27,7 @@ export interface AccountPagination {
   accountIndex: number;
 }
 
-type PaginatedAccountBasicInfo = AccountBasicInfo & AccountPagination;
+export type PaginatedAccountBasicInfo = AccountBasicInfo & AccountPagination;
 
 export default class AccountsApi extends ExplorerApi {
   async getAccountInfo(accountId: string): Promise<Account> {

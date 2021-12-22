@@ -1,81 +1,78 @@
-import { Component } from "react";
+import { FC, useCallback, useState } from "react";
 
 import * as N from "../../libraries/explorer-wamp/nodes";
 import { NodeConsumer } from "../../context/NodeProvider";
 
-import { onPageChange as P } from "../utils/Pagination";
-import { Table } from "../utils/Table";
+import { Table, OnPageChange } from "../utils/Table";
 
 import NodeRow from "./NodeRow";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { Translate } from "react-localize-redux";
 
-const itemsPerPage = 10;
-class Nodes extends Component {
-  state = {
-    activePage: 0,
-    startPage: 1,
-    endPage: itemsPerPage,
-  };
+const ITEMS_PER_PAGE = 10;
 
-  onPageChange = ({ selected }: P) => {
-    this.setState({
-      activePage: selected,
-      startPage: selected * itemsPerPage + 1,
-      endPage: selected * itemsPerPage + itemsPerPage,
-    });
-  };
-  render() {
-    const { activePage, startPage, endPage } = this.state;
-    return (
-      <Translate>
-        {({ translate }) => (
-          <NodeConsumer>
-            {(context) => (
-              <>
-                {context.onlineNodes ? (
-                  <Table
-                    className="online-nodes-section"
-                    pagination={{
-                      className: "online-nodes-pagination",
-                      pageCount: Math.ceil(
-                        context.onlineNodes.length / itemsPerPage
-                      ),
-                      marginPagesDisplayed: 1,
-                      pageRangeDisplayed: 3,
-                      onPageChange: this.onPageChange,
-                    }}
-                  >
-                    <thead>
-                      <tr className="online-nodes-header-row">
-                        <th />
-                        <th>#</th>
-                        <th>{translate("component.nodes.Nodes.validator")}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {context.onlineNodes
-                        .slice(startPage - 1, endPage)
-                        .map((node: N.NodeInfo, index: number) => (
-                          <NodeRow
-                            key={node.nodeId}
-                            node={node}
-                            index={activePage * itemsPerPage + index + 1}
-                          />
-                        ))}
-                    </tbody>
-                  </Table>
-                ) : (
-                  <PaginationSpinner hidden={false} />
-                )}
-              </>
-            )}
-          </NodeConsumer>
-        )}
-      </Translate>
-    );
-  }
-}
+const Nodes: FC = () => {
+  const [activePage, setActivePage] = useState(0);
+  const [startPage, setStartPage] = useState(1);
+  const [endPage, setEndPage] = useState(ITEMS_PER_PAGE);
+
+  const onPageChange = useCallback<NonNullable<OnPageChange>>(
+    ({ selected }) => {
+      setActivePage(selected);
+      setStartPage(selected * ITEMS_PER_PAGE + 1);
+      setEndPage(selected * ITEMS_PER_PAGE + ITEMS_PER_PAGE);
+    },
+    []
+  );
+
+  return (
+    <Translate>
+      {({ translate }) => (
+        <NodeConsumer>
+          {(context) => (
+            <>
+              {context.onlineNodes ? (
+                <Table
+                  className="online-nodes-section"
+                  pagination={{
+                    className: "online-nodes-pagination",
+                    pageCount: Math.ceil(
+                      context.onlineNodes.length / ITEMS_PER_PAGE
+                    ),
+                    marginPagesDisplayed: 1,
+                    pageRangeDisplayed: 3,
+                    onPageChange,
+                  }}
+                >
+                  <thead>
+                    <tr className="online-nodes-header-row">
+                      <th />
+                      <th>#</th>
+                      <th>{translate("component.nodes.Nodes.validator")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {context.onlineNodes
+                      .slice(startPage - 1, endPage)
+                      .map((node: N.NodeInfo, index: number) => (
+                        <NodeRow
+                          key={node.nodeId}
+                          node={node}
+                          index={activePage * ITEMS_PER_PAGE + index + 1}
+                        />
+                      ))}
+                  </tbody>
+                </Table>
+              ) : (
+                <PaginationSpinner hidden={false} />
+              )}
+            </>
+          )}
+        </NodeConsumer>
+      )}
+    </Translate>
+  );
+};
 
 export default Nodes;

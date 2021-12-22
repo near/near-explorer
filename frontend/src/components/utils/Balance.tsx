@@ -1,6 +1,6 @@
 /// Copied from near-wallet project:
 import BN from "bn.js";
-import { PureComponent, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
@@ -13,42 +13,38 @@ interface Props {
   fracDigits?: number;
 }
 
-class Balance extends PureComponent<Props> {
-  render() {
-    const {
-      amount,
-      label = null,
-      suffix = undefined,
-      className = undefined,
-      formulatedAmount = undefined,
-      fracDigits = 5,
-    } = this.props;
-
-    if (!amount) {
-      throw new Error("amount property should not be null");
-    }
-
-    const defaultLabel = "Ⓝ";
-
-    let amountShow = !formulatedAmount
-      ? formatNEAR(amount, fracDigits)
-      : formulatedAmount;
-    let amountPrecise = showInYocto(amount.toString());
-    return (
-      <OverlayTrigger
-        placement={"bottom"}
-        overlay={<Tooltip id="balance">{amountPrecise}</Tooltip>}
-      >
-        <span className={className}>
-          {amountShow}
-          {suffix}
-          &nbsp;
-          {label ?? defaultLabel}
-        </span>
-      </OverlayTrigger>
-    );
+const Balance: FC<Props> = ({
+  amount,
+  label = null,
+  suffix = undefined,
+  className = undefined,
+  formulatedAmount = undefined,
+  fracDigits = 5,
+}) => {
+  if (!amount) {
+    throw new Error("amount property should not be null");
   }
-}
+
+  const defaultLabel = "Ⓝ";
+
+  let amountShow = !formulatedAmount
+    ? formatNEAR(amount, fracDigits)
+    : formulatedAmount;
+  let amountPrecise = showInYocto(amount.toString());
+  return (
+    <OverlayTrigger
+      placement={"bottom"}
+      overlay={<Tooltip id="balance">{amountPrecise}</Tooltip>}
+    >
+      <span className={className}>
+        {amountShow}
+        {suffix}
+        &nbsp;
+        {label ?? defaultLabel}
+      </span>
+    </OverlayTrigger>
+  );
+};
 
 export const formatNEAR = (amount: string | BN, fracDigits = 5): string => {
   let ret = utils.format.formatNearAmount(amount.toString(), fracDigits);

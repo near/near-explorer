@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { FC } from "react";
 
 import AccountsApi, * as A from "../../libraries/explorer-wamp/accounts";
 
@@ -6,51 +6,39 @@ import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 import AccountRow from "./AccountRow";
 
-export interface OuterProps {
-  count: number;
-}
+const ACCOUNTS_PER_PAGE = 15;
 
-class AccountsWrapper extends Component<OuterProps> {
-  static defaultProps = {
-    count: 15,
-  };
+const fetchDataFn = (count: number, paginationIndexer?: A.AccountPagination) =>
+  new AccountsApi().getAccounts(count, paginationIndexer);
 
-  fetchAccounts = async (
-    count: number,
-    paginationIndexer?: A.AccountPagination
-  ) => {
-    return await new AccountsApi().getAccounts(count, paginationIndexer);
-  };
-
-  config = {
-    fetchDataFn: this.fetchAccounts,
-    count: this.props.count,
-    category: "Account",
-  };
-
-  AccountsList = ListHandler(Accounts, this.config);
-
-  render() {
-    return <this.AccountsList />;
-  }
-}
+const AccountsWrapper: FC = () => (
+  <AccountsList count={ACCOUNTS_PER_PAGE} fetchDataFn={fetchDataFn} />
+);
 
 export default AccountsWrapper;
 
-interface InnerProps extends OuterProps {
-  items: A.AccountBasicInfo[];
+interface InnerProps {
+  items: A.PaginatedAccountBasicInfo[];
 }
 
-class Accounts extends Component<InnerProps> {
-  render() {
-    const { items } = this.props;
-    return (
-      <FlipMove duration={1000} staggerDurationBy={0}>
-        {items &&
-          items.map((account) => (
-            <AccountRow key={account.accountId} accountId={account.accountId} />
-          ))}
-      </FlipMove>
-    );
-  }
-}
+const Accounts: FC<InnerProps> = ({ items }) => (
+  <FlipMove duration={1000} staggerDurationBy={0}>
+    {items &&
+      items.map((account) => (
+        <div key={account.accountId}>
+          <AccountRow accountId={account.accountId} />
+        </div>
+      ))}
+  </FlipMove>
+);
+
+const AccountsList = ListHandler({
+  Component: Accounts,
+  category: "Account",
+  paginationIndexer: (items) => ({
+    endTimestamp: items[items.length - 1].createdAtBlockTimestamp
+      ? items[items.length - 1].createdAtBlockTimestamp || undefined
+      : undefined,
+    accountIndex: items[items.length - 1].accountIndex,
+  }),
+});

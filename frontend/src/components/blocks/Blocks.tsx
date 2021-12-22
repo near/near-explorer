@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { FC } from "react";
 
 import BlocksApi, * as B from "../../libraries/explorer-wamp/blocks";
 
@@ -7,44 +7,30 @@ import FlipMove from "../utils/FlipMove";
 
 import BlocksRow from "./BlocksRow";
 
-import { OuterProps } from "../accounts/Accounts";
+const BLOCKS_PER_PAGE = 15;
 
-class BlocksWrapper extends Component<OuterProps> {
-  static defaultProps = {
-    count: 15,
-  };
+const fetchDataFn = (count: number, paginationIndexer?: number) =>
+  new BlocksApi().getBlocks(count, paginationIndexer);
 
-  fetchBlocks = async (count: number, paginationIndexer?: number) => {
-    return await new BlocksApi().getBlocks(count, paginationIndexer);
-  };
-
-  config = {
-    fetchDataFn: this.fetchBlocks,
-    count: this.props.count,
-    category: "Block",
-  };
-
-  BlocksList = ListHandler(Blocks, this.config);
-
-  render() {
-    return <this.BlocksList />;
-  }
-}
+const BlocksWrapper: FC = () => (
+  <BlocksList count={BLOCKS_PER_PAGE} fetchDataFn={fetchDataFn} />
+);
 
 export default BlocksWrapper;
 
-export interface InnerProps extends OuterProps {
+export interface InnerProps {
   items: B.Block[];
 }
 
-class Blocks extends Component<InnerProps> {
-  render() {
-    const { items } = this.props;
-    return (
-      <FlipMove duration={1000} staggerDurationBy={0}>
-        {items &&
-          items.map((block) => <BlocksRow key={block.hash} block={block} />)}
-      </FlipMove>
-    );
-  }
-}
+const Blocks: FC<InnerProps> = ({ items }) => (
+  <FlipMove duration={1000} staggerDurationBy={0}>
+    {items &&
+      items.map((block) => <BlocksRow key={block.hash} block={block} />)}
+  </FlipMove>
+);
+
+const BlocksList = ListHandler({
+  Component: Blocks,
+  category: "Block",
+  paginationIndexer: (items) => items[items.length - 1].timestamp,
+});

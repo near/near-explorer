@@ -1,4 +1,4 @@
-import { PureComponent } from "react";
+import { FC } from "react";
 import * as T from "../../libraries/explorer-wamp/transactions";
 
 import ActionRow from "./ActionRow";
@@ -15,35 +15,33 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-class ActionList extends PureComponent<Props> {
-  render() {
-    const {
-      actions,
-      blockTimestamp,
-      signerId,
-      receiverId,
-      detailsLink,
-      viewMode,
-      detalizationMode,
-      showDetails,
-    } = this.props;
-
-    let actionRows = actions.map((action, actionIndex) => (
-      <ActionRow
-        key={signerId + actionIndex}
-        action={action}
-        signerId={signerId}
-        receiverId={receiverId}
-        blockTimestamp={blockTimestamp}
-        detailsLink={detailsLink}
-        viewMode={viewMode}
-        detalizationMode={detalizationMode}
-        showDetails={showDetails}
-      />
-    ));
-
-    return <>{actionRows}</>;
-  }
-}
+const ActionList: FC<Props> = ({
+  actions,
+  blockTimestamp,
+  signerId,
+  receiverId,
+  detailsLink,
+  viewMode,
+  detalizationMode,
+  showDetails,
+}) => {
+  return (
+    <>
+      {actions.map((action, actionIndex) => (
+        <ActionRow
+          key={signerId + actionIndex}
+          action={action}
+          signerId={signerId}
+          receiverId={receiverId}
+          blockTimestamp={blockTimestamp}
+          detailsLink={detailsLink}
+          viewMode={viewMode}
+          detalizationMode={detalizationMode}
+          showDetails={showDetails}
+        />
+      ))}
+    </>
+  );
+};
 
 export default ActionList;
