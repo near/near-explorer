@@ -49,7 +49,8 @@ context("Transactions", () => {
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find(".action-sparse-row")
       .first()
-      .get(".action-sparse-row:first-child .action-row-txid a")
+      .get(".action-sparse-row .action-row-txid a")
+      .first()
       .click();
     cy.get(".transaction-info-container", { timeout: 20000 }).should("exist");
     cy.get(".transaction-info-container .card-cell .card-body")
