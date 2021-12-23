@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Dropdown } from "react-bootstrap";
+import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 import { useNearNetwork } from "../../hooks/use-near-network";
-import Mixpanel from "../../libraries/mixpanel";
 
 interface Props {
   link: string;
@@ -10,12 +10,14 @@ interface Props {
 }
 
 const HeaderDropdownItem: FC<Props> = ({ link, title }) => {
+  const track = useAnalyticsTrack();
+
   return (
     <Dropdown.Item
       className="header-network-item-dropdown"
       href={link}
       onClick={() =>
-        Mixpanel.track("Explorer Click to change network", { network: link })
+        track("Explorer Click to change network", { network: link })
       }
     >
       <div className={`network-icon network-${title.toLowerCase()}`}></div>

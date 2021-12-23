@@ -1,6 +1,4 @@
 import Head from "next/head";
-import { useEffect } from "react";
-import Mixpanel from "../../libraries/mixpanel";
 import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 import NetworkStatsProvider from "../../context/NetworkStatsProvider";
 
@@ -20,12 +18,12 @@ import { useNearNetwork } from "../../hooks/use-near-network";
 
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 const Stats: NextPage = () => {
+  useAnalyticsTrackOnMount("Explorer View Stats page");
   const { currentNetwork } = useNearNetwork();
-  useEffect(() => {
-    Mixpanel.track("Explorer View Stats page");
-  }, []);
+
   const chartStyle = {
     height: "480px",
     width: "100%",

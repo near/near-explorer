@@ -1,17 +1,14 @@
 import Head from "next/head";
-import { useEffect } from "react";
-import Mixpanel from "../../libraries/mixpanel";
 
 import Content from "../../components/utils/Content";
 
 import PartnerTotalTransactionList from "../../components/stats/PartnerTotalTransactionList";
 import PartnerFirst3MonthTransactionslist from "../../components/stats/PartnerFirst3MonthTransactionsList";
 import { NextPage } from "next";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 const Partner: NextPage = () => {
-  useEffect(() => {
-    Mixpanel.track("Explorer View Partner page");
-  }, []);
+  useAnalyticsTrackOnMount("Explorer View Partner page");
 
   return (
     <>

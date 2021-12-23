@@ -1,9 +1,5 @@
 import Head from "next/head";
 
-import { useEffect } from "react";
-
-import Mixpanel from "../../libraries/mixpanel";
-
 import { Container } from "react-bootstrap";
 
 import NodesEpoch from "../../components/nodes/NodesEpoch";
@@ -17,11 +13,11 @@ import NetworkStatsProvider, {
   NetworkStatsConsumer,
 } from "../../context/NetworkStatsProvider";
 import { NextPage } from "next";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 const ValidatorsPage: NextPage = () => {
-  useEffect(() => {
-    Mixpanel.track("Explorer View Validator Node page");
-  }, []);
+  useAnalyticsTrackOnMount("Explorer View Validator Node page");
+
   return (
     <>
       <Head>

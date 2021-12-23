@@ -1,11 +1,11 @@
+import "../libraries/wdyr";
 import NextApp, { AppContext, AppProps } from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 import { NearNetwork } from "next.config";
-import { useEffect, ReactElement } from "react";
+import { ReactElement } from "react";
 
 import { getNearNetwork } from "../libraries/config";
-import Mixpanel from "../libraries/mixpanel";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
@@ -17,6 +17,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { LocalizeProvider } from "react-localize-redux";
 import LocalizeWrapper from "../components/utils/LocalizeWrapper";
 import { getI18nConfigForProvider } from "../libraries/language";
+import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
 
 const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
@@ -44,11 +45,7 @@ const App: AppType = ({
   acceptedLanguages,
   currentNearNetwork,
 }) => {
-  useEffect(() => {
-    // mixpanel user setup and tracking
-    Mixpanel.identify(Mixpanel.get_distinct_id());
-    Mixpanel.people.set_once({ first_touch_date: new Date().toString() });
-  }, []);
+  useAnalyticsInit();
 
   return (
     <LocalizeProvider
