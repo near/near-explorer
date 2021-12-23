@@ -1,9 +1,9 @@
 import { FC, useCallback, useState } from "react";
 
 import { Modal } from "react-bootstrap";
-import Mixpanel from "../../libraries/mixpanel";
 
 import { Translate } from "react-localize-redux";
+import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 interface Props {
   title: string | React.ReactNode;
@@ -13,6 +13,7 @@ interface Props {
 
 const Term: FC<Props> = ({ title, text, href }) => {
   const [isModalShown, setModalShown] = useState(false);
+  const track = useAnalyticsTrack();
 
   const showModal = useCallback(
     (e) => {
@@ -48,9 +49,7 @@ const Term: FC<Props> = ({ title, text, href }) => {
                 href={href}
                 target="_blank"
                 rel="noopener"
-                onClick={() =>
-                  Mixpanel.track("Explorer Docs Click", { href: href })
-                }
+                onClick={() => track("Explorer Docs Click", { href: href })}
               >
                 <Translate id="button.docs" />
               </a>

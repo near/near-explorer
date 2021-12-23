@@ -1,9 +1,7 @@
 import Head from "next/head";
-import { useEffect } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Mixpanel from "../libraries/mixpanel";
 import NetworkStatsProvider from "../context/NetworkStatsProvider";
 
 import Search from "../components/utils/Search";
@@ -11,11 +9,10 @@ import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 import { Translate } from "react-localize-redux";
+import { useAnalyticsTrackOnMount } from "../hooks/analytics/use-analytics-track-on-mount";
 
 const Dashboard = () => {
-  useEffect(() => {
-    Mixpanel.track("Explorer View Landing Page");
-  }, []);
+  useAnalyticsTrackOnMount("Explorer View Landing Page");
 
   return (
     <>

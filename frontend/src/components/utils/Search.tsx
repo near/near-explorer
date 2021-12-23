@@ -2,20 +2,21 @@ import Router from "next/router";
 import { FC, useState, useCallback, FormEvent } from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
-import Mixpanel from "../../libraries/mixpanel";
-
 import AccountsApi from "../../libraries/explorer-wamp/accounts";
 import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import ReceiptsApi from "../../libraries/explorer-wamp/receipts";
 
 import { Translate } from "react-localize-redux";
+import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 interface Props {
   dashboard?: boolean;
 }
 
 const Search: FC<Props> = ({ dashboard }) => {
+  const track = useAnalyticsTrack();
+
   const [value, setValue] = useState("");
   const onSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
@@ -48,18 +49,18 @@ const Search: FC<Props> = ({ dashboard }) => {
 
       const block = await blockPromise;
       if (block) {
-        Mixpanel.track("Explorer Search for block", { block: block });
+        track("Explorer Search for block", { block: block });
         return Router.push("/blocks/" + block);
       }
       const transaction = await transactionPromise;
       if (transaction) {
-        Mixpanel.track("Explorer Search for transaction", {
+        track("Explorer Search for transaction", {
           transaction: value,
         });
         return Router.push("/transactions/" + value);
       }
       if (await accountPromise) {
-        Mixpanel.track("Explorer Search for account", { account: value });
+        track("Explorer Search for account", { account: value });
         return Router.push("/accounts/" + value.toLowerCase());
       }
       const receipt = await receiptInTransactionPromise;
@@ -68,12 +69,12 @@ const Search: FC<Props> = ({ dashboard }) => {
           `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
         );
       }
-      Mixpanel.track("Explorer Search result not found", {
+      track("Explorer Search result not found", {
         detail: value,
       });
       alert("Result not found!");
     },
-    [value]
+    [value, track]
   );
   const onChange = useCallback((event) => setValue(event.currentTarget.value), [
     setValue,
