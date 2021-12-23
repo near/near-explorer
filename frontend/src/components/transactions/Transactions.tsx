@@ -69,7 +69,9 @@ const Transactions: FC<InnerProps> = ({ items }) => {
     <FlipMove duration={1000} staggerDurationBy={0}>
       {items &&
         items.map((transaction) => (
-          <TransactionAction key={transaction.hash} transaction={transaction} />
+          <div key={transaction.hash}>
+            <TransactionAction transaction={transaction} />
+          </div>
         ))}
     </FlipMove>
   );

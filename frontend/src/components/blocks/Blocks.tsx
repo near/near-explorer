@@ -25,7 +25,11 @@ export interface InnerProps {
 const Blocks: FC<InnerProps> = ({ items }) => (
   <FlipMove duration={1000} staggerDurationBy={0}>
     {items &&
-      items.map((block) => <BlocksRow key={block.hash} block={block} />)}
+      items.map((block) => (
+        <div key={block.hash}>
+          <BlocksRow block={block} />
+        </div>
+      ))}
   </FlipMove>
 );
 
