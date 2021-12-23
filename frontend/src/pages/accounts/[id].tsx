@@ -13,7 +13,6 @@ import TransactionIcon from "../../../public/static/images/icon-t-transactions.s
 
 import { Translate } from "react-localize-redux";
 import { GetServerSideProps, NextPage } from "next";
-import { useNearNetwork } from "../../hooks/use-near-network";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 interface Props {
@@ -31,7 +30,6 @@ const AccountDetail: NextPage<Props> = ({
   accountError,
   accountFetchingError,
 }) => {
-  const { currentNetwork } = useNearNetwork();
   useAnalyticsTrackOnMount("Explorer View Individual Account", {
     accountId: account.accountId,
   });
@@ -61,10 +59,7 @@ const AccountDetail: NextPage<Props> = ({
             data={{ account_id: account.accountId }}
           />
         ) : (
-          <AccountDetails
-            account={account}
-            currentNearNetwork={currentNetwork}
-          />
+          <AccountDetails account={account} />
         )}
       </Content>
       {accountError || accountFetchingError ? null : (
