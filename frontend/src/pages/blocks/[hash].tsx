@@ -12,7 +12,7 @@ import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
 import { Translate } from "react-localize-redux";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 type SuccessfulProps = Omit<
@@ -100,19 +100,26 @@ const BlockDetail: NextPage<Props> = (props) => {
   );
 };
 
-BlockDetail.getInitialProps = async ({ req, query: { hash: rawHash } }) => {
-  const hash = rawHash as string;
+export const getServerSideProps: GetServerSideProps<
+  Props,
+  { hash: string }
+> = async ({ req, params }) => {
+  const hash = params!.hash;
   try {
     const block = await new BlocksApi(req).getBlockInfo(hash);
     return {
-      ...block,
-      // the return value should be a serializable object per Next.js documentation, so we map BN to strings
-      totalSupply: block.totalSupply.toString(),
-      gasPrice: block.gasPrice.toString(),
-      gasUsed: block.gasUsed.toString(),
+      props: {
+        ...block,
+        // the return value should be a serializable object per Next.js documentation, so we map BN to strings
+        totalSupply: block.totalSupply.toString(),
+        gasPrice: block.gasPrice.toString(),
+        gasUsed: block.gasUsed.toString(),
+      },
     };
   } catch (err) {
-    return { hash, err };
+    return {
+      props: { hash, err },
+    };
   }
 };
 

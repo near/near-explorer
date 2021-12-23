@@ -154,17 +154,6 @@ const App: AppType = ({
 };
 
 App.getInitialProps = async (appContext) => {
-  // WARNING: Do not remove this getInitialProps implementation as it
-  // will enable Automatic Prerendering, which does not work fine with
-  // `publicRuntimeConfig`:
-  //
-  // > Note: A page that relies on publicRuntimeConfig must use
-  // > `getInitialProps` to opt-out of automatic prerendering. You can
-  // > also de-optimize your entire application by creating a Custom
-  // > `<App>` with `getInitialProps`.
-  //
-  // https://github.com/zeit/next.js#runtime-configuration
-
   let currentNearNetwork: NearNetwork;
   let cookies, acceptedLanguages;
   if (typeof window === "undefined") {
