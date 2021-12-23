@@ -1,3 +1,4 @@
+import "../libraries/wdyr";
 import NextApp, { AppContext, AppProps } from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
