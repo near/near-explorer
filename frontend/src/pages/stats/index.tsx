@@ -14,7 +14,7 @@ import ActiveContractsList from "../../components/stats/ActiveContractsList";
 import StakingBar from "../../components/stats/StakingBar";
 import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 import CirculatingSupplyStats from "../../components/stats/CirculatingSupplyStats";
-import { useNearNetwork } from "../../hooks/use-near-network";
+import { useNetworkContext } from "../../hooks/use-network-context";
 
 import { Translate } from "react-localize-redux";
 import { NextPage } from "next";
@@ -22,7 +22,7 @@ import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-tr
 
 const Stats: NextPage = () => {
   useAnalyticsTrackOnMount("Explorer View Stats page");
-  const { currentNetwork } = useNearNetwork();
+  const { currentNetwork } = useNetworkContext();
 
   const chartStyle = {
     height: "480px",

@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Dropdown } from "react-bootstrap";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
-import { useNearNetwork } from "../../hooks/use-near-network";
+import { useNetworkContext } from "../../hooks/use-network-context";
 
 interface Props {
   link: string;
@@ -27,7 +27,7 @@ const HeaderDropdownItem: FC<Props> = ({ link, title }) => {
 };
 
 const HeaderNetworkDropdown: FC = () => {
-  const { currentNetwork, networks } = useNearNetwork();
+  const { currentNetwork, networks } = useNetworkContext();
   return (
     <Dropdown>
       <Dropdown.Toggle className="header-network" variant="secondary">

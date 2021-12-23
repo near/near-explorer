@@ -20,12 +20,6 @@ describe("<AccountDetails />", () => {
             storageUsage: "876",
             lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
           }}
-          currentNearNetwork={{
-            name: "testing",
-            explorerLink: "http://explorer/",
-            aliases: ["alias1"],
-            nearWalletProfilePrefix: "http://wallet/profile",
-          }}
         />
       )
     ).toMatchSnapshot();
@@ -45,12 +39,6 @@ describe("<AccountDetails />", () => {
             nonStakedBalance: "654345665432345678765",
             storageUsage: "876",
             lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
-          }}
-          currentNearNetwork={{
-            name: "testing",
-            explorerLink: "http://explorer/",
-            aliases: ["alias1"],
-            nearWalletProfilePrefix: "http://wallet/profile",
           }}
         />
       )
@@ -73,12 +61,6 @@ describe("<AccountDetails />", () => {
             storageUsage: "876",
             lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
           }}
-          currentNearNetwork={{
-            name: "testing",
-            explorerLink: "http://explorer/",
-            aliases: ["alias1"],
-            nearWalletProfilePrefix: "http://wallet/profile",
-          }}
         />
       )
     ).toMatchSnapshot();
@@ -100,12 +82,6 @@ describe("<AccountDetails />", () => {
             storageUsage: "876",
             lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
           }}
-          currentNearNetwork={{
-            name: "testing",
-            explorerLink: "http://explorer/",
-            aliases: ["alias1"],
-            nearWalletProfilePrefix: "http://wallet/profile",
-          }}
         />
       )
     ).toMatchSnapshot();
@@ -125,12 +101,6 @@ describe("<AccountDetails />", () => {
             stakedBalance: "0",
             nonStakedBalance: "6987876845678765",
             storageUsage: "1876",
-          }}
-          currentNearNetwork={{
-            name: "testing",
-            explorerLink: "http://explorer/",
-            aliases: ["alias1"],
-            nearWalletProfilePrefix: "http://wallet/profile",
           }}
         />
       )

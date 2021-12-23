@@ -3,13 +3,13 @@ import NextApp, { AppContext, AppProps } from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
 import { NearNetwork } from "next.config";
-import { ReactElement } from "react";
+import { ReactElement, useMemo } from "react";
 
 import { getNearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
-import NetworkProvider from "../context/NetworkProvider";
+import { NetworkContext } from "../context/NetworkContext";
 import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -47,6 +47,14 @@ const App: AppType = ({
 }) => {
   useAnalyticsInit();
 
+  const networkState = useMemo(
+    () => ({
+      currentNetwork: currentNearNetwork,
+      networks: nearNetworks,
+    }),
+    [currentNearNetwork, nearNetworks]
+  );
+
   return (
     <LocalizeProvider
       initialize={getI18nConfigForProvider({
@@ -62,10 +70,7 @@ const App: AppType = ({
         />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <NetworkProvider
-        currentNearNetwork={currentNearNetwork}
-        nearNetworks={nearNetworks}
-      >
+      <NetworkContext.Provider value={networkState}>
         <div className="app-wrapper">
           <Header />
           <img
@@ -79,7 +84,7 @@ const App: AppType = ({
           </DatabaseProvider>
         </div>
         <Footer />
-      </NetworkProvider>
+      </NetworkContext.Provider>
       <style jsx global>{`
         body {
           background-color: #f9f9f9;
@@ -154,19 +159,16 @@ const App: AppType = ({
 };
 
 App.getInitialProps = async (appContext) => {
-  let currentNearNetwork: NearNetwork;
+  const req = appContext.ctx.req;
+  const currentNearNetwork = getNearNetwork(req);
   let cookies, acceptedLanguages;
   if (typeof window === "undefined") {
-    const req = appContext.ctx.req!;
     if (req) {
-      currentNearNetwork = getNearNetwork(req.headers.host);
       cookies = req.headers.cookie;
       acceptedLanguages = req.headers["accept-language"];
     } else {
       throw new Error("No req in app context");
     }
-  } else {
-    currentNearNetwork = getNearNetwork(window.location.host);
   }
   return {
     currentNearNetwork,

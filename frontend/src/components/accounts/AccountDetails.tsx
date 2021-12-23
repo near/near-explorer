@@ -5,7 +5,6 @@ import { FC, useEffect, useState } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 
 import AccountsApi, { Account } from "../../libraries/explorer-wamp/accounts";
-import { NearNetwork } from "next.config";
 
 import CardCell from "../utils/CardCell";
 import Term from "../utils/Term";
@@ -16,13 +15,14 @@ import WalletLink from "../utils/WalletLink";
 import StorageSize from "../utils/StorageSize";
 
 import { Translate } from "react-localize-redux";
+import { useNetworkContext } from "../../hooks/use-network-context";
 
 export interface Props {
   account: Partial<Omit<Account, "accountId">> & { accountId: string };
-  currentNearNetwork: NearNetwork;
 }
 
-const AccountDetails: FC<Props> = ({ account, currentNearNetwork }) => {
+const AccountDetails: FC<Props> = ({ account }) => {
+  const { currentNetwork } = useNetworkContext();
   const [outTransactionsCount, setOutTransactionsCount] = useState<number>();
   const [inTransactionsCount, setInTransactionsCount] = useState<number>();
   useEffect(() => {
@@ -202,7 +202,7 @@ const AccountDetails: FC<Props> = ({ account, currentNearNetwork }) => {
                       <WalletLink
                         accountId={account.accountId}
                         nearWalletProfilePrefix={
-                          currentNearNetwork.nearWalletProfilePrefix
+                          currentNetwork.nearWalletProfilePrefix
                         }
                       />
                     }
