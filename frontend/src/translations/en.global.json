@@ -456,13 +456,6 @@
           "title": "Gas Price",
           "text": "A unit of Tgas (TerraGas) is 1*10^12 units of gas. The costs of gas are very low in terms of NEAR, which is why Tgas is more commonly used."
         }
-      },
-      "DashboardTransactionHistoryChart": {
-        "14_day_history": {
-          "title": "14 Day History",
-          "transactions": "Txns"
-        },
-        "date_format": "MMM D"
       }
     },
     "stats": {

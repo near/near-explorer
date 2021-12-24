@@ -456,13 +456,6 @@
           "title": "Giá Gas",
           "text": "Một đơn vị Tgas (TeraGas) là 1*10^12 đơn vị gas. Chi phí gas của NEAR rất thấp, đó là lý do tại sao Tgas được sử dụng phổ biến hơn."
         }
-      },
-      "DashboardTransactionHistoryChart": {
-        "14_day_history": {
-          "title": "Lịch sử 14 ngày",
-          "transactions": "GD"
-        },
-        "date_format": "MMM D"
       }
     },
     "stats": {

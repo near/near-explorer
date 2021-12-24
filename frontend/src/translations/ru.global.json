@@ -456,13 +456,6 @@
           "title": "Цена газа",
           "text": "Единица Tgas - это 10^12 единиц газа. Затраты на газ очень низкие с точки зрения NEAR, поэтому чаще используется Tgas. "
         }
-      },
-      "DashboardTransactionHistoryChart": {
-        "14_day_history": {
-          "title": "История за 14 дней",
-          "transactions": "Количество транзакций за 14 дней"
-        },
-        "date_format": "D MMM"
       }
     },
     "stats": {

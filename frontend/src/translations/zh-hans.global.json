@@ -521,13 +521,6 @@
           "title": "Gas价格",
           "text": "Tgas (TerraGas) 是 10^12 个单位Gas. 由于如果用 NEAR 计费，Gas的数字会相当小，所以TGas是更常用的。"
         }
-      },
-      "DashboardTransactionHistoryChart": {
-        "14_day_history": {
-          "title": "过去14天历史",
-          "transactions": "交易数"
-        },
-        "date_format": "MoDo"
       }
     },
     "utils": {
