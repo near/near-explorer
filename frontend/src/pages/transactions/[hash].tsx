@@ -1,5 +1,8 @@
 import Head from "next/head";
 
+import { GetServerSideProps, NextPage } from "next";
+import { Translate } from "react-localize-redux";
+
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
 import TransactionsApi, {
@@ -8,12 +11,10 @@ import TransactionsApi, {
 
 import ActionsList from "../../components/transactions/ActionsList";
 import ReceiptRow from "../../components/transactions/ReceiptRow";
-import TransactionDetails from "../../components/transactions/TransactionDetails";
+// import TransactionDetails from "../../components/transactions/TransactionDetails";
+import TransactionDetailsSketch from "../../components/transactions/TransactionDetailsSketch";
 import TransactionOutcome from "../../components/transactions/TransactionOutcome";
 import Content from "../../components/utils/Content";
-
-import { Translate } from "react-localize-redux";
-import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 type Props = {
@@ -36,7 +37,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
       <Head>
         <title>NEAR Explorer | Transaction</title>
       </Head>
-      <Content
+      {/* <Content
         title={
           <h1>
             <Translate id="common.transactions.transaction" />
@@ -47,12 +48,15 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
         }
         border={false}
       >
-        {!transaction ? (
-          <Translate id="page.transactions.error.transaction_fetching" />
-        ) : (
-          <TransactionDetails transaction={transaction} />
-        )}
-      </Content>
+      </Content> */}
+
+      {!transaction ? (
+        <Translate id="page.transactions.error.transaction_fetching" />
+      ) : (
+        <TransactionDetailsSketch transaction={transaction} />
+        // <TransactionDetails transaction={transaction} />
+      )}
+
       {transaction && (
         <Content
           size="medium"
