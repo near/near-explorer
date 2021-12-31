@@ -1,4 +1,4 @@
-# NEAR Explorer Frontend
+# NEAR Explorer Backend
 
 ## Project Structure
 
