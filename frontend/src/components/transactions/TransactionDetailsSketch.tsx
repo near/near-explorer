@@ -1,16 +1,15 @@
 import BN from "bn.js";
-import moment from "moment";
 import { FC, useState, useEffect } from "react";
-import { Accordion, Button, Container, Row, Col } from "react-bootstrap";
+import { Accordion, Container, Row, Col } from "react-bootstrap";
 import { Translate } from "react-localize-redux";
 
-import TransactionsApi, * as T from "../../libraries/explorer-wamp/transactions";
+import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import Balance from "../utils/Balance";
 import Gas from "../utils/Gas";
 import Timer from "../utils/Timer";
 import TransactionActionSketch from "./TransactionActionSketch";
 
-const TransactionDetailsSketch: FC<T.Transaction> = ({ transaction }) => {
+const TransactionDetailsSketch: FC<any> = ({ transaction }) => {
   const [transactionDetails, setTransactionDetails] = useState<any>();
   useEffect(() => {
     new TransactionsApi()
@@ -90,7 +89,7 @@ const TransactionDetailsSketch: FC<T.Transaction> = ({ transaction }) => {
       {transactionDetails.receipts.length > 0 ? (
         <Container>
           <Accordion>
-            {transactionDetails.receipts.map((receipt, index) => (
+            {transactionDetails.receipts.map((receipt: any, index: number) => (
               <TransactionActionSketch receipt={receipt} index={`${index}`} />
             ))}
           </Accordion>

@@ -8,7 +8,7 @@ import Gas from "../utils/Gas";
 import Balance from "../utils/Balance";
 import { displayArgs } from "./ActionMessage";
 
-const TransactionActionSketch: FC = ({ receipt, index }) => {
+const TransactionActionSketch: FC<any> = ({ receipt, index }) => {
   let statusInfo;
   if ("SuccessValue" in (receipt.status as T.ReceiptSuccessValue)) {
     const { SuccessValue } = receipt.status as T.ReceiptSuccessValue;
