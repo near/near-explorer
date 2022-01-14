@@ -524,10 +524,6 @@
       },
       "ActiveContractsList": {
         "title": "10 Hợp Đồng hoạt động hàng đầu trong 14 ngày qua"
-      },
-      "StakingBar": {
-        "title": "Khối lượng Stake ký gửi để xác thực các Node",
-        "total_stake_volume_for_current_epoch_is": "Tổng khối lượng Stake ký gửi của kỷ(epoch) hiện tại là"
       }
     },
     "utils": {
