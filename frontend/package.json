@@ -29,7 +29,8 @@
     "cy:version": "cypress version",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "test:ci": "start-server-and-test start:production-wamp-with-indexer-testnet 3000 cy:run"
+    "test:ci": "start-server-and-test start:production-wamp-with-indexer-testnet 3000 cy:run",
+    "compile-nextjs-config": "tsc --project nextjs.tsconfig.json"
   },
   "repository": {
     "type": "git",
