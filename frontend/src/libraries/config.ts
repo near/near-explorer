@@ -1,6 +1,25 @@
 import { IncomingMessage } from "http";
-import { ExplorerConfig, NearNetwork } from "next.config";
 import getConfig from "next/config";
+
+export interface NearNetwork {
+  name: string;
+  explorerLink: string;
+  aliases: string[];
+  nearWalletProfilePrefix: string;
+}
+
+export interface ExplorerConfig {
+  serverRuntimeConfig: {
+    wampNearExplorerUrl: string;
+  };
+  publicRuntimeConfig: {
+    nearNetworks: NearNetwork[];
+    nearNetworkAliases: Record<string, NearNetwork>;
+    nearExplorerDataSource: string;
+    wampNearExplorerUrl: string;
+    googleAnalytics?: string;
+  };
+}
 
 const {
   publicRuntimeConfig: { nearNetworks, nearNetworkAliases },

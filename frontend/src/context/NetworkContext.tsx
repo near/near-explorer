@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { NearNetwork } from "next.config";
+import { NearNetwork } from "../libraries/config";
 
 export interface NetworkContext {
   currentNetwork: NearNetwork;

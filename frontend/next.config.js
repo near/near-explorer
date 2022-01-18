@@ -4,16 +4,8 @@ if (tsNodeRegistrer) {
   tsNodeRegistrer.enabled(false);
 }
 
-const config = require("./tsconfig.json");
-require("ts-node").register({
-  ...config,
-  compilerOptions: {
-    ...config.compilerOptions,
-    module: "commonjs",
-  },
-});
+require("ts-node").register(require("./nextjs.tsconfig.json"));
 
 // There are no plans to add support for next.config.ts natively
 // https://github.com/vercel/next.js/issues/5318
-
-module.exports = require("./next.config.ts").default;
+module.exports = require("./next.config.ts");

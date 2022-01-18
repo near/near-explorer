@@ -1,13 +1,7 @@
 import { NextConfig } from "next";
+import { ExplorerConfig, NearNetwork } from "./src/libraries/config";
 
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
-
-export interface NearNetwork {
-  name: string;
-  explorerLink: string;
-  aliases: string[];
-  nearWalletProfilePrefix: string;
-}
 
 enum DataSource {
   LegacySyncBackend = "LEGACY_SYNC_BACKEND",
@@ -31,19 +25,6 @@ for (const nearNetwork of nearNetworks) {
   for (const alias of nearNetwork.aliases) {
     nearNetworkAliases[alias] = nearNetwork;
   }
-}
-
-export interface ExplorerConfig {
-  serverRuntimeConfig: {
-    wampNearExplorerUrl: string;
-  };
-  publicRuntimeConfig: {
-    nearNetworks: NearNetwork[];
-    nearNetworkAliases: Record<string, NearNetwork>;
-    nearExplorerDataSource: string;
-    wampNearExplorerUrl: string;
-    googleAnalytics?: string;
-  };
 }
 
 const config: ExplorerConfig & NextConfig = {
@@ -76,4 +57,4 @@ const config: ExplorerConfig & NextConfig = {
   },
 };
 
-export default config;
+export = config;
