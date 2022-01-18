@@ -70,17 +70,13 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
             {!props.detailPage ? (
               <DatabaseConsumer>
                 {(context) => (
-                  <>
-                    {context.latestBlockHeight ? (
-                      <div onClick={fetch}>
-                        {config.category === "Block" ? (
-                          <Update>{`${translate(
-                            "utils.ListHandler.last_block"
-                          ).toString()}#${context.latestBlockHeight}.`}</Update>
-                        ) : null}
-                      </div>
+                  <div onClick={fetch}>
+                    {config.category === "Block" ? (
+                      <Update>{`${translate(
+                        "utils.ListHandler.last_block"
+                      ).toString()}#${context.latestBlockHeight}.`}</Update>
                     ) : null}
-                  </>
+                  </div>
                 )}
               </DatabaseConsumer>
             ) : null}

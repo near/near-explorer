@@ -34,14 +34,10 @@ export default class BlocksApi extends ExplorerApi {
     if (!block) {
       throw new Error(`BlocksApi.getBlockInfo: block '${blockId}' not found`);
     }
-
-    const gasUsed = await this.getGasUsedInBlock(block.hash).catch(
-      () => new BN(0)
-    );
-    const receiptsCount = await this.call<number>("receipts-count-in-block", [
-      block.hash,
+    const [gasUsed, receiptsCount] = await Promise.all([
+      this.getGasUsedInBlock(block.hash).catch(() => new BN(0)),
+      this.call<number>("receipts-count-in-block", [block.hash]),
     ]);
-
     return {
       hash: block.hash,
       prevHash: block.prevHash,
