@@ -17,7 +17,7 @@ context("Dashboard", () => {
     cy.get(".card-area").should("exist");
   });
 
-  it("Nodes card is visible", () => {
+  it.skip("Nodes card is visible", () => {
     cy.get(".card-area .dashboard-card.node-card").should("exist");
     cy.get(
       ".card-area .dashboard-card.node-card .dashboard-card-header"
