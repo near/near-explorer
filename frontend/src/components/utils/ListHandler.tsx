@@ -28,25 +28,19 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
     const [hasMore, setHasMore] = useState(true);
     const [loading, setLoading] = useState(false);
 
-    const fetch = useCallback(
-      (count) => {
-        setLoading(true);
-        setShouldShow(false);
-        setItems([]);
-        props
-          .fetchDataFn(count)
-          .then((items) => {
-            setItems(items);
-            setHasMore(items.length >= props.count);
-          })
-          .catch((err: Error) => console.error(err))
-          .then(() => {
-            setLoading(false);
-            setShouldShow(true);
-          });
-      },
-      [setLoading, props.count]
-    );
+    const fetch = useCallback(() => {
+      props
+        .fetchDataFn(props.count)
+        .then((items) => {
+          setItems(items);
+          setHasMore(items.length >= props.count);
+        })
+        .catch((err: Error) => console.error(err))
+        .then(() => {
+          setLoading(false);
+          setShouldShow(true);
+        });
+    }, [setLoading, props.count]);
 
     const fetchMore = useCallback(() => {
       setLoading(true);
@@ -62,7 +56,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
 
     useEffect(() => {
       if (props.count > 0) {
-        fetch(props.count);
+        fetch();
       }
     }, [props.count]);
 
