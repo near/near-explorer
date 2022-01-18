@@ -2,10 +2,9 @@ import "../libraries/wdyr";
 import NextApp, { AppContext, AppProps } from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
-import { NearNetwork } from "next.config";
 import { ReactElement, useMemo } from "react";
 
-import { getNearNetwork } from "../libraries/config";
+import { getNearNetwork, NearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";

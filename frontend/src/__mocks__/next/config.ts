@@ -1,5 +1,5 @@
 import { NextConfig } from "next";
-import { ExplorerConfig } from "next.config";
+import { ExplorerConfig } from "../../libraries/config";
 
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
 const nearNetworks = [

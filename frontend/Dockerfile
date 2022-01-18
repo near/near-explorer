@@ -10,7 +10,7 @@ RUN npm install --prod && \
 COPY ./ ./
 
 RUN npm run build
-
+RUN npm run compile-nextjs-config
 
 FROM mhart/alpine-node:16
 

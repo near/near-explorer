@@ -2,8 +2,7 @@ import getConfig from "next/config";
 
 import autobahn from "autobahn";
 
-import { getNearNetwork } from "../config";
-import { ExplorerConfig, NearNetwork } from "next.config";
+import { ExplorerConfig, getNearNetwork, NearNetwork } from "../config";
 import { IncomingMessage } from "http";
 
 interface IPromisePair {
