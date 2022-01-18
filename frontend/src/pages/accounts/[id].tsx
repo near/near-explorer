@@ -119,7 +119,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: {
         account: { accountId: id },
-        accountError,
+        accountError: String(accountError),
       },
     };
   }
