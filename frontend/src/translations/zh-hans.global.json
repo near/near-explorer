@@ -485,10 +485,6 @@
       },
       "ActiveContractsList": {
         "title": "过去14天最活跃的10个合约"
-      },
-      "StakingBar": {
-        "title": "验证节点的质押量",
-        "total_stake_volume_for_current_epoch_is": "当前周期的总质押数量是"
       }
     },
     "dashboard": {

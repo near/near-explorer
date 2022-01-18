@@ -1,5 +1,4 @@
 import Head from "next/head";
-import NodeProvider, { NodeConsumer } from "../../context/NodeProvider";
 import NetworkStatsProvider from "../../context/NetworkStatsProvider";
 
 import Content from "../../components/utils/Content";
@@ -11,7 +10,6 @@ import ActiveAccountsByDate from "../../components/stats/ActiveAccountsByDate";
 import ActiveContractsByDate from "../../components/stats/ActiveContractsByDate";
 import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
-import StakingBar from "../../components/stats/StakingBar";
 import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 import CirculatingSupplyStats from "../../components/stats/CirculatingSupplyStats";
 import { useNetworkContext } from "../../hooks/use-network-context";
@@ -82,18 +80,6 @@ const Stats: NextPage = () => {
         <hr />
         <div id="activeContractsList">
           <ActiveContractsList chartStyle={chartStyle} />
-        </div>
-        <hr />
-        <div id="validators">
-          <NodeProvider>
-            <NodeConsumer>
-              {(context) =>
-                typeof context.currentValidators !== "undefined" ? (
-                  <StakingBar validators={context.currentValidators} />
-                ) : null
-              }
-            </NodeConsumer>
-          </NodeProvider>
         </div>
       </Content>
     </>

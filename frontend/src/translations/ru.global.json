@@ -524,10 +524,6 @@
       },
       "ActiveContractsList": {
         "title": "Топ 10 активных контрактов за последние 14 дней"
-      },
-      "StakingBar": {
-        "title": "Объём в стейкинге у валидаторов",
-        "total_stake_volume_for_current_epoch_is": "Общий объем стейкинга в текущую эпоху составляет"
       }
     },
     "utils": {

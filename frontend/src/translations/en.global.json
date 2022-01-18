@@ -524,10 +524,6 @@
       },
       "ActiveContractsList": {
         "title": "Top 10 of Active Contracts in last 14 days"
-      },
-      "StakingBar": {
-        "title": "Stake Volume for Validating Nodes",
-        "total_stake_volume_for_current_epoch_is": "Total Stake Volume for current epoch is"
       }
     },
     "utils": {
