@@ -114,7 +114,7 @@ export const getServerSideProps: GetServerSideProps<
     };
   } catch (err) {
     return {
-      props: { hash, err },
+      props: { hash, err: String(err) },
     };
   }
 };
