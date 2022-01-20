@@ -30,7 +30,7 @@ Array [
                     className="card-cell-title-img"
                     src="/static/images/icon-m-transaction.svg"
                   />
-                  Transactions
+                  component.blocks.BlockDetails.transactions.title
                   <div
                     className="term-helper"
                     onClick={[Function]}
@@ -135,7 +135,7 @@ Array [
                 <div
                   className="card-cell-title align-self-center col-md-12 col-auto"
                 >
-                  Receipts
+                  component.blocks.BlockDetails.receipts.title
                 </div>
                 <div
                   className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -215,7 +215,7 @@ Array [
                     className="card-cell-title-img"
                     src="/static/images/icon-t-status.svg"
                   />
-                  Status
+                  component.blocks.BlockDetails.status.title
                   <div
                     className="term-helper"
                     onClick={[Function]}
@@ -249,7 +249,7 @@ Array [
                 <div
                   className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
                 >
-                  Checking Finality...
+                  common.blocks.status.checking_finality
                 </div>
               </div>
             </div>
@@ -324,7 +324,7 @@ Array [
                 <div
                   className="card-cell-title align-self-center col-md-12 col-auto"
                 >
-                  Author
+                  component.blocks.BlockDetails.author.title
                 </div>
                 <div
                   className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
@@ -424,7 +424,7 @@ Array [
                     className="card-cell-title-img"
                     src="/static/images/icon-m-size.svg"
                   />
-                  Gas Used
+                  component.blocks.BlockDetails.gas_used.title
                   <div
                     className="term-helper"
                     onClick={[Function]}
@@ -533,7 +533,7 @@ Array [
                     className="card-cell-title-img"
                     src="/static/images/icon-m-filter.svg"
                   />
-                  Gas Price
+                  component.blocks.BlockDetails.gas_price.title
                   <div
                     className="term-helper"
                     onClick={[Function]}
@@ -650,7 +650,7 @@ Array [
                 <div
                   className="card-cell-title align-self-center col-md-12 col-auto"
                 >
-                  Created
+                  component.blocks.BlockDetails.created.title
                   <div
                     className="term-helper"
                     onClick={[Function]}
@@ -684,7 +684,7 @@ Array [
                 <div
                   className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
                 >
-                  February 01, 2019 at 12:00:00am
+                  co00on.5amt5_ti05.5amt5_ti05_for0amt
                 </div>
               </div>
             </div>
@@ -755,7 +755,7 @@ Array [
                 <div
                   className="card-cell-title align-self-center col-md-12 col-auto"
                 >
-                  Hash
+                  component.blocks.BlockDetails.hash.title
                   <div
                     className="term-helper"
                     onClick={[Function]}
@@ -864,7 +864,7 @@ Array [
                 <div
                   className="card-cell-title align-self-center col-md-12 col-auto"
                 >
-                  Parent Hash
+                  component.blocks.BlockDetails.parent_hash.title
                   <div
                     className="term-helper"
                     onClick={[Function]}
@@ -973,39 +973,39 @@ Array [
     jsx={true}
   >
     
-                .block-info-container {
-                  border: solid 4px #e6e6e6;
-                  border-radius: 4px;
-                }
+            .block-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-                .block-info-container &gt; .row {
-                  border-bottom: 2px solid #e6e6e6;
-                }
+            .block-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-                .block-info-container &gt; .row:last-of-type {
-                  border-bottom: 0;
-                }
+            .block-info-container &gt; .row:last-of-type {
+              border-bottom: 0;
+            }
 
-                .block-info-header .card-cell-text {
-                  font-size: 24px;
-                }
+            .block-info-header .card-cell-text {
+              font-size: 24px;
+            }
 
-                .block-card-created-text {
-                  font-size: 18px;
-                  font-weight: 500;
-                  color: #4a4f54;
-                }
+            .block-card-created-text {
+              font-size: 18px;
+              font-weight: 500;
+              color: #4a4f54;
+            }
 
-                .block-card-parent-hash {
-                  background-color: #f8f8f8;
-                }
+            .block-card-parent-hash {
+              background-color: #f8f8f8;
+            }
 
-                @media (max-width: 768px) {
-                  .block-info-container .card-cell {
-                    border-left: 0;
-                  }
-                }
-              
+            @media (max-width: 768px) {
+              .block-info-container .card-cell {
+                border-left: 0;
+              }
+            }
+          
   </style>,
 ]
 `;

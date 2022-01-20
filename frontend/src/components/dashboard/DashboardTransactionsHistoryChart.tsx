@@ -5,7 +5,7 @@ import moment from "moment";
 import { TransactionsCountStat } from "../../context/DatabaseProvider";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 export interface Props {
   transactionsCountHistory: TransactionsCountStat[];
@@ -14,22 +14,22 @@ export interface Props {
 const DashboardTransactionHistoryChart = ({
   transactionsCountHistory,
 }: Props) => {
-  const getDate = (translate: Function) => {
+  const { t } = useTranslation();
+  const getDate = () => {
+    const format = t(
+      "component.dashboard.DashboardTransactionHistoryChart.date_format"
+    );
     const date = transactionsCountHistory.map((t) =>
-      moment(t.date).format(
-        translate(
-          "component.dashboard.DashboardTransactionHistoryChart.date_format"
-        )
-      )
+      moment(t.date).format(format)
     );
     return date;
   };
 
   const count = transactionsCountHistory.map((t) => t.total);
-  const getOption = (translate: Function) => {
+  const getOption = () => {
     return {
       title: {
-        text: translate(
+        text: t(
           "component.dashboard.DashboardTransactionHistoryChart.14_day_history.title"
         ),
       },
@@ -37,7 +37,7 @@ const DashboardTransactionHistoryChart = ({
         trigger: "axis",
         position: "top",
         backgroundColor: "#25272A",
-        formatter: `{b0}<br />${translate(
+        formatter: `{b0}<br />${t(
           "component.dashboard.DashboardTransactionHistoryChart.14_day_history.transactions"
         )}: {c0}`,
       },
@@ -54,7 +54,7 @@ const DashboardTransactionHistoryChart = ({
         {
           type: "category",
           boundaryGap: false,
-          data: getDate(translate),
+          data: getDate(),
           axisLine: {
             show: false,
           },
@@ -123,18 +123,14 @@ const DashboardTransactionHistoryChart = ({
     return <PaginationSpinner hidden={false} />;
   }
   return (
-    <Translate>
-      {({ translate }) => (
-        <ReactEcharts
-          option={getOption(translate)}
-          style={{
-            height: "232px",
-            marginTop: "26px",
-            marginBottom: "26px",
-          }}
-        />
-      )}
-    </Translate>
+    <ReactEcharts
+      option={getOption()}
+      style={{
+        height: "232px",
+        marginTop: "26px",
+        marginBottom: "26px",
+      }}
+    />
   );
 };
 

@@ -164,8 +164,7 @@
           "title": "最新检测更新"
         },
         "node_agent_name": {
-          "text": "NEAR协议可以有多种实现，'节点代理名称'是该实现的名称, 其中'near-rs'是${agent_name_url}。",
-          "url_text": "官方实现",
+          "text": "NEAR协议可以有多种实现，'节点代理名称'是该实现的名称, 其中'near-rs'是<nearCoreLink>官方实现</nearCoreLink>。",
           "title": "节点代理名称"
         },
         "node_agent_version_or_build": {
@@ -180,10 +179,7 @@
           "discord": "Discord",
           "description": "描述"
         },
-        "pool_info_tip": {
-          "text": "如果您是节点所有者，请填写${pool_info_url}以推广您的节点！",
-          "url_text": "相关信息"
-        }
+        "pool_info_tip": "如果您是节点所有者，请填写<poolLink>相关信息</poolLink>以推广您的节点！"
       },
       "NodesEpoch": {
         "current_epoch_start": "当前周期开始在",
@@ -468,7 +464,7 @@
       "NewContractsByDate": {
         "daily_number_of_new_contracts": "日新增合约数",
         "total_number_of_new_contracts": "总新增合约数",
-        "daily_number_of_unique_contracts": "总单独合约数",
+        "total_number_of_unique_contracts": "总单独合约数",
         "new_contracts": "新合约数"
       },
       "ActiveAccountsByDate": {
@@ -552,7 +548,14 @@
     },
     "ListHandler": {
       "last_block": "最后的区块高度是"
-    }
+    },
+    "StorageSize": {
+      "bytes": "B",
+      "kilo_bytes": "kB",
+      "mega_bytes": "MB",
+      "giga_bytes": "GB"
+    },
+    "WalletLink": "${account_id} on ${wallet_name}"
   },
   "button": {
     "view_all": "查看全部",

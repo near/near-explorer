@@ -7,7 +7,7 @@ const createJestConfig = nextJest({
 module.exports = createJestConfig({
   setupFiles: ["<rootDir>/jest.setup.ts"],
   testRegex: "(\\.|/)test\\.[jt]sx?$",
-  testEnvironment: "jsdom",
+  testEnvironment: "<rootDir>/src/testing/env.ts",
   collectCoverage: false,
   timers: "modern",
 });

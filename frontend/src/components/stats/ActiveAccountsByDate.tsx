@@ -7,9 +7,10 @@ import StatsApi, { AccountsByDate } from "../../libraries/explorer-wamp/stats";
 
 import { Props } from "./TransactionsByDate";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const ActiveAccountsByDate = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [activeAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [activeAccountsByWeek, setWeekAccounts] = useState(Array());
@@ -124,42 +125,34 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
-          <Tab eventKey="daily" title={translate("common.stats.daily")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.ActiveAccountsByDate.daily_number_of_active_accounts"
-                ).toString(),
-                translate(
-                  "component.stats.ActiveAccountsByDate.active_accounts"
-                ).toString(),
-                activeAccountsByDate,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="weekly" title={translate("common.stats.weekly")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.ActiveAccountsByDate.weekly_number_of_active_accounts"
-                ).toString(),
-                translate(
-                  "component.stats.ActiveAccountsByDate.active_accounts"
-                ).toString(),
-                activeAccountsByWeek,
-                week
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-        </Tabs>
-      )}
-    </Translate>
+    <Tabs defaultActiveKey="daily" id="activeAccountsByDate">
+      <Tab eventKey="daily" title={t("common.stats.daily")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.ActiveAccountsByDate.daily_number_of_active_accounts"
+            ),
+            t("component.stats.ActiveAccountsByDate.active_accounts"),
+            activeAccountsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="weekly" title={t("common.stats.weekly")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.ActiveAccountsByDate.weekly_number_of_active_accounts"
+            ),
+            t("component.stats.ActiveAccountsByDate.active_accounts"),
+            activeAccountsByWeek,
+            week
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };
 

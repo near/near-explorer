@@ -1,11 +1,11 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import TransactionLink from "../TransactionLink";
 
 describe("<TransactionLink />", () => {
   it("renders", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <TransactionLink transactionHash="H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b" />
       )
     ).toMatchSnapshot();

@@ -8,13 +8,14 @@ import StatsApi, {
 } from "../../libraries/explorer-wamp/stats";
 import { cumulativeSumArray } from "../../libraries/stats";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 export interface Props {
   chartStyle: object;
 }
 
 const TransactionsByDateChart = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [transactionsByDate, setTransactions] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeTransactionsByDate, setTotal] = useState(Array());
@@ -117,40 +118,32 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
     };
   };
   return (
-    <Translate>
-      {({ translate }) => (
-        <Tabs defaultActiveKey="daily" id="transactionByDate">
-          <Tab eventKey="daily" title={translate("common.stats.daily")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.TransactionsByDate.daily_number_of_transactions"
-                ).toString(),
-                translate(
-                  "component.stats.TransactionsByDate.transactions"
-                ).toString(),
-                transactionsByDate
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="total" title={translate("common.stats.total")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.TransactionsByDate.total_number_of_transactions"
-                ).toString(),
-                translate(
-                  "component.stats.TransactionsByDate.transactions"
-                ).toString(),
-                cumulativeTransactionsByDate
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-        </Tabs>
-      )}
-    </Translate>
+    <Tabs defaultActiveKey="daily" id="transactionByDate">
+      <Tab eventKey="daily" title={t("common.stats.daily")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.TransactionsByDate.daily_number_of_transactions"
+            ),
+            t("component.stats.TransactionsByDate.transactions"),
+            transactionsByDate
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title={t("common.stats.total")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.TransactionsByDate.total_number_of_transactions"
+            ),
+            t("component.stats.TransactionsByDate.transactions"),
+            cumulativeTransactionsByDate
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };
 

@@ -6,7 +6,7 @@ import ActionGroup from "./ActionGroup";
 import { ViewMode } from "./ActionRowBlock";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 export interface Props {
   transaction: T.Transaction;
@@ -14,6 +14,7 @@ export interface Props {
 }
 
 const TransactionAction: FC<Props> = ({ transaction, viewMode = "sparse" }) => {
+  const { t } = useTranslation();
   const [status, setStatus] = useState();
   useEffect(() => {
     new TransactionsApi()
@@ -24,25 +25,19 @@ const TransactionAction: FC<Props> = ({ transaction, viewMode = "sparse" }) => {
     return null;
   }
   return (
-    <Translate>
-      {({ translate }) => (
-        <ActionGroup
-          actionGroup={transaction as T.Transaction}
-          detailsLink={<TransactionLink transactionHash={transaction.hash} />}
-          status={
-            status ? (
-              <TransactionExecutionStatus status={status} />
-            ) : (
-              <Translate id="common.transactions.status.fetching_status" />
-            )
-          }
-          viewMode={viewMode}
-          title={translate(
-            "component.transactions.TransactionAction.batch_transaction"
-          ).toString()}
-        />
-      )}
-    </Translate>
+    <ActionGroup
+      actionGroup={transaction as T.Transaction}
+      detailsLink={<TransactionLink transactionHash={transaction.hash} />}
+      status={
+        status ? (
+          <TransactionExecutionStatus status={status} />
+        ) : (
+          t("common.transactions.status.fetching_status")
+        )
+      }
+      viewMode={viewMode}
+      title={t("component.transactions.TransactionAction.batch_transaction")}
+    />
   );
 };
 

@@ -11,7 +11,7 @@ import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
@@ -32,6 +32,7 @@ type FailedProps = {
 type Props = SuccessfulProps | FailedProps;
 
 const BlockDetail: NextPage<Props> = (props) => {
+  const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: props.hash,
   });
@@ -55,48 +56,44 @@ const BlockDetail: NextPage<Props> = (props) => {
         };
 
   return (
-    <Translate>
-      {({ translate }) => (
+    <>
+      <Head>
+        <title>NEAR Explorer | Block</title>
+      </Head>
+      <Content
+        title={
+          <h1>{`${t("page.blocks.title")} ${
+            block ? `#${block.height}` : `${props.hash.substring(0, 7)}...`
+          }`}</h1>
+        }
+        border={false}
+      >
+        {!block ? (
+          <>{t("page.blocks.error.block_fetching")}</>
+        ) : (
+          <BlockDetails block={block} />
+        )}
+      </Content>
+      {!("err" in props) ? (
         <>
-          <Head>
-            <title>NEAR Explorer | Block</title>
-          </Head>
           <Content
-            title={
-              <h1>{`${translate("page.blocks.title").toString()} ${
-                block ? `#${block.height}` : `${props.hash.substring(0, 7)}...`
-              }`}</h1>
-            }
-            border={false}
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>{t("common.transactions.transactions")}</h2>}
           >
-            {!block ? (
-              <>{translate("page.blocks.error.block_fetching")}</>
-            ) : (
-              <BlockDetails block={block} />
-            )}
+            <Transactions blockHash={props.hash} count={1000} />
           </Content>
-          {!("err" in props) ? (
-            <>
-              <Content
-                size="medium"
-                icon={<TransactionIcon style={{ width: "22px" }} />}
-                title={<h2>{translate("common.transactions.transactions")}</h2>}
-              >
-                <Transactions blockHash={props.hash} count={1000} />
-              </Content>
 
-              <Content
-                size="medium"
-                icon={<TransactionIcon style={{ width: "22px" }} />}
-                title={<h2>{translate("common.receipts.receipts")}</h2>}
-              >
-                <ReceiptsInBlock blockHash={props.hash} />
-              </Content>
-            </>
-          ) : null}
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>{t("common.receipts.receipts")}</h2>}
+          >
+            <ReceiptsInBlock blockHash={props.hash} />
+          </Content>
         </>
-      )}
-    </Translate>
+      ) : null}
+    </>
   );
 };
 

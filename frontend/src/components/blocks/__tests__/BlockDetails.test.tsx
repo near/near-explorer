@@ -1,13 +1,13 @@
 import BN from "bn.js";
 
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import BlockDetails from "../BlockDetails";
 
 describe("<BlockDetails />", () => {
   it("renders", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <BlockDetails
           block={{
             authorAccountId: "near.near",

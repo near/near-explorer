@@ -7,7 +7,7 @@ import BlocksApi from "../../libraries/explorer-wamp/blocks";
 import TransactionsApi from "../../libraries/explorer-wamp/transactions";
 import ReceiptsApi from "../../libraries/explorer-wamp/receipts";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 interface Props {
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const Search: FC<Props> = ({ dashboard }) => {
+  const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
   const [value, setValue] = useState("");
@@ -97,22 +98,20 @@ const Search: FC<Props> = ({ dashboard }) => {
               </InputGroup.Text>
             </InputGroup.Prepend>
           )}
-          <Translate>
-            {({ translate }) => (
-              <FormControl
-                placeholder={translate("component.utils.Search.hint") as string}
-                aria-label="Search"
-                aria-describedby="search"
-                autoCorrect="off"
-                autoCapitalize="none"
-                onChange={onChange}
-                className="search-field"
-              />
-            )}
-          </Translate>
+
+          <FormControl
+            placeholder={t("component.utils.Search.hint")}
+            aria-label="Search"
+            aria-describedby="search"
+            autoCorrect="off"
+            autoCapitalize="none"
+            onChange={onChange}
+            className="search-field"
+          />
+
           {dashboard && (
             <Button type="submit" variant="info" className="button-search">
-              <Translate id="component.utils.Search.title" />
+              {t("component.utils.Search.title")}
             </Button>
           )}
         </InputGroup>

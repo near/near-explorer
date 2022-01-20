@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 import { truncateAccountId } from "../../libraries/formatting";
 
@@ -9,6 +9,7 @@ export interface Props {
 }
 
 const WalletLink: FC<Props> = ({ accountId, nearWalletProfilePrefix }) => {
+  const { t } = useTranslation();
   const track = useAnalyticsTrack();
   return (
     <span
@@ -25,13 +26,10 @@ const WalletLink: FC<Props> = ({ accountId, nearWalletProfilePrefix }) => {
         className="account-link"
         href={`${nearWalletProfilePrefix}/${accountId}`}
       >
-        <Translate
-          id="utils.WalletLink"
-          data={{
-            account_id: truncateAccountId(accountId, 20).toString(),
-            wallet_name: "Wallet",
-          }}
-        />
+        {t("utils.WalletLink", {
+          account_id: truncateAccountId(accountId, 20).toString(),
+          wallet_name: "Wallet",
+        })}
       </a>
       <style jsx>{`
         .account-link {

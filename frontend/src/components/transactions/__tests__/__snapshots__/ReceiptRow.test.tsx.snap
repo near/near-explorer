@@ -15,7 +15,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b>
-          Receipt
+          common.receipts.receipt
           :
         </b>
       </div>
@@ -26,7 +26,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receipt ID
+        common.receipts.receipt_id
         :
       </div>
       <div
@@ -63,7 +63,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Executed in Block
+        common.receipts.executed_in_block
         :
       </div>
       <div
@@ -89,7 +89,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Predecessor ID
+        common.receipts.predecessor_id
         :
       </div>
       <div
@@ -125,7 +125,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receiver ID
+        common.receipts.receiver_id
         :
       </div>
       <div
@@ -161,7 +161,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Gas Burned
+        common.transactions.execution.gas_burned
         :
       </div>
       <div
@@ -176,7 +176,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Tokens Burned
+        common.transactions.execution.tokens_burned
         :
       </div>
       <div
@@ -227,7 +227,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   <div
                     className="action-row-title col"
                   >
-                    Called method: 'set_listing_seller_transaction_id' in contract: 
+                    component.transactions.ActionMessage.FunctionCall.called_method
                     <span
                       onClick={[Function]}
                     >
@@ -251,7 +251,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     </style>
                     <dl>
                       <dt>
-                        Arguments:
+                        component.transactions.ActionMessage.FunctionCall.arguments
                       </dt>
                       <dd>
                         <div>
@@ -283,7 +283,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                                 }
                               }
                             >
-                              Show more
+                              button.show_more
                             </div>
                           </div>
                         </div>
@@ -315,120 +315,120 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
           jsx={true}
         >
           
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
         </style>
       </div>
     </div>
@@ -439,9 +439,8 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         className="receipt-row-status col"
       >
         <i>
-          Failure
-          :
-           
+          component.transactions.ReceiptRow.failure
+          : 
         </i>
         <pre>
           {
@@ -492,7 +491,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b>
-                  Receipt
+                  common.receipts.receipt
                   :
                 </b>
               </div>
@@ -503,7 +502,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID
+                common.receipts.receipt_id
                 :
               </div>
               <div
@@ -540,7 +539,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block
+                common.receipts.executed_in_block
                 :
               </div>
               <div
@@ -566,7 +565,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID
+                common.receipts.predecessor_id
                 :
               </div>
               <div
@@ -602,7 +601,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID
+                common.receipts.receiver_id
                 :
               </div>
               <div
@@ -638,7 +637,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned
+                common.transactions.execution.gas_burned
                 :
               </div>
               <div
@@ -653,7 +652,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned
+                common.transactions.execution.tokens_burned
                 :
               </div>
               <div
@@ -704,7 +703,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                           <div
                             className="action-row-title col"
                           >
-                            Transferred 
+                            component.transactions.ActionMessage.Transfer.transferred
                             <span
                               onBlur={[Function]}
                               onFocus={[Function]}
@@ -715,7 +714,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                                
                               Ⓝ
                             </span>
-                             to 
+                            component.transactions.ActionMessage.Transfer.to
                             <span
                               onClick={[Function]}
                             >
@@ -748,120 +747,120 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   jsx={true}
                 >
                   
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
                 </style>
               </div>
             </div>
@@ -871,7 +870,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-status col"
               >
-                Empty result
+                component.transactions.ReceiptRow.empty_result
               </div>
             </div>
             <div
@@ -880,7 +879,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               <div
                 className="receipt-row-text col"
               >
-                No logs
+                component.transactions.ReceiptRow.no_logs
               </div>
             </div>
           </div>
@@ -1022,7 +1021,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b>
-          Receipt
+          common.receipts.receipt
           :
         </b>
       </div>
@@ -1033,7 +1032,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receipt ID
+        common.receipts.receipt_id
         :
       </div>
       <div
@@ -1070,7 +1069,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Executed in Block
+        common.receipts.executed_in_block
         :
       </div>
       <div
@@ -1096,7 +1095,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Predecessor ID
+        common.receipts.predecessor_id
         :
       </div>
       <div
@@ -1132,7 +1131,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receiver ID
+        common.receipts.receiver_id
         :
       </div>
       <div
@@ -1168,7 +1167,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Gas Burned
+        common.transactions.execution.gas_burned
         :
       </div>
       <div
@@ -1183,7 +1182,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Tokens Burned
+        common.transactions.execution.tokens_burned
         :
       </div>
       <div
@@ -1234,7 +1233,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                   <div
                     className="action-row-title col"
                   >
-                    Called method: 'ft_transfer_call' in contract: 
+                    component.transactions.ActionMessage.FunctionCall.called_method
                     <span
                       onClick={[Function]}
                     >
@@ -1258,7 +1257,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                     </style>
                     <dl>
                       <dt>
-                        Arguments:
+                        component.transactions.ActionMessage.FunctionCall.arguments
                       </dt>
                       <dd>
                         <div>
@@ -1292,7 +1291,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                                 }
                               }
                             >
-                              Show more
+                              button.show_more
                             </div>
                           </div>
                         </div>
@@ -1324,120 +1323,120 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
           jsx={true}
         >
           
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
         </style>
       </div>
     </div>
@@ -1448,9 +1447,8 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
         className="receipt-row-status col"
       >
         <i>
-          SuccessReceiptId
-          :
-           
+          component.transactions.ReceiptRow.success_receipt_id
+          : 
         </i>
         <pre>
           R3333333333333333333333333333333333333333333
@@ -1489,7 +1487,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b>
-                  Receipt
+                  common.receipts.receipt
                   :
                 </b>
               </div>
@@ -1500,7 +1498,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID
+                common.receipts.receipt_id
                 :
               </div>
               <div
@@ -1537,7 +1535,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block
+                common.receipts.executed_in_block
                 :
               </div>
               <div
@@ -1563,7 +1561,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID
+                common.receipts.predecessor_id
                 :
               </div>
               <div
@@ -1599,7 +1597,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID
+                common.receipts.receiver_id
                 :
               </div>
               <div
@@ -1635,7 +1633,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned
+                common.transactions.execution.gas_burned
                 :
               </div>
               <div
@@ -1650,7 +1648,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned
+                common.transactions.execution.tokens_burned
                 :
               </div>
               <div
@@ -1701,7 +1699,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           <div
                             className="action-row-title col"
                           >
-                            Called method: 'ft_on_transfer' in contract: 
+                            component.transactions.ActionMessage.FunctionCall.called_method
                             <span
                               onClick={[Function]}
                             >
@@ -1725,7 +1723,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             </style>
                             <dl>
                               <dt>
-                                Arguments:
+                                component.transactions.ActionMessage.FunctionCall.arguments
                               </dt>
                               <dd>
                                 <div>
@@ -1758,7 +1756,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         }
                                       }
                                     >
-                                      Show more
+                                      button.show_more
                                     </div>
                                   </div>
                                 </div>
@@ -1790,120 +1788,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   jsx={true}
                 >
                   
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
                 </style>
               </div>
             </div>
@@ -1914,9 +1912,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-status col"
               >
                 <i>
-                  Result
-                  :
-                   
+                  component.transactions.ReceiptRow.result
+                  : 
                 </i>
                 <div>
                   <div
@@ -1944,7 +1941,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         }
                       }
                     >
-                      Show more
+                      button.show_more
                     </div>
                   </div>
                 </div>
@@ -1971,7 +1968,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-text col"
               >
-                No logs
+                component.transactions.ReceiptRow.no_logs
               </div>
             </div>
             <div
@@ -1994,7 +1991,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b>
-                          Receipt
+                          common.receipts.receipt
                           :
                         </b>
                       </div>
@@ -2005,7 +2002,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receipt ID
+                        common.receipts.receipt_id
                         :
                       </div>
                       <div
@@ -2042,7 +2039,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Executed in Block
+                        common.receipts.executed_in_block
                         :
                       </div>
                       <div
@@ -2068,7 +2065,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Predecessor ID
+                        common.receipts.predecessor_id
                         :
                       </div>
                       <div
@@ -2104,7 +2101,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receiver ID
+                        common.receipts.receiver_id
                         :
                       </div>
                       <div
@@ -2140,7 +2137,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Gas Burned
+                        common.transactions.execution.gas_burned
                         :
                       </div>
                       <div
@@ -2155,7 +2152,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Tokens Burned
+                        common.transactions.execution.tokens_burned
                         :
                       </div>
                       <div
@@ -2206,7 +2203,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                   <div
                                     className="action-row-title col"
                                   >
-                                    Transferred 
+                                    component.transactions.ActionMessage.Transfer.transferred
                                     <span
                                       onBlur={[Function]}
                                       onFocus={[Function]}
@@ -2217,7 +2214,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                        
                                       Ⓝ
                                     </span>
-                                     to 
+                                    component.transactions.ActionMessage.Transfer.to
                                     <span
                                       onClick={[Function]}
                                     >
@@ -2250,120 +2247,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           jsx={true}
                         >
                           
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
                         </style>
                       </div>
                     </div>
@@ -2373,7 +2370,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-status col"
                       >
-                        Empty result
+                        component.transactions.ReceiptRow.empty_result
                       </div>
                     </div>
                     <div
@@ -2382,7 +2379,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-text col"
                       >
-                        No logs
+                        component.transactions.ReceiptRow.no_logs
                       </div>
                     </div>
                   </div>
@@ -2529,7 +2526,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b>
-                  Receipt
+                  common.receipts.receipt
                   :
                 </b>
               </div>
@@ -2540,7 +2537,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID
+                common.receipts.receipt_id
                 :
               </div>
               <div
@@ -2577,7 +2574,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block
+                common.receipts.executed_in_block
                 :
               </div>
               <div
@@ -2603,7 +2600,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID
+                common.receipts.predecessor_id
                 :
               </div>
               <div
@@ -2639,7 +2636,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID
+                common.receipts.receiver_id
                 :
               </div>
               <div
@@ -2675,7 +2672,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned
+                common.transactions.execution.gas_burned
                 :
               </div>
               <div
@@ -2690,7 +2687,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned
+                common.transactions.execution.tokens_burned
                 :
               </div>
               <div
@@ -2741,7 +2738,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           <div
                             className="action-row-title col"
                           >
-                            Called method: 'ft_resolve_transfer' in contract: 
+                            component.transactions.ActionMessage.FunctionCall.called_method
                             <span
                               onClick={[Function]}
                             >
@@ -2765,7 +2762,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             </style>
                             <dl>
                               <dt>
-                                Arguments:
+                                component.transactions.ActionMessage.FunctionCall.arguments
                               </dt>
                               <dd>
                                 <div>
@@ -2798,7 +2795,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         }
                                       }
                                     >
-                                      Show more
+                                      button.show_more
                                     </div>
                                   </div>
                                 </div>
@@ -2830,120 +2827,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   jsx={true}
                 >
                   
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
                 </style>
               </div>
             </div>
@@ -2954,9 +2951,8 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-status col"
               >
                 <i>
-                  Result
-                  :
-                   
+                  component.transactions.ReceiptRow.result
+                  : 
                 </i>
                 <div>
                   <div
@@ -2984,7 +2980,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         }
                       }
                     >
-                      Show more
+                      button.show_more
                     </div>
                   </div>
                 </div>
@@ -3011,7 +3007,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-text col"
               >
-                No logs
+                component.transactions.ReceiptRow.no_logs
               </div>
             </div>
             <div
@@ -3034,7 +3030,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                         className="receipt-row-title receipt-hash-title col"
                       >
                         <b>
-                          Receipt
+                          common.receipts.receipt
                           :
                         </b>
                       </div>
@@ -3045,7 +3041,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receipt ID
+                        common.receipts.receipt_id
                         :
                       </div>
                       <div
@@ -3082,7 +3078,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Executed in Block
+                        common.receipts.executed_in_block
                         :
                       </div>
                       <div
@@ -3108,7 +3104,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Predecessor ID
+                        common.receipts.predecessor_id
                         :
                       </div>
                       <div
@@ -3144,7 +3140,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Receiver ID
+                        common.receipts.receiver_id
                         :
                       </div>
                       <div
@@ -3180,7 +3176,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Gas Burned
+                        common.transactions.execution.gas_burned
                         :
                       </div>
                       <div
@@ -3195,7 +3191,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-title col"
                       >
-                        Tokens Burned
+                        common.transactions.execution.tokens_burned
                         :
                       </div>
                       <div
@@ -3246,7 +3242,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                   <div
                                     className="action-row-title col"
                                   >
-                                    Transferred 
+                                    component.transactions.ActionMessage.Transfer.transferred
                                     <span
                                       onBlur={[Function]}
                                       onFocus={[Function]}
@@ -3257,7 +3253,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                        
                                       Ⓝ
                                     </span>
-                                     to 
+                                    component.transactions.ActionMessage.Transfer.to
                                     <span
                                       onClick={[Function]}
                                     >
@@ -3290,120 +3286,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           jsx={true}
                         >
                           
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
                         </style>
                       </div>
                     </div>
@@ -3413,7 +3409,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-status col"
                       >
-                        Empty result
+                        component.transactions.ReceiptRow.empty_result
                       </div>
                     </div>
                     <div
@@ -3422,7 +3418,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       <div
                         className="receipt-row-text col"
                       >
-                        No logs
+                        component.transactions.ReceiptRow.no_logs
                       </div>
                     </div>
                   </div>
@@ -3569,7 +3565,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b>
-                  Receipt
+                  common.receipts.receipt
                   :
                 </b>
               </div>
@@ -3580,7 +3576,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID
+                common.receipts.receipt_id
                 :
               </div>
               <div
@@ -3617,7 +3613,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block
+                common.receipts.executed_in_block
                 :
               </div>
               <div
@@ -3643,7 +3639,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID
+                common.receipts.predecessor_id
                 :
               </div>
               <div
@@ -3679,7 +3675,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID
+                common.receipts.receiver_id
                 :
               </div>
               <div
@@ -3715,7 +3711,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned
+                common.transactions.execution.gas_burned
                 :
               </div>
               <div
@@ -3730,7 +3726,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned
+                common.transactions.execution.tokens_burned
                 :
               </div>
               <div
@@ -3781,7 +3777,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           <div
                             className="action-row-title col"
                           >
-                            Transferred 
+                            component.transactions.ActionMessage.Transfer.transferred
                             <span
                               onBlur={[Function]}
                               onFocus={[Function]}
@@ -3792,7 +3788,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                
                               Ⓝ
                             </span>
-                             to 
+                            component.transactions.ActionMessage.Transfer.to
                             <span
                               onClick={[Function]}
                             >
@@ -3825,120 +3821,120 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   jsx={true}
                 >
                   
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
                 </style>
               </div>
             </div>
@@ -3948,7 +3944,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-status col"
               >
-                Empty result
+                component.transactions.ReceiptRow.empty_result
               </div>
             </div>
             <div
@@ -3957,7 +3953,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               <div
                 className="receipt-row-text col"
               >
-                No logs
+                component.transactions.ReceiptRow.no_logs
               </div>
             </div>
           </div>
@@ -4099,7 +4095,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-title receipt-hash-title col"
       >
         <b>
-          Receipt
+          common.receipts.receipt
           :
         </b>
       </div>
@@ -4110,7 +4106,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receipt ID
+        common.receipts.receipt_id
         :
       </div>
       <div
@@ -4147,7 +4143,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Executed in Block
+        common.receipts.executed_in_block
         :
       </div>
       <div
@@ -4173,7 +4169,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Predecessor ID
+        common.receipts.predecessor_id
         :
       </div>
       <div
@@ -4209,7 +4205,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Receiver ID
+        common.receipts.receiver_id
         :
       </div>
       <div
@@ -4245,7 +4241,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Gas Burned
+        common.transactions.execution.gas_burned
         :
       </div>
       <div
@@ -4260,7 +4256,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-title col"
       >
-        Tokens Burned
+        common.transactions.execution.tokens_burned
         :
       </div>
       <div
@@ -4311,7 +4307,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   <div
                     className="action-row-title col"
                   >
-                    Called method: 'vote' in contract: 
+                    component.transactions.ActionMessage.FunctionCall.called_method
                     <span
                       onClick={[Function]}
                     >
@@ -4335,7 +4331,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     </style>
                     <dl>
                       <dt>
-                        Arguments:
+                        component.transactions.ActionMessage.FunctionCall.arguments
                       </dt>
                       <dd>
                         <div>
@@ -4370,7 +4366,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                                 }
                               }
                             >
-                              Show more
+                              button.show_more
                             </div>
                           </div>
                         </div>
@@ -4402,120 +4398,120 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           jsx={true}
         >
           
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
         </style>
       </div>
     </div>
@@ -4526,9 +4522,8 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
         className="receipt-row-status col"
       >
         <i>
-          Result
-          :
-           
+          component.transactions.ReceiptRow.result
+          : 
         </i>
         <div>
           <div
@@ -4559,7 +4554,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 }
               }
             >
-              Show more
+              button.show_more
             </div>
           </div>
         </div>
@@ -4586,7 +4581,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       <div
         className="receipt-row-text col"
       >
-        No logs
+        component.transactions.ReceiptRow.no_logs
       </div>
     </div>
     <div
@@ -4609,7 +4604,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                 className="receipt-row-title receipt-hash-title col"
               >
                 <b>
-                  Receipt
+                  common.receipts.receipt
                   :
                 </b>
               </div>
@@ -4620,7 +4615,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receipt ID
+                common.receipts.receipt_id
                 :
               </div>
               <div
@@ -4657,7 +4652,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Executed in Block
+                common.receipts.executed_in_block
                 :
               </div>
               <div
@@ -4683,7 +4678,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Predecessor ID
+                common.receipts.predecessor_id
                 :
               </div>
               <div
@@ -4719,7 +4714,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Receiver ID
+                common.receipts.receiver_id
                 :
               </div>
               <div
@@ -4755,7 +4750,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Gas Burned
+                common.transactions.execution.gas_burned
                 :
               </div>
               <div
@@ -4770,7 +4765,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-title col"
               >
-                Tokens Burned
+                common.transactions.execution.tokens_burned
                 :
               </div>
               <div
@@ -4821,7 +4816,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                           <div
                             className="action-row-title col"
                           >
-                            Transferred 
+                            component.transactions.ActionMessage.Transfer.transferred
                             <span
                               onBlur={[Function]}
                               onFocus={[Function]}
@@ -4832,7 +4827,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                                
                               Ⓝ
                             </span>
-                             to 
+                            component.transactions.ActionMessage.Transfer.to
                             <span
                               onClick={[Function]}
                             >
@@ -4865,120 +4860,120 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   jsx={true}
                 >
                   
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
                 </style>
               </div>
             </div>
@@ -4988,7 +4983,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-status col"
               >
-                Empty result
+                component.transactions.ReceiptRow.empty_result
               </div>
             </div>
             <div
@@ -4997,7 +4992,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               <div
                 className="receipt-row-text col"
               >
-                No logs
+                component.transactions.ReceiptRow.no_logs
               </div>
             </div>
           </div>

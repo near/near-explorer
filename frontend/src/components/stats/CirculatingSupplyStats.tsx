@@ -1,6 +1,6 @@
 import BN from "bn.js";
 import React, { useEffect, useState } from "react";
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import { utils } from "near-api-js";
@@ -9,6 +9,7 @@ import StatsApi from "../../libraries/explorer-wamp/stats";
 import { Props } from "./TransactionsByDate";
 
 const CirculatingSupplyStats = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [circulatingSupplyByDate, setCirculatingSupplyByDate] = useState(
     Array()
   );
@@ -167,51 +168,43 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <>
-          <h4>
-            {translate(
-              "component.stats.CirculatingSupplyStats.circulating_supply"
-            ).toString()}
-          </h4>
-          <h6>
-            {translate(
-              "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply_explain"
-            ).toString()}
-          </h6>
-          <ReactEcharts
-            option={getOption([
-              `${translate(
-                "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply"
-              ).toString()}`,
-              `${translate(
-                "component.stats.CirculatingSupplyStats.tooltip.circulating_supply"
-              ).toString()}`,
-            ])}
-            style={{
-              ...chartStyle,
-              marginTop: "5px",
-            }}
-          />
-          <style jsx global>{`
-            h4,
-            h6 {
-              margin-left: 30px;
-            }
-            h4 {
-              font-size: 18px;
-              font-weight: 700;
-            }
-            h6 {
-              color: #a2a2a8;
-              font-size: 14px;
-              font-weight: 500;
-            }
-          `}</style>
-        </>
-      )}
-    </Translate>
+    <>
+      <h4>{t("component.stats.CirculatingSupplyStats.circulating_supply")}</h4>
+      <h6>
+        {t(
+          "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply_explain"
+        )}
+      </h6>
+      <ReactEcharts
+        option={getOption([
+          `${t(
+            "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply"
+          )}`,
+          `${t(
+            "component.stats.CirculatingSupplyStats.tooltip.circulating_supply"
+          )}`,
+        ])}
+        style={{
+          ...chartStyle,
+          marginTop: "5px",
+        }}
+      />
+      <style jsx global>{`
+        h4,
+        h6 {
+          margin-left: 30px;
+        }
+        h4 {
+          font-size: 18px;
+          font-weight: 700;
+        }
+        h6 {
+          color: #a2a2a8;
+          font-size: 14px;
+          font-weight: 500;
+        }
+      `}</style>
+    </>
   );
 };
 

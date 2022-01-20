@@ -2,7 +2,7 @@ import { FC, useCallback, useState } from "react";
 
 import { Modal } from "react-bootstrap";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const Term: FC<Props> = ({ title, text, href }) => {
+  const { t } = useTranslation();
   const [isModalShown, setModalShown] = useState(false);
   const track = useAnalyticsTrack();
 
@@ -51,7 +52,7 @@ const Term: FC<Props> = ({ title, text, href }) => {
                 rel="noopener"
                 onClick={() => track("Explorer Docs Click", { href: href })}
               >
-                <Translate id="button.docs" />
+                {t("button.docs")}
               </a>
             )}
           </Modal.Body>

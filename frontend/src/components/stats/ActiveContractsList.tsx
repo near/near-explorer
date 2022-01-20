@@ -6,9 +6,10 @@ import { truncateAccountId } from "../../libraries/formatting";
 
 import { Props } from "./TransactionsByDate";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const ActiveContractsList = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [activeContracts, setAccounts] = useState(Array());
   const [count, setCount] = useState(Array());
 
@@ -28,10 +29,10 @@ const ActiveContractsList = ({ chartStyle }: Props) => {
     });
   }, []);
 
-  const getOption = (translate: Function) => {
+  const getOption = () => {
     return {
       title: {
-        text: translate("component.stats.ActiveContractsList.title"),
+        text: t("component.stats.ActiveContractsList.title"),
       },
       grid: { containLabel: true },
       tooltip: {
@@ -42,7 +43,7 @@ const ActiveContractsList = ({ chartStyle }: Props) => {
       },
       xAxis: [
         {
-          name: translate("common.receipts.receipts"),
+          name: t("common.receipts.receipts"),
           type: "value",
         },
       ],
@@ -61,13 +62,7 @@ const ActiveContractsList = ({ chartStyle }: Props) => {
     };
   };
 
-  return (
-    <Translate>
-      {({ translate }) => (
-        <ReactEcharts option={getOption(translate)} style={chartStyle} />
-      )}
-    </Translate>
-  );
+  return <ReactEcharts option={getOption()} style={chartStyle} />;
 };
 
 export default ActiveContractsList;

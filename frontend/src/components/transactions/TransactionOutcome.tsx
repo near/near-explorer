@@ -6,13 +6,14 @@ import * as T from "../../libraries/explorer-wamp/transactions";
 import Gas from "../utils/Gas";
 import Balance from "../utils/Balance";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 export interface Props {
   transaction: T.TransactionOutcome;
 }
 
 const TransactionOutcome: FC<Props> = ({ transaction }) => {
+  const { t } = useTranslation();
   const gasBurnt = new BN(transaction.outcome?.gas_burnt ?? 0);
   const tokensBurnt = new BN(transaction.outcome?.tokens_burnt ?? 0);
   return (
@@ -21,14 +22,16 @@ const TransactionOutcome: FC<Props> = ({ transaction }) => {
         <Row noGutters>
           <Col className="transaction-outcome-row-title main">
             <b>
-              <Translate id="common.transactions.execution.convert_transaction_to_receipt" />
+              {t(
+                "common.transactions.execution.convert_transaction_to_receipt"
+              )}
             </b>
           </Col>
         </Row>
 
         <Row noGutters className="transaction-outcome-row mx-0 pl-4">
           <Col className="transaction-outcome-row-title">
-            <Translate id="common.transactions.execution.gas_burned" />:
+            {t("common.transactions.execution.gas_burned")}:
           </Col>
           <Col className="transaction-outcome-row-text">
             {gasBurnt ? <Gas gas={gasBurnt} /> : "..."}
@@ -37,7 +40,7 @@ const TransactionOutcome: FC<Props> = ({ transaction }) => {
 
         <Row noGutters className="transaction-outcome-row mx-0 pl-4">
           <Col className="transaction-outcome-row-title">
-            <Translate id="common.transactions.execution.tokens_burned" />:
+            {t("common.transactions.execution.tokens_burned")}:
           </Col>
           <Col className="transaction-outcome-row-text">
             {tokensBurnt ? <Balance amount={tokensBurnt.toString()} /> : "..."}

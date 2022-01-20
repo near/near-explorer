@@ -12,9 +12,10 @@ import { DatabaseContext } from "../../context/DatabaseProvider";
 
 import { Props } from "./TransactionsByDate";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const GasUsedByDateChart = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [gasUsedByDate, setGasUsedByDate] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeGasUsedByDate, setTotal] = useState(Array());
@@ -126,53 +127,40 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <Tabs defaultActiveKey="daily" id="gasUsedByDate">
-          <Tab eventKey="daily" title={translate("common.stats.daily")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.GasUsedByDate.daily_amount_of_used_gas"
-                ).toString(),
-                gasUsedByDate,
-                translate("component.stats.GasUsedByDate.petagas").toString()
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="total" title={translate("common.stats.total")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.GasUsedByDate.total_amount_of_used_gas"
-                ).toString(),
-                cumulativeGasUsedByDate,
-                translate("component.stats.GasUsedByDate.petagas").toString()
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          {feeUsedByDate.length > 0 && (
-            <Tab
-              eventKey="fee"
-              title={translate("component.stats.GasUsedByDate.gas_fee")}
-            >
-              <ReactEcharts
-                option={getOption(
-                  translate(
-                    "component.stats.GasUsedByDate.daily_gas_fee_in_near"
-                  ).toString(),
-                  feeUsedByDate,
-                  "NEAR"
-                )}
-                style={chartStyle}
-              />
-            </Tab>
+    <Tabs defaultActiveKey="daily" id="gasUsedByDate">
+      <Tab eventKey="daily" title={t("common.stats.daily")}>
+        <ReactEcharts
+          option={getOption(
+            t("component.stats.GasUsedByDate.daily_amount_of_used_gas"),
+            gasUsedByDate,
+            t("component.stats.GasUsedByDate.petagas")
           )}
-        </Tabs>
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title={t("common.stats.total")}>
+        <ReactEcharts
+          option={getOption(
+            t("component.stats.GasUsedByDate.total_amount_of_used_gas"),
+            cumulativeGasUsedByDate,
+            t("component.stats.GasUsedByDate.petagas")
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      {feeUsedByDate.length > 0 && (
+        <Tab eventKey="fee" title={t("component.stats.GasUsedByDate.gas_fee")}>
+          <ReactEcharts
+            option={getOption(
+              t("component.stats.GasUsedByDate.daily_gas_fee_in_near"),
+              feeUsedByDate,
+              "NEAR"
+            )}
+            style={chartStyle}
+          />
+        </Tab>
       )}
-    </Translate>
+    </Tabs>
   );
 };
 

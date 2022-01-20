@@ -164,8 +164,7 @@
           "title": "Latest Telemetry Update"
         },
         "node_agent_name": {
-          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is ${agent_name_url}.",
-          "url_text": "the official implementation",
+          "text": "NEAR Protocol could have multiple implementations, so agent is the name of that implementation, where 'near-rs' is <nearCoreLink>the official implementation</nearCoreLink>.",
           "title": "Node Agent Name"
         },
         "node_agent_version_or_build": {
@@ -180,10 +179,7 @@
           "discord": "Discord",
           "description": "Description"
         },
-        "pool_info_tip": {
-          "text": "If you are node owner feel free to fill all ${pool_info_url} to promote your own node!",
-          "url_text": "data"
-        }
+        "pool_info_tip": "If you are node owner feel free to fill all <poolLink>data</poolLink> to promote your own node!"
       },
       "NodesEpoch": {
         "current_epoch_start": "Epoch Hiện Tại Khởi Động",
@@ -552,7 +548,14 @@
     },
     "ListHandler": {
       "last_block": "Chiều cao khối mới nhất là "
-    }
+    },
+    "StorageSize": {
+      "bytes": "B",
+      "kilo_bytes": "kB",
+      "mega_bytes": "MB",
+      "giga_bytes": "GB"
+    },
+    "WalletLink": "${account_id} on ${wallet_name}"
   },
   "button": {
     "view_all": "Xem Tất Cả",

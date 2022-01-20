@@ -19,11 +19,11 @@ exports[`<NodesEpoch /> renders 1`] = `
           <div
             className="col"
           >
-            Current Epoch Start: 
+            component.nodes.NodesEpoch.current_epoch_start: 
             <span
               className="text-value"
             >
-              Block #
+              component.nodes.NodesEpoch.block #
               36647454
             </span>
           </div>
@@ -34,7 +34,7 @@ exports[`<NodesEpoch /> renders 1`] = `
           <div
             className="col-12"
           >
-            Current Epoch Start
+            component.nodes.NodesEpoch.current_epoch_start
           </div>
           <div
             className="col-12"
@@ -42,7 +42,7 @@ exports[`<NodesEpoch /> renders 1`] = `
             <span
               className="text-value"
             >
-              Block #
+              component.nodes.NodesEpoch.block #
               36647454
             </span>
           </div>
@@ -55,9 +55,9 @@ exports[`<NodesEpoch /> renders 1`] = `
           className="text-value persnt-remains"
         >
           50
-          % complete
+          % component.nodes.NodesEpoch.complete
         </span>
-         (06:00:00 remaining)
+         (06:00:00 component.nodes.NodesEpoch.remaining)
       </div>
       <div
         className="text-right d-xs-block d-md-none col-5"
@@ -223,40 +223,40 @@ exports[`<NodesEpoch /> renders 1`] = `
     jsx={true}
   >
     
-            .nodes-epoch {
-              background-color: #292526;
-              color: #d5d4d8;
-              font-size: 16px;
-              font-weight: 500;
-            }
+        .nodes-epoch {
+          background-color: #292526;
+          color: #d5d4d8;
+          font-size: 16px;
+          font-weight: 500;
+        }
 
-            .nodes-epoch .nodes-epoch-content {
-              margin: 15px 0;
-            }
+        .nodes-epoch .nodes-epoch-content {
+          margin: 15px 0;
+        }
 
-            .nodes-epoch .nodes-epoch-content .text-value {
-              color: #37dbf4;
-            }
+        .nodes-epoch .nodes-epoch-content .text-value {
+          color: #37dbf4;
+        }
 
-            .nodes-epoch .nodes-epoch-content .text-value.persnt-remains {
-              font-weight: 700;
-            }
+        .nodes-epoch .nodes-epoch-content .text-value.persnt-remains {
+          font-weight: 700;
+        }
 
-            .node-epoch-line-progress {
-              padding-left: 0;
-              padding-right: 0;
-              height: 4px;
-            }
+        .node-epoch-line-progress {
+          padding-left: 0;
+          padding-right: 0;
+          height: 4px;
+        }
 
-            .node-epoch-circle-progress {
-              margin-left: auto;
-              width: 40px;
-            }
+        .node-epoch-circle-progress {
+          margin-left: auto;
+          width: 40px;
+        }
 
-            .node-epoch-circle-progress .circle-progress-label {
-              color: #d5d4d8;
-            }
-          
+        .node-epoch-circle-progress .circle-progress-label {
+          color: #d5d4d8;
+        }
+      
   </style>
 </div>
 `;

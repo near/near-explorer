@@ -1,4 +1,4 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import ReceiptRow from "../ReceiptRow";
 
@@ -11,7 +11,7 @@ import {
 describe("<ReceiptRow />", () => {
   it("renders successful receipt", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ReceiptRow
           receipt={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!}
           transactionHash={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.hash}
@@ -23,7 +23,7 @@ describe("<ReceiptRow />", () => {
 
   it("renders receipt with many outcome receipts", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ReceiptRow
           receipt={TRANSACTION_WITH_MANY_RECEIPTS.receipt!}
           transactionHash={TRANSACTION_WITH_MANY_RECEIPTS.hash}
@@ -35,7 +35,7 @@ describe("<ReceiptRow />", () => {
 
   it("renders Failure receipt", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ReceiptRow
           receipt={TRANSACTION_WITH_FAILING_RECEIPT.receipt!}
           transactionHash={TRANSACTION_WITH_FAILING_RECEIPT.hash}

@@ -12,7 +12,7 @@ import TransactionDetails from "../../components/transactions/TransactionDetails
 import TransactionOutcome from "../../components/transactions/TransactionOutcome";
 import Content from "../../components/utils/Content";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
@@ -23,6 +23,7 @@ type Props = {
 };
 
 const TransactionDetailsPage: NextPage<Props> = (props) => {
+  const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
     transaction_hash: props.hash,
   });
@@ -39,7 +40,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
       <Content
         title={
           <h1>
-            <Translate id="common.transactions.transaction" />
+            {t("common.transactions.transaction")}
             {`: ${props.hash.substring(0, 7)}...${props.hash.substring(
               props.hash.length - 4
             )}`}
@@ -48,7 +49,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
         border={false}
       >
         {!transaction ? (
-          <Translate id="page.transactions.error.transaction_fetching" />
+          t("page.transactions.error.transaction_fetching")
         ) : (
           <TransactionDetails transaction={transaction} />
         )}
@@ -57,11 +58,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
         <Content
           size="medium"
           icon={<TransactionIcon style={{ width: "22px" }} />}
-          title={
-            <h2>
-              <Translate id="common.actions.actions" />
-            </h2>
-          }
+          title={<h2>{t("common.actions.actions")}</h2>}
         >
           <ActionsList
             actions={transaction.actions}
@@ -78,11 +75,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
         <Content
           size="medium"
           icon={<TransactionIcon style={{ width: "22px" }} />}
-          title={
-            <h2>
-              <Translate id="page.transactions.transaction_execution_plan" />
-            </h2>
-          }
+          title={<h2>{t("page.transactions.transaction_execution_plan")}</h2>}
         >
           {transaction.transactionOutcome && (
             <TransactionOutcome transaction={transaction.transactionOutcome} />

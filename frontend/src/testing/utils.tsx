@@ -1,10 +1,10 @@
+import { setI18n } from "react-i18next";
 import renderer, {
   ReactTestRenderer,
   TestRendererOptions,
 } from "react-test-renderer";
-import { LocalizeProvider } from "react-localize-redux";
-import LocalizeWrapper from "../components/utils/LocalizeWrapper";
 import { NetworkContext } from "../context/NetworkContext";
+import { setMomentLanguage } from "../libraries/language";
 
 const networkContext = {
   currentNetwork: {
@@ -16,17 +16,18 @@ const networkContext = {
   networks: [],
 };
 
-export const renderI18nElement = (
+export const renderElement = (
   nextElement: React.ReactNode,
   options?: TestRendererOptions
 ): ReactTestRenderer => {
+  // Instance was set to global in testing/env.ts
+  setI18n((global as any).i18nInstance);
+  setMomentLanguage("en");
   let root: ReactTestRenderer;
   renderer.act(() => {
     root = renderer.create(
       <NetworkContext.Provider value={networkContext}>
-        <LocalizeProvider>
-          <LocalizeWrapper>{nextElement}</LocalizeWrapper>
-        </LocalizeProvider>
+        {nextElement}
       </NetworkContext.Provider>,
       options
     );

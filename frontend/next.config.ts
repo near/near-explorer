@@ -43,7 +43,6 @@ const config: ExplorerConfig & NextConfig = {
       process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
   },
-  foo: {},
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module
     if (!isServer) {

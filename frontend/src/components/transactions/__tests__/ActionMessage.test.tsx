@@ -1,4 +1,4 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import ActionMessage from "../ActionMessage";
 
@@ -7,7 +7,7 @@ import { TRANSACTIONS } from "./common";
 describe("<ActionMessage />", () => {
   it("renders CreateAccount", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"CreateAccount"}
           actionArgs={{}}
@@ -19,7 +19,7 @@ describe("<ActionMessage />", () => {
 
   it("renders DeleteAccount", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"DeleteAccount"}
           actionArgs={{ beneficiary_id: "near" }}
@@ -31,7 +31,7 @@ describe("<ActionMessage />", () => {
 
   it("renders DeployContract", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"DeployContract"}
           actionArgs={{}}
@@ -43,7 +43,7 @@ describe("<ActionMessage />", () => {
 
   it("renders FunctionCall", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"FunctionCall"}
           actionArgs={{ method_name: "method_name", args: "e30=" }}
@@ -55,7 +55,7 @@ describe("<ActionMessage />", () => {
 
   it("renders FunctionCall with details", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"FunctionCall"}
           actionArgs={{
@@ -71,7 +71,7 @@ describe("<ActionMessage />", () => {
 
   it("renders Transfer", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"Transfer"}
           actionArgs={{ deposit: "1" }}
@@ -83,7 +83,7 @@ describe("<ActionMessage />", () => {
 
   it("renders Stake", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"Stake"}
           actionArgs={{
@@ -98,7 +98,7 @@ describe("<ActionMessage />", () => {
 
   it("renders AddKey with permission function call to call any method", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"AddKey"}
           actionArgs={{
@@ -121,7 +121,7 @@ describe("<ActionMessage />", () => {
 
   it("renders AddKey with permission function call to call specific methods", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"AddKey"}
           actionArgs={{
@@ -149,7 +149,7 @@ describe("<ActionMessage />", () => {
 
   it("renders AddKey with permission FullAccess", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"AddKey"}
           actionArgs={{
@@ -167,7 +167,7 @@ describe("<ActionMessage />", () => {
 
   it("renders DeleteKey", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionMessage
           actionKind={"DeleteKey"}
           actionArgs={{

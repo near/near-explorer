@@ -8,7 +8,7 @@ import Placeholder from "../utils/Placeholder";
 
 import TransactionAction from "./TransactionAction";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 export interface OuterProps {
   accountId?: string;
@@ -58,10 +58,11 @@ interface InnerProps {
 }
 
 const Transactions: FC<InnerProps> = ({ items }) => {
+  const { t } = useTranslation();
   if (items?.length === 0) {
     return (
       <Placeholder>
-        <Translate id="component.transactions.Transactions.no_transactions" />
+        {t("component.transactions.Transactions.no_transactions")}
       </Placeholder>
     );
   }

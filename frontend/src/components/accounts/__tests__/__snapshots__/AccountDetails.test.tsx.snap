@@ -26,7 +26,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Transactions
+              component.accounts.AccountDetails.transactions.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -147,7 +147,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
-              Storage Used
+              component.accounts.AccountDetails.storage_usage.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -187,7 +187,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                876 B
+                876 utils.StorageSize.bytes
               </span>
             </div>
           </div>
@@ -263,7 +263,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Lockup Account
+              component.accounts.AccountDetails.lockup_account.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -392,7 +392,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Native Account Balance
+              component.accounts.AccountDetails.native_account_balance.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -506,7 +506,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Validator Stake
+              component.accounts.AccountDetails.validator_stake.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -620,7 +620,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Balance Profile
+              component.accounts.AccountDetails.balance_profile.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -663,7 +663,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
                   rel="noopener"
                   target="_blank"
                 >
-                  megan.near on Wallet
+                  utils.WalletLink
                 </a>
                 <style
                   jsx={true}
@@ -749,7 +749,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created At
+              component.accounts.AccountDetails.created_at.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -845,28 +845,28 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
     jsx={true}
   >
     
-            .account-info-container {
-              border: solid 4px #e6e6e6;
-              border-radius: 4px;
-            }
+        .account-info-container {
+          border: solid 4px #e6e6e6;
+          border-radius: 4px;
+        }
 
-            .account-info-container &gt; .row:first-of-type .card-cell-text {
-              font-size: 24px;
-            }
+        .account-info-container &gt; .row:first-of-type .card-cell-text {
+          font-size: 24px;
+        }
 
-            .account-info-container &gt; .row {
-              border-bottom: 2px solid #e6e6e6;
-            }
+        .account-info-container &gt; .row {
+          border-bottom: 2px solid #e6e6e6;
+        }
 
-            .account-card-back {
-              background-color: #f8f8f8;
-            }
+        .account-card-back {
+          background-color: #f8f8f8;
+        }
 
-            .transaction-link-icon {
-              width: 15px;
-              margin: 0 0 12px 12px;
-            }
-          
+        .transaction-link-icon {
+          width: 15px;
+          margin: 0 0 12px 12px;
+        }
+      
   </style>
 </div>
 `;
@@ -897,7 +897,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Transactions
+              component.accounts.AccountDetails.transactions.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1018,7 +1018,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
-              Storage Used
+              component.accounts.AccountDetails.storage_usage.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1058,7 +1058,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                876 B
+                876 utils.StorageSize.bytes
               </span>
             </div>
           </div>
@@ -1134,7 +1134,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Lockup Account
+              component.accounts.AccountDetails.lockup_account.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1263,7 +1263,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Native Account Balance
+              component.accounts.AccountDetails.native_account_balance.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1377,7 +1377,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Validator Stake
+              component.accounts.AccountDetails.validator_stake.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1491,7 +1491,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Balance Profile
+              component.accounts.AccountDetails.balance_profile.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1534,7 +1534,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
                   rel="noopener"
                   target="_blank"
                 >
-                  megan.near on Wallet
+                  utils.WalletLink
                 </a>
                 <style
                   jsx={true}
@@ -1620,7 +1620,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created At
+              component.accounts.AccountDetails.created_at.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1716,28 +1716,28 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
     jsx={true}
   >
     
-            .account-info-container {
-              border: solid 4px #e6e6e6;
-              border-radius: 4px;
-            }
+        .account-info-container {
+          border: solid 4px #e6e6e6;
+          border-radius: 4px;
+        }
 
-            .account-info-container &gt; .row:first-of-type .card-cell-text {
-              font-size: 24px;
-            }
+        .account-info-container &gt; .row:first-of-type .card-cell-text {
+          font-size: 24px;
+        }
 
-            .account-info-container &gt; .row {
-              border-bottom: 2px solid #e6e6e6;
-            }
+        .account-info-container &gt; .row {
+          border-bottom: 2px solid #e6e6e6;
+        }
 
-            .account-card-back {
-              background-color: #f8f8f8;
-            }
+        .account-card-back {
+          background-color: #f8f8f8;
+        }
 
-            .transaction-link-icon {
-              width: 15px;
-              margin: 0 0 12px 12px;
-            }
-          
+        .transaction-link-icon {
+          width: 15px;
+          margin: 0 0 12px 12px;
+        }
+      
   </style>
 </div>
 `;
@@ -1768,7 +1768,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Transactions
+              component.accounts.AccountDetails.transactions.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1889,7 +1889,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
-              Storage Used
+              component.accounts.AccountDetails.storage_usage.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1929,7 +1929,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                876 B
+                876 utils.StorageSize.bytes
               </span>
             </div>
           </div>
@@ -2005,7 +2005,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Lockup Account
+              component.accounts.AccountDetails.lockup_account.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2134,7 +2134,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Native Account Balance
+              component.accounts.AccountDetails.native_account_balance.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2248,7 +2248,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Validator Stake
+              component.accounts.AccountDetails.validator_stake.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2362,7 +2362,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Balance Profile
+              component.accounts.AccountDetails.balance_profile.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2405,7 +2405,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   rel="noopener"
                   target="_blank"
                 >
-                  megan.near on Wallet
+                  utils.WalletLink
                 </a>
                 <style
                   jsx={true}
@@ -2491,7 +2491,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Deleted At
+              component.accounts.AccountDetails.deleted_at.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2525,7 +2525,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              February 02, 2019 at 12:00:00am
+              co00on.6amt6_ti06.6amt6_ti06_for0amt
             </div>
           </div>
         </div>
@@ -2596,7 +2596,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Deleted By Transaction
+              component.accounts.AccountDetails.deleted_by_transaction.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2707,28 +2707,28 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
     jsx={true}
   >
     
-            .account-info-container {
-              border: solid 4px #e6e6e6;
-              border-radius: 4px;
-            }
+        .account-info-container {
+          border: solid 4px #e6e6e6;
+          border-radius: 4px;
+        }
 
-            .account-info-container &gt; .row:first-of-type .card-cell-text {
-              font-size: 24px;
-            }
+        .account-info-container &gt; .row:first-of-type .card-cell-text {
+          font-size: 24px;
+        }
 
-            .account-info-container &gt; .row {
-              border-bottom: 2px solid #e6e6e6;
-            }
+        .account-info-container &gt; .row {
+          border-bottom: 2px solid #e6e6e6;
+        }
 
-            .account-card-back {
-              background-color: #f8f8f8;
-            }
+        .account-card-back {
+          background-color: #f8f8f8;
+        }
 
-            .transaction-link-icon {
-              width: 15px;
-              margin: 0 0 12px 12px;
-            }
-          
+        .transaction-link-icon {
+          width: 15px;
+          margin: 0 0 12px 12px;
+        }
+      
   </style>
 </div>
 `;
@@ -2759,7 +2759,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Transactions
+              component.accounts.AccountDetails.transactions.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2880,7 +2880,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
-              Storage Used
+              component.accounts.AccountDetails.storage_usage.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2920,7 +2920,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                876 B
+                876 utils.StorageSize.bytes
               </span>
             </div>
           </div>
@@ -2996,7 +2996,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Lockup Account
+              component.accounts.AccountDetails.lockup_account.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3125,7 +3125,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Native Account Balance
+              component.accounts.AccountDetails.native_account_balance.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3239,7 +3239,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Validator Stake
+              component.accounts.AccountDetails.validator_stake.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3353,7 +3353,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Balance Profile
+              component.accounts.AccountDetails.balance_profile.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3396,7 +3396,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   rel="noopener"
                   target="_blank"
                 >
-                  megan.near on Wallet
+                  utils.WalletLink
                 </a>
                 <style
                   jsx={true}
@@ -3482,7 +3482,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created At
+              component.accounts.AccountDetails.created_at.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3516,7 +3516,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              February 01, 2019 at 12:00:00am
+              co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
@@ -3587,7 +3587,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created By Transaction
+              component.accounts.AccountDetails.created_by_transaction.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3698,28 +3698,28 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     jsx={true}
   >
     
-            .account-info-container {
-              border: solid 4px #e6e6e6;
-              border-radius: 4px;
-            }
+        .account-info-container {
+          border: solid 4px #e6e6e6;
+          border-radius: 4px;
+        }
 
-            .account-info-container &gt; .row:first-of-type .card-cell-text {
-              font-size: 24px;
-            }
+        .account-info-container &gt; .row:first-of-type .card-cell-text {
+          font-size: 24px;
+        }
 
-            .account-info-container &gt; .row {
-              border-bottom: 2px solid #e6e6e6;
-            }
+        .account-info-container &gt; .row {
+          border-bottom: 2px solid #e6e6e6;
+        }
 
-            .account-card-back {
-              background-color: #f8f8f8;
-            }
+        .account-card-back {
+          background-color: #f8f8f8;
+        }
 
-            .transaction-link-icon {
-              width: 15px;
-              margin: 0 0 12px 12px;
-            }
-          
+        .transaction-link-icon {
+          width: 15px;
+          margin: 0 0 12px 12px;
+        }
+      
   </style>
 </div>
 `;
@@ -3750,7 +3750,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-transaction.svg"
               />
-              Transactions
+              component.accounts.AccountDetails.transactions.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3871,7 +3871,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-storage.svg"
               />
-              Storage Used
+              component.accounts.AccountDetails.storage_usage.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3911,7 +3911,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                 onMouseOut={[Function]}
                 onMouseOver={[Function]}
               >
-                2 kB
+                2 utils.StorageSize.kilo_bytes
               </span>
             </div>
           </div>
@@ -3987,7 +3987,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Native Account Balance
+              component.accounts.AccountDetails.native_account_balance.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -4101,7 +4101,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Validator Stake
+              component.accounts.AccountDetails.validator_stake.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -4215,7 +4215,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Ⓝ Balance Profile
+              component.accounts.AccountDetails.balance_profile.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -4258,7 +4258,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   rel="noopener"
                   target="_blank"
                 >
-                  near.near on Wallet
+                  utils.WalletLink
                 </a>
                 <style
                   jsx={true}
@@ -4344,7 +4344,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created At
+              component.accounts.AccountDetails.created_at.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -4378,7 +4378,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              February 01, 2019 at 12:00:00am
+              co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
@@ -4449,7 +4449,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created By Transaction
+              component.accounts.AccountDetails.created_by_transaction.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -4560,28 +4560,28 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     jsx={true}
   >
     
-            .account-info-container {
-              border: solid 4px #e6e6e6;
-              border-radius: 4px;
-            }
+        .account-info-container {
+          border: solid 4px #e6e6e6;
+          border-radius: 4px;
+        }
 
-            .account-info-container &gt; .row:first-of-type .card-cell-text {
-              font-size: 24px;
-            }
+        .account-info-container &gt; .row:first-of-type .card-cell-text {
+          font-size: 24px;
+        }
 
-            .account-info-container &gt; .row {
-              border-bottom: 2px solid #e6e6e6;
-            }
+        .account-info-container &gt; .row {
+          border-bottom: 2px solid #e6e6e6;
+        }
 
-            .account-card-back {
-              background-color: #f8f8f8;
-            }
+        .account-card-back {
+          background-color: #f8f8f8;
+        }
 
-            .transaction-link-icon {
-              width: 15px;
-              margin: 0 0 12px 12px;
-            }
-          
+        .transaction-link-icon {
+          width: 15px;
+          margin: 0 0 12px 12px;
+        }
+      
   </style>
 </div>
 `;

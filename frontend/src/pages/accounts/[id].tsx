@@ -11,7 +11,7 @@ import Content from "../../components/utils/Content";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
@@ -30,6 +30,7 @@ const AccountDetail: NextPage<Props> = ({
   accountError,
   accountFetchingError,
 }) => {
+  const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Account", {
     accountId: account.accountId,
   });
@@ -42,22 +43,20 @@ const AccountDetail: NextPage<Props> = ({
       <Content
         title={
           <h1>
-            <Translate id="common.accounts.account" />
+            {t("common.accounts.account")}
             {`: @${account.accountId}`}
           </h1>
         }
         border={false}
       >
         {accountError ? (
-          <Translate
-            id="page.accounts.error.account_not_found"
-            data={{ account_id: account.accountId }}
-          />
+          t("page.accounts.error.account_not_found", {
+            account_id: account.accountId,
+          })
         ) : accountFetchingError ? (
-          <Translate
-            id="page.accounts.error.account_fetching"
-            data={{ account_id: account.accountId }}
-          />
+          t("page.accounts.error.account_fetching", {
+            account_id: account.accountId,
+          })
         ) : (
           <AccountDetails account={account} />
         )}
@@ -70,11 +69,7 @@ const AccountDetail: NextPage<Props> = ({
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={
-              <h2>
-                <Translate id="common.transactions.transactions" />
-              </h2>
-            }
+            title={<h2>{t("common.transactions.transactions")}</h2>}
           >
             <Transactions accountId={account.accountId} count={10} />
           </Content>
@@ -97,6 +92,9 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
+  const commonProps = {
+    account: { accountId: id },
+  };
 
   try {
     const isAccountExist = await new AccountsApi(req).isAccountIndexed(id);
@@ -104,12 +102,12 @@ export const getServerSideProps: GetServerSideProps<
       try {
         const account = await new AccountsApi(req).getAccountInfo(id);
         return {
-          props: { account },
+          props: { ...commonProps, account },
         };
       } catch (accountFetchingError) {
         return {
           props: {
-            account: { accountId: id },
+            ...commonProps,
             accountFetchingError,
           },
         };
@@ -118,15 +116,13 @@ export const getServerSideProps: GetServerSideProps<
   } catch (accountError) {
     return {
       props: {
-        account: { accountId: id },
+        ...commonProps,
         accountError: String(accountError),
       },
     };
   }
   return {
-    props: {
-      account: { accountId: id },
-    },
+    props: commonProps,
   };
 };
 

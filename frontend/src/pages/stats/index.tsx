@@ -14,11 +14,12 @@ import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 import CirculatingSupplyStats from "../../components/stats/CirculatingSupplyStats";
 import { useNetworkContext } from "../../hooks/use-network-context";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
 const Stats: NextPage = () => {
+  const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Stats page");
   const { currentNetwork } = useNetworkContext();
 
@@ -33,13 +34,7 @@ const Stats: NextPage = () => {
       <Head>
         <title>NEAR Explorer | Stats</title>
       </Head>
-      <Content
-        title={
-          <h1>
-            <Translate id="common.stats.title" />
-          </h1>
-        }
-      >
+      <Content title={<h1>{t("common.stats.title")}</h1>}>
         <div id="protocolConfiguration">
           <NetworkStatsProvider>
             <ProtocolConfigInfo />
