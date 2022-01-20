@@ -45,6 +45,7 @@ const TransactionsWrapper: FC<OuterProps> = ({
   );
   return (
     <TransactionsList
+      key={accountId || blockHash}
       count={count}
       fetchDataFn={fetchDataFn}
       detailPage={accountId || blockHash ? true : false}
