@@ -40,7 +40,14 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
           setLoading(false);
           setShouldShow(true);
         });
-    }, [setLoading, props.count]);
+    }, [
+      props.fetchDataFn,
+      setItems,
+      setHasMore,
+      setLoading,
+      setShouldShow,
+      props.count,
+    ]);
 
     const fetchMore = useCallback(() => {
       setLoading(true);
@@ -52,7 +59,14 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
         })
         .catch((err: Error) => console.error(err))
         .then(() => setLoading(false));
-    }, [setLoading, items]);
+    }, [
+      props.fetchDataFn,
+      setItems,
+      setHasMore,
+      setLoading,
+      items,
+      props.count,
+    ]);
 
     useEffect(() => {
       if (props.count > 0) {
