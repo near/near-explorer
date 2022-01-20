@@ -8,9 +8,10 @@ import { cumulativeSumArray } from "../../libraries/stats";
 
 import { Props } from "./TransactionsByDate";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const NewAccountsByDate = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [newAccountsByDate, setAccounts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeNewAccountsByDate, setTotal] = useState(Array());
@@ -127,57 +128,43 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <Tabs defaultActiveKey="daily" id="newAccountsByDate">
-          <Tab eventKey="daily" title={translate("common.stats.daily")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.NewAccountsByDate.daily_number_of_new_accounts"
-                ).toString(),
-                translate(
-                  "component.stats.NewAccountsByDate.new_accounts"
-                ).toString(),
-                newAccountsByDate,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="live" title={translate("common.stats.live")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.NewAccountsByDate.daily_number_of_live_accounts"
-                ).toString(),
-                translate(
-                  "component.stats.NewAccountsByDate.new_accounts"
-                ).toString(),
-                liveAccountsByDate,
-                liveDate
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="total" title={translate("common.stats.total")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.NewAccountsByDate.total_number_of_new_accounts"
-                ).toString(),
-                translate(
-                  "component.stats.NewAccountsByDate.new_accounts"
-                ).toString(),
-                cumulativeNewAccountsByDate,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-        </Tabs>
-      )}
-    </Translate>
+    <Tabs defaultActiveKey="daily" id="newAccountsByDate">
+      <Tab eventKey="daily" title={t("common.stats.daily")}>
+        <ReactEcharts
+          option={getOption(
+            t("component.stats.NewAccountsByDate.daily_number_of_new_accounts"),
+            t("component.stats.NewAccountsByDate.new_accounts"),
+            newAccountsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="live" title={t("common.stats.live")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.NewAccountsByDate.daily_number_of_live_accounts"
+            ),
+            t("component.stats.NewAccountsByDate.new_accounts"),
+            liveAccountsByDate,
+            liveDate
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title={t("common.stats.total")}>
+        <ReactEcharts
+          option={getOption(
+            t("component.stats.NewAccountsByDate.total_number_of_new_accounts"),
+            t("component.stats.NewAccountsByDate.new_accounts"),
+            cumulativeNewAccountsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };
 

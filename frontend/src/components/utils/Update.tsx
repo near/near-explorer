@@ -1,22 +1,19 @@
 import Placeholder, { Props as PlaceholderProps } from "./Placeholder";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const Update = ({ children }: PlaceholderProps) => {
+  const { t } = useTranslation();
   return (
-    <Translate>
-      {({ translate }) => (
-        <Placeholder className="update">
-          {children}
-          {translate("utils.Update.refresh")}
-          <style>{`
+    <Placeholder className="update">
+      {children}
+      {t("utils.Update.refresh")}
+      <style>{`
       .update:active{
         background: rgba(106, 209, 227, 0.5)
       }
       `}</style>
-        </Placeholder>
-      )}
-    </Translate>
+    </Placeholder>
   );
 };
 

@@ -1,11 +1,11 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import BlocksRow from "../BlocksRow";
 
 describe("<BlocksRow />", () => {
   it("renders", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <BlocksRow
           block={{
             transactionsCount: 3,

@@ -1,11 +1,11 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import NodeRow from "../NodeRow";
 
 describe("<NodeRow />", () => {
   it("renders", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <NodeRow
           node={{
             ipAddress: "1.1.1.1",

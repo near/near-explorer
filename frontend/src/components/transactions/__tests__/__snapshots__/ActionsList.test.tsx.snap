@@ -54,7 +54,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              Called method: 'submit_approved_solution' in contract: 
+              component.transactions.ActionMessage.FunctionCall.called_method
               <span
                 onClick={[Function]}
               >
@@ -84,7 +84,7 @@ Array [
             <div
               className="action-row-text col"
             >
-              by
+              component.transactions.ActionRowBlock.by
                
               <span
                 onClick={[Function]}
@@ -153,8 +153,8 @@ Array [
               <span
                 className="action-row-timer-status"
               >
-                Fetching Status...
-                /Checking Finality...
+                common.blocks.status.fetching_status
+                /common.blocks.status.checking_finality
               </span>
                
               <span>
@@ -171,120 +171,120 @@ Array [
     jsx={true}
   >
     
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
   </style>,
 ]
 `;
@@ -318,7 +318,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              New account created: 
+              component.transactions.ActionMessage.CreateAccount.new_account_created
               <span
                 onClick={[Function]}
               >
@@ -348,7 +348,7 @@ Array [
             <div
               className="action-row-text col"
             >
-              by
+              component.transactions.ActionRowBlock.by
                
               <span
                 onClick={[Function]}
@@ -406,8 +406,8 @@ Array [
               <span
                 className="action-row-timer-status"
               >
-                Fetching Status...
-                /Checking Finality...
+                common.blocks.status.fetching_status
+                /common.blocks.status.checking_finality
               </span>
                
               <span>
@@ -424,120 +424,120 @@ Array [
     jsx={true}
   >
     
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
   </style>,
   <div
     className="action-compact-row mx-0  row no-gutters"
@@ -566,7 +566,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              New key added for 
+              component.transactions.ActionMessage.AddKey.new_key_added
               <span
                 onClick={[Function]}
               >
@@ -590,7 +590,7 @@ Array [
               </style>
               : ed25519:8LXEySy...
               <p>
-                with permission FullAccess
+                component.transactions.ActionMessage.AddKey.with_permission_and_nounce
               </p>
             </div>
           </div>
@@ -600,7 +600,7 @@ Array [
             <div
               className="action-row-text col"
             >
-              by
+              component.transactions.ActionRowBlock.by
                
               <span
                 onClick={[Function]}
@@ -658,8 +658,8 @@ Array [
               <span
                 className="action-row-timer-status"
               >
-                Fetching Status...
-                /Checking Finality...
+                common.blocks.status.fetching_status
+                /common.blocks.status.checking_finality
               </span>
                
               <span>
@@ -676,120 +676,120 @@ Array [
     jsx={true}
   >
     
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
   </style>,
 ]
 `;
@@ -823,7 +823,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              Called method: 'addMessage' in contract: 
+              component.transactions.ActionMessage.FunctionCall.called_method
               <span
                 onClick={[Function]}
               >
@@ -847,7 +847,7 @@ Array [
               </style>
               <dl>
                 <dt>
-                  Arguments:
+                  component.transactions.ActionMessage.FunctionCall.arguments
                 </dt>
                 <dd>
                   <div>
@@ -878,7 +878,7 @@ Array [
                           }
                         }
                       >
-                        Show more
+                        button.show_more
                       </div>
                     </div>
                   </div>
@@ -907,7 +907,7 @@ Array [
             <div
               className="action-row-text col"
             >
-              by
+              component.transactions.ActionRowBlock.by
                
               <span
                 onClick={[Function]}
@@ -965,8 +965,8 @@ Array [
               <span
                 className="action-row-timer-status"
               >
-                Fetching Status...
-                /Checking Finality...
+                common.blocks.status.fetching_status
+                /common.blocks.status.checking_finality
               </span>
                
               <span>
@@ -983,120 +983,120 @@ Array [
     jsx={true}
   >
     
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
   </style>,
 ]
 `;
@@ -1130,7 +1130,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              Called method: 'on_staking_pool_withdraw' in contract: 
+              component.transactions.ActionMessage.FunctionCall.called_method
               <span
                 onClick={[Function]}
               >
@@ -1160,7 +1160,7 @@ Array [
             <div
               className="action-row-text col"
             >
-              by
+              component.transactions.ActionRowBlock.by
                
               <span
                 onClick={[Function]}
@@ -1223,8 +1223,8 @@ Array [
               <span
                 className="action-row-timer-status"
               >
-                Fetching Status...
-                /Checking Finality...
+                common.blocks.status.fetching_status
+                /common.blocks.status.checking_finality
               </span>
                
               <span>
@@ -1241,120 +1241,120 @@ Array [
     jsx={true}
   >
     
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
   </style>,
 ]
 `;
@@ -1388,7 +1388,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              New account created: 
+              component.transactions.ActionMessage.CreateAccount.new_account_created
               <span
                 onClick={[Function]}
               >
@@ -1418,7 +1418,7 @@ Array [
             <div
               className="action-row-text col"
             >
-              by
+              component.transactions.ActionRowBlock.by
                
               <span
                 onClick={[Function]}
@@ -1476,8 +1476,8 @@ Array [
               <span
                 className="action-row-timer-status"
               >
-                Fetching Status...
-                /Checking Finality...
+                common.blocks.status.fetching_status
+                /common.blocks.status.checking_finality
               </span>
                
               <span>
@@ -1494,120 +1494,120 @@ Array [
     jsx={true}
   >
     
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
   </style>,
   <div
     className="action-sparse-row mx-0  row no-gutters"
@@ -1636,7 +1636,7 @@ Array [
             <div
               className="action-row-title col"
             >
-              New key added for 
+              component.transactions.ActionMessage.AddKey.new_key_added
               <span
                 onClick={[Function]}
               >
@@ -1660,7 +1660,7 @@ Array [
               </style>
               : ed25519:8LXEySy...
               <p>
-                with permission FullAccess
+                component.transactions.ActionMessage.AddKey.with_permission_and_nounce
               </p>
             </div>
           </div>
@@ -1670,7 +1670,7 @@ Array [
             <div
               className="action-row-text col"
             >
-              by
+              component.transactions.ActionRowBlock.by
                
               <span
                 onClick={[Function]}
@@ -1728,8 +1728,8 @@ Array [
               <span
                 className="action-row-timer-status"
               >
-                Fetching Status...
-                /Checking Finality...
+                common.blocks.status.fetching_status
+                /common.blocks.status.checking_finality
               </span>
                
               <span>
@@ -1746,120 +1746,120 @@ Array [
     jsx={true}
   >
     
-        .action-sparse-row {
-          padding-top: 10px;
-          padding-bottom: 10px;
-          border-top: solid 2px #f8f8f8;
-        }
-        .action-sparse-row .action-sparse-row {
-          border-top: 0;
-        }
+          .action-sparse-row {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: solid 2px #f8f8f8;
+          }
+          .action-sparse-row .action-sparse-row {
+            border-top: 0;
+          }
 
-        .action-compact-row .action-row-message {
-          margin-bottom: 1em;
-        }
+          .action-compact-row .action-row-message {
+            margin-bottom: 1em;
+          }
 
-        .action-compact-row .action-row-details {
-          border-bottom: 2px solid #f8f8f8;
-          margin: 0.1em 0 0;
-          padding-bottom: 8px;
-        }
+          .action-compact-row .action-row-details {
+            border-bottom: 2px solid #f8f8f8;
+            margin: 0.1em 0 0;
+            padding-bottom: 8px;
+          }
 
-        .action-row-details .action-row-details {
-          border: 0;
-        }
+          .action-row-details .action-row-details {
+            border: 0;
+          }
 
-        .action-compact-row .action-row-img {
-          width: 24px;
-          height: 24px;
-          border: solid 2px #f8f8f8;
-          background-color: #ffffff;
-          border-radius: 50%;
-          margin-right: 8px;
-          text-align: center;
-          line-height: 1.1;
-        }
+          .action-compact-row .action-row-img {
+            width: 24px;
+            height: 24px;
+            border: solid 2px #f8f8f8;
+            background-color: #ffffff;
+            border-radius: 50%;
+            margin-right: 8px;
+            text-align: center;
+            line-height: 1.1;
+          }
 
-        .action-sparse-row .action-row-img {
-          margin: 10px;
-          display: inline;
-          height: 20px;
-          width: 20px;
-        }
+          .action-sparse-row .action-row-img {
+            margin: 10px;
+            display: inline;
+            height: 20px;
+            width: 20px;
+          }
 
-        .action-sparse-row .action-row-img svg {
-          height: 16px;
-          width: 16px;
-        }
+          .action-sparse-row .action-row-img svg {
+            height: 16px;
+            width: 16px;
+          }
 
-        .action-row-bottom {
-          border-bottom: solid 2px #f8f8f8;
-        }
+          .action-row-bottom {
+            border-bottom: solid 2px #f8f8f8;
+          }
 
-        .action-compact-row .action-row-img svg {
-          height: 12px;
-          width: 12px;
-        }
+          .action-compact-row .action-row-img svg {
+            height: 12px;
+            width: 12px;
+          }
 
-        .action-sparse-row .action-row-toggler {
-          width: 10px;
-          margin: 10px;
-        }
+          .action-sparse-row .action-row-toggler {
+            width: 10px;
+            margin: 10px;
+          }
 
-        .action-row-title {
-          font-size: 14px;
-          font-weight: 500;
-          color: #24272a;
-        }
+          .action-row-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #24272a;
+          }
 
-        .action-row-title a {
-          color: #666;
-        }
+          .action-row-title a {
+            color: #666;
+          }
 
-        .action-row-title a:hover {
-          color: #24272a;
-        }
+          .action-row-title a:hover {
+            color: #24272a;
+          }
 
-        .action-row-text {
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 1.5;
-          color: #999999;
-        }
+          .action-row-text {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 1.5;
+            color: #999999;
+          }
 
-        .action-row-text a {
-          color: #999999;
-        }
+          .action-row-text a {
+            color: #999999;
+          }
 
-        .action-row-text a:hover {
-          color: #24272a;
-        }
+          .action-row-text a:hover {
+            color: #24272a;
+          }
 
-        .action-row-txid {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          color: #0072ce;
-        }
+          .action-row-txid {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.29;
+            color: #0072ce;
+          }
 
-        .action-row-timer {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 100;
-        }
+          .action-row-timer {
+            font-size: 12px;
+            color: #999999;
+            font-weight: 100;
+          }
 
-        .action-row-timer-status {
-          font-weight: 500;
-        }
+          .action-row-timer-status {
+            font-weight: 500;
+          }
 
-        pre {
-          white-space: pre-wrap; /* Since CSS 2.1 */
-          white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-          white-space: -pre-wrap; /* Opera 4-6 */
-          white-space: -o-pre-wrap; /* Opera 7 */
-          word-wrap: break-word; /* Internet Explorer 5.5+ */
-        }
-      
+          pre {
+            white-space: pre-wrap; /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+            white-space: -pre-wrap; /* Opera 4-6 */
+            white-space: -o-pre-wrap; /* Opera 7 */
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+          }
+        
   </style>,
 ]
 `;

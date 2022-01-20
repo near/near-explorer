@@ -46,7 +46,7 @@ Array [
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Online
+            component.nodes.NodeRow.online.title
             <style
               global={true}
               jsx={true}
@@ -195,55 +195,54 @@ Array [
     jsx={true}
   >
     
-                @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
-                .online-nodes-text {
-                  font-weight: 500;
-                  font-size: 14px;
-                  color: #3f4045;
-                }
+            .online-nodes-text {
+              font-weight: 500;
+              font-size: 14px;
+              color: #3f4045;
+            }
 
-                .online-node-label {
-                  margin-right: 24px;
-                  flex: 0 0 auto;
-                  width: 55px;
-                }
+            .online-node-label {
+              margin-right: 24px;
+              flex: 0 0 auto;
+              width: 55px;
+            }
 
-                .online-nodes-content-row {
-                  padding-top: 16px;
-                  padding-bottom: 16px;
-                }
-                .online-nodes-content-row &gt; .online-nodes-content-cell {
-                  padding: 0 22px;
-                  border-right: 1px solid #e5e5e6;
-                }
+            .online-nodes-content-row {
+              padding-top: 16px;
+              padding-bottom: 16px;
+            }
+            .online-nodes-content-row &gt; .online-nodes-content-cell {
+              padding: 0 22px;
+              border-right: 1px solid #e5e5e6;
+            }
 
-                .online-nodes-content-row
-                  &gt; .online-nodes-content-cell:last-child {
-                  border-right: none;
-                }
+            .online-nodes-content-row &gt; .online-nodes-content-cell:last-child {
+              border-right: none;
+            }
 
-                .online-nodes-details-title {
-                  display: flex;
-                  flex-wrap: nowrap;
-                  font-size: 12px;
-                  color: #a2a2a8;
-                }
+            .online-nodes-details-title {
+              display: flex;
+              flex-wrap: nowrap;
+              font-size: 12px;
+              color: #a2a2a8;
+            }
 
-                .agent-name-badge {
-                  background-color: #f0f0f1;
-                  color: #72727a;
-                  font-weight: 500;
-                  font-size: 12px;
-                  font-family: "Roboto Mono", monospace;
-                }
+            .agent-name-badge {
+              background-color: #f0f0f1;
+              color: #72727a;
+              font-weight: 500;
+              font-size: 12px;
+              font-family: "Roboto Mono", monospace;
+            }
 
-                .node-status {
-                  font-size: 12px;
-                  line-height: 18px;
-                  color: #4a4f54;
-                }
-              
+            .node-status {
+              font-size: 12px;
+              line-height: 18px;
+              color: #4a4f54;
+            }
+          
   </style>,
 ]
 `;

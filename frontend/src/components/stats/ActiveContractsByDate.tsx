@@ -6,9 +6,10 @@ import StatsApi, { ContractsByDate } from "../../libraries/explorer-wamp/stats";
 
 import { Props } from "./TransactionsByDate";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const ActiveContractsByDate = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
 
@@ -108,22 +109,16 @@ const ActiveContractsByDate = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <ReactEcharts
-          option={getOption(
-            translate(
-              "component.stats.ActiveContractsByDate.daily_number_of_active_contracts"
-            ).toString(),
-            translate(
-              "component.stats.ActiveContractsByDate.active_contracts"
-            ).toString(),
-            newContractsByDate
-          )}
-          style={chartStyle}
-        />
+    <ReactEcharts
+      option={getOption(
+        t(
+          "component.stats.ActiveContractsByDate.daily_number_of_active_contracts"
+        ),
+        t("component.stats.ActiveContractsByDate.active_contracts"),
+        newContractsByDate
       )}
-    </Translate>
+      style={chartStyle}
+    />
   );
 };
 

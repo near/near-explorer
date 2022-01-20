@@ -8,9 +8,10 @@ import { cumulativeSumArray } from "../../libraries/stats";
 
 import { Props } from "./TransactionsByDate";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const NewContractsByDate = ({ chartStyle }: Props) => {
+  const { t } = useTranslation();
   const [newContractsByDate, setContracts] = useState(Array());
   const [date, setDate] = useState(Array());
   const [cumulativeNewContractsByDate, setTotal] = useState(Array());
@@ -124,57 +125,47 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
   };
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <Tabs defaultActiveKey="daily" id="newContractsByDate">
-          <Tab eventKey="daily" title={translate("common.stats.daily")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.NewContractsByDate.daily_number_of_new_contracts"
-                ).toString(),
-                translate(
-                  "component.stats.NewContractsByDate.new_contracts"
-                ).toString(),
-                newContractsByDate,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="total" title={translate("common.stats.total")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.NewContractsByDate.total_number_of_new_contracts"
-                ).toString(),
-                translate(
-                  "component.stats.NewContractsByDate.new_contracts"
-                ).toString(),
-                cumulativeNewContractsByDate,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-          <Tab eventKey="unique" title={translate("common.stats.unique")}>
-            <ReactEcharts
-              option={getOption(
-                translate(
-                  "component.stats.NewContractsByDate.total_number_of_unique_contracts"
-                ).toString(),
-                translate(
-                  "component.stats.NewContractsByDate.new_contracts"
-                ).toString(),
-                cumulativeUniqueContractsByDate,
-                date
-              )}
-              style={chartStyle}
-            />
-          </Tab>
-        </Tabs>
-      )}
-    </Translate>
+    <Tabs defaultActiveKey="daily" id="newContractsByDate">
+      <Tab eventKey="daily" title={t("common.stats.daily")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.NewContractsByDate.daily_number_of_new_contracts"
+            ),
+            t("component.stats.NewContractsByDate.new_contracts"),
+            newContractsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="total" title={t("common.stats.total")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.NewContractsByDate.total_number_of_new_contracts"
+            ),
+            t("component.stats.NewContractsByDate.new_contracts"),
+            cumulativeNewContractsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+      <Tab eventKey="unique" title={t("common.stats.unique")}>
+        <ReactEcharts
+          option={getOption(
+            t(
+              "component.stats.NewContractsByDate.total_number_of_unique_contracts"
+            ),
+            t("component.stats.NewContractsByDate.new_contracts"),
+            cumulativeUniqueContractsByDate,
+            date
+          )}
+          style={chartStyle}
+        />
+      </Tab>
+    </Tabs>
   );
 };
 

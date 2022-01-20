@@ -1,11 +1,11 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import Term from "../Term";
 
 describe("<CardCell />", () => {
   it("renders", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <Term
           title={"Nodes Online"}
           text={

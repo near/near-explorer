@@ -1,8 +1,8 @@
 import "../libraries/wdyr";
-import NextApp, { AppContext, AppProps } from "next/app";
+import NextApp from "next/app";
 import getConfig from "next/config";
 import Head from "next/head";
-import { ReactElement, useMemo } from "react";
+import { useMemo } from "react";
 
 import { getNearNetwork, NearNetwork } from "../libraries/config";
 
@@ -13,37 +13,41 @@ import DatabaseProvider from "../context/DatabaseProvider";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { LocalizeProvider } from "react-localize-redux";
-import LocalizeWrapper from "../components/utils/LocalizeWrapper";
-import { getI18nConfigForProvider } from "../libraries/language";
+import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
+import { initializeI18n, Language, LANGUAGES } from "../libraries/i18n";
+import { NextComponentType } from "next";
+import { AppContextType, AppPropsType } from "next/dist/shared/lib/utils";
+import { Router } from "next/router";
+import { setI18n } from "react-i18next";
+import { YEAR } from "../libraries/time";
 
 const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
 } = getConfig();
 
 type InitialProps = {
-  cookies?: string;
-  acceptedLanguages?: string;
+  language?: Language;
   currentNearNetwork: NearNetwork;
 };
 
-type Props = AppProps & InitialProps;
-
-interface AppType {
-  (props: Props): ReactElement;
-  getInitialProps?: (
-    context: AppContext
-  ) => InitialProps | Promise<InitialProps>;
-}
+type AppType = NextComponentType<
+  AppContextType<Router>,
+  InitialProps,
+  AppPropsType & InitialProps
+>;
 
 const App: AppType = ({
   Component,
-  pageProps,
-  cookies,
-  acceptedLanguages,
   currentNearNetwork,
+  language,
+  pageProps,
 }) => {
+  if (typeof window !== "undefined" && language) {
+    // There is no react way of waiting till i18n is initialized before render
+    // But at the moment SSR should render content properly
+    void initializeI18n(language);
+  }
   useAnalyticsInit();
 
   const networkState = useMemo(
@@ -55,12 +59,7 @@ const App: AppType = ({
   );
 
   return (
-    <LocalizeProvider
-      initialize={getI18nConfigForProvider({
-        cookies,
-        acceptedLanguages,
-      })}
-    >
+    <>
       <Head>
         <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
         <link
@@ -77,9 +76,7 @@ const App: AppType = ({
             className="background-img"
           />
           <DatabaseProvider>
-            <LocalizeWrapper>
-              <Component {...pageProps} />
-            </LocalizeWrapper>
+            <Component {...pageProps} />
           </DatabaseProvider>
         </div>
         <Footer />
@@ -153,27 +150,40 @@ const App: AppType = ({
           />
         </>
       ) : null}
-    </LocalizeProvider>
+    </>
   );
 };
 
 App.getInitialProps = async (appContext) => {
   const req = appContext.ctx.req;
-  const currentNearNetwork = getNearNetwork(req);
-  let cookies, acceptedLanguages;
-  if (typeof window === "undefined") {
-    if (req) {
-      cookies = req.headers.cookie;
-      acceptedLanguages = req.headers["accept-language"];
-    } else {
-      throw new Error("No req in app context");
-    }
+  let initialProps: InitialProps;
+  if (req) {
+    // Being server-side can be detected with 'req' existence
+    const language = getLanguage(
+      LANGUAGES,
+      req.headers.cookie,
+      req.headers["accept-language"]
+    );
+    initialProps = {
+      currentNearNetwork: getNearNetwork(req),
+      language,
+    };
+    setI18n(await initializeI18n(language));
+    appContext.ctx.res!.setHeader(
+      "set-cookie",
+      `${LANGUAGE_COOKIE}=${language}; Max-Age=${YEAR / 1000}`
+    );
+  } else {
+    // This branch is called only on page change hence we don't need to calculate language at the moment
+    // as i18next is already configured
+    initialProps = {
+      currentNearNetwork: getNearNetwork(),
+    };
   }
+
   return {
-    currentNearNetwork,
     ...(await NextApp.getInitialProps(appContext)),
-    cookies,
-    acceptedLanguages,
+    ...initialProps,
   };
 };
 

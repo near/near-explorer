@@ -1,4 +1,4 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import ValidatorsList from "../ValidatorsList";
 
@@ -7,7 +7,7 @@ import { VALIDATORS_LIST } from "./validators";
 describe("<ValidatorsList />", () => {
   it("renders validators list", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ValidatorsList
           validators={VALIDATORS_LIST}
           pages={{

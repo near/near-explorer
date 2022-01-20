@@ -1,11 +1,11 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 
 import NodesEpoch from "../NodesEpoch";
 
 describe("<NodesEpoch />", () => {
   it("renders", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <NodesEpoch
           epochLength={43200}
           epochStartHeight={36647454}

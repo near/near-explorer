@@ -7,7 +7,7 @@ import { DatabaseConsumer } from "../../context/DatabaseProvider";
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 interface StaticConfig<T, I> {
   Component: FC<{ items: T[] }>;
@@ -23,6 +23,7 @@ interface Props<T, I> {
 
 const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
   return (props) => {
+    const { t } = useTranslation();
     const [items, setItems] = useState<T[]>([]);
     const [shouldShow, setShouldShow] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -78,68 +79,64 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
       return <PaginationSpinner hidden={false} />;
     }
     return (
-      <Translate>
-        {({ translate }) => (
-          <>
-            {!props.detailPage ? (
-              <DatabaseConsumer>
-                {(context) => (
-                  <div onClick={fetch}>
-                    {config.category === "Block" ? (
-                      <Update>{`${translate(
-                        "utils.ListHandler.last_block"
-                      ).toString()}#${context.latestBlockHeight}.`}</Update>
-                    ) : null}
-                  </div>
-                )}
-              </DatabaseConsumer>
-            ) : null}
-            <InfiniteScroll
-              dataLength={items.length}
-              next={fetchMore}
-              hasMore={hasMore}
-              loader={
-                loading ? (
-                  <PaginationSpinner hidden={false} />
-                ) : (
-                  <>
-                    <button
-                      onClick={fetchMore}
-                      className="load-button"
-                      style={{
-                        display: hasMore ? "block" : "none",
-                      }}
-                    >
-                      {translate("button.load_more").toString()}
-                    </button>
-                  </>
-                )
-              }
-              style={{ overflowX: "hidden" }}
-            >
-              <config.Component items={items} />
-            </InfiniteScroll>
-            <style jsx global>{`
-              .load-button {
-                width: 100px;
-                background-color: #f8f8f8;
-                display: block;
-                text-align: center;
-                text-decoration: none;
-                font-size: 14px;
-                color: #0072ce;
-                font-weight: bold;
-                text-transform: uppercase;
-                margin: 20px auto;
-                border-radius: 30px;
-                padding: 8px 0;
-                cursor: pointer;
-                border: none;
-              }
-            `}</style>
-          </>
-        )}
-      </Translate>
+      <>
+        {!props.detailPage ? (
+          <DatabaseConsumer>
+            {(context) => (
+              <div onClick={fetch}>
+                {config.category === "Block" ? (
+                  <Update>{`${t("utils.ListHandler.last_block")}#${
+                    context.latestBlockHeight
+                  }.`}</Update>
+                ) : null}
+              </div>
+            )}
+          </DatabaseConsumer>
+        ) : null}
+        <InfiniteScroll
+          dataLength={items.length}
+          next={fetchMore}
+          hasMore={hasMore}
+          loader={
+            loading ? (
+              <PaginationSpinner hidden={false} />
+            ) : (
+              <>
+                <button
+                  onClick={fetchMore}
+                  className="load-button"
+                  style={{
+                    display: hasMore ? "block" : "none",
+                  }}
+                >
+                  {t("button.load_more")}
+                </button>
+              </>
+            )
+          }
+          style={{ overflowX: "hidden" }}
+        >
+          <config.Component items={items} />
+        </InfiniteScroll>
+        <style jsx global>{`
+          .load-button {
+            width: 100px;
+            background-color: #f8f8f8;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            color: #0072ce;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 20px auto;
+            border-radius: 30px;
+            padding: 8px 0;
+            cursor: pointer;
+            border: none;
+          }
+        `}</style>
+      </>
     );
   };
 };

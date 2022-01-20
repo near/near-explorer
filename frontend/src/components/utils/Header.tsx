@@ -11,12 +11,13 @@ import Link from "./Link";
 import NearLogo from "../../../public/static/images/near_logo.svg";
 import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
 
-import { Translate } from "react-localize-redux";
-import LanguageToggle from "../utils/LangSwitcher";
+import { useTranslation } from "react-i18next";
+import LanguageToggle from "./LanguageToggle";
 const languagesIcon = "/static/images/icon-languages.svg";
 const downArrowIcon = "/static/images/down-arrow.svg";
 
 const Header: FC = () => {
+  const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -75,7 +76,7 @@ const Header: FC = () => {
             <Col md="4" className="align-self-center">
               <Link href="/">
                 <a className="header-home">
-                  <Translate id="component.utils.Header.home" />
+                  {t("component.utils.Header.home")}
                 </a>
               </Link>
             </Col>

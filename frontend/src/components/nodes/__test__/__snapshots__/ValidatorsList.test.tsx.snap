@@ -56,7 +56,7 @@ Array [
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Active
+            component.nodes.ValidatorMainRow.state.active.title
             <style
               global={true}
               jsx={true}
@@ -195,37 +195,37 @@ Array [
           jsx={true}
         >
           
-      .cumulative-stake-chart {
-        width: 100%;
-        height: 100%;
-        background-color: #f0f9ff;
-        position: relative;
-        display: flex;
-      }
-      .total-value,
-      .current-value {
-        display: block;
-        height: 75px;
-      }
-      .total-value {
-        background-color: #d6edff;
-      }
-      .current-value {
-        background-color: #8fcdff;
-      }
-      .cumulative-stake-label {
-        position: absolute;
-        top: 0;
-        right: 24px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        color: #0072ce;
-        font-size: 14px;
-        font-weight: 500;
-        max-width: 75px;
-      }
-    
+        .cumulative-stake-chart {
+          width: 100%;
+          height: 100%;
+          background-color: #f0f9ff;
+          position: relative;
+          display: flex;
+        }
+        .total-value,
+        .current-value {
+          display: block;
+          height: 75px;
+        }
+        .total-value {
+          background-color: #d6edff;
+        }
+        .current-value {
+          background-color: #8fcdff;
+        }
+        .cumulative-stake-label {
+          position: absolute;
+          top: 0;
+          right: 24px;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          color: #0072ce;
+          font-size: 14px;
+          font-weight: 500;
+          max-width: 75px;
+        }
+      
         </style>
       </div>
     </td>
@@ -284,7 +284,7 @@ Array [
       className="warning-text text-center"
       colSpan={8}
     >
-      Validators 1 - 25 hold a cumulative stake above 33%. Delegating to the validators below improves the decentralization of the network.
+      component.nodes.ValidatorRow.warning_tip
     </td>
   </tr>,
   <style
@@ -292,101 +292,101 @@ Array [
     jsx={true}
   >
     
-            @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
-            .collapse-row-arrow {
-              cursor: pointer;
-            }
+        .collapse-row-arrow {
+          cursor: pointer;
+        }
 
-            .collapse-row-arrow.disable {
-              cursor: default;
-              opacity: 0.3;
-              pointer-events: none;
-              touch-action: none;
-            }
+        .collapse-row-arrow.disable {
+          cursor: default;
+          opacity: 0.3;
+          pointer-events: none;
+          touch-action: none;
+        }
 
-            .validator-nodes-text {
-              font-weight: 500;
-              font-size: 14px;
-              color: #3f4045;
-            }
+        .validator-nodes-text {
+          font-weight: 500;
+          font-size: 14px;
+          color: #3f4045;
+        }
 
-            .validator-node-pub-key {
-              color: #2b9af4;
-            }
+        .validator-node-pub-key {
+          color: #2b9af4;
+        }
 
-            .validator-name {
-              max-width: 250px;
-            }
+        .validator-name {
+          max-width: 250px;
+        }
 
-            .validator-name .validator-nodes-text {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
+        .validator-name .validator-nodes-text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-            .validator-nodes-details-title {
-              display: flex;
-              flex-wrap: nowrap;
-              font-size: 12px;
-              color: #a2a2a8;
-            }
+        .validator-nodes-details-title {
+          display: flex;
+          flex-wrap: nowrap;
+          font-size: 12px;
+          color: #a2a2a8;
+        }
 
-            .validator-nodes-text.uptime {
-              color: #72727a;
-            }
+        .validator-nodes-text.uptime {
+          color: #72727a;
+        }
 
-            .validator-nodes-text.stake-text {
-              font-weight: 700;
-            }
+        .validator-nodes-text.stake-text {
+          font-weight: 700;
+        }
 
-            .validator-nodes-content-row {
-              padding-top: 16px;
-              padding-bottom: 16px;
-            }
+        .validator-nodes-content-row {
+          padding-top: 16px;
+          padding-bottom: 16px;
+        }
 
-            .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-              padding: 0 22px;
-              border-right: 1px solid #e5e5e6;
-            }
+        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+          padding: 0 22px;
+          border-right: 1px solid #e5e5e6;
+        }
 
-            .validator-nodes-content-row
-              &gt; .validator-nodes-content-cell:last-child {
-              border-right: none;
-            }
+        .validator-nodes-content-row
+          &gt; .validator-nodes-content-cell:last-child {
+          border-right: none;
+        }
 
-            .agent-name-badge {
-              background-color: #f0f0f1;
-              color: #72727a;
-              font-weight: 500;
-              font-size: 12px;
-              font-family: "Roboto Mono", monospace;
-            }
+        .agent-name-badge {
+          background-color: #f0f0f1;
+          color: #72727a;
+          font-weight: 500;
+          font-size: 12px;
+          font-family: "Roboto Mono", monospace;
+        }
 
-            .validators-node-label {
-              margin-right: 24px;
-              max-width: 138px;
-            }
+        .validators-node-label {
+          margin-right: 24px;
+          max-width: 138px;
+        }
 
-            .cumulative-stake-chart {
-              min-width: 100px;
-            }
+        .cumulative-stake-chart {
+          min-width: 100px;
+        }
 
-            .cumulative-stake-holders-row {
-              background-color: #fff6ed;
-            }
-            .cumulative-stake-holders-row .warning-text {
-              color: #995200;
-              padding: 16px 50px;
-              font-size: 12px;
-            }
+        .cumulative-stake-holders-row {
+          background-color: #fff6ed;
+        }
+        .cumulative-stake-holders-row .warning-text {
+          color: #995200;
+          padding: 16px 50px;
+          font-size: 12px;
+        }
 
-            @media (min-width: 1200px) {
-              .validator-name {
-                max-width: 370px;
-              }
-            }
-          
+        @media (min-width: 1200px) {
+          .validator-name {
+            max-width: 370px;
+          }
+        }
+      
   </style>,
   <tr
     className="table-row validator-nodes-row mx-0 "
@@ -442,7 +442,7 @@ Array [
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Active
+            component.nodes.ValidatorMainRow.state.active.title
             <style
               global={true}
               jsx={true}
@@ -581,37 +581,37 @@ Array [
           jsx={true}
         >
           
-      .cumulative-stake-chart {
-        width: 100%;
-        height: 100%;
-        background-color: #f0f9ff;
-        position: relative;
-        display: flex;
-      }
-      .total-value,
-      .current-value {
-        display: block;
-        height: 75px;
-      }
-      .total-value {
-        background-color: #d6edff;
-      }
-      .current-value {
-        background-color: #8fcdff;
-      }
-      .cumulative-stake-label {
-        position: absolute;
-        top: 0;
-        right: 24px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        color: #0072ce;
-        font-size: 14px;
-        font-weight: 500;
-        max-width: 75px;
-      }
-    
+        .cumulative-stake-chart {
+          width: 100%;
+          height: 100%;
+          background-color: #f0f9ff;
+          position: relative;
+          display: flex;
+        }
+        .total-value,
+        .current-value {
+          display: block;
+          height: 75px;
+        }
+        .total-value {
+          background-color: #d6edff;
+        }
+        .current-value {
+          background-color: #8fcdff;
+        }
+        .cumulative-stake-label {
+          position: absolute;
+          top: 0;
+          right: 24px;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          color: #0072ce;
+          font-size: 14px;
+          font-weight: 500;
+          max-width: 75px;
+        }
+      
         </style>
       </div>
     </td>
@@ -668,101 +668,101 @@ Array [
     jsx={true}
   >
     
-            @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
-            .collapse-row-arrow {
-              cursor: pointer;
-            }
+        .collapse-row-arrow {
+          cursor: pointer;
+        }
 
-            .collapse-row-arrow.disable {
-              cursor: default;
-              opacity: 0.3;
-              pointer-events: none;
-              touch-action: none;
-            }
+        .collapse-row-arrow.disable {
+          cursor: default;
+          opacity: 0.3;
+          pointer-events: none;
+          touch-action: none;
+        }
 
-            .validator-nodes-text {
-              font-weight: 500;
-              font-size: 14px;
-              color: #3f4045;
-            }
+        .validator-nodes-text {
+          font-weight: 500;
+          font-size: 14px;
+          color: #3f4045;
+        }
 
-            .validator-node-pub-key {
-              color: #2b9af4;
-            }
+        .validator-node-pub-key {
+          color: #2b9af4;
+        }
 
-            .validator-name {
-              max-width: 250px;
-            }
+        .validator-name {
+          max-width: 250px;
+        }
 
-            .validator-name .validator-nodes-text {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
+        .validator-name .validator-nodes-text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-            .validator-nodes-details-title {
-              display: flex;
-              flex-wrap: nowrap;
-              font-size: 12px;
-              color: #a2a2a8;
-            }
+        .validator-nodes-details-title {
+          display: flex;
+          flex-wrap: nowrap;
+          font-size: 12px;
+          color: #a2a2a8;
+        }
 
-            .validator-nodes-text.uptime {
-              color: #72727a;
-            }
+        .validator-nodes-text.uptime {
+          color: #72727a;
+        }
 
-            .validator-nodes-text.stake-text {
-              font-weight: 700;
-            }
+        .validator-nodes-text.stake-text {
+          font-weight: 700;
+        }
 
-            .validator-nodes-content-row {
-              padding-top: 16px;
-              padding-bottom: 16px;
-            }
+        .validator-nodes-content-row {
+          padding-top: 16px;
+          padding-bottom: 16px;
+        }
 
-            .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-              padding: 0 22px;
-              border-right: 1px solid #e5e5e6;
-            }
+        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+          padding: 0 22px;
+          border-right: 1px solid #e5e5e6;
+        }
 
-            .validator-nodes-content-row
-              &gt; .validator-nodes-content-cell:last-child {
-              border-right: none;
-            }
+        .validator-nodes-content-row
+          &gt; .validator-nodes-content-cell:last-child {
+          border-right: none;
+        }
 
-            .agent-name-badge {
-              background-color: #f0f0f1;
-              color: #72727a;
-              font-weight: 500;
-              font-size: 12px;
-              font-family: "Roboto Mono", monospace;
-            }
+        .agent-name-badge {
+          background-color: #f0f0f1;
+          color: #72727a;
+          font-weight: 500;
+          font-size: 12px;
+          font-family: "Roboto Mono", monospace;
+        }
 
-            .validators-node-label {
-              margin-right: 24px;
-              max-width: 138px;
-            }
+        .validators-node-label {
+          margin-right: 24px;
+          max-width: 138px;
+        }
 
-            .cumulative-stake-chart {
-              min-width: 100px;
-            }
+        .cumulative-stake-chart {
+          min-width: 100px;
+        }
 
-            .cumulative-stake-holders-row {
-              background-color: #fff6ed;
-            }
-            .cumulative-stake-holders-row .warning-text {
-              color: #995200;
-              padding: 16px 50px;
-              font-size: 12px;
-            }
+        .cumulative-stake-holders-row {
+          background-color: #fff6ed;
+        }
+        .cumulative-stake-holders-row .warning-text {
+          color: #995200;
+          padding: 16px 50px;
+          font-size: 12px;
+        }
 
-            @media (min-width: 1200px) {
-              .validator-name {
-                max-width: 370px;
-              }
-            }
-          
+        @media (min-width: 1200px) {
+          .validator-name {
+            max-width: 370px;
+          }
+        }
+      
   </style>,
   <tr
     className="table-row validator-nodes-row mx-0 "
@@ -820,7 +820,7 @@ Array [
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Active
+            component.nodes.ValidatorMainRow.state.active.title
             <style
               global={true}
               jsx={true}
@@ -959,37 +959,37 @@ Array [
           jsx={true}
         >
           
-      .cumulative-stake-chart {
-        width: 100%;
-        height: 100%;
-        background-color: #f0f9ff;
-        position: relative;
-        display: flex;
-      }
-      .total-value,
-      .current-value {
-        display: block;
-        height: 75px;
-      }
-      .total-value {
-        background-color: #d6edff;
-      }
-      .current-value {
-        background-color: #8fcdff;
-      }
-      .cumulative-stake-label {
-        position: absolute;
-        top: 0;
-        right: 24px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        color: #0072ce;
-        font-size: 14px;
-        font-weight: 500;
-        max-width: 75px;
-      }
-    
+        .cumulative-stake-chart {
+          width: 100%;
+          height: 100%;
+          background-color: #f0f9ff;
+          position: relative;
+          display: flex;
+        }
+        .total-value,
+        .current-value {
+          display: block;
+          height: 75px;
+        }
+        .total-value {
+          background-color: #d6edff;
+        }
+        .current-value {
+          background-color: #8fcdff;
+        }
+        .cumulative-stake-label {
+          position: absolute;
+          top: 0;
+          right: 24px;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          color: #0072ce;
+          font-size: 14px;
+          font-weight: 500;
+          max-width: 75px;
+        }
+      
         </style>
       </div>
     </td>
@@ -1046,101 +1046,101 @@ Array [
     jsx={true}
   >
     
-            @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
-            .collapse-row-arrow {
-              cursor: pointer;
-            }
+        .collapse-row-arrow {
+          cursor: pointer;
+        }
 
-            .collapse-row-arrow.disable {
-              cursor: default;
-              opacity: 0.3;
-              pointer-events: none;
-              touch-action: none;
-            }
+        .collapse-row-arrow.disable {
+          cursor: default;
+          opacity: 0.3;
+          pointer-events: none;
+          touch-action: none;
+        }
 
-            .validator-nodes-text {
-              font-weight: 500;
-              font-size: 14px;
-              color: #3f4045;
-            }
+        .validator-nodes-text {
+          font-weight: 500;
+          font-size: 14px;
+          color: #3f4045;
+        }
 
-            .validator-node-pub-key {
-              color: #2b9af4;
-            }
+        .validator-node-pub-key {
+          color: #2b9af4;
+        }
 
-            .validator-name {
-              max-width: 250px;
-            }
+        .validator-name {
+          max-width: 250px;
+        }
 
-            .validator-name .validator-nodes-text {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
+        .validator-name .validator-nodes-text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-            .validator-nodes-details-title {
-              display: flex;
-              flex-wrap: nowrap;
-              font-size: 12px;
-              color: #a2a2a8;
-            }
+        .validator-nodes-details-title {
+          display: flex;
+          flex-wrap: nowrap;
+          font-size: 12px;
+          color: #a2a2a8;
+        }
 
-            .validator-nodes-text.uptime {
-              color: #72727a;
-            }
+        .validator-nodes-text.uptime {
+          color: #72727a;
+        }
 
-            .validator-nodes-text.stake-text {
-              font-weight: 700;
-            }
+        .validator-nodes-text.stake-text {
+          font-weight: 700;
+        }
 
-            .validator-nodes-content-row {
-              padding-top: 16px;
-              padding-bottom: 16px;
-            }
+        .validator-nodes-content-row {
+          padding-top: 16px;
+          padding-bottom: 16px;
+        }
 
-            .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-              padding: 0 22px;
-              border-right: 1px solid #e5e5e6;
-            }
+        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+          padding: 0 22px;
+          border-right: 1px solid #e5e5e6;
+        }
 
-            .validator-nodes-content-row
-              &gt; .validator-nodes-content-cell:last-child {
-              border-right: none;
-            }
+        .validator-nodes-content-row
+          &gt; .validator-nodes-content-cell:last-child {
+          border-right: none;
+        }
 
-            .agent-name-badge {
-              background-color: #f0f0f1;
-              color: #72727a;
-              font-weight: 500;
-              font-size: 12px;
-              font-family: "Roboto Mono", monospace;
-            }
+        .agent-name-badge {
+          background-color: #f0f0f1;
+          color: #72727a;
+          font-weight: 500;
+          font-size: 12px;
+          font-family: "Roboto Mono", monospace;
+        }
 
-            .validators-node-label {
-              margin-right: 24px;
-              max-width: 138px;
-            }
+        .validators-node-label {
+          margin-right: 24px;
+          max-width: 138px;
+        }
 
-            .cumulative-stake-chart {
-              min-width: 100px;
-            }
+        .cumulative-stake-chart {
+          min-width: 100px;
+        }
 
-            .cumulative-stake-holders-row {
-              background-color: #fff6ed;
-            }
-            .cumulative-stake-holders-row .warning-text {
-              color: #995200;
-              padding: 16px 50px;
-              font-size: 12px;
-            }
+        .cumulative-stake-holders-row {
+          background-color: #fff6ed;
+        }
+        .cumulative-stake-holders-row .warning-text {
+          color: #995200;
+          padding: 16px 50px;
+          font-size: 12px;
+        }
 
-            @media (min-width: 1200px) {
-              .validator-name {
-                max-width: 370px;
-              }
-            }
-          
+        @media (min-width: 1200px) {
+          .validator-name {
+            max-width: 370px;
+          }
+        }
+      
   </style>,
   <tr
     className="table-row validator-nodes-row mx-0 "
@@ -1196,7 +1196,7 @@ Array [
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Joining
+            component.nodes.ValidatorMainRow.state.joining.title
             <style
               global={true}
               jsx={true}
@@ -1328,44 +1328,44 @@ Array [
         <div
           className="cumulative-stake-label"
         >
-          N/A
+          common.state.not_available
         </div>
         <style
           global={true}
           jsx={true}
         >
           
-      .cumulative-stake-chart {
-        width: 100%;
-        height: 100%;
-        background-color: #f0f9ff;
-        position: relative;
-        display: flex;
-      }
-      .total-value,
-      .current-value {
-        display: block;
-        height: 75px;
-      }
-      .total-value {
-        background-color: #d6edff;
-      }
-      .current-value {
-        background-color: #8fcdff;
-      }
-      .cumulative-stake-label {
-        position: absolute;
-        top: 0;
-        right: 24px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        color: #0072ce;
-        font-size: 14px;
-        font-weight: 500;
-        max-width: 75px;
-      }
-    
+        .cumulative-stake-chart {
+          width: 100%;
+          height: 100%;
+          background-color: #f0f9ff;
+          position: relative;
+          display: flex;
+        }
+        .total-value,
+        .current-value {
+          display: block;
+          height: 75px;
+        }
+        .total-value {
+          background-color: #d6edff;
+        }
+        .current-value {
+          background-color: #8fcdff;
+        }
+        .cumulative-stake-label {
+          position: absolute;
+          top: 0;
+          right: 24px;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          color: #0072ce;
+          font-size: 14px;
+          font-weight: 500;
+          max-width: 75px;
+        }
+      
         </style>
       </div>
     </td>
@@ -1422,101 +1422,101 @@ Array [
     jsx={true}
   >
     
-            @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
-            .collapse-row-arrow {
-              cursor: pointer;
-            }
+        .collapse-row-arrow {
+          cursor: pointer;
+        }
 
-            .collapse-row-arrow.disable {
-              cursor: default;
-              opacity: 0.3;
-              pointer-events: none;
-              touch-action: none;
-            }
+        .collapse-row-arrow.disable {
+          cursor: default;
+          opacity: 0.3;
+          pointer-events: none;
+          touch-action: none;
+        }
 
-            .validator-nodes-text {
-              font-weight: 500;
-              font-size: 14px;
-              color: #3f4045;
-            }
+        .validator-nodes-text {
+          font-weight: 500;
+          font-size: 14px;
+          color: #3f4045;
+        }
 
-            .validator-node-pub-key {
-              color: #2b9af4;
-            }
+        .validator-node-pub-key {
+          color: #2b9af4;
+        }
 
-            .validator-name {
-              max-width: 250px;
-            }
+        .validator-name {
+          max-width: 250px;
+        }
 
-            .validator-name .validator-nodes-text {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
+        .validator-name .validator-nodes-text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-            .validator-nodes-details-title {
-              display: flex;
-              flex-wrap: nowrap;
-              font-size: 12px;
-              color: #a2a2a8;
-            }
+        .validator-nodes-details-title {
+          display: flex;
+          flex-wrap: nowrap;
+          font-size: 12px;
+          color: #a2a2a8;
+        }
 
-            .validator-nodes-text.uptime {
-              color: #72727a;
-            }
+        .validator-nodes-text.uptime {
+          color: #72727a;
+        }
 
-            .validator-nodes-text.stake-text {
-              font-weight: 700;
-            }
+        .validator-nodes-text.stake-text {
+          font-weight: 700;
+        }
 
-            .validator-nodes-content-row {
-              padding-top: 16px;
-              padding-bottom: 16px;
-            }
+        .validator-nodes-content-row {
+          padding-top: 16px;
+          padding-bottom: 16px;
+        }
 
-            .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-              padding: 0 22px;
-              border-right: 1px solid #e5e5e6;
-            }
+        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+          padding: 0 22px;
+          border-right: 1px solid #e5e5e6;
+        }
 
-            .validator-nodes-content-row
-              &gt; .validator-nodes-content-cell:last-child {
-              border-right: none;
-            }
+        .validator-nodes-content-row
+          &gt; .validator-nodes-content-cell:last-child {
+          border-right: none;
+        }
 
-            .agent-name-badge {
-              background-color: #f0f0f1;
-              color: #72727a;
-              font-weight: 500;
-              font-size: 12px;
-              font-family: "Roboto Mono", monospace;
-            }
+        .agent-name-badge {
+          background-color: #f0f0f1;
+          color: #72727a;
+          font-weight: 500;
+          font-size: 12px;
+          font-family: "Roboto Mono", monospace;
+        }
 
-            .validators-node-label {
-              margin-right: 24px;
-              max-width: 138px;
-            }
+        .validators-node-label {
+          margin-right: 24px;
+          max-width: 138px;
+        }
 
-            .cumulative-stake-chart {
-              min-width: 100px;
-            }
+        .cumulative-stake-chart {
+          min-width: 100px;
+        }
 
-            .cumulative-stake-holders-row {
-              background-color: #fff6ed;
-            }
-            .cumulative-stake-holders-row .warning-text {
-              color: #995200;
-              padding: 16px 50px;
-              font-size: 12px;
-            }
+        .cumulative-stake-holders-row {
+          background-color: #fff6ed;
+        }
+        .cumulative-stake-holders-row .warning-text {
+          color: #995200;
+          padding: 16px 50px;
+          font-size: 12px;
+        }
 
-            @media (min-width: 1200px) {
-              .validator-name {
-                max-width: 370px;
-              }
-            }
-          
+        @media (min-width: 1200px) {
+          .validator-name {
+            max-width: 370px;
+          }
+        }
+      
   </style>,
   <tr
     className="table-row validator-nodes-row mx-0 "
@@ -1574,7 +1574,7 @@ Array [
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            Kickout
+            component.nodes.ValidatorMainRow.state.leaving.title
             <style
               global={true}
               jsx={true}
@@ -1713,37 +1713,37 @@ Array [
           jsx={true}
         >
           
-      .cumulative-stake-chart {
-        width: 100%;
-        height: 100%;
-        background-color: #f0f9ff;
-        position: relative;
-        display: flex;
-      }
-      .total-value,
-      .current-value {
-        display: block;
-        height: 75px;
-      }
-      .total-value {
-        background-color: #d6edff;
-      }
-      .current-value {
-        background-color: #8fcdff;
-      }
-      .cumulative-stake-label {
-        position: absolute;
-        top: 0;
-        right: 24px;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        color: #0072ce;
-        font-size: 14px;
-        font-weight: 500;
-        max-width: 75px;
-      }
-    
+        .cumulative-stake-chart {
+          width: 100%;
+          height: 100%;
+          background-color: #f0f9ff;
+          position: relative;
+          display: flex;
+        }
+        .total-value,
+        .current-value {
+          display: block;
+          height: 75px;
+        }
+        .total-value {
+          background-color: #d6edff;
+        }
+        .current-value {
+          background-color: #8fcdff;
+        }
+        .cumulative-stake-label {
+          position: absolute;
+          top: 0;
+          right: 24px;
+          bottom: 0;
+          display: flex;
+          align-items: center;
+          color: #0072ce;
+          font-size: 14px;
+          font-weight: 500;
+          max-width: 75px;
+        }
+      
         </style>
       </div>
     </td>
@@ -1800,101 +1800,101 @@ Array [
     jsx={true}
   >
     
-            @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
 
-            .collapse-row-arrow {
-              cursor: pointer;
-            }
+        .collapse-row-arrow {
+          cursor: pointer;
+        }
 
-            .collapse-row-arrow.disable {
-              cursor: default;
-              opacity: 0.3;
-              pointer-events: none;
-              touch-action: none;
-            }
+        .collapse-row-arrow.disable {
+          cursor: default;
+          opacity: 0.3;
+          pointer-events: none;
+          touch-action: none;
+        }
 
-            .validator-nodes-text {
-              font-weight: 500;
-              font-size: 14px;
-              color: #3f4045;
-            }
+        .validator-nodes-text {
+          font-weight: 500;
+          font-size: 14px;
+          color: #3f4045;
+        }
 
-            .validator-node-pub-key {
-              color: #2b9af4;
-            }
+        .validator-node-pub-key {
+          color: #2b9af4;
+        }
 
-            .validator-name {
-              max-width: 250px;
-            }
+        .validator-name {
+          max-width: 250px;
+        }
 
-            .validator-name .validator-nodes-text {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
+        .validator-name .validator-nodes-text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
-            .validator-nodes-details-title {
-              display: flex;
-              flex-wrap: nowrap;
-              font-size: 12px;
-              color: #a2a2a8;
-            }
+        .validator-nodes-details-title {
+          display: flex;
+          flex-wrap: nowrap;
+          font-size: 12px;
+          color: #a2a2a8;
+        }
 
-            .validator-nodes-text.uptime {
-              color: #72727a;
-            }
+        .validator-nodes-text.uptime {
+          color: #72727a;
+        }
 
-            .validator-nodes-text.stake-text {
-              font-weight: 700;
-            }
+        .validator-nodes-text.stake-text {
+          font-weight: 700;
+        }
 
-            .validator-nodes-content-row {
-              padding-top: 16px;
-              padding-bottom: 16px;
-            }
+        .validator-nodes-content-row {
+          padding-top: 16px;
+          padding-bottom: 16px;
+        }
 
-            .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-              padding: 0 22px;
-              border-right: 1px solid #e5e5e6;
-            }
+        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
+          padding: 0 22px;
+          border-right: 1px solid #e5e5e6;
+        }
 
-            .validator-nodes-content-row
-              &gt; .validator-nodes-content-cell:last-child {
-              border-right: none;
-            }
+        .validator-nodes-content-row
+          &gt; .validator-nodes-content-cell:last-child {
+          border-right: none;
+        }
 
-            .agent-name-badge {
-              background-color: #f0f0f1;
-              color: #72727a;
-              font-weight: 500;
-              font-size: 12px;
-              font-family: "Roboto Mono", monospace;
-            }
+        .agent-name-badge {
+          background-color: #f0f0f1;
+          color: #72727a;
+          font-weight: 500;
+          font-size: 12px;
+          font-family: "Roboto Mono", monospace;
+        }
 
-            .validators-node-label {
-              margin-right: 24px;
-              max-width: 138px;
-            }
+        .validators-node-label {
+          margin-right: 24px;
+          max-width: 138px;
+        }
 
-            .cumulative-stake-chart {
-              min-width: 100px;
-            }
+        .cumulative-stake-chart {
+          min-width: 100px;
+        }
 
-            .cumulative-stake-holders-row {
-              background-color: #fff6ed;
-            }
-            .cumulative-stake-holders-row .warning-text {
-              color: #995200;
-              padding: 16px 50px;
-              font-size: 12px;
-            }
+        .cumulative-stake-holders-row {
+          background-color: #fff6ed;
+        }
+        .cumulative-stake-holders-row .warning-text {
+          color: #995200;
+          padding: 16px 50px;
+          font-size: 12px;
+        }
 
-            @media (min-width: 1200px) {
-              .validator-name {
-                max-width: 370px;
-              }
-            }
-          
+        @media (min-width: 1200px) {
+          .validator-name {
+            max-width: 370px;
+          }
+        }
+      
   </style>,
 ]
 `;

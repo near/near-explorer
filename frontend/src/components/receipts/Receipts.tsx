@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 import { Receipt } from "../../libraries/explorer-wamp/receipts";
 
@@ -11,39 +11,32 @@ interface Props {
   receipts: Receipt[];
 }
 
-const Receipts: FC<Props> = ({ receipts }) => (
-  <Translate>
-    {({ translate }) => (
-      <>
-        {receipts.map((receipt, index) => (
-          <ActionGroup
-            key={`${receipt.receiptId}_${index}`}
-            actionGroup={receipt}
-            detailsLink={
-              <ReceiptLink
-                transactionHash={receipt.originatedFromTransactionHash}
-                receiptId={receipt.receiptId}
-              />
-            }
-            status={
-              receipt.status ? (
-                <ReceiptExecutionStatus status={receipt.status} />
-              ) : (
-                <>
-                  {translate(
-                    "component.receipts.ReceiptAction.fetching_status"
-                  )}
-                </>
-              )
-            }
-            title={translate(
-              "component.receipts.ReceiptAction.batch_receipt"
-            ).toString()}
-          />
-        ))}
-      </>
-    )}
-  </Translate>
-);
+const Receipts: FC<Props> = ({ receipts }) => {
+  const { t } = useTranslation();
+  return (
+    <>
+      {receipts.map((receipt, index) => (
+        <ActionGroup
+          key={`${receipt.receiptId}_${index}`}
+          actionGroup={receipt}
+          detailsLink={
+            <ReceiptLink
+              transactionHash={receipt.originatedFromTransactionHash}
+              receiptId={receipt.receiptId}
+            />
+          }
+          status={
+            receipt.status ? (
+              <ReceiptExecutionStatus status={receipt.status} />
+            ) : (
+              <>{t("component.receipts.ReceiptAction.fetching_status")}</>
+            )
+          }
+          title={t("component.receipts.ReceiptAction.batch_receipt")}
+        />
+      ))}
+    </>
+  );
+};
 
 export default Receipts;

@@ -1,30 +1,28 @@
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Translate, TranslateFunction } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { formatWithCommas } from "../utils/Balance";
 
 interface Props {
   value: number;
 }
 const StorageSize = ({ value }: Props) => {
-  const formatStoreSize = (
-    value: number,
-    translate: TranslateFunction
-  ): string => {
+  const { t } = useTranslation();
+  const formatStoreSize = (value: number): string => {
     let showStorage = value.toString();
     const kilo = 10 ** 3;
 
     const units = [
       {
         value: kilo,
-        symbol: translate("utils.StorageSize.kilo_bytes").toString(),
+        symbol: t("utils.StorageSize.kilo_bytes"),
       },
       {
         value: kilo ** 2,
-        symbol: translate("utils.StorageSize.mega_bytes").toString(),
+        symbol: t("utils.StorageSize.mega_bytes"),
       },
       {
         value: kilo ** 3,
-        symbol: translate("utils.StorageSize.giga_bytes").toString(),
+        symbol: t("utils.StorageSize.giga_bytes"),
       },
     ];
 
@@ -36,29 +34,25 @@ const StorageSize = ({ value }: Props) => {
         }
       }
     } else {
-      showStorage = `${value} ${translate("utils.StorageSize.bytes")}`;
+      showStorage = `${value} ${t("utils.StorageSize.bytes")}`;
     }
 
     return showStorage;
   };
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <OverlayTrigger
-          placement={"bottom"}
-          overlay={
-            <Tooltip id={`storage_size_${value}`}>
-              {`${formatWithCommas(value.toString())} ${translate(
-                "utils.StorageSize.bytes"
-              )}`}
-            </Tooltip>
-          }
-        >
-          <span>{formatStoreSize(value, translate)}</span>
-        </OverlayTrigger>
-      )}
-    </Translate>
+    <OverlayTrigger
+      placement={"bottom"}
+      overlay={
+        <Tooltip id={`storage_size_${value}`}>
+          {`${formatWithCommas(value.toString())} ${t(
+            "utils.StorageSize.bytes"
+          )}`}
+        </Tooltip>
+      }
+    >
+      <span>{formatStoreSize(value)}</span>
+    </OverlayTrigger>
   );
 };
 

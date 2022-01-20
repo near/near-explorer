@@ -14,7 +14,7 @@ import ReceiptLink from "../utils/ReceiptLink";
 import { displayArgs } from "./ActionMessage";
 import ActionRow from "./ActionRow";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 export interface Props {
   receipt: T.NestedReceiptWithOutcome;
@@ -22,24 +22,19 @@ export interface Props {
 }
 
 const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
+  const { t } = useTranslation();
   let statusInfo;
   if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
     const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
     if (SuccessValue === null) {
-      statusInfo = (
-        <Translate id="component.transactions.ReceiptRow.no_result" />
-      );
+      statusInfo = t("component.transactions.ReceiptRow.no_result");
     } else if (SuccessValue.length === 0) {
-      statusInfo = (
-        <Translate id="component.transactions.ReceiptRow.empty_result" />
-      );
+      statusInfo = t("component.transactions.ReceiptRow.empty_result");
     } else {
       statusInfo = (
         <>
-          <i>
-            <Translate id="component.transactions.ReceiptRow.result" />:{" "}
-          </i>
-          {displayArgs(SuccessValue)}
+          <i>{t("component.transactions.ReceiptRow.result")}: </i>
+          {displayArgs(SuccessValue, t)}
         </>
       );
     }
@@ -47,9 +42,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
     const { Failure } = receipt.outcome.status as T.ReceiptFailure;
     statusInfo = (
       <>
-        <i>
-          <Translate id="component.transactions.ReceiptRow.failure" />:{" "}
-        </i>
+        <i>{t("component.transactions.ReceiptRow.failure")}: </i>
         <pre>{JSON.stringify(Failure, null, 2)}</pre>
       </>
     );
@@ -59,10 +52,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
     const { SuccessReceiptId } = receipt.outcome.status as T.ReceiptSuccessId;
     statusInfo = (
       <>
-        <i>
-          <Translate id="component.transactions.ReceiptRow.success_receipt_id" />
-          :{" "}
-        </i>
+        <i>{t("component.transactions.ReceiptRow.success_receipt_id")}: </i>
         <pre>{SuccessReceiptId}</pre>
       </>
     );
@@ -84,15 +74,13 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
       <Col>
         <Row noGutters>
           <Col className="receipt-row-title receipt-hash-title">
-            <b>
-              <Translate id="common.receipts.receipt" />:
-            </b>
+            <b>{t("common.receipts.receipt")}:</b>
           </Col>
         </Row>
 
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-title">
-            <Translate id="common.receipts.receipt_id" />:
+            {t("common.receipts.receipt_id")}:
           </Col>
           <Col className="receipt-row-receipt-hash truncate-link">
             <ReceiptLink
@@ -105,7 +93,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
 
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-title">
-            <Translate id="common.receipts.executed_in_block" />:
+            {t("common.receipts.executed_in_block")}:
           </Col>
           <Col className="receipt-row-receipt-hash truncate-link">
             <BlockLink blockHash={receipt.block_hash} truncate={false} />
@@ -114,7 +102,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
 
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-title">
-            <Translate id="common.receipts.predecessor_id" />:
+            {t("common.receipts.predecessor_id")}:
           </Col>
           <Col
             className="receipt-row-receipt-hash"
@@ -126,7 +114,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
 
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-title">
-            <Translate id="common.receipts.receiver_id" />:
+            {t("common.receipts.receiver_id")}:
           </Col>
           <Col className="receipt-row-receipt-hash" title={receipt.receiver_id}>
             <AccountLink accountId={receipt.receiver_id} />
@@ -135,7 +123,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
 
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-title">
-            <Translate id="common.transactions.execution.gas_burned" />:
+            {t("common.transactions.execution.gas_burned")}:
           </Col>
           <Col className="receipt-row-receipt-hash">
             {gasBurnedByReceipt ? <Gas gas={gasBurnedByReceipt} /> : "..."}
@@ -144,7 +132,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
 
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-title">
-            <Translate id="common.transactions.execution.tokens_burned" />:
+            {t("common.transactions.execution.tokens_burned")}:
           </Col>
           <Col className="receipt-row-receipt-hash">
             {tokensBurnedByReceipt ? (
@@ -157,20 +145,18 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
 
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-text">
-            {receipt.actions && receipt.actions.length > 0 ? (
-              receipt.actions.map((action: T.Action, index: number) => (
-                <ActionRow
-                  key={receipt.receipt_id + index}
-                  action={action}
-                  receiverId={receipt.receiver_id}
-                  signerId={receipt.predecessor_id}
-                  detalizationMode="minimal"
-                  showDetails
-                />
-              ))
-            ) : (
-              <Translate id="component.transactions.ReceiptRow.no_actions" />
-            )}
+            {receipt.actions && receipt.actions.length > 0
+              ? receipt.actions.map((action: T.Action, index: number) => (
+                  <ActionRow
+                    key={receipt.receipt_id + index}
+                    action={action}
+                    receiverId={receipt.receiver_id}
+                    signerId={receipt.predecessor_id}
+                    detalizationMode="minimal"
+                    showDetails
+                  />
+                ))
+              : t("component.transactions.ReceiptRow.no_actions")}
           </Col>
         </Row>
 
@@ -181,7 +167,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-text">
             {receipt.outcome.logs.length === 0 ? (
-              <Translate id="component.transactions.ReceiptRow.no_logs" />
+              t("component.transactions.ReceiptRow.no_logs")
             ) : (
               <pre>{receipt.outcome.logs.join("\n")}</pre>
             )}

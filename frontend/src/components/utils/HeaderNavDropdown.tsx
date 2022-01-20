@@ -9,7 +9,7 @@ import IconTransactions from "../../../public/static/images/icon-transactions.sv
 
 import Link from "../utils/Link";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   link: string;
@@ -68,89 +68,88 @@ const HeaderNavItem: FC<Props> = ({ link, icon, text }) => {
   );
 };
 
-const HeaderNavDropdown: FC = () => (
-  <Translate>
-    {({ translate }) => (
-      <Dropdown>
-        <Dropdown.Toggle className="chain-header">
-          {translate("component.utils.HeaderNavDropdown.title")}
-          <img src="/static/images/down-arrow.svg" className="dropdown-arrow" />
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="header-dropdown-menu">
-          <HeaderNavItem
-            link="/accounts"
-            icon={<IconAccounts className="header-icon" />}
-            text={translate("common.accounts.accounts")}
-          />
-          <HeaderNavItem
-            link="/blocks"
-            icon={<IconBlocks className="header-icon" />}
-            text={translate("common.blocks.blocks")}
-          />
-          <HeaderNavItem
-            link="/transactions"
-            icon={<IconTransactions className="header-icon" />}
-            text={translate("common.transactions.transactions")}
-          />
-          <HeaderNavItem
-            link="/nodes/validators"
-            icon={<IconNodes className="header-icon" />}
-            text={translate("common.nodes.title")}
-          />
-          <HeaderNavItem
-            link="/stats"
-            icon={<IconStats className="header-icon" />}
-            text={translate("common.stats.title_charts_and_stats")}
-          />
-        </Dropdown.Menu>
+const HeaderNavDropdown: FC = () => {
+  const { t } = useTranslation();
+  return (
+    <Dropdown>
+      <Dropdown.Toggle className="chain-header">
+        {t("component.utils.HeaderNavDropdown.title")}
+        <img src="/static/images/down-arrow.svg" className="dropdown-arrow" />
+      </Dropdown.Toggle>
+      <Dropdown.Menu className="header-dropdown-menu">
+        <HeaderNavItem
+          link="/accounts"
+          icon={<IconAccounts className="header-icon" />}
+          text={t("common.accounts.accounts")}
+        />
+        <HeaderNavItem
+          link="/blocks"
+          icon={<IconBlocks className="header-icon" />}
+          text={t("common.blocks.blocks")}
+        />
+        <HeaderNavItem
+          link="/transactions"
+          icon={<IconTransactions className="header-icon" />}
+          text={t("common.transactions.transactions")}
+        />
+        <HeaderNavItem
+          link="/nodes/validators"
+          icon={<IconNodes className="header-icon" />}
+          text={t("common.nodes.title")}
+        />
+        <HeaderNavItem
+          link="/stats"
+          icon={<IconStats className="header-icon" />}
+          text={t("common.stats.title_charts_and_stats")}
+        />
+      </Dropdown.Menu>
 
-        <style jsx global>{`
-          .chain-header {
-            color: #000000;
-            background: #ffffff;
-            border: none;
-            font-weight: 500;
-            width: 100%;
-          }
+      <style jsx global>{`
+        .chain-header {
+          color: #000000;
+          background: #ffffff;
+          border: none;
+          font-weight: 500;
+          width: 100%;
+        }
 
-          .chain-header:hover,
-          .chain-header:focus,
-          .chain-header:active,
-          .show > .btn-primary.dropdown-toggle {
-            background: #ffffff !important;
-            color: #000000 !important;
-            border: none;
-          }
+        .chain-header:hover,
+        .chain-header:focus,
+        .chain-header:active,
+        .show > .btn-primary.dropdown-toggle {
+          background: #ffffff !important;
+          color: #000000 !important;
+          border: none;
+        }
 
-          .dropdown-toggle::after {
-            content: none;
-          }
+        .dropdown-toggle::after {
+          content: none;
+        }
 
-          .header-dropdown-menu {
-            background: #25272a;
-            border-radius: 8px;
-            width: 267px;
-          }
+        .header-dropdown-menu {
+          background: #25272a;
+          border-radius: 8px;
+          width: 267px;
+        }
 
-          .dropdown-arrow {
-            margin-left: 9px;
-          }
+        .dropdown-arrow {
+          margin-left: 9px;
+        }
 
-          .show > .dropdown-toggle > .dropdown-arrow {
-            transform: rotate(180deg);
-          }
+        .show > .dropdown-toggle > .dropdown-arrow {
+          transform: rotate(180deg);
+        }
 
-          .show > .btn-primary.dropdown-toggle:focus {
-            box-shadow: none;
-          }
+        .show > .btn-primary.dropdown-toggle:focus {
+          box-shadow: none;
+        }
 
-          .btn-primary:focus {
-            box-shadow: none;
-          }
-        `}</style>
-      </Dropdown>
-    )}
-  </Translate>
-);
+        .btn-primary:focus {
+          box-shadow: none;
+        }
+      `}</style>
+    </Dropdown>
+  );
+};
 
 export default HeaderNavDropdown;

@@ -3,7 +3,7 @@ import { Col, Row } from "react-bootstrap";
 
 import NodeNav from "./NodeNav";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   navRole: string;
@@ -16,24 +16,23 @@ const NodesIcon = () => (
   />
 );
 
-const NodesContentHeader: FC<Props> = ({ navRole }) => (
-  <Translate>
-    {({ translate }) => (
-      <Row noGutters>
-        <Col xs="auto" className="content-icon-col">
-          <NodesIcon />
-        </Col>
-        <Col className="content-title">
-          <h1 style={{ fontSize: "31px", marginBottom: "0px" }}>
-            {translate("component.nodes.NodesContentHeader.nodes")}
-          </h1>
-        </Col>
-        <Col xs="12" style={{ visibility: "hidden" }}>
-          <NodeNav role={navRole} />
-        </Col>
-      </Row>
-    )}
-  </Translate>
-);
+const NodesContentHeader: FC<Props> = ({ navRole }) => {
+  const { t } = useTranslation();
+  return (
+    <Row noGutters>
+      <Col xs="auto" className="content-icon-col">
+        <NodesIcon />
+      </Col>
+      <Col className="content-title">
+        <h1 style={{ fontSize: "31px", marginBottom: "0px" }}>
+          {t("component.nodes.NodesContentHeader.nodes")}
+        </h1>
+      </Col>
+      <Col xs="12" style={{ visibility: "hidden" }}>
+        <NodeNav role={navRole} />
+      </Col>
+    </Row>
+  );
+};
 
 export default NodesContentHeader;

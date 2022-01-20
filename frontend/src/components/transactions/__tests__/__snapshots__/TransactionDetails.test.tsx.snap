@@ -26,7 +26,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
-              Signed by
+              component.transactions.TransactionDetails.signed_by.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -155,7 +155,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
-              Receiver
+              component.transactions.TransactionDetails.receiver.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -284,7 +284,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
-              Status
+              component.transactions.TransactionDetails.status.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -325,8 +325,8 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   }
                 }
               >
-                Succeeded
-                /Checking Finality...
+                common.transactions.status.SuccessValue
+                /common.blocks.status.checking_finality
               </div>
             </div>
           </div>
@@ -406,7 +406,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Transaction Fee
+              component.transactions.TransactionDetails.transaction_fee.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -524,7 +524,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
-              Deposit Value
+              component.transactions.TransactionDetails.deposit_value.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -642,7 +642,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Gas Used
+              component.transactions.TransactionDetails.gas_used.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -751,7 +751,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Attached Gas
+              component.transactions.TransactionDetails.attached_gas.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -860,7 +860,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created
+              component.transactions.TransactionDetails.created.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -894,7 +894,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              February 01, 2019 at 12:00:00am
+              co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
@@ -965,7 +965,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Hash
+              component.transactions.TransactionDetails.hash.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1074,7 +1074,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Block Hash
+              component.transactions.TransactionDetails.block_hash.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1181,33 +1181,33 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
     jsx={true}
   >
     
-                .transaction-info-container {
-                  border: solid 4px #e6e6e6;
-                  border-radius: 4px;
-                }
+            .transaction-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-                .transaction-info-container &gt; .row {
-                  border-bottom: 2px solid #e6e6e6;
-                }
+            .transaction-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-                .transaction-info-container &gt; .row:last-of-type {
-                  border-bottom: 0;
-                }
+            .transaction-info-container &gt; .row:last-of-type {
+              border-bottom: 0;
+            }
 
-                .transaction-info-container .header-row .card-cell-text {
-                  font-size: 24px;
-                }
+            .transaction-info-container .header-row .card-cell-text {
+              font-size: 24px;
+            }
 
-                .transaction-card-block-hash {
-                  background-color: #f8f8f8;
-                }
+            .transaction-card-block-hash {
+              background-color: #f8f8f8;
+            }
 
-                @media (max-width: 767.98px) {
-                  .transaction-info-container .border-sm-0 {
-                    border: 0;
-                  }
-                }
-              
+            @media (max-width: 767.98px) {
+              .transaction-info-container .border-sm-0 {
+                border: 0;
+              }
+            }
+          
   </style>
 </div>
 `;
@@ -1238,7 +1238,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
-              Signed by
+              component.transactions.TransactionDetails.signed_by.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1367,7 +1367,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
-              Receiver
+              component.transactions.TransactionDetails.receiver.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1496,7 +1496,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
-              Status
+              component.transactions.TransactionDetails.status.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1537,8 +1537,8 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   }
                 }
               >
-                Succeeded
-                /Checking Finality...
+                common.transactions.status.SuccessValue
+                /common.blocks.status.checking_finality
               </div>
             </div>
           </div>
@@ -1618,7 +1618,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Transaction Fee
+              component.transactions.TransactionDetails.transaction_fee.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1736,7 +1736,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
-              Deposit Value
+              component.transactions.TransactionDetails.deposit_value.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1854,7 +1854,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Gas Used
+              component.transactions.TransactionDetails.gas_used.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -1963,7 +1963,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Attached Gas
+              component.transactions.TransactionDetails.attached_gas.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2072,7 +2072,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created
+              component.transactions.TransactionDetails.created.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2106,7 +2106,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              February 01, 2019 at 12:00:00am
+              co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
@@ -2177,7 +2177,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Hash
+              component.transactions.TransactionDetails.hash.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2286,7 +2286,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Block Hash
+              component.transactions.TransactionDetails.block_hash.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2393,33 +2393,33 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
     jsx={true}
   >
     
-                .transaction-info-container {
-                  border: solid 4px #e6e6e6;
-                  border-radius: 4px;
-                }
+            .transaction-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-                .transaction-info-container &gt; .row {
-                  border-bottom: 2px solid #e6e6e6;
-                }
+            .transaction-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-                .transaction-info-container &gt; .row:last-of-type {
-                  border-bottom: 0;
-                }
+            .transaction-info-container &gt; .row:last-of-type {
+              border-bottom: 0;
+            }
 
-                .transaction-info-container .header-row .card-cell-text {
-                  font-size: 24px;
-                }
+            .transaction-info-container .header-row .card-cell-text {
+              font-size: 24px;
+            }
 
-                .transaction-card-block-hash {
-                  background-color: #f8f8f8;
-                }
+            .transaction-card-block-hash {
+              background-color: #f8f8f8;
+            }
 
-                @media (max-width: 767.98px) {
-                  .transaction-info-container .border-sm-0 {
-                    border: 0;
-                  }
-                }
-              
+            @media (max-width: 767.98px) {
+              .transaction-info-container .border-sm-0 {
+                border: 0;
+              }
+            }
+          
   </style>
 </div>
 `;
@@ -2450,7 +2450,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
-              Signed by
+              component.transactions.TransactionDetails.signed_by.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2579,7 +2579,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-user.svg"
               />
-              Receiver
+              component.transactions.TransactionDetails.receiver.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2708,7 +2708,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-t-status.svg"
               />
-              Status
+              component.transactions.TransactionDetails.status.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2749,8 +2749,8 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   }
                 }
               >
-                Succeeded
-                /Checking Finality...
+                common.transactions.status.SuccessValue
+                /common.blocks.status.checking_finality
               </div>
             </div>
           </div>
@@ -2830,7 +2830,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Transaction Fee
+              component.transactions.TransactionDetails.transaction_fee.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -2948,7 +2948,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-filter.svg"
               />
-              Deposit Value
+              component.transactions.TransactionDetails.deposit_value.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3066,7 +3066,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Gas Used
+              component.transactions.TransactionDetails.gas_used.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3175,7 +3175,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                 className="card-cell-title-img"
                 src="/static/images/icon-m-size.svg"
               />
-              Attached Gas
+              component.transactions.TransactionDetails.attached_gas.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3284,7 +3284,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Created
+              component.transactions.TransactionDetails.created.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3318,7 +3318,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
             >
-              February 01, 2019 at 12:00:00am
+              co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
@@ -3389,7 +3389,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Hash
+              component.transactions.TransactionDetails.hash.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3498,7 +3498,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="card-cell-title align-self-center col-md-12 col-auto"
             >
-              Block Hash
+              component.transactions.TransactionDetails.block_hash.title
               <div
                 className="term-helper"
                 onClick={[Function]}
@@ -3605,33 +3605,33 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
     jsx={true}
   >
     
-                .transaction-info-container {
-                  border: solid 4px #e6e6e6;
-                  border-radius: 4px;
-                }
+            .transaction-info-container {
+              border: solid 4px #e6e6e6;
+              border-radius: 4px;
+            }
 
-                .transaction-info-container &gt; .row {
-                  border-bottom: 2px solid #e6e6e6;
-                }
+            .transaction-info-container &gt; .row {
+              border-bottom: 2px solid #e6e6e6;
+            }
 
-                .transaction-info-container &gt; .row:last-of-type {
-                  border-bottom: 0;
-                }
+            .transaction-info-container &gt; .row:last-of-type {
+              border-bottom: 0;
+            }
 
-                .transaction-info-container .header-row .card-cell-text {
-                  font-size: 24px;
-                }
+            .transaction-info-container .header-row .card-cell-text {
+              font-size: 24px;
+            }
 
-                .transaction-card-block-hash {
-                  background-color: #f8f8f8;
-                }
+            .transaction-card-block-hash {
+              background-color: #f8f8f8;
+            }
 
-                @media (max-width: 767.98px) {
-                  .transaction-info-container .border-sm-0 {
-                    border: 0;
-                  }
-                }
-              
+            @media (max-width: 767.98px) {
+              .transaction-info-container .border-sm-0 {
+                border: 0;
+              }
+            }
+          
   </style>
 </div>
 `;

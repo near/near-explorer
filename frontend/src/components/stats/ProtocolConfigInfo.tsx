@@ -10,9 +10,10 @@ import { InfoCard, InfoCardCell as Cell } from "../utils/InfoCard";
 import Balance, { formatWithCommas } from "../utils/Balance";
 import NearBadge from "../nodes/NearBadge";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 const ProtocolConfigInfo = () => {
+  const { t } = useTranslation();
   const [totalGenesisSupply, setTotalGenesisSupply] = useState<BN>();
   const [
     genesisProtocolVersion,
@@ -78,147 +79,121 @@ const ProtocolConfigInfo = () => {
   }, []);
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <>
-          <InfoCard className="protocol-config">
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.first_produced_block"
+    <>
+      <InfoCard className="protocol-config">
+        <Cell
+          title={t("component.stats.ProtocolConfigInfo.first_produced_block")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+        >
+          {firstProducedBlockTimestamp && (
+            <span>
+              {moment(firstProducedBlockTimestamp).format(
+                t("common.date_time.date_format")
               )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-            >
-              {firstProducedBlockTimestamp && (
-                <span>
-                  {moment(firstProducedBlockTimestamp).format(
-                    translate("common.date_time.date_format").toString()
-                  )}
-                </span>
-              )}
-            </Cell>
+            </span>
+          )}
+        </Cell>
 
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.genesis_protocol_or_current_protocol"
-              )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
-            >
-              {genesisProtocolVersion && networkStats?.epochProtocolVersion && (
-                <>
-                  <span className="genesis-text">
-                    v{genesisProtocolVersion}
-                  </span>{" "}
-                  / <span>v{networkStats.epochProtocolVersion}</span>
-                </>
-              )}
-            </Cell>
+        <Cell
+          title={t(
+            "component.stats.ProtocolConfigInfo.genesis_protocol_or_current_protocol"
+          )}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
+        >
+          {genesisProtocolVersion && networkStats?.epochProtocolVersion && (
+            <>
+              <span className="genesis-text">v{genesisProtocolVersion}</span> /{" "}
+              <span>v{networkStats.epochProtocolVersion}</span>
+            </>
+          )}
+        </Cell>
 
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.genesis_height"
-              )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-            >
-              {networkStats && (
-                <span className="genesis-text">
-                  {networkStats.genesisHeight}
-                </span>
-              )}
-            </Cell>
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.epoch_length"
-              )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
-            >
-              {networkStats?.epochLength && (
-                <span>{networkStats.epochLength}</span>
-              )}
-            </Cell>
-          </InfoCard>
+        <Cell
+          title={t("component.stats.ProtocolConfigInfo.genesis_height")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+        >
+          {networkStats && (
+            <span className="genesis-text">{networkStats.genesisHeight}</span>
+          )}
+        </Cell>
+        <Cell
+          title={t("component.stats.ProtocolConfigInfo.epoch_length")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
+        >
+          {networkStats?.epochLength && <span>{networkStats.epochLength}</span>}
+        </Cell>
+      </InfoCard>
 
-          <InfoCard className="protocol-config">
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.genesis_total_supply"
-              )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-            >
-              {genesisTotaSupply && totalGenesisSupply && (
-                <span className="genesis-text">
-                  <Balance
-                    amount={totalGenesisSupply}
-                    formulatedAmount={formatWithCommas(
-                      genesisTotaSupply.toFixed(1)
-                    )}
-                    suffix={<span className="balance-suffix">M</span>}
-                    label={<NearBadge />}
-                    className="protocol-metric-value"
-                  />
-                </span>
-              )}
-            </Cell>
+      <InfoCard className="protocol-config">
+        <Cell
+          title={t("component.stats.ProtocolConfigInfo.genesis_total_supply")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+        >
+          {genesisTotaSupply && totalGenesisSupply && (
+            <span className="genesis-text">
+              <Balance
+                amount={totalGenesisSupply}
+                formulatedAmount={formatWithCommas(
+                  genesisTotaSupply.toFixed(1)
+                )}
+                suffix={<span className="balance-suffix">M</span>}
+                label={<NearBadge />}
+                className="protocol-metric-value"
+              />
+            </span>
+          )}
+        </Cell>
 
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.accounts_in_genesis"
-              )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
-            >
-              {genesisAccountsAmount}
-            </Cell>
+        <Cell
+          title={t("component.stats.ProtocolConfigInfo.accounts_in_genesis")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
+        >
+          {genesisAccountsAmount}
+        </Cell>
 
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.total_supply"
-              )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-            >
-              {epochTotalSupply && (
-                <Balance
-                  amount={epochStartBlock!.totalSupply}
-                  formulatedAmount={formatWithCommas(
-                    epochTotalSupply.toFixed(1)
-                  )}
-                  suffix={<span className="balance-suffix">M</span>}
-                  label={<NearBadge />}
-                  className="protocol-metric-value"
-                />
-              )}
-            </Cell>
+        <Cell
+          title={t("component.stats.ProtocolConfigInfo.total_supply")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+        >
+          {epochTotalSupply && (
+            <Balance
+              amount={epochStartBlock!.totalSupply}
+              formulatedAmount={formatWithCommas(epochTotalSupply.toFixed(1))}
+              suffix={<span className="balance-suffix">M</span>}
+              label={<NearBadge />}
+              className="protocol-metric-value"
+            />
+          )}
+        </Cell>
 
-            <Cell
-              title={translate(
-                "component.stats.ProtocolConfigInfo.live_accounts"
-              )}
-              cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
-            >
-              {liveAccountsCount}
-            </Cell>
-          </InfoCard>
-          <style global jsx>{`
-            .protocol-config {
-              margin: 24px 0;
-            }
+        <Cell
+          title={t("component.stats.ProtocolConfigInfo.live_accounts")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
+        >
+          {liveAccountsCount}
+        </Cell>
+      </InfoCard>
+      <style global jsx>{`
+        .protocol-config {
+          margin: 24px 0;
+        }
 
-            .genesis-text {
-              color: #00c08b;
-            }
+        .genesis-text {
+          color: #00c08b;
+        }
 
-            .protocol-metric-value {
-              display: flex;
-              align-items: center;
-            }
+        .protocol-metric-value {
+          display: flex;
+          align-items: center;
+        }
 
-            .balance-suffix {
-              font-size: 25px;
-              line-height: 35px;
-              align-self: flex-end;
-            }
-          `}</style>
-        </>
-      )}
-    </Translate>
+        .balance-suffix {
+          font-size: 25px;
+          line-height: 35px;
+          align-self: flex-end;
+        }
+      `}</style>
+    </>
   );
 };
 

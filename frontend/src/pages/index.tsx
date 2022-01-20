@@ -8,10 +8,11 @@ import Search from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 import { useAnalyticsTrackOnMount } from "../hooks/analytics/use-analytics-track-on-mount";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Landing Page");
 
   return (
@@ -22,9 +23,9 @@ const Dashboard = () => {
       <Container>
         <h1 style={{ marginTop: "72px", marginLeft: "25px" }}>
           <span style={{ color: "#00C1DE" }}>
-            <Translate id="page.home.title.explore" />
+            {t("page.home.title.explore")}
           </span>
-          <Translate id="page.home.title.near_blockchain" />
+          {t("page.home.title.near_blockchain")}
         </h1>
         <Row className="inner-content" noGutters>
           <Col xs="12" className="d-none d-md-block d-lg-block">

@@ -5,67 +5,16 @@
  * - https://github.com/near/near-wallet/blob/master/src/utils/getUserLocale.js
  */
 
-import translations_en from "../translations/en.global.json";
-import translations_zh_hans from "../translations/zh-hans.global.json";
-import translations_vi from "../translations/vi.global.json";
-import translations_ru from "../translations/ru.global.json";
 import moment from "./moment";
 import Cookies from "universal-cookie";
-import {
-  InitializePayload,
-  LocalizeContextProps,
-  NamedLanguage,
-} from "react-localize-redux";
+import { DEFAULT_LANGUAGE, Language } from "./i18n";
 
-interface Language {
-  code: string;
+export const LANGUAGE_COOKIE = "NEXT_LOCALE";
+
+interface ScoredLanguage {
+  language: Language;
   score: number;
 }
-
-interface LanguageInput {
-  cookies?: string;
-  acceptedLanguages?: string;
-}
-
-function uniq<T>(arr: T[]): T[] {
-  return arr.filter((el, index, self) => self.indexOf(el) === index);
-}
-
-function normalizeLocales(arr: string[]): string[] {
-  return arr.map((el) => {
-    if (!el || el.indexOf("-") === -1 || el.toLowerCase() !== el) {
-      return el;
-    }
-
-    const splitEl = el.split("-");
-    return `${splitEl[0]}-${splitEl[1].toUpperCase()}`;
-  });
-}
-
-function getUserLocales(): string[] {
-  let languageList: string[] = [];
-
-  if (typeof window !== "undefined") {
-    const { navigator } = window;
-
-    if (navigator.languages) {
-      languageList = languageList.concat(navigator.languages);
-    }
-    // https://caniuse.com/mdn-api_navigator_language
-    // 97.31% users have this property as of 2021-12-15
-    if (navigator.language) {
-      languageList.push(navigator.language);
-    }
-  }
-
-  languageList.push("en-US"); // Fallback
-
-  return normalizeLocales(uniq(languageList));
-}
-
-const DEBUG_LOG = false;
-
-const debugLog = (...args: unknown[]) => DEBUG_LOG && console.log(...args);
 
 /**
  * Parses locales provided from browser through `accept-language` header.
@@ -81,205 +30,106 @@ export const parseAcceptLanguage = (input: string): string[] => {
   return input.split(",").map((tag) => tag.split(";")[0]);
 };
 
-export function getBrowserLocale(appLanguages: string[]): string | undefined {
-  const browserLanguages = getUserLocales();
-
-  debugLog("Languages from browser:", browserLanguages);
-
-  if (
-    appLanguages &&
-    appLanguages.length > 0 &&
-    browserLanguages &&
-    browserLanguages.length > 0
-  ) {
-    return findBestSupportedLocale(appLanguages, browserLanguages);
-  }
-}
-
-export function getAcceptedLocale(
-  appLanguages: string[],
+export function getAcceptedLanguage(
+  availableLanguages: readonly Language[],
   acceptedLanguages?: string
-): string | undefined {
-  const parsedAcceptedLanguages =
-    acceptedLanguages && parseAcceptLanguage(acceptedLanguages);
+): Language | undefined {
+  const parsedAcceptedLanguages = acceptedLanguages
+    ? parseAcceptLanguage(acceptedLanguages)
+    : [];
 
-  debugLog(
-    "Languages from Accepted Languages header:",
-    parsedAcceptedLanguages
-  );
-
-  if (
-    appLanguages &&
-    appLanguages.length > 0 &&
-    parsedAcceptedLanguages &&
-    parsedAcceptedLanguages.length > 0
-  ) {
-    return findBestSupportedLocale(appLanguages, parsedAcceptedLanguages);
+  if (parsedAcceptedLanguages.length > 0) {
+    return findBestSupportedLanguage(
+      availableLanguages,
+      parsedAcceptedLanguages
+    );
   }
 }
 
-function findBestSupportedLocale(
-  appLocales: string[],
-  browserLocales: string[]
-): string | undefined {
-  const matchedLocales: Record<string, Language> = {};
+function findBestSupportedLanguage(
+  availableLanguages: readonly Language[],
+  browserLanguages: string[]
+): Language | undefined {
+  const matchedLanguages: Partial<Record<Language, ScoredLanguage>> = {};
 
   // Process special mappings
-  const walletLocales = browserLocales.map((locale) => {
+  const narrowedLanguages = browserLanguages.map((language) => {
     // Handle special cases for traditional Chinesee fallback
-    if (["zh-TW", "zh-HK"].includes(locale)) {
-      return "zh-hant";
+    if (["zh-TW", "zh-HK"].includes(language)) {
+      return "zh-Hans";
     }
 
-    return locale;
+    return language;
   });
 
-  for (const [index, browserLocale] of walletLocales.entries()) {
-    // match exact locale.
-    const matchedExactLocale = appLocales.find(
-      (appLocale) => appLocale.toLowerCase() === browserLocale.toLowerCase()
+  for (const [index, browserLanguage] of narrowedLanguages.entries()) {
+    // match exact language.
+    const matchedExactLanguage = availableLanguages.find(
+      (language) => language.toLowerCase() === browserLanguage.toLowerCase()
     );
-    if (matchedExactLocale) {
-      debugLog("Found direct match:", { browserLocale, matchedExactLocale });
-      matchedLocales[matchedExactLocale] = {
-        code: matchedExactLocale,
-        score: 1 - index / walletLocales.length,
+    if (matchedExactLanguage) {
+      matchedLanguages[matchedExactLanguage] = {
+        language: matchedExactLanguage,
+        score: 1 - index / narrowedLanguages.length,
       };
     } else {
-      // match only locale code part of the browser locale (not including country).
-      const languageCode = browserLocale.split("-")[0].toLowerCase();
-      const matchedPartialLocale = appLocales.find(
-        (appLocale) => appLocale.split("-")[0].toLowerCase() === languageCode
+      // match only language code part of the browser locale (not including country).
+      const languageCode = browserLanguage.split("-")[0].toLowerCase();
+      const matchedPartialLanguage = availableLanguages.find(
+        (language) => language.split("-")[0].toLowerCase() === languageCode
       );
-      if (matchedPartialLocale) {
-        const existingMatch = matchedLocales[matchedPartialLocale];
+      if (matchedPartialLanguage) {
+        const existingMatch = matchedLanguages[matchedPartialLanguage];
 
         // Deduct a thousandth for being non-exact match.
-        const newMatchScore = 0.999 - index / walletLocales.length;
-        const newMatch = {
-          code: matchedPartialLocale,
+        const newMatchScore = 0.999 - index / narrowedLanguages.length;
+        const newMatch: ScoredLanguage = {
+          language: matchedPartialLanguage,
           score: newMatchScore,
         };
         if (
           !existingMatch ||
           (existingMatch && existingMatch.score <= newMatchScore)
         ) {
-          debugLog("Found language-only match:", {
-            browserLocale,
-            matchedPartialLocale,
-          });
-          matchedLocales[matchedPartialLocale] = newMatch;
+          matchedLanguages[matchedPartialLanguage] = newMatch;
         }
       }
     }
   }
 
   // Sort the list by score (0 - lowest, 1 - highest).
-  if (Object.keys(matchedLocales).length > 0) {
-    const bestMatch = Object.values(matchedLocales).sort(
-      (localeA, localeB) => localeB.score - localeA.score
-    )[0].code;
-    debugLog("bestMatch", bestMatch);
-    return bestMatch;
+  if (Object.keys(matchedLanguages).length > 0) {
+    return Object.values(matchedLanguages).sort((a, b) => b.score - a.score)[0]
+      .language;
   }
 }
 
-export function setMomentLocale(code: string): void {
-  let locale;
-  switch (code) {
+export function setMomentLanguage(language: Language): string {
+  switch (language) {
+    case "en":
+      return moment.locale("en");
     case "ru":
-      locale = "ru";
-      break;
+      return moment.locale("ru");
     case "vi":
-      locale = "vi";
-      break;
-    case "zh-hans":
-      locale = "zh-cn";
-      break;
-    default:
-      locale = "en";
-  }
-  moment.locale(locale);
-}
-
-function getLanguage(
-  languages: NamedLanguage[],
-  { cookies, acceptedLanguages }: LanguageInput = {}
-) {
-  if (typeof window === "undefined") {
-    return (
-      new Cookies(cookies || undefined).get("NEXT_LOCALE") ||
-      getAcceptedLocale(
-        languages.map((l) => l.code),
-        acceptedLanguages
-      ) ||
-      languages[0].code
-    );
-  } else {
-    return (
-      new Cookies().get("NEXT_LOCALE") ||
-      getBrowserLocale(languages.map((l) => l.code)) ||
-      languages[0].code
-    );
+      return moment.locale("vi");
+    case "zh-Hans":
+      return moment.locale("zh-cn");
   }
 }
 
-function getI18nConfig(): InitializePayload {
-  return {
-    languages: [
-      { name: "English", code: "en" },
-      { name: "简体中文", code: "zh-hans" },
-      { name: "Tiếng Việt", code: "vi" },
-      { name: "Русский", code: "ru" },
-    ],
-    options: {
-      defaultLanguage: "en",
-      onMissingTranslation: ({ defaultTranslation }) => defaultTranslation,
-      renderToStaticMarkup: false,
-      renderInnerHtml: false,
-    },
-  };
-}
-
-export function getI18nConfigForProvider({
-  cookies,
-  acceptedLanguages,
-}: LanguageInput): InitializePayload | undefined {
-  if (typeof window === "undefined") {
-    let config = getI18nConfig();
-    const { languages } = config;
-    const activeLang = getLanguage(languages as NamedLanguage[], {
-      cookies,
-      acceptedLanguages,
-    });
-    switch (activeLang) {
-      case "ru":
-        config.translation = translations_ru;
-        break;
-      case "zh-hans":
-        config.translation = translations_zh_hans;
-        break;
-      case "vi":
-        config.translation = translations_vi;
-        break;
-      default:
-        config.translation = translations_en;
-    }
-    return config;
+export function getLanguage(
+  languages: readonly Language[],
+  cookies?: string,
+  acceptedLanguages?: string
+): Language {
+  const parsedCookies = new Cookies(cookies);
+  const languageCookie = parsedCookies.get(LANGUAGE_COOKIE);
+  if (languageCookie) {
+    return languageCookie;
   }
-}
-
-export function setI18N(props: LocalizeContextProps): void {
-  const config = getI18nConfig();
-  const { languages } = config;
-  const activeLang = getLanguage(languages as NamedLanguage[]);
-
-  props.initialize(config);
-  props.addTranslationForLanguage(translations_en, "en");
-  props.addTranslationForLanguage(translations_zh_hans, "zh-hans");
-  props.addTranslationForLanguage(translations_vi, "vi");
-  props.addTranslationForLanguage(translations_ru, "ru");
-  props.setActiveLanguage(activeLang);
-
-  setMomentLocale(activeLang);
+  const acceptedLanguage = getAcceptedLanguage(languages, acceptedLanguages);
+  if (acceptedLanguage) {
+    return acceptedLanguage;
+  }
+  return DEFAULT_LANGUAGE;
 }

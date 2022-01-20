@@ -6,13 +6,14 @@ import Receipts from "../receipts/Receipts";
 import Placeholder from "../utils/Placeholder";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-import { Translate } from "react-localize-redux";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   blockHash: string;
 }
 
 const ReceiptsInBlock: FC<Props> = ({ blockHash }) => {
+  const { t } = useTranslation();
   const [receipts, setReceipts] = useState<Receipt[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,21 +29,17 @@ const ReceiptsInBlock: FC<Props> = ({ blockHash }) => {
   }, [blockHash, setReceipts, setLoading]);
 
   return (
-    <Translate>
-      {({ translate }) => (
-        <>
-          {loading ? (
-            <PaginationSpinner hidden={false} />
-          ) : receipts.length > 0 ? (
-            <Receipts receipts={receipts} />
-          ) : (
-            <Placeholder>
-              {translate("component.blocks.ReceiptsInBlock.no_receipts")}
-            </Placeholder>
-          )}
-        </>
+    <>
+      {loading ? (
+        <PaginationSpinner hidden={false} />
+      ) : receipts.length > 0 ? (
+        <Receipts receipts={receipts} />
+      ) : (
+        <Placeholder>
+          {t("component.blocks.ReceiptsInBlock.no_receipts")}
+        </Placeholder>
       )}
-    </Translate>
+    </>
   );
 };
 

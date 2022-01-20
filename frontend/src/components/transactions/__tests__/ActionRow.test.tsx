@@ -1,4 +1,4 @@
-import { renderI18nElement } from "../../../libraries/tester";
+import { renderElement } from "../../../testing/utils";
 import * as T from "../../../libraries/explorer-wamp/transactions";
 
 import TransactionLink from "../../utils/TransactionLink";
@@ -11,7 +11,7 @@ import { RECEIPTS, TRANSACTIONS } from "./common";
 describe("<ActionRow />", () => {
   it("renders sparsely ActionRow for transaction by default", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionRow
           signerId={TRANSACTIONS[0].signerId}
           blockTimestamp={TRANSACTIONS[0].blockTimestamp}
@@ -30,7 +30,7 @@ describe("<ActionRow />", () => {
 
   it("renders sparsely ActionRow for transaction with status", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionRow
           signerId={TRANSACTIONS[0].signerId}
           blockTimestamp={TRANSACTIONS[0].blockTimestamp}
@@ -54,7 +54,7 @@ describe("<ActionRow />", () => {
 
   it("renders sparsely ActionRow for receipt", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionRow
           signerId={RECEIPTS[7].signerId}
           receiverId={RECEIPTS[7].receiverId}
@@ -78,7 +78,7 @@ describe("<ActionRow />", () => {
 
   it("renders compact for transaction", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionRow
           viewMode="compact"
           signerId={TRANSACTIONS[0].signerId}
@@ -104,7 +104,7 @@ describe("<ActionRow />", () => {
 
   it("renders compact for receipt", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionRow
           viewMode="compact"
           detalizationMode="minimal"
@@ -128,7 +128,7 @@ describe("<ActionRow />", () => {
 
   it("renders functioncall with detail", () => {
     expect(
-      renderI18nElement(
+      renderElement(
         <ActionRow
           signerId={TRANSACTIONS[0].signerId}
           receiverId={TRANSACTIONS[0].receiverId}
