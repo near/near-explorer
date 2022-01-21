@@ -11,8 +11,6 @@ import Footer from "../components/utils/Footer";
 import { NetworkContext } from "../context/NetworkContext";
 import DatabaseProvider from "../context/DatabaseProvider";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
 import { initializeI18n, Language, LANGUAGES } from "../libraries/i18n";

@@ -10,6 +10,15 @@ import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
 import { useTranslation } from "react-i18next";
 import { useAnalyticsTrackOnMount } from "../hooks/analytics/use-analytics-track-on-mount";
+import { styled } from "../libraries/stitches.config";
+
+const Header = styled("h1", {
+  fontSize: 38,
+  lineHeight: "46px",
+  whiteSpace: "pre-line",
+  marginTop: 72,
+  marginLeft: 25,
+});
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -21,12 +30,12 @@ const Dashboard = () => {
         <title>NEAR Explorer | Dashboard</title>
       </Head>
       <Container>
-        <h1 style={{ marginTop: "72px", marginLeft: "25px" }}>
+        <Header>
           <span style={{ color: "#00C1DE" }}>
             {t("page.home.title.explore")}
           </span>
           {t("page.home.title.near_blockchain")}
-        </h1>
+        </Header>
         <Row className="inner-content" noGutters>
           <Col xs="12" className="d-none d-md-block d-lg-block">
             <Row noGutters className="search-wrapper">
@@ -56,12 +65,6 @@ const Dashboard = () => {
 
           .search-wrapper {
             margin-bottom: 50px;
-          }
-
-          h1 {
-            font-size: 38px;
-            line-height: 46px;
-            white-space: pre-line;
           }
 
           @media (max-width: 1200px) {

@@ -19,6 +19,11 @@ const Document: DocumentType = () => {
   return (
     <Html>
       <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          crossOrigin="anonymous"
+        />
         <style
           id="stitches"
           dangerouslySetInnerHTML={{ __html: getCssText() }}
