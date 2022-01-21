@@ -82,12 +82,12 @@ const MobileNavDropdown = () => {
       event.stopPropagation();
       const dropdownMenuElement = dropdownMenuRef.current;
       const dropdownWrapperElement = dropdownWrapperRef.current;
-      if (!dropdownMenuElement || !dropdownWrapperElement) {
+      if (!dropdownWrapperElement) {
         return;
       }
       setMenuShown(
         !dropdownWrapperElement.contains(dropdownMenuElement) ||
-          dropdownMenuElement.contains(event.target as Node)
+          Boolean(dropdownMenuElement?.contains(event.target as Node))
       );
     },
     []
