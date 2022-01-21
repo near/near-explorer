@@ -21,6 +21,49 @@ import { AppContextType, AppPropsType } from "next/dist/shared/lib/utils";
 import { Router } from "next/router";
 import { setI18n } from "react-i18next";
 import { YEAR } from "../libraries/time";
+import { globalCss, styled } from "../libraries/stitches.config";
+
+const globalStyles = globalCss({
+  body: {
+    backgroundColor: "#f9f9f9",
+    height: "100%",
+    margin: 0,
+    fontFamily: `"Inter", sans-serif`,
+  },
+  a: {
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
+  h1: {
+    fontWeight: 900,
+    wordWrap: "break-word",
+    color: "#24272a",
+    fontSize: 32,
+    "@media (min-width: 1600px)": {
+      fontSize: 48,
+    },
+    "@media (max-width: 300px)": {
+      fontSize: 28,
+    },
+  },
+  h2: {
+    fontSize: 24,
+  },
+});
+
+const BackgroundImage = styled("img", {
+  position: "absolute",
+  right: 0,
+  top: 72,
+  zIndex: -1,
+});
+
+const AppWrapper = styled("div", {
+  position: "relative",
+  minHeight: "calc(100vh - 120px)",
+});
 
 const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
@@ -49,6 +92,7 @@ const App: AppType = ({
     void initializeI18n(language);
   }
   useAnalyticsInit();
+  globalStyles();
 
   const networkState = useMemo(
     () => ({
@@ -69,68 +113,15 @@ const App: AppType = ({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <NetworkContext.Provider value={networkState}>
-        <div className="app-wrapper">
+        <AppWrapper>
           <Header />
-          <img
-            src="/static/images/explorer-bg.svg"
-            className="background-img"
-          />
+          <BackgroundImage src="/static/images/explorer-bg.svg" />
           <DatabaseProvider>
             <Component {...pageProps} />
           </DatabaseProvider>
-        </div>
+        </AppWrapper>
         <Footer />
       </NetworkContext.Provider>
-      <style jsx global>{`
-        body {
-          background-color: #f9f9f9;
-          height: 100%;
-          margin: 0;
-          font-family: "Inter", sans-serif;
-        }
-        .background-img {
-          position: absolute;
-          right: 0;
-          top: 72px;
-          z-index: -1;
-        }
-
-        a {
-          text-decoration: none;
-        }
-
-        a:hover {
-          text-decoration: none;
-        }
-
-        h1 {
-          font-weight: 900;
-          word-wrap: break-word;
-          color: #24272a;
-          font-size: 32px;
-        }
-
-        @media (max-width: 300px) {
-          h1 {
-            font-size: 28px;
-          }
-        }
-
-        @media (min-width: 1600px) {
-          h1 {
-            font-size: 48px;
-          }
-        }
-
-        h2 {
-          font-size: 24px;
-        }
-
-        .app-wrapper {
-          position: relative;
-          min-height: calc(100vh - 120px);
-        }
-      `}</style>
       {googleAnalytics ? (
         <>
           <script

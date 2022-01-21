@@ -30,7 +30,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:ci": "start-server-and-test start:production-wamp-with-indexer-testnet 3000 cy:run",
-    "compile-nextjs-config": "tsc --project nextjs.tsconfig.json"
+    "compile-nextjs-config": "tsc --project nextjs.tsconfig.json",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,7 @@
   },
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
+    "@stitches/react": "^1.2.6",
     "autobahn": "^20.9.2",
     "bn.js": "^5.2.0",
     "bootstrap": "^4.6.1",
@@ -58,6 +60,7 @@
     "moment": "^2.29.1",
     "near-api-js": "^0.44.1",
     "next": "^12.0.7",
+    "patch-package": "^6.4.7",
     "rc-progress": "^3.1.4",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",

@@ -51,8 +51,8 @@ context("Accounts List page", () => {
       .should("exist")
       .first()
       .click();
-    cy.get(".account-info-container", { timeout: 5000 }).should("exist");
-    cy.get(".account-info-container .card-cell .card-body")
+    cy.get(".c-dOsIRQ", { timeout: 5000 }).should("exist");
+    cy.get(".c-dOsIRQ .card-cell .card-body")
       .should("exist")
       .and("not.be.empty");
 

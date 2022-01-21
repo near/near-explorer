@@ -16,6 +16,24 @@ import StorageSize from "../utils/StorageSize";
 
 import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
+import { styled } from "../../libraries/stitches.config";
+
+const AccountInfoContainer = styled("div", {
+  border: "solid 4px #e6e6e6",
+  borderRadius: 4,
+  "& > .row:first-of-type .card-cell-text": {
+    fontSize: 24,
+  },
+
+  "& > .row": {
+    borderBottom: "2px solid #e6e6e6",
+  },
+});
+
+const TransactionLinkIcon = styled("img", {
+  width: 15,
+  margin: "0 0 12px 12px",
+});
 
 export interface Props {
   account: Partial<Omit<Account, "accountId">> & { accountId: string };
@@ -48,7 +66,7 @@ const AccountDetails: FC<Props> = ({ account }) => {
   }, [account.accountId]);
 
   return (
-    <div className="account-info-container">
+    <AccountInfoContainer>
       <Row noGutters>
         <Col
           xs="12"
@@ -258,8 +276,7 @@ const AccountDetails: FC<Props> = ({ account }) => {
                     <TransactionLink
                       transactionHash={account.createdByTransactionHash!}
                     >
-                      <img
-                        className="transaction-link-icon"
+                      <TransactionLinkIcon
                         src={"/static/images/icon-m-copy.svg"}
                       />
                     </TransactionLink>
@@ -312,8 +329,7 @@ const AccountDetails: FC<Props> = ({ account }) => {
                   <TransactionLink
                     transactionHash={account.deletedByTransactionHash!}
                   >
-                    <img
-                      className="transaction-link-icon"
+                    <TransactionLinkIcon
                       src={"/static/images/icon-m-copy.svg"}
                     />
                   </TransactionLink>
@@ -325,29 +341,11 @@ const AccountDetails: FC<Props> = ({ account }) => {
         </Row>
       )}
       <style jsx global>{`
-        .account-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .account-info-container > .row:first-of-type .card-cell-text {
-          font-size: 24px;
-        }
-
-        .account-info-container > .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
         .account-card-back {
           background-color: #f8f8f8;
         }
-
-        .transaction-link-icon {
-          width: 15px;
-          margin: 0 0 12px 12px;
-        }
       `}</style>
-    </div>
+    </AccountInfoContainer>
   );
 };
 
