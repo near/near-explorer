@@ -2,7 +2,7 @@
 
 exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`] = `
 <div
-  className="account-info-container"
+  className="c-dOsIRQ"
 >
   <div
     className="row no-gutters"
@@ -845,26 +845,8 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
     jsx={true}
   >
     
-        .account-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .account-info-container &gt; .row:first-of-type .card-cell-text {
-          font-size: 24px;
-        }
-
-        .account-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
         .account-card-back {
           background-color: #f8f8f8;
-        }
-
-        .transaction-link-icon {
-          width: 15px;
-          margin: 0 0 12px 12px;
         }
       
   </style>
@@ -873,7 +855,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
 
 exports[`<AccountDetails /> renders with account created at genesis 1`] = `
 <div
-  className="account-info-container"
+  className="c-dOsIRQ"
 >
   <div
     className="row no-gutters"
@@ -1716,26 +1698,8 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
     jsx={true}
   >
     
-        .account-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .account-info-container &gt; .row:first-of-type .card-cell-text {
-          font-size: 24px;
-        }
-
-        .account-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
         .account-card-back {
           background-color: #f8f8f8;
-        }
-
-        .transaction-link-icon {
-          width: 15px;
-          margin: 0 0 12px 12px;
         }
       
   </style>
@@ -1744,7 +1708,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
 
 exports[`<AccountDetails /> renders with account deletion at 1`] = `
 <div
-  className="account-info-container"
+  className="c-dOsIRQ"
 >
   <div
     className="row no-gutters"
@@ -2641,7 +2605,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="transaction-link-icon"
+                    className="c-fCEEVh"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -2707,26 +2671,8 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
     jsx={true}
   >
     
-        .account-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .account-info-container &gt; .row:first-of-type .card-cell-text {
-          font-size: 24px;
-        }
-
-        .account-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
         .account-card-back {
           background-color: #f8f8f8;
-        }
-
-        .transaction-link-icon {
-          width: 15px;
-          margin: 0 0 12px 12px;
         }
       
   </style>
@@ -2735,7 +2681,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
 
 exports[`<AccountDetails /> renders with lockup account 1`] = `
 <div
-  className="account-info-container"
+  className="c-dOsIRQ"
 >
   <div
     className="row no-gutters"
@@ -3632,7 +3578,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="transaction-link-icon"
+                    className="c-fCEEVh"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -3698,26 +3644,8 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
     jsx={true}
   >
     
-        .account-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .account-info-container &gt; .row:first-of-type .card-cell-text {
-          font-size: 24px;
-        }
-
-        .account-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
         .account-card-back {
           background-color: #f8f8f8;
-        }
-
-        .transaction-link-icon {
-          width: 15px;
-          margin: 0 0 12px 12px;
         }
       
   </style>
@@ -3726,7 +3654,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
 
 exports[`<AccountDetails /> renders without lockup account 1`] = `
 <div
-  className="account-info-container"
+  className="c-dOsIRQ"
 >
   <div
     className="row no-gutters"
@@ -4494,7 +4422,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
                   onMouseEnter={[Function]}
                 >
                   <img
-                    className="transaction-link-icon"
+                    className="c-fCEEVh"
                     src="/static/images/icon-m-copy.svg"
                   />
                 </a>
@@ -4560,26 +4488,8 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
     jsx={true}
   >
     
-        .account-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .account-info-container &gt; .row:first-of-type .card-cell-text {
-          font-size: 24px;
-        }
-
-        .account-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
         .account-card-back {
           background-color: #f8f8f8;
-        }
-
-        .transaction-link-icon {
-          width: 15px;
-          margin: 0 0 12px 12px;
         }
       
   </style>
