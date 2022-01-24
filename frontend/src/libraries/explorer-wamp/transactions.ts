@@ -17,6 +17,7 @@ export interface TransactionBaseInfo {
 }
 export type TransactionInfo = TransactionBaseInfo & {
   status?: ExecutionStatus;
+  executionStatus?: string;
 };
 
 export interface CreateAccount {}

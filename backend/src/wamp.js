@@ -441,6 +441,12 @@ wampHandlers["transaction-hash-by-receipt-id"] = async ([receiptId]) => {
 wampHandlers["receipts-list-by-block-hash"] = async ([blockHash]) => {
   return await receipts.getReceiptsList(blockHash);
 };
+wampHandlers["executed-receipts-list-by-block-hash"] = async ([blockHash]) => {
+  return await receipts.getExucutedReceiptsList(blockHash);
+};
+wampHandlers["all-receipts-list-by-block-hash"] = async ([blockHash]) => {
+  return await receipts.getIncludedAndExecutedReceiptsList(blockHash);
+};
 
 // transactions
 wampHandlers["is-transaction-indexed"] = async ([transactionHash]) => {

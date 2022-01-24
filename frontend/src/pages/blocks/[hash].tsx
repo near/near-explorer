@@ -87,9 +87,25 @@ const BlockDetail: NextPage<Props> = (props) => {
           <Content
             size="medium"
             icon={<TransactionIcon style={{ width: "22px" }} />}
-            title={<h2>{t("common.receipts.receipts")}</h2>}
+            title={<h2>Receipts included in this block</h2>}
           >
-            <ReceiptsInBlock blockHash={props.hash} />
+            <ReceiptsInBlock includedInBlockHash={props.hash} />
+          </Content>
+
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>Receipts executed in this block</h2>}
+          >
+            <ReceiptsInBlock executedInBlockHash={props.hash} />
+          </Content>
+
+          <Content
+            size="medium"
+            icon={<TransactionIcon style={{ width: "22px" }} />}
+            title={<h2>[ DEMO ] All Receipts in this block</h2>}
+          >
+            <ReceiptsInBlock allReceiptsInBlock={props.hash} />
           </Content>
         </>
       ) : null}

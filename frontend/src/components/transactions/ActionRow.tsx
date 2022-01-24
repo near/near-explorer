@@ -8,6 +8,7 @@ import * as T from "../../libraries/explorer-wamp/transactions";
 export interface Props {
   action: T.Action;
   blockTimestamp?: number;
+  executionStatus?: string;
   className?: string;
   detailsLink?: React.ReactNode;
   detalizationMode?: DetalizationMode;
@@ -26,6 +27,7 @@ const ActionRow: FC<Props> = ({
   signerId,
   receiverId,
   blockTimestamp,
+  executionStatus,
   detailsLink,
   action,
   showDetails,
@@ -40,6 +42,7 @@ const ActionRow: FC<Props> = ({
       className={className}
       signerId={signerId}
       blockTimestamp={blockTimestamp}
+      executionStatus={executionStatus}
       detailsLink={detailsLink}
       icon={ActionIcon && <ActionIcon />}
       title={

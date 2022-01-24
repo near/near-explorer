@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
 import Timer from "../utils/Timer";
@@ -11,6 +11,7 @@ export type DetalizationMode = "detailed" | "minimal";
 export interface Props {
   signerId: string;
   blockTimestamp?: number;
+  executionStatus?: string;
   detailsLink?: React.ReactNode;
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;
@@ -28,6 +29,7 @@ const ActionRowBlock: FC<Props> = ({
   className = "",
   signerId,
   blockTimestamp,
+  executionStatus,
   detailsLink,
   icon,
   title,
@@ -36,6 +38,19 @@ const ActionRowBlock: FC<Props> = ({
   children,
 }) => {
   const { t } = useTranslation();
+  let explainExecutionStatusText;
+  if (executionStatus) {
+    if (executionStatus === "success") {
+      explainExecutionStatusText =
+        "receipt included and executed in this block";
+    } else if (executionStatus === "delayed") {
+      explainExecutionStatusText =
+        "receipt included in this block but will be executed in another one";
+    } else if (executionStatus === "executed") {
+      explainExecutionStatusText =
+        "receipt was included earlier (in another block) but executed in this one";
+    }
+  }
   return (
     <>
       <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
@@ -74,7 +89,23 @@ const ActionRowBlock: FC<Props> = ({
                         ? ""
                         : "/" + t("common.blocks.status.finalizing")}
                     </span>{" "}
-                    {blockTimestamp && <Timer time={blockTimestamp} />}
+                    {!executionStatus && blockTimestamp && (
+                      <Timer time={blockTimestamp} />
+                    )}
+                    {executionStatus ? (
+                      <OverlayTrigger
+                        placement={"bottom"}
+                        overlay={
+                          <Tooltip id={`execution-status-${executionStatus}`}>
+                            {explainExecutionStatusText}
+                          </Tooltip>
+                        }
+                      >
+                        <span className="action-row-timer-status">
+                          &nbsp;|&nbsp;{executionStatus}
+                        </span>
+                      </OverlayTrigger>
+                    ) : null}
                   </Col>
                 </Row>
               </Col>

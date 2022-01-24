@@ -4,6 +4,7 @@ import { Action } from "./transactions";
 export interface Receipt {
   actions: Action[];
   blockTimestamp: number;
+  executionStatus?: string;
   receiptId: string;
   gasBurnt: number;
   receiverId: string;
@@ -29,6 +30,18 @@ interface TransactionHashByReceiptId {
 export default class ReceiptsApi extends ExplorerApi {
   async queryReceiptsList(blockHash: string): Promise<Receipt[]> {
     return await this.call<Receipt[]>("receipts-list-by-block-hash", [
+      blockHash,
+    ]);
+  }
+
+  async queryExecutedReceiptsList(blockHash: string): Promise<Receipt[]> {
+    return await this.call<Receipt[]>("executed-receipts-list-by-block-hash", [
+      blockHash,
+    ]);
+  }
+
+  async queryAllReceiptsList(blockHash: string): Promise<Receipt[]> {
+    return await this.call<Receipt[]>("all-receipts-list-by-block-hash", [
       blockHash,
     ]);
   }
