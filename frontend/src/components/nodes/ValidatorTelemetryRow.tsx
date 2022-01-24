@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
@@ -84,10 +84,33 @@ const ValidatorTelemetryRow: FC<Props> = ({
             expectedBlocks !== undefined &&
             expectedBlocks !== 0 ? (
               <>
-                {((producedBlocks / expectedBlocks) * 100).toFixed(3)}% &nbsp;
-                <span>
-                  ({producedBlocks}/{expectedBlocks})
-                </span>
+                <OverlayTrigger
+                  placement={"bottom"}
+                  overlay={
+                    <Tooltip id="produced-blocks-chunks">
+                      {t(
+                        "component.nodes.ValidatorTelemetryRow.produced_blocks",
+                        {
+                          num_produced_blocks: producedBlocks,
+                          num_expected_blocks: expectedBlocks,
+                        }
+                      )}
+                      {", "}
+                      {t(
+                        "component.nodes.ValidatorTelemetryRow.produced_chunks",
+                        {
+                          num_produced_chunks: producedChunks,
+                          num_expected_chunks: expectedChunks,
+                        }
+                      )}
+                    </Tooltip>
+                  }
+                >
+                  <span>
+                    {((producedBlocks / expectedBlocks) * 100).toFixed(3)}
+                    %
+                  </span>
+                </OverlayTrigger>
               </>
             ) : (
               t("common.state.not_available")

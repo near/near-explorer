@@ -169,7 +169,9 @@
         },
         "node_agent_version_or_build": {
           "title": "Node Agent Version / Build"
-        }
+        },
+        "produced_blocks": "produced ${num_produced_blocks}/${num_expected_blocks} blocks",
+        "produced_chunks": "${num_produced_chunks}/${num_expected_chunks} chunks"
       },
       "ValidatorMetadataRow": {
         "pool_info": {

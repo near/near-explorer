@@ -169,7 +169,9 @@
         },
         "node_agent_version_or_build": {
           "title": "Версия агента узла / Построение"
-        }
+        },
+        "produced_blocks": "произведено ${num_produced_blocks}/${num_expected_blocks} блоков",
+        "produced_chunks": "${num_produced_chunks}/${num_expected_chunks} фрагментов"
       },
       "ValidatorMetadataRow": {
         "pool_info": {
