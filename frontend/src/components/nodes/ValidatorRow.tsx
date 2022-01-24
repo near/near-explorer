@@ -116,6 +116,8 @@ const ValidatorRow: FC<Props> = ({ node, index, totalStake }) => {
         isRowActive={isRowActive}
         producedBlocks={node.num_produced_blocks}
         expectedBlocks={node.num_expected_blocks}
+        producedChunks={node.num_produced_chunks}
+        expectedChunks={node.num_expected_chunks}
         latestProducedValidatorBlock={node.nodeInfo?.lastHeight}
         lastSeen={node.nodeInfo?.lastSeen}
         agentName={node.nodeInfo?.agentName}

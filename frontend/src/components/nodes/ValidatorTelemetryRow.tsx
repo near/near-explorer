@@ -26,6 +26,8 @@ const Uptime = styled(ValidatorNodesText, {
 interface Props {
   producedBlocks?: number;
   expectedBlocks?: number;
+  producedChunks?: number;
+  expectedChunks?: number;
   latestProducedValidatorBlock?: number;
   lastSeen?: number;
   agentName?: string;
@@ -36,6 +38,8 @@ interface Props {
 const ValidatorTelemetryRow: FC<Props> = ({
   producedBlocks,
   expectedBlocks,
+  producedChunks,
+  expectedChunks,
   latestProducedValidatorBlock,
   lastSeen,
   agentName,
@@ -46,6 +50,8 @@ const ValidatorTelemetryRow: FC<Props> = ({
   const isTelemetryAvailable =
     Boolean(producedBlocks) ||
     Boolean(expectedBlocks) ||
+    Boolean(producedChunks) ||
+    Boolean(expectedChunks) ||
     Boolean(latestProducedValidatorBlock) ||
     Boolean(lastSeen) ||
     Boolean(agentName) ||

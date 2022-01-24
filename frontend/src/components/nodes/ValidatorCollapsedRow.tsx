@@ -9,6 +9,8 @@ interface Props {
   isRowActive: boolean;
   producedBlocks?: number;
   expectedBlocks?: number;
+  producedChunks?: number;
+  expectedChunks?: number;
   latestProducedValidatorBlock?: number;
   lastSeen?: number;
   agentName?: string;
@@ -25,6 +27,8 @@ const ValidatorCollapsedRow: FC<Props> = ({
   isRowActive,
   producedBlocks,
   expectedBlocks,
+  producedChunks,
+  expectedChunks,
   latestProducedValidatorBlock,
   lastSeen,
   agentName,
@@ -41,6 +45,8 @@ const ValidatorCollapsedRow: FC<Props> = ({
       <ValidatorTelemetryRow
         producedBlocks={producedBlocks}
         expectedBlocks={expectedBlocks}
+        producedChunks={producedChunks}
+        expectedChunks={expectedChunks}
         latestProducedValidatorBlock={latestProducedValidatorBlock}
         lastSeen={lastSeen}
         agentName={agentName}
