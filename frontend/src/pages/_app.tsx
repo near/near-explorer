@@ -89,6 +89,7 @@ const App: AppType = ({
   pageProps,
 }) => {
   if (typeof window !== "undefined" && language) {
+    setMomentLanguage(language);
     // There is no react way of waiting till i18n is initialized before render
     // But at the moment SSR should render content properly
     void initializeI18n(language);
