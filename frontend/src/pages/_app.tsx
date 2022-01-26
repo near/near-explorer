@@ -11,7 +11,11 @@ import Footer from "../components/utils/Footer";
 import { NetworkContext } from "../context/NetworkContext";
 import DatabaseProvider from "../context/DatabaseProvider";
 
-import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
+import {
+  getLanguage,
+  LANGUAGE_COOKIE,
+  setMomentLanguage,
+} from "../libraries/language";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
 import { initializeI18n, Language, LANGUAGES } from "../libraries/i18n";
 import { NextComponentType } from "next";
@@ -85,6 +89,7 @@ const App: AppType = ({
   pageProps,
 }) => {
   if (typeof window !== "undefined" && language) {
+    setMomentLanguage(language);
     // There is no react way of waiting till i18n is initialized before render
     // But at the moment SSR should render content properly
     void initializeI18n(language);
@@ -158,6 +163,7 @@ App.getInitialProps = async (appContext) => {
       language,
     };
     setI18n(await initializeI18n(language));
+    setMomentLanguage(language);
     appContext.ctx.res!.setHeader(
       "set-cookie",
       `${LANGUAGE_COOKIE}=${language}; Max-Age=${YEAR / 1000}`
