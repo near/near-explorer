@@ -54,6 +54,11 @@ const config: ExplorerConfig & NextConfig = {
     });
     return config;
   },
+  experimental: {
+    // Turning feature on breaks production code (with ESM module imported, e.g. stitches)
+    // https://github.com/vercel/next.js/issues/32360
+    esmExternals: false,
+  },
 };
 
 export = config;
