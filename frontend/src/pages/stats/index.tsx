@@ -10,6 +10,7 @@ import ActiveAccountsByDate from "../../components/stats/ActiveAccountsByDate";
 import ActiveContractsByDate from "../../components/stats/ActiveContractsByDate";
 import ActiveAccountsList from "../../components/stats/ActiveAccountsList";
 import ActiveContractsList from "../../components/stats/ActiveContractsList";
+import ActiveNearAppsUsersByDate from "../../components/stats/ActiveNearAppsUsersByDate";
 import ProtocolConfigInfo from "../../components/stats/ProtocolConfigInfo";
 import CirculatingSupplyStats from "../../components/stats/CirculatingSupplyStats";
 import { useNetworkContext } from "../../hooks/use-network-context";
@@ -61,8 +62,12 @@ const Stats: NextPage = () => {
           <NewContractsByDate chartStyle={chartStyle} />
         </div>
         <hr />
-        <div id="activeAccountsBydate">
+        <div id="activeAccountsByDate">
           <ActiveAccountsByDate chartStyle={chartStyle} />
+        </div>
+        <hr />
+        <div id="activeNearAppsUsersByDate">
+          <ActiveNearAppsUsersByDate chartStyle={chartStyle} />
         </div>
         <hr />
         <div id="activeContractsByDate">
