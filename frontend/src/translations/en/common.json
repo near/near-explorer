@@ -511,6 +511,11 @@
         "weekly_number_of_active_accounts": "Weekly Number of Active Accounts",
         "active_accounts": "Active Accounts"
       },
+      "ActiveNearAppsUsersByDate": {
+        "weekly_number_of_active_nearapps_users": "Weekly Number of Active NearApps Users",
+        "nearapps_details_link_text": "Click here to learn more about NearApps",
+        "active_nearapps_users": "Active NearApps Users"
+      },
       "ActiveContractsByDate": {
         "daily_number_of_active_contracts": "Daily Number of Active Contracts",
         "active_contracts": "Active Contracts"
