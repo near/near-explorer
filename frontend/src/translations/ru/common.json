@@ -511,6 +511,11 @@
         "weekly_number_of_active_accounts": "Еженедельное количество активных аккаунтов",
         "active_accounts": "Активные аккуанты"
       },
+      "ActiveNearAppsUsersByDate": {
+        "weekly_number_of_active_nearapps_users": "Еженедельное количество активных пользователей NearApps",
+        "nearapps_details_link_text": "Больше подробностей про NearApps здесь",
+        "active_nearapps_users": "Активные пользователи NearApps"
+      },
       "ActiveContractsByDate": {
         "daily_number_of_active_contracts": "Суточное количество активных контрактов",
         "active_contracts": "Активные контракты"

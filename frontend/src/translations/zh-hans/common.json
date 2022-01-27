@@ -472,6 +472,11 @@
         "weekly_number_of_active_accounts": "周活跃账户数",
         "active_accounts": "活跃账户数"
       },
+      "ActiveNearAppsUsersByDate": {
+        "weekly_number_of_active_nearapps_users": "Weekly Number of Active NearApps Users",
+        "nearapps_details_link_text": "Click here to learn more about NearApps",
+        "active_nearapps_users": "Active NearApps Users"
+      },
       "ActiveContractsByDate": {
         "daily_number_of_active_contracts": "日活跃合约数",
         "active_contracts": "活跃合约数"

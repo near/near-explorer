@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
-import { Tabs, Tab } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import { AccountsByDate } from "../../libraries/explorer-wamp/stats";

@@ -511,6 +511,11 @@
         "weekly_number_of_active_accounts": "Số Tài Khoản Hoạt Động Hàng Tuần",
         "active_accounts": "Các Tài Khoản Hoạt Động"
       },
+      "ActiveNearAppsUsersByDate": {
+        "weekly_number_of_active_nearapps_users": "Weekly Number of Active NearApps Users",
+        "nearapps_details_link_text": "Click here to learn more about NearApps",
+        "active_nearapps_users": "Active NearApps Users"
+      },
       "ActiveContractsByDate": {
         "daily_number_of_active_contracts": "Số Hợp Đồng Hoạt Động Hàng Ngày",
         "active_contracts": "Các Hợp Đồng Hoạt Động"
