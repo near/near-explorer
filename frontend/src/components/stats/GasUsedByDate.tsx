@@ -36,11 +36,13 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
         setDate(date);
 
         if (latestGasPrice) {
-          const fee = gasUsed.map(({ gasUsed }) =>
-            utils.format.formatNearAmount(
-              new BN(gasUsed).mul(latestGasPrice).toString(),
-              5
-            )
+          const fee = gasUsed.map(
+            ({ gasUsed }) =>
+              new BN(gasUsed)
+                .mul(latestGasPrice)
+                .muln(1000)
+                .div(utils.format.NEAR_NOMINATION)
+                .toNumber() / 1000
           );
 
           setFee(fee);
