@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
-import { Receipt } from "../../libraries/explorer-wamp/receipts";
+import { Receipt } from "../../libraries/wamp/types";
 
 import ActionGroup from "../transactions/ActionGroup";
 import ReceiptLink from "../utils/ReceiptLink";

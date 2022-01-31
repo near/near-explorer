@@ -1,10 +1,6 @@
-import BN from "bn.js";
-
 import Head from "next/head";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
-
-import BlocksApi, { BlockInfo } from "../../libraries/explorer-wamp/blocks";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
 import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
@@ -14,46 +10,22 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import { getNearNetwork } from "../../libraries/config";
+import wampApi from "../../libraries/wamp/api";
+import { Block, getBlock } from "../../providers/blocks";
 
-type SuccessfulProps = Omit<
-  BlockInfo,
-  "totalSupply" | "gasPrice" | "gasUsed"
-> & {
-  totalSupply: string;
-  gasPrice: string;
-  gasUsed: string;
-};
-
-type FailedProps = {
+type Props = {
   hash: string;
-  err: unknown;
+  block?: Block;
+  err?: unknown;
 };
-
-type Props = SuccessfulProps | FailedProps;
 
 const BlockDetail: NextPage<Props> = (props) => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: props.hash,
   });
-
-  // Prepare the block object with all the right types and field names on render() since
-  // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
-  const block =
-    "err" in props
-      ? undefined
-      : {
-          hash: props.hash,
-          height: props.height,
-          timestamp: props.timestamp,
-          prevHash: props.prevHash,
-          transactionsCount: props.transactionsCount,
-          totalSupply: new BN(props.totalSupply),
-          gasPrice: new BN(props.gasPrice),
-          gasUsed: new BN(props.gasUsed),
-          authorAccountId: props.authorAccountId,
-          receiptsCount: props.receiptsCount,
-        };
+  const block = props.block;
 
   return (
     <>
@@ -103,15 +75,18 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ req, params }) => {
   const hash = params!.hash;
   try {
-    const block = await new BlocksApi(req).getBlockInfo(hash);
+    const nearNetwork = getNearNetwork(req);
+    const block = await getBlock(wampApi.getCall(nearNetwork), hash);
+    if (!block) {
+      return {
+        props: {
+          hash,
+          err: `Block "${hash}" is not found`,
+        },
+      };
+    }
     return {
-      props: {
-        ...block,
-        // the return value should be a serializable object per Next.js documentation, so we map BN to strings
-        totalSupply: block.totalSupply.toString(),
-        gasPrice: block.gasPrice.toString(),
-        gasUsed: block.gasUsed.toString(),
-      },
+      props: { hash: block.hash, block },
     };
   } catch (err) {
     return {

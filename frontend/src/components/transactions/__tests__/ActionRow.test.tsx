@@ -1,5 +1,4 @@
 import { renderElement } from "../../../testing/utils";
-import * as T from "../../../libraries/explorer-wamp/transactions";
 
 import TransactionLink from "../../utils/TransactionLink";
 import ReceiptLink from "../../utils/ReceiptLink";
@@ -7,6 +6,7 @@ import ActionRow from "../ActionRow";
 import TransactionExecutionStatus from "../TransactionExecutionStatus";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
+import { Action, RpcAction } from "../../../libraries/wamp/types";
 
 describe("<ActionRow />", () => {
   it("renders sparsely ActionRow for transaction by default", () => {
@@ -124,7 +124,7 @@ describe("<ActionRow />", () => {
       gas: 2000000000000,
       method_name: "incrementCounter",
     },
-  } as T.Action;
+  } as Action<keyof RpcAction>;
 
   it("renders functioncall with detail", () => {
     expect(

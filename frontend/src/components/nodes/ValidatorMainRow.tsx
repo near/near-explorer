@@ -4,13 +4,12 @@ import React, { FC } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import * as N from "../../libraries/explorer-wamp/nodes";
-
 import Balance from "../utils/Balance";
 import { TableRow } from "../utils/Table";
 import CountryFlag from "../utils/CountryFlag";
 import ValidatingLabel from "./ValidatingLabel";
 import CumulativeStakeChart from "./CumulativeStakeChart";
+import { StakingStatus } from "../../libraries/wamp/types";
 
 interface Props {
   isRowActive: boolean;
@@ -18,7 +17,7 @@ interface Props {
   index: number;
   countryCode?: string;
   country?: string;
-  stakingStatus?: N.StakingStatus;
+  stakingStatus?: StakingStatus;
   publicKey?: string;
   validatorFee?: string | null;
   validatorDelegators?: number | string | null;

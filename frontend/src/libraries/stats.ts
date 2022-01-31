@@ -1,6 +1,5 @@
-export const cumulativeSumArray = (array: Array<number>) =>
-  array.reduce((r, a) => {
-    if (r.length > 0) a += r[r.length - 1];
-    r.push(a);
-    return r;
-  }, Array());
+export const cumulativeSumArray = (array: number[]): number[] =>
+  array.reduce<number[]>((acc, element) => {
+    acc.push(acc.length === 0 ? element : element + acc[acc.length - 1]);
+    return acc;
+  }, []);

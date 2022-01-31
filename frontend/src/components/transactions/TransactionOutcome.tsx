@@ -2,14 +2,14 @@ import BN from "bn.js";
 import { FC } from "react";
 import { Row, Col } from "react-bootstrap";
 
-import * as T from "../../libraries/explorer-wamp/transactions";
 import Gas from "../utils/Gas";
 import Balance from "../utils/Balance";
+import { TransactionOutcome as TTransactionOutcome } from "../../pages/transactions/[hash]";
 
 import { useTranslation } from "react-i18next";
 
 export interface Props {
-  transaction: T.TransactionOutcome;
+  transaction: TTransactionOutcome;
 }
 
 const TransactionOutcome: FC<Props> = ({ transaction }) => {

@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-
-import { StakingStatus } from "../../libraries/explorer-wamp/nodes";
+import { StakingStatus } from "../../libraries/wamp/types";
 
 interface Props {
   text: string;

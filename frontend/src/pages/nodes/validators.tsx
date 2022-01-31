@@ -1,4 +1,5 @@
 import Head from "next/head";
+import BN from "bn.js";
 
 import { Container } from "react-bootstrap";
 
@@ -8,15 +9,21 @@ import Content from "../../components/utils/Content";
 import NodesCard from "../../components/nodes/NodesCard";
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
-import NodeProvider from "../../context/NodeProvider";
-import NetworkStatsProvider, {
-  NetworkStatsConsumer,
-} from "../../context/NetworkStatsProvider";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import { useNetworkStats, useFinalityStatus } from "../../hooks/subscriptions";
+import {
+  useEpochStartBlock,
+  useFinalBlockTimestampNanosecond,
+} from "../../hooks/data";
 
 const ValidatorsPage: NextPage = () => {
   useAnalyticsTrackOnMount("Explorer View Validator Node page");
+
+  const networkStats = useNetworkStats();
+  const epochStartBlock = useEpochStartBlock();
+  const finalBlockHeight = useFinalityStatus()?.finalBlockHeight;
+  const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
 
   return (
     <>
@@ -24,54 +31,50 @@ const ValidatorsPage: NextPage = () => {
         <title>NEAR Explorer | Nodes</title>
       </Head>
 
-      <NetworkStatsProvider>
-        <Container fluid>
-          <NetworkStatsConsumer>
-            {({ networkStats, epochStartBlock, finalityStatus }) => {
-              if (!networkStats || !epochStartBlock || !finalityStatus) {
-                return null;
-              }
-              return (
-                <NodesEpoch
-                  epochLength={networkStats.epochLength}
-                  epochStartHeight={epochStartBlock.height}
-                  epochStartTimestamp={epochStartBlock.timestamp}
-                  latestBlockHeight={finalityStatus.finalBlockHeight}
-                  latestBlockTimestamp={finalityStatus.finalBlockTimestampNanosecond
-                    .divn(10 ** 6)
-                    .toNumber()}
-                />
-              );
-            }}
-          </NetworkStatsConsumer>
-        </Container>
+      <Container fluid>
+        {!networkStats ||
+        !epochStartBlock ||
+        typeof finalBlockHeight !== "number" ||
+        !finalBlockTimestampNanosecond ? null : (
+          <NodesEpoch
+            epochLength={networkStats.epochLength}
+            epochStartHeight={epochStartBlock.height}
+            epochStartTimestamp={epochStartBlock.timestamp}
+            latestBlockHeight={finalBlockHeight}
+            latestBlockTimestamp={finalBlockTimestampNanosecond
+              .divn(10 ** 6)
+              .toNumber()}
+          />
+        )}
+      </Container>
 
-        <Content
-          border={false}
-          fluid
-          contentFluid
-          className="nodes-page"
-          header={<NodesContentHeader navRole="validators" />}
-        >
-          <Container>
-            <NetworkStatsConsumer>
-              {({ networkStats, epochStartBlock }) => (
-                <NodesCard
-                  currentValidatorsCount={networkStats?.currentValidatorsCount}
-                  totalSupply={epochStartBlock?.totalSupply.toString()}
-                  totalStake={networkStats?.totalStake.toString()}
-                  seatPrice={networkStats?.seatPrice.toString()}
-                />
-              )}
-            </NetworkStatsConsumer>
-          </Container>
-          <NodeProvider>
-            <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
-              <Validators />
-            </Container>
-          </NodeProvider>
-        </Content>
-      </NetworkStatsProvider>
+      <Content
+        border={false}
+        fluid
+        contentFluid
+        className="nodes-page"
+        header={<NodesContentHeader navRole="validators" />}
+      >
+        <Container>
+          <NodesCard
+            currentValidatorsCount={networkStats?.currentValidatorsCount}
+            totalSupply={epochStartBlock?.totalSupply.toString()}
+            totalStake={
+              networkStats
+                ? new BN(networkStats.totalStake).toString()
+                : undefined
+            }
+            seatPrice={
+              networkStats
+                ? new BN(networkStats.seatPrice).toString()
+                : undefined
+            }
+          />
+        </Container>
+        <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
+          <Validators />
+        </Container>
+      </Content>
       <style global jsx>{`
         .nodes-page {
           background-color: #ffffff;

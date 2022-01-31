@@ -1,18 +1,15 @@
 import BN from "bn.js";
-import { useContext } from "react";
-
-import { DatabaseContext } from "../../context/DatabaseProvider";
-import { TransactionInfo } from "../../libraries/explorer-wamp/transactions";
-import { Receipt } from "../../libraries/explorer-wamp/receipts";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
 
 import ActionRow from "./ActionRow";
 import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
+import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
+import { Receipt, TransactionBaseInfo } from "../../libraries/wamp/types";
 
 interface Props {
-  actionGroup: Receipt | TransactionInfo;
+  actionGroup: Receipt | TransactionBaseInfo;
   detailsLink?: React.ReactNode;
   status?: React.ReactNode;
   viewMode?: ViewMode;
@@ -28,16 +25,15 @@ const ActionGroup = ({
   title,
   icon,
 }: Props) => {
-  const { finalityStatus } = useContext(DatabaseContext);
+  const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
 
   if (!actionGroup?.actions) return null;
 
-  const isFinal =
-    typeof finalityStatus?.finalBlockTimestampNanosecond !== "undefined"
-      ? new BN(actionGroup.blockTimestamp).lte(
-          finalityStatus.finalBlockTimestampNanosecond.divn(10 ** 6)
-        )
-      : undefined;
+  const isFinal = finalBlockTimestampNanosecond
+    ? new BN(actionGroup.blockTimestamp).lte(
+        finalBlockTimestampNanosecond.divn(10 ** 6)
+      )
+    : undefined;
 
   return (
     <>

@@ -1,30 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import ReactEcharts from "echarts-for-react";
 
-import StatsApi, { Account } from "../../libraries/explorer-wamp/stats";
+import { useWampSimpleQuery } from "../../hooks/wamp";
 
 const PartnerFirst3MonthTransactionList = () => {
-  const [activeAccounts, setAccounts] = useState(Array());
-  const [count, setCount] = useState(Array());
+  const partnerFirst3MonthTransactions =
+    useWampSimpleQuery("partner-first-3-month-transactions-count", []) ?? [];
+  const partnerFirst3MonthTransactionsAccounts = useMemo(
+    () => partnerFirst3MonthTransactions.map(({ account }) => account),
+    [partnerFirst3MonthTransactions]
+  );
+  const partnerFirst3MonthTransactionsTransactionCount = useMemo(
+    () =>
+      partnerFirst3MonthTransactions.map(({ transactionsCount }) =>
+        Number(transactionsCount)
+      ),
+    [partnerFirst3MonthTransactions]
+  );
 
-  useEffect(() => {
-    new StatsApi()
-      .partnerFirst3MonthTransactionsCount()
-      .then((accounts: Account[]) => {
-        if (accounts) {
-          const activeAccounts = accounts.map(
-            (account: Account) => account.account
-          );
-          const count = accounts.map((account: Account) =>
-            Number(account.transactionsCount)
-          );
-          setAccounts(activeAccounts);
-          setCount(count);
-        }
-      });
-  }, []);
-
-  let height = 30 * activeAccounts.length;
+  let height = 30 * partnerFirst3MonthTransactions.length;
 
   const getOption = () => {
     return {
@@ -48,13 +42,13 @@ const PartnerFirst3MonthTransactionList = () => {
       yAxis: [
         {
           type: "category",
-          data: activeAccounts,
+          data: partnerFirst3MonthTransactionsAccounts,
         },
       ],
       series: [
         {
           type: "bar",
-          data: count,
+          data: partnerFirst3MonthTransactionsTransactionCount,
         },
       ],
     };
