@@ -2,10 +2,6 @@ import Head from "next/head";
 
 import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
 
-import TransactionsApi, {
-  Transaction,
-} from "../../libraries/explorer-wamp/transactions";
-
 import ActionsList from "../../components/transactions/ActionsList";
 import ReceiptRow from "../../components/transactions/ReceiptRow";
 import TransactionDetails from "../../components/transactions/TransactionDetails";
@@ -15,6 +11,18 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import {
+  Action,
+  ExecutionStatus,
+  RpcOutcome,
+  RpcReceiptOutcome,
+  RpcReceiptStatus,
+  RpcAction,
+  TransactionBaseInfo,
+  RpcReceipt,
+} from "../../libraries/wamp/types";
+import wampApi from "../../libraries/wamp/api";
+import { getNearNetwork } from "../../libraries/config";
 
 type Props = {
   hash: string;
@@ -28,8 +36,6 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
     transaction_hash: props.hash,
   });
 
-  // Prepare the transaction object with all the right types and field names on render() since
-  // `getInitialProps` can only return basic types to be serializable after Server-side Rendering
   const transaction = props.transaction;
 
   return (
@@ -91,18 +97,124 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
   );
 };
 
+export type TransactionOutcome = {
+  id: string;
+  outcome: RpcOutcome;
+  block_hash: string;
+};
+
+type ReceiptExecutionOutcome = {
+  tokens_burnt: string;
+  logs: string[];
+  outgoing_receipts?: NestedReceiptWithOutcome[];
+  status: RpcReceiptStatus;
+  gas_burnt: number;
+};
+
+export type NestedReceiptWithOutcome = {
+  actions?: Action<keyof RpcAction>[];
+  block_hash: string;
+  outcome: ReceiptExecutionOutcome;
+  predecessor_id: string;
+  receipt_id: string;
+  receiver_id: string;
+};
+
+export type Transaction = TransactionBaseInfo & {
+  status: ExecutionStatus;
+  receiptsOutcome: RpcReceiptOutcome[];
+  transactionOutcome: TransactionOutcome;
+  receipt: NestedReceiptWithOutcome;
+};
+
 export const getServerSideProps: GetServerSideProps<
   Props,
   { hash: string }
 > = async ({ req, params }) => {
   const hash = params!.hash;
   try {
+    const nearNetwork = getNearNetwork(req);
+    const wampCall = wampApi.getCall(nearNetwork);
+    const transactionBaseInfo = await wampCall("transaction-info", [hash]);
+    if (!transactionBaseInfo) {
+      throw new Error(`No hash ${hash} found`);
+    }
+    const transactionInfo = await wampCall("nearcore-tx", [
+      transactionBaseInfo.hash,
+      transactionBaseInfo.signerId,
+    ]);
+    const actions = transactionInfo.transaction.actions.map((action) => {
+      const kind = Object.keys(action)[0] as keyof RpcAction;
+      return {
+        kind,
+        args: action[kind],
+      };
+    });
+    const receipts = transactionInfo.receipts;
+    const receiptsOutcome = transactionInfo.receipts_outcome;
+    if (
+      receipts.length === 0 ||
+      receipts[0].receipt_id !== receiptsOutcome[0].id
+    ) {
+      receipts.unshift({
+        predecessor_id: transactionInfo.transaction.signer_id,
+        receipt: actions,
+        receipt_id: receiptsOutcome[0].id,
+        receiver_id: transactionInfo.transaction.receiver_id,
+      });
+    }
+    const receiptOutcomesByIdMap = new Map<string, RpcReceiptOutcome>();
+    receiptsOutcome.forEach((receipt) => {
+      receiptOutcomesByIdMap.set(receipt.id, receipt);
+    });
+
+    const receiptsByIdMap = new Map<
+      string,
+      Omit<RpcReceipt, "actions"> & { actions: Action<keyof RpcAction>[] }
+    >();
+    receipts.forEach((receiptItem) => {
+      receiptsByIdMap.set(receiptItem.receipt_id, {
+        ...receiptItem,
+        actions:
+          receiptItem.receipt_id === receiptsOutcome[0].id
+            ? actions
+            : receiptItem.receipt?.Action?.actions.map((action: RpcAction) => {
+                const kind = Object.keys(action)[0] as keyof RpcAction;
+                return {
+                  kind,
+                  args: action[kind],
+                };
+              }),
+      });
+    });
+
+    const collectNestedReceiptWithOutcome = (
+      receiptHash: string
+    ): NestedReceiptWithOutcome => {
+      const receipt = receiptsByIdMap.get(receiptHash)!;
+      const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash)!;
+      return {
+        ...receipt,
+        ...receiptOutcome,
+        outcome: {
+          ...receiptOutcome.outcome,
+          outgoing_receipts: receiptOutcome.outcome.receipt_ids.map(
+            collectNestedReceiptWithOutcome
+          ),
+        },
+      };
+    };
     return {
       props: {
         hash,
-        transaction:
-          (await new TransactionsApi(req).getTransactionInfo(hash)) ||
-          undefined,
+        transaction: {
+          ...transactionBaseInfo,
+          status: Object.keys(transactionInfo.status)[0] as ExecutionStatus,
+          actions,
+          receiptsOutcome,
+          receipt: collectNestedReceiptWithOutcome(receiptsOutcome[0].id),
+          transactionOutcome: transactionInfo.transaction_outcome,
+        },
       },
     };
   } catch (err) {

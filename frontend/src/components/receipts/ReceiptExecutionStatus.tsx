@@ -1,5 +1,5 @@
-import { ReceiptExecutionStatus } from "../../libraries/explorer-wamp/receipts";
 import { useTranslation } from "react-i18next";
+import { ReceiptExecutionStatus } from "../../libraries/wamp/types";
 
 export interface Props {
   status: ReceiptExecutionStatus;

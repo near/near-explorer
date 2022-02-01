@@ -16,9 +16,9 @@ describe("<BlockDetails />", () => {
             hash: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
             prevHash: "EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu",
             height: 12345,
-            gasPrice: new BN("5000"),
-            gasUsed: new BN("1000"),
-            totalSupply: new BN(10).pow(new BN(24 + 9)),
+            gasPrice: "5000",
+            gasUsed: "1000",
+            totalSupply: new BN(10).pow(new BN(24 + 9)).toString(),
             receiptsCount: 5,
           }}
         />

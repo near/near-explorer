@@ -2,30 +2,27 @@ import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import moment from "moment";
 
-import { TransactionsCountStat } from "../../context/DatabaseProvider";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
+import { useChainTransactionStats } from "../../hooks/subscriptions";
 
-export interface Props {
-  transactionsCountHistory: TransactionsCountStat[];
-}
-
-const DashboardTransactionHistoryChart = ({
-  transactionsCountHistory,
-}: Props) => {
+const DashboardTransactionHistoryChart = () => {
   const { t } = useTranslation();
+  const transactionsCountHistoryForTwoWeeks =
+    useChainTransactionStats()?.transactionsCountHistoryForTwoWeeks || [];
+
   const getDate = () => {
     const format = t(
       "component.dashboard.DashboardTransactionHistoryChart.date_format"
     );
-    const date = transactionsCountHistory.map((t) =>
+    const date = transactionsCountHistoryForTwoWeeks.map((t) =>
       moment(t.date).format(format)
     );
     return date;
   };
 
-  const count = transactionsCountHistory.map((t) => t.total);
+  const count = transactionsCountHistoryForTwoWeeks.map((t) => t.total);
   const getOption = () => {
     return {
       title: {
@@ -119,7 +116,7 @@ const DashboardTransactionHistoryChart = ({
     };
   };
 
-  if (transactionsCountHistory.length === 0) {
+  if (transactionsCountHistoryForTwoWeeks.length === 0) {
     return <PaginationSpinner hidden={false} />;
   }
   return (

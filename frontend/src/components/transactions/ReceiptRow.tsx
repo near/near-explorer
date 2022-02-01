@@ -4,8 +4,6 @@ import { FC } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import * as T from "../../libraries/explorer-wamp/transactions";
-
 import Gas from "../utils/Gas";
 import Balance from "../utils/Balance";
 import AccountLink from "../utils/AccountLink";
@@ -15,17 +13,23 @@ import { displayArgs } from "./ActionMessage";
 import ActionRow from "./ActionRow";
 
 import { useTranslation } from "react-i18next";
+import { NestedReceiptWithOutcome } from "../../pages/transactions/[hash]";
+import {
+  RpcReceiptFailure,
+  RpcReceiptSuccessId,
+  RpcReceiptSuccessValue,
+} from "../../libraries/wamp/types";
 
 export interface Props {
-  receipt: T.NestedReceiptWithOutcome;
+  receipt: NestedReceiptWithOutcome;
   transactionHash: string;
 }
 
 const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
   const { t } = useTranslation();
   let statusInfo;
-  if ("SuccessValue" in (receipt.outcome.status as T.ReceiptSuccessValue)) {
-    const { SuccessValue } = receipt.outcome.status as T.ReceiptSuccessValue;
+  if ("SuccessValue" in (receipt.outcome.status as RpcReceiptSuccessValue)) {
+    const { SuccessValue } = receipt.outcome.status as RpcReceiptSuccessValue;
     if (SuccessValue === null) {
       statusInfo = t("component.transactions.ReceiptRow.no_result");
     } else if (SuccessValue.length === 0) {
@@ -38,8 +42,8 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
         </>
       );
     }
-  } else if ("Failure" in (receipt.outcome.status as T.ReceiptFailure)) {
-    const { Failure } = receipt.outcome.status as T.ReceiptFailure;
+  } else if ("Failure" in (receipt.outcome.status as RpcReceiptFailure)) {
+    const { Failure } = receipt.outcome.status as RpcReceiptFailure;
     statusInfo = (
       <>
         <i>{t("component.transactions.ReceiptRow.failure")}: </i>
@@ -47,9 +51,9 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
       </>
     );
   } else if (
-    "SuccessReceiptId" in (receipt.outcome.status as T.ReceiptSuccessId)
+    "SuccessReceiptId" in (receipt.outcome.status as RpcReceiptSuccessId)
   ) {
-    const { SuccessReceiptId } = receipt.outcome.status as T.ReceiptSuccessId;
+    const { SuccessReceiptId } = receipt.outcome.status as RpcReceiptSuccessId;
     statusInfo = (
       <>
         <i>{t("component.transactions.ReceiptRow.success_receipt_id")}: </i>
@@ -146,7 +150,7 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
         <Row noGutters className="receipt-row-section">
           <Col className="receipt-row-text">
             {receipt.actions && receipt.actions.length > 0
-              ? receipt.actions.map((action: T.Action, index: number) => (
+              ? receipt.actions.map((action, index) => (
                   <ActionRow
                     key={receipt.receipt_id + index}
                     action={action}
@@ -176,22 +180,20 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
 
         {receipt.outcome.outgoing_receipts &&
           receipt.outcome.outgoing_receipts.length > 0 &&
-          receipt.outcome.outgoing_receipts.map(
-            (executedReceipt: T.NestedReceiptWithOutcome) => (
-              <Row
-                noGutters
-                className="executed-receipt-row"
-                key={executedReceipt.receipt_id}
-              >
-                <Col>
-                  <ReceiptRow
-                    transactionHash={transactionHash}
-                    receipt={executedReceipt}
-                  />
-                </Col>
-              </Row>
-            )
-          )}
+          receipt.outcome.outgoing_receipts.map((executedReceipt) => (
+            <Row
+              noGutters
+              className="executed-receipt-row"
+              key={executedReceipt.receipt_id}
+            >
+              <Col>
+                <ReceiptRow
+                  transactionHash={transactionHash}
+                  receipt={executedReceipt}
+                />
+              </Col>
+            </Row>
+          ))}
       </Col>
       <style jsx global>{`
         .receipt-row {

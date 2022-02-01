@@ -1,7 +1,7 @@
-import * as T from "../../../libraries/explorer-wamp/transactions";
-import * as R from "../../../libraries/explorer-wamp/receipts";
+import { Receipt } from "../../../libraries/wamp/types";
+import { Transaction } from "../../../pages/transactions/[hash]";
 
-export const TRANSACTIONS: T.Transaction[] = [
+export const TRANSACTIONS: Transaction[] = [
   // no action has deposit
   {
     hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
@@ -346,7 +346,7 @@ export const TRANSACTIONS: T.Transaction[] = [
   },
 ];
 
-export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: T.Transaction = {
+export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
   hash: "T1111111111111111111111111111111111111111111",
   signerId: "signer.test",
   receiverId: "receiver.test",
@@ -415,9 +415,21 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: T.Transaction = {
     receipt_id: "R1111111111111111111111111111111111111111111",
     receiver_id: "receiver.test",
   },
+  receiptsOutcome: [],
+  transactionOutcome: {
+    id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+    block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+    outcome: {
+      logs: [],
+      receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
+      status: { SuccessValue: null },
+      gas_burnt: 456456,
+      tokens_burnt: "456456",
+    },
+  },
 };
 
-export const TRANSACTION_WITH_MANY_RECEIPTS: T.Transaction = {
+export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
   hash: "T1111111111111111111111111111111111111111111",
   signerId: "signer.test",
   receiverId: "receiver.test",
@@ -581,9 +593,21 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: T.Transaction = {
     receipt_id: "R1111111111111111111111111111111111111111111",
     receiver_id: "receiver.test",
   },
+  receiptsOutcome: [],
+  transactionOutcome: {
+    id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+    block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+    outcome: {
+      logs: [],
+      receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
+      status: { SuccessValue: null },
+      gas_burnt: 456456,
+      tokens_burnt: "456456",
+    },
+  },
 };
 
-export const TRANSACTION_WITH_FAILING_RECEIPT: T.Transaction = {
+export const TRANSACTION_WITH_FAILING_RECEIPT: Transaction = {
   hash: "T1111111111111111111111111111111111111111111",
   signerId: "signer.test",
   receiverId: "receiver.test",
@@ -665,9 +689,21 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: T.Transaction = {
     receipt_id: "R1111111111111111111111111111111111111111111",
     receiver_id: "receiver.test",
   },
+  receiptsOutcome: [],
+  transactionOutcome: {
+    id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
+    block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
+    outcome: {
+      logs: [],
+      receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
+      status: { SuccessValue: null },
+      gas_burnt: 456456,
+      tokens_burnt: "456456",
+    },
+  },
 };
 
-export const RECEIPTS: R.Receipt[] = [
+export const RECEIPTS: Receipt[] = [
   {
     actions: [
       { args: { deposit: "8403180157952936387200" }, kind: "Transfer" },

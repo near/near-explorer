@@ -1,12 +1,11 @@
-import { FC, useState, useEffect } from "react";
-
-import ReceiptsApi, { Receipt } from "../../libraries/explorer-wamp/receipts";
+import { FC } from "react";
 
 import Receipts from "../receipts/Receipts";
 import Placeholder from "../utils/Placeholder";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
+import { useWampSimpleQuery } from "../../hooks/wamp";
 
 interface Props {
   blockHash: string;
@@ -14,26 +13,16 @@ interface Props {
 
 const ReceiptsInBlock: FC<Props> = ({ blockHash }) => {
   const { t } = useTranslation();
-  const [receipts, setReceipts] = useState<Receipt[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!blockHash) {
-      return;
-    }
-    setLoading(true);
-    new ReceiptsApi().queryReceiptsList(blockHash).then((receipts) => {
-      setReceipts(receipts);
-      setLoading(false);
-    });
-  }, [blockHash, setReceipts, setLoading]);
+  const receiptsList = useWampSimpleQuery("receipts-list-by-block-hash", [
+    blockHash,
+  ]);
 
   return (
     <>
-      {loading ? (
+      {!receiptsList ? (
         <PaginationSpinner hidden={false} />
-      ) : receipts.length > 0 ? (
-        <Receipts receipts={receipts} />
+      ) : receiptsList.length > 0 ? (
+        <Receipts receipts={receiptsList} />
       ) : (
         <Placeholder>
           {t("component.blocks.ReceiptsInBlock.no_receipts")}

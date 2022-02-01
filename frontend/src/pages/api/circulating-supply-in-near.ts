@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
+import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
-import { ExplorerApi } from "../../libraries/explorer-wamp";
 
 const handler: NextApiHandler = async (req, res) => {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
@@ -11,10 +11,10 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const supply = await new ExplorerApi(req).call<{
-      timestamp: string;
-      circulating_supply_in_yoctonear: string;
-    }>("get-latest-circulating-supply");
+    const supply = await wampApi.getCall(nearNetwork)(
+      "get-latest-circulating-supply",
+      []
+    );
     const supplyInYoctoNEAR = supply.circulating_supply_in_yoctonear;
     res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));
   } catch (error) {

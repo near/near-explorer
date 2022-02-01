@@ -6,16 +6,22 @@ import NodesEpoch from "../../components/nodes/NodesEpoch";
 import Nodes from "../../components/nodes/Nodes";
 import Content from "../../components/utils/Content";
 
-import NodeProvider from "../../context/NodeProvider";
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
-import NetworkStatsProvider, {
-  NetworkStatsConsumer,
-} from "../../context/NetworkStatsProvider";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import { useNetworkStats, useFinalityStatus } from "../../hooks/subscriptions";
+import {
+  useEpochStartBlock,
+  useFinalBlockTimestampNanosecond,
+} from "../../hooks/data";
 
 const OnlineNodes: NextPage = () => {
   useAnalyticsTrackOnMount("Explorer View Online Node page");
+
+  const networkStats = useNetworkStats();
+  const epochStartBlock = useEpochStartBlock();
+  const finalBlockHeight = useFinalityStatus()?.finalBlockHeight;
+  const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
 
   return (
     <>
@@ -23,42 +29,34 @@ const OnlineNodes: NextPage = () => {
         <title>NEAR Explorer | Nodes</title>
       </Head>
 
-      <NetworkStatsProvider>
-        <Container fluid>
-          <NetworkStatsConsumer>
-            {({ networkStats, epochStartBlock, finalityStatus }) => {
-              if (!networkStats || !epochStartBlock || !finalityStatus) {
-                return null;
-              }
-              return (
-                <NodesEpoch
-                  epochLength={networkStats.epochLength}
-                  epochStartHeight={epochStartBlock.height}
-                  epochStartTimestamp={epochStartBlock.timestamp}
-                  latestBlockHeight={finalityStatus.finalBlockHeight}
-                  latestBlockTimestamp={finalityStatus.finalBlockTimestampNanosecond
-                    .divn(10 ** 6)
-                    .toNumber()}
-                />
-              );
-            }}
-          </NetworkStatsConsumer>
-        </Container>
+      <Container fluid>
+        {!networkStats ||
+        !epochStartBlock ||
+        typeof finalBlockHeight !== "number" ||
+        !finalBlockTimestampNanosecond ? null : (
+          <NodesEpoch
+            epochLength={networkStats.epochLength}
+            epochStartHeight={epochStartBlock.height}
+            epochStartTimestamp={epochStartBlock.timestamp}
+            latestBlockHeight={finalBlockHeight}
+            latestBlockTimestamp={finalBlockTimestampNanosecond
+              .divn(10 ** 6)
+              .toNumber()}
+          />
+        )}
+      </Container>
 
-        <Content
-          border={false}
-          fluid
-          contentFluid
-          className="online-nodes-page"
-          header={<NodesContentHeader navRole="online-nodes" />}
-        >
-          <NodeProvider>
-            <Container>
-              <Nodes />
-            </Container>
-          </NodeProvider>
-        </Content>
-      </NetworkStatsProvider>
+      <Content
+        border={false}
+        fluid
+        contentFluid
+        className="online-nodes-page"
+        header={<NodesContentHeader navRole="online-nodes" />}
+      >
+        <Container>
+          <Nodes />
+        </Container>
+      </Content>
       <style global jsx>{`
         .online-nodes-page {
           background-color: #ffffff;

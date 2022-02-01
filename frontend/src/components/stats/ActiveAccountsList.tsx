@@ -1,33 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useMemo } from "react";
 import ReactEcharts from "echarts-for-react";
 
-import StatsApi, { Account } from "../../libraries/explorer-wamp/stats";
 import { truncateAccountId } from "../../libraries/formatting";
 
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
+import { useWampQuery } from "../../hooks/wamp";
 
 const ActiveAccountsList = ({ chartStyle }: Props) => {
   const { t } = useTranslation();
-  const [activeAccounts, setAccounts] = useState(Array());
-  const [count, setCount] = useState(Array());
-
-  useEffect(() => {
-    new StatsApi().activeAccountsList().then((accounts: Account[]) => {
-      if (accounts) {
-        accounts.reverse();
-        const activeAccounts = accounts.map((account: Account) =>
-          truncateAccountId(account.account)
-        );
-        const count = accounts.map((account: Account) =>
-          Number(account.transactionsCount)
-        );
-        setAccounts(activeAccounts);
-        setCount(count);
-      }
-    });
-  }, []);
+  const accounts =
+    useWampQuery(
+      useCallback(
+        async (wampCall) =>
+          (await wampCall("active-accounts-list", [])).reverse(),
+        []
+      )
+    ) ?? [];
+  const accountsIds = useMemo(
+    () => accounts.map(({ account }) => truncateAccountId(account)),
+    [accounts]
+  );
+  const accountsTransactionCount = useMemo(
+    () => accounts.map(({ transactionsCount }) => Number(transactionsCount)),
+    [accounts]
+  );
 
   const getOption = () => {
     return {
@@ -50,13 +48,13 @@ const ActiveAccountsList = ({ chartStyle }: Props) => {
       yAxis: [
         {
           type: "category",
-          data: activeAccounts,
+          data: accountsIds,
         },
       ],
       series: [
         {
           type: "bar",
-          data: count,
+          data: accountsTransactionCount,
         },
       ],
     };

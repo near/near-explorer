@@ -2,13 +2,9 @@ import Router from "next/router";
 import { FC, useState, useCallback, FormEvent } from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
-import AccountsApi from "../../libraries/explorer-wamp/accounts";
-import BlocksApi from "../../libraries/explorer-wamp/blocks";
-import TransactionsApi from "../../libraries/explorer-wamp/transactions";
-import ReceiptsApi from "../../libraries/explorer-wamp/receipts";
-
 import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
+import { useWampCall } from "../../hooks/wamp";
 
 interface Props {
   dashboard?: boolean;
@@ -19,42 +15,43 @@ const Search: FC<Props> = ({ dashboard }) => {
   const track = useAnalyticsTrack();
 
   const [value, setValue] = useState("");
+  const wampCall = useWampCall();
   const onSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
       const cleanedSearchValue = value.replace(/\s/g, "");
 
-      let blockPromise;
+      let blockPromise: Promise<string | undefined>;
       const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
       if (maybeBlockHeight.match(/^\d{1,20}$/)) {
         const blockHeight = parseInt(maybeBlockHeight);
-        blockPromise = new BlocksApi()
-          .getBlockByHashOrId(blockHeight)
-          .catch(() => {});
+        blockPromise = wampCall("block-by-hash-or-id", [blockHeight]).catch(
+          () => undefined
+        );
       } else {
-        blockPromise = new BlocksApi()
-          .getBlockByHashOrId(cleanedSearchValue)
-          .catch(() => {});
+        blockPromise = wampCall("block-by-hash-or-id", [
+          cleanedSearchValue,
+        ]).catch(() => undefined);
       }
 
-      const transactionPromise = new TransactionsApi()
-        .isTransactionIndexed(cleanedSearchValue)
-        .catch(() => {});
-      const accountPromise = new AccountsApi()
-        .isAccountIndexed(cleanedSearchValue.toLowerCase())
-        .catch(() => {});
-      const receiptInTransactionPromise = new ReceiptsApi()
-        .getReceiptInTransaction(cleanedSearchValue)
-        .catch(() => {});
+      const transactionPromise = wampCall("is-transaction-indexed", [
+        cleanedSearchValue,
+      ]).catch(() => false);
+      const accountPromise = wampCall("is-account-indexed", [
+        cleanedSearchValue.toLowerCase(),
+      ]).catch(() => false);
+      const receiptInTransactionPromise = wampCall(
+        "transaction-hash-by-receipt-id",
+        [cleanedSearchValue]
+      ).catch(() => undefined);
 
       const block = await blockPromise;
       if (block) {
         track("Explorer Search for block", { block: block });
         return Router.push("/blocks/" + block);
       }
-      const transaction = await transactionPromise;
-      if (transaction) {
+      if (await transactionPromise) {
         track("Explorer Search for transaction", {
           transaction: value,
         });
@@ -75,7 +72,7 @@ const Search: FC<Props> = ({ dashboard }) => {
       });
       alert("Result not found!");
     },
-    [value, track]
+    [value, track, wampCall]
   );
   const onChange = useCallback((event) => setValue(event.currentTarget.value), [
     setValue,

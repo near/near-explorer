@@ -1,11 +1,11 @@
 import { FC } from "react";
-import * as T from "../../libraries/explorer-wamp/transactions";
+import { Action, RpcAction } from "../../libraries/wamp/types";
 
 import ActionRow from "./ActionRow";
 import { ViewMode, DetalizationMode } from "./ActionRowBlock";
 
 export interface Props {
-  actions: T.Action[];
+  actions: Action<keyof RpcAction>[];
   blockTimestamp: number;
   detailsLink?: React.ReactNode;
   detalizationMode?: DetalizationMode;
