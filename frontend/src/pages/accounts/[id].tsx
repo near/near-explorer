@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps<
   Props,
   { id: string }
 > = async ({ req, params }) => {
-  const accountId = params!.id;
+  const accountId = params?.id ?? "";
   if (/[A-Z]/.test(accountId)) {
     return {
       redirect: {
