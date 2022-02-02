@@ -54,7 +54,9 @@ const ValidatorTelemetryRow: FC<Props> = ({
           </Row>
           <Row noGutters>
             <Col className="validator-nodes-text uptime">
-              {producedBlocks !== undefined && expectedBlocks !== undefined ? (
+              {producedBlocks !== undefined &&
+              expectedBlocks !== undefined &&
+              expectedBlocks !== 0 ? (
                 <>
                   {((producedBlocks / expectedBlocks) * 100).toFixed(3)}% &nbsp;
                   <span>
