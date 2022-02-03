@@ -73,7 +73,7 @@ export const getServerSideProps: GetServerSideProps<
   Props,
   { hash: string }
 > = async ({ req, params }) => {
-  const hash = params!.hash;
+  const hash = params?.hash ?? "";
   try {
     const nearNetwork = getNearNetwork(req);
     const block = await getBlock(wampApi.getCall(nearNetwork), hash);
