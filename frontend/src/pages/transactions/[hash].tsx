@@ -17,9 +17,10 @@ import {
   RpcOutcome,
   RpcReceiptOutcome,
   RpcReceiptStatus,
-  RpcAction,
+  RpcActionWithArgs,
   TransactionBaseInfo,
   RpcReceipt,
+  RpcAction,
 } from "../../libraries/wamp/types";
 import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
@@ -112,7 +113,7 @@ type ReceiptExecutionOutcome = {
 };
 
 export type NestedReceiptWithOutcome = {
-  actions?: Action<keyof RpcAction>[];
+  actions?: Action[];
   block_hash: string;
   outcome: ReceiptExecutionOutcome;
   predecessor_id: string;
@@ -125,6 +126,20 @@ export type Transaction = TransactionBaseInfo & {
   receiptsOutcome: RpcReceiptOutcome[];
   transactionOutcome: TransactionOutcome;
   receipt: NestedReceiptWithOutcome;
+};
+
+const mapRpcActionToAction = (action: RpcAction): Action => {
+  if (action === "CreateAccount") {
+    return {
+      kind: "CreateAccount",
+      args: {},
+    };
+  }
+  const kind = Object.keys(action)[0] as keyof RpcActionWithArgs;
+  return {
+    kind,
+    args: action[kind],
+  } as Action;
 };
 
 export const getServerSideProps: GetServerSideProps<
@@ -143,13 +158,9 @@ export const getServerSideProps: GetServerSideProps<
       transactionBaseInfo.hash,
       transactionBaseInfo.signerId,
     ]);
-    const actions = transactionInfo.transaction.actions.map((action) => {
-      const kind = Object.keys(action)[0] as keyof RpcAction;
-      return {
-        kind,
-        args: action[kind],
-      };
-    });
+    const actions = transactionInfo.transaction.actions.map(
+      mapRpcActionToAction
+    );
     const receipts = transactionInfo.receipts;
     const receiptsOutcome = transactionInfo.receipts_outcome;
     if (
@@ -170,7 +181,7 @@ export const getServerSideProps: GetServerSideProps<
 
     const receiptsByIdMap = new Map<
       string,
-      Omit<RpcReceipt, "actions"> & { actions: Action<keyof RpcAction>[] }
+      Omit<RpcReceipt, "actions"> & { actions: Action[] }
     >();
     receipts.forEach((receiptItem) => {
       receiptsByIdMap.set(receiptItem.receipt_id, {
@@ -178,13 +189,7 @@ export const getServerSideProps: GetServerSideProps<
         actions:
           receiptItem.receipt_id === receiptsOutcome[0].id
             ? actions
-            : receiptItem.receipt?.Action?.actions.map((action: RpcAction) => {
-                const kind = Object.keys(action)[0] as keyof RpcAction;
-                return {
-                  kind,
-                  args: action[kind],
-                };
-              }),
+            : receiptItem.receipt?.Action?.actions.map(mapRpcActionToAction),
       });
     });
 

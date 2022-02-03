@@ -152,7 +152,7 @@ export type ReceiptExecutionStatus =
   | "SuccessReceiptId";
 
 export type Receipt = {
-  actions: Action<keyof RpcAction>[];
+  actions: Action[];
   blockTimestamp: number;
   receiptId: string;
   gasBurnt: number;
@@ -245,8 +245,7 @@ export interface DeleteKey {
   public_key: string;
 }
 
-export interface RpcAction {
-  CreateAccount: CreateAccount;
+export interface RpcActionWithArgs {
   DeleteAccount: DeleteAccount;
   DeployContract: DeployContract;
   FunctionCall: FunctionCall;
@@ -256,10 +255,37 @@ export interface RpcAction {
   DeleteKey: DeleteKey;
 }
 
-export interface Action<K extends keyof RpcAction> {
+export type ActionWithArgs<
+  K extends keyof RpcActionWithArgs = keyof RpcActionWithArgs
+> = {
   kind: K;
-  args: RpcAction[K];
-}
+  args: RpcActionWithArgs[K];
+};
+
+export type Action<
+  A extends RpcAction = RpcAction
+> = A extends RpcActionWithArgs
+  ?
+      | {
+          kind: "DeleteAccount";
+          args: DeleteAccount;
+        }
+      | {
+          kind: "DeployContract";
+          args: DeployContract;
+        }
+      | {
+          kind: "FunctionCall";
+          args: FunctionCall;
+        }
+      | { kind: "Transfer"; args: Transfer }
+      | { kind: "Stake"; args: Stake }
+      | { kind: "AddKey"; args: AddKey }
+      | { kind: "DeleteKey"; args: DeleteKey }
+  : {
+      kind: "CreateAccount";
+      args: {};
+    };
 
 export type TransactionBaseInfo = {
   hash: string;
@@ -268,7 +294,7 @@ export type TransactionBaseInfo = {
   blockHash: string;
   blockTimestamp: number;
   transactionIndex: number;
-  actions: Action<keyof RpcAction>[];
+  actions: Action[];
 };
 
 export type TransactionPagination = {
@@ -313,6 +339,8 @@ export type RpcTransactionOutcome = {
   outcome: RpcOutcome;
   block_hash: string;
 };
+
+export type RpcAction = "CreateAccount" | RpcActionWithArgs;
 
 export type RpcReceipt = {
   predecessor_id: string;
