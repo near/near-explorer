@@ -1111,20 +1111,99 @@ const queryExecutedReceiptsList = async (blockHash) => {
 };
 
 const queryContractInfo = async (accountId) => {
-  return await querySingleRow(
-    [
-      `SELECT
-        DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
-        receipts.originated_from_transaction_hash AS hash
-       FROM action_receipt_actions
-       LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT' AND action_receipt_actions.receipt_receiver_account_id = :account_id
-       ORDER BY action_receipt_actions.receipt_included_in_block_timestamp DESC
-       LIMIT 1`,
-      { account_id: accountId },
-    ],
-    { dataSource: DS_INDEXER_BACKEND }
-  );
+  let contractInfo;
+  // query to analytics db to find latest historical record
+  const queryLatestHistoricalInfo = async () => {
+    return await querySingleRow(
+      [
+        `SELECT
+         deployed_by_receipt_id, deployed_at_block_timestamp
+         FROM deployed_contracts
+         WHERE deployed_to_account_id = :account_id
+         ORDER BY deployed_at_block_timestamp DESC
+         LIMIT 1`,
+        { account_id: accountId },
+      ],
+      { dataSource: DS_ANALYTICS_BACKEND }
+    );
+  };
+  // take deployed_by_receipt_id and query for transaction hash
+  // where contract were deployed
+  const {
+    deployed_by_receipt_id: receiptId,
+    deployed_at_block_timestamp: deployedAtBlockTimestamp,
+  } = await queryLatestHistoricalInfo();
+
+  const queryDeployedContractTransactionHash = async () => {
+    return await querySingleRow(
+      [
+        `SELECT originated_from_transaction_hash AS hash
+         FROM receipts
+         WHERE receipt_id = :receipt_id
+         LIMIT 1`,
+        { receipt_id: receiptId },
+      ],
+      { dataSource: DS_INDEXER_BACKEND }
+    );
+  };
+  // find the latest update in analytics db
+  const queryLatestContractUpdate = async () => {
+    return await querySingleRow(
+      [
+        `SELECT deployed_at_block_timestamp AS latest_updated_timestamp
+         FROM deployed_contracts
+         ORDER BY deployed_at_block_timestamp DESC
+         LIMIT 1`,
+      ],
+      { dataSource: DS_ANALYTICS_BACKEND }
+    );
+  };
+
+  const {
+    latest_updated_timestamp: latestUpdatedTimestamp,
+  } = await queryLatestContractUpdate();
+
+  // this query is needed to find the fresh contract update
+  // if it return 'undefined' then there was no update since deployed_at_block_timestamp
+  const queryContractInfoFromIndexer = async () => {
+    return await querySingleRow(
+      [
+        `SELECT
+         DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
+         receipts.originated_from_transaction_hash AS hash
+         FROM action_receipt_actions
+         LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
+         WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
+         AND action_receipt_actions.receipt_receiver_account_id = :account_id
+         AND action_receipt_actions.receipt_included_in_block_timestamp > :timestamp
+         ORDER BY action_receipt_actions.receipt_included_in_block_timestamp DESC
+         LIMIT 1`,
+        {
+          account_id: accountId,
+          timestamp: latestUpdatedTimestamp,
+        },
+      ],
+      { dataSource: DS_INDEXER_BACKEND }
+    );
+  };
+
+  const indexerContractInfo = await queryContractInfoFromIndexer();
+
+  if (!indexerContractInfo) {
+    const { hash } = await queryDeployedContractTransactionHash();
+    contractInfo = {
+      block_timestamp: deployedAtBlockTimestamp
+        ? Number(deployedAtBlockTimestamp) / (1000 * 1000)
+        : undefined,
+      hash,
+    };
+  } else {
+    contractInfo = {
+      block_timestamp: indexerContractInfo.block_timestamp,
+      hash: indexerContractInfo.hash,
+    };
+  }
+  return contractInfo;
 };
 
 // chunks
