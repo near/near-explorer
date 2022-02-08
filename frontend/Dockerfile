@@ -3,6 +3,7 @@ FROM mhart/alpine-node:16 AS build
 WORKDIR /near-explorer/frontend
 ENV HOME=/tmp
 COPY ./package.json ./package-lock.json ./
+COPY patches ./patches
 RUN npm install --prod && \
     cp -a node_modules ../production_node_modules && \
     npm install
