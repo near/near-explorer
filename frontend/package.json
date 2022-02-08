@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
+    "@sematext/gc-stats": "^1.5.7",
     "@stitches/react": "^1.2.6",
     "autobahn": "^20.9.2",
     "bn.js": "^5.2.0",

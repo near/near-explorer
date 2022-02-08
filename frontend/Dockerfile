@@ -1,12 +1,18 @@
 FROM mhart/alpine-node:16 AS build
 
+RUN apk add --no-cache --update \
+  python3 \
+  make \
+  gcc \
+  g++
+
 WORKDIR /near-explorer/frontend
 ENV HOME=/tmp
 COPY ./package.json ./package-lock.json ./
 COPY patches ./patches
-RUN npm install --prod && \
-    cp -a node_modules ../production_node_modules && \
-    npm install
+RUN npm install --prod
+RUN cp -a node_modules ../production_node_modules
+RUN npm install
 
 COPY ./ ./
 
