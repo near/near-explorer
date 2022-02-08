@@ -21,6 +21,7 @@ COPY --from=build /near-explorer/production_node_modules ./node_modules
 COPY --from=build /near-explorer/frontend/public ./public
 COPY --from=build /near-explorer/frontend/next.config.js ./
 COPY --from=build /near-explorer/frontend/.next ./.next
+COPY --from=build /near-explorer/frontend/server ./server
 COPY --from=build /near-explorer/frontend/package.json ./package.json
 
-CMD ["/bin/sh", "-c", "exec ./node_modules/.bin/next start --port $PORT"]
+CMD ["/bin/sh", "-c", "npm run start"]
