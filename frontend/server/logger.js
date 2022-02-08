@@ -6,9 +6,12 @@ const morgan = require("morgan");
 
 morgan.token("id", (req) => req.id);
 
-const loggerOptions = {
-  transports: [new winston.transports.Console({ level: "silly" })],
-};
+const loggerOptions =
+  process.env.NODE_ENV !== "production"
+    ? {
+        transports: [new winston.transports.Console({ level: "silly" })],
+      }
+    : undefined;
 
 const httpLoggerOptions = {
   morganFormat: {
