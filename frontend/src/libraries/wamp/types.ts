@@ -483,6 +483,10 @@ export type ProcedureTypes = {
     args: [string];
     result: Receipt[];
   };
+  "executed-receipts-list-by-block-hash": {
+    args: [string];
+    result: Receipt[];
+  };
   "transaction-hash-by-receipt-id": {
     args: [string];
     result: TransactionHashByReceiptId;

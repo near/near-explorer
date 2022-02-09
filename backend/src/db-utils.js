@@ -1057,7 +1057,7 @@ const queryIndexedTransaction = async (transactionHash) => {
   );
 };
 
-// expose receipts included in blockHash
+// expose receipts included in particular block
 const queryReceiptsList = async (blockHash) => {
   return await queryRows(
     [
@@ -1103,7 +1103,7 @@ const queryExecutedReceiptsList = async (blockHash) => {
        LEFT JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
        WHERE execution_outcomes.executed_in_block_hash = :block_hash
        AND receipts.receipt_kind = 'ACTION'
-       ORDER BY receipts.included_in_chunk_hash, receipts.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
+       ORDER BY execution_outcomes.shard_id, execution_outcomes.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
       { block_hash: blockHash },
     ],
     { dataSource: DS_INDEXER_BACKEND }
@@ -1207,6 +1207,7 @@ exports.calculateFeesByDay = calculateFeesByDay;
 exports.queryReceiptsCountInBlock = queryReceiptsCountInBlock;
 exports.queryReceiptInTransaction = queryReceiptInTransaction;
 exports.queryReceiptsList = queryReceiptsList;
+exports.queryExecutedReceiptsList = queryExecutedReceiptsList;
 
 // chunks
 exports.queryGasUsedInChunks = queryGasUsedInChunks;

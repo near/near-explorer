@@ -2,6 +2,7 @@ const {
   queryReceiptsCountInBlock,
   queryReceiptInTransaction,
   queryReceiptsList,
+  queryExecutedReceiptsList,
 } = require("./db-utils");
 
 const BN = require("bn.js");
@@ -21,8 +22,7 @@ async function getIndexerCompatibilityReceiptActionKinds() {
   return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
 }
 
-async function getReceiptsList(blockHash) {
-  const receiptActions = await queryReceiptsList(blockHash);
+async function generateProperReceiptsList(receiptsList) {
   // The receipt actions are ordered in such a way that the actions for a single receipt go
   // one after another in a correct order, so we can collect them linearly using a moving
   // window based on the `previousReceiptId`.
@@ -30,35 +30,47 @@ async function getReceiptsList(blockHash) {
   let actions;
   let previousReceiptId = "";
   const indexerCompatibilityTransactionActionKinds = await getIndexerCompatibilityTransactionActionKinds();
-  for (const receiptAction of receiptActions) {
-    if (previousReceiptId !== receiptAction.receipt_id) {
-      previousReceiptId = receiptAction.receipt_id;
+  for (const receiptItem of receiptsList) {
+    if (previousReceiptId !== receiptItem.receipt_id) {
+      previousReceiptId = receiptItem.receipt_id;
       actions = [];
       const receipt = {
         actions,
-        blockTimestamp: new BN(receiptAction.executed_in_block_timestamp)
+        blockTimestamp: new BN(receiptItem.executed_in_block_timestamp)
           .divn(10 ** 6)
           .toNumber(),
-        gasBurnt: receiptAction.gas_burnt,
-        receiptId: receiptAction.receipt_id,
-        receiverId: receiptAction.receiver_id,
-        signerId: receiptAction.predecessor_id,
+        gasBurnt: receiptItem.gas_burnt,
+        receiptId: receiptItem.receipt_id,
+        receiverId: receiptItem.receiver_id,
+        signerId: receiptItem.predecessor_id,
         status: INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS.get(
-          receiptAction.status
+          receiptItem.status
         ),
         originatedFromTransactionHash:
-          receiptAction.originated_from_transaction_hash,
-        tokensBurnt: receiptAction.tokens_burnt,
+          receiptItem.originated_from_transaction_hash,
+        tokensBurnt: receiptItem.tokens_burnt,
       };
       receipts.push(receipt);
     }
     actions.push({
-      args: receiptAction.args,
-      kind: indexerCompatibilityTransactionActionKinds.get(receiptAction.kind),
+      args: receiptItem.args,
+      kind: indexerCompatibilityTransactionActionKinds.get(receiptItem.kind),
     });
   }
 
   return receipts;
+}
+
+// As a temporary solution we split receipts list into two lists:
+// included in block and executed in block
+async function getReceiptsList(blockHash) {
+  const receiptActions = await queryReceiptsList(blockHash);
+  return await generateProperReceiptsList(receiptActions);
+}
+
+async function getExucutedReceiptsList(blockHash) {
+  const receiptActions = await queryExecutedReceiptsList(blockHash);
+  return await generateProperReceiptsList(receiptActions);
 }
 
 async function getReceiptsCountInBlock(blockHash) {
@@ -85,3 +97,4 @@ exports.getReceiptsCountInBlock = getReceiptsCountInBlock;
 exports.getReceiptInTransaction = getReceiptInTransaction;
 exports.getIndexerCompatibilityReceiptActionKinds = getIndexerCompatibilityReceiptActionKinds;
 exports.getReceiptsList = getReceiptsList;
+exports.getExucutedReceiptsList = getExucutedReceiptsList;

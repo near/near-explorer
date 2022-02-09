@@ -311,12 +311,14 @@
       "ReceiptAction": {
         "batch_receipt": "Пакетная квитанция",
         "fetching_status": "Получение статуса..."
-      }
-    },
-    "blocks": {
-      "ReceiptsInBlock": {
+      },
+      "ReceiptsList": {
         "no_receipts": "В этом блоке нет квитанций."
       },
+      "ReceiptsIncludedInBlock": "Квитанции добавлены в блок",
+      "ReceiptsExecutedInBlock": "Квитанции выполнены в блоке"
+    },
+    "blocks": {
       "BlockDetails": {
         "transactions": {
           "title": "Транзакции",
