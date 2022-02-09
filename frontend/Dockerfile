@@ -21,6 +21,12 @@ RUN npm run compile-nextjs-config
 
 FROM mhart/alpine-node:16
 
+RUN apk add --no-cache --update \
+  python3 \
+  make \
+  gcc \
+  g++
+
 WORKDIR /near-explorer/frontend
 ENV HOME=/tmp \
     PORT=3000
