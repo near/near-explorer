@@ -6,6 +6,7 @@ const {
   stLogger,
 } = require("./logger");
 const uuid = require("uuid");
+const GcStats = require("@sematext/gc-stats");
 
 const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 3000;
@@ -27,4 +28,12 @@ app.prepare().then(() => {
     }
     stLogger.info(`Server started on http://explorer:${port}`);
   });
+});
+
+const gcStats = GcStats();
+gcStats.on("data", (data) => {
+  stLogger.info("GC_DATA", data);
+});
+gcStats.on("stats", (data) => {
+  stLogger.info("GC_STATS", data);
 });
