@@ -29,6 +29,8 @@ export type StakingStatus =
 export interface BaseValidationNodeInfo {
   account_id: string;
   is_slashed?: boolean;
+  num_produced_chunks?: number;
+  num_expected_chunks?: number;
   num_produced_blocks?: number;
   num_expected_blocks?: number;
   public_key?: string;

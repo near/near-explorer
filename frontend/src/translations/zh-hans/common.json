@@ -170,8 +170,7 @@
         "node_agent_version_or_build": {
           "title": "节点代理版本 / 构建ID"
         },
-        "produced_blocks": "produced ${num_produced_blocks}/${num_expected_blocks} blocks",
-        "produced_chunks": "${num_produced_chunks}/${num_expected_chunks} chunks"
+        "produced_blocks_and_chunks": "produced ${num_produced_blocks}/${num_expected_blocks} blocks, ${num_produced_chunks}/${num_expected_chunks} chunks"
       },
       "ValidatorMetadataRow": {
         "pool_info": {
