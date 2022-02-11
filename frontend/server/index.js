@@ -52,10 +52,8 @@ app.prepare().then(() => {
 
 const gcStats = GcStats();
 gcStats.on("data", (data) => {
-  // stLogger.info("GC_DATA", data);
-  console.log("data", data);
+  stLogger.info("GC_DATA", data);
 });
 gcStats.on("stats", (data) => {
-  // stLogger.info("GC_STATS", data);
-  console.log("stats", data);
+  stLogger.info("GC_STATS", data);
 });
