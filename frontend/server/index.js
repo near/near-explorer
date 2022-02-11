@@ -9,10 +9,14 @@ const uuid = require("uuid");
 
 const path = require("path");
 const fs = require("fs");
+const heampDumpDir = "/tmp/my_heapdump";
+if (!fs.existsSync(heampDumpDir)) {
+  fs.mkdirSync(heampDumpDir, { recursive: true });
+}
 require("node-oom-heapdump")({
   addTimestamp: true,
   port: 9999,
-  path: path.resolve("/tmp/my_heapdump"),
+  path: path.resolve(heampDumpDir),
 });
 
 const dev = process.env.NODE_ENV !== "production";
