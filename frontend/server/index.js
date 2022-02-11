@@ -34,10 +34,13 @@ app.prepare().then(() => {
       throw err;
     }
     stLogger.info(`Server started on http://explorer:${port}`);
-    console.log("Started - log");
-    console.warn("Started - warn");
-    console.error("Started - error");
-    fs.mkdirSync("/tmp/testdir");
-    fs.writeFileSync("/tmp/testdir/file.test", "Test data");
+    const dir = "/tmp/testdir";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(
+      `${dir}/${new Date().getMilliseconds()}.test`,
+      `Current time: ${new Date().toISOString()}`
+    );
   });
 });
