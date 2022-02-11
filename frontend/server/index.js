@@ -10,6 +10,7 @@ const GcStats = require("@sematext/gc-stats");
 
 const path = require("path");
 const fs = require("fs");
+/*
 const heampDumpDir = "/tmp/my_heapdump";
 if (!fs.existsSync(heampDumpDir)) {
   fs.mkdirSync(heampDumpDir, { recursive: true });
@@ -19,6 +20,7 @@ require("node-oom-heapdump")({
   port: 9999,
   path: path.resolve(heampDumpDir),
 });
+*/
 
 const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 3000;
