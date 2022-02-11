@@ -1,7 +1,7 @@
 const {
   queryReceiptsCountInBlock,
   queryReceiptInTransaction,
-  queryReceiptsList,
+  queryIncludedReceiptsList,
   queryExecutedReceiptsList,
 } = require("./db-utils");
 
@@ -18,43 +18,43 @@ const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map([
   [null, "Unknown"],
 ]);
 
-async function getIndexerCompatibilityReceiptActionKinds() {
+function getIndexerCompatibilityReceiptActionKinds() {
   return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
 }
 
-async function generateProperReceiptsList(receiptsList) {
+function groupReceiptActionsIntoReceipts(receiptActions) {
   // The receipt actions are ordered in such a way that the actions for a single receipt go
   // one after another in a correct order, so we can collect them linearly using a moving
   // window based on the `previousReceiptId`.
   let receipts = [];
   let actions;
   let previousReceiptId = "";
-  const indexerCompatibilityTransactionActionKinds = await getIndexerCompatibilityTransactionActionKinds();
-  for (const receiptItem of receiptsList) {
-    if (previousReceiptId !== receiptItem.receipt_id) {
-      previousReceiptId = receiptItem.receipt_id;
+  const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
+  for (const receiptAction of receiptActions) {
+    if (previousReceiptId !== receiptAction.receipt_id) {
+      previousReceiptId = receiptAction.receipt_id;
       actions = [];
       const receipt = {
         actions,
-        blockTimestamp: new BN(receiptItem.executed_in_block_timestamp)
+        blockTimestamp: new BN(receiptAction.executed_in_block_timestamp)
           .divn(10 ** 6)
           .toNumber(),
-        gasBurnt: receiptItem.gas_burnt,
-        receiptId: receiptItem.receipt_id,
-        receiverId: receiptItem.receiver_id,
-        signerId: receiptItem.predecessor_id,
+        gasBurnt: receiptAction.gas_burnt,
+        receiptId: receiptAction.receipt_id,
+        receiverId: receiptAction.receiver_id,
+        signerId: receiptAction.predecessor_id,
         status: INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS.get(
-          receiptItem.status
+          receiptAction.status
         ),
         originatedFromTransactionHash:
-          receiptItem.originated_from_transaction_hash,
-        tokensBurnt: receiptItem.tokens_burnt,
+          receiptAction.originated_from_transaction_hash,
+        tokensBurnt: receiptAction.tokens_burnt,
       };
       receipts.push(receipt);
     }
     actions.push({
-      args: receiptItem.args,
-      kind: indexerCompatibilityTransactionActionKinds.get(receiptItem.kind),
+      args: receiptAction.args,
+      kind: indexerCompatibilityTransactionActionKinds.get(receiptAction.kind),
     });
   }
 
@@ -63,14 +63,15 @@ async function generateProperReceiptsList(receiptsList) {
 
 // As a temporary solution we split receipts list into two lists:
 // included in block and executed in block
-async function getReceiptsList(blockHash) {
-  const receiptActions = await queryReceiptsList(blockHash);
-  return await generateProperReceiptsList(receiptActions);
+// more info here https://github.com/near/near-explorer/pull/868
+async function getIncludedReceiptsList(blockHash) {
+  const receiptActions = await queryIncludedReceiptsList(blockHash);
+  return groupReceiptActionsIntoReceipts(receiptActions);
 }
 
-async function getExucutedReceiptsList(blockHash) {
+async function getExecutedReceiptsList(blockHash) {
   const receiptActions = await queryExecutedReceiptsList(blockHash);
-  return await generateProperReceiptsList(receiptActions);
+  return groupReceiptActionsIntoReceipts(receiptActions);
 }
 
 async function getReceiptsCountInBlock(blockHash) {
@@ -96,5 +97,5 @@ async function getReceiptInTransaction(receiptId) {
 exports.getReceiptsCountInBlock = getReceiptsCountInBlock;
 exports.getReceiptInTransaction = getReceiptInTransaction;
 exports.getIndexerCompatibilityReceiptActionKinds = getIndexerCompatibilityReceiptActionKinds;
-exports.getReceiptsList = getReceiptsList;
-exports.getExucutedReceiptsList = getExucutedReceiptsList;
+exports.getIncludedReceiptsList = getIncludedReceiptsList;
+exports.getExecutedReceiptsList = getExecutedReceiptsList;

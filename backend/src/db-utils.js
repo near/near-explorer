@@ -1058,7 +1058,7 @@ const queryIndexedTransaction = async (transactionHash) => {
 };
 
 // expose receipts included in particular block
-const queryReceiptsList = async (blockHash) => {
+const queryIncludedReceiptsList = async (blockHash) => {
   return await queryRows(
     [
       `SELECT
@@ -1206,7 +1206,7 @@ exports.calculateFeesByDay = calculateFeesByDay;
 // receipts
 exports.queryReceiptsCountInBlock = queryReceiptsCountInBlock;
 exports.queryReceiptInTransaction = queryReceiptInTransaction;
-exports.queryReceiptsList = queryReceiptsList;
+exports.queryIncludedReceiptsList = queryIncludedReceiptsList;
 exports.queryExecutedReceiptsList = queryExecutedReceiptsList;
 
 // chunks

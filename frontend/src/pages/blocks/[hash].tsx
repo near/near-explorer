@@ -62,7 +62,6 @@ const BlockDetail: NextPage<Props> = (props) => {
           </Content>
 
           <Content
-            size="medium"
             icon={<TransactionIcon />}
             title={<h2>{t("component.receipts.ReceiptsIncludedInBlock")}</h2>}
           >
@@ -70,7 +69,6 @@ const BlockDetail: NextPage<Props> = (props) => {
           </Content>
 
           <Content
-            size="medium"
             icon={<TransactionIcon />}
             title={<h2>{t("component.receipts.ReceiptsExecutedInBlock")}</h2>}
           >

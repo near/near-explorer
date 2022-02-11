@@ -438,11 +438,11 @@ wampHandlers["receipts-count-in-block"] = async ([blockHash]) => {
 wampHandlers["transaction-hash-by-receipt-id"] = async ([receiptId]) => {
   return await receipts.getReceiptInTransaction(receiptId);
 };
-wampHandlers["receipts-list-by-block-hash"] = async ([blockHash]) => {
-  return await receipts.getReceiptsList(blockHash);
+wampHandlers["included-receipts-list-by-block-hash"] = async ([blockHash]) => {
+  return await receipts.getIncludedReceiptsList(blockHash);
 };
 wampHandlers["executed-receipts-list-by-block-hash"] = async ([blockHash]) => {
-  return await receipts.getExucutedReceiptsList(blockHash);
+  return await receipts.getExecutedReceiptsList(blockHash);
 };
 
 // transactions

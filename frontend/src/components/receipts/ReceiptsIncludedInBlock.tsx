@@ -8,9 +8,10 @@ interface Props {
 }
 
 const ReceiptsIncludedInBlock: FC<Props> = ({ blockHash }) => {
-  const receiptsList = useWampSimpleQuery("receipts-list-by-block-hash", [
-    blockHash,
-  ]);
+  const receiptsList = useWampSimpleQuery(
+    "included-receipts-list-by-block-hash",
+    [blockHash]
+  );
   return <ReceiptsList receiptsList={receiptsList} />;
 };
 
