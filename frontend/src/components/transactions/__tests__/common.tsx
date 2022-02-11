@@ -207,7 +207,6 @@ export const TRANSACTIONS: Transaction[] = [
       {
         kind: "FunctionCall",
         args: {
-          result: "",
           args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
           deposit: "100000",
           gas: 2000000,
@@ -723,11 +722,7 @@ export const RECEIPTS: Receipt[] = [
         args: {
           gas: 25000000000000,
           deposit: "0",
-          args_json: {
-            amount: "170000000000000000000000002",
-          },
-          args_base64:
-            "eyJhbW91bnQiOiIxNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIifQ==",
+          args: "eyJhbW91bnQiOiIxNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIifQ==",
           method_name: "on_staking_pool_withdraw",
         },
         kind: "FunctionCall",
@@ -748,9 +743,7 @@ export const RECEIPTS: Receipt[] = [
         args: {
           gas: 75000000000000,
           deposit: "0",
-          args_json: { amount: "170000000000000000000000002" },
-          args_base64:
-            "eyJhbW91bnQiOiIxNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIifQ==",
+          args: "eyJhbW91bnQiOiIxNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIifQ==",
           method_name: "withdraw",
         },
         kind: "FunctionCall",
@@ -787,11 +780,7 @@ export const RECEIPTS: Receipt[] = [
         args: {
           gas: 20000000000000,
           deposit: "0",
-          args_json: {
-            amount: "110000000000000000000000",
-            predecessor_account_id: "wbc992.near",
-          },
-          args_base64:
+          args:
             "eyJwcmVkZWNlc3Nvcl9hY2NvdW50X2lkIjoid2JjOTkyLm5lYXIiLCJhbW91bnQiOiIxMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ==",
           method_name: "on_account_created",
         },
@@ -850,44 +839,7 @@ export const RECEIPTS: Receipt[] = [
         args: {
           gas: 30000000000000,
           deposit: "0",
-          args_json: {
-            task_ordinal: 0,
-            solution_hash: [
-              224,
-              130,
-              95,
-              95,
-              252,
-              9,
-              65,
-              19,
-              238,
-              55,
-              10,
-              106,
-              114,
-              46,
-              214,
-              4,
-              43,
-              90,
-              233,
-              212,
-              225,
-              114,
-              158,
-              41,
-              239,
-              134,
-              191,
-              172,
-              142,
-              148,
-              50,
-              77,
-            ],
-          },
-          args_base64:
+          args:
             "eyJ0YXNrX29yZGluYWwiOjAsInNvbHV0aW9uX2hhc2giOlsyMjQsMTMwLDk1LDk1LDI1Miw5LDY1LDE5LDIzOCw1NSwxMCwxMDYsMTE0LDQ2LDIxNCw0LDQzLDkwLDIzMywyMTIsMjI1LDExNCwxNTgsNDEsMjM5LDEzNCwxOTEsMTcyLDE0MiwxNDgsNTAsNzddfQ==",
           method_name: "submit_approved_solution",
         },

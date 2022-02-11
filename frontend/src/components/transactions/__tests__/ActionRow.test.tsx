@@ -6,7 +6,7 @@ import ActionRow from "../ActionRow";
 import TransactionExecutionStatus from "../TransactionExecutionStatus";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
-import { Action, RpcAction } from "../../../libraries/wamp/types";
+import { Action } from "../../../libraries/wamp/types";
 
 describe("<ActionRow />", () => {
   it("renders sparsely ActionRow for transaction by default", () => {
@@ -116,7 +116,7 @@ describe("<ActionRow />", () => {
     ).toMatchSnapshot();
   });
 
-  const actionFunctionCall = {
+  const actionFunctionCall: Action = {
     kind: "FunctionCall",
     args: {
       args: "eyJ2YWx1ZSI6MX0=",
@@ -124,7 +124,7 @@ describe("<ActionRow />", () => {
       gas: 2000000000000,
       method_name: "incrementCounter",
     },
-  } as Action<keyof RpcAction>;
+  };
 
   it("renders functioncall with detail", () => {
     expect(
