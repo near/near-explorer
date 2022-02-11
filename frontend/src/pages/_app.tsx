@@ -1,5 +1,5 @@
 import "../libraries/wdyr";
-import NextApp from "next/app";
+import NextApp, { AppContext, AppInitialProps } from "next/app";
 import Head from "next/head";
 import { useMemo } from "react";
 
@@ -16,9 +16,7 @@ import {
 } from "../libraries/language";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
 import { initializeI18n, Language, LANGUAGES } from "../libraries/i18n";
-import { NextComponentType } from "next";
-import { AppContextType, AppPropsType } from "next/dist/shared/lib/utils";
-import { Router } from "next/router";
+import { AppType } from "next/dist/shared/lib/utils";
 import { setI18n } from "react-i18next";
 import { YEAR } from "../libraries/time";
 import { globalCss, styled } from "../libraries/stitches.config";
@@ -69,16 +67,13 @@ const {
   publicRuntimeConfig: { nearNetworks, googleAnalytics },
 } = getConfig();
 
-type InitialProps = {
-  language?: Language;
-  currentNearNetwork: NearNetwork;
-};
-
-type AppType = NextComponentType<
-  AppContextType<Router>,
-  InitialProps,
-  AppPropsType & InitialProps
->;
+declare module "next/app" {
+  interface AppInitialProps {
+    pageProps: any;
+    language?: Language;
+    currentNearNetwork: NearNetwork;
+  }
+}
 
 const App: AppType = ({
   Component,
@@ -146,7 +141,7 @@ const App: AppType = ({
 
 App.getInitialProps = async (appContext) => {
   const req = appContext.ctx.req;
-  let initialProps: InitialProps;
+  let initialProps: Omit<AppInitialProps, "pageProps">;
   if (req) {
     // Being server-side can be detected with 'req' existence
     const language = getLanguage(
@@ -173,7 +168,7 @@ App.getInitialProps = async (appContext) => {
   }
 
   return {
-    ...(await NextApp.getInitialProps(appContext)),
+    ...(await NextApp.getInitialProps(appContext as AppContext)),
     ...initialProps,
   };
 };
