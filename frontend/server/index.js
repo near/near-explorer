@@ -6,6 +6,7 @@ const {
   stLogger,
 } = require("./logger");
 const uuid = require("uuid");
+const GcStats = require("@sematext/gc-stats");
 
 const path = require("path");
 const fs = require("fs");
@@ -47,4 +48,14 @@ app.prepare().then(() => {
       `Current time: ${new Date().toISOString()}`
     );
   });
+});
+
+const gcStats = GcStats();
+gcStats.on("data", (data) => {
+  // stLogger.info("GC_DATA", data);
+  console.log("data", data);
+});
+gcStats.on("stats", (data) => {
+  // stLogger.info("GC_STATS", data);
+  console.log("stats", data);
 });
