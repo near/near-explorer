@@ -33,5 +33,8 @@ app.prepare().then(() => {
       throw err;
     }
     stLogger.info(`Server started on http://explorer:${port}`);
+    console.log("Started - log");
+    console.warn("Started - warn");
+    console.error("Started - error");
   });
 });
