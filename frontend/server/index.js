@@ -8,24 +8,19 @@ const {
 const uuid = require("uuid");
 const GcStats = require("@sematext/gc-stats");
 
-const path = require("path");
+const v8 = require("v8");
 const fs = require("fs");
-/*
-const heampDumpDir = "/tmp/my_heapdump";
-if (!fs.existsSync(heampDumpDir)) {
-  fs.mkdirSync(heampDumpDir, { recursive: true });
-}
-require("node-oom-heapdump")({
-  addTimestamp: true,
-  port: 9999,
-  path: path.resolve(heampDumpDir),
-});
-*/
 
 const dev = process.env.NODE_ENV !== "production";
 const port = process.env.PORT || 3000;
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+const mkDirIfNotExist = (dirname) => {
+  if (!fs.existsSync(dirname)) {
+    fs.mkdirSync(dirname, { recursive: true });
+  }
+};
 
 app.prepare().then(() => {
   const expressApp = express();
@@ -41,21 +36,40 @@ app.prepare().then(() => {
       throw err;
     }
     stLogger.info(`Server started on http://explorer:${port}`);
-    const dir = "/tmp/testdir";
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(
-      `${dir}/${new Date().getMilliseconds()}.test`,
-      `Current time: ${new Date().toISOString()}`
-    );
   });
 });
 
+const KB = 1024;
+const MB = 1024 * KB;
+const inMb = (size) => (size / MB).toFixed(2) + "MB";
+
+let snapshotWritten = false;
 const gcStats = GcStats();
-gcStats.on("data", (data) => {
-  stLogger.info("GC_DATA", data);
-});
 gcStats.on("stats", (data) => {
   stLogger.info("GC_STATS", data);
+  if (data.after.usedHeapSize > 150 * MB) {
+    const now = Date.now();
+    if (snapshotWritten) {
+      console.log(
+        `Heapdump is now ${inMb(
+          data.after.usedHeapSize
+        )}, but snapshot was already wrote once`
+      );
+      return;
+    }
+    console.log(
+      `Ok heapdump is now ${inMb(
+        data.after.usedHeapSize
+      )}, writing heap snapshot`
+    );
+    const headDir = "/tmp/heaps";
+    mkDirIfNotExist(headDir);
+    const snapshotName = `heapdump-${new Date()
+      .toISOString()
+      .replace(/:/g, "-")}.heapdump`;
+    v8.writeHeapSnapshot(`${headDir}/${snapshotName}`);
+    snapshotWritten = true;
+    const delta = Date.now() - now;
+    console.log(`Heap snapshot wrote as ${snapshotName} in ${delta / 1000}s`);
+  }
 });
