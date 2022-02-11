@@ -44,10 +44,11 @@ const MB = 1024 * KB;
 const inMb = (size) => (size / MB).toFixed(2) + "MB";
 
 let snapshotWritten = false;
+const snapshotHeapSize = parseInt(process.env.SNAPSHOT_HEAP_SIZE, 10) || 0;
 const gcStats = GcStats();
 gcStats.on("stats", (data) => {
   stLogger.info("GC_STATS", data);
-  if (data.after.usedHeapSize > 150 * MB) {
+  if (snapshotHeapSize && data.after.usedHeapSize > snapshotHeapSize * MB) {
     const now = Date.now();
     if (snapshotWritten) {
       console.log(
