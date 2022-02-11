@@ -13,7 +13,7 @@
     "dev:production-wamp-with-indexer-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.testnet.near.org/profile\"}]' npm run dev:production-wamp-with-indexer",
     "dev:production-wamp-with-indexer-mainnet": "env 'NEAR_NETWORKS=[{\"name\": \"mainnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.near.org/profile\"}]' npm run dev:production-wamp-with-indexer",
     "build": "next build",
-    "start": "NODE_ENV=production node --heapsnapshot-near-heap-limit=3 --abort-on-uncaught-exception --inspect=9999 server/index.js",
+    "start": "NODE_ENV=production node --heapsnapshot-near-heap-limit=3 --abort-on-uncaught-exception --max-old-space-size=150 --inspect=9999 server/index.js",
     "start:local-wamp-with-indexer": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws NEAR_EXPLORER_DATA_SOURCE=INDEXER_BACKEND npm run start",
     "start:local-wamp-with-indexer-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.testnet.near.org/profile\"}]' npm run start:local-wamp-with-indexer",
     "start:local-wamp-with-indexer-mainnet": "env 'NEAR_NETWORKS=[{\"name\": \"mainnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.near.org/profile\"}]' npm run start:local-wamp-with-indexer",
