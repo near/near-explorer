@@ -8,6 +8,7 @@ const {
 const uuid = require("uuid");
 
 const path = require("path");
+const fs = require("fs");
 require("node-oom-heapdump")({
   addTimestamp: true,
   port: 9999,
@@ -36,5 +37,7 @@ app.prepare().then(() => {
     console.log("Started - log");
     console.warn("Started - warn");
     console.error("Started - error");
+    fs.mkdirSync("/tmp/testdir");
+    fs.writeFileSync("/tmp/testdir/file.test", "Test data");
   });
 });
