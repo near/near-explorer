@@ -5,7 +5,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && env TZ=UTC jest",
-    "dev": "node server/index.js",
+    "dev": "node  --inspect=9999 server/index.js",
     "dev:local-wamp-with-indexer": "env NEAR_EXPLORER_DATA_SOURCE=INDEXER_BACKEND WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws npm run dev",
     "dev:local-wamp-with-indexer-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.testnet.near.org/profile\"}]' npm run dev:local-wamp-with-indexer",
     "dev:local-wamp-with-indexer-mainnet": "env 'NEAR_NETWORKS=[{\"name\": \"mainnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.near.org/profile\"}]' npm run dev:local-wamp-with-indexer",
@@ -13,7 +13,7 @@
     "dev:production-wamp-with-indexer-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.testnet.near.org/profile\"}]' npm run dev:production-wamp-with-indexer",
     "dev:production-wamp-with-indexer-mainnet": "env 'NEAR_NETWORKS=[{\"name\": \"mainnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.near.org/profile\"}]' npm run dev:production-wamp-with-indexer",
     "build": "next build",
-    "start": "NODE_ENV=production node server/index.js --heapsnapshot-near-heap-limit=3",
+    "start": "NODE_ENV=production node --inspect=9999 server/index.js",
     "start:local-wamp-with-indexer": "env WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws NEAR_EXPLORER_DATA_SOURCE=INDEXER_BACKEND npm run start",
     "start:local-wamp-with-indexer-testnet": "env 'NEAR_NETWORKS=[{\"name\": \"testnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.testnet.near.org/profile\"}]' npm run start:local-wamp-with-indexer",
     "start:local-wamp-with-indexer-mainnet": "env 'NEAR_NETWORKS=[{\"name\": \"mainnet\", \"explorerLink\": \"http://localhost:3000/\", \"aliases\": [\"localhost:3000\", \"127.0.0.1:3000\"], \"nearWalletProfilePrefix\": \"https://wallet.near.org/profile\"}]' npm run start:local-wamp-with-indexer",
@@ -44,7 +44,6 @@
   },
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
-    "@sematext/gc-stats": "^1.5.7",
     "@stitches/react": "^1.2.6",
     "autobahn": "^20.9.2",
     "bn.js": "^5.2.0",
@@ -64,6 +63,7 @@
     "morgan": "^1.10.0",
     "near-api-js": "^0.44.1",
     "next": "^12.0.11-canary.8",
+    "node-oom-heapdump": "^3.0.1",
     "patch-package": "^6.4.7",
     "rc-progress": "^3.1.4",
     "react": "^17.0.2",
