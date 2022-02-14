@@ -155,10 +155,14 @@ App.getInitialProps = async (appContext) => {
     };
     setI18n(await initializeI18n(language));
     setMomentLanguage(language);
-    appContext.ctx.res!.setHeader(
-      "set-cookie",
-      `${LANGUAGE_COOKIE}=${language}; Max-Age=${YEAR / 1000}`
-    );
+    const prevSetCookieHeader = appContext.ctx.res!.getHeader("set-cookie");
+    const prevSetCookieHeaderArr = Array.isArray(prevSetCookieHeader)
+      ? prevSetCookieHeader
+      : [prevSetCookieHeader].filter(Boolean).map(String);
+    appContext.ctx.res!.setHeader("set-cookie", [
+      ...prevSetCookieHeaderArr,
+      `${LANGUAGE_COOKIE}=${language}; Max-Age=${YEAR / 1000}`,
+    ]);
   } else {
     // This branch is called only on page change hence we don't need to calculate language at the moment
     // as i18next is already configured
