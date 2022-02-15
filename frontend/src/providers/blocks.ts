@@ -15,12 +15,12 @@ export const getBlock = async (
     return;
   }
   const [gasUsed, receiptsCount] = await Promise.all([
-    wampCall("gas-used-in-chunks", [blockInfo.hash]).catch(() => "0"),
+    wampCall("gas-used-in-chunks", [blockInfo.hash]),
     wampCall("receipts-count-in-block", [blockInfo.hash]),
   ]);
   return {
     ...blockInfo,
-    gasUsed,
+    gasUsed: gasUsed || "0",
     receiptsCount,
   };
 };
