@@ -7,7 +7,7 @@ import ContractDetails from "../../components/contracts/ContractDetails";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
-import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
 
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
@@ -15,6 +15,11 @@ import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-tr
 import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
 import { Account, getAccount } from "../../providers/accounts";
+import { styled } from "../../libraries/styles";
+
+const TransactionIcon = styled(TransactionIconSvg, {
+  width: 22,
+});
 
 interface Props {
   accountId: string;
@@ -66,8 +71,7 @@ const AccountDetail: NextPage<Props> = ({
             <ContractDetails accountId={accountId} />
           </Container>
           <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
+            icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
             <Transactions accountId={accountId} count={10} />

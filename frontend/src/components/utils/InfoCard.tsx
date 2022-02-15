@@ -1,6 +1,15 @@
 import React from "react";
 
 import { Col, Row, Spinner } from "react-bootstrap";
+import { styled } from "../../libraries/styles";
+
+const InfoCardWrapper = styled(Row, {
+  background: "#ffffff",
+  border: "1px solid #f0f0f1",
+  boxShadow: "0px 2px 2px rgba(17, 22, 24, 0.04)",
+  borderRadius: 8,
+  padding: "48px 32px",
+});
 
 interface InfoCardProps {
   children: React.ReactNode;
@@ -13,52 +22,41 @@ interface InfoCardCellProps {
   cellOptions?: object;
 }
 
-const InfoCard = ({ children, className = undefined }: InfoCardProps) => (
-  <Row noGutters className={`info-card ${className}`}>
+const InfoCard: React.FC<InfoCardProps> = ({ children, className }) => (
+  <InfoCardWrapper noGutters className={className}>
     {children}
-    <style global jsx>{`
-      .info-card {
-        background: #ffffff;
-        border: 1px solid #f0f0f1;
-        box-shadow: 0px 2px 2px rgba(17, 22, 24, 0.04);
-        border-radius: 8px;
-        padding: 48px 32px;
-      }
-    `}</style>
-  </Row>
+  </InfoCardWrapper>
 );
+
+const InfoCardTitle = styled(Col, {
+  color: "#a2a2a8",
+  fontWeight: 500,
+  fontSize: 14,
+  lineHeight: "17px",
+  margin: "8px 0",
+});
+
+export const InfoCardText = styled(Col, {
+  fontWeight: 900,
+  fontSize: 31,
+  lineHeight: 1.3,
+  color: "#272729",
+  fontFeatureSettings: '"zero", on',
+});
 
 const InfoCardCell = ({
   children,
-  className = undefined,
+  className,
   title,
   cellOptions = undefined,
 }: InfoCardCellProps) => (
-  <Col {...cellOptions} className={`info-card-cell ${className}`}>
+  <Col {...cellOptions} className={className}>
     <Row noGutters>
-      <Col xs="12" className="info-card-title">
-        {title}
-      </Col>
-      <Col xs="12" className="info-card-text">
+      <InfoCardTitle xs="12">{title}</InfoCardTitle>
+      <InfoCardText xs="12">
         {!children ? <Spinner animation="border" size="sm" /> : children}
-      </Col>
+      </InfoCardText>
     </Row>
-    <style global jsx>{`
-      .info-card-title {
-        color: #a2a2a8;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 17px;
-        margin: 8px 0;
-      }
-      .info-card-text {
-        font-weight: 900;
-        font-size: 31px;
-        line-height: 130%;
-        color: #272729;
-        font-feature-settings: "zero", on;
-      }
-    `}</style>
   </Col>
 );
 

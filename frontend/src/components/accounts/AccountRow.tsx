@@ -10,6 +10,45 @@ import Link from "../utils/Link";
 import { useTranslation } from "react-i18next";
 import { useWampQuery } from "../../hooks/wamp";
 import { Account, getAccount } from "../../providers/accounts";
+import { styled } from "../../libraries/styles";
+
+const TransactionRow = styled(Row, {
+  paddingTop: 10,
+  paddingBottom: 10,
+  borderTop: "solid 2px #f8f8f8",
+  "&:hover": {
+    background: "rgba(0, 0, 0, 0.1)",
+  },
+});
+
+const TransactionRowTitle = styled(Col, {
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: 1.29,
+  color: "#24272a",
+  wordBreak: "break-word",
+});
+
+const TransactionRowTransactionId = styled(Col, {
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: 1.29,
+  color: "#0072ce",
+});
+
+const TransactionRowTimer = styled("div", {
+  fontSize: 12,
+  color: "#666666",
+  fontWeight: 300,
+});
+
+const LinkWrapper = styled("a", {
+  textDecoration: "none",
+});
+
+const AccountIcon = styled("img", {
+  width: 15,
+});
 
 export interface Props {
   accountId: string;
@@ -28,89 +67,45 @@ const AccountRow: FC<Props> = ({ accountId }) => {
   );
 
   return (
-    <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
-      <a style={{ textDecoration: "none" }}>
-        <Row className="transaction-row mx-0">
+    <Link href="/accounts/[id]" as={`/accounts/${accountId}`} passHref>
+      <LinkWrapper>
+        <TransactionRow className="mx-0">
           <Col md="auto" xs="1" className="pr-0">
-            <img
+            <AccountIcon
               src={
                 accountInfo?.deletedAtBlockTimestamp
                   ? "/static/images/icon-t-acct-delete.svg"
                   : "/static/images/icon-t-acct.svg"
               }
-              style={{ width: "15px" }}
             />
           </Col>
-          <Col md="7" xs="11" className="transaction-row-title pt-1">
+          <TransactionRowTitle md="7" xs="11" className="pt-1">
             {accountId}
-          </Col>
-          <Col
+          </TransactionRowTitle>
+          <TransactionRowTransactionId
             md="3"
             xs="5"
-            className="ml-auto pt-1 text-right transaction-row-txid"
+            className="ml-auto pt-1 text-right"
           >
             {accountInfo ? (
               accountInfo.deletedAtBlockTimestamp ? (
-                <div className="transaction-row-timer">
+                <TransactionRowTimer>
                   {t("component.accounts.AccountRow.deleted_on")}{" "}
                   {moment(accountInfo.deletedAtBlockTimestamp).format("LL")}
-                </div>
+                </TransactionRowTimer>
               ) : (
                 <>
                   <Balance amount={accountInfo.nonStakedBalance} />
-                  <div className="transaction-row-timer">
+                  <TransactionRowTimer>
                     {t("component.accounts.AccountRow.created_on")}{" "}
                     {moment(accountInfo.createdAtBlockTimestamp).format("LL")}
-                  </div>
+                  </TransactionRowTimer>
                 </>
               )
             ) : null}
-          </Col>
-          <style jsx global>{`
-            .transaction-row {
-              padding-top: 10px;
-              padding-bottom: 10px;
-              border-top: solid 2px #f8f8f8;
-            }
-
-            .transaction-row:hover {
-              background: rgba(0, 0, 0, 0.1);
-            }
-
-            .transaction-row-title {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #24272a;
-              word-break: break-word;
-            }
-
-            .transaction-row-text {
-              font-size: 12px;
-              font-weight: 500;
-              line-height: 1.5;
-              color: #999999;
-            }
-
-            .transaction-row-txid {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #0072ce;
-            }
-
-            .transaction-row-timer {
-              font-size: 12px;
-              color: #666666;
-              font-weight: 300;
-            }
-
-            .transaction-row-timer-status {
-              font-weight: 500;
-            }
-          `}</style>
-        </Row>
-      </a>
+          </TransactionRowTransactionId>
+        </TransactionRow>
+      </LinkWrapper>
     </Link>
   );
 };

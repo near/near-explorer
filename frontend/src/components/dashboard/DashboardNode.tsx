@@ -2,11 +2,19 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
+import { styled } from "../../libraries/styles";
+
 import DashboardCard from "../utils/DashboardCard";
-import LongCardCell from "../utils/LongCardCell";
+import LongCardCell, { CardCellText } from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
 import { useNetworkStats } from "../../hooks/subscriptions";
+
+const CountCell = styled(LongCardCell, {
+  [`& ${CardCellText}`]: {
+    color: "#00c08b",
+  },
+});
 
 const DashboardNode = () => {
   const { t } = useTranslation();
@@ -14,9 +22,9 @@ const DashboardNode = () => {
 
   return (
     <DashboardCard
+      dataId="nodes"
       iconPath="/static/images/icon-nodes.svg"
       title={t("common.nodes.title")}
-      className="node-card"
     >
       <Row noGutters>
         <Col xs="6" md="12">
@@ -37,7 +45,7 @@ const DashboardNode = () => {
           />
         </Col>
         <Col xs="6" md="12">
-          <LongCardCell
+          <CountCell
             title={
               <Term
                 title={t(
@@ -54,15 +62,9 @@ const DashboardNode = () => {
             loading={networkStats === undefined}
             text={networkStats?.currentValidatorsCount.toLocaleString()}
             href={"/nodes/validators"}
-            className="dashboard-validating-nodes-count"
           />
         </Col>
       </Row>
-      <style jsx global>{`
-        .dashboard-validating-nodes-count .card-cell-text {
-          color: #00c08b;
-        }
-      `}</style>
     </DashboardCard>
   );
 };

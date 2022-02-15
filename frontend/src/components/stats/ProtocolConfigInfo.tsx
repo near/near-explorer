@@ -11,6 +11,26 @@ import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "../../hooks/subscriptions";
 import { useEpochStartBlock } from "../../hooks/data";
 import { useWampQuery, useWampSimpleQuery } from "../../hooks/wamp";
+import { styled } from "../../libraries/styles";
+
+const ProtocolConfig = styled(InfoCard, {
+  margin: "24px 0",
+});
+
+const GenesisText = styled("span", {
+  color: "#00c08b",
+});
+
+const ProtocolMetricValue = styled(Balance, {
+  display: "flex",
+  alignItems: "center",
+});
+
+const BalanceSuffix = styled("span", {
+  fontSize: 25,
+  lineHeight: "35px",
+  alignSelf: "flex-end",
+});
 
 const ProtocolConfigInfo = () => {
   const { t } = useTranslation();
@@ -59,7 +79,7 @@ const ProtocolConfigInfo = () => {
 
   return (
     <>
-      <InfoCard className="protocol-config">
+      <ProtocolConfig>
         <Cell
           title={t("component.stats.ProtocolConfigInfo.first_produced_block")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
@@ -81,9 +101,9 @@ const ProtocolConfigInfo = () => {
         >
           {genesisProtocolConfig && networkStats && (
             <>
-              <span className="genesis-text">
+              <GenesisText>
                 v{genesisProtocolConfig.header.latest_protocol_version}
-              </span>{" "}
+              </GenesisText>{" "}
               / <span>v{networkStats.epochProtocolVersion}</span>
             </>
           )}
@@ -94,7 +114,7 @@ const ProtocolConfigInfo = () => {
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
           {networkStats && (
-            <span className="genesis-text">{networkStats.genesisHeight}</span>
+            <GenesisText>{networkStats.genesisHeight}</GenesisText>
           )}
         </Cell>
         <Cell
@@ -103,25 +123,24 @@ const ProtocolConfigInfo = () => {
         >
           {networkStats?.epochLength && <span>{networkStats.epochLength}</span>}
         </Cell>
-      </InfoCard>
+      </ProtocolConfig>
 
-      <InfoCard className="protocol-config">
+      <ProtocolConfig>
         <Cell
           title={t("component.stats.ProtocolConfigInfo.genesis_total_supply")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
           {genesisTotalSupply && genesisProtocolConfig && (
-            <span className="genesis-text">
-              <Balance
+            <GenesisText>
+              <ProtocolMetricValue
                 amount={new BN(genesisProtocolConfig.header.total_supply)}
                 formulatedAmount={formatWithCommas(
                   genesisTotalSupply.toFixed(1)
                 )}
-                suffix={<span className="balance-suffix">M</span>}
+                suffix={<BalanceSuffix>M</BalanceSuffix>}
                 label={<NearBadge />}
-                className="protocol-metric-value"
               />
-            </span>
+            </GenesisText>
           )}
         </Cell>
 
@@ -137,12 +156,11 @@ const ProtocolConfigInfo = () => {
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
           {epochTotalSupply && (
-            <Balance
+            <ProtocolMetricValue
               amount={epochStartBlock!.totalSupply}
               formulatedAmount={formatWithCommas(epochTotalSupply.toFixed(1))}
-              suffix={<span className="balance-suffix">M</span>}
+              suffix={<BalanceSuffix>M</BalanceSuffix>}
               label={<NearBadge />}
-              className="protocol-metric-value"
             />
           )}
         </Cell>
@@ -153,27 +171,7 @@ const ProtocolConfigInfo = () => {
         >
           {lastDateLiveAccounts}
         </Cell>
-      </InfoCard>
-      <style global jsx>{`
-        .protocol-config {
-          margin: 24px 0;
-        }
-
-        .genesis-text {
-          color: #00c08b;
-        }
-
-        .protocol-metric-value {
-          display: flex;
-          align-items: center;
-        }
-
-        .balance-suffix {
-          font-size: 25px;
-          line-height: 35px;
-          align-self: flex-end;
-        }
-      `}</style>
+      </ProtocolConfig>
     </>
   );
 };

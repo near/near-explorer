@@ -1,1502 +1,645 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ActionRow /> renders compact for receipt 1`] = `
-Array [
+<div
+  className="c-ActionRow-PJLV mx-0 row no-gutters"
+>
   <div
-    className="action-compact-row mx-0  row no-gutters"
+    className="col-auto"
   >
     <div
-      className="col-auto"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-idjfRB-type-compact"
     >
-      <div
-        className="action-row-img"
-      >
-        <test-file-stub />
-      </div>
+      <test-file-stub />
     </div>
+  </div>
+  <div
+    className="c-ActionRowDetails-jUwbjv c-ActionRowDetails-jUwbjv-iRNZlZ-type-compact col"
+  >
     <div
-      className="action-row-details col"
+      className="c-ActionRowMessage-PJLV c-ActionRowMessage-PJLV-knUOqr-type-compact row no-gutters"
     >
       <div
-        className="action-row-message row no-gutters"
+        className="col-md-8 col-7"
       >
         <div
-          className="col-md-8 col-7"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ActionRowTitle-cYlxUq col"
           >
-            <div
-              className="action-row-title col"
+            component.transactions.ActionMessage.FunctionCall.called_method
+            <span
+              onClick={[Function]}
             >
-              component.transactions.ActionMessage.FunctionCall.called_method
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="account-link"
-                  href="/accounts/5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  5ce78…ockup.near
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
+                5ce78…ockup.near
+              </a>
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-  </style>,
-]
+  </div>
+</div>
 `;
 
 exports[`<ActionRow /> renders compact for transaction 1`] = `
-Array [
+<div
+  className="c-ActionRow-PJLV mx-0 row no-gutters"
+>
   <div
-    className="action-compact-row mx-0  row no-gutters"
+    className="col-auto"
   >
     <div
-      className="col-auto"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-idjfRB-type-compact"
     >
-      <div
-        className="action-row-img"
-      >
-        <test-file-stub />
-      </div>
+      <test-file-stub />
     </div>
+  </div>
+  <div
+    className="c-ActionRowDetails-jUwbjv c-ActionRowDetails-jUwbjv-iRNZlZ-type-compact col"
+  >
     <div
-      className="action-row-details col"
+      className="c-ActionRowMessage-PJLV c-ActionRowMessage-PJLV-knUOqr-type-compact row no-gutters"
     >
       <div
-        className="action-row-message row no-gutters"
+        className="col-md-8 col-7"
       >
         <div
-          className="col-md-8 col-7"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ActionRowTitle-cYlxUq col"
           >
-            <div
-              className="action-row-title col"
+            component.transactions.ActionMessage.AddKey.new_key_added
+            <span
+              onClick={[Function]}
             >
-              component.transactions.ActionMessage.AddKey.new_key_added
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/receiver.test"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="account-link"
-                  href="/accounts/receiver.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  receiver.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-              : ed25519:8LXEySy...
-              <p>
-                component.transactions.ActionMessage.AddKey.with_permission_and_nounce
-              </p>
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              component.transactions.ActionRowBlock.by
-               
-              <span
-                onClick={[Function]}
-              >
-                <a
-                  className="account-link"
-                  href="/accounts/signer.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  signer.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
+                receiver.test
+              </a>
+            </span>
+            : ed25519:8LXEySy...
+            <p>
+              component.transactions.ActionMessage.AddKey.with_permission_and_nounce
+            </p>
           </div>
         </div>
         <div
-          className="ml-auto text-right col-md-4 col-5"
+          className="row no-gutters"
         >
           <div
-            className="row"
+            className="c-ActionRowText-gopnJP col"
           >
-            <div
-              className="action-row-txid col"
+            component.transactions.ActionRowBlock.by
+             
+            <span
+              onClick={[Function]}
             >
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/signer.test"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="transaction-link"
-                  href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  BvJeW6g...
-                </a>
-              </span>
-            </div>
+                signer.test
+              </a>
+            </span>
           </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
           <div
-            className="row"
+            className="c-ActionRowTransaction-lbSlCc col"
           >
-            <div
-              className="action-row-timer col"
+            <span
+              onClick={[Function]}
             >
-              <span
-                className="action-row-timer-status"
+              <a
+                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                common.blocks.status.fetching_status
-                /common.blocks.status.checking_finality
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
+                BvJeW6g...
+              </a>
+            </span>
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTimer-iiZTaa col"
+          >
+            <span
+              className="c-ActionRowTimerStatus-cJbzxd"
+            >
+              common.blocks.status.fetching_status
+              /common.blocks.status.checking_finality
+            </span>
+             
+            <span>
+              1s ago
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-  </style>,
-]
+  </div>
+</div>
 `;
 
 exports[`<ActionRow /> renders functioncall with detail 1`] = `
-Array [
+<div
+  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
+>
   <div
-    className="action-sparse-row mx-0  row no-gutters"
+    className="col-auto"
   >
     <div
-      className="col-auto"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
     >
-      <div
-        className="action-row-img"
-      >
-        <test-file-stub />
-      </div>
+      <test-file-stub />
     </div>
+  </div>
+  <div
+    className="c-ActionRowDetails-jUwbjv col"
+  >
     <div
-      className="action-row-details col"
+      className="c-ActionRowMessage-PJLV row no-gutters"
     >
       <div
-        className="action-row-message row no-gutters"
+        className="col-md-8 col-7"
       >
         <div
-          className="col-md-8 col-7"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ActionRowTitle-cYlxUq col"
           >
-            <div
-              className="action-row-title col"
+            component.transactions.ActionMessage.FunctionCall.called_method
+            <span
+              onClick={[Function]}
             >
-              component.transactions.ActionMessage.FunctionCall.called_method
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/receiver.test"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="account-link"
-                  href="/accounts/receiver.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  receiver.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-              <dl>
-                <dt>
-                  component.transactions.ActionMessage.FunctionCall.arguments
-                </dt>
-                <dd>
-                  <div>
+                receiver.test
+              </a>
+            </span>
+            <dl>
+              <dt>
+                component.transactions.ActionMessage.FunctionCall.arguments
+              </dt>
+              <dd>
+                <div>
+                  <div
+                    style={
+                      Object {
+                        "display": "block",
+                        "height": "0px",
+                        "overflow": "hidden",
+                      }
+                    }
+                  >
+                    <link
+                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                      rel="stylesheet"
+                    />
+                    <textarea
+                      className="c-CodePreviewWrapper-gWwuPL"
+                      readOnly={true}
+                      value="{
+  \\"value\\": 1
+}"
+                    />
+                  </div>
+                  <div
+                    onClick={[Function]}
+                  >
                     <div
                       style={
                         Object {
-                          "display": "block",
-                          "height": "0px",
-                          "overflow": "hidden",
+                          "float": "left",
                         }
                       }
                     >
-                      <textarea
-                        className="code-preview"
-                        readOnly={true}
-                        value="{
-  \\"value\\": 1
-}"
-                      />
-                    </div>
-                    <div
-                      onClick={[Function]}
-                    >
-                      <div
-                        style={
-                          Object {
-                            "float": "left",
-                          }
-                        }
-                      >
-                        button.show_more
-                      </div>
+                      button.show_more
                     </div>
                   </div>
-                  <style
-                    jsx={true}
-                  >
-                    
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                  </style>
-                </dd>
-              </dl>
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              component.transactions.ActionRowBlock.by
-               
-              <span
-                onClick={[Function]}
-              >
-                <a
-                  className="account-link"
-                  href="/accounts/signer.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  signer.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
+                </div>
+              </dd>
+            </dl>
           </div>
         </div>
         <div
-          className="ml-auto text-right col-md-4 col-5"
+          className="row no-gutters"
         >
           <div
-            className="row"
+            className="c-ActionRowText-gopnJP col"
           >
-            <div
-              className="action-row-txid col"
-            />
-          </div>
-          <div
-            className="row"
-          >
-            <div
-              className="action-row-timer col"
+            component.transactions.ActionRowBlock.by
+             
+            <span
+              onClick={[Function]}
             >
-              <span
-                className="action-row-timer-status"
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/signer.test"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                common.blocks.status.fetching_status
-                /common.blocks.status.checking_finality
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
+                signer.test
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTransaction-lbSlCc col"
+          />
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTimer-iiZTaa col"
+          >
+            <span
+              className="c-ActionRowTimerStatus-cJbzxd"
+            >
+              common.blocks.status.fetching_status
+              /common.blocks.status.checking_finality
+            </span>
+             
+            <span>
+              1s ago
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-  </style>,
-]
+  </div>
+</div>
 `;
 
 exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
-Array [
+<div
+  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
+>
   <div
-    className="action-sparse-row mx-0  row no-gutters"
+    className="col-auto"
   >
     <div
-      className="col-auto"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
     >
-      <div
-        className="action-row-img"
-      >
-        <test-file-stub />
-      </div>
+      <test-file-stub />
     </div>
+  </div>
+  <div
+    className="c-ActionRowDetails-jUwbjv col"
+  >
     <div
-      className="action-row-details col"
+      className="c-ActionRowMessage-PJLV row no-gutters"
     >
       <div
-        className="action-row-message row no-gutters"
+        className="col-md-8 col-7"
       >
         <div
-          className="col-md-8 col-7"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ActionRowTitle-cYlxUq col"
           >
-            <div
-              className="action-row-title col"
+            component.transactions.ActionMessage.FunctionCall.called_method
+            <span
+              onClick={[Function]}
             >
-              component.transactions.ActionMessage.FunctionCall.called_method
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/app.nearcrowd.near"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="account-link"
-                  href="/accounts/app.nearcrowd.near"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  app.nearcrowd.near
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              component.transactions.ActionRowBlock.by
-               
-              <span
-                onClick={[Function]}
-              >
-                <a
-                  className="account-link"
-                  href="/accounts/elonmusk_tesla.near"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  elonmusk_tesla.near
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
+                app.nearcrowd.near
+              </a>
+            </span>
           </div>
         </div>
         <div
-          className="ml-auto text-right col-md-4 col-5"
+          className="row no-gutters"
         >
           <div
-            className="row"
+            className="c-ActionRowText-gopnJP col"
           >
-            <div
-              className="action-row-txid col"
+            component.transactions.ActionRowBlock.by
+             
+            <span
+              onClick={[Function]}
             >
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/elonmusk_tesla.near"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="receipt-hash-link"
-                  href="/transactions/2WDYbcuRyyRXJvrXkfFej9Vrv3s3GNTxVQAqKFTiEtGh#7uADRkZL3b8HRbCRe3ML6yRyVZ46HHp1pEJKbxewq5Hg"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  7uADRkZ...
-                </a>
-              </span>
-              <style
-                global={true}
-                jsx={true}
-              >
-                
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-              </style>
-            </div>
+                elonmusk_tesla.near
+              </a>
+            </span>
           </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
           <div
-            className="row"
+            className="c-ActionRowTransaction-lbSlCc col"
           >
-            <div
-              className="action-row-timer col"
+            <span
+              onClick={[Function]}
             >
-              <span
-                className="action-row-timer-status"
+              <a
+                href="/transactions/2WDYbcuRyyRXJvrXkfFej9Vrv3s3GNTxVQAqKFTiEtGh#7uADRkZL3b8HRbCRe3ML6yRyVZ46HHp1pEJKbxewq5Hg"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                common.transactions.status.SuccessValue
-                /common.blocks.status.checking_finality
-              </span>
-               
-              <span>
-                in 2y
-              </span>
-            </div>
+                7uADRkZ...
+              </a>
+            </span>
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTimer-iiZTaa col"
+          >
+            <span
+              className="c-ActionRowTimerStatus-cJbzxd"
+            >
+              common.transactions.status.SuccessValue
+              /common.blocks.status.checking_finality
+            </span>
+             
+            <span>
+              in 2y
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-  </style>,
-]
+  </div>
+</div>
 `;
 
 exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`] = `
-Array [
+<div
+  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
+>
   <div
-    className="action-sparse-row mx-0  row no-gutters"
+    className="col-auto"
   >
     <div
-      className="col-auto"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
     >
-      <div
-        className="action-row-img"
-      >
-        <test-file-stub />
-      </div>
+      <test-file-stub />
     </div>
+  </div>
+  <div
+    className="c-ActionRowDetails-jUwbjv col"
+  >
     <div
-      className="action-row-details col"
+      className="c-ActionRowMessage-PJLV row no-gutters"
     >
       <div
-        className="action-row-message row no-gutters"
+        className="col-md-8 col-7"
       >
         <div
-          className="col-md-8 col-7"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ActionRowTitle-cYlxUq col"
           >
-            <div
-              className="action-row-title col"
+            component.transactions.ActionMessage.CreateAccount.new_account_created
+            <span
+              onClick={[Function]}
             >
-              component.transactions.ActionMessage.CreateAccount.new_account_created
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/receiver.test"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="account-link"
-                  href="/accounts/receiver.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  receiver.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              component.transactions.ActionRowBlock.by
-               
-              <span
-                onClick={[Function]}
-              >
-                <a
-                  className="account-link"
-                  href="/accounts/signer.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  signer.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
+                receiver.test
+              </a>
+            </span>
           </div>
         </div>
         <div
-          className="ml-auto text-right col-md-4 col-5"
+          className="row no-gutters"
         >
           <div
-            className="row"
+            className="c-ActionRowText-gopnJP col"
           >
-            <div
-              className="action-row-txid col"
+            component.transactions.ActionRowBlock.by
+             
+            <span
+              onClick={[Function]}
             >
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/signer.test"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="transaction-link"
-                  href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  BvJeW6g...
-                </a>
-              </span>
-            </div>
+                signer.test
+              </a>
+            </span>
           </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
           <div
-            className="row"
+            className="c-ActionRowTransaction-lbSlCc col"
           >
-            <div
-              className="action-row-timer col"
+            <span
+              onClick={[Function]}
             >
-              <span
-                className="action-row-timer-status"
+              <a
+                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                common.blocks.status.fetching_status
-                /common.blocks.status.checking_finality
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
+                BvJeW6g...
+              </a>
+            </span>
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTimer-iiZTaa col"
+          >
+            <span
+              className="c-ActionRowTimerStatus-cJbzxd"
+            >
+              common.blocks.status.fetching_status
+              /common.blocks.status.checking_finality
+            </span>
+             
+            <span>
+              1s ago
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-  </style>,
-]
+  </div>
+</div>
 `;
 
 exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`] = `
-Array [
+<div
+  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
+>
   <div
-    className="action-sparse-row mx-0  row no-gutters"
+    className="col-auto"
   >
     <div
-      className="col-auto"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
     >
-      <div
-        className="action-row-img"
-      >
-        <test-file-stub />
-      </div>
+      <test-file-stub />
     </div>
+  </div>
+  <div
+    className="c-ActionRowDetails-jUwbjv col"
+  >
     <div
-      className="action-row-details col"
+      className="c-ActionRowMessage-PJLV row no-gutters"
     >
       <div
-        className="action-row-message row no-gutters"
+        className="col-md-8 col-7"
       >
         <div
-          className="col-md-8 col-7"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ActionRowTitle-cYlxUq col"
           >
-            <div
-              className="action-row-title col"
+            component.transactions.ActionMessage.CreateAccount.new_account_created
+            <span
+              onClick={[Function]}
             >
-              component.transactions.ActionMessage.CreateAccount.new_account_created
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/receiver.test"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="account-link"
-                  href="/accounts/receiver.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  receiver.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="action-row-text col"
-            >
-              component.transactions.ActionRowBlock.by
-               
-              <span
-                onClick={[Function]}
-              >
-                <a
-                  className="account-link"
-                  href="/accounts/signer.test"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  signer.test
-                </a>
-              </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
-            </div>
+                receiver.test
+              </a>
+            </span>
           </div>
         </div>
         <div
-          className="ml-auto text-right col-md-4 col-5"
+          className="row no-gutters"
         >
           <div
-            className="row"
+            className="c-ActionRowText-gopnJP col"
           >
-            <div
-              className="action-row-txid col"
+            component.transactions.ActionRowBlock.by
+             
+            <span
+              onClick={[Function]}
             >
-              <span
+              <a
+                className="c-AccountLinkWrapper-dbzzBd"
+                href="/accounts/signer.test"
                 onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                <a
-                  className="transaction-link"
-                  href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                >
-                  BvJeW6g...
-                </a>
-              </span>
-            </div>
+                signer.test
+              </a>
+            </span>
           </div>
+        </div>
+      </div>
+      <div
+        className="ml-auto text-right col-md-4 col-5"
+      >
+        <div
+          className="row"
+        >
           <div
-            className="row"
+            className="c-ActionRowTransaction-lbSlCc col"
           >
-            <div
-              className="action-row-timer col"
+            <span
+              onClick={[Function]}
             >
-              <span
-                className="action-row-timer-status"
+              <a
+                href="/transactions/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
               >
-                common.transactions.status.SuccessValue
-                /common.blocks.status.checking_finality
-              </span>
-               
-              <span>
-                1s ago
-              </span>
-            </div>
+                BvJeW6g...
+              </a>
+            </span>
+          </div>
+        </div>
+        <div
+          className="row"
+        >
+          <div
+            className="c-ActionRowTimer-iiZTaa col"
+          >
+            <span
+              className="c-ActionRowTimerStatus-cJbzxd"
+            >
+              common.transactions.status.SuccessValue
+              /common.blocks.status.checking_finality
+            </span>
+             
+            <span>
+              1s ago
+            </span>
           </div>
         </div>
       </div>
     </div>
-  </div>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-  </style>,
-]
+  </div>
+</div>
 `;

@@ -36,10 +36,7 @@ const ValidatorCollapsedRow: FC<Props> = ({
   poolDiscord,
   poolDescription,
 }) => (
-  <TableCollapseRow
-    className="validator-nodes-details-row"
-    collapse={isRowActive}
-  >
+  <TableCollapseRow collapse={isRowActive}>
     <td colSpan={8}>
       <ValidatorTelemetryRow
         producedBlocks={producedBlocks}

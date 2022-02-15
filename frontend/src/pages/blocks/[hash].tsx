@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
 import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
@@ -13,6 +13,11 @@ import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-tr
 import { getNearNetwork } from "../../libraries/config";
 import wampApi from "../../libraries/wamp/api";
 import { Block, getBlock } from "../../providers/blocks";
+import { styled } from "../../libraries/styles";
+
+const TransactionIcon = styled(TransactionIconSvg, {
+  width: 22,
+});
 
 type Props = {
   hash: string;
@@ -49,16 +54,14 @@ const BlockDetail: NextPage<Props> = (props) => {
       {!("err" in props) ? (
         <>
           <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
+            icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
             <Transactions blockHash={props.hash} count={1000} />
           </Content>
 
           <Content
-            size="medium"
-            icon={<TransactionIcon style={{ width: "22px" }} />}
+            icon={<TransactionIcon />}
             title={<h2>{t("common.receipts.receipts")}</h2>}
           >
             <ReceiptsInBlock blockHash={props.hash} />

@@ -2,27 +2,19 @@ import Link from "next/link";
 import React from "react";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
-interface Props {
-  href: string;
-  as?: string;
-  children: React.ReactNode;
-}
-
-const LinkWrapper = ({ href, as, children }: Props) => {
+const LinkWrapper = (props: React.ComponentProps<typeof Link>) => {
   const track = useAnalyticsTrack();
 
   return (
     <span
       onClick={() =>
         track("Explorer Click Link", {
-          href: href,
-          as: as ? as : "",
+          href: props.href,
+          as: props.as ? props.as : "",
         })
       }
     >
-      <Link href={href} as={as}>
-        {children}
-      </Link>
+      <Link {...props} />
     </span>
   );
 };

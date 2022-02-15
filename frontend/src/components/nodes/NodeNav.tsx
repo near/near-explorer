@@ -5,6 +5,49 @@ import Link from "../utils/Link";
 
 import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "../../hooks/subscriptions";
+import { styled } from "../../libraries/styles";
+
+const NodeSelector = styled(Col, {
+  height: "100%",
+  fontSize: 16,
+  fontWeight: 500,
+  textDecoration: "none",
+  paddingLeft: 0,
+  paddingRight: 0,
+  marginLeft: 16,
+  marginTop: 2,
+  textAlign: "center",
+  color: "#72727a",
+  transition: "all 0.15s ease-in-out",
+
+  "&:hover": {
+    color: "#111618",
+  },
+
+  variants: {
+    selected: {
+      true: {
+        color: "#111618",
+        borderBottom: "2px solid #2b9af4",
+      },
+    },
+  },
+});
+
+const NodeAmountLabel = styled(Badge, {
+  borderRadius: 50,
+  lineHeight: "150%",
+  fontWeight: 500,
+  backgroundColor: "#00c08b",
+  color: "#ffffff",
+});
+
+const NodeLink = styled("a", {
+  color: "inherit",
+  "&:hover": {
+    color: "inherit",
+  },
+});
 
 interface Props {
   role: string;
@@ -15,79 +58,22 @@ const NodeNav: FC<Props> = ({ role }) => {
   const networkStats = useNetworkStats();
 
   return (
-    <>
-      <Row>
-        <Col
-          xs="auto"
-          className={`node-selector pt-2 pb-2 ${
-            role === "validators" ? `node-selected` : ""
-          }`}
-        >
-          <Link href="/nodes/validators">
-            <a className="node-link" id="validator-node">
-              {t("component.nodes.NodeNav.validating")}{" "}
-              <Badge pill className="nodes-amount-label validating">
-                {networkStats ? networkStats.currentValidatorsCount : "--"}
-              </Badge>
-            </a>
-          </Link>
-        </Col>
-      </Row>
-      <style jsx global>{`
-        .node-selector {
-          height: 100%;
-          font-size: 16px;
-          font-weight: 500;
-          text-decoration: none;
-          padding-left: 0;
-          padding-right: 0;
-          margin-left: 16px;
-          margin-top: 2px;
-          text-align: center;
-          color: #72727a;
-          transition: all 0.15s ease-in-out;
-        }
-
-        .node-selector:hover {
-          color: #111618;
-        }
-
-        .nodes-amount-label {
-          border-radius: 50px;
-          line-height: 150%;
-          font-weight: 500;
-        }
-
-        .nodes-amount-label.validating {
-          background-color: #00c08b;
-          color: #ffffff;
-        }
-
-        .nodes-amount-label.online {
-          background-color: #e5e5e6;
-          color: #72727a;
-        }
-
-        .nodes-amount-label.proposed {
-          background-color: #ffecd6;
-          color: #995200;
-        }
-
-        .node-link,
-        .node-link:hover {
-          color: inherit;
-        }
-
-        .node-selected {
-          color: #111618;
-          border-bottom: 2px solid #2b9af4;
-        }
-
-        .node-icon {
-          margin: 10px;
-        }
-      `}</style>
-    </>
+    <Row>
+      <NodeSelector
+        xs="auto"
+        selected={role === "validators"}
+        className="pt-2 pb-2"
+      >
+        <Link href="/nodes/validators" passHref>
+          <NodeLink>
+            {t("component.nodes.NodeNav.validating")}{" "}
+            <NodeAmountLabel pill>
+              {networkStats ? networkStats.currentValidatorsCount : "--"}
+            </NodeAmountLabel>
+          </NodeLink>
+        </Link>
+      </NodeSelector>
+    </Row>
   );
 };
 

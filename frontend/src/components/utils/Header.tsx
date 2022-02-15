@@ -8,27 +8,63 @@ import MobileHeaderNavDropdown from "./MobileHeaderNavDropdown";
 import Search from "./Search";
 import Link from "./Link";
 
-import NearLogo from "../../../public/static/images/near_logo.svg";
-import NearLogoIcon from "../../../public/static/images/near_logo_icon.svg";
+import NearLogoSvg from "../../../public/static/images/near_logo.svg";
+import NearMiniLogoSvg from "../../../public/static/images/near_logo_icon.svg";
 
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
-const languagesIcon = "/static/images/icon-languages.svg";
-const downArrowIcon = "/static/images/down-arrow.svg";
+import { styled } from "../../libraries/styles";
+
+const HeaderContainer = styled(Container, {
+  background: "#ffffff",
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+
+  "@media (max-width: 768px)": {
+    padding: "0 0 14px 0",
+  },
+});
+
+const MobileNavBarWrapper = styled(Col, {
+  paddingTop: 8,
+});
+
+const NearLogo = styled(NearLogoSvg, {
+  width: 120,
+  height: 72,
+  padding: 6,
+});
+
+const NearMiniLogo = styled(NearMiniLogoSvg, {
+  width: 48,
+});
+
+const HeaderMainBar = styled(Row, {
+  padding: "3px 16px 4px 6px",
+});
+
+const SearchBoxColumn = styled(Col, {
+  margin: "0 16px",
+});
+
+const HeaderHome = styled("a", {
+  fontWeight: 500,
+  color: "#000000",
+  textDecoration: "none",
+});
 
 const Header: FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
 
   return (
-    <Container fluid className="header-container">
+    <HeaderContainer fluid>
       <Row noGutters>
         <Col xs="12" md="auto" className="align-self-center">
-          <Row noGutters className="header-main-bar">
+          <HeaderMainBar noGutters>
             <Col md="6" className="d-none d-md-block d-lg-block">
               <Link href="/">
                 <a>
-                  <NearLogo className="near-main-logo" />
+                  <NearLogo />
                 </a>
               </Link>
             </Col>
@@ -36,7 +72,7 @@ const Header: FC = () => {
             <Col xs="2" className="d-md-none text-left">
               <Link href="/">
                 <a>
-                  <NearLogoIcon className="near-main-mobile-logo" />
+                  <NearMiniLogo />
                 </a>
               </Link>
             </Col>
@@ -45,28 +81,28 @@ const Header: FC = () => {
               <HeaderNetworkDropdown />
             </Col>
 
-            <Col
+            <MobileNavBarWrapper
               xs="2"
-              className="align-self-center text-right mobile-nav-bar d-md-none"
+              className="align-self-center text-right d-md-none"
             >
               <MobileHeaderNavDropdown />
-            </Col>
-          </Row>
+            </MobileNavBarWrapper>
+          </HeaderMainBar>
         </Col>
 
-        <Col
-          className="align-self-center text-center search-box-column d-md-none"
+        <SearchBoxColumn
+          className="align-self-center text-center d-md-none"
           xs="12"
         >
           <Search />
-        </Col>
+        </SearchBoxColumn>
 
-        <Col className="align-self-center text-center search-box-column d-none d-md-block d-lg-block ">
+        <SearchBoxColumn className="align-self-center text-center d-none d-md-block d-lg-block ">
           {router.pathname !== "/" && <Search />}
-        </Col>
+        </SearchBoxColumn>
 
         <Col
-          className="header-secondary-bar align-self-center text-right d-none d-md-block"
+          className="align-self-center text-right d-none d-md-block"
           md="auto"
         >
           <Row>
@@ -74,10 +110,8 @@ const Header: FC = () => {
               <LanguageToggle />
             </Col>
             <Col md="4" className="align-self-center">
-              <Link href="/">
-                <a className="header-home">
-                  {t("component.utils.Header.home")}
-                </a>
+              <Link href="/" passHref>
+                <HeaderHome>{t("component.utils.Header.home")}</HeaderHome>
               </Link>
             </Col>
             <Col md="5" className="align-self-center">
@@ -86,69 +120,7 @@ const Header: FC = () => {
           </Row>
         </Col>
       </Row>
-      <style jsx global>{`
-        .header-container {
-          background: #ffffff;
-          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .near-main-logo {
-          width: 120px;
-          height: 72px;
-          padding: 6px;
-        }
-
-        .near-main-mobile-logo {
-          width: 48px;
-        }
-
-        .header-main-bar {
-          padding: 3px 16px 4px 6px;
-        }
-
-        .header-container .mobile-nav-bar .mobile {
-          margin: 8px 0 0 0;
-        }
-
-        .search-box-column > .search-box {
-          padding: 0 16px;
-        }
-
-        .header-home,
-        .header-home:hover {
-          font-weight: 500;
-          color: #000000;
-          text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-          .header-container {
-            padding: 0 0 14px 0;
-          }
-        }
-
-        .lang-selector {
-          appearance: none;
-          background: url(${languagesIcon}) no-repeat 10px center / 20px 20px,
-            url(${downArrowIcon}) no-repeat 85% 12px / 10px;
-          border: 0px none;
-          cursor: pointer;
-          font-size: 16px;
-          height: 32px;
-          outline: none;
-          padding-right: 54px;
-          position: relative;
-          user-select: none;
-          width: 54px;
-          z-index: 1;
-          text-indent: 54px;
-        }
-
-        .lang-selector::-ms-expand {
-          display: none;
-        }
-      `}</style>
-    </Container>
+    </HeaderContainer>
   );
 };
 

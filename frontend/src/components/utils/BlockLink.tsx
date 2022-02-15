@@ -7,7 +7,7 @@ export interface Props {
 
 const BlockLink = ({ blockHash, children, truncate = true }: Props) => (
   <Link href="/blocks/[hash]" as={`/blocks/${blockHash}`}>
-    <a className="block-link">
+    <a>
       {children || (truncate ? `${blockHash.substring(0, 7)}...` : blockHash)}
     </a>
   </Link>

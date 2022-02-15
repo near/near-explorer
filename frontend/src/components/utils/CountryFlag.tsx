@@ -2,28 +2,28 @@ import React from "react";
 import ReactCountryFlag from "react-country-flag";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { countries } from "country-data";
+import { styled } from "../../libraries/styles";
+
+const DefaultCountryFlag = styled("div", {
+  display: "inline-block",
+  width: "22px",
+  lineHeight: "16px",
+  backgroundColor: "#f0f0f1",
+  color: "#72727a",
+  fontSize: "8px",
+  textAlign: "center",
+});
+
+const CountryFlagWrapper = styled(ReactCountryFlag, {
+  width: "22px !important",
+  lineHeight: "14px",
+});
 
 interface Props {
   countryCode?: string;
   id: string;
   country?: string;
 }
-
-const DefaultCountryFlag = () => (
-  <div
-    style={{
-      display: "inline-block",
-      width: "22px",
-      lineHeight: "16px",
-      backgroundColor: "#f0f0f1",
-      color: "#72727a",
-      fontSize: "8px",
-      textAlign: "center",
-    }}
-  >
-    ?
-  </div>
-);
 
 const CountryFlag = (props: Props) => {
   // sometimes in 'country' can be actually countryCode
@@ -44,23 +44,15 @@ const CountryFlag = (props: Props) => {
           overlay={<Tooltip id={props.id}>{countryLabel}</Tooltip>}
         >
           {countryCode ? (
-            <ReactCountryFlag
-              {...props}
-              svg
-              countryCode={countryCode}
-              style={{
-                width: "22px",
-                lineHeight: "14px",
-              }}
-            />
+            <CountryFlagWrapper {...props} svg countryCode={countryCode} />
           ) : (
             <span>
-              <DefaultCountryFlag />
+              <DefaultCountryFlag>?</DefaultCountryFlag>
             </span>
           )}
         </OverlayTrigger>
       ) : (
-        <DefaultCountryFlag />
+        <DefaultCountryFlag>?</DefaultCountryFlag>
       )}
     </>
   );

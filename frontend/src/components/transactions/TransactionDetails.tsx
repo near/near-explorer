@@ -6,7 +6,7 @@ import { FC, useEffect, useMemo } from "react";
 
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
-import CardCell from "../utils/CardCell";
+import CardCell, { CardCellText } from "../utils/CardCell";
 import Balance from "../utils/Balance";
 import Gas from "../utils/Gas";
 import Term from "../utils/Term";
@@ -16,6 +16,40 @@ import { useTranslation } from "react-i18next";
 import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
 import { Transaction } from "../../pages/transactions/[hash]";
 import { FunctionCall } from "../../libraries/wamp/types";
+import { styled } from "../../libraries/styles";
+
+const HeaderRow = styled(Row);
+
+const TransactionInfoContainer = styled("div", {
+  border: "solid 4px #e6e6e6",
+  borderRadius: 4,
+
+  "& > .row": {
+    borderBottom: "2px solid #e6e6e6",
+  },
+
+  "& > .row:last-of-type": {
+    borderBottom: 0,
+  },
+
+  [`& ${HeaderRow} ${CardCellText}`]: {
+    fontSize: 24,
+  },
+
+  "@media (max-width: 767.98px)": {
+    "& .border-sm-0": {
+      border: 0,
+    },
+  },
+});
+
+const TransactionCardBlockHash = styled(CardCell, {
+  backgroundColor: "#f8f8f8",
+});
+
+const TransactionStatusWrapper = styled("div", {
+  fontSize: 21,
+});
 
 export interface Props {
   transaction: Transaction;
@@ -84,8 +118,8 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
 
   return (
-    <div className="transaction-info-container">
-      <Row noGutters className="header-row">
+    <TransactionInfoContainer>
+      <HeaderRow noGutters>
         <Col md="5">
           <CardCell
             title={
@@ -137,7 +171,7 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
             }
             imgLink="/static/images/icon-t-status.svg"
             text={
-              <div style={{ fontSize: "21px" }}>
+              <TransactionStatusWrapper>
                 {transaction.status ? (
                   <TransactionExecutionStatus status={transaction.status} />
                 ) : (
@@ -150,12 +184,12 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
                     )
                   ? ""
                   : "/" + t("common.blocks.status.finalizing")}
-              </div>
+              </TransactionStatusWrapper>
             }
             className="border-sm-0"
           />
         </Col>
-      </Row>
+      </HeaderRow>
       <Row noGutters>
         <Col md="3">
           <CardCell
@@ -275,7 +309,7 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
       </Row>
       <Row noGutters>
         <Col md="12">
-          <CardCell
+          <TransactionCardBlockHash
             title={
               <Term
                 title={t(
@@ -291,39 +325,11 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
                 {transaction.blockHash}
               </BlockLink>
             }
-            className="transaction-card-block-hash border-0"
+            className="border-0"
           />
         </Col>
       </Row>
-      <style jsx global>{`
-        .transaction-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .transaction-info-container > .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
-        .transaction-info-container > .row:last-of-type {
-          border-bottom: 0;
-        }
-
-        .transaction-info-container .header-row .card-cell-text {
-          font-size: 24px;
-        }
-
-        .transaction-card-block-hash {
-          background-color: #f8f8f8;
-        }
-
-        @media (max-width: 767.98px) {
-          .transaction-info-container .border-sm-0 {
-            border: 0;
-          }
-        }
-      `}</style>
-    </div>
+    </TransactionInfoContainer>
   );
 };
 

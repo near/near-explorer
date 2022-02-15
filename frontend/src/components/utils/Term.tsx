@@ -4,6 +4,20 @@ import { Modal } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
+import { styled } from "../../libraries/styles";
+
+const TermHelper = styled("div", {
+  display: "inline-block",
+  width: 14,
+  height: 14,
+});
+
+export const TermInfoIcon = styled("img", {
+  verticalAlign: "text-bottom",
+  marginLeft: 5,
+  width: 16,
+  cursor: "pointer",
+});
 
 interface Props {
   title: string | React.ReactNode;
@@ -33,12 +47,8 @@ const Term: FC<Props> = ({ title, text, href }) => {
   return (
     <>
       {title}
-      <div className="term-helper" onClick={preventClickPropagation}>
-        <img
-          src="/static/images/icon-info.svg"
-          className="info"
-          onClick={showModal}
-        />
+      <TermHelper onClick={preventClickPropagation}>
+        <TermInfoIcon src="/static/images/icon-info.svg" onClick={showModal} />
         <Modal centered show={isModalShown} onHide={hideModal}>
           <Modal.Header closeButton>
             <Modal.Title>{title}</Modal.Title>
@@ -57,21 +67,7 @@ const Term: FC<Props> = ({ title, text, href }) => {
             )}
           </Modal.Body>
         </Modal>
-        <style jsx global>{`
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        `}</style>
-      </div>
+      </TermHelper>
     </>
   );
 };

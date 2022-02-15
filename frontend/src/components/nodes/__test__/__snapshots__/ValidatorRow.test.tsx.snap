@@ -1,1164 +1,411 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
-Array [
-  <tr
-    className="table-row validator-nodes-row mx-0 "
+<tr
+  className="c-TableRowWrapper-jUPfkR mx-0"
+>
+  <td
+    className="c-CollapseRowArrow-gsmDXe"
+    onClick={[Function]}
   >
-    <td
-      className="collapse-row-arrow"
-      onClick={[Function]}
-    >
-      <img
-        src="/static/images/icon-maximize.svg"
-        style={
-          Object {
-            "width": "16px",
-          }
+    <img
+      className="c-IconCellIcon-hLqfLK"
+      src="/static/images/icon-maximize.svg"
+    />
+  </td>
+  <td
+    className="c-OrderTableCell-clytRC"
+  >
+    3
+  </td>
+  <td>
+    <img
+      className="c-CountryFlagWrapper-fuqtaQ"
+      id="country_flag_astro-stakers.poolv1.near"
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+      src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.4/flags/4x3/aq.svg"
+      style={
+        Object {
+          "display": "inline-block",
+          "height": "1em",
+          "verticalAlign": "middle",
+          "width": "1em",
         }
-      />
-    </td>
-    <td
-      className="order"
+      }
+    />
+  </td>
+  <td>
+    <div
+      className="align-items-center row no-gutters"
     >
-      3
-    </td>
-    <td
-      className="country-flag"
-    >
-      <img
-        id="country_flag_astro-stakers.poolv1.near"
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.4/flags/4x3/aq.svg"
-        style={
-          Object {
-            "display": "inline-block",
-            "height": "1em",
-            "lineHeight": "14px",
-            "verticalAlign": "middle",
-            "width": "22px",
-          }
-        }
-      />
-    </td>
-    <td>
       <div
-        className="align-items-center row no-gutters"
+        className="c-ValidatorsNodeLabel-klLQiF col"
+      >
+        <span
+          className="c-ValidatingLabelWrapper-eennLm c-ValidatingLabelWrapper-eennLm-fFWhBO-type-active badge"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          component.nodes.ValidatorMainRow.state.active.title
+        </span>
+      </div>
+      <div
+        className="c-ValidatorName-eCGYsD col"
       >
         <div
-          className="validators-node-label col"
+          className="row no-gutters"
         >
-          <span
-            className="validating-label active badge"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
+          <div
+            className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH col"
+            title="@astro-stakers.poolv1.near"
           >
-            component.nodes.ValidatorMainRow.state.active.title
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-        .validating-label {
-          padding: 2px 8px;
-          border-radius: 50px;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 150%;
-        }
-
-        .validating-label.active {
-          background-color: #c8f6e0;
-          color: #008d6a;
-        }
-
-        .validating-label.proposal {
-          background-color: #6ad1e3;
-          color: #11869a;
-        }
-
-        .validating-label.joining {
-          background-color: #ffc107;
-          color: #ffffff;
-        }
-
-        .validating-label.leaving {
-          background-color: #dc3545;
-          color: #ffffff;
-        }
-        .validating-label.idle {
-          background-color: #e5e5e6;
-          color: #72727a;
-        }
-        .validating-label.on-hold {
-          background-color: #2d9cdb;
-          color: #ffffff;
-        }
-        .validating-label.newcomer {
-          background-color: #f2994a;
-          color: #ffffff;
-        }
-      
-            </style>
-          </span>
+            astro-stakers.poolv1.near
+          </div>
         </div>
         <div
-          className="validator-name col"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH c-PublicKey-bESuNr col"
+            title="ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28"
           >
-            <div
-              className="validator-nodes-text col"
-              title="@astro-stakers.poolv1.near"
-            >
-              astro-stakers.poolv1.near
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="validator-nodes-text validator-node-pub-key col"
-              title="ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28"
-            >
-              ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28
-            </div>
+            ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28
           </div>
         </div>
       </div>
-    </td>
-    <td>
-      1%
-    </td>
-    <td>
-      1774
-    </td>
-    <td
-      className="text-right validator-nodes-text stake-text"
+    </div>
+  </td>
+  <td>
+    1%
+  </td>
+  <td>
+    1774
+  </td>
+  <td
+    className="c-ValidatorNodesText-hdougQ c-StakeText-ePtfAL text-right"
+  >
+    <span
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
     >
+      17,776,328
+       
+      NEAR
+    </span>
+    <br />
+    <small>
+      +
       <span
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        17,776,328
+        712
          
         NEAR
       </span>
-      <br />
-      <small>
-        +
-        <span
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-        >
-          712
-           
-          NEAR
-        </span>
-      </small>
-    </td>
-    <td>
+    </small>
+  </td>
+  <td>
+    <div
+      className="c-Wrapper-lnRZjv"
+    >
       <div
-        className="cumulative-stake-chart"
+        className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+        style={
+          Object {
+            "width": "96.7%",
+          }
+        }
+      />
+      <div
+        className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+        style={
+          Object {
+            "width": "20.980000000000004%",
+          }
+        }
+      />
+      <div
+        className="c-CumulativeStakeLabel-gEhNqg"
       >
-        <div
-          className="total-value"
-          style={
-            Object {
-              "width": "96.7%",
-            }
-          }
-        />
-        <div
-          className="current-value"
-          style={
-            Object {
-              "width": "20.980000000000004%",
-            }
-          }
-        />
-        <div
-          className="cumulative-stake-label"
-        >
-          117.68%
-        </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-        .cumulative-stake-chart {
-          width: 100%;
-          height: 100%;
-          background-color: #f0f9ff;
-          position: relative;
-          display: flex;
-        }
-        .total-value,
-        .current-value {
-          display: block;
-          height: 75px;
-        }
-        .total-value {
-          background-color: #d6edff;
-        }
-        .current-value {
-          background-color: #8fcdff;
-        }
-        .cumulative-stake-label {
-          position: absolute;
-          top: 0;
-          right: 24px;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          color: #0072ce;
-          font-size: 14px;
-          font-weight: 500;
-          max-width: 75px;
-        }
-      
-        </style>
+        117.68%
       </div>
-    </td>
-  </tr>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .table-row {
-          background-color: #ffffff;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-          box-shadow: inset 0px -1px 0px #f0f0f0;
-        }
-        .table-row td {
-          border-top: none;
-          vertical-align: middle;
-        }
-
-        .table-row td.order {
-          color: #a2a2a8;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .table-row .row {
-          flex-wrap: nowrap;
-        }
-
-        .table-row.expanded {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
-            inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          margin-top: 16px;
-          margin-bottom: 16px;
-        }
-
-        .table-row.expanded + .table-expand-row {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
-            inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          height: auto;
-          opacity: 1;
-        }
-
-        .table-row.expanded:first-child {
-          margin-top: 0;
-        }
-      
-  </style>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
-
-        .collapse-row-arrow {
-          cursor: pointer;
-        }
-
-        .collapse-row-arrow.disable {
-          cursor: default;
-          opacity: 0.3;
-          pointer-events: none;
-          touch-action: none;
-        }
-
-        .validator-nodes-text {
-          font-weight: 500;
-          font-size: 14px;
-          color: #3f4045;
-        }
-
-        .validator-node-pub-key {
-          color: #2b9af4;
-        }
-
-        .validator-name {
-          max-width: 250px;
-        }
-
-        .validator-name .validator-nodes-text {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .validator-nodes-details-title {
-          display: flex;
-          flex-wrap: nowrap;
-          font-size: 12px;
-          color: #a2a2a8;
-        }
-
-        .validator-nodes-text.uptime {
-          color: #72727a;
-        }
-
-        .validator-nodes-text.stake-text {
-          font-weight: 700;
-        }
-
-        .validator-nodes-content-row {
-          padding-top: 16px;
-          padding-bottom: 16px;
-        }
-
-        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-          padding: 0 22px;
-          border-right: 1px solid #e5e5e6;
-        }
-
-        .validator-nodes-content-row
-          &gt; .validator-nodes-content-cell:last-child {
-          border-right: none;
-        }
-
-        .agent-name-badge {
-          background-color: #f0f0f1;
-          color: #72727a;
-          font-weight: 500;
-          font-size: 12px;
-          font-family: "Roboto Mono", monospace;
-        }
-
-        .validators-node-label {
-          margin-right: 24px;
-          max-width: 138px;
-        }
-
-        .cumulative-stake-chart {
-          min-width: 100px;
-        }
-
-        .cumulative-stake-holders-row {
-          background-color: #fff6ed;
-        }
-        .cumulative-stake-holders-row .warning-text {
-          color: #995200;
-          padding: 16px 50px;
-          font-size: 12px;
-        }
-
-        @media (min-width: 1200px) {
-          .validator-name {
-            max-width: 370px;
-          }
-        }
-      
-  </style>,
-]
+    </div>
+  </td>
+</tr>
 `;
 
 exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 1`] = `
-Array [
-  <tr
-    className="table-row validator-nodes-row mx-0 "
+<tr
+  className="c-TableRowWrapper-jUPfkR mx-0"
+>
+  <td
+    className="c-CollapseRowArrow-gsmDXe"
+    onClick={[Function]}
   >
-    <td
-      className="collapse-row-arrow"
-      onClick={[Function]}
+    <img
+      className="c-IconCellIcon-hLqfLK"
+      src="/static/images/icon-maximize.svg"
+    />
+  </td>
+  <td
+    className="c-OrderTableCell-clytRC"
+  >
+    2
+  </td>
+  <td>
+    <div
+      className="c-DefaultCountryFlag-jvvTEe"
     >
-      <img
-        src="/static/images/icon-maximize.svg"
-        style={
-          Object {
-            "width": "16px",
-          }
-        }
-      />
-    </td>
-    <td
-      className="order"
-    >
-      2
-    </td>
-    <td
-      className="country-flag"
+      ?
+    </div>
+  </td>
+  <td>
+    <div
+      className="align-items-center row no-gutters"
     >
       <div
-        style={
-          Object {
-            "backgroundColor": "#f0f0f1",
-            "color": "#72727a",
-            "display": "inline-block",
-            "fontSize": "8px",
-            "lineHeight": "16px",
-            "textAlign": "center",
-            "width": "22px",
-          }
-        }
+        className="c-ValidatorsNodeLabel-klLQiF col"
       >
-        ?
-      </div>
-    </td>
-    <td>
-      <div
-        className="align-items-center row no-gutters"
-      >
-        <div
-          className="validators-node-label col"
-        >
-          <span
-            className="validating-label active badge"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-          >
-            component.nodes.ValidatorMainRow.state.active.title
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-        .validating-label {
-          padding: 2px 8px;
-          border-radius: 50px;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 150%;
-        }
-
-        .validating-label.active {
-          background-color: #c8f6e0;
-          color: #008d6a;
-        }
-
-        .validating-label.proposal {
-          background-color: #6ad1e3;
-          color: #11869a;
-        }
-
-        .validating-label.joining {
-          background-color: #ffc107;
-          color: #ffffff;
-        }
-
-        .validating-label.leaving {
-          background-color: #dc3545;
-          color: #ffffff;
-        }
-        .validating-label.idle {
-          background-color: #e5e5e6;
-          color: #72727a;
-        }
-        .validating-label.on-hold {
-          background-color: #2d9cdb;
-          color: #ffffff;
-        }
-        .validating-label.newcomer {
-          background-color: #f2994a;
-          color: #ffffff;
-        }
-      
-            </style>
-          </span>
-        </div>
-        <div
-          className="validator-name col"
-        >
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="validator-nodes-text col"
-              title="@bisontrails.poolv1.near"
-            >
-              bisontrails.poolv1.near
-            </div>
-          </div>
-          <div
-            className="row no-gutters"
-          >
-            <div
-              className="validator-nodes-text validator-node-pub-key col"
-              title="ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62"
-            >
-              ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62
-            </div>
-          </div>
-        </div>
-      </div>
-    </td>
-    <td>
-      10%
-    </td>
-    <td>
-      436
-    </td>
-    <td
-      className="text-right validator-nodes-text stake-text"
-    >
-      <span
-        onBlur={[Function]}
-        onFocus={[Function]}
-        onMouseOut={[Function]}
-        onMouseOver={[Function]}
-      >
-        20,814,924
-         
-        NEAR
-      </span>
-      <br />
-      <small>
-        +
         <span
+          className="c-ValidatingLabelWrapper-eennLm c-ValidatingLabelWrapper-eennLm-fFWhBO-type-active badge"
           onBlur={[Function]}
           onFocus={[Function]}
           onMouseOut={[Function]}
           onMouseOver={[Function]}
         >
-          1,545
-           
-          NEAR
+          component.nodes.ValidatorMainRow.state.active.title
         </span>
-      </small>
-    </td>
-    <td>
-      <div
-        className="cumulative-stake-chart"
-      >
-        <div
-          className="total-value"
-          style={
-            Object {
-              "width": "50.15%",
-            }
-          }
-        />
-        <div
-          className="current-value"
-          style={
-            Object {
-              "width": "24.57%",
-            }
-          }
-        />
-        <div
-          className="cumulative-stake-label"
-        >
-          74.72%
-        </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-        .cumulative-stake-chart {
-          width: 100%;
-          height: 100%;
-          background-color: #f0f9ff;
-          position: relative;
-          display: flex;
-        }
-        .total-value,
-        .current-value {
-          display: block;
-          height: 75px;
-        }
-        .total-value {
-          background-color: #d6edff;
-        }
-        .current-value {
-          background-color: #8fcdff;
-        }
-        .cumulative-stake-label {
-          position: absolute;
-          top: 0;
-          right: 24px;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          color: #0072ce;
-          font-size: 14px;
-          font-weight: 500;
-          max-width: 75px;
-        }
-      
-        </style>
       </div>
-    </td>
-  </tr>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .table-row {
-          background-color: #ffffff;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-          box-shadow: inset 0px -1px 0px #f0f0f0;
-        }
-        .table-row td {
-          border-top: none;
-          vertical-align: middle;
-        }
-
-        .table-row td.order {
-          color: #a2a2a8;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .table-row .row {
-          flex-wrap: nowrap;
-        }
-
-        .table-row.expanded {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
-            inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          margin-top: 16px;
-          margin-bottom: 16px;
-        }
-
-        .table-row.expanded + .table-expand-row {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
-            inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          height: auto;
-          opacity: 1;
-        }
-
-        .table-row.expanded:first-child {
-          margin-top: 0;
-        }
-      
-  </style>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
-
-        .collapse-row-arrow {
-          cursor: pointer;
-        }
-
-        .collapse-row-arrow.disable {
-          cursor: default;
-          opacity: 0.3;
-          pointer-events: none;
-          touch-action: none;
-        }
-
-        .validator-nodes-text {
-          font-weight: 500;
-          font-size: 14px;
-          color: #3f4045;
-        }
-
-        .validator-node-pub-key {
-          color: #2b9af4;
-        }
-
-        .validator-name {
-          max-width: 250px;
-        }
-
-        .validator-name .validator-nodes-text {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .validator-nodes-details-title {
-          display: flex;
-          flex-wrap: nowrap;
-          font-size: 12px;
-          color: #a2a2a8;
-        }
-
-        .validator-nodes-text.uptime {
-          color: #72727a;
-        }
-
-        .validator-nodes-text.stake-text {
-          font-weight: 700;
-        }
-
-        .validator-nodes-content-row {
-          padding-top: 16px;
-          padding-bottom: 16px;
-        }
-
-        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-          padding: 0 22px;
-          border-right: 1px solid #e5e5e6;
-        }
-
-        .validator-nodes-content-row
-          &gt; .validator-nodes-content-cell:last-child {
-          border-right: none;
-        }
-
-        .agent-name-badge {
-          background-color: #f0f0f1;
-          color: #72727a;
-          font-weight: 500;
-          font-size: 12px;
-          font-family: "Roboto Mono", monospace;
-        }
-
-        .validators-node-label {
-          margin-right: 24px;
-          max-width: 138px;
-        }
-
-        .cumulative-stake-chart {
-          min-width: 100px;
-        }
-
-        .cumulative-stake-holders-row {
-          background-color: #fff6ed;
-        }
-        .cumulative-stake-holders-row .warning-text {
-          color: #995200;
-          padding: 16px 50px;
-          font-size: 12px;
-        }
-
-        @media (min-width: 1200px) {
-          .validator-name {
-            max-width: 370px;
-          }
-        }
-      
-  </style>,
-]
-`;
-
-exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = `
-Array [
-  <tr
-    className="table-row validator-nodes-row mx-0 "
-  >
-    <td
-      className="collapse-row-arrow"
-      onClick={[Function]}
-    >
-      <img
-        src="/static/images/icon-maximize.svg"
-        style={
-          Object {
-            "width": "16px",
-          }
-        }
-      />
-    </td>
-    <td
-      className="order"
-    >
-      4
-    </td>
-    <td
-      className="country-flag"
-    >
       <div
-        style={
-          Object {
-            "backgroundColor": "#f0f0f1",
-            "color": "#72727a",
-            "display": "inline-block",
-            "fontSize": "8px",
-            "lineHeight": "16px",
-            "textAlign": "center",
-            "width": "22px",
-          }
-        }
-      >
-        ?
-      </div>
-    </td>
-    <td>
-      <div
-        className="align-items-center row no-gutters"
+        className="c-ValidatorName-eCGYsD col"
       >
         <div
-          className="validators-node-label col"
-        >
-          <span
-            className="validating-label idle badge"
-            onBlur={[Function]}
-            onFocus={[Function]}
-            onMouseOut={[Function]}
-            onMouseOver={[Function]}
-          >
-            component.nodes.ValidatorMainRow.state.idle.title
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-        .validating-label {
-          padding: 2px 8px;
-          border-radius: 50px;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 150%;
-        }
-
-        .validating-label.active {
-          background-color: #c8f6e0;
-          color: #008d6a;
-        }
-
-        .validating-label.proposal {
-          background-color: #6ad1e3;
-          color: #11869a;
-        }
-
-        .validating-label.joining {
-          background-color: #ffc107;
-          color: #ffffff;
-        }
-
-        .validating-label.leaving {
-          background-color: #dc3545;
-          color: #ffffff;
-        }
-        .validating-label.idle {
-          background-color: #e5e5e6;
-          color: #72727a;
-        }
-        .validating-label.on-hold {
-          background-color: #2d9cdb;
-          color: #ffffff;
-        }
-        .validating-label.newcomer {
-          background-color: #f2994a;
-          color: #ffffff;
-        }
-      
-            </style>
-          </span>
-        </div>
-        <div
-          className="validator-name col"
+          className="row no-gutters"
         >
           <div
-            className="row no-gutters"
+            className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH col"
+            title="@bisontrails.poolv1.near"
           >
-            <div
-              className="validator-nodes-text col"
-              title="@sphere.poolv1.near"
-            >
-              sphere.poolv1.near
-            </div>
+            bisontrails.poolv1.near
+          </div>
+        </div>
+        <div
+          className="row no-gutters"
+        >
+          <div
+            className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH c-PublicKey-bESuNr col"
+            title="ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62"
+          >
+            ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62
           </div>
         </div>
       </div>
-    </td>
-    <td>
-      8%
-    </td>
-    <td>
-      1
-    </td>
-    <td
-      className="text-right validator-nodes-text stake-text"
+    </div>
+  </td>
+  <td>
+    10%
+  </td>
+  <td>
+    436
+  </td>
+  <td
+    className="c-ValidatorNodesText-hdougQ c-StakeText-ePtfAL text-right"
+  >
+    <span
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
     >
+      20,814,924
+       
+      NEAR
+    </span>
+    <br />
+    <small>
+      +
       <span
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        50
+        1,545
          
         NEAR
       </span>
-    </td>
-    <td>
+    </small>
+  </td>
+  <td>
+    <div
+      className="c-Wrapper-lnRZjv"
+    >
       <div
-        className="cumulative-stake-chart"
+        className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+        style={
+          Object {
+            "width": "50.15%",
+          }
+        }
+      />
+      <div
+        className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+        style={
+          Object {
+            "width": "24.57%",
+          }
+        }
+      />
+      <div
+        className="c-CumulativeStakeLabel-gEhNqg"
+      >
+        74.72%
+      </div>
+    </div>
+  </td>
+</tr>
+`;
+
+exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = `
+<tr
+  className="c-TableRowWrapper-jUPfkR mx-0"
+>
+  <td
+    className="c-CollapseRowArrow-gsmDXe"
+    onClick={[Function]}
+  >
+    <img
+      className="c-IconCellIcon-hLqfLK"
+      src="/static/images/icon-maximize.svg"
+    />
+  </td>
+  <td
+    className="c-OrderTableCell-clytRC"
+  >
+    4
+  </td>
+  <td>
+    <div
+      className="c-DefaultCountryFlag-jvvTEe"
+    >
+      ?
+    </div>
+  </td>
+  <td>
+    <div
+      className="align-items-center row no-gutters"
+    >
+      <div
+        className="c-ValidatorsNodeLabel-klLQiF col"
+      >
+        <span
+          className="c-ValidatingLabelWrapper-eennLm c-ValidatingLabelWrapper-eennLm-gShBhO-type-idle badge"
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          component.nodes.ValidatorMainRow.state.idle.title
+        </span>
+      </div>
+      <div
+        className="c-ValidatorName-eCGYsD col"
       >
         <div
-          className="total-value"
-          style={
-            Object {
-              "width": "0%",
-            }
-          }
-        />
-        <div
-          className="current-value"
-          style={
-            Object {
-              "width": "0%",
-            }
-          }
-        />
-        <div
-          className="cumulative-stake-label"
+          className="row no-gutters"
         >
-          common.state.not_available
+          <div
+            className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH col"
+            title="@sphere.poolv1.near"
+          >
+            sphere.poolv1.near
+          </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-        .cumulative-stake-chart {
-          width: 100%;
-          height: 100%;
-          background-color: #f0f9ff;
-          position: relative;
-          display: flex;
-        }
-        .total-value,
-        .current-value {
-          display: block;
-          height: 75px;
-        }
-        .total-value {
-          background-color: #d6edff;
-        }
-        .current-value {
-          background-color: #8fcdff;
-        }
-        .cumulative-stake-label {
-          position: absolute;
-          top: 0;
-          right: 24px;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          color: #0072ce;
-          font-size: 14px;
-          font-weight: 500;
-          max-width: 75px;
-        }
-      
-        </style>
       </div>
-    </td>
-  </tr>,
-  <style
-    global={true}
-    jsx={true}
+    </div>
+  </td>
+  <td>
+    8%
+  </td>
+  <td>
+    1
+  </td>
+  <td
+    className="c-ValidatorNodesText-hdougQ c-StakeText-ePtfAL text-right"
   >
-    
-        .table-row {
-          background-color: #ffffff;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-          box-shadow: inset 0px -1px 0px #f0f0f0;
-        }
-        .table-row td {
-          border-top: none;
-          vertical-align: middle;
-        }
-
-        .table-row td.order {
-          color: #a2a2a8;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .table-row .row {
-          flex-wrap: nowrap;
-        }
-
-        .table-row.expanded {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
-            inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          margin-top: 16px;
-          margin-bottom: 16px;
-        }
-
-        .table-row.expanded + .table-expand-row {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
-            inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          height: auto;
-          opacity: 1;
-        }
-
-        .table-row.expanded:first-child {
-          margin-top: 0;
-        }
-      
-  </style>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
-
-        .collapse-row-arrow {
-          cursor: pointer;
-        }
-
-        .collapse-row-arrow.disable {
-          cursor: default;
-          opacity: 0.3;
-          pointer-events: none;
-          touch-action: none;
-        }
-
-        .validator-nodes-text {
-          font-weight: 500;
-          font-size: 14px;
-          color: #3f4045;
-        }
-
-        .validator-node-pub-key {
-          color: #2b9af4;
-        }
-
-        .validator-name {
-          max-width: 250px;
-        }
-
-        .validator-name .validator-nodes-text {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .validator-nodes-details-title {
-          display: flex;
-          flex-wrap: nowrap;
-          font-size: 12px;
-          color: #a2a2a8;
-        }
-
-        .validator-nodes-text.uptime {
-          color: #72727a;
-        }
-
-        .validator-nodes-text.stake-text {
-          font-weight: 700;
-        }
-
-        .validator-nodes-content-row {
-          padding-top: 16px;
-          padding-bottom: 16px;
-        }
-
-        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-          padding: 0 22px;
-          border-right: 1px solid #e5e5e6;
-        }
-
-        .validator-nodes-content-row
-          &gt; .validator-nodes-content-cell:last-child {
-          border-right: none;
-        }
-
-        .agent-name-badge {
-          background-color: #f0f0f1;
-          color: #72727a;
-          font-weight: 500;
-          font-size: 12px;
-          font-family: "Roboto Mono", monospace;
-        }
-
-        .validators-node-label {
-          margin-right: 24px;
-          max-width: 138px;
-        }
-
-        .cumulative-stake-chart {
-          min-width: 100px;
-        }
-
-        .cumulative-stake-holders-row {
-          background-color: #fff6ed;
-        }
-        .cumulative-stake-holders-row .warning-text {
-          color: #995200;
-          padding: 16px 50px;
-          font-size: 12px;
-        }
-
-        @media (min-width: 1200px) {
-          .validator-name {
-            max-width: 370px;
+    <span
+      onBlur={[Function]}
+      onFocus={[Function]}
+      onMouseOut={[Function]}
+      onMouseOver={[Function]}
+    >
+      50
+       
+      NEAR
+    </span>
+  </td>
+  <td>
+    <div
+      className="c-Wrapper-lnRZjv"
+    >
+      <div
+        className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+        style={
+          Object {
+            "width": "0%",
           }
         }
-      
-  </style>,
-]
+      />
+      <div
+        className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+        style={
+          Object {
+            "width": "0%",
+          }
+        }
+      />
+      <div
+        className="c-CumulativeStakeLabel-gEhNqg"
+      >
+        common.state.not_available
+      </div>
+    </div>
+  </td>
+</tr>
 `;
 
 exports[`<ValidatorRow /> renders simple 'active' Validators row 1`] = `
 Array [
   <tr
-    className="table-row validator-nodes-row mx-0 "
+    className="c-TableRowWrapper-jUPfkR mx-0"
   >
     <td
-      className="collapse-row-arrow"
+      className="c-CollapseRowArrow-gsmDXe"
       onClick={[Function]}
     >
       <img
+        className="c-IconCellIcon-hLqfLK"
         src="/static/images/icon-maximize.svg"
-        style={
-          Object {
-            "width": "16px",
-          }
-        }
       />
     </td>
     <td
-      className="order"
+      className="c-OrderTableCell-clytRC"
     >
       1
     </td>
-    <td
-      className="country-flag"
-    >
+    <td>
       <div
-        style={
-          Object {
-            "backgroundColor": "#f0f0f1",
-            "color": "#72727a",
-            "display": "inline-block",
-            "fontSize": "8px",
-            "lineHeight": "16px",
-            "textAlign": "center",
-            "width": "22px",
-          }
-        }
+        className="c-DefaultCountryFlag-jvvTEe"
       >
         ?
       </div>
@@ -1168,72 +415,26 @@ Array [
         className="align-items-center row no-gutters"
       >
         <div
-          className="validators-node-label col"
+          className="c-ValidatorsNodeLabel-klLQiF col"
         >
           <span
-            className="validating-label active badge"
+            className="c-ValidatingLabelWrapper-eennLm c-ValidatingLabelWrapper-eennLm-fFWhBO-type-active badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
             component.nodes.ValidatorMainRow.state.active.title
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-        .validating-label {
-          padding: 2px 8px;
-          border-radius: 50px;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 150%;
-        }
-
-        .validating-label.active {
-          background-color: #c8f6e0;
-          color: #008d6a;
-        }
-
-        .validating-label.proposal {
-          background-color: #6ad1e3;
-          color: #11869a;
-        }
-
-        .validating-label.joining {
-          background-color: #ffc107;
-          color: #ffffff;
-        }
-
-        .validating-label.leaving {
-          background-color: #dc3545;
-          color: #ffffff;
-        }
-        .validating-label.idle {
-          background-color: #e5e5e6;
-          color: #72727a;
-        }
-        .validating-label.on-hold {
-          background-color: #2d9cdb;
-          color: #ffffff;
-        }
-        .validating-label.newcomer {
-          background-color: #f2994a;
-          color: #ffffff;
-        }
-      
-            </style>
           </span>
         </div>
         <div
-          className="validator-name col"
+          className="c-ValidatorName-eCGYsD col"
         >
           <div
             className="row no-gutters"
           >
             <div
-              className="validator-nodes-text col"
+              className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH col"
               title="@staked.poolv1.near"
             >
               staked.poolv1.near
@@ -1243,7 +444,7 @@ Array [
             className="row no-gutters"
           >
             <div
-              className="validator-nodes-text validator-node-pub-key col"
+              className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH c-PublicKey-bESuNr col"
               title="ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ"
             >
               ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ
@@ -1259,7 +460,7 @@ Array [
       874
     </td>
     <td
-      className="text-right validator-nodes-text stake-text"
+      className="c-ValidatorNodesText-hdougQ c-StakeText-ePtfAL text-right"
     >
       <span
         onBlur={[Function]}
@@ -1288,10 +489,10 @@ Array [
     </td>
     <td>
       <div
-        className="cumulative-stake-chart"
+        className="c-Wrapper-lnRZjv"
       >
         <div
-          className="total-value"
+          className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
           style={
             Object {
               "width": "0%",
@@ -1299,7 +500,7 @@ Array [
           }
         />
         <div
-          className="current-value"
+          className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
           style={
             Object {
               "width": "50.14%",
@@ -1307,207 +508,22 @@ Array [
           }
         />
         <div
-          className="cumulative-stake-label"
+          className="c-CumulativeStakeLabel-gEhNqg"
         >
           50.14%
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-        .cumulative-stake-chart {
-          width: 100%;
-          height: 100%;
-          background-color: #f0f9ff;
-          position: relative;
-          display: flex;
-        }
-        .total-value,
-        .current-value {
-          display: block;
-          height: 75px;
-        }
-        .total-value {
-          background-color: #d6edff;
-        }
-        .current-value {
-          background-color: #8fcdff;
-        }
-        .cumulative-stake-label {
-          position: absolute;
-          top: 0;
-          right: 24px;
-          bottom: 0;
-          display: flex;
-          align-items: center;
-          color: #0072ce;
-          font-size: 14px;
-          font-weight: 500;
-          max-width: 75px;
-        }
-      
-        </style>
       </div>
     </td>
   </tr>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .table-row {
-          background-color: #ffffff;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-          box-shadow: inset 0px -1px 0px #f0f0f0;
-        }
-        .table-row td {
-          border-top: none;
-          vertical-align: middle;
-        }
-
-        .table-row td.order {
-          color: #a2a2a8;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .table-row .row {
-          flex-wrap: nowrap;
-        }
-
-        .table-row.expanded {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
-            inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          margin-top: 16px;
-          margin-bottom: 16px;
-        }
-
-        .table-row.expanded + .table-expand-row {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
-            inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          height: auto;
-          opacity: 1;
-        }
-
-        .table-row.expanded:first-child {
-          margin-top: 0;
-        }
-      
-  </style>,
   <tr
-    className="cumulative-stake-holders-row"
+    className="c-CumulativeStakeholdersRow-fSXZiO"
   >
     <td
-      className="warning-text text-center"
+      className="c-WarningText-fJprnn text-center"
       colSpan={8}
     >
       component.nodes.ValidatorRow.warning_tip
     </td>
   </tr>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
-
-        .collapse-row-arrow {
-          cursor: pointer;
-        }
-
-        .collapse-row-arrow.disable {
-          cursor: default;
-          opacity: 0.3;
-          pointer-events: none;
-          touch-action: none;
-        }
-
-        .validator-nodes-text {
-          font-weight: 500;
-          font-size: 14px;
-          color: #3f4045;
-        }
-
-        .validator-node-pub-key {
-          color: #2b9af4;
-        }
-
-        .validator-name {
-          max-width: 250px;
-        }
-
-        .validator-name .validator-nodes-text {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .validator-nodes-details-title {
-          display: flex;
-          flex-wrap: nowrap;
-          font-size: 12px;
-          color: #a2a2a8;
-        }
-
-        .validator-nodes-text.uptime {
-          color: #72727a;
-        }
-
-        .validator-nodes-text.stake-text {
-          font-weight: 700;
-        }
-
-        .validator-nodes-content-row {
-          padding-top: 16px;
-          padding-bottom: 16px;
-        }
-
-        .validator-nodes-content-row &gt; .validator-nodes-content-cell {
-          padding: 0 22px;
-          border-right: 1px solid #e5e5e6;
-        }
-
-        .validator-nodes-content-row
-          &gt; .validator-nodes-content-cell:last-child {
-          border-right: none;
-        }
-
-        .agent-name-badge {
-          background-color: #f0f0f1;
-          color: #72727a;
-          font-weight: 500;
-          font-size: 12px;
-          font-family: "Roboto Mono", monospace;
-        }
-
-        .validators-node-label {
-          margin-right: 24px;
-          max-width: 138px;
-        }
-
-        .cumulative-stake-chart {
-          min-width: 100px;
-        }
-
-        .cumulative-stake-holders-row {
-          background-color: #fff6ed;
-        }
-        .cumulative-stake-holders-row .warning-text {
-          color: #995200;
-          padding: 16px 50px;
-          font-size: 12px;
-        }
-
-        @media (min-width: 1200px) {
-          .validator-name {
-            max-width: 370px;
-          }
-        }
-      
-  </style>,
 ]
 `;

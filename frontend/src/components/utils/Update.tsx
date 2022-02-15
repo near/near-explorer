@@ -1,19 +1,21 @@
 import Placeholder, { Props as PlaceholderProps } from "./Placeholder";
 
 import { useTranslation } from "react-i18next";
+import { styled } from "../../libraries/styles";
+
+const UpdateWrapper = styled(Placeholder, {
+  "&:active": {
+    background: "rgba(106, 209, 227, 0.5)",
+  },
+});
 
 const Update = ({ children }: PlaceholderProps) => {
   const { t } = useTranslation();
   return (
-    <Placeholder className="update">
+    <UpdateWrapper>
       {children}
       {t("utils.Update.refresh")}
-      <style>{`
-      .update:active{
-        background: rgba(106, 209, 227, 0.5)
-      }
-      `}</style>
-    </Placeholder>
+    </UpdateWrapper>
   );
 };
 

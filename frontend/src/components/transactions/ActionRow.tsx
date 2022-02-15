@@ -8,7 +8,6 @@ import ActionRowBlock, { ViewMode, DetalizationMode } from "./ActionRowBlock";
 export interface Props {
   action: Action;
   blockTimestamp?: number;
-  className?: string;
   detailsLink?: React.ReactNode;
   detalizationMode?: DetalizationMode;
   isFinal?: boolean;
@@ -22,7 +21,6 @@ export interface Props {
 const ActionRow: FC<Props> = ({
   viewMode = "sparse",
   detalizationMode = "detailed",
-  className,
   signerId,
   receiverId,
   blockTimestamp,
@@ -37,7 +35,6 @@ const ActionRow: FC<Props> = ({
     <ActionRowBlock
       viewMode={viewMode}
       detalizationMode={detalizationMode}
-      className={className}
       signerId={signerId}
       blockTimestamp={blockTimestamp}
       detailsLink={detailsLink}

@@ -14,7 +14,7 @@ context("Transactions", () => {
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find(".action-sparse-row")
+      .find("@ActionRow@type-sparse")
       .should("have.length.greaterThan", 0)
       .then(($el) => {
         let itemsPerPage = $el.length;
@@ -23,20 +23,20 @@ context("Transactions", () => {
             ".infinite-scroll-component__outerdiv .infinite-scroll-component",
             { timeout: 5000 }
           )
-          .find(".action-sparse-row", { timeout: 5000 })
+          .find("@ActionRow@type-sparse", { timeout: 5000 })
           .should("have.length.greaterThan", itemsPerPage);
       });
 
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find(".action-sparse-row")
+      .find("@ActionRow@type-sparse")
       .should("exist")
       .and("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find(".action-sparse-row .action-row-details .action-row-title")
+      .find("@ActionRow@type-sparse @ActionRowDetails @ActionRowTitle")
       .should("exist")
       .and("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find(".action-sparse-row .action-row-details .action-row-txid")
+      .find("@ActionRow@type-sparse @ActionRowDetails @ActionRowTitle")
       .should("exist")
       .and("not.be.empty");
   });
@@ -47,31 +47,31 @@ context("Transactions", () => {
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find(".action-sparse-row")
+      .find("@ActionRow@type-sparse")
       .first()
-      .get(".action-sparse-row .action-row-txid a")
+      .get("@ActionRow@type-sparse @ActionRowTransaction a")
       .first()
       .click();
-    cy.get(".transaction-info-container", { timeout: 20000 }).should("exist");
-    cy.get(".transaction-info-container .card-cell .card-body")
+    cy.get("@TransactionInfoContainer", { timeout: 20000 }).should("exist");
+    cy.get("@TransactionInfoContainer @CardCell .card-body")
       .should("exist")
       .and("not.be.empty");
 
-    cy.get(".content-title")
+    cy.get("@ContentContainer")
       .find("h2")
       .each(($el) => {
         if ($el.text() === "Actions") {
-          cy.get(".action-sparse-row").should("exist").and("not.be.empty");
-          cy.get(".action-sparse-row .action-row-details")
+          cy.get("@ActionRow@type-sparse").should("exist").and("not.be.empty");
+          cy.get("@ActionRow@type-sparse @ActionRowDetails")
             .should("exist")
             .and("not.be.empty");
         }
         if ($el.text() === "Receipts") {
-          cy.get(".receipt-row").should("exist").and("not.be.empty");
-          cy.get(".receipt-row .receipt-row-title")
+          cy.get("@ReceiptRowWrapper").should("exist").and("not.be.empty");
+          cy.get("@ReceiptRowWrapper @ReceiptRowTitle")
             .should("exist")
             .and("not.be.empty");
-          cy.get(".receipt-row .receipt-row-receipt-hash")
+          cy.get("@ReceiptRowWrapper @ReceiptRowReceiptHash")
             .should("exist")
             .and("not.be.empty");
         }

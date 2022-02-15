@@ -10,4 +10,7 @@ module.exports = createJestConfig({
   testEnvironment: "<rootDir>/src/testing/env.ts",
   collectCoverage: false,
   timers: "modern",
+  transform: {
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
+  },
 });

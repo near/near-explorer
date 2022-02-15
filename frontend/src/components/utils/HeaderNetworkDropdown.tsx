@@ -3,46 +3,126 @@ import { Dropdown } from "react-bootstrap";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 import { useNetworkContext } from "../../hooks/use-network-context";
+import { NetworkName } from "../../libraries/config";
+import { styled } from "../../libraries/styles";
+
+const HeaderNetworkItemDropdown = styled(Dropdown.Item, {
+  fontSize: 14,
+  letterSpacing: 1.8,
+  color: "#8d8d8d",
+  padding: "6px 40px 6px 6px",
+  borderRadius: 3,
+  textTransform: "capitalize",
+
+  "&:hover, &:active": {
+    backgroundColor: "#e6e6e6",
+  },
+});
 
 interface Props {
   link: string;
-  title: string;
+  title: NetworkName;
 }
 
 const HeaderDropdownItem: FC<Props> = ({ link, title }) => {
   const track = useAnalyticsTrack();
 
   return (
-    <Dropdown.Item
-      className="header-network-item-dropdown"
+    <HeaderNetworkItemDropdown
       href={link}
       onClick={() =>
         track("Explorer Click to change network", { network: link })
       }
     >
-      <div className={`network-icon network-${title.toLowerCase()}`}></div>
+      <NetworkIcon network={title} />
       {title}
-    </Dropdown.Item>
+    </HeaderNetworkItemDropdown>
   );
 };
+
+const HeaderNetwork = styled(Dropdown.Toggle, {
+  background: "#ffffff",
+  border: "2px solid #f1f1f1",
+  boxSizing: "border-box",
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+  borderRadius: 50,
+  color: "#000000",
+  textTransform: "capitalize",
+  width: 154,
+  height: 33,
+  padding: "3px 2px",
+  fontSize: 14,
+  outline: "none",
+
+  "&:hover, &:focus, &:active, &:focus:active, .show > &.dropdown-toggle": {
+    background: "#f7f7f7 !important",
+    color: "#000000 !important",
+    boxShadow: "none !important",
+    border: "0 solid #f1f1f1 !important",
+  },
+  "&.dropdown-toggle": {
+    border: "2px solid #f1f1f1",
+  },
+  "&:focus": {
+    boxShadow: "none",
+  },
+});
+
+const HeaderNetworkDropdownMenu = styled(Dropdown.Menu, {
+  background: "#ffffff",
+  padding: 12,
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+  borderRadius: 8,
+  border: "none",
+  minWidth: 154,
+});
+
+const NetworkIcon = styled("div", {
+  display: "inline-block",
+  marginRight: 8,
+  width: 8,
+  height: 8,
+  borderRadius: "50%",
+  background: "#0072ce",
+
+  variants: {
+    network: {
+      mainnet: {
+        background: "#00c08b",
+      },
+      testnet: {
+        background: "#e9b870",
+      },
+      betanet: {
+        background: "#00c1de",
+      },
+      localhostnet: {},
+    },
+  },
+});
+
+const DropdownArrow = styled("img", {
+  marginLeft: 9,
+});
+
+const IconRight = styled("img", {
+  height: 15,
+  width: 15,
+  marginLeft: 16,
+  marginTop: -3,
+});
 
 const HeaderNetworkDropdown: FC = () => {
   const { currentNetwork, networks } = useNetworkContext();
   return (
     <Dropdown>
-      <Dropdown.Toggle className="header-network" variant="secondary">
-        <div className="network-icon"></div>
+      <HeaderNetwork variant="secondary">
+        <NetworkIcon network={currentNetwork.name} />
         {currentNetwork.name}
-        <img
-          className="icon-right"
-          src="/static/images/icon-network-right.svg"
-        />
-        <img
-          src="/static/images/down-blue-arrow.svg"
-          className="dropdown-arrow"
-        />
-      </Dropdown.Toggle>
-      <Dropdown.Menu className="header-network-dropdown-menu">
+        <IconRight src="/static/images/icon-network-right.svg" />
+        <DropdownArrow src="/static/images/down-blue-arrow.svg" />
+      </HeaderNetwork>
+      <HeaderNetworkDropdownMenu>
         {networks.map((network) => {
           return (
             <HeaderDropdownItem
@@ -52,105 +132,7 @@ const HeaderNetworkDropdown: FC = () => {
             />
           );
         })}
-      </Dropdown.Menu>
-      <style jsx global>{`
-        .header-network {
-          background: #ffffff;
-          border: 2px solid #f1f1f1;
-          box-sizing: border-box;
-          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-          border-radius: 50px;
-          color: #000000;
-          text-transform: capitalize;
-          width: 154px;
-          height: 33px;
-          padding: 3px 2px;
-          font-size: 14px;
-          outline: none;
-        }
-
-        .header-network:hover,
-        .header-network:focus,
-        .header-network:active,
-        .header-network:focus:active,
-        .show > .header-network.dropdown-toggle {
-          background: #f7f7f7 !important;
-          color: #000000 !important;
-          box-shadow: none !important;
-          border: 0 solid #f1f1f1 !important;
-        }
-        .header-network.dropdown-toggle {
-          border: 2px solid #f1f1f1;
-        }
-
-        .btn-secondary:focus {
-          box-shadow: none;
-        }
-
-        .header-network-dropdown-menu {
-          background: #ffffff;
-          padding: 12px;
-          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-          border-radius: 8px;
-          border: none;
-        }
-
-        .dropdown-menu {
-          min-width: 154px;
-        }
-
-        .header-network-item-dropdown {
-          font-size: 14px;
-          letter-spacing: 1.8px;
-          color: #8d8d8d;
-          padding: 6px 40px 6px 6px;
-          border-radius: 3px;
-          text-transform: capitalize;
-        }
-
-        .header-network-item-dropdown:hover,
-        .header-network-item-dropdown:active {
-          background-color: #e6e6e6;
-        }
-
-        .network-icon {
-          display: inline-block;
-          margin-right: 8px;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: ${currentNetwork.name === "mainnet"
-            ? "#00C08B"
-            : currentNetwork.name === "testnet"
-            ? "#E9B870"
-            : currentNetwork.name === "betanet"
-            ? "#00C1DE"
-            : "#0072CE"};
-        }
-
-        .network-icon.network-mainnet {
-          background: #00c08b;
-        }
-
-        .network-icon.network-testnet {
-          background: #e9b870;
-        }
-
-        .network-icon.network-betanet {
-          background: #00c1de;
-        }
-
-        .network-icon.network-guildnet {
-          background: #0072ce;
-        }
-
-        .icon-right {
-          height: 15px;
-          width: 15px;
-          margin-left: 16px;
-          margin-top: -3px;
-        }
-      `}</style>
+      </HeaderNetworkDropdownMenu>
     </Dropdown>
   );
 };

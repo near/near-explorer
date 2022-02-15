@@ -8,67 +8,119 @@ import React, {
 } from "react";
 import Link from "../utils/Link";
 
-import IconAccounts from "../../../public/static/images/icon-accounts.svg";
-import IconBlocks from "../../../public/static/images/icon-blocks.svg";
-import IconNodes from "../../../public/static/images/icon-nodes.svg";
-import IconStats from "../../../public/static/images/icon-stats.svg";
-import IconTransactions from "../../../public/static/images/icon-transactions.svg";
+import IconAccountsSvg from "../../../public/static/images/icon-accounts.svg";
+import IconBlocksSvg from "../../../public/static/images/icon-blocks.svg";
+import IconNodesSvg from "../../../public/static/images/icon-nodes.svg";
+import IconStatsSvg from "../../../public/static/images/icon-stats.svg";
+import IconTransactionsSvg from "../../../public/static/images/icon-transactions.svg";
 
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
-const languagesIcon = "/static/images/icon-languages.svg";
-const downArrowIcon = "/static/images/icon-arrow-down.svg";
+import { styled } from "../../libraries/styles";
+import { StyledComponent } from "@stitches/react/types/styled-component";
+
+const Icon = styled("svg", {
+  width: 16,
+  marginRight: 3,
+});
+
+const HeaderNavLink = styled("a", {
+  color: "#a5a5a5",
+  display: "block",
+  paddingTop: 14,
+  paddingBottom: 14,
+  paddingLeft: 16,
+  width: "100%",
+
+  "&:focus, &:active": {
+    background: "#000000",
+    color: "#f8f8f8",
+    fill: "#a5a5a5",
+  },
+});
+
+const NavText = styled("span", {
+  letterSpacing: 1,
+  textDecoration: "none",
+  fontSize: 14,
+  fontWeight: 500,
+  marginLeft: 10,
+});
 
 interface Props {
   link: string;
-  icon: ReactNode;
+  IconElement: StyledComponent;
   text: ReactNode;
 }
 
-const MobileNavItem: FC<Props> = ({ link, icon, text }) => {
+const MobileNavItem: FC<Props> = ({ link, IconElement, text }) => {
   return (
-    <Link href={link}>
-      <a className="header-nav-item">
-        {icon}
-        <span className="nav-text">{text}</span>
-        <style jsx global>{`
-          .header-nav-link,
-          .header-nav-link:hover {
-            text-decoration: none;
-          }
-
-          .header-icon {
-            width: 16px !important;
-            margin-right: 3px;
-          }
-
-          .nav-text {
-            letter-spacing: 1px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            margin-left: 10px;
-          }
-          .header-nav-item {
-            color: #a5a5a5;
-            display: block;
-            padding-top: 14px;
-            padding-bottom: 14px;
-            padding-left: 16px;
-            width: 100%;
-          }
-
-          .header-nav-item:focus,
-          .header-nav-item:active {
-            background: #000000;
-            color: #f8f8f8;
-            fill: #a5a5a5;
-          }
-        `}</style>
-      </a>
+    <Link href={link} passHref>
+      <HeaderNavLink>
+        <Icon as={IconElement} />
+        <NavText>{text}</NavText>
+      </HeaderNavLink>
     </Link>
   );
 };
+
+const MobileHeaderNav = styled("div", {
+  display: "inline-block",
+  cursor: "pointer",
+});
+
+const Bar = styled("div", {
+  width: 18,
+  height: 2,
+  backgroundColor: "#000000",
+  margin: "6px 0",
+  transition: "0.4s",
+
+  variants: {
+    order: {
+      1: {
+        ".change &": {
+          transform: "rotate(-45deg) translate(-6px, 5px)",
+        },
+      },
+      2: {
+        ".change &": {
+          opacity: 0,
+        },
+      },
+      3: {
+        ".change &": {
+          transform: "rotate(45deg) translate(-6px, -5px)",
+        },
+      },
+    },
+  },
+});
+
+const MobileNav = styled("div", {
+  paddingTop: 14,
+  paddingLeft: 16,
+  paddingBottom: 15,
+  color: "#f8f8f8",
+  letterSpacing: 1,
+});
+
+const DropdownContent = styled("div", {
+  position: "fixed",
+  width: "100%",
+  maxWidth: "100%",
+  left: 0,
+  top: 109,
+  zIndex: 2,
+  background: "#25272a",
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+  textAlign: "left",
+});
+
+const LinkWrapper = styled("a", {
+  color: "#F8F8F8",
+  width: "100%",
+});
 
 const MobileNavDropdown = () => {
   const { t } = useTranslation();
@@ -116,128 +168,56 @@ const MobileNavDropdown = () => {
 
   return (
     <>
-      <div
-        className={`mobile ${isMenuShown ? "change" : ""}`}
+      <MobileHeaderNav
+        className={isMenuShown ? "change" : undefined}
         onClick={showMenu}
         ref={dropdownWrapperRef}
       >
-        <div className="bar1"></div>
-        <div className="bar2"></div>
-        <div className="bar3"></div>
+        <Bar order={1} />
+        <Bar order={2} />
+        <Bar order={3} />
 
         {isMenuShown ? (
-          <div ref={dropdownMenuRef} className="dropdown-content">
-            <div className="mobile-nav">
-              <Link href="/">
-                <a style={{ color: "#F8F8F8", width: "100%" }}>
-                  {t("component.utils.Header.home")}
-                </a>
+          <DropdownContent ref={dropdownMenuRef}>
+            <MobileNav>
+              <Link href="/" passHref>
+                <LinkWrapper>{t("component.utils.Header.home")}</LinkWrapper>
               </Link>
-            </div>
-            <div className="mobile-nav">
+            </MobileNav>
+            <MobileNav>
               {t("component.utils.HeaderNavDropdown.title")}
-            </div>
+            </MobileNav>
             <MobileNavItem
               link="/accounts"
-              icon={<IconAccounts className="header-icon" />}
+              IconElement={IconAccountsSvg}
               text={t("common.accounts.accounts")}
             />
             <MobileNavItem
               link="/blocks"
-              icon={<IconBlocks className="header-icon" />}
+              IconElement={IconBlocksSvg}
               text={t("common.blocks.blocks")}
             />
             <MobileNavItem
               link="/transactions"
-              icon={<IconTransactions className="header-icon" />}
+              IconElement={IconTransactionsSvg}
               text={t("common.transactions.transactions")}
             />
             <MobileNavItem
               link="/nodes/validators"
-              icon={<IconNodes className="header-icon" />}
+              IconElement={IconNodesSvg}
               text={t("common.nodes.title")}
             />
             <MobileNavItem
               link="/stats"
-              icon={<IconStats className="header-icon" />}
+              IconElement={IconStatsSvg}
               text={t("common.stats.title_charts_and_stats")}
             />
-            <div className="mobile-nav">
-              <LanguageToggle />
-            </div>
-          </div>
+            <MobileNav>
+              <LanguageToggle mobile />
+            </MobileNav>
+          </DropdownContent>
         ) : null}
-      </div>
-
-      <style jsx global>{`
-        .mobile {
-          display: inline-block;
-          cursor: pointer;
-        }
-
-        .bar1,
-        .bar2,
-        .bar3 {
-          width: 18px;
-          height: 2px;
-          background-color: #000000;
-          margin: 6px 0;
-          transition: 0.4s;
-        }
-
-        /* Rotate first bar */
-        .change .bar1 {
-          -webkit-transform: rotate(-45deg) translate(-6px, 5px);
-          transform: rotate(-45deg) translate(-6px, 5px);
-        }
-
-        /* Fade out the second bar */
-        .change .bar2 {
-          opacity: 0;
-        }
-
-        /* Rotate last bar */
-        .change .bar3 {
-          -webkit-transform: rotate(45deg) translate(-6px, -5px);
-          transform: rotate(45deg) translate(-6px, -5px);
-        }
-
-        .dropdown-content {
-          position: fixed;
-          width: 100%;
-          max-width: 100%;
-          left: 0;
-          top: 109px;
-          z-index: 2;
-          background: #25272a;
-          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-          text-align: left;
-        }
-
-        .mobile-nav {
-          padding-top: 14px;
-          padding-left: 16px;
-          padding-bottom: 15px;
-          color: #f8f8f8;
-          letter-spacing: 1px;
-        }
-
-        .mobile-nav .lang-selector {
-          appearance: none;
-          background: url(${languagesIcon}) no-repeat 0px center / 24px 24px,
-            url(${downArrowIcon}) no-repeat 95% / 16px;
-          border: 0;
-          color: #f8f8f8;
-          cursor: pointer;
-          height: 32px;
-          outline: none;
-          padding-right: 62px;
-          position: relative;
-          width: 100%;
-          z-index: 1;
-          text-indent: 32px;
-        }
-      `}</style>
+      </MobileHeaderNav>
     </>
   );
 };

@@ -8,7 +8,7 @@ import NextDocument, {
   DocumentInitialProps,
 } from "next/document";
 import { ReactElement } from "react";
-import { getCssText } from "../libraries/stitches.config";
+import { getCssText } from "../libraries/styles";
 
 interface DocumentType {
   (props: DocumentProps): ReactElement;
@@ -23,6 +23,10 @@ const Document: DocumentType = () => {
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
         />
         <style
           id="stitches"

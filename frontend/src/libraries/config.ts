@@ -1,8 +1,10 @@
 import { IncomingMessage } from "http";
 import getNextConfig from "next/config";
 
+export type NetworkName = "mainnet" | "betanet" | "testnet" | "localhostnet";
+
 export interface NearNetwork {
-  name: string;
+  name: NetworkName;
   explorerLink: string;
   aliases: string[];
   nearWalletProfilePrefix: string;

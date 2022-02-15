@@ -10,11 +10,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { useChainBlockStats } from "../../hooks/subscriptions";
 import { useLatestBlockHeight } from "../../hooks/data";
 
-export interface Props {
-  className?: string;
-}
-
-const DashboardBlock = ({ className }: Props) => {
+const DashboardBlock: React.FC = () => {
   const { t } = useTranslation();
   const latestBlockHeight = useLatestBlockHeight();
   const recentBlockProductionSpeed = useChainBlockStats()
@@ -22,7 +18,8 @@ const DashboardBlock = ({ className }: Props) => {
 
   return (
     <DashboardCard
-      className={`block-card ${className || ""}`}
+      dataId="blocks"
+      className="ml-md-4"
       iconPath="/static/images/icon-blocks.svg"
       title={t("common.blocks.blocks")}
       headerRight={
