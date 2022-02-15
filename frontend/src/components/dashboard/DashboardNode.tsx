@@ -28,7 +28,7 @@ const DashboardNode = () => {
                 )}
                 text={t("component.dashboard.DashboardNode.nodes_online.text")}
                 href={
-                  "https://docs.near.org/docs/validator/staking#run-the-node"
+                  "https://docs.near.org/docs/develop/node/intro/what-is-a-node"
                 }
               />
             }
