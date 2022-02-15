@@ -61,21 +61,34 @@ const COHORTS = [
     id: "cohort-4",
     url: "https://near-explorer-experimental-frontend-with-5h9x.onrender.com",
     matches: (req) => req.path.startsWith("/api"),
+    disabled: true,
   },
   {
     id: "cohort-5",
-    url: "https://near-explorer-experimental-frontend-with-9vaf.onrender.com",
+    url: "https://near-explorer-experimental-frontend-with-9vaf.onrender.com1",
     matches: (req) => req.path.startsWith("/nodes"),
   },
 ];
 
 const COHORT_COOKIE_MAX_AGE = 24 * 60 * 60 * 1000;
 
+let unansweredCalls = {};
+
 const COHORT_MIDDLEWARES = COHORTS.map((cohort) =>
   createProxyMiddleware({
     target: cohort.url,
     changeOrigin: true,
+    onProxyReq: (_proxyReq, req) => {
+      req.id = uuid.v4();
+      const callData = {
+        path: req.path,
+        cohortId: req.setCohortId,
+        timestamp: Date.now(),
+      };
+      unansweredCalls[req.id] = callData;
+    },
     onProxyRes: (proxyRes, req) => {
+      delete unansweredCalls[req.id];
       if (!req.setCohortId) {
         return;
       }
@@ -112,7 +125,9 @@ app.prepare().then(() => {
   expressApp.use((req, res, next) => {
     let cohortIndex = -1;
     if (isPage(req)) {
-      cohortIndex = COHORTS.findIndex((cohort) => cohort.matches(req));
+      cohortIndex = COHORTS.findIndex(
+        (cohort) => !cohort.disabled && cohort.matches(req)
+      );
       if (cohortIndex === -1) {
         res.clearCookie("cohort-id");
       } else {
@@ -121,11 +136,13 @@ app.prepare().then(() => {
     } else {
       const cohortId = req.cookies["cohort-id"];
       if (cohortId) {
-        cohortIndex = COHORTS.findIndex((cohort) => cohort.id === cohortId);
+        cohortIndex = COHORTS.findIndex(
+          (cohort) => !cohort.disabled && cohort.id === cohortId
+        );
       }
     }
     if (dev) {
-      console.log(`Cohort ${cohortIndex} for ${req.path}`);
+      // console.log(`Cohort ${cohortIndex} for ${req.path}`);
     }
     if (cohortIndex !== -1) {
       COHORT_MIDDLEWARES[cohortIndex](req, res, next);
@@ -141,4 +158,34 @@ app.prepare().then(() => {
     }
     stLogger.info(`Server started on http://explorer:${port}`);
   });
+
+  const WAIT_TIME = 30 * 1000;
+  const INTERVAL_TIME = 15 * 1000;
+  setInterval(() => {
+    const now = Date.now();
+    const unansweredEntries = Object.entries(unansweredCalls);
+    const longCallEntries = unansweredEntries.filter(
+      ([_, value]) => now - value.timestamp > WAIT_TIME
+    );
+    console.log(
+      `Total entries: ${unansweredEntries.length}, long-called: ${longCallEntries.length}`
+    );
+    if (longCallEntries.length === 0) {
+      return;
+    }
+    console.log(
+      `Long call entries:\n${longCallEntries
+        .map(
+          ([_, value]) =>
+            `- call in cohort ${value.cohortId} on path "${
+              value.path
+            }" at ${new Date(value.timestamp).toISOString()}`
+        )
+        .join("\n")}`
+    );
+    longCallEntries.forEach(([key]) => delete unansweredCalls[key]);
+    console.log(
+      `Entries after clean-up: ${Object.keys(unansweredCalls).length}`
+    );
+  }, INTERVAL_TIME);
 });
