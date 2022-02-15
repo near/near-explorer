@@ -1,6 +1,25 @@
 import { FC } from "react";
 
 import { Line, Circle } from "rc-progress";
+import { styled } from "../../libraries/styles";
+import cx from "classnames";
+
+const ProgressBarWrapper = styled("div", {
+  background: "transparent",
+  position: "relative",
+});
+
+const ProgressBarElement = styled("div", {
+  background: "transparent",
+});
+
+const ProgressBarLabel = styled("div", {
+  position: "absolute",
+  width: "100%",
+  margin: "auto",
+  fontSize: 12,
+  fontWeight: 500,
+});
 
 interface Props {
   strokeWidth?: number;
@@ -12,49 +31,26 @@ interface Props {
   label?: React.ReactNode | string;
 }
 
-const ProgressBar: FC<Props> = ({
+const ProgressBarEx: FC<Props> = ({
   type = "line",
-  className = "",
+  className,
   label,
   ...props
-}) => (
-  <>
-    {type === "line" && (
-      <div className={`progress-bar line ${className}`}>
-        <Line {...props} className="progress-bar-content" />
-      </div>
-    )}
-    {type === "circle" && (
-      <div className={`progress-bar circle ${className}`}>
-        <Circle {...props} className="progress-bar-content" />
-        {label && <div className="progress-bar-label">{label}</div>}
-      </div>
-    )}
+}) => {
+  const wrapperClassName = cx(className, "progress-bar");
+  if (type === "circle") {
+    return (
+      <ProgressBarWrapper className={wrapperClassName}>
+        <ProgressBarElement as={Circle} strokeLinecap="square" {...props} />
+        {label && <ProgressBarLabel>{label}</ProgressBarLabel>}
+      </ProgressBarWrapper>
+    );
+  }
+  return (
+    <ProgressBarWrapper className={wrapperClassName}>
+      <ProgressBarElement as={Line} strokeLinecap="square" {...props} />
+    </ProgressBarWrapper>
+  );
+};
 
-    <style global jsx>{`
-      .progress-bar {
-        background: transparent;
-        position: relative;
-      }
-
-      .progress-bar .progress-bar-content {
-        background: transparent;
-      }
-
-      .progress-bar .rc-progress-line-path,
-      .progress-bar .rc-progress-circle-path {
-        stroke-linecap: square;
-      }
-
-      .progress-bar .progress-bar-label {
-        position: absolute;
-        width: 100%;
-        margin: auto;
-        font-size: 12px;
-        font-weight: 500;
-      }
-    `}</style>
-  </>
-);
-
-export default ProgressBar;
+export default ProgressBarEx;

@@ -6,31 +6,28 @@ context("Dashboard", () => {
   // https://on.cypress.io/interacting-with-elements
 
   it("Logo is visible", () => {
-    cy.get(".header-container .near-main-logo").should("exist");
+    cy.get("@HeaderContainer @NearLogo").should("exist");
   });
 
   it("Search bar is visible", () => {
-    cy.get(".search-wrapper form.search-box").should("exist");
+    cy.get("@SearchWrapper @SearchBox").should("exist");
   });
 
   it("Cards area is visible", () => {
-    cy.get(".card-area").should("exist");
+    cy.get("@InnerContent").should("exist");
   });
 
   it.skip("Nodes card is visible", () => {
-    cy.get(".card-area .dashboard-card.node-card").should("exist");
-    cy.get(
-      ".card-area .dashboard-card.node-card .dashboard-card-header"
-    ).contains("Nodes");
-    cy.get(".card-area .dashboard-card.node-card .spinner-border", {
+    const nodesDashboardCard =
+      '@InnerContent @DashboardCardWrapper[data-id="nodes"]';
+    cy.get(nodesDashboardCard).should("exist");
+    cy.get(`${nodesDashboardCard} @DashboardCardHeader`).contains("Nodes");
+    cy.get(`${nodesDashboardCard} .spinner-border`, {
       timeout: 15000,
     }).should("not.exist");
-    cy.get(
-      ".card-area .dashboard-card.node-card .long-card-cell .card-cell-text",
-      {
-        timeout: 5000,
-      }
-    )
+    cy.get(`${nodesDashboardCard} @LongCardCell @CardCellText`, {
+      timeout: 5000,
+    })
       .should("exist")
       .first()
       .invoke("text")
@@ -38,16 +35,13 @@ context("Dashboard", () => {
   });
 
   it("Blocks card is visible", () => {
-    cy.get(".card-area .dashboard-card.block-card").should("exist");
-    cy.get(
-      ".card-area .dashboard-card.block-card .dashboard-card-header"
-    ).contains("Blocks");
-    cy.get(
-      ".card-area .dashboard-card.block-card .long-card-cell .card-cell-text",
-      {
-        timeout: 5000,
-      }
-    )
+    const blocksDashboardCard =
+      '@InnerContent @DashboardCardWrapper[data-id="blocks"]';
+    cy.get(blocksDashboardCard).should("exist");
+    cy.get(`${blocksDashboardCard} @DashboardCardHeader`).contains("Blocks");
+    cy.get(`${blocksDashboardCard} @LongCardCell @CardCellText`, {
+      timeout: 5000,
+    })
       .should("exist")
       .first()
       .invoke("text")
@@ -55,13 +49,15 @@ context("Dashboard", () => {
   });
 
   it("Transactions card is visible", () => {
-    cy.get(".dashboard-card.transaction-card").should("exist");
-    cy.get(".dashboard-card.transaction-card .dashboard-card-header").contains(
+    const transactionsDashboardCard =
+      '@InnerContent @DashboardCardWrapper[data-id="transactions"]';
+    cy.get(transactionsDashboardCard).should("exist");
+    cy.get(`${transactionsDashboardCard} @DashboardCardHeader`).contains(
       "Transactions"
     );
 
     cy.get(
-      ".dashboard-card.transaction-card .transaction-card-number >div:first-child .long-card-cell .card-cell-text",
+      `${transactionsDashboardCard} @TransactionCardNumber > *:first-child @CardCellText`,
       {
         timeout: 5000,
       }
@@ -72,12 +68,11 @@ context("Dashboard", () => {
       .should("match", /^[\d ,]+$/);
 
     cy.get(
-      ".dashboard-card.transaction-card .transaction-card-number >div:last-child"
+      `${transactionsDashboardCard} @TransactionCardNumber > *:last-child @CardCellText`
     ).should("exist");
     cy.get(
-      ".dashboard-card.transaction-card .transaction-card-number >div:last-child span"
+      `${transactionsDashboardCard} @TransactionCardNumber > *:last-child @CardCellText span`
     ).should("not.be.empty");
-    cy.get(".dashboard-card.transaction-card").should("exist");
     // Hide this check for some time
     // cy.get(
     //   ".dashboard-card.transaction-card .transaction-charts.row .echarts-for-react canvas",

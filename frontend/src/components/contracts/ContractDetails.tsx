@@ -4,12 +4,43 @@ import { FC, useCallback, useMemo } from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import CardCell from "../utils/CardCell";
+import CardCell, { CardCellTitleImage } from "../utils/CardCell";
 import Term from "../utils/Term";
 import TransactionLink from "../utils/TransactionLink";
 
 import { Trans, useTranslation } from "react-i18next";
 import { useWampQuery } from "../../hooks/wamp";
+import { styled } from "../../libraries/styles";
+
+const ContractInfoContainer = styled("div", {
+  border: "solid 4px #e6e6e6",
+  borderRadius: 4,
+  margin: "0 15px",
+  background: "#f8f8f8",
+});
+
+const ContractTitle = styled("div", {
+  position: "relative",
+  zIndex: 1,
+  padding: 8,
+  width: 140,
+  top: 16,
+  marginTop: 32,
+  marginLeft: 50,
+  background: "#ffffff",
+  boxSizing: "border-box",
+  borderRadius: 25,
+  fontSize: 14,
+  lineHeight: "16px",
+  color: "#999999",
+  fontWeight: 500,
+  letterSpacing: 1.75,
+  textTransform: "uppercase",
+});
+
+const ColoredCell = styled(CardCell, {
+  backgroundColor: "#f8f8f8",
+});
 
 interface Props {
   accountId: string;
@@ -65,14 +96,11 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
   }
   return (
     <>
-      <div className="contract-title">
-        <img
-          src={"/static/images/icon-d-contract.svg"}
-          className="card-cell-title-img"
-        />
+      <ContractTitle>
+        <CardCellTitleImage src={"/static/images/icon-d-contract.svg"} />
         {t("common.contracts.contract")}
-      </div>
-      <div className="contract-info-container">
+      </ContractTitle>
+      <ContractInfoContainer>
         <Row noGutters className="border-0">
           <Col md="4">
             <CardCell
@@ -96,7 +124,7 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
                     )
                   : t("common.state.not_available")
               }
-              className="block-card-created-text border-0"
+              className="border-0"
             />
           </Col>
           <Col md="8">
@@ -122,13 +150,13 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
                   t("common.state.not_available")
                 )
               }
-              className="block-card-created border-0"
+              className="border-0"
             />
           </Col>
         </Row>
         <Row noGutters className="border-0">
           <Col md="4">
-            <CardCell
+            <ColoredCell
               title={
                 <Term
                   title={t("component.contracts.ContractDetails.locked.title")}
@@ -141,11 +169,11 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
                 />
               }
               text={lockedShow ? lockedShow : ""}
-              className="block-card-created-text account-card-back border-0"
+              className="border-0"
             />
           </Col>
           <Col md="8">
-            <CardCell
+            <ColoredCell
               title={
                 <Term
                   title={t(
@@ -155,38 +183,11 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
                 />
               }
               text={contractInfo.codeHash}
-              className="block-card-created account-card-back border-0"
+              className="border-0"
             />
           </Col>
         </Row>
-      </div>
-      <style jsx global>{`
-        .contract-title {
-          position: relative;
-          z-index: 1;
-          padding: 8px;
-          width: 140px;
-          top: 16px;
-          margin-top: 32px;
-          margin-left: 50px;
-          background: #ffffff;
-          box-sizing: border-box;
-          border-radius: 25px;
-          font-size: 14px;
-          line-height: 16px;
-          color: #999999;
-          font-weight: 500;
-          letter-spacing: 1.75px;
-          text-transform: uppercase;
-        }
-
-        .contract-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-          margin: 0 15px;
-          background: #f8f8f8;
-        }
-      `}</style>
+      </ContractInfoContainer>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import React, { FC, ReactNode } from "react";
 import { Dropdown } from "react-bootstrap";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
@@ -10,144 +10,138 @@ import IconTransactions from "../../../public/static/images/icon-transactions.sv
 import Link from "../utils/Link";
 
 import { useTranslation } from "react-i18next";
+import { globalCss, styled } from "../../libraries/styles";
+import { StyledComponent } from "@stitches/react/types/styled-component";
+
+const Icon = styled("svg", {
+  width: 16,
+  marginRight: 3,
+});
+
+const HeaderNavLink = styled("a", {
+  display: "block",
+  color: "#a5a5a5",
+  paddingTop: 10,
+  paddingBottom: 15,
+  paddingLeft: 18,
+  textDecoration: "none",
+  width: "100%",
+  height: "100%",
+  cursor: "pointer",
+
+  "&:hover": {
+    background: "#000000",
+    color: "white",
+  },
+
+  [`&:hover ${Icon}`]: {
+    stroke: "#00c1de",
+  },
+});
+
+const NavText = styled("span", {
+  letterSpacing: 2,
+  textDecoration: "none",
+  fontSize: 14,
+  fontWeight: 500,
+  marginLeft: 10,
+});
 
 interface Props {
   link: string;
-  icon: ReactNode;
+  IconElement: StyledComponent;
   text: ReactNode;
 }
 
-const HeaderNavItem: FC<Props> = ({ link, icon, text }) => {
+const HeaderNavItem: FC<Props> = ({ link, IconElement, text }) => {
   return (
-    <Link href={link}>
-      <a className="header-nav-item">
-        {icon}
-        <span className="nav-text">{text}</span>
-        <style jsx global>{`
-          .header-nav-link,
-          .header-nav-link:hover {
-            text-decoration: none;
-          }
-
-          .header-icon {
-            width: 16px !important;
-            margin-right: 3px;
-          }
-
-          .header-nav-link:hover .header-icon {
-            stroke: #00c1de;
-          }
-
-          .nav-text {
-            letter-spacing: 2px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            margin-left: 10px;
-          }
-
-          .header-nav-item {
-            display: block;
-            color: #a5a5a5;
-            padding-top: 10px;
-            padding-bottom: 15px;
-            padding-left: 18px;
-            text-decoration: none;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-          }
-
-          .header-nav-item:hover {
-            background: #000000;
-            color: white;
-          }
-        `}</style>
-      </a>
+    <Link href={link} passHref>
+      <HeaderNavLink>
+        <Icon as={IconElement} />
+        <NavText>{text}</NavText>
+      </HeaderNavLink>
     </Link>
   );
 };
 
+const ChainHeader = styled(Dropdown.Toggle, {
+  color: "#000000",
+  background: "#ffffff",
+  border: "none",
+  fontWeight: 500,
+  width: "100%",
+
+  "&:hover, &:focus, &:active, .show > &.dropdown-toggle": {
+    background: "#ffffff !important",
+    color: "#000000 !important",
+    border: "none",
+  },
+
+  "&:focus": {
+    boxShadow: "none",
+  },
+});
+
+const HeaderDropdownMenu = styled(Dropdown.Menu, {
+  background: "#25272a",
+  borderRadius: 8,
+  width: 267,
+});
+
+const DropdownArrow = styled("img", {
+  marginLeft: 9,
+});
+
+const globalStyles = globalCss({
+  ".dropdown-toggle::after": {
+    content: "none",
+  },
+
+  [`.show > .dropdown-toggle > ${DropdownArrow}`]: {
+    transform: "rotate(180deg)",
+  },
+
+  ".show > .btn-primary.dropdown-toggle:focus": {
+    boxShadow: "none",
+  },
+});
+
 const HeaderNavDropdown: FC = () => {
   const { t } = useTranslation();
+  globalStyles();
   return (
     <Dropdown>
-      <Dropdown.Toggle className="chain-header">
+      <ChainHeader>
         {t("component.utils.HeaderNavDropdown.title")}
-        <img src="/static/images/down-arrow.svg" className="dropdown-arrow" />
-      </Dropdown.Toggle>
-      <Dropdown.Menu className="header-dropdown-menu">
+        <DropdownArrow src="/static/images/down-arrow.svg" />
+      </ChainHeader>
+      <HeaderDropdownMenu>
         <HeaderNavItem
           link="/accounts"
-          icon={<IconAccounts className="header-icon" />}
+          IconElement={IconAccounts}
           text={t("common.accounts.accounts")}
         />
         <HeaderNavItem
           link="/blocks"
-          icon={<IconBlocks className="header-icon" />}
+          IconElement={IconBlocks}
           text={t("common.blocks.blocks")}
         />
         <HeaderNavItem
           link="/transactions"
-          icon={<IconTransactions className="header-icon" />}
+          IconElement={IconTransactions}
           text={t("common.transactions.transactions")}
         />
         <HeaderNavItem
           link="/nodes/validators"
-          icon={<IconNodes className="header-icon" />}
+          IconElement={IconNodes}
           text={t("common.nodes.title")}
         />
         <HeaderNavItem
           link="/stats"
-          icon={<IconStats className="header-icon" />}
+          IconElement={IconStats}
           text={t("common.stats.title_charts_and_stats")}
         />
-      </Dropdown.Menu>
-
-      <style jsx global>{`
-        .chain-header {
-          color: #000000;
-          background: #ffffff;
-          border: none;
-          font-weight: 500;
-          width: 100%;
-        }
-
-        .chain-header:hover,
-        .chain-header:focus,
-        .chain-header:active,
-        .show > .btn-primary.dropdown-toggle {
-          background: #ffffff !important;
-          color: #000000 !important;
-          border: none;
-        }
-
-        .dropdown-toggle::after {
-          content: none;
-        }
-
-        .header-dropdown-menu {
-          background: #25272a;
-          border-radius: 8px;
-          width: 267px;
-        }
-
-        .dropdown-arrow {
-          margin-left: 9px;
-        }
-
-        .show > .dropdown-toggle > .dropdown-arrow {
-          transform: rotate(180deg);
-        }
-
-        .show > .btn-primary.dropdown-toggle:focus {
-          box-shadow: none;
-        }
-
-        .btn-primary:focus {
-          box-shadow: none;
-        }
-      `}</style>
+      </HeaderDropdownMenu>
     </Dropdown>
   );
 };

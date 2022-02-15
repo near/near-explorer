@@ -2,7 +2,7 @@
 
 exports[`<ReceiptRow /> renders Failure receipt 1`] = `
 <div
-  className="receipt-row row no-gutters"
+  className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
   id="R1111111111111111111111111111111111111111111"
 >
   <div
@@ -12,7 +12,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       className="row no-gutters"
     >
       <div
-        className="receipt-row-title receipt-hash-title col"
+        className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
       >
         <b>
           common.receipts.receipt
@@ -21,22 +21,21 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.receipt_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash truncate-link col"
+        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="receipt-hash-link"
             href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -44,36 +43,24 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.executed_in_block
         :
       </div>
       <div
-        className="receipt-row-receipt-hash truncate-link col"
+        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="block-link"
             href="/blocks/B111111111111111111111111111111111111111111"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -84,23 +71,23 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.predecessor_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
         title="signer.test"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="account-link"
+            className="c-AccountLinkWrapper-dbzzBd"
             href="/accounts/signer.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -108,35 +95,26 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             signer.test
           </a>
         </span>
-        <style
-          jsx={true}
-        >
-          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.receiver_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
         title="receiver.test"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="account-link"
+            className="c-AccountLinkWrapper-dbzzBd"
             href="/accounts/receiver.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -144,43 +122,34 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             receiver.test
           </a>
         </span>
-        <style
-          jsx={true}
-        >
-          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.transactions.execution.gas_burned
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
       >
         3 Tgas
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.transactions.execution.tokens_burned
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
       >
         <span
           onBlur={[Function]}
@@ -195,28 +164,28 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-text col"
+        className="c-ReceiptRowText-gvSPRD col"
       >
         <div
-          className="action-sparse-row mx-0  row no-gutters"
+          className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
         >
           <div
             className="col-auto"
           >
             <div
-              className="action-row-img"
+              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
             >
               <test-file-stub />
             </div>
           </div>
           <div
-            className="action-row-details col"
+            className="c-ActionRowDetails-jUwbjv col"
           >
             <div
-              className="action-row-message row no-gutters"
+              className="c-ActionRowMessage-PJLV row no-gutters"
             >
               <div
                 className="col-md-8 col-7"
@@ -225,14 +194,14 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                   className="row no-gutters"
                 >
                   <div
-                    className="action-row-title col"
+                    className="c-ActionRowTitle-cYlxUq col"
                   >
                     component.transactions.ActionMessage.FunctionCall.called_method
                     <span
                       onClick={[Function]}
                     >
                       <a
-                        className="account-link"
+                        className="c-AccountLinkWrapper-dbzzBd"
                         href="/accounts/receiver.test"
                         onClick={[Function]}
                         onMouseEnter={[Function]}
@@ -240,15 +209,6 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                         receiver.test
                       </a>
                     </span>
-                    <style
-                      jsx={true}
-                    >
-                      
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                    </style>
                     <dl>
                       <dt>
                         component.transactions.ActionMessage.FunctionCall.arguments
@@ -264,8 +224,12 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                               }
                             }
                           >
+                            <link
+                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                              rel="stylesheet"
+                            />
                             <textarea
-                              className="code-preview"
+                              className="c-CodePreviewWrapper-gWwuPL"
                               readOnly={true}
                               value="{
   \\"listing_id\\": \\"000028066\\",
@@ -287,21 +251,6 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                             </div>
                           </div>
                         </div>
-                        <style
-                          jsx={true}
-                        >
-                          
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                        </style>
                       </dd>
                     </dl>
                   </div>
@@ -310,133 +259,13 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-status col"
+        className="c-ReceiptRowStatus-cQiaau col"
       >
         <i>
           component.transactions.ReceiptRow.failure
@@ -461,10 +290,10 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-text col"
+        className="c-ReceiptRowText-gvSPRD col"
       >
         <pre>
           000028066 listings not found
@@ -472,13 +301,13 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
       </div>
     </div>
     <div
-      className="executed-receipt-row row no-gutters"
+      className="c-ExecutedReceiptRow-kkRPny row no-gutters"
     >
       <div
         className="col"
       >
         <div
-          className="receipt-row row no-gutters"
+          className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
           id="R2222222222222222222222222222222222222222222"
         >
           <div
@@ -488,7 +317,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               className="row no-gutters"
             >
               <div
-                className="receipt-row-title receipt-hash-title col"
+                className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
               >
                 <b>
                   common.receipts.receipt
@@ -497,22 +326,21 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receipt_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -520,36 +348,24 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     R2222222222222222222222222222222222222222222
                   </a>
                 </span>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.executed_in_block
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="block-link"
                     href="/blocks/B222222222222222222222222222222222222222222"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -560,23 +376,23 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.predecessor_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="system"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/system"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -584,35 +400,26 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     system
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receiver_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="receiver.test"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -620,43 +427,34 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     receiver.test
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.gas_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 0 gas
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.tokens_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 <span
                   onBlur={[Function]}
@@ -671,28 +469,28 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 <div
-                  className="action-sparse-row mx-0  row no-gutters"
+                  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
                 >
                   <div
                     className="col-auto"
                   >
                     <div
-                      className="action-row-img"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
                     >
                       <test-file-stub />
                     </div>
                   </div>
                   <div
-                    className="action-row-details col"
+                    className="c-ActionRowDetails-jUwbjv col"
                   >
                     <div
-                      className="action-row-message row no-gutters"
+                      className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
                         className="col-md-8 col-7"
@@ -701,7 +499,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                           className="row no-gutters"
                         >
                           <div
-                            className="action-row-title col"
+                            className="c-ActionRowTitle-cYlxUq col"
                           >
                             component.transactions.ActionMessage.Transfer.transferred
                             <span
@@ -719,7 +517,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                               onClick={[Function]}
                             >
                               <a
-                                className="account-link"
+                                className="c-AccountLinkWrapper-dbzzBd"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -727,288 +525,43 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                                 receiver.test
                               </a>
                             </span>
-                            <style
-                              jsx={true}
-                            >
-                              
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                            </style>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-status col"
+                className="c-ReceiptRowStatus-cQiaau col"
               >
                 component.transactions.ReceiptRow.empty_result
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 component.transactions.ReceiptRow.no_logs
               </div>
             </div>
           </div>
-          <style
-            global={true}
-            jsx={true}
-          >
-            
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-          </style>
         </div>
       </div>
     </div>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-  </style>
 </div>
 `;
 
 exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
 <div
-  className="receipt-row row no-gutters"
+  className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
   id="R1111111111111111111111111111111111111111111"
 >
   <div
@@ -1018,7 +571,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       className="row no-gutters"
     >
       <div
-        className="receipt-row-title receipt-hash-title col"
+        className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
       >
         <b>
           common.receipts.receipt
@@ -1027,22 +580,21 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.receipt_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash truncate-link col"
+        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="receipt-hash-link"
             href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -1050,36 +602,24 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.executed_in_block
         :
       </div>
       <div
-        className="receipt-row-receipt-hash truncate-link col"
+        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="block-link"
             href="/blocks/B222222222222222222222222222222222222222222"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -1090,23 +630,23 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.predecessor_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
         title="signer.test"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="account-link"
+            className="c-AccountLinkWrapper-dbzzBd"
             href="/accounts/signer.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -1114,35 +654,26 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             signer.test
           </a>
         </span>
-        <style
-          jsx={true}
-        >
-          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.receiver_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
         title="receiver.test"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="account-link"
+            className="c-AccountLinkWrapper-dbzzBd"
             href="/accounts/receiver.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -1150,43 +681,34 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             receiver.test
           </a>
         </span>
-        <style
-          jsx={true}
-        >
-          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.transactions.execution.gas_burned
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
       >
         20 Tgas
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.transactions.execution.tokens_burned
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
       >
         <span
           onBlur={[Function]}
@@ -1201,28 +723,28 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-text col"
+        className="c-ReceiptRowText-gvSPRD col"
       >
         <div
-          className="action-sparse-row mx-0  row no-gutters"
+          className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
         >
           <div
             className="col-auto"
           >
             <div
-              className="action-row-img"
+              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
             >
               <test-file-stub />
             </div>
           </div>
           <div
-            className="action-row-details col"
+            className="c-ActionRowDetails-jUwbjv col"
           >
             <div
-              className="action-row-message row no-gutters"
+              className="c-ActionRowMessage-PJLV row no-gutters"
             >
               <div
                 className="col-md-8 col-7"
@@ -1231,14 +753,14 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                   className="row no-gutters"
                 >
                   <div
-                    className="action-row-title col"
+                    className="c-ActionRowTitle-cYlxUq col"
                   >
                     component.transactions.ActionMessage.FunctionCall.called_method
                     <span
                       onClick={[Function]}
                     >
                       <a
-                        className="account-link"
+                        className="c-AccountLinkWrapper-dbzzBd"
                         href="/accounts/receiver.test"
                         onClick={[Function]}
                         onMouseEnter={[Function]}
@@ -1246,15 +768,6 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                         receiver.test
                       </a>
                     </span>
-                    <style
-                      jsx={true}
-                    >
-                      
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                    </style>
                     <dl>
                       <dt>
                         component.transactions.ActionMessage.FunctionCall.arguments
@@ -1270,8 +783,12 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                               }
                             }
                           >
+                            <link
+                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                              rel="stylesheet"
+                            />
                             <textarea
-                              className="code-preview"
+                              className="c-CodePreviewWrapper-gWwuPL"
                               readOnly={true}
                               value="{
   \\"receiver_id\\": \\"farm.berryclub.ek.near\\",
@@ -1295,21 +812,6 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                             </div>
                           </div>
                         </div>
-                        <style
-                          jsx={true}
-                        >
-                          
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                        </style>
                       </dd>
                     </dl>
                   </div>
@@ -1318,133 +820,13 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-status col"
+        className="c-ReceiptRowStatus-cQiaau col"
       >
         <i>
           component.transactions.ReceiptRow.success_receipt_id
@@ -1456,10 +838,10 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-text col"
+        className="c-ReceiptRowText-gvSPRD col"
       >
         <pre>
           Transfer 9807229473212706028 from signer.test to receiver.test
@@ -1468,13 +850,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
       </div>
     </div>
     <div
-      className="executed-receipt-row row no-gutters"
+      className="c-ExecutedReceiptRow-kkRPny row no-gutters"
     >
       <div
         className="col"
       >
         <div
-          className="receipt-row row no-gutters"
+          className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
           id="R222222222222222222222222222222222222222222"
         >
           <div
@@ -1484,7 +866,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               className="row no-gutters"
             >
               <div
-                className="receipt-row-title receipt-hash-title col"
+                className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
               >
                 <b>
                   common.receipts.receipt
@@ -1493,22 +875,21 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receipt_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R222222222222222222222222222222222222222222"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1516,36 +897,24 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R222222222222222222222222222222222222222222
                   </a>
                 </span>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.executed_in_block
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="block-link"
                     href="/blocks/B333333333333333333333333333333333333333333"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1556,23 +925,23 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.predecessor_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="signer1.test"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/signer1.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1580,35 +949,26 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     signer1.test
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receiver_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="receiver.test"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -1616,43 +976,34 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver.test
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.gas_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 4 Tgas
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.tokens_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 <span
                   onBlur={[Function]}
@@ -1667,28 +1018,28 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 <div
-                  className="action-sparse-row mx-0  row no-gutters"
+                  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
                 >
                   <div
                     className="col-auto"
                   >
                     <div
-                      className="action-row-img"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
                     >
                       <test-file-stub />
                     </div>
                   </div>
                   <div
-                    className="action-row-details col"
+                    className="c-ActionRowDetails-jUwbjv col"
                   >
                     <div
-                      className="action-row-message row no-gutters"
+                      className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
                         className="col-md-8 col-7"
@@ -1697,14 +1048,14 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           className="row no-gutters"
                         >
                           <div
-                            className="action-row-title col"
+                            className="c-ActionRowTitle-cYlxUq col"
                           >
                             component.transactions.ActionMessage.FunctionCall.called_method
                             <span
                               onClick={[Function]}
                             >
                               <a
-                                className="account-link"
+                                className="c-AccountLinkWrapper-dbzzBd"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -1712,15 +1063,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver.test
                               </a>
                             </span>
-                            <style
-                              jsx={true}
-                            >
-                              
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                            </style>
                             <dl>
                               <dt>
                                 component.transactions.ActionMessage.FunctionCall.arguments
@@ -1736,8 +1078,12 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       }
                                     }
                                   >
+                                    <link
+                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                                      rel="stylesheet"
+                                    />
                                     <textarea
-                                      className="code-preview"
+                                      className="c-CodePreviewWrapper-gWwuPL"
                                       readOnly={true}
                                       value="{
   \\"sender_id\\": \\"leonardwcai.near\\",
@@ -1760,21 +1106,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </div>
                                   </div>
                                 </div>
-                                <style
-                                  jsx={true}
-                                >
-                                  
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                                </style>
                               </dd>
                             </dl>
                           </div>
@@ -1783,133 +1114,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-status col"
+                className="c-ReceiptRowStatus-cQiaau col"
               >
                 <i>
                   component.transactions.ReceiptRow.result
@@ -1925,8 +1136,12 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       }
                     }
                   >
+                    <link
+                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                      rel="stylesheet"
+                    />
                     <textarea
-                      className="code-preview"
+                      className="c-CodePreviewWrapper-gWwuPL"
                       readOnly={true}
                       value="\\"0\\""
                     />
@@ -1945,40 +1160,25 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style
-                  jsx={true}
-                >
-                  
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 component.transactions.ReceiptRow.no_logs
               </div>
             </div>
             <div
-              className="executed-receipt-row row no-gutters"
+              className="c-ExecutedReceiptRow-kkRPny row no-gutters"
             >
               <div
                 className="col"
               >
                 <div
-                  className="receipt-row row no-gutters"
+                  className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
                   id="R555555555555555555555555555555555555555555"
                 >
                   <div
@@ -1988,7 +1188,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       className="row no-gutters"
                     >
                       <div
-                        className="receipt-row-title receipt-hash-title col"
+                        className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
                       >
                         <b>
                           common.receipts.receipt
@@ -1997,22 +1197,21 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.receipt_id
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash truncate-link col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="receipt-hash-link"
                             href="/transactions/T1111111111111111111111111111111111111111111#R555555555555555555555555555555555555555555"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -2020,36 +1219,24 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             R555555555555555555555555555555555555555555
                           </a>
                         </span>
-                        <style
-                          global={true}
-                          jsx={true}
-                        >
-                          
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.executed_in_block
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash truncate-link col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="block-link"
                             href="/blocks/B444444444444444444444444444444444444444444"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -2060,23 +1247,23 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.predecessor_id
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                         title="system"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="account-link"
+                            className="c-AccountLinkWrapper-dbzzBd"
                             href="/accounts/system"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -2084,35 +1271,26 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             system
                           </a>
                         </span>
-                        <style
-                          jsx={true}
-                        >
-                          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.receiver_id
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                         title="receiver.test"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="account-link"
+                            className="c-AccountLinkWrapper-dbzzBd"
                             href="/accounts/receiver.test"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -2120,43 +1298,34 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             receiver.test
                           </a>
                         </span>
-                        <style
-                          jsx={true}
-                        >
-                          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.transactions.execution.gas_burned
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                       >
                         0 gas
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.transactions.execution.tokens_burned
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                       >
                         <span
                           onBlur={[Function]}
@@ -2171,28 +1340,28 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-text col"
+                        className="c-ReceiptRowText-gvSPRD col"
                       >
                         <div
-                          className="action-sparse-row mx-0  row no-gutters"
+                          className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
                         >
                           <div
                             className="col-auto"
                           >
                             <div
-                              className="action-row-img"
+                              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
                             >
                               <test-file-stub />
                             </div>
                           </div>
                           <div
-                            className="action-row-details col"
+                            className="c-ActionRowDetails-jUwbjv col"
                           >
                             <div
-                              className="action-row-message row no-gutters"
+                              className="c-ActionRowMessage-PJLV row no-gutters"
                             >
                               <div
                                 className="col-md-8 col-7"
@@ -2201,7 +1370,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                   className="row no-gutters"
                                 >
                                   <div
-                                    className="action-row-title col"
+                                    className="c-ActionRowTitle-cYlxUq col"
                                   >
                                     component.transactions.ActionMessage.Transfer.transferred
                                     <span
@@ -2219,7 +1388,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       onClick={[Function]}
                                     >
                                       <a
-                                        className="account-link"
+                                        className="c-AccountLinkWrapper-dbzzBd"
                                         href="/accounts/receiver.test"
                                         onClick={[Function]}
                                         onMouseEnter={[Function]}
@@ -2227,293 +1396,48 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         receiver.test
                                       </a>
                                     </span>
-                                    <style
-                                      jsx={true}
-                                    >
-                                      
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                                    </style>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <style
-                          global={true}
-                          jsx={true}
-                        >
-                          
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-status col"
+                        className="c-ReceiptRowStatus-cQiaau col"
                       >
                         component.transactions.ReceiptRow.empty_result
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-text col"
+                        className="c-ReceiptRowText-gvSPRD col"
                       >
                         component.transactions.ReceiptRow.no_logs
                       </div>
                     </div>
                   </div>
-                  <style
-                    global={true}
-                    jsx={true}
-                  >
-                    
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-                  </style>
                 </div>
               </div>
             </div>
           </div>
-          <style
-            global={true}
-            jsx={true}
-          >
-            
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-          </style>
         </div>
       </div>
     </div>
     <div
-      className="executed-receipt-row row no-gutters"
+      className="c-ExecutedReceiptRow-kkRPny row no-gutters"
     >
       <div
         className="col"
       >
         <div
-          className="receipt-row row no-gutters"
+          className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
           id="R3333333333333333333333333333333333333333333"
         >
           <div
@@ -2523,7 +1447,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               className="row no-gutters"
             >
               <div
-                className="receipt-row-title receipt-hash-title col"
+                className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
               >
                 <b>
                   common.receipts.receipt
@@ -2532,22 +1456,21 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receipt_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R3333333333333333333333333333333333333333333"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2555,36 +1478,24 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R3333333333333333333333333333333333333333333
                   </a>
                 </span>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.executed_in_block
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="block-link"
                     href="/blocks/B4444444444444444444444444444444444444444444"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2595,23 +1506,23 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.predecessor_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="signer1.test"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/signer1.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2619,35 +1530,26 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     signer1.test
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receiver_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="receiver1.test"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/receiver1.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -2655,43 +1557,34 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver1.test
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.gas_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 3 Tgas
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.tokens_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 <span
                   onBlur={[Function]}
@@ -2706,28 +1599,28 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 <div
-                  className="action-sparse-row mx-0  row no-gutters"
+                  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
                 >
                   <div
                     className="col-auto"
                   >
                     <div
-                      className="action-row-img"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
                     >
                       <test-file-stub />
                     </div>
                   </div>
                   <div
-                    className="action-row-details col"
+                    className="c-ActionRowDetails-jUwbjv col"
                   >
                     <div
-                      className="action-row-message row no-gutters"
+                      className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
                         className="col-md-8 col-7"
@@ -2736,14 +1629,14 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           className="row no-gutters"
                         >
                           <div
-                            className="action-row-title col"
+                            className="c-ActionRowTitle-cYlxUq col"
                           >
                             component.transactions.ActionMessage.FunctionCall.called_method
                             <span
                               onClick={[Function]}
                             >
                               <a
-                                className="account-link"
+                                className="c-AccountLinkWrapper-dbzzBd"
                                 href="/accounts/receiver1.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -2751,15 +1644,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver1.test
                               </a>
                             </span>
-                            <style
-                              jsx={true}
-                            >
-                              
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                            </style>
                             <dl>
                               <dt>
                                 component.transactions.ActionMessage.FunctionCall.arguments
@@ -2775,8 +1659,12 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       }
                                     }
                                   >
+                                    <link
+                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                                      rel="stylesheet"
+                                    />
                                     <textarea
-                                      className="code-preview"
+                                      className="c-CodePreviewWrapper-gWwuPL"
                                       readOnly={true}
                                       value="{
   \\"sender_id\\": \\"leonardwcai.near\\",
@@ -2799,21 +1687,6 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                     </div>
                                   </div>
                                 </div>
-                                <style
-                                  jsx={true}
-                                >
-                                  
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                                </style>
                               </dd>
                             </dl>
                           </div>
@@ -2822,133 +1695,13 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-status col"
+                className="c-ReceiptRowStatus-cQiaau col"
               >
                 <i>
                   component.transactions.ReceiptRow.result
@@ -2964,8 +1717,12 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       }
                     }
                   >
+                    <link
+                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                      rel="stylesheet"
+                    />
                     <textarea
-                      className="code-preview"
+                      className="c-CodePreviewWrapper-gWwuPL"
                       readOnly={true}
                       value="\\"9807229473212706028\\""
                     />
@@ -2984,40 +1741,25 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     </div>
                   </div>
                 </div>
-                <style
-                  jsx={true}
-                >
-                  
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 component.transactions.ReceiptRow.no_logs
               </div>
             </div>
             <div
-              className="executed-receipt-row row no-gutters"
+              className="c-ExecutedReceiptRow-kkRPny row no-gutters"
             >
               <div
                 className="col"
               >
                 <div
-                  className="receipt-row row no-gutters"
+                  className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
                   id="R6666666666666666666666666666666666666666666"
                 >
                   <div
@@ -3027,7 +1769,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       className="row no-gutters"
                     >
                       <div
-                        className="receipt-row-title receipt-hash-title col"
+                        className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
                       >
                         <b>
                           common.receipts.receipt
@@ -3036,22 +1778,21 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.receipt_id
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash truncate-link col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="receipt-hash-link"
                             href="/transactions/T1111111111111111111111111111111111111111111#R6666666666666666666666666666666666666666666"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -3059,36 +1800,24 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             R6666666666666666666666666666666666666666666
                           </a>
                         </span>
-                        <style
-                          global={true}
-                          jsx={true}
-                        >
-                          
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.executed_in_block
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash truncate-link col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="block-link"
                             href="/blocks/B666666666666666666666666666666666666666666"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -3099,23 +1828,23 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.predecessor_id
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                         title="system"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="account-link"
+                            className="c-AccountLinkWrapper-dbzzBd"
                             href="/accounts/system"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -3123,35 +1852,26 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             system
                           </a>
                         </span>
-                        <style
-                          jsx={true}
-                        >
-                          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.receipts.receiver_id
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                         title="receiver.test"
                       >
                         <span
                           onClick={[Function]}
                         >
                           <a
-                            className="account-link"
+                            className="c-AccountLinkWrapper-dbzzBd"
                             href="/accounts/receiver.test"
                             onClick={[Function]}
                             onMouseEnter={[Function]}
@@ -3159,43 +1879,34 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             receiver.test
                           </a>
                         </span>
-                        <style
-                          jsx={true}
-                        >
-                          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.transactions.execution.gas_burned
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                       >
                         0 gas
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-title col"
+                        className="c-ReceiptRowTitle-kbySyH col"
                       >
                         common.transactions.execution.tokens_burned
                         :
                       </div>
                       <div
-                        className="receipt-row-receipt-hash col"
+                        className="c-ReceiptRowReceiptHash-cQOeDh col"
                       >
                         <span
                           onBlur={[Function]}
@@ -3210,28 +1921,28 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-text col"
+                        className="c-ReceiptRowText-gvSPRD col"
                       >
                         <div
-                          className="action-sparse-row mx-0  row no-gutters"
+                          className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
                         >
                           <div
                             className="col-auto"
                           >
                             <div
-                              className="action-row-img"
+                              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
                             >
                               <test-file-stub />
                             </div>
                           </div>
                           <div
-                            className="action-row-details col"
+                            className="c-ActionRowDetails-jUwbjv col"
                           >
                             <div
-                              className="action-row-message row no-gutters"
+                              className="c-ActionRowMessage-PJLV row no-gutters"
                             >
                               <div
                                 className="col-md-8 col-7"
@@ -3240,7 +1951,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                   className="row no-gutters"
                                 >
                                   <div
-                                    className="action-row-title col"
+                                    className="c-ActionRowTitle-cYlxUq col"
                                   >
                                     component.transactions.ActionMessage.Transfer.transferred
                                     <span
@@ -3258,7 +1969,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                       onClick={[Function]}
                                     >
                                       <a
-                                        className="account-link"
+                                        className="c-AccountLinkWrapper-dbzzBd"
                                         href="/accounts/receiver.test"
                                         onClick={[Function]}
                                         onMouseEnter={[Function]}
@@ -3266,293 +1977,48 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                         receiver.test
                                       </a>
                                     </span>
-                                    <style
-                                      jsx={true}
-                                    >
-                                      
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                                    </style>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <style
-                          global={true}
-                          jsx={true}
-                        >
-                          
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-                        </style>
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-status col"
+                        className="c-ReceiptRowStatus-cQiaau col"
                       >
                         component.transactions.ReceiptRow.empty_result
                       </div>
                     </div>
                     <div
-                      className="receipt-row-section row no-gutters"
+                      className="c-ReceiptRowSection-cRyUdF row no-gutters"
                     >
                       <div
-                        className="receipt-row-text col"
+                        className="c-ReceiptRowText-gvSPRD col"
                       >
                         component.transactions.ReceiptRow.no_logs
                       </div>
                     </div>
                   </div>
-                  <style
-                    global={true}
-                    jsx={true}
-                  >
-                    
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-                  </style>
                 </div>
               </div>
             </div>
           </div>
-          <style
-            global={true}
-            jsx={true}
-          >
-            
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-          </style>
         </div>
       </div>
     </div>
     <div
-      className="executed-receipt-row row no-gutters"
+      className="c-ExecutedReceiptRow-kkRPny row no-gutters"
     >
       <div
         className="col"
       >
         <div
-          className="receipt-row row no-gutters"
+          className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
           id="R4444444444444444444444444444444444444444444"
         >
           <div
@@ -3562,7 +2028,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               className="row no-gutters"
             >
               <div
-                className="receipt-row-title receipt-hash-title col"
+                className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
               >
                 <b>
                   common.receipts.receipt
@@ -3571,22 +2037,21 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receipt_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R4444444444444444444444444444444444444444444"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -3594,36 +2059,24 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     R4444444444444444444444444444444444444444444
                   </a>
                 </span>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.executed_in_block
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="block-link"
                     href="/blocks/B555555555555555555555555555555555555555555"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -3634,23 +2087,23 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.predecessor_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="system"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/system"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -3658,35 +2111,26 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     system
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receiver_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="receiver.test"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -3694,43 +2138,34 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     receiver.test
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.gas_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 0 gas
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.tokens_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 <span
                   onBlur={[Function]}
@@ -3745,28 +2180,28 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 <div
-                  className="action-sparse-row mx-0  row no-gutters"
+                  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
                 >
                   <div
                     className="col-auto"
                   >
                     <div
-                      className="action-row-img"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
                     >
                       <test-file-stub />
                     </div>
                   </div>
                   <div
-                    className="action-row-details col"
+                    className="c-ActionRowDetails-jUwbjv col"
                   >
                     <div
-                      className="action-row-message row no-gutters"
+                      className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
                         className="col-md-8 col-7"
@@ -3775,7 +2210,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                           className="row no-gutters"
                         >
                           <div
-                            className="action-row-title col"
+                            className="c-ActionRowTitle-cYlxUq col"
                           >
                             component.transactions.ActionMessage.Transfer.transferred
                             <span
@@ -3793,7 +2228,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               onClick={[Function]}
                             >
                               <a
-                                className="account-link"
+                                className="c-AccountLinkWrapper-dbzzBd"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -3801,288 +2236,43 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 receiver.test
                               </a>
                             </span>
-                            <style
-                              jsx={true}
-                            >
-                              
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                            </style>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-status col"
+                className="c-ReceiptRowStatus-cQiaau col"
               >
                 component.transactions.ReceiptRow.empty_result
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 component.transactions.ReceiptRow.no_logs
               </div>
             </div>
           </div>
-          <style
-            global={true}
-            jsx={true}
-          >
-            
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-          </style>
         </div>
       </div>
     </div>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-  </style>
 </div>
 `;
 
 exports[`<ReceiptRow /> renders successful receipt 1`] = `
 <div
-  className="receipt-row row no-gutters"
+  className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
   id="R1111111111111111111111111111111111111111111"
 >
   <div
@@ -4092,7 +2282,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       className="row no-gutters"
     >
       <div
-        className="receipt-row-title receipt-hash-title col"
+        className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
       >
         <b>
           common.receipts.receipt
@@ -4101,22 +2291,21 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.receipt_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash truncate-link col"
+        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="receipt-hash-link"
             href="/transactions/T1111111111111111111111111111111111111111111#R1111111111111111111111111111111111111111111"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -4124,36 +2313,24 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             R1111111111111111111111111111111111111111111
           </a>
         </span>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.executed_in_block
         :
       </div>
       <div
-        className="receipt-row-receipt-hash truncate-link col"
+        className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="block-link"
             href="/blocks/B222222222222222222222222222222222222222222"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -4164,23 +2341,23 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.predecessor_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
         title="signer.test"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="account-link"
+            className="c-AccountLinkWrapper-dbzzBd"
             href="/accounts/signer.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -4188,35 +2365,26 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             signer.test
           </a>
         </span>
-        <style
-          jsx={true}
-        >
-          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.receipts.receiver_id
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
         title="receiver.test"
       >
         <span
           onClick={[Function]}
         >
           <a
-            className="account-link"
+            className="c-AccountLinkWrapper-dbzzBd"
             href="/accounts/receiver.test"
             onClick={[Function]}
             onMouseEnter={[Function]}
@@ -4224,43 +2392,34 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             receiver.test
           </a>
         </span>
-        <style
-          jsx={true}
-        >
-          
-        .account-link {
-          white-space: nowrap;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.transactions.execution.gas_burned
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
       >
         6 Tgas
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-title col"
+        className="c-ReceiptRowTitle-kbySyH col"
       >
         common.transactions.execution.tokens_burned
         :
       </div>
       <div
-        className="receipt-row-receipt-hash col"
+        className="c-ReceiptRowReceiptHash-cQOeDh col"
       >
         <span
           onBlur={[Function]}
@@ -4275,28 +2434,28 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-text col"
+        className="c-ReceiptRowText-gvSPRD col"
       >
         <div
-          className="action-sparse-row mx-0  row no-gutters"
+          className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
         >
           <div
             className="col-auto"
           >
             <div
-              className="action-row-img"
+              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
             >
               <test-file-stub />
             </div>
           </div>
           <div
-            className="action-row-details col"
+            className="c-ActionRowDetails-jUwbjv col"
           >
             <div
-              className="action-row-message row no-gutters"
+              className="c-ActionRowMessage-PJLV row no-gutters"
             >
               <div
                 className="col-md-8 col-7"
@@ -4305,14 +2464,14 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                   className="row no-gutters"
                 >
                   <div
-                    className="action-row-title col"
+                    className="c-ActionRowTitle-cYlxUq col"
                   >
                     component.transactions.ActionMessage.FunctionCall.called_method
                     <span
                       onClick={[Function]}
                     >
                       <a
-                        className="account-link"
+                        className="c-AccountLinkWrapper-dbzzBd"
                         href="/accounts/receiver.test"
                         onClick={[Function]}
                         onMouseEnter={[Function]}
@@ -4320,15 +2479,6 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                         receiver.test
                       </a>
                     </span>
-                    <style
-                      jsx={true}
-                    >
-                      
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                    </style>
                     <dl>
                       <dt>
                         component.transactions.ActionMessage.FunctionCall.arguments
@@ -4344,8 +2494,12 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                               }
                             }
                           >
+                            <link
+                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                              rel="stylesheet"
+                            />
                             <textarea
-                              className="code-preview"
+                              className="c-CodePreviewWrapper-gWwuPL"
                               readOnly={true}
                               value="{
   \\"request\\": {
@@ -4370,21 +2524,6 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                             </div>
                           </div>
                         </div>
-                        <style
-                          jsx={true}
-                        >
-                          
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-                        </style>
                       </dd>
                     </dl>
                   </div>
@@ -4393,133 +2532,13 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-status col"
+        className="c-ReceiptRowStatus-cQiaau col"
       >
         <i>
           component.transactions.ReceiptRow.result
@@ -4535,8 +2554,12 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               }
             }
           >
+            <link
+              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+              rel="stylesheet"
+            />
             <textarea
-              className="code-preview"
+              className="c-CodePreviewWrapper-gWwuPL"
               readOnly={true}
               value="{
   \\"left\\": 29647268,
@@ -4558,40 +2581,25 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             </div>
           </div>
         </div>
-        <style
-          jsx={true}
-        >
-          
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-        </style>
       </div>
     </div>
     <div
-      className="receipt-row-section row no-gutters"
+      className="c-ReceiptRowSection-cRyUdF row no-gutters"
     >
       <div
-        className="receipt-row-text col"
+        className="c-ReceiptRowText-gvSPRD col"
       >
         component.transactions.ReceiptRow.no_logs
       </div>
     </div>
     <div
-      className="executed-receipt-row row no-gutters"
+      className="c-ExecutedReceiptRow-kkRPny row no-gutters"
     >
       <div
         className="col"
       >
         <div
-          className="receipt-row row no-gutters"
+          className="c-ReceiptRowWrapper-hrWUDL row no-gutters"
           id="R2222222222222222222222222222222222222222222"
         >
           <div
@@ -4601,7 +2609,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               className="row no-gutters"
             >
               <div
-                className="receipt-row-title receipt-hash-title col"
+                className="c-ReceiptRowTitle-kbySyH c-ReceiptRowHashTitle-jgGNdA col"
               >
                 <b>
                   common.receipts.receipt
@@ -4610,22 +2618,21 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receipt_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="receipt-hash-link"
                     href="/transactions/T1111111111111111111111111111111111111111111#R2222222222222222222222222222222222222222222"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -4633,36 +2640,24 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     R2222222222222222222222222222222222222222222
                   </a>
                 </span>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.executed_in_block
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash truncate-link col"
+                className="c-ReceiptRowReceiptHash-cQOeDh c-ReceiptRowReceiptHash-cQOeDh-gkXQBw-truncateLink-true col"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="block-link"
                     href="/blocks/B333333333333333333333333333333333333333333"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -4673,23 +2668,23 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.predecessor_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="system"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/system"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -4697,35 +2692,26 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     system
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.receipts.receiver_id
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
                 title="receiver.test"
               >
                 <span
                   onClick={[Function]}
                 >
                   <a
-                    className="account-link"
+                    className="c-AccountLinkWrapper-dbzzBd"
                     href="/accounts/receiver.test"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
@@ -4733,43 +2719,34 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     receiver.test
                   </a>
                 </span>
-                <style
-                  jsx={true}
-                >
-                  
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.gas_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 0 gas
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-title col"
+                className="c-ReceiptRowTitle-kbySyH col"
               >
                 common.transactions.execution.tokens_burned
                 :
               </div>
               <div
-                className="receipt-row-receipt-hash col"
+                className="c-ReceiptRowReceiptHash-cQOeDh col"
               >
                 <span
                   onBlur={[Function]}
@@ -4784,28 +2761,28 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 <div
-                  className="action-sparse-row mx-0  row no-gutters"
+                  className="c-ActionRow-PJLV c-ActionRow-PJLV-frrtQL-type-sparse mx-0 row no-gutters"
                 >
                   <div
                     className="col-auto"
                   >
                     <div
-                      className="action-row-img"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
                     >
                       <test-file-stub />
                     </div>
                   </div>
                   <div
-                    className="action-row-details col"
+                    className="c-ActionRowDetails-jUwbjv col"
                   >
                     <div
-                      className="action-row-message row no-gutters"
+                      className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
                         className="col-md-8 col-7"
@@ -4814,7 +2791,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                           className="row no-gutters"
                         >
                           <div
-                            className="action-row-title col"
+                            className="c-ActionRowTitle-cYlxUq col"
                           >
                             component.transactions.ActionMessage.Transfer.transferred
                             <span
@@ -4832,7 +2809,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                               onClick={[Function]}
                             >
                               <a
-                                className="account-link"
+                                className="c-AccountLinkWrapper-dbzzBd"
                                 href="/accounts/receiver.test"
                                 onClick={[Function]}
                                 onMouseEnter={[Function]}
@@ -4840,281 +2817,36 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                                 receiver.test
                               </a>
                             </span>
-                            <style
-                              jsx={true}
-                            >
-                              
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                            </style>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-status col"
+                className="c-ReceiptRowStatus-cQiaau col"
               >
                 component.transactions.ReceiptRow.empty_result
               </div>
             </div>
             <div
-              className="receipt-row-section row no-gutters"
+              className="c-ReceiptRowSection-cRyUdF row no-gutters"
             >
               <div
-                className="receipt-row-text col"
+                className="c-ReceiptRowText-gvSPRD col"
               >
                 component.transactions.ReceiptRow.no_logs
               </div>
             </div>
           </div>
-          <style
-            global={true}
-            jsx={true}
-          >
-            
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-          </style>
         </div>
       </div>
     </div>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      
-  </style>
 </div>
 `;

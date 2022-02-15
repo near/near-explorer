@@ -23,3 +23,17 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+const replaceSelectorStitchesClass = (selector) => {
+  return selector
+    .replace(/\@([\w-]+)@([\w-]+)/g, '[class*="c-$1"][class*="$2"]')
+    .replace(/\@([\w-]+)/g, '[class*="c-$1"]');
+};
+
+Cypress.Commands.overwrite("find", (originalFn, context, selector, options) => {
+  return originalFn(context, replaceSelectorStitchesClass(selector), options);
+});
+
+Cypress.Commands.overwrite("get", (originalFn, selector, options) => {
+  return originalFn(replaceSelectorStitchesClass(selector), options);
+});

@@ -1,8 +1,44 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { styled } from "../../libraries/styles";
+
+export const DashboardCardWrapper = styled(Row, {
+  background: "#ffffff",
+  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+  borderRadius: 8,
+  padding: "3px 14px",
+
+  "@media (max-width: 415px)": {
+    boxShadow: "none",
+    borderRadius: 0,
+    width: "100%",
+  },
+});
+
+const DashboardCardHeader = styled(Row, {
+  fontWeight: 900,
+  fontSize: 20,
+  lineHeight: "22px",
+  padding: "24px 10px",
+  borderBottom: "2px solid #f1f1f1",
+  "@media (max-width: 415px)": {
+    padding: "17px 8px",
+  },
+});
+
+const DashboardCardHeaderRight = styled(Col, {
+  fontWeight: 500,
+  fontSize: 14,
+});
+
+const DashboardIcon = styled("img", {
+  width: "24px !important",
+  marginRight: 8,
+});
 
 interface Props {
   className?: string;
+  dataId: string;
   iconPath: string;
   title: string;
   headerRight?: React.ReactNode;
@@ -10,64 +46,27 @@ interface Props {
 }
 
 const DashboardCard = ({
-  className,
   iconPath,
   title,
   headerRight,
+  className,
+  dataId,
   children,
 }: Props) => (
-  <Row noGutters className={`dashboard-card ${className || ""}`}>
+  <DashboardCardWrapper noGutters className={className} data-id={dataId}>
     <Col xs="12">
-      <Row className="dashboard-card-header">
+      <DashboardCardHeader>
         <Col>
-          <img src={iconPath} className="dashboard-icon" />
+          <DashboardIcon src={iconPath} />
           {title}
         </Col>
-        <Col xs="auto" className="dashboard-card-header-right">
+        <DashboardCardHeaderRight xs="auto">
           {headerRight}
-        </Col>
-      </Row>
+        </DashboardCardHeaderRight>
+      </DashboardCardHeader>
     </Col>
     <Col xs="12">{children}</Col>
-    <style jsx global>{`
-      .dashboard-card {
-        background: #ffffff;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-        border-radius: 8px;
-        padding: 3px 14px;
-      }
-
-      .dashboard-card-header {
-        font-weight: 900;
-        font-size: 20px;
-        line-height: 22px;
-        padding: 24px 10px;
-        border-bottom: 2px solid #f1f1f1;
-      }
-
-      .dashboard-card-header-right {
-        font-weight: 500;
-        font-size: 14px;
-      }
-
-      .dashboard-icon {
-        width: 24px !important;
-        margin-right: 8px;
-      }
-
-      @media (max-width: 415px) {
-        .dashboard-card {
-          box-shadow: none;
-          border-radius: 0;
-          width: 100%;
-        }
-
-        .dashboard-card-header {
-          padding: 17px 8px;
-        }
-      }
-    `}</style>
-  </Row>
+  </DashboardCardWrapper>
 );
 
 export default DashboardCard;

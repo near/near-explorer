@@ -17,7 +17,7 @@ const Balance: FC<Props> = ({
   amount,
   label = null,
   suffix = undefined,
-  className = undefined,
+  className,
   formulatedAmount = undefined,
   fracDigits = 5,
 }) => {

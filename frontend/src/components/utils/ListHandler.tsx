@@ -9,6 +9,32 @@ import { useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { WampCall } from "../../libraries/wamp/api";
 import { useWampCall } from "../../hooks/wamp";
+import { styled } from "../../libraries/styles";
+
+const LoadButton = styled("button", {
+  width: 100,
+  backgroundColor: "#f8f8f8",
+  display: "block",
+  textAlign: "center",
+  textDecoration: "none",
+  fontSize: 14,
+  color: "#0072ce",
+  fontWeight: "bold",
+  textTransform: "uppercase",
+  margin: "20px auto",
+  borderRadius: 30,
+  padding: "8px 0",
+  cursor: "pointer",
+  border: "none",
+
+  variants: {
+    visible: {
+      false: {
+        display: "none",
+      },
+    },
+  },
+});
 
 interface StaticConfig<T, I> {
   Component: FC<{ items: T[] }>;
@@ -95,7 +121,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
     }, []);
 
     if (!shouldShow) {
-      return <PaginationSpinner hidden={false} />;
+      return <PaginationSpinner />;
     }
     return (
       <>
@@ -106,18 +132,12 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
           hasMore={hasMore}
           loader={
             loading ? (
-              <PaginationSpinner hidden={false} />
+              <PaginationSpinner />
             ) : (
               <>
-                <button
-                  onClick={fetchMore}
-                  className="load-button"
-                  style={{
-                    display: hasMore ? "block" : "none",
-                  }}
-                >
+                <LoadButton onClick={fetchMore} visible={hasMore}>
                   {t("button.load_more")}
-                </button>
+                </LoadButton>
               </>
             )
           }
@@ -125,24 +145,6 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
         >
           <config.Component items={items} />
         </InfiniteScroll>
-        <style jsx global>{`
-          .load-button {
-            width: 100px;
-            background-color: #f8f8f8;
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            font-size: 14px;
-            color: #0072ce;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin: 20px auto;
-            border-radius: 30px;
-            padding: 8px 0;
-            cursor: pointer;
-            border: none;
-          }
-        `}</style>
       </>
     );
   };

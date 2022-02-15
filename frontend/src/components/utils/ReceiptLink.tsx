@@ -1,4 +1,9 @@
+import { styled } from "../../libraries/styles";
 import Link from "./Link";
+
+const DisabledLink = styled("span", {
+  color: "#24272a",
+});
 
 export interface Props {
   transactionHash?: string | null;
@@ -16,27 +21,21 @@ const ReceiptLink = ({
   return (
     <>
       {!transactionHash ? (
-        <span className="receipt-hash-link disabled" title={receiptId}>
+        <DisabledLink title={receiptId}>
           {children ||
             (truncate ? `${receiptId.substring(0, 7)}...` : receiptId)}
-        </span>
+        </DisabledLink>
       ) : (
         <Link
           href="/transactions/[hash]"
           as={`/transactions/${transactionHash}#${receiptId}`}
         >
-          <a className="receipt-hash-link">
+          <a>
             {children ||
               (truncate ? `${receiptId.substring(0, 7)}...` : receiptId)}
           </a>
         </Link>
       )}
-      <style global jsx>{`
-        .receipt-hash-link.disabled {
-          cursor: default;
-          color: #24272a;
-        }
-      `}</style>
     </>
   );
 };

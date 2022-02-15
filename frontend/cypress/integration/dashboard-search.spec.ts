@@ -6,10 +6,10 @@ context("Dashboard search bar", () => {
         Cypress.Promise.all(
           mixedcaseAccountIds.map((mixedcaseAccountId) => {
             cy.visit("/");
-            cy.get(".search-wrapper form.search-box .input-group input").type(
-              mixedcaseAccountId
-            );
-            cy.get(".search-wrapper form.search-box").submit();
+            cy.get(
+              "@InnerContent @SearchWrapper @SearchBox @InputGroupWrapper input"
+            ).type(mixedcaseAccountId);
+            cy.get("@InnerContent @SearchWrapper").submit();
             cy.url({ timeout: 5000 }).should(
               "include",
               `/accounts/${mixedcaseAccountId.toLowerCase()}`

@@ -6,9 +6,9 @@ import renderer, {
 import { NetworkContext } from "../context/NetworkContext";
 import { setMomentLanguage } from "../libraries/language";
 
-const networkContext = {
+const networkContext: NetworkContext = {
   currentNetwork: {
-    name: "testing",
+    name: "testnet",
     explorerLink: "http://explorer/",
     aliases: ["alias1"],
     nearWalletProfilePrefix: "http://wallet/profile",

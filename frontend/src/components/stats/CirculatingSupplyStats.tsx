@@ -7,6 +7,22 @@ import { utils } from "near-api-js";
 
 import { Props } from "./TransactionsByDate";
 import { useWampSimpleQuery } from "../../hooks/wamp";
+import { styled } from "../../libraries/styles";
+
+const SupplyHeader = styled("div", {
+  marginLeft: 30,
+  marginBottom: "0.5rem",
+  fontSize: 18,
+  fontWeight: 700,
+});
+
+const SupplySubHeader = styled("div", {
+  marginLeft: 30,
+  marginBottom: "0.5rem",
+  color: "#a2a2a8",
+  fontSize: 14,
+  fontWeight: 500,
+});
 
 const CirculatingSupplyStats = ({ chartStyle }: Props) => {
   const { t } = useTranslation();
@@ -152,12 +168,14 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
 
   return (
     <>
-      <h4>{t("component.stats.CirculatingSupplyStats.circulating_supply")}</h4>
-      <h6>
+      <SupplyHeader>
+        {t("component.stats.CirculatingSupplyStats.circulating_supply")}
+      </SupplyHeader>
+      <SupplySubHeader>
         {t(
           "component.stats.CirculatingSupplyStats.tooltip.total_tokens_supply_explain"
         )}
-      </h6>
+      </SupplySubHeader>
       <ReactEcharts
         option={getOption([
           `${t(
@@ -172,21 +190,6 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
           marginTop: "5px",
         }}
       />
-      <style jsx global>{`
-        h4,
-        h6 {
-          margin-left: 30px;
-        }
-        h4 {
-          font-size: 18px;
-          font-weight: 700;
-        }
-        h6 {
-          color: #a2a2a8;
-          font-size: 14px;
-          font-weight: 500;
-        }
-      `}</style>
     </>
   );
 };

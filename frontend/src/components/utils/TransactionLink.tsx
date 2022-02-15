@@ -7,9 +7,7 @@ export interface Props {
 
 const TransactionLink = ({ transactionHash, children }: Props) => (
   <Link href="/transactions/[hash]" as={`/transactions/${transactionHash}`}>
-    <a className="transaction-link">
-      {children || `${transactionHash.substring(0, 7)}...`}
-    </a>
+    <a>{children || `${transactionHash.substring(0, 7)}...`}</a>
   </Link>
 );
 

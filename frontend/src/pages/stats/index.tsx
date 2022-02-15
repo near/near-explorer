@@ -17,17 +17,17 @@ import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
+const chartStyle = {
+  height: 480,
+  width: "100%",
+  marginTop: 26,
+  marginLeft: 24,
+};
+
 const Stats: NextPage = () => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Stats page");
   const { currentNetwork } = useNetworkContext();
-
-  const chartStyle = {
-    height: "480px",
-    width: "100%",
-    marginTop: "26px",
-    marginLeft: "24px",
-  };
 
   return (
     <>

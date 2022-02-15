@@ -20,7 +20,7 @@ const ReceiptsInBlock: FC<Props> = ({ blockHash }) => {
   return (
     <>
       {!receiptsList ? (
-        <PaginationSpinner hidden={false} />
+        <PaginationSpinner />
       ) : receiptsList.length > 0 ? (
         <Receipts receipts={receiptsList} />
       ) : (

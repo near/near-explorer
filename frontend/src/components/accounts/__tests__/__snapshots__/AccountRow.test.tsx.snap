@@ -5,86 +5,30 @@ exports[`<AccountRow /> renders with long name 1`] = `
   onClick={[Function]}
 >
   <a
+    className="c-LinkWrapper-cIdiJW"
     href="/accounts/b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near"
     onClick={[Function]}
     onMouseEnter={[Function]}
-    style={
-      Object {
-        "textDecoration": "none",
-      }
-    }
   >
     <div
-      className="transaction-row mx-0 row"
+      className="c-TransactionRow-lhkeTw mx-0 row"
     >
       <div
         className="pr-0 col-md-auto col-1"
       >
         <img
+          className="c-AccountIcon-exgREZ"
           src="/static/images/icon-t-acct.svg"
-          style={
-            Object {
-              "width": "15px",
-            }
-          }
         />
       </div>
       <div
-        className="transaction-row-title pt-1 col-md-7 col-11"
+        className="c-TransactionRowTitle-bvTgKA pt-1 col-md-7 col-11"
       >
         b7df2090560a225dc4934aed43db03a6c674c2d4.lockup.near
       </div>
       <div
-        className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
+        className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
       />
-      <style
-        global={true}
-        jsx={true}
-      >
-        
-            .transaction-row {
-              padding-top: 10px;
-              padding-bottom: 10px;
-              border-top: solid 2px #f8f8f8;
-            }
-
-            .transaction-row:hover {
-              background: rgba(0, 0, 0, 0.1);
-            }
-
-            .transaction-row-title {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #24272a;
-              word-break: break-word;
-            }
-
-            .transaction-row-text {
-              font-size: 12px;
-              font-weight: 500;
-              line-height: 1.5;
-              color: #999999;
-            }
-
-            .transaction-row-txid {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #0072ce;
-            }
-
-            .transaction-row-timer {
-              font-size: 12px;
-              color: #666666;
-              font-weight: 300;
-            }
-
-            .transaction-row-timer-status {
-              font-weight: 500;
-            }
-          
-      </style>
     </div>
   </a>
 </span>
@@ -95,86 +39,30 @@ exports[`<AccountRow /> renders with short name 1`] = `
   onClick={[Function]}
 >
   <a
+    className="c-LinkWrapper-cIdiJW"
     href="/accounts/account"
     onClick={[Function]}
     onMouseEnter={[Function]}
-    style={
-      Object {
-        "textDecoration": "none",
-      }
-    }
   >
     <div
-      className="transaction-row mx-0 row"
+      className="c-TransactionRow-lhkeTw mx-0 row"
     >
       <div
         className="pr-0 col-md-auto col-1"
       >
         <img
+          className="c-AccountIcon-exgREZ"
           src="/static/images/icon-t-acct.svg"
-          style={
-            Object {
-              "width": "15px",
-            }
-          }
         />
       </div>
       <div
-        className="transaction-row-title pt-1 col-md-7 col-11"
+        className="c-TransactionRowTitle-bvTgKA pt-1 col-md-7 col-11"
       >
         account
       </div>
       <div
-        className="ml-auto pt-1 text-right transaction-row-txid col-md-3 col-5"
+        className="c-TransactionRowTransactionId-lbSlCc ml-auto pt-1 text-right col-md-3 col-5"
       />
-      <style
-        global={true}
-        jsx={true}
-      >
-        
-            .transaction-row {
-              padding-top: 10px;
-              padding-bottom: 10px;
-              border-top: solid 2px #f8f8f8;
-            }
-
-            .transaction-row:hover {
-              background: rgba(0, 0, 0, 0.1);
-            }
-
-            .transaction-row-title {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #24272a;
-              word-break: break-word;
-            }
-
-            .transaction-row-text {
-              font-size: 12px;
-              font-weight: 500;
-              line-height: 1.5;
-              color: #999999;
-            }
-
-            .transaction-row-txid {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #0072ce;
-            }
-
-            .transaction-row-timer {
-              font-size: 12px;
-              color: #666666;
-              font-weight: 300;
-            }
-
-            .transaction-row-timer-status {
-              font-weight: 500;
-            }
-          
-      </style>
     </div>
   </a>
 </span>
