@@ -11,6 +11,16 @@ const cookieParser = require("cookie-parser");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const isPage = (req) => {
+  let path = req.path;
+  if (path.startsWith("/_next/static")) {
+    return false;
+  }
+  // /_next/data/qBIGsJpVfKbBmgV88TRWE/accounts/near.testnet.json
+  // ->
+  // /accounts/near.testnet.json
+  if (path.startsWith("/_next/data/")) {
+    path = ["", ...path.split("/").slice(4)].join("/");
+  }
   if (
     [
       "/blocks",
@@ -21,11 +31,11 @@ const isPage = (req) => {
       "/partner",
       "/stats",
       "/transactions",
-    ].some((prefix) => req.path.startsWith(prefix))
+    ].some((prefix) => path.startsWith(prefix))
   ) {
     return true;
   }
-  if (req.path === "/") {
+  if (path === "/") {
     return true;
   }
   return false;
@@ -94,8 +104,10 @@ app.prepare().then(() => {
     req.id = uuid.v4();
     next();
   });
-  expressApp.use(stHttpLoggerReqMiddleware);
-  expressApp.use(stHttpLoggerMiddleware);
+  if (!dev) {
+    expressApp.use(stHttpLoggerReqMiddleware);
+    expressApp.use(stHttpLoggerMiddleware);
+  }
 
   expressApp.use((req, res, next) => {
     let cohortIndex = -1;
@@ -111,6 +123,9 @@ app.prepare().then(() => {
       if (cohortId) {
         cohortIndex = COHORTS.findIndex((cohort) => cohort.id === cohortId);
       }
+    }
+    if (dev) {
+      console.log(`Cohort ${cohortIndex} for ${req.path}`);
     }
     if (cohortIndex !== -1) {
       COHORT_MIDDLEWARES[cohortIndex](req, res, next);
