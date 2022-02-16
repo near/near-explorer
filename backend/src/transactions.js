@@ -37,7 +37,7 @@ async function createTransactionsList(transactionsArray) {
   }));
 }
 
-async function getIndexerCompatibilityTransactionActionKinds() {
+function getIndexerCompatibilityTransactionActionKinds() {
   return INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS;
 }
 

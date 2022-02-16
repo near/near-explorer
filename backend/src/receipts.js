@@ -1,7 +1,8 @@
 const {
   queryReceiptsCountInBlock,
   queryReceiptInTransaction,
-  queryReceiptsList,
+  queryIncludedReceiptsList,
+  queryExecutedReceiptsList,
 } = require("./db-utils");
 
 const BN = require("bn.js");
@@ -17,19 +18,18 @@ const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map([
   [null, "Unknown"],
 ]);
 
-async function getIndexerCompatibilityReceiptActionKinds() {
+function getIndexerCompatibilityReceiptActionKinds() {
   return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
 }
 
-async function getReceiptsList(blockHash) {
-  const receiptActions = await queryReceiptsList(blockHash);
+function groupReceiptActionsIntoReceipts(receiptActions) {
   // The receipt actions are ordered in such a way that the actions for a single receipt go
   // one after another in a correct order, so we can collect them linearly using a moving
   // window based on the `previousReceiptId`.
   let receipts = [];
   let actions;
   let previousReceiptId = "";
-  const indexerCompatibilityTransactionActionKinds = await getIndexerCompatibilityTransactionActionKinds();
+  const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
   for (const receiptAction of receiptActions) {
     if (previousReceiptId !== receiptAction.receipt_id) {
       previousReceiptId = receiptAction.receipt_id;
@@ -61,6 +61,19 @@ async function getReceiptsList(blockHash) {
   return receipts;
 }
 
+// As a temporary solution we split receipts list into two lists:
+// included in block and executed in block
+// more info here https://github.com/near/near-explorer/pull/868
+async function getIncludedReceiptsList(blockHash) {
+  const receiptActions = await queryIncludedReceiptsList(blockHash);
+  return groupReceiptActionsIntoReceipts(receiptActions);
+}
+
+async function getExecutedReceiptsList(blockHash) {
+  const receiptActions = await queryExecutedReceiptsList(blockHash);
+  return groupReceiptActionsIntoReceipts(receiptActions);
+}
+
 async function getReceiptsCountInBlock(blockHash) {
   const receiptsCount = await queryReceiptsCountInBlock(blockHash);
   if (!receiptsCount) {
@@ -84,4 +97,5 @@ async function getReceiptInTransaction(receiptId) {
 exports.getReceiptsCountInBlock = getReceiptsCountInBlock;
 exports.getReceiptInTransaction = getReceiptInTransaction;
 exports.getIndexerCompatibilityReceiptActionKinds = getIndexerCompatibilityReceiptActionKinds;
-exports.getReceiptsList = getReceiptsList;
+exports.getIncludedReceiptsList = getIncludedReceiptsList;
+exports.getExecutedReceiptsList = getExecutedReceiptsList;

@@ -3,7 +3,8 @@ import Head from "next/head";
 import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
 
 import BlockDetails from "../../components/blocks/BlockDetails";
-import ReceiptsInBlock from "../../components/blocks/ReceiptsInBlock";
+import ReceiptsIncludedInBlock from "../../components/receipts/ReceiptsIncludedInBlock";
+import ReceiptsExecutedInBlock from "../../components/receipts/ReceiptsExecutedInBlock";
 import Transactions from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
@@ -62,9 +63,16 @@ const BlockDetail: NextPage<Props> = (props) => {
 
           <Content
             icon={<TransactionIcon />}
-            title={<h2>{t("common.receipts.receipts")}</h2>}
+            title={<h2>{t("component.receipts.ReceiptsIncludedInBlock")}</h2>}
           >
-            <ReceiptsInBlock blockHash={props.hash} />
+            <ReceiptsIncludedInBlock blockHash={props.hash} />
+          </Content>
+
+          <Content
+            icon={<TransactionIcon />}
+            title={<h2>{t("component.receipts.ReceiptsExecutedInBlock")}</h2>}
+          >
+            <ReceiptsExecutedInBlock blockHash={props.hash} />
           </Content>
         </>
       ) : null}
