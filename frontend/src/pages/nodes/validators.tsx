@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 
 import NodesEpoch from "../../components/nodes/NodesEpoch";
 import Validators from "../../components/nodes/Validators";
-import Content from "../../components/utils/Content";
+import Content, { ContentHeader } from "../../components/utils/Content";
 import NodesCard from "../../components/nodes/NodesCard";
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
@@ -16,6 +16,35 @@ import {
   useEpochStartBlock,
   useFinalBlockTimestampNanosecond,
 } from "../../hooks/data";
+import { styled } from "../../libraries/styles";
+
+const NodesPage = styled(Content, {
+  backgroundColor: "#ffffff",
+
+  "@media (max-width: 576px)": {
+    "& > .container-fluid, & > .container-fluid > .container": {
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+  },
+});
+
+const ContentHeaderWrapper = styled(ContentHeader, {
+  background: "#fafafa",
+  marginLeft: -15,
+  marginRight: -15,
+  paddingBottom: 0,
+
+  "@media (min-width: 576px)": {
+    paddingLeft: 32,
+    paddingRight: 32,
+  },
+});
+
+const ValidatorsWrapper = styled(Container, {
+  paddingTop: 24,
+  paddingBottom: 50,
+});
 
 const ValidatorsPage: NextPage = () => {
   useAnalyticsTrackOnMount("Explorer View Validator Node page");
@@ -48,12 +77,12 @@ const ValidatorsPage: NextPage = () => {
         )}
       </Container>
 
-      <Content
+      <NodesPage
         border={false}
         fluid
         contentFluid
-        className="nodes-page"
         header={<NodesContentHeader navRole="validators" />}
+        overrideHeader={ContentHeaderWrapper}
       >
         <Container>
           <NodesCard
@@ -71,35 +100,10 @@ const ValidatorsPage: NextPage = () => {
             }
           />
         </Container>
-        <Container style={{ paddingTop: "24px", paddingBottom: "50px" }}>
+        <ValidatorsWrapper>
           <Validators />
-        </Container>
-      </Content>
-      <style global jsx>{`
-        .nodes-page {
-          background-color: #ffffff;
-        }
-
-        @media (max-width: 576px) {
-          .nodes-page > .container-fluid,
-          .nodes-page > .container-fluid > .container {
-            padding-left: 0;
-            padding-right: 0;
-          }
-        }
-        @media (min-width: 576px) {
-          .content-header {
-            padding-left: 32px;
-            padding-right: 32px;
-          }
-        }
-        .content-header {
-          background: #fafafa;
-          margin-left: -15px;
-          margin-right: -15px;
-          padding-bottom: 0;
-        }
-      `}</style>
+        </ValidatorsWrapper>
+      </NodesPage>
     </>
   );
 };

@@ -2,6 +2,49 @@ import { FC } from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { StakingStatus } from "../../libraries/wamp/types";
 
+import { styled } from "../../libraries/styles";
+
+const ValidatingLabelWrapper = styled(Badge, {
+  padding: "2px 8px",
+  borderRadius: 50,
+  fontSize: 12,
+  fontWeight: 500,
+  lineHeight: "150%",
+
+  variants: {
+    type: {
+      active: {
+        backgroundColor: "#c8f6e0",
+        color: "#008d6a",
+      },
+      proposal: {
+        backgroundColor: "#6ad1e3",
+        color: "#11869a",
+      },
+      joining: {
+        backgroundColor: "#ffc107",
+        color: "#ffffff",
+      },
+      leaving: {
+        backgroundColor: "#dc3545",
+        color: "#ffffff",
+      },
+      idle: {
+        backgroundColor: "#e5e5e6",
+        color: "#72727a",
+      },
+      "on-hold": {
+        backgroundColor: "#2d9cdb",
+        color: "#ffffff",
+      },
+      newcomer: {
+        backgroundColor: "#f2994a",
+        color: "#ffffff",
+      },
+    },
+  },
+});
+
 interface Props {
   text: string;
   type: StakingStatus;
@@ -13,50 +56,7 @@ const ValidatingLabel: FC<Props> = ({ type, text, tooltipKey, children }) => (
     placement={"right"}
     overlay={<Tooltip id={tooltipKey}>{text}</Tooltip>}
   >
-    <Badge className={`validating-label ${type}`}>
-      {children}
-      <style global jsx>{`
-        .validating-label {
-          padding: 2px 8px;
-          border-radius: 50px;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 150%;
-        }
-
-        .validating-label.active {
-          background-color: #c8f6e0;
-          color: #008d6a;
-        }
-
-        .validating-label.proposal {
-          background-color: #6ad1e3;
-          color: #11869a;
-        }
-
-        .validating-label.joining {
-          background-color: #ffc107;
-          color: #ffffff;
-        }
-
-        .validating-label.leaving {
-          background-color: #dc3545;
-          color: #ffffff;
-        }
-        .validating-label.idle {
-          background-color: #e5e5e6;
-          color: #72727a;
-        }
-        .validating-label.on-hold {
-          background-color: #2d9cdb;
-          color: #ffffff;
-        }
-        .validating-label.newcomer {
-          background-color: #f2994a;
-          color: #ffffff;
-        }
-      `}</style>
-    </Badge>
+    <ValidatingLabelWrapper type={type}>{children}</ValidatingLabelWrapper>
   </OverlayTrigger>
 );
 

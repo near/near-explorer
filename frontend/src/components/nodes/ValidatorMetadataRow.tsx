@@ -1,7 +1,19 @@
 import { FC } from "react";
 
-import { Row, Col } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
+import { styled } from "../../libraries/styles";
+import {
+  ValidatorNodesContentCell,
+  ValidatorNodesContentRow,
+  ValidatorNodesDetailsTitle,
+} from "./ValidatorRow";
+
+const ValidatorNodesText = styled(Col, {
+  fontWeight: 500,
+  fontSize: 14,
+  color: "#3f4045",
+});
 
 interface Props {
   poolWebsite?: string;
@@ -27,18 +39,18 @@ const ValidatorMetadataRow: FC<Props> = ({
     Boolean(poolDescription);
 
   return (
-    <Row noGutters className="validator-nodes-content-row">
+    <ValidatorNodesContentRow noGutters>
       {poolDetailsAvailable ? (
         <>
           {poolWebsite && (
-            <Col className="validator-nodes-content-cell" xs="auto">
+            <ValidatorNodesContentCell xs="auto">
               <Row noGutters>
-                <Col className="validator-nodes-details-title">
+                <ValidatorNodesDetailsTitle>
                   {t("component.nodes.ValidatorMetadataRow.pool_info.website")}
-                </Col>
+                </ValidatorNodesDetailsTitle>
               </Row>
               <Row noGutters>
-                <Col className="validator-nodes-text">
+                <ValidatorNodesText>
                   <a
                     href={
                       poolWebsite.startsWith("http")
@@ -50,33 +62,33 @@ const ValidatorMetadataRow: FC<Props> = ({
                   >
                     {poolWebsite}
                   </a>
-                </Col>
+                </ValidatorNodesText>
               </Row>
-            </Col>
+            </ValidatorNodesContentCell>
           )}
           {poolEmail && (
-            <Col className="validator-nodes-content-cell" xs="auto">
+            <ValidatorNodesContentCell xs="auto">
               <Row noGutters>
-                <Col className="validator-nodes-details-title">
+                <ValidatorNodesDetailsTitle>
                   {t("component.nodes.ValidatorMetadataRow.pool_info.email")}
-                </Col>
+                </ValidatorNodesDetailsTitle>
               </Row>
               <Row noGutters>
-                <Col className="validator-nodes-text">
+                <ValidatorNodesText>
                   <a href={`mailto:${poolEmail}`}>{poolEmail}</a>
-                </Col>
+                </ValidatorNodesText>
               </Row>
-            </Col>
+            </ValidatorNodesContentCell>
           )}
           {poolTwitter && (
-            <Col className="validator-nodes-content-cell" xs="auto">
+            <ValidatorNodesContentCell xs="auto">
               <Row noGutters>
-                <Col className="validator-nodes-details-title">
+                <ValidatorNodesDetailsTitle>
                   {t("component.nodes.ValidatorMetadataRow.pool_info.twitter")}
-                </Col>
+                </ValidatorNodesDetailsTitle>
               </Row>
               <Row noGutters>
-                <Col className="validator-nodes-text">
+                <ValidatorNodesText>
                   <a
                     href={`https://twitter.com/${poolTwitter}`}
                     rel="noreferrer noopener"
@@ -84,19 +96,19 @@ const ValidatorMetadataRow: FC<Props> = ({
                   >
                     {poolTwitter}
                   </a>
-                </Col>
+                </ValidatorNodesText>
               </Row>
-            </Col>
+            </ValidatorNodesContentCell>
           )}
           {poolDiscord && (
-            <Col className="validator-nodes-content-cell" xs="auto">
+            <ValidatorNodesContentCell xs="auto">
               <Row noGutters>
-                <Col className="validator-nodes-details-title">
+                <ValidatorNodesDetailsTitle>
                   {t("component.nodes.ValidatorMetadataRow.pool_info.discord")}
-                </Col>
+                </ValidatorNodesDetailsTitle>
               </Row>
               <Row noGutters>
-                <Col className="validator-nodes-text">
+                <ValidatorNodesText>
                   <a
                     href={poolDiscord}
                     rel="noreferrer noopener"
@@ -104,29 +116,29 @@ const ValidatorMetadataRow: FC<Props> = ({
                   >
                     {poolDiscord}
                   </a>
-                </Col>
+                </ValidatorNodesText>
               </Row>
-            </Col>
+            </ValidatorNodesContentCell>
           )}
           {poolDescription && (
-            <Col className="validator-nodes-content-cell">
+            <ValidatorNodesContentCell>
               <Row noGutters>
-                <Col className="validator-nodes-details-title">
+                <ValidatorNodesDetailsTitle>
                   {t(
                     "component.nodes.ValidatorMetadataRow.pool_info.description"
                   )}
-                </Col>
+                </ValidatorNodesDetailsTitle>
               </Row>
               <Row noGutters>
-                <Col className="validator-nodes-text">
+                <ValidatorNodesText>
                   <small>{poolDescription}</small>
-                </Col>
+                </ValidatorNodesText>
               </Row>
-            </Col>
+            </ValidatorNodesContentCell>
           )}
         </>
       ) : (
-        <Col className="validator-nodes-content-cell">
+        <ValidatorNodesContentCell>
           <p className="text-center">
             <Trans
               t={t}
@@ -141,9 +153,9 @@ const ValidatorMetadataRow: FC<Props> = ({
               }}
             />
           </p>
-        </Col>
+        </ValidatorNodesContentCell>
       )}
-    </Row>
+    </ValidatorNodesContentRow>
   );
 };
 

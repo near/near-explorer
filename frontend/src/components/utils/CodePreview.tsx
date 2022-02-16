@@ -1,4 +1,14 @@
 import ReactTextCollapse from "react-text-collapse";
+import { styled } from "../../libraries/styles";
+
+const CodePreviewWrapper = styled("textarea", {
+  fontFamily: '"Source Code Pro", monospace',
+  background: "#424957",
+  color: "white",
+  padding: 20,
+  width: "100%",
+  height: "99%",
+});
 
 export interface CollapseOptions {
   collapseText: string;
@@ -14,22 +24,13 @@ export interface Props {
 
 const CodePreview = (props: Props) => {
   return (
-    <>
-      <ReactTextCollapse options={props.collapseOptions}>
-        <textarea readOnly className="code-preview" value={props.value} />
-      </ReactTextCollapse>
-      <style jsx>{`
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      `}</style>
-    </>
+    <ReactTextCollapse options={props.collapseOptions}>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+        rel="stylesheet"
+      />
+      <CodePreviewWrapper readOnly value={props.value} />
+    </ReactTextCollapse>
   );
 };
 

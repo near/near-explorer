@@ -1,9 +1,70 @@
+import React from "react";
 import ReactPaginate, { ReactPaginateProps } from "react-paginate";
+import { styled } from "../../libraries/styles";
+
+export const PaginateWrapper = styled(ReactPaginate, {
+  display: "flex",
+  justifyContent: "center",
+  padding: "20px 0",
+  marginBottom: 0,
+
+  "& li": {
+    padding: "0 5px",
+    textAlign: "center",
+    background: "transparent",
+    listStyleType: "none",
+    overflow: "hidden",
+    cursor: "pointer",
+    color: "#a2a2a8",
+    fontSize: 14,
+    transition: "all 0.15s ease-in-out",
+    outline: "none",
+
+    "& svg": {
+      width: 8,
+      height: 15,
+      stroke: "currentColor",
+    },
+  },
+
+  "& li.next svg": {
+    transform: "rotate(180deg)",
+  },
+
+  "& li.next a, & li.previous a": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    color: "#d5d4d8",
+  },
+
+  "& li.disabled, & li.disabled a, & li.disabled a:hover, & li.previous.disabled a:hover": {
+    color: "#d5d4d8",
+    cursor: "default",
+  },
+
+  "& li.selected a": {
+    fontWeight: 500,
+    color: "#0072ce",
+    backgroundColor: "#f0f9ff",
+    borderRadius: 4,
+  },
+
+  "& li a": {
+    transition: "all 0.15s ease-in-out",
+    width: 23,
+    lineHeight: "25px",
+    display: "block",
+    outline: "none",
+    color: "inherit",
+  },
+});
 
 export type OnPageChange = ReactPaginateProps["onPageChange"];
 
 export interface Props {
-  className: string;
+  overrideComponent?: React.FC<React.ComponentProps<typeof PaginateWrapper>>;
   pageCount: number;
   marginPagesDisplayed: number;
   pageRangeDisplayed: number;
@@ -21,17 +82,16 @@ const Arrow = () => (
   </svg>
 );
 
-const Pagination = ({
-  className,
+const Pagination: React.FC<Props> = ({
+  overrideComponent,
   pageCount,
   marginPagesDisplayed,
   pageRangeDisplayed,
   onPageChange,
-}: Props) => (
-  <>
-    <ReactPaginate
-      containerClassName={`pagination ${className ?? ""}`}
-      activeClassName="active"
+}) => {
+  const Component = overrideComponent || PaginateWrapper;
+  return (
+    <Component
       previousLabel={<Arrow />}
       nextLabel={<Arrow />}
       pageCount={pageCount}
@@ -39,71 +99,7 @@ const Pagination = ({
       pageRangeDisplayed={pageRangeDisplayed}
       onPageChange={onPageChange}
     />
-    <style jsx global>{`
-      .pagination {
-        display: flex;
-        justify-content: center;
-        padding: 20px 0;
-        margin-bottom: 0;
-      }
-
-      .pagination li {
-        padding: 0 5px;
-        text-align: center;
-        background: transparent;
-        list-style-type: none;
-        overflow: hidden;
-        cursor: pointer;
-        color: #a2a2a8;
-        font-size: 14px;
-        transition: all 0.15s ease-in-out;
-        outline: none;
-      }
-
-      .pagination li svg {
-        width: 8px;
-        height: 15px;
-        stroke: currentColor;
-      }
-
-      .pagination li.next svg {
-        transform: rotate(180deg);
-      }
-
-      .pagination li.next a,
-      .pagination li.previous a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        color: #d5d4d8;
-      }
-
-      .pagination li.disabled,
-      .pagination li.disabled a,
-      .pagination li.disabled a:hover,
-      .pagination li.previous.disabled a:hover {
-        color: #d5d4d8;
-        cursor: default;
-      }
-
-      .pagination li.active a {
-        font-weight: 500;
-        color: #0072ce;
-        background-color: #f0f9ff;
-        border-radius: 4px;
-      }
-
-      .pagination li a {
-        transition: all 0.15s ease-in-out;
-        width: 23px;
-        line-height: 25px;
-        display: block;
-        outline: none;
-        color: inherit;
-      }
-    `}</style>
-  </>
-);
+  );
+};
 
 export default Pagination;

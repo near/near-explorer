@@ -311,12 +311,14 @@
       "ReceiptAction": {
         "batch_receipt": "Batch Receipt",
         "fetching_status": "Fetching Status..."
-      }
+      },
+      "ReceiptsList": {
+        "no_receipts": "There are no receipts in this block"
+      },
+      "ReceiptsIncludedInBlock": "Receipts included in this block",
+      "ReceiptsExecutedInBlock": "Receipts executed in this block"
     },
     "blocks": {
-      "ReceiptsInBlock": {
-        "no_receipts": "Không có biên nhận trong block này"
-      },
       "BlockDetails": {
         "transactions": {
           "title": "Các Giao Dịch",

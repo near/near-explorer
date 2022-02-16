@@ -19,6 +19,65 @@ import {
   RpcReceiptSuccessId,
   RpcReceiptSuccessValue,
 } from "../../libraries/wamp/types";
+import { styled } from "../../libraries/styles";
+
+const ReceiptRowWrapper = styled(Row, {
+  paddingTop: 10,
+  paddingBottom: 30,
+});
+
+const ExecutedReceiptRow = styled(Row, {
+  [`& ${ReceiptRowWrapper}`]: {
+    paddingLeft: "1.5rem",
+    paddingBottom: 0,
+    borderLeft: "2px solid #e5e5e5",
+  },
+});
+
+const ReceiptRowSection = styled(Row, {
+  paddingTop: 10,
+  paddingLeft: "1.5rem",
+  borderLeft: "2px solid #e5e5e5",
+});
+
+const ReceiptRowTitle = styled(Col, {
+  fontSize: 14,
+  lineHeight: 1.29,
+  color: "#24272a",
+});
+
+const ReceiptRowHashTitle = styled(ReceiptRowTitle, {
+  paddingBottom: 10,
+});
+
+const ReceiptRowText = styled(Col, {
+  fontSize: 12,
+  lineHeight: 1.5,
+  color: "#999999",
+});
+
+const ReceiptRowReceiptHash = styled(Col, {
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: 1.29,
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
+
+  variants: {
+    truncateLink: {
+      true: {
+        color: "#007bff",
+      },
+    },
+  },
+});
+
+const ReceiptRowStatus = styled(Col, {
+  fontSize: 12,
+  color: "#999999",
+  fontWeight: 500,
+});
 
 export interface Props {
   receipt: NestedReceiptWithOutcome;
@@ -69,86 +128,78 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
     tokensBurnedByReceipt = new BN(receipt.outcome.tokens_burnt);
   }
   return (
-    <Row
+    <ReceiptRowWrapper
       noGutters
-      className="receipt-row"
       key={receipt.receipt_id}
       id={receipt.receipt_id}
     >
       <Col>
         <Row noGutters>
-          <Col className="receipt-row-title receipt-hash-title">
+          <ReceiptRowHashTitle>
             <b>{t("common.receipts.receipt")}:</b>
-          </Col>
+          </ReceiptRowHashTitle>
         </Row>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-title">
-            {t("common.receipts.receipt_id")}:
-          </Col>
-          <Col className="receipt-row-receipt-hash truncate-link">
+        <ReceiptRowSection noGutters>
+          <ReceiptRowTitle>{t("common.receipts.receipt_id")}:</ReceiptRowTitle>
+          <ReceiptRowReceiptHash truncateLink>
             <ReceiptLink
               transactionHash={transactionHash}
               receiptId={receipt.receipt_id}
               truncate={false}
             />
-          </Col>
-        </Row>
+          </ReceiptRowReceiptHash>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-title">
+        <ReceiptRowSection noGutters>
+          <ReceiptRowTitle>
             {t("common.receipts.executed_in_block")}:
-          </Col>
-          <Col className="receipt-row-receipt-hash truncate-link">
+          </ReceiptRowTitle>
+          <ReceiptRowReceiptHash truncateLink>
             <BlockLink blockHash={receipt.block_hash} truncate={false} />
-          </Col>
-        </Row>
+          </ReceiptRowReceiptHash>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-title">
+        <ReceiptRowSection noGutters>
+          <ReceiptRowTitle>
             {t("common.receipts.predecessor_id")}:
-          </Col>
-          <Col
-            className="receipt-row-receipt-hash"
-            title={receipt.predecessor_id}
-          >
+          </ReceiptRowTitle>
+          <ReceiptRowReceiptHash title={receipt.predecessor_id}>
             <AccountLink accountId={receipt.predecessor_id} />
-          </Col>
-        </Row>
+          </ReceiptRowReceiptHash>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-title">
-            {t("common.receipts.receiver_id")}:
-          </Col>
-          <Col className="receipt-row-receipt-hash" title={receipt.receiver_id}>
+        <ReceiptRowSection noGutters>
+          <ReceiptRowTitle>{t("common.receipts.receiver_id")}:</ReceiptRowTitle>
+          <ReceiptRowReceiptHash title={receipt.receiver_id}>
             <AccountLink accountId={receipt.receiver_id} />
-          </Col>
-        </Row>
+          </ReceiptRowReceiptHash>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-title">
+        <ReceiptRowSection noGutters>
+          <ReceiptRowTitle>
             {t("common.transactions.execution.gas_burned")}:
-          </Col>
-          <Col className="receipt-row-receipt-hash">
+          </ReceiptRowTitle>
+          <ReceiptRowReceiptHash>
             {gasBurnedByReceipt ? <Gas gas={gasBurnedByReceipt} /> : "..."}
-          </Col>
-        </Row>
+          </ReceiptRowReceiptHash>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-title">
+        <ReceiptRowSection noGutters>
+          <ReceiptRowTitle>
             {t("common.transactions.execution.tokens_burned")}:
-          </Col>
-          <Col className="receipt-row-receipt-hash">
+          </ReceiptRowTitle>
+          <ReceiptRowReceiptHash>
             {tokensBurnedByReceipt ? (
               <Balance amount={tokensBurnedByReceipt.toString()} />
             ) : (
               "..."
             )}
-          </Col>
-        </Row>
+          </ReceiptRowReceiptHash>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-text">
+        <ReceiptRowSection noGutters>
+          <ReceiptRowText>
             {receipt.actions && receipt.actions.length > 0
               ? receipt.actions.map((action, index) => (
                   <ActionRow
@@ -161,94 +212,37 @@ const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
                   />
                 ))
               : t("component.transactions.ReceiptRow.no_actions")}
-          </Col>
-        </Row>
+          </ReceiptRowText>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-status">{statusInfo}</Col>
-        </Row>
+        <ReceiptRowSection noGutters>
+          <ReceiptRowStatus>{statusInfo}</ReceiptRowStatus>
+        </ReceiptRowSection>
 
-        <Row noGutters className="receipt-row-section">
-          <Col className="receipt-row-text">
+        <ReceiptRowSection noGutters>
+          <ReceiptRowText>
             {receipt.outcome.logs.length === 0 ? (
               t("component.transactions.ReceiptRow.no_logs")
             ) : (
               <pre>{receipt.outcome.logs.join("\n")}</pre>
             )}
-          </Col>
-        </Row>
+          </ReceiptRowText>
+        </ReceiptRowSection>
 
         {receipt.outcome.outgoing_receipts &&
           receipt.outcome.outgoing_receipts.length > 0 &&
           receipt.outcome.outgoing_receipts.map((executedReceipt) => (
-            <Row
-              noGutters
-              className="executed-receipt-row"
-              key={executedReceipt.receipt_id}
-            >
+            <ExecutedReceiptRow noGutters key={executedReceipt.receipt_id}>
               <Col>
                 <ReceiptRow
                   transactionHash={transactionHash}
                   receipt={executedReceipt}
                 />
               </Col>
-            </Row>
+            </ExecutedReceiptRow>
           ))}
       </Col>
-      <style jsx global>{`
-        .receipt-row {
-          padding-top: 10px;
-          padding-bottom: 30px;
-        }
-
-        .receipt-row-section {
-          padding-top: 10px;
-          padding-left: 1.5rem;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .executed-receipt-row .receipt-row {
-          padding-left: 1.5rem;
-          padding-bottom: 0;
-          border-left: 2px solid #e5e5e5;
-        }
-
-        .receipt-hash-title {
-          padding-bottom: 10px;
-        }
-
-        .receipt-row-title {
-          font-size: 14px;
-          line-height: 1.29;
-          color: #24272a;
-        }
-
-        .receipt-row-text {
-          font-size: 12px;
-          line-height: 1.5;
-          color: #999999;
-        }
-
-        .receipt-row-receipt-hash {
-          font-size: 14px;
-          font-weight: 500;
-          line-height: 1.29;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        .receipt-row-receipt-hash.truncate-link {
-          color: #007bff;
-        }
-
-        .receipt-row-status {
-          font-size: 12px;
-          color: #999999;
-          font-weight: 500;
-        }
-      `}</style>
-    </Row>
+    </ReceiptRowWrapper>
   );
 };
 

@@ -2,10 +2,10 @@
 
 exports[`<NodesEpoch /> renders 1`] = `
 <div
-  className="nodes-epoch row"
+  className="c-NodesEpochRow-chraMR row"
 >
   <div
-    className="nodes-epoch-content col-12"
+    className="c-NodesEpochContent-gJeMwJ col-12"
   >
     <div
       className="row no-gutters"
@@ -21,7 +21,7 @@ exports[`<NodesEpoch /> renders 1`] = `
           >
             component.nodes.NodesEpoch.current_epoch_start: 
             <span
-              className="text-value"
+              className="c-TextValue-ffEWEF"
             >
               component.nodes.NodesEpoch.block #
               36647454
@@ -40,7 +40,7 @@ exports[`<NodesEpoch /> renders 1`] = `
             className="col-12"
           >
             <span
-              className="text-value"
+              className="c-TextValue-ffEWEF"
             >
               component.nodes.NodesEpoch.block #
               36647454
@@ -52,7 +52,7 @@ exports[`<NodesEpoch /> renders 1`] = `
         className="text-right d-none d-md-block  col-sm-5"
       >
         <span
-          className="text-value persnt-remains"
+          className="c-TextValue-ffEWEF c-TextValueRemainedPercent-ePtfAL"
         >
           50
           % component.nodes.NodesEpoch.complete
@@ -63,10 +63,10 @@ exports[`<NodesEpoch /> renders 1`] = `
         className="text-right d-xs-block d-md-none col-5"
       >
         <div
-          className="progress-bar circle node-epoch-circle-progress"
+          className="c-ProgressBarWrapper-zRPCk c-NodesEpochCircleProgress-bJMbhR progress-bar"
         >
           <svg
-            className="rc-progress-circle progress-bar-content"
+            className="rc-progress-circle c-ProgressBarElement-kDmFHT"
             style={Object {}}
             viewBox="0 0 100 100"
           >
@@ -77,7 +77,7 @@ exports[`<NodesEpoch /> renders 1`] = `
    a 48,48 0 1 1 0,-96"
               fillOpacity="0"
               stroke="transparent"
-              strokeLinecap="round"
+              strokeLinecap="square"
               strokeWidth={1}
               style={
                 Object {
@@ -96,7 +96,7 @@ exports[`<NodesEpoch /> renders 1`] = `
               fillOpacity="0"
               opacity={1}
               stroke=""
-              strokeLinecap="round"
+              strokeLinecap="square"
               strokeWidth={4}
               style={
                 Object {
@@ -109,44 +109,16 @@ exports[`<NodesEpoch /> renders 1`] = `
             />
           </svg>
           <div
-            className="progress-bar-label"
+            className="c-ProgressBarLabel-kVSbvZ"
           >
             <span
-              className="circle-progress-label"
+              className="c-NodesEpochCircleProgressLabel-czLgwc"
             >
               50
               %
             </span>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .progress-bar {
-        background: transparent;
-        position: relative;
-      }
-
-      .progress-bar .progress-bar-content {
-        background: transparent;
-      }
-
-      .progress-bar .rc-progress-line-path,
-      .progress-bar .rc-progress-circle-path {
-        stroke-linecap: square;
-      }
-
-      .progress-bar .progress-bar-label {
-        position: absolute;
-        width: 100%;
-        margin: auto;
-        font-size: 12px;
-        font-weight: 500;
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -154,34 +126,34 @@ exports[`<NodesEpoch /> renders 1`] = `
     className="d-none d-md-block px-0 col-12"
   >
     <div
-      className="progress-bar line node-epoch-line-progress"
+      className="c-ProgressBarWrapper-zRPCk c-NodesEpochLineProgress-qhFsX progress-bar"
     >
       <svg
-        className="rc-progress-line progress-bar-content"
+        className="rc-progress-line c-ProgressBarElement-kDmFHT"
         preserveAspectRatio="none"
         style={Object {}}
         viewBox="0 0 100 1"
       >
         <path
           className="rc-progress-line-trail"
-          d="M 0.5,0.5
-         L 99.5,0.5"
+          d="M 0,0.5
+         L 100,0.5"
           fillOpacity="0"
           stroke="transparent"
-          strokeLinecap="round"
+          strokeLinecap="square"
           strokeWidth={1}
         />
         <path
           className="rc-progress-line-path"
-          d="M 0.5,0.5
-         L 99.5,0.5"
+          d="M 0,0.5
+         L 100,0.5"
           fillOpacity="0"
           stroke="#37dbf4"
-          strokeLinecap="round"
+          strokeLinecap="square"
           strokeWidth={1}
           style={
             Object {
-              "strokeDasharray": "49.5px, 100px",
+              "strokeDasharray": "49.75px, 100px",
               "strokeDashoffset": "-0px",
               "transition": "stroke-dashoffset 0.3s ease 0s, stroke-dasharray .3s ease 0s, stroke 0.3s linear",
             }
@@ -189,74 +161,6 @@ exports[`<NodesEpoch /> renders 1`] = `
         />
       </svg>
     </div>
-    <style
-      global={true}
-      jsx={true}
-    >
-      
-      .progress-bar {
-        background: transparent;
-        position: relative;
-      }
-
-      .progress-bar .progress-bar-content {
-        background: transparent;
-      }
-
-      .progress-bar .rc-progress-line-path,
-      .progress-bar .rc-progress-circle-path {
-        stroke-linecap: square;
-      }
-
-      .progress-bar .progress-bar-label {
-        position: absolute;
-        width: 100%;
-        margin: auto;
-        font-size: 12px;
-        font-weight: 500;
-      }
-    
-    </style>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .nodes-epoch {
-          background-color: #292526;
-          color: #d5d4d8;
-          font-size: 16px;
-          font-weight: 500;
-        }
-
-        .nodes-epoch .nodes-epoch-content {
-          margin: 15px 0;
-        }
-
-        .nodes-epoch .nodes-epoch-content .text-value {
-          color: #37dbf4;
-        }
-
-        .nodes-epoch .nodes-epoch-content .text-value.persnt-remains {
-          font-weight: 700;
-        }
-
-        .node-epoch-line-progress {
-          padding-left: 0;
-          padding-right: 0;
-          height: 4px;
-        }
-
-        .node-epoch-circle-progress {
-          margin-left: auto;
-          width: 40px;
-        }
-
-        .node-epoch-circle-progress .circle-progress-label {
-          color: #d5d4d8;
-        }
-      
-  </style>
 </div>
 `;

@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 
 import NodesEpoch from "../../components/nodes/NodesEpoch";
 import Nodes from "../../components/nodes/Nodes";
-import Content from "../../components/utils/Content";
+import Content, { ContentHeader } from "../../components/utils/Content";
 
 import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 import { NextPage } from "next";
@@ -14,6 +14,30 @@ import {
   useEpochStartBlock,
   useFinalBlockTimestampNanosecond,
 } from "../../hooks/data";
+import { styled } from "../../libraries/styles";
+
+const OnlineNodesWrapper = styled(Content, {
+  backgroundColor: "#ffffff",
+
+  "@media (max-width: 576px)": {
+    "& > .container, & > .container > .container": {
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+  },
+});
+
+const ContentHeaderWrapper = styled(ContentHeader, {
+  background: "#fafafa",
+  marginLeft: -15,
+  marginRight: -15,
+  paddingBottom: 0,
+
+  "@media (min-width: 576px)": {
+    paddingLeft: 32,
+    paddingRight: 32,
+  },
+});
 
 const OnlineNodes: NextPage = () => {
   useAnalyticsTrackOnMount("Explorer View Online Node page");
@@ -46,43 +70,17 @@ const OnlineNodes: NextPage = () => {
         )}
       </Container>
 
-      <Content
+      <OnlineNodesWrapper
         border={false}
         fluid
         contentFluid
-        className="online-nodes-page"
         header={<NodesContentHeader navRole="online-nodes" />}
+        overrideHeader={ContentHeaderWrapper}
       >
         <Container>
           <Nodes />
         </Container>
-      </Content>
-      <style global jsx>{`
-        .online-nodes-page {
-          background-color: #ffffff;
-        }
-
-        @media (max-width: 576px) {
-          .online-nodes-page > .container-fluid,
-          .online-nodes-page > .container-fluid > .container {
-            padding-left: 0;
-            padding-right: 0;
-          }
-        }
-        @media (min-width: 576px) {
-          .content-header {
-            padding-left: 32px;
-            padding-right: 32px;
-          }
-        }
-
-        .content-header {
-          background: #fafafa;
-          margin-left: -15px;
-          margin-right: -15px;
-          padding-bottom: 0;
-        }
-      `}</style>
+      </OnlineNodesWrapper>
     </>
   );
 };

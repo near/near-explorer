@@ -4,7 +4,7 @@ import { FC } from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import CardCell from "../utils/CardCell";
+import CardCell, { CardCellText } from "../utils/CardCell";
 import Term from "../utils/Term";
 import AccountLink from "../utils/AccountLink";
 import Balance from "../utils/Balance";
@@ -16,12 +16,12 @@ import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
 import { useWampSimpleQuery } from "../../hooks/wamp";
 import { Account } from "../../providers/accounts";
-import { styled } from "../../libraries/stitches.config";
+import { styled } from "../../libraries/styles";
 
 const AccountInfoContainer = styled("div", {
   border: "solid 4px #e6e6e6",
   borderRadius: 4,
-  "& > .row:first-of-type .card-cell-text": {
+  [`& > .row:first-of-type ${CardCellText}`]: {
     fontSize: 24,
   },
 
@@ -33,6 +33,10 @@ const AccountInfoContainer = styled("div", {
 const TransactionLinkIcon = styled("img", {
   width: 15,
   margin: "0 0 12px 12px",
+});
+
+const ColoredCell = styled(CardCell, {
+  backgroundColor: "#f8f8f8",
 });
 
 export interface Props {
@@ -210,7 +214,7 @@ const AccountDetails: FC<Props> = ({ account }) => {
       {!account.deletedAtBlockTimestamp ? (
         <Row noGutters className="border-0">
           <Col md="4">
-            <CardCell
+            <ColoredCell
               title={
                 <Term
                   title={t(
@@ -234,13 +238,13 @@ const AccountDetails: FC<Props> = ({ account }) => {
                   t("common.state.not_available")
                 )
               }
-              className="account-card-back border-0"
+              className="border-0"
             />
           </Col>
           {!account.createdByTransactionHash ||
           account.createdByTransactionHash === "Genesis" ? null : (
             <Col md="8">
-              <CardCell
+              <ColoredCell
                 title={
                   <Term
                     title={t(
@@ -264,7 +268,7 @@ const AccountDetails: FC<Props> = ({ account }) => {
                     </TransactionLink>
                   </>
                 }
-                className="account-card-back border-0"
+                className="border-0"
               />
             </Col>
           )}
@@ -272,7 +276,7 @@ const AccountDetails: FC<Props> = ({ account }) => {
       ) : (
         <Row noGutters className="border-0">
           <Col md="4">
-            <CardCell
+            <ColoredCell
               title={
                 <Term
                   title={t(
@@ -289,11 +293,11 @@ const AccountDetails: FC<Props> = ({ account }) => {
                   )}
                 </>
               }
-              className="account-card-back border-0"
+              className="border-0"
             />
           </Col>
           <Col md="8">
-            <CardCell
+            <ColoredCell
               title={
                 <Term
                   title={t(
@@ -317,16 +321,11 @@ const AccountDetails: FC<Props> = ({ account }) => {
                   </TransactionLink>
                 </>
               }
-              className="account-card-back border-0"
+              className="border-0"
             />
           </Col>
         </Row>
       )}
-      <style jsx global>{`
-        .account-card-back {
-          background-color: #f8f8f8;
-        }
-      `}</style>
     </AccountInfoContainer>
   );
 };

@@ -6,6 +6,40 @@ import { Row, Col } from "react-bootstrap";
 import ProgressBar from "../utils/ProgressBar";
 
 import { useTranslation } from "react-i18next";
+import { styled } from "../../libraries/styles";
+
+const NodesEpochContent = styled(Col, {
+  margin: "15px 0",
+});
+
+const TextValue = styled("span", {
+  color: "#37dbf4",
+});
+const TextValueRemainedPercent = styled(TextValue, {
+  fontWeight: 700,
+});
+
+const NodesEpochRow = styled(Row, {
+  backgroundColor: "#292526",
+  color: "#d5d4d8",
+  fontSize: 16,
+  fontWeight: 500,
+});
+
+const NodesEpochLineProgress = styled(ProgressBar, {
+  paddingLeft: 0,
+  paddingRight: 0,
+  height: 4,
+});
+
+const NodesEpochCircleProgress = styled(ProgressBar, {
+  marginLeft: "auto",
+  width: 40,
+});
+
+const NodesEpochCircleProgressLabel = styled("span", {
+  color: "#d5d4d8",
+});
 
 interface Props {
   epochLength: number;
@@ -30,17 +64,17 @@ const NodesEpoch: FC<Props> = ({
     (100 - epochProgress);
 
   return (
-    <Row className="nodes-epoch">
-      <Col xs="12" className="nodes-epoch-content">
+    <NodesEpochRow>
+      <NodesEpochContent xs="12">
         <Row noGutters>
           <Col xs="7">
             <Row className="d-none d-md-flex">
               <Col>
                 {t("component.nodes.NodesEpoch.current_epoch_start") + ": "}
-                <span className="text-value">
+                <TextValue>
                   {t("component.nodes.NodesEpoch.block") + " #"}
                   {epochStartHeight}
-                </span>
+                </TextValue>
               </Col>
             </Row>
 
@@ -49,86 +83,48 @@ const NodesEpoch: FC<Props> = ({
                 {t("component.nodes.NodesEpoch.current_epoch_start")}
               </Col>
               <Col xs="12">
-                <span className="text-value">
+                <TextValue>
                   {t("component.nodes.NodesEpoch.block") + " #"}
                   {epochStartHeight}
-                </span>
+                </TextValue>
               </Col>
             </Row>
           </Col>
 
           <Col sm="5" className="text-right d-none d-md-block ">
-            <span className="text-value persnt-remains">
+            <TextValueRemainedPercent>
               {epochProgress.toFixed(0)}
               {"% " + t("component.nodes.NodesEpoch.complete")}
-            </span>
+            </TextValueRemainedPercent>
             {` (${moment.utc(timeRemaining).format("HH:mm:ss")} ${t(
               "component.nodes.NodesEpoch.remaining"
             )})`}
           </Col>
 
           <Col xs="5" className="text-right d-xs-block d-md-none">
-            <ProgressBar
+            <NodesEpochCircleProgress
               percent={epochProgress}
               strokeColor="#37dbf4"
               trailColor="transparent"
               type="circle"
               strokeWidth={4}
-              className="node-epoch-circle-progress"
               label={
-                <span className="circle-progress-label">
+                <NodesEpochCircleProgressLabel>
                   {epochProgress.toFixed(0)}%
-                </span>
+                </NodesEpochCircleProgressLabel>
               }
             />
           </Col>
         </Row>
-      </Col>
+      </NodesEpochContent>
       <Col xs="12" className="d-none d-md-block px-0">
-        <ProgressBar
+        <NodesEpochLineProgress
           percent={epochProgress}
           strokeColor="#37dbf4"
-          className="node-epoch-line-progress"
           trailColor="transparent"
         />
       </Col>
-
-      <style global jsx>{`
-        .nodes-epoch {
-          background-color: #292526;
-          color: #d5d4d8;
-          font-size: 16px;
-          font-weight: 500;
-        }
-
-        .nodes-epoch .nodes-epoch-content {
-          margin: 15px 0;
-        }
-
-        .nodes-epoch .nodes-epoch-content .text-value {
-          color: #37dbf4;
-        }
-
-        .nodes-epoch .nodes-epoch-content .text-value.persnt-remains {
-          font-weight: 700;
-        }
-
-        .node-epoch-line-progress {
-          padding-left: 0;
-          padding-right: 0;
-          height: 4px;
-        }
-
-        .node-epoch-circle-progress {
-          margin-left: auto;
-          width: 40px;
-        }
-
-        .node-epoch-circle-progress .circle-progress-label {
-          color: #d5d4d8;
-        }
-      `}</style>
-    </Row>
+    </NodesEpochRow>
   );
 };
 

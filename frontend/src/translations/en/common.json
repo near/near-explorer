@@ -311,12 +311,14 @@
       "ReceiptAction": {
         "batch_receipt": "Batch Receipt",
         "fetching_status": "Fetching Status..."
-      }
-    },
-    "blocks": {
-      "ReceiptsInBlock": {
+      },
+      "ReceiptsList": {
         "no_receipts": "There are no receipts in this block"
       },
+      "ReceiptsIncludedInBlock": "Receipts included in this block",
+      "ReceiptsExecutedInBlock": "Receipts executed in this block"
+    },
+    "blocks": {
       "BlockDetails": {
         "transactions": {
           "title": "Transactions",

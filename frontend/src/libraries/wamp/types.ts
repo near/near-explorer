@@ -479,7 +479,11 @@ export type ProcedureTypes = {
     result: ContractInfo;
   };
 
-  "receipts-list-by-block-hash": {
+  "included-receipts-list-by-block-hash": {
+    args: [string];
+    result: Receipt[];
+  };
+  "executed-receipts-list-by-block-hash": {
     args: [string];
     result: Receipt[];
   };

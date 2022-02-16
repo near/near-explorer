@@ -14,14 +14,14 @@ context("Blocks List page", () => {
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row")
+      .find("a @TransactionRow")
       .should("have.length.greaterThan", 0)
       .and("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row .transaction-row-title")
+      .find("a @TransactionRow @TransactionRowTitle")
       .should("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row .transaction-row-txid")
+      .find("a @TransactionRow @TransactionRowTransactionId")
       .should("not.be.empty");
   });
 
@@ -31,15 +31,15 @@ context("Blocks List page", () => {
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row")
+      .find("a @TransactionRow")
       .first()
       .click();
-    cy.get(".block-info-container", { timeout: 5000 }).should("exist");
-    cy.get(".block-info-container .card-cell .card-body")
+    cy.get("@BlockInfoContainer", { timeout: 5000 }).should("exist");
+    cy.get("@BlockInfoContainer @CardCell .card-body")
       .should("exist")
       .and("not.be.empty");
 
-    cy.get(".content-title").then(($el) => {
+    cy.get("@ContentHeader").then(($el) => {
       if (
         $el.children("h2").length > 0 &&
         $el.children("h2").text() === "Transactions"
@@ -48,9 +48,9 @@ context("Blocks List page", () => {
         cy.get(
           ".infinite-scroll-component__outerdiv .infinite-scroll-component"
         ).then(($childEl) => {
-          if ($childEl.find(".action-sparse-row").length > 0) {
+          if ($childEl.find("@ActionRow@type-sparse").length > 0) {
             cy.get($childEl.toString())
-              .find(".action-sparse-row")
+              .find("@ActionRow@type-sparse")
               .should("exist")
               .and("not.be.empty");
           } else {

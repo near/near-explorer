@@ -1,7 +1,7 @@
 import { FC, useState, useCallback } from "react";
 import { Badge, Row, Col } from "react-bootstrap";
 
-import { TableRow, TableCollapseRow } from "../utils/Table";
+import { TableRow, TableCollapseRow, OrderTableCell } from "../utils/Table";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
 import TransactionLink from "../utils/TransactionLink";
@@ -10,6 +10,64 @@ import ValidatingLabel from "./ValidatingLabel";
 import { useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { NodeInfo } from "../../libraries/wamp/types";
+import { styled } from "../../libraries/styles";
+
+const OnlineNodesText = styled(Col, {
+  fontWeight: 500,
+  fontSize: 14,
+  color: "#3f4045",
+});
+
+const OnlineNodeLabel = styled(Col, {
+  marginRight: 24,
+  flex: "0 0 auto",
+  width: 55,
+});
+
+const OnlineNodesContentRow = styled(Row, {
+  paddingTop: 16,
+  paddingBottom: 16,
+  "& > .col": {
+    padding: "0 22px",
+    borderRight: "1px solid #e5e5e6",
+  },
+  "& > .col:last-child": {
+    borderRight: "none",
+  },
+});
+
+const OnlineNodesDetailsTitle = styled(Col, {
+  display: "flex",
+  flexWrap: "nowrap",
+  fontSize: 12,
+  color: "#a2a2a8",
+});
+
+export const AgentNameBadge = styled(Badge, {
+  backgroundColor: "#f0f0f1",
+  color: "#72727a",
+  fontWeight: 500,
+  fontSize: 12,
+  fontFamily: '"Roboto Mono", monospace',
+});
+
+const NodeStatus = styled(Col, {
+  fontSize: 12,
+  lineHeight: "18px",
+  color: "#4a4f54",
+});
+
+const IconCell = styled("td", {
+  width: 48,
+});
+
+const IconCellIcon = styled("img", {
+  width: 16,
+});
+
+const LocalOrderTableCell = styled(OrderTableCell, {
+  width: 48,
+});
 
 interface Props {
   node: NodeInfo;
@@ -36,32 +94,31 @@ const NodeRow: FC<Props> = ({ node, index }) => {
 
   return (
     <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
+        rel="stylesheet"
+      />
+
       <TableRow
         className="online-nodes-row"
         collapse={isRowActive}
         key={node.accountId}
       >
-        <td onClick={switchRowActive} style={{ width: "48px" }}>
-          {isRowActive ? (
-            <img
-              src="/static/images/icon-minimize.svg"
-              style={{ width: "16px" }}
-            />
-          ) : (
-            <img
-              src="/static/images/icon-maximize.svg"
-              style={{ width: "16px" }}
-            />
-          )}
-        </td>
+        <IconCell onClick={switchRowActive}>
+          <IconCellIcon
+            src={
+              isRowActive
+                ? "/static/images/icon-minimize.svg"
+                : "/static/images/icon-maximize.svg"
+            }
+          />
+        </IconCell>
 
-        <td className="order" style={{ width: "48px" }}>
-          {index}
-        </td>
+        <LocalOrderTableCell>{index}</LocalOrderTableCell>
 
         <td>
           <Row noGutters className="align-items-center">
-            <Col xs="2" className="online-node-label">
+            <OnlineNodeLabel xs="2">
               <ValidatingLabel
                 type="active"
                 text={t("component.nodes.NodeRow.online.text")}
@@ -69,31 +126,26 @@ const NodeRow: FC<Props> = ({ node, index }) => {
               >
                 {t("component.nodes.NodeRow.online.title")}
               </ValidatingLabel>
-            </Col>
+            </OnlineNodeLabel>
 
             <Col xs="10">
               <Row noGutters>
                 {node.accountId && (
-                  <Col
-                    title={`@${node.accountId}`}
-                    className="online-nodes-text"
-                  >
+                  <OnlineNodesText title={`@${node.accountId}`}>
                     {node.accountId.substring(0, 20)}...
-                  </Col>
+                  </OnlineNodesText>
                 )}
               </Row>
               {node.status && (
                 <Row>
-                  <Col className="node-status">
-                    {statusIdentifier.get(node.status)}
-                  </Col>
+                  <NodeStatus>{statusIdentifier.get(node.status)}</NodeStatus>
                 </Row>
               )}
               {node.nodeId && (
                 <Row noGutters>
-                  <Col title={node.nodeId} className="online-nodes-text">
+                  <OnlineNodesText title={node.nodeId}>
                     <TransactionLink transactionHash={node.nodeId} />
-                  </Col>
+                  </OnlineNodesText>
                 </Row>
               )}
             </Col>
@@ -101,27 +153,24 @@ const NodeRow: FC<Props> = ({ node, index }) => {
         </td>
       </TableRow>
 
-      <TableCollapseRow
-        className="online-nodes-details-row"
-        collapse={isRowActive}
-      >
+      <TableCollapseRow collapse={isRowActive}>
         <td colSpan={3}>
-          <Row noGutters className="online-nodes-content-row">
-            <Col xs="3" className="online-nodes-content-cell">
+          <OnlineNodesContentRow noGutters>
+            <Col xs="3">
               <Row noGutters>
-                <Col className="online-nodes-details-title">
+                <OnlineNodesDetailsTitle>
                   <Term
                     title={"Latest block"}
                     text={"Latest block explain text"}
                   />
-                </Col>
+                </OnlineNodesDetailsTitle>
               </Row>
               <Row noGutters>
                 {node && (
-                  <Col
-                    className={`${
+                  <OnlineNodesText
+                    className={
                       latestBlockHeight === undefined
-                        ? ""
+                        ? undefined
                         : Math.abs(
                             node.lastHeight - latestBlockHeight.toNumber()
                           ) > 1000
@@ -130,47 +179,47 @@ const NodeRow: FC<Props> = ({ node, index }) => {
                             node.lastHeight - latestBlockHeight.toNumber()
                           ) > 50
                         ? "text-warning"
-                        : ""
-                    } online-nodes-text`}
+                        : undefined
+                    }
                     md={3}
                   >
                     {` ${node.lastHeight}`}
-                  </Col>
+                  </OnlineNodesText>
                 )}
               </Row>
             </Col>
 
-            <Col xs="3" className="online-nodes-content-cell">
+            <Col xs="3">
               <Row noGutters>
-                <Col className="online-nodes-details-title">
+                <OnlineNodesDetailsTitle>
                   <Term
                     title={"Latest Telemetry Update"}
                     text={"Latest Telemetry Update explain text"}
                   />
-                </Col>
+                </OnlineNodesDetailsTitle>
               </Row>
               <Row noGutters>
-                <Col className="online-nodes-text">
+                <OnlineNodesText>
                   {node?.lastSeen ? <Timer time={node.lastSeen} /> : "..."}
-                </Col>
+                </OnlineNodesText>
               </Row>
             </Col>
 
-            <Col xs="3" className="online-nodes-content-cell">
+            <Col xs="3">
               <Row noGutters>
-                <Col className="online-nodes-details-title">
+                <OnlineNodesDetailsTitle>
                   <Term
                     title={"Node Agent Name"}
                     text={"Node Agent Name explain text"}
                   />
-                </Col>
+                </OnlineNodesDetailsTitle>
               </Row>
               <Row noGutters>
                 <Col>
                   {node ? (
-                    <Badge variant="secondary" className="agent-name-badge">
+                    <AgentNameBadge variant="secondary">
                       {node.agentName}
-                    </Badge>
+                    </AgentNameBadge>
                   ) : (
                     "..."
                   )}
@@ -178,80 +227,31 @@ const NodeRow: FC<Props> = ({ node, index }) => {
               </Row>
             </Col>
 
-            <Col xs="3" className="online-nodes-content-cell">
+            <Col xs="3">
               <Row noGutters>
-                <Col className="online-nodes-details-title">
+                <OnlineNodesDetailsTitle>
                   <Term
                     title={"Node Agent Version / Build"}
                     text={"Node Agent Version / Build explain text"}
                   />
-                </Col>
+                </OnlineNodesDetailsTitle>
               </Row>
               <Row noGutters>
                 <Col>
                   {node ? (
-                    <Badge variant="secondary" className="agent-name-badge">
+                    <AgentNameBadge variant="secondary">
                       {" "}
                       v{node.agentVersion} / {node.agentBuild}
-                    </Badge>
+                    </AgentNameBadge>
                   ) : (
                     "..."
                   )}
                 </Col>
               </Row>
             </Col>
-          </Row>
+          </OnlineNodesContentRow>
         </td>
       </TableCollapseRow>
-      <style global jsx>{`
-        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
-
-        .online-nodes-text {
-          font-weight: 500;
-          font-size: 14px;
-          color: #3f4045;
-        }
-
-        .online-node-label {
-          margin-right: 24px;
-          flex: 0 0 auto;
-          width: 55px;
-        }
-
-        .online-nodes-content-row {
-          padding-top: 16px;
-          padding-bottom: 16px;
-        }
-        .online-nodes-content-row > .online-nodes-content-cell {
-          padding: 0 22px;
-          border-right: 1px solid #e5e5e6;
-        }
-
-        .online-nodes-content-row > .online-nodes-content-cell:last-child {
-          border-right: none;
-        }
-
-        .online-nodes-details-title {
-          display: flex;
-          flex-wrap: nowrap;
-          font-size: 12px;
-          color: #a2a2a8;
-        }
-
-        .agent-name-badge {
-          background-color: #f0f0f1;
-          color: #72727a;
-          font-weight: 500;
-          font-size: 12px;
-          font-family: "Roboto Mono", monospace;
-        }
-
-        .node-status {
-          font-size: 12px;
-          line-height: 18px;
-          color: #4a4f54;
-        }
-      `}</style>
     </>
   );
 };

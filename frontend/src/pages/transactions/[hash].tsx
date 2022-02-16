@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import TransactionIcon from "../../../public/static/images/icon-t-transactions.svg";
+import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
 
 import ActionsList from "../../components/transactions/ActionsList";
 import ReceiptRow from "../../components/transactions/ReceiptRow";
@@ -24,6 +24,11 @@ import {
 } from "../../libraries/wamp/types";
 import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
+import { styled } from "../../libraries/styles";
+
+const TransactionIcon = styled(TransactionIconSvg, {
+  width: 22,
+});
 
 type Props = {
   hash: string;
@@ -63,8 +68,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
       </Content>
       {transaction && (
         <Content
-          size="medium"
-          icon={<TransactionIcon style={{ width: "22px" }} />}
+          icon={<TransactionIcon />}
           title={<h2>{t("common.actions.actions")}</h2>}
         >
           <ActionsList
@@ -80,8 +84,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
 
       {transaction?.receipt && (
         <Content
-          size="medium"
-          icon={<TransactionIcon style={{ width: "22px" }} />}
+          icon={<TransactionIcon />}
           title={<h2>{t("page.transactions.transaction_execution_plan")}</h2>}
         >
           {transaction.transactionOutcome && (

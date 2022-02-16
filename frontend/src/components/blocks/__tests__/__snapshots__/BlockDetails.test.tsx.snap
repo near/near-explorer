@@ -1,1011 +1,377 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<BlockDetails /> renders 1`] = `
-Array [
+<div
+  className="row no-gutters"
+>
   <div
-    className="row no-gutters"
+    className="c-BlockInfoContainer-doofdi col"
   >
     <div
-      className="block-info-container col"
+      className="c-BlockInfoHeader-bSgWFi row no-gutters"
     >
       <div
-        className="block-info-header row no-gutters"
+        className="col-md-4"
       >
         <div
-          className="col-md-4"
+          className="c-CardCellWrapper-gHjrDY border-0 card"
         >
           <div
-            className="card-cell border-0 card"
+            className="card-body"
           >
             <div
-              className="card-body"
+              className="row no-gutters"
             >
               <div
-                className="row no-gutters"
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
               >
+                <img
+                  className="c-CardCellTitleImage-dihKuo"
+                  src="/static/images/icon-m-transaction.svg"
+                />
+                component.blocks.BlockDetails.transactions.title
                 <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
+                  className="c-TermHelper-gkIpUV"
+                  onClick={[Function]}
                 >
                   <img
-                    className="card-cell-title-img"
-                    src="/static/images/icon-m-transaction.svg"
-                  />
-                  component.blocks.BlockDetails.transactions.title
-                  <div
-                    className="term-helper"
+                    className="c-TermInfoIcon-leEap"
                     onClick={[Function]}
-                  >
-                    <img
-                      className="info"
-                      onClick={[Function]}
-                      src="/static/images/icon-info.svg"
-                    />
-                    <style
-                      global={true}
-                      jsx={true}
-                    >
-                      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                    </style>
-                  </div>
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  3
-                </div>
-              </div>
-            </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
-          </div>
-        </div>
-        <div
-          className="col-md-4"
-        >
-          <div
-            className="card-cell  card"
-          >
-            <div
-              className="card-body"
-            >
-              <div
-                className="row no-gutters"
-              >
-                <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
-                >
-                  component.blocks.BlockDetails.receipts.title
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  5
-                </div>
-              </div>
-            </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
-          </div>
-        </div>
-        <div
-          className="col-md-4"
-        >
-          <div
-            className="card-cell  card"
-          >
-            <div
-              className="card-body"
-            >
-              <div
-                className="row no-gutters"
-              >
-                <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
-                >
-                  <img
-                    className="card-cell-title-img"
-                    src="/static/images/icon-t-status.svg"
+                    src="/static/images/icon-info.svg"
                   />
-                  component.blocks.BlockDetails.status.title
-                  <div
-                    className="term-helper"
-                    onClick={[Function]}
-                  >
-                    <img
-                      className="info"
-                      onClick={[Function]}
-                      src="/static/images/icon-info.svg"
-                    />
-                    <style
-                      global={true}
-                      jsx={true}
-                    >
-                      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                    </style>
-                  </div>
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  common.blocks.status.checking_finality
                 </div>
               </div>
+              <div
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
+              >
+                3
+              </div>
             </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
           </div>
         </div>
       </div>
       <div
-        className="row no-gutters"
+        className="col-md-4"
       >
         <div
-          className="col-md-4"
+          className="c-CardCellWrapper-gHjrDY card"
         >
           <div
-            className="card-cell border-0 card"
+            className="card-body"
           >
             <div
-              className="card-body"
+              className="row no-gutters"
             >
               <div
-                className="row no-gutters"
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
               >
-                <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
-                >
-                  component.blocks.BlockDetails.author.title
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  <span
-                    onClick={[Function]}
-                  >
-                    <a
-                      className="account-link"
-                      href="/accounts/near.near"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                    >
-                      near.near
-                    </a>
-                  </span>
-                  <style
-                    jsx={true}
-                  >
-                    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-                  </style>
-                </div>
+                component.blocks.BlockDetails.receipts.title
               </div>
-            </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
-          </div>
-        </div>
-        <div
-          className="col-md-4"
-        >
-          <div
-            className="card-cell  card"
-          >
-            <div
-              className="card-body"
-            >
               <div
-                className="row no-gutters"
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
               >
-                <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
-                >
-                  <img
-                    className="card-cell-title-img"
-                    src="/static/images/icon-m-size.svg"
-                  />
-                  component.blocks.BlockDetails.gas_used.title
-                  <div
-                    className="term-helper"
-                    onClick={[Function]}
-                  >
-                    <img
-                      className="info"
-                      onClick={[Function]}
-                      src="/static/images/icon-info.svg"
-                    />
-                    <style
-                      global={true}
-                      jsx={true}
-                    >
-                      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                    </style>
-                  </div>
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  1000 gas
-                </div>
+                5
               </div>
             </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
-          </div>
-        </div>
-        <div
-          className="col-md-4"
-        >
-          <div
-            className="card-cell  card"
-          >
-            <div
-              className="card-body"
-            >
-              <div
-                className="row no-gutters"
-              >
-                <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
-                >
-                  <img
-                    className="card-cell-title-img"
-                    src="/static/images/icon-m-filter.svg"
-                  />
-                  component.blocks.BlockDetails.gas_price.title
-                  <div
-                    className="term-helper"
-                    onClick={[Function]}
-                  >
-                    <img
-                      className="info"
-                      onClick={[Function]}
-                      src="/static/images/icon-info.svg"
-                    />
-                    <style
-                      global={true}
-                      jsx={true}
-                    >
-                      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                    </style>
-                  </div>
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  <span
-                    onBlur={[Function]}
-                    onFocus={[Function]}
-                    onMouseOut={[Function]}
-                    onMouseOver={[Function]}
-                  >
-                    &lt;0.00001
-                     Ⓝ/Tgas
-                  </span>
-                </div>
-              </div>
-            </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
           </div>
         </div>
       </div>
       <div
-        className="row no-gutters"
+        className="col-md-4"
       >
         <div
-          className="col-md-4"
+          className="c-CardCellWrapper-gHjrDY card"
         >
           <div
-            className="card-cell block-card-created border-0 card"
+            className="card-body"
           >
             <div
-              className="card-body"
+              className="row no-gutters"
             >
               <div
-                className="row no-gutters"
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
               >
+                <img
+                  className="c-CardCellTitleImage-dihKuo"
+                  src="/static/images/icon-t-status.svg"
+                />
+                component.blocks.BlockDetails.status.title
                 <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
+                  className="c-TermHelper-gkIpUV"
+                  onClick={[Function]}
                 >
-                  component.blocks.BlockDetails.created.title
-                  <div
-                    className="term-helper"
+                  <img
+                    className="c-TermInfoIcon-leEap"
                     onClick={[Function]}
-                  >
-                    <img
-                      className="info"
-                      onClick={[Function]}
-                      src="/static/images/icon-info.svg"
-                    />
-                    <style
-                      global={true}
-                      jsx={true}
-                    >
-                      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                    </style>
-                  </div>
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  co00on.5amt5_ti05.5amt5_ti05_for0amt
+                    src="/static/images/icon-info.svg"
+                  />
                 </div>
               </div>
-            </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
-          </div>
-        </div>
-        <div
-          className="col-md-8"
-        >
-          <div
-            className="card-cell  card"
-          >
-            <div
-              className="card-body"
-            >
               <div
-                className="row no-gutters"
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
               >
-                <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
-                >
-                  component.blocks.BlockDetails.hash.title
-                  <div
-                    className="term-helper"
-                    onClick={[Function]}
-                  >
-                    <img
-                      className="info"
-                      onClick={[Function]}
-                      src="/static/images/icon-info.svg"
-                    />
-                    <style
-                      global={true}
-                      jsx={true}
-                    >
-                      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                    </style>
-                  </div>
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
-                </div>
+                common.blocks.status.checking_finality
               </div>
             </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
-          </div>
-        </div>
-      </div>
-      <div
-        className="row no-gutters"
-      >
-        <div
-          className="col-md-12"
-        >
-          <div
-            className="card-cell block-card-parent-hash border-0 card"
-          >
-            <div
-              className="card-body"
-            >
-              <div
-                className="row no-gutters"
-              >
-                <div
-                  className="card-cell-title align-self-center col-md-12 col-auto"
-                >
-                  component.blocks.BlockDetails.parent_hash.title
-                  <div
-                    className="term-helper"
-                    onClick={[Function]}
-                  >
-                    <img
-                      className="info"
-                      onClick={[Function]}
-                      src="/static/images/icon-info.svg"
-                    />
-                    <style
-                      global={true}
-                      jsx={true}
-                    >
-                      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                    </style>
-                  </div>
-                </div>
-                <div
-                  className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
-                >
-                  <span
-                    onClick={[Function]}
-                  >
-                    <a
-                      className="block-link"
-                      href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                    >
-                      EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-            </style>
           </div>
         </div>
       </div>
     </div>
-  </div>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .block-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .block-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
-        .block-info-container &gt; .row:last-of-type {
-          border-bottom: 0;
-        }
-
-        .block-info-header .card-cell-text {
-          font-size: 24px;
-        }
-
-        .block-card-created-text {
-          font-size: 18px;
-          font-weight: 500;
-          color: #4a4f54;
-        }
-
-        .block-card-parent-hash {
-          background-color: #f8f8f8;
-        }
-
-        @media (max-width: 768px) {
-          .block-info-container .card-cell {
-            border-left: 0;
-          }
-        }
-      
-  </style>,
-]
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="col-md-4"
+      >
+        <div
+          className="c-CardCellWrapper-gHjrDY border-0 card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
+              >
+                component.blocks.BlockDetails.author.title
+              </div>
+              <div
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    className="c-AccountLinkWrapper-dbzzBd"
+                    href="/accounts/near.near"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    near.near
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-md-4"
+      >
+        <div
+          className="c-CardCellWrapper-gHjrDY card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
+              >
+                <img
+                  className="c-CardCellTitleImage-dihKuo"
+                  src="/static/images/icon-m-size.svg"
+                />
+                component.blocks.BlockDetails.gas_used.title
+                <div
+                  className="c-TermHelper-gkIpUV"
+                  onClick={[Function]}
+                >
+                  <img
+                    className="c-TermInfoIcon-leEap"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
+              </div>
+              <div
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
+              >
+                1000 gas
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-md-4"
+      >
+        <div
+          className="c-CardCellWrapper-gHjrDY card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
+              >
+                <img
+                  className="c-CardCellTitleImage-dihKuo"
+                  src="/static/images/icon-m-filter.svg"
+                />
+                component.blocks.BlockDetails.gas_price.title
+                <div
+                  className="c-TermHelper-gkIpUV"
+                  onClick={[Function]}
+                >
+                  <img
+                    className="c-TermInfoIcon-leEap"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
+              </div>
+              <div
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
+              >
+                <span
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  &lt;0.00001
+                   Ⓝ/Tgas
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="col-md-4"
+      >
+        <div
+          className="c-CardCellWrapper-gHjrDY border-0 card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
+              >
+                component.blocks.BlockDetails.created.title
+                <div
+                  className="c-TermHelper-gkIpUV"
+                  onClick={[Function]}
+                >
+                  <img
+                    className="c-TermInfoIcon-leEap"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
+              </div>
+              <div
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
+              >
+                co00on.5amt5_ti05.5amt5_ti05_for0amt
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="col-md-8"
+      >
+        <div
+          className="c-CardCellWrapper-gHjrDY card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
+              >
+                component.blocks.BlockDetails.hash.title
+                <div
+                  className="c-TermHelper-gkIpUV"
+                  onClick={[Function]}
+                >
+                  <img
+                    className="c-TermInfoIcon-leEap"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
+              </div>
+              <div
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
+              >
+                EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      className="row no-gutters"
+    >
+      <div
+        className="col-md-12"
+      >
+        <div
+          className="c-CardCellWrapper-gHjrDY c-ParentHashCell-jlBwPJ border-0 card"
+        >
+          <div
+            className="card-body"
+          >
+            <div
+              className="row no-gutters"
+            >
+              <div
+                className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
+              >
+                component.blocks.BlockDetails.parent_hash.title
+                <div
+                  className="c-TermHelper-gkIpUV"
+                  onClick={[Function]}
+                >
+                  <img
+                    className="c-TermInfoIcon-leEap"
+                    onClick={[Function]}
+                    src="/static/images/icon-info.svg"
+                  />
+                </div>
+              </div>
+              <div
+                className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
+              >
+                <span
+                  onClick={[Function]}
+                >
+                  <a
+                    href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                  >
+                    EVvWW1S9BFaEjY1JBNSdstb7Zjghjlyguiygfhgu
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `;

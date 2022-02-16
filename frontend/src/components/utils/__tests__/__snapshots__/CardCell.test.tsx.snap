@@ -2,7 +2,7 @@
 
 exports[`<CardCell /> renders 1`] = `
 <div
-  className="card-cell  card"
+  className="c-CardCellWrapper-gHjrDY card"
 >
   <div
     className="card-body"
@@ -11,66 +11,16 @@ exports[`<CardCell /> renders 1`] = `
       className="row no-gutters"
     >
       <div
-        className="card-cell-title align-self-center col-md-12 col-auto"
+        className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
       >
         title
       </div>
       <div
-        className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+        className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
       >
         text
       </div>
     </div>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-  </style>
 </div>
 `;

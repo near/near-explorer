@@ -1,11 +1,32 @@
-import { FC } from "react";
+import React, { FC } from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
+import { styled } from "../../libraries/styles";
+import cx from "classnames";
+
+const ContentContainer = styled(Container, {
+  width: "100%",
+});
+
+export const ContentHeader = styled(Row, {
+  padding: "2em 0.9375em 1em",
+  marginLeft: 0,
+  marginRight: 0,
+
+  variants: {
+    bordered: {
+      true: {
+        borderBottom: "4px solid #e5e5e5",
+        marginBottom: "1em",
+      },
+    },
+  },
+});
 
 export interface Props {
   title?: React.ReactNode;
   header?: React.ReactNode;
-  size?: "big" | "medium";
+  overrideHeader?: React.FC<React.ComponentProps<typeof ContentHeader>>;
   border?: boolean;
   fluid?: boolean;
   contentFluid?: boolean;
@@ -14,80 +35,45 @@ export interface Props {
 }
 
 const Content: FC<Props> = ({
-  size = "big",
   border = true,
   icon,
-  className = "",
+  className,
   title,
   fluid,
   contentFluid,
   header,
+  overrideHeader,
   children,
-}) => (
-  <Container
-    className={`content-container content-${size} ${className}`}
-    fluid={fluid}
-  >
-    {title ? (
-      <Row className={`content-header ${border ? "with-border" : ""}`}>
-        <Col className="px-0">
-          <Row>
-            {icon ? (
-              <Col xs="auto" className="content-icon-col">
-                {icon}
+}) => {
+  const Header = overrideHeader || ContentHeader;
+  return (
+    <ContentContainer className={className} fluid={fluid}>
+      {title ? (
+        <Header bordered={border}>
+          <Col className="px-0">
+            <Row>
+              {icon ? <Col xs="auto">{icon}</Col> : null}
+              <Col
+                className={cx(
+                  "text-md-left",
+                  "text-center",
+                  icon ? "px-0" : undefined
+                )}
+              >
+                {title}
               </Col>
-            ) : null}
-            <Col
-              className={`${
-                icon ? "px-0" : ""
-              } content-title text-md-left text-center`}
-            >
-              {title}
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    ) : header ? (
-      <Row className={`content-header ${border ? "with-border" : ""}`}>
-        <Col className="px-0">{header}</Col>
-      </Row>
-    ) : null}
+            </Row>
+          </Col>
+        </Header>
+      ) : header ? (
+        <Header bordered={border}>
+          <Col className="px-0">{header}</Col>
+        </Header>
+      ) : null}
 
-    <Container fluid={contentFluid}>{children}</Container>
-
-    <style jsx global>{`
-      .content-container {
-        width: 100%;
-      }
-
-      .content-header {
-        padding: 2em 0.9375em 1em;
-        margin-left: 0;
-        margin-right: 0;
-      }
-
-      .content-header.with-border {
-        border-bottom: 4px solid #e5e5e5;
-        margin-bottom: 1em;
-      }
-
-      .content-title-total {
-        color: rgba(0, 0, 0, 0.4);
-      }
-
-      .content-big .content-title-total {
-        font-size: 50px;
-      }
-
-      .content-medium .content-title-total {
-        font-size: 26px;
-      }
-
-      .content-title-margin {
-        border-top: 4px solid rgba(0, 0, 0, 0.1);
-      }
-    `}</style>
-  </Container>
-);
+      <Container fluid={contentFluid}>{children}</Container>
+    </ContentContainer>
+  );
+};
 
 export default Content;

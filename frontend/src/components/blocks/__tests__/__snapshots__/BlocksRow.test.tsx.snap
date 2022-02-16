@@ -5,17 +5,13 @@ exports[`<BlocksRow /> renders 1`] = `
   onClick={[Function]}
 >
   <a
+    className="c-LinkWrapper-cIdiJW"
     href="/blocks/EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL"
     onClick={[Function]}
     onMouseEnter={[Function]}
-    style={
-      Object {
-        "textDecoration": "none",
-      }
-    }
   >
     <div
-      className="transaction-row mx-0  row"
+      className="c-TransactionRow-lhkeTw mx-0 row"
     >
       <div
         className="pr-0 col-md-auto col-1"
@@ -28,12 +24,8 @@ exports[`<BlocksRow /> renders 1`] = `
         className="pr-0 col-md-auto col-1"
       >
         <img
+          className="c-BlockIcon-dPulhb"
           src="/static/images/icon-m-block.svg"
-          style={
-            Object {
-              "width": "20px",
-            }
-          }
         />
       </div>
       <div
@@ -43,7 +35,7 @@ exports[`<BlocksRow /> renders 1`] = `
           className="row"
         >
           <div
-            className="transaction-row-title col"
+            className="c-TransactionRowTitle-bvTgKA col"
           >
             #
             12345
@@ -53,7 +45,7 @@ exports[`<BlocksRow /> renders 1`] = `
           className="row"
         >
           <div
-            className="transaction-row-text col"
+            className="c-TransactionRowText-kkbyDv col"
           >
             <div
               className="row"
@@ -62,12 +54,8 @@ exports[`<BlocksRow /> renders 1`] = `
                 className="col-md-auto"
               >
                 <img
+                  className="c-TransactionIcon-hDGfVG"
                   src="/static/images/icon-m-transaction.svg"
-                  style={
-                    Object {
-                      "width": "12px",
-                    }
-                  }
                 />
                  3
               </div>
@@ -82,7 +70,7 @@ exports[`<BlocksRow /> renders 1`] = `
           className="row"
         >
           <div
-            className="transaction-row-txid col"
+            className="c-TransactionRowTransactionId-lbSlCc col"
           >
             EVvWW1S...
           </div>
@@ -91,10 +79,10 @@ exports[`<BlocksRow /> renders 1`] = `
           className="row"
         >
           <div
-            className="transaction-row-timer col"
+            className="c-TransactionRowTimer-iiZTaa col"
           >
             <span
-              className="transaction-row-timer-status"
+              className="c-TransactionRowTimerStatus-cJbzxd"
             >
               common.blocks.status.checking_finality
             </span>
@@ -105,53 +93,6 @@ exports[`<BlocksRow /> renders 1`] = `
           </div>
         </div>
       </div>
-      <style
-        global={true}
-        jsx={true}
-      >
-        
-            .transaction-row {
-              padding-top: 10px;
-              padding-bottom: 10px;
-              border-top: solid 2px #f8f8f8;
-            }
-
-            .transaction-row:hover {
-              background: rgba(0, 0, 0, 0.1);
-            }
-
-            .transaction-row-title {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #24272a;
-            }
-
-            .transaction-row-text {
-              font-size: 12px;
-              font-weight: 500;
-              line-height: 1.5;
-              color: #999999;
-            }
-
-            .transaction-row-txid {
-              font-size: 14px;
-              font-weight: 500;
-              line-height: 1.29;
-              color: #0072ce;
-            }
-
-            .transaction-row-timer {
-              font-size: 12px;
-              color: #999999;
-              font-weight: 100;
-            }
-
-            .transaction-row-timer-status {
-              font-weight: 500;
-            }
-          
-      </style>
     </div>
   </a>
 </span>

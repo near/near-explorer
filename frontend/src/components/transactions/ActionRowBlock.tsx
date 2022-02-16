@@ -5,6 +5,129 @@ import AccountLink from "../utils/AccountLink";
 import Timer from "../utils/Timer";
 
 import { useTranslation } from "react-i18next";
+import { styled } from "../../libraries/styles";
+
+const ActionRowImage = styled("div", {
+  variants: {
+    type: {
+      sparse: {
+        margin: 10,
+        display: "inline",
+        height: 20,
+        width: 20,
+
+        "& svg": {
+          height: 16,
+          width: 16,
+        },
+      },
+      compact: {
+        width: 24,
+        height: 24,
+        border: "solid 2px #f8f8f8",
+        backgroundColor: "#ffffff",
+        borderRadius: "50%",
+        marginRight: 8,
+        textAlign: "center",
+        lineHeight: 1.1,
+
+        "& svg": {
+          height: 12,
+          width: 12,
+        },
+      },
+    },
+  },
+});
+
+const ActionRowMessage = styled(Row, {
+  variants: {
+    type: {
+      compact: {
+        marginBottom: "1em",
+      },
+      sparse: {},
+    },
+  },
+});
+
+const ActionRowDetails = styled(Col, {
+  "& &": {
+    border: 0,
+  },
+  variants: {
+    type: {
+      compact: {
+        borderBottom: "2px solid #f8f8f8",
+        margin: "0.1em 0 0",
+        paddingBottom: 8,
+      },
+      sparse: {},
+    },
+  },
+});
+
+const ActionRowTitle = styled(Col, {
+  fontSize: 14,
+  fontWeight: 500,
+  color: "#24272a",
+
+  "& a": {
+    color: "#666",
+  },
+
+  "& a:hover": {
+    color: "#24272a",
+  },
+});
+
+const ActionRowText = styled(Col, {
+  fontSize: 12,
+  fontWeight: 500,
+  lineHeight: 1.5,
+  color: "#999999",
+
+  "& a": {
+    color: "#999999",
+  },
+
+  "& a:hover": {
+    color: "#24272a",
+  },
+});
+
+const ActionRowTransaction = styled(Col, {
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: 1.29,
+  color: "#0072ce",
+});
+
+const ActionRowTimer = styled(Col, {
+  fontSize: 12,
+  color: "#999999",
+  fontWeight: 100,
+});
+
+const ActionRowTimerStatus = styled("span", {
+  fontWeight: 500,
+});
+
+const ActionRow = styled(Row, {
+  variants: {
+    type: {
+      sparse: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderTop: "solid 2px #f8f8f8",
+        "& &": {
+          borderTop: 0,
+        },
+      },
+      compact: {},
+    },
+  },
+});
 
 export type ViewMode = "sparse" | "compact";
 export type DetalizationMode = "detailed" | "minimal";
@@ -14,7 +137,6 @@ export interface Props {
   detailsLink?: React.ReactNode;
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;
-  className?: string;
   icon: React.ReactElement;
   title: React.ReactElement | string;
   children?: React.ReactNode;
@@ -25,7 +147,6 @@ export interface Props {
 const ActionRowBlock: FC<Props> = ({
   viewMode = "sparse",
   detalizationMode = "detailed",
-  className = "",
   signerId,
   blockTimestamp,
   detailsLink,
@@ -38,33 +159,33 @@ const ActionRowBlock: FC<Props> = ({
   const { t } = useTranslation();
   return (
     <>
-      <Row noGutters className={`action-${viewMode}-row mx-0 ${className}`}>
+      <ActionRow noGutters type={viewMode} className="mx-0">
         <Col xs="auto">
-          <div className="action-row-img">{icon}</div>
+          <ActionRowImage type={viewMode}>{icon}</ActionRowImage>
         </Col>
-        <Col className="action-row-details">
-          <Row noGutters className="action-row-message">
+        <ActionRowDetails type={viewMode}>
+          <ActionRowMessage type={viewMode} noGutters>
             <Col md="8" xs="7">
               <Row noGutters>
-                <Col className="action-row-title">{title}</Col>
+                <ActionRowTitle>{title}</ActionRowTitle>
               </Row>
               {detalizationMode === "detailed" ? (
                 <Row noGutters>
-                  <Col className="action-row-text">
+                  <ActionRowText>
                     {t("component.transactions.ActionRowBlock.by")}{" "}
                     <AccountLink accountId={signerId} />
-                  </Col>
+                  </ActionRowText>
                 </Row>
               ) : null}
             </Col>
             {detalizationMode === "detailed" ? (
               <Col md="4" xs="5" className="ml-auto text-right">
                 <Row>
-                  <Col className="action-row-txid">{detailsLink}</Col>
+                  <ActionRowTransaction>{detailsLink}</ActionRowTransaction>
                 </Row>
                 <Row>
-                  <Col className="action-row-timer">
-                    <span className="action-row-timer-status">
+                  <ActionRowTimer>
+                    <ActionRowTimerStatus>
                       {status ?? (
                         <>{t("common.blocks.status.fetching_status")}</>
                       )}
@@ -73,134 +194,16 @@ const ActionRowBlock: FC<Props> = ({
                         : isFinal === true
                         ? ""
                         : "/" + t("common.blocks.status.finalizing")}
-                    </span>{" "}
+                    </ActionRowTimerStatus>{" "}
                     {blockTimestamp && <Timer time={blockTimestamp} />}
-                  </Col>
+                  </ActionRowTimer>
                 </Row>
               </Col>
             ) : null}
-          </Row>
+          </ActionRowMessage>
           {children}
-        </Col>
-      </Row>
-
-      <style jsx global>
-        {`
-          .action-sparse-row {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-top: solid 2px #f8f8f8;
-          }
-          .action-sparse-row .action-sparse-row {
-            border-top: 0;
-          }
-
-          .action-compact-row .action-row-message {
-            margin-bottom: 1em;
-          }
-
-          .action-compact-row .action-row-details {
-            border-bottom: 2px solid #f8f8f8;
-            margin: 0.1em 0 0;
-            padding-bottom: 8px;
-          }
-
-          .action-row-details .action-row-details {
-            border: 0;
-          }
-
-          .action-compact-row .action-row-img {
-            width: 24px;
-            height: 24px;
-            border: solid 2px #f8f8f8;
-            background-color: #ffffff;
-            border-radius: 50%;
-            margin-right: 8px;
-            text-align: center;
-            line-height: 1.1;
-          }
-
-          .action-sparse-row .action-row-img {
-            margin: 10px;
-            display: inline;
-            height: 20px;
-            width: 20px;
-          }
-
-          .action-sparse-row .action-row-img svg {
-            height: 16px;
-            width: 16px;
-          }
-
-          .action-row-bottom {
-            border-bottom: solid 2px #f8f8f8;
-          }
-
-          .action-compact-row .action-row-img svg {
-            height: 12px;
-            width: 12px;
-          }
-
-          .action-sparse-row .action-row-toggler {
-            width: 10px;
-            margin: 10px;
-          }
-
-          .action-row-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #24272a;
-          }
-
-          .action-row-title a {
-            color: #666;
-          }
-
-          .action-row-title a:hover {
-            color: #24272a;
-          }
-
-          .action-row-text {
-            font-size: 12px;
-            font-weight: 500;
-            line-height: 1.5;
-            color: #999999;
-          }
-
-          .action-row-text a {
-            color: #999999;
-          }
-
-          .action-row-text a:hover {
-            color: #24272a;
-          }
-
-          .action-row-txid {
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.29;
-            color: #0072ce;
-          }
-
-          .action-row-timer {
-            font-size: 12px;
-            color: #999999;
-            font-weight: 100;
-          }
-
-          .action-row-timer-status {
-            font-weight: 500;
-          }
-
-          pre {
-            white-space: pre-wrap; /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
-            white-space: -pre-wrap; /* Opera 4-6 */
-            white-space: -o-pre-wrap; /* Opera 7 */
-            word-wrap: break-word; /* Internet Explorer 5.5+ */
-          }
-        `}
-      </style>
+        </ActionRowDetails>
+      </ActionRow>
     </>
   );
 };

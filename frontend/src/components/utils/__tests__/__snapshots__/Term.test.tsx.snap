@@ -4,33 +4,14 @@ exports[`<CardCell /> renders 1`] = `
 Array [
   "Nodes Online",
   <div
-    className="term-helper"
+    className="c-TermHelper-gkIpUV"
     onClick={[Function]}
   >
     <img
-      className="info"
+      className="c-TermInfoIcon-leEap"
       onClick={[Function]}
       src="/static/images/icon-info.svg"
     />
-    <style
-      global={true}
-      jsx={true}
-    >
-      
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-    </style>
   </div>,
 ]
 `;

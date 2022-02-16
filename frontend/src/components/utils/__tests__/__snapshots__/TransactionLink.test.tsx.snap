@@ -5,7 +5,6 @@ exports[`<TransactionLink /> renders 1`] = `
   onClick={[Function]}
 >
   <a
-    className="transaction-link"
     href="/transactions/H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b"
     onClick={[Function]}
     onMouseEnter={[Function]}

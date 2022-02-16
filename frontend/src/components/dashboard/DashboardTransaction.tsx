@@ -10,6 +10,19 @@ import Link from "../utils/Link";
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
 import { useChainTransactionStats } from "../../hooks/subscriptions";
 import { useLatestGasPrice } from "../../hooks/data";
+import { styled } from "../../libraries/styles";
+
+const TransactionCardNumber = styled(Row, {
+  "& > .col-12": {
+    borderBottom: "2px solid #f1f1f1",
+  },
+});
+
+const TransactionCharts = styled(Row, {
+  "@media (max-width: 768px)": {
+    marginBottom: 178,
+  },
+});
 
 const DashboardTransaction = () => {
   const { t } = useTranslation();
@@ -21,7 +34,7 @@ const DashboardTransaction = () => {
 
   return (
     <DashboardCard
-      className="transaction-card"
+      dataId="transactions"
       iconPath="/static/images/icon-transactions.svg"
       title={t("common.transactions.transactions")}
       headerRight={
@@ -30,7 +43,7 @@ const DashboardTransaction = () => {
         </Link>
       }
     >
-      <Row className="transaction-card-number">
+      <TransactionCardNumber>
         <Col xs="12" md="4">
           <LongCardCell
             title={
@@ -69,52 +82,14 @@ const DashboardTransaction = () => {
             }
           />
         </Col>
-      </Row>
+      </TransactionCardNumber>
       {transactionsCountHistoryForTwoWeeks ? (
-        <Row className="transaction-charts">
+        <TransactionCharts>
           <Col md="12">
             <DashboardTransactionsHistoryChart />
           </Col>
-        </Row>
+        </TransactionCharts>
       ) : null}
-      <style jsx global>{`
-        .transaction-card-number > .col-12 {
-          border-bottom: 2px solid #f1f1f1;
-        }
-
-        .chart-title {
-          font-weight: bold;
-          font-size: 16px;
-          line-height: 19px;
-          color: #00272c;
-          padding: 10px 24px;
-        }
-
-        .count-percent {
-          font-size: 14px;
-          font-weight: 300;
-          color: #00c08b;
-          margin-left: 12px;
-        }
-
-        .up-arrow {
-          width: 16px;
-          margin-top: -4px;
-        }
-
-        @media (max-width: 768px) {
-          .transaction-charts {
-            margin-bottom: 178px;
-          }
-        }
-
-        @media (max-width: 540px) {
-          .react_for_echarts {
-            margin-left: 24px;
-            margin-top: 26px;
-          }
-        }
-      `}</style>
     </DashboardCard>
   );
 };

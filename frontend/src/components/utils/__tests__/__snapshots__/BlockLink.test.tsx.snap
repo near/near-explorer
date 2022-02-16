@@ -5,7 +5,6 @@ exports[`<BlockLink /> renders 1`] = `
   onClick={[Function]}
 >
   <a
-    className="block-link"
     href="/blocks/H4CpspC1bqkykKG6dtCoGmLepvcyV2f2phfoqNAn5L2b"
     onClick={[Function]}
     onMouseEnter={[Function]}

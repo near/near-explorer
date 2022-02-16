@@ -2,16 +2,16 @@
 
 exports[`<TransactionDetails /> renders no deposit 1`] = `
 <div
-  className="transaction-info-container"
+  className="c-TransactionInfoContainer-gTnqfS"
 >
   <div
-    className="header-row row no-gutters"
+    className="PJLV row no-gutters"
   >
     <div
       className="col-md-5"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -20,51 +20,32 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-user.svg"
               />
               component.transactions.TransactionDetails.signed_by.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="account-link"
+                  className="c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/signer.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -72,75 +53,16 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   signer.test
                 </a>
               </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-4"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -149,51 +71,32 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-user.svg"
               />
               component.transactions.TransactionDetails.receiver.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="account-link"
+                  className="c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -201,75 +104,16 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
                   receiver.test
                 </a>
               </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -278,52 +122,29 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-t-status.svg"
               />
               component.transactions.TransactionDetails.status.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <div
-                style={
-                  Object {
-                    "fontSize": "21px",
-                  }
-                }
+                className="c-TransactionStatusWrapper-bPodHi"
               >
                 common.transactions.status.SuccessValue
                 /common.blocks.status.checking_finality
@@ -331,56 +152,6 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -391,7 +162,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -400,45 +171,26 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.transaction_fee.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onBlur={[Function]}
@@ -453,63 +205,13 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -518,45 +220,26 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-filter.svg"
               />
               component.transactions.TransactionDetails.deposit_value.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onBlur={[Function]}
@@ -571,63 +254,13 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -636,107 +269,38 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.gas_used.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               445 Ggas
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -745,100 +309,31 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.attached_gas.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               445 Ggas
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -849,7 +344,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -858,103 +353,34 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.created.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-8"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -963,96 +389,27 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.hash.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -1063,7 +420,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
       className="col-md-12"
     >
       <div
-        className="card-cell transaction-card-block-hash border-0 card"
+        className="c-CardCellWrapper-gHjrDY c-TransactionCardBlockHash-jlBwPJ border-0 card"
       >
         <div
           className="card-body"
@@ -1072,47 +429,27 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.block_hash.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="block-link"
                   href="/blocks/BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -1123,107 +460,24 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .transaction-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .transaction-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
-        .transaction-info-container &gt; .row:last-of-type {
-          border-bottom: 0;
-        }
-
-        .transaction-info-container .header-row .card-cell-text {
-          font-size: 24px;
-        }
-
-        .transaction-card-block-hash {
-          background-color: #f8f8f8;
-        }
-
-        @media (max-width: 767.98px) {
-          .transaction-info-container .border-sm-0 {
-            border: 0;
-          }
-        }
-      
-  </style>
 </div>
 `;
 
 exports[`<TransactionDetails /> renders with one small deposit 1`] = `
 <div
-  className="transaction-info-container"
+  className="c-TransactionInfoContainer-gTnqfS"
 >
   <div
-    className="header-row row no-gutters"
+    className="PJLV row no-gutters"
   >
     <div
       className="col-md-5"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -1232,51 +486,32 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-user.svg"
               />
               component.transactions.TransactionDetails.signed_by.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="account-link"
+                  className="c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/signer2.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -1284,75 +519,16 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   signer2.test
                 </a>
               </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-4"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1361,51 +537,32 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-user.svg"
               />
               component.transactions.TransactionDetails.receiver.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="account-link"
+                  className="c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver2.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -1413,75 +570,16 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
                   receiver2.test
                 </a>
               </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1490,52 +588,29 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-t-status.svg"
               />
               component.transactions.TransactionDetails.status.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <div
-                style={
-                  Object {
-                    "fontSize": "21px",
-                  }
-                }
+                className="c-TransactionStatusWrapper-bPodHi"
               >
                 common.transactions.status.SuccessValue
                 /common.blocks.status.checking_finality
@@ -1543,56 +618,6 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -1603,7 +628,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -1612,45 +637,26 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.transaction_fee.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onBlur={[Function]}
@@ -1665,63 +671,13 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1730,45 +686,26 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-filter.svg"
               />
               component.transactions.TransactionDetails.deposit_value.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onBlur={[Function]}
@@ -1783,63 +720,13 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1848,107 +735,38 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.gas_used.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               1 Mgas
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -1957,100 +775,31 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.attached_gas.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               2 Mgas
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -2061,7 +810,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -2070,103 +819,34 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.created.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-8"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -2175,96 +855,27 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.hash.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -2275,7 +886,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
       className="col-md-12"
     >
       <div
-        className="card-cell transaction-card-block-hash border-0 card"
+        className="c-CardCellWrapper-gHjrDY c-TransactionCardBlockHash-jlBwPJ border-0 card"
       >
         <div
           className="card-body"
@@ -2284,47 +895,27 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.block_hash.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="block-link"
                   href="/blocks/222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -2335,107 +926,24 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .transaction-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .transaction-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
-        .transaction-info-container &gt; .row:last-of-type {
-          border-bottom: 0;
-        }
-
-        .transaction-info-container .header-row .card-cell-text {
-          font-size: 24px;
-        }
-
-        .transaction-card-block-hash {
-          background-color: #f8f8f8;
-        }
-
-        @media (max-width: 767.98px) {
-          .transaction-info-container .border-sm-0 {
-            border: 0;
-          }
-        }
-      
-  </style>
 </div>
 `;
 
 exports[`<TransactionDetails /> renders with two big deposit 1`] = `
 <div
-  className="transaction-info-container"
+  className="c-TransactionInfoContainer-gTnqfS"
 >
   <div
-    className="header-row row no-gutters"
+    className="PJLV row no-gutters"
   >
     <div
       className="col-md-5"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -2444,51 +952,32 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-user.svg"
               />
               component.transactions.TransactionDetails.signed_by.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="account-link"
+                  className="c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/signer2.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -2496,75 +985,16 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   signer2.test
                 </a>
               </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-4"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -2573,51 +1003,32 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-user.svg"
               />
               component.transactions.TransactionDetails.receiver.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="account-link"
+                  className="c-AccountLinkWrapper-dbzzBd"
                   href="/accounts/receiver2.test"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -2625,75 +1036,16 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
                   receiver2.test
                 </a>
               </span>
-              <style
-                jsx={true}
-              >
-                
-        .account-link {
-          white-space: nowrap;
-        }
-      
-              </style>
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -2702,52 +1054,29 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-t-status.svg"
               />
               component.transactions.TransactionDetails.status.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <div
-                style={
-                  Object {
-                    "fontSize": "21px",
-                  }
-                }
+                className="c-TransactionStatusWrapper-bPodHi"
               >
                 common.transactions.status.SuccessValue
                 /common.blocks.status.checking_finality
@@ -2755,56 +1084,6 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -2815,7 +1094,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-3"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -2824,45 +1103,26 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.transaction_fee.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onBlur={[Function]}
@@ -2877,63 +1137,13 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -2942,45 +1152,26 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-filter.svg"
               />
               component.transactions.TransactionDetails.deposit_value.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onBlur={[Function]}
@@ -2995,63 +1186,13 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -3060,107 +1201,38 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.gas_used.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               123 Mgas
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-3"
     >
       <div
-        className="card-cell border-sm-0 card"
+        className="c-CardCellWrapper-gHjrDY border-sm-0 card"
       >
         <div
           className="card-body"
@@ -3169,100 +1241,31 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               <img
-                className="card-cell-title-img"
+                className="c-CardCellTitleImage-dihKuo"
                 src="/static/images/icon-m-size.svg"
               />
               component.transactions.TransactionDetails.attached_gas.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               123 Mgas
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -3273,7 +1276,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-4"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -3282,103 +1285,34 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.created.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               co00on.5amt5_ti05.5amt5_ti05_for0amt
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
     <div
       className="col-md-8"
     >
       <div
-        className="card-cell border-0 card"
+        className="c-CardCellWrapper-gHjrDY border-0 card"
       >
         <div
           className="card-body"
@@ -3387,96 +1321,27 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.hash.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               222eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVxxx
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
@@ -3487,7 +1352,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
       className="col-md-12"
     >
       <div
-        className="card-cell transaction-card-block-hash border-0 card"
+        className="c-CardCellWrapper-gHjrDY c-TransactionCardBlockHash-jlBwPJ border-0 card"
       >
         <div
           className="card-body"
@@ -3496,47 +1361,27 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             className="row no-gutters"
           >
             <div
-              className="card-cell-title align-self-center col-md-12 col-auto"
+              className="c-CardCellTitle-epaoYL align-self-center col-md-12 col-auto"
             >
               component.transactions.TransactionDetails.block_hash.title
               <div
-                className="term-helper"
+                className="c-TermHelper-gkIpUV"
                 onClick={[Function]}
               >
                 <img
-                  className="info"
+                  className="c-TermInfoIcon-leEap"
                   onClick={[Function]}
                   src="/static/images/icon-info.svg"
                 />
-                <style
-                  global={true}
-                  jsx={true}
-                >
-                  
-          .term-helper {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-          }
-
-          .term-helper .info {
-            vertical-align: text-bottom;
-            margin-left: 5px;
-            width: 16px;
-            cursor: pointer;
-          }
-        
-                </style>
               </div>
             </div>
             <div
-              className="ml-auto card-cell-text align-self-center col-md-12 col-auto"
+              className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="block-link"
                   href="/blocks/222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -3547,91 +1392,8 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             </div>
           </div>
         </div>
-        <style
-          global={true}
-          jsx={true}
-        >
-          
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    
-        </style>
       </div>
     </div>
   </div>
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .transaction-info-container {
-          border: solid 4px #e6e6e6;
-          border-radius: 4px;
-        }
-
-        .transaction-info-container &gt; .row {
-          border-bottom: 2px solid #e6e6e6;
-        }
-
-        .transaction-info-container &gt; .row:last-of-type {
-          border-bottom: 0;
-        }
-
-        .transaction-info-container .header-row .card-cell-text {
-          font-size: 24px;
-        }
-
-        .transaction-card-block-hash {
-          background-color: #f8f8f8;
-        }
-
-        @media (max-width: 767.98px) {
-          .transaction-info-container .border-sm-0 {
-            border: 0;
-          }
-        }
-      
-  </style>
 </div>
 `;

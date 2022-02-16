@@ -7,13 +7,13 @@ context("Nodes", () => {
 
   it("Check for node page", () => {
     cy.url().should("include", "/nodes/validators");
-    cy.get(".content-title h1").contains("Nodes");
+    cy.get("@NodesContentHeaderWrapper").contains("Nodes");
     // cy.get("#online-node").contains("Online-nodes");
   });
 
   it.skip("Check validators list", () => {
     cy.url().should("include", "/nodes/validators");
-    cy.get(".validator-nodes-row td", { timeout: 40000 }).should("exist");
+    cy.get("@TableRowWrapper", { timeout: 40000 }).should("exist");
   });
 
   // it("Check online nodes tab", () => {

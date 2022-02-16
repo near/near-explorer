@@ -1,4 +1,49 @@
 import { Row, Col, Card, Spinner } from "react-bootstrap";
+import { styled } from "../../libraries/styles";
+import { TermInfoIcon } from "./Term";
+
+export const CardCellWrapper = styled(Card, {
+  borderStyle: "solid",
+  borderColor: "#e6e6e6",
+  borderWidth: "0 0 0 2px",
+  borderRadius: 0,
+  height: "100%",
+
+  "& a": {
+    fontWeight: 500,
+    color: "#6ad1e3",
+    textDecoration: "none !important",
+  },
+  "& a:hover": {
+    color: "#6ad1e3",
+  },
+  [`& ${TermInfoIcon}`]: {
+    display: "none",
+  },
+  [`&:hover ${TermInfoIcon}`]: {
+    display: "block",
+  },
+});
+
+const CardCellTitle = styled(Col, {
+  textTransform: "uppercase",
+  letterSpacing: 1.8,
+  color: "#999999",
+  fontSize: 14,
+  fontWeight: 500,
+});
+
+export const CardCellTitleImage = styled("img", {
+  width: "12px !important",
+  marginRight: 8,
+  marginTop: -3,
+});
+
+export const CardCellText = styled(Col, {
+  fontSize: 18,
+  fontWeight: 500,
+  color: "#24272a",
+});
 
 export interface Props {
   className?: string;
@@ -9,68 +54,19 @@ export interface Props {
 }
 
 const CardCell = ({ title, imgLink, text, className, loading }: Props) => (
-  <Card className={`card-cell ${className || ""}`}>
+  <CardCellWrapper className={className}>
     <Card.Body>
       <Row noGutters>
-        <Col xs="auto" md="12" className="card-cell-title align-self-center">
-          {imgLink && <img src={imgLink} className="card-cell-title-img" />}
+        <CardCellTitle xs="auto" md="12" className="align-self-center">
+          {imgLink && <CardCellTitleImage src={imgLink} />}
           {title}
-        </Col>
-        <Col
-          xs="auto"
-          md="12"
-          className="ml-auto card-cell-text align-self-center"
-        >
+        </CardCellTitle>
+        <CardCellText xs="auto" md="12" className="ml-auto align-self-center">
           {loading ? <Spinner animation="border" variant="secondary" /> : text}
-        </Col>
+        </CardCellText>
       </Row>
     </Card.Body>
-    <style jsx global>{`
-      .card-cell {
-        border-style: solid;
-        border-color: #e6e6e6;
-        border-width: 0 0 0 2px;
-        border-radius: 0;
-        height: 100%;
-      }
-      .card-cell-title {
-        text-transform: uppercase;
-        letter-spacing: 1.8px;
-        color: #999999;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .card-cell-title-img {
-        width: 12px !important;
-        margin-right: 8px;
-        margin-top: -3px;
-      }
-      .card-cell-text {
-        font-size: 18px;
-        font-weight: 500;
-        color: #24272a;
-      }
-      .card-cell a {
-        font-weight: 500;
-        color: #6ad1e3;
-        text-decoration: none !important;
-      }
-      .card-cell a:hover {
-        color: #6ad1e3;
-      }
-      .card-cell .term-helper .info {
-        display: none;
-      }
-      .card-cell:hover .term-helper .info {
-        display: block;
-      }
-      @media (max-width: 800px) {
-        .card-cell:hover .term-helper .info {
-          display: block;
-        }
-      }
-    `}</style>
-  </Card>
+  </CardCellWrapper>
 );
 
 export default CardCell;

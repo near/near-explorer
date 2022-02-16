@@ -7,7 +7,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -15,15 +15,6 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
   ": ed25519:BgXFiJS...",
   <p>
     component.transactions.ActionMessage.AddKey.with_permission_and_nounce
@@ -38,7 +29,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/stake"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -46,15 +37,6 @@ Array [
       stake
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
   ": ed25519:BgXFiJS...",
   <p>
     component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce
@@ -69,7 +51,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/stake"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -77,15 +59,6 @@ Array [
       stake
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
   ": ed25519:BgXFiJS...",
   <p>
     component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce
@@ -100,7 +73,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -108,15 +81,6 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
 ]
 `;
 
@@ -127,7 +91,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -135,21 +99,12 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
   "component.transactions.ActionMessage.DeleteAccount.and_transfer_fund_to",
   <span
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/near"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -157,15 +112,6 @@ Array [
       near
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
 ]
 `;
 
@@ -178,7 +124,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -186,15 +132,6 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
 ]
 `;
 
@@ -205,7 +142,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -213,15 +150,6 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
 ]
 `;
 
@@ -232,7 +160,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/receiver2.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -240,15 +168,6 @@ Array [
       receiver2.test
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
   <dl>
     <dt>
       component.transactions.ActionMessage.FunctionCall.arguments
@@ -264,8 +183,12 @@ Array [
             }
           }
         >
+          <link
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+            rel="stylesheet"
+          />
           <textarea
-            className="code-preview"
+            className="c-CodePreviewWrapper-gWwuPL"
             readOnly={true}
             value="{
   \\"text\\": \\"when ico?\\"
@@ -286,21 +209,6 @@ Array [
           </div>
         </div>
       </div>
-      <style
-        jsx={true}
-      >
-        
-        @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
-        .code-preview {
-          font-family: "Source Code Pro", monospace;
-          background: #424957;
-          color: white;
-          padding: 20px;
-          width: 100%;
-          height: 99%;
-        }
-      
-      </style>
     </dd>
   </dl>,
 ]
@@ -342,7 +250,7 @@ Array [
     onClick={[Function]}
   >
     <a
-      className="account-link"
+      className="c-AccountLinkWrapper-dbzzBd"
       href="/accounts/receiver.test"
       onClick={[Function]}
       onMouseEnter={[Function]}
@@ -350,14 +258,5 @@ Array [
       receiver.test
     </a>
   </span>,
-  <style
-    jsx={true}
-  >
-    
-        .account-link {
-          white-space: nowrap;
-        }
-      
-  </style>,
 ]
 `;

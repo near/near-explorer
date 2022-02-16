@@ -5,11 +5,52 @@ import { Row, Col, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
 import Balance from "../utils/Balance";
-import { TableRow } from "../utils/Table";
+import { OrderTableCell, TableRow } from "../utils/Table";
 import CountryFlag from "../utils/CountryFlag";
 import ValidatingLabel from "./ValidatingLabel";
 import CumulativeStakeChart from "./CumulativeStakeChart";
 import { StakingStatus } from "../../libraries/wamp/types";
+import { styled } from "../../libraries/styles";
+
+const ValidatorNodesText = styled(Col, {
+  fontWeight: 500,
+  fontSize: 14,
+  color: "#3f4045",
+});
+
+const CollapseRowArrow = styled("td", {
+  cursor: "pointer",
+});
+
+const StakeText = styled(ValidatorNodesText, {
+  fontWeight: 700,
+});
+
+const ValidatorName = styled(Col, {
+  maxWidth: 250,
+  "@media (min-width: 1200px)": {
+    maxWidth: 370,
+  },
+});
+
+const ValidatorNameText = styled(ValidatorNodesText, {
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+});
+
+const PublicKey = styled(ValidatorNameText, {
+  color: "#2b9af4",
+});
+
+const ValidatorsNodeLabel = styled(Col, {
+  marginRight: 24,
+  maxWidth: 138,
+});
+
+const IconCellIcon = styled("img", {
+  width: 16,
+});
 
 interface Props {
   isRowActive: boolean;
@@ -72,27 +113,19 @@ const ValidatorMainRow: FC<Props> = ({
 
   return (
     <>
-      <TableRow
-        className="validator-nodes-row mx-0"
-        collapse={isRowActive}
-        key={accountId}
-      >
-        <td className="collapse-row-arrow" onClick={handleClick}>
-          {isRowActive ? (
-            <img
-              src="/static/images/icon-minimize.svg"
-              style={{ width: "16px" }}
-            />
-          ) : (
-            <img
-              src="/static/images/icon-maximize.svg"
-              style={{ width: "16px" }}
-            />
-          )}
-        </td>
+      <TableRow className="mx-0" collapse={isRowActive} key={accountId}>
+        <CollapseRowArrow onClick={handleClick}>
+          <IconCellIcon
+            src={
+              isRowActive
+                ? "/static/images/icon-minimize.svg"
+                : "/static/images/icon-maximize.svg"
+            }
+          />
+        </CollapseRowArrow>
 
-        <td className="order">{index}</td>
-        <td className="country-flag">
+        <OrderTableCell>{index}</OrderTableCell>
+        <td>
           <CountryFlag
             id={`country_flag_${accountId}`}
             countryCode={countryCode}
@@ -102,7 +135,7 @@ const ValidatorMainRow: FC<Props> = ({
 
         <td>
           <Row noGutters className="align-items-center">
-            <Col className="validators-node-label">
+            <ValidatorsNodeLabel>
               {stakingStatus === "proposal" ? (
                 <ValidatingLabel
                   type="proposal"
@@ -170,25 +203,20 @@ const ValidatorMainRow: FC<Props> = ({
                   {t("component.nodes.ValidatorMainRow.state.on_hold.title")}
                 </ValidatingLabel>
               ) : null}
-            </Col>
+            </ValidatorsNodeLabel>
 
-            <Col className="validator-name">
+            <ValidatorName>
               <Row noGutters>
-                <Col title={`@${accountId}`} className="validator-nodes-text">
+                <ValidatorNameText title={`@${accountId}`}>
                   {accountId}
-                </Col>
+                </ValidatorNameText>
               </Row>
               {publicKey && (
                 <Row noGutters>
-                  <Col
-                    title={publicKey}
-                    className="validator-nodes-text validator-node-pub-key"
-                  >
-                    {publicKey}
-                  </Col>
+                  <PublicKey title={publicKey}>{publicKey}</PublicKey>
                 </Row>
               )}
-            </Col>
+            </ValidatorName>
           </Row>
         </td>
 
@@ -210,7 +238,7 @@ const ValidatorMainRow: FC<Props> = ({
             validatorDelegators
           )}
         </td>
-        <td className="text-right validator-nodes-text stake-text">
+        <StakeText as="td" className="text-right">
           {currentStake ? (
             <Balance amount={currentStake} label="NEAR" fracDigits={0} />
           ) : proposedStakeForNextEpoch ? (
@@ -249,7 +277,7 @@ const ValidatorMainRow: FC<Props> = ({
               </small>
             </>
           )}
-        </td>
+        </StakeText>
         <td>
           <CumulativeStakeChart
             total={cumulativeStake - totalStakeInPersnt}

@@ -7,6 +7,12 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 import { useTranslation } from "react-i18next";
 import { useChainTransactionStats } from "../../hooks/subscriptions";
 
+const chartsStyle = {
+  height: 232,
+  marginTop: 26,
+  marginBottom: 26,
+};
+
 const DashboardTransactionHistoryChart = () => {
   const { t } = useTranslation();
   const transactionsCountHistoryForTwoWeeks =
@@ -117,18 +123,9 @@ const DashboardTransactionHistoryChart = () => {
   };
 
   if (transactionsCountHistoryForTwoWeeks.length === 0) {
-    return <PaginationSpinner hidden={false} />;
+    return <PaginationSpinner />;
   }
-  return (
-    <ReactEcharts
-      option={getOption()}
-      style={{
-        height: "232px",
-        marginTop: "26px",
-        marginBottom: "26px",
-      }}
-    />
-  );
+  return <ReactEcharts option={getOption()} style={chartsStyle} />;
 };
 
 export default DashboardTransactionHistoryChart;

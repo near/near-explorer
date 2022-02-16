@@ -12,11 +12,11 @@ context("Accounts List page", () => {
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row .transaction-row-title", { timeout: 3000 })
+      .find("a @TransactionRowTitle", { timeout: 3000 })
       .should("exist")
       .and("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row .transaction-row-txid")
+      .find("a @TransactionRowTransactionId")
       .should("exist")
       .then(($el) => {
         if ($el.children().length > 0) {
@@ -28,7 +28,7 @@ context("Accounts List page", () => {
       });
 
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row")
+      .find("a @TransactionRow")
       .should("have.length.greaterThan", 0)
       .then(($el) => {
         let itemsPerPage = $el.length;
@@ -37,7 +37,7 @@ context("Accounts List page", () => {
           ".infinite-scroll-component__outerdiv .infinite-scroll-component",
           { timeout: 5000 }
         )
-          .find("a .transaction-row", { timeout: 3000 })
+          .find("a @TransactionRow", { timeout: 3000 })
           .should("have.length.greaterThan", itemsPerPage);
       });
   });
@@ -47,16 +47,16 @@ context("Accounts List page", () => {
       "exist"
     );
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
-      .find("a .transaction-row .transaction-row-title")
+      .find("a @TransactionRowTitle")
       .should("exist")
       .first()
       .click();
-    cy.get(".c-dOsIRQ", { timeout: 5000 }).should("exist");
-    cy.get(".c-dOsIRQ .card-cell .card-body")
+    cy.get("@AccountInfoContainer", { timeout: 5000 }).should("exist");
+    cy.get("@AccountInfoContainer @CardCell .card-body")
       .should("exist")
       .and("not.be.empty");
 
-    cy.get(".content-title").then(($el) => {
+    cy.get("@ContentContainer").then(($el) => {
       if (
         $el.children("h2").length > 0 &&
         $el.children("h2").text() === "Transactions"
@@ -65,7 +65,7 @@ context("Accounts List page", () => {
         cy.get(
           ".infinite-scroll-component__outerdiv .infinite-scroll-component"
         )
-          .find(".action-sparse-row")
+          .find("@ActionRow@type-sparse")
           .should("not.be.empty");
       }
     });

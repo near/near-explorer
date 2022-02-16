@@ -2,33 +2,24 @@
 
 exports[`<NodeRow /> renders 1`] = `
 Array [
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
+    rel="stylesheet"
+  />,
   <tr
-    className="table-row online-nodes-row "
+    className="c-TableRowWrapper-jUPfkR online-nodes-row"
   >
     <td
+      className="c-IconCell-cRLkIl"
       onClick={[Function]}
-      style={
-        Object {
-          "width": "48px",
-        }
-      }
     >
       <img
+        className="c-IconCellIcon-hLqfLK"
         src="/static/images/icon-maximize.svg"
-        style={
-          Object {
-            "width": "16px",
-          }
-        }
       />
     </td>
     <td
-      className="order"
-      style={
-        Object {
-          "width": "48px",
-        }
-      }
+      className="c-OrderTableCell-clytRC c-LocalOrderTableCell-cRLkIl"
     >
       1
     </td>
@@ -37,62 +28,16 @@ Array [
         className="align-items-center row no-gutters"
       >
         <div
-          className="online-node-label col-2"
+          className="c-OnlineNodeLabel-gckMHR col-2"
         >
           <span
-            className="validating-label active badge"
+            className="c-ValidatingLabelWrapper-eennLm c-ValidatingLabelWrapper-eennLm-fFWhBO-type-active badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
             component.nodes.NodeRow.online.title
-            <style
-              global={true}
-              jsx={true}
-            >
-              
-        .validating-label {
-          padding: 2px 8px;
-          border-radius: 50px;
-          font-size: 12px;
-          font-weight: 500;
-          line-height: 150%;
-        }
-
-        .validating-label.active {
-          background-color: #c8f6e0;
-          color: #008d6a;
-        }
-
-        .validating-label.proposal {
-          background-color: #6ad1e3;
-          color: #11869a;
-        }
-
-        .validating-label.joining {
-          background-color: #ffc107;
-          color: #ffffff;
-        }
-
-        .validating-label.leaving {
-          background-color: #dc3545;
-          color: #ffffff;
-        }
-        .validating-label.idle {
-          background-color: #e5e5e6;
-          color: #72727a;
-        }
-        .validating-label.on-hold {
-          background-color: #2d9cdb;
-          color: #ffffff;
-        }
-        .validating-label.newcomer {
-          background-color: #f2994a;
-          color: #ffffff;
-        }
-      
-            </style>
           </span>
         </div>
         <div
@@ -102,7 +47,7 @@ Array [
             className="row no-gutters"
           >
             <div
-              className="online-nodes-text col"
+              className="c-OnlineNodesText-hdougQ col"
               title="@alice"
             >
               alice
@@ -113,7 +58,7 @@ Array [
             className="row"
           >
             <div
-              className="node-status col"
+              className="c-NodeStatus-iFoHIS col"
             >
               
             </div>
@@ -122,14 +67,13 @@ Array [
             className="row no-gutters"
           >
             <div
-              className="online-nodes-text col"
+              className="c-OnlineNodesText-hdougQ col"
               title="ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
             >
               <span
                 onClick={[Function]}
               >
                 <a
-                  className="transaction-link"
                   href="/transactions/ed25519:fhgjrkfhurjtieokwpitjesdlkfjngdmloytiutkjhgkf"
                   onClick={[Function]}
                   onMouseEnter={[Function]}
@@ -143,106 +87,5 @@ Array [
       </div>
     </td>
   </tr>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        .table-row {
-          background-color: #ffffff;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-          box-shadow: inset 0px -1px 0px #f0f0f0;
-        }
-        .table-row td {
-          border-top: none;
-          vertical-align: middle;
-        }
-
-        .table-row td.order {
-          color: #a2a2a8;
-          font-size: 14px;
-          font-weight: 600;
-        }
-
-        .table-row .row {
-          flex-wrap: nowrap;
-        }
-
-        .table-row.expanded {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0,
-            inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          margin-top: 16px;
-          margin-bottom: 16px;
-        }
-
-        .table-row.expanded + .table-expand-row {
-          box-shadow: inset 4px 0px 0px #0598eb, inset 0px -1px 0px #2b9af4,
-            inset -1px 0px 0px #2b9af4;
-          transition: height 0.5s 0.5s, opacity 0.5s;
-          height: auto;
-          opacity: 1;
-        }
-
-        .table-row.expanded:first-child {
-          margin-top: 0;
-        }
-      
-  </style>,
-  <style
-    global={true}
-    jsx={true}
-  >
-    
-        @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap");
-
-        .online-nodes-text {
-          font-weight: 500;
-          font-size: 14px;
-          color: #3f4045;
-        }
-
-        .online-node-label {
-          margin-right: 24px;
-          flex: 0 0 auto;
-          width: 55px;
-        }
-
-        .online-nodes-content-row {
-          padding-top: 16px;
-          padding-bottom: 16px;
-        }
-        .online-nodes-content-row &gt; .online-nodes-content-cell {
-          padding: 0 22px;
-          border-right: 1px solid #e5e5e6;
-        }
-
-        .online-nodes-content-row &gt; .online-nodes-content-cell:last-child {
-          border-right: none;
-        }
-
-        .online-nodes-details-title {
-          display: flex;
-          flex-wrap: nowrap;
-          font-size: 12px;
-          color: #a2a2a8;
-        }
-
-        .agent-name-badge {
-          background-color: #f0f0f1;
-          color: #72727a;
-          font-weight: 500;
-          font-size: 12px;
-          font-family: "Roboto Mono", monospace;
-        }
-
-        .node-status {
-          font-size: 12px;
-          line-height: 18px;
-          color: #4a4f54;
-        }
-      
-  </style>,
 ]
 `;

@@ -28,14 +28,12 @@ const Nodes: FC = () => {
   const onlineNodes = useNodes()?.onlineNodes;
 
   if (!onlineNodes) {
-    return <PaginationSpinner hidden={false} />;
+    return <PaginationSpinner />;
   }
 
   return (
     <Table
-      className="online-nodes-section"
       pagination={{
-        className: "online-nodes-pagination",
         pageCount: Math.ceil(onlineNodes.length / ITEMS_PER_PAGE),
         marginPagesDisplayed: 1,
         pageRangeDisplayed: 3,
@@ -43,7 +41,7 @@ const Nodes: FC = () => {
       }}
     >
       <thead>
-        <tr className="online-nodes-header-row">
+        <tr>
           <th />
           <th>#</th>
           <th>{t("component.nodes.Nodes.validator")}</th>

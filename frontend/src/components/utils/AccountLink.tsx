@@ -1,5 +1,10 @@
 import Link from "../utils/Link";
 import { truncateAccountId } from "../../libraries/formatting";
+import { styled } from "../../libraries/styles";
+
+const AccountLinkWrapper = styled("a", {
+  whiteSpace: "nowrap",
+});
 
 export interface Props {
   accountId: string;
@@ -7,16 +12,9 @@ export interface Props {
 
 const AccountLink = ({ accountId }: Props) => {
   return (
-    <>
-      <Link href="/accounts/[id]" as={`/accounts/${accountId}`}>
-        <a className="account-link">{truncateAccountId(accountId)}</a>
-      </Link>
-      <style jsx>{`
-        .account-link {
-          white-space: nowrap;
-        }
-      `}</style>
-    </>
+    <Link href="/accounts/[id]" as={`/accounts/${accountId}`} passHref>
+      <AccountLinkWrapper>{truncateAccountId(accountId)}</AccountLinkWrapper>
+    </Link>
   );
 };
 

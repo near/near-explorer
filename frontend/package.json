@@ -46,8 +46,10 @@
   "dependencies": {
     "@stitches/react": "^1.2.6",
     "autobahn": "^20.9.2",
+    "babel-plugin-named-stitches-classnames": "^0.1.0",
     "bn.js": "^5.2.0",
     "bootstrap": "^4.6.1",
+    "classnames": "^2.3.1",
     "country-data": "0.0.31",
     "d3": "^5.16.0",
     "echarts": "^5.2.2",
