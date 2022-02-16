@@ -1111,20 +1111,81 @@ const queryExecutedReceiptsList = async (blockHash) => {
 };
 
 const queryContractInfo = async (accountId) => {
-  return await querySingleRow(
+  // find the latest update in analytics db
+  const {
+    latest_updated_timestamp: latestUpdatedTimestamp,
+  } = await querySingleRow(
+    [
+      `SELECT deployed_at_block_timestamp AS latest_updated_timestamp
+       FROM deployed_contracts
+       ORDER BY deployed_at_block_timestamp DESC
+       LIMIT 1`,
+    ],
+    { dataSource: DS_ANALYTICS_BACKEND }
+  );
+  // query for the latest info from indexer
+  // if it return 'undefined' then there was no update since deployed_at_block_timestamp
+  const contractInfoFromIndexer = await querySingleRow(
     [
       `SELECT
-        DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
-        receipts.originated_from_transaction_hash AS hash
+       DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
+       receipts.originated_from_transaction_hash AS hash
        FROM action_receipt_actions
        LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT' AND action_receipt_actions.receipt_receiver_account_id = :account_id
+       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
+       AND action_receipt_actions.receipt_receiver_account_id = :account_id
+       AND action_receipt_actions.receipt_included_in_block_timestamp > :timestamp
        ORDER BY action_receipt_actions.receipt_included_in_block_timestamp DESC
        LIMIT 1`,
-      { account_id: accountId },
+      {
+        account_id: accountId,
+        timestamp: latestUpdatedTimestamp,
+      },
     ],
     { dataSource: DS_INDEXER_BACKEND }
   );
+
+  if (contractInfoFromIndexer) {
+    return {
+      block_timestamp: contractInfoFromIndexer.block_timestamp,
+      hash: contractInfoFromIndexer.hash,
+    };
+  }
+
+  // query to analytics db to find latest historical record
+  const contractInfoFromAnalytics = await querySingleRow(
+    [
+      `SELECT
+       deployed_by_receipt_id AS receipt_id,
+       DIV(deployed_at_block_timestamp, 1000*1000) AS block_timestamp
+       FROM deployed_contracts
+       WHERE deployed_to_account_id = :account_id
+       ORDER BY deployed_at_block_timestamp DESC
+       LIMIT 1`,
+      { account_id: accountId },
+    ],
+    { dataSource: DS_ANALYTICS_BACKEND }
+  );
+
+  // query for transaction hash where contact was deployed
+  const { hash } = await querySingleRow(
+    [
+      `SELECT originated_from_transaction_hash AS hash
+        FROM receipts
+        WHERE receipt_id = :receipt_id
+        LIMIT 1`,
+      { receipt_id: contractInfoFromAnalytics.receipt_id },
+    ],
+    { dataSource: DS_INDEXER_BACKEND }
+  );
+
+  if (contractInfoFromAnalytics) {
+    return {
+      block_timestamp: contractInfoFromAnalytics.block_timestamp,
+      hash,
+    };
+  }
+  return undefined;
 };
 
 // chunks
