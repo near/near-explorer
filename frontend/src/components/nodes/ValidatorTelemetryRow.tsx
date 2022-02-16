@@ -59,6 +59,12 @@ const ValidatorTelemetryRow: FC<Props> = ({
     Boolean(agentBuild);
 
   const latestBlockHeight = useLatestBlockHeight();
+  const producedBlocksAndChunks =
+    producedBlocks !== undefined &&
+    expectedBlocks !== undefined &&
+    producedChunks !== undefined &&
+    expectedChunks !== undefined &&
+    expectedBlocks !== 0;
 
   if (!isTelemetryAvailable) return null;
 
@@ -80,9 +86,7 @@ const ValidatorTelemetryRow: FC<Props> = ({
         </Row>
         <Row noGutters>
           <Uptime>
-            {producedBlocks !== undefined &&
-            expectedBlocks !== undefined &&
-            expectedBlocks !== 0 ? (
+            {producedBlocksAndChunks ? (
               <>
                 <OverlayTrigger
                   placement={"bottom"}
