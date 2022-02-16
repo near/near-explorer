@@ -5,18 +5,14 @@ import Placeholder from "../utils/Placeholder";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { Receipt } from "../../libraries/wamp/types";
 
 interface Props {
-  blockHash: string;
+  receiptsList?: Receipt[];
 }
 
-const ReceiptsInBlock: FC<Props> = ({ blockHash }) => {
+const ReceiptsList: FC<Props> = ({ receiptsList }) => {
   const { t } = useTranslation();
-  const receiptsList = useWampSimpleQuery("receipts-list-by-block-hash", [
-    blockHash,
-  ]);
-
   return (
     <>
       {!receiptsList ? (
@@ -25,11 +21,11 @@ const ReceiptsInBlock: FC<Props> = ({ blockHash }) => {
         <Receipts receipts={receiptsList} />
       ) : (
         <Placeholder>
-          {t("component.blocks.ReceiptsInBlock.no_receipts")}
+          {t("component.receipts.ReceiptsList.no_receipts")}
         </Placeholder>
       )}
     </>
   );
 };
 
-export default ReceiptsInBlock;
+export default ReceiptsList;
