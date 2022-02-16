@@ -4,6 +4,7 @@ import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
+import { ValidationProgress } from "../../libraries/wamp/types";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
 import { AgentNameBadge } from "./NodeRow";
@@ -24,10 +25,7 @@ const Uptime = styled(ValidatorNodesText, {
 });
 
 interface Props {
-  producedBlocks?: number;
-  expectedBlocks?: number;
-  producedChunks?: number;
-  expectedChunks?: number;
+  progress?: ValidationProgress;
   latestProducedValidatorBlock?: number;
   lastSeen?: number;
   agentName?: string;
@@ -36,10 +34,7 @@ interface Props {
 }
 
 const ValidatorTelemetryRow: FC<Props> = ({
-  producedBlocks,
-  expectedBlocks,
-  producedChunks,
-  expectedChunks,
+  progress,
   latestProducedValidatorBlock,
   lastSeen,
   agentName,
@@ -48,10 +43,7 @@ const ValidatorTelemetryRow: FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const isTelemetryAvailable =
-    Boolean(producedBlocks) ||
-    Boolean(expectedBlocks) ||
-    Boolean(producedChunks) ||
-    Boolean(expectedChunks) ||
+    Boolean(progress) ||
     Boolean(latestProducedValidatorBlock) ||
     Boolean(lastSeen) ||
     Boolean(agentName) ||
@@ -59,12 +51,6 @@ const ValidatorTelemetryRow: FC<Props> = ({
     Boolean(agentBuild);
 
   const latestBlockHeight = useLatestBlockHeight();
-  const producedBlocksAndChunks =
-    producedBlocks !== undefined &&
-    expectedBlocks !== undefined &&
-    producedChunks !== undefined &&
-    expectedChunks !== undefined &&
-    expectedBlocks !== 0;
 
   if (!isTelemetryAvailable) return null;
 
@@ -86,7 +72,7 @@ const ValidatorTelemetryRow: FC<Props> = ({
         </Row>
         <Row noGutters>
           <Uptime>
-            {producedBlocksAndChunks ? (
+            {progress ? (
               <>
                 <OverlayTrigger
                   placement={"bottom"}
@@ -95,17 +81,21 @@ const ValidatorTelemetryRow: FC<Props> = ({
                       {t(
                         "component.nodes.ValidatorTelemetryRow.produced_blocks_and_chunks",
                         {
-                          num_produced_blocks: producedBlocks,
-                          num_expected_blocks: expectedBlocks,
-                          num_produced_chunks: producedChunks,
-                          num_expected_chunks: expectedChunks,
+                          num_produced_blocks: progress.blocks.produced,
+                          num_expected_blocks: progress.blocks.total,
+                          num_produced_chunks: progress.chunks.produced,
+                          num_expected_chunks: progress.chunks.total,
                         }
                       )}
                     </Tooltip>
                   }
                 >
                   <span>
-                    {((producedBlocks / expectedBlocks) * 100).toFixed(3)}%
+                    {(
+                      (progress.blocks.produced / progress.blocks.total) *
+                      100
+                    ).toFixed(3)}
+                    %
                   </span>
                 </OverlayTrigger>
               </>
