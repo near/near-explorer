@@ -52,7 +52,34 @@ const queryEpochStats = async () => {
   const currentValidatorsMap = new Map();
   const currentProposalsMap = new Map();
   currentNodes.forEach((i) => {
-    currentValidatorsMap.set(i.account_id, i);
+    const {
+      num_produced_blocks,
+      num_expected_blocks,
+      num_produced_chunks,
+      num_expected_chunks,
+      ...node
+    } = i;
+    const isBlocksAndChunks =
+      num_produced_blocks !== undefined &&
+      num_expected_blocks !== undefined &&
+      num_produced_chunks !== undefined &&
+      num_expected_chunks !== undefined &&
+      num_expected_blocks !== 0;
+    currentValidatorsMap.set(i.account_id, {
+      ...node,
+      progress: isBlocksAndChunks
+        ? {
+            blocks: {
+              produced: num_produced_blocks,
+              total: num_expected_blocks,
+            },
+            chunks: {
+              produced: num_produced_chunks,
+              total: num_expected_chunks,
+            },
+          }
+        : undefined,
+    });
   });
   currentProposals.forEach((v) => {
     currentProposalsMap.set(v.account_id, v);
