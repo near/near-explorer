@@ -114,8 +114,7 @@ const ValidatorRow: FC<Props> = ({ node, index, totalStake }) => {
 
       <ValidatorCollapsedRow
         isRowActive={isRowActive}
-        producedBlocks={node.num_produced_blocks}
-        expectedBlocks={node.num_expected_blocks}
+        progress={node.progress}
         latestProducedValidatorBlock={node.nodeInfo?.lastHeight}
         lastSeen={node.nodeInfo?.lastSeen}
         agentName={node.nodeInfo?.agentName}
