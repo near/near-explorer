@@ -5,8 +5,16 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
   {
     account_id: "staked.poolv1.near",
     is_slashed: false,
-    num_expected_blocks: 1257,
-    num_produced_blocks: 1257,
+    progress: {
+      blocks: {
+        produced: 1257,
+        total: 1257,
+      },
+      chunks: {
+        produced: 0,
+        total: 4,
+      },
+    },
     public_key: "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
     shards: [0],
     stakingStatus: "active",
@@ -36,8 +44,16 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
   {
     account_id: "bisontrails.poolv1.near",
     is_slashed: false,
-    num_expected_blocks: 630,
-    num_produced_blocks: 630,
+    progress: {
+      blocks: {
+        produced: 630,
+        total: 630,
+      },
+      chunks: {
+        produced: 2,
+        total: 6,
+      },
+    },
     public_key: "ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62",
     shards: [0],
     stakingStatus: "active",
@@ -67,8 +83,16 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
   {
     account_id: "astro-stakers.poolv1.near",
     is_slashed: false,
-    num_expected_blocks: 525,
-    num_produced_blocks: 525,
+    progress: {
+      blocks: {
+        produced: 525,
+        total: 525,
+      },
+      chunks: {
+        produced: 0,
+        total: 10,
+      },
+    },
     public_key: "ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28",
     shards: [0],
     stakingStatus: "active",
@@ -217,8 +241,16 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
   {
     account_id: "01node.poolv1.near",
     is_slashed: false,
-    num_expected_blocks: 105,
-    num_produced_blocks: 105,
+    progress: {
+      blocks: {
+        produced: 105,
+        total: 105,
+      },
+      chunks: {
+        produced: 1,
+        total: 3,
+      },
+    },
     public_key: "ed25519:5xz7EbcnPqabwoFezdJBxieK8S7XLsdHHuLwM4vLLhFt",
     shards: [0],
     stakingStatus: "leaving",

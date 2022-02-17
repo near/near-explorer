@@ -63,7 +63,7 @@ async function getAccountActivity(accountId) {
   if (!accountActivity) {
     return undefined;
   }
-  const indexerCompatibilityTransactionActionKinds = await getIndexerCompatibilityTransactionActionKinds();
+  const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
   return accountActivity.map((activity) => ({
     timestamp: activity.timestamp,
     updateReason: activity.update_reason,

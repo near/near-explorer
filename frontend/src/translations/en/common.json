@@ -169,7 +169,8 @@
         },
         "node_agent_version_or_build": {
           "title": "Node Agent Version / Build"
-        }
+        },
+        "produced_blocks_and_chunks": "produced ${num_produced_blocks}/${num_expected_blocks} blocks, ${num_produced_chunks}/${num_expected_chunks} chunks"
       },
       "ValidatorMetadataRow": {
         "pool_info": {
@@ -311,12 +312,14 @@
       "ReceiptAction": {
         "batch_receipt": "Batch Receipt",
         "fetching_status": "Fetching Status..."
-      }
-    },
-    "blocks": {
-      "ReceiptsInBlock": {
+      },
+      "ReceiptsList": {
         "no_receipts": "There are no receipts in this block"
       },
+      "ReceiptsIncludedInBlock": "Receipts included in this block",
+      "ReceiptsExecutedInBlock": "Receipts executed in this block"
+    },
+    "blocks": {
       "BlockDetails": {
         "transactions": {
           "title": "Transactions",

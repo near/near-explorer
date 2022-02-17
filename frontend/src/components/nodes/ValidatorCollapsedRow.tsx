@@ -4,11 +4,11 @@ import { TableCollapseRow } from "../utils/Table";
 
 import ValidatorMetadataRow from "./ValidatorMetadataRow";
 import ValidatorTelemetryRow from "./ValidatorTelemetryRow";
+import { ValidationProgress } from "../../libraries/wamp/types";
 
 interface Props {
   isRowActive: boolean;
-  producedBlocks?: number;
-  expectedBlocks?: number;
+  progress?: ValidationProgress;
   latestProducedValidatorBlock?: number;
   lastSeen?: number;
   agentName?: string;
@@ -23,8 +23,7 @@ interface Props {
 
 const ValidatorCollapsedRow: FC<Props> = ({
   isRowActive,
-  producedBlocks,
-  expectedBlocks,
+  progress,
   latestProducedValidatorBlock,
   lastSeen,
   agentName,
@@ -39,8 +38,7 @@ const ValidatorCollapsedRow: FC<Props> = ({
   <TableCollapseRow collapse={isRowActive}>
     <td colSpan={8}>
       <ValidatorTelemetryRow
-        producedBlocks={producedBlocks}
-        expectedBlocks={expectedBlocks}
+        progress={progress}
         latestProducedValidatorBlock={latestProducedValidatorBlock}
         lastSeen={lastSeen}
         agentName={agentName}

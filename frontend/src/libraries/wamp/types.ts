@@ -26,11 +26,20 @@ export type StakingStatus =
   | "newcomer"
   | "on-hold";
 
+export interface ValidationProgress {
+  chunks: {
+    produced: number;
+    total: number;
+  };
+  blocks: {
+    produced: number;
+    total: number;
+  };
+}
 export interface BaseValidationNodeInfo {
   account_id: string;
   is_slashed?: boolean;
-  num_produced_blocks?: number;
-  num_expected_blocks?: number;
+  progress?: ValidationProgress;
   public_key?: string;
   currentStake: string;
   proposedStake?: string;
@@ -479,7 +488,11 @@ export type ProcedureTypes = {
     result: ContractInfo;
   };
 
-  "receipts-list-by-block-hash": {
+  "included-receipts-list-by-block-hash": {
+    args: [string];
+    result: Receipt[];
+  };
+  "executed-receipts-list-by-block-hash": {
     args: [string];
     result: Receipt[];
   };

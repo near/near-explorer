@@ -1,9 +1,10 @@
 import { FC } from "react";
 
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
+import { ValidationProgress } from "../../libraries/wamp/types";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
 import { AgentNameBadge } from "./NodeRow";
@@ -24,8 +25,7 @@ const Uptime = styled(ValidatorNodesText, {
 });
 
 interface Props {
-  producedBlocks?: number;
-  expectedBlocks?: number;
+  progress?: ValidationProgress;
   latestProducedValidatorBlock?: number;
   lastSeen?: number;
   agentName?: string;
@@ -34,8 +34,7 @@ interface Props {
 }
 
 const ValidatorTelemetryRow: FC<Props> = ({
-  producedBlocks,
-  expectedBlocks,
+  progress,
   latestProducedValidatorBlock,
   lastSeen,
   agentName,
@@ -44,8 +43,7 @@ const ValidatorTelemetryRow: FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const isTelemetryAvailable =
-    Boolean(producedBlocks) ||
-    Boolean(expectedBlocks) ||
+    Boolean(progress) ||
     Boolean(latestProducedValidatorBlock) ||
     Boolean(lastSeen) ||
     Boolean(agentName) ||
@@ -74,14 +72,32 @@ const ValidatorTelemetryRow: FC<Props> = ({
         </Row>
         <Row noGutters>
           <Uptime>
-            {producedBlocks !== undefined &&
-            expectedBlocks !== undefined &&
-            expectedBlocks !== 0 ? (
+            {progress ? (
               <>
-                {((producedBlocks / expectedBlocks) * 100).toFixed(3)}% &nbsp;
-                <span>
-                  ({producedBlocks}/{expectedBlocks})
-                </span>
+                <OverlayTrigger
+                  placement={"bottom"}
+                  overlay={
+                    <Tooltip id="produced-blocks-chunks">
+                      {t(
+                        "component.nodes.ValidatorTelemetryRow.produced_blocks_and_chunks",
+                        {
+                          num_produced_blocks: progress.blocks.produced,
+                          num_expected_blocks: progress.blocks.total,
+                          num_produced_chunks: progress.chunks.produced,
+                          num_expected_chunks: progress.chunks.total,
+                        }
+                      )}
+                    </Tooltip>
+                  }
+                >
+                  <span>
+                    {(
+                      (progress.blocks.produced / progress.blocks.total) *
+                      100
+                    ).toFixed(3)}
+                    %
+                  </span>
+                </OverlayTrigger>
               </>
             ) : (
               t("common.state.not_available")
