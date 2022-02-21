@@ -15,8 +15,8 @@ import TransactionExecutionStatus from "./TransactionExecutionStatus";
 import { useTranslation } from "react-i18next";
 import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
 import { Transaction } from "../../pages/transactions/[hash]";
-import { FunctionCall } from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
+import { RPC } from "../../libraries/wamp/types";
 
 const HeaderRow = styled(Row);
 
@@ -103,7 +103,8 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
   const gasAttached = useMemo(() => {
     const actionArgs = transaction.actions.map((action) => action.args);
     const gasAttachedArgs = actionArgs.filter(
-      (args): args is FunctionCall => "gas" in args
+      (args): args is RPC.FunctionCallActionView["FunctionCall"] =>
+        "gas" in args
     );
     if (gasAttachedArgs.length === 0) {
       return gasUsed;

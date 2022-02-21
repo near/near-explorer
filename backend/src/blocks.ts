@@ -1,10 +1,14 @@
-const {
+import { BlockBase, BlockInfo } from "./client-types";
+import {
   queryBlocksList,
   queryBlockInfo,
   queryBlockByHashOrId,
-} = require("./db-utils");
+} from "./db-utils";
 
-async function getBlocksList(limit, paginationIndexer) {
+async function getBlocksList(
+  limit: number,
+  paginationIndexer?: number
+): Promise<BlockBase[]> {
   const blocksList = await queryBlocksList(limit, paginationIndexer);
   return blocksList.map((block) => ({
     hash: block.hash,
@@ -15,10 +19,12 @@ async function getBlocksList(limit, paginationIndexer) {
   }));
 }
 
-async function getBlockInfo(blockId) {
+async function getBlockInfo(
+  blockId: string | number
+): Promise<BlockInfo | null> {
   const blockInfo = await queryBlockInfo(blockId);
   if (!blockInfo) {
-    return undefined;
+    return null;
   }
   return {
     hash: blockInfo.hash,
@@ -32,14 +38,14 @@ async function getBlockInfo(blockId) {
   };
 }
 
-async function getBlockByHashOrId(blockId) {
+async function getBlockByHashOrId(
+  blockId: string | number
+): Promise<string | null> {
   const block = await queryBlockByHashOrId(blockId);
   if (!block) {
-    return undefined;
+    return null;
   }
   return block.block_hash;
 }
 
-exports.getBlocksList = getBlocksList;
-exports.getBlockInfo = getBlockInfo;
-exports.getBlockByHashOrId = getBlockByHashOrId;
+export { getBlocksList, getBlockInfo, getBlockByHashOrId };

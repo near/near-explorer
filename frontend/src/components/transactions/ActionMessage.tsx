@@ -5,44 +5,18 @@ import Balance from "../utils/Balance";
 import CodePreview from "../utils/CodePreview";
 
 import { TFunction, useTranslation } from "react-i18next";
-import {
-  AddKey,
-  CreateAccount,
-  DeleteAccount,
-  DeleteKey,
-  DeployContract,
-  FunctionCall,
-  Stake,
-  Transfer,
-} from "../../libraries/wamp/types";
+import { Action, ActionMapping } from "../../libraries/wamp/types";
 
-export interface Props<A> {
-  actionKind: keyof TransactionMessageRenderers;
-  actionArgs: A;
+export interface Props<A extends Action> {
+  actionKind: A["kind"];
+  actionArgs: A["args"];
   receiverId: string;
   showDetails?: boolean;
 }
 
-type AnyAction =
-  | CreateAccount
-  | DeleteAccount
-  | DeployContract
-  | FunctionCall
-  | Transfer
-  | Stake
-  | AddKey
-  | DeleteKey;
-
-interface TransactionMessageRenderers {
-  CreateAccount: React.FC<Props<CreateAccount>>;
-  DeleteAccount: React.FC<Props<DeleteAccount>>;
-  DeployContract: React.FC<Props<DeployContract>>;
-  FunctionCall: React.FC<Props<FunctionCall>>;
-  Transfer: React.FC<Props<Transfer>>;
-  Stake: React.FC<Props<Stake>>;
-  AddKey: React.FC<Props<AddKey>>;
-  DeleteKey: React.FC<Props<DeleteKey>>;
-}
+type TransactionMessageRenderers = {
+  [K in Action["kind"]]: React.FC<Props<ActionMapping[K]>>;
+};
 
 export const displayArgs = (args: string, t: TFunction<"common">) => {
   const decodedArgs = Buffer.from(args, "base64");
@@ -67,7 +41,7 @@ export const displayArgs = (args: string, t: TFunction<"common">) => {
 };
 
 const transactionMessageRenderers: TransactionMessageRenderers = {
-  CreateAccount: ({ receiverId }: Props<CreateAccount>) => {
+  CreateAccount: ({ receiverId }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -78,7 +52,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       </>
     );
   },
-  DeleteAccount: ({ receiverId, actionArgs }: Props<DeleteAccount>) => {
+  DeleteAccount: ({ receiverId, actionArgs }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -91,7 +65,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       </>
     );
   },
-  DeployContract: ({ receiverId }: Props<DeployContract>) => {
+  DeployContract: ({ receiverId }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -102,14 +76,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       </>
     );
   },
-  FunctionCall: ({
-    receiverId,
-    actionArgs,
-    showDetails,
-  }: Props<FunctionCall>) => {
+  FunctionCall: ({ receiverId, actionArgs, showDetails }) => {
     const { t } = useTranslation();
     let args;
     if (showDetails) {
+      console.log("act args", actionArgs);
       if (typeof actionArgs.args === "undefined") {
         args = <p>Loading...</p>;
       } else if (
@@ -141,7 +112,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       </>
     );
   },
-  Transfer: ({ receiverId, actionArgs: { deposit } }: Props<Transfer>) => {
+  Transfer: ({ receiverId, actionArgs: { deposit } }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -152,7 +123,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       </>
     );
   },
-  Stake: ({ actionArgs: { stake, public_key } }: Props<Stake>) => {
+  Stake: ({ actionArgs: { stake, public_key } }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -164,55 +135,38 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       </>
     );
   },
-  AddKey: ({ receiverId, actionArgs }: Props<AddKey>) => {
+  AddKey: ({ receiverId, actionArgs }) => {
     const { t } = useTranslation();
+    console.log("aa", actionArgs);
     return (
       <>
-        {typeof actionArgs.access_key.permission === "object" ? (
-          actionArgs.access_key.permission.permission_kind ? (
-            <>
-              {t("component.transactions.ActionMessage.AddKey.new_key_added")}
-              <AccountLink accountId={receiverId} />
-              {`: ${actionArgs.public_key.substring(0, 15)}...`}
-              <p>
-                {t(
-                  "component.transactions.ActionMessage.AddKey.with_permission_and_nounce",
-                  {
-                    permission:
-                      actionArgs.access_key.permission.permission_kind,
-                    nonce: actionArgs.access_key.nonce,
-                  }
-                )}
-              </p>
-            </>
-          ) : (
-            <>
+        {actionArgs.access_key.permission !== "FullAccess" ? (
+          <>
+            {t(
+              "component.transactions.ActionMessage.AddKey.access_key_added_for_contract"
+            )}
+            <AccountLink
+              accountId={
+                actionArgs.access_key.permission.FunctionCall.receiver_id
+              }
+            />
+            {`: ${actionArgs.public_key.substring(0, 15)}...`}
+            <p>
               {t(
-                "component.transactions.ActionMessage.AddKey.access_key_added_for_contract"
-              )}
-              <AccountLink
-                accountId={
-                  actionArgs.access_key.permission.FunctionCall.receiver_id
+                "component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce",
+                {
+                  methods:
+                    actionArgs.access_key.permission.FunctionCall.method_names
+                      .length > 0
+                      ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
+                          ", "
+                        )})`
+                      : t("component.transactions.ActionMessage.AddKey.any"),
+                  nonce: actionArgs.access_key.nonce,
                 }
-              />
-              {`: ${actionArgs.public_key.substring(0, 15)}...`}
-              <p>
-                {t(
-                  "component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce",
-                  {
-                    methods:
-                      actionArgs.access_key.permission.FunctionCall.method_names
-                        .length > 0
-                        ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
-                            ", "
-                          )})`
-                        : t("component.transactions.ActionMessage.AddKey.any"),
-                    nonce: actionArgs.access_key.nonce,
-                  }
-                )}
-              </p>
-            </>
-          )
+              )}
+            </p>
+          </>
         ) : (
           <>
             {t("component.transactions.ActionMessage.AddKey.new_key_added")}
@@ -232,7 +186,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       </>
     );
   },
-  DeleteKey: ({ actionArgs: { public_key } }: Props<DeleteKey>) => {
+  DeleteKey: ({ actionArgs: { public_key } }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -244,7 +198,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   },
 };
 
-const ActionMessage = (props: Props<AnyAction>) => {
+const ActionMessage = (props: Props<Action>) => {
   const MessageRenderer = transactionMessageRenderers[props.actionKind];
   if (MessageRenderer === undefined) {
     return (
@@ -253,9 +207,8 @@ const ActionMessage = (props: Props<AnyAction>) => {
       </>
     );
   }
-  return (
-    <MessageRenderer {...(props as any)} showDetails={props.showDetails} />
-  );
+
+  return <MessageRenderer {...(props as any)} />;
 };
 
 export default ActionMessage;

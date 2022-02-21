@@ -14,7 +14,7 @@ const ActiveAccountsList = ({ chartStyle }: Props) => {
     useWampQuery(
       useCallback(
         async (wampCall) =>
-          (await wampCall("active-accounts-list", [])).reverse(),
+          ((await wampCall("active-accounts-list", [])) ?? []).reverse(),
         []
       )
     ) ?? [];

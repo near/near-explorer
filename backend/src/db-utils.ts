@@ -1,79 +1,210 @@
-const {
-  DS_INDEXER_BACKEND,
-  DS_ANALYTICS_BACKEND,
-  DS_TELEMETRY_BACKEND,
-  PARTNER_LIST,
-} = require("./consts");
-const { nearStakingPoolAccountSuffix } = require("./config");
-const models = require("../models");
-const BN = require("bn.js");
+import { Pool } from "pg";
+import BN from "bn.js";
+import { PARTNER_LIST, DataSource } from "./consts";
+import { nearStakingPoolAccountSuffix } from "./config";
+import { databases, withPool } from "./db";
+import { AccountPagination, TransactionPagination } from "./client-types";
+import { StakingNode } from "./near";
+import { trimError } from "./utils";
 
 const ONE_DAY_TIMESTAMP_MILISEC = 24 * 60 * 60 * 1000;
 
-const query = async ([query, replacements], { dataSource }) => {
-  const sequelize = getSequelize(dataSource);
-  return await sequelize.query(query, {
-    replacements,
-    type: models.Sequelize.QueryTypes.SELECT,
-  });
+type Replacements = Record<string, unknown> | undefined;
+
+type QueryArgs<Args extends Replacements> = Args extends undefined
+  ? [string]
+  : [string, Args];
+type QueryOptions = { dataSource: DataSource };
+
+type QueryReducerArray = [string, unknown[], number];
+const convertParamSqlToPlainSql = <Args extends Replacements>(
+  parameterizedSql: string,
+  params?: Args
+): [string, unknown[]?] => {
+  if (!params) {
+    return [parameterizedSql];
+  }
+  const [text, values] = Object.entries(params).reduce<QueryReducerArray>(
+    ([sql, array, index], [key, value]) =>
+      value === undefined
+        ? [sql, array, index]
+        : [
+            sql.replace(new RegExp(`:${key}`, "g"), `$${index}`),
+            [...array, value],
+            index + 1,
+          ],
+    [parameterizedSql, [], 1]
+  );
+  return [text, values];
 };
 
-function getSequelize(dataSource) {
+const query = async <T extends object, Args extends Replacements>(
+  [query, replacements]: QueryArgs<Args>,
+  { dataSource }: QueryOptions
+): Promise<T[]> => {
+  const [sql, values] = convertParamSqlToPlainSql(query, replacements);
+  try {
+    return await withPool(getPool(dataSource), async (client) => {
+      const result = await client.query<T>(sql, values);
+      return result.rows;
+    });
+  } catch (e) {
+    const errorLines = [
+      `SQL query failed with error: ${trimError(e)}`,
+      `SQL: ${sql}`,
+      values
+        ? `Extrapolated values: ${values.map(
+            (value, index) => `$${index + 1} -> ${value}`
+          )}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+    console.error(errorLines);
+    throw e;
+  }
+};
+
+function getPool(dataSource: DataSource): Pool {
   switch (dataSource) {
-    case DS_INDEXER_BACKEND:
-      return models.sequelizeIndexerBackendReadOnly;
-    case DS_ANALYTICS_BACKEND:
-      return models.sequelizeAnalyticsBackendReadOnly;
-    case DS_TELEMETRY_BACKEND:
-      return models.sequelizeTelemetryBackendReadOnly;
-    default:
-      throw Error("getSequelize() has no default dataSource");
+    case DataSource.Indexer:
+      return databases.indexerBackendReadOnlyPool;
+    case DataSource.Analytics:
+      return databases.analyticsBackendReadOnlyPool;
+    case DataSource.Telemetry:
+      return databases.telemetryBackendReadOnlyPool;
   }
 }
 
 // we query block by id or hash in several places
 // so can use this helper
-const blockSearchCriteria = (blockId) =>
+const blockSearchCriteria = (blockId: string | number): string =>
   typeof blockId === "string" ? "block_hash" : "block_height";
 
-const querySingleRow = async (args, options) => {
-  const result = await query(args, options || {});
+const querySingleRow = async <
+  T extends object,
+  Args extends Replacements = undefined
+>(
+  args: QueryArgs<Args>,
+  options: QueryOptions
+): Promise<T | undefined> => {
+  const result = await query<T, Args>(args, options);
   return result[0];
 };
 
-const queryRows = async (args, options) => {
-  return await query(args, options || {});
+const queryRows = async <
+  T extends object,
+  Args extends Replacements = undefined
+>(
+  args: QueryArgs<Args>,
+  options: QueryOptions
+): Promise<T[]> => {
+  return await query<T, Args>(args, options);
 };
 
-const queryGenesisAccountCount = async () => {
-  return await querySingleRow(
+const queryGenesisAccountCount = async (): Promise<{ count: string }> => {
+  const result = await querySingleRow<{ count: string }>(
     [
       `SELECT
         COUNT(*)
       FROM accounts
       WHERE created_by_receipt_id IS NULL`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
+  if (!result) {
+    throw new Error("No accounts count!");
+  }
+  return result;
+};
+
+// model of "blocks" table in indexer DB
+type BlockModel = {
+  block_height: string;
+  block_hash: string;
+  prev_block_hash: string;
+  block_timestamp: string;
+  total_supply: string;
+  gas_price: string;
+  author_account_id: string;
+};
+
+// model of "nodes" table in telemetry DB
+type NodeModel = {
+  ip_address: string;
+  moniker: string;
+  account_id: string;
+  node_id: string;
+  last_seen: Date;
+  last_height: string;
+  agent_name: string;
+  agent_version: string;
+  agent_build: string;
+  peer_count: string;
+  is_validator: boolean;
+  last_hash: string;
+  signature: string;
+  status: string;
+  latitude: string | null;
+  longitude: string | null;
+  city: string | null;
+};
+
+type GenericNodeModelProps =
+  | "ip_address"
+  | "account_id"
+  | "node_id"
+  | "last_seen"
+  | "last_height"
+  | "agent_name"
+  | "agent_version"
+  | "agent_build"
+  | "status"
+  | "latitude"
+  | "longitude"
+  | "city";
+
+export type OnlineNode = {
+  accountId: string;
+  ipAddress: string;
+  nodeId: string;
+  lastSeen: Date;
+  lastHeight: number;
+  status: string;
+  agentName: string;
+  agentVersion: string;
+  agentBuild: string;
+  latitude: string | null;
+  longitude: string | null;
+  city: string | null;
+};
+
+export type StakingNodeWithTelemetryInfo = StakingNode & {
+  nodeInfo?: OnlineNode;
 };
 
 // query for node information
-const extendWithTelemetryInfo = async (nodes) => {
+const extendWithTelemetryInfo = async (
+  nodes: StakingNode[]
+): Promise<StakingNodeWithTelemetryInfo[]> => {
   const accountArray = nodes.map((node) => node.account_id);
-  let nodesInfo = await queryRows(
+  let nodesInfo = await queryRows<
+    Pick<NodeModel, GenericNodeModelProps>,
+    { accountArray: string[] }
+  >(
     [
       `SELECT ip_address, account_id, node_id,
         last_seen, last_height, status,
         agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
-      WHERE account_id IN (:accountArray)
+      WHERE account_id = ANY (:accountArray)
       ORDER BY last_seen`,
       { accountArray },
     ],
-    { dataSource: DS_TELEMETRY_BACKEND }
+    { dataSource: DataSource.Telemetry }
   );
-  let nodeMap = new Map();
+  let nodeMap = new Map<string, OnlineNode>();
   if (nodesInfo && nodesInfo.length > 0) {
     for (let i = 0; i < nodesInfo.length; i++) {
       const { account_id: accountId, ...nodeInfo } = nodesInfo[i];
@@ -94,37 +225,26 @@ const extendWithTelemetryInfo = async (nodes) => {
     }
   }
 
-  for (let i = 0; i < nodes.length; i++) {
-    nodes[i].nodeInfo = nodeMap.get(nodes[i].account_id);
-  }
-
-  return nodes;
+  return nodes.map((node) => ({
+    ...node,
+    nodeInfo: nodeMap.get(node.account_id),
+  }));
 };
 
-const pickOnlineValidatingNode = (nodes) => {
-  let onlineValidatingNodes = nodes.filter(
-    (node) => node.nodeInfo !== undefined
-  );
-  onlineValidatingNodes = onlineValidatingNodes.map((node) => {
-    return { accountId: node.account_id, ...node.nodeInfo };
-  });
-  return onlineValidatingNodes;
-};
-
-const queryNodeValidators = async () => {
-  return await queryRows(
+const queryNodeValidators = async (): Promise<{ account_id: string }[]> => {
+  return await queryRows<{ account_id: string }>(
     [
       `SELECT
       account_id
     FROM accounts
     WHERE account_id LIKE '%${nearStakingPoolAccountSuffix}'`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryOnlineNodes = async () => {
-  const query = await queryRows(
+const queryOnlineNodes = async (): Promise<OnlineNode[]> => {
+  const query = await queryRows<Pick<NodeModel, GenericNodeModelProps>>(
     [
       `SELECT ip_address, account_id, node_id,
         last_seen, last_height, status,
@@ -134,7 +254,7 @@ const queryOnlineNodes = async () => {
       WHERE last_seen > NOW() - INTERVAL '60 seconds'
       ORDER BY is_validator ASC, node_id DESC`,
     ],
-    { dataSource: DS_TELEMETRY_BACKEND }
+    { dataSource: DataSource.Telemetry }
   );
 
   return query.map((onlineNode) => ({
@@ -154,27 +274,39 @@ const queryOnlineNodes = async () => {
 };
 
 // query for new dashboard
-const queryDashboardBlocksStats = async (options) => {
-  async function queryLatestBlockHeight({ dataSource }) {
-    return (
-      await querySingleRow(
-        [`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`],
-        { dataSource }
-      )
-    ).block_height;
+const queryDashboardBlocksStats = async (options: QueryOptions) => {
+  async function queryLatestBlockHeight({
+    dataSource,
+  }: QueryOptions): Promise<string> {
+    const latestBlockHeightResult = await querySingleRow<
+      Pick<BlockModel, "block_height">
+    >([`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`], {
+      dataSource,
+    });
+    if (!latestBlockHeightResult) {
+      throw new Error("No latest block height found");
+    }
+    return latestBlockHeightResult.block_height;
   }
 
-  async function queryLatestGasPrice({ dataSource }) {
-    return (
-      await querySingleRow(
-        [`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`],
-        { dataSource }
-      )
-    ).gas_price;
+  async function queryLatestGasPrice({
+    dataSource,
+  }: QueryOptions): Promise<string> {
+    const latestGasPriceResult = await querySingleRow<
+      Pick<BlockModel, "gas_price">
+    >([`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`], {
+      dataSource,
+    });
+    if (!latestGasPriceResult) {
+      throw new Error("No latest gas price found");
+    }
+    return latestGasPriceResult.gas_price;
   }
 
-  async function queryRecentBlockProductionSpeed({ dataSource }) {
-    const latestBlockTimestampOrNone = await querySingleRow(
+  async function queryRecentBlockProductionSpeed({ dataSource }: QueryOptions) {
+    const latestBlockTimestampOrNone = await querySingleRow<
+      Pick<BlockModel, "block_timestamp">
+    >(
       [
         `SELECT
           block_timestamp AS latest_block_timestamp
@@ -186,12 +318,12 @@ const queryDashboardBlocksStats = async (options) => {
       return 0;
     }
     const {
-      latest_block_timestamp: latestBlockTimestamp,
+      block_timestamp: latestBlockTimestamp,
     } = latestBlockTimestampOrNone;
     const latestBlockTimestampBN = new BN(latestBlockTimestamp);
     const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
     let latestBlockEpochTimeBN;
-    if (dataSource === DS_INDEXER_BACKEND) {
+    if (dataSource === DataSource.Indexer) {
       latestBlockEpochTimeBN = latestBlockTimestampBN.div(new BN("1000000000"));
     } else {
       latestBlockEpochTimeBN = latestBlockTimestampBN.divn(1000);
@@ -201,7 +333,14 @@ const queryDashboardBlocksStats = async (options) => {
       return 0;
     }
 
-    const result = await querySingleRow(
+    const result = await querySingleRow<
+      {
+        blocks_count_60_seconds_before: string;
+      },
+      {
+        latest_block_timestamp: number;
+      }
+    >(
       [
         `SELECT
           COUNT(*) AS blocks_count_60_seconds_before
@@ -209,7 +348,7 @@ const queryDashboardBlocksStats = async (options) => {
         WHERE block_timestamp > (CAST(:latest_block_timestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
         {
           latest_block_timestamp:
-            dataSource == DS_INDEXER_BACKEND
+            dataSource == DataSource.Indexer
               ? latestBlockEpochTimeBN.toNumber()
               : latestBlockEpochTimeBN.muln(1000).toNumber(),
         },
@@ -218,10 +357,10 @@ const queryDashboardBlocksStats = async (options) => {
         dataSource,
       }
     );
-    if (!result || !result.blocks_count_60_seconds_before) {
+    if (!result) {
       return 0;
     }
-    return result.blocks_count_60_seconds_before / 60;
+    return parseInt(result.blocks_count_60_seconds_before) / 60;
   }
 
   const [
@@ -240,8 +379,10 @@ const queryDashboardBlocksStats = async (options) => {
   };
 };
 
-const queryTransactionsCountHistoryForTwoWeeks = async () => {
-  const query = await queryRows(
+const queryTransactionsCountHistoryForTwoWeeks = async (): Promise<
+  { date: Date; total: number }[]
+> => {
+  const query = await queryRows<{ date: Date; total: string }>(
     [
       `SELECT collected_for_day AS date,
               transactions_count AS total
@@ -249,7 +390,7 @@ const queryTransactionsCountHistoryForTwoWeeks = async () => {
       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
       ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 
   return query.map(({ total, ...rest }) => ({
@@ -258,8 +399,8 @@ const queryTransactionsCountHistoryForTwoWeeks = async () => {
   }));
 };
 
-const queryRecentTransactionsCount = async () => {
-  const { total } = await querySingleRow(
+const queryRecentTransactionsCount = async (): Promise<number | undefined> => {
+  const result = await querySingleRow<{ total: string }>(
     [
       `SELECT
         COUNT(transaction_hash) AS total
@@ -267,55 +408,80 @@ const queryRecentTransactionsCount = async () => {
       WHERE
         block_timestamp > (CAST(EXTRACT(EPOCH FROM NOW() - INTERVAL '1 day') AS bigint) * 1000 * 1000 * 1000)`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 
-  if (!total) {
-    return undefined;
+  if (!result) {
+    return;
   }
-  return parseInt(total);
+  return parseInt(result.total);
 };
 
 // query for statistics and charts
 // transactions related
-const queryTransactionsCountAggregatedByDate = async () => {
-  return await queryRows(
+const queryTransactionsCountAggregatedByDate = async (): Promise<
+  { date: Date; transactions_count_by_date: string }[]
+> => {
+  return await queryRows<{ date: Date; transactions_count_by_date: string }>(
     [
       `SELECT collected_for_day  AS date,
               transactions_count AS transactions_count_by_date
        FROM daily_transactions_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryGasUsedAggregatedByDate = async () => {
-  return await queryRows(
+const queryGasUsedAggregatedByDate = async (): Promise<
+  { date: Date; gas_used_by_date: string }[]
+> => {
+  return await queryRows<{ date: Date; gas_used_by_date: string }>(
     [
       `SELECT collected_for_day AS date,
               gas_used          AS gas_used_by_date
        FROM daily_gas_used
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryDepositAmountAggregatedByDate = async () => {
-  return await queryRows(
+const queryDepositAmountAggregatedByDate = async (): Promise<
+  { date: Date; total_deposit_amount: string }[]
+> => {
+  return await queryRows<{ date: Date; total_deposit_amount: string }>(
     [
       `SELECT collected_for_day AS date,
               deposit_amount    AS total_deposit_amount
        FROM daily_deposit_amount
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryTransactionsList = async (limit = 15, paginationIndexer) => {
-  return await queryRows(
+export type QueryTransaction = {
+  hash: string;
+  signer_id: string;
+  receiver_id: string;
+  block_hash: string;
+  block_timestamp: string;
+  transaction_index: number;
+};
+
+const queryTransactionsList = async (
+  limit: number = 15,
+  paginationIndexer?: TransactionPagination
+): Promise<QueryTransaction[]> => {
+  return await queryRows<
+    QueryTransaction,
+    {
+      end_timestamp?: string;
+      transaction_index?: number;
+      limit: number;
+    }
+  >(
     [
       `SELECT
         transactions.transaction_hash as hash,
@@ -342,16 +508,24 @@ const queryTransactionsList = async (limit = 15, paginationIndexer) => {
         limit,
       },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
 const queryAccountTransactionsList = async (
-  accountId,
-  limit = 15,
-  paginationIndexer
-) => {
-  return await queryRows(
+  accountId: string,
+  limit: number = 15,
+  paginationIndexer?: TransactionPagination
+): Promise<QueryTransaction[]> => {
+  return await queryRows<
+    QueryTransaction,
+    {
+      account_id?: string;
+      end_timestamp?: string;
+      transaction_index?: number;
+      limit: number;
+    }
+  >(
     [
       `SELECT transactions.transaction_hash AS hash,
               transactions.signer_account_id AS signer_id,
@@ -388,16 +562,24 @@ const queryAccountTransactionsList = async (
         limit,
       },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
 const queryTransactionsListInBlock = async (
-  blockHash,
-  limit = 15,
-  paginationIndexer
-) => {
-  return await queryRows(
+  blockHash: string,
+  limit: number = 15,
+  paginationIndexer?: TransactionPagination
+): Promise<QueryTransaction[]> => {
+  return await queryRows<
+    QueryTransaction,
+    {
+      block_hash?: string;
+      end_timestamp?: string;
+      transaction_index?: number;
+      limit: number;
+    }
+  >(
     [
       `SELECT
         transactions.transaction_hash as hash,
@@ -426,28 +608,47 @@ const queryTransactionsListInBlock = async (
         limit,
       },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryTransactionsActionsList = async (transactionHashes) => {
-  return await queryRows(
+const queryTransactionsActionsList = async (
+  transactionHashes: string[]
+): Promise<
+  {
+    transaction_hash: string;
+    kind: string;
+    args: Record<string, unknown>;
+  }[]
+> => {
+  return await queryRows<
+    {
+      transaction_hash: string;
+      kind: string;
+      args: Record<string, unknown>;
+    },
+    {
+      transaction_hashes: string[];
+    }
+  >(
     [
       `SELECT
         transaction_hash,
         action_kind AS kind,
         args
        FROM transaction_actions
-       WHERE transaction_hash IN (:transaction_hashes)
+       WHERE transaction_hash = ANY (:transaction_hashes)
        ORDER BY transaction_hash`,
       { transaction_hashes: transactionHashes },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryTransactionInfo = async (transactionHash) => {
-  return await querySingleRow(
+const queryTransactionInfo = async (
+  transactionHash: string
+): Promise<QueryTransaction | undefined> => {
+  return await querySingleRow<QueryTransaction, { transaction_hash: string }>(
     [
       `SELECT
         transactions.transaction_hash as hash,
@@ -462,61 +663,89 @@ const queryTransactionInfo = async (transactionHash) => {
        LIMIT 1`,
       { transaction_hash: transactionHash },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
 // accounts
-const queryNewAccountsCountAggregatedByDate = async () => {
-  return await queryRows(
+const queryNewAccountsCountAggregatedByDate = async (): Promise<
+  { date: Date; new_accounts_count_by_date: number }[]
+> => {
+  return await queryRows<{ date: Date; new_accounts_count_by_date: number }>(
     [
       `SELECT collected_for_day  AS date,
               new_accounts_count AS new_accounts_count_by_date
        FROM daily_new_accounts_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryDeletedAccountsCountAggregatedByDate = async () => {
-  return await queryRows(
+const queryDeletedAccountsCountAggregatedByDate = async (): Promise<
+  {
+    date: Date;
+    deleted_accounts_count_by_date: number;
+  }[]
+> => {
+  return await queryRows<{
+    date: Date;
+    deleted_accounts_count_by_date: number;
+  }>(
     [
       `SELECT collected_for_day      AS date,
               deleted_accounts_count AS deleted_accounts_count_by_date
        FROM daily_deleted_accounts_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryActiveAccountsCountAggregatedByDate = async () => {
-  return await queryRows(
+const queryActiveAccountsCountAggregatedByDate = async (): Promise<
+  {
+    date: Date;
+    active_accounts_count_by_date: number;
+  }[]
+> => {
+  return await queryRows<{
+    date: Date;
+    active_accounts_count_by_date: number;
+  }>(
     [
       `SELECT collected_for_day     AS date,
               active_accounts_count AS active_accounts_count_by_date
        FROM daily_active_accounts_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryActiveAccountsCountAggregatedByWeek = async () => {
-  return await queryRows(
+const queryActiveAccountsCountAggregatedByWeek = async (): Promise<
+  {
+    date: Date;
+    active_accounts_count_by_week: number;
+  }[]
+> => {
+  return await queryRows<{
+    date: Date;
+    active_accounts_count_by_week: number;
+  }>(
     [
       `SELECT collected_for_week    AS date,
               active_accounts_count AS active_accounts_count_by_week
        FROM weekly_active_accounts_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryActiveAccountsList = async () => {
-  return await queryRows(
+const queryActiveAccountsList = async (): Promise<
+  { account_id: string; transactions_count: string }[]
+> => {
+  return await queryRows<{ account_id: string; transactions_count: string }>(
     [
       `SELECT account_id,
               SUM(outgoing_transactions_count) AS transactions_count
@@ -526,12 +755,14 @@ const queryActiveAccountsList = async () => {
        ORDER BY transactions_count DESC
        LIMIT 10`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryIndexedAccount = async (accountId) => {
-  return await querySingleRow(
+const queryIndexedAccount = async (
+  accountId: string
+): Promise<{ account_id: string } | undefined> => {
+  return await querySingleRow<{ account_id: string }, { account_id: string }>(
     [
       `SELECT account_id
        FROM accounts
@@ -539,12 +770,31 @@ const queryIndexedAccount = async (accountId) => {
        LIMIT 1`,
       { account_id: accountId },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryAccountsList = async (limit = 15, paginationIndexer) => {
-  return await queryRows(
+const queryAccountsList = async (
+  limit: number = 15,
+  paginationIndexer?: AccountPagination
+): Promise<
+  {
+    account_id: string;
+    account_index: string;
+    created_at_block_timestamp: string;
+  }[]
+> => {
+  return await queryRows<
+    {
+      account_id: string;
+      account_index: string;
+      created_at_block_timestamp: string;
+    },
+    {
+      limit: number;
+      account_index?: number;
+    }
+  >(
     [
       `SELECT account_id AS account_id,
               id AS account_index,
@@ -559,13 +809,26 @@ const queryAccountsList = async (limit = 15, paginationIndexer) => {
         account_index: paginationIndexer?.accountIndex,
       },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryAccountOutcomeTransactionsCount = async (accountId) => {
-  async function queryOutcomeTransactionsCountFromAnalytics(accountId) {
-    const query = await querySingleRow(
+const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
+  async function queryOutcomeTransactionsCountFromAnalytics(
+    accountId: string
+  ): Promise<{
+    out_transactions_count: number;
+    last_day_collected_timestamp?: string;
+  }> {
+    const query = await querySingleRow<
+      {
+        out_transactions_count: string;
+        last_day_collected: Date;
+      },
+      {
+        account_id: string;
+      }
+    >(
       [
         `SELECT SUM(outgoing_transactions_count) AS out_transactions_count,
                 MAX(collected_for_day) AS last_day_collected
@@ -573,10 +836,10 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
          WHERE account_id = :account_id`,
         { account_id: accountId },
       ],
-      { dataSource: DS_ANALYTICS_BACKEND }
+      { dataSource: DataSource.Analytics }
     );
     const lastDayCollectedTimestamp = query?.last_day_collected
-      ? new BN(new Date(query.last_day_collected).getTime())
+      ? new BN(query.last_day_collected.getTime())
           .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
           .muln(10 ** 6)
           .toString()
@@ -589,9 +852,9 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
     };
   }
   async function queryOutcomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  ) {
+    accountId: string,
+    lastDayCollectedTimestamp?: string
+  ): Promise<number> {
     // since analytics are collected for the previous day,
     // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
     // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
@@ -601,7 +864,13 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
         .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
         .muln(10 ** 6)
         .toString();
-    const query = await querySingleRow(
+    const query = await querySingleRow<
+      { out_transactions_count: string },
+      {
+        account_id: string;
+        timestamp: string;
+      }
+    >(
       [
         `SELECT
          COUNT(transactions.transaction_hash) AS out_transactions_count
@@ -613,7 +882,7 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
           timestamp,
         },
       ],
-      { dataSource: DS_INDEXER_BACKEND }
+      { dataSource: DataSource.Indexer }
     );
     if (!query || !query.out_transactions_count) {
       return 0;
@@ -632,9 +901,22 @@ const queryAccountOutcomeTransactionsCount = async (accountId) => {
   return outTxCountFromAnalytics + outTxCountFromIndexer;
 };
 
-const queryAccountIncomeTransactionsCount = async (accountId) => {
-  async function queryIncomeTransactionsCountFromAnalytics(accountId) {
-    const query = await querySingleRow(
+const queryAccountIncomeTransactionsCount = async (accountId: string) => {
+  async function queryIncomeTransactionsCountFromAnalytics(
+    accountId: string
+  ): Promise<{
+    in_transactions_count: number;
+    last_day_collected_timestamp?: string;
+  }> {
+    const query = await querySingleRow<
+      {
+        in_transactions_count: string;
+        last_day_collected: Date;
+      },
+      {
+        account_id: string;
+      }
+    >(
       [
         `SELECT SUM(ingoing_transactions_count) as in_transactions_count,
                 MAX(collected_for_day) AS last_day_collected
@@ -642,10 +924,10 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
          WHERE account_id = :account_id`,
         { account_id: accountId },
       ],
-      { dataSource: DS_ANALYTICS_BACKEND }
+      { dataSource: DataSource.Analytics }
     );
     const lastDayCollectedTimestamp = query?.last_day_collected
-      ? new BN(new Date(query.last_day_collected).getTime())
+      ? new BN(query.last_day_collected.getTime())
           .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
           .muln(10 ** 6)
           .toString()
@@ -659,9 +941,9 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
   }
 
   async function queryIncomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  ) {
+    accountId: string,
+    lastDayCollectedTimestamp?: string
+  ): Promise<number> {
     // since analytics are collected for the previous day,
     // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
     // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
@@ -671,7 +953,13 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
         .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
         .muln(10 ** 6)
         .toString();
-    const query = await querySingleRow(
+    const query = await querySingleRow<
+      { in_transactions_count: string },
+      {
+        requested_account_id: string;
+        timestamp: string;
+      }
+    >(
       [
         `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
          FROM transactions
@@ -685,7 +973,7 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
           timestamp,
         },
       ],
-      { dataSource: DS_INDEXER_BACKEND }
+      { dataSource: DataSource.Indexer }
     );
     if (!query || !query.in_transactions_count) {
       return 0;
@@ -704,8 +992,18 @@ const queryAccountIncomeTransactionsCount = async (accountId) => {
   return inTxCountFromAnalytics + inTxCountFromIndexer;
 };
 
-const queryAccountInfo = async (accountId) => {
-  return await querySingleRow(
+export type AccountInfo = {
+  account_id: string;
+  created_at_block_timestamp: string;
+  created_by_transaction_hash: string;
+  deleted_at_block_timestamp: string | null;
+  deleted_by_transaction_hash: string | null;
+};
+
+const queryAccountInfo = async (
+  accountId: string
+): Promise<AccountInfo | undefined> => {
+  return await querySingleRow<AccountInfo, { account_id: string }>(
     [
       `SELECT
         inneraccounts.account_id,
@@ -722,12 +1020,21 @@ const queryAccountInfo = async (accountId) => {
        LEFT JOIN receipts AS deletion_receipt ON deletion_receipt.receipt_id = inneraccounts.deleted_by_receipt_id`,
       { account_id: accountId },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryAccountActivity = async (accountId, limit = 100) => {
-  return await queryRows(
+// Not used yet
+export type QueryAccountActivity = any;
+
+const queryAccountActivity = async (
+  accountId: string,
+  limit: number = 100
+): Promise<QueryAccountActivity[]> => {
+  return await queryRows<
+    QueryAccountActivity,
+    { account_id: string; limit: number }
+  >(
     [
       `SELECT TO_TIMESTAMP(DIV(account_changes.changed_in_block_timestamp, 1000 * 1000 * 1000))::date AS timestamp,
               account_changes.update_reason,
@@ -756,49 +1063,63 @@ const queryAccountActivity = async (accountId, limit = 100) => {
         limit,
       },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
 // contracts
-const queryNewContractsCountAggregatedByDate = async () => {
-  return await queryRows(
+const queryNewContractsCountAggregatedByDate = async (): Promise<
+  { date: Date; new_contracts_count_by_date: number }[]
+> => {
+  return await queryRows<{ date: Date; new_contracts_count_by_date: number }>(
     [
       `SELECT collected_for_day   AS date,
               new_contracts_count AS new_contracts_count_by_date
        FROM daily_new_contracts_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryUniqueDeployedContractsCountAggregatedByDate = async () => {
-  return await queryRows(
+const queryUniqueDeployedContractsCountAggregatedByDate = async (): Promise<
+  { date: Date; contracts_count_by_date: number }[]
+> => {
+  return await queryRows<{ date: Date; contracts_count_by_date: number }>(
     [
       `SELECT collected_for_day          AS date,
               new_unique_contracts_count AS contracts_count_by_date
        FROM daily_new_unique_contracts_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryActiveContractsCountAggregatedByDate = async () => {
-  return await queryRows(
+const queryActiveContractsCountAggregatedByDate = async (): Promise<
+  {
+    date: Date;
+    active_contracts_count_by_date: number;
+  }[]
+> => {
+  return await queryRows<{
+    date: Date;
+    active_contracts_count_by_date: number;
+  }>(
     [
       `SELECT collected_for_day      AS date,
               active_contracts_count AS active_contracts_count_by_date
        FROM daily_active_contracts_count
        ORDER BY date`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
-const queryActiveContractsList = async () => {
-  return await queryRows(
+const queryActiveContractsList = async (): Promise<
+  { contract_id: string; receipts_count: string }[]
+> => {
+  return await queryRows<{ contract_id: string; receipts_count: string }>(
     [
       `SELECT contract_id,
               SUM(receipts_count) AS receipts_count
@@ -808,32 +1129,58 @@ const queryActiveContractsList = async () => {
        ORDER BY receipts_count DESC
        LIMIT 10`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 };
 
 // query for partners
-const queryPartnerTotalTransactions = async () => {
-  return await queryRows(
+const queryPartnerTotalTransactions = async (): Promise<
+  {
+    receiver_account_id: string;
+    transactions_count: string;
+  }[]
+> => {
+  return await queryRows<
+    {
+      receiver_account_id: string;
+      transactions_count: string;
+    },
+    {
+      partner_list: string[];
+    }
+  >(
     [
       `SELECT
         receiver_account_id,
         COUNT(*) AS transactions_count
       FROM transactions
-      WHERE receiver_account_id IN (:partner_list)
+      WHERE receiver_account_id = ANY (:partner_list)
       GROUP BY receiver_account_id
       ORDER BY transactions_count DESC
       `,
       { partner_list: PARTNER_LIST },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryPartnerFirstThreeMonthTransactions = async () => {
+const queryPartnerFirstThreeMonthTransactions = async (): Promise<
+  {
+    receiver_account_id: string;
+    transactions_count: string;
+  }[]
+> => {
   let partnerList = Array(PARTNER_LIST.length);
   for (let i = 0; i < PARTNER_LIST.length; i++) {
-    let result = await querySingleRow(
+    let result = await querySingleRow<
+      {
+        receiver_account_id: string;
+        transactions_count: string;
+      },
+      {
+        partner: string;
+      }
+    >(
       [
         `SELECT
           :partner AS receiver_account_id,
@@ -850,49 +1197,68 @@ const queryPartnerFirstThreeMonthTransactions = async () => {
       `,
         { partner: PARTNER_LIST[i] },
       ],
-      { dataSource: DS_INDEXER_BACKEND }
+      { dataSource: DataSource.Indexer }
     );
     partnerList[i] = result;
   }
   return partnerList;
 };
 
-const queryPartnerUniqueUserAmount = async () => {
-  return await queryRows(
+const queryPartnerUniqueUserAmount = async (): Promise<
+  { receiver_account_id: string; user_amount: string }[]
+> => {
+  return await queryRows<
+    { receiver_account_id: string; user_amount: string },
+    { partner_list: string[] }
+  >(
     [
       `SELECT
         receiver_account_id,
         COUNT(DISTINCT predecessor_account_id) AS user_amount
       FROM receipts
-      WHERE receiver_account_id IN (:partner_list)
+      WHERE receiver_account_id = ANY (:partner_list)
       GROUP BY receiver_account_id
       ORDER BY user_amount DESC`,
       { partner_list: PARTNER_LIST },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryLatestCirculatingSupply = async () => {
-  return await querySingleRow(
+const queryLatestCirculatingSupply = async (): Promise<{
+  circulating_tokens_supply: string;
+  computed_at_block_timestamp: string;
+}> => {
+  const result = await querySingleRow<{
+    circulating_tokens_supply: string;
+    computed_at_block_timestamp: string;
+  }>(
     [
       `SELECT circulating_tokens_supply, computed_at_block_timestamp
        FROM aggregated__circulating_supply
        ORDER BY computed_at_block_timestamp DESC
        LIMIT 1;`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
+  if (!result) {
+    throw new Error(
+      "No circulating tokens supply in aggregated__circulating_supply table of indexer"
+    );
+  }
+  return result;
 };
 
 // pass 'days' to set period of calculation
-const calculateFeesByDay = async (days = 1) => {
+const calculateFeesByDay = async (
+  days: number = 1
+): Promise<{ date: Date; fee: string } | undefined> => {
   if (!(days >= 1 && days <= 7)) {
     throw Error(
       "calculateFeesByDay can only handle `days` values in range 1..7"
     );
   }
-  return await querySingleRow(
+  return await querySingleRow<{ date: Date; fee: string }>(
     [
       `SELECT
         DATE_TRUNC('day', NOW() - INTERVAL '${days} day') AS date,
@@ -905,12 +1271,22 @@ const calculateFeesByDay = async (days = 1) => {
           days - 1
         } day')) AS bigint) * 1000 * 1000 * 1000)`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryCirculatingSupply = async () => {
-  return await queryRows(
+const queryCirculatingSupply = async (): Promise<
+  {
+    date: Date;
+    circulating_tokens_supply: string;
+    total_tokens_supply: string;
+  }[]
+> => {
+  return await queryRows<{
+    date: Date;
+    circulating_tokens_supply: string;
+    total_tokens_supply: string;
+  }>(
     [
       `SELECT
         DATE_TRUNC('day', TO_TIMESTAMP(DIV(computed_at_block_timestamp, 1000*1000*1000))) AS date,
@@ -919,12 +1295,14 @@ const queryCirculatingSupply = async () => {
        FROM aggregated__circulating_supply
        ORDER BY date`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryFirstProducedBlockTimestamp = async () => {
-  return await querySingleRow(
+const queryFirstProducedBlockTimestamp = async (): Promise<{
+  first_produced_block_timestamp: Date;
+}> => {
+  const result = await querySingleRow<{ first_produced_block_timestamp: Date }>(
     [
       `SELECT
         TO_TIMESTAMP(DIV(block_timestamp, 1000 * 1000 * 1000))::date AS first_produced_block_timestamp
@@ -932,13 +1310,31 @@ const queryFirstProducedBlockTimestamp = async () => {
        ORDER BY blocks.block_timestamp
        LIMIT 1`,
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
+  if (!result) {
+    throw new Error("No blocks found");
+  }
+  return result;
 };
 
 // blocks
-const queryBlocksList = async (limit = 15, paginationIndexer) => {
-  return await queryRows(
+type QueryBlock = {
+  hash: string;
+  height: string;
+  timestamp: string;
+  prev_hash: string;
+  transactions_count: string;
+};
+
+const queryBlocksList = async (
+  limit: number = 15,
+  paginationIndexer?: number
+): Promise<QueryBlock[]> => {
+  return await queryRows<
+    QueryBlock,
+    { limit: number; pagination_indexer?: string }
+  >(
     [
       `SELECT
         blocks.block_hash AS hash,
@@ -968,13 +1364,21 @@ const queryBlocksList = async (limit = 15, paginationIndexer) => {
           : undefined,
       },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryBlockInfo = async (blockId) => {
+type QueryBlockInfo = QueryBlock & {
+  gas_price: string;
+  total_supply: string;
+  author_account_id: string;
+};
+
+const queryBlockInfo = async (
+  blockId: string | number
+): Promise<QueryBlockInfo | undefined> => {
   const searchCriteria = blockSearchCriteria(blockId);
-  return await querySingleRow(
+  return await querySingleRow<QueryBlockInfo, { block_id: string | number }>(
     [
       `SELECT
         blocks.block_hash AS hash,
@@ -997,13 +1401,18 @@ const queryBlockInfo = async (blockId) => {
       LIMIT 1`,
       { block_id: blockId },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryBlockByHashOrId = async (blockId) => {
+const queryBlockByHashOrId = async (
+  blockId: string | number
+): Promise<{ block_hash: string } | undefined> => {
   const searchCriteria = blockSearchCriteria(blockId);
-  return await querySingleRow(
+  return await querySingleRow<
+    { block_hash: string },
+    { block_id: string | number }
+  >(
     [
       `SELECT block_hash
        FROM blocks
@@ -1011,13 +1420,15 @@ const queryBlockByHashOrId = async (blockId) => {
        LIMIT 1`,
       { block_id: blockId },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
 // receipts
-const queryReceiptsCountInBlock = async (blockHash) => {
-  return await querySingleRow(
+const queryReceiptsCountInBlock = async (
+  blockHash: string
+): Promise<{ count: string } | undefined> => {
+  return await querySingleRow<{ count: string }, { block_hash: string }>(
     [
       `SELECT
         COUNT(receipt_id)
@@ -1026,12 +1437,28 @@ const queryReceiptsCountInBlock = async (blockHash) => {
        AND receipts.receipt_kind = 'ACTION'`,
       { block_hash: blockHash },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryReceiptInTransaction = async (receiptId) => {
-  return await querySingleRow(
+const queryReceiptInTransaction = async (
+  receiptId: string
+): Promise<
+  | {
+      receipt_id: string;
+      originated_from_transaction_hash: string;
+    }
+  | undefined
+> => {
+  return await querySingleRow<
+    {
+      receipt_id: string;
+      originated_from_transaction_hash: string;
+    },
+    {
+      receipt_id: string;
+    }
+  >(
     [
       `SELECT
         receipt_id, originated_from_transaction_hash
@@ -1040,12 +1467,17 @@ const queryReceiptInTransaction = async (receiptId) => {
        LIMIT 1`,
       { receipt_id: receiptId },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryIndexedTransaction = async (transactionHash) => {
-  return await querySingleRow(
+const queryIndexedTransaction = async (
+  transactionHash: string
+): Promise<{ transaction_hash: string } | undefined> => {
+  return await querySingleRow<
+    { transaction_hash: string },
+    { transaction_hash: string }
+  >(
     [
       `SELECT transaction_hash
        FROM transactions
@@ -1053,13 +1485,28 @@ const queryIndexedTransaction = async (transactionHash) => {
        LIMIT 1`,
       { transaction_hash: transactionHash },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
+export type QueryReceipt = {
+  receipt_id: string;
+  originated_from_transaction_hash: string;
+  predecessor_id: string;
+  receiver_id: string;
+  status: string;
+  gas_burnt: string;
+  tokens_burnt: string;
+  executed_in_block_timestamp: string;
+  kind: string;
+  args: object;
+};
+
 // expose receipts included in particular block
-const queryIncludedReceiptsList = async (blockHash) => {
-  return await queryRows(
+const queryIncludedReceiptsList = async (
+  blockHash: string
+): Promise<QueryReceipt[]> => {
+  return await queryRows<QueryReceipt, { block_hash: string }>(
     [
       `SELECT
         receipts.receipt_id,
@@ -1080,12 +1527,15 @@ const queryIncludedReceiptsList = async (blockHash) => {
        ORDER BY receipts.included_in_chunk_hash, receipts.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
       { block_hash: blockHash },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
+
 // query receipts executed in particular block
-const queryExecutedReceiptsList = async (blockHash) => {
-  return await queryRows(
+const queryExecutedReceiptsList = async (
+  blockHash: string
+): Promise<QueryReceipt[]> => {
+  return await queryRows<QueryReceipt, { block_hash: string }>(
     [
       `SELECT
         receipts.receipt_id,
@@ -1106,26 +1556,41 @@ const queryExecutedReceiptsList = async (blockHash) => {
        ORDER BY execution_outcomes.shard_id, execution_outcomes.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
       { block_hash: blockHash },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
-const queryContractInfo = async (accountId) => {
+const queryContractInfo = async (accountId: string) => {
   // find the latest update in analytics db
-  const {
-    latest_updated_timestamp: latestUpdatedTimestamp,
-  } = await querySingleRow(
+  const latestUpdateResult = await querySingleRow<{
+    latest_updated_timestamp: string;
+  }>(
     [
       `SELECT deployed_at_block_timestamp AS latest_updated_timestamp
        FROM deployed_contracts
        ORDER BY deployed_at_block_timestamp DESC
        LIMIT 1`,
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
+  if (!latestUpdateResult) {
+    throw new Error("No latest updated timestamp in DB");
+  }
+  const {
+    latest_updated_timestamp: latestUpdatedTimestamp,
+  } = latestUpdateResult;
   // query for the latest info from indexer
   // if it return 'undefined' then there was no update since deployed_at_block_timestamp
-  const contractInfoFromIndexer = await querySingleRow(
+  const contractInfoFromIndexer = await querySingleRow<
+    {
+      block_timestamp: string;
+      hash: string;
+    },
+    {
+      account_id: string;
+      timestamp: string;
+    }
+  >(
     [
       `SELECT
        DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
@@ -1142,7 +1607,7 @@ const queryContractInfo = async (accountId) => {
         timestamp: latestUpdatedTimestamp,
       },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 
   if (contractInfoFromIndexer) {
@@ -1153,7 +1618,13 @@ const queryContractInfo = async (accountId) => {
   }
 
   // query to analytics db to find latest historical record
-  const contractInfoFromAnalytics = await querySingleRow(
+  const contractInfoFromAnalytics = await querySingleRow<
+    {
+      receipt_id: string;
+      block_timestamp: string;
+    },
+    { account_id: string }
+  >(
     [
       `SELECT
        deployed_by_receipt_id AS receipt_id,
@@ -1164,11 +1635,20 @@ const queryContractInfo = async (accountId) => {
        LIMIT 1`,
       { account_id: accountId },
     ],
-    { dataSource: DS_ANALYTICS_BACKEND }
+    { dataSource: DataSource.Analytics }
   );
 
+  if (!contractInfoFromAnalytics) {
+    throw new Error(
+      `Contract info from analytics DB not found on account ${accountId}`
+    );
+  }
+
   // query for transaction hash where contact was deployed
-  const { hash } = await querySingleRow(
+  const transactionHashResult = await querySingleRow<
+    { hash: string },
+    { receipt_id: string }
+  >(
     [
       `SELECT originated_from_transaction_hash AS hash
         FROM receipts
@@ -1176,99 +1656,115 @@ const queryContractInfo = async (accountId) => {
         LIMIT 1`,
       { receipt_id: contractInfoFromAnalytics.receipt_id },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
+
+  if (!transactionHashResult) {
+    throw new Error(
+      `Transaction hash from analytics DB not found on account ${accountId}`
+    );
+  }
 
   if (contractInfoFromAnalytics) {
     return {
       block_timestamp: contractInfoFromAnalytics.block_timestamp,
-      hash,
+      hash: transactionHashResult.hash,
     };
   }
   return undefined;
 };
 
 // chunks
-const queryGasUsedInChunks = async (blockHash) => {
-  return await querySingleRow(
+const queryGasUsedInChunks = async (blockHash: string) => {
+  return await querySingleRow<{ gas_used: string }, { block_hash: string }>(
     [
       `SELECT SUM(gas_used) AS gas_used
        FROM chunks
        WHERE included_in_block_hash = :block_hash`,
       { block_hash: blockHash },
     ],
-    { dataSource: DS_INDEXER_BACKEND }
+    { dataSource: DataSource.Indexer }
   );
 };
 
 // node part
-exports.queryOnlineNodes = queryOnlineNodes;
-exports.extendWithTelemetryInfo = extendWithTelemetryInfo;
-exports.pickOnlineValidatingNode = pickOnlineValidatingNode;
-exports.queryNodeValidators = queryNodeValidators;
+export { queryOnlineNodes, extendWithTelemetryInfo, queryNodeValidators };
 
 // genesis
-exports.queryGenesisAccountCount = queryGenesisAccountCount;
+export { queryGenesisAccountCount };
 
 // dashboard
-exports.queryTransactionsCountHistoryForTwoWeeks = queryTransactionsCountHistoryForTwoWeeks;
-exports.queryRecentTransactionsCount = queryRecentTransactionsCount;
-exports.queryDashboardBlocksStats = queryDashboardBlocksStats;
+export {
+  queryTransactionsCountHistoryForTwoWeeks,
+  queryRecentTransactionsCount,
+  queryDashboardBlocksStats,
+};
 
 // transaction related
-exports.queryTransactionsCountAggregatedByDate = queryTransactionsCountAggregatedByDate;
-exports.queryGasUsedAggregatedByDate = queryGasUsedAggregatedByDate;
-exports.queryDepositAmountAggregatedByDate = queryDepositAmountAggregatedByDate;
-exports.queryIndexedTransaction = queryIndexedTransaction;
-exports.queryTransactionsList = queryTransactionsList;
-exports.queryTransactionsActionsList = queryTransactionsActionsList;
-exports.queryAccountTransactionsList = queryAccountTransactionsList;
-exports.queryTransactionsListInBlock = queryTransactionsListInBlock;
-exports.queryTransactionInfo = queryTransactionInfo;
+export {
+  queryTransactionsCountAggregatedByDate,
+  queryGasUsedAggregatedByDate,
+  queryDepositAmountAggregatedByDate,
+  queryIndexedTransaction,
+  queryTransactionsList,
+  queryTransactionsActionsList,
+  queryAccountTransactionsList,
+  queryTransactionsListInBlock,
+  queryTransactionInfo,
+};
 
 // accounts
-exports.queryNewAccountsCountAggregatedByDate = queryNewAccountsCountAggregatedByDate;
-exports.queryDeletedAccountsCountAggregatedByDate = queryDeletedAccountsCountAggregatedByDate;
-exports.queryActiveAccountsCountAggregatedByDate = queryActiveAccountsCountAggregatedByDate;
-exports.queryActiveAccountsList = queryActiveAccountsList;
-exports.queryActiveAccountsCountAggregatedByWeek = queryActiveAccountsCountAggregatedByWeek;
-exports.queryIndexedAccount = queryIndexedAccount;
-exports.queryAccountsList = queryAccountsList;
-exports.queryAccountInfo = queryAccountInfo;
-exports.queryAccountOutcomeTransactionsCount = queryAccountOutcomeTransactionsCount;
-exports.queryAccountIncomeTransactionsCount = queryAccountIncomeTransactionsCount;
-exports.queryAccountActivity = queryAccountActivity;
+export {
+  queryNewAccountsCountAggregatedByDate,
+  queryDeletedAccountsCountAggregatedByDate,
+  queryActiveAccountsCountAggregatedByDate,
+  queryActiveAccountsList,
+  queryActiveAccountsCountAggregatedByWeek,
+  queryIndexedAccount,
+  queryAccountsList,
+  queryAccountInfo,
+  queryAccountOutcomeTransactionsCount,
+  queryAccountIncomeTransactionsCount,
+  queryAccountActivity,
+};
 
 // blocks
-exports.queryFirstProducedBlockTimestamp = queryFirstProducedBlockTimestamp;
-exports.queryBlocksList = queryBlocksList;
-exports.queryBlockInfo = queryBlockInfo;
-exports.queryBlockByHashOrId = queryBlockByHashOrId;
+export {
+  queryFirstProducedBlockTimestamp,
+  queryBlocksList,
+  queryBlockInfo,
+  queryBlockByHashOrId,
+};
 
 // contracts
-exports.queryNewContractsCountAggregatedByDate = queryNewContractsCountAggregatedByDate;
-exports.queryUniqueDeployedContractsCountAggregatedByDate = queryUniqueDeployedContractsCountAggregatedByDate;
-exports.queryActiveContractsCountAggregatedByDate = queryActiveContractsCountAggregatedByDate;
-exports.queryActiveContractsList = queryActiveContractsList;
-exports.queryContractInfo = queryContractInfo;
+export {
+  queryNewContractsCountAggregatedByDate,
+  queryUniqueDeployedContractsCountAggregatedByDate,
+  queryActiveContractsCountAggregatedByDate,
+  queryActiveContractsList,
+  queryContractInfo,
+};
 
 // partner
-exports.queryPartnerTotalTransactions = queryPartnerTotalTransactions;
-exports.queryPartnerFirstThreeMonthTransactions = queryPartnerFirstThreeMonthTransactions;
-exports.queryPartnerUniqueUserAmount = queryPartnerUniqueUserAmount;
+export {
+  queryPartnerTotalTransactions,
+  queryPartnerFirstThreeMonthTransactions,
+  queryPartnerUniqueUserAmount,
+};
 
 // circulating supply
-exports.queryLatestCirculatingSupply = queryLatestCirculatingSupply;
-exports.queryCirculatingSupply = queryCirculatingSupply;
+export { queryLatestCirculatingSupply, queryCirculatingSupply };
 
 // calculate fee
-exports.calculateFeesByDay = calculateFeesByDay;
+export { calculateFeesByDay };
 
 // receipts
-exports.queryReceiptsCountInBlock = queryReceiptsCountInBlock;
-exports.queryReceiptInTransaction = queryReceiptInTransaction;
-exports.queryIncludedReceiptsList = queryIncludedReceiptsList;
-exports.queryExecutedReceiptsList = queryExecutedReceiptsList;
+export {
+  queryReceiptsCountInBlock,
+  queryReceiptInTransaction,
+  queryIncludedReceiptsList,
+  queryExecutedReceiptsList,
+};
 
 // chunks
-exports.queryGasUsedInChunks = queryGasUsedInChunks;
+export { queryGasUsedInChunks };
