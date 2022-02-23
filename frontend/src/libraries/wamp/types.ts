@@ -425,7 +425,7 @@ export type ProcedureTypes = {
     args: [string];
     result: AccountDetails;
   };
-  "account-activity-v1": {
+  "account-activity": {
     args: [string];
     result: any;
   };

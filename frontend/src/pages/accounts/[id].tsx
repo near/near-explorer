@@ -124,7 +124,7 @@ export const getServerSideProps: GetServerSideProps<
         return {
           props: {
             ...commonProps,
-            accountFetchingError,
+            accountFetchingError: String(accountFetchingError),
           },
         };
       }
