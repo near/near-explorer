@@ -16,27 +16,18 @@ const ReceiptLink = ({
   transactionHash,
   receiptId,
   truncate = true,
-  children,
 }: Props) => {
+  const children = truncate ? `${receiptId.substring(0, 7)}...` : receiptId;
+  if (!transactionHash) {
+    return <DisabledLink title={receiptId}>{children}</DisabledLink>;
+  }
   return (
-    <>
-      {!transactionHash ? (
-        <DisabledLink title={receiptId}>
-          {children ||
-            (truncate ? `${receiptId.substring(0, 7)}...` : receiptId)}
-        </DisabledLink>
-      ) : (
-        <Link
-          href="/transactions/[hash]"
-          as={`/transactions/${transactionHash}#${receiptId}`}
-        >
-          <a>
-            {children ||
-              (truncate ? `${receiptId.substring(0, 7)}...` : receiptId)}
-          </a>
-        </Link>
-      )}
-    </>
+    <Link
+      href="/transactions/[hash]"
+      as={`/transactions/${transactionHash}#${receiptId}`}
+    >
+      <a>{children}</a>
+    </Link>
   );
 };
 
