@@ -434,10 +434,6 @@ const wampHandlers: {
     return await stats.getPartnerFirst3MonthTransactionsCount();
   },
 
-  "partner-unique-user-amount": async () => {
-    return await stats.getPartnerUniqueUserAmount();
-  },
-
   // genesis stats
   "nearcore-genesis-accounts-count": async () => {
     return await stats.getGenesisAccountsCount();

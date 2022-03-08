@@ -49,7 +49,6 @@ import {
   aggregatePartnerTotalTransactionsCount,
   aggregatePartnerFirst3MonthTransactionsCount,
   aggregateDepositAmountByDate,
-  aggregateParterUniqueUserAmount,
   aggregateLiveAccountsCountByDate,
   aggregateCirculatingSupplyByDate,
 } from "./stats";
@@ -180,7 +179,6 @@ function startStatsAggregation(): void {
       //partner part
       await aggregatePartnerTotalTransactionsCount();
       await aggregatePartnerFirst3MonthTransactionsCount();
-      await aggregateParterUniqueUserAmount();
     } catch (error) {
       console.warn("Regular Stats Aggregation is crashed due to:", error);
     }

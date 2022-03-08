@@ -13,7 +13,6 @@ import {
   queryPartnerTotalTransactions,
   queryPartnerFirstThreeMonthTransactions,
   queryDepositAmountAggregatedByDate,
-  queryPartnerUniqueUserAmount,
   queryGenesisAccountCount,
   queryLatestCirculatingSupply,
   queryCirculatingSupply,
@@ -84,9 +83,6 @@ let PARTNER_TOTAL_TRANSACTIONS_COUNT: Nullable<
 > = null;
 let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT: Nullable<
   { account: string; transactionsCount: string }[]
-> = null;
-let PARTNER_UNIQUE_USER_AMOUNT: Nullable<
-  { account: string; userAmount: string }[]
 > = null;
 
 // circulating supply
@@ -327,16 +323,6 @@ const aggregatePartnerFirst3MonthTransactionsCount = retriable(async () => {
   );
 }, "Partners with respective transaction counts - first 3 months");
 
-const aggregateParterUniqueUserAmount = retriable(async () => {
-  const partnerUniqueUserAmount = await queryPartnerUniqueUserAmount();
-  PARTNER_UNIQUE_USER_AMOUNT = partnerUniqueUserAmount.map(
-    ({ receiver_account_id: account, user_amount: userAmount }) => ({
-      account,
-      userAmount,
-    })
-  );
-}, "Partners with respective unique user amount");
-
 const aggregateCirculatingSupplyByDate = retriable(async () => {
   const queryCirculatingSupplyByDate = await queryCirculatingSupply();
   CIRCULATING_SUPPLY_BY_DATE = queryCirculatingSupplyByDate.map(
@@ -445,12 +431,6 @@ async function getPartnerFirst3MonthTransactionsCount(): Promise<
   return PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT;
 }
 
-async function getPartnerUniqueUserAmount(): Promise<
-  typeof PARTNER_UNIQUE_USER_AMOUNT
-> {
-  return PARTNER_UNIQUE_USER_AMOUNT;
-}
-
 // circulating supply
 async function getLatestCirculatingSupply(): Promise<{
   timestamp: string;
@@ -522,7 +502,6 @@ export {
 export {
   aggregatePartnerTotalTransactionsCount,
   aggregatePartnerFirst3MonthTransactionsCount,
-  aggregateParterUniqueUserAmount,
 };
 
 // circulating supply
@@ -554,7 +533,6 @@ export {
 export {
   getPartnerTotalTransactionsCount,
   getPartnerFirst3MonthTransactionsCount,
-  getPartnerUniqueUserAmount,
 };
 
 // circulating supply

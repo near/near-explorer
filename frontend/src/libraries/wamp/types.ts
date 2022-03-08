@@ -449,10 +449,6 @@ export type ProcedureTypes = {
     args: [];
     result: DepositByDateAmount[] | null;
   };
-  "partner-unique-user-amount": {
-    args: [];
-    result: PartnerUserAmount[] | null;
-  };
   "transactions-count-aggregated-by-date": {
     args: [];
     result: TransactionsByDateAmount[] | null;

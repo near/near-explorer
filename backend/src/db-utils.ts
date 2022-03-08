@@ -1204,27 +1204,6 @@ const queryPartnerFirstThreeMonthTransactions = async (): Promise<
   return partnerList;
 };
 
-const queryPartnerUniqueUserAmount = async (): Promise<
-  { receiver_account_id: string; user_amount: string }[]
-> => {
-  return await queryRows<
-    { receiver_account_id: string; user_amount: string },
-    { partner_list: string[] }
-  >(
-    [
-      `SELECT
-        receiver_account_id,
-        COUNT(DISTINCT predecessor_account_id) AS user_amount
-      FROM receipts
-      WHERE receiver_account_id = ANY (:partner_list)
-      GROUP BY receiver_account_id
-      ORDER BY user_amount DESC`,
-      { partner_list: PARTNER_LIST },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-};
-
 const queryLatestCirculatingSupply = async (): Promise<{
   circulating_tokens_supply: string;
   computed_at_block_timestamp: string;
@@ -1749,7 +1728,6 @@ export {
 export {
   queryPartnerTotalTransactions,
   queryPartnerFirstThreeMonthTransactions,
-  queryPartnerUniqueUserAmount,
 };
 
 // circulating supply
