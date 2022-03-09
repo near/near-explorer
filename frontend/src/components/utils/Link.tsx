@@ -10,7 +10,6 @@ const LinkWrapper = (props: React.ComponentProps<typeof Link>) => {
       onClick={() =>
         track("Explorer Click Link", {
           href: props.href,
-          as: props.as ? props.as : "",
         })
       }
     >

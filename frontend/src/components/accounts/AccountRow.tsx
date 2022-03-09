@@ -67,7 +67,7 @@ const AccountRow: FC<Props> = ({ accountId }) => {
   );
 
   return (
-    <Link href="/accounts/[id]" as={`/accounts/${accountId}`} passHref>
+    <Link href={`/accounts/${accountId}`} passHref>
       <LinkWrapper>
         <TransactionRow className="mx-0">
           <Col md="auto" xs="1" className="pr-0">

@@ -12,7 +12,7 @@ export interface Props {
 
 const AccountLink = ({ accountId }: Props) => {
   return (
-    <Link href="/accounts/[id]" as={`/accounts/${accountId}`} passHref>
+    <Link href={`/accounts/${accountId}`} passHref>
       <AccountLinkWrapper>{truncateAccountId(accountId)}</AccountLinkWrapper>
     </Link>
   );
