@@ -1,22 +1,29 @@
-const {
+import {
+  AccountBasicInfo,
+  AccountPagination,
+  AccountTransactionsCount,
+  PaginatedAccountBasicInfo,
+} from "./client-types";
+import {
   queryIndexedAccount,
   queryAccountsList,
   queryAccountInfo,
   queryAccountOutcomeTransactionsCount,
   queryAccountIncomeTransactionsCount,
   queryAccountActivity,
-} = require("./db-utils");
+} from "./db-utils";
 
-const {
-  getIndexerCompatibilityTransactionActionKinds,
-} = require("./transactions");
+import { getIndexerCompatibilityTransactionActionKinds } from "./transactions";
 
-async function isAccountIndexed(accountId) {
+async function isAccountIndexed(accountId: string): Promise<boolean> {
   const account = await queryIndexedAccount(accountId);
   return Boolean(account?.account_id);
 }
 
-async function getAccountsList(limit, paginationIndexer) {
+async function getAccountsList(
+  limit: number,
+  paginationIndexer?: AccountPagination
+): Promise<PaginatedAccountBasicInfo[]> {
   const accountsList = await queryAccountsList(limit, paginationIndexer);
   return accountsList.map((account) => ({
     accountId: account.account_id,
@@ -25,23 +32,25 @@ async function getAccountsList(limit, paginationIndexer) {
   }));
 }
 
-async function getAccountTransactionsCount(accountId) {
-  const [outcomeTransactions, incomeTransactions] = await Promise.all([
+async function getAccountTransactionsCount(
+  accountId: string
+): Promise<AccountTransactionsCount> {
+  const [inTransactionsCount, outTransactionsCount] = await Promise.all([
     queryAccountOutcomeTransactionsCount(accountId),
     queryAccountIncomeTransactionsCount(accountId),
   ]);
   return {
-    inTransactionsCount: incomeTransactions ? parseInt(incomeTransactions) : 0,
-    outTransactionsCount: outcomeTransactions
-      ? parseInt(outcomeTransactions)
-      : 0,
+    inTransactionsCount,
+    outTransactionsCount,
   };
 }
 
-async function getAccountInfo(accountId) {
+async function getAccountInfo(
+  accountId: string
+): Promise<AccountBasicInfo | null> {
   const accountInfo = await queryAccountInfo(accountId);
   if (!accountInfo) {
-    return undefined;
+    return null;
   }
   return {
     accountId: accountInfo.account_id,
@@ -58,10 +67,10 @@ async function getAccountInfo(accountId) {
   };
 }
 
-async function getAccountActivity(accountId) {
+async function getAccountActivity(accountId: string): Promise<unknown> {
   const accountActivity = await queryAccountActivity(accountId);
   if (!accountActivity) {
-    return undefined;
+    return null;
   }
   const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
   return accountActivity.map((activity) => ({
@@ -92,8 +101,10 @@ async function getAccountActivity(accountId) {
   }));
 }
 
-exports.isAccountIndexed = isAccountIndexed;
-exports.getAccountsList = getAccountsList;
-exports.getAccountTransactionsCount = getAccountTransactionsCount;
-exports.getAccountInfo = getAccountInfo;
-exports.getAccountActivity = getAccountActivity;
+export {
+  isAccountIndexed,
+  getAccountsList,
+  getAccountTransactionsCount,
+  getAccountInfo,
+  getAccountActivity,
+};
