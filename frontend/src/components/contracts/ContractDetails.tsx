@@ -62,7 +62,7 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
           wampCall("contract-info-by-account-id", [accountId]),
           wampCall("nearcore-view-access-key-list", [accountId]),
         ]);
-        if (contractInfo !== undefined) {
+        if (contractInfo !== null) {
           return {
             codeHash,
             transactionHash: contractInfo.hash,
@@ -82,7 +82,7 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
   const locked = useMemo(
     () =>
       contractInfo?.accessKeys.every(
-        (key) => key["access_key"]["permission"]["FunctionCall"] !== undefined
+        (key) => key.access_key.permission !== "FullAccess"
       ),
     [contractInfo]
   );

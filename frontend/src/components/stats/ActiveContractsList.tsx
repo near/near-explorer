@@ -14,7 +14,7 @@ const ActiveContractsList = ({ chartStyle }: Props) => {
     useWampQuery(
       useCallback(
         async (wampCall) =>
-          (await wampCall("active-contracts-list", [])).reverse(),
+          ((await wampCall("active-contracts-list", [])) ?? []).reverse(),
         []
       )
     ) ?? [];

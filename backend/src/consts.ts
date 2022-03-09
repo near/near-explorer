@@ -1,7 +1,9 @@
-exports.DS_INDEXER_BACKEND = "INDEXER_BACKEND";
-exports.DS_ANALYTICS_BACKEND = "ANALYTICS_BACKEND";
-exports.DS_TELEMETRY_BACKEND = "TELEMETRY_BACKEND";
-exports.PARTNER_LIST = [
+export enum DataSource {
+  Indexer = "INDEXER_BACKEND",
+  Analytics = "ANALYTICS_BACKEND",
+  Telemetry = "TELEMETRY_BACKEND",
+}
+export const PARTNER_LIST = [
   "cheese.zest.near",
   "miguel.zest.near",
   "zest.near",
