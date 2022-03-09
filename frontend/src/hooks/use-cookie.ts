@@ -1,26 +1,21 @@
-import {
-  useRef,
-  useState,
-  useEffect,
-  SetStateAction,
-  Dispatch,
-  useCallback,
-} from "react";
+import * as React from "react";
 import Cookies from "universal-cookie";
 import { YEAR } from "../libraries/time";
 
 export const useCookie = <T extends string>(
   key: string,
   defaultValue: T
-): [T, Dispatch<SetStateAction<T>>] => {
-  const cookiesRef = useRef(new Cookies());
-  const getCookie = useCallback(
+): [T, React.Dispatch<React.SetStateAction<T>>] => {
+  const cookiesRef = React.useRef(new Cookies());
+  const getCookie = React.useCallback(
     () => cookiesRef.current.get<T | undefined>(key) || defaultValue,
     [key, defaultValue]
   );
-  const [value, setValue] = useState<T>(getCookie);
-  useEffect(() => setValue(getCookie), [key]);
-  const setCookieValue = useCallback<Dispatch<SetStateAction<T>>>(
+  const [value, setValue] = React.useState<T>(getCookie);
+  React.useEffect(() => setValue(getCookie), [key]);
+  const setCookieValue = React.useCallback<
+    React.Dispatch<React.SetStateAction<T>>
+  >(
     (setStateAction) => {
       setValue((prevValue) => {
         const nextValue =

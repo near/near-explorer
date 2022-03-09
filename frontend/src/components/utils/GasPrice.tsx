@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { FC } from "react";
+import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 import { formatNEAR, showInYocto } from "./Balance";
@@ -9,7 +9,7 @@ interface Props {
   gasPrice: BN;
 }
 
-const GasPrice: FC<Props> = ({ gasPrice }) => {
+const GasPrice: React.FC<Props> = ({ gasPrice }) => {
   let gasPricePerTeragas = new BN(gasPrice).mul(TGAS);
   return (
     <OverlayTrigger

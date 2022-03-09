@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import * as React from "react";
 
 import { TableCollapseRow } from "../utils/Table";
 
@@ -21,7 +21,7 @@ interface Props {
   poolDescription?: string;
 }
 
-const ValidatorCollapsedRow: FC<Props> = ({
+const ValidatorCollapsedRow: React.FC<Props> = ({
   isRowActive,
   progress,
   latestProducedValidatorBlock,

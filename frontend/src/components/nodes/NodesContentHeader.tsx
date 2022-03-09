@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 
 import NodeNav from "./NodeNav";
@@ -21,7 +21,7 @@ interface Props {
   navRole: string;
 }
 
-const NodesContentHeader: FC<Props> = ({ navRole }) => {
+const NodesContentHeader: React.FC<Props> = ({ navRole }) => {
   const { t } = useTranslation();
   return (
     <Row noGutters>

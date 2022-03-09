@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { StakingStatus } from "../../libraries/wamp/types";
 
@@ -51,7 +51,12 @@ interface Props {
   tooltipKey: string;
 }
 
-const ValidatingLabel: FC<Props> = ({ type, text, tooltipKey, children }) => (
+const ValidatingLabel: React.FC<Props> = ({
+  type,
+  text,
+  tooltipKey,
+  children,
+}) => (
   <OverlayTrigger
     placement={"right"}
     overlay={<Tooltip id={tooltipKey}>{text}</Tooltip>}

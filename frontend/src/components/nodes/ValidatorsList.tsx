@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { FC } from "react";
+import * as React from "react";
 import { ValidationNodeInfo } from "../../libraries/wamp/types";
 
 import ValidatorRow from "./ValidatorRow";
@@ -16,7 +16,7 @@ interface Props {
   };
 }
 
-const ValidatorsList: FC<Props> = ({
+const ValidatorsList: React.FC<Props> = ({
   validators,
   pages: { startPage, endPage, activePage, itemsPerPage },
 }) => {

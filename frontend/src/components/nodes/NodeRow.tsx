@@ -1,4 +1,4 @@
-import { FC, useState, useCallback } from "react";
+import * as React from "react";
 import { Badge, Row, Col } from "react-bootstrap";
 
 import { TableRow, TableCollapseRow, OrderTableCell } from "../utils/Table";
@@ -84,10 +84,10 @@ export const statusIdentifier = new Map([
   ["NoSync", ""],
 ]);
 
-const NodeRow: FC<Props> = ({ node, index }) => {
+const NodeRow: React.FC<Props> = ({ node, index }) => {
   const { t } = useTranslation();
-  const [isRowActive, setRowActive] = useState(false);
-  const switchRowActive = useCallback(() => setRowActive((x) => !x), [
+  const [isRowActive, setRowActive] = React.useState(false);
+  const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
     setRowActive,
   ]);
   const latestBlockHeight = useLatestBlockHeight();

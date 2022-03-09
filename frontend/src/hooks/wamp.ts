@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import * as React from "react";
 import { useNetworkContext } from "./use-network-context";
 import wampApi, { WampCall } from "../libraries/wamp/api";
 import {
@@ -11,19 +11,19 @@ import {
 
 export const useWampCall = (): WampCall => {
   const { currentNetwork } = useNetworkContext();
-  return useCallback(wampApi.getCall(currentNetwork), [currentNetwork]);
+  return React.useCallback(wampApi.getCall(currentNetwork), [currentNetwork]);
 };
 
 type Fetcher<T> = (wampCall: WampCall) => Promise<T | undefined>;
 
 export const useWampQuery = <T>(fetcher: Fetcher<T>): T | undefined => {
-  const [value, setValue] = useState<T>();
+  const [value, setValue] = React.useState<T>();
   const wampCall = useWampCall();
-  const fetchValue = useCallback(
+  const fetchValue = React.useCallback(
     async () => setValue(await fetcher(wampCall)),
     [setValue, fetcher, wampCall]
   );
-  useEffect(() => {
+  React.useEffect(() => {
     void fetchValue().catch((error) => {
       console.error(new Error("WAMP call fail").stack);
       console.error(error);
@@ -37,7 +37,7 @@ export const useWampSimpleQuery = <P extends ProcedureType>(
   args: ProcedureArgs<P>
 ) =>
   useWampQuery<ProcedureResult<P>>(
-    useCallback((wampCall) => wampCall(procedure, args), args)
+    React.useCallback((wampCall) => wampCall(procedure, args), args)
   );
 
 export const useWampSubscription = <Topic extends SubscriptionTopicType>(
@@ -45,10 +45,10 @@ export const useWampSubscription = <Topic extends SubscriptionTopicType>(
   withDataSource?: boolean
 ): SubscriptionTopicTypes[Topic] | undefined => {
   const { currentNetwork } = useNetworkContext();
-  const [value, setValue] = useState<
+  const [value, setValue] = React.useState<
     SubscriptionTopicTypes[Topic] | undefined
   >();
-  useEffect(
+  React.useEffect(
     () =>
       wampApi.subscribe<Topic>(currentNetwork, topic, setValue, withDataSource),
     [currentNetwork, topic, setValue, withDataSource]

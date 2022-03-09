@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import * as React from "react";
 import { NearNetwork } from "../libraries/config";
 
 export interface NetworkContext {
@@ -6,6 +6,6 @@ export interface NetworkContext {
   networks: NearNetwork[];
 }
 
-export const NetworkContext = createContext<NetworkContext | undefined>(
+export const NetworkContext = React.createContext<NetworkContext | undefined>(
   undefined
 );

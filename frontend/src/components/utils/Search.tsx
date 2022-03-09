@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { FC, useState, useCallback, FormEvent } from "react";
+import * as React from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
@@ -172,14 +172,14 @@ interface Props {
   dashboard?: boolean;
 }
 
-const Search: FC<Props> = ({ dashboard }) => {
+const Search: React.FC<Props> = ({ dashboard }) => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = React.useState("");
   const wampCall = useWampCall();
-  const onSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = React.useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
       const cleanedSearchValue = value.replace(/\s/g, "");
@@ -236,9 +236,10 @@ const Search: FC<Props> = ({ dashboard }) => {
     },
     [value, track, wampCall]
   );
-  const onChange = useCallback((event) => setValue(event.currentTarget.value), [
-    setValue,
-  ]);
+  const onChange = React.useCallback(
+    (event) => setValue(event.currentTarget.value),
+    [setValue]
+  );
 
   const compact = !dashboard;
 

@@ -1,7 +1,7 @@
-import { FC } from "react";
+import * as React from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 
-const PaginationSpinner: FC = () => (
+const PaginationSpinner: React.FC = () => (
   <div>
     <Row>
       <Col xs="auto" className="mx-auto">

@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import * as React from "react";
 import { Dropdown } from "react-bootstrap";
 
 import IconAccounts from "../../../public/static/images/icon-accounts.svg";
@@ -50,10 +50,10 @@ const NavText = styled("span", {
 interface Props {
   link: string;
   IconElement: StyledComponent;
-  text: ReactNode;
+  text: React.ReactNode;
 }
 
-const HeaderNavItem: FC<Props> = ({ link, IconElement, text }) => {
+const HeaderNavItem: React.FC<Props> = ({ link, IconElement, text }) => {
   return (
     <Link href={link} passHref>
       <HeaderNavLink>
@@ -106,7 +106,7 @@ const globalStyles = globalCss({
   },
 });
 
-const HeaderNavDropdown: FC = () => {
+const HeaderNavDropdown: React.FC = () => {
   const { t } = useTranslation();
   globalStyles();
   return (

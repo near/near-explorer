@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import Receipts from "../receipts/Receipts";
 import Placeholder from "../utils/Placeholder";
@@ -11,7 +11,7 @@ interface Props {
   receiptsList?: Receipt[];
 }
 
-const ReceiptsList: FC<Props> = ({ receiptsList }) => {
+const ReceiptsList: React.FC<Props> = ({ receiptsList }) => {
   const { t } = useTranslation();
   return (
     <>

@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import { FC } from "react";
+import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -69,7 +69,7 @@ export interface Props {
   block: BlockBase;
 }
 
-const BlocksRow: FC<Props> = ({ block }) => {
+const BlocksRow: React.FC<Props> = ({ block }) => {
   const { t } = useTranslation();
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
   return (

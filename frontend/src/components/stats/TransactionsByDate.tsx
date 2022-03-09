@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
@@ -16,18 +16,18 @@ const TransactionsByDateChart = ({ chartStyle }: Props) => {
   const { t } = useTranslation();
   const transactionCountByDate =
     useWampSimpleQuery("transactions-count-aggregated-by-date", []) ?? [];
-  const transactionsByDate = useMemo(
+  const transactionsByDate = React.useMemo(
     () =>
       transactionCountByDate.map(({ transactionsCount }) =>
         Number(transactionsCount)
       ),
     [transactionCountByDate]
   );
-  const transactionsByDateCumulative = useMemo(
+  const transactionsByDateCumulative = React.useMemo(
     () => cumulativeSumArray(transactionsByDate),
     [transactionsByDate]
   );
-  const transactionDates = useMemo(
+  const transactionDates = React.useMemo(
     () => transactionCountByDate.map(({ date }) => date.slice(0, 10)),
     [transactionCountByDate]
   );

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Action } from "../../libraries/wamp/types";
 
 import actionIcons from "./ActionIcons";
@@ -18,7 +18,7 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-const ActionRow: FC<Props> = ({
+const ActionRow: React.FC<Props> = ({
   viewMode = "sparse",
   detalizationMode = "detailed",
   signerId,

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 
 import { useWampSimpleQuery } from "../../hooks/wamp";
@@ -6,11 +6,11 @@ import { useWampSimpleQuery } from "../../hooks/wamp";
 const PartnerTotalTransactionList = () => {
   const partnerTotalTransactions =
     useWampSimpleQuery("partner-total-transactions-count", []) ?? [];
-  const partnerTotalTransactionsAccounts = useMemo(
+  const partnerTotalTransactionsAccounts = React.useMemo(
     () => partnerTotalTransactions.map(({ account }) => account),
     [partnerTotalTransactions]
   );
-  const partnerTotalTransactionsTransactionCount = useMemo(
+  const partnerTotalTransactionsTransactionCount = React.useMemo(
     () =>
       partnerTotalTransactions.map(({ transactionsCount }) =>
         Number(transactionsCount)

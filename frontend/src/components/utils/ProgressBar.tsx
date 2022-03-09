@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import { Line, Circle } from "rc-progress";
 import { styled } from "../../libraries/styles";
@@ -31,7 +31,7 @@ interface Props {
   label?: React.ReactNode | string;
 }
 
-const ProgressBarEx: FC<Props> = ({
+const ProgressBarEx: React.FC<Props> = ({
   type = "line",
   className,
   label,

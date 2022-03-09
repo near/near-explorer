@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  ReactNode,
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
+import * as React from "react";
 import Link from "../utils/Link";
 
 import IconAccountsSvg from "../../../public/static/images/icon-accounts.svg";
@@ -50,10 +43,10 @@ const NavText = styled("span", {
 interface Props {
   link: string;
   IconElement: StyledComponent;
-  text: ReactNode;
+  text: React.ReactNode;
 }
 
-const MobileNavItem: FC<Props> = ({ link, IconElement, text }) => {
+const MobileNavItem: React.FC<Props> = ({ link, IconElement, text }) => {
   return (
     <Link href={link} passHref>
       <HeaderNavLink>
@@ -124,24 +117,27 @@ const LinkWrapper = styled("a", {
 
 const MobileNavDropdown = () => {
   const { t } = useTranslation();
-  const [isMenuShown, setMenuShown] = useState(false);
-  const dropdownWrapperRef = useRef<HTMLDivElement>(null);
-  const dropdownMenuRef = useRef<HTMLDivElement>(null);
+  const [isMenuShown, setMenuShown] = React.useState(false);
+  const dropdownWrapperRef = React.useRef<HTMLDivElement>(null);
+  const dropdownMenuRef = React.useRef<HTMLDivElement>(null);
 
-  const showMenu = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const dropdownMenuElement = dropdownMenuRef.current;
-    const dropdownWrapperElement = dropdownWrapperRef.current;
-    if (!dropdownWrapperElement) {
-      return;
-    }
-    setMenuShown(
-      !dropdownWrapperElement.contains(dropdownMenuElement) ||
-        Boolean(dropdownMenuElement?.contains(event.target as Node))
-    );
-  }, []);
-  const closeMenu = useCallback(
+  const showMenu = React.useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+      const dropdownMenuElement = dropdownMenuRef.current;
+      const dropdownWrapperElement = dropdownWrapperRef.current;
+      if (!dropdownWrapperElement) {
+        return;
+      }
+      setMenuShown(
+        !dropdownWrapperElement.contains(dropdownMenuElement) ||
+          Boolean(dropdownMenuElement?.contains(event.target as Node))
+      );
+    },
+    []
+  );
+  const closeMenu = React.useCallback(
     (event: MouseEvent) => {
       const dropdownMenuElement = dropdownMenuRef.current;
       if (
@@ -154,7 +150,7 @@ const MobileNavDropdown = () => {
     [dropdownMenuRef]
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isMenuShown) {
       document.addEventListener("click", closeMenu);
     }

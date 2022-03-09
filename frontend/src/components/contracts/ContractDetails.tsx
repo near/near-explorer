@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { FC, useCallback, useMemo } from "react";
+import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -46,10 +46,10 @@ interface Props {
   accountId: string;
 }
 
-const ContractDetails: FC<Props> = ({ accountId }) => {
+const ContractDetails: React.FC<Props> = ({ accountId }) => {
   const { t } = useTranslation();
   const contractInfo = useWampQuery(
-    useCallback(
+    React.useCallback(
       async (wampCall) => {
         // codeHash does not exist for deleted accounts
         const account = await wampCall("nearcore-view-account", [accountId]);
@@ -79,7 +79,7 @@ const ContractDetails: FC<Props> = ({ accountId }) => {
       [accountId]
     )
   );
-  const locked = useMemo(
+  const locked = React.useMemo(
     () =>
       contractInfo?.accessKeys.every(
         (key) => key["access_key"]["permission"]["FunctionCall"] !== undefined

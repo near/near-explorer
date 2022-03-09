@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
@@ -17,7 +17,7 @@ const fetchDataFn = (
   paginationIndexer?: AccountPagination
 ) => wampCall("accounts-list", [count, paginationIndexer]);
 
-const AccountsWrapper: FC = () => (
+const AccountsWrapper: React.FC = () => (
   <AccountsList count={ACCOUNTS_PER_PAGE} fetchDataFn={fetchDataFn} />
 );
 
@@ -27,7 +27,7 @@ interface InnerProps {
   items: PaginatedAccountBasicInfo[];
 }
 
-const Accounts: FC<InnerProps> = ({ items }) => (
+const Accounts: React.FC<InnerProps> = ({ items }) => (
   <FlipMove duration={1000} staggerDurationBy={0}>
     {items.map((account) => (
       <div key={account.accountId}>

@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import { FC } from "react";
+import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -84,7 +84,7 @@ export interface Props {
   transactionHash: string;
 }
 
-const ReceiptRow: FC<Props> = ({ receipt, transactionHash }) => {
+const ReceiptRow: React.FC<Props> = ({ receipt, transactionHash }) => {
   const { t } = useTranslation();
   let statusInfo;
   if ("SuccessValue" in (receipt.outcome.status as RpcReceiptSuccessValue)) {

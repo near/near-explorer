@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Receipt } from "../../libraries/wamp/types";
@@ -11,7 +11,7 @@ interface Props {
   receipts: Receipt[];
 }
 
-const Receipts: FC<Props> = ({ receipts }) => {
+const Receipts: React.FC<Props> = ({ receipts }) => {
   const { t } = useTranslation();
   return (
     <>

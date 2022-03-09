@@ -1,4 +1,4 @@
-import { FC, useState, useCallback } from "react";
+import * as React from "react";
 
 import { Table, OnPageChange } from "../utils/Table";
 import PaginationSpinner from "../utils/PaginationSpinner";
@@ -16,13 +16,13 @@ const ValidatorNodePagination = styled(PaginateWrapper, {
 
 const ITEMS_PER_PAGE = 120;
 
-const Validators: FC = () => {
+const Validators: React.FC = () => {
   const { t } = useTranslation();
-  const [activePage, setActivePage] = useState(0);
-  const [startPage, setStartPage] = useState(1);
-  const [endPage, setEndPage] = useState(ITEMS_PER_PAGE);
+  const [activePage, setActivePage] = React.useState(0);
+  const [startPage, setStartPage] = React.useState(1);
+  const [endPage, setEndPage] = React.useState(ITEMS_PER_PAGE);
 
-  const onPageChange = useCallback<NonNullable<OnPageChange>>(
+  const onPageChange = React.useCallback<NonNullable<OnPageChange>>(
     ({ selected }) => {
       setActivePage(selected);
       setStartPage(selected * ITEMS_PER_PAGE + 1);

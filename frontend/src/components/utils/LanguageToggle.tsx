@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 import { LANGUAGE_COOKIE, setMomentLanguage } from "../../libraries/language";
 import { useTranslation } from "react-i18next";
 import {
@@ -64,7 +64,7 @@ type Props = {
 const LanguageToggle: React.FC<Props> = (props) => {
   const { i18n, ready } = useTranslation();
   const [language, setLanguage] = useCookie(LANGUAGE_COOKIE, DEFAULT_LANGUAGE);
-  useEffect(() => {
+  React.useEffect(() => {
     if (!ready) {
       return;
     }

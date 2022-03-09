@@ -1,6 +1,6 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { FC, useCallback, useEffect, useState } from "react";
+import * as React from "react";
 
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";
@@ -37,7 +37,7 @@ const LoadButton = styled("button", {
 });
 
 interface StaticConfig<T, I> {
-  Component: FC<{ items: T[] }>;
+  Component: React.FC<{ items: T[] }>;
   category: string;
   paginationIndexer: (items: T[]) => I;
   hasUpdateButton?: boolean;
@@ -52,7 +52,7 @@ type UpdateBlockHeightProps = {
   onClick: () => void;
 };
 
-const UpdateBlockHeight: FC<UpdateBlockHeightProps> = (props) => {
+const UpdateBlockHeight: React.FC<UpdateBlockHeightProps> = (props) => {
   const { t } = useTranslation();
   const latestBlockHeight = useLatestBlockHeight();
   return (
@@ -64,16 +64,16 @@ const UpdateBlockHeight: FC<UpdateBlockHeightProps> = (props) => {
   );
 };
 
-const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
+const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
   return (props) => {
     const { t } = useTranslation();
-    const [items, setItems] = useState<T[]>([]);
-    const [shouldShow, setShouldShow] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
-    const [loading, setLoading] = useState(false);
+    const [items, setItems] = React.useState<T[]>([]);
+    const [shouldShow, setShouldShow] = React.useState(false);
+    const [hasMore, setHasMore] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
     const wampCall = useWampCall();
 
-    const fetch = useCallback(() => {
+    const fetch = React.useCallback(() => {
       setLoading(true);
       props
         .fetchDataFn(wampCall, props.count)
@@ -96,7 +96,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
       props.count,
     ]);
 
-    const fetchMore = useCallback(() => {
+    const fetchMore = React.useCallback(() => {
       setLoading(true);
       props
         .fetchDataFn(wampCall, props.count, config.paginationIndexer(items))
@@ -116,7 +116,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): FC<Props<T, I>> => {
       props.count,
     ]);
 
-    useEffect(() => {
+    React.useEffect(() => {
       fetch();
     }, []);
 

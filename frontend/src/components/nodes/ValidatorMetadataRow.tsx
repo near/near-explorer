@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import { Col, Row } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
@@ -23,7 +23,7 @@ interface Props {
   poolDescription?: string;
 }
 
-const ValidatorMetadataRow: FC<Props> = ({
+const ValidatorMetadataRow: React.FC<Props> = ({
   poolWebsite,
   poolEmail,
   poolTwitter,

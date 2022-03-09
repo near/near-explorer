@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useRouter } from "next/router";
 
@@ -52,7 +52,7 @@ const HeaderHome = styled("a", {
   textDecoration: "none",
 });
 
-const Header: FC = () => {
+const Header: React.FC = () => {
   const { t } = useTranslation();
   const router = useRouter();
 

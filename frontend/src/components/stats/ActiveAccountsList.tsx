@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 
 import { truncateAccountId } from "../../libraries/formatting";
@@ -12,17 +12,17 @@ const ActiveAccountsList = ({ chartStyle }: Props) => {
   const { t } = useTranslation();
   const accounts =
     useWampQuery(
-      useCallback(
+      React.useCallback(
         async (wampCall) =>
           (await wampCall("active-accounts-list", [])).reverse(),
         []
       )
     ) ?? [];
-  const accountsIds = useMemo(
+  const accountsIds = React.useMemo(
     () => accounts.map(({ account }) => truncateAccountId(account)),
     [accounts]
   );
-  const accountsTransactionCount = useMemo(
+  const accountsTransactionCount = React.useMemo(
     () => accounts.map(({ transactionsCount }) => Number(transactionsCount)),
     [accounts]
   );

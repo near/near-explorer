@@ -1,7 +1,7 @@
 import moment from "moment";
 import BN from "bn.js";
 
-import { FC, useMemo } from "react";
+import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
@@ -49,11 +49,13 @@ export interface Props {
   block: Block;
 }
 
-const BlockDetails: FC<Props> = ({ block }) => {
+const BlockDetails: React.FC<Props> = ({ block }) => {
   const { t } = useTranslation();
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
-  const gasUsed = useMemo(() => new BN(block.gasUsed), [block.gasUsed]);
-  const gasPrice = useMemo(() => new BN(block.gasPrice), [block.gasPrice]);
+  const gasUsed = React.useMemo(() => new BN(block.gasUsed), [block.gasUsed]);
+  const gasPrice = React.useMemo(() => new BN(block.gasPrice), [
+    block.gasPrice,
+  ]);
 
   return (
     <Row noGutters>

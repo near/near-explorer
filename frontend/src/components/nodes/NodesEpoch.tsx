@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import moment from "moment";
 
 import { Row, Col } from "react-bootstrap";
@@ -49,7 +49,7 @@ interface Props {
   latestBlockTimestamp: number;
 }
 
-const NodesEpoch: FC<Props> = ({
+const NodesEpoch: React.FC<Props> = ({
   epochStartHeight,
   latestBlockHeight,
   epochLength,

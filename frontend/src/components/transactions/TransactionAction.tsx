@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import * as React from "react";
 
 import TransactionLink from "../utils/TransactionLink";
 import ActionGroup from "./ActionGroup";
@@ -17,10 +17,13 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-const TransactionAction: FC<Props> = ({ transaction, viewMode = "sparse" }) => {
+const TransactionAction: React.FC<Props> = ({
+  transaction,
+  viewMode = "sparse",
+}) => {
   const { t } = useTranslation();
   const executionStatus = useWampQuery(
-    useCallback(
+    React.useCallback(
       async (wampCall) => {
         // TODO: Expose transaction status via transactions list from chunk
         // RPC, and store it during Explorer synchronization.

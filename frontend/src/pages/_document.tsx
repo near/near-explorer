@@ -7,11 +7,11 @@ import NextDocument, {
   DocumentContext,
   DocumentInitialProps,
 } from "next/document";
-import { ReactElement } from "react";
+import * as React from "react";
 import { getCssText } from "../libraries/styles";
 
 interface DocumentType {
-  (props: DocumentProps): ReactElement;
+  (props: DocumentProps): React.ReactElement;
   getInitialProps?: (context: DocumentContext) => Promise<DocumentInitialProps>;
 }
 

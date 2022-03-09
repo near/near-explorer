@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import AccountLink from "../utils/AccountLink";
@@ -144,7 +144,7 @@ export interface Props {
   isFinal?: boolean;
 }
 
-const ActionRowBlock: FC<Props> = ({
+const ActionRowBlock: React.FC<Props> = ({
   viewMode = "sparse",
   detalizationMode = "detailed",
   signerId,

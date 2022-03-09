@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 
@@ -11,11 +11,11 @@ const ActiveContractsByDate = ({ chartStyle }: Props) => {
   const { t } = useTranslation();
   const contractsByDate =
     useWampSimpleQuery("active-contracts-count-aggregated-by-date", []) ?? [];
-  const contractsByDateCount = useMemo(
+  const contractsByDateCount = React.useMemo(
     () => contractsByDate.map(({ contractsCount }) => contractsCount),
     [contractsByDate]
   );
-  const contractsByDateDates = useMemo(
+  const contractsByDateDates = React.useMemo(
     () => contractsByDate.map(({ date }) => date.slice(0, 10)),
     [contractsByDate]
   );

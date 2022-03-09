@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import * as React from "react";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 const LinkWrapper = (props: React.ComponentProps<typeof Link>) => {

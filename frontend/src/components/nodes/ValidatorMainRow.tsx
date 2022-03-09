@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import React, { FC } from "react";
+import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
@@ -75,7 +75,7 @@ const yoctoNearToNear = new BN(1)
   .muln(10 ** 6)
   .muln(10 ** 6);
 
-const ValidatorMainRow: FC<Props> = ({
+const ValidatorMainRow: React.FC<Props> = ({
   isRowActive,
   accountId,
   index,

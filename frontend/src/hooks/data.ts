@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { useCallback, useMemo } from "react";
+import * as React from "react";
 import { Block, getBlock } from "../providers/blocks";
 import { useWampQuery } from "./wamp";
 import {
@@ -11,7 +11,7 @@ import {
 export const useEpochStartBlock = () => {
   const blockHashOrHeight = useNetworkStats()?.epochStartHeight;
   return useWampQuery<Block>(
-    useCallback(
+    React.useCallback(
       async (wampCall) => {
         if (!blockHashOrHeight) {
           return;
@@ -25,7 +25,7 @@ export const useEpochStartBlock = () => {
 
 export const useFinalBlockTimestampNanosecond = (): BN | undefined => {
   const finality = useFinalityStatus();
-  return useMemo(
+  return React.useMemo(
     () =>
       finality?.finalBlockTimestampNanosecond
         ? new BN(finality.finalBlockTimestampNanosecond)
@@ -36,7 +36,7 @@ export const useFinalBlockTimestampNanosecond = (): BN | undefined => {
 
 export const useLatestGasPrice = (): BN | undefined => {
   const chainBlockStats = useChainBlockStats();
-  const latestGasPrice = useMemo(
+  const latestGasPrice = React.useMemo(
     () =>
       chainBlockStats?.latestGasPrice
         ? new BN(chainBlockStats.latestGasPrice)
@@ -48,7 +48,7 @@ export const useLatestGasPrice = (): BN | undefined => {
 
 export const useLatestBlockHeight = (): BN | undefined => {
   const chainBlockStats = useChainBlockStats();
-  const latestBlockHeight = useMemo(
+  const latestBlockHeight = React.useMemo(
     () =>
       chainBlockStats?.latestBlockHeight
         ? new BN(chainBlockStats.latestBlockHeight)
