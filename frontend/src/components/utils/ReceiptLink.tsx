@@ -22,10 +22,7 @@ const ReceiptLink = ({
     return <DisabledLink title={receiptId}>{children}</DisabledLink>;
   }
   return (
-    <Link
-      href="/transactions/[hash]"
-      as={`/transactions/${transactionHash}#${receiptId}`}
-    >
+    <Link href={`/transactions/${transactionHash}#${receiptId}`}>
       <a>{children}</a>
     </Link>
   );

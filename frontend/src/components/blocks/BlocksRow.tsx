@@ -73,7 +73,7 @@ const BlocksRow: FC<Props> = ({ block }) => {
   const { t } = useTranslation();
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
   return (
-    <Link href="/blocks/[hash]" as={`/blocks/${block.hash}`} passHref>
+    <Link href={`/blocks/${block.hash}`} passHref>
       <LinkWrapper>
         <TransactionRow className="mx-0">
           <Col md="auto" xs="1" className="pr-0">
