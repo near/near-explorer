@@ -128,24 +128,21 @@ const MobileNavDropdown = () => {
   const dropdownWrapperRef = useRef<HTMLDivElement>(null);
   const dropdownMenuRef = useRef<HTMLDivElement>(null);
 
-  const showMenu = useCallback(
-    (event: MouseEvent | React.MouseEvent<HTMLDivElement>) => {
-      event.preventDefault();
-      event.stopPropagation();
-      const dropdownMenuElement = dropdownMenuRef.current;
-      const dropdownWrapperElement = dropdownWrapperRef.current;
-      if (!dropdownWrapperElement) {
-        return;
-      }
-      setMenuShown(
-        !dropdownWrapperElement.contains(dropdownMenuElement) ||
-          Boolean(dropdownMenuElement?.contains(event.target as Node))
-      );
-    },
-    []
-  );
+  const showMenu = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropdownMenuElement = dropdownMenuRef.current;
+    const dropdownWrapperElement = dropdownWrapperRef.current;
+    if (!dropdownWrapperElement) {
+      return;
+    }
+    setMenuShown(
+      !dropdownWrapperElement.contains(dropdownMenuElement) ||
+        Boolean(dropdownMenuElement?.contains(event.target as Node))
+    );
+  }, []);
   const closeMenu = useCallback(
-    (event: MouseEvent | React.MouseEvent<HTMLDivElement>) => {
+    (event: MouseEvent) => {
       const dropdownMenuElement = dropdownMenuRef.current;
       if (
         dropdownMenuElement &&
@@ -160,8 +157,6 @@ const MobileNavDropdown = () => {
   useEffect(() => {
     if (isMenuShown) {
       document.addEventListener("click", closeMenu);
-    } else {
-      document.removeEventListener("click", closeMenu);
     }
     return () => document.removeEventListener("click", closeMenu);
   }, [isMenuShown, closeMenu]);
