@@ -274,14 +274,12 @@ const queryOnlineNodes = async (): Promise<OnlineNode[]> => {
 };
 
 // query for new dashboard
-const queryDashboardBlocksStats = async (options: QueryOptions) => {
-  async function queryLatestBlockHeight({
-    dataSource,
-  }: QueryOptions): Promise<string> {
+const queryDashboardBlocksStats = async () => {
+  async function queryLatestBlockHeight(): Promise<string> {
     const latestBlockHeightResult = await querySingleRow<
       Pick<BlockModel, "block_height">
     >([`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`], {
-      dataSource,
+      dataSource: DataSource.Indexer,
     });
     if (!latestBlockHeightResult) {
       throw new Error("No latest block height found");
@@ -289,13 +287,11 @@ const queryDashboardBlocksStats = async (options: QueryOptions) => {
     return latestBlockHeightResult.block_height;
   }
 
-  async function queryLatestGasPrice({
-    dataSource,
-  }: QueryOptions): Promise<string> {
+  async function queryLatestGasPrice(): Promise<string> {
     const latestGasPriceResult = await querySingleRow<
       Pick<BlockModel, "gas_price">
     >([`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`], {
-      dataSource,
+      dataSource: DataSource.Indexer,
     });
     if (!latestGasPriceResult) {
       throw new Error("No latest gas price found");
@@ -303,7 +299,7 @@ const queryDashboardBlocksStats = async (options: QueryOptions) => {
     return latestGasPriceResult.gas_price;
   }
 
-  async function queryRecentBlockProductionSpeed({ dataSource }: QueryOptions) {
+  async function queryRecentBlockProductionSpeed() {
     const latestBlockTimestampOrNone = await querySingleRow<
       Pick<BlockModel, "block_timestamp">
     >(
@@ -312,7 +308,7 @@ const queryDashboardBlocksStats = async (options: QueryOptions) => {
           block_timestamp AS latest_block_timestamp
         FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
       ],
-      { dataSource }
+      { dataSource: DataSource.Indexer }
     );
     if (!latestBlockTimestampOrNone) {
       return 0;
@@ -322,12 +318,9 @@ const queryDashboardBlocksStats = async (options: QueryOptions) => {
     } = latestBlockTimestampOrNone;
     const latestBlockTimestampBN = new BN(latestBlockTimestamp);
     const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
-    let latestBlockEpochTimeBN;
-    if (dataSource === DataSource.Indexer) {
-      latestBlockEpochTimeBN = latestBlockTimestampBN.div(new BN("1000000000"));
-    } else {
-      latestBlockEpochTimeBN = latestBlockTimestampBN.divn(1000);
-    }
+    const latestBlockEpochTimeBN = latestBlockTimestampBN.div(
+      new BN("1000000000")
+    );
     // If the latest block is older than 1 minute from now, we report 0
     if (currentUnixTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
       return 0;
@@ -347,14 +340,11 @@ const queryDashboardBlocksStats = async (options: QueryOptions) => {
         FROM blocks
         WHERE block_timestamp > (CAST(:latest_block_timestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
         {
-          latest_block_timestamp:
-            dataSource == DataSource.Indexer
-              ? latestBlockEpochTimeBN.toNumber()
-              : latestBlockEpochTimeBN.muln(1000).toNumber(),
+          latest_block_timestamp: latestBlockEpochTimeBN.toNumber(),
         },
       ],
       {
-        dataSource,
+        dataSource: DataSource.Indexer,
       }
     );
     if (!result) {
@@ -368,9 +358,9 @@ const queryDashboardBlocksStats = async (options: QueryOptions) => {
     latestGasPrice,
     recentBlockProductionSpeed,
   ] = await Promise.all([
-    queryLatestBlockHeight(options),
-    queryLatestGasPrice(options),
-    queryRecentBlockProductionSpeed(options),
+    queryLatestBlockHeight(),
+    queryLatestGasPrice(),
+    queryRecentBlockProductionSpeed(),
   ]);
   return {
     latestBlockHeight,

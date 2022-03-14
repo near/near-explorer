@@ -38,17 +38,16 @@ export const useWampSimpleQuery = <P extends ProcedureType>(
   useWampQuery(useCallback((wampCall) => wampCall<P>(procedure, args), args));
 
 export const useWampSubscription = <Topic extends SubscriptionTopicType>(
-  topic: Topic,
-  withDataSource?: boolean
+  topic: Topic
 ): SubscriptionTopicTypes[Topic] | undefined => {
   const { currentNetwork } = useNetworkContext();
   const [value, setValue] = useState<
     SubscriptionTopicTypes[Topic] | undefined
   >();
-  useEffect(
-    () =>
-      wampApi.subscribe<Topic>(currentNetwork, topic, setValue, withDataSource),
-    [currentNetwork, topic, setValue, withDataSource]
-  );
+  useEffect(() => wampApi.subscribe<Topic>(currentNetwork, topic, setValue), [
+    currentNetwork,
+    topic,
+    setValue,
+  ]);
   return value;
 };

@@ -96,34 +96,19 @@ let stakingNodes: StakingNodeInfo[] = [];
 let stakingPoolsInfo = new Map<string, StakingPoolInfo>();
 let stakingPoolsMetadataInfo = new Map<string, PoolMetadataAccountInfo>();
 
-function getDataSourceSpecificTopicName<T extends SubscriptionTopicType>(
-  baseTopicName: T,
-  dataSource: string
-): T {
-  return (`${baseTopicName}:${dataSource}` as unknown) as T;
-}
-
 function startDataSourceSpecificJobs(
-  getSession: () => Promise<autobahn.Session>,
-  dataSource: DataSource
+  getSession: () => Promise<autobahn.Session>
 ): void {
   const regularCheckDataStats = async (): Promise<void> => {
-    console.log(`Starting regular data stats check from ${dataSource}...`);
+    console.log(`Starting regular data stats check from Indexer...`);
     try {
-      const blocksStats = await queryDashboardBlocksStats({ dataSource });
+      const blocksStats = await queryDashboardBlocksStats();
       const recentTransactionsCount = await queryRecentTransactionsCount();
 
-      void wampPublish(
-        getDataSourceSpecificTopicName("chain-blocks-stats", dataSource),
-        blocksStats,
-        getSession
-      );
+      void wampPublish("chain-blocks-stats", blocksStats, getSession);
       if (recentTransactionsCount) {
         void wampPublish(
-          getDataSourceSpecificTopicName(
-            "chain-transactions-stats",
-            dataSource
-          ),
+          "chain-transactions-stats",
           {
             transactionsCountHistoryForTwoWeeks: transactionsCountHistoryForTwoWeeks.map(
               ({ date, total }) => ({
@@ -136,10 +121,10 @@ function startDataSourceSpecificJobs(
           getSession
         );
       }
-      console.log(`Regular data stats check from ${dataSource} is completed.`);
+      console.log(`Regular data stats check from Indexer is completed.`);
     } catch (error) {
       console.warn(
-        `Regular data stats check from ${dataSource} is crashed due to: ${trimError(
+        `Regular data stats check from Indexer is crashed due to: ${trimError(
           error
         )}`
       );
@@ -485,7 +470,7 @@ async function main(): Promise<void> {
   setTimeout(regularFetchStakingPoolsInfo, 0);
 
   if (isIndexerBackendEnabled) {
-    startDataSourceSpecificJobs(getSession, DataSource.Indexer);
+    startDataSourceSpecificJobs(getSession);
     startStatsAggregation();
   }
 
