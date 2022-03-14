@@ -3,7 +3,7 @@ import ReactEcharts from "echarts-for-react";
 
 import { useWampSimpleQuery } from "../../hooks/wamp";
 
-const PartnerTotalTransactionList = () => {
+const PartnerTotalTransactionList: React.FC = React.memo(() => {
   const partnerTotalTransactions =
     useWampSimpleQuery("partner-total-transactions-count", []) ?? [];
   const partnerTotalTransactionsAccounts = React.useMemo(
@@ -63,6 +63,6 @@ const PartnerTotalTransactionList = () => {
       }}
     />
   );
-};
+});
 
 export default PartnerTotalTransactionList;

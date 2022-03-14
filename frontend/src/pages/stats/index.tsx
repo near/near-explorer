@@ -16,6 +16,7 @@ import { useNetworkContext } from "../../hooks/use-network-context";
 import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import * as React from "react";
 
 const chartStyle = {
   height: 480,
@@ -24,7 +25,7 @@ const chartStyle = {
   marginLeft: 24,
 };
 
-const Stats: NextPage = () => {
+const Stats: NextPage = React.memo(() => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Stats page");
   const { currentNetwork } = useNetworkContext();
@@ -77,6 +78,6 @@ const Stats: NextPage = () => {
       </Content>
     </>
   );
-};
+});
 
 export default Stats;

@@ -1,3 +1,4 @@
+import * as React from "react";
 import Placeholder, { Props as PlaceholderProps } from "./Placeholder";
 
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,7 @@ const UpdateWrapper = styled(Placeholder, {
   },
 });
 
-const Update = ({ children }: PlaceholderProps) => {
+const Update: React.FC<PlaceholderProps> = React.memo(({ children }) => {
   const { t } = useTranslation();
   return (
     <UpdateWrapper>
@@ -17,6 +18,6 @@ const Update = ({ children }: PlaceholderProps) => {
       {t("utils.Update.refresh")}
     </UpdateWrapper>
   );
-};
+});
 
 export default Update;

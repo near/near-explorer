@@ -58,13 +58,12 @@ const NodeBalanceSuffix = styled("span", {
   },
 });
 
-const NodeBalance = ({
-  amount,
-  type,
-}: {
+type BalanceProps = {
   amount: BN;
   type: "totalSupply" | "totalStakeAmount" | "seatPriceAmount";
-}) => {
+};
+
+const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
   if (!amount) return null;
   let value;
   let suffix;
@@ -100,7 +99,7 @@ const NodeBalance = ({
       </NodeBalanceText>
     </OverlayTrigger>
   );
-};
+});
 
 interface Props {
   currentValidatorsCount?: number;
@@ -109,52 +108,49 @@ interface Props {
   seatPrice?: string;
 }
 
-const NodesCard: React.FC<Props> = ({
-  currentValidatorsCount,
-  totalSupply,
-  totalStake,
-  seatPrice,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <NodesCardWrapper>
-      <Cell
-        title={t("component.nodes.NodesCard.nodes_validating")}
-        cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
-      >
-        {currentValidatorsCount !== undefined && (
-          <Validating>{currentValidatorsCount}</Validating>
-        )}
-      </Cell>
+const NodesCard: React.FC<Props> = React.memo(
+  ({ currentValidatorsCount, totalSupply, totalStake, seatPrice }) => {
+    const { t } = useTranslation();
+    return (
+      <NodesCardWrapper>
+        <Cell
+          title={t("component.nodes.NodesCard.nodes_validating")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
+        >
+          {currentValidatorsCount !== undefined && (
+            <Validating>{currentValidatorsCount}</Validating>
+          )}
+        </Cell>
 
-      <Cell
-        title={t("component.nodes.NodesCard.total_supply")}
-        cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-      >
-        {totalSupply && (
-          <NodeBalance amount={new BN(totalSupply)} type="totalSupply" />
-        )}
-      </Cell>
+        <Cell
+          title={t("component.nodes.NodesCard.total_supply")}
+          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+        >
+          {totalSupply && (
+            <NodeBalance amount={new BN(totalSupply)} type="totalSupply" />
+          )}
+        </Cell>
 
-      <Cell
-        title={t("component.nodes.NodesCard.total_stake")}
-        cellOptions={{ xs: "12", md: "6", xl: "3" }}
-      >
-        {totalStake && (
-          <NodeBalance amount={new BN(totalStake)} type="totalStakeAmount" />
-        )}
-      </Cell>
+        <Cell
+          title={t("component.nodes.NodesCard.total_stake")}
+          cellOptions={{ xs: "12", md: "6", xl: "3" }}
+        >
+          {totalStake && (
+            <NodeBalance amount={new BN(totalStake)} type="totalStakeAmount" />
+          )}
+        </Cell>
 
-      <Cell
-        title={t("component.nodes.NodesCard.seat_price")}
-        cellOptions={{ xs: "12", md: "6", xl: "4" }}
-      >
-        {seatPrice && (
-          <NodeBalance amount={new BN(seatPrice)} type="seatPriceAmount" />
-        )}
-      </Cell>
-    </NodesCardWrapper>
-  );
-};
+        <Cell
+          title={t("component.nodes.NodesCard.seat_price")}
+          cellOptions={{ xs: "12", md: "6", xl: "4" }}
+        >
+          {seatPrice && (
+            <NodeBalance amount={new BN(seatPrice)} type="seatPriceAmount" />
+          )}
+        </Cell>
+      </NodesCardWrapper>
+    );
+  }
+);
 
 export default NodesCard;

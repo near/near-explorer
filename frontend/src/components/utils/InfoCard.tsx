@@ -22,10 +22,12 @@ interface InfoCardCellProps {
   cellOptions?: object;
 }
 
-const InfoCard: React.FC<InfoCardProps> = ({ children, className }) => (
-  <InfoCardWrapper noGutters className={className}>
-    {children}
-  </InfoCardWrapper>
+const InfoCard: React.FC<InfoCardProps> = React.memo(
+  ({ children, className }) => (
+    <InfoCardWrapper noGutters className={className}>
+      {children}
+    </InfoCardWrapper>
+  )
 );
 
 const InfoCardTitle = styled(Col, {
@@ -44,20 +46,17 @@ export const InfoCardText = styled(Col, {
   fontFeatureSettings: '"zero", on',
 });
 
-const InfoCardCell = ({
-  children,
-  className,
-  title,
-  cellOptions = undefined,
-}: InfoCardCellProps) => (
-  <Col {...cellOptions} className={className}>
-    <Row noGutters>
-      <InfoCardTitle xs="12">{title}</InfoCardTitle>
-      <InfoCardText xs="12">
-        {!children ? <Spinner animation="border" size="sm" /> : children}
-      </InfoCardText>
-    </Row>
-  </Col>
+const InfoCardCell: React.FC<InfoCardCellProps> = React.memo(
+  ({ children, className, title, cellOptions = undefined }) => (
+    <Col {...cellOptions} className={className}>
+      <Row noGutters>
+        <InfoCardTitle xs="12">{title}</InfoCardTitle>
+        <InfoCardText xs="12">
+          {!children ? <Spinner animation="border" size="sm" /> : children}
+        </InfoCardText>
+      </Row>
+    </Col>
+  )
 );
 
 export { InfoCard, InfoCardCell };

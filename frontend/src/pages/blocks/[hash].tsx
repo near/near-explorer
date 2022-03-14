@@ -15,6 +15,7 @@ import { getNearNetwork } from "../../libraries/config";
 import wampApi from "../../libraries/wamp/api";
 import { Block, getBlock } from "../../providers/blocks";
 import { styled } from "../../libraries/styles";
+import * as React from "react";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
@@ -26,7 +27,7 @@ type Props = {
   err?: unknown;
 };
 
-const BlockDetail: NextPage<Props> = (props) => {
+const BlockDetail: NextPage<Props> = React.memo((props) => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: props.hash,
@@ -78,7 +79,7 @@ const BlockDetail: NextPage<Props> = (props) => {
       ) : null}
     </>
   );
-};
+});
 
 export const getServerSideProps: GetServerSideProps<
   Props,

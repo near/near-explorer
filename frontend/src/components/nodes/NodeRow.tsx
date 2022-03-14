@@ -84,7 +84,7 @@ export const statusIdentifier = new Map([
   ["NoSync", ""],
 ]);
 
-const NodeRow: React.FC<Props> = ({ node, index }) => {
+const NodeRow: React.FC<Props> = React.memo(({ node, index }) => {
   const { t } = useTranslation();
   const [isRowActive, setRowActive] = React.useState(false);
   const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
@@ -254,6 +254,6 @@ const NodeRow: React.FC<Props> = ({ node, index }) => {
       </TableCollapseRow>
     </>
   );
-};
+});
 
 export default NodeRow;

@@ -172,7 +172,7 @@ interface Props {
   dashboard?: boolean;
 }
 
-const Search: React.FC<Props> = ({ dashboard }) => {
+const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
@@ -274,6 +274,6 @@ const Search: React.FC<Props> = ({ dashboard }) => {
       </SearchBox>
     </SearchWrapper>
   );
-};
+});
 
 export default Search;

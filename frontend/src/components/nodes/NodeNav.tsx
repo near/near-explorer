@@ -53,7 +53,7 @@ interface Props {
   role: string;
 }
 
-const NodeNav: React.FC<Props> = ({ role }) => {
+const NodeNav: React.FC<Props> = React.memo(({ role }) => {
   const { t } = useTranslation();
   const networkStats = useNetworkStats();
 
@@ -75,6 +75,6 @@ const NodeNav: React.FC<Props> = ({ role }) => {
       </NodeSelector>
     </Row>
   );
-};
+});
 
 export default NodeNav;

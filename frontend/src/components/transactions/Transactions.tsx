@@ -21,49 +21,47 @@ export interface OuterProps {
 
 const TRANSACTIONS_PER_PAGE = 15;
 
-const TransactionsWrapper: React.FC<OuterProps> = ({
-  accountId,
-  blockHash,
-  count = TRANSACTIONS_PER_PAGE,
-}) => {
-  const fetchDataFn = React.useCallback(
-    (
-      wampCall: WampCall,
-      count: number,
-      paginationIndexer?: TransactionPagination
-    ) => {
-      if (accountId) {
-        return wampCall("transactions-list-by-account-id", [
-          accountId,
-          count,
-          paginationIndexer,
-        ]);
-      }
-      if (blockHash) {
-        return wampCall("transactions-list-by-block-hash", [
-          blockHash,
-          count,
-          paginationIndexer,
-        ]);
-      }
-      return wampCall("transactions-list", [count, paginationIndexer]);
-    },
-    [accountId, blockHash]
-  );
-  return (
-    <TransactionsList
-      key={accountId || blockHash}
-      count={count}
-      fetchDataFn={fetchDataFn}
-    />
-  );
-};
+const TransactionsWrapper: React.FC<OuterProps> = React.memo(
+  ({ accountId, blockHash, count = TRANSACTIONS_PER_PAGE }) => {
+    const fetchDataFn = React.useCallback(
+      (
+        wampCall: WampCall,
+        count: number,
+        paginationIndexer?: TransactionPagination
+      ) => {
+        if (accountId) {
+          return wampCall("transactions-list-by-account-id", [
+            accountId,
+            count,
+            paginationIndexer,
+          ]);
+        }
+        if (blockHash) {
+          return wampCall("transactions-list-by-block-hash", [
+            blockHash,
+            count,
+            paginationIndexer,
+          ]);
+        }
+        return wampCall("transactions-list", [count, paginationIndexer]);
+      },
+      [accountId, blockHash]
+    );
+    return (
+      <TransactionsList
+        key={accountId || blockHash}
+        count={count}
+        fetchDataFn={fetchDataFn}
+      />
+    );
+  }
+);
 
 interface InnerProps {
   items: TransactionBaseInfo[];
 }
 
-const Transactions: React.FC<InnerProps> = ({ items }) => {
+const Transactions: React.FC<InnerProps> = React.memo(({ items }) => {
   const { t } = useTranslation();
   if (items?.length === 0) {
     return (
@@ -82,7 +80,7 @@ const Transactions: React.FC<InnerProps> = ({ items }) => {
       ))}
     </FlipMove>
   );
-};
+});
 
 const TransactionsList = ListHandler({
   Component: Transactions,

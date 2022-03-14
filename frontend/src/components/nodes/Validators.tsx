@@ -16,7 +16,7 @@ const ValidatorNodePagination = styled(PaginateWrapper, {
 
 const ITEMS_PER_PAGE = 120;
 
-const Validators: React.FC = () => {
+const Validators: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const [activePage, setActivePage] = React.useState(0);
   const [startPage, setStartPage] = React.useState(1);
@@ -78,6 +78,6 @@ const Validators: React.FC = () => {
       </tbody>
     </Table>
   );
-};
+});
 
 export default Validators;

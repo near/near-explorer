@@ -60,7 +60,7 @@ export interface State {
   createdAtBlockTimestamp?: number;
 }
 
-const AccountRow: React.FC<Props> = ({ accountId }) => {
+const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
   const accountInfo = useWampQuery<Account>(
     React.useCallback((wampCall) => getAccount(wampCall, accountId), [
@@ -110,6 +110,6 @@ const AccountRow: React.FC<Props> = ({ accountId }) => {
       </LinkWrapper>
     </Link>
   );
-};
+});
 
 export default AccountRow;

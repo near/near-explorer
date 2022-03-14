@@ -1,20 +1,12 @@
+import * as React from "react";
 import { hexy } from "hexy";
 
 import AccountLink from "../utils/AccountLink";
 import Balance from "../utils/Balance";
 import CodePreview from "../utils/CodePreview";
 
-import { TFunction, useTranslation } from "react-i18next";
-import {
-  AddKey,
-  CreateAccount,
-  DeleteAccount,
-  DeleteKey,
-  DeployContract,
-  FunctionCall,
-  Stake,
-  Transfer,
-} from "../../libraries/wamp/types";
+import { useTranslation } from "react-i18next";
+import * as wamp from "../../libraries/wamp/types";
 
 export interface Props<A> {
   actionKind: keyof TransactionMessageRenderers;
@@ -24,27 +16,28 @@ export interface Props<A> {
 }
 
 type AnyAction =
-  | CreateAccount
-  | DeleteAccount
-  | DeployContract
-  | FunctionCall
-  | Transfer
-  | Stake
-  | AddKey
-  | DeleteKey;
+  | wamp.CreateAccount
+  | wamp.DeleteAccount
+  | wamp.DeployContract
+  | wamp.FunctionCall
+  | wamp.Transfer
+  | wamp.Stake
+  | wamp.AddKey
+  | wamp.DeleteKey;
 
 interface TransactionMessageRenderers {
-  CreateAccount: React.FC<Props<CreateAccount>>;
-  DeleteAccount: React.FC<Props<DeleteAccount>>;
-  DeployContract: React.FC<Props<DeployContract>>;
-  FunctionCall: React.FC<Props<FunctionCall>>;
-  Transfer: React.FC<Props<Transfer>>;
-  Stake: React.FC<Props<Stake>>;
-  AddKey: React.FC<Props<AddKey>>;
-  DeleteKey: React.FC<Props<DeleteKey>>;
+  CreateAccount: React.FC<Props<wamp.CreateAccount>>;
+  DeleteAccount: React.FC<Props<wamp.DeleteAccount>>;
+  DeployContract: React.FC<Props<wamp.DeployContract>>;
+  FunctionCall: React.FC<Props<wamp.FunctionCall>>;
+  Transfer: React.FC<Props<wamp.Transfer>>;
+  Stake: React.FC<Props<wamp.Stake>>;
+  AddKey: React.FC<Props<wamp.AddKey>>;
+  DeleteKey: React.FC<Props<wamp.DeleteKey>>;
 }
 
-export const displayArgs = (args: string, t: TFunction<"common">) => {
+export const Args: React.FC<{ args: string }> = React.memo(({ args }) => {
+  const { t } = useTranslation();
   const decodedArgs = Buffer.from(args, "base64");
   let prettyArgs: string;
   try {
@@ -64,10 +57,10 @@ export const displayArgs = (args: string, t: TFunction<"common">) => {
       value={prettyArgs}
     />
   );
-};
+});
 
-const transactionMessageRenderers: TransactionMessageRenderers = {
-  CreateAccount: ({ receiverId }: Props<CreateAccount>) => {
+const CreateAccount: React.FC<Props<wamp.CreateAccount>> = React.memo(
+  ({ receiverId }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -77,8 +70,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         <AccountLink accountId={receiverId} />
       </>
     );
-  },
-  DeleteAccount: ({ receiverId, actionArgs }: Props<DeleteAccount>) => {
+  }
+);
+
+const DeleteAccount: React.FC<Props<wamp.DeleteAccount>> = React.memo(
+  ({ receiverId, actionArgs }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -90,8 +86,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         <AccountLink accountId={actionArgs.beneficiary_id} />
       </>
     );
-  },
-  DeployContract: ({ receiverId }: Props<DeployContract>) => {
+  }
+);
+
+const DeployContract: React.FC<Props<wamp.DeployContract>> = React.memo(
+  ({ receiverId }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -101,12 +100,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         <AccountLink accountId={receiverId} />
       </>
     );
-  },
-  FunctionCall: ({
-    receiverId,
-    actionArgs,
-    showDetails,
-  }: Props<FunctionCall>) => {
+  }
+);
+
+const FunctionCall: React.FC<Props<wamp.FunctionCall>> = React.memo(
+  ({ receiverId, actionArgs, showDetails }) => {
     const { t } = useTranslation();
     let args;
     if (showDetails) {
@@ -118,7 +116,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
       ) {
         args = <p>The arguments are empty</p>;
       } else {
-        args = displayArgs(actionArgs.args, t);
+        args = <Args args={actionArgs.args} />;
       }
     }
     return (
@@ -140,8 +138,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         ) : null}
       </>
     );
-  },
-  Transfer: ({ receiverId, actionArgs: { deposit } }: Props<Transfer>) => {
+  }
+);
+
+const Transfer: React.FC<Props<wamp.Transfer>> = React.memo(
+  ({ receiverId, actionArgs: { deposit } }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -151,8 +152,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         <AccountLink accountId={receiverId} />
       </>
     );
-  },
-  Stake: ({ actionArgs: { stake, public_key } }: Props<Stake>) => {
+  }
+);
+
+const Stake: React.FC<Props<wamp.Stake>> = React.memo(
+  ({ actionArgs: { stake, public_key } }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -163,8 +167,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         })}
       </>
     );
-  },
-  AddKey: ({ receiverId, actionArgs }: Props<AddKey>) => {
+  }
+);
+
+const AddKey: React.FC<Props<wamp.AddKey>> = React.memo(
+  ({ receiverId, actionArgs }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -231,8 +238,11 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         )}
       </>
     );
-  },
-  DeleteKey: ({ actionArgs: { public_key } }: Props<DeleteKey>) => {
+  }
+);
+
+const DeleteKey: React.FC<Props<wamp.DeleteKey>> = React.memo(
+  ({ actionArgs: { public_key } }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -241,10 +251,21 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
         })}
       </>
     );
-  },
+  }
+);
+
+const transactionMessageRenderers: TransactionMessageRenderers = {
+  CreateAccount,
+  DeleteAccount,
+  DeployContract,
+  FunctionCall,
+  Transfer,
+  Stake,
+  AddKey,
+  DeleteKey,
 };
 
-const ActionMessage = (props: Props<AnyAction>) => {
+const ActionMessage: React.FC<Props<AnyAction>> = React.memo((props) => {
   const MessageRenderer = transactionMessageRenderers[props.actionKind];
   if (MessageRenderer === undefined) {
     return (
@@ -256,6 +277,6 @@ const ActionMessage = (props: Props<AnyAction>) => {
   return (
     <MessageRenderer {...(props as any)} showDetails={props.showDetails} />
   );
-};
+});
 
 export default ActionMessage;

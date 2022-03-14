@@ -7,12 +7,12 @@ interface Props {
   blockHash: string;
 }
 
-const ReceiptsExecutedInBlock: React.FC<Props> = ({ blockHash }) => {
+const ReceiptsExecutedInBlock: React.FC<Props> = React.memo(({ blockHash }) => {
   const receiptsList = useWampSimpleQuery(
     "executed-receipts-list-by-block-hash",
     [blockHash]
   );
   return <ReceiptsList receiptsList={receiptsList} />;
-};
+});
 
 export default ReceiptsExecutedInBlock;

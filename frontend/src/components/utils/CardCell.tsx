@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Row, Col, Card, Spinner } from "react-bootstrap";
 import { styled } from "../../libraries/styles";
 import { TermInfoIcon } from "./Term";
@@ -47,26 +48,32 @@ export const CardCellText = styled(Col, {
 
 export interface Props {
   className?: string;
-  title: React.ReactElement | string;
+  title: React.ReactNode;
   imgLink?: string;
-  text: React.ReactElement | string;
+  text: React.ReactNode;
   loading?: boolean;
 }
 
-const CardCell = ({ title, imgLink, text, className, loading }: Props) => (
-  <CardCellWrapper className={className}>
-    <Card.Body>
-      <Row noGutters>
-        <CardCellTitle xs="auto" md="12" className="align-self-center">
-          {imgLink && <CardCellTitleImage src={imgLink} />}
-          {title}
-        </CardCellTitle>
-        <CardCellText xs="auto" md="12" className="ml-auto align-self-center">
-          {loading ? <Spinner animation="border" variant="secondary" /> : text}
-        </CardCellText>
-      </Row>
-    </Card.Body>
-  </CardCellWrapper>
+const CardCell: React.FC<Props> = React.memo(
+  ({ title, imgLink, text, className, loading }) => (
+    <CardCellWrapper className={className}>
+      <Card.Body>
+        <Row noGutters>
+          <CardCellTitle xs="auto" md="12" className="align-self-center">
+            {imgLink && <CardCellTitleImage src={imgLink} />}
+            {title}
+          </CardCellTitle>
+          <CardCellText xs="auto" md="12" className="ml-auto align-self-center">
+            {loading ? (
+              <Spinner animation="border" variant="secondary" />
+            ) : (
+              text
+            )}
+          </CardCellText>
+        </Row>
+      </Card.Body>
+    </CardCellWrapper>
+  )
 );
 
 export default CardCell;

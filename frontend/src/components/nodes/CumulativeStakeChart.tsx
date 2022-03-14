@@ -44,22 +44,24 @@ interface Props {
   current: number;
 }
 
-const CumulativeStakeChart: React.FC<Props> = ({ total, current }) => {
-  const { t } = useTranslation();
-  return (
-    <Wrapper>
-      <Value type="total" style={{ width: total ? `${total}%` : "0%" }} />
-      <Value
-        type="current"
-        style={{
-          width: current ? `${current - total}%` : "0%",
-        }}
-      />
-      <CumulativeStakeLabel>
-        {current ? `${current}%` : t("common.state.not_available")}
-      </CumulativeStakeLabel>
-    </Wrapper>
-  );
-};
+const CumulativeStakeChart: React.FC<Props> = React.memo(
+  ({ total, current }) => {
+    const { t } = useTranslation();
+    return (
+      <Wrapper>
+        <Value type="total" style={{ width: total ? `${total}%` : "0%" }} />
+        <Value
+          type="current"
+          style={{
+            width: current ? `${current - total}%` : "0%",
+          }}
+        />
+        <CumulativeStakeLabel>
+          {current ? `${current}%` : t("common.state.not_available")}
+        </CumulativeStakeLabel>
+      </Wrapper>
+    );
+  }
+);
 
 export default CumulativeStakeChart;

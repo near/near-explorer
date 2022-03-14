@@ -78,65 +78,69 @@ declare module "next/app" {
   }
 }
 
-const App: AppType = ({
-  Component,
-  currentNearNetwork,
-  language,
-  pageProps,
-}) => {
-  if (typeof window !== "undefined" && language) {
-    setMomentLanguage(language);
-    // There is no react way of waiting till i18n is initialized before render
-    // But at the moment SSR should render content properly
-    void initializeI18n(language);
-  }
-  useAnalyticsInit();
-  globalStyles();
+const App: AppType = React.memo(
+  ({ Component, currentNearNetwork, language, pageProps }) => {
+    if (typeof window !== "undefined" && language) {
+      setMomentLanguage(language);
+      // There is no react way of waiting till i18n is initialized before render
+      // But at the moment SSR should render content properly
+      void initializeI18n(language);
+    }
+    useAnalyticsInit();
+    globalStyles();
 
-  const networkState = React.useMemo(
-    () => ({
-      currentNetwork: currentNearNetwork,
-      networks: nearNetworks,
-    }),
-    [currentNearNetwork, nearNetworks]
-  );
+    const networkState = React.useMemo(
+      () => ({
+        currentNetwork: currentNearNetwork,
+        networks: nearNetworks,
+      }),
+      [currentNearNetwork, nearNetworks]
+    );
 
-  return (
-    <>
-      <Head>
-        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <NetworkContext.Provider value={networkState}>
-        <AppWrapper>
-          <Header />
-          <BackgroundImage src="/static/images/explorer-bg.svg" />
-          <Component {...pageProps} />
-        </AppWrapper>
-        <Footer />
-      </NetworkContext.Provider>
-      {googleAnalytics ? (
-        <>
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
+    return (
+      <>
+        <Head>
+          <link
+            rel="shortcut icon"
+            type="image/png"
+            href="/static/favicon.ico"
           />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
+        <NetworkContext.Provider value={networkState}>
+          <AppWrapper>
+            <Header />
+            <BackgroundImage src="/static/images/explorer-bg.svg" />
+            <Component {...pageProps} />
+          </AppWrapper>
+          <Footer />
+        </NetworkContext.Provider>
+        {googleAnalytics ? (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
                 gtag('config', '${googleAnalytics}');
               `,
-            }}
-          />
-        </>
-      ) : null}
-    </>
-  );
-};
+              }}
+            />
+          </>
+        ) : null}
+      </>
+    );
+  }
+);
 
 App.getInitialProps = async (appContext) => {
   const req = appContext.ctx.req;

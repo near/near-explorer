@@ -1,3 +1,4 @@
+import * as React from "react";
 import Link from "../utils/Link";
 
 export interface Props {
@@ -5,10 +6,12 @@ export interface Props {
   children?: React.ReactNode;
 }
 
-const TransactionLink = ({ transactionHash, children }: Props) => (
-  <Link href={`/transactions/${transactionHash}`}>
-    <a>{children || `${transactionHash.substring(0, 7)}...`}</a>
-  </Link>
+const TransactionLink: React.FC<Props> = React.memo(
+  ({ transactionHash, children }) => (
+    <Link href="/transactions/[hash]" as={`/transactions/${transactionHash}`}>
+      <a>{children || `${transactionHash.substring(0, 7)}...`}</a>
+    </Link>
+  )
 );
 
 export default TransactionLink;

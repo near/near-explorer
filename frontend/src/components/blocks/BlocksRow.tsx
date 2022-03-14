@@ -69,7 +69,7 @@ export interface Props {
   block: BlockBase;
 }
 
-const BlocksRow: React.FC<Props> = ({ block }) => {
+const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
   return (
@@ -125,6 +125,6 @@ const BlocksRow: React.FC<Props> = ({ block }) => {
       </LinkWrapper>
     </Link>
   );
-};
+});
 
 export default BlocksRow;

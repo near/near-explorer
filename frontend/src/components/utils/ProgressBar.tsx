@@ -28,29 +28,26 @@ interface Props {
   type?: "line" | "circle";
   className?: string;
   percent?: number;
-  label?: React.ReactNode | string;
+  label?: React.ReactNode;
 }
 
-const ProgressBarEx: React.FC<Props> = ({
-  type = "line",
-  className,
-  label,
-  ...props
-}) => {
-  const wrapperClassName = cx(className, "progress-bar");
-  if (type === "circle") {
+const ProgressBarEx: React.FC<Props> = React.memo(
+  ({ type = "line", className, label, ...props }) => {
+    const wrapperClassName = cx(className, "progress-bar");
+    if (type === "circle") {
+      return (
+        <ProgressBarWrapper className={wrapperClassName}>
+          <ProgressBarElement as={Circle} strokeLinecap="square" {...props} />
+          {label && <ProgressBarLabel>{label}</ProgressBarLabel>}
+        </ProgressBarWrapper>
+      );
+    }
     return (
       <ProgressBarWrapper className={wrapperClassName}>
-        <ProgressBarElement as={Circle} strokeLinecap="square" {...props} />
-        {label && <ProgressBarLabel>{label}</ProgressBarLabel>}
+        <ProgressBarElement as={Line} strokeLinecap="square" {...props} />
       </ProgressBarWrapper>
     );
   }
-  return (
-    <ProgressBarWrapper className={wrapperClassName}>
-      <ProgressBarElement as={Line} strokeLinecap="square" {...props} />
-    </ProgressBarWrapper>
-  );
-};
+);
 
 export default ProgressBarEx;

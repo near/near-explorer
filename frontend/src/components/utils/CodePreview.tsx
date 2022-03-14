@@ -1,3 +1,4 @@
+import * as React from "react";
 import ReactTextCollapse from "react-text-collapse";
 import { styled } from "../../libraries/styles";
 
@@ -22,7 +23,7 @@ export interface Props {
   value: string;
 }
 
-const CodePreview = (props: Props) => {
+const CodePreview: React.FC<Props> = React.memo((props) => {
   return (
     <ReactTextCollapse options={props.collapseOptions}>
       <link
@@ -32,6 +33,6 @@ const CodePreview = (props: Props) => {
       <CodePreviewWrapper readOnly value={props.value} />
     </ReactTextCollapse>
   );
-};
+});
 
 export default CodePreview;

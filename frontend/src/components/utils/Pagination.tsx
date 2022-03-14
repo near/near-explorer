@@ -71,7 +71,7 @@ export interface Props {
   onPageChange: OnPageChange;
 }
 
-const Arrow = () => (
+const Arrow: React.FC = React.memo(() => (
   <svg fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="m7 13.5-6-6 6-6"
@@ -80,26 +80,28 @@ const Arrow = () => (
       strokeLinejoin="round"
     />
   </svg>
-);
+));
 
-const Pagination: React.FC<Props> = ({
-  overrideComponent,
-  pageCount,
-  marginPagesDisplayed,
-  pageRangeDisplayed,
-  onPageChange,
-}) => {
-  const Component = overrideComponent || PaginateWrapper;
-  return (
-    <Component
-      previousLabel={<Arrow />}
-      nextLabel={<Arrow />}
-      pageCount={pageCount}
-      marginPagesDisplayed={marginPagesDisplayed}
-      pageRangeDisplayed={pageRangeDisplayed}
-      onPageChange={onPageChange}
-    />
-  );
-};
+const Pagination: React.FC<Props> = React.memo(
+  ({
+    overrideComponent,
+    pageCount,
+    marginPagesDisplayed,
+    pageRangeDisplayed,
+    onPageChange,
+  }) => {
+    const Component = overrideComponent || PaginateWrapper;
+    return (
+      <Component
+        previousLabel={<Arrow />}
+        nextLabel={<Arrow />}
+        pageCount={pageCount}
+        marginPagesDisplayed={marginPagesDisplayed}
+        pageRangeDisplayed={pageRangeDisplayed}
+        onPageChange={onPageChange}
+      />
+    );
+  }
+);
 
 export default Pagination;

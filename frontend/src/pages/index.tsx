@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 import { useAnalyticsTrackOnMount } from "../hooks/analytics/use-analytics-track-on-mount";
 import { styled } from "../libraries/styles";
 import { DashboardCardWrapper } from "../components/utils/DashboardCard";
+import * as React from "react";
+import { NextPage } from "next";
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",
@@ -47,7 +49,7 @@ const DashboardContainer = styled(Container, {
   },
 });
 
-const Dashboard = () => {
+const Dashboard: NextPage = React.memo(() => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Landing Page");
 
@@ -84,6 +86,6 @@ const Dashboard = () => {
       </DashboardContainer>
     </>
   );
-};
+});
 
 export default Dashboard;

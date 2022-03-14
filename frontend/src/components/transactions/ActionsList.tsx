@@ -15,33 +15,35 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-const ActionList: React.FC<Props> = ({
-  actions,
-  blockTimestamp,
-  signerId,
-  receiverId,
-  detailsLink,
-  viewMode,
-  detalizationMode,
-  showDetails,
-}) => {
-  return (
-    <>
-      {actions.map((action, actionIndex) => (
-        <ActionRow
-          key={signerId + actionIndex}
-          action={action}
-          signerId={signerId}
-          receiverId={receiverId}
-          blockTimestamp={blockTimestamp}
-          detailsLink={detailsLink}
-          viewMode={viewMode}
-          detalizationMode={detalizationMode}
-          showDetails={showDetails}
-        />
-      ))}
-    </>
-  );
-};
+const ActionList: React.FC<Props> = React.memo(
+  ({
+    actions,
+    blockTimestamp,
+    signerId,
+    receiverId,
+    detailsLink,
+    viewMode,
+    detalizationMode,
+    showDetails,
+  }) => {
+    return (
+      <>
+        {actions.map((action, actionIndex) => (
+          <ActionRow
+            key={signerId + actionIndex}
+            action={action}
+            signerId={signerId}
+            receiverId={receiverId}
+            blockTimestamp={blockTimestamp}
+            detailsLink={detailsLink}
+            viewMode={viewMode}
+            detalizationMode={detalizationMode}
+            showDetails={showDetails}
+          />
+        ))}
+      </>
+    );
+  }
+);
 
 export default ActionList;

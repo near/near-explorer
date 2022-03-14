@@ -17,6 +17,7 @@ import {
   useFinalBlockTimestampNanosecond,
 } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
+import * as React from "react";
 
 const NodesPage = styled(Content, {
   backgroundColor: "#ffffff",
@@ -46,7 +47,7 @@ const ValidatorsWrapper = styled(Container, {
   paddingBottom: 50,
 });
 
-const ValidatorsPage: NextPage = () => {
+const ValidatorsPage: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Validator Node page");
 
   const networkStats = useNetworkStats();
@@ -106,6 +107,6 @@ const ValidatorsPage: NextPage = () => {
       </NodesPage>
     </>
   );
-};
+});
 
 export default ValidatorsPage;

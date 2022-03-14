@@ -21,40 +21,42 @@ interface Props {
   poolDescription?: string;
 }
 
-const ValidatorCollapsedRow: React.FC<Props> = ({
-  isRowActive,
-  progress,
-  latestProducedValidatorBlock,
-  lastSeen,
-  agentName,
-  agentVersion,
-  agentBuild,
-  poolWebsite,
-  poolEmail,
-  poolTwitter,
-  poolDiscord,
-  poolDescription,
-}) => (
-  <TableCollapseRow collapse={isRowActive}>
-    <td colSpan={8}>
-      <ValidatorTelemetryRow
-        progress={progress}
-        latestProducedValidatorBlock={latestProducedValidatorBlock}
-        lastSeen={lastSeen}
-        agentName={agentName}
-        agentVersion={agentVersion}
-        agentBuild={agentBuild}
-      />
+const ValidatorCollapsedRow: React.FC<Props> = React.memo(
+  ({
+    isRowActive,
+    progress,
+    latestProducedValidatorBlock,
+    lastSeen,
+    agentName,
+    agentVersion,
+    agentBuild,
+    poolWebsite,
+    poolEmail,
+    poolTwitter,
+    poolDiscord,
+    poolDescription,
+  }) => (
+    <TableCollapseRow collapse={isRowActive}>
+      <td colSpan={8}>
+        <ValidatorTelemetryRow
+          progress={progress}
+          latestProducedValidatorBlock={latestProducedValidatorBlock}
+          lastSeen={lastSeen}
+          agentName={agentName}
+          agentVersion={agentVersion}
+          agentBuild={agentBuild}
+        />
 
-      <ValidatorMetadataRow
-        poolWebsite={poolWebsite}
-        poolEmail={poolEmail}
-        poolTwitter={poolTwitter}
-        poolDiscord={poolDiscord}
-        poolDescription={poolDescription}
-      />
-    </td>
-  </TableCollapseRow>
+        <ValidatorMetadataRow
+          poolWebsite={poolWebsite}
+          poolEmail={poolEmail}
+          poolTwitter={poolTwitter}
+          poolDiscord={poolDiscord}
+          poolDescription={poolDescription}
+        />
+      </td>
+    </TableCollapseRow>
+  )
 );
 
 export default ValidatorCollapsedRow;

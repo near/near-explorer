@@ -1,3 +1,4 @@
+import * as React from "react";
 import BN from "bn.js";
 
 interface Props {
@@ -8,7 +9,7 @@ const MGAS = new BN(10 ** 6);
 const GGAS = new BN(1000).mul(MGAS);
 export const TGAS = new BN(1000).mul(GGAS);
 
-const Gas = ({ gas }: Props) => {
+const Gas: React.FC<Props> = React.memo(({ gas }) => {
   let gasShow;
   if (gas.gte(TGAS)) {
     gasShow = `${gas.div(TGAS).toString()} Tgas`;
@@ -20,6 +21,6 @@ const Gas = ({ gas }: Props) => {
     gasShow = `${gas.toString()} gas`;
   }
   return <>{gasShow}</>;
-};
+});
 
 export default Gas;

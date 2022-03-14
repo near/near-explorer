@@ -21,7 +21,7 @@ interface Props {
   navRole: string;
 }
 
-const NodesContentHeader: React.FC<Props> = ({ navRole }) => {
+const NodesContentHeader: React.FC<Props> = React.memo(({ navRole }) => {
   const { t } = useTranslation();
   return (
     <Row noGutters>
@@ -38,6 +38,6 @@ const NodesContentHeader: React.FC<Props> = ({ navRole }) => {
       </Col>
     </Row>
   );
-};
+});
 
 export default NodesContentHeader;

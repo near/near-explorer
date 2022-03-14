@@ -1,3 +1,4 @@
+import * as React from "react";
 import { setI18n } from "react-i18next";
 import renderer, {
   ReactTestRenderer,

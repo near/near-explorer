@@ -45,28 +45,23 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const DashboardCard = ({
-  iconPath,
-  title,
-  headerRight,
-  className,
-  dataId,
-  children,
-}: Props) => (
-  <DashboardCardWrapper noGutters className={className} data-id={dataId}>
-    <Col xs="12">
-      <DashboardCardHeader>
-        <Col>
-          <DashboardIcon src={iconPath} />
-          {title}
-        </Col>
-        <DashboardCardHeaderRight xs="auto">
-          {headerRight}
-        </DashboardCardHeaderRight>
-      </DashboardCardHeader>
-    </Col>
-    <Col xs="12">{children}</Col>
-  </DashboardCardWrapper>
+const DashboardCard: React.FC<Props> = React.memo(
+  ({ iconPath, title, headerRight, className, dataId, children }) => (
+    <DashboardCardWrapper noGutters className={className} data-id={dataId}>
+      <Col xs="12">
+        <DashboardCardHeader>
+          <Col>
+            <DashboardIcon src={iconPath} />
+            {title}
+          </Col>
+          <DashboardCardHeaderRight xs="auto">
+            {headerRight}
+          </DashboardCardHeaderRight>
+        </DashboardCardHeader>
+      </Col>
+      <Col xs="12">{children}</Col>
+    </DashboardCardWrapper>
+  )
 );
 
 export default DashboardCard;

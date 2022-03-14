@@ -32,7 +32,7 @@ const BalanceSuffix = styled("span", {
   alignSelf: "flex-end",
 });
 
-const ProtocolConfigInfo = () => {
+const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const networkStats = useNetworkStats();
   const epochStartBlock = useEpochStartBlock();
@@ -174,6 +174,6 @@ const ProtocolConfigInfo = () => {
       </ProtocolConfig>
     </>
   );
-};
+});
 
 export default ProtocolConfigInfo;

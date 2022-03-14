@@ -20,12 +20,12 @@ export const TermInfoIcon = styled("img", {
 });
 
 interface Props {
-  title: string | React.ReactNode;
-  text: string | React.ReactNode;
+  title: React.ReactNode;
+  text: React.ReactNode;
   href?: string;
 }
 
-const Term: React.FC<Props> = ({ title, text, href }) => {
+const Term: React.FC<Props> = React.memo(({ title, text, href }) => {
   const { t } = useTranslation();
   const [isModalShown, setModalShown] = React.useState(false);
   const track = useAnalyticsTrack();
@@ -70,6 +70,6 @@ const Term: React.FC<Props> = ({ title, text, href }) => {
       </TermHelper>
     </>
   );
-};
+});
 
 export default Term;

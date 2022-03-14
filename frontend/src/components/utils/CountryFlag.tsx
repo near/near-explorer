@@ -25,7 +25,7 @@ interface Props {
   country?: string;
 }
 
-const CountryFlag = (props: Props) => {
+const CountryFlag: React.FC<Props> = React.memo((props) => {
   // sometimes in 'country' can be actually countryCode
   let countryCode: string | undefined = props.countryCode?.toUpperCase();
   if (!(countryCode! in countries)) {
@@ -56,6 +56,6 @@ const CountryFlag = (props: Props) => {
       )}
     </>
   );
-};
+});
 
 export default CountryFlag;

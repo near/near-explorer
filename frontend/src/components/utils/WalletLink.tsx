@@ -13,33 +13,32 @@ export interface Props {
   nearWalletProfilePrefix: string;
 }
 
-const WalletLink: React.FC<Props> = ({
-  accountId,
-  nearWalletProfilePrefix,
-}) => {
-  const { t } = useTranslation();
-  const track = useAnalyticsTrack();
-  return (
-    <span
-      onClick={() =>
-        track("Explorer Click for wallet profile", {
-          accountId: accountId,
-          walletPrefix: nearWalletProfilePrefix,
-        })
-      }
-    >
-      <AccountLink
-        target="_blank"
-        rel="noopener"
-        href={`${nearWalletProfilePrefix}/${accountId}`}
+const WalletLink: React.FC<Props> = React.memo(
+  ({ accountId, nearWalletProfilePrefix }) => {
+    const { t } = useTranslation();
+    const track = useAnalyticsTrack();
+    return (
+      <span
+        onClick={() =>
+          track("Explorer Click for wallet profile", {
+            accountId: accountId,
+            walletPrefix: nearWalletProfilePrefix,
+          })
+        }
       >
-        {t("utils.WalletLink", {
-          account_id: truncateAccountId(accountId, 20).toString(),
-          wallet_name: "Wallet",
-        })}
-      </AccountLink>
-    </span>
-  );
-};
+        <AccountLink
+          target="_blank"
+          rel="noopener"
+          href={`${nearWalletProfilePrefix}/${accountId}`}
+        >
+          {t("utils.WalletLink", {
+            account_id: truncateAccountId(accountId, 20).toString(),
+            wallet_name: "Wallet",
+          })}
+        </AccountLink>
+      </span>
+    );
+  }
+);
 
 export default WalletLink;

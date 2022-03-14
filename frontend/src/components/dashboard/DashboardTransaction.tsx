@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -24,7 +25,7 @@ const TransactionCharts = styled(Row, {
   },
 });
 
-const DashboardTransaction = () => {
+const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const transactionsCountHistoryForTwoWeeks = useChainTransactionStats()
     ?.transactionsCountHistoryForTwoWeeks;
@@ -92,6 +93,6 @@ const DashboardTransaction = () => {
       ) : null}
     </DashboardCard>
   );
-};
+});
 
 export default DashboardTransaction;

@@ -10,7 +10,7 @@ import { Props } from "./TransactionsByDate";
 import { useTranslation } from "react-i18next";
 import { useWampSimpleQuery } from "../../hooks/wamp";
 
-const NewAccountsByDate = ({ chartStyle }: Props) => {
+const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const liveAccounts =
     useWampSimpleQuery("live-accounts-count-aggregated-by-date", []) ?? [];
@@ -158,6 +158,6 @@ const NewAccountsByDate = ({ chartStyle }: Props) => {
       </Tab>
     </Tabs>
   );
-};
+});
 
 export default NewAccountsByDate;

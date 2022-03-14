@@ -38,7 +38,7 @@ export interface Props {
   transaction: TTransactionOutcome;
 }
 
-const TransactionOutcome: React.FC<Props> = ({ transaction }) => {
+const TransactionOutcome: React.FC<Props> = React.memo(({ transaction }) => {
   const { t } = useTranslation();
   const gasBurnt = new BN(transaction.outcome?.gas_burnt ?? 0);
   const tokensBurnt = new BN(transaction.outcome?.tokens_burnt ?? 0);
@@ -75,6 +75,6 @@ const TransactionOutcome: React.FC<Props> = ({ transaction }) => {
       </Col>
     </Row>
   );
-};
+});
 
 export default TransactionOutcome;

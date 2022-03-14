@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Badge } from "react-bootstrap";
 import { styled } from "../../libraries/styles";
 
@@ -10,8 +11,8 @@ const NearBadgeWrapper = styled(Badge, {
   background: "transparent",
 });
 
-const NearBadge = () => (
+const NearBadge: React.FC = React.memo(() => (
   <NearBadgeWrapper variant="light">NEAR</NearBadgeWrapper>
-);
+));
 
 export default NearBadge;

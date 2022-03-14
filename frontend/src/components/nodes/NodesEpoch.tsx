@@ -49,83 +49,85 @@ interface Props {
   latestBlockTimestamp: number;
 }
 
-const NodesEpoch: React.FC<Props> = ({
-  epochStartHeight,
-  latestBlockHeight,
-  epochLength,
-  epochStartTimestamp,
-  latestBlockTimestamp,
-}) => {
-  const { t } = useTranslation();
-  const epochProgress =
-    ((latestBlockHeight - epochStartHeight) / epochLength) * 100;
-  const timeRemaining =
-    ((latestBlockTimestamp - epochStartTimestamp) / epochProgress) *
-    (100 - epochProgress);
+const NodesEpoch: React.FC<Props> = React.memo(
+  ({
+    epochStartHeight,
+    latestBlockHeight,
+    epochLength,
+    epochStartTimestamp,
+    latestBlockTimestamp,
+  }) => {
+    const { t } = useTranslation();
+    const epochProgress =
+      ((latestBlockHeight - epochStartHeight) / epochLength) * 100;
+    const timeRemaining =
+      ((latestBlockTimestamp - epochStartTimestamp) / epochProgress) *
+      (100 - epochProgress);
 
-  return (
-    <NodesEpochRow>
-      <NodesEpochContent xs="12">
-        <Row noGutters>
-          <Col xs="7">
-            <Row className="d-none d-md-flex">
-              <Col>
-                {t("component.nodes.NodesEpoch.current_epoch_start") + ": "}
-                <TextValue>
-                  {t("component.nodes.NodesEpoch.block") + " #"}
-                  {epochStartHeight}
-                </TextValue>
-              </Col>
-            </Row>
+    return (
+      <NodesEpochRow>
+        <NodesEpochContent xs="12">
+          <Row noGutters>
+            <Col xs="7">
+              <Row className="d-none d-md-flex">
+                <Col>
+                  {t("component.nodes.NodesEpoch.current_epoch_start") + ": "}
+                  <TextValue>
+                    {t("component.nodes.NodesEpoch.block") + " #"}
+                    {epochStartHeight}
+                  </TextValue>
+                </Col>
+              </Row>
 
-            <Row className="d-xs-flex d-md-none">
-              <Col xs="12">
-                {t("component.nodes.NodesEpoch.current_epoch_start")}
-              </Col>
-              <Col xs="12">
-                <TextValue>
-                  {t("component.nodes.NodesEpoch.block") + " #"}
-                  {epochStartHeight}
-                </TextValue>
-              </Col>
-            </Row>
-          </Col>
+              <Row className="d-xs-flex d-md-none">
+                <Col xs="12">
+                  {t("component.nodes.NodesEpoch.current_epoch_start")}
+                </Col>
+                <Col xs="12">
+                  <TextValue>
+                    {t("component.nodes.NodesEpoch.block") + " #"}
+                    {epochStartHeight}
+                  </TextValue>
+                </Col>
+              </Row>
+            </Col>
 
-          <Col sm="5" className="text-right d-none d-md-block ">
-            <TextValueRemainedPercent>
-              {epochProgress.toFixed(0)}
-              {"% " + t("component.nodes.NodesEpoch.complete")}
-            </TextValueRemainedPercent>
-            {` (${moment.utc(timeRemaining).format("HH:mm:ss")} ${t(
-              "component.nodes.NodesEpoch.remaining"
-            )})`}
-          </Col>
+            <Col sm="5" className="text-right d-none d-md-block ">
+              <TextValueRemainedPercent>
+                {epochProgress.toFixed(0)}
+                {"% " + t("component.nodes.NodesEpoch.complete")}
+              </TextValueRemainedPercent>
+              {` (${moment.utc(timeRemaining).format("HH:mm:ss")} ${t(
+                "component.nodes.NodesEpoch.remaining"
+              )})`}
+            </Col>
 
-          <Col xs="5" className="text-right d-xs-block d-md-none">
-            <NodesEpochCircleProgress
-              percent={epochProgress}
-              strokeColor="#37dbf4"
-              trailColor="transparent"
-              type="circle"
-              strokeWidth={4}
-              label={
-                <NodesEpochCircleProgressLabel>
-                  {epochProgress.toFixed(0)}%
-                </NodesEpochCircleProgressLabel>
-              }
-            />
-          </Col>
-        </Row>
-      </NodesEpochContent>
-      <Col xs="12" className="d-none d-md-block px-0">
-        <NodesEpochLineProgress
-          percent={epochProgress}
-          strokeColor="#37dbf4"
-          trailColor="transparent"
-        />
-      </Col>
-    </NodesEpochRow>
-  );
-};
+            <Col xs="5" className="text-right d-xs-block d-md-none">
+              <NodesEpochCircleProgress
+                percent={epochProgress}
+                strokeColor="#37dbf4"
+                trailColor="transparent"
+                type="circle"
+                strokeWidth={4}
+                label={
+                  <NodesEpochCircleProgressLabel>
+                    {epochProgress.toFixed(0)}%
+                  </NodesEpochCircleProgressLabel>
+                }
+              />
+            </Col>
+          </Row>
+        </NodesEpochContent>
+        <Col xs="12" className="d-none d-md-block px-0">
+          <NodesEpochLineProgress
+            percent={epochProgress}
+            strokeColor="#37dbf4"
+            trailColor="transparent"
+          />
+        </Col>
+      </NodesEpochRow>
+    );
+  }
+);
 
 export default NodesEpoch;

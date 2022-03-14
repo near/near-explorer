@@ -1,3 +1,4 @@
+import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import moment from "moment";
@@ -13,7 +14,7 @@ const chartsStyle = {
   marginBottom: 26,
 };
 
-const DashboardTransactionHistoryChart = () => {
+const DashboardTransactionHistoryChart: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const transactionsCountHistoryForTwoWeeks =
     useChainTransactionStats()?.transactionsCountHistoryForTwoWeeks || [];
@@ -126,6 +127,6 @@ const DashboardTransactionHistoryChart = () => {
     return <PaginationSpinner />;
   }
   return <ReactEcharts option={getOption()} style={chartsStyle} />;
-};
+});
 
 export default DashboardTransactionHistoryChart;

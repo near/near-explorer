@@ -61,7 +61,7 @@ type Props = {
   mobile?: boolean;
 };
 
-const LanguageToggle: React.FC<Props> = (props) => {
+const LanguageToggle: React.FC<Props> = React.memo((props) => {
   const { i18n, ready } = useTranslation();
   const [language, setLanguage] = useCookie(LANGUAGE_COOKIE, DEFAULT_LANGUAGE);
   React.useEffect(() => {
@@ -91,6 +91,6 @@ const LanguageToggle: React.FC<Props> = (props) => {
       ))}
     </LangSelector>
   );
-};
+});
 
 export default LanguageToggle;

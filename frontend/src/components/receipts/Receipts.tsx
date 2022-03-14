@@ -11,7 +11,7 @@ interface Props {
   receipts: Receipt[];
 }
 
-const Receipts: React.FC<Props> = ({ receipts }) => {
+const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
   const { t } = useTranslation();
   return (
     <>
@@ -37,6 +37,6 @@ const Receipts: React.FC<Props> = ({ receipts }) => {
       ))}
     </>
   );
-};
+});
 
 export default Receipts;

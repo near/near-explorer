@@ -6,8 +6,9 @@ import PartnerTotalTransactionList from "../../components/stats/PartnerTotalTran
 import PartnerFirst3MonthTransactionslist from "../../components/stats/PartnerFirst3MonthTransactionsList";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import * as React from "react";
 
-const Partner: NextPage = () => {
+const Partner: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Partner page");
 
   return (
@@ -26,6 +27,6 @@ const Partner: NextPage = () => {
       </Content>
     </>
   );
-};
+});
 
 export default Partner;

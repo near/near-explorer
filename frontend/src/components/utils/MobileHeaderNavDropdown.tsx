@@ -46,16 +46,18 @@ interface Props {
   text: React.ReactNode;
 }
 
-const MobileNavItem: React.FC<Props> = ({ link, IconElement, text }) => {
-  return (
-    <Link href={link} passHref>
-      <HeaderNavLink>
-        <Icon as={IconElement} />
-        <NavText>{text}</NavText>
-      </HeaderNavLink>
-    </Link>
-  );
-};
+const MobileNavItem: React.FC<Props> = React.memo(
+  ({ link, IconElement, text }) => {
+    return (
+      <Link href={link} passHref>
+        <HeaderNavLink>
+          <Icon as={IconElement} />
+          <NavText>{text}</NavText>
+        </HeaderNavLink>
+      </Link>
+    );
+  }
+);
 
 const MobileHeaderNav = styled("div", {
   display: "inline-block",
@@ -115,7 +117,7 @@ const LinkWrapper = styled("a", {
   width: "100%",
 });
 
-const MobileNavDropdown = () => {
+const MobileNavDropdown: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const [isMenuShown, setMenuShown] = React.useState(false);
   const dropdownWrapperRef = React.useRef<HTMLDivElement>(null);
@@ -211,6 +213,6 @@ const MobileNavDropdown = () => {
       </MobileHeaderNav>
     </>
   );
-};
+});
 
 export default MobileNavDropdown;

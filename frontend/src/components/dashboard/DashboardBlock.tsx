@@ -10,7 +10,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { useChainBlockStats } from "../../hooks/subscriptions";
 import { useLatestBlockHeight } from "../../hooks/data";
 
-const DashboardBlock: React.FC = () => {
+const DashboardBlock: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const latestBlockHeight = useLatestBlockHeight();
   const recentBlockProductionSpeed = useChainBlockStats()
@@ -74,6 +74,6 @@ const DashboardBlock: React.FC = () => {
       </Row>
     </DashboardCard>
   );
-};
+});
 
 export default DashboardBlock;
