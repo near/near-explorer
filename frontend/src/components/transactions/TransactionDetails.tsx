@@ -2,7 +2,7 @@ import BN from "bn.js";
 import moment from "../../libraries/moment";
 
 import { Row, Col } from "react-bootstrap";
-import { FC, useEffect, useMemo } from "react";
+import * as React from "react";
 
 import AccountLink from "../utils/AccountLink";
 import BlockLink from "../utils/BlockLink";
@@ -62,9 +62,9 @@ export interface State {
   transactionFee?: BN;
 }
 
-const TransactionDetails: FC<Props> = ({ transaction }) => {
+const TransactionDetails: React.FC<Props> = ({ transaction }) => {
   const { t } = useTranslation();
-  const deposit = useMemo(() => {
+  const deposit = React.useMemo(() => {
     return transaction.actions
       .map((action) => {
         if ("deposit" in action.args) {
@@ -75,7 +75,7 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
       })
       .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
   }, [transaction.actions]);
-  const gasUsed = useMemo(() => {
+  const gasUsed = React.useMemo(() => {
     const gasBurntByTx = transaction.transactionOutcome
       ? new BN(transaction.transactionOutcome.outcome.gas_burnt)
       : new BN(0);
@@ -86,7 +86,7 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
       : new BN(0);
     return gasBurntByTx.add(gasBurntByReceipts);
   }, [transaction.transactionOutcome, transaction.receiptsOutcome]);
-  const transactionFee = useMemo(() => {
+  const transactionFee = React.useMemo(() => {
     const tokensBurntByTx = transaction.transactionOutcome
       ? new BN(transaction.transactionOutcome.outcome.tokens_burnt)
       : new BN(0);
@@ -100,7 +100,7 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
       : new BN(0);
     return tokensBurntByTx.add(tokensBurntByReceipts);
   }, [transaction.transactionOutcome, transaction.receiptsOutcome]);
-  const gasAttached = useMemo(() => {
+  const gasAttached = React.useMemo(() => {
     const actionArgs = transaction.actions.map((action) => action.args);
     const gasAttachedArgs = actionArgs.filter(
       (args): args is FunctionCall => "gas" in args
@@ -113,7 +113,6 @@ const TransactionDetails: FC<Props> = ({ transaction }) => {
       new BN(0)
     );
   }, [transaction.actions]);
-  useEffect(() => {}, [transaction.blockHash]);
 
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
 

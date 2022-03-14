@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import { Col, Row, Spinner } from "react-bootstrap";
 import { styled } from "../../libraries/styles";

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import { Tabs, Tab } from "react-bootstrap";
@@ -15,20 +15,20 @@ const ActiveAccountsByDate = ({ chartStyle }: Props) => {
   const accountsByDateCount =
     useWampSimpleQuery("active-accounts-count-aggregated-by-date", []) ?? [];
 
-  const accountsByWeek = useMemo(
+  const accountsByWeek = React.useMemo(
     () => accountsByWeekCount.map(({ accountsCount }) => Number(accountsCount)),
     [accountsByWeekCount]
   );
-  const accountsByWeekDate = useMemo(
+  const accountsByWeekDate = React.useMemo(
     () => accountsByWeekCount.map(({ date }) => date.slice(0, 10)),
     [accountsByWeekCount]
   );
 
-  const accountsByDate = useMemo(
+  const accountsByDate = React.useMemo(
     () => accountsByDateCount.map(({ accountsCount }) => Number(accountsCount)),
     [accountsByDateCount]
   );
-  const accountsByDateDate = useMemo(
+  const accountsByDateDate = React.useMemo(
     () => accountsByDateCount.map(({ date }) => date.slice(0, 10)),
     [accountsByDateCount]
   );

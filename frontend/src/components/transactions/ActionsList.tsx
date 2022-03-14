@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Action } from "../../libraries/wamp/types";
 
 import ActionRow from "./ActionRow";
@@ -15,7 +15,7 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-const ActionList: FC<Props> = ({
+const ActionList: React.FC<Props> = ({
   actions,
   blockTimestamp,
   signerId,

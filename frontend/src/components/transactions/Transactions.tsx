@@ -1,4 +1,4 @@
-import { FC, useCallback } from "react";
+import * as React from "react";
 
 import FlipMove from "../utils/FlipMove";
 import ListHandler from "../utils/ListHandler";
@@ -21,12 +21,12 @@ export interface OuterProps {
 
 const TRANSACTIONS_PER_PAGE = 15;
 
-const TransactionsWrapper: FC<OuterProps> = ({
+const TransactionsWrapper: React.FC<OuterProps> = ({
   accountId,
   blockHash,
   count = TRANSACTIONS_PER_PAGE,
 }) => {
-  const fetchDataFn = useCallback(
+  const fetchDataFn = React.useCallback(
     (
       wampCall: WampCall,
       count: number,
@@ -63,7 +63,7 @@ interface InnerProps {
   items: TransactionBaseInfo[];
 }
 
-const Transactions: FC<InnerProps> = ({ items }) => {
+const Transactions: React.FC<InnerProps> = ({ items }) => {
   const { t } = useTranslation();
   if (items?.length === 0) {
     return (

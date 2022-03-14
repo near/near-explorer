@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Dropdown } from "react-bootstrap";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
@@ -24,7 +24,7 @@ interface Props {
   title: NetworkName;
 }
 
-const HeaderDropdownItem: FC<Props> = ({ link, title }) => {
+const HeaderDropdownItem: React.FC<Props> = ({ link, title }) => {
   const track = useAnalyticsTrack();
 
   return (
@@ -112,7 +112,7 @@ const IconRight = styled("img", {
   marginTop: -3,
 });
 
-const HeaderNetworkDropdown: FC = () => {
+const HeaderNetworkDropdown: React.FC = () => {
   const { currentNetwork, networks } = useNetworkContext();
   return (
     <Dropdown>

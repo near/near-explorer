@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import * as React from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 import { styled } from "../../libraries/styles";
@@ -34,7 +34,7 @@ export interface Props {
   className?: string;
 }
 
-const Content: FC<Props> = ({
+const Content: React.FC<Props> = ({
   border = true,
   icon,
   className,

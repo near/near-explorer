@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import * as React from "react";
 
 import { Modal } from "react-bootstrap";
 
@@ -25,22 +25,22 @@ interface Props {
   href?: string;
 }
 
-const Term: FC<Props> = ({ title, text, href }) => {
+const Term: React.FC<Props> = ({ title, text, href }) => {
   const { t } = useTranslation();
-  const [isModalShown, setModalShown] = useState(false);
+  const [isModalShown, setModalShown] = React.useState(false);
   const track = useAnalyticsTrack();
 
-  const showModal = useCallback(
+  const showModal = React.useCallback(
     (e) => {
       e.preventDefault();
       setModalShown(true);
     },
     [setModalShown]
   );
-  const hideModal = useCallback(() => {
+  const hideModal = React.useCallback(() => {
     setModalShown(false);
   }, [setModalShown]);
-  const preventClickPropagation = useCallback((e) => {
+  const preventClickPropagation = React.useCallback((e) => {
     e.stopPropagation();
   }, []);
 

@@ -1,7 +1,7 @@
 import BN from "bn.js";
 import moment from "moment";
 
-import { FC, useCallback } from "react";
+import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import Balance from "../utils/Balance";
@@ -60,10 +60,12 @@ export interface State {
   createdAtBlockTimestamp?: number;
 }
 
-const AccountRow: FC<Props> = ({ accountId }) => {
+const AccountRow: React.FC<Props> = ({ accountId }) => {
   const { t } = useTranslation();
   const accountInfo = useWampQuery<Account>(
-    useCallback((wampCall) => getAccount(wampCall, accountId), [accountId])
+    React.useCallback((wampCall) => getAccount(wampCall, accountId), [
+      accountId,
+    ])
   );
 
   return (

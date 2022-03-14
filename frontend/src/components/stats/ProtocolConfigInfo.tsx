@@ -1,6 +1,6 @@
 import moment from "moment";
 import BN from "bn.js";
-import React, { useCallback, useMemo } from "react";
+import * as React from "react";
 import { utils } from "near-api-js";
 
 import { InfoCard, InfoCardCell as Cell } from "../utils/InfoCard";
@@ -43,7 +43,7 @@ const ProtocolConfigInfo = () => {
   );
   const genesisHeight = networkStats?.genesisHeight;
   const genesisProtocolConfig = useWampQuery(
-    useCallback(
+    React.useCallback(
       async (wampCall) =>
         genesisHeight
           ? wampCall("nearcore-genesis-protocol-configuration", [genesisHeight])
@@ -58,7 +58,7 @@ const ProtocolConfigInfo = () => {
 
   const liveAccountsCount =
     useWampSimpleQuery("live-accounts-count-aggregated-by-date", []) ?? [];
-  const lastDateLiveAccounts = useMemo(
+  const lastDateLiveAccounts = React.useMemo(
     () => liveAccountsCount[liveAccountsCount.length - 1]?.accountsCount,
     [liveAccountsCount]
   );

@@ -1,7 +1,7 @@
 import "../libraries/wdyr";
 import NextApp, { AppContext, AppInitialProps } from "next/app";
 import Head from "next/head";
-import { useMemo } from "react";
+import * as React from "react";
 
 import { getConfig, getNearNetwork, NearNetwork } from "../libraries/config";
 
@@ -93,7 +93,7 @@ const App: AppType = ({
   useAnalyticsInit();
   globalStyles();
 
-  const networkState = useMemo(
+  const networkState = React.useMemo(
     () => ({
       currentNetwork: currentNearNetwork,
       networks: nearNetworks,

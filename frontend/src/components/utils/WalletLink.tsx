@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 import { truncateAccountId } from "../../libraries/formatting";
@@ -13,7 +13,10 @@ export interface Props {
   nearWalletProfilePrefix: string;
 }
 
-const WalletLink: FC<Props> = ({ accountId, nearWalletProfilePrefix }) => {
+const WalletLink: React.FC<Props> = ({
+  accountId,
+  nearWalletProfilePrefix,
+}) => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
   return (

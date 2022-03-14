@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import * as React from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
@@ -17,21 +17,21 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
   const latestGasPrice = useLatestGasPrice();
   const gasUsedByDate =
     useWampSimpleQuery("gas-used-aggregated-by-date", []) ?? [];
-  const gasUsed = useMemo(
+  const gasUsed = React.useMemo(
     () =>
       gasUsedByDate.map(({ gasUsed }) =>
         new BN(gasUsed).divn(1000000).divn(1000000).divn(1000).toNumber()
       ),
     [gasUsedByDate]
   );
-  const gasUsedCumulative = useMemo(() => cumulativeSumArray(gasUsed), [
+  const gasUsedCumulative = React.useMemo(() => cumulativeSumArray(gasUsed), [
     gasUsed,
   ]);
-  const gasUsedDates = useMemo(
+  const gasUsedDates = React.useMemo(
     () => gasUsedByDate.map(({ date }) => date.slice(0, 10)),
     [gasUsedByDate]
   );
-  const feeUsedByDate = useMemo(() => {
+  const feeUsedByDate = React.useMemo(() => {
     if (!latestGasPrice) {
       return [];
     }

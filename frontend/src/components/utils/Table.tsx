@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import { Table as BaseTable } from "react-bootstrap";
 import { styled } from "../../libraries/styles";
@@ -70,7 +70,7 @@ interface Props {
   pagination?: PaginationProps;
 }
 
-const TableRow: FC<Props> = ({ className, children, collapse }) => {
+const TableRow: React.FC<Props> = ({ className, children, collapse }) => {
   return (
     <TableRowWrapper className={className} expanded={collapse}>
       {children}
@@ -78,7 +78,7 @@ const TableRow: FC<Props> = ({ className, children, collapse }) => {
   );
 };
 
-const TableCollapseRow: FC<Props> = ({ children, collapse }) => {
+const TableCollapseRow: React.FC<Props> = ({ children, collapse }) => {
   if (!collapse) {
     return null;
   }
@@ -112,7 +112,7 @@ const TableSectionWrapper = styled(BaseTable, {
   marginBottom: 0,
 });
 
-const Table: FC<Props> = ({ className, children, pagination }) => (
+const Table: React.FC<Props> = ({ className, children, pagination }) => (
   <TableSection className={className}>
     <TableSectionWrapper responsive>{children}</TableSectionWrapper>
     {pagination && <Pagination {...pagination} />}

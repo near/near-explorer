@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { FC } from "react";
+import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
 import Gas from "../utils/Gas";
@@ -38,7 +38,7 @@ export interface Props {
   transaction: TTransactionOutcome;
 }
 
-const TransactionOutcome: FC<Props> = ({ transaction }) => {
+const TransactionOutcome: React.FC<Props> = ({ transaction }) => {
   const { t } = useTranslation();
   const gasBurnt = new BN(transaction.outcome?.gas_burnt ?? 0);
   const tokensBurnt = new BN(transaction.outcome?.tokens_burnt ?? 0);

@@ -1,19 +1,19 @@
 /// Copied from near-wallet project:
 import BN from "bn.js";
-import { FC, ReactNode } from "react";
+import * as React from "react";
 import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 interface Props {
   amount: string | BN;
-  label?: ReactNode;
-  suffix?: ReactNode;
+  label?: React.ReactNode;
+  suffix?: React.ReactNode;
   className?: string;
   formulatedAmount?: string;
   fracDigits?: number;
 }
 
-const Balance: FC<Props> = ({
+const Balance: React.FC<Props> = ({
   amount,
   label = null,
   suffix = undefined,

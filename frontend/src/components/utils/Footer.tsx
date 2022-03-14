@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -106,7 +106,7 @@ const NearkatWrapper = styled("div", {
   },
 });
 
-const Footer: FC = () => {
+const Footer: React.FC = () => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 

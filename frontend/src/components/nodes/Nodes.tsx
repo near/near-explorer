@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import * as React from "react";
 
 import { Table, OnPageChange } from "../utils/Table";
 
@@ -10,13 +10,13 @@ import { useNodes } from "../../hooks/subscriptions";
 
 const ITEMS_PER_PAGE = 10;
 
-const Nodes: FC = () => {
+const Nodes: React.FC = () => {
   const { t } = useTranslation();
-  const [activePage, setActivePage] = useState(0);
-  const [startPage, setStartPage] = useState(1);
-  const [endPage, setEndPage] = useState(ITEMS_PER_PAGE);
+  const [activePage, setActivePage] = React.useState(0);
+  const [startPage, setStartPage] = React.useState(1);
+  const [endPage, setEndPage] = React.useState(ITEMS_PER_PAGE);
 
-  const onPageChange = useCallback<NonNullable<OnPageChange>>(
+  const onPageChange = React.useCallback<NonNullable<OnPageChange>>(
     ({ selected }) => {
       setActivePage(selected);
       setStartPage(selected * ITEMS_PER_PAGE + 1);

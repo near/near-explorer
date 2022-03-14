@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
 
@@ -44,7 +44,7 @@ interface Props {
   current: number;
 }
 
-const CumulativeStakeChart: FC<Props> = ({ total, current }) => {
+const CumulativeStakeChart: React.FC<Props> = ({ total, current }) => {
   const { t } = useTranslation();
   return (
     <Wrapper>

@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { FC } from "react";
+import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
 
@@ -45,7 +45,7 @@ export interface Props {
   };
 }
 
-const AccountDetails: FC<Props> = ({ account }) => {
+const AccountDetails: React.FC<Props> = ({ account }) => {
   const { t } = useTranslation();
   const { currentNetwork } = useNetworkContext();
   const transactionCount = useWampSimpleQuery("account-transactions-count", [

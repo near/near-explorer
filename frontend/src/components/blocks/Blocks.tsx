@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
@@ -15,7 +15,7 @@ const fetchDataFn = (
   paginationIndexer?: number
 ) => wampCall("blocks-list", [count, paginationIndexer]);
 
-const BlocksWrapper: FC = () => (
+const BlocksWrapper: React.FC = () => (
   <BlocksList count={BLOCKS_PER_PAGE} fetchDataFn={fetchDataFn} />
 );
 
@@ -25,7 +25,7 @@ export interface InnerProps {
   items: BlockBase[];
 }
 
-const Blocks: FC<InnerProps> = ({ items }) => (
+const Blocks: React.FC<InnerProps> = ({ items }) => (
   <FlipMove duration={1000} staggerDurationBy={0}>
     {items.map((block) => (
       <div key={block.hash}>

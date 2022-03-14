@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
-import { useMemo } from "react";
+import * as React from "react";
 import BN from "bn.js";
 import { utils } from "near-api-js";
 
@@ -28,7 +28,7 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
   const { t } = useTranslation();
   const circulatingSupply =
     useWampSimpleQuery("circulating-supply-stats", []) ?? [];
-  const circulatingTokenSupply = useMemo(
+  const circulatingTokenSupply = React.useMemo(
     () =>
       circulatingSupply.map(({ circulatingTokensSupply }) =>
         new BN(circulatingTokensSupply)
@@ -37,14 +37,14 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
       ),
     [circulatingSupply]
   );
-  const totalTokenSupply = useMemo(
+  const totalTokenSupply = React.useMemo(
     () =>
       circulatingSupply.map(({ totalTokensSupply }) =>
         new BN(totalTokensSupply).div(utils.format.NEAR_NOMINATION).toNumber()
       ),
     [circulatingSupply]
   );
-  const supplyDates = useMemo(
+  const supplyDates = React.useMemo(
     () => circulatingSupply.map(({ date }) => date.slice(0, 10)),
     [circulatingSupply]
   );

@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { FC, useCallback, useState } from "react";
+import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
@@ -50,10 +50,10 @@ interface Props {
 
 const networkHolder: Set<number> = new Set();
 
-const ValidatorRow: FC<Props> = ({ node, index, totalStake }) => {
+const ValidatorRow: React.FC<Props> = ({ node, index, totalStake }) => {
   const { t } = useTranslation();
-  const [isRowActive, setRowActive] = useState(false);
-  const switchRowActive = useCallback(() => setRowActive((x) => !x), [
+  const [isRowActive, setRowActive] = React.useState(false);
+  const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
     setRowActive,
   ]);
   let totalStakeInPersnt = 0;

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 import { Badge, Col, Row } from "react-bootstrap";
 
 import Link from "../utils/Link";
@@ -53,7 +53,7 @@ interface Props {
   role: string;
 }
 
-const NodeNav: FC<Props> = ({ role }) => {
+const NodeNav: React.FC<Props> = ({ role }) => {
   const { t } = useTranslation();
   const networkStats = useNetworkStats();
 

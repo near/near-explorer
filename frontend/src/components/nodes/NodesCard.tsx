@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-import { FC } from "react";
+import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -109,7 +109,7 @@ interface Props {
   seatPrice?: string;
 }
 
-const NodesCard: FC<Props> = ({
+const NodesCard: React.FC<Props> = ({
   currentValidatorsCount,
   totalSupply,
   totalStake,

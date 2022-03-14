@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import ReactCountryFlag from "react-country-flag";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { countries } from "country-data";

@@ -67,7 +67,7 @@ import moment from "moment";
 import Head from "next/head";
 import Link from "next/link";
 
-import React from "react";
+import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 

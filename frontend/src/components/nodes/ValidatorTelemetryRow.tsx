@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
@@ -33,7 +33,7 @@ interface Props {
   agentBuild?: string;
 }
 
-const ValidatorTelemetryRow: FC<Props> = ({
+const ValidatorTelemetryRow: React.FC<Props> = ({
   progress,
   latestProducedValidatorBlock,
   lastSeen,

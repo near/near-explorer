@@ -1,4 +1,4 @@
-import { FC } from "react";
+import * as React from "react";
 
 import { useWampSimpleQuery } from "../../hooks/wamp";
 import ReceiptsList from "./ReceiptsList";
@@ -7,7 +7,7 @@ interface Props {
   blockHash: string;
 }
 
-const ReceiptsExecutedInBlock: FC<Props> = ({ blockHash }) => {
+const ReceiptsExecutedInBlock: React.FC<Props> = ({ blockHash }) => {
   const receiptsList = useWampSimpleQuery(
     "executed-receipts-list-by-block-hash",
     [blockHash]
