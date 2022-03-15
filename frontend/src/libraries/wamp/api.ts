@@ -1,4 +1,4 @@
-import { getConfig, NearNetwork } from "../config";
+import { NearNetwork } from "../config";
 import * as connection from "./connection";
 import {
   SubscriptionTopicType,
@@ -8,18 +8,8 @@ import {
   ProcedureResult,
 } from "./types";
 
-const nextConfig = getConfig();
-
-const getTopicName = (
-  nearNetwork: NearNetwork,
-  topic: string,
-  withDataSource?: boolean
-): string => {
-  let wampTopic = `com.nearprotocol.${nearNetwork.name}.explorer.${topic}`;
-  if (withDataSource) {
-    return `${wampTopic}:${nextConfig.publicRuntimeConfig.nearExplorerDataSource}`;
-  }
-  return wampTopic;
+const getTopicName = (nearNetwork: NearNetwork, topic: string): string => {
+  return `com.nearprotocol.${nearNetwork.name}.explorer.${topic}`;
 };
 
 const getProcedureName = (
@@ -34,8 +24,7 @@ let subscriptions: Record<string, ((data: any) => void)[]> = {};
 function subscribe<T extends SubscriptionTopicType>(
   nearNetwork: NearNetwork,
   topic: T,
-  handler: (data: SubscriptionTopicTypes[T]) => void,
-  withDataSource?: boolean
+  handler: (data: SubscriptionTopicTypes[T]) => void
 ): () => void {
   if (!subscriptions[topic]) {
     subscriptions[topic] = [];
@@ -44,7 +33,7 @@ function subscribe<T extends SubscriptionTopicType>(
   void connection.subscribeTopic(
     // That's unfair as we actually change topic name
     // But the types match so we'll keep it
-    getTopicName(nearNetwork, topic, withDataSource) as T,
+    getTopicName(nearNetwork, topic) as T,
     (data) => subscriptions[topic].forEach((handler) => handler(data))
   );
   const lastValue = connection.getLastValue(topic);

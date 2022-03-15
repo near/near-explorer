@@ -3,10 +3,6 @@ import { ExplorerConfig, NearNetwork } from "./src/libraries/config";
 
 const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
 
-enum DataSource {
-  LegacySyncBackend = "LEGACY_SYNC_BACKEND",
-}
-
 let nearNetworks: NearNetwork[];
 if (process.env.NEAR_NETWORKS) {
   nearNetworks = JSON.parse(process.env.NEAR_NETWORKS);
@@ -37,8 +33,6 @@ const config: ExplorerConfig & NextConfig = {
   publicRuntimeConfig: {
     nearNetworks,
     nearNetworkAliases,
-    nearExplorerDataSource:
-      process.env.NEAR_EXPLORER_DATA_SOURCE || DataSource.LegacySyncBackend,
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,

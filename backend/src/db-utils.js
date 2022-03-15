@@ -154,33 +154,33 @@ const queryOnlineNodes = async () => {
 };
 
 // query for new dashboard
-const queryDashboardBlocksStats = async (options) => {
-  async function queryLatestBlockHeight({ dataSource }) {
+const queryDashboardBlocksStats = async () => {
+  async function queryLatestBlockHeight() {
     return (
       await querySingleRow(
         [`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`],
-        { dataSource }
+        { dataSource: DS_INDEXER_BACKEND }
       )
     ).block_height;
   }
 
-  async function queryLatestGasPrice({ dataSource }) {
+  async function queryLatestGasPrice() {
     return (
       await querySingleRow(
         [`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`],
-        { dataSource }
+        { dataSource: DS_INDEXER_BACKEND }
       )
     ).gas_price;
   }
 
-  async function queryRecentBlockProductionSpeed({ dataSource }) {
+  async function queryRecentBlockProductionSpeed() {
     const latestBlockTimestampOrNone = await querySingleRow(
       [
         `SELECT
           block_timestamp AS latest_block_timestamp
         FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
       ],
-      { dataSource }
+      { dataSource: DS_INDEXER_BACKEND }
     );
     if (!latestBlockTimestampOrNone) {
       return 0;
@@ -190,12 +190,9 @@ const queryDashboardBlocksStats = async (options) => {
     } = latestBlockTimestampOrNone;
     const latestBlockTimestampBN = new BN(latestBlockTimestamp);
     const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
-    let latestBlockEpochTimeBN;
-    if (dataSource === DS_INDEXER_BACKEND) {
-      latestBlockEpochTimeBN = latestBlockTimestampBN.div(new BN("1000000000"));
-    } else {
-      latestBlockEpochTimeBN = latestBlockTimestampBN.divn(1000);
-    }
+    const latestBlockEpochTimeBN = latestBlockTimestampBN.div(
+      new BN("1000000000")
+    );
     // If the latest block is older than 1 minute from now, we report 0
     if (currentUnixTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
       return 0;
@@ -208,14 +205,11 @@ const queryDashboardBlocksStats = async (options) => {
         FROM blocks
         WHERE block_timestamp > (CAST(:latest_block_timestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
         {
-          latest_block_timestamp:
-            dataSource == DS_INDEXER_BACKEND
-              ? latestBlockEpochTimeBN.toNumber()
-              : latestBlockEpochTimeBN.muln(1000).toNumber(),
+          latest_block_timestamp: latestBlockEpochTimeBN.toNumber(),
         },
       ],
       {
-        dataSource,
+        dataSource: DS_INDEXER_BACKEND,
       }
     );
     if (!result || !result.blocks_count_60_seconds_before) {
@@ -229,9 +223,9 @@ const queryDashboardBlocksStats = async (options) => {
     latestGasPrice,
     recentBlockProductionSpeed,
   ] = await Promise.all([
-    queryLatestBlockHeight(options),
-    queryLatestGasPrice(options),
-    queryRecentBlockProductionSpeed(options),
+    queryLatestBlockHeight(),
+    queryLatestGasPrice(),
+    queryRecentBlockProductionSpeed(),
   ]);
   return {
     latestBlockHeight,

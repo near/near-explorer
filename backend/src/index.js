@@ -57,28 +57,17 @@ let stakingNodes = [];
 let stakingPoolsInfo = new Map();
 let stakingPoolsMetadataInfo = new Map();
 
-function getDataSourceSpecificTopicName(baseTopicName, dataSource) {
-  return `${baseTopicName}:${dataSource}`;
-}
-
-function startDataSourceSpecificJobs(wamp, dataSource) {
+function startDataSourceSpecificJobs(wamp) {
   const regularCheckDataStats = async () => {
-    console.log(`Starting regular data stats check from ${dataSource}...`);
+    console.log(`Starting regular data stats check from Indexer...`);
     try {
       if (wamp.session) {
-        const blocksStats = await queryDashboardBlocksStats({ dataSource });
+        const blocksStats = await queryDashboardBlocksStats();
         const recentTransactionsCount = await queryRecentTransactionsCount();
 
+        wampPublish("chain-blocks-stats", blocksStats, wamp);
         wampPublish(
-          getDataSourceSpecificTopicName("chain-blocks-stats", dataSource),
-          blocksStats,
-          wamp
-        );
-        wampPublish(
-          getDataSourceSpecificTopicName(
-            "chain-transactions-stats",
-            dataSource
-          ),
+          "chain-transactions-stats",
           {
             transactionsCountHistoryForTwoWeeks,
             recentTransactionsCount,
@@ -86,10 +75,10 @@ function startDataSourceSpecificJobs(wamp, dataSource) {
           wamp
         );
       }
-      console.log(`Regular data stats check from ${dataSource} is completed.`);
+      console.log(`Regular data stats check from Indexer is completed.`);
     } catch (error) {
       console.warn(
-        `Regular data stats check from ${dataSource} is crashed due to:`,
+        `Regular data stats check from Indexer is crashed due to:`,
         error
       );
     }
@@ -424,7 +413,7 @@ async function main() {
   setTimeout(regularFetchStakingPoolsInfo, 0);
 
   if (isIndexerBackendEnabled) {
-    startDataSourceSpecificJobs(wamp, DS_INDEXER_BACKEND);
+    startDataSourceSpecificJobs(wamp);
     startStatsAggregation();
   }
 

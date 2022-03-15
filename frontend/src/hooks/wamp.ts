@@ -41,17 +41,15 @@ export const useWampSimpleQuery = <P extends ProcedureType>(
   );
 
 export const useWampSubscription = <Topic extends SubscriptionTopicType>(
-  topic: Topic,
-  withDataSource?: boolean
+  topic: Topic
 ): SubscriptionTopicTypes[Topic] | undefined => {
   const { currentNetwork } = useNetworkContext();
   const [value, setValue] = React.useState<
     SubscriptionTopicTypes[Topic] | undefined
   >();
   React.useEffect(
-    () =>
-      wampApi.subscribe<Topic>(currentNetwork, topic, setValue, withDataSource),
-    [currentNetwork, topic, setValue, withDataSource]
+    () => wampApi.subscribe<Topic>(currentNetwork, topic, setValue),
+    [currentNetwork, topic, setValue]
   );
   return value;
 };
