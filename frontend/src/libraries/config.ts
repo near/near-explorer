@@ -1,7 +1,7 @@
 import { IncomingMessage } from "http";
 import getNextConfig from "next/config";
 
-export type NetworkName = "mainnet" | "betanet" | "testnet" | "localhostnet";
+export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
 
 export interface NearNetwork {
   name: NetworkName;
@@ -50,3 +50,10 @@ export function getNearNetwork(req?: IncomingMessage): NearNetwork {
   }
   return nearNetwork;
 }
+
+export const getWampNearExplorerUrl = (): string => {
+  const isWampSecure = process.env.NEAR_EXPLORER_WAMP_SECURE === "true";
+  const wampHost = process.env.NEAR_EXPLORER_WAMP_HOST || "localhost";
+  const wampPort = process.env.NEAR_EXPLORER_WAMP_PORT || 10000;
+  return `${isWampSecure ? "wss" : "ws"}://${wampHost}:${wampPort}/ws`;
+};

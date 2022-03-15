@@ -462,6 +462,9 @@ wampHandlers["gas-used-in-chunks"] = async ([blockHash]) => {
 
 // set up wamp
 function setupWamp() {
+  console.log(
+    `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${wampNearExplorerBackendSecret}`
+  );
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
     transports: [

@@ -3,7 +3,6 @@ const BN = require("bn.js");
 const models = require("../models");
 
 const {
-  isIndexerBackendEnabled,
   regularPublishFinalityStatusInterval,
   regularQueryStatsInterval,
   regularPublishNetworkInfoInterval,
@@ -412,10 +411,8 @@ async function main() {
   };
   setTimeout(regularFetchStakingPoolsInfo, 0);
 
-  if (isIndexerBackendEnabled) {
-    startDataSourceSpecificJobs(wamp);
-    startStatsAggregation();
-  }
+  startDataSourceSpecificJobs(wamp);
+  startStatsAggregation();
 
   if (wampNearNetworkName === "mainnet") {
     startRegularFetchStakingPoolsMetadataInfo();
