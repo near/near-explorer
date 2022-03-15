@@ -20,7 +20,6 @@ const config: ExplorerConfig & NextConfig = {
       "127.0.0.1": nearNetworks[0],
       "127.0.0.1:3000": nearNetworks[0],
     },
-    nearExplorerDataSource: "unknown",
     wampNearExplorerUrl:
       process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,

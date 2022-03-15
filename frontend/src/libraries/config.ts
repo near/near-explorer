@@ -17,7 +17,6 @@ export interface ExplorerConfig {
   publicRuntimeConfig: {
     nearNetworks: NearNetwork[];
     nearNetworkAliases: Record<string, NearNetwork>;
-    nearExplorerDataSource: string;
     wampNearExplorerUrl: string;
     googleAnalytics?: string;
   };
