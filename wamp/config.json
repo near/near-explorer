@@ -56,7 +56,7 @@
           "type": "web",
           "endpoint": {
             "type": "tcp",
-            "port": "$WAMP_NEAR_EXPLORER_PORT"
+            "port": 8080
           },
           "paths": {
             "ws": {
@@ -71,7 +71,7 @@
                   "type": "static",
                   "principals": {
                     "near-explorer-backend": {
-                      "ticket": "${WAMP_NEAR_EXPLORER_BACKEND_SECRET}",
+                      "ticket": "${NEAR_EXPLORER_WAMP_BACKEND_SECRET}",
                       "role": "near-explorer-backend"
                     }
                   }
