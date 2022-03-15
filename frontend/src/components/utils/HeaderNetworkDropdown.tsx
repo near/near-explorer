@@ -24,7 +24,7 @@ interface Props {
   title: NetworkName;
 }
 
-const HeaderDropdownItem: React.FC<Props> = ({ link, title }) => {
+const HeaderDropdownItem: React.FC<Props> = React.memo(({ link, title }) => {
   const track = useAnalyticsTrack();
 
   return (
@@ -38,7 +38,7 @@ const HeaderDropdownItem: React.FC<Props> = ({ link, title }) => {
       {title}
     </HeaderNetworkItemDropdown>
   );
-};
+});
 
 const HeaderNetwork = styled(Dropdown.Toggle, {
   background: "#ffffff",
@@ -112,7 +112,7 @@ const IconRight = styled("img", {
   marginTop: -3,
 });
 
-const HeaderNetworkDropdown: React.FC = () => {
+const HeaderNetworkDropdown: React.FC = React.memo(() => {
   const { currentNetwork, networks } = useNetworkContext();
   return (
     <Dropdown>
@@ -135,6 +135,6 @@ const HeaderNetworkDropdown: React.FC = () => {
       </HeaderNetworkDropdownMenu>
     </Dropdown>
   );
-};
+});
 
 export default HeaderNetworkDropdown;

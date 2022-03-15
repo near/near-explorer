@@ -9,7 +9,7 @@ interface Props {
   gasPrice: BN;
 }
 
-const GasPrice: React.FC<Props> = ({ gasPrice }) => {
+const GasPrice: React.FC<Props> = React.memo(({ gasPrice }) => {
   let gasPricePerTeragas = new BN(gasPrice).mul(TGAS);
   return (
     <OverlayTrigger
@@ -21,6 +21,6 @@ const GasPrice: React.FC<Props> = ({ gasPrice }) => {
       <span>{formatNEAR(gasPricePerTeragas)} Ⓝ/Tgas</span>
     </OverlayTrigger>
   );
-};
+});
 
 export default GasPrice;

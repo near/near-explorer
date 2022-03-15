@@ -49,7 +49,7 @@ export interface Props {
   block: Block;
 }
 
-const BlockDetails: React.FC<Props> = ({ block }) => {
+const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
   const gasUsed = React.useMemo(() => new BN(block.gasUsed), [block.gasUsed]);
@@ -192,6 +192,6 @@ const BlockDetails: React.FC<Props> = ({ block }) => {
       </BlockInfoContainer>
     </Row>
   );
-};
+});
 
 export default BlockDetails;

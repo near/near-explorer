@@ -45,7 +45,7 @@ export interface Props {
   };
 }
 
-const AccountDetails: React.FC<Props> = ({ account }) => {
+const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
   const { currentNetwork } = useNetworkContext();
   const transactionCount = useWampSimpleQuery("account-transactions-count", [
@@ -328,6 +328,6 @@ const AccountDetails: React.FC<Props> = ({ account }) => {
       )}
     </AccountInfoContainer>
   );
-};
+});
 
 export default AccountDetails;

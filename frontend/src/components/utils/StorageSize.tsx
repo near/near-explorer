@@ -1,3 +1,4 @@
+import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { formatWithCommas } from "../utils/Balance";
@@ -5,7 +6,7 @@ import { formatWithCommas } from "../utils/Balance";
 interface Props {
   value: number;
 }
-const StorageSize = ({ value }: Props) => {
+const StorageSize: React.FC<Props> = React.memo(({ value }) => {
   const { t } = useTranslation();
   const formatStoreSize = (value: number): string => {
     let showStorage = value.toString();
@@ -54,6 +55,6 @@ const StorageSize = ({ value }: Props) => {
       <span>{formatStoreSize(value)}</span>
     </OverlayTrigger>
   );
-};
+});
 
 export default StorageSize;

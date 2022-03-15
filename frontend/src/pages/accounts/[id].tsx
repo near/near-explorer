@@ -16,6 +16,7 @@ import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
 import { Account, getAccount } from "../../providers/accounts";
 import { styled } from "../../libraries/styles";
+import * as React from "react";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
@@ -28,59 +29,56 @@ interface Props {
   accountError?: unknown;
 }
 
-const AccountDetail: NextPage<Props> = ({
-  accountId,
-  account,
-  accountError,
-  accountFetchingError,
-}) => {
-  const { t } = useTranslation();
-  useAnalyticsTrackOnMount("Explorer View Individual Account", {
-    accountId,
-  });
+const AccountDetail: NextPage<Props> = React.memo(
+  ({ accountId, account, accountError, accountFetchingError }) => {
+    const { t } = useTranslation();
+    useAnalyticsTrackOnMount("Explorer View Individual Account", {
+      accountId,
+    });
 
-  return (
-    <>
-      <Head>
-        <title>NEAR Explorer | Account</title>
-      </Head>
-      <Content
-        title={
-          <h1>
-            {t("common.accounts.account")}
-            {`: @${accountId}`}
-          </h1>
-        }
-        border={false}
-      >
-        {account ? (
-          <AccountDetails account={account} />
-        ) : accountError ? (
-          t("page.accounts.error.account_not_found", {
-            account_id: accountId,
-          })
-        ) : (
-          t("page.accounts.error.account_fetching", {
-            account_id: accountId,
-          })
+    return (
+      <>
+        <Head>
+          <title>NEAR Explorer | Account</title>
+        </Head>
+        <Content
+          title={
+            <h1>
+              {t("common.accounts.account")}
+              {`: @${accountId}`}
+            </h1>
+          }
+          border={false}
+        >
+          {account ? (
+            <AccountDetails account={account} />
+          ) : accountError ? (
+            t("page.accounts.error.account_not_found", {
+              account_id: accountId,
+            })
+          ) : (
+            t("page.accounts.error.account_fetching", {
+              account_id: accountId,
+            })
+          )}
+        </Content>
+        {accountError || accountFetchingError ? null : (
+          <>
+            <Container>
+              <ContractDetails accountId={accountId} />
+            </Container>
+            <Content
+              icon={<TransactionIcon />}
+              title={<h2>{t("common.transactions.transactions")}</h2>}
+            >
+              <Transactions accountId={accountId} count={10} />
+            </Content>
+          </>
         )}
-      </Content>
-      {accountError || accountFetchingError ? null : (
-        <>
-          <Container>
-            <ContractDetails accountId={accountId} />
-          </Container>
-          <Content
-            icon={<TransactionIcon />}
-            title={<h2>{t("common.transactions.transactions")}</h2>}
-          >
-            <Transactions accountId={accountId} count={10} />
-          </Content>
-        </>
-      )}
-    </>
-  );
-};
+      </>
+    );
+  }
+);
 
 export const getServerSideProps: GetServerSideProps<
   Props,

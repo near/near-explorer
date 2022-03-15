@@ -34,46 +34,48 @@ export interface Props {
   className?: string;
 }
 
-const Content: React.FC<Props> = ({
-  border = true,
-  icon,
-  className,
-  title,
-  fluid,
-  contentFluid,
-  header,
-  overrideHeader,
-  children,
-}) => {
-  const Header = overrideHeader || ContentHeader;
-  return (
-    <ContentContainer className={className} fluid={fluid}>
-      {title ? (
-        <Header bordered={border}>
-          <Col className="px-0">
-            <Row>
-              {icon ? <Col xs="auto">{icon}</Col> : null}
-              <Col
-                className={cx(
-                  "text-md-left",
-                  "text-center",
-                  icon ? "px-0" : undefined
-                )}
-              >
-                {title}
-              </Col>
-            </Row>
-          </Col>
-        </Header>
-      ) : header ? (
-        <Header bordered={border}>
-          <Col className="px-0">{header}</Col>
-        </Header>
-      ) : null}
+const Content: React.FC<Props> = React.memo(
+  ({
+    border = true,
+    icon,
+    className,
+    title,
+    fluid,
+    contentFluid,
+    header,
+    overrideHeader,
+    children,
+  }) => {
+    const Header = overrideHeader || ContentHeader;
+    return (
+      <ContentContainer className={className} fluid={fluid}>
+        {title ? (
+          <Header bordered={border}>
+            <Col className="px-0">
+              <Row>
+                {icon ? <Col xs="auto">{icon}</Col> : null}
+                <Col
+                  className={cx(
+                    "text-md-left",
+                    "text-center",
+                    icon ? "px-0" : undefined
+                  )}
+                >
+                  {title}
+                </Col>
+              </Row>
+            </Col>
+          </Header>
+        ) : header ? (
+          <Header bordered={border}>
+            <Col className="px-0">{header}</Col>
+          </Header>
+        ) : null}
 
-      <Container fluid={contentFluid}>{children}</Container>
-    </ContentContainer>
-  );
-};
+        <Container fluid={contentFluid}>{children}</Container>
+      </ContentContainer>
+    );
+  }
+);
 
 export default Content;

@@ -15,6 +15,7 @@ import {
   useFinalBlockTimestampNanosecond,
 } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
+import * as React from "react";
 
 const OnlineNodesWrapper = styled(Content, {
   backgroundColor: "#ffffff",
@@ -39,7 +40,7 @@ const ContentHeaderWrapper = styled(ContentHeader, {
   },
 });
 
-const OnlineNodes: NextPage = () => {
+const OnlineNodes: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Online Node page");
 
   const networkStats = useNetworkStats();
@@ -83,6 +84,6 @@ const OnlineNodes: NextPage = () => {
       </OnlineNodesWrapper>
     </>
   );
-};
+});
 
 export default OnlineNodes;

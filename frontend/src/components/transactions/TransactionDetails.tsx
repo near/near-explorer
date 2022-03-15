@@ -62,7 +62,7 @@ export interface State {
   transactionFee?: BN;
 }
 
-const TransactionDetails: React.FC<Props> = ({ transaction }) => {
+const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
   const { t } = useTranslation();
   const deposit = React.useMemo(() => {
     return transaction.actions
@@ -330,6 +330,6 @@ const TransactionDetails: React.FC<Props> = ({ transaction }) => {
       </Row>
     </TransactionInfoContainer>
   );
-};
+});
 
 export default TransactionDetails;

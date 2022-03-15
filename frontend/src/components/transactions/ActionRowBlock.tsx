@@ -137,75 +137,77 @@ export interface Props {
   detailsLink?: React.ReactNode;
   viewMode?: ViewMode;
   detalizationMode?: DetalizationMode;
-  icon: React.ReactElement;
-  title: React.ReactElement | string;
+  icon: React.ReactNode;
+  title: React.ReactNode | string;
   children?: React.ReactNode;
   status?: React.ReactNode;
   isFinal?: boolean;
 }
 
-const ActionRowBlock: React.FC<Props> = ({
-  viewMode = "sparse",
-  detalizationMode = "detailed",
-  signerId,
-  blockTimestamp,
-  detailsLink,
-  icon,
-  title,
-  status,
-  isFinal,
-  children,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <>
-      <ActionRow noGutters type={viewMode} className="mx-0">
-        <Col xs="auto">
-          <ActionRowImage type={viewMode}>{icon}</ActionRowImage>
-        </Col>
-        <ActionRowDetails type={viewMode}>
-          <ActionRowMessage type={viewMode} noGutters>
-            <Col md="8" xs="7">
-              <Row noGutters>
-                <ActionRowTitle>{title}</ActionRowTitle>
-              </Row>
-              {detalizationMode === "detailed" ? (
+const ActionRowBlock: React.FC<Props> = React.memo(
+  ({
+    viewMode = "sparse",
+    detalizationMode = "detailed",
+    signerId,
+    blockTimestamp,
+    detailsLink,
+    icon,
+    title,
+    status,
+    isFinal,
+    children,
+  }) => {
+    const { t } = useTranslation();
+    return (
+      <>
+        <ActionRow noGutters type={viewMode} className="mx-0">
+          <Col xs="auto">
+            <ActionRowImage type={viewMode}>{icon}</ActionRowImage>
+          </Col>
+          <ActionRowDetails type={viewMode}>
+            <ActionRowMessage type={viewMode} noGutters>
+              <Col md="8" xs="7">
                 <Row noGutters>
-                  <ActionRowText>
-                    {t("component.transactions.ActionRowBlock.by")}{" "}
-                    <AccountLink accountId={signerId} />
-                  </ActionRowText>
+                  <ActionRowTitle>{title}</ActionRowTitle>
                 </Row>
-              ) : null}
-            </Col>
-            {detalizationMode === "detailed" ? (
-              <Col md="4" xs="5" className="ml-auto text-right">
-                <Row>
-                  <ActionRowTransaction>{detailsLink}</ActionRowTransaction>
-                </Row>
-                <Row>
-                  <ActionRowTimer>
-                    <ActionRowTimerStatus>
-                      {status ?? (
-                        <>{t("common.blocks.status.fetching_status")}</>
-                      )}
-                      {isFinal === undefined
-                        ? "/" + t("common.blocks.status.checking_finality")
-                        : isFinal === true
-                        ? ""
-                        : "/" + t("common.blocks.status.finalizing")}
-                    </ActionRowTimerStatus>{" "}
-                    {blockTimestamp && <Timer time={blockTimestamp} />}
-                  </ActionRowTimer>
-                </Row>
+                {detalizationMode === "detailed" ? (
+                  <Row noGutters>
+                    <ActionRowText>
+                      {t("component.transactions.ActionRowBlock.by")}{" "}
+                      <AccountLink accountId={signerId} />
+                    </ActionRowText>
+                  </Row>
+                ) : null}
               </Col>
-            ) : null}
-          </ActionRowMessage>
-          {children}
-        </ActionRowDetails>
-      </ActionRow>
-    </>
-  );
-};
+              {detalizationMode === "detailed" ? (
+                <Col md="4" xs="5" className="ml-auto text-right">
+                  <Row>
+                    <ActionRowTransaction>{detailsLink}</ActionRowTransaction>
+                  </Row>
+                  <Row>
+                    <ActionRowTimer>
+                      <ActionRowTimerStatus>
+                        {status ?? (
+                          <>{t("common.blocks.status.fetching_status")}</>
+                        )}
+                        {isFinal === undefined
+                          ? "/" + t("common.blocks.status.checking_finality")
+                          : isFinal === true
+                          ? ""
+                          : "/" + t("common.blocks.status.finalizing")}
+                      </ActionRowTimerStatus>{" "}
+                      {blockTimestamp && <Timer time={blockTimestamp} />}
+                    </ActionRowTimer>
+                  </Row>
+                </Col>
+              ) : null}
+            </ActionRowMessage>
+            {children}
+          </ActionRowDetails>
+        </ActionRow>
+      </>
+    );
+  }
+);
 
 export default ActionRowBlock;

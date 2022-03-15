@@ -52,20 +52,22 @@ type UpdateBlockHeightProps = {
   onClick: () => void;
 };
 
-const UpdateBlockHeight: React.FC<UpdateBlockHeightProps> = (props) => {
-  const { t } = useTranslation();
-  const latestBlockHeight = useLatestBlockHeight();
-  return (
-    <div onClick={props.onClick}>
-      <Update>{`${t(
-        "utils.ListHandler.last_block"
-      )}#${latestBlockHeight}.`}</Update>
-    </div>
-  );
-};
+const UpdateBlockHeight: React.FC<UpdateBlockHeightProps> = React.memo(
+  (props) => {
+    const { t } = useTranslation();
+    const latestBlockHeight = useLatestBlockHeight();
+    return (
+      <div onClick={props.onClick}>
+        <Update>{`${t(
+          "utils.ListHandler.last_block"
+        )}#${latestBlockHeight}.`}</Update>
+      </div>
+    );
+  }
+);
 
 const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
-  return (props) => {
+  return React.memo((props) => {
     const { t } = useTranslation();
     const [items, setItems] = React.useState<T[]>([]);
     const [shouldShow, setShouldShow] = React.useState(false);
@@ -147,7 +149,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
         </InfiniteScroll>
       </>
     );
-  };
+  });
 };
 
 export default Wrapper;

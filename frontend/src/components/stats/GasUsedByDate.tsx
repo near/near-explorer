@@ -12,7 +12,7 @@ import { useLatestGasPrice } from "../../hooks/data";
 import { useWampSimpleQuery } from "../../hooks/wamp";
 import { cumulativeSumArray } from "../../libraries/stats";
 
-const GasUsedByDateChart = ({ chartStyle }: Props) => {
+const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const latestGasPrice = useLatestGasPrice();
   const gasUsedByDate =
@@ -158,6 +158,6 @@ const GasUsedByDateChart = ({ chartStyle }: Props) => {
       )}
     </Tabs>
   );
-};
+});
 
 export default GasUsedByDateChart;

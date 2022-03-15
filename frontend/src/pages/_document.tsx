@@ -11,11 +11,11 @@ import * as React from "react";
 import { getCssText } from "../libraries/styles";
 
 interface DocumentType {
-  (props: DocumentProps): React.ReactElement;
+  (props: DocumentProps): React.ReactNode;
   getInitialProps?: (context: DocumentContext) => Promise<DocumentInitialProps>;
 }
 
-const Document: DocumentType = () => {
+const Document: DocumentType = React.memo(() => {
   return (
     <Html>
       <Head>
@@ -39,7 +39,7 @@ const Document: DocumentType = () => {
       </body>
     </Html>
   );
-};
+});
 
 Document.getInitialProps = NextDocument.getInitialProps;
 

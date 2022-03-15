@@ -6,8 +6,9 @@ import Transactions from "../../components/transactions/Transactions";
 import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
+import * as React from "react";
 
-const TransactionsPage: NextPage = () => {
+const TransactionsPage: NextPage = React.memo(() => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Transactions Page");
 
@@ -21,6 +22,6 @@ const TransactionsPage: NextPage = () => {
       </Content>
     </>
   );
-};
+});
 
 export default TransactionsPage;

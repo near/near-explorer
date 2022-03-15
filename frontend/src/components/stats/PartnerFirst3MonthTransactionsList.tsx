@@ -3,7 +3,7 @@ import ReactEcharts from "echarts-for-react";
 
 import { useWampSimpleQuery } from "../../hooks/wamp";
 
-const PartnerFirst3MonthTransactionList = () => {
+const PartnerFirst3MonthTransactionList: React.FC = React.memo(() => {
   const partnerFirst3MonthTransactions =
     useWampSimpleQuery("partner-first-3-month-transactions-count", []) ?? [];
   const partnerFirst3MonthTransactionsAccounts = React.useMemo(
@@ -65,6 +65,6 @@ const PartnerFirst3MonthTransactionList = () => {
       }}
     />
   );
-};
+});
 
 export default PartnerFirst3MonthTransactionList;

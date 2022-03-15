@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ActionsList /> renders ActionsList for Receipts without transactionHash 1`] = `
-<ActionList
+<Memo
   actions={
     Array [
       Object {
@@ -14,7 +14,7 @@ exports[`<ActionsList /> renders ActionsList for Receipts without transactionHas
   }
   blockTimestamp={1621931941926}
   detailsLink={
-    <ReceiptLink
+    <Memo
       receiptId="D6a85wNQ47v3dPy8bGF2WQpKQu5di2dnx4EMohm9f5fc"
       transactionHash={null}
     />

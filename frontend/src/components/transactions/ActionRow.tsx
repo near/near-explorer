@@ -18,39 +18,41 @@ export interface Props {
   viewMode?: ViewMode;
 }
 
-const ActionRow: React.FC<Props> = ({
-  viewMode = "sparse",
-  detalizationMode = "detailed",
-  signerId,
-  receiverId,
-  blockTimestamp,
-  detailsLink,
-  action,
-  showDetails,
-  status,
-  isFinal,
-}) => {
-  const ActionIcon = actionIcons[action.kind];
-  return (
-    <ActionRowBlock
-      viewMode={viewMode}
-      detalizationMode={detalizationMode}
-      signerId={signerId}
-      blockTimestamp={blockTimestamp}
-      detailsLink={detailsLink}
-      icon={ActionIcon && <ActionIcon />}
-      title={
-        <ActionMessage
-          receiverId={receiverId}
-          actionKind={action.kind}
-          actionArgs={action.args}
-          showDetails={showDetails}
-        />
-      }
-      status={status}
-      isFinal={isFinal}
-    />
-  );
-};
+const ActionRow: React.FC<Props> = React.memo(
+  ({
+    viewMode = "sparse",
+    detalizationMode = "detailed",
+    signerId,
+    receiverId,
+    blockTimestamp,
+    detailsLink,
+    action,
+    showDetails,
+    status,
+    isFinal,
+  }) => {
+    const ActionIcon = actionIcons[action.kind];
+    return (
+      <ActionRowBlock
+        viewMode={viewMode}
+        detalizationMode={detalizationMode}
+        signerId={signerId}
+        blockTimestamp={blockTimestamp}
+        detailsLink={detailsLink}
+        icon={ActionIcon && <ActionIcon />}
+        title={
+          <ActionMessage
+            receiverId={receiverId}
+            actionKind={action.kind}
+            actionArgs={action.args}
+            showDetails={showDetails}
+          />
+        }
+        status={status}
+        isFinal={isFinal}
+      />
+    );
+  }
+);
 
 export default ActionRow;

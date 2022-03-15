@@ -15,9 +15,9 @@ const fetchDataFn = (
   paginationIndexer?: number
 ) => wampCall("blocks-list", [count, paginationIndexer]);
 
-const BlocksWrapper: React.FC = () => (
+const BlocksWrapper: React.FC = React.memo(() => (
   <BlocksList count={BLOCKS_PER_PAGE} fetchDataFn={fetchDataFn} />
-);
+));
 
 export default BlocksWrapper;
 
@@ -25,7 +25,7 @@ export interface InnerProps {
   items: BlockBase[];
 }
 
-const Blocks: React.FC<InnerProps> = ({ items }) => (
+const Blocks: React.FC<InnerProps> = React.memo(({ items }) => (
   <FlipMove duration={1000} staggerDurationBy={0}>
     {items.map((block) => (
       <div key={block.hash}>
@@ -33,7 +33,7 @@ const Blocks: React.FC<InnerProps> = ({ items }) => (
       </div>
     ))}
   </FlipMove>
-);
+));
 
 const BlocksList = ListHandler({
   Component: Blocks,

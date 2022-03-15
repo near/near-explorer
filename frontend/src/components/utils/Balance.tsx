@@ -13,38 +13,40 @@ interface Props {
   fracDigits?: number;
 }
 
-const Balance: React.FC<Props> = ({
-  amount,
-  label = null,
-  suffix = undefined,
-  className,
-  formulatedAmount = undefined,
-  fracDigits = 5,
-}) => {
-  if (!amount) {
-    throw new Error("amount property should not be null");
+const Balance: React.FC<Props> = React.memo(
+  ({
+    amount,
+    label = null,
+    suffix = undefined,
+    className,
+    formulatedAmount = undefined,
+    fracDigits = 5,
+  }) => {
+    if (!amount) {
+      throw new Error("amount property should not be null");
+    }
+
+    const defaultLabel = "Ⓝ";
+
+    let amountShow = !formulatedAmount
+      ? formatNEAR(amount, fracDigits)
+      : formulatedAmount;
+    let amountPrecise = showInYocto(amount.toString());
+    return (
+      <OverlayTrigger
+        placement={"bottom"}
+        overlay={<Tooltip id="balance">{amountPrecise}</Tooltip>}
+      >
+        <span className={className}>
+          {amountShow}
+          {suffix}
+          &nbsp;
+          {label ?? defaultLabel}
+        </span>
+      </OverlayTrigger>
+    );
   }
-
-  const defaultLabel = "Ⓝ";
-
-  let amountShow = !formulatedAmount
-    ? formatNEAR(amount, fracDigits)
-    : formulatedAmount;
-  let amountPrecise = showInYocto(amount.toString());
-  return (
-    <OverlayTrigger
-      placement={"bottom"}
-      overlay={<Tooltip id="balance">{amountPrecise}</Tooltip>}
-    >
-      <span className={className}>
-        {amountShow}
-        {suffix}
-        &nbsp;
-        {label ?? defaultLabel}
-      </span>
-    </OverlayTrigger>
-  );
-};
+);
 
 export const formatNEAR = (amount: string | BN, fracDigits = 5): string => {
   let ret = utils.format.formatNearAmount(amount.toString(), fracDigits);

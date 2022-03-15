@@ -8,7 +8,7 @@ import { Props } from "./TransactionsByDate";
 import { useTranslation } from "react-i18next";
 import { useWampQuery } from "../../hooks/wamp";
 
-const ActiveContractsList = ({ chartStyle }: Props) => {
+const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const activeContracts =
     useWampQuery(
@@ -61,6 +61,6 @@ const ActiveContractsList = ({ chartStyle }: Props) => {
   };
 
   return <ReactEcharts option={getOption()} style={chartStyle} />;
-};
+});
 
 export default ActiveContractsList;

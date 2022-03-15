@@ -52,7 +52,7 @@ const HeaderHome = styled("a", {
   textDecoration: "none",
 });
 
-const Header: React.FC = () => {
+const Header: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -122,6 +122,6 @@ const Header: React.FC = () => {
       </Row>
     </HeaderContainer>
   );
-};
+});
 
 export default Header;

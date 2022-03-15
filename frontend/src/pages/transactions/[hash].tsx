@@ -25,6 +25,7 @@ import {
 import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
 import { styled } from "../../libraries/styles";
+import * as React from "react";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
@@ -36,7 +37,7 @@ type Props = {
   err?: unknown;
 };
 
-const TransactionDetailsPage: NextPage<Props> = (props) => {
+const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
     transaction_hash: props.hash,
@@ -99,7 +100,7 @@ const TransactionDetailsPage: NextPage<Props> = (props) => {
       )}
     </>
   );
-};
+});
 
 export type TransactionOutcome = {
   id: string;

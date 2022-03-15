@@ -51,18 +51,15 @@ interface Props {
   tooltipKey: string;
 }
 
-const ValidatingLabel: React.FC<Props> = ({
-  type,
-  text,
-  tooltipKey,
-  children,
-}) => (
-  <OverlayTrigger
-    placement={"right"}
-    overlay={<Tooltip id={tooltipKey}>{text}</Tooltip>}
-  >
-    <ValidatingLabelWrapper type={type}>{children}</ValidatingLabelWrapper>
-  </OverlayTrigger>
+const ValidatingLabel: React.FC<Props> = React.memo(
+  ({ type, text, tooltipKey, children }) => (
+    <OverlayTrigger
+      placement={"right"}
+      overlay={<Tooltip id={tooltipKey}>{text}</Tooltip>}
+    >
+      <ValidatingLabelWrapper type={type}>{children}</ValidatingLabelWrapper>
+    </OverlayTrigger>
+  )
 );
 
 export default ValidatingLabel;

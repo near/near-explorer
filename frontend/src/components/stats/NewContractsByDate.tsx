@@ -10,7 +10,7 @@ import { Props } from "./TransactionsByDate";
 import { useTranslation } from "react-i18next";
 import { useWampSimpleQuery } from "../../hooks/wamp";
 
-const NewContractsByDate = ({ chartStyle }: Props) => {
+const NewContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const uniqueDeployedContracts =
     useWampSimpleQuery(
@@ -170,6 +170,6 @@ const NewContractsByDate = ({ chartStyle }: Props) => {
       </Tab>
     </Tabs>
   );
-};
+});
 
 export default NewContractsByDate;

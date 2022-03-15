@@ -10,7 +10,7 @@ import { useNodes } from "../../hooks/subscriptions";
 
 const ITEMS_PER_PAGE = 10;
 
-const Nodes: React.FC = () => {
+const Nodes: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const [activePage, setActivePage] = React.useState(0);
   const [startPage, setStartPage] = React.useState(1);
@@ -58,6 +58,6 @@ const Nodes: React.FC = () => {
       </tbody>
     </Table>
   );
-};
+});
 
 export default Nodes;

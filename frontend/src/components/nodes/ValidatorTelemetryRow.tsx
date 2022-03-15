@@ -33,193 +33,199 @@ interface Props {
   agentBuild?: string;
 }
 
-const ValidatorTelemetryRow: React.FC<Props> = ({
-  progress,
-  latestProducedValidatorBlock,
-  lastSeen,
-  agentName,
-  agentVersion,
-  agentBuild,
-}) => {
-  const { t } = useTranslation();
-  const isTelemetryAvailable =
-    Boolean(progress) ||
-    Boolean(latestProducedValidatorBlock) ||
-    Boolean(lastSeen) ||
-    Boolean(agentName) ||
-    Boolean(agentVersion) ||
-    Boolean(agentBuild);
+const ValidatorTelemetryRow: React.FC<Props> = React.memo(
+  ({
+    progress,
+    latestProducedValidatorBlock,
+    lastSeen,
+    agentName,
+    agentVersion,
+    agentBuild,
+  }) => {
+    const { t } = useTranslation();
+    const isTelemetryAvailable =
+      Boolean(progress) ||
+      Boolean(latestProducedValidatorBlock) ||
+      Boolean(lastSeen) ||
+      Boolean(agentName) ||
+      Boolean(agentVersion) ||
+      Boolean(agentBuild);
 
-  const latestBlockHeight = useLatestBlockHeight();
+    const latestBlockHeight = useLatestBlockHeight();
 
-  if (!isTelemetryAvailable) return null;
+    if (!isTelemetryAvailable) return null;
 
-  return (
-    <ValidatorNodesContentRow noGutters>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
-        rel="stylesheet"
-      />
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            <Term
-              title={t("component.nodes.ValidatorTelemetryRow.uptime.title")}
-              text={t("component.nodes.ValidatorTelemetryRow.uptime.text")}
-              href="https://nomicon.io/Economics/README.html#rewards-calculation"
-            />
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <Uptime>
-            {progress ? (
-              <>
-                <OverlayTrigger
-                  placement={"bottom"}
-                  overlay={
-                    <Tooltip id="produced-blocks-chunks">
-                      {t(
-                        "component.nodes.ValidatorTelemetryRow.produced_blocks_and_chunks",
-                        {
-                          num_produced_blocks: progress.blocks.produced,
-                          num_expected_blocks: progress.blocks.total,
-                          num_produced_chunks: progress.chunks.produced,
-                          num_expected_chunks: progress.chunks.total,
-                        }
-                      )}
-                    </Tooltip>
-                  }
-                >
-                  <span>
-                    {(
-                      (progress.blocks.produced / progress.blocks.total) *
-                      100
-                    ).toFixed(3)}
-                    %
-                  </span>
-                </OverlayTrigger>
-              </>
-            ) : (
-              t("common.state.not_available")
-            )}
-          </Uptime>
-        </Row>
-      </ValidatorNodesContentCell>
-
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            <Term
-              title={t(
-                "component.nodes.ValidatorTelemetryRow.latest_produced_block.title"
+    return (
+      <ValidatorNodesContentRow noGutters>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
+          rel="stylesheet"
+        />
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              <Term
+                title={t("component.nodes.ValidatorTelemetryRow.uptime.title")}
+                text={t("component.nodes.ValidatorTelemetryRow.uptime.text")}
+                href="https://nomicon.io/Economics/README.html#rewards-calculation"
+              />
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <Uptime>
+              {progress ? (
+                <>
+                  <OverlayTrigger
+                    placement={"bottom"}
+                    overlay={
+                      <Tooltip id="produced-blocks-chunks">
+                        {t(
+                          "component.nodes.ValidatorTelemetryRow.produced_blocks_and_chunks",
+                          {
+                            num_produced_blocks: progress.blocks.produced,
+                            num_expected_blocks: progress.blocks.total,
+                            num_produced_chunks: progress.chunks.produced,
+                            num_expected_chunks: progress.chunks.total,
+                          }
+                        )}
+                      </Tooltip>
+                    }
+                  >
+                    <span>
+                      {(
+                        (progress.blocks.produced / progress.blocks.total) *
+                        100
+                      ).toFixed(3)}
+                      %
+                    </span>
+                  </OverlayTrigger>
+                </>
+              ) : (
+                t("common.state.not_available")
               )}
-              text={t(
-                "component.nodes.ValidatorTelemetryRow.latest_produced_block.text"
-              )}
-            />
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText
-            className={
-              latestBlockHeight === undefined ||
-              latestProducedValidatorBlock === undefined
-                ? undefined
-                : Math.abs(
-                    latestProducedValidatorBlock - latestBlockHeight.toNumber()
-                  ) > 1000
-                ? "text-danger"
-                : Math.abs(
-                    latestProducedValidatorBlock - latestBlockHeight.toNumber()
-                  ) > 50
-                ? "text-warning"
-                : undefined
-            }
-            md={3}
-          >
-            {latestProducedValidatorBlock ?? t("common.state.not_available")}
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
+            </Uptime>
+          </Row>
+        </ValidatorNodesContentCell>
 
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            <Term
-              title={t(
-                "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.title"
-              )}
-              text={t(
-                "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.text"
-              )}
-            />
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText>
-            {lastSeen ? (
-              <Timer time={lastSeen} />
-            ) : (
-              t("common.state.not_available")
-            )}
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
-
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            <Term
-              title={t(
-                "component.nodes.ValidatorTelemetryRow.node_agent_name.title"
-              )}
-              text={
-                <Trans
-                  i18nKey="component.nodes.ValidatorTelemetryRow.node_agent_name.text"
-                  components={{
-                    nearCoreLink: <a href="https://github.com/near/nearcore" />,
-                  }}
-                />
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              <Term
+                title={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_produced_block.title"
+                )}
+                text={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_produced_block.text"
+                )}
+              />
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText
+              className={
+                latestBlockHeight === undefined ||
+                latestProducedValidatorBlock === undefined
+                  ? undefined
+                  : Math.abs(
+                      latestProducedValidatorBlock -
+                        latestBlockHeight.toNumber()
+                    ) > 1000
+                  ? "text-danger"
+                  : Math.abs(
+                      latestProducedValidatorBlock -
+                        latestBlockHeight.toNumber()
+                    ) > 50
+                  ? "text-warning"
+                  : undefined
               }
-            />
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText>
-            {agentName ? (
-              <AgentNameBadge variant="secondary">{agentName}</AgentNameBadge>
-            ) : (
-              t("common.state.not_available")
-            )}
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
+              md={3}
+            >
+              {latestProducedValidatorBlock ?? t("common.state.not_available")}
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
 
-      <ValidatorNodesContentCell>
-        <Row noGutters>
-          <ValidatorNodesDetailsTitle>
-            {t(
-              "component.nodes.ValidatorTelemetryRow.node_agent_version_or_build.title"
-            )}
-          </ValidatorNodesDetailsTitle>
-        </Row>
-        <Row noGutters>
-          <ValidatorNodesText>
-            {agentVersion || agentBuild ? (
-              <AgentNameBadge variant="secondary">
-                {`${agentVersion ?? "-"}
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              <Term
+                title={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.title"
+                )}
+                text={t(
+                  "component.nodes.ValidatorTelemetryRow.latest_telemetry_update.text"
+                )}
+              />
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText>
+              {lastSeen ? (
+                <Timer time={lastSeen} />
+              ) : (
+                t("common.state.not_available")
+              )}
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
+
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              <Term
+                title={t(
+                  "component.nodes.ValidatorTelemetryRow.node_agent_name.title"
+                )}
+                text={
+                  <Trans
+                    i18nKey="component.nodes.ValidatorTelemetryRow.node_agent_name.text"
+                    components={{
+                      nearCoreLink: (
+                        <a href="https://github.com/near/nearcore" />
+                      ),
+                    }}
+                  />
+                }
+              />
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText>
+              {agentName ? (
+                <AgentNameBadge variant="secondary">{agentName}</AgentNameBadge>
+              ) : (
+                t("common.state.not_available")
+              )}
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
+
+        <ValidatorNodesContentCell>
+          <Row noGutters>
+            <ValidatorNodesDetailsTitle>
+              {t(
+                "component.nodes.ValidatorTelemetryRow.node_agent_version_or_build.title"
+              )}
+            </ValidatorNodesDetailsTitle>
+          </Row>
+          <Row noGutters>
+            <ValidatorNodesText>
+              {agentVersion || agentBuild ? (
+                <AgentNameBadge variant="secondary">
+                  {`${agentVersion ?? "-"}
                               /
                               ${agentBuild ?? "-"}
                             `}
-              </AgentNameBadge>
-            ) : (
-              t("common.state.not_available")
-            )}
-          </ValidatorNodesText>
-        </Row>
-      </ValidatorNodesContentCell>
-    </ValidatorNodesContentRow>
-  );
-};
+                </AgentNameBadge>
+              ) : (
+                t("common.state.not_available")
+              )}
+            </ValidatorNodesText>
+          </Row>
+        </ValidatorNodesContentCell>
+      </ValidatorNodesContentRow>
+    );
+  }
+);
 
 export default ValidatorTelemetryRow;

@@ -53,16 +53,18 @@ interface Props {
   text: React.ReactNode;
 }
 
-const HeaderNavItem: React.FC<Props> = ({ link, IconElement, text }) => {
-  return (
-    <Link href={link} passHref>
-      <HeaderNavLink>
-        <Icon as={IconElement} />
-        <NavText>{text}</NavText>
-      </HeaderNavLink>
-    </Link>
-  );
-};
+const HeaderNavItem: React.FC<Props> = React.memo(
+  ({ link, IconElement, text }) => {
+    return (
+      <Link href={link} passHref>
+        <HeaderNavLink>
+          <Icon as={IconElement} />
+          <NavText>{text}</NavText>
+        </HeaderNavLink>
+      </Link>
+    );
+  }
+);
 
 const ChainHeader = styled(Dropdown.Toggle, {
   color: "#000000",
@@ -106,7 +108,7 @@ const globalStyles = globalCss({
   },
 });
 
-const HeaderNavDropdown: React.FC = () => {
+const HeaderNavDropdown: React.FC = React.memo(() => {
   const { t } = useTranslation();
   globalStyles();
   return (
@@ -144,6 +146,6 @@ const HeaderNavDropdown: React.FC = () => {
       </HeaderDropdownMenu>
     </Dropdown>
   );
-};
+});
 
 export default HeaderNavDropdown;

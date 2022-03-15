@@ -1,3 +1,4 @@
+import * as React from "react";
 import { styled } from "../../libraries/styles";
 
 const PlaceholderWrapper = styled("div", {
@@ -13,13 +14,13 @@ const PlaceholderText = styled("p", {
 });
 
 export interface Props {
-  children: string | React.ReactNode;
+  children: React.ReactNode;
 }
 
-const Placeholder = ({ children }: Props) => (
+const Placeholder: React.FC<Props> = React.memo(({ children }) => (
   <PlaceholderWrapper>
     <PlaceholderText>{children}</PlaceholderText>
   </PlaceholderWrapper>
-);
+));
 
 export default Placeholder;

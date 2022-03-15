@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 
 import RightArrowSvg from "../../../public/static/images/right-arrow.svg";
@@ -62,48 +63,50 @@ const RightArrow = styled(Col, {
 });
 
 export interface Props {
-  title: React.ReactElement | string;
-  text?: React.ReactElement | string;
+  title: React.ReactNode;
+  text?: React.ReactNode;
   loading?: boolean;
   href?: string;
   className?: string;
 }
 
-const LongCardCell = ({ title, text, loading, href, className }: Props) => {
-  const plainCell = (
-    <Row noGutters>
-      <LongCardCellTitle xs="12" className="align-self-center">
-        {title}
-      </LongCardCellTitle>
-      <CardCellText xs="12" md="12" className="ml-auto align-self-center">
-        {loading ? <Spinner animation="border" variant="secondary" /> : text}
-      </CardCellText>
-    </Row>
-  );
-  return (
-    <>
-      {href ? (
-        <Link href={href}>
-          <a>
-            <LongCardCellWrapper
-              className={cx("href-cell", className)}
-              withLink
-              noGutters
-            >
-              <Col>{plainCell}</Col>
-              <RightArrow xs="auto">
-                <RightArrowSvg />
-              </RightArrow>
-            </LongCardCellWrapper>
-          </a>
-        </Link>
-      ) : (
-        <LongCardCellWrapper className={className} noGutters>
-          <Col>{plainCell}</Col>
-        </LongCardCellWrapper>
-      )}
-    </>
-  );
-};
+const LongCardCell: React.FC<Props> = React.memo(
+  ({ title, text, loading, href, className }) => {
+    const plainCell = (
+      <Row noGutters>
+        <LongCardCellTitle xs="12" className="align-self-center">
+          {title}
+        </LongCardCellTitle>
+        <CardCellText xs="12" md="12" className="ml-auto align-self-center">
+          {loading ? <Spinner animation="border" variant="secondary" /> : text}
+        </CardCellText>
+      </Row>
+    );
+    return (
+      <>
+        {href ? (
+          <Link href={href}>
+            <a>
+              <LongCardCellWrapper
+                className={cx("href-cell", className)}
+                withLink
+                noGutters
+              >
+                <Col>{plainCell}</Col>
+                <RightArrow xs="auto">
+                  <RightArrowSvg />
+                </RightArrow>
+              </LongCardCellWrapper>
+            </a>
+          </Link>
+        ) : (
+          <LongCardCellWrapper className={className} noGutters>
+            <Col>{plainCell}</Col>
+          </LongCardCellWrapper>
+        )}
+      </>
+    );
+  }
+);
 
 export default LongCardCell;

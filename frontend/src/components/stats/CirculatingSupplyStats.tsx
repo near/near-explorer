@@ -24,7 +24,7 @@ const SupplySubHeader = styled("div", {
   fontWeight: 500,
 });
 
-const CirculatingSupplyStats = ({ chartStyle }: Props) => {
+const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const circulatingSupply =
     useWampSimpleQuery("circulating-supply-stats", []) ?? [];
@@ -192,6 +192,6 @@ const CirculatingSupplyStats = ({ chartStyle }: Props) => {
       />
     </>
   );
-};
+});
 
 export default CirculatingSupplyStats;

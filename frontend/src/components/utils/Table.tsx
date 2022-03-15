@@ -70,21 +70,25 @@ interface Props {
   pagination?: PaginationProps;
 }
 
-const TableRow: React.FC<Props> = ({ className, children, collapse }) => {
-  return (
-    <TableRowWrapper className={className} expanded={collapse}>
-      {children}
-    </TableRowWrapper>
-  );
-};
-
-const TableCollapseRow: React.FC<Props> = ({ children, collapse }) => {
-  if (!collapse) {
-    return null;
+const TableRow: React.FC<Props> = React.memo(
+  ({ className, children, collapse }) => {
+    return (
+      <TableRowWrapper className={className} expanded={collapse}>
+        {children}
+      </TableRowWrapper>
+    );
   }
+);
 
-  return <TableExpandRow>{children}</TableExpandRow>;
-};
+const TableCollapseRow: React.FC<Props> = React.memo(
+  ({ children, collapse }) => {
+    if (!collapse) {
+      return null;
+    }
+
+    return <TableExpandRow>{children}</TableExpandRow>;
+  }
+);
 
 const TableSection = styled("div", {
   backgroundColor: "#fafafa",
@@ -112,11 +116,13 @@ const TableSectionWrapper = styled(BaseTable, {
   marginBottom: 0,
 });
 
-const Table: React.FC<Props> = ({ className, children, pagination }) => (
-  <TableSection className={className}>
-    <TableSectionWrapper responsive>{children}</TableSectionWrapper>
-    {pagination && <Pagination {...pagination} />}
-  </TableSection>
+const Table: React.FC<Props> = React.memo(
+  ({ className, children, pagination }) => (
+    <TableSection className={className}>
+      <TableSectionWrapper responsive>{children}</TableSectionWrapper>
+      {pagination && <Pagination {...pagination} />}
+    </TableSection>
+  )
 );
 
 export type { OnPageChange } from "../utils/Pagination";

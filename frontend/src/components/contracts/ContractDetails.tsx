@@ -46,7 +46,7 @@ interface Props {
   accountId: string;
 }
 
-const ContractDetails: React.FC<Props> = ({ accountId }) => {
+const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
   const contractInfo = useWampQuery(
     React.useCallback(
@@ -190,6 +190,6 @@ const ContractDetails: React.FC<Props> = ({ accountId }) => {
       </ContractInfoContainer>
     </>
   );
-};
+});
 
 export default ContractDetails;
