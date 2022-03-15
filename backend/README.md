@@ -35,10 +35,10 @@ The simplest way to get started is to use [Indexer for Explorer](https://github.
 Conveniently, there are all the basic settings done in `package.json` and `config/env-indexer-testnet`, so you can just run:
 
 ```
-$ npm run start:testnet-with-indexer
+$ npm run start:testnet
 ```
 
-NOTE: There is also configuration for `mainnet`, just use `start:mainnet-with-indexer` command.
+NOTE: There is also configuration for `mainnet`, just use `start:mainnet` command.
 
 Explorer backend exposes all its capabilities though [WAMP-proto](https://wamp-proto.org/), so you will need to run the router, and the simplest way to do that is with Docker Compose:
 
@@ -62,7 +62,7 @@ export NEAR_READ_ONLY_INDEXER_DATABASE_PASSWORD=nearprotocol
 When all preparation is done run backend:
 
 ```
-$ npm run start:testnet-with-indexer
+$ npm run start:testnet
 ```
 
 NOTE: There is also configuration for `mainnet`, just apply the same reasoning and use the relevant config file name and command.

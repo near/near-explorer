@@ -1,0 +1,241 @@
+previewsEnabled: true
+services:
+  ## Explorer frontend
+  - type: web
+    name: frontend
+    env: node
+    repo: https://github.com/near/near-explorer.git
+    buildCommand: cd frontend && npm ci && npm run build
+    startCommand: cd frontend && npm run start
+    envVars:
+      - key: WAMP_HOST
+        fromService:
+          type: web
+          name: wamp
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
+      - key: WAMP_GENERATED_SECRET
+        fromService:
+          type: web
+          name: wamp
+          envVarKey: WAMP_GENERATED_SECRET
+
+      - key: NEAR_EXPLORER_GOOGLE_ANALYTICS
+        value: UA-100373569-14
+      - key: NEAR_NETWORKS
+        value: |
+          [
+            {
+              "name": "mainnet",
+              "explorerLink": "https://explorer.near.org/",
+              "aliases": ["explorer.near.org", "explorer.mainnet.near.org", "explorer.nearprotocol.com", "explorer.mainnet.nearprotocol.com"],
+              "lockupAccountIdSuffix": "lockup.near",
+              "nearWalletProfilePrefix": "https://wallet.near.org/profile"
+            },
+            {
+              "name": "testnet",
+              "explorerLink": "https://explorer.testnet.near.org/",
+              "aliases": ["explorer.testnet.near.org", "explorer.testnet.nearprotocol.com"],
+              "nearWalletProfilePrefix": "https://wallet.testnet.near.org/profile"
+            },
+            {
+              "name": "guildnet",
+              "explorerLink": "https://explorer.guildnet.near.org/",
+              "aliases": ["explorer.guildnet.near.org"],
+              "nearWalletProfilePrefix": "https://wallet.openshards.io/profile"
+            }
+          ]
+
+  ## Explorer WAMP
+  - type: web
+    name: wamp
+    env: docker
+    plan: pro plus
+    previewPlan: starter
+    dockerfilePath: ./wamp/Dockerfile
+    dockerContext: ./wamp
+    repo: https://github.com/near/near-explorer.git
+    envVars:
+      - key: WAMP_GENERATED_SECRET
+        generateValue: true
+
+  ## Explorer backend [mainnet]
+  - type: worker
+    name: backend/mainnet
+    env: node
+    repo: https://github.com/near/near-explorer.git
+    buildCommand: cd backend && npm ci --prod
+    startCommand: cd backend && npm run start
+    envVars:
+      - key: WAMP_HOST
+        fromService:
+          type: web
+          name: wamp
+          property: host
+      - key: WAMP_GENERATED_SECRET
+        fromService:
+          type: web
+          name: wamp
+          envVarKey: WAMP_GENERATED_SECRET
+
+      - fromGroup: backend
+      - fromGroup: backend/mainnet
+      - key: WAMP_NEAR_NETWORK_NAME
+        value: mainnet
+      - key: NEAR_RPC_URL
+        value: https://archive-internal-rpc.mainnet.near.org/
+
+      - key: NEAR_DATABASE_CONFIGS
+        value: |
+          {
+            "indexer": {
+              "host": "104.196.243.229",
+              "database": "mainnet_explorer",
+              "username": "explorer_reader"
+            },
+            "analytics": {
+              "host": "34.78.19.198",
+              "database": "indexer_analytics_mainnet",
+              "username": "public_readonly",
+              "password": "nearprotocol"
+            },
+            "telemetry": {
+              "host": "34.78.19.198",
+              "database": "telemetry_mainnet",
+              "username": "telemetry"
+            },
+            "writeTelemetry": {
+              "host": "34.76.195.114",
+              "database": "telemetry_mainnet",
+              "username": "telemetry"
+            }
+          }
+
+  ## Explorer backend [testnet]
+  - type: worker
+    name: backend/testnet
+    env: node
+    repo: https://github.com/near/near-explorer.git
+    buildCommand: cd backend && npm ci --prod
+    startCommand: cd backend && npm run start
+    envVars:
+      - key: WAMP_HOST
+        fromService:
+          type: web
+          name: wamp
+          property: host
+      - key: WAMP_GENERATED_SECRET
+        fromService:
+          type: web
+          name: wamp
+          envVarKey: WAMP_GENERATED_SECRET
+
+      - fromGroup: backend
+      - fromGroup: backend/testnet
+      - key: WAMP_NEAR_NETWORK_NAME
+        value: testnet
+      - key: NEAR_RPC_URL
+        value: https://archive-internal-rpc.testnet.near.org/
+
+      - key: NEAR_DATABASE_CONFIGS
+        value: |
+          {
+            "indexer": {
+              "host": "35.222.221.40",
+              "database": "testnet_explorer",
+              "username": "explorer"
+            },
+            "analytics": {
+              "host": "35.241.197.241",
+              "database": "indexer_analytics_testnet",
+              "username": "public_readonly",
+              "password": "nearprotocol"
+            },
+            "telemetry": {
+              "host": "35.241.197.241",
+              "database": "telemetry_testnet",
+              "username": "telemetry"
+            },
+            "writeTelemetry": {
+              "host": "35.189.221.202",
+              "database": "telemetry_testnet",
+              "username": "telemetry"
+            }
+          }
+
+  ## Explorer backend [guildnet]
+  - type: worker
+    name: backend/guildnet
+    env: node
+    repo: https://github.com/near/near-explorer.git
+    buildCommand: cd backend && npm ci --prod
+    startCommand: cd backend && npm run start
+    envVars:
+      - key: WAMP_HOST
+        fromService:
+          type: web
+          name: wamp
+          property: host
+      - key: WAMP_GENERATED_SECRET
+        fromService:
+          type: web
+          name: wamp
+          envVarKey: WAMP_GENERATED_SECRET
+
+      - fromGroup: backend
+      - fromGroup: backend/guildnet
+      - key: WAMP_NEAR_NETWORK_NAME
+        value: guildnet
+      - key: NEAR_RPC_URL
+        value: https://rpc.openshards.io
+
+      - key: NEAR_DATABASE_CONFIGS
+        value: |
+          {
+            "indexer": {
+              "host": "159.89.46.95",
+              "database": "guildnet_explorer",
+              "username": "public_readonly",
+              "password": "nearprotocol"
+            },
+            "analytics": {
+              "host": "35.205.19.192",
+              "database": "indexer_analytics_guildnet",
+              "username": "public_readonly",
+              "password": "nearprotocol"
+            },
+            "telemetry": {
+              "host": "35.205.19.192",
+              "database": "telemetry_guildnet",
+              "username": "telemetry"
+            }
+          }
+
+envVarGroups:
+  - name: frontend
+    envVars:
+      - key: WAMP_PORT
+        value: 443
+  - name: backend
+    envVars:
+      - key: WAMP_PORT
+        value: 10000
+  - name: backend/mainnet
+    envVars:
+      - key: NEAR_INDEXER_DATABASE_PASSWORD
+        sync: false
+      - key: NEAR_TELEMETRY_DATABASE_PASSWORD
+        sync: false
+      - key: NEAR_WRITE_TELEMETRY_DATABASE_PASSWORD
+        sync: false
+  - name: backend/testnet
+    envVars:
+      - key: NEAR_INDEXER_DATABASE_PASSWORD
+        sync: false
+      - key: NEAR_TELEMETRY_DATABASE_PASSWORD
+        sync: false
+      - key: NEAR_WRITE_TELEMETRY_DATABASE_PASSWORD
+        sync: false
+  - name: backend/guildnet
+    envVars:
+      - key: NEAR_TELEMETRY_DATABASE_PASSWORD
+        sync: false

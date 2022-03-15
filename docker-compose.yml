@@ -1,28 +1,26 @@
-version: '2'
+version: "2"
 
 services:
   wamp:
     build: ./wamp
     environment:
-      - WAMP_NEAR_EXPLORER_PORT=8080
-      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
+      - WAMP_GENERATED_SECRET=THIS_IS_LOCALHOST_SECRET
     ports:
-      - 8080:8080
+      - 10000:8080
 
   backend:
     build: ./backend
     environment:
-      - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
-      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
+      - WAMP_HOST=wamp
+      - WAMP_GENERATED_SECRET=THIS_IS_LOCALHOST_SECRET
     mem_limit: 1G
-    entrypoint: ["npm", "run", "start:testnet-with-indexer"]
+    entrypoint: ["npm", "run", "start:testnet"]
 
   frontend:
     build: ./frontend
     environment:
       - PORT=3000
-      - WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws
-      - WAMP_NEAR_EXPLORER_INTERNAL_URL=ws://wamp:8080/ws
+      - WAMP_HOST=localhost
     ports:
       - 3000:3000
     command: ["npm", "run", "start:local-wamp-with-indexer-testnet"]

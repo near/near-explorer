@@ -6,10 +6,6 @@ exports.nearArchivalRpcUrl =
 exports.debugLogs =
   (process.env.NEAR_DEBUG_LOGS || "TRUE").toUpperCase() !== "FALSE";
 
-exports.isIndexerBackendEnabled =
-  (process.env.NEAR_IS_INDEXER_BACKEND_ENABLED || "FALSE").toUpperCase() !==
-  "FALSE";
-
 exports.regularPublishFinalityStatusInterval =
   parseInt(process.env.NEAR_REGULAR_PUBLISH_FINALITY_STATUS_INTERVAL) || 1000;
 
@@ -33,11 +29,15 @@ exports.regularStatsInterval =
 exports.wampNearNetworkName =
   process.env.WAMP_NEAR_NETWORK_NAME || "localhostnet";
 
-exports.wampNearExplorerUrl =
-  process.env.WAMP_NEAR_EXPLORER_URL || "ws://localhost:8080/ws";
+const isWampSecure = Boolean(process.env.WAMP_SECURE);
+const wampHost = process.env.WAMP_HOST || "localhost";
+const wampPort = process.env.WAMP_PORT || 10000;
+exports.wampNearExplorerUrl = `${
+  isWampSecure ? "wss" : "ws"
+}://${wampHost}:${wampPort}/ws`;
 
 exports.wampNearExplorerBackendSecret =
-  process.env.WAMP_NEAR_EXPLORER_BACKEND_SECRET || "back";
+  process.env.WAMP_GENERATED_SECRET || "THIS_IS_LOCALHOST_SECRET";
 
 exports.nearLockupAccountIdSuffix =
   process.env.NEAR_LOCKUP_ACCOUNT_SUFFIX || "lockup.near";

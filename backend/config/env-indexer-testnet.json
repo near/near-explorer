@@ -1,0 +1,20 @@
+{
+  "indexer": {
+    "host": "testnet.db.explorer.indexer.near.dev",
+    "database": "testnet_explorer",
+    "username": "public_readonly",
+    "password": "nearprotocol"
+  },
+  "analytics": {
+    "host": "35.241.197.241",
+    "database": "indexer_analytics_testnet",
+    "username": "public_readonly",
+    "password": "nearprotocol"
+  },
+  "telemetry": {
+    "host": "35.241.197.241",
+    "database": "telemetry_testnet",
+    "username": "public_readonly",
+    "password": "nearprotocol"
+  }
+}

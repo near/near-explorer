@@ -1,68 +1,46 @@
 // NOTE: The fallback names of the env variables are here for backward compatibility only.
 // Prefer using the explicit READ_ONLY_*/WRITE_ONLY_* configuration options.
+const NEAR_DATABASE_CONFIGS = JSON.parse(process.env.NEAR_DATABASE_CONFIGS);
+
+/*
+type NearDatabaseConfig = {
+  host: string;
+  database: string;
+  username: string;
+  password?: string;
+}
+
+type NearDatabaseConfigs = {
+  indexer: NearDatabaseConfig;
+  analytics: NearDatabaseConfig;
+  telemetry: NearDatabaseConfig;
+  writeTelemetry?: NearDatabaseConfig;
+}
+*/
+
 module.exports = {
   readOnlyIndexerDatabase: {
     dialect: "postgres",
-    host:
-      process.env.NEAR_READ_ONLY_INDEXER_DATABASE_HOST ||
-      process.env.NEAR_INDEXER_DATABASE_HOST,
-    database:
-      process.env.NEAR_READ_ONLY_INDEXER_DATABASE_NAME ||
-      process.env.NEAR_INDEXER_DATABASE_NAME,
-    username:
-      process.env.NEAR_READ_ONLY_INDEXER_DATABASE_USERNAME ||
-      process.env.NEAR_INDEXER_DATABASE_USERNAME,
-    password:
-      process.env.NEAR_READ_ONLY_INDEXER_DATABASE_PASSWORD ||
-      process.env.NEAR_INDEXER_DATABASE_PASSWORD,
+    password: process.env.NEAR_INDEXER_DATABASE_PASSWORD,
+    ...NEAR_DATABASE_CONFIGS.indexer,
     logging: false,
   },
   readOnlyAnalyticsDatabase: {
     dialect: "postgres",
-    host:
-      process.env.NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST ||
-      process.env.NEAR_ANALYTICS_DATABASE_HOST,
-    database:
-      process.env.NEAR_READ_ONLY_ANALYTICS_DATABASE_NAME ||
-      process.env.NEAR_ANALYTICS_DATABASE_NAME,
-    username:
-      process.env.NEAR_READ_ONLY_ANALYTICS_DATABASE_USERNAME ||
-      process.env.NEAR_ANALYTICS_DATABASE_USERNAME,
-    password:
-      process.env.NEAR_READ_ONLY_ANALYTICS_DATABASE_PASSWORD ||
-      process.env.NEAR_ANALYTICS_DATABASE_PASSWORD,
+    password: process.env.NEAR_ANALYTICS_DATABASE_PASSWORD,
+    ...NEAR_DATABASE_CONFIGS.analytics,
     logging: false,
   },
   readOnlyTelemetryDatabase: {
     dialect: "postgres",
-    host:
-      process.env.NEAR_READ_ONLY_TELEMETRY_DATABASE_HOST ||
-      process.env.NEAR_TELEMETRY_DATABASE_HOST,
-    database:
-      process.env.NEAR_READ_ONLY_TELEMETRY_DATABASE_NAME ||
-      process.env.NEAR_TELEMETRY_DATABASE_NAME,
-    username:
-      process.env.NEAR_READ_ONLY_TELEMETRY_DATABASE_USERNAME ||
-      process.env.NEAR_TELEMETRY_DATABASE_USERNAME,
-    password:
-      process.env.NEAR_READ_ONLY_TELEMETRY_DATABASE_PASSWORD ||
-      process.env.NEAR_TELEMETRY_DATABASE_PASSWORD,
+    password: process.env.NEAR_TELEMETRY_DATABASE_PASSWORD,
+    ...NEAR_DATABASE_CONFIGS.telemetry,
     logging: false,
   },
   writeOnlyTelemetryDatabase: {
     dialect: "postgres",
-    host:
-      process.env.NEAR_WRITE_ONLY_TELEMETRY_DATABASE_HOST ||
-      process.env.NEAR_TELEMETRY_DATABASE_HOST,
-    database:
-      process.env.NEAR_WRITE_ONLY_TELEMETRY_DATABASE_NAME ||
-      process.env.NEAR_TELEMETRY_DATABASE_NAME,
-    username:
-      process.env.NEAR_WRITE_ONLY_TELEMETRY_DATABASE_USERNAME ||
-      process.env.NEAR_TELEMETRY_DATABASE_USERNAME,
-    password:
-      process.env.NEAR_WRITE_ONLY_TELEMETRY_DATABASE_PASSWORD ||
-      process.env.NEAR_TELEMETRY_DATABASE_PASSWORD,
+    password: process.env.NEAR_WRITE_TELEMETRY_DATABASE_PASSWORD,
+    ...NEAR_DATABASE_CONFIGS.writeTelemetry,
     logging: false,
     pool: { min: 0, max: 15 },
   },

@@ -1,0 +1,20 @@
+{
+  "indexer": {
+    "host": "mainnet.db.explorer.indexer.near.dev",
+    "database": "mainnet_explorer",
+    "username": "public_readonly",
+    "password": "nearprotocol"
+  },
+  "analytics": {
+    "host": "34.78.19.198",
+    "database": "indexer_analytics_mainnet",
+    "username": "public_readonly",
+    "password": "nearprotocol"
+  },
+  "telemetry": {
+    "host": "34.78.19.198",
+    "database": "telemetry_mainnet",
+    "username": "public_readonly",
+    "password": "nearprotocol"
+  }
+}

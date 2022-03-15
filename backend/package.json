@@ -5,9 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "env NODE_ENV=production node src/index.js",
-    "start:with-indexer": "env NEAR_IS_INDEXER_BACKEND_ENABLED=true npm run start",
-    "start:testnet-with-indexer": "cd ./config && . ./env-indexer-testnet && cd .. && npm run start:with-indexer",
-    "start:mainnet-with-indexer": "cd ./config && . ./env-indexer-mainnet && cd .. && npm run start:with-indexer"
+    "start:testnet": "cd ./config && . ./env-indexer-testnet && cd .. && npm run start",
+    "start:mainnet": "cd ./config && . ./env-indexer-mainnet && cd .. && npm run start"
   },
   "repository": {
     "type": "git",

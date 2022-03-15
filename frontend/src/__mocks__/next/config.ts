@@ -1,7 +1,13 @@
 import { NextConfig } from "next";
 import { ExplorerConfig, NearNetwork } from "../../libraries/config";
 
-const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
+const isWampSecure = Boolean(process.env.WAMP_SECURE);
+const wampHost = process.env.WAMP_HOST || "localhost";
+const wampPort = process.env.WAMP_PORT || 10000;
+const wampNearExplorerUrl = `${
+  isWampSecure ? "wss" : "ws"
+}://${wampHost}:${wampPort}/ws`;
+
 const nearNetworks: NearNetwork[] = [
   {
     name: "localhostnet",
@@ -20,13 +26,11 @@ const config: ExplorerConfig & NextConfig = {
       "127.0.0.1": nearNetworks[0],
       "127.0.0.1:3000": nearNetworks[0],
     },
-    wampNearExplorerUrl:
-      process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
+    wampNearExplorerUrl,
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
   },
   serverRuntimeConfig: {
-    wampNearExplorerUrl:
-      process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
+    wampNearExplorerUrl,
   },
 };
 
