@@ -56,7 +56,7 @@ const Dashboard: NextPage = React.memo(() => {
   return (
     <>
       <Head>
-        <title>NEAR Explorer | Dashboard</title>
+        <title>NEAR Explorer | Dashboard - modified</title>
       </Head>
       <DashboardContainer>
         <Header>
