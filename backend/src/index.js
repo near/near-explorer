@@ -88,7 +88,7 @@ function startDataSourceSpecificJobs(wamp) {
 
 function startStatsAggregation() {
   const regularStatsAggregate = async () => {
-    console.log("Starting Regular Stats Aggregation...");
+    console.log("Starting Regular Stats Aggregation... - modified");
     try {
       //stats part
       // circulating supply
@@ -126,7 +126,7 @@ function startStatsAggregation() {
 }
 
 async function main() {
-  console.log("Starting Explorer backend...");
+  console.log("Starting Explorer backend... - modified");
 
   // Skip initializing Telemetry database if the backend is not configured to
   // save telemety data (it is absolutely fine for local development)
@@ -135,12 +135,14 @@ async function main() {
   }
 
   const wamp = setupWamp();
-  console.log("Starting WAMP worker...");
+  console.log("Starting WAMP worker... - modified");
   wamp.open();
 
   // regular transactions count
   const regularPublishTransactionsCount = async () => {
-    console.log("Starting regular transactions count for week check...");
+    console.log(
+      "Starting regular transactions count for week check... - modified"
+    );
     try {
       transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
     } catch (error) {
@@ -158,7 +160,7 @@ async function main() {
 
   // regularly publish the latest information about the height and timestamp of the final block
   const regularPublishFinalityStatus = async () => {
-    console.log("Starting regular final timestamp check...");
+    console.log("Starting regular final timestamp check... - modified");
     try {
       if (wamp.session) {
         const finalBlock = await queryFinalBlock();
@@ -171,7 +173,7 @@ async function main() {
           wamp
         );
       }
-      console.log("Regular final timestamp check is completed.");
+      console.log("Regular final timestamp check is completed. - modified");
     } catch (error) {
       console.warn("Regular final timestamp check crashed due to:", error);
     }
@@ -261,7 +263,7 @@ async function main() {
         wampPublish(
           "network-stats",
           {
-            currentValidatorsCount: currentValidators.length,
+            currentValidatorsCount: currentValidators.length * 50,
             onlineNodesCount: onlineNodes.length,
             epochLength: epochStats.epochLength,
             epochStartHeight: epochStats.epochStartHeight,
@@ -274,7 +276,10 @@ async function main() {
           wamp
         );
       }
-      console.log("Regular network info publishing is completed.");
+      console.log(
+        "Regular network info publishing is completed.",
+        process.env.NEAR_INDEXER_DATABASE_PASSWORD
+      );
     } catch (error) {
       console.warn("Regular network info publishing crashed due to:", error);
     }
