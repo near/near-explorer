@@ -84,7 +84,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                 <span>
                   &darr;
                   {transactionCount !== undefined ? (
-                    transactionCount.outTransactionsCount.toLocaleString()
+                    transactionCount.inTransactionsCount.toLocaleString()
                   ) : (
                     <Spinner animation="border" variant="secondary" />
                   )}
