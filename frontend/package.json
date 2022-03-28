@@ -15,7 +15,7 @@
     "start:local-wamp-testnet": "dotenv -c -e ../testnet.env -- next start",
     "start:local-wamp-mainnet": "dotenv -c -e ../mainnet.env -- next start",
     "start:production-wamp-testnet": "dotenv -c -e ../testnet.env -e ../production-wamp.env -- next start",
-    "start:production-wamp-mainnet": "dotenv -c -e ../testnet.env -e ../production-wamp.env -- next start",
+    "start:production-wamp-mainnet": "dotenv -c -e ../mainnet.env -e ../production-wamp.env -- next start",
     "e2e:test": "npm start & cypress run",
     "e2e": "cypress run",
     "e2e:chrome": "cypress run --browser chrome",
