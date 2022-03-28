@@ -144,10 +144,10 @@ export const getTransactionInfo = async (
   return transaction[0] || null;
 };
 
-export const convertDbArgsToRpcArgs = (
+function convertDbArgsToRpcArgs(
   kind: string,
   jsonArgs: Record<string, unknown>
-): Action["args"] => {
+): Action["args"] {
   switch (kind) {
     case "FUNCTION_CALL":
       return {
@@ -185,7 +185,7 @@ export const convertDbArgsToRpcArgs = (
     default:
       return jsonArgs;
   }
-};
+}
 
 async function getTransactionsActionsList(
   transactionsHashes: string[]
