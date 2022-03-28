@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 import wampApi from "../../libraries/wamp/api";
-import { getNearNetwork } from "../../libraries/config";
+import { getConfig, getNearNetwork } from "../../libraries/config";
 import { Account, getAccount } from "../../providers/accounts";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
@@ -97,6 +97,8 @@ export const getServerSideProps: GetServerSideProps<
     accountId,
   };
 
+  const config = getConfig();
+  console.log("the config", config);
   try {
     const currentNetwork = getNearNetwork(req);
     const wampCall = wampApi.getCall(currentNetwork);
