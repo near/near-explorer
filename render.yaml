@@ -140,8 +140,12 @@ envVarGroups:
     envVars:
       - key: NEAR_EXPLORER_WAMP_SECURE
         value: true
+      - key: NEAR_EXPLORER_WAMP_SSR_SECURE
+        value: false
       - key: NEAR_EXPLORER_WAMP_PORT
         value: 443
+      - key: NEAR_EXPLORER_WAMP_SSR_PORT
+        value: 10000
   - name: backend
     envVars:
       - key: NEAR_EXPLORER_WAMP_SECURE

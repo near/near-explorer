@@ -17,11 +17,17 @@ const getWampPort = (isServer: boolean): string => {
   return wampPort;
 };
 
+const getWampSecure = (isServer: boolean): boolean => {
+  if (isServer && process.env.NEAR_EXPLORER_WAMP_SSR_SECURE) {
+    return process.env.NEAR_EXPLORER_WAMP_SSR_SECURE === "true";
+  }
+  return process.env.NEAR_EXPLORER_WAMP_SECURE === "true";
+};
+
 const getWampNearExplorerUrl = (isServer: boolean): string => {
-  const isWampSecure = process.env.NEAR_EXPLORER_WAMP_SECURE === "true";
-  const wampHost = getWampHost(isServer);
-  const wampPort = getWampPort(isServer);
-  return `${isWampSecure ? "wss" : "ws"}://${wampHost}:${wampPort}/ws`;
+  return `${getWampSecure(isServer) ? "wss" : "ws"}://${getWampHost(
+    isServer
+  )}:${getWampPort(isServer)}/ws`;
 };
 
 let nearNetworks: NearNetwork[];
