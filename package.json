@@ -7,7 +7,9 @@
   },
   "scripts": {
     "fmt": "prettier --write '**/*.{js,jsx,ts,tsx,json}'",
-    "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'"
+    "fmt:check": "prettier --check '**/*.{js,jsx,ts,tsx,json}'",
+    "docker:up:testnet": "ENV=testnet docker-compose up",
+    "docker:up:mainnet": "ENV=mainnet docker-compose up"
   },
   "husky": {
     "hooks": {
@@ -20,5 +22,7 @@
       "git add"
     ]
   },
-  "dependencies": {}
+  "dependencies": {
+    "dotenv-cli": "^5.0.0"
+  }
 }

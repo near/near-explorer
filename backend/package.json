@@ -4,10 +4,9 @@
   "description": "NEAR blockchain explorer backend",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "env NODE_ENV=production node src/index.js",
-    "start:with-indexer": "env NEAR_IS_INDEXER_BACKEND_ENABLED=true npm run start",
-    "start:testnet-with-indexer": "cd ./config && . ./env-indexer-testnet && cd .. && npm run start:with-indexer",
-    "start:mainnet-with-indexer": "cd ./config && . ./env-indexer-mainnet && cd .. && npm run start:with-indexer"
+    "start": "node src/index.js",
+    "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
+    "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start"
   },
   "repository": {
     "type": "git",
@@ -22,6 +21,7 @@
   "dependencies": {
     "autobahn": "^20.9.2",
     "bn.js": "^5.2.0",
+    "dotenv-cli": "^5.0.0",
     "geoip-lite": "^1.4.2",
     "js-sha256": "^0.9.0",
     "moment": "^2.29.1",
@@ -29,7 +29,6 @@
     "pg": "^8.5.1",
     "request": "^2.88.2",
     "sequelize": "^6.11.0",
-    "sqlite3": "^4.2.0",
     "stream-json": "^1.7.1",
     "ws": "^7.5.6"
   }
