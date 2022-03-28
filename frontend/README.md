@@ -43,16 +43,16 @@ Project Root
 It is useful to have a live-updating dev-server during development, and most of the time you can use the production Explorer backend:
 
 ```
-$ npm run dev:production-wamp-testnet
+$ npm run dev:production-wamp-with-indexer-testnet
 ```
 
-NOTE: There is also configuration for mainnet, just use `dev:production-wamp-mainnet` command.
+NOTE: There is also configuration for mainnet, just use `dev:production-wamp-with-indexer-mainnet` command.
 
 Or you could run frontend with a local backend.
 Follow the [backend instructions](../backend/README.md) and start frontend like this:
 
 ```
-$ npm run dev:local-wamp-testnet
+$ npm run dev:local-wamp-with-indexer-testnet
 ```
 
 ## Run Frontend for Production
@@ -67,10 +67,10 @@ $ npm run start
 Also, there is a common command to run the release bundle against the deployed Explorer backend:
 
 ```
-$ npm run start:production-wamp-testnet
+$ npm run start:production-wamp-with-indexer-testnet
 ```
 
-NOTE: There is also configuration for mainnet, just use `start:production-wamp-mainnet` command.
+NOTE: There is also configuration for mainnet, just use `start:production-wamp-with-indexer-mainnet` command.
 
 ## Run Tests
 

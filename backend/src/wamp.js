@@ -462,9 +462,6 @@ wampHandlers["gas-used-in-chunks"] = async ([blockHash]) => {
 
 // set up wamp
 function setupWamp() {
-  console.log(
-    `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${wampNearExplorerBackendSecret}`
-  );
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
     transports: [
@@ -485,10 +482,6 @@ function setupWamp() {
     max_retries: Number.MAX_SAFE_INTEGER,
     max_retry_delay: 10,
   });
-
-  wamp.onerror = (e) => {
-    console.log("WAMP connection got error", e);
-  };
 
   wamp.onopen = async (session) => {
     console.log("WAMP connection is established. Waiting for commands...");

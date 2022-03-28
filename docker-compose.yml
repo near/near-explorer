@@ -1,41 +1,28 @@
-version: "3.4"
-
-x-services: &env
-  env_file:
-    - ${ENV:-testnet}.env
+version: '2'
 
 services:
   wamp:
-    <<: *env
     build: ./wamp
     environment:
-      - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
+      - WAMP_NEAR_EXPLORER_PORT=8080
+      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
     ports:
-      - 10000:8080
+      - 8080:8080
 
   backend:
-    <<: *env
     build: ./backend
-    depends_on:
-      - wamp
     environment:
-      - NEAR_EXPLORER_WAMP_PORT=8080
-      - NEAR_EXPLORER_WAMP_HOST=wamp
-      - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
+      - WAMP_NEAR_EXPLORER_URL=ws://wamp:8080/ws
+      - WAMP_NEAR_EXPLORER_BACKEND_SECRET=back
     mem_limit: 1G
-    entrypoint: ["npm", "run", "start"]
+    entrypoint: ["npm", "run", "start:testnet-with-indexer"]
 
   frontend:
-    <<: *env
     build: ./frontend
-    depends_on:
-      - wamp
     environment:
       - PORT=3000
-      - NEAR_EXPLORER_WAMP_HOST=localhost
-      - NEAR_EXPLORER_WAMP_SSR_HOST=wamp
-      - NEAR_EXPLORER_WAMP_SSR_PORT=8080
-      - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
+      - WAMP_NEAR_EXPLORER_URL=ws://localhost:8080/ws
+      - WAMP_NEAR_EXPLORER_INTERNAL_URL=ws://wamp:8080/ws
     ports:
       - 3000:3000
-    command: ["npm", "run", "start"]
+    command: ["npm", "run", "start:local-wamp-with-indexer-testnet"]

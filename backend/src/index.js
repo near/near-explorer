@@ -3,6 +3,7 @@ const BN = require("bn.js");
 const models = require("../models");
 
 const {
+  isIndexerBackendEnabled,
   regularPublishFinalityStatusInterval,
   regularQueryStatsInterval,
   regularPublishNetworkInfoInterval,
@@ -12,6 +13,8 @@ const {
   regularFetchStakingPoolsMetadataInfoInterval,
   regularPublishTransactionCountForTwoWeeksInterval,
 } = require("./config");
+
+const { DS_INDEXER_BACKEND } = require("./consts");
 
 const { nearRpc, queryFinalBlock, queryEpochStats } = require("./near");
 
@@ -409,8 +412,10 @@ async function main() {
   };
   setTimeout(regularFetchStakingPoolsInfo, 0);
 
-  startDataSourceSpecificJobs(wamp);
-  startStatsAggregation();
+  if (isIndexerBackendEnabled) {
+    startDataSourceSpecificJobs(wamp);
+    startStatsAggregation();
+  }
 
   if (wampNearNetworkName === "mainnet") {
     startRegularFetchStakingPoolsMetadataInfo();

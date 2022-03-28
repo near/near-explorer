@@ -28,7 +28,7 @@ NOTE: You may want to run them in background, so just add `--detach` flag.
 Now you can reach the services:
 
 -   http://localhost:3000/ -- frontend
--   ws://localhost:10000/ws -- WAMP router (you don't need it unless you are a developer)
+-   ws://localhost:8080/ws -- WAMP router (you don't need it unless you are a developer)
 
 ## Development Q&A
 
@@ -44,7 +44,7 @@ A: Having the backend running, you can query it from CLI just like you can do fr
 
 ```bash
 $ npm install wamp-cli
-$ ./node_modules/.bin/wampc ws://localhost:10000/ws near-explorer
+$ ./node_modules/.bin/wampc ws://localhost:8080/ws near-explorer
 
 > session.call('com.nearprotocol.mainnet.explorer.nearcore-view-account', ["frol.near"]).then(console.log);
 ```
