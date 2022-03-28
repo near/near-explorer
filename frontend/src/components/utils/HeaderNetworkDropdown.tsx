@@ -83,7 +83,6 @@ const NetworkIcon = styled("div", {
   width: 8,
   height: 8,
   borderRadius: "50%",
-  background: "#0072ce",
 
   variants: {
     network: {
@@ -93,11 +92,14 @@ const NetworkIcon = styled("div", {
       testnet: {
         background: "#e9b870",
       },
-      betanet: {
-        background: "#00c1de",
+      guildnet: {
+        background: "#0072ce",
       },
       localhostnet: {},
     },
+  },
+  defaultVariants: {
+    network: "localhostnet",
   },
 });
 
