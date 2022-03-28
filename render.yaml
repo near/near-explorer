@@ -9,6 +9,11 @@ services:
     startCommand: cd frontend && npm run start
     healthCheckPath: /api/ping
     envVars:
+      - key: NEAR_EXPLORER_WAMP_SSR_HOST
+        fromService:
+          type: web
+          name: wamp
+          property: host
       - key: NEAR_EXPLORER_WAMP_HOST
         fromService:
           type: web

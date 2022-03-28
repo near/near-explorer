@@ -33,6 +33,8 @@ services:
     environment:
       - PORT=3000
       - NEAR_EXPLORER_WAMP_HOST=localhost
+      - NEAR_EXPLORER_WAMP_SSR_HOST=wamp
+      - NEAR_EXPLORER_WAMP_SSR_PORT=8080
       - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
     ports:
       - 3000:3000
