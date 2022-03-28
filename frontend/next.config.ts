@@ -1,7 +1,28 @@
 import { NextConfig } from "next";
 import { ExplorerConfig, NearNetwork } from "./src/libraries/config";
 
-const defaultWampNearExplorerUrl = "ws://localhost:8080/ws";
+const getWampHost = (isServer: boolean): string => {
+  const wampHost = process.env.NEAR_EXPLORER_WAMP_HOST || "localhost";
+  if (isServer) {
+    return process.env.NEAR_EXPLORER_WAMP_SSR_HOST || wampHost;
+  }
+  return wampHost;
+};
+
+const getWampPort = (isServer: boolean): string => {
+  const wampPort = process.env.NEAR_EXPLORER_WAMP_PORT || "10000";
+  if (isServer) {
+    return process.env.NEAR_EXPLORER_WAMP_SSR_PORT || wampPort;
+  }
+  return wampPort;
+};
+
+const getWampNearExplorerUrl = (isServer: boolean): string => {
+  const isWampSecure = process.env.NEAR_EXPLORER_WAMP_SECURE === "true";
+  const wampHost = getWampHost(isServer);
+  const wampPort = getWampPort(isServer);
+  return `${isWampSecure ? "wss" : "ws"}://${wampHost}:${wampPort}/ws`;
+};
 
 let nearNetworks: NearNetwork[];
 if (process.env.NEAR_NETWORKS) {
@@ -25,16 +46,12 @@ for (const nearNetwork of nearNetworks) {
 
 const config: ExplorerConfig & NextConfig = {
   serverRuntimeConfig: {
-    wampNearExplorerUrl:
-      process.env.WAMP_NEAR_EXPLORER_INTERNAL_URL ||
-      process.env.WAMP_NEAR_EXPLORER_URL ||
-      defaultWampNearExplorerUrl,
+    wampNearExplorerUrl: getWampNearExplorerUrl(true),
   },
   publicRuntimeConfig: {
     nearNetworks,
     nearNetworkAliases,
-    wampNearExplorerUrl:
-      process.env.WAMP_NEAR_EXPLORER_URL || defaultWampNearExplorerUrl,
+    wampNearExplorerUrl: getWampNearExplorerUrl(false),
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
   },
   webpack: (config, { isServer }) => {

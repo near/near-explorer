@@ -1,7 +1,7 @@
 import { IncomingMessage } from "http";
 import getNextConfig from "next/config";
 
-export type NetworkName = "mainnet" | "betanet" | "testnet" | "localhostnet";
+export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
 
 export interface NearNetwork {
   name: NetworkName;
