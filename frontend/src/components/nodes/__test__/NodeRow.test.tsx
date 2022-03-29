@@ -17,8 +17,8 @@ describe("<NodeRow />", () => {
             agentVersion: "0.4.5",
             agentBuild: "6a527109-modified",
             status: "NoSync",
-            latitude: 38.7936,
-            longitude: -90.7854,
+            latitude: "38.7936",
+            longitude: "-90.7854",
             city: "",
           }}
           index={1}

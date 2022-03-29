@@ -3,7 +3,7 @@ name: Fossa Compliance Scanning
 on:
   push:
     branches:
-      - 'master'
+      - "master"
 
 jobs:
   build:

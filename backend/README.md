@@ -13,7 +13,7 @@ The simplest way to get started is to use [Indexer for Explorer](https://github.
 Conveniently, there are all the basic settings done in `package.json` and `testnet.env`, so you can just run:
 
 ```
-$ npm run start:testnet
+$ npm run dev:testnet
 ```
 
 NOTE: There is also configuration for `mainnet`, just use `start:mainnet` command.
@@ -33,7 +33,16 @@ If you maintain your own Indexer for Explorer database or NEAR Archival Node, yo
 When all preparation is done run backend:
 
 ```
-$ npm run start:testnet
+$ npm run dev:testnet
 ```
 
 NOTE: There is also configuration for `mainnet`, just apply the same reasoning and use the relevant config file name and command.
+
+## Run Backend for Production
+
+If you want to build a release bundle and run it:
+
+```
+$ npm run build
+$ npm run start
+```

@@ -1,8 +1,6 @@
-const BN = require("bn.js");
+import BN from "bn.js";
 
-const models = require("../models");
-
-const {
+import {
   regularPublishFinalityStatusInterval,
   regularQueryStatsInterval,
   regularPublishNetworkInfoInterval,
@@ -11,22 +9,29 @@ const {
   wampNearNetworkName,
   regularFetchStakingPoolsMetadataInfoInterval,
   regularPublishTransactionCountForTwoWeeksInterval,
-} = require("./config");
+} from "./config";
 
-const { nearRpc, queryFinalBlock, queryEpochStats } = require("./near");
+import {
+  queryFinalBlock,
+  queryEpochStats,
+  callViewMethod,
+  CurrentNode,
+  sendJsonRpcQuery,
+} from "./near";
 
-const { setupWamp, wampPublish } = require("./wamp");
+import { setupWamp, wampPublish } from "./wamp";
 
-const {
+import {
   extendWithTelemetryInfo,
   queryOnlineNodes,
-  pickOnlineValidatingNode,
   queryDashboardBlocksStats,
   queryTransactionsCountHistoryForTwoWeeks,
   queryRecentTransactionsCount,
-} = require("./db-utils");
+  OnlineNode,
+  StakingNodeWithTelemetryInfo,
+} from "./db-utils";
 
-const {
+import {
   aggregateGasUsedByDate,
   aggregateTransactionsCountByDate,
   aggregateNewAccountsCountByDate,
@@ -41,42 +46,84 @@ const {
   aggregatePartnerTotalTransactionsCount,
   aggregatePartnerFirst3MonthTransactionsCount,
   aggregateDepositAmountByDate,
-  aggregateParterUniqueUserAmount,
   aggregateLiveAccountsCountByDate,
   aggregateCirculatingSupplyByDate,
-} = require("./stats");
+} from "./stats";
+import autobahn from "autobahn";
+import { StakingStatus, SubscriptionTopicType } from "./client-types";
+import { formatDate, trimError } from "./utils";
+
+type PoolMetadataAccountId = string;
+// See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
+type PoolMetadataAccountInfo = {
+  description?: string;
+  logo?: string;
+  name?: string;
+  country_code: string;
+  url?: string;
+  twitter?: string;
+  email?: string;
+  telegram?: string;
+  discord?: string;
+  country?: string;
+  city?: string;
+  github?: string;
+};
+type PoolMetadataInfo = Record<PoolMetadataAccountId, PoolMetadataAccountInfo>;
 
 const nonValidatingNodeStatuses = ["on-hold", "newcomer", "idle"];
 
-let transactionsCountHistoryForTwoWeeks = [];
-let currentValidators = [];
-let stakingNodes = [];
-let stakingPoolsInfo = new Map();
-let stakingPoolsMetadataInfo = new Map();
+type StakingNodeInfo = StakingNodeWithTelemetryInfo & {
+  fee?: NonNullable<StakingPoolInfo["fee"]>;
+  delegatorsCount?: NonNullable<StakingPoolInfo["delegatorsCount"]>;
+  currentStake?: NonNullable<StakingPoolInfo["currentStake"]>;
+  poolDetails?: PoolMetadataAccountInfo;
+  stakingStatus?: StakingStatus;
+};
 
-function startDataSourceSpecificJobs(wamp) {
-  const regularCheckDataStats = async () => {
+type StakingPoolInfo = {
+  fee: { numerator: number; denominator: number } | null;
+  delegatorsCount: number | null;
+  currentStake: string | null;
+};
+
+let transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[] = [];
+let currentValidators: CurrentNode[] = [];
+let stakingNodes: StakingNodeInfo[] = [];
+let stakingPoolsInfo = new Map<string, StakingPoolInfo>();
+let stakingPoolsMetadataInfo = new Map<string, PoolMetadataAccountInfo>();
+
+function startDataSourceSpecificJobs(
+  getSession: () => Promise<autobahn.Session>
+): void {
+  const regularCheckDataStats = async (): Promise<void> => {
     console.log(`Starting regular data stats check from Indexer...`);
     try {
-      if (wamp.session) {
-        const blocksStats = await queryDashboardBlocksStats();
-        const recentTransactionsCount = await queryRecentTransactionsCount();
+      const blocksStats = await queryDashboardBlocksStats();
+      const recentTransactionsCount = await queryRecentTransactionsCount();
 
-        wampPublish("chain-blocks-stats", blocksStats, wamp);
-        wampPublish(
+      void wampPublish("chain-blocks-stats", blocksStats, getSession);
+      if (recentTransactionsCount) {
+        void wampPublish(
           "chain-transactions-stats",
           {
-            transactionsCountHistoryForTwoWeeks,
+            transactionsCountHistoryForTwoWeeks: transactionsCountHistoryForTwoWeeks.map(
+              ({ date, total }) => ({
+                date: formatDate(date),
+                total,
+              })
+            ),
             recentTransactionsCount,
           },
-          wamp
+          getSession
         );
       }
       console.log(`Regular data stats check from Indexer is completed.`);
     } catch (error) {
       console.warn(
-        `Regular data stats check from Indexer is crashed due to:`,
-        error
+        `Regular data stats check from Indexer is crashed due to: ${trimError(
+          error
+        )}`
       );
     }
     setTimeout(regularCheckDataStats, regularQueryStatsInterval);
@@ -84,8 +131,8 @@ function startDataSourceSpecificJobs(wamp) {
   setTimeout(regularCheckDataStats, 0);
 }
 
-function startStatsAggregation() {
-  const regularStatsAggregate = async () => {
+function startStatsAggregation(): void {
+  const regularStatsAggregate = async (): Promise<void> => {
     console.log("Starting Regular Stats Aggregation...");
     try {
       //stats part
@@ -114,7 +161,6 @@ function startStatsAggregation() {
       //partner part
       await aggregatePartnerTotalTransactionsCount();
       await aggregatePartnerFirst3MonthTransactionsCount();
-      await aggregateParterUniqueUserAmount();
     } catch (error) {
       console.warn("Regular Stats Aggregation is crashed due to:", error);
     }
@@ -123,21 +169,12 @@ function startStatsAggregation() {
   setTimeout(regularStatsAggregate, 0);
 }
 
-async function main() {
-  console.log("Starting Explorer backend...");
-
-  // Skip initializing Telemetry database if the backend is not configured to
-  // save telemety data (it is absolutely fine for local development)
-  if (models.sequelizeTelemetryBackend) {
-    await models.sequelizeTelemetryBackend.sync();
-  }
-
-  const wamp = setupWamp();
-  console.log("Starting WAMP worker...");
-  wamp.open();
+async function main(): Promise<void> {
+  console.log("Starting Explorer backend & WAMP worker...");
+  const getSession = setupWamp();
 
   // regular transactions count
-  const regularPublishTransactionsCount = async () => {
+  const regularPublishTransactionsCount = async (): Promise<void> => {
     console.log("Starting regular transactions count for week check...");
     try {
       transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
@@ -155,20 +192,18 @@ async function main() {
   setTimeout(regularPublishTransactionsCount, 0);
 
   // regularly publish the latest information about the height and timestamp of the final block
-  const regularPublishFinalityStatus = async () => {
+  const regularPublishFinalityStatus = async (): Promise<void> => {
     console.log("Starting regular final timestamp check...");
     try {
-      if (wamp.session) {
-        const finalBlock = await queryFinalBlock();
-        wampPublish(
-          "finality-status",
-          {
-            finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
-            finalBlockHeight: finalBlock.header.height,
-          },
-          wamp
-        );
-      }
+      const finalBlock = await queryFinalBlock();
+      void wampPublish(
+        "finality-status",
+        {
+          finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
+          finalBlockHeight: finalBlock.header.height,
+        },
+        getSession
+      );
       console.log("Regular final timestamp check is completed.");
     } catch (error) {
       console.warn("Regular final timestamp check crashed due to:", error);
@@ -181,82 +216,96 @@ async function main() {
   setTimeout(regularPublishFinalityStatus, 0);
 
   // regularly publish information about validators, proposals, staking pools, and online nodes
-  const regularPublishNetworkInfo = async () => {
+  const regularPublishNetworkInfo = async (): Promise<void> => {
     console.log("Starting regular network info publishing...");
     try {
-      if (wamp.session) {
-        const epochStats = await queryEpochStats();
+      const epochStats = await queryEpochStats();
 
-        currentValidators = epochStats.currentValidators;
+      currentValidators = epochStats.currentValidators;
 
-        stakingNodes = await extendWithTelemetryInfo([
-          ...epochStats.stakingNodes.values(),
-        ]);
+      const onlineNodes = await queryOnlineNodes();
 
-        const onlineValidatingNodes = pickOnlineValidatingNode(
-          stakingNodes.filter(
-            (i) => i.stakingStatus && i.stakingStatus !== "proposal"
-          )
-        );
+      const originalStakingNodes = await extendWithTelemetryInfo([
+        ...epochStats.stakingNodes.values(),
+      ]);
 
-        const onlineNodes = await queryOnlineNodes();
+      const onlineValidatingNodes = originalStakingNodes
+        .filter((i) => "stakingStatus" in i && i.stakingStatus !== "proposal")
+        .map((node) => node.nodeInfo)
+        .filter((nodeInfo): nodeInfo is OnlineNode => Boolean(nodeInfo));
 
-        if (stakingPoolsInfo) {
-          stakingNodes.forEach((validator) => {
-            const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
-            if (stakingPoolInfo) {
-              validator.fee = stakingPoolInfo.fee;
-              validator.delegatorsCount = stakingPoolInfo.delegatorsCount;
-              validator.currentStake = stakingPoolInfo.currentStake;
-              validator.poolDetails = stakingPoolsMetadataInfo.get(
-                validator.account_id
-              );
-
-              // '!validator.stakingStatus' occured at the first start
-              // when we query all pool accounts from database.
-              // Before this moment we'll have the validators with statuses
-              // 'active', 'joining', 'leaving' and 'proposal'.
-              // So here we set, check and regulary re-check is validators
-              // still has those statuses
-              if (
-                !validator.stakingStatus ||
-                nonValidatingNodeStatuses.indexOf(validator.stakingStatus) >= 0
-              ) {
-                if (
-                  new BN(validator.currentStake).gt(
-                    new BN(epochStats.seatPrice)
-                  )
-                ) {
-                  validator.stakingStatus = "on-hold";
-                } else if (
-                  new BN(validator.currentStake).gte(
-                    new BN(epochStats.seatPrice).muln(20).divn(100)
-                  )
-                ) {
-                  validator.stakingStatus = "newcomer";
-                } else if (
-                  new BN(validator.currentStake).lt(
-                    new BN(epochStats.seatPrice).muln(20).divn(100)
-                  )
-                ) {
-                  validator.stakingStatus = "idle";
-                }
-              }
+      if (stakingPoolsInfo) {
+        stakingNodes = originalStakingNodes.map((validator) => {
+          const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
+          if (!stakingPoolInfo) {
+            return validator;
+          }
+          // '!validator.stakingStatus' occured at the first start
+          // when we query all pool accounts from database.
+          // Before this moment we'll have the validators with statuses
+          // 'active', 'joining', 'leaving' and 'proposal'.
+          // So here we set, check and regulary re-check is validators
+          // still has those statuses
+          let stakingStatus: StakingStatus | undefined;
+          const currentStake =
+            "currentStake" in validator ? validator.currentStake : "0";
+          if (
+            !("stakingStatus" in validator) ||
+            nonValidatingNodeStatuses.indexOf(validator.stakingStatus) >= 0
+          ) {
+            if (new BN(currentStake).gt(new BN(epochStats.seatPrice))) {
+              stakingStatus = "on-hold";
+            } else if (
+              new BN(currentStake).gte(
+                new BN(epochStats.seatPrice).muln(20).divn(100)
+              )
+            ) {
+              stakingStatus = "newcomer";
+            } else if (
+              new BN(currentStake).lt(
+                new BN(epochStats.seatPrice).muln(20).divn(100)
+              )
+            ) {
+              stakingStatus = "idle";
             }
-          });
-        }
+          }
+          return {
+            ...validator,
+            fee: stakingPoolInfo.fee ?? undefined,
+            delegatorsCount: stakingPoolInfo.delegatorsCount ?? undefined,
+            currentStake: stakingPoolInfo.currentStake ?? "0",
+            poolDetails: stakingPoolsMetadataInfo.get(validator.account_id),
+            stakingStatus,
+          };
+        });
 
-        wampPublish(
+        void wampPublish(
           "nodes",
           {
-            onlineNodes,
+            onlineNodes: onlineNodes.map(({ lastSeen, ...rest }) => ({
+              ...rest,
+              lastSeen: lastSeen.valueOf(),
+            })),
             currentValidators,
-            onlineValidatingNodes,
-            stakingNodes,
+            onlineValidatingNodes: onlineValidatingNodes.map(
+              ({ lastSeen, ...rest }) => ({
+                ...rest,
+                lastSeen: lastSeen.valueOf(),
+              })
+            ),
+            stakingNodes: stakingNodes.map(({ nodeInfo, ...node }) => ({
+              ...node,
+              nodeInfo: nodeInfo
+                ? {
+                    ...nodeInfo,
+                    lastSeen: nodeInfo.lastSeen.valueOf(),
+                  }
+                : undefined,
+            })),
           },
-          wamp
+          getSession
         );
-        wampPublish(
+        void wampPublish(
           "network-stats",
           {
             currentValidatorsCount: currentValidators.length,
@@ -269,7 +318,7 @@ async function main() {
             genesisTime: epochStats.genesisTime,
             genesisHeight: epochStats.genesisHeight,
           },
-          wamp
+          getSession
         );
       }
       console.log("Regular network info publishing is completed.");
@@ -282,13 +331,15 @@ async function main() {
 
   // Periodic check of validators' metadata info (country, country_flag, etc.)
   // This query works only for 'mainnet'
-  function startRegularFetchStakingPoolsMetadataInfo() {
-    const regularFetchStakingPoolsMetadataInfo = async () => {
+  function startRegularFetchStakingPoolsMetadataInfo(): void {
+    const regularFetchStakingPoolsMetadataInfo = async (): Promise<void> => {
       console.log(`Starting regular fetching staking pools metadata info...`);
       try {
         const queryRowsCount = 100;
-        const fetchPoolsMetadataInfo = (counter = 0) => {
-          return nearRpc.callViewMethod("name.near", "get_all_fields", {
+        const fetchPoolsMetadataInfo = (
+          counter = 0
+        ): Promise<PoolMetadataInfo> => {
+          return callViewMethod("name.near", "get_all_fields", {
             from_index: counter,
             limit: queryRowsCount,
           });
@@ -323,7 +374,7 @@ async function main() {
   }
 
   // Periodic check of validators' staking pool fee and delegators count
-  const regularFetchStakingPoolsInfo = async () => {
+  const regularFetchStakingPoolsInfo = async (): Promise<void> => {
     try {
       if (stakingNodes.length > 0) {
         for (let i = 0; i < stakingNodes.length; i++) {
@@ -334,9 +385,8 @@ async function main() {
           } = stakingNodes[i];
 
           try {
-            let currentStake = activeNodeStake;
-            const account = await nearRpc.query({
-              request_type: "view_account",
+            let currentStake = activeNodeStake || null;
+            const account = await sendJsonRpcQuery("view_account", {
               account_id: account_id,
               finality: "final",
             });
@@ -347,14 +397,16 @@ async function main() {
               !stakingStatus ||
               nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
             ) {
-              currentStake = await nearRpc
-                .callViewMethod(account_id, "get_total_staked_balance", {})
-                .catch((_error) => {
-                  // for some accounts on 'testnet' we can't get 'currentStake'
-                  // because they looks like pool accounts but they are not so
-                  // that's why we catch this error to avoid unnecessary errors in console
-                  return null;
-                });
+              currentStake = await callViewMethod<string>(
+                account_id,
+                "get_total_staked_balance",
+                {}
+              ).catch((_error) => {
+                // for some accounts on 'testnet' we can't get 'currentStake'
+                // because they looks like pool accounts but they are not so
+                // that's why we catch this error to avoid unnecessary errors in console
+                return null;
+              });
             }
 
             // 'code_hash' === 11111111111111111111111111111111 is when the validator
@@ -363,25 +415,30 @@ async function main() {
               stakingPoolsInfo.set(account_id, {
                 fee: null,
                 delegatorsCount: null,
-                currentStake,
+                currentStake: currentStake || null,
               });
             } else {
-              const fee = await nearRpc
-                .callViewMethod(account_id, "get_reward_fee_fraction", {})
-                .catch((_error) => {
+              const fee = await callViewMethod<{
+                numerator: number;
+                denominator: number;
+              } | null>(account_id, "get_reward_fee_fraction", {}).catch(
+                (_error) => {
                   // for some accounts on 'testnet' we can't get 'fee'
                   // because they looks like pool accounts but they are not so
                   // that's why we catch this error to avoid unnecessary errors in console
                   return null;
-                });
-              const delegatorsCount = await nearRpc
-                .callViewMethod(account_id, "get_number_of_accounts", {})
-                .catch((_error) => {
-                  // for some accounts on 'testnet' we can't get 'delegatorsCount'
-                  // because they looks like pool accounts but they are not so
-                  // that's why we catch this error to avoid unnecessary errors in console
-                  return null;
-                });
+                }
+              );
+              const delegatorsCount = await callViewMethod<number>(
+                account_id,
+                "get_number_of_accounts",
+                {}
+              ).catch((_error) => {
+                // for some accounts on 'testnet' we can't get 'delegatorsCount'
+                // because they looks like pool accounts but they are not so
+                // that's why we catch this error to avoid unnecessary errors in console
+                return null;
+              });
               stakingPoolsInfo.set(account_id, {
                 fee,
                 delegatorsCount,
@@ -409,7 +466,7 @@ async function main() {
   };
   setTimeout(regularFetchStakingPoolsInfo, 0);
 
-  startDataSourceSpecificJobs(wamp);
+  startDataSourceSpecificJobs(getSession);
   startStatsAggregation();
 
   if (wampNearNetworkName === "mainnet") {
@@ -417,4 +474,4 @@ async function main() {
   }
 }
 
-main();
+void main();

@@ -8,6 +8,9 @@ export const getAccount = async (wampCall: WampCall, accountId: string) => {
     wampCall("account-info", [accountId]),
     wampCall("get-account-details", [accountId]),
   ]);
+  if (!accountBasic || !accountInfo) {
+    return;
+  }
   return {
     ...accountBasic,
     ...accountInfo,
