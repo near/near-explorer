@@ -96,7 +96,7 @@ const TELEMETRY_FIELDS: TableField[] = [
 export const TELEMETRY_CREATE_TABLE_QUERY = `
 CREATE TABLE IF NOT EXISTS nodes (\n${TELEMETRY_FIELDS.map((field) =>
   [field.name, field.type, field.modifier].filter(Boolean).join(" ")
-).join("\n")}\n);`;
+).join(",\n")}\n);`;
 
 const sendTelemetry = async (nodeInfo: TelemetryRequest): Promise<void> => {
   if (!nodeInfo.hasOwnProperty("agent")) {
