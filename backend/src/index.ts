@@ -256,12 +256,14 @@ async function main(): Promise<void> {
           // 'active', 'joining', 'leaving' and 'proposal'.
           // So here we set, check and regulary re-check is validators
           // still has those statuses
-          let stakingStatus: StakingStatus | undefined;
           const currentStake =
             "currentStake" in validator ? validator.currentStake : "0";
+          let stakingStatus: StakingStatus | undefined =
+            "stakingStatus" in validator ? validator.stakingStatus : undefined;
+
           if (
-            !("stakingStatus" in validator) ||
-            nonValidatingNodeStatuses.indexOf(validator.stakingStatus) >= 0
+            !stakingStatus ||
+            nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
           ) {
             if (new BN(currentStake).gt(new BN(epochStats.seatPrice))) {
               stakingStatus = "on-hold";
