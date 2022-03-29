@@ -10,7 +10,8 @@ const getPool = (config: PoolConfig): Pool => {
   return pool;
 };
 
-const telemetryBackendPool = databaseConfig.writeOnlyTelemetryDatabase.host
+const telemetryBackendWriteOnlyPool = databaseConfig.writeOnlyTelemetryDatabase
+  .host
   ? getPool(databaseConfig.writeOnlyTelemetryDatabase)
   : null;
 
@@ -27,7 +28,7 @@ const analyticsBackendReadOnlyPool = getPool(
 );
 
 export const databases = {
-  telemetryBackendPool,
+  telemetryBackendWriteOnlyPool,
   telemetryBackendReadOnlyPool,
   indexerBackendReadOnlyPool,
   analyticsBackendReadOnlyPool,

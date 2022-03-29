@@ -16,7 +16,7 @@ Conveniently, there are all the basic settings done in `package.json` and `testn
 $ npm run dev:testnet
 ```
 
-NOTE: There is also configuration for `mainnet`, just use `start:mainnet` command.
+NOTE: There is also configuration for `mainnet`, just use `dev:mainnet` command.
 
 NOTE: To override `testnet.env` values during local development, create file `testnet.env.local` and export all the necessary environment variables there
 

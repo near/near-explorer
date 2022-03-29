@@ -52,6 +52,8 @@ import {
 import autobahn from "autobahn";
 import { StakingStatus, SubscriptionTopicType } from "./client-types";
 import { formatDate, trimError } from "./utils";
+import { databases, withPool } from "./db";
+import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
 
 type PoolMetadataAccountId = string;
 // See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
@@ -172,6 +174,14 @@ function startStatsAggregation(): void {
 async function main(): Promise<void> {
   console.log("Starting Explorer backend & WAMP worker...");
   const getSession = setupWamp();
+
+  // Skip initializing Telemetry database if the backend is not configured to
+  // save telemety data (it is absolutely fine for local development)
+  if (databases.telemetryBackendWriteOnlyPool) {
+    await withPool(databases.telemetryBackendWriteOnlyPool, (client) =>
+      client.query(TELEMETRY_CREATE_TABLE_QUERY)
+    );
+  }
 
   // regular transactions count
   const regularPublishTransactionsCount = async (): Promise<void> => {

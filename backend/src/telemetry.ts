@@ -2,6 +2,102 @@ import geoip from "geoip-lite";
 import { TelemetryRequest } from "./client-types";
 import { databases, withPool } from "./db";
 
+type TableField = {
+  name: string;
+  type: string;
+  modifier?: string;
+};
+
+const TELEMETRY_FIELDS: TableField[] = [
+  {
+    name: "ip_address",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "moniker",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "account_id",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "node_id",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL PRIMARY KEY",
+  },
+  {
+    name: "last_seen",
+    type: "TIMESTAMP WITH TIME ZONE",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "last_height",
+    type: "BIGINT",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "agent_name",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "agent_version",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "agent_build",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "peer_count",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "is_validator",
+    type: "BOOLEAN",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "last_hash",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "signature",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "status",
+    type: "VARCHAR(255)",
+    modifier: "NOT NULL",
+  },
+  {
+    name: "latitude",
+    type: "NUMERIC(8, 6)",
+  },
+  {
+    name: "longitude",
+    type: "NUMERIC(9, 6)",
+  },
+  {
+    name: "city",
+    type: "VARCHAR(255)",
+  },
+];
+
+export const TELEMETRY_CREATE_TABLE_QUERY = `
+CREATE TABLE IF NOT EXISTS nodes (\n${TELEMETRY_FIELDS.map((field) =>
+  [field.name, field.type, field.modifier].filter(Boolean).join(" ")
+).join("\n")}\n);`;
+
 const sendTelemetry = async (nodeInfo: TelemetryRequest): Promise<void> => {
   if (!nodeInfo.hasOwnProperty("agent")) {
     // This seems to be an old format, and all our nodes should support the new
@@ -17,7 +113,7 @@ const sendTelemetry = async (nodeInfo: TelemetryRequest): Promise<void> => {
   // we want to validate "active" validators only
   // const isValidator = stakingNode?.stakingStatus === "active";
 
-  if (!databases.telemetryBackendPool) {
+  if (!databases.telemetryBackendWriteOnlyPool) {
     return;
   }
 
@@ -49,7 +145,7 @@ const sendTelemetry = async (nodeInfo: TelemetryRequest): Promise<void> => {
   }
   */
   const geo = geoip.lookup(nodeInfo.ip_address);
-  await withPool(databases.telemetryBackendPool, (client) => {
+  await withPool(databases.telemetryBackendWriteOnlyPool, (client) => {
     return client.query(
       `
       INSERT INTO nodes (

@@ -6,10 +6,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "typecheck": "tsc --noEmit",
     "dev": "ts-node src/index.ts",
-    "dev:testnet": "dotenv -c -e ../testnet.env -- npm run start",
-    "dev:mainnet": "dotenv -c -e ../mainnet.env -- npm run start",
+    "dev:testnet": "dotenv -c -e ../testnet.env -- npm run dev",
+    "dev:mainnet": "dotenv -c -e ../mainnet.env -- npm run dev",
     "build": "tsc",
-    "start": "node build/backend/src/index.js"
+    "start": "node build/backend/src/index.js",
+    "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
+    "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start"
   },
   "repository": {
     "type": "git",
