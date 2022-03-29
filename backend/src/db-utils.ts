@@ -302,7 +302,7 @@ const queryDashboardBlocksStats = async () => {
     >(
       [
         `SELECT
-          block_timestamp AS latest_block_timestamp
+          block_timestamp
         FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
       ],
       { dataSource: DataSource.Indexer }
