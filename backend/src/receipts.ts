@@ -8,7 +8,10 @@ import {
 
 import BN from "bn.js";
 
-import { getIndexerCompatibilityTransactionActionKinds } from "./transactions";
+import {
+  convertDbArgsToRpcArgs,
+  getIndexerCompatibilityTransactionActionKinds,
+} from "./transactions";
 import {
   Action,
   Receipt,
@@ -62,7 +65,7 @@ function groupReceiptActionsIntoReceipts(
       });
     }
     actions.push({
-      args: receiptAction.args,
+      args: convertDbArgsToRpcArgs(receiptAction.kind, receiptAction.args),
       kind: indexerCompatibilityTransactionActionKinds.get(receiptAction.kind)!,
     } as Action);
   }

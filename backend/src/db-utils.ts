@@ -1459,7 +1459,7 @@ export type QueryReceipt = {
   tokens_burnt: string;
   executed_in_block_timestamp: string;
   kind: string;
-  args: object;
+  args: Record<string, unknown>;
 };
 
 // expose receipts included in particular block
