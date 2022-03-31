@@ -1,28 +1,17 @@
-import {
+const {
   queryReceiptsCountInBlock,
   queryReceiptInTransaction,
   queryIncludedReceiptsList,
   queryExecutedReceiptsList,
-  QueryReceipt,
-} from "./db-utils";
+} = require("./db-utils");
 
-import BN from "bn.js";
+const BN = require("bn.js");
 
-import {
-  convertDbArgsToRpcArgs,
+const {
   getIndexerCompatibilityTransactionActionKinds,
-} from "./transactions";
-import {
-  Action,
-  Receipt,
-  ReceiptExecutionStatus,
-  TransactionHashByReceiptId,
-} from "./client-types";
+} = require("./transactions");
 
-const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
-  string | null,
-  ReceiptExecutionStatus
->([
+const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map([
   ["SUCCESS_RECEIPT_ID", "SuccessReceiptId"],
   ["SUCCESS_VALUE", "SuccessValue"],
   ["FAILURE", "Failure"],
@@ -33,21 +22,19 @@ function getIndexerCompatibilityReceiptActionKinds() {
   return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
 }
 
-function groupReceiptActionsIntoReceipts(
-  receiptActions: QueryReceipt[]
-): Receipt[] {
+function groupReceiptActionsIntoReceipts(receiptActions) {
   // The receipt actions are ordered in such a way that the actions for a single receipt go
   // one after another in a correct order, so we can collect them linearly using a moving
   // window based on the `previousReceiptId`.
-  const receipts: Receipt[] = [];
-  let actions: Action[] = [];
+  let receipts = [];
+  let actions;
   let previousReceiptId = "";
   const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
   for (const receiptAction of receiptActions) {
     if (previousReceiptId !== receiptAction.receipt_id) {
       previousReceiptId = receiptAction.receipt_id;
       actions = [];
-      receipts.push({
+      const receipt = {
         actions,
         blockTimestamp: new BN(receiptAction.executed_in_block_timestamp)
           .divn(10 ** 6)
@@ -62,12 +49,13 @@ function groupReceiptActionsIntoReceipts(
         originatedFromTransactionHash:
           receiptAction.originated_from_transaction_hash,
         tokensBurnt: receiptAction.tokens_burnt,
-      });
+      };
+      receipts.push(receipt);
     }
     actions.push({
-      args: convertDbArgsToRpcArgs(receiptAction.kind, receiptAction.args),
-      kind: indexerCompatibilityTransactionActionKinds.get(receiptAction.kind)!,
-    } as Action);
+      args: receiptAction.args,
+      kind: indexerCompatibilityTransactionActionKinds.get(receiptAction.kind),
+    });
   }
 
   return receipts;
@@ -76,32 +64,28 @@ function groupReceiptActionsIntoReceipts(
 // As a temporary solution we split receipts list into two lists:
 // included in block and executed in block
 // more info here https://github.com/near/near-explorer/pull/868
-async function getIncludedReceiptsList(blockHash: string): Promise<Receipt[]> {
+async function getIncludedReceiptsList(blockHash) {
   const receiptActions = await queryIncludedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
 }
 
-async function getExecutedReceiptsList(blockHash: string): Promise<Receipt[]> {
+async function getExecutedReceiptsList(blockHash) {
   const receiptActions = await queryExecutedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
 }
 
-async function getReceiptsCountInBlock(
-  blockHash: string
-): Promise<number | null> {
+async function getReceiptsCountInBlock(blockHash) {
   const receiptsCount = await queryReceiptsCountInBlock(blockHash);
   if (!receiptsCount) {
-    return null;
+    return undefined;
   }
   return parseInt(receiptsCount.count);
 }
 
-async function getReceiptInTransaction(
-  receiptId: string
-): Promise<TransactionHashByReceiptId | null> {
+async function getReceiptInTransaction(receiptId) {
   const transactionInfo = await queryReceiptInTransaction(receiptId);
   if (!transactionInfo) {
-    return null;
+    return undefined;
   }
   return {
     receiptId: transactionInfo.receipt_id,
@@ -110,10 +94,8 @@ async function getReceiptInTransaction(
   };
 }
 
-export {
-  getReceiptsCountInBlock,
-  getReceiptInTransaction,
-  getIndexerCompatibilityReceiptActionKinds,
-  getIncludedReceiptsList,
-  getExecutedReceiptsList,
-};
+exports.getReceiptsCountInBlock = getReceiptsCountInBlock;
+exports.getReceiptInTransaction = getReceiptInTransaction;
+exports.getIndexerCompatibilityReceiptActionKinds = getIndexerCompatibilityReceiptActionKinds;
+exports.getIncludedReceiptsList = getIncludedReceiptsList;
+exports.getExecutedReceiptsList = getExecutedReceiptsList;

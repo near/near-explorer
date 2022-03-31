@@ -300,6 +300,7 @@
       },
       "ReceiptRow": {
         "result": "Результат",
+        "no_result": "Без результата",
         "empty_result": "Пустой результат",
         "failure": "Сбой",
         "success_receipt_id": "ID квитанции успешной транзакции",

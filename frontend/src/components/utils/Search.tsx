@@ -184,17 +184,17 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
 
       const cleanedSearchValue = value.replace(/\s/g, "");
 
-      let blockPromise: Promise<string | null>;
+      let blockPromise: Promise<string | undefined>;
       const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
       if (maybeBlockHeight.match(/^\d{1,20}$/)) {
         const blockHeight = parseInt(maybeBlockHeight);
         blockPromise = wampCall("block-by-hash-or-id", [blockHeight]).catch(
-          () => null
+          () => undefined
         );
       } else {
         blockPromise = wampCall("block-by-hash-or-id", [
           cleanedSearchValue,
-        ]).catch(() => null);
+        ]).catch(() => undefined);
       }
 
       const transactionPromise = wampCall("is-transaction-indexed", [

@@ -62,7 +62,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
           wampCall("contract-info-by-account-id", [accountId]),
           wampCall("nearcore-view-access-key-list", [accountId]),
         ]);
-        if (contractInfo !== null) {
+        if (contractInfo !== undefined) {
           return {
             codeHash,
             transactionHash: contractInfo.hash,
@@ -82,7 +82,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const locked = React.useMemo(
     () =>
       contractInfo?.accessKeys.every(
-        (key) => key.access_key.permission !== "FullAccess"
+        (key) => key["access_key"]["permission"]["FunctionCall"] !== undefined
       ),
     [contractInfo]
   );

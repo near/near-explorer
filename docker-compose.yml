@@ -7,7 +7,7 @@ x-services: &env
 services:
   wamp:
     <<: *env
-    build: wamp
+    build: ./wamp
     environment:
       - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
     ports:
@@ -15,9 +15,7 @@ services:
 
   backend:
     <<: *env
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
+    build: ./backend
     depends_on:
       - wamp
     environment:
@@ -29,9 +27,7 @@ services:
 
   frontend:
     <<: *env
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
+    build: ./frontend
     depends_on:
       - wamp
     environment:

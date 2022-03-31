@@ -300,6 +300,7 @@
       },
       "ReceiptRow": {
         "result": "Kết quả",
+        "no_result": "Không có kết quả",
         "empty_result": "Kết quả trống",
         "failure": "Thất bại",
         "success_receipt_id": "IdBiênNhậnThànhCông",

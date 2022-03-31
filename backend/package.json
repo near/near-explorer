@@ -4,12 +4,7 @@
   "description": "NEAR blockchain explorer backend",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "typecheck": "tsc --noEmit",
-    "dev": "ts-node src/index.ts",
-    "dev:testnet": "dotenv -c -e ../testnet.env -- npm run dev",
-    "dev:mainnet": "dotenv -c -e ../mainnet.env -- npm run dev",
-    "build": "tsc",
-    "start": "node build/backend/src/index.js",
+    "start": "node src/index.js",
     "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
     "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start"
   },
@@ -29,15 +24,12 @@
     "dotenv-cli": "^5.0.0",
     "geoip-lite": "^1.4.2",
     "js-sha256": "^0.9.0",
+    "moment": "^2.29.1",
     "near-api-js": "^0.44.1",
-    "pg": "^8.7.3",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
-  },
-  "devDependencies": {
-    "@types/pg": "^8.6.4",
-    "@types/autobahn": "^20.9.0",
-    "@types/bn.js": "^5.1.0",
-    "@types/geoip-lite": "^1.4.1"
+    "pg": "^8.5.1",
+    "request": "^2.88.2",
+    "sequelize": "^6.11.0",
+    "stream-json": "^1.7.1",
+    "ws": "^7.5.6"
   }
 }

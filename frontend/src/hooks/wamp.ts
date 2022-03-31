@@ -3,6 +3,7 @@ import { useNetworkContext } from "./use-network-context";
 import wampApi, { WampCall } from "../libraries/wamp/api";
 import {
   ProcedureArgs,
+  ProcedureResult,
   ProcedureType,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
@@ -35,8 +36,8 @@ export const useWampSimpleQuery = <P extends ProcedureType>(
   procedure: P,
   args: ProcedureArgs<P>
 ) =>
-  useWampQuery(
-    React.useCallback((wampCall) => wampCall<P>(procedure, args), args)
+  useWampQuery<ProcedureResult<P>>(
+    React.useCallback((wampCall) => wampCall(procedure, args), args)
   );
 
 export const useWampSubscription = <Topic extends SubscriptionTopicType>(

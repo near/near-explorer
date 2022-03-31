@@ -29,7 +29,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
         b.stakingStatus && validatingGroup.indexOf(b.stakingStatus) >= 0;
 
       if (aInValidatingGroup && bInValidatingGroup) {
-        return new BN(b.currentStake || 0).cmp(new BN(a.currentStake || 0));
+        return new BN(b.currentStake).cmp(new BN(a.currentStake));
       } else if (aInValidatingGroup) {
         return -1;
       } else if (bInValidatingGroup) {
@@ -55,14 +55,14 @@ const ValidatorsList: React.FC<Props> = React.memo(
     );
 
     const totalStake = activeValidatorsList.reduce(
-      (acc, node) => acc.add(new BN(node.currentStake || 0)),
+      (acc, node) => acc.add(new BN(node.currentStake)),
       new BN(0)
     );
 
     activeValidatorsList.forEach((validator, index) => {
       let total = new BN(0);
       for (let i = 0; i <= index; i++) {
-        total = total.add(new BN(activeValidatorsList[i].currentStake || 0));
+        total = total.add(new BN(activeValidatorsList[i].currentStake));
         epochValidatorsStake.set(validator.account_id, total);
       }
     });

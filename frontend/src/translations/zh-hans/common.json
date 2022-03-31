@@ -300,6 +300,7 @@
       },
       "ReceiptRow": {
         "result": "结果",
+        "no_result": "没有结果",
         "empty_result": "结果为空",
         "failure": "失败",
         "success_receipt_id": "成功交易回执ID",

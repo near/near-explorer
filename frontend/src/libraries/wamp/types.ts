@@ -1,11 +1,9 @@
-import * as RPC from "../../../../backend/src/rpc-types";
-
 export type TransactionCountHistory = {
   date: string;
   total: number;
 };
 
-export type NodeInfo = {
+export interface NodeInfo {
   ipAddress: string;
   accountId?: string;
   nodeId: string;
@@ -15,10 +13,10 @@ export type NodeInfo = {
   agentVersion: string;
   agentBuild: string;
   status: string;
-  latitude: string | null;
-  longitude: string | null;
-  city: string | null;
-};
+  latitude: number;
+  longitude: number;
+  city?: string;
+}
 export type StakingStatus =
   | "active"
   | "joining"
@@ -43,12 +41,12 @@ export interface BaseValidationNodeInfo {
   is_slashed?: boolean;
   progress?: ValidationProgress;
   public_key?: string;
-  currentStake?: string;
+  currentStake: string;
   proposedStake?: string;
   cumulativeStakeAmount?: string;
   stakingStatus?: StakingStatus;
   networkHolder?: boolean;
-  shards?: number[];
+  shards?: [number];
   nodeInfo?: NodeInfo;
 }
 
@@ -63,31 +61,17 @@ export interface PoolDetails {
 }
 
 export interface StakingPoolInfo {
-  fee?: { numerator: number; denominator: number } | undefined;
-  delegatorsCount?: number;
+  fee: { numerator: number; denominator: number };
+  delegatorsCount: number;
   poolDetails?: PoolDetails;
 }
 
 export type ValidationNodeInfo = BaseValidationNodeInfo & StakingPoolInfo;
 
-export type NetworkStats = {
-  currentValidatorsCount: number;
-  onlineNodesCount: number;
-  epochLength: number;
-  epochStartHeight: number;
-  epochProtocolVersion: number;
-  totalStake: string;
-  seatPrice: string;
-  genesisTime: string;
-  genesisHeight: number;
-};
-
 export type SubscriptionTopicTypes = {
   nodes: {
     onlineNodes: NodeInfo[];
     stakingNodes: ValidationNodeInfo[];
-    currentValidators: unknown[];
-    onlineValidatingNodes: NodeInfo[];
   };
   "chain-blocks-stats": {
     latestBlockHeight: string;
@@ -102,30 +86,36 @@ export type SubscriptionTopicTypes = {
     finalBlockTimestampNanosecond: string;
     finalBlockHeight: number;
   };
-  "network-stats": NetworkStats;
+  "network-stats": {
+    currentValidatorsCount: number;
+    currentPoolsCount: number;
+    onlineNodesCount: number;
+    epochLength: number;
+    epochStartHeight: number;
+    epochProtocolVersion: number;
+    totalStake: string;
+    seatPrice: string;
+    genesisTime: string;
+    genesisHeight: number;
+    genesisAccountsCount: number;
+  };
 };
 
 export type SubscriptionTopicType = keyof SubscriptionTopicTypes;
 
 export type AccountBasicInfo = {
   accountId: string;
-  createdByTransactionHash?: string;
-  createdAtBlockTimestamp?: number;
-  deletedByTransactionHash?: string;
-  deletedAtBlockTimestamp?: number;
+  createdByTransactionHash: string;
+  createdAtBlockTimestamp: number;
+  deletedByTransactionHash: string;
+  deletedAtBlockTimestamp: number;
 };
 
 export type AccountDetails = {
   stakedBalance: string;
   nonStakedBalance: string;
   storageUsage?: string;
-  minimumBalance: string;
-  availableBalance: string;
   lockupAccountId?: string;
-  lockupTotalBalance?: string;
-  lockupLockedBalance?: string;
-  lockupUnlockedBalance?: string;
-  totalBalance: string;
 };
 
 export type AccountTransactionsCount = {
@@ -159,6 +149,11 @@ export type ContractInfo = {
   hash: string;
 };
 
+export type AccessKey = {
+  // TODO: add types for query with type "view_access_key_list"
+  [key: string]: any;
+};
+
 export type ReceiptExecutionStatus =
   | "Unknown"
   | "Failure"
@@ -169,7 +164,7 @@ export type Receipt = {
   actions: Action[];
   blockTimestamp: number;
   receiptId: string;
-  gasBurnt: string;
+  gasBurnt: number;
   receiverId: string;
   signerId: string;
   status?: ReceiptExecutionStatus;
@@ -186,8 +181,8 @@ export type TransactionHashByReceiptId = {
 
 export type CirculatingSupplyStat = {
   date: string;
-  circulatingTokensSupply: string;
-  totalTokensSupply: string;
+  circulatingTokensSupply: number;
+  totalTokensSupply: number;
 };
 
 export type AccountTransactionAmount = {
@@ -215,38 +210,91 @@ export type GasUsedByDateAmount = {
   gasUsed: string;
 };
 
-export type DepositByDateAmount = {
-  date: string;
-  depositAmount: string;
-};
-
 export type TransactionsByDateAmount = {
   date: string;
-  transactionsCount: string;
+  transactionsCount: number;
+};
+
+export type ExecutionStatus =
+  | "NotStarted"
+  | "Started"
+  | "Failure"
+  | "SuccessValue";
+
+export interface CreateAccount {}
+
+export interface DeleteAccount {
+  beneficiary_id: string;
+}
+
+export interface DeployContract {}
+
+export interface FunctionCall {
+  args: string;
+  deposit: string;
+  gas: number;
+  method_name: string;
+}
+
+export interface Transfer {
+  deposit: string;
+}
+
+export interface Stake {
+  stake: string;
+  public_key: string;
+}
+
+export interface AddKey {
+  access_key: any;
+  public_key: string;
+}
+
+export interface DeleteKey {
+  public_key: string;
+}
+
+export interface RpcActionWithArgs {
+  DeleteAccount: DeleteAccount;
+  DeployContract: DeployContract;
+  FunctionCall: FunctionCall;
+  Transfer: Transfer;
+  Stake: Stake;
+  AddKey: AddKey;
+  DeleteKey: DeleteKey;
+}
+
+export type ActionWithArgs<
+  K extends keyof RpcActionWithArgs = keyof RpcActionWithArgs
+> = {
+  kind: K;
+  args: RpcActionWithArgs[K];
 };
 
 export type Action<
-  A extends RPC.ActionView = RPC.ActionView
-> = A extends Exclude<RPC.ActionView, "CreateAccount">
-  ? {
-      kind: keyof A;
-      args: A[keyof A];
-    }
+  A extends RpcAction = RpcAction
+> = A extends RpcActionWithArgs
+  ?
+      | {
+          kind: "DeleteAccount";
+          args: DeleteAccount;
+        }
+      | {
+          kind: "DeployContract";
+          args: DeployContract;
+        }
+      | {
+          kind: "FunctionCall";
+          args: FunctionCall;
+        }
+      | { kind: "Transfer"; args: Transfer }
+      | { kind: "Stake"; args: Stake }
+      | { kind: "AddKey"; args: AddKey }
+      | { kind: "DeleteKey"; args: DeleteKey }
   : {
       kind: "CreateAccount";
       args: {};
     };
-
-export type ActionMapping = {
-  CreateAccount: Action<"CreateAccount">;
-  DeployContract: Action<RPC.DeployContractActionView>;
-  FunctionCall: Action<RPC.FunctionCallActionView>;
-  Transfer: Action<RPC.TransferActionView>;
-  Stake: Action<RPC.StakeActionView>;
-  AddKey: Action<RPC.AddKeyActionView>;
-  DeleteKey: Action<RPC.DeleteKeyActionView>;
-  DeleteAccount: Action<RPC.DeleteAccountActionView>;
-};
 
 export type TransactionBaseInfo = {
   hash: string;
@@ -263,7 +311,92 @@ export type TransactionPagination = {
   transactionIndex: number;
 };
 
-// TODO: verify this type via zod or similar
+export type RpcReceiptSuccessValue = {
+  SuccessValue: string | null;
+};
+
+export type RpcReceiptFailure = {
+  Failure: unknown;
+};
+
+export type RpcReceiptSuccessId = {
+  SuccessReceiptId: string;
+};
+
+export type RpcReceiptStatus =
+  | RpcReceiptSuccessValue
+  | RpcReceiptFailure
+  | RpcReceiptSuccessId
+  | string;
+
+export type RpcOutcome = {
+  tokens_burnt: string;
+  logs: string[];
+  receipt_ids: string[];
+  status: RpcReceiptStatus;
+  gas_burnt: number;
+};
+
+export type RpcReceiptOutcome = {
+  id: string;
+  outcome: RpcOutcome;
+  block_hash: string;
+};
+
+export type RpcTransactionOutcome = {
+  id: string;
+  outcome: RpcOutcome;
+  block_hash: string;
+};
+
+export type RpcAction = "CreateAccount" | RpcActionWithArgs;
+
+export type RpcReceipt = {
+  predecessor_id: string;
+  receiver_id: string;
+  receipt_id: string;
+  receipt?: any;
+  actions?: RpcAction[];
+};
+
+// TODO: add types for RPC call "EXPERIMENTAL_tx_status"
+// https://docs.near.org/docs/api/rpc/transactions#transaction-status-with-receipts
+export type RPCTransactionStatus = {
+  status: Record<ExecutionStatus, string>;
+  transaction: {
+    signer_id: string;
+    receiver_id: string;
+    actions: RpcAction[];
+  };
+  receipts: RpcReceipt[];
+  receipts_outcome: RpcReceiptOutcome[];
+  transaction_outcome: RpcTransactionOutcome;
+};
+
+// TODO: add types for RPC call "status"
+// https://docs.near.org/docs/api/rpc/network#node-status
+export type RPCNearStatus = {
+  protocol_version: number;
+  latest_protocol_version: number;
+};
+
+// TODO: add types for RPC call "block"
+// https://docs.near.org/docs/api/rpc/block-chunk#block-details
+export type RPCBlock = {
+  header: {
+    height: number;
+    total_supply: string;
+    latest_protocol_version: number;
+  };
+};
+
+// TODO: add types for RPC call "view_account"
+// https://docs.near.org/docs/api/rpc/contracts#view-account
+export type RPCViewAccount = {
+  code_hash: string;
+};
+
+// TODO: verify this type
 export type TelemetryRequest = {
   ip_address: string;
   signature?: string;
@@ -286,16 +419,11 @@ export type TelemetryRequest = {
 export type ProcedureTypes = {
   "account-info": {
     args: [string];
-    result: AccountBasicInfo | null;
-  };
-  // TODO: seems unused on client side, should we remove it?
-  "account-activity": {
-    args: [string];
-    result: unknown;
+    result: AccountBasicInfo;
   };
   "get-account-details": {
     args: [string];
-    result: AccountDetails | null;
+    result: AccountDetails;
   };
   "account-transactions-count": {
     args: [string];
@@ -312,15 +440,15 @@ export type ProcedureTypes = {
 
   "block-info": {
     args: [string | number];
-    result: BlockInfo | null;
+    result: BlockInfo;
   };
   "receipts-count-in-block": {
     args: [string];
-    result: number | null;
+    result: number;
   };
   "gas-used-in-chunks": {
     args: [string];
-    result: string | null;
+    result: string;
   };
   "blocks-list": {
     args: [number, number?];
@@ -328,32 +456,36 @@ export type ProcedureTypes = {
   };
   "block-by-hash-or-id": {
     args: [string | number];
-    result: string | null;
+    result: string;
   };
 
   "nearcore-final-block": {
     args: [];
-    result: RPC.BlockView;
+    result: RPCBlock;
   };
   "nearcore-view-account": {
     args: [string];
-    result: RPC.AccountView;
+    result: RPCViewAccount;
   };
   "nearcore-view-access-key-list": {
     args: [string];
-    result: RPC.AccessKeyList;
+    result: {
+      keys: AccessKey[];
+    };
   };
   "nearcore-total-fee-count": {
     args: [number];
-    result: {
-      date: string;
-      fee: string;
-    } | null;
+    result:
+      | {
+          date: string;
+          fee: number;
+        }
+      | undefined;
   };
 
   "contract-info-by-account-id": {
     args: [string];
-    result: ContractInfo | null;
+    result: ContractInfo;
   };
 
   "included-receipts-list-by-block-hash": {
@@ -366,7 +498,7 @@ export type ProcedureTypes = {
   };
   "transaction-hash-by-receipt-id": {
     args: [string];
-    result: TransactionHashByReceiptId | null;
+    result: TransactionHashByReceiptId;
   };
 
   "get-latest-circulating-supply": {
@@ -378,39 +510,39 @@ export type ProcedureTypes = {
   };
   "circulating-supply-stats": {
     args: [];
-    result: CirculatingSupplyStat[] | null;
+    result: CirculatingSupplyStat[];
   };
   "nearcore-genesis-accounts-count": {
     args: [];
-    result: string | null;
+    result: number;
   };
   "nearcore-genesis-protocol-configuration": {
     args: [number];
-    result: RPC.BlockView;
+    result: RPCBlock;
   };
   "partner-first-3-month-transactions-count": {
     args: [];
-    result: AccountTransactionAmount[] | null;
+    result: AccountTransactionAmount[];
   };
   "partner-total-transactions-count": {
     args: [];
-    result: AccountTransactionAmount[] | null;
+    result: AccountTransactionAmount[];
   };
   "active-contracts-list": {
     args: [];
-    result: ContractReceiptsAmount[] | null;
+    result: ContractReceiptsAmount[];
   };
   "active-contracts-count-aggregated-by-date": {
     args: [];
-    result: ContractsByDateAmount[] | null;
+    result: ContractsByDateAmount[];
   };
   "unique-deployed-contracts-count-aggregate-by-date": {
     args: [];
-    result: ContractsByDateAmount[] | null;
+    result: ContractsByDateAmount[];
   };
   "new-contracts-count-aggregated-by-date": {
     args: [];
-    result: ContractsByDateAmount[] | null;
+    result: ContractsByDateAmount[];
   };
   "first-produced-block-timestamp": {
     args: [];
@@ -418,40 +550,36 @@ export type ProcedureTypes = {
   };
   "active-accounts-list": {
     args: [];
-    result: AccountTransactionAmount[] | null;
+    result: AccountTransactionAmount[];
   };
   "active-accounts-count-aggregated-by-date": {
     args: [];
-    result: AccountsByDateAmount[] | null;
+    result: AccountsByDateAmount[];
   };
   "active-accounts-count-aggregated-by-week": {
     args: [];
-    result: AccountsByDateAmount[] | null;
+    result: AccountsByDateAmount[];
   };
   "live-accounts-count-aggregated-by-date": {
     args: [];
-    result: AccountsByDateAmount[] | null;
+    result: AccountsByDateAmount[];
   };
   "new-accounts-count-aggregated-by-date": {
     args: [];
-    result: AccountsByDateAmount[] | null;
+    result: AccountsByDateAmount[];
   };
   "gas-used-aggregated-by-date": {
     args: [];
-    result: GasUsedByDateAmount[] | null;
-  };
-  "deposit-amount-aggregated-by-date": {
-    args: [];
-    result: DepositByDateAmount[] | null;
+    result: GasUsedByDateAmount[];
   };
   "transactions-count-aggregated-by-date": {
     args: [];
-    result: TransactionsByDateAmount[] | null;
+    result: TransactionsByDateAmount[];
   };
 
   "nearcore-tx": {
     args: [string, string];
-    result: RPC.FinalExecutionOutcomeWithReceiptView;
+    result: RPCTransactionStatus;
   };
   "is-transaction-indexed": {
     args: [string];
@@ -471,11 +599,11 @@ export type ProcedureTypes = {
   };
   "transaction-info": {
     args: [string];
-    result: TransactionBaseInfo | null;
+    result: TransactionBaseInfo | undefined;
   };
   "nearcore-status": {
     args: [];
-    result: RPC.StatusResponse;
+    result: RPCNearStatus;
   };
 
   "node-telemetry": {
@@ -487,18 +615,6 @@ export type ProcedureTypes = {
 export type ProcedureType = keyof ProcedureTypes;
 
 export type ProcedureArgs<P extends ProcedureType> = ProcedureTypes[P]["args"];
-// WAMP cannot squeeze undefined through the communication channel
-// Though this check doesn't work at the moment
-// TODO: Investigate how to force typescript into this kind of checks
-// Minimal repro:
-// type NeverUndefined<T> = T extends undefined ? never : T;
-// type MyType = NeverUndefined<number | undefined> // should be never, actually number
 export type ProcedureResult<
   P extends ProcedureType
-> = ProcedureTypes[P]["result"] extends undefined
-  ? never
-  : ProcedureTypes[P]["result"];
-
-// See https://stackoverflow.com/a/49402091/2017859
-export type KeysOfUnion<T> = T extends T ? keyof T : never;
-export * as RPC from "../../../../backend/src/rpc-types";
+> = ProcedureTypes[P]["result"];

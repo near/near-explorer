@@ -1,9 +1,9 @@
 import * as React from "react";
-import { KeysOfUnion, RPC } from "../../libraries/wamp/types";
+import { ExecutionStatus } from "../../libraries/wamp/types";
 import { useTranslation } from "react-i18next";
 
 export interface Props {
-  status: KeysOfUnion<RPC.FinalExecutionStatus>;
+  status: ExecutionStatus;
 }
 const TransactionExecutionStatusComponent: React.FC<Props> = React.memo(
   ({ status }) => {

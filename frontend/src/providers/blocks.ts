@@ -21,6 +21,6 @@ export const getBlock = async (
   return {
     ...blockInfo,
     gasUsed: gasUsed || "0",
-    receiptsCount: receiptsCount || 0,
+    receiptsCount,
   };
 };

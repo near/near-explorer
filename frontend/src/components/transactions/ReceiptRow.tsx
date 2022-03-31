@@ -14,6 +14,11 @@ import ActionRow from "./ActionRow";
 
 import { useTranslation } from "react-i18next";
 import { NestedReceiptWithOutcome } from "../../pages/transactions/[hash]";
+import {
+  RpcReceiptFailure,
+  RpcReceiptSuccessId,
+  RpcReceiptSuccessValue,
+} from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
 
 const ReceiptRowWrapper = styled(Row, {
@@ -83,9 +88,11 @@ const ReceiptRow: React.FC<Props> = React.memo(
   ({ receipt, transactionHash }) => {
     const { t } = useTranslation();
     let statusInfo;
-    if ("SuccessValue" in receipt.outcome.status) {
-      const { SuccessValue } = receipt.outcome.status;
-      if (SuccessValue.length === 0) {
+    if ("SuccessValue" in (receipt.outcome.status as RpcReceiptSuccessValue)) {
+      const { SuccessValue } = receipt.outcome.status as RpcReceiptSuccessValue;
+      if (SuccessValue === null) {
+        statusInfo = t("component.transactions.ReceiptRow.no_result");
+      } else if (SuccessValue.length === 0) {
         statusInfo = t("component.transactions.ReceiptRow.empty_result");
       } else {
         statusInfo = (
@@ -95,16 +102,19 @@ const ReceiptRow: React.FC<Props> = React.memo(
           </>
         );
       }
-    } else if ("Failure" in receipt.outcome.status) {
-      const { Failure } = receipt.outcome.status;
+    } else if ("Failure" in (receipt.outcome.status as RpcReceiptFailure)) {
+      const { Failure } = receipt.outcome.status as RpcReceiptFailure;
       statusInfo = (
         <>
           <i>{t("component.transactions.ReceiptRow.failure")}: </i>
           <pre>{JSON.stringify(Failure, null, 2)}</pre>
         </>
       );
-    } else if ("SuccessReceiptId" in receipt.outcome.status) {
-      const { SuccessReceiptId } = receipt.outcome.status;
+    } else if (
+      "SuccessReceiptId" in (receipt.outcome.status as RpcReceiptSuccessId)
+    ) {
+      const { SuccessReceiptId } = receipt.outcome
+        .status as RpcReceiptSuccessId;
       statusInfo = (
         <>
           <i>{t("component.transactions.ReceiptRow.success_receipt_id")}: </i>

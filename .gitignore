@@ -60,7 +60,6 @@ typings/
 # backend ignores
 backend/config/*-local
 backend/db
-backend/build
 
 # frontend ignores
 frontend/cypress/videos

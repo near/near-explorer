@@ -13,10 +13,10 @@ The simplest way to get started is to use [Indexer for Explorer](https://github.
 Conveniently, there are all the basic settings done in `package.json` and `testnet.env`, so you can just run:
 
 ```
-$ npm run dev:testnet
+$ npm run start:testnet
 ```
 
-NOTE: There is also configuration for `mainnet`, just use `dev:mainnet` command.
+NOTE: There is also configuration for `mainnet`, just use `start:mainnet` command.
 
 NOTE: To override `testnet.env` values during local development, create file `testnet.env.local` and export all the necessary environment variables there
 
@@ -33,16 +33,7 @@ If you maintain your own Indexer for Explorer database or NEAR Archival Node, yo
 When all preparation is done run backend:
 
 ```
-$ npm run dev:testnet
+$ npm run start:testnet
 ```
 
 NOTE: There is also configuration for `mainnet`, just apply the same reasoning and use the relevant config file name and command.
-
-## Run Backend for Production
-
-If you want to build a release bundle and run it:
-
-```
-$ npm run build
-$ npm run start
-```

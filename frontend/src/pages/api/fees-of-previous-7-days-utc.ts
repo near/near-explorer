@@ -11,9 +11,6 @@ const handler: NextApiHandler = async (req, res) => {
       const feeCountPerDay = await wampApi.getCall(
         nearNetwork
       )("nearcore-total-fee-count", [i]);
-      if (!feeCountPerDay) {
-        return res.status(500).end();
-      }
       resp.push({
         date: moment(feeCountPerDay?.date).format("YYYY-MM-DD"),
         collected_fee_in_yoctonear: feeCountPerDay?.fee,

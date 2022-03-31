@@ -1,5 +1,0 @@
-.git
-node_modules/
-*/Dockerfile
-**/node_modules/
-*/.next/

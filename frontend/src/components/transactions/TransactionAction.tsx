@@ -7,8 +7,7 @@ import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
 import {
-  KeysOfUnion,
-  RPC,
+  ExecutionStatus,
   TransactionBaseInfo,
 } from "../../libraries/wamp/types";
 import { useWampQuery } from "../../hooks/wamp";
@@ -33,9 +32,7 @@ const TransactionAction: React.FC<Props> = React.memo(
             transaction.hash,
             transaction.signerId,
           ]);
-          return Object.keys(
-            transactionExtraInfo.status
-          )[0] as KeysOfUnion<RPC.FinalExecutionStatus>;
+          return Object.keys(transactionExtraInfo.status)[0] as ExecutionStatus;
         },
         [transaction.hash, transaction.signerId]
       )

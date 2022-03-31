@@ -300,6 +300,7 @@
       },
       "ReceiptRow": {
         "result": "Result",
+        "no_result": "No result",
         "empty_result": "Empty result",
         "failure": "Failure",
         "success_receipt_id": "SuccessReceiptId",
