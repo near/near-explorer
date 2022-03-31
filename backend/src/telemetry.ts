@@ -175,7 +175,7 @@ const sendTelemetry = async (nodeInfo: TelemetryRequest): Promise<void> => {
         status = EXCLUDED.status,
         latitude = EXCLUDED.latitude,
         longitude = EXCLUDED.longitude,
-        city = EXCLUDED.city,
+        city = EXCLUDED.city
     `,
       [
         nodeInfo.ip_address,
@@ -184,7 +184,7 @@ const sendTelemetry = async (nodeInfo: TelemetryRequest): Promise<void> => {
         // accountId must be non-empty when the telemetry is submitted by validation nodes
         nodeInfo.chain.account_id || "",
         nodeInfo.chain.node_id,
-        Date.now(),
+        new Date().toISOString(),
         nodeInfo.chain.latest_block_height,
         nodeInfo.agent.name,
         nodeInfo.agent.version,
