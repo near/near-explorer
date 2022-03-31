@@ -68,3 +68,6 @@ frontend/cypress/screenshots
 
 # Desktop Services Store
 .DS_Store
+
+# local nvironment files
+*.env.local
