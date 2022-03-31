@@ -13,14 +13,9 @@ import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 import {
   Action,
-  ExecutionStatus,
-  RpcOutcome,
-  RpcReceiptOutcome,
-  RpcReceiptStatus,
-  RpcActionWithArgs,
   TransactionBaseInfo,
-  RpcReceipt,
-  RpcAction,
+  RPC,
+  KeysOfUnion,
 } from "../../libraries/wamp/types";
 import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
@@ -104,7 +99,7 @@ const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
 
 export type TransactionOutcome = {
   id: string;
-  outcome: RpcOutcome;
+  outcome: RPC.ExecutionOutcomeView;
   block_hash: string;
 };
 
@@ -112,7 +107,7 @@ type ReceiptExecutionOutcome = {
   tokens_burnt: string;
   logs: string[];
   outgoing_receipts?: NestedReceiptWithOutcome[];
-  status: RpcReceiptStatus;
+  status: RPC.ExecutionStatusView;
   gas_burnt: number;
 };
 
@@ -126,20 +121,23 @@ export type NestedReceiptWithOutcome = {
 };
 
 export type Transaction = TransactionBaseInfo & {
-  status: ExecutionStatus;
-  receiptsOutcome: RpcReceiptOutcome[];
+  status: KeysOfUnion<RPC.FinalExecutionStatus>;
+  receiptsOutcome: RPC.ExecutionOutcomeWithIdView[];
   transactionOutcome: TransactionOutcome;
   receipt: NestedReceiptWithOutcome;
 };
 
-const mapRpcActionToAction = (action: RpcAction): Action => {
+const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   if (action === "CreateAccount") {
     return {
       kind: "CreateAccount",
       args: {},
     };
   }
-  const kind = Object.keys(action)[0] as keyof RpcActionWithArgs;
+  const kind = Object.keys(action)[0] as keyof Exclude<
+    RPC.ActionView,
+    "CreateAccount"
+  >;
   return {
     kind,
     args: action[kind],
@@ -173,27 +171,39 @@ export const getServerSideProps: GetServerSideProps<
     ) {
       receipts.unshift({
         predecessor_id: transactionInfo.transaction.signer_id,
-        receipt: actions,
+        receipt: {
+          Action: {
+            signer_id: transactionInfo.transaction.signer_id,
+            signer_public_key: "",
+            gas_price: "0",
+            output_data_receivers: [],
+            input_data_ids: [],
+            actions: transactionInfo.transaction.actions,
+          },
+        },
         receipt_id: receiptsOutcome[0].id,
         receiver_id: transactionInfo.transaction.receiver_id,
       });
     }
-    const receiptOutcomesByIdMap = new Map<string, RpcReceiptOutcome>();
+    const receiptOutcomesByIdMap = new Map<
+      string,
+      RPC.ExecutionOutcomeWithIdView
+    >();
     receiptsOutcome.forEach((receipt) => {
       receiptOutcomesByIdMap.set(receipt.id, receipt);
     });
 
     const receiptsByIdMap = new Map<
       string,
-      Omit<RpcReceipt, "actions"> & { actions: Action[] }
+      Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
     >();
     receipts.forEach((receiptItem) => {
       receiptsByIdMap.set(receiptItem.receipt_id, {
         ...receiptItem,
         actions:
-          receiptItem.receipt_id === receiptsOutcome[0].id
-            ? actions
-            : receiptItem.receipt?.Action?.actions.map(mapRpcActionToAction),
+          "Action" in receiptItem.receipt
+            ? receiptItem.receipt.Action.actions.map(mapRpcActionToAction)
+            : [],
       });
     });
 
@@ -218,7 +228,9 @@ export const getServerSideProps: GetServerSideProps<
         hash,
         transaction: {
           ...transactionBaseInfo,
-          status: Object.keys(transactionInfo.status)[0] as ExecutionStatus,
+          status: Object.keys(
+            transactionInfo.status
+          )[0] as KeysOfUnion<RPC.FinalExecutionStatus>,
           actions,
           receiptsOutcome,
           receipt: collectNestedReceiptWithOutcome(receiptsOutcome[0].id),

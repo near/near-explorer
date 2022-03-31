@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04]
-        node: [10]
+        node: [16]
     steps:
       - uses: actions/checkout@v1
       - name: Run code formatting check
@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04]
-        node: [10]
+        node: [16]
     steps:
       - uses: actions/checkout@v1
       - name: Run unit tests
@@ -36,7 +36,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04]
-        node: [10]
+        node: [16]
     steps:
       - uses: actions/checkout@v1
       - name: Install Packages
@@ -48,15 +48,14 @@ jobs:
         env:
           CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
 
-# TODO: re-enable the tests once we have some for the backend
-#  backend-test:
-#    name: Backend testing
-#    runs-on: ${{ matrix.os }}
-#    strategy:
-#      matrix:
-#        os: [ubuntu-18.04]
-#        node: [10]
-#    steps:
-#      - uses: actions/checkout@v1
-#      - name: Run unit tests
-#        run: cd backend && npm install && npm run test
+  backend-typecheck:
+    name: Backend typecheck
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node: [16]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run typecheck
+        run: cd backend && npm install && npm run typecheck

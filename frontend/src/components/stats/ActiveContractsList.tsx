@@ -14,7 +14,7 @@ const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
     useWampQuery(
       React.useCallback(
         async (wampCall) =>
-          (await wampCall("active-contracts-list", [])).reverse(),
+          ((await wampCall("active-contracts-list", [])) ?? []).reverse(),
         []
       )
     ) ?? [];

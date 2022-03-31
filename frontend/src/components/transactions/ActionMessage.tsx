@@ -6,35 +6,18 @@ import Balance from "../utils/Balance";
 import CodePreview from "../utils/CodePreview";
 
 import { useTranslation } from "react-i18next";
-import * as wamp from "../../libraries/wamp/types";
+import { Action, ActionMapping } from "../../libraries/wamp/types";
 
-export interface Props<A> {
-  actionKind: keyof TransactionMessageRenderers;
-  actionArgs: A;
+export interface Props<A extends Action> {
+  actionKind: A["kind"];
+  actionArgs: A["args"];
   receiverId: string;
   showDetails?: boolean;
 }
 
-type AnyAction =
-  | wamp.CreateAccount
-  | wamp.DeleteAccount
-  | wamp.DeployContract
-  | wamp.FunctionCall
-  | wamp.Transfer
-  | wamp.Stake
-  | wamp.AddKey
-  | wamp.DeleteKey;
-
-interface TransactionMessageRenderers {
-  CreateAccount: React.FC<Props<wamp.CreateAccount>>;
-  DeleteAccount: React.FC<Props<wamp.DeleteAccount>>;
-  DeployContract: React.FC<Props<wamp.DeployContract>>;
-  FunctionCall: React.FC<Props<wamp.FunctionCall>>;
-  Transfer: React.FC<Props<wamp.Transfer>>;
-  Stake: React.FC<Props<wamp.Stake>>;
-  AddKey: React.FC<Props<wamp.AddKey>>;
-  DeleteKey: React.FC<Props<wamp.DeleteKey>>;
-}
+type TransactionMessageRenderers = {
+  [K in Action["kind"]]: React.FC<Props<ActionMapping[K]>>;
+};
 
 export const Args: React.FC<{ args: string }> = React.memo(({ args }) => {
   const { t } = useTranslation();
@@ -59,7 +42,7 @@ export const Args: React.FC<{ args: string }> = React.memo(({ args }) => {
   );
 });
 
-const CreateAccount: React.FC<Props<wamp.CreateAccount>> = React.memo(
+const CreateAccount: TransactionMessageRenderers["CreateAccount"] = React.memo(
   ({ receiverId }) => {
     const { t } = useTranslation();
     return (
@@ -73,7 +56,7 @@ const CreateAccount: React.FC<Props<wamp.CreateAccount>> = React.memo(
   }
 );
 
-const DeleteAccount: React.FC<Props<wamp.DeleteAccount>> = React.memo(
+const DeleteAccount: TransactionMessageRenderers["DeleteAccount"] = React.memo(
   ({ receiverId, actionArgs }) => {
     const { t } = useTranslation();
     return (
@@ -89,7 +72,7 @@ const DeleteAccount: React.FC<Props<wamp.DeleteAccount>> = React.memo(
   }
 );
 
-const DeployContract: React.FC<Props<wamp.DeployContract>> = React.memo(
+const DeployContract: TransactionMessageRenderers["DeployContract"] = React.memo(
   ({ receiverId }) => {
     const { t } = useTranslation();
     return (
@@ -103,7 +86,7 @@ const DeployContract: React.FC<Props<wamp.DeployContract>> = React.memo(
   }
 );
 
-const FunctionCall: React.FC<Props<wamp.FunctionCall>> = React.memo(
+const FunctionCall: TransactionMessageRenderers["FunctionCall"] = React.memo(
   ({ receiverId, actionArgs, showDetails }) => {
     const { t } = useTranslation();
     let args;
@@ -141,7 +124,7 @@ const FunctionCall: React.FC<Props<wamp.FunctionCall>> = React.memo(
   }
 );
 
-const Transfer: React.FC<Props<wamp.Transfer>> = React.memo(
+const Transfer: TransactionMessageRenderers["Transfer"] = React.memo(
   ({ receiverId, actionArgs: { deposit } }) => {
     const { t } = useTranslation();
     return (
@@ -155,7 +138,7 @@ const Transfer: React.FC<Props<wamp.Transfer>> = React.memo(
   }
 );
 
-const Stake: React.FC<Props<wamp.Stake>> = React.memo(
+const Stake: TransactionMessageRenderers["Stake"] = React.memo(
   ({ actionArgs: { stake, public_key } }) => {
     const { t } = useTranslation();
     return (
@@ -170,56 +153,38 @@ const Stake: React.FC<Props<wamp.Stake>> = React.memo(
   }
 );
 
-const AddKey: React.FC<Props<wamp.AddKey>> = React.memo(
+const AddKey: TransactionMessageRenderers["AddKey"] = React.memo(
   ({ receiverId, actionArgs }) => {
     const { t } = useTranslation();
     return (
       <>
-        {typeof actionArgs.access_key.permission === "object" ? (
-          actionArgs.access_key.permission.permission_kind ? (
-            <>
-              {t("component.transactions.ActionMessage.AddKey.new_key_added")}
-              <AccountLink accountId={receiverId} />
-              {`: ${actionArgs.public_key.substring(0, 15)}...`}
-              <p>
-                {t(
-                  "component.transactions.ActionMessage.AddKey.with_permission_and_nounce",
-                  {
-                    permission:
-                      actionArgs.access_key.permission.permission_kind,
-                    nonce: actionArgs.access_key.nonce,
-                  }
-                )}
-              </p>
-            </>
-          ) : (
-            <>
+        {actionArgs.access_key.permission !== "FullAccess" ? (
+          <>
+            {t(
+              "component.transactions.ActionMessage.AddKey.access_key_added_for_contract"
+            )}
+            <AccountLink
+              accountId={
+                actionArgs.access_key.permission.FunctionCall.receiver_id
+              }
+            />
+            {`: ${actionArgs.public_key.substring(0, 15)}...`}
+            <p>
               {t(
-                "component.transactions.ActionMessage.AddKey.access_key_added_for_contract"
-              )}
-              <AccountLink
-                accountId={
-                  actionArgs.access_key.permission.FunctionCall.receiver_id
+                "component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce",
+                {
+                  methods:
+                    actionArgs.access_key.permission.FunctionCall.method_names
+                      .length > 0
+                      ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
+                          ", "
+                        )})`
+                      : t("component.transactions.ActionMessage.AddKey.any"),
+                  nonce: actionArgs.access_key.nonce,
                 }
-              />
-              {`: ${actionArgs.public_key.substring(0, 15)}...`}
-              <p>
-                {t(
-                  "component.transactions.ActionMessage.AddKey.with_permission_call_method_and_nounce",
-                  {
-                    methods:
-                      actionArgs.access_key.permission.FunctionCall.method_names
-                        .length > 0
-                        ? `(${actionArgs.access_key.permission.FunctionCall.method_names.join(
-                            ", "
-                          )})`
-                        : t("component.transactions.ActionMessage.AddKey.any"),
-                    nonce: actionArgs.access_key.nonce,
-                  }
-                )}
-              </p>
-            </>
-          )
+              )}
+            </p>
+          </>
         ) : (
           <>
             {t("component.transactions.ActionMessage.AddKey.new_key_added")}
@@ -241,7 +206,7 @@ const AddKey: React.FC<Props<wamp.AddKey>> = React.memo(
   }
 );
 
-const DeleteKey: React.FC<Props<wamp.DeleteKey>> = React.memo(
+const DeleteKey: TransactionMessageRenderers["DeleteKey"] = React.memo(
   ({ actionArgs: { public_key } }) => {
     const { t } = useTranslation();
     return (
@@ -265,7 +230,7 @@ const transactionMessageRenderers: TransactionMessageRenderers = {
   DeleteKey,
 };
 
-const ActionMessage: React.FC<Props<AnyAction>> = React.memo((props) => {
+const ActionMessage: React.FC<Props<Action>> = React.memo((props) => {
   const MessageRenderer = transactionMessageRenderers[props.actionKind];
   if (MessageRenderer === undefined) {
     return (
@@ -274,9 +239,8 @@ const ActionMessage: React.FC<Props<AnyAction>> = React.memo((props) => {
       </>
     );
   }
-  return (
-    <MessageRenderer {...(props as any)} showDetails={props.showDetails} />
-  );
+
+  return <MessageRenderer {...(props as any)} />;
 });
 
 export default ActionMessage;

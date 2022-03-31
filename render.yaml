@@ -72,7 +72,7 @@ services:
     name: backend/mainnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install --prod
+    buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
       - key: NEAR_EXPLORER_WAMP_HOST
@@ -95,7 +95,7 @@ services:
     name: backend/testnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install --prod
+    buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
       - key: NEAR_EXPLORER_WAMP_HOST
@@ -118,7 +118,7 @@ services:
     name: backend/guildnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install --prod
+    buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
       - key: NEAR_EXPLORER_WAMP_HOST

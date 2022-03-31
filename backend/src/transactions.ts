@@ -1,13 +1,22 @@
-const {
+import {
+  Action,
+  TransactionBaseInfo,
+  TransactionPagination,
+} from "./client-types";
+import {
   queryIndexedTransaction,
   queryTransactionsList,
   queryTransactionsActionsList,
   queryAccountTransactionsList,
   queryTransactionsListInBlock,
   queryTransactionInfo,
-} = require("./db-utils");
+  QueryTransaction,
+} from "./db-utils";
 
-const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map([
+const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
+  string,
+  Action["kind"]
+>([
   ["ADD_KEY", "AddKey"],
   ["CREATE_ACCOUNT", "CreateAccount"],
   ["DELETE_ACCOUNT", "DeleteAccount"],
@@ -20,7 +29,9 @@ const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map([
 
 // helper function to init transactions list
 // as we use the same structure but different queries for account, block, txInfo and list
-async function createTransactionsList(transactionsArray) {
+async function createTransactionsList(
+  transactionsArray: QueryTransaction[]
+): Promise<TransactionBaseInfo[]> {
   const transactionsHashes = transactionsArray.map(({ hash }) => hash);
   const transactionsActionsList = await getTransactionsActionsList(
     transactionsHashes
@@ -33,20 +44,28 @@ async function createTransactionsList(transactionsArray) {
     blockHash: transaction.block_hash,
     blockTimestamp: parseInt(transaction.block_timestamp),
     transactionIndex: transaction.transaction_index,
-    actions: transactionsActionsList.get(transaction.hash),
+    actions: transactionsActionsList.get(transaction.hash) || [],
   }));
 }
 
-function getIndexerCompatibilityTransactionActionKinds() {
+function getIndexerCompatibilityTransactionActionKinds(): Map<
+  string,
+  Action["kind"]
+> {
   return INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS;
 }
 
-async function getIsTransactionIndexed(transactionHash) {
+async function getIsTransactionIndexed(
+  transactionHash: string
+): Promise<boolean> {
   const transaction = await queryIndexedTransaction(transactionHash);
   return Boolean(transaction?.transaction_hash);
 }
 
-async function getTransactionsList(limit, paginationIndexer) {
+async function getTransactionsList(
+  limit?: number,
+  paginationIndexer?: TransactionPagination
+): Promise<TransactionBaseInfo[]> {
   const transactionsList = await queryTransactionsList(
     limit,
     paginationIndexer
@@ -59,7 +78,11 @@ async function getTransactionsList(limit, paginationIndexer) {
   return await createTransactionsList(transactionsList);
 }
 
-async function getAccountTransactionsList(accountId, limit, paginationIndexer) {
+async function getAccountTransactionsList(
+  accountId: string,
+  limit?: number,
+  paginationIndexer?: TransactionPagination
+): Promise<TransactionBaseInfo[]> {
   const accountTxList = await queryAccountTransactionsList(
     accountId,
     limit,
@@ -73,7 +96,11 @@ async function getAccountTransactionsList(accountId, limit, paginationIndexer) {
   return await createTransactionsList(accountTxList);
 }
 
-async function getTransactionsListInBlock(blockHash, limit, paginationIndexer) {
+async function getTransactionsListInBlock(
+  blockHash: string,
+  limit?: number,
+  paginationIndexer?: TransactionPagination
+): Promise<TransactionBaseInfo[]> {
   const txListInBlock = await queryTransactionsListInBlock(
     blockHash,
     limit,
@@ -87,17 +114,64 @@ async function getTransactionsListInBlock(blockHash, limit, paginationIndexer) {
   return await createTransactionsList(txListInBlock);
 }
 
-async function getTransactionInfo(transactionHash) {
+async function getTransactionInfo(
+  transactionHash: string
+): Promise<TransactionBaseInfo | null> {
   const transactionInfo = await queryTransactionInfo(transactionHash);
   if (!transactionInfo) {
-    return undefined;
+    return null;
   }
   const transaction = await createTransactionsList([transactionInfo]);
-  return transaction[0];
+  return transaction[0] || null;
 }
 
-async function getTransactionsActionsList(transactionsHashes) {
-  const transactionsActionsByHash = new Map();
+export const convertDbArgsToRpcArgs = (
+  kind: string,
+  jsonArgs: Record<string, unknown>
+): Action["args"] => {
+  switch (kind) {
+    case "FUNCTION_CALL":
+      return {
+        ...jsonArgs,
+        args_base64: undefined,
+        args_json: undefined,
+        args: jsonArgs.args_base64,
+      };
+    case "ADD_KEY": {
+      const dbArgs = jsonArgs as any;
+      if (dbArgs.access_key.permission.permission_kind === "FULL_ACCESS") {
+        return {
+          ...dbArgs,
+          access_key: {
+            ...dbArgs.access_key,
+            permission: "FullAccess",
+          },
+        };
+      } else {
+        return {
+          ...dbArgs,
+          access_key: {
+            ...dbArgs.access_key,
+            permission: {
+              FunctionCall: dbArgs.access_key.permission.permission_details,
+            },
+          },
+        };
+      }
+    }
+    case "DEPLOY_CONTRACT":
+      return {
+        code: jsonArgs.code_sha256,
+      };
+    default:
+      return jsonArgs;
+  }
+};
+
+async function getTransactionsActionsList(
+  transactionsHashes: string[]
+): Promise<Map<string, Action[]>> {
+  const transactionsActionsByHash = new Map<string, Action[]>();
   const transactionsActions = await queryTransactionsActionsList(
     transactionsHashes
   );
@@ -111,20 +185,18 @@ async function getTransactionsActionsList(transactionsHashes) {
       ...txAction,
       {
         kind: INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS.get(action.kind),
-        args:
-          typeof action.args === "string"
-            ? JSON.parse(action.args)
-            : action.args,
-      },
+        args: convertDbArgsToRpcArgs(action.kind, action.args),
+      } as Action,
     ]);
   });
   return transactionsActionsByHash;
 }
 
-exports.getIndexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds;
-exports.getIsTransactionIndexed = getIsTransactionIndexed;
-exports.getTransactionsList = getTransactionsList;
-exports.getTransactionsActionsList = getTransactionsActionsList;
-exports.getAccountTransactionsList = getAccountTransactionsList;
-exports.getTransactionsListInBlock = getTransactionsListInBlock;
-exports.getTransactionInfo = getTransactionInfo;
+export {
+  getIndexerCompatibilityTransactionActionKinds,
+  getIsTransactionIndexed,
+  getTransactionsList,
+  getAccountTransactionsList,
+  getTransactionsListInBlock,
+  getTransactionInfo,
+};

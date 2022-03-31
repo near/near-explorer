@@ -29,8 +29,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       agentName: "near-rs",
       agentVersion: "1.19.1",
       agentBuild: "add9c96b",
-      latitude: 45.8491,
-      longitude: -119.7143,
+      latitude: "45.8491",
+      longitude: "-119.7143",
       city: "Boardman",
     },
     fee: {
@@ -68,8 +68,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       agentName: "near-rs",
       agentVersion: "1.19.1",
       agentBuild: "add9c96b",
-      latitude: 45.8491,
-      longitude: -119.7143,
+      latitude: "45.8491",
+      longitude: "-119.7143",
       city: "Boardman",
     },
     fee: {
@@ -107,8 +107,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       agentName: "near-rs",
       agentVersion: "1.19.1",
       agentBuild: "add9c96b",
-      latitude: 51.2993,
-      longitude: 9.491,
+      latitude: "51.2993",
+      longitude: "9.491",
       city: "",
     },
     fee: {
@@ -143,8 +143,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       agentName: "near-rs",
       agentVersion: "1.19.1",
       agentBuild: "unknown",
-      latitude: 43.6319,
-      longitude: -79.3716,
+      latitude: "43.6319",
+      longitude: "-79.3716",
       city: "",
     },
     fee: {
@@ -174,8 +174,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       agentName: "near-rs",
       agentVersion: "1.19.1",
       agentBuild: "add9c96b",
-      latitude: 43.6319,
-      longitude: -79.3716,
+      latitude: "43.6319",
+      longitude: "-79.3716",
       city: "",
     },
     fee: {
@@ -214,8 +214,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       agentName: "near-rs",
       agentVersion: "1.19.1",
       agentBuild: "add9c96b",
-      latitude: 45.8491,
-      longitude: -119.7143,
+      latitude: "45.8491",
+      longitude: "-119.7143",
       city: "Boardman",
     },
     fee: {
@@ -265,8 +265,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       agentName: "near-rs",
       agentVersion: "1.19.1",
       agentBuild: "add9c96b",
-      latitude: 46,
-      longitude: 25,
+      latitude: "46",
+      longitude: "25",
       city: "",
     },
     fee: {
@@ -290,6 +290,6 @@ export const VALIDATORS_TOTAL_STAKE = VALIDATORS_LIST.filter(
   (i: ValidationNodeInfo) =>
     i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
 ).reduce(
-  (acc: BN, node: ValidationNodeInfo) => acc.add(new BN(node.currentStake)),
+  (acc: BN, node: ValidationNodeInfo) => acc.add(new BN(node.currentStake!)),
   new BN(0)
 ) as BN;
