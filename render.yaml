@@ -4,6 +4,7 @@ services:
   - type: web
     name: frontend
     env: node
+    plan: starter plus
     repo: https://github.com/near/near-explorer.git
     buildCommand: cd frontend && npm clean-install && npm run build
     startCommand: cd frontend && npm run start
@@ -57,7 +58,7 @@ services:
   - type: web
     name: wamp
     env: docker
-    plan: pro plus
+    plan: standard
     previewPlan: starter
     dockerfilePath: ./wamp/Dockerfile
     dockerContext: ./wamp
