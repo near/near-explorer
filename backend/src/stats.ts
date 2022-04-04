@@ -101,20 +101,19 @@ function retriable(
 ): () => Promise<void> {
   return async function () {
     for (let attempts = 1; ; ++attempts) {
-      console.log(`${action} is getting executed...`);
       try {
         await wrapped();
-        console.log(`${action} has succeeded`);
         return;
       } catch (error) {
-        console.log(
-          `WARNING: ${action} failed to execute ${attempts} times due to: ${trimError(
-            error
-          )}`
-        );
         if (attempts >= 5) {
-          console.log(`ERROR: ${action} has failed after 5 attempts`);
+          console.warn(`ERROR: ${action} has failed after 5 attempts`);
           return;
+        } else {
+          console.warn(
+            `WARNING: ${action} failed to execute ${attempts} times due to: ${trimError(
+              error
+            )}`
+          );
         }
       }
     }

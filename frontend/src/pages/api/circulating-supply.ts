@@ -15,7 +15,7 @@ const handler: NextApiHandler = async (req, res) => {
       await wampApi.getCall(nearNetwork)("get-latest-circulating-supply", [])
     );
   } catch (error) {
-    console.error(error);
+    console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }
 };

@@ -99,7 +99,6 @@ function startDataSourceSpecificJobs(
   getSession: () => Promise<autobahn.Session>
 ): void {
   const regularCheckDataStats = async (): Promise<void> => {
-    console.log(`Starting regular data stats check from Indexer...`);
     try {
       const blocksStats = await queryDashboardBlocksStats();
       const recentTransactionsCount = await queryRecentTransactionsCount();
@@ -120,7 +119,6 @@ function startDataSourceSpecificJobs(
           getSession
         );
       }
-      console.log(`Regular data stats check from Indexer is completed.`);
     } catch (error) {
       console.warn(
         `Regular data stats check from Indexer is crashed due to: ${trimError(
@@ -135,7 +133,6 @@ function startDataSourceSpecificJobs(
 
 function startStatsAggregation(): void {
   const regularStatsAggregate = async (): Promise<void> => {
-    console.log("Starting Regular Stats Aggregation...");
     try {
       //stats part
       // circulating supply
@@ -172,7 +169,7 @@ function startStatsAggregation(): void {
 }
 
 async function main(): Promise<void> {
-  console.log("Starting Explorer backend & WAMP worker...");
+  console.log("Starting Explorer backend & WAMP listener...");
   const getSession = setupWamp();
 
   // Skip initializing Telemetry database if the backend is not configured to
@@ -185,7 +182,6 @@ async function main(): Promise<void> {
 
   // regular transactions count
   const regularPublishTransactionsCount = async (): Promise<void> => {
-    console.log("Starting regular transactions count for week check...");
     try {
       transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
     } catch (error) {
@@ -203,7 +199,6 @@ async function main(): Promise<void> {
 
   // regularly publish the latest information about the height and timestamp of the final block
   const regularPublishFinalityStatus = async (): Promise<void> => {
-    console.log("Starting regular final timestamp check...");
     try {
       const finalBlock = await queryFinalBlock();
       void wampPublish(
@@ -214,7 +209,6 @@ async function main(): Promise<void> {
         },
         getSession
       );
-      console.log("Regular final timestamp check is completed.");
     } catch (error) {
       console.warn("Regular final timestamp check crashed due to:", error);
     }
@@ -227,7 +221,6 @@ async function main(): Promise<void> {
 
   // regularly publish information about validators, proposals, staking pools, and online nodes
   const regularPublishNetworkInfo = async (): Promise<void> => {
-    console.log("Starting regular network info publishing...");
     try {
       const epochStats = await queryEpochStats();
 
@@ -333,7 +326,6 @@ async function main(): Promise<void> {
           getSession
         );
       }
-      console.log("Regular network info publishing is completed.");
     } catch (error) {
       console.warn("Regular network info publishing crashed due to:", error);
     }
@@ -345,7 +337,6 @@ async function main(): Promise<void> {
   // This query works only for 'mainnet'
   function startRegularFetchStakingPoolsMetadataInfo(): void {
     const regularFetchStakingPoolsMetadataInfo = async (): Promise<void> => {
-      console.log(`Starting regular fetching staking pools metadata info...`);
       try {
         const queryRowsCount = 100;
         const fetchPoolsMetadataInfo = (
