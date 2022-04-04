@@ -22,7 +22,7 @@ const handler: NextApiHandler = async (req, res) => {
       ])
       .catch(() => {});
   } catch (error) {
-    console.log(error);
+    console.error(`Handler ${req.url} failed:`, error);
     res.status(400).send(error);
     return;
   }

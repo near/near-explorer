@@ -18,7 +18,7 @@ const handler: NextApiHandler = async (req, res) => {
     const supplyInYoctoNEAR = supply.circulating_supply_in_yoctonear;
     res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));
   } catch (error) {
-    console.error(error);
+    console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }
 };

@@ -21,7 +21,7 @@ const handler: NextApiHandler = async (req, res) => {
     }
     res.send(resp);
   } catch (error) {
-    console.error(error);
+    console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
   }
 };
