@@ -7,6 +7,7 @@ let sessionPromise: Promise<autobahn.Session> | undefined;
 const createSession = async (): Promise<autobahn.Session> => {
   return new Promise((resolve, reject) => {
     const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
+    console.log("Starting WAMP session...");
     const connection = new autobahn.Connection({
       url: (typeof window === "undefined"
         ? serverRuntimeConfig
@@ -18,9 +19,11 @@ const createSession = async (): Promise<autobahn.Session> => {
       max_retry_delay: 10,
     });
     connection.onopen = (session) => {
+      console.log("WAMP session started");
       resolve(session);
     };
     connection.onclose = (reason) => {
+      console.log("WAMP session closed");
       reject(reason);
       return false;
     };
