@@ -58,7 +58,7 @@ services:
   - type: web
     name: wamp
     env: docker
-    plan: standard
+    plan: pro
     previewPlan: starter
     dockerfilePath: ./wamp/Dockerfile
     dockerContext: ./wamp
