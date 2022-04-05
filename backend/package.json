@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "typecheck": "tsc --noEmit",
-    "dev": "ts-node src/index.ts",
+    "dev": "nodemon src/index.ts",
     "dev:testnet": "dotenv -c -e ../testnet.env -- npm run dev",
     "dev:mainnet": "dotenv -c -e ../mainnet.env -- npm run dev",
     "build": "tsc",
@@ -35,9 +35,10 @@
     "typescript": "^4.5.4"
   },
   "devDependencies": {
-    "@types/pg": "^8.6.4",
     "@types/autobahn": "^20.9.0",
     "@types/bn.js": "^5.1.0",
-    "@types/geoip-lite": "^1.4.1"
+    "@types/geoip-lite": "^1.4.1",
+    "@types/pg": "^8.6.4",
+    "nodemon": "^2.0.15"
   }
 }
