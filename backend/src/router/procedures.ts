@@ -190,6 +190,43 @@ export const router = trpc
       )[0] as KeysOfUnion<RPC.FinalExecutionStatus>;
     },
   })
+  .query("transaction", {
+    input: z.strictObject({
+      transactionHash: validators.transactionHash,
+    }),
+    resolve: async ({ input: { transactionHash } }) => {
+      const isTransactionIndexed = await transactions.getIsTransactionIndexed(
+        transactionHash
+      );
+      if (!isTransactionIndexed) {
+        return null;
+      }
+      const transactionBaseInfo = await transactions.getTransactionInfo(
+        transactionHash
+      );
+      if (!transactionBaseInfo) {
+        throw new Error(`No hash ${transactionHash} found`);
+      }
+      const transactionInfo = await nearApi.sendJsonRpc("EXPERIMENTAL_tx_status", [
+        transactionBaseInfo.hash,
+        transactionBaseInfo.signerId,
+      ]);
+
+      return {
+        hash: transactionBaseInfo.hash,
+        created: {
+          timestamp: transactionBaseInfo.blockTimestamp,
+          blockHash: transactionBaseInfo.blockHash,
+        },
+        transactionIndex: transactionBaseInfo.transactionIndex,
+        receipts: transactionInfo.receipts,
+        receiptsOutcome: transactionInfo.receipts_outcome,
+        status: Object.keys(transactionInfo.status)[0],
+        transaction: transactionInfo.transaction,
+        transactionOutcome: transactionInfo.transaction_outcome,
+      };
+    },
+  })
   // accounts
   .query("new-accounts-count-aggregated-by-date", {
     resolve: () => {
