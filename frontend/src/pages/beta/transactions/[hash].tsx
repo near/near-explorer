@@ -4,40 +4,34 @@ import * as React from "react";
 import * as ReactQuery from "react-query";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
-import { IncomingMessage } from "http";
 
-import { getTransaction } from "../../../providers/transactions";
+import { transactionByHashQuery } from "../../../providers/transactions";
 import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
-import wampApi from "../../../libraries/wamp/api";
-import { getNearNetwork } from "../../../libraries/config";
+
+import { useQuery } from "../../../hooks/use-query";
 import {
   createServerQueryClient,
-  serverPrefetchTimeout,
-} from "../../../libraries/pages";
-import { TransactionId } from "../../../libraries/types";
+  getPrefetchObject,
+} from "../../../libraries/queries";
+import { TransactionHash } from "../../../types/nominal";
+import {
+  Transaction,
+  TransactionErrorResponse,
+} from "../../../types/transaction";
 
 import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
-import TransactionContent from "../../../components/beta/transactions/TransactionContent";
+import TransactionActionsList from "../../../components/beta/transactions/TransactionActionsList";
 
 type Props = {
-  hash: TransactionId;
+  hash: TransactionHash;
 };
-
-const getTransactionQueryKey = (hash: TransactionId) => ["transaction", hash];
-const getTransactionByHash = async (
-  hash: TransactionId,
-  req?: IncomingMessage
-) => getTransaction(wampApi.getCall(getNearNetwork(req)), hash);
 
 const TransactionPage: NextPage<Props> = React.memo((props) => {
   useAnalyticsTrackOnMount("Explorer Beta | Individual Transaction Page", {
     transaction_hash: props.hash,
   });
 
-  const transactionQuery = ReactQuery.useQuery(
-    getTransactionQueryKey(props.hash),
-    () => getTransactionByHash(props.hash)
-  );
+  const transactionQuery = useQuery(transactionByHashQuery, props.hash);
 
   return (
     <>
@@ -53,17 +47,23 @@ const TransactionPage: NextPage<Props> = React.memo((props) => {
   );
 });
 
-const TransactionQueryView = React.memo((props) => {
+type QueryProps = ReactQuery.UseQueryResult<
+  Transaction | null,
+  TransactionErrorResponse
+> & {
+  hash: TransactionHash;
+};
+
+const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
   const { t } = useTranslation();
 
   switch (props.status) {
     case "success":
       if (props.data) {
-        console.log("TransactionQueryView | props", props);
         return (
           <>
             <TransactionHeader transaction={props.data} />
-            <TransactionContent transaction={props.data} />
+            <TransactionActionsList transaction={props.data} />
           </>
         );
       }
@@ -85,20 +85,16 @@ const TransactionQueryView = React.memo((props) => {
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  { hash: TransactionId }
+  { hash: TransactionHash }
 > = async ({ req, params }) => {
-  const hash = params?.hash ?? ("" as TransactionId);
-  console.log("id", hash);
-
+  const hash = params?.hash ?? ("" as TransactionHash);
   const queryClient = createServerQueryClient();
-  await queryClient.prefetchQuery(
-    getTransactionQueryKey(hash),
-    serverPrefetchTimeout(() => getTransactionByHash(hash, req))
-  );
+  const prefetchObject = getPrefetchObject(queryClient, req);
+  await prefetchObject.fetch(transactionByHashQuery, hash);
   return {
     props: {
       hash,
-      dehydratedState: ReactQuery.dehydrate(queryClient),
+      dehydratedState: prefetchObject.getDehydratedState(),
     },
   };
 };

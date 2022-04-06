@@ -1,0 +1,95 @@
+import * as React from "react";
+import { useTranslation } from "react-i18next";
+
+import { styled } from "../../../libraries/styles";
+import { shortenString } from "../../../libraries/formatting";
+
+import TransactionType from "./TransactionType";
+// import Gas from "../../utils/Gas";
+
+type Props = {
+  onClick: React.MouseEventHandler;
+  receipt: any;
+};
+
+const Row = styled("div", {
+  width: "100%",
+  padding: 20,
+  display: "flex",
+  background: "$textColor",
+  boxShadow: "0px 0px 30px rgba(66, 0, 255, 0.05)",
+  borderRadius: 6,
+});
+
+const Arrow = styled("img", {
+  width: 17,
+});
+
+const AccountInfo = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  flex: "1 0 auto",
+});
+
+const Divider = styled("div", {
+  height: "100%",
+  width: 1,
+  marginHorizontal: "$space-m",
+});
+
+const AmountHeader = styled("div", {
+  fontSize: "$font-s",
+  color: "#616161",
+  width: 167,
+});
+
+const Amount = styled("div", {
+  fontWeight: 600,
+  fontSize: 20,
+  lineHeight: "30px",
+  color: "#000000",
+  // color: "#0072CE",
+});
+
+const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
+  const { t } = useTranslation();
+  return (
+    <Row onClick={onClick}>
+      <TransactionType actionKind={receipt.actions[0].kind} />
+      <Divider />
+      <AccountInfo>
+        <div>
+          <AmountHeader>{t("pages.transaction.activity.from")}</AmountHeader>
+          <Amount>{shortenString(receipt.signerId)}</Amount>
+        </div>
+        <Divider />
+        <Arrow src="/static/images/ic-from-to.svg" />
+        <Divider />
+        <div>
+          <AmountHeader>{t("pages.transaction.activity.to")}</AmountHeader>
+          <Amount>{shortenString(receipt.receiverId)}</Amount>
+        </div>
+        <Divider />
+        <div>
+          <AmountHeader>{t("pages.transaction.activity.amount")}</AmountHeader>
+          <Amount>--</Amount>
+        </div>
+        <Divider />
+        <div>
+          <AmountHeader>{t("pages.transaction.activity.fee")}</AmountHeader>
+          <Amount>
+            {/* <Gas gas={new BN(receipt.tokensBurnt) || 0} /> */}--
+          </Amount>
+        </div>
+        <Divider />
+        <div>
+          <AmountHeader>{t("pages.transaction.activity.status")}</AmountHeader>
+          <Amount>{Object.keys(receipt.status)[0]}</Amount>
+        </div>
+      </AccountInfo>
+    </Row>
+  );
+});
+
+export default Receipt;

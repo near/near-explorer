@@ -2,7 +2,7 @@ import BN from "bn.js";
 import moment from "moment";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { formatBytes, formatNear } from "../../../libraries/formatting";
+import { formatNear } from "../../../libraries/formatting";
 import { styled } from "../../../libraries/styles";
 
 import CopyToClipboard from "../../beta/common/CopyToClipboard";
@@ -54,7 +54,6 @@ const NumericInfo = styled("div", {
 const NumericDivider = styled("div", {
   height: "100%",
   width: 1,
-  // backgroundColor: "$divider",
   marginHorizontal: "$space-l",
 });
 
@@ -84,9 +83,6 @@ const SuccessIcon = styled("img", {
 
 const TransactionHeader: React.FC<Props> = React.memo((props) => {
   const { t } = useTranslation();
-  console.log("props", props);
-  const hash = props.transaction.transaction.hash;
-
   return (
     <Wrapper>
       <BaseInfo>
@@ -94,9 +90,12 @@ const TransactionHeader: React.FC<Props> = React.memo((props) => {
           <Title>{t("common.transactions.transaction")}</Title>
           <BaseInfoDetails>
             <TransactionHash>
-              {`${hash.slice(0, 7)}...${hash.slice(-4)}`}
+              {`${props.transaction.hash.slice(
+                0,
+                7
+              )}...${props.transaction.hash.slice(-4)}`}
             </TransactionHash>
-            <CopyToClipboard text={hash} />
+            <CopyToClipboard text={props.transaction.hash} />
             {props.transaction.status ? (
               <>
                 <Success>
@@ -114,29 +113,29 @@ const TransactionHeader: React.FC<Props> = React.memo((props) => {
       </BaseInfo>
       <NumericInfo>
         <div>
-          <AmountHeader>Fee</AmountHeader>
+          <AmountHeader>{t("pages.transaction.header.fee")}</AmountHeader>
           <Amount>{formatNear(props.transaction.transactionFee)}</Amount>
         </div>
         <NumericDivider />
         <div>
-          <AmountHeader>Attached</AmountHeader>
+          <AmountHeader>{t("pages.transaction.header.attached")}</AmountHeader>
           <Amount>
             <Gas gas={new BN(props.transaction.gasAttached) || 0} />
           </Amount>
         </div>
         <NumericDivider />
         <div>
-          <AmountHeader>Burned</AmountHeader>
+          <AmountHeader>{t("pages.transaction.header.burned")}</AmountHeader>
           <Amount>
             <Gas gas={new BN(props.transaction.gasUsed) || 0} />
           </Amount>
         </div>
         <NumericDivider />
         <div>
-          <AmountHeader>When</AmountHeader>
+          <AmountHeader>{t("pages.transaction.header.when")}</AmountHeader>
           <Amount>
             {moment(props.transaction.created.timestamp).format(
-              "MM/DD/YYYY h:mm A"
+              t("pages.transaction.dateFormat")
             )}
           </Amount>
         </div>
