@@ -1,17 +1,32 @@
 import BN from "bn.js";
-import {
-  TransactionId,
-  Bytes,
-  UTCTimestamp,
-  YoctoNEAR,
-} from "../libraries/types";
+import { TransactionHash } from "../types/nominal";
+import { failed, QueryConfiguration, successful } from "../libraries/queries";
 import { Action, RPC } from "../libraries/wamp/types";
-import { Transaction } from "../pages/transactions/[hash]";
 import { WampCall } from "../libraries/wamp/api";
 
-export enum TransactionError {
-  Internal = -1,
-}
+import {
+  Transaction,
+  TransactionError,
+  TransactionErrorResponse,
+} from "../types/transaction";
+
+export const transactionByHashQuery: QueryConfiguration<
+  TransactionHash,
+  Transaction | null,
+  TransactionErrorResponse
+> = {
+  getKey: (hash) => ["transaction", hash],
+  fetchData: async (hash, wampCall) =>
+    successful(await getTransaction(wampCall, hash)),
+  onError: async (e) =>
+    failed({
+      error: TransactionError.Internal,
+      details:
+        typeof e === "object" && e && "toString" in e
+          ? e.toString()
+          : String(e),
+    }),
+};
 
 const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   if (action === "CreateAccount") {
@@ -30,14 +45,12 @@ const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   } as Action;
 };
 
-export const getTransaction = async (
+const getTransaction = async (
   wampCall: WampCall,
-  hash: TransactionId
+  hash: TransactionHash
 ): Promise<Transaction | null> => {
   try {
     const wampCallTransaction = await wampCall("transaction", [hash]);
-    console.log("getTransaction | wampCallTransaction", wampCallTransaction);
-
     const {
       hash: transactionHash,
       created,
@@ -76,7 +89,7 @@ export const getTransaction = async (
       string,
       RPC.ExecutionOutcomeWithIdView
     >();
-    receiptsOutcome.forEach((receipt) => {
+    receiptsOutcome.forEach((receipt: any) => {
       receiptOutcomesByIdMap.set(receipt.id, receipt);
     });
 
@@ -84,7 +97,7 @@ export const getTransaction = async (
       string,
       Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
     >();
-    receipts.forEach((receiptItem) => {
+    receipts.forEach((receiptItem: any) => {
       receiptsByIdMap.set(receiptItem.receipt_id, {
         ...receiptItem,
         actions:
@@ -96,7 +109,7 @@ export const getTransaction = async (
 
     const receiptsMap = new Map();
 
-    const collectNestedReceiptWithOutcome = (receiptHash: string) => {
+    const collectNestedReceiptWithOutcome = (receiptHash: string): any => {
       const receipt = receiptsByIdMap.get(receiptHash);
       const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash);
 
@@ -106,13 +119,13 @@ export const getTransaction = async (
       };
 
       const outcome = {
-        includedInBlockHash: receiptOutcome.block_hash,
-        receiptId: receiptOutcome.id,
-        receiverId: receiptOutcome.outcome.executor_id,
-        gasBurnt: receiptOutcome.outcome.gas_burnt,
-        tokensBurnt: receiptOutcome.outcome.tokens_burnt,
-        logs: receiptOutcome.outcome.logs,
-        status: receiptOutcome.outcome.status,
+        includedInBlockHash: receiptOutcome?.block_hash,
+        receiptId: receiptOutcome?.id,
+        receiverId: receiptOutcome?.outcome.executor_id,
+        gasBurnt: receiptOutcome?.outcome.gas_burnt,
+        tokensBurnt: receiptOutcome?.outcome.tokens_burnt,
+        logs: receiptOutcome?.outcome.logs,
+        status: receiptOutcome?.outcome.status,
       };
 
       receiptsMap.set(receiptHash, {
@@ -120,7 +133,7 @@ export const getTransaction = async (
         ...outcome,
       });
 
-      receiptOutcome.outcome.receipt_ids.forEach((executedReceipt: string) =>
+      receiptOutcome?.outcome.receipt_ids.forEach((executedReceipt: string) =>
         collectNestedReceiptWithOutcome(executedReceipt)
       );
 
@@ -128,8 +141,8 @@ export const getTransaction = async (
         ...receipt,
         ...receiptOutcome,
         outcome: {
-          ...receiptOutcome.outcome,
-          outgoing_receipts: receiptOutcome.outcome.receipt_ids.map(
+          ...receiptOutcome?.outcome,
+          outgoing_receipts: receiptOutcome?.outcome.receipt_ids.map(
             (executedReceipt: string) =>
               collectNestedReceiptWithOutcome(executedReceipt)
           ),
@@ -153,7 +166,10 @@ export const getTransaction = async (
       : new BN(0);
     const _gasBurntByReceipts = receiptsOutcome
       ? receiptsOutcome
-          .map((receipt) => new BN(receipt.outcome.gas_burnt))
+          .map(
+            (receipt: RPC.ExecutionOutcomeWithIdView) =>
+              new BN(receipt.outcome.gas_burnt)
+          )
           .reduce(
             (gasBurnt: BN, currentFee: BN) => gasBurnt.add(currentFee),
             new BN(0)
@@ -162,13 +178,13 @@ export const getTransaction = async (
     const gasUsed = _gasBurntByTx.add(_gasBurntByReceipts).toString() as string;
 
     const _actionArgs = txActions.map((action: Action) => action.args);
-    const _gasAttachedArgs = _actionArgs.filter((args) => "gas" in args);
+    const _gasAttachedArgs = _actionArgs.filter((args: any) => "gas" in args);
     const gasAttached =
       _gasAttachedArgs.length === 0
         ? gasUsed
         : (_gasAttachedArgs
             .reduce(
-              (accumulator: BN, args) =>
+              (accumulator: BN, args: any) =>
                 accumulator.add(new BN(args.gas.toString())),
               new BN(0)
             )
@@ -179,7 +195,10 @@ export const getTransaction = async (
       : new BN(0);
     const _tokensBurntByReceipts = receiptsOutcome
       ? receiptsOutcome
-          .map((receipt) => new BN(receipt.outcome.tokens_burnt))
+          .map(
+            (receipt: RPC.ExecutionOutcomeWithIdView) =>
+              new BN(receipt.outcome.tokens_burnt)
+          )
           .reduce(
             (tokenBurnt: BN, currentFee: BN) => tokenBurnt.add(currentFee),
             new BN(0)
@@ -188,8 +207,6 @@ export const getTransaction = async (
     const transactionFee = _tokensBurntByTx
       .add(_tokensBurntByReceipts)
       .toString() as string;
-
-    // const { actions, ...info } = wampCallTransaction.transactionInfo;
 
     collectNestedReceiptWithOutcome(receiptsOutcome[0].id);
 

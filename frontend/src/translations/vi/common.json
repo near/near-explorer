@@ -147,6 +147,27 @@
         },
         "dateFormat": "DD/MM/YYYY h:mm A"
       }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Fee",
+        "attached": "Attached",
+        "burned": "Burned",
+        "when": "When"
+      },
+      "dateFormat": "DD/MM/YYYY h:mm A",
+      "tabs": {
+        "details": "Details",
+        "inspect": "Inspect"
+      },
+      "activity": {
+        "from": "From",
+        "to": "To",
+        "amount": "Amount",
+        "fee": "Fee",
+        "status": "Status"
+      }
     }
   },
   "component": {

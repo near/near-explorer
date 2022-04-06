@@ -641,7 +641,7 @@ export type FinalExecutionStatus =
   | { SuccessValue: String };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.SignedTransactionView.html
-type SignedTransactionView = {
+export type SignedTransactionView = {
   signer_id: AccountId;
   public_key: PublicKey;
   nonce: Nonce;
