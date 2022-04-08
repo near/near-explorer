@@ -368,7 +368,7 @@
         },
         "native_account_balance": {
           "title": "Ⓝ Native Account Balance",
-          "text": "NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the \"total\" balance of all the tokens you may control through this account; see \"Aggregated Balace\" for more details. "
+          "text": "NEAR protocol defines a liquid balance for every account, this is directly used to pay for transactions issued by this account, but it is not the \"total\" balance of all the tokens you may control through this account; see \"Aggregated Balance\" for more details. "
         },
         "validator_stake": {
           "title": "Ⓝ Validator Stake",
