@@ -2,10 +2,10 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { styled } from "../../../libraries/styles";
-import { shortenString } from "../../../libraries/formatting";
+import { formatNear } from "../../../libraries/formatting";
 
+import AccountLink from "../common/AccountLink";
 import TransactionType from "./TransactionType";
-// import Gas from "../../utils/Gas";
 
 type Props = {
   onClick: React.MouseEventHandler;
@@ -49,11 +49,22 @@ const Amount = styled("div", {
   fontSize: 20,
   lineHeight: "30px",
   color: "#000000",
-  // color: "#0072CE",
+});
+
+const AccountLinkWrapper = styled("div", {
+  color: "#0072ce",
+  fontSize: 20,
+  fontWeight: 600,
+  lineHeight: "150%",
+});
+
+const SuccessIcon = styled("img", {
+  width: 11,
 });
 
 const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
   const { t } = useTranslation();
+  const status = Object.keys(receipt.status)[0];
   return (
     <Row onClick={onClick}>
       <TransactionType actionKind={receipt.actions[0].kind} />
@@ -61,31 +72,45 @@ const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
       <AccountInfo>
         <div>
           <AmountHeader>{t("pages.transaction.activity.from")}</AmountHeader>
-          <Amount>{shortenString(receipt.signerId)}</Amount>
+          <Amount>
+            <AccountLinkWrapper>
+              <AccountLink accountId={receipt.signerId} />
+            </AccountLinkWrapper>
+          </Amount>
         </div>
         <Divider />
         <Arrow src="/static/images/ic-from-to.svg" />
         <Divider />
         <div>
           <AmountHeader>{t("pages.transaction.activity.to")}</AmountHeader>
-          <Amount>{shortenString(receipt.receiverId)}</Amount>
-        </div>
-        <Divider />
-        <div>
-          <AmountHeader>{t("pages.transaction.activity.amount")}</AmountHeader>
-          <Amount>--</Amount>
-        </div>
-        <Divider />
-        <div>
-          <AmountHeader>{t("pages.transaction.activity.fee")}</AmountHeader>
           <Amount>
-            {/* <Gas gas={new BN(receipt.tokensBurnt) || 0} /> */}--
+            <AccountLinkWrapper>
+              <AccountLink accountId={receipt.receiverId} />
+            </AccountLinkWrapper>
           </Amount>
         </div>
         <Divider />
         <div>
+          <AmountHeader>{t("pages.transaction.activity.amount")}</AmountHeader>
+          <Amount>{formatNear(receipt.deposit)}</Amount>
+        </div>
+        <Divider />
+        <div>
+          <AmountHeader>{t("pages.transaction.activity.fee")}</AmountHeader>
+          <Amount>{formatNear(receipt.tokensBurnt)}</Amount>
+        </div>
+        <Divider />
+        <div>
           <AmountHeader>{t("pages.transaction.activity.status")}</AmountHeader>
-          <Amount>{Object.keys(receipt.status)[0]}</Amount>
+          <Amount>
+            {["Started", "SuccessValue"].indexOf(status) >= 0 ? (
+              <>
+                <SuccessIcon src="/static/images/icon-success.svg" />
+              </>
+            ) : (
+              "failed"
+            )}
+          </Amount>
         </div>
       </AccountInfo>
     </Row>

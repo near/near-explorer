@@ -24,20 +24,8 @@ const InspectReceipt: React.FC<Props> = React.memo(({ receipt }) => {
   return (
     <Table>
       <tr>
-        <TableElement>Signed with</TableElement>
-        <TableElement></TableElement>
-      </tr>
-      <tr>
         <TableElement>Receipt ID</TableElement>
         <TableElement>{receipt.receiptId}</TableElement>
-      </tr>
-      <tr>
-        <TableElement>Executed</TableElement>
-        <TableElement></TableElement>
-      </tr>
-      <tr>
-        <TableElement>Signed By</TableElement>
-        <TableElement>{receipt.signerId}</TableElement>
       </tr>
       <tr>
         <TableElement>Executed in Block</TableElement>
@@ -45,7 +33,7 @@ const InspectReceipt: React.FC<Props> = React.memo(({ receipt }) => {
       </tr>
       <tr>
         <TableElement>Predecessor ID</TableElement>
-        <TableElement>--</TableElement>
+        <TableElement>{receipt.signerId}</TableElement>
       </tr>
       <tr>
         <TableElement>Receiver ID</TableElement>
@@ -68,16 +56,12 @@ const InspectReceipt: React.FC<Props> = React.memo(({ receipt }) => {
         </TableElement>
       </tr>
       <tr>
-        <TableElement>Precharged</TableElement>
-        <TableElement>--</TableElement>
-      </tr>
-      <tr>
         <TableElement>Tokens Burned</TableElement>
-        <TableElement>{formatNear(receipt.tokensBurned)}</TableElement>
+        <TableElement>{formatNear(receipt.tokensBurnt)}</TableElement>
       </tr>
       <tr>
         <TableElement>Refunded</TableElement>
-        <TableElement>--</TableElement>
+        <TableElement>{formatNear(receipt.refunded)}</TableElement>
       </tr>
     </Table>
   );
