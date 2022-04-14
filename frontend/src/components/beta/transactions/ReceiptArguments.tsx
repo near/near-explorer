@@ -4,6 +4,7 @@ import { Action, ActionMapping } from "../../../libraries/wamp/types";
 import { formatNear } from "../../../libraries/formatting";
 
 import AccountLink from "../common/AccountLink";
+import { YoctoNEAR } from "../../..//types/nominal";
 
 interface Props<A extends Action> {
   actionKind: A["kind"];
@@ -79,7 +80,7 @@ const Transfer: TransactionMessageRenderers["Transfer"] = React.memo(
     return (
       <>
         {t("component.transactions.ActionMessage.Transfer.transferred")}
-        {formatNear(deposit)}
+        {formatNear(deposit as YoctoNEAR)}
         {t("component.transactions.ActionMessage.Transfer.to")}
         <AccountLink accountId={receiverId} />
       </>
@@ -93,7 +94,7 @@ const Stake: TransactionMessageRenderers["Stake"] = React.memo(
     return (
       <>
         {t("component.transactions.ActionMessage.Stake.staked")}
-        {formatNear(stake)}{" "}
+        {formatNear(stake as YoctoNEAR)}{" "}
         {t("component.transactions.ActionMessage.Stake.with_key", {
           public_key: public_key.substring(0, 15),
         })}

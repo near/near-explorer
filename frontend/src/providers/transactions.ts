@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { TransactionHash } from "../types/nominal";
+import { TransactionHash, YoctoNEAR } from "../types/nominal";
 import { failed, QueryConfiguration, successful } from "../libraries/queries";
 import { Action, RPC } from "../libraries/wamp/types";
 import { WampCall } from "../libraries/wamp/api";
@@ -8,6 +8,8 @@ import {
   Transaction,
   TransactionError,
   TransactionErrorResponse,
+  TransactionReceipt,
+  RefundReceipt,
 } from "../types/transaction";
 
 export const transactionByHashQuery: QueryConfiguration<
@@ -45,7 +47,7 @@ const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   } as Action;
 };
 
-const getDeposit = (actions: any[]) =>
+const getDeposit = (actions: Action[]) =>
   actions
     .map((action: Action) => {
       if ("deposit" in action.args) {
@@ -58,7 +60,7 @@ const getDeposit = (actions: any[]) =>
       (accumulator: BN, deposit: BN) => accumulator.add(deposit),
       new BN(0)
     )
-    .toString() as string;
+    .toString() as YoctoNEAR;
 
 const getTransaction = async (
   wampCall: WampCall,
@@ -77,7 +79,9 @@ const getTransaction = async (
       receiptsOutcome,
     } = wampCallTransaction;
 
-    const txActions = transaction.actions?.map(mapRpcActionToAction);
+    const txActions = transaction.actions?.map(
+      mapRpcActionToAction
+    ) as Action[];
 
     if (
       receipts.length === 0 ||
@@ -136,18 +140,15 @@ const getTransaction = async (
     const collectNestedReceiptWithOutcome = (
       receiptHash: string,
       parentReceiptHash: string | null = null
-    ): any => {
+    ): TransactionReceipt[] => {
       const receipt = receiptsByIdMap.get(receiptHash);
       const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash);
 
-      const _receipt = {
-        actions: receipt?.actions,
-        deposit: getDeposit(receipt?.actions ?? []),
-        signerId: receipt?.predecessor_id, // do we need to rename 'signerId' to 'predecessor_id'?
+      receiptsMap.set(receiptHash, {
+        actions: receipt!.actions, // need to resolve '!' and '?'
+        deposit: getDeposit(receipt?.actions ?? []) || null,
+        signerId: receipt!.predecessor_id, // do we need to rename 'signerId' to 'predecessor_id'?
         parentReceiptHash,
-      };
-
-      const outcome = {
         includedInBlockHash: receiptOutcome?.block_hash, // executed in block
         receiptId: receiptOutcome?.id,
         receiverId: receiptOutcome?.outcome.executor_id,
@@ -155,31 +156,20 @@ const getTransaction = async (
         tokensBurnt: receiptOutcome?.outcome.tokens_burnt,
         logs: receiptOutcome?.outcome.logs,
         status: receiptOutcome?.outcome.status,
-      };
-
-      receiptsMap.set(receiptHash, {
-        ..._receipt,
-        ...outcome,
       });
 
-      return {
-        ...receipt,
-        ...receiptOutcome,
-        outcome: {
-          ...receiptOutcome?.outcome,
-          outgoing_receipts: receiptOutcome?.outcome.receipt_ids.map(
-            (executedReceipt: string) =>
-              collectNestedReceiptWithOutcome(executedReceipt, receiptHash)
-          ),
-        },
-      };
+      receiptOutcome?.outcome.receipt_ids.forEach((executedReceipt: string) =>
+        collectNestedReceiptWithOutcome(executedReceipt, receiptHash)
+      );
+
+      return [...receiptsMap.values()];
     };
 
     const _gasBurntByTx = transactionOutcome
       ? new BN(transactionOutcome.outcome.gas_burnt)
       : new BN(0);
     const _gasBurntByReceipts = receiptsOutcome
-      ? receiptsOutcome
+      ? (receiptsOutcome
           .map(
             (receipt: RPC.ExecutionOutcomeWithIdView) =>
               new BN(receipt.outcome.gas_burnt)
@@ -187,18 +177,22 @@ const getTransaction = async (
           .reduce(
             (gasBurnt: BN, currentFee: BN) => gasBurnt.add(currentFee),
             new BN(0)
-          )
+          ) as BN)
       : new BN(0);
     const gasUsed = _gasBurntByTx.add(_gasBurntByReceipts).toString() as string;
 
-    const _actionArgs = txActions.map((action: Action) => action.args);
-    const _gasAttachedArgs = _actionArgs.filter((args: any) => "gas" in args);
+    const _actionArgs = txActions.map((action) => action.args);
+    const _gasAttachedArgs = _actionArgs.filter(
+      (args): args is RPC.FunctionCallActionView["FunctionCall"] =>
+        "gas" in args
+    );
+
     const gasAttached =
       _gasAttachedArgs.length === 0
         ? gasUsed
         : (_gasAttachedArgs
             .reduce(
-              (accumulator: BN, args: any) =>
+              (accumulator: BN, args) =>
                 accumulator.add(new BN(args.gas.toString())),
               new BN(0)
             )
@@ -208,7 +202,7 @@ const getTransaction = async (
       ? new BN(transactionOutcome.outcome.tokens_burnt)
       : new BN(0);
     const _tokensBurntByReceipts = receiptsOutcome
-      ? receiptsOutcome
+      ? (receiptsOutcome
           .map(
             (receipt: RPC.ExecutionOutcomeWithIdView) =>
               new BN(receipt.outcome.tokens_burnt)
@@ -216,25 +210,30 @@ const getTransaction = async (
           .reduce(
             (tokenBurnt: BN, currentFee: BN) => tokenBurnt.add(currentFee),
             new BN(0)
-          )
+          ) as BN)
       : new BN(0);
     const transactionFee = _tokensBurntByTx
       .add(_tokensBurntByReceipts)
       .toString() as string;
 
-    collectNestedReceiptWithOutcome(receiptsOutcome[0].id);
-    const receiptsToValues = [...receiptsMap.values()];
+    const receiptsToValues = collectNestedReceiptWithOutcome(
+      receiptsOutcome[0].id
+    );
+    console.log("receiptsToValues", receiptsToValues);
 
-    receiptsToValues.forEach((receipt) => {
+    const refundReceiptsMap: Map<string, RefundReceipt> = new Map();
+    receiptsToValues.forEach((receipt: any) => {
+      // 'needs to resolve'
       const parentReceipt = receiptsMap.get(receipt.parentReceiptHash);
       if (receipt.signerId === "system" && parentReceipt) {
-        receiptsMap.set(receipt.parentReceiptHash, {
-          ...parentReceipt,
-          refunded: getDeposit(receipt.actions),
+        refundReceiptsMap.set(receipt.parentReceiptHash, {
+          ...receipt,
+          refund: getDeposit(receipt.actions),
         });
-        receiptsMap.delete(receipt.receiptId);
       }
     });
+
+    console.log("refundReceiptsMap", refundReceiptsMap);
 
     const response = {
       hash: transactionHash,
@@ -247,6 +246,7 @@ const getTransaction = async (
       gasUsed,
       gasAttached,
       receipts: [...receiptsMap.values()],
+      refundReceipts: [...refundReceiptsMap.values()],
     };
 
     return response;

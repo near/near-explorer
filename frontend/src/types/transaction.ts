@@ -1,9 +1,11 @@
 import {
   // Bytes,
+  AccountId,
+  ReceiptId,
   BlockHash,
   TransactionHash,
   UTCTimestamp,
-  // YoctoNEAR,
+  YoctoNEAR,
 } from "./nominal";
 
 import {
@@ -26,7 +28,37 @@ export type Transaction = {
   status: KeysOfUnion<RPC.FinalExecutionStatus>;
   gasUsed: string;
   gasAttached: string;
-  receipts: NestedReceiptWithOutcome[];
+  receipts: TransactionReceipt[];
+  refundReceipts: RefundReceipt[];
+};
+
+export type TransactionReceipt = {
+  actions: Action[];
+  deposit?: YoctoNEAR;
+  signerId: string;
+  parentReceiptHash?: ReceiptId;
+  includedInBlockHash?: string;
+  receiptId: ReceiptId;
+  receiverId: AccountId;
+  gasBurnt?: number;
+  tokensBurnt: YoctoNEAR;
+  logs?: string[];
+  status: RPC.ExecutionStatusView;
+};
+
+export type RefundReceipt = {
+  actions: Action[];
+  deposit?: YoctoNEAR;
+  signerId: string;
+  parentReceiptHash: ReceiptId;
+  includedInBlockHash?: string;
+  receiptId: ReceiptId;
+  receiverId: AccountId;
+  gasBurnt?: number;
+  tokensBurnt: YoctoNEAR;
+  logs?: string[];
+  status: RPC.ExecutionStatusView;
+  refund?: YoctoNEAR;
 };
 
 export type TransactionOutcome = {
