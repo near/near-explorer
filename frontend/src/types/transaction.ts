@@ -8,6 +8,7 @@ import {
 
 import {
   Action,
+  KeysOfUnion,
   // TransactionBaseInfo,
   RPC,
 } from "../libraries/wamp/types";
@@ -22,12 +23,10 @@ export type Transaction = {
   transactionIndex: number;
   transactionFee: string;
   transactionOutcome: TransactionOutcome;
-  status: string;
+  status: KeysOfUnion<RPC.FinalExecutionStatus>;
   gasUsed: string;
   gasAttached: string;
-  // receipts
-  receipt: NestedReceiptWithOutcome;
-  receiptsOutcome: RPC.ExecutionOutcomeWithIdView[];
+  receipts: NestedReceiptWithOutcome[];
 };
 
 export type TransactionOutcome = {

@@ -930,6 +930,21 @@ export const queryBlockByHashOrId = async (blockId: string | number) => {
   return selection.limit(1).executeTakeFirst();
 };
 
+const queryBlockHeightByHash = async (
+  blockHash: string
+): Promise<{ block_height: number } | undefined> => {
+  return await querySingleRow<{ block_height: number }, { block_hash: string }>(
+    [
+      `SELECT block_height
+       FROM blocks
+       WHERE block_hash = :block_hash
+       LIMIT 1`,
+      { block_hash: blockHash },
+    ],
+    { dataSource: DataSource.Indexer }
+  );
+};
+
 // receipts
 export const queryReceiptsCountInBlock = async (blockHash: string) => {
   return indexerDatabase

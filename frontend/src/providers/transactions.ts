@@ -45,6 +45,21 @@ const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   } as Action;
 };
 
+const getDeposit = (actions: any[]) =>
+  actions
+    .map((action: Action) => {
+      if ("deposit" in action.args) {
+        return new BN(action.args.deposit);
+      } else {
+        return new BN(0);
+      }
+    })
+    .reduce(
+      (accumulator: BN, deposit: BN) => accumulator.add(deposit),
+      new BN(0)
+    )
+    .toString() as string;
+
 const getTransaction = async (
   wampCall: WampCall,
   hash: TransactionHash
@@ -85,41 +100,55 @@ const getTransaction = async (
       });
     }
 
-    const receiptOutcomesByIdMap = new Map<
-      string,
-      RPC.ExecutionOutcomeWithIdView
-    >();
-    receiptsOutcome.forEach((receipt: any) => {
-      receiptOutcomesByIdMap.set(receipt.id, receipt);
-    });
+    const receiptOutcomesByIdMap = receiptsOutcome.reduce(
+      (
+        acc: Map<string, RPC.ExecutionOutcomeWithIdView>,
+        receipt: RPC.ExecutionOutcomeWithIdView
+      ) => {
+        acc.set(receipt.id, receipt);
+        return acc;
+      },
+      new Map()
+    ) as Map<string, RPC.ExecutionOutcomeWithIdView>;
 
-    const receiptsByIdMap = new Map<
-      string,
-      Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
-    >();
-    receipts.forEach((receiptItem: any) => {
-      receiptsByIdMap.set(receiptItem.receipt_id, {
-        ...receiptItem,
-        actions:
-          "Action" in receiptItem.receipt
-            ? receiptItem.receipt.Action.actions.map(mapRpcActionToAction)
-            : [],
-      });
-    });
+    const receiptsByIdMap = receipts.reduce(
+      (
+        acc: Map<
+          string,
+          Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
+        >,
+        receiptItem: Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
+      ) => {
+        acc.set(receiptItem.receipt_id, {
+          ...receiptItem,
+          actions:
+            "Action" in receiptItem.receipt
+              ? receiptItem.receipt.Action.actions.map(mapRpcActionToAction)
+              : [],
+        });
+        return acc;
+      },
+      new Map()
+    ) as Map<string, Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }>;
 
     const receiptsMap = new Map();
 
-    const collectNestedReceiptWithOutcome = (receiptHash: string): any => {
+    const collectNestedReceiptWithOutcome = (
+      receiptHash: string,
+      parentReceiptHash: string | null = null
+    ): any => {
       const receipt = receiptsByIdMap.get(receiptHash);
       const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash);
 
       const _receipt = {
         actions: receipt?.actions,
-        signerId: receipt?.predecessor_id,
+        deposit: getDeposit(receipt?.actions ?? []),
+        signerId: receipt?.predecessor_id, // do we need to rename 'signerId' to 'predecessor_id'?
+        parentReceiptHash,
       };
 
       const outcome = {
-        includedInBlockHash: receiptOutcome?.block_hash,
+        includedInBlockHash: receiptOutcome?.block_hash, // executed in block
         receiptId: receiptOutcome?.id,
         receiverId: receiptOutcome?.outcome.executor_id,
         gasBurnt: receiptOutcome?.outcome.gas_burnt,
@@ -133,10 +162,6 @@ const getTransaction = async (
         ...outcome,
       });
 
-      receiptOutcome?.outcome.receipt_ids.forEach((executedReceipt: string) =>
-        collectNestedReceiptWithOutcome(executedReceipt)
-      );
-
       return {
         ...receipt,
         ...receiptOutcome,
@@ -144,22 +169,11 @@ const getTransaction = async (
           ...receiptOutcome?.outcome,
           outgoing_receipts: receiptOutcome?.outcome.receipt_ids.map(
             (executedReceipt: string) =>
-              collectNestedReceiptWithOutcome(executedReceipt)
+              collectNestedReceiptWithOutcome(executedReceipt, receiptHash)
           ),
         },
       };
     };
-
-    // const deposit = transaction.actions
-    //   .map((action: Action) => {
-    //     if ("deposit" in action.args) {
-    //       return new BN(action.args.deposit);
-    //     } else {
-    //       return new BN(0);
-    //     }
-    //   })
-    //   .reduce((accumulator: BN, deposit: BN) => accumulator.add(deposit), new BN(0))
-    //   .toString() as string;
 
     const _gasBurntByTx = transactionOutcome
       ? new BN(transactionOutcome.outcome.gas_burnt)
@@ -209,6 +223,18 @@ const getTransaction = async (
       .toString() as string;
 
     collectNestedReceiptWithOutcome(receiptsOutcome[0].id);
+    const receiptsToValues = [...receiptsMap.values()];
+
+    receiptsToValues.forEach((receipt) => {
+      const parentReceipt = receiptsMap.get(receipt.parentReceiptHash);
+      if (receipt.signerId === "system" && parentReceipt) {
+        receiptsMap.set(receipt.parentReceiptHash, {
+          ...parentReceipt,
+          refunded: getDeposit(receipt.actions),
+        });
+        receiptsMap.delete(receipt.receiptId);
+      }
+    });
 
     const response = {
       hash: transactionHash,
@@ -221,8 +247,6 @@ const getTransaction = async (
       gasUsed,
       gasAttached,
       receipts: [...receiptsMap.values()],
-      receipt: collectNestedReceiptWithOutcome(receiptsOutcome[0].id),
-      receiptsOutcome,
     };
 
     return response;

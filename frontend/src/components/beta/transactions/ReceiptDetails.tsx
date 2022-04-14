@@ -5,6 +5,7 @@ import { styled } from "../../../libraries/styles";
 
 import { Args } from "../../transactions/ActionMessage";
 import ReceiptStatus from "./ReceiptStatus";
+import ReceiptArguments from "./ReceiptArguments";
 
 type Props = {
   receipt: any;
@@ -38,6 +39,10 @@ const CodeArgs = styled("div", {
   },
 });
 
+const ArgumentsWrapper = styled("span", {
+  lineHeight: "175%",
+});
+
 const Title = styled("h4", {
   fontSize: 16,
   fontWeight: 700,
@@ -49,40 +54,61 @@ const ReceiptDetails: React.FC<Props> = React.memo(({ receipt }) => {
   const { t } = useTranslation();
   return (
     <DetailsWrapper>
-      <Column>
-        <Title>Arguments</Title>
-        <CodeArgs>
-          {"args" in receipt.actions[0].args ? (
-            <Args args={receipt.actions[0].args.args} />
-          ) : (
-            "The arguments are empty"
-          )}
-        </CodeArgs>
-      </Column>
-      <Column>
-        <div>
-          <Title>Result</Title>
-          <CodeArgs>
-            {"SuccessValue" in receipt.status &&
-            receipt.status["SuccessValue"].length === 0 ? (
-              t("component.transactions.ReceiptRow.empty_result")
-            ) : (
-              <ReceiptStatus status={receipt.status} />
-            )}
-          </CodeArgs>
-        </div>
+      {"args" in receipt.actions[0].args ? (
+        <>
+          <Column>
+            <Title>
+              Arguments:{" "}
+              <ArgumentsWrapper>
+                <ReceiptArguments
+                  receiverId={receipt.receiverId}
+                  actionKind={receipt.actions[0].kind}
+                  actionArgs={receipt.actions[0].args}
+                />
+              </ArgumentsWrapper>
+            </Title>
+            <CodeArgs>
+              {"args" in receipt.actions[0].args ? (
+                <Args args={receipt.actions[0].args.args} />
+              ) : (
+                "The arguments are empty"
+              )}
+            </CodeArgs>
+          </Column>
+          <Column>
+            <div>
+              <Title>Result</Title>
+              <CodeArgs>
+                {"SuccessValue" in receipt.status &&
+                receipt.status["SuccessValue"].length === 0 ? (
+                  t("component.transactions.ReceiptRow.empty_result")
+                ) : (
+                  <ReceiptStatus status={receipt.status} />
+                )}
+              </CodeArgs>
+            </div>
 
-        <div>
-          <Title>Logs</Title>
-          <CodeArgs>
-            {receipt.logs.length === 0 ? (
-              t("component.transactions.ReceiptRow.no_logs")
-            ) : (
-              <pre>{receipt.logs.join("\n")}</pre>
-            )}
-          </CodeArgs>
-        </div>
-      </Column>
+            <div>
+              <Title>Logs</Title>
+              <CodeArgs>
+                {receipt.logs.length === 0 ? (
+                  t("component.transactions.ReceiptRow.no_logs")
+                ) : (
+                  <pre>{receipt.logs.join("\n")}</pre>
+                )}
+              </CodeArgs>
+            </div>
+          </Column>
+        </>
+      ) : (
+        <ArgumentsWrapper>
+          <ReceiptArguments
+            receiverId={receipt.receiverId}
+            actionKind={receipt.actions[0].kind}
+            actionArgs={receipt.actions[0].args}
+          />
+        </ArgumentsWrapper>
+      )}
     </DetailsWrapper>
   );
 });

@@ -6,8 +6,8 @@ import { formatNear } from "../../../libraries/formatting";
 import { styled } from "../../../libraries/styles";
 
 import CopyToClipboard from "../../beta/common/CopyToClipboard";
-import TransactionExecutionStatus from "../../transactions/TransactionExecutionStatus";
 import Gas from "../../utils/Gas";
+import TransactionStatus from "./TransactionStatus";
 
 type Props = {
   transaction: any;
@@ -69,18 +69,6 @@ const Amount = styled("div", {
   marginTop: "$space-m",
 });
 
-const Success = styled("div", {
-  color: "$success",
-  fontSize: "$font-m",
-  fontWeight: 600,
-  marginLeft: 14,
-});
-
-const SuccessIcon = styled("img", {
-  marginLeft: 5,
-  width: 11,
-});
-
 const TransactionHeader: React.FC<Props> = React.memo((props) => {
   const { t } = useTranslation();
   return (
@@ -96,18 +84,7 @@ const TransactionHeader: React.FC<Props> = React.memo((props) => {
               )}...${props.transaction.hash.slice(-4)}`}
             </TransactionHash>
             <CopyToClipboard text={props.transaction.hash} />
-            {props.transaction.status ? (
-              <>
-                <Success>
-                  <TransactionExecutionStatus
-                    status={props.transaction.status}
-                  />
-                </Success>
-                <SuccessIcon src="/static/images/icon-success.svg" />
-              </>
-            ) : (
-              t("common.blocks.status.fetching_status")
-            )}
+            <TransactionStatus status={props.transaction.status} />
           </BaseInfoDetails>
         </div>
       </BaseInfo>
