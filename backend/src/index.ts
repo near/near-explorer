@@ -76,9 +76,7 @@ type PoolMetadataInfo = Record<PoolMetadataAccountId, PoolMetadataAccountInfo>;
 const nonValidatingNodeStatuses = ["on-hold", "newcomer", "idle"];
 
 type StakingNodeInfo = StakingNodeWithTelemetryInfo & {
-  fee?: NonNullable<StakingPoolInfo["fee"]>;
-  delegatorsCount?: NonNullable<StakingPoolInfo["delegatorsCount"]>;
-  currentStake?: NonNullable<StakingPoolInfo["currentStake"]>;
+  stakingPoolInfo?: StakingPoolInfo;
   poolDetails?: PoolMetadataAccountInfo;
   stakingStatus?: StakingStatus;
 };
@@ -276,9 +274,7 @@ async function main(): Promise<void> {
           }
           return {
             ...validator,
-            fee: stakingPoolInfo.fee ?? undefined,
-            delegatorsCount: stakingPoolInfo.delegatorsCount ?? undefined,
-            currentStake: stakingPoolInfo.currentStake ?? "0",
+            stakingPoolInfo,
             poolDetails: stakingPoolsMetadataInfo.get(validator.account_id),
             stakingStatus,
           };
@@ -381,14 +377,12 @@ async function main(): Promise<void> {
     try {
       if (stakingNodes.length > 0) {
         for (let i = 0; i < stakingNodes.length; i++) {
-          const {
-            account_id,
-            stakingStatus,
-            currentStake: activeNodeStake,
-          } = stakingNodes[i];
+          const { account_id, stakingStatus, stakingPoolInfo } = stakingNodes[
+            i
+          ];
 
           try {
-            let currentStake = activeNodeStake || null;
+            let currentStake = stakingPoolInfo?.currentStake || null;
             const account = await sendJsonRpcQuery("view_account", {
               account_id: account_id,
               finality: "final",
@@ -418,7 +412,7 @@ async function main(): Promise<void> {
               stakingPoolsInfo.set(account_id, {
                 fee: null,
                 delegatorsCount: null,
-                currentStake: currentStake || null,
+                currentStake,
               });
             } else {
               const fee = await callViewMethod<{

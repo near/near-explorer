@@ -59,22 +59,14 @@ const ValidatorRow: React.FC<Props> = React.memo(
     ]);
     let totalStakeInPersnt = 0;
     let cumulativeStake = 0;
-    let validatorFee =
-      typeof node.fee === "undefined"
-        ? undefined
-        : node.fee === null
-        ? null
-        : `${((node.fee.numerator / node.fee.denominator) * 100).toFixed(0)}%`;
-    let validatorDelegators =
-      typeof node.delegatorsCount === "undefined"
-        ? undefined
-        : node.delegatorsCount === null
-        ? null
-        : node.delegatorsCount;
 
-    if (node.currentStake && totalStake) {
+    if (
+      node.stakingPoolInfo?.currentStake &&
+      totalStake &&
+      !totalStake.isZero()
+    ) {
       totalStakeInPersnt =
-        new BN(node.currentStake)
+        new BN(node.stakingPoolInfo.currentStake)
           .mul(new BN(10000))
           .div(totalStake)
           .toNumber() / 100;
@@ -82,7 +74,11 @@ const ValidatorRow: React.FC<Props> = React.memo(
 
     const cumulativeStakeAmount =
       node.cumulativeStakeAmount && new BN(node.cumulativeStakeAmount);
-    if (node.currentStake && totalStake && cumulativeStakeAmount) {
+    if (
+      node.stakingPoolInfo?.currentStake &&
+      totalStake &&
+      cumulativeStakeAmount
+    ) {
       cumulativeStake =
         cumulativeStakeAmount.mul(new BN(10000)).div(totalStake).toNumber() /
         100;
@@ -107,9 +103,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
           country={node.poolDetails?.country}
           stakingStatus={node.stakingStatus}
           publicKey={node.public_key}
-          validatorFee={validatorFee}
-          validatorDelegators={validatorDelegators}
-          currentStake={node.currentStake}
+          stakingPoolInfo={node.stakingPoolInfo}
           proposedStakeForNextEpoch={node.proposedStake}
           cumulativeStake={cumulativeStake}
           totalStakeInPersnt={totalStakeInPersnt}

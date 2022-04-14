@@ -18,7 +18,14 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
     public_key: "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
     shards: [0],
     stakingStatus: "active",
-    currentStake: "42476926077593266003727024545752",
+    stakingPoolInfo: {
+      fee: {
+        numerator: 10,
+        denominator: 100,
+      },
+      delegatorsCount: 874,
+      currentStake: "42476926077593266003727024545752",
+    },
     proposedStake: "42585554199314238406961230826241",
     nodeInfo: {
       ipAddress: "44.226.195.207",
@@ -33,11 +40,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "-119.7143",
       city: "Boardman",
     },
-    fee: {
-      numerator: 10,
-      denominator: 100,
-    },
-    delegatorsCount: 874,
     cumulativeStakeAmount: "42476926077593266003727024545752",
   },
   // 'active' without poolDetails
@@ -57,7 +59,14 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
     public_key: "ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62",
     shards: [0],
     stakingStatus: "active",
-    currentStake: "20814924218405478221870785686346",
+    stakingPoolInfo: {
+      fee: {
+        numerator: 10,
+        denominator: 100,
+      },
+      delegatorsCount: 436,
+      currentStake: "20814924218405478221870785686346",
+    },
     proposedStake: "20816469293003621239852045782324",
     nodeInfo: {
       ipAddress: "34.222.123.106",
@@ -72,11 +81,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "-119.7143",
       city: "Boardman",
     },
-    fee: {
-      numerator: 10,
-      denominator: 100,
-    },
-    delegatorsCount: 436,
     cumulativeStakeAmount: "63291850295998744225597810232098",
   },
   // 'active' with all data
@@ -96,7 +100,14 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
     public_key: "ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28",
     shards: [0],
     stakingStatus: "active",
-    currentStake: "17776328380244893436869022330562",
+    stakingPoolInfo: {
+      fee: {
+        numerator: 1,
+        denominator: 100,
+      },
+      delegatorsCount: 1774,
+      currentStake: "17776328380244893436869022330562",
+    },
     proposedStake: "17777040818619949427934165446355",
     nodeInfo: {
       ipAddress: "145.239.1.147",
@@ -111,11 +122,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "9.491",
       city: "",
     },
-    fee: {
-      numerator: 1,
-      denominator: 100,
-    },
-    delegatorsCount: 1774,
     poolDetails: {
       twitter: "@astrostakers",
       url: "astrostakers.com",
@@ -132,7 +138,14 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
     public_key: "ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v",
     shards: [0],
     stakingStatus: "joining",
-    currentStake: "3735553291238507324807526403326",
+    stakingPoolInfo: {
+      fee: {
+        numerator: 3,
+        denominator: 100,
+      },
+      delegatorsCount: 148,
+      currentStake: "3735553291238507324807526403326",
+    },
     proposedStake: "3736122287791333873791529790832",
     nodeInfo: {
       ipAddress: "135.181.24.210",
@@ -147,11 +160,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "-79.3716",
       city: "",
     },
-    fee: {
-      numerator: 3,
-      denominator: 100,
-    },
-    delegatorsCount: 148,
     poolDetails: {
       email: "baziliknear@gmail.com",
       description: "pool commission 0% until 01.01.2021, then 1%",
@@ -162,7 +170,14 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
   {
     account_id: "cryptium.poolv1.near",
     public_key: "ed25519:5Y9hW8cKBb5RnsJBqttHHC5ujz5zcZZ5xnrJPwkCWmGQ",
-    currentStake: "",
+    stakingPoolInfo: {
+      fee: {
+        numerator: 5,
+        denominator: 100,
+      },
+      delegatorsCount: 129,
+      currentStake: null,
+    },
     proposedStake: "2656963060607021394774204108064",
     stakingStatus: "proposal",
     nodeInfo: {
@@ -178,11 +193,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "-79.3716",
       city: "",
     },
-    fee: {
-      numerator: 5,
-      denominator: 100,
-    },
-    delegatorsCount: 129,
     poolDetails: {
       country_code: "CH",
       description: "Secure and available validation from the Swiss Alps!",
@@ -194,12 +204,14 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
   // newcomer
   {
     account_id: "huobipool.poolv1.near",
-    fee: {
-      numerator: 10,
-      denominator: 100,
+    stakingPoolInfo: {
+      fee: {
+        numerator: 10,
+        denominator: 100,
+      },
+      delegatorsCount: 10,
+      currentStake: "1200162400050342684350218962960",
     },
-    delegatorsCount: 10,
-    currentStake: "1200162400050342684350218962960",
     stakingStatus: "newcomer",
   },
   // idle
@@ -218,23 +230,27 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "-119.7143",
       city: "Boardman",
     },
-    fee: {
-      numerator: 7,
-      denominator: 100,
+    stakingPoolInfo: {
+      fee: {
+        numerator: 7,
+        denominator: 100,
+      },
+      delegatorsCount: 9,
+      currentStake: "442471954465888931932802773752",
     },
-    delegatorsCount: 9,
-    currentStake: "442471954465888931932802773752",
     stakingStatus: "idle",
   },
   // idle with minimum data
   {
     account_id: "sphere.poolv1.near",
-    fee: {
-      numerator: 8,
-      denominator: 100,
+    stakingPoolInfo: {
+      fee: {
+        numerator: 8,
+        denominator: 100,
+      },
+      delegatorsCount: 1,
+      currentStake: "50000867090131772400000000",
     },
-    delegatorsCount: 1,
-    currentStake: "50000867090131772400000000",
     stakingStatus: "idle",
   },
   // leaving
@@ -254,7 +270,14 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
     public_key: "ed25519:5xz7EbcnPqabwoFezdJBxieK8S7XLsdHHuLwM4vLLhFt",
     shards: [0],
     stakingStatus: "leaving",
-    currentStake: "3632096312066963778697815591239",
+    stakingPoolInfo: {
+      fee: {
+        numerator: 1,
+        denominator: 100,
+      },
+      delegatorsCount: 512,
+      currentStake: "3632096312066963778697815591239",
+    },
     proposedStake: "3628588479796309298011827055582",
     nodeInfo: {
       ipAddress: "91.207.102.230",
@@ -269,11 +292,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "25",
       city: "",
     },
-    fee: {
-      numerator: 1,
-      denominator: 100,
-    },
-    delegatorsCount: 512,
     poolDetails: {
       country_code: "ro",
       email: "hello@01node.com",
@@ -290,6 +308,7 @@ export const VALIDATORS_TOTAL_STAKE = VALIDATORS_LIST.filter(
   (i: ValidationNodeInfo) =>
     i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
 ).reduce(
-  (acc: BN, node: ValidationNodeInfo) => acc.add(new BN(node.currentStake!)),
+  (acc: BN, node: ValidationNodeInfo) =>
+    acc.add(new BN(node.stakingPoolInfo!.currentStake!)),
   new BN(0)
 ) as BN;

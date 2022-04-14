@@ -9,7 +9,7 @@ import { OrderTableCell, TableRow } from "../utils/Table";
 import CountryFlag from "../utils/CountryFlag";
 import ValidatingLabel from "./ValidatingLabel";
 import CumulativeStakeChart from "./CumulativeStakeChart";
-import { StakingStatus } from "../../libraries/wamp/types";
+import { StakingPoolInfo, StakingStatus } from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
@@ -60,9 +60,7 @@ interface Props {
   country?: string;
   stakingStatus?: StakingStatus;
   publicKey?: string;
-  validatorFee?: string | null;
-  validatorDelegators?: number | string | null;
-  currentStake?: string;
+  stakingPoolInfo?: StakingPoolInfo;
   proposedStakeForNextEpoch?: string;
   cumulativeStake: number;
   totalStakeInPersnt: number;
@@ -84,15 +82,14 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
     country,
     stakingStatus,
     publicKey,
-    validatorFee,
-    validatorDelegators,
-    currentStake,
+    stakingPoolInfo,
     proposedStakeForNextEpoch,
     cumulativeStake,
     totalStakeInPersnt,
     handleClick,
   }) => {
     const { t } = useTranslation();
+    const currentStake = stakingPoolInfo?.currentStake;
     const stakeProposedAmount =
       currentStake &&
       proposedStakeForNextEpoch &&
@@ -224,21 +221,25 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
           </td>
 
           <td>
-            {validatorFee === undefined ? (
+            {stakingPoolInfo === undefined ? (
               <Spinner animation="border" size="sm" />
-            ) : validatorFee === null ? (
+            ) : stakingPoolInfo.fee === null ? (
               t("common.state.not_available")
             ) : (
-              validatorFee
+              `${(
+                (stakingPoolInfo.fee.numerator /
+                  stakingPoolInfo.fee.denominator) *
+                100
+              ).toFixed(0)}%`
             )}
           </td>
           <td>
-            {validatorDelegators === undefined ? (
+            {stakingPoolInfo === undefined ? (
               <Spinner animation="border" size="sm" />
-            ) : validatorDelegators === null ? (
+            ) : stakingPoolInfo.delegatorsCount === null ? (
               t("common.state.not_available")
             ) : (
-              validatorDelegators
+              stakingPoolInfo.delegatorsCount
             )}
           </td>
           <StakeText as="td" className="text-right">
