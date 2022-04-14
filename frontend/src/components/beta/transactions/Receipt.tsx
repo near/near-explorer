@@ -3,13 +3,14 @@ import { useTranslation } from "react-i18next";
 
 import { styled } from "../../../libraries/styles";
 import { formatNear } from "../../../libraries/formatting";
+import { TransactionReceipt } from "../../../types/transaction";
 
 import AccountLink from "../common/AccountLink";
 import TransactionType from "./TransactionType";
 
 type Props = {
   onClick: React.MouseEventHandler;
-  receipt: any;
+  receipt: TransactionReceipt;
 };
 
 const Row = styled("div", {
@@ -92,7 +93,7 @@ const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
         <Divider />
         <div>
           <AmountHeader>{t("pages.transaction.activity.amount")}</AmountHeader>
-          <Amount>{formatNear(receipt.deposit)}</Amount>
+          <Amount>{receipt.deposit ? formatNear(receipt.deposit) : "0"}</Amount>
         </div>
         <Divider />
         <div>

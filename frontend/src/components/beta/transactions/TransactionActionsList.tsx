@@ -1,10 +1,11 @@
 import * as React from "react";
 import { styled } from "../../../libraries/styles";
+import { Transaction } from "../../../types/transaction";
 
 import TransactionReceipt from "./TransactionReceipt";
 
 type Props = {
-  transaction: any;
+  transaction: Transaction;
 };
 
 const Wrapper = styled("div", {
@@ -16,14 +17,32 @@ const Wrapper = styled("div", {
   fontFamily: "Manrope",
 });
 
-const TransactionActionsList: React.FC<Props> = React.memo((props) => {
-  return (
-    <Wrapper>
-      {props.transaction.receipts.map((receipt: any) => (
-        <TransactionReceipt key={receipt.receiptId} receipt={receipt} />
-      ))}
-    </Wrapper>
-  );
-});
+const TransactionActionsList: React.FC<Props> = React.memo(
+  ({ transaction: { receipts, refundReceipts } }) => {
+    const refundReceiptsMap = new Map();
+    refundReceipts.forEach((receipt) => {
+      refundReceiptsMap.set(receipt.parentReceiptHash, receipt);
+    });
+
+    return (
+      <Wrapper>
+        {receipts.map((receipt: any) => {
+          const refundReceipt = refundReceiptsMap.get(
+            receipt.parentReceiptHash
+          );
+          if (!refundReceipt) {
+            return (
+              <TransactionReceipt
+                key={receipt.receiptId}
+                receipt={receipt}
+                refundReceipt={refundReceiptsMap.get(receipt.receiptId)}
+              />
+            );
+          }
+        })}
+      </Wrapper>
+    );
+  }
+);
 
 export default TransactionActionsList;

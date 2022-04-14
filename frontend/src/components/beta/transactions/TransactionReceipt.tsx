@@ -6,6 +6,7 @@ import ReceiptInfo from "./ReceiptInfo";
 
 type Props = {
   receipt: any;
+  refundReceipt: any;
 };
 
 const ReceiptWrapper = styled("div", {
@@ -26,17 +27,23 @@ const ReceiptWrapper = styled("div", {
   },
 });
 
-const TransactionReceipt: React.FC<Props> = React.memo(({ receipt }) => {
-  const [isRowActive, setRowActive] = React.useState(false);
-  const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
-    setRowActive,
-  ]);
-  return (
-    <ReceiptWrapper>
-      <Receipt onClick={switchRowActive} receipt={receipt} />
-      <ReceiptInfo isRowActive={isRowActive} receipt={receipt} />
-    </ReceiptWrapper>
-  );
-});
+const TransactionReceipt: React.FC<Props> = React.memo(
+  ({ receipt, refundReceipt }) => {
+    const [isRowActive, setRowActive] = React.useState(false);
+    const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
+      setRowActive,
+    ]);
+    return (
+      <ReceiptWrapper>
+        <Receipt onClick={switchRowActive} receipt={receipt} />
+        <ReceiptInfo
+          isRowActive={isRowActive}
+          receipt={receipt}
+          refundReceipt={refundReceipt}
+        />
+      </ReceiptWrapper>
+    );
+  }
+);
 
 export default TransactionReceipt;
