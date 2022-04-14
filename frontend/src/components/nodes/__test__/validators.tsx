@@ -24,8 +24,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 874,
-      currentStake: "42476926077593266003727024545752",
     },
+    currentStake: "42476926077593266003727024545752",
     proposedStake: "42585554199314238406961230826241",
     nodeInfo: {
       ipAddress: "44.226.195.207",
@@ -65,8 +65,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 436,
-      currentStake: "20814924218405478221870785686346",
     },
+    currentStake: "20814924218405478221870785686346",
     proposedStake: "20816469293003621239852045782324",
     nodeInfo: {
       ipAddress: "34.222.123.106",
@@ -106,8 +106,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 1774,
-      currentStake: "17776328380244893436869022330562",
     },
+    currentStake: "17776328380244893436869022330562",
     proposedStake: "17777040818619949427934165446355",
     nodeInfo: {
       ipAddress: "145.239.1.147",
@@ -144,8 +144,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 148,
-      currentStake: "3735553291238507324807526403326",
     },
+    currentStake: "3735553291238507324807526403326",
     proposedStake: "3736122287791333873791529790832",
     nodeInfo: {
       ipAddress: "135.181.24.210",
@@ -176,7 +176,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 129,
-      currentStake: null,
     },
     proposedStake: "2656963060607021394774204108064",
     stakingStatus: "proposal",
@@ -210,8 +209,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 10,
-      currentStake: "1200162400050342684350218962960",
     },
+    currentStake: "1200162400050342684350218962960",
     stakingStatus: "newcomer",
   },
   // idle
@@ -236,8 +235,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 9,
-      currentStake: "442471954465888931932802773752",
     },
+    currentStake: "442471954465888931932802773752",
     stakingStatus: "idle",
   },
   // idle with minimum data
@@ -249,8 +248,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 1,
-      currentStake: "50000867090131772400000000",
     },
+    currentStake: "50000867090131772400000000",
     stakingStatus: "idle",
   },
   // leaving
@@ -276,8 +275,8 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         denominator: 100,
       },
       delegatorsCount: 512,
-      currentStake: "3632096312066963778697815591239",
     },
+    currentStake: "3632096312066963778697815591239",
     proposedStake: "3628588479796309298011827055582",
     nodeInfo: {
       ipAddress: "91.207.102.230",
@@ -308,7 +307,6 @@ export const VALIDATORS_TOTAL_STAKE = VALIDATORS_LIST.filter(
   (i: ValidationNodeInfo) =>
     i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
 ).reduce(
-  (acc: BN, node: ValidationNodeInfo) =>
-    acc.add(new BN(node.stakingPoolInfo!.currentStake!)),
+  (acc: BN, node: ValidationNodeInfo) => acc.add(new BN(node.currentStake!)),
   new BN(0)
 ) as BN;

@@ -61,6 +61,7 @@ interface Props {
   stakingStatus?: StakingStatus;
   publicKey?: string;
   stakingPoolInfo?: StakingPoolInfo;
+  currentStake?: string;
   proposedStakeForNextEpoch?: string;
   cumulativeStake: number;
   totalStakeInPersnt: number;
@@ -83,13 +84,13 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
     stakingStatus,
     publicKey,
     stakingPoolInfo,
+    currentStake,
     proposedStakeForNextEpoch,
     cumulativeStake,
     totalStakeInPersnt,
     handleClick,
   }) => {
     const { t } = useTranslation();
-    const currentStake = stakingPoolInfo?.currentStake;
     const stakeProposedAmount =
       currentStake &&
       proposedStakeForNextEpoch &&

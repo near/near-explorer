@@ -39,6 +39,22 @@ export interface ValidationProgress {
   };
 }
 
+export type ValidationNodeInfo = {
+  account_id: string;
+  is_slashed?: boolean;
+  progress?: ValidationProgress;
+  public_key?: string;
+  proposedStake?: string;
+  cumulativeStakeAmount?: string;
+  stakingStatus?: StakingStatus;
+  networkHolder?: boolean;
+  shards?: number[];
+  nodeInfo?: NodeInfo;
+  stakingPoolInfo?: StakingPoolInfo;
+  currentStake?: string;
+  poolDetails?: PoolDetails;
+};
+
 export interface PoolDetails {
   country?: string;
   country_code?: string;
@@ -52,22 +68,6 @@ export interface PoolDetails {
 export type StakingPoolInfo = {
   fee: { numerator: number; denominator: number } | null;
   delegatorsCount: number | null;
-  currentStake: string | null;
-};
-
-export type ValidationNodeInfo = {
-  account_id: string;
-  is_slashed?: boolean;
-  progress?: ValidationProgress;
-  public_key?: string;
-  proposedStake?: string;
-  cumulativeStakeAmount?: string;
-  stakingStatus?: StakingStatus;
-  networkHolder?: boolean;
-  shards?: number[];
-  nodeInfo?: NodeInfo;
-  stakingPoolInfo?: StakingPoolInfo;
-  poolDetails?: PoolDetails;
 };
 
 export type NetworkStats = {

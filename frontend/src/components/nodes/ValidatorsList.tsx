@@ -17,7 +17,7 @@ interface Props {
 }
 
 const getCurrentStake = (node: ValidationNodeInfo): string => {
-  return (node.stakingPoolInfo && node.stakingPoolInfo.currentStake) || "0";
+  return node.currentStake || "0";
 };
 
 const ValidatorsList: React.FC<Props> = React.memo(
@@ -60,7 +60,6 @@ const ValidatorsList: React.FC<Props> = React.memo(
         i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
     );
 
-    console.log("act", activeValidatorsList);
     const totalStake = activeValidatorsList.reduce(
       (acc, node) => acc.add(new BN(getCurrentStake(node))),
       new BN(0)

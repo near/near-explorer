@@ -60,13 +60,9 @@ const ValidatorRow: React.FC<Props> = React.memo(
     let totalStakeInPersnt = 0;
     let cumulativeStake = 0;
 
-    if (
-      node.stakingPoolInfo?.currentStake &&
-      totalStake &&
-      !totalStake.isZero()
-    ) {
+    if (node.currentStake && totalStake && !totalStake.isZero()) {
       totalStakeInPersnt =
-        new BN(node.stakingPoolInfo.currentStake)
+        new BN(node.currentStake)
           .mul(new BN(10000))
           .div(totalStake)
           .toNumber() / 100;
@@ -74,11 +70,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
 
     const cumulativeStakeAmount =
       node.cumulativeStakeAmount && new BN(node.cumulativeStakeAmount);
-    if (
-      node.stakingPoolInfo?.currentStake &&
-      totalStake &&
-      cumulativeStakeAmount
-    ) {
+    if (node.currentStake && totalStake && cumulativeStakeAmount) {
       cumulativeStake =
         cumulativeStakeAmount.mul(new BN(10000)).div(totalStake).toNumber() /
         100;
@@ -105,6 +97,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
           publicKey={node.public_key}
           stakingPoolInfo={node.stakingPoolInfo}
           proposedStakeForNextEpoch={node.proposedStake}
+          currentStake={node.currentStake}
           cumulativeStake={cumulativeStake}
           totalStakeInPersnt={totalStakeInPersnt}
           handleClick={switchRowActive}
