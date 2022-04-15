@@ -15,29 +15,32 @@ const PORT = 10000;
 
 export const setupWebsocket = (): uWS.TemplatedApp => {
   let connected = 0;
-  let app = uWS.App().ws("/ws", {
-    compression: uWS.SHARED_COMPRESSOR,
-    maxPayloadLength: 16 * 1024 * 1024,
-    idleTimeout: 0,
+  let app = uWS
+    .App()
+    .ws("/ws", {
+      compression: uWS.SHARED_COMPRESSOR,
+      maxPayloadLength: 16 * 1024 * 1024,
+      idleTimeout: 0,
 
-    open: () => {
-      connected++;
-    },
-    close: () => {
-      connected--;
-    },
-    message: (ws, rawMessage) => {
-      const [type, topic]: OutcomingMessage = JSON.parse(
-        textDecoder.decode(rawMessage)
-      );
-      switch (type) {
-        case "sub":
-          return ws.subscribe(topic);
-        case "unsub":
-          return ws.unsubscribe(topic);
-      }
-    },
-  });
+      open: () => {
+        connected++;
+      },
+      close: () => {
+        connected--;
+      },
+      message: (ws, rawMessage) => {
+        const [type, topic]: OutcomingMessage = JSON.parse(
+          textDecoder.decode(rawMessage)
+        );
+        switch (type) {
+          case "sub":
+            return ws.subscribe(topic);
+          case "unsub":
+            return ws.unsubscribe(topic);
+        }
+      },
+    })
+    .get("/ping", (res) => res.end("OK"));
 
   app = Object.entries(handlers).reduce((app, [key, handler]) => {
     return app.post("/" + key, async (res) => {

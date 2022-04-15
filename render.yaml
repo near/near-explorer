@@ -74,6 +74,7 @@ services:
     repo: https://github.com/near/near-explorer.git
     buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
+    healthCheckPath: /ping
     envVars:
       - key: NEAR_EXPLORER_WAMP_HOST
         fromService:
@@ -97,6 +98,7 @@ services:
     repo: https://github.com/near/near-explorer.git
     buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
+    healthCheckPath: /ping
     envVars:
       - key: NEAR_EXPLORER_WAMP_HOST
         fromService:
@@ -120,6 +122,7 @@ services:
     repo: https://github.com/near/near-explorer.git
     buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
+    healthCheckPath: /ping
     envVars:
       - key: NEAR_EXPLORER_WAMP_HOST
         fromService:
