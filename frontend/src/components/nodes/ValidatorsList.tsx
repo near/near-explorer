@@ -16,6 +16,10 @@ interface Props {
   };
 }
 
+const getCurrentStake = (node: ValidationNodeInfo): string => {
+  return node.currentStake || "0";
+};
+
 const ValidatorsList: React.FC<Props> = React.memo(
   ({ validators, pages: { startPage, endPage, activePage, itemsPerPage } }) => {
     let validatorsList = validators.sort((a, b) => {
@@ -28,8 +32,10 @@ const ValidatorsList: React.FC<Props> = React.memo(
       const bInValidatingGroup =
         b.stakingStatus && validatingGroup.indexOf(b.stakingStatus) >= 0;
 
+      const aCurrentStake = getCurrentStake(a);
+      const bCurrentStake = getCurrentStake(b);
       if (aInValidatingGroup && bInValidatingGroup) {
-        return new BN(b.currentStake || 0).cmp(new BN(a.currentStake || 0));
+        return new BN(bCurrentStake).cmp(new BN(aCurrentStake));
       } else if (aInValidatingGroup) {
         return -1;
       } else if (bInValidatingGroup) {
@@ -37,11 +43,11 @@ const ValidatorsList: React.FC<Props> = React.memo(
       } else {
         const aStake = BN.max(
           new BN(b.proposedStake || 0),
-          new BN(b.currentStake || 0)
+          new BN(bCurrentStake)
         );
         const bStake = BN.max(
           new BN(a.proposedStake || 0),
-          new BN(a.currentStake || 0)
+          new BN(aCurrentStake)
         );
         return aStake.cmp(bStake);
       }
@@ -55,14 +61,14 @@ const ValidatorsList: React.FC<Props> = React.memo(
     );
 
     const totalStake = activeValidatorsList.reduce(
-      (acc, node) => acc.add(new BN(node.currentStake || 0)),
+      (acc, node) => acc.add(new BN(getCurrentStake(node))),
       new BN(0)
     );
 
     activeValidatorsList.forEach((validator, index) => {
       let total = new BN(0);
       for (let i = 0; i <= index; i++) {
-        total = total.add(new BN(activeValidatorsList[i].currentStake || 0));
+        total = total.add(new BN(getCurrentStake(activeValidatorsList[i])));
         epochValidatorsStake.set(validator.account_id, total);
       }
     });

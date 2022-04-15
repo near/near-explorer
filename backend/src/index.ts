@@ -50,7 +50,7 @@ import {
   aggregateCirculatingSupplyByDate,
 } from "./stats";
 import autobahn from "autobahn";
-import { StakingStatus, SubscriptionTopicType } from "./client-types";
+import { StakingPoolInfo, StakingStatus } from "./client-types";
 import { formatDate, trimError } from "./utils";
 import { databases, withPool } from "./db";
 import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
@@ -76,23 +76,17 @@ type PoolMetadataInfo = Record<PoolMetadataAccountId, PoolMetadataAccountInfo>;
 const nonValidatingNodeStatuses = ["on-hold", "newcomer", "idle"];
 
 type StakingNodeInfo = StakingNodeWithTelemetryInfo & {
-  fee?: NonNullable<StakingPoolInfo["fee"]>;
-  delegatorsCount?: NonNullable<StakingPoolInfo["delegatorsCount"]>;
-  currentStake?: NonNullable<StakingPoolInfo["currentStake"]>;
+  stakingPoolInfo?: StakingPoolInfo;
+  currentStake?: string;
   poolDetails?: PoolMetadataAccountInfo;
   stakingStatus?: StakingStatus;
-};
-
-type StakingPoolInfo = {
-  fee: { numerator: number; denominator: number } | null;
-  delegatorsCount: number | null;
-  currentStake: string | null;
 };
 
 let transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[] = [];
 let currentValidators: CurrentNode[] = [];
 let stakingNodes: StakingNodeInfo[] = [];
 let stakingPoolsInfo = new Map<string, StakingPoolInfo>();
+let currentStakeInfo = new Map<string, string | undefined>();
 let stakingPoolsMetadataInfo = new Map<string, PoolMetadataAccountInfo>();
 
 function startDataSourceSpecificJobs(
@@ -276,9 +270,8 @@ async function main(): Promise<void> {
           }
           return {
             ...validator,
-            fee: stakingPoolInfo.fee ?? undefined,
-            delegatorsCount: stakingPoolInfo.delegatorsCount ?? undefined,
-            currentStake: stakingPoolInfo.currentStake ?? "0",
+            stakingPoolInfo,
+            currentStake: currentStakeInfo.get(validator.account_id),
             poolDetails: stakingPoolsMetadataInfo.get(validator.account_id),
             stakingStatus,
           };
@@ -388,7 +381,7 @@ async function main(): Promise<void> {
           } = stakingNodes[i];
 
           try {
-            let currentStake = activeNodeStake || null;
+            let currentStake = activeNodeStake || undefined;
             const account = await sendJsonRpcQuery("view_account", {
               account_id: account_id,
               finality: "final",
@@ -408,9 +401,10 @@ async function main(): Promise<void> {
                 // for some accounts on 'testnet' we can't get 'currentStake'
                 // because they looks like pool accounts but they are not so
                 // that's why we catch this error to avoid unnecessary errors in console
-                return null;
+                return undefined;
               });
             }
+            currentStakeInfo.set(account_id, currentStake);
 
             // 'code_hash' === 11111111111111111111111111111111 is when the validator
             // does not have a staking-pool contract on it (common on testnet)
@@ -418,7 +412,6 @@ async function main(): Promise<void> {
               stakingPoolsInfo.set(account_id, {
                 fee: null,
                 delegatorsCount: null,
-                currentStake: currentStake || null,
               });
             } else {
               const fee = await callViewMethod<{
@@ -445,7 +438,6 @@ async function main(): Promise<void> {
               stakingPoolsInfo.set(account_id, {
                 fee,
                 delegatorsCount,
-                currentStake,
               });
             }
           } catch (error) {
