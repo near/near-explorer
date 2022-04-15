@@ -1,7 +1,6 @@
 import { IncomingMessage } from "http";
 import getNextConfig from "next/config";
-
-export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
+import { NetworkName } from "./wamp/types";
 
 export interface NearNetwork {
   name: NetworkName;
@@ -10,14 +9,20 @@ export interface NearNetwork {
   nearWalletProfilePrefix: string;
 }
 
+export type BackendConfig = {
+  host: string;
+  port: string;
+  secure: boolean;
+};
+
 export interface ExplorerConfig {
   serverRuntimeConfig: {
-    wampNearExplorerUrl: string;
+    backendConfig: BackendConfig;
   };
   publicRuntimeConfig: {
     nearNetworks: NearNetwork[];
     nearNetworkAliases: Record<string, NearNetwork>;
-    wampNearExplorerUrl: string;
+    backendConfig: BackendConfig;
     googleAnalytics?: string;
   };
 }

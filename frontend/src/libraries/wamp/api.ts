@@ -1,4 +1,5 @@
 import { NearNetwork } from "../config";
+import { call } from "./call";
 import * as connection from "./connection";
 import {
   SubscriptionTopicType,
@@ -7,17 +8,6 @@ import {
   ProcedureArgs,
   ProcedureResult,
 } from "./types";
-
-const getTopicName = (nearNetwork: NearNetwork, topic: string): string => {
-  return `com.nearprotocol.${nearNetwork.name}.explorer.${topic}`;
-};
-
-const getProcedureName = (
-  nearNetwork: NearNetwork,
-  procedure: string
-): string => {
-  return `com.nearprotocol.${nearNetwork.name}.explorer.${procedure}`;
-};
 
 let subscriptions: Record<string, ((data: any) => void)[]> = {};
 
@@ -30,13 +20,10 @@ function subscribe<T extends SubscriptionTopicType>(
     subscriptions[topic] = [];
   }
   subscriptions[topic].push(handler);
-  void connection.subscribeTopic(
-    // That's unfair as we actually change topic name
-    // But the types match so we'll keep it
-    getTopicName(nearNetwork, topic) as T,
-    (data) => subscriptions[topic].forEach((handler) => handler(data))
+  void connection.subscribeTopic(topic, nearNetwork, (data) =>
+    subscriptions[topic].forEach((handler) => handler(data))
   );
-  const lastValue = connection.getLastValue(topic);
+  const lastValue = connection.getLastValue(topic, nearNetwork);
   if (lastValue) {
     handler(lastValue);
   }
@@ -44,7 +31,7 @@ function subscribe<T extends SubscriptionTopicType>(
     subscriptions[topic] = subscriptions[topic].filter(
       (lookupHandler) => lookupHandler !== handler
     );
-    void connection.unsubscribeTopic(topic);
+    void connection.unsubscribeTopic(topic, nearNetwork);
   };
 }
 
@@ -53,10 +40,8 @@ export type WampCall = <P extends ProcedureType>(
   args: ProcedureArgs<P>
 ) => Promise<ProcedureResult<P>>;
 
-function getCall(nearNetwork: NearNetwork): WampCall {
-  return (procedure, args) =>
-    connection.call(getProcedureName(nearNetwork, procedure), args);
-}
+const getCall = (nearNetwork: NearNetwork): WampCall => (procedure, args) =>
+  call(procedure, nearNetwork, args);
 
 const wampApi = { subscribe, getCall };
 

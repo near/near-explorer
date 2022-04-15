@@ -68,7 +68,7 @@ services:
         generateValue: true
 
   ## Explorer backend [mainnet]
-  - type: worker
+  - type: web
     name: backend/mainnet
     env: node
     repo: https://github.com/near/near-explorer.git
@@ -91,7 +91,7 @@ services:
       - fromGroup: backend/mainnet/secret
 
   ## Explorer backend [testnet]
-  - type: worker
+  - type: web
     name: backend/testnet
     env: node
     repo: https://github.com/near/near-explorer.git
@@ -114,7 +114,7 @@ services:
       - fromGroup: backend/testnet/secret
 
   ## Explorer backend [guildnet]
-  - type: worker
+  - type: web
     name: backend/guildnet
     env: node
     repo: https://github.com/near/near-explorer.git

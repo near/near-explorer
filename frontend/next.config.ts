@@ -1,5 +1,9 @@
 import { NextConfig } from "next";
-import { ExplorerConfig, NearNetwork } from "./src/libraries/config";
+import {
+  BackendConfig,
+  ExplorerConfig,
+  NearNetwork,
+} from "./src/libraries/config";
 
 const getWampHost = (isServer: boolean): string => {
   const wampHost = process.env.NEAR_EXPLORER_WAMP_HOST || "localhost";
@@ -24,10 +28,12 @@ const getWampSecure = (isServer: boolean): boolean => {
   return process.env.NEAR_EXPLORER_WAMP_SECURE === "true";
 };
 
-const getWampNearExplorerUrl = (isServer: boolean): string => {
-  return `${getWampSecure(isServer) ? "wss" : "ws"}://${getWampHost(
-    isServer
-  )}:${getWampPort(isServer)}/ws`;
+const getBackendConfig = (isServer: boolean): BackendConfig => {
+  return {
+    host: getWampHost(isServer),
+    port: getWampPort(isServer),
+    secure: getWampSecure(isServer),
+  };
 };
 
 let nearNetworks: NearNetwork[];
@@ -52,12 +58,12 @@ for (const nearNetwork of nearNetworks) {
 
 const config: ExplorerConfig & NextConfig = {
   serverRuntimeConfig: {
-    wampNearExplorerUrl: getWampNearExplorerUrl(true),
+    backendConfig: getBackendConfig(true),
   },
   publicRuntimeConfig: {
     nearNetworks,
     nearNetworkAliases,
-    wampNearExplorerUrl: getWampNearExplorerUrl(false),
+    backendConfig: getBackendConfig(false),
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
   },
   webpack: (config, { isServer }) => {

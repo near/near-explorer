@@ -502,3 +502,17 @@ export type ProcedureResult<
 // See https://stackoverflow.com/a/49402091/2017859
 export type KeysOfUnion<T> = T extends T ? keyof T : never;
 export * as RPC from "../../../../backend/src/rpc-types";
+
+export type SubMessage = ["sub", SubscriptionTopicType];
+export type UnsubMessage = ["unsub", SubscriptionTopicType];
+export type OutcomingMessage = SubMessage | UnsubMessage;
+
+export type PublishMessage<T extends SubscriptionTopicType> = [
+  T,
+  SubscriptionTopicTypes[T]
+];
+export type IncomingMessage<
+  T extends SubscriptionTopicType
+> = PublishMessage<T>;
+
+export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";

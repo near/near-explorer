@@ -1,103 +1,115 @@
-import autobahn from "autobahn";
-import { getConfig } from "../config";
-import { SubscriptionTopicTypes } from "./types";
+import ReconnectingWebSocket from "reconnecting-websocket";
+import { getConfig, NearNetwork } from "../config";
+import {
+  IncomingMessage,
+  OutcomingMessage,
+  SubscriptionTopicType,
+  SubscriptionTopicTypes,
+} from "./types";
+import { wrapTopic } from "./utils";
 
-let sessionPromise: Promise<autobahn.Session> | undefined;
-
-const createSession = async (): Promise<autobahn.Session> => {
-  return new Promise((resolve, reject) => {
-    const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
-    console.log("Starting WAMP session...");
-    const connection = new autobahn.Connection({
-      url: (typeof window === "undefined"
-        ? serverRuntimeConfig
-        : publicRuntimeConfig
-      ).wampNearExplorerUrl,
-      realm: "near-explorer",
-      retry_if_unreachable: true,
-      max_retries: Number.MAX_SAFE_INTEGER,
-      max_retry_delay: 10,
-    });
-    connection.onopen = (session) => {
-      console.log("WAMP session started");
-      resolve(session);
-    };
-    connection.onclose = (reason) => {
-      console.log("WAMP session closed");
-      reject(reason);
-      return false;
-    };
-    connection.open();
-  });
-};
-
-export const getSession = async (): Promise<autobahn.Session> => {
-  if (!sessionPromise) {
-    sessionPromise = createSession();
-  }
-  const session = await sessionPromise;
-  if (!session.isOpen) {
-    sessionPromise = createSession();
-  }
-  return sessionPromise;
-};
-
+type UnsubscribeFn = () => void;
 // We keep cache to update newly subscribed handlers immediately
-let wampSubscriptionCache: Partial<
+type SubscriptionCache = Partial<
   {
-    [T in keyof SubscriptionTopicTypes]: {
-      subscription: autobahn.ISubscription;
+    [T in SubscriptionTopicType]: {
+      subscription: (data: SubscriptionTopicTypes[T]) => void;
       lastValue?: SubscriptionTopicTypes[T];
+      unsubscribe: UnsubscribeFn;
     };
   }
-> = {};
+>;
+type Session = {
+  subscribe: <T extends SubscriptionTopicType>(topic: T) => void;
+  cache: SubscriptionCache;
+};
 
-export const subscribeTopic = async <T extends keyof SubscriptionTopicTypes>(
-  topic: T,
-  handler: (data: SubscriptionTopicTypes[T]) => void
-): Promise<void> => {
-  if (wampSubscriptionCache[topic]) {
-    return;
-  }
-  const session = await getSession();
-  wampSubscriptionCache[topic] = {
-    subscription: await session.subscribe(topic, (_args, kwargs) => {
-      handler(kwargs);
-      const cachedTopic = wampSubscriptionCache[topic];
-      if (!cachedTopic) {
-        // Bail-out in case we have a race condition of this callback and unsubscription
+let session: Session;
+let cache: SubscriptionCache = {};
+
+const getSession = (): Session => {
+  if (!session) {
+    const {
+      publicRuntimeConfig: { backendConfig },
+    } = getConfig();
+    const url = `${backendConfig.secure ? "wss" : "ws"}://${
+      backendConfig.host
+    }:${backendConfig.port}/ws`;
+    const ws = new ReconnectingWebSocket(url);
+    ws.addEventListener(
+      "message",
+      <T extends SubscriptionTopicType>(event: MessageEvent) => {
+        const [topic, data] = JSON.parse(event.data) as IncomingMessage<T>;
+        const cachedTopicHandler = cache[topic];
+        if (cachedTopicHandler) {
+          cachedTopicHandler.lastValue = data;
+          cachedTopicHandler.subscription(data as any);
+        }
+      }
+    );
+    // reconnect
+    ws.addEventListener("open", () =>
+      Object.keys(cache).forEach((cachedTopic) =>
+        sendMessage(["sub", cachedTopic as SubscriptionTopicType])
+      )
+    );
+    const sendMessage = (message: OutcomingMessage) => {
+      if (ws.readyState !== 1) {
         return;
       }
-      cachedTopic.lastValue = kwargs;
-    }),
-    lastValue: undefined,
-  };
+      const [type, topic] = message;
+      ws.send(JSON.stringify([type, topic]));
+    };
+    session = {
+      subscribe: (topic) => {
+        sendMessage(["sub", topic]);
+        return () => sendMessage(["unsub", topic]);
+      },
+      cache,
+    };
+  }
+  return session;
 };
 
-export const unsubscribeTopic = async <T extends keyof SubscriptionTopicTypes>(
-  topic: T
+export const subscribeTopic = async <T extends SubscriptionTopicType>(
+  topic: T,
+  nearNetwork: NearNetwork,
+  handler: (data: SubscriptionTopicTypes[T]) => void
 ): Promise<void> => {
-  const cacheItem = wampSubscriptionCache[topic];
-  if (!cacheItem) {
+  const wrappedTopic = wrapTopic(topic, nearNetwork.name);
+  const session = getSession();
+  if (session.cache[wrappedTopic]) {
     return;
   }
-  delete wampSubscriptionCache[topic];
-  await cacheItem.subscription.unsubscribe();
+  const unsubscribe = session.subscribe(wrappedTopic);
+  session.cache[wrappedTopic] = ({
+    subscription: handler,
+    lastValue: null,
+    unsubscribe,
+  } as unknown) as SubscriptionCache[typeof wrappedTopic];
 };
 
-export const getLastValue = <T extends keyof SubscriptionTopicTypes>(
-  topic: T
+export const unsubscribeTopic = async <T extends SubscriptionTopicType>(
+  topic: T,
+  nearNetwork: NearNetwork
+): Promise<void> => {
+  const wrappedTopic = wrapTopic(topic, nearNetwork.name);
+  const session = getSession();
+  const topicCache = session.cache[wrappedTopic];
+  if (!topicCache) {
+    return;
+  }
+  topicCache.unsubscribe();
+  delete session.cache[wrappedTopic];
+};
+
+export const getLastValue = <T extends SubscriptionTopicType>(
+  topic: T,
+  nearNetwork: NearNetwork
 ): SubscriptionTopicTypes[T] | undefined => {
-  return wampSubscriptionCache[topic]?.lastValue as
+  const wrappedTopic = wrapTopic(topic, nearNetwork.name);
+  const session = getSession();
+  return session.cache[wrappedTopic]?.lastValue as
     | SubscriptionTopicTypes[T]
     | undefined;
 };
-
-export async function call<T, Args extends unknown[]>(
-  procedure: string,
-  args: Args
-): Promise<T> {
-  const session = await getSession();
-  const result = await session.call(procedure, args);
-  return result as T;
-}

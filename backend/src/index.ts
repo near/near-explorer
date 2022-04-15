@@ -1,4 +1,5 @@
 import BN from "bn.js";
+import uWS from "uWebSockets.js";
 
 import {
   regularPublishFinalityStatusInterval,
@@ -19,7 +20,8 @@ import {
   sendJsonRpcQuery,
 } from "./near";
 
-import { setupWamp, wampPublish } from "./wamp";
+// import { setupWamp, wampPublish } from "./wamp";
+import { setupWebsocket, publish } from "./pubsub";
 
 import {
   extendWithTelemetryInfo,
@@ -49,8 +51,7 @@ import {
   aggregateLiveAccountsCountByDate,
   aggregateCirculatingSupplyByDate,
 } from "./stats";
-import autobahn from "autobahn";
-import { StakingStatus, SubscriptionTopicType } from "./client-types";
+import { StakingStatus } from "./client-types";
 import { formatDate, trimError } from "./utils";
 import { databases, withPool } from "./db";
 import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
@@ -95,17 +96,15 @@ let stakingNodes: StakingNodeInfo[] = [];
 let stakingPoolsInfo = new Map<string, StakingPoolInfo>();
 let stakingPoolsMetadataInfo = new Map<string, PoolMetadataAccountInfo>();
 
-function startDataSourceSpecificJobs(
-  getSession: () => Promise<autobahn.Session>
-): void {
+function startDataSourceSpecificJobs(app: uWS.TemplatedApp): void {
   const regularCheckDataStats = async (): Promise<void> => {
     try {
       const blocksStats = await queryDashboardBlocksStats();
       const recentTransactionsCount = await queryRecentTransactionsCount();
 
-      void wampPublish("chain-blocks-stats", blocksStats, getSession);
+      void publish("chain-blocks-stats", blocksStats, app);
       if (recentTransactionsCount) {
-        void wampPublish(
+        void publish(
           "chain-transactions-stats",
           {
             transactionsCountHistoryForTwoWeeks: transactionsCountHistoryForTwoWeeks.map(
@@ -116,7 +115,7 @@ function startDataSourceSpecificJobs(
             ),
             recentTransactionsCount,
           },
-          getSession
+          app
         );
       }
     } catch (error) {
@@ -170,7 +169,7 @@ function startStatsAggregation(): void {
 
 async function main(): Promise<void> {
   console.log("Starting Explorer backend & WAMP listener...");
-  const getSession = setupWamp();
+  const app = setupWebsocket();
 
   // Skip initializing Telemetry database if the backend is not configured to
   // save telemety data (it is absolutely fine for local development)
@@ -201,13 +200,13 @@ async function main(): Promise<void> {
   const regularPublishFinalityStatus = async (): Promise<void> => {
     try {
       const finalBlock = await queryFinalBlock();
-      void wampPublish(
+      void publish(
         "finality-status",
         {
           finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
           finalBlockHeight: finalBlock.header.height,
         },
-        getSession
+        app
       );
     } catch (error) {
       console.warn("Regular final timestamp check crashed due to:", error);
@@ -284,7 +283,7 @@ async function main(): Promise<void> {
           };
         });
 
-        void wampPublish(
+        void publish(
           "nodes",
           {
             onlineNodes: onlineNodes.map(({ lastSeen, ...rest }) => ({
@@ -308,9 +307,9 @@ async function main(): Promise<void> {
                 : undefined,
             })),
           },
-          getSession
+          app
         );
-        void wampPublish(
+        void publish(
           "network-stats",
           {
             currentValidatorsCount: currentValidators.length,
@@ -323,7 +322,7 @@ async function main(): Promise<void> {
             genesisTime: epochStats.genesisTime,
             genesisHeight: epochStats.genesisHeight,
           },
-          getSession
+          app
         );
       }
     } catch (error) {
@@ -469,7 +468,7 @@ async function main(): Promise<void> {
   };
   setTimeout(regularFetchStakingPoolsInfo, 0);
 
-  startDataSourceSpecificJobs(getSession);
+  startDataSourceSpecificJobs(app);
   startStatsAggregation();
 
   if (wampNearNetworkName === "mainnet") {

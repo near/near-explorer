@@ -1,3 +1,5 @@
+import { NetworkName } from "./client-types";
+
 export const nearArchivalRpcUrl =
   process.env.NEAR_ARCHIVAL_RPC_URL || "http://localhost:3030";
 
@@ -27,8 +29,8 @@ export const regularFetchStakingPoolsMetadataInfoInterval =
 export const regularStatsInterval =
   parseInt(process.env.NEAR_REGULAR_STATS_INTERVAL || "") || 3600000;
 
-export const wampNearNetworkName =
-  process.env.NEAR_EXPLORER_WAMP_NETWORK_NAME || "localhostnet";
+export const wampNearNetworkName = (process.env
+  .NEAR_EXPLORER_WAMP_NETWORK_NAME || "localhostnet") as NetworkName;
 
 const isWampSecure = process.env.NEAR_EXPLORER_WAMP_SECURE === "true";
 const wampHost = process.env.NEAR_EXPLORER_WAMP_HOST || "localhost";
