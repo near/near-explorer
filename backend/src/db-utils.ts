@@ -165,7 +165,7 @@ export type OnlineNode = {
   accountId: string;
   ipAddress: string;
   nodeId: string;
-  lastSeen: Date;
+  lastSeen: number;
   lastHeight: number;
   status: string;
   agentName: string;
@@ -209,7 +209,7 @@ const extendWithTelemetryInfo = async (
         accountId,
         ipAddress: nodeInfo.ip_address,
         nodeId: nodeInfo.node_id,
-        lastSeen: nodeInfo.last_seen,
+        lastSeen: nodeInfo.last_seen.valueOf(),
         lastHeight: parseInt(nodeInfo.last_height),
         status: nodeInfo.status,
         agentName: nodeInfo.agent_name,
@@ -258,7 +258,7 @@ const queryOnlineNodes = async (): Promise<OnlineNode[]> => {
     accountId: onlineNode.account_id,
     ipAddress: onlineNode.ip_address,
     nodeId: onlineNode.node_id,
-    lastSeen: onlineNode.last_seen,
+    lastSeen: onlineNode.last_seen.valueOf(),
     lastHeight: parseInt(onlineNode.last_height),
     status: onlineNode.status,
     agentName: onlineNode.agent_name,
