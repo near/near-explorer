@@ -280,26 +280,10 @@ async function main(): Promise<void> {
         void wampPublish(
           "nodes",
           {
-            onlineNodes: onlineNodes.map(({ lastSeen, ...rest }) => ({
-              ...rest,
-              lastSeen: lastSeen.valueOf(),
-            })),
+            onlineNodes,
             currentValidators,
-            onlineValidatingNodes: onlineValidatingNodes.map(
-              ({ lastSeen, ...rest }) => ({
-                ...rest,
-                lastSeen: lastSeen.valueOf(),
-              })
-            ),
-            stakingNodes: stakingNodes.map(({ nodeInfo, ...node }) => ({
-              ...node,
-              nodeInfo: nodeInfo
-                ? {
-                    ...nodeInfo,
-                    lastSeen: nodeInfo.lastSeen.valueOf(),
-                  }
-                : undefined,
-            })),
+            onlineValidatingNodes,
+            stakingNodes,
           },
           getSession
         );
