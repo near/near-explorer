@@ -1,13 +1,12 @@
 import * as React from "react";
 
-import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Col, Row, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
 import { ValidationProgress } from "../../libraries/wamp/types";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
-import { AgentNameBadge } from "./NodeRow";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesContentRow,
@@ -22,6 +21,14 @@ const ValidatorNodesText = styled(Col, {
 
 const Uptime = styled(ValidatorNodesText, {
   color: "#72727a",
+});
+
+const AgentNameBadge = styled(Badge, {
+  backgroundColor: "#f0f0f1",
+  color: "#72727a",
+  fontWeight: 500,
+  fontSize: 12,
+  fontFamily: '"Roboto Mono", monospace',
 });
 
 interface Props {

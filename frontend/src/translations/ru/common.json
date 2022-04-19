@@ -201,9 +201,6 @@
         "total_stake": "Всего в стейкинге",
         "seat_price": "Стоимость места валидатора"
       },
-      "Nodes": {
-        "validator": "Валидатор"
-      },
       "NodeRow": {
         "online": {
           "title": "В сети",

@@ -201,9 +201,6 @@
         "total_stake": "Total Stake",
         "seat_price": "Seat Price"
       },
-      "Nodes": {
-        "validator": "Validator"
-      },
       "NodeRow": {
         "online": {
           "title": "Online",

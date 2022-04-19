@@ -82,7 +82,7 @@ const ValidatorsPage: NextPage = React.memo(() => {
         border={false}
         fluid
         contentFluid
-        header={<NodesContentHeader navRole="validators" />}
+        header={<NodesContentHeader />}
         overrideHeader={ContentHeaderWrapper}
       >
         <Container>
