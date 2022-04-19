@@ -79,26 +79,26 @@ declare module "next/app" {
   }
 }
 
-const wrapHandler = <T extends NextRouter["replace"]>(
+const wrapRouterHandlerMaintainNetwork = (
   router: NextRouter,
-  originalHandler: T
-): T => {
-  return ((href, as, ...args) => {
+  originalHandler: NextRouter["replace"]
+): NextRouter["replace"] => {
+  return (href, as, ...args) => {
     const network = router.query.network;
     if (network) {
       href += `?network=${network}`;
       as += `?network=${network}`;
     }
     return originalHandler(href, as, ...args);
-  }) as T;
+  };
 };
 
 const App: AppType = React.memo(
   ({ Component, currentNearNetwork, language, pageProps }) => {
     const router = useRouter();
     React.useEffect(() => {
-      router.replace = wrapHandler(router, router.replace);
-      router.push = wrapHandler(router, router.push);
+      router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
+      router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
     }, [router]);
 
     if (typeof window !== "undefined" && language) {
