@@ -305,7 +305,7 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
 
 export const VALIDATORS_TOTAL_STAKE = VALIDATORS_LIST.filter(
   (i: ValidationNodeInfo) =>
-    i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
+    i.stakingStatus && ["active", "leaving"].includes(i.stakingStatus)
 ).reduce(
   (acc: BN, node: ValidationNodeInfo) => acc.add(new BN(node.currentStake!)),
   new BN(0)

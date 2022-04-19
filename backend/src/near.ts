@@ -211,8 +211,8 @@ const queryEpochStats = async (): Promise<
     genesis_height: genesisHeight,
     protocol_version: epochProtocolVersion,
   } = networkProtocolConfig;
-  const currentEpochValidatingNodes = currentNodes.filter(
-    (node) => ["active", "leaving"].indexOf(node.stakingStatus) >= 0
+  const currentEpochValidatingNodes = currentNodes.filter((node) =>
+    ["active", "leaving"].includes(node.stakingStatus)
   );
 
   if (currentEpochStartHeight !== epochStartHeight) {

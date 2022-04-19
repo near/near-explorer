@@ -249,7 +249,7 @@ async function main(): Promise<void> {
 
         if (
           !stakingStatus ||
-          nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
+          nonValidatingNodeStatuses.includes(stakingStatus)
         ) {
           if (new BN(currentStake).gt(new BN(epochStats.seatPrice))) {
             stakingStatus = "on-hold";
@@ -373,7 +373,7 @@ async function main(): Promise<void> {
             // because other nodes receive 'currentStake' from 'queryEpochStats()'
             if (
               !stakingStatus ||
-              nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
+              nonValidatingNodeStatuses.includes(stakingStatus)
             ) {
               currentStake = await callViewMethod<string>(
                 account_id,

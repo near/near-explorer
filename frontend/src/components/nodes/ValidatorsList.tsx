@@ -28,9 +28,9 @@ const ValidatorsList: React.FC<Props> = React.memo(
       const validatingGroup = ["active", "joining", "leaving"];
 
       const aInValidatingGroup =
-        a.stakingStatus && validatingGroup.indexOf(a.stakingStatus) >= 0;
+        a.stakingStatus && validatingGroup.includes(a.stakingStatus);
       const bInValidatingGroup =
-        b.stakingStatus && validatingGroup.indexOf(b.stakingStatus) >= 0;
+        b.stakingStatus && validatingGroup.includes(b.stakingStatus);
 
       const aCurrentStake = getCurrentStake(a);
       const bCurrentStake = getCurrentStake(b);
@@ -56,8 +56,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
     // filter validators list by 'active' and 'leaving' validators to calculate cumulative
     // stake only for those validators
     const activeValidatorsList = validatorsList.filter(
-      (i) =>
-        i.stakingStatus && ["active", "leaving"].indexOf(i.stakingStatus) >= 0
+      (i) => i.stakingStatus && ["active", "leaving"].includes(i.stakingStatus)
     );
 
     const totalStake = activeValidatorsList.reduce(
