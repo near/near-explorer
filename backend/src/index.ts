@@ -231,78 +231,76 @@ async function main(): Promise<void> {
         .map((node) => node.nodeInfo)
         .filter((nodeInfo): nodeInfo is OnlineNode => Boolean(nodeInfo));
 
-      if (stakingPoolsInfo) {
-        stakingNodes = originalStakingNodes.map((validator) => {
-          const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
-          if (!stakingPoolInfo) {
-            return validator;
-          }
-          // '!validator.stakingStatus' occured at the first start
-          // when we query all pool accounts from database.
-          // Before this moment we'll have the validators with statuses
-          // 'active', 'joining', 'leaving' and 'proposal'.
-          // So here we set, check and regulary re-check is validators
-          // still has those statuses
-          const currentStake =
-            "currentStake" in validator ? validator.currentStake : "0";
-          let stakingStatus: StakingStatus | undefined =
-            "stakingStatus" in validator ? validator.stakingStatus : undefined;
+      stakingNodes = originalStakingNodes.map((validator) => {
+        const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
+        if (!stakingPoolInfo) {
+          return validator;
+        }
+        // '!validator.stakingStatus' occured at the first start
+        // when we query all pool accounts from database.
+        // Before this moment we'll have the validators with statuses
+        // 'active', 'joining', 'leaving' and 'proposal'.
+        // So here we set, check and regulary re-check is validators
+        // still has those statuses
+        const currentStake =
+          "currentStake" in validator ? validator.currentStake : "0";
+        let stakingStatus: StakingStatus | undefined =
+          "stakingStatus" in validator ? validator.stakingStatus : undefined;
 
-          if (
-            !stakingStatus ||
-            nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
+        if (
+          !stakingStatus ||
+          nonValidatingNodeStatuses.indexOf(stakingStatus) >= 0
+        ) {
+          if (new BN(currentStake).gt(new BN(epochStats.seatPrice))) {
+            stakingStatus = "on-hold";
+          } else if (
+            new BN(currentStake).gte(
+              new BN(epochStats.seatPrice).muln(20).divn(100)
+            )
           ) {
-            if (new BN(currentStake).gt(new BN(epochStats.seatPrice))) {
-              stakingStatus = "on-hold";
-            } else if (
-              new BN(currentStake).gte(
-                new BN(epochStats.seatPrice).muln(20).divn(100)
-              )
-            ) {
-              stakingStatus = "newcomer";
-            } else if (
-              new BN(currentStake).lt(
-                new BN(epochStats.seatPrice).muln(20).divn(100)
-              )
-            ) {
-              stakingStatus = "idle";
-            }
+            stakingStatus = "newcomer";
+          } else if (
+            new BN(currentStake).lt(
+              new BN(epochStats.seatPrice).muln(20).divn(100)
+            )
+          ) {
+            stakingStatus = "idle";
           }
-          return {
-            ...validator,
-            stakingPoolInfo,
-            currentStake: currentStakeInfo.get(validator.account_id),
-            poolDetails: stakingPoolsMetadataInfo.get(validator.account_id),
-            stakingStatus,
-          };
-        });
+        }
+        return {
+          ...validator,
+          stakingPoolInfo,
+          currentStake: currentStakeInfo.get(validator.account_id),
+          poolDetails: stakingPoolsMetadataInfo.get(validator.account_id),
+          stakingStatus,
+        };
+      });
 
-        void wampPublish(
-          "nodes",
-          {
-            onlineNodes,
-            currentValidators,
-            onlineValidatingNodes,
-            stakingNodes,
-          },
-          getSession
-        );
-        void wampPublish(
-          "network-stats",
-          {
-            currentValidatorsCount: currentValidators.length,
-            onlineNodesCount: onlineNodes.length,
-            epochLength: epochStats.epochLength,
-            epochStartHeight: epochStats.epochStartHeight,
-            epochProtocolVersion: epochStats.epochProtocolVersion,
-            totalStake: epochStats.totalStake,
-            seatPrice: epochStats.seatPrice,
-            genesisTime: epochStats.genesisTime,
-            genesisHeight: epochStats.genesisHeight,
-          },
-          getSession
-        );
-      }
+      void wampPublish(
+        "nodes",
+        {
+          onlineNodes,
+          currentValidators,
+          onlineValidatingNodes,
+          stakingNodes,
+        },
+        getSession
+      );
+      void wampPublish(
+        "network-stats",
+        {
+          currentValidatorsCount: currentValidators.length,
+          onlineNodesCount: onlineNodes.length,
+          epochLength: epochStats.epochLength,
+          epochStartHeight: epochStats.epochStartHeight,
+          epochProtocolVersion: epochStats.epochProtocolVersion,
+          totalStake: epochStats.totalStake,
+          seatPrice: epochStats.seatPrice,
+          genesisTime: epochStats.genesisTime,
+          genesisHeight: epochStats.genesisHeight,
+        },
+        getSession
+      );
     } catch (error) {
       console.warn("Regular network info publishing crashed due to:", error);
     }
