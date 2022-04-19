@@ -5,7 +5,7 @@ import wampApi from "../../../libraries/wamp/api";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const nearNetwork = getNearNetwork(req);
+    const nearNetwork = getNearNetwork(req.query, req.headers.host);
     const wampCall = wampApi.getCall(nearNetwork);
     const rpcFinalBlock = await wampCall("nearcore-final-block", []);
     const indexerFinalBlock = await wampCall("blocks-list", [1]);

@@ -147,10 +147,10 @@ const mapRpcActionToAction = (action: RPC.ActionView): Action => {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { hash: string }
-> = async ({ req, params }) => {
+> = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const nearNetwork = getNearNetwork(req);
+    const nearNetwork = getNearNetwork(query, req.headers.host);
     const wampCall = wampApi.getCall(nearNetwork);
     const transactionBaseInfo = await wampCall("transaction-info", [hash]);
     if (!transactionBaseInfo) {

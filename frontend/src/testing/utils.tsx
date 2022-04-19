@@ -11,7 +11,6 @@ const networkContext: NetworkContext = {
   currentNetwork: {
     name: "testnet",
     explorerLink: "http://explorer/",
-    aliases: ["alias1"],
     nearWalletProfilePrefix: "http://wallet/profile",
   },
   networks: [],

@@ -1,6 +1,7 @@
 import "../libraries/wdyr";
 import NextApp, { AppContext, AppInitialProps } from "next/app";
 import Head from "next/head";
+import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
 
 import { getConfig, getNearNetwork, NearNetwork } from "../libraries/config";
@@ -78,8 +79,27 @@ declare module "next/app" {
   }
 }
 
+const wrapHandler = <T extends NextRouter["replace"]>(
+  router: NextRouter,
+  originalHandler: T
+): T => {
+  return ((href, as, ...args) => {
+    const network = router.query.network;
+    if (network) {
+      as += `?network=${network}`;
+    }
+    return originalHandler(href, as, ...args);
+  }) as T;
+};
+
 const App: AppType = React.memo(
   ({ Component, currentNearNetwork, language, pageProps }) => {
+    const router = useRouter();
+    React.useEffect(() => {
+      router.replace = wrapHandler(router, router.replace);
+      router.push = wrapHandler(router, router.push);
+    }, [router]);
+
     if (typeof window !== "undefined" && language) {
       setMomentLanguage(language);
       // There is no react way of waiting till i18n is initialized before render
@@ -153,7 +173,10 @@ App.getInitialProps = async (appContext) => {
       req.headers["accept-language"]
     );
     initialProps = {
-      currentNearNetwork: getNearNetwork(req),
+      currentNearNetwork: getNearNetwork(
+        appContext.ctx.query,
+        req.headers.host
+      ),
       language,
     };
     setI18n(await initializeI18n(language));
@@ -166,7 +189,10 @@ App.getInitialProps = async (appContext) => {
     // This branch is called only on page change hence we don't need to calculate language at the moment
     // as i18next is already configured
     initialProps = {
-      currentNearNetwork: getNearNetwork(),
+      currentNearNetwork: getNearNetwork(
+        appContext.ctx.query,
+        window.location.host
+      ),
     };
   }
 

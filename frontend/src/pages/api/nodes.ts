@@ -11,7 +11,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     res.send({});
 
-    const nearNetwork = getNearNetwork(req);
+    const nearNetwork = getNearNetwork(req.query, req.headers.host);
 
     wampApi
       .getCall(nearNetwork)("node-telemetry", [

@@ -1,12 +1,12 @@
-import { IncomingMessage } from "http";
 import getNextConfig from "next/config";
+import { ParsedUrlQuery } from "querystring";
 
 export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
 
 export interface NearNetwork {
   name: NetworkName;
   explorerLink: string;
-  aliases: string[];
+  aliases?: string[];
   nearWalletProfilePrefix: string;
 }
 
@@ -16,7 +16,6 @@ export interface ExplorerConfig {
   };
   publicRuntimeConfig: {
     nearNetworks: NearNetwork[];
-    nearNetworkAliases: Record<string, NearNetwork>;
     wampNearExplorerUrl: string;
     googleAnalytics?: string;
   };
@@ -26,27 +25,33 @@ export const getConfig = (): ExplorerConfig => {
   return getNextConfig();
 };
 
-function getHostname(req?: IncomingMessage): string | undefined {
-  if (typeof window !== "undefined") {
-    return window.location.host;
-  } else if (req) {
-    return req.headers.host;
-  }
-}
-
-export function getNearNetwork(req?: IncomingMessage): NearNetwork {
+export function getNearNetwork(
+  query: ParsedUrlQuery,
+  hostname?: string
+): NearNetwork {
   const config = getConfig();
-  const hostname = getHostname(req);
-  let nearNetwork = hostname
-    ? config.publicRuntimeConfig.nearNetworkAliases[hostname]
-    : undefined;
-  if (nearNetwork === undefined) {
-    nearNetwork = config.publicRuntimeConfig.nearNetworks[0];
-    if (!nearNetwork) {
-      throw new Error(
-        "No NEAR networks provided via NEAR_NETWORKS env variable"
-      );
+
+  const queryNetwork = query.network;
+  if (queryNetwork) {
+    const matchedNetwork = config.publicRuntimeConfig.nearNetworks.find(
+      (network) => network.name === queryNetwork
+    );
+    if (matchedNetwork) {
+      return matchedNetwork;
     }
+  }
+
+  let nearNetwork: NearNetwork | undefined;
+  if (hostname) {
+    nearNetwork = config.publicRuntimeConfig.nearNetworks.find((network) =>
+      network.aliases?.includes(hostname)
+    );
+  }
+  if (!nearNetwork) {
+    nearNetwork = config.publicRuntimeConfig.nearNetworks[0];
+  }
+  if (!nearNetwork) {
+    throw new Error("No NEAR networks provided via NEAR_NETWORKS env variable");
   }
   return nearNetwork;
 }
