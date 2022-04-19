@@ -9,13 +9,8 @@ describe("<ValidatorsList />", () => {
     expect(
       renderElement(
         <ValidatorsList
-          validators={VALIDATORS_LIST}
-          pages={{
-            startPage: 1,
-            endPage: 5,
-            activePage: 2,
-            itemsPerPage: 12,
-          }}
+          validators={VALIDATORS_LIST.slice(0, 5)}
+          selectedPageIndex={0}
         />
       )
     ).toMatchSnapshot();

@@ -63,8 +63,10 @@ interface Props {
   stakingPoolInfo?: StakingPoolInfo;
   currentStake?: string;
   proposedStakeForNextEpoch?: string;
-  cumulativeStake: number;
-  totalStakeInPersnt: number;
+  stakePercents: {
+    ownPercent: number;
+    cumulativePercent: number;
+  } | null;
   handleClick: React.MouseEventHandler;
 }
 
@@ -86,8 +88,7 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
     stakingPoolInfo,
     currentStake,
     proposedStakeForNextEpoch,
-    cumulativeStake,
-    totalStakeInPersnt,
+    stakePercents,
     handleClick,
   }) => {
     const { t } = useTranslation();
@@ -284,10 +285,7 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
             )}
           </StakeText>
           <td>
-            <CumulativeStakeChart
-              total={cumulativeStake - totalStakeInPersnt}
-              current={cumulativeStake}
-            />
+            <CumulativeStakeChart percents={stakePercents} />
           </td>
         </TableRow>
       </>

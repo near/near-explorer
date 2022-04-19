@@ -9,6 +9,7 @@ import ValidatorCollapsedRow from "./ValidatorCollapsedRow";
 import { ValidationNodeInfo } from "../../libraries/wamp/types";
 
 import { styled } from "../../libraries/styles";
+import { FRACTION_DIGITS } from "./CumulativeStakeChart";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {
   display: "flex",
@@ -45,45 +46,44 @@ const WarningText = styled("td", {
 interface Props {
   node: ValidationNodeInfo;
   index: number;
-  totalStake?: BN;
+  totalStake: BN;
+  cumulativeStake: BN;
+  isNetworkHolder: boolean;
 }
 
-const networkHolder: Set<number> = new Set();
+const ZERO = new BN(0);
+const EXTRA_PRECISION_MULTIPLIER = Math.pow(10, 2 + FRACTION_DIGITS);
 
 const ValidatorRow: React.FC<Props> = React.memo(
-  ({ node, index, totalStake }) => {
+  ({ node, index, totalStake, cumulativeStake, isNetworkHolder }) => {
     const { t } = useTranslation();
     const [isRowActive, setRowActive] = React.useState(false);
     const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
       setRowActive,
     ]);
-    let totalStakeInPersnt = 0;
-    let cumulativeStake = 0;
 
-    if (node.currentStake && totalStake && !totalStake.isZero()) {
-      totalStakeInPersnt =
-        new BN(node.currentStake)
-          .mul(new BN(10000))
-          .div(totalStake)
-          .toNumber() / 100;
-    }
-
-    const cumulativeStakeAmount =
-      node.cumulativeStakeAmount && new BN(node.cumulativeStakeAmount);
-    if (node.currentStake && totalStake && cumulativeStakeAmount) {
-      cumulativeStake =
-        cumulativeStakeAmount.mul(new BN(10000)).div(totalStake).toNumber() /
-        100;
-    }
-
-    if (
-      networkHolder.size === 0 &&
-      totalStake &&
-      cumulativeStakeAmount &&
-      cumulativeStakeAmount.gt(totalStake.divn(3))
-    ) {
-      networkHolder.add(index);
-    }
+    const stakePercents = React.useMemo(() => {
+      if (
+        !node.stakingStatus ||
+        !["active", "leaving"].includes(node.stakingStatus)
+      ) {
+        return null;
+      }
+      const stake = node.currentStake ? new BN(node.currentStake) : ZERO;
+      const ownPercent = totalStake.isZero()
+        ? 0
+        : stake.muln(EXTRA_PRECISION_MULTIPLIER).div(totalStake).toNumber();
+      const cumulativeStakePercent = totalStake.isZero()
+        ? 0
+        : cumulativeStake
+            .muln(EXTRA_PRECISION_MULTIPLIER)
+            .div(totalStake)
+            .toNumber();
+      return {
+        ownPercent: ownPercent / EXTRA_PRECISION_MULTIPLIER,
+        cumulativePercent: cumulativeStakePercent / EXTRA_PRECISION_MULTIPLIER,
+      };
+    }, [totalStake, node.currentStake, cumulativeStake]);
 
     return (
       <>
@@ -98,8 +98,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
           stakingPoolInfo={node.stakingPoolInfo}
           proposedStakeForNextEpoch={node.proposedStake}
           currentStake={node.currentStake}
-          cumulativeStake={cumulativeStake}
-          totalStakeInPersnt={totalStakeInPersnt}
+          stakePercents={stakePercents}
           handleClick={switchRowActive}
         />
 
@@ -118,7 +117,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
           poolDescription={node.poolDetails?.description}
         />
 
-        {cumulativeStakeAmount && networkHolder.has(index) && (
+        {isNetworkHolder && (
           <CumulativeStakeholdersRow>
             <WarningText colSpan={8} className="text-center">
               {t("component.nodes.ValidatorRow.warning_tip", {

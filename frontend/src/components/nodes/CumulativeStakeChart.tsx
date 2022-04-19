@@ -3,65 +3,73 @@ import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
 
 const Wrapper = styled("div", {
-  width: "100%",
-  height: "100%",
+  height: 75,
   backgroundColor: "#f0f9ff",
   position: "relative",
   display: "flex",
+
+  color: "#0072ce",
+  fontSize: 14,
+  fontWeight: 500,
 });
 
 const Value = styled("div", {
-  display: "block",
-  height: 75,
-
   variants: {
     type: {
-      total: {
+      accumulated: {
         backgroundColor: "#d6edff",
       },
-      current: {
+      own: {
         backgroundColor: "#8fcdff",
       },
     },
   },
 });
 
-const CumulativeStakeLabel = styled("div", {
+const Label = styled("div", {
   position: "absolute",
   top: 0,
-  right: 24,
-  bottom: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
   display: "flex",
   alignItems: "center",
-  color: "#0072ce",
-  fontSize: 14,
-  fontWeight: 500,
-  maxWidth: 75,
+  justifyContent: "center",
 });
 
 interface Props {
-  total: number;
-  current: number;
+  percents: {
+    ownPercent: number;
+    cumulativePercent: number;
+  } | null;
 }
 
-const CumulativeStakeChart: React.FC<Props> = React.memo(
-  ({ total, current }) => {
-    const { t } = useTranslation();
+export const FRACTION_DIGITS = 2;
+
+const CumulativeStakeChart: React.FC<Props> = React.memo(({ percents }) => {
+  const { t } = useTranslation();
+  if (!percents) {
     return (
       <Wrapper>
-        <Value type="total" style={{ width: total ? `${total}%` : "0%" }} />
-        <Value
-          type="current"
-          style={{
-            width: current ? `${current - total}%` : "0%",
-          }}
-        />
-        <CumulativeStakeLabel>
-          {current ? `${current}%` : t("common.state.not_available")}
-        </CumulativeStakeLabel>
+        <Label>{t("common.state.not_available")}</Label>
       </Wrapper>
     );
   }
-);
+  const accumulatedPercent = (
+    (percents.cumulativePercent - percents.ownPercent) *
+    100
+  ).toFixed(FRACTION_DIGITS);
+  const ownPercent = (percents.ownPercent * 100).toFixed(FRACTION_DIGITS);
+  const cumulativePercent = (percents.cumulativePercent * 100).toFixed(
+    FRACTION_DIGITS
+  );
+  return (
+    <Wrapper>
+      <Value type="accumulated" style={{ width: `${accumulatedPercent}%` }} />
+      <Value type="own" style={{ width: `${ownPercent}%` }} />
+      <Label>{`${cumulativePercent}%`}</Label>
+    </Wrapper>
+  );
+});
 
 export default CumulativeStakeChart;
