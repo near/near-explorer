@@ -86,6 +86,7 @@ const wrapHandler = <T extends NextRouter["replace"]>(
   return ((href, as, ...args) => {
     const network = router.query.network;
     if (network) {
+      href += `?network=${network}`;
       as += `?network=${network}`;
     }
     return originalHandler(href, as, ...args);
