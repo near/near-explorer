@@ -105,16 +105,8 @@ const ValidatorRow: React.FC<Props> = React.memo(
         <ValidatorCollapsedRow
           isRowActive={isRowActive}
           progress={node.progress}
-          latestProducedValidatorBlock={node.nodeInfo?.lastHeight}
-          lastSeen={node.nodeInfo?.lastSeen}
-          agentName={node.nodeInfo?.agentName}
-          agentVersion={node.nodeInfo?.agentVersion}
-          agentBuild={node.nodeInfo?.agentBuild}
-          poolWebsite={node.poolDetails?.url}
-          poolEmail={node.poolDetails?.email}
-          poolTwitter={node.poolDetails?.twitter}
-          poolDiscord={node.poolDetails?.discord}
-          poolDescription={node.poolDetails?.description}
+          nodeInfo={node.nodeInfo}
+          poolDetails={node.poolDetails}
         />
 
         {isNetworkHolder && (

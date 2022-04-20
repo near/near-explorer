@@ -4,7 +4,7 @@ import { Col, Row, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
-import { ValidationProgress } from "../../libraries/wamp/types";
+import { NodeInfo, ValidationProgress } from "../../libraries/wamp/types";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
 import {
@@ -33,30 +33,13 @@ const AgentNameBadge = styled(Badge, {
 
 interface Props {
   progress?: ValidationProgress;
-  latestProducedValidatorBlock?: number;
-  lastSeen?: number;
-  agentName?: string;
-  agentVersion?: string;
-  agentBuild?: string;
+  nodeInfo?: NodeInfo;
 }
 
 const ValidatorTelemetryRow: React.FC<Props> = React.memo(
-  ({
-    progress,
-    latestProducedValidatorBlock,
-    lastSeen,
-    agentName,
-    agentVersion,
-    agentBuild,
-  }) => {
+  ({ progress, nodeInfo }) => {
     const { t } = useTranslation();
-    const isTelemetryAvailable =
-      Boolean(progress) ||
-      Boolean(latestProducedValidatorBlock) ||
-      Boolean(lastSeen) ||
-      Boolean(agentName) ||
-      Boolean(agentVersion) ||
-      Boolean(agentBuild);
+    const isTelemetryAvailable = Boolean(progress) || Boolean(nodeInfo);
 
     const latestBlockHeight = useLatestBlockHeight();
 
@@ -130,24 +113,21 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(
           <Row noGutters>
             <ValidatorNodesText
               className={
-                latestBlockHeight === undefined ||
-                latestProducedValidatorBlock === undefined
+                latestBlockHeight === undefined || !nodeInfo
                   ? undefined
                   : Math.abs(
-                      latestProducedValidatorBlock -
-                        latestBlockHeight.toNumber()
+                      nodeInfo.lastHeight - latestBlockHeight.toNumber()
                     ) > 1000
                   ? "text-danger"
                   : Math.abs(
-                      latestProducedValidatorBlock -
-                        latestBlockHeight.toNumber()
+                      nodeInfo.lastHeight - latestBlockHeight.toNumber()
                     ) > 50
                   ? "text-warning"
                   : undefined
               }
               md={3}
             >
-              {latestProducedValidatorBlock ?? t("common.state.not_available")}
+              {nodeInfo ? nodeInfo.lastHeight : t("common.state.not_available")}
             </ValidatorNodesText>
           </Row>
         </ValidatorNodesContentCell>
@@ -167,8 +147,8 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(
           </Row>
           <Row noGutters>
             <ValidatorNodesText>
-              {lastSeen ? (
-                <Timer time={lastSeen} />
+              {nodeInfo ? (
+                <Timer time={nodeInfo.lastSeen} />
               ) : (
                 t("common.state.not_available")
               )}
@@ -198,8 +178,10 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(
           </Row>
           <Row noGutters>
             <ValidatorNodesText>
-              {agentName ? (
-                <AgentNameBadge variant="secondary">{agentName}</AgentNameBadge>
+              {nodeInfo ? (
+                <AgentNameBadge variant="secondary">
+                  {nodeInfo.agentName}
+                </AgentNameBadge>
               ) : (
                 t("common.state.not_available")
               )}
@@ -217,11 +199,11 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(
           </Row>
           <Row noGutters>
             <ValidatorNodesText>
-              {agentVersion || agentBuild ? (
+              {nodeInfo ? (
                 <AgentNameBadge variant="secondary">
-                  {`${agentVersion ?? "-"}
+                  {`${nodeInfo.agentVersion ?? "-"}
                               /
-                              ${agentBuild ?? "-"}
+                              ${nodeInfo.agentBuild ?? "-"}
                             `}
                 </AgentNameBadge>
               ) : (
