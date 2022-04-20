@@ -201,9 +201,6 @@
         "total_stake": "Tổng Stake ký gửi",
         "seat_price": "Giá Chỗ"
       },
-      "Nodes": {
-        "validator": "Node xác thực"
-      },
       "NodeRow": {
         "online": {
           "title": "Trực tuyến",

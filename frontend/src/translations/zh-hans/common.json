@@ -201,9 +201,6 @@
         "total_stake": "总质押量",
         "seat_price": "席位价格"
       },
-      "Nodes": {
-        "validator": "验证节点"
-      },
       "NodeRow": {
         "online": {
           "title": "在线",

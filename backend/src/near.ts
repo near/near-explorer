@@ -91,7 +91,7 @@ const queryEpochStats = async (): Promise<
     | "genesisTime"
     | "genesisHeight"
   > & {
-    currentValidators: CurrentNode[];
+    currentValidatorsCount: number;
     stakingNodes: Map<string, StakingNode>;
   }
 > => {
@@ -243,7 +243,7 @@ const queryEpochStats = async (): Promise<
     epochStartHeight,
     epochProtocolVersion,
     // we must kick of 'joining' validators as they are not part of current epoch
-    currentValidators: currentEpochValidatingNodes,
+    currentValidatorsCount: currentEpochValidatingNodes.length,
     stakingNodes,
     totalStake,
     seatPrice,

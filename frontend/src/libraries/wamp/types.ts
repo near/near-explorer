@@ -84,10 +84,7 @@ export type NetworkStats = {
 
 export type SubscriptionTopicTypes = {
   nodes: {
-    onlineNodes: NodeInfo[];
     stakingNodes: ValidationNodeInfo[];
-    currentValidators: unknown[];
-    onlineValidatingNodes: NodeInfo[];
   };
   "chain-blocks-stats": {
     latestBlockHeight: string;

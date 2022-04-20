@@ -15,7 +15,6 @@ import {
   queryFinalBlock,
   queryEpochStats,
   callViewMethod,
-  CurrentNode,
   sendJsonRpcQuery,
 } from "./near";
 
@@ -23,11 +22,10 @@ import { setupWamp, wampPublish } from "./wamp";
 
 import {
   extendWithTelemetryInfo,
-  queryOnlineNodes,
+  queryOnlineNodesCount,
   queryDashboardBlocksStats,
   queryTransactionsCountHistoryForTwoWeeks,
   queryRecentTransactionsCount,
-  OnlineNode,
   StakingNodeWithTelemetryInfo,
 } from "./db-utils";
 
@@ -83,7 +81,6 @@ type StakingNodeInfo = StakingNodeWithTelemetryInfo & {
 };
 
 let transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[] = [];
-let currentValidators: CurrentNode[] = [];
 let stakingNodes: StakingNodeInfo[] = [];
 let stakingPoolsInfo = new Map<string, StakingPoolInfo>();
 let currentStakeInfo = new Map<string, string | undefined>();
@@ -218,18 +215,11 @@ async function main(): Promise<void> {
     try {
       const epochStats = await queryEpochStats();
 
-      currentValidators = epochStats.currentValidators;
-
-      const onlineNodes = await queryOnlineNodes();
+      const onlineNodesCount = await queryOnlineNodesCount();
 
       const originalStakingNodes = await extendWithTelemetryInfo([
         ...epochStats.stakingNodes.values(),
       ]);
-
-      const onlineValidatingNodes = originalStakingNodes
-        .filter((i) => "stakingStatus" in i && i.stakingStatus !== "proposal")
-        .map((node) => node.nodeInfo)
-        .filter((nodeInfo): nodeInfo is OnlineNode => Boolean(nodeInfo));
 
       stakingNodes = originalStakingNodes.map((validator) => {
         const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
@@ -276,21 +266,12 @@ async function main(): Promise<void> {
         };
       });
 
-      void wampPublish(
-        "nodes",
-        {
-          onlineNodes,
-          currentValidators,
-          onlineValidatingNodes,
-          stakingNodes,
-        },
-        getSession
-      );
+      void wampPublish("nodes", { stakingNodes }, getSession);
       void wampPublish(
         "network-stats",
         {
-          currentValidatorsCount: currentValidators.length,
-          onlineNodesCount: onlineNodes.length,
+          currentValidatorsCount: epochStats.currentValidatorsCount,
+          onlineNodesCount: onlineNodesCount,
           epochLength: epochStats.epochLength,
           epochStartHeight: epochStats.epochStartHeight,
           epochProtocolVersion: epochStats.epochProtocolVersion,

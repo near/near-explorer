@@ -17,11 +17,7 @@ const NodesIcon = styled("img", {
   marginRight: 11,
 });
 
-interface Props {
-  navRole: string;
-}
-
-const NodesContentHeader: React.FC<Props> = React.memo(({ navRole }) => {
+const NodesContentHeader: React.FC = React.memo(() => {
   const { t } = useTranslation();
   return (
     <Row noGutters>
@@ -34,7 +30,7 @@ const NodesContentHeader: React.FC<Props> = React.memo(({ navRole }) => {
         </NodesContentHeaderWrapper>
       </Col>
       <Col xs="12" style={{ visibility: "hidden" }}>
-        <NodeNav role={navRole} />
+        <NodeNav />
       </Col>
     </Row>
   );

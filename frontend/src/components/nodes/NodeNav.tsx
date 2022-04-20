@@ -17,20 +17,11 @@ const NodeSelector = styled(Col, {
   marginLeft: 16,
   marginTop: 2,
   textAlign: "center",
-  color: "#72727a",
-  transition: "all 0.15s ease-in-out",
+  color: "#111618",
+  borderBottom: "2px solid #2b9af4",
 
   "&:hover": {
     color: "#111618",
-  },
-
-  variants: {
-    selected: {
-      true: {
-        color: "#111618",
-        borderBottom: "2px solid #2b9af4",
-      },
-    },
   },
 });
 
@@ -49,21 +40,13 @@ const NodeLink = styled("a", {
   },
 });
 
-interface Props {
-  role: string;
-}
-
-const NodeNav: React.FC<Props> = React.memo(({ role }) => {
+const NodeNav: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const networkStats = useNetworkStats();
 
   return (
     <Row>
-      <NodeSelector
-        xs="auto"
-        selected={role === "validators"}
-        className="pt-2 pb-2"
-      >
+      <NodeSelector xs="auto" selected className="pt-2 pb-2">
         <Link href="/nodes/validators" passHref>
           <NodeLink>
             {t("component.nodes.NodeNav.validating")}{" "}

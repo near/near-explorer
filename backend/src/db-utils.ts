@@ -240,34 +240,16 @@ const queryNodeValidators = async (): Promise<{ account_id: string }[]> => {
   );
 };
 
-const queryOnlineNodes = async (): Promise<OnlineNode[]> => {
-  const query = await queryRows<Pick<NodeModel, GenericNodeModelProps>>(
+const queryOnlineNodesCount = async (): Promise<number> => {
+  const query = await querySingleRow<{ onlineNodesCount: string }>(
     [
-      `SELECT ip_address, account_id, node_id,
-        last_seen, last_height, status,
-        agent_name, agent_version, agent_build,
-        latitude, longitude, city
+      `SELECT COUNT(*) as "onlineNodesCount"
       FROM nodes
-      WHERE last_seen > NOW() - INTERVAL '60 seconds'
-      ORDER BY is_validator ASC, node_id DESC`,
+      WHERE last_seen > NOW() - INTERVAL '60 seconds'`,
     ],
     { dataSource: DataSource.Telemetry }
   );
-
-  return query.map((onlineNode) => ({
-    accountId: onlineNode.account_id,
-    ipAddress: onlineNode.ip_address,
-    nodeId: onlineNode.node_id,
-    lastSeen: onlineNode.last_seen.valueOf(),
-    lastHeight: parseInt(onlineNode.last_height),
-    status: onlineNode.status,
-    agentName: onlineNode.agent_name,
-    agentVersion: onlineNode.agent_version,
-    agentBuild: onlineNode.agent_build,
-    latitude: onlineNode.latitude,
-    longitude: onlineNode.longitude,
-    city: onlineNode.city,
-  }));
+  return parseInt(query!.onlineNodesCount);
 };
 
 // query for new dashboard
@@ -1648,7 +1630,7 @@ const queryGasUsedInChunks = async (blockHash: string) => {
 };
 
 // node part
-export { queryOnlineNodes, extendWithTelemetryInfo, queryNodeValidators };
+export { queryOnlineNodesCount, extendWithTelemetryInfo, queryNodeValidators };
 
 // genesis
 export { queryGenesisAccountCount };
