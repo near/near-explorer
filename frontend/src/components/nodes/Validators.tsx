@@ -3,7 +3,7 @@ import * as React from "react";
 import { Table, OnPageChange } from "../utils/Table";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
-import ValidatorsList from "./ValidatorsList";
+import ValidatorsList, { ITEMS_PER_PAGE } from "./ValidatorsList";
 
 import { useTranslation } from "react-i18next";
 import { useNodes } from "../../hooks/subscriptions";
@@ -14,21 +14,19 @@ const ValidatorNodePagination = styled(PaginateWrapper, {
   backgroundColor: "#ffffff",
 });
 
-const ITEMS_PER_PAGE = 120;
-
 const Validators: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const [activePage, setActivePage] = React.useState(0);
-  const [startPage, setStartPage] = React.useState(1);
-  const [endPage, setEndPage] = React.useState(ITEMS_PER_PAGE);
+  const [selectedPageIndex, setSelectedPageIndex] = React.useState(0);
 
   const onPageChange = React.useCallback<NonNullable<OnPageChange>>(
     ({ selected }) => {
-      setActivePage(selected);
-      setStartPage(selected * ITEMS_PER_PAGE + 1);
-      setEndPage(selected * ITEMS_PER_PAGE + ITEMS_PER_PAGE);
+      setSelectedPageIndex(selected);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     },
-    []
+    [setSelectedPageIndex]
   );
 
   const stakingNodes = useNodes()?.stakingNodes;
@@ -68,12 +66,7 @@ const Validators: React.FC = React.memo(() => {
       <tbody>
         <ValidatorsList
           validators={stakingNodes}
-          pages={{
-            startPage,
-            endPage,
-            activePage,
-            itemsPerPage: ITEMS_PER_PAGE,
-          }}
+          selectedPageIndex={selectedPageIndex}
         />
       </tbody>
     </Table>

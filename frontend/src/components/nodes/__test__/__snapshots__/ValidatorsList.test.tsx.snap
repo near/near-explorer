@@ -17,7 +17,7 @@ Array [
     <td
       className="c-OrderTableCell-clytRC"
     >
-      25
+      1
     </td>
     <td>
       <div
@@ -105,28 +105,28 @@ Array [
     </td>
     <td>
       <div
-        className="c-Wrapper-lnRZjv"
+        className="c-Wrapper-jTdjUT"
       >
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+          className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
           style={
             Object {
-              "width": "0%",
+              "width": "0.00%",
             }
           }
         />
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+          className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
           style={
             Object {
-              "width": "50.14%",
+              "width": "52.39%",
             }
           }
         />
         <div
-          className="c-CumulativeStakeLabel-gEhNqg"
+          className="c-Label-dmIDyz"
         >
-          50.14%
+          52.39%
         </div>
       </div>
     </td>
@@ -156,7 +156,7 @@ Array [
     <td
       className="c-OrderTableCell-clytRC"
     >
-      26
+      2
     </td>
     <td>
       <div
@@ -244,28 +244,28 @@ Array [
     </td>
     <td>
       <div
-        className="c-Wrapper-lnRZjv"
+        className="c-Wrapper-jTdjUT"
       >
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+          className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
           style={
             Object {
-              "width": "50.15%",
+              "width": "52.40%",
             }
           }
         />
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+          className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
           style={
             Object {
-              "width": "24.57%",
+              "width": "25.67%",
             }
           }
         />
         <div
-          className="c-CumulativeStakeLabel-gEhNqg"
+          className="c-Label-dmIDyz"
         >
-          74.72%
+          78.07%
         </div>
       </div>
     </td>
@@ -285,7 +285,7 @@ Array [
     <td
       className="c-OrderTableCell-clytRC"
     >
-      27
+      3
     </td>
     <td>
       <img
@@ -385,28 +385,28 @@ Array [
     </td>
     <td>
       <div
-        className="c-Wrapper-lnRZjv"
+        className="c-Wrapper-jTdjUT"
       >
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+          className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
           style={
             Object {
-              "width": "74.72999999999999%",
+              "width": "78.08%",
             }
           }
         />
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+          className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
           style={
             Object {
-              "width": "20.980000000000004%",
+              "width": "21.92%",
             }
           }
         />
         <div
-          className="c-CumulativeStakeLabel-gEhNqg"
+          className="c-Label-dmIDyz"
         >
-          95.71%
+          100.00%
         </div>
       </div>
     </td>
@@ -426,7 +426,7 @@ Array [
     <td
       className="c-OrderTableCell-clytRC"
     >
-      28
+      4
     </td>
     <td>
       <div
@@ -514,26 +514,10 @@ Array [
     </td>
     <td>
       <div
-        className="c-Wrapper-lnRZjv"
+        className="c-Wrapper-jTdjUT"
       >
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
-          style={
-            Object {
-              "width": "-4.41%",
-            }
-          }
-        />
-        <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
-          style={
-            Object {
-              "width": "0%",
-            }
-          }
-        />
-        <div
-          className="c-CumulativeStakeLabel-gEhNqg"
+          className="c-Label-dmIDyz"
         >
           common.state.not_available
         </div>
@@ -555,17 +539,17 @@ Array [
     <td
       className="c-OrderTableCell-clytRC"
     >
-      29
+      5
     </td>
     <td>
       <img
         className="c-CountryFlagWrapper-fuqtaQ"
-        id="country_flag_01node.poolv1.near"
+        id="country_flag_cryptium.poolv1.near"
         onBlur={[Function]}
         onFocus={[Function]}
         onMouseOut={[Function]}
         onMouseOver={[Function]}
-        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.4/flags/4x3/ro.svg"
+        src="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/4.1.4/flags/4x3/ch.svg"
         style={
           Object {
             "display": "inline-block",
@@ -584,13 +568,13 @@ Array [
           className="c-ValidatorsNodeLabel-klLQiF col"
         >
           <span
-            className="c-ValidatingLabelWrapper-eennLm c-ValidatingLabelWrapper-eennLm-brIorn-type-leaving badge"
+            className="c-ValidatingLabelWrapper-eennLm c-ValidatingLabelWrapper-eennLm-bAsvAl-type-proposal badge"
             onBlur={[Function]}
             onFocus={[Function]}
             onMouseOut={[Function]}
             onMouseOver={[Function]}
           >
-            component.nodes.ValidatorMainRow.state.leaving.title
+            component.nodes.ValidatorMainRow.state.proposal.title
           </span>
         </div>
         <div
@@ -601,9 +585,9 @@ Array [
           >
             <div
               className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH col"
-              title="@01node.poolv1.near"
+              title="@cryptium.poolv1.near"
             >
-              01node.poolv1.near
+              cryptium.poolv1.near
             </div>
           </div>
           <div
@@ -611,19 +595,19 @@ Array [
           >
             <div
               className="c-ValidatorNodesText-hdougQ c-ValidatorNameText-iLHpdH c-PublicKey-bESuNr col"
-              title="ed25519:5xz7EbcnPqabwoFezdJBxieK8S7XLsdHHuLwM4vLLhFt"
+              title="ed25519:5Y9hW8cKBb5RnsJBqttHHC5ujz5zcZZ5xnrJPwkCWmGQ"
             >
-              ed25519:5xz7EbcnPqabwoFezdJBxieK8S7XLsdHHuLwM4vLLhFt
+              ed25519:5Y9hW8cKBb5RnsJBqttHHC5ujz5zcZZ5xnrJPwkCWmGQ
             </div>
           </div>
         </div>
       </div>
     </td>
     <td>
-      1%
+      5%
     </td>
     <td>
-      512
+      129
     </td>
     <td
       className="c-ValidatorNodesText-hdougQ c-StakeText-ePtfAL text-right"
@@ -634,49 +618,19 @@ Array [
         onMouseOut={[Function]}
         onMouseOver={[Function]}
       >
-        3,632,096
+        2,656,963
          
         NEAR
       </span>
-      <br />
-      <small>
-        -
-        <span
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-        >
-          3,508
-           
-          NEAR
-        </span>
-      </small>
     </td>
     <td>
       <div
-        className="c-Wrapper-lnRZjv"
+        className="c-Wrapper-jTdjUT"
       >
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
-          style={
-            Object {
-              "width": "95.72%",
-            }
-          }
-        />
-        <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
-          style={
-            Object {
-              "width": "4.280000000000001%",
-            }
-          }
-        />
-        <div
-          className="c-CumulativeStakeLabel-gEhNqg"
+          className="c-Label-dmIDyz"
         >
-          100%
+          common.state.not_available
         </div>
       </div>
     </td>

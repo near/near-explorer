@@ -116,28 +116,28 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
   </td>
   <td>
     <div
-      className="c-Wrapper-lnRZjv"
+      className="c-Wrapper-jTdjUT"
     >
       <div
-        className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+        className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
         style={
           Object {
-            "width": "96.7%",
+            "width": "29.16%",
           }
         }
       />
       <div
-        className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+        className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
         style={
           Object {
-            "width": "20.980000000000004%",
+            "width": "20.98%",
           }
         }
       />
       <div
-        className="c-CumulativeStakeLabel-gEhNqg"
+        className="c-Label-dmIDyz"
       >
-        117.68%
+        50.14%
       </div>
     </div>
   </td>
@@ -248,18 +248,18 @@ exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 
   </td>
   <td>
     <div
-      className="c-Wrapper-lnRZjv"
+      className="c-Wrapper-jTdjUT"
     >
       <div
-        className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+        className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
         style={
           Object {
-            "width": "50.15%",
+            "width": "25.57%",
           }
         }
       />
       <div
-        className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+        className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
         style={
           Object {
             "width": "24.57%",
@@ -267,9 +267,9 @@ exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 
         }
       />
       <div
-        className="c-CumulativeStakeLabel-gEhNqg"
+        className="c-Label-dmIDyz"
       >
-        74.72%
+        50.14%
       </div>
     </div>
   </td>
@@ -356,26 +356,10 @@ exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = 
   </td>
   <td>
     <div
-      className="c-Wrapper-lnRZjv"
+      className="c-Wrapper-jTdjUT"
     >
       <div
-        className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
-        style={
-          Object {
-            "width": "0%",
-          }
-        }
-      />
-      <div
-        className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
-        style={
-          Object {
-            "width": "0%",
-          }
-        }
-      />
-      <div
-        className="c-CumulativeStakeLabel-gEhNqg"
+        className="c-Label-dmIDyz"
       >
         common.state.not_available
       </div>
@@ -489,18 +473,18 @@ Array [
     </td>
     <td>
       <div
-        className="c-Wrapper-lnRZjv"
+        className="c-Wrapper-jTdjUT"
       >
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-bVUCHg-type-total"
+          className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
           style={
             Object {
-              "width": "0%",
+              "width": "0.00%",
             }
           }
         />
         <div
-          className="c-Value-cNxEVv c-Value-cNxEVv-NcDqG-type-current"
+          className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
           style={
             Object {
               "width": "50.14%",
@@ -508,7 +492,7 @@ Array [
           }
         />
         <div
-          className="c-CumulativeStakeLabel-gEhNqg"
+          className="c-Label-dmIDyz"
         >
           50.14%
         </div>

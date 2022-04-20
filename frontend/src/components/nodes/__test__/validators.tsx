@@ -40,7 +40,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "-119.7143",
       city: "Boardman",
     },
-    cumulativeStakeAmount: "42476926077593266003727024545752",
   },
   // 'active' without poolDetails
   {
@@ -81,7 +80,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       longitude: "-119.7143",
       city: "Boardman",
     },
-    cumulativeStakeAmount: "63291850295998744225597810232098",
   },
   // 'active' with all data
   {
@@ -130,7 +128,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
         "1% fee in perpetuity secured for NEAR community. Run by Silicon Valley engineers for service permanent availability. We drop rhymes, not blocks",
       country_code: "AQ",
     },
-    cumulativeStakeAmount: "99683626384055340095613466402170",
   },
   // joining
   {
@@ -299,7 +296,6 @@ export const VALIDATORS_LIST: ValidationNodeInfo[] = [
       twitter: "@01node",
       url: "https://01node.com/",
     },
-    cumulativeStakeAmount: "406947111873428286547337892954837",
   },
 ];
 
@@ -310,3 +306,14 @@ export const VALIDATORS_TOTAL_STAKE = VALIDATORS_LIST.filter(
   (acc: BN, node: ValidationNodeInfo) => acc.add(new BN(node.currentStake!)),
   new BN(0)
 ) as BN;
+
+export const getCumulativeStake = (node: ValidationNodeInfo): BN => {
+  let cumulativeStake = new BN(0);
+  for (const validator of VALIDATORS_LIST) {
+    cumulativeStake = cumulativeStake.add(new BN(validator.currentStake!));
+    if (validator === node) {
+      return cumulativeStake;
+    }
+  }
+  return cumulativeStake;
+};

@@ -45,7 +45,6 @@ export type ValidationNodeInfo = {
   progress?: ValidationProgress;
   public_key?: string;
   proposedStake?: string;
-  cumulativeStakeAmount?: string;
   stakingStatus?: StakingStatus;
   networkHolder?: boolean;
   shards?: number[];
