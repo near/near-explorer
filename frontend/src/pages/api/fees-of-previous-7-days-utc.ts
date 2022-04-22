@@ -5,7 +5,7 @@ import wampApi from "../../libraries/wamp/api";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const nearNetwork = getNearNetwork(req);
+    const nearNetwork = getNearNetwork(req.query, req.headers.host);
     let resp = [];
     for (let i = 1; i <= 7; i++) {
       const feeCountPerDay = await wampApi.getCall(

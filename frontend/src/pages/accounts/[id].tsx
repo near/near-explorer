@@ -83,7 +83,7 @@ const AccountDetail: NextPage<Props> = React.memo(
 export const getServerSideProps: GetServerSideProps<
   Props,
   { id: string }
-> = async ({ req, params }) => {
+> = async ({ req, params, query }) => {
   const accountId = params?.id ?? "";
   if (/[A-Z]/.test(accountId)) {
     return {
@@ -98,7 +98,7 @@ export const getServerSideProps: GetServerSideProps<
   };
 
   try {
-    const currentNetwork = getNearNetwork(req);
+    const currentNetwork = getNearNetwork(query, req.headers.host);
     const wampCall = wampApi.getCall(currentNetwork);
     const isAccountExist = await wampCall("is-account-indexed", [accountId]);
     if (isAccountExist) {

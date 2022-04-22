@@ -84,10 +84,10 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { hash: string }
-> = async ({ req, params }) => {
+> = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const nearNetwork = getNearNetwork(req);
+    const nearNetwork = getNearNetwork(query, req.headers.host);
     const block = await getBlock(wampApi.getCall(nearNetwork), hash);
     if (!block) {
       return {
