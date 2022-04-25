@@ -35,6 +35,7 @@ const validatorsSortFns: ValidatorSortFn[] = [
   (a, b) => sortByBNComparison(a.nextEpoch?.stake, b.nextEpoch?.stake),
   (a, b) =>
     sortByBNComparison(a.afterNextEpoch?.stake, b.afterNextEpoch?.stake),
+  (a, b) => sortByBNComparison(a.contractStake, b.contractStake),
 ];
 
 const ZERO = new BN(0);
