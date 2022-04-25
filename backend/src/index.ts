@@ -235,8 +235,7 @@ const getRegularlyFetchedMap = async <T>(
   timestampMapping: Map<string, number>,
   fetchFn: (id: string) => Promise<T>,
   refetchInterval: number,
-  throwAwayTimeout: number,
-  defaultValue: T
+  throwAwayTimeout: number
 ): Promise<Map<string, T>> => {
   for (const id of ids) {
     timestampMapping.set(id, Date.now());
@@ -255,7 +254,15 @@ const getRegularlyFetchedMap = async <T>(
   }
   const map = new Map<string, T>();
   for (const id of ids) {
-    map.set(id, (await mapping.get(id)) || defaultValue);
+    try {
+      const response = await mapping.get(id);
+      if (!response) {
+        continue;
+      }
+      map.set(id, response);
+    } catch (e) {
+      mapping.delete(id);
+    }
   }
   return map;
 };
@@ -271,8 +278,7 @@ const getContractStakeMap = async (
     contractBalancesTimestamps,
     getValidatorContractBalance,
     regularFetchStakingPoolsInfoInterval,
-    fetchStakingPoolsInfoThrowawayTimeout,
-    undefined
+    fetchStakingPoolsInfoThrowawayTimeout
   );
 };
 
@@ -285,11 +291,7 @@ const getPoolInfoMap = async (
     poolInfoTimestamps,
     getPoolInfo,
     regularFetchStakingPoolsInfoInterval,
-    fetchStakingPoolsInfoThrowawayTimeout,
-    {
-      fee: null,
-      delegatorsCount: null,
-    }
+    fetchStakingPoolsInfoThrowawayTimeout
   );
 };
 
