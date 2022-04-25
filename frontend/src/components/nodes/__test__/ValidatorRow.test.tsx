@@ -24,7 +24,7 @@ describe("<ValidatorRow />", () => {
     ).toMatchSnapshot();
   });
 
-  it("renders 'active' Validators row without 'poolInfo'", () => {
+  it("renders 'active' Validators row without 'description'", () => {
     expect(
       renderElement(
         <ValidatorRow

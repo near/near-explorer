@@ -42,7 +42,7 @@ export const VALIDATORS_LIST: ValidatorFullData[] = [
       city: "Boardman",
     },
   },
-  // 'active' without poolInfo
+  // 'active' without description
   {
     accountId: "bisontrails.poolv1.near",
     publicKey: "ed25519:Emk6wQJtpQZRJCvvPmmwP9GD2Pk37xxRpmb5uRvJpX62",
