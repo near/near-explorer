@@ -19,6 +19,10 @@ export const regularFetchStakingPoolsInfoInterval =
   parseInt(process.env.NEAR_REGULAR_FETCH_STAKING_POOLS_INFO_INTERVAL || "") ||
   15000;
 
+export const fetchStakingPoolsInfoThrowawayTimeout =
+  parseInt(process.env.NEAR_FETCH_STAKING_POOLS_INFO_THROWAWAY_TIMEOUT || "") ||
+  60000;
+
 export const regularFetchStakingPoolsMetadataInfoInterval =
   parseInt(
     process.env.NEAR_REGULAR_FETCH_STAKING_POOLS_METADATA_INFO_INTERVAL || ""

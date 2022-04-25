@@ -6,10 +6,12 @@ import { useTranslation } from "react-i18next";
 
 import ValidatorMainRow from "./ValidatorMainRow";
 import ValidatorCollapsedRow from "./ValidatorCollapsedRow";
-import { ValidationNodeInfo } from "../../libraries/wamp/types";
 
 import { styled } from "../../libraries/styles";
 import { FRACTION_DIGITS } from "./CumulativeStakeChart";
+import { ValidatorFullData } from "../../libraries/wamp/types";
+import ValidatingLabel, { StakingStatus } from "./ValidatingLabel";
+import { useNetworkStats } from "../../hooks/subscriptions";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {
   display: "flex",
@@ -44,7 +46,7 @@ const WarningText = styled("td", {
 });
 
 interface Props {
-  node: ValidationNodeInfo;
+  validator: ValidatorFullData;
   index: number;
   totalStake: BN;
   cumulativeStake: BN;
@@ -54,22 +56,73 @@ interface Props {
 const ZERO = new BN(0);
 const EXTRA_PRECISION_MULTIPLIER = Math.pow(10, 2 + FRACTION_DIGITS);
 
+const getStakingStatus = (
+  validator: ValidatorFullData,
+  seatPrice?: string
+): StakingStatus | null => {
+  if (validator.currentEpoch) {
+    if (validator.nextEpoch) {
+      return "active";
+    } else {
+      return "leaving";
+    }
+  } else {
+    if (validator.nextEpoch) {
+      return "joining";
+    } else {
+      if (validator.afterNextEpoch) {
+        return "proposal";
+      } else {
+        if (!seatPrice) {
+          return null;
+        }
+        const contractStake = validator.contractStake
+          ? new BN(validator.contractStake)
+          : undefined;
+        if (!contractStake) {
+          return null;
+        }
+        const seatPriceBN = new BN(seatPrice);
+        if (contractStake.gte(seatPriceBN)) {
+          return "onHold";
+        } else if (contractStake.gte(seatPriceBN.muln(20).divn(100))) {
+          return "newcomer";
+        } else {
+          return "idle";
+        }
+      }
+    }
+  }
+};
+
 const ValidatorRow: React.FC<Props> = React.memo(
-  ({ node, index, totalStake, cumulativeStake, isNetworkHolder }) => {
+  ({ validator, index, totalStake, cumulativeStake, isNetworkHolder }) => {
     const { t } = useTranslation();
     const [isRowActive, setRowActive] = React.useState(false);
     const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
       setRowActive,
     ]);
 
+    const visibleStake =
+      validator.currentEpoch?.stake ??
+      validator.nextEpoch?.stake ??
+      validator.afterNextEpoch?.stake ??
+      validator.contractStake;
+
+    const currentStake = validator.currentEpoch?.stake;
+    const nextVisibleStake =
+      validator.nextEpoch?.stake ?? validator.afterNextEpoch?.stake;
+
+    const stakeDelta =
+      validator.currentEpoch?.stake && nextVisibleStake
+        ? new BN(nextVisibleStake).sub(new BN(validator.currentEpoch.stake))
+        : undefined;
+
     const stakePercents = React.useMemo(() => {
-      if (
-        !node.stakingStatus ||
-        !["active", "leaving"].includes(node.stakingStatus)
-      ) {
+      if (!validator.currentEpoch) {
         return null;
       }
-      const stake = node.currentStake ? new BN(node.currentStake) : ZERO;
+      const stake = currentStake ? new BN(currentStake) : ZERO;
       const ownPercent = totalStake.isZero()
         ? 0
         : stake.muln(EXTRA_PRECISION_MULTIPLIER).div(totalStake).toNumber();
@@ -83,37 +136,41 @@ const ValidatorRow: React.FC<Props> = React.memo(
         ownPercent: ownPercent / EXTRA_PRECISION_MULTIPLIER,
         cumulativePercent: cumulativeStakePercent / EXTRA_PRECISION_MULTIPLIER,
       };
-    }, [totalStake, node.currentStake, cumulativeStake]);
+    }, [totalStake, currentStake, cumulativeStake]);
+
+    const networkStats = useNetworkStats();
+    const stakingStatus = getStakingStatus(validator, networkStats?.seatPrice);
 
     return (
       <>
         <ValidatorMainRow
           isRowActive={isRowActive}
-          accountId={node.account_id}
-          index={index}
-          countryCode={node.poolDetails?.country_code}
-          country={node.poolDetails?.country}
-          stakingStatus={node.stakingStatus}
-          publicKey={node.public_key}
-          stakingPoolInfo={node.stakingPoolInfo}
-          proposedStakeForNextEpoch={node.proposedStake}
-          currentStake={node.currentStake}
+          accountId={validator.accountId}
+          index={index + 1}
+          countryCode={validator.description?.countryCode}
+          country={validator.description?.country}
+          publicKey={validator.publicKey}
+          poolInfo={validator.poolInfo}
           stakePercents={stakePercents}
           handleClick={switchRowActive}
-        />
+          visibleStake={visibleStake}
+          stakeDelta={stakeDelta}
+        >
+          {stakingStatus ? <ValidatingLabel type={stakingStatus} /> : null}
+        </ValidatorMainRow>
 
         <ValidatorCollapsedRow
           isRowActive={isRowActive}
-          progress={node.progress}
-          nodeInfo={node.nodeInfo}
-          poolDetails={node.poolDetails}
+          progress={validator.currentEpoch?.progress}
+          telemetry={validator.telemetry}
+          description={validator.description}
         />
 
         {isNetworkHolder && (
           <CumulativeStakeholdersRow>
             <WarningText colSpan={8} className="text-center">
               {t("component.nodes.ValidatorRow.warning_tip", {
-                node_tip_max: index,
+                node_tip_max: index + 1,
               })}
             </WarningText>
           </CumulativeStakeholdersRow>

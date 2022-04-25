@@ -3,27 +3,36 @@ import * as React from "react";
 import { TableCollapseRow } from "../utils/Table";
 
 import ValidatorMetadataRow from "./ValidatorMetadataRow";
-import ValidatorTelemetryRow from "./ValidatorTelemetryRow";
+import ValidatorProgressElement from "./ValidatorProgressElement";
+import ValidatorTelemetryElements from "./ValidatorTelemetryElements";
 import {
-  NodeInfo,
-  PoolDetails,
+  ValidatorTelemetry,
+  ValidatorDescription,
   ValidationProgress,
 } from "../../libraries/wamp/types";
+import { ValidatorNodesContentRow } from "./ValidatorRow";
 
 interface Props {
   isRowActive: boolean;
   progress?: ValidationProgress;
-  nodeInfo?: NodeInfo;
-  poolDetails?: PoolDetails;
+  telemetry?: ValidatorTelemetry;
+  description?: ValidatorDescription;
 }
 
 const ValidatorCollapsedRow: React.FC<Props> = React.memo(
-  ({ isRowActive, progress, nodeInfo, poolDetails }) => (
+  ({ isRowActive, progress, telemetry, description }) => (
     <TableCollapseRow collapse={isRowActive}>
       <td colSpan={8}>
-        <ValidatorTelemetryRow progress={progress} nodeInfo={nodeInfo} />
+        <ValidatorNodesContentRow noGutters>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
+            rel="stylesheet"
+          />
+          {progress && <ValidatorProgressElement progress={progress} />}
+          {telemetry && <ValidatorTelemetryElements telemetry={telemetry} />}
+        </ValidatorNodesContentRow>
 
-        <ValidatorMetadataRow poolDetails={poolDetails} />
+        <ValidatorMetadataRow description={description} />
       </td>
     </TableCollapseRow>
   )

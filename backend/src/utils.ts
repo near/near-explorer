@@ -39,9 +39,23 @@ function trimError(e: unknown): string {
   }`;
 }
 
+const wait = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+const withTimeout = async <R>(
+  promise: () => Promise<R>,
+  defaultValue: R,
+  timeout: number
+): Promise<R> => {
+  const maybeResult = await Promise.race([promise(), wait(timeout)]);
+  return maybeResult === undefined ? defaultValue : maybeResult;
+};
+
 export {
   formatDate,
   generateDateArray,
   cumulativeAccountsCountArray,
   trimError,
+  wait,
+  withTimeout,
 };

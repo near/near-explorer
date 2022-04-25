@@ -1,6 +1,6 @@
 import BN from "bn.js";
 import * as React from "react";
-import { ValidationNodeInfo } from "../../libraries/wamp/types";
+import { ValidatorFullData } from "../../libraries/wamp/types";
 
 import ValidatorRow from "./ValidatorRow";
 
@@ -9,107 +9,67 @@ import ValidatorRow from "./ValidatorRow";
 const NETWORK_HOLDER_SHARE = 0.33;
 
 interface Props {
-  validators: ValidationNodeInfo[];
+  validators: ValidatorFullData[];
+  totalStake: string;
   selectedPageIndex: number;
 }
 
 export const ITEMS_PER_PAGE = 120;
 
-const getCurrentStake = (node: ValidationNodeInfo): string => {
-  return node.currentStake || "0";
+type ValidatorSortFn = (a: ValidatorFullData, b: ValidatorFullData) => number;
+
+const sortByBNComparison = (aValue?: string, bValue?: string) => {
+  if (aValue !== undefined && bValue !== undefined) {
+    return new BN(bValue).cmp(new BN(aValue));
+  } else if (aValue) {
+    return -1;
+  } else if (bValue) {
+    return 1;
+  } else {
+    return 0;
+  }
 };
 
-const sortValidators = (nodes: ValidationNodeInfo[]): ValidationNodeInfo[] => {
-  return [...nodes].sort((a, b) => {
-    // we take "active", "joining", "leaving" validators and sort them firstly
-    // after then we sort the rest
-    const validatingGroup = ["active", "joining", "leaving"];
+const validatorsSortFns: ValidatorSortFn[] = [
+  (a, b) => sortByBNComparison(a.currentEpoch?.stake, b.currentEpoch?.stake),
+  (a, b) => sortByBNComparison(a.nextEpoch?.stake, b.nextEpoch?.stake),
+  (a, b) =>
+    sortByBNComparison(a.afterNextEpoch?.stake, b.afterNextEpoch?.stake),
+];
 
-    const aInValidatingGroup =
-      a.stakingStatus && validatingGroup.includes(a.stakingStatus);
-    const bInValidatingGroup =
-      b.stakingStatus && validatingGroup.includes(b.stakingStatus);
-
-    const aCurrentStake = getCurrentStake(a);
-    const bCurrentStake = getCurrentStake(b);
-    if (aInValidatingGroup && bInValidatingGroup) {
-      return new BN(bCurrentStake).cmp(new BN(aCurrentStake));
-    } else if (aInValidatingGroup) {
-      return -1;
-    } else if (bInValidatingGroup) {
-      return 1;
-    } else {
-      const aStake = BN.max(
-        new BN(b.proposedStake || 0),
-        new BN(bCurrentStake)
-      );
-      const bStake = BN.max(
-        new BN(a.proposedStake || 0),
-        new BN(aCurrentStake)
-      );
-      return aStake.cmp(bStake);
-    }
-  });
-};
+const ZERO = new BN(0);
 
 const ValidatorsList: React.FC<Props> = React.memo(
-  ({ validators, selectedPageIndex }) => {
-    const sortedValidators = React.useMemo(() => sortValidators(validators), [
-      validators,
-    ]);
+  ({ validators, totalStake, selectedPageIndex }) => {
+    const sortedValidators = React.useMemo(
+      () =>
+        validatorsSortFns.reduceRight((acc, sortFn) => acc.sort(sortFn), [
+          ...validators,
+        ]),
+      [validators]
+    );
 
-    const {
-      cumulativeAmounts,
-      totalStake,
-      networkHolderIndex,
-    } = React.useMemo<{
-      totalStake: BN;
-      cumulativeAmounts: BN[];
-      networkHolderIndex: number;
-    }>(() => {
-      const { cumulativeAmounts, totalStake } = sortedValidators.reduce<{
-        totalStake: BN;
-        cumulativeAmounts: BN[];
-      }>(
-        (acc, validator) => {
-          const prevAmounts = acc.cumulativeAmounts;
-          // filter validators list by 'active' and 'leaving' validators to calculate cumulative
-          // stake only for those validators
-          if (
-            !validator.stakingStatus ||
-            !["active", "leaving"].includes(validator.stakingStatus)
-          ) {
-            return {
-              totalStake: acc.totalStake,
-              cumulativeAmounts: [
-                ...prevAmounts,
-                prevAmounts[prevAmounts.length - 1],
-              ],
-            };
-          }
-          const nextTotal = acc.totalStake.add(
-            new BN(getCurrentStake(validator))
-          );
-          return {
-            totalStake: nextTotal,
-            cumulativeAmounts: [...prevAmounts, nextTotal],
-          };
-        },
-        {
-          totalStake: new BN(0),
-          cumulativeAmounts: [],
-        }
+    const cumulativeAmounts = React.useMemo<BN[]>(
+      () =>
+        sortedValidators.reduce<BN[]>((cumulativeAmounts, validator) => {
+          const lastAmount =
+            cumulativeAmounts[cumulativeAmounts.length - 1] ?? ZERO;
+          return [
+            ...cumulativeAmounts,
+            validator.currentEpoch
+              ? lastAmount.add(new BN(validator.currentEpoch.stake))
+              : lastAmount,
+          ];
+        }, []),
+      [sortedValidators]
+    );
+
+    const networkHolderIndex = React.useMemo(() => {
+      const holderLimit = new BN(totalStake).muln(NETWORK_HOLDER_SHARE);
+      return cumulativeAmounts.findIndex((cumulativeAmount) =>
+        cumulativeAmount.gt(holderLimit)
       );
-      const holderLimit = totalStake.muln(NETWORK_HOLDER_SHARE);
-      const networkHolderIndex = cumulativeAmounts.findIndex(
-        (cumulativeAmount) => cumulativeAmount.gt(holderLimit)
-      );
-      return {
-        cumulativeAmounts,
-        totalStake,
-        networkHolderIndex,
-      };
-    }, [sortedValidators]);
+    }, [totalStake, cumulativeAmounts]);
 
     const startValidatorIndex = selectedPageIndex * ITEMS_PER_PAGE;
 
@@ -117,14 +77,14 @@ const ValidatorsList: React.FC<Props> = React.memo(
       <>
         {sortedValidators
           .slice(startValidatorIndex, startValidatorIndex + ITEMS_PER_PAGE)
-          .map((node, index) => {
+          .map((validator, index) => {
             const pagedIndex = startValidatorIndex + index;
             return (
               <ValidatorRow
-                key={node.account_id}
-                node={node}
-                index={pagedIndex + 1}
-                totalStake={totalStake}
+                key={validator.accountId}
+                validator={validator}
+                index={pagedIndex}
+                totalStake={new BN(totalStake)}
                 cumulativeStake={cumulativeAmounts[pagedIndex]}
                 isNetworkHolder={networkHolderIndex === pagedIndex}
               />

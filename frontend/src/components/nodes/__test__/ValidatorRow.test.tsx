@@ -2,20 +2,20 @@ import { renderElement } from "../../../testing/utils";
 
 import ValidatorRow from "../ValidatorRow";
 
-import {
-  getCumulativeStake,
-  VALIDATORS_LIST,
-  VALIDATORS_TOTAL_STAKE,
-} from "./validators";
+import { getCumulativeStake, VALIDATORS_LIST } from "./validators";
+
+const totalStake = getCumulativeStake(
+  VALIDATORS_LIST[VALIDATORS_LIST.length - 1]
+);
 
 describe("<ValidatorRow />", () => {
   it("renders simple 'active' Validators row", () => {
     expect(
       renderElement(
         <ValidatorRow
-          key={VALIDATORS_LIST[0].account_id}
-          node={VALIDATORS_LIST[0]}
-          totalStake={VALIDATORS_TOTAL_STAKE}
+          key={VALIDATORS_LIST[0].accountId}
+          validator={VALIDATORS_LIST[0]}
+          totalStake={totalStake}
           cumulativeStake={getCumulativeStake(VALIDATORS_LIST[0])}
           isNetworkHolder={true}
           index={1}
@@ -24,13 +24,13 @@ describe("<ValidatorRow />", () => {
     ).toMatchSnapshot();
   });
 
-  it("renders 'active' Validators row without 'poolDetails'", () => {
+  it("renders 'active' Validators row without 'poolInfo'", () => {
     expect(
       renderElement(
         <ValidatorRow
-          key={VALIDATORS_LIST[1].account_id}
-          node={VALIDATORS_LIST[1]}
-          totalStake={VALIDATORS_TOTAL_STAKE}
+          key={VALIDATORS_LIST[1].accountId}
+          validator={VALIDATORS_LIST[1]}
+          totalStake={totalStake}
           cumulativeStake={getCumulativeStake(VALIDATORS_LIST[0])}
           isNetworkHolder={false}
           index={2}
@@ -43,9 +43,9 @@ describe("<ValidatorRow />", () => {
     expect(
       renderElement(
         <ValidatorRow
-          key={VALIDATORS_LIST[2].account_id}
-          node={VALIDATORS_LIST[2]}
-          totalStake={VALIDATORS_TOTAL_STAKE}
+          key={VALIDATORS_LIST[2].accountId}
+          validator={VALIDATORS_LIST[2]}
+          totalStake={totalStake}
           cumulativeStake={getCumulativeStake(VALIDATORS_LIST[0])}
           isNetworkHolder={false}
           index={3}
@@ -58,9 +58,9 @@ describe("<ValidatorRow />", () => {
     expect(
       renderElement(
         <ValidatorRow
-          key={VALIDATORS_LIST[7].account_id}
-          node={VALIDATORS_LIST[7]}
-          totalStake={VALIDATORS_TOTAL_STAKE}
+          key={VALIDATORS_LIST[7].accountId}
+          validator={VALIDATORS_LIST[7]}
+          totalStake={totalStake}
           cumulativeStake={getCumulativeStake(VALIDATORS_LIST[0])}
           isNetworkHolder={false}
           index={4}

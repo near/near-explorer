@@ -1,5 +1,3 @@
-import BN from "bn.js";
-
 import {
   regularPublishFinalityStatusInterval,
   regularQueryStatsInterval,
@@ -9,11 +7,12 @@ import {
   wampNearNetworkName,
   regularFetchStakingPoolsMetadataInfoInterval,
   regularPublishTransactionCountForTwoWeeksInterval,
+  fetchStakingPoolsInfoThrowawayTimeout,
 } from "./config";
 
 import {
   queryFinalBlock,
-  queryEpochStats,
+  queryEpochData,
   callViewMethod,
   sendJsonRpcQuery,
 } from "./near";
@@ -21,12 +20,10 @@ import {
 import { setupWamp, wampPublish } from "./wamp";
 
 import {
-  extendWithTelemetryInfo,
-  queryOnlineNodesCount,
+  queryTelemetryInfo,
   queryDashboardBlocksStats,
   queryTransactionsCountHistoryForTwoWeeks,
   queryRecentTransactionsCount,
-  StakingNodeWithTelemetryInfo,
 } from "./db-utils";
 
 import {
@@ -48,8 +45,12 @@ import {
   aggregateCirculatingSupplyByDate,
 } from "./stats";
 import autobahn from "autobahn";
-import { StakingPoolInfo, StakingStatus } from "./client-types";
-import { formatDate, trimError } from "./utils";
+import {
+  ValidatorPoolInfo,
+  ValidatorDescription,
+  ValidatorEpochData,
+} from "./client-types";
+import { formatDate, trimError, withTimeout } from "./utils";
 import { databases, withPool } from "./db";
 import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
 
@@ -71,20 +72,15 @@ type PoolMetadataAccountInfo = {
 };
 type PoolMetadataInfo = Record<PoolMetadataAccountId, PoolMetadataAccountInfo>;
 
-const nonValidatingNodeStatuses = ["on-hold", "newcomer", "idle"];
-
-type StakingNodeInfo = StakingNodeWithTelemetryInfo & {
-  stakingPoolInfo?: StakingPoolInfo;
-  currentStake?: string;
-  poolDetails?: PoolMetadataAccountInfo;
-  stakingStatus?: StakingStatus;
-};
+const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
 
 let transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[] = [];
-let stakingNodes: StakingNodeInfo[] = [];
-let stakingPoolsInfo = new Map<string, StakingPoolInfo>();
-let currentStakeInfo = new Map<string, string | undefined>();
-let stakingPoolsMetadataInfo = new Map<string, PoolMetadataAccountInfo>();
+let stakingPoolsMetadataInfo: Map<string, ValidatorDescription> = new Map();
+
+const contractBalancesTimestamps: Map<string, number> = new Map();
+const contractBalances: Map<string, Promise<string | undefined>> = new Map();
+const poolInfoTimestamps: Map<string, number> = new Map();
+const poolInfos: Map<string, Promise<ValidatorPoolInfo>> = new Map();
 
 function startDataSourceSpecificJobs(
   getSession: () => Promise<autobahn.Session>
@@ -159,6 +155,144 @@ function startStatsAggregation(): void {
   setTimeout(regularStatsAggregate, 0);
 }
 
+const updateValidatorDescriptions = async (
+  map: Map<string, ValidatorDescription>
+): Promise<void> => {
+  let currentIndex = 0;
+  while (true) {
+    const metadataInfo = await callViewMethod<PoolMetadataInfo>(
+      "name.near",
+      "get_all_fields",
+      {
+        from_index: currentIndex,
+        limit: VALIDATOR_DESCRIPTION_QUERY_AMOUNT,
+      }
+    );
+    const entries = Object.entries(metadataInfo);
+    if (entries.length === 0) {
+      return;
+    }
+    for (const [accountId, poolMetadataInfo] of entries) {
+      map.set(accountId, {
+        country: poolMetadataInfo.country,
+        countryCode: poolMetadataInfo.country_code,
+        description: poolMetadataInfo.description,
+        discord: poolMetadataInfo.discord,
+        email: poolMetadataInfo.email,
+        twitter: poolMetadataInfo.twitter,
+        url: poolMetadataInfo.url,
+      });
+    }
+    currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT;
+  }
+};
+
+const getValidatorContractBalance = async (
+  id: string
+): Promise<string | undefined> => {
+  // for some accounts on 'testnet' we can't get 'currentStake'
+  // because they looks like pool accounts but they are not so
+  // that's why we catch this error to avoid unnecessary errors in console
+  return callViewMethod<string>(id, "get_total_staked_balance", {}).catch(
+    () => undefined
+  );
+};
+
+const getPoolInfo = async (id: string): Promise<ValidatorPoolInfo> => {
+  const account = await sendJsonRpcQuery("view_account", {
+    account_id: id,
+    finality: "final",
+  });
+
+  // 'code_hash' === 11111111111111111111111111111111 is when the validator
+  // does not have a staking-pool contract on it (common on testnet)
+  if (account.code_hash === "11111111111111111111111111111111") {
+    return {
+      fee: null,
+      delegatorsCount: null,
+    };
+  }
+  return {
+    // for some accounts on 'testnet' we can't get 'fee' and 'delegatorsCount'
+    // because they looks like pool accounts but they are not so
+    // that's why we catch this error to avoid unnecessary errors in console
+    fee: await callViewMethod<ValidatorPoolInfo["fee"]>(
+      id,
+      "get_reward_fee_fraction",
+      {}
+    ).catch(() => null),
+    delegatorsCount: await callViewMethod<ValidatorPoolInfo["delegatorsCount"]>(
+      id,
+      "get_number_of_accounts",
+      {}
+    ).catch(() => null),
+  };
+};
+
+const getRegularlyFetchedMap = async <T>(
+  ids: string[],
+  mapping: Map<string, Promise<T>>,
+  timestampMapping: Map<string, number>,
+  fetchFn: (id: string) => Promise<T>,
+  refetchInterval: number,
+  throwAwayTimeout: number,
+  defaultValue: T
+): Promise<Map<string, T>> => {
+  for (const id of ids) {
+    timestampMapping.set(id, Date.now());
+    if (!mapping.get(id)) {
+      mapping.set(id, fetchFn(id));
+      const intervalId = setInterval(() => {
+        const lastTimestamp = timestampMapping.get(id) || 0;
+        if (Date.now() - lastTimestamp <= throwAwayTimeout) {
+          mapping.set(id, fetchFn(id));
+        } else {
+          mapping.delete(id);
+          clearInterval(intervalId);
+        }
+      }, refetchInterval);
+    }
+  }
+  const map = new Map<string, T>();
+  for (const id of ids) {
+    map.set(id, (await mapping.get(id)) || defaultValue);
+  }
+  return map;
+};
+
+const getContractStakeMap = async (
+  validators: ValidatorEpochData[]
+): Promise<Map<string, string | undefined>> => {
+  return getRegularlyFetchedMap(
+    validators
+      .filter((validator) => !validator.currentEpoch)
+      .map((validator) => validator.accountId),
+    contractBalances,
+    contractBalancesTimestamps,
+    getValidatorContractBalance,
+    regularFetchStakingPoolsInfoInterval,
+    fetchStakingPoolsInfoThrowawayTimeout,
+    undefined
+  );
+};
+
+const getPoolInfoMap = async (
+  validators: ValidatorEpochData[]
+): Promise<Map<string, ValidatorPoolInfo>> => {
+  return getRegularlyFetchedMap(
+    validators.map((validator) => validator.accountId),
+    poolInfos,
+    poolInfoTimestamps,
+    getPoolInfo,
+    regularFetchStakingPoolsInfoInterval,
+    fetchStakingPoolsInfoThrowawayTimeout,
+    {
+      fee: null,
+      delegatorsCount: null,
+    }
+  );
+};
+
 async function main(): Promise<void> {
   console.log("Starting Explorer backend & WAMP listener...");
   const getSession = setupWamp();
@@ -213,75 +347,36 @@ async function main(): Promise<void> {
   // regularly publish information about validators, proposals, staking pools, and online nodes
   const regularPublishNetworkInfo = async (): Promise<void> => {
     try {
-      const epochStats = await queryEpochStats();
-
-      const onlineNodesCount = await queryOnlineNodesCount();
-
-      const originalStakingNodes = await extendWithTelemetryInfo([
-        ...epochStats.stakingNodes.values(),
+      const epochData = await queryEpochData();
+      const telemetryInfo = await queryTelemetryInfo(
+        epochData.validators.map((validator) => validator.accountId)
+      );
+      const [contractStakeMap, poolInfoMap] = await Promise.all([
+        withTimeout<Map<string, string | undefined>>(
+          () => getContractStakeMap(epochData.validators),
+          new Map(),
+          2500
+        ),
+        withTimeout<Map<string, ValidatorPoolInfo>>(
+          () => getPoolInfoMap(epochData.validators),
+          new Map(),
+          2500
+        ),
       ]);
-
-      stakingNodes = originalStakingNodes.map((validator) => {
-        const stakingPoolInfo = stakingPoolsInfo.get(validator.account_id);
-        if (!stakingPoolInfo) {
-          return validator;
-        }
-        // '!validator.stakingStatus' occured at the first start
-        // when we query all pool accounts from database.
-        // Before this moment we'll have the validators with statuses
-        // 'active', 'joining', 'leaving' and 'proposal'.
-        // So here we set, check and regulary re-check is validators
-        // still has those statuses
-        const currentStake =
-          "currentStake" in validator ? validator.currentStake : "0";
-        let stakingStatus: StakingStatus | undefined =
-          "stakingStatus" in validator ? validator.stakingStatus : undefined;
-
-        if (
-          !stakingStatus ||
-          nonValidatingNodeStatuses.includes(stakingStatus)
-        ) {
-          if (new BN(currentStake).gt(new BN(epochStats.seatPrice))) {
-            stakingStatus = "on-hold";
-          } else if (
-            new BN(currentStake).gte(
-              new BN(epochStats.seatPrice).muln(20).divn(100)
-            )
-          ) {
-            stakingStatus = "newcomer";
-          } else if (
-            new BN(currentStake).lt(
-              new BN(epochStats.seatPrice).muln(20).divn(100)
-            )
-          ) {
-            stakingStatus = "idle";
-          }
-        }
-        return {
-          ...validator,
-          stakingPoolInfo,
-          currentStake: currentStakeInfo.get(validator.account_id),
-          poolDetails: stakingPoolsMetadataInfo.get(validator.account_id),
-          stakingStatus,
-        };
-      });
-
-      void wampPublish("nodes", { stakingNodes }, getSession);
       void wampPublish(
-        "network-stats",
+        "validators",
         {
-          currentValidatorsCount: epochStats.currentValidatorsCount,
-          onlineNodesCount: onlineNodesCount,
-          epochLength: epochStats.epochLength,
-          epochStartHeight: epochStats.epochStartHeight,
-          epochProtocolVersion: epochStats.epochProtocolVersion,
-          totalStake: epochStats.totalStake,
-          seatPrice: epochStats.seatPrice,
-          genesisTime: epochStats.genesisTime,
-          genesisHeight: epochStats.genesisHeight,
+          validators: epochData.validators.map((validator) => ({
+            ...validator,
+            description: stakingPoolsMetadataInfo.get(validator.accountId),
+            poolInfo: poolInfoMap.get(validator.accountId),
+            contractStake: contractStakeMap.get(validator.accountId),
+            telemetry: telemetryInfo.get(validator.accountId),
+          })),
         },
         getSession
       );
+      void wampPublish("network-stats", epochData.stats, getSession);
     } catch (error) {
       console.warn("Regular network info publishing crashed due to:", error);
     }
@@ -289,35 +384,10 @@ async function main(): Promise<void> {
   };
   setTimeout(regularPublishNetworkInfo, 0);
 
-  // Periodic check of validators' metadata info (country, country_flag, etc.)
-  // This query works only for 'mainnet'
   function startRegularFetchStakingPoolsMetadataInfo(): void {
     const regularFetchStakingPoolsMetadataInfo = async (): Promise<void> => {
       try {
-        const queryRowsCount = 100;
-        const fetchPoolsMetadataInfo = (
-          counter = 0
-        ): Promise<PoolMetadataInfo> => {
-          return callViewMethod("name.near", "get_all_fields", {
-            from_index: counter,
-            limit: queryRowsCount,
-          });
-        };
-        let metadataInfo = await fetchPoolsMetadataInfo();
-
-        for (
-          let i = 0;
-          Object.keys(metadataInfo).length !== 0;
-          i += queryRowsCount
-        ) {
-          metadataInfo = await fetchPoolsMetadataInfo(i);
-
-          Object.keys(metadataInfo).map((account_id) => {
-            stakingPoolsMetadataInfo.set(account_id, {
-              ...metadataInfo[account_id],
-            });
-          });
-        }
+        await updateValidatorDescriptions(stakingPoolsMetadataInfo);
       } catch (error) {
         console.warn(
           "Regular fetching staking pools metadata info crashed due to:",
@@ -331,98 +401,6 @@ async function main(): Promise<void> {
     };
     setTimeout(regularFetchStakingPoolsMetadataInfo, 0);
   }
-
-  // Periodic check of validators' staking pool fee and delegators count
-  const regularFetchStakingPoolsInfo = async (): Promise<void> => {
-    try {
-      if (stakingNodes.length > 0) {
-        for (let i = 0; i < stakingNodes.length; i++) {
-          const {
-            account_id,
-            stakingStatus,
-            currentStake: activeNodeStake,
-          } = stakingNodes[i];
-
-          try {
-            let currentStake = activeNodeStake || undefined;
-            const account = await sendJsonRpcQuery("view_account", {
-              account_id: account_id,
-              finality: "final",
-            });
-
-            // query and update 'currentStake' for 'on-hold', 'newcomer' and 'idle' nodes
-            // because other nodes receive 'currentStake' from 'queryEpochStats()'
-            if (
-              !stakingStatus ||
-              nonValidatingNodeStatuses.includes(stakingStatus)
-            ) {
-              currentStake = await callViewMethod<string>(
-                account_id,
-                "get_total_staked_balance",
-                {}
-              ).catch((_error) => {
-                // for some accounts on 'testnet' we can't get 'currentStake'
-                // because they looks like pool accounts but they are not so
-                // that's why we catch this error to avoid unnecessary errors in console
-                return undefined;
-              });
-            }
-            currentStakeInfo.set(account_id, currentStake);
-
-            // 'code_hash' === 11111111111111111111111111111111 is when the validator
-            // does not have a staking-pool contract on it (common on testnet)
-            if (account.code_hash === "11111111111111111111111111111111") {
-              stakingPoolsInfo.set(account_id, {
-                fee: null,
-                delegatorsCount: null,
-              });
-            } else {
-              const fee = await callViewMethod<{
-                numerator: number;
-                denominator: number;
-              } | null>(account_id, "get_reward_fee_fraction", {}).catch(
-                (_error) => {
-                  // for some accounts on 'testnet' we can't get 'fee'
-                  // because they looks like pool accounts but they are not so
-                  // that's why we catch this error to avoid unnecessary errors in console
-                  return null;
-                }
-              );
-              const delegatorsCount = await callViewMethod<number>(
-                account_id,
-                "get_number_of_accounts",
-                {}
-              ).catch((_error) => {
-                // for some accounts on 'testnet' we can't get 'delegatorsCount'
-                // because they looks like pool accounts but they are not so
-                // that's why we catch this error to avoid unnecessary errors in console
-                return null;
-              });
-              stakingPoolsInfo.set(account_id, {
-                fee,
-                delegatorsCount,
-              });
-            }
-          } catch (error) {
-            console.warn(
-              `Regular fetching staking pool ${account_id} info crashed due to:`,
-              error
-            );
-          }
-        }
-      }
-    } catch (error) {
-      console.warn(
-        "Regular fetching staking pools info crashed due to:",
-        error
-      );
-    }
-    setTimeout(
-      regularFetchStakingPoolsInfo,
-      regularFetchStakingPoolsInfoInterval
-    );
-  };
-  setTimeout(regularFetchStakingPoolsInfo, 0);
 
   startDataSourceSpecificJobs(getSession);
   startStatsAggregation();

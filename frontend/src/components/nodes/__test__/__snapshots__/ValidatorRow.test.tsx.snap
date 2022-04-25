@@ -144,7 +144,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
 </tr>
 `;
 
-exports[`<ValidatorRow /> renders 'active' Validators row without 'poolDetails' 1`] = `
+exports[`<ValidatorRow /> renders 'active' Validators row without 'poolInfo' 1`] = `
 <tr
   className="c-TableRowWrapper-jUPfkR mx-0"
 >

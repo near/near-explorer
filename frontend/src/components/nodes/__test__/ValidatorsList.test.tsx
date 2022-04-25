@@ -2,7 +2,11 @@ import { renderElement } from "../../../testing/utils";
 
 import ValidatorsList from "../ValidatorsList";
 
-import { VALIDATORS_LIST } from "./validators";
+import { getCumulativeStake, VALIDATORS_LIST } from "./validators";
+
+const totalStake = getCumulativeStake(
+  VALIDATORS_LIST[VALIDATORS_LIST.length - 1]
+);
 
 describe("<ValidatorsList />", () => {
   it("renders validators list", () => {
@@ -11,6 +15,7 @@ describe("<ValidatorsList />", () => {
         <ValidatorsList
           validators={VALIDATORS_LIST.slice(0, 5)}
           selectedPageIndex={0}
+          totalStake={totalStake.toString()}
         />
       )
     ).toMatchSnapshot();
