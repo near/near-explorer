@@ -135,7 +135,7 @@ const getEpochState = async (
   epochStatus: EpochValidatorInfo,
   networkProtocolConfig: ProtocolConfigView
 ) => {
-  if (currentEpochState?.height === epochStatus.epoch_height) {
+  if (currentEpochState?.height === epochStatus.epoch_start_height) {
     return currentEpochState;
   }
 
@@ -150,7 +150,7 @@ const getEpochState = async (
       0
     );
   currentEpochState = {
-    height: epochStatus.epoch_height,
+    height: epochStatus.epoch_start_height,
     seatPrice: nearApi.validators
       .findSeatPrice(
         epochStatus.current_validators,
@@ -188,7 +188,7 @@ const queryEpochData = async (): Promise<EpochData> => {
   return {
     stats: {
       epochLength: networkProtocolConfig.epoch_length,
-      epochStartHeight: epochStatus.epoch_height,
+      epochStartHeight: epochStatus.epoch_start_height,
       epochProtocolVersion: networkProtocolConfig.protocol_version,
       currentValidatorsCount: epochStatus.current_validators.length,
       totalStake: epochState.totalStake,
