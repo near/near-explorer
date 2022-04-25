@@ -1,6 +1,6 @@
 import autobahn from "autobahn";
 import { getConfig } from "../config";
-import { SubscriptionTopicTypes } from "./types";
+import { SubscriptionTopicType, SubscriptionTopicTypes } from "./types";
 
 let sessionPromise: Promise<autobahn.Session> | undefined;
 
@@ -42,39 +42,42 @@ export const getSession = async (): Promise<autobahn.Session> => {
   return sessionPromise;
 };
 
+type CachedItem<T extends SubscriptionTopicType> = {
+  subscription?: autobahn.ISubscription;
+  lastValue?: SubscriptionTopicTypes[T];
+};
+
 // We keep cache to update newly subscribed handlers immediately
 let wampSubscriptionCache: Partial<
   {
-    [T in keyof SubscriptionTopicTypes]: {
-      subscription: autobahn.ISubscription;
-      lastValue?: SubscriptionTopicTypes[T];
-    };
+    [T in SubscriptionTopicType]: CachedItem<T>;
   }
 > = {};
 
-export const subscribeTopic = async <T extends keyof SubscriptionTopicTypes>(
+export const subscribeTopic = async <T extends SubscriptionTopicType>(
   topic: T,
   handler: (data: SubscriptionTopicTypes[T]) => void
 ): Promise<void> => {
   if (wampSubscriptionCache[topic]) {
     return;
   }
+  const cachedItem: CachedItem<T> = {};
+  wampSubscriptionCache[
+    topic
+  ] = cachedItem as typeof wampSubscriptionCache[typeof topic];
   const session = await getSession();
-  wampSubscriptionCache[topic] = {
-    subscription: await session.subscribe(topic, (_args, kwargs) => {
-      handler(kwargs);
-      const cachedTopic = wampSubscriptionCache[topic];
-      if (!cachedTopic) {
-        // Bail-out in case we have a race condition of this callback and unsubscription
-        return;
-      }
-      cachedTopic.lastValue = kwargs;
-    }),
-    lastValue: undefined,
-  };
+  cachedItem.subscription = await session.subscribe(topic, (_args, kwargs) => {
+    handler(kwargs);
+    const cachedTopic = wampSubscriptionCache[topic];
+    if (!cachedTopic) {
+      // Bail-out in case we have a race condition of this callback and unsubscription
+      return;
+    }
+    cachedTopic.lastValue = kwargs;
+  });
 };
 
-export const unsubscribeTopic = async <T extends keyof SubscriptionTopicTypes>(
+export const unsubscribeTopic = async <T extends SubscriptionTopicType>(
   topic: T
 ): Promise<void> => {
   const cacheItem = wampSubscriptionCache[topic];
@@ -82,10 +85,10 @@ export const unsubscribeTopic = async <T extends keyof SubscriptionTopicTypes>(
     return;
   }
   delete wampSubscriptionCache[topic];
-  await cacheItem.subscription.unsubscribe();
+  await cacheItem.subscription?.unsubscribe();
 };
 
-export const getLastValue = <T extends keyof SubscriptionTopicTypes>(
+export const getLastValue = <T extends SubscriptionTopicType>(
   topic: T
 ): SubscriptionTopicTypes[T] | undefined => {
   return wampSubscriptionCache[topic]?.lastValue as
