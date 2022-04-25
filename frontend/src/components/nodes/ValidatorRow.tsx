@@ -11,7 +11,6 @@ import { styled } from "../../libraries/styles";
 import { FRACTION_DIGITS } from "./CumulativeStakeChart";
 import { ValidatorFullData } from "../../libraries/wamp/types";
 import ValidatingLabel, { StakingStatus } from "./ValidatingLabel";
-import { useNetworkStats } from "../../hooks/subscriptions";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {
   display: "flex",
@@ -51,6 +50,7 @@ interface Props {
   totalStake: BN;
   cumulativeStake: BN;
   isNetworkHolder: boolean;
+  seatPrice?: string;
 }
 
 const ZERO = new BN(0);
@@ -96,7 +96,14 @@ const getStakingStatus = (
 };
 
 const ValidatorRow: React.FC<Props> = React.memo(
-  ({ validator, index, totalStake, cumulativeStake, isNetworkHolder }) => {
+  ({
+    validator,
+    index,
+    totalStake,
+    cumulativeStake,
+    isNetworkHolder,
+    seatPrice,
+  }) => {
     const { t } = useTranslation();
     const [isRowActive, setRowActive] = React.useState(false);
     const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
@@ -138,8 +145,7 @@ const ValidatorRow: React.FC<Props> = React.memo(
       };
     }, [totalStake, currentStake, cumulativeStake]);
 
-    const networkStats = useNetworkStats();
-    const stakingStatus = getStakingStatus(validator, networkStats?.seatPrice);
+    const stakingStatus = getStakingStatus(validator, seatPrice);
 
     return (
       <>

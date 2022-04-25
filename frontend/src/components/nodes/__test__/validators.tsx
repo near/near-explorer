@@ -137,6 +137,9 @@ export const VALIDATORS_LIST: ValidatorFullData[] = [
     accountId: "baziliknear.poolv1.near",
     publicKey: "ed25519:E4LAWdgLifBEoaWvhRNy5vpdAnUc3GsUHePeiAurZY5v",
     nextEpoch: {
+      stake: "3735553291238507324807526403326",
+    },
+    afterNextEpoch: {
       stake: "3736122287791333873791529790832",
     },
     poolInfo: {

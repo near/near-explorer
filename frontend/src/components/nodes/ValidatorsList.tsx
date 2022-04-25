@@ -1,5 +1,6 @@
 import BN from "bn.js";
 import * as React from "react";
+import { useNetworkStats } from "../../hooks/subscriptions";
 import { ValidatorFullData } from "../../libraries/wamp/types";
 
 import ValidatorRow from "./ValidatorRow";
@@ -74,6 +75,8 @@ const ValidatorsList: React.FC<Props> = React.memo(
 
     const startValidatorIndex = selectedPageIndex * ITEMS_PER_PAGE;
 
+    const seatPrice = useNetworkStats()?.seatPrice;
+
     return (
       <>
         {sortedValidators
@@ -88,6 +91,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
                 totalStake={new BN(totalStake)}
                 cumulativeStake={cumulativeAmounts[pagedIndex]}
                 isNetworkHolder={networkHolderIndex === pagedIndex}
+                seatPrice={seatPrice}
               />
             );
           })}
