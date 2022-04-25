@@ -79,18 +79,18 @@ let stakingPoolsMetadataInfo: Map<string, ValidatorDescription> = new Map();
 
 type CachedTimestampMap<T> = {
   timestampMap: Map<string, number>;
-  map: Map<string, T>;
-  promisesMap: Map<string, Promise<T | undefined>>;
+  valueMap: Map<string, T>;
+  promisesMap: Map<string, Promise<void>>;
 };
 
 const contractBalances: CachedTimestampMap<string> = {
   timestampMap: new Map(),
-  map: new Map(),
+  valueMap: new Map(),
   promisesMap: new Map(),
 };
 const poolInfos: CachedTimestampMap<ValidatorPoolInfo> = {
   timestampMap: new Map(),
-  map: new Map(),
+  valueMap: new Map(),
   promisesMap: new Map(),
 };
 
@@ -170,8 +170,11 @@ function startStatsAggregation(): void {
 const updateValidatorDescriptions = async (
   map: Map<string, ValidatorDescription>
 ): Promise<void> => {
-  let currentIndex = 0;
-  while (true) {
+  for (
+    let currentIndex = 0;
+    true;
+    currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT
+  ) {
     const metadataInfo = await callViewMethod<PoolMetadataInfo>(
       "name.near",
       "get_all_fields",
@@ -195,7 +198,6 @@ const updateValidatorDescriptions = async (
         url: poolMetadataInfo.url,
       });
     }
-    currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT;
   }
 };
 
@@ -241,7 +243,7 @@ const getPoolInfo = async (id: string): Promise<ValidatorPoolInfo> => {
   };
 };
 
-const getRegularlyFetchedMap = async <T>(
+const updateRegularlyFetchedMap = async <T>(
   ids: string[],
   mappings: CachedTimestampMap<T>,
   fetchFn: (id: string) => Promise<T>,
@@ -251,8 +253,7 @@ const getRegularlyFetchedMap = async <T>(
   const getPromise = async (id: string) => {
     try {
       const result = await fetchFn(id);
-      mappings.map.set(id, result);
-      return result;
+      mappings.valueMap.set(id, result);
     } catch (e) {
       mappings.promisesMap.delete(id);
     }
@@ -275,11 +276,11 @@ const getRegularlyFetchedMap = async <T>(
   await Promise.all(ids.map((id) => mappings.promisesMap.get(id)));
 };
 
-const getContractStakeMap = async (
+const updateContractStakeMap = async (
   validators: ValidatorEpochData[],
   cachedTimestampMap: CachedTimestampMap<string>
 ): Promise<void> => {
-  return getRegularlyFetchedMap(
+  return updateRegularlyFetchedMap(
     validators
       .filter((validator) => !validator.currentEpoch)
       .map((validator) => validator.accountId),
@@ -290,11 +291,11 @@ const getContractStakeMap = async (
   );
 };
 
-const getPoolInfoMap = async (
+const updatePoolInfoMap = async (
   validators: ValidatorEpochData[],
   cachedTimestampMap: CachedTimestampMap<ValidatorPoolInfo>
 ): Promise<void> => {
-  return getRegularlyFetchedMap(
+  return updateRegularlyFetchedMap(
     validators.map((validator) => validator.accountId),
     cachedTimestampMap,
     getPoolInfo,
@@ -363,11 +364,11 @@ async function main(): Promise<void> {
       );
       await Promise.all([
         Promise.race([
-          getContractStakeMap(epochData.validators, contractBalances),
+          updateContractStakeMap(epochData.validators, contractBalances),
           wait(2500),
         ]),
         Promise.race([
-          getPoolInfoMap(epochData.validators, poolInfos),
+          updatePoolInfoMap(epochData.validators, poolInfos),
           wait(2500),
         ]),
       ]);
@@ -377,8 +378,8 @@ async function main(): Promise<void> {
           validators: epochData.validators.map((validator) => ({
             ...validator,
             description: stakingPoolsMetadataInfo.get(validator.accountId),
-            poolInfo: poolInfos.map.get(validator.accountId),
-            contractStake: contractBalances.map.get(validator.accountId),
+            poolInfo: poolInfos.valueMap.get(validator.accountId),
+            contractStake: contractBalances.valueMap.get(validator.accountId),
             telemetry: telemetryInfo.get(validator.accountId),
           })),
         },
