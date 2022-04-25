@@ -50,7 +50,7 @@ import {
   ValidatorDescription,
   ValidatorEpochData,
 } from "./client-types";
-import { formatDate, trimError, withTimeout } from "./utils";
+import { formatDate, trimError, wait } from "./utils";
 import { databases, withPool } from "./db";
 import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
 
@@ -77,10 +77,22 @@ const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
 let transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[] = [];
 let stakingPoolsMetadataInfo: Map<string, ValidatorDescription> = new Map();
 
-const contractBalancesTimestamps: Map<string, number> = new Map();
-const contractBalances: Map<string, Promise<string | undefined>> = new Map();
-const poolInfoTimestamps: Map<string, number> = new Map();
-const poolInfos: Map<string, Promise<ValidatorPoolInfo>> = new Map();
+type CachedTimestampMap<T> = {
+  timestampMap: Map<string, number>;
+  map: Map<string, T>;
+  promisesMap: Map<string, Promise<T | undefined>>;
+};
+
+const contractBalances: CachedTimestampMap<string> = {
+  timestampMap: new Map(),
+  map: new Map(),
+  promisesMap: new Map(),
+};
+const poolInfos: CachedTimestampMap<ValidatorPoolInfo> = {
+  timestampMap: new Map(),
+  map: new Map(),
+  promisesMap: new Map(),
+};
 
 function startDataSourceSpecificJobs(
   getSession: () => Promise<autobahn.Session>
@@ -231,51 +243,47 @@ const getPoolInfo = async (id: string): Promise<ValidatorPoolInfo> => {
 
 const getRegularlyFetchedMap = async <T>(
   ids: string[],
-  mapping: Map<string, Promise<T>>,
-  timestampMapping: Map<string, number>,
+  mappings: CachedTimestampMap<T>,
   fetchFn: (id: string) => Promise<T>,
   refetchInterval: number,
   throwAwayTimeout: number
-): Promise<Map<string, T>> => {
+): Promise<void> => {
+  const getPromise = async (id: string) => {
+    try {
+      const result = await fetchFn(id);
+      mappings.map.set(id, result);
+      return result;
+    } catch (e) {
+      mappings.promisesMap.delete(id);
+    }
+  };
   for (const id of ids) {
-    timestampMapping.set(id, Date.now());
-    if (!mapping.get(id)) {
-      mapping.set(id, fetchFn(id));
+    mappings.timestampMap.set(id, Date.now());
+    if (!mappings.promisesMap.get(id)) {
+      mappings.promisesMap.set(id, getPromise(id));
       const intervalId = setInterval(() => {
-        const lastTimestamp = timestampMapping.get(id) || 0;
+        const lastTimestamp = mappings.timestampMap.get(id) || 0;
         if (Date.now() - lastTimestamp <= throwAwayTimeout) {
-          mapping.set(id, fetchFn(id));
+          mappings.promisesMap.set(id, getPromise(id));
         } else {
-          mapping.delete(id);
+          mappings.promisesMap.delete(id);
           clearInterval(intervalId);
         }
       }, refetchInterval);
     }
   }
-  const map = new Map<string, T>();
-  for (const id of ids) {
-    try {
-      const response = await mapping.get(id);
-      if (!response) {
-        continue;
-      }
-      map.set(id, response);
-    } catch (e) {
-      mapping.delete(id);
-    }
-  }
-  return map;
+  await Promise.all(ids.map((id) => mappings.promisesMap.get(id)));
 };
 
 const getContractStakeMap = async (
-  validators: ValidatorEpochData[]
-): Promise<Map<string, string | undefined>> => {
+  validators: ValidatorEpochData[],
+  cachedTimestampMap: CachedTimestampMap<string>
+): Promise<void> => {
   return getRegularlyFetchedMap(
     validators
       .filter((validator) => !validator.currentEpoch)
       .map((validator) => validator.accountId),
-    contractBalances,
-    contractBalancesTimestamps,
+    cachedTimestampMap,
     getValidatorContractBalance,
     regularFetchStakingPoolsInfoInterval,
     fetchStakingPoolsInfoThrowawayTimeout
@@ -283,12 +291,12 @@ const getContractStakeMap = async (
 };
 
 const getPoolInfoMap = async (
-  validators: ValidatorEpochData[]
-): Promise<Map<string, ValidatorPoolInfo>> => {
+  validators: ValidatorEpochData[],
+  cachedTimestampMap: CachedTimestampMap<ValidatorPoolInfo>
+): Promise<void> => {
   return getRegularlyFetchedMap(
     validators.map((validator) => validator.accountId),
-    poolInfos,
-    poolInfoTimestamps,
+    cachedTimestampMap,
     getPoolInfo,
     regularFetchStakingPoolsInfoInterval,
     fetchStakingPoolsInfoThrowawayTimeout
@@ -353,17 +361,15 @@ async function main(): Promise<void> {
       const telemetryInfo = await queryTelemetryInfo(
         epochData.validators.map((validator) => validator.accountId)
       );
-      const [contractStakeMap, poolInfoMap] = await Promise.all([
-        withTimeout<Map<string, string | undefined>>(
-          () => getContractStakeMap(epochData.validators),
-          new Map(),
-          2500
-        ),
-        withTimeout<Map<string, ValidatorPoolInfo>>(
-          () => getPoolInfoMap(epochData.validators),
-          new Map(),
-          2500
-        ),
+      await Promise.all([
+        Promise.race([
+          getContractStakeMap(epochData.validators, contractBalances),
+          wait(2500),
+        ]),
+        Promise.race([
+          getPoolInfoMap(epochData.validators, poolInfos),
+          wait(2500),
+        ]),
       ]);
       void wampPublish(
         "validators",
@@ -371,8 +377,8 @@ async function main(): Promise<void> {
           validators: epochData.validators.map((validator) => ({
             ...validator,
             description: stakingPoolsMetadataInfo.get(validator.accountId),
-            poolInfo: poolInfoMap.get(validator.accountId),
-            contractStake: contractStakeMap.get(validator.accountId),
+            poolInfo: poolInfos.map.get(validator.accountId),
+            contractStake: contractBalances.map.get(validator.accountId),
             telemetry: telemetryInfo.get(validator.accountId),
           })),
         },
