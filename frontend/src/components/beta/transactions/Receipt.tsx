@@ -68,7 +68,7 @@ const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
   const status = Object.keys(receipt.status)[0];
   return (
     <Row onClick={onClick}>
-      <TransactionType actionKind={receipt.actions[0].kind} />
+      <TransactionType actions={receipt.actions} />
       <Divider />
       <AccountInfo>
         <div>

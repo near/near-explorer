@@ -167,6 +167,17 @@
         "amount": "Amount",
         "fee": "Fee",
         "status": "Status"
+      },
+      "type": {
+        "CreateAccount": "Account Created",
+        "DeleteAccount": "Account Deleted",
+        "DeployContract": "Contract Deployed",
+        "FunctionCall": "Function Call",
+        "Transfer": "Transfer",
+        "Stake": "Restake Tokens",
+        "AddKey": "Access Key Added",
+        "DeleteKey": "Access Key Deleted",
+        "Batch": "Batch (${quantity})"
       }
     }
   },

@@ -1,12 +1,16 @@
 import * as React from "react";
+import {
+  RefundReceipt,
+  TransactionReceipt as TxReceipt,
+} from "../../../types/transaction";
 import { styled } from "../../../libraries/styles";
 
 import Receipt from "./Receipt";
 import ReceiptInfo from "./ReceiptInfo";
 
 type Props = {
-  receipt: any;
-  refundReceipt: any;
+  receipt: TxReceipt;
+  refundReceipts?: RefundReceipt[];
 };
 
 const ReceiptWrapper = styled("div", {
@@ -28,7 +32,7 @@ const ReceiptWrapper = styled("div", {
 });
 
 const TransactionReceipt: React.FC<Props> = React.memo(
-  ({ receipt, refundReceipt }) => {
+  ({ receipt, refundReceipts }) => {
     const [isRowActive, setRowActive] = React.useState(false);
     const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
       setRowActive,
@@ -39,7 +43,7 @@ const TransactionReceipt: React.FC<Props> = React.memo(
         <ReceiptInfo
           isRowActive={isRowActive}
           receipt={receipt}
-          refundReceipt={refundReceipt}
+          refundReceipts={refundReceipts}
         />
       </ReceiptWrapper>
     );

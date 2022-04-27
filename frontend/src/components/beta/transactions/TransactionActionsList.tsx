@@ -1,6 +1,9 @@
 import * as React from "react";
 import { styled } from "../../../libraries/styles";
-import { Transaction } from "../../../types/transaction";
+import {
+  Transaction,
+  TransactionReceipt as TxReceipt,
+} from "../../../types/transaction";
 
 import TransactionReceipt from "./TransactionReceipt";
 
@@ -21,25 +24,26 @@ const TransactionActionsList: React.FC<Props> = React.memo(
   ({ transaction: { receipts, refundReceipts } }) => {
     const refundReceiptsMap = new Map();
     refundReceipts.forEach((receipt) => {
-      refundReceiptsMap.set(receipt.parentReceiptHash, receipt);
+      // handle multiple refunds per receipt
+      if (refundReceiptsMap.has(receipt.parentReceiptHash)) {
+        refundReceiptsMap.set(receipt.parentReceiptHash, [
+          ...refundReceiptsMap.get(receipt.parentReceiptHash),
+          receipt,
+        ]);
+      } else {
+        refundReceiptsMap.set(receipt.parentReceiptHash, [receipt]);
+      }
     });
 
     return (
       <Wrapper>
-        {receipts.map((receipt: any) => {
-          const refundReceipt = refundReceiptsMap.get(
-            receipt.parentReceiptHash
-          );
-          if (!refundReceipt) {
-            return (
-              <TransactionReceipt
-                key={receipt.receiptId}
-                receipt={receipt}
-                refundReceipt={refundReceiptsMap.get(receipt.receiptId)}
-              />
-            );
-          }
-        })}
+        {receipts.map((receipt: TxReceipt) => (
+          <TransactionReceipt
+            key={receipt.receiptId}
+            receipt={receipt}
+            refundReceipts={refundReceiptsMap.get(receipt.receiptId)}
+          />
+        ))}
       </Wrapper>
     );
   }

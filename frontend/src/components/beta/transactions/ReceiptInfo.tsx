@@ -10,7 +10,7 @@ import InspectReceipt from "./InspectReceipt";
 type Props = {
   isRowActive: boolean;
   receipt: TransactionReceipt;
-  refundReceipt: RefundReceipt;
+  refundReceipts?: RefundReceipt[];
 };
 
 const Wrapper = styled("div", {
@@ -27,7 +27,7 @@ const TabLabel = styled("div", {
 });
 
 const ReceiptInfo: React.FC<Props> = React.memo(
-  ({ isRowActive, receipt, refundReceipt }) => {
+  ({ isRowActive, receipt, refundReceipts }) => {
     const { t } = useTranslation();
     if (!isRowActive) {
       return null;
@@ -47,7 +47,7 @@ const ReceiptInfo: React.FC<Props> = React.memo(
               node: (
                 <InspectReceipt
                   receipt={receipt}
-                  refundReceipt={refundReceipt}
+                  refundReceipts={refundReceipts}
                 />
               ),
             },

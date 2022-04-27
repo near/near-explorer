@@ -15,6 +15,25 @@ import {
   RPC,
 } from "../libraries/wamp/types";
 
+export type RpcTransaction = {
+  hash: TransactionHash;
+  created: {
+    timestamp: UTCTimestamp;
+    blockHash: BlockHash;
+  };
+  transactionIndex: number;
+  status: KeysOfUnion<RPC.FinalExecutionStatus>;
+  transaction: RPC.SignedTransactionView;
+  transactionOutcome: TransactionOutcome;
+  receipts: RPC.ReceiptView[];
+  receiptsOutcome: ReceiptsOutcome[];
+};
+
+export type ReceiptsOutcome = Omit<
+  RPC.ExecutionOutcomeWithIdView,
+  "block_hash"
+> & { includedInBlock: TransactionBlockInfo };
+
 export type Transaction = {
   hash: TransactionHash;
   created: {
@@ -34,21 +53,21 @@ export type Transaction = {
 
 export type TransactionReceipt = {
   actions: Action[];
-  deposit?: YoctoNEAR;
+  deposit: YoctoNEAR | null;
   signerId: string;
-  parentReceiptHash?: ReceiptId;
-  includedInBlockHash?: string;
+  parentReceiptHash: ReceiptId | null;
+  includedInBlock: TransactionBlockInfo;
   receiptId: ReceiptId;
   receiverId: AccountId;
   gasBurnt?: number;
   tokensBurnt: YoctoNEAR;
-  logs?: string[];
+  logs: string[] | [];
   status: RPC.ExecutionStatusView;
 };
 
 export type RefundReceipt = {
   actions: Action[];
-  deposit?: YoctoNEAR;
+  deposit: YoctoNEAR | null;
   signerId: string;
   parentReceiptHash: ReceiptId;
   includedInBlockHash?: string;
@@ -56,7 +75,7 @@ export type RefundReceipt = {
   receiverId: AccountId;
   gasBurnt?: number;
   tokensBurnt: YoctoNEAR;
-  logs?: string[];
+  logs: string[] | [];
   status: RPC.ExecutionStatusView;
   refund?: YoctoNEAR;
 };
@@ -65,6 +84,11 @@ export type TransactionOutcome = {
   id: string;
   outcome: RPC.ExecutionOutcomeView;
   block_hash: string;
+};
+
+export type TransactionBlockInfo = {
+  hash: string;
+  height: number;
 };
 
 type NestedReceiptWithOutcome = {

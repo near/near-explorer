@@ -4,7 +4,7 @@ import { Action, ActionMapping } from "../../../libraries/wamp/types";
 import { formatNear } from "../../../libraries/formatting";
 
 import AccountLink from "../common/AccountLink";
-import { YoctoNEAR } from "../../..//types/nominal";
+import { YoctoNEAR } from "../../../types/nominal";
 
 interface Props<A extends Action> {
   actionKind: A["kind"];

@@ -1,17 +1,13 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import { Action, ActionMapping } from "../../../libraries/wamp/types";
+import { Action } from "../../../libraries/wamp/types";
 
 interface Props<A extends Action> {
-  actionKind: A["kind"];
-  // actionArgs: A["args"];
-  // receiverId: string;
-  // showDetails?: boolean;
+  actions: {
+    kind: A["kind"];
+  }[];
 }
-
-type TransactionMessageRenderers = {
-  [K in Action["kind"]]: React.FC<Props<ActionMapping[K]>>;
-};
 
 const Label = styled("div", {
   display: "flex",
@@ -26,100 +22,51 @@ const Label = styled("div", {
 
   variants: {
     type: {
-      createAccount: {
+      CreateAccount: {
         backgroundColor: "#fde0ff",
       },
-      deleteAccount: {
+      DeleteAccount: {
         backgroundColor: "#f3d5d7",
       },
-      deployContract: {
+      DeployContract: {
         background: "#f9dfc8",
       },
-      functionCall: {
+      FunctionCall: {
         background: "#eefaff",
       },
-      transfer: {
+      Transfer: {
         background: "#d0fddf",
       },
-      stake: {
+      Stake: {
         background: "#bdf4f8",
       },
-      addKey: {
+      AddKey: {
         background: "#aabdee",
       },
-      deleteKey: {
+      DeleteKey: {
         background: "#f3d5d7",
+      },
+      Batch: {
+        background: "#e9e8e8",
       },
     },
   },
 });
 
-const CreateAccount: TransactionMessageRenderers["CreateAccount"] = React.memo(
-  () => {
-    // const { t } = useTranslation();
-    return <Label type="createAccount">Account Created</Label>;
-  }
-);
+const TransactionType: React.FC<Props<Action>> = React.memo(({ actions }) => {
+  const { t } = useTranslation();
+  console.log("TransactionType | actions: ", actions);
+  const actionType = actions.length !== 1 ? "Batch" : actions[0].kind;
 
-const DeleteAccount: TransactionMessageRenderers["DeleteAccount"] = React.memo(
-  () => {
-    // const { t } = useTranslation();
-    return <Label type="deleteAccount">Account Deleted</Label>;
-  }
-);
-
-const DeployContract: TransactionMessageRenderers["DeployContract"] = React.memo(
-  () => {
-    // const { t } = useTranslation();
-    return <Label type="deployContract">Contract Deployed</Label>;
-  }
-);
-
-const FunctionCall: TransactionMessageRenderers["FunctionCall"] = React.memo(
-  () => {
-    // const { t } = useTranslation();
-    return <Label type="functionCall">Function Call</Label>;
-  }
-);
-
-const Transfer: TransactionMessageRenderers["Transfer"] = React.memo(() => {
-  // const { t } = useTranslation();
-  return <Label type="transfer">Transfer</Label>;
-});
-
-const Stake: TransactionMessageRenderers["Stake"] = React.memo(() => {
-  // const { t } = useTranslation();
-  return <Label type="stake">Restake Tokens</Label>;
-});
-
-const AddKey: TransactionMessageRenderers["AddKey"] = React.memo(() => {
-  // const { t } = useTranslation();
-  return <Label type="addKey">Access Key Added</Label>;
-});
-
-const DeleteKey: TransactionMessageRenderers["DeleteKey"] = React.memo(() => {
-  // const { t } = useTranslation();
-  return <Label type="deleteKey">Access Key Deleted</Label>;
-});
-
-const transactionMessageRenderers: TransactionMessageRenderers = {
-  CreateAccount,
-  DeleteAccount,
-  DeployContract,
-  FunctionCall,
-  Transfer,
-  Stake,
-  AddKey,
-  DeleteKey,
-};
-
-const TransactionType: React.FC<Props<Action>> = React.memo((props) => {
-  const MessageRenderer = transactionMessageRenderers[props.actionKind];
-  if (MessageRenderer === undefined) {
-    return <>{props.actionKind}</>;
-  }
-
-  return <MessageRenderer {...(props as any)} />;
+  return (
+    <Label type={actionType}>
+      {actionType === "Batch"
+        ? t("pages.transaction.type.Batch", {
+            quantity: actions.length,
+          })
+        : t(`pages.transaction.type.${actionType}`)}
+    </Label>
+  );
 });
 
 export default TransactionType;
