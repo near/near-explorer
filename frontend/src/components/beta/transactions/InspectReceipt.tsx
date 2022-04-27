@@ -3,12 +3,14 @@ import * as React from "react";
 import { styled } from "../../../libraries/styles";
 import { formatNear } from "../../../libraries/formatting";
 import { RefundReceipt, TransactionReceipt } from "../../../types/transaction";
+import BlockLink from "../common/BlockLink";
 
 import Gas from "../../utils/Gas";
+import { YoctoNEAR } from "../../../types/nominal";
 
 type Props = {
   receipt: TransactionReceipt;
-  refundReceipt: RefundReceipt;
+  refundReceipts?: RefundReceipt[];
 };
 
 const Table = styled("table", {
@@ -23,7 +25,14 @@ const TableElement = styled("td", {
 });
 
 const InspectReceipt: React.FC<Props> = React.memo(
-  ({ receipt, refundReceipt }) => {
+  ({ receipt, refundReceipts }) => {
+    const refund =
+      refundReceipts
+        ?.reduce(
+          (acc, receipt) => acc.add(new BN(receipt.refund || 0)),
+          new BN(0)
+        )
+        .toString() ?? "0";
     return (
       <Table>
         <tr>
@@ -32,7 +41,9 @@ const InspectReceipt: React.FC<Props> = React.memo(
         </tr>
         <tr>
           <TableElement>Executed in Block</TableElement>
-          <TableElement>--</TableElement>
+          <TableElement>
+            <BlockLink block={receipt.includedInBlock} />
+          </TableElement>
         </tr>
         <tr>
           <TableElement>Predecessor ID</TableElement>
@@ -66,7 +77,7 @@ const InspectReceipt: React.FC<Props> = React.memo(
         <tr>
           <TableElement>Refunded</TableElement>
           <TableElement>
-            {refundReceipt.refund ? formatNear(refundReceipt.refund) : "0"}
+            {refund ? formatNear(refund as YoctoNEAR) : "0"}
           </TableElement>
         </tr>
       </Table>

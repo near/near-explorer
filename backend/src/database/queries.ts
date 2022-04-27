@@ -930,16 +930,18 @@ export const queryBlockByHashOrId = async (blockId: string | number) => {
   return selection.limit(1).executeTakeFirst();
 };
 
-const queryBlockHeightByHash = async (
-  blockHash: string
-): Promise<{ block_height: number } | undefined> => {
-  return await querySingleRow<{ block_height: number }, { block_hash: string }>(
+const queryBlockHeightsByHashes = async (
+  blockHashes: string[]
+): Promise<{ block_height: number; block_hash: string }[]> => {
+  return await queryRows<
+    { block_height: number; block_hash: string },
+    { blockHashes: string[] }
+  >(
     [
-      `SELECT block_height
+      `SELECT block_height, block_hash
        FROM blocks
-       WHERE block_hash = :block_hash
-       LIMIT 1`,
-      { block_hash: blockHash },
+       WHERE block_hash = ANY (:blockHashes)`,
+      { blockHashes },
     ],
     { dataSource: DataSource.Indexer }
   );
