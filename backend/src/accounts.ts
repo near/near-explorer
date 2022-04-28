@@ -106,33 +106,42 @@ async function getAccountActivity(accountId: string): Promise<unknown> {
   }));
 }
 
+function generateLockupAccountIdFromAccountId(accountId: string): string {
+  // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
+  return (
+    sha256(Buffer.from(accountId)).substring(0, 40) +
+    "." +
+    nearLockupAccountIdSuffix
+  );
+}
+
+const isErrorWithMessage = (error: unknown): error is { message: string } => {
+  return Boolean(
+    typeof error === "object" &&
+      error &&
+      "message" in error &&
+      typeof (error as { message: unknown }).message === "string"
+  );
+};
+
+function ignoreIfDoesNotExist(error: unknown): null {
+  if (
+    isErrorWithMessage(error) &&
+    (error.message.includes("doesn't exist") ||
+      error.message.includes("does not exist") ||
+      error.message.includes("MethodNotFound"))
+  ) {
+    return null;
+  }
+  throw error;
+}
+
 const getAccountDetails = async (accountId: string) => {
-  function generateLockupAccountIdFromAccountId(): string {
-    // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
-    return (
-      sha256(Buffer.from(accountId)).substring(0, 40) +
-      "." +
-      nearLockupAccountIdSuffix
-    );
-  }
-
-  function ignore_if_does_not_exist(error: any): null {
-    if (
-      typeof error.message === "string" &&
-      (error.message.includes("doesn't exist") ||
-        error.message.includes("does not exist") ||
-        error.message.includes("MethodNotFound"))
-    ) {
-      return null;
-    }
-    throw error;
-  }
-
   let lockupAccountId: string;
   if (accountId.endsWith(`.${nearLockupAccountIdSuffix}`)) {
     lockupAccountId = accountId;
   } else {
-    lockupAccountId = generateLockupAccountIdFromAccountId();
+    lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
   }
 
   const [
@@ -145,21 +154,21 @@ const getAccountDetails = async (accountId: string) => {
     sendJsonRpcQuery("view_account", {
       finality: "final",
       account_id: accountId,
-    }).catch(ignore_if_does_not_exist),
+    }).catch(ignoreIfDoesNotExist),
     accountId !== lockupAccountId
       ? sendJsonRpcQuery("view_account", {
           finality: "final",
           account_id: lockupAccountId,
-        }).catch(ignore_if_does_not_exist)
+        }).catch(ignoreIfDoesNotExist)
       : null,
     callViewMethod<string>(lockupAccountId, "get_locked_amount", {})
       .then((balance) => new BN(balance))
-      .catch(ignore_if_does_not_exist),
+      .catch(ignoreIfDoesNotExist),
     callViewMethod<string>(
       lockupAccountId,
       "get_staking_pool_account_id",
       {}
-    ).catch(ignore_if_does_not_exist),
+    ).catch(ignoreIfDoesNotExist),
     sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
   ]);
 
@@ -188,7 +197,7 @@ const getAccountDetails = async (accountId: string) => {
       }
     )
       .then((balance) => new BN(balance))
-      .catch(ignore_if_does_not_exist);
+      .catch(ignoreIfDoesNotExist);
   }
 
   let totalBalance = stakedBalance.add(nonStakedBalance);

@@ -228,83 +228,81 @@ const queryOnlineNodesCount = async (): Promise<number> => {
   return parseInt(query!.onlineNodesCount);
 };
 
+async function queryLatestBlockHeight(): Promise<string> {
+  const latestBlockHeightResult = await querySingleRow<
+    Pick<BlockModel, "block_height">
+  >([`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`], {
+    dataSource: DataSource.Indexer,
+  });
+  if (!latestBlockHeightResult) {
+    throw new Error("No latest block height found");
+  }
+  return latestBlockHeightResult.block_height;
+}
+
+async function queryLatestGasPrice(): Promise<string> {
+  const latestGasPriceResult = await querySingleRow<
+    Pick<BlockModel, "gas_price">
+  >([`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`], {
+    dataSource: DataSource.Indexer,
+  });
+  if (!latestGasPriceResult) {
+    throw new Error("No latest gas price found");
+  }
+  return latestGasPriceResult.gas_price;
+}
+
+async function queryRecentBlockProductionSpeed() {
+  const latestBlockTimestampOrNone = await querySingleRow<
+    Pick<BlockModel, "block_timestamp">
+  >(
+    [
+      `SELECT
+        block_timestamp
+      FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
+    ],
+    { dataSource: DataSource.Indexer }
+  );
+  if (!latestBlockTimestampOrNone) {
+    return 0;
+  }
+  const { block_timestamp: latestBlockTimestamp } = latestBlockTimestampOrNone;
+  const latestBlockTimestampBN = new BN(latestBlockTimestamp);
+  const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
+  const latestBlockEpochTimeBN = latestBlockTimestampBN.div(
+    new BN("1000000000")
+  );
+  // If the latest block is older than 1 minute from now, we report 0
+  if (currentUnixTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
+    return 0;
+  }
+
+  const result = await querySingleRow<
+    {
+      blocks_count_60_seconds_before: string;
+    },
+    {
+      latest_block_timestamp: number;
+    }
+  >(
+    [
+      `SELECT
+        COUNT(*) AS blocks_count_60_seconds_before
+      FROM blocks
+      WHERE block_timestamp > (CAST(:latest_block_timestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
+      {
+        latest_block_timestamp: latestBlockEpochTimeBN.toNumber(),
+      },
+    ],
+    {
+      dataSource: DataSource.Indexer,
+    }
+  );
+  return parseInt(result!.blocks_count_60_seconds_before) / 60;
+}
+
 // query for new dashboard
 const queryDashboardBlocksStats = async () => {
-  async function queryLatestBlockHeight(): Promise<string> {
-    const latestBlockHeightResult = await querySingleRow<
-      Pick<BlockModel, "block_height">
-    >([`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`], {
-      dataSource: DataSource.Indexer,
-    });
-    if (!latestBlockHeightResult) {
-      throw new Error("No latest block height found");
-    }
-    return latestBlockHeightResult.block_height;
-  }
-
-  async function queryLatestGasPrice(): Promise<string> {
-    const latestGasPriceResult = await querySingleRow<
-      Pick<BlockModel, "gas_price">
-    >([`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`], {
-      dataSource: DataSource.Indexer,
-    });
-    if (!latestGasPriceResult) {
-      throw new Error("No latest gas price found");
-    }
-    return latestGasPriceResult.gas_price;
-  }
-
-  async function queryRecentBlockProductionSpeed() {
-    const latestBlockTimestampOrNone = await querySingleRow<
-      Pick<BlockModel, "block_timestamp">
-    >(
-      [
-        `SELECT
-          block_timestamp
-        FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
-      ],
-      { dataSource: DataSource.Indexer }
-    );
-    if (!latestBlockTimestampOrNone) {
-      return 0;
-    }
-    const {
-      block_timestamp: latestBlockTimestamp,
-    } = latestBlockTimestampOrNone;
-    const latestBlockTimestampBN = new BN(latestBlockTimestamp);
-    const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
-    const latestBlockEpochTimeBN = latestBlockTimestampBN.div(
-      new BN("1000000000")
-    );
-    // If the latest block is older than 1 minute from now, we report 0
-    if (currentUnixTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
-      return 0;
-    }
-
-    const result = await querySingleRow<
-      {
-        blocks_count_60_seconds_before: string;
-      },
-      {
-        latest_block_timestamp: number;
-      }
-    >(
-      [
-        `SELECT
-          COUNT(*) AS blocks_count_60_seconds_before
-        FROM blocks
-        WHERE block_timestamp > (CAST(:latest_block_timestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
-        {
-          latest_block_timestamp: latestBlockEpochTimeBN.toNumber(),
-        },
-      ],
-      {
-        dataSource: DataSource.Indexer,
-      }
-    );
-    return parseInt(result!.blocks_count_60_seconds_before) / 60;
-  }
-
   const [
     latestBlockHeight,
     latestGasPrice,
@@ -752,83 +750,84 @@ const queryAccountsList = async (
   );
 };
 
-const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
-  async function queryOutcomeTransactionsCountFromAnalytics(
-    accountId: string
-  ): Promise<{
-    out_transactions_count: number;
-    last_day_collected_timestamp?: string;
-  }> {
-    const query = await querySingleRow<
-      {
-        out_transactions_count: string;
-        last_day_collected: Date;
-      },
-      {
-        account_id: string;
-      }
-    >(
-      [
-        `SELECT SUM(outgoing_transactions_count) AS out_transactions_count,
-                MAX(collected_for_day) AS last_day_collected
-         FROM daily_outgoing_transactions_per_account_count
-         WHERE account_id = :account_id`,
-        { account_id: accountId },
-      ],
-      { dataSource: DataSource.Analytics }
-    );
-    const lastDayCollectedTimestamp = query?.last_day_collected
-      ? new BN(query.last_day_collected.getTime())
-          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-          .muln(10 ** 6)
-          .toString()
-      : undefined;
-    return {
-      out_transactions_count: query?.out_transactions_count
-        ? parseInt(query.out_transactions_count)
-        : 0,
-      last_day_collected_timestamp: lastDayCollectedTimestamp,
-    };
-  }
-  async function queryOutcomeTransactionsCountFromIndexerForLastDay(
-    accountId: string,
-    lastDayCollectedTimestamp?: string
-  ): Promise<number> {
-    // since analytics are collected for the previous day,
-    // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
-    // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
-    const timestamp =
-      lastDayCollectedTimestamp ||
-      new BN(new Date().getTime())
-        .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-        .muln(10 ** 6)
-        .toString();
-    const query = await querySingleRow<
-      { out_transactions_count: string },
-      {
-        account_id: string;
-        timestamp: string;
-      }
-    >(
-      [
-        `SELECT
-         COUNT(transactions.transaction_hash) AS out_transactions_count
-         FROM transactions
-         WHERE signer_account_id = :account_id
-         AND transactions.block_timestamp >= :timestamp`,
-        {
-          account_id: accountId,
-          timestamp,
-        },
-      ],
-      { dataSource: DataSource.Indexer }
-    );
-    if (!query || !query.out_transactions_count) {
-      return 0;
+async function queryOutcomeTransactionsCountFromAnalytics(
+  accountId: string
+): Promise<{
+  out_transactions_count: number;
+  last_day_collected_timestamp?: string;
+}> {
+  const query = await querySingleRow<
+    {
+      out_transactions_count: string;
+      last_day_collected: Date;
+    },
+    {
+      account_id: string;
     }
-    return parseInt(query.out_transactions_count);
-  }
+  >(
+    [
+      `SELECT SUM(outgoing_transactions_count) AS out_transactions_count,
+              MAX(collected_for_day) AS last_day_collected
+       FROM daily_outgoing_transactions_per_account_count
+       WHERE account_id = :account_id`,
+      { account_id: accountId },
+    ],
+    { dataSource: DataSource.Analytics }
+  );
+  const lastDayCollectedTimestamp = query?.last_day_collected
+    ? new BN(query.last_day_collected.getTime())
+        .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+        .muln(10 ** 6)
+        .toString()
+    : undefined;
+  return {
+    out_transactions_count: query?.out_transactions_count
+      ? parseInt(query.out_transactions_count)
+      : 0,
+    last_day_collected_timestamp: lastDayCollectedTimestamp,
+  };
+}
 
+async function queryOutcomeTransactionsCountFromIndexerForLastDay(
+  accountId: string,
+  lastDayCollectedTimestamp?: string
+): Promise<number> {
+  // since analytics are collected for the previous day,
+  // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
+  // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
+  const timestamp =
+    lastDayCollectedTimestamp ||
+    new BN(new Date().getTime())
+      .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+      .muln(10 ** 6)
+      .toString();
+  const query = await querySingleRow<
+    { out_transactions_count: string },
+    {
+      account_id: string;
+      timestamp: string;
+    }
+  >(
+    [
+      `SELECT
+       COUNT(transactions.transaction_hash) AS out_transactions_count
+       FROM transactions
+       WHERE signer_account_id = :account_id
+       AND transactions.block_timestamp >= :timestamp`,
+      {
+        account_id: accountId,
+        timestamp,
+      },
+    ],
+    { dataSource: DataSource.Indexer }
+  );
+  if (!query || !query.out_transactions_count) {
+    return 0;
+  }
+  return parseInt(query.out_transactions_count);
+}
+
+const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
   const {
     out_transactions_count: outTxCountFromAnalytics,
     last_day_collected_timestamp: lastDayCollectedTimestamp,
@@ -840,86 +839,86 @@ const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
   return outTxCountFromAnalytics + outTxCountFromIndexer;
 };
 
-const queryAccountIncomeTransactionsCount = async (accountId: string) => {
-  async function queryIncomeTransactionsCountFromAnalytics(
-    accountId: string
-  ): Promise<{
-    in_transactions_count: number;
-    last_day_collected_timestamp?: string;
-  }> {
-    const query = await querySingleRow<
-      {
-        in_transactions_count: string;
-        last_day_collected: Date;
-      },
-      {
-        account_id: string;
-      }
-    >(
-      [
-        `SELECT SUM(ingoing_transactions_count) as in_transactions_count,
-                MAX(collected_for_day) AS last_day_collected
-         FROM daily_ingoing_transactions_per_account_count
-         WHERE account_id = :account_id`,
-        { account_id: accountId },
-      ],
-      { dataSource: DataSource.Analytics }
-    );
-    const lastDayCollectedTimestamp = query?.last_day_collected
-      ? new BN(query.last_day_collected.getTime())
-          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-          .muln(10 ** 6)
-          .toString()
-      : undefined;
-    return {
-      in_transactions_count: query?.in_transactions_count
-        ? parseInt(query.in_transactions_count)
-        : 0,
-      last_day_collected_timestamp: lastDayCollectedTimestamp,
-    };
-  }
-
-  async function queryIncomeTransactionsCountFromIndexerForLastDay(
-    accountId: string,
-    lastDayCollectedTimestamp?: string
-  ): Promise<number> {
-    // since analytics are collected for the previous day,
-    // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
-    // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
-    const timestamp =
-      lastDayCollectedTimestamp ||
-      new BN(new Date().getTime())
-        .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-        .muln(10 ** 6)
-        .toString();
-    const query = await querySingleRow<
-      { in_transactions_count: string },
-      {
-        requested_account_id: string;
-        timestamp: string;
-      }
-    >(
-      [
-        `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
-         FROM transactions
-         LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
-            AND transactions.block_timestamp >= :timestamp
-         WHERE receipts.included_in_block_timestamp >= :timestamp
-            AND transactions.signer_account_id != :requested_account_id
-            AND receipts.receiver_account_id = :requested_account_id`,
-        {
-          requested_account_id: accountId,
-          timestamp,
-        },
-      ],
-      { dataSource: DataSource.Indexer }
-    );
-    if (!query || !query.in_transactions_count) {
-      return 0;
+async function queryIncomeTransactionsCountFromAnalytics(
+  accountId: string
+): Promise<{
+  in_transactions_count: number;
+  last_day_collected_timestamp?: string;
+}> {
+  const query = await querySingleRow<
+    {
+      in_transactions_count: string;
+      last_day_collected: Date;
+    },
+    {
+      account_id: string;
     }
-    return parseInt(query.in_transactions_count);
-  }
+  >(
+    [
+      `SELECT SUM(ingoing_transactions_count) as in_transactions_count,
+              MAX(collected_for_day) AS last_day_collected
+       FROM daily_ingoing_transactions_per_account_count
+       WHERE account_id = :account_id`,
+      { account_id: accountId },
+    ],
+    { dataSource: DataSource.Analytics }
+  );
+  const lastDayCollectedTimestamp = query?.last_day_collected
+    ? new BN(query.last_day_collected.getTime())
+        .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+        .muln(10 ** 6)
+        .toString()
+    : undefined;
+  return {
+    in_transactions_count: query?.in_transactions_count
+      ? parseInt(query.in_transactions_count)
+      : 0,
+    last_day_collected_timestamp: lastDayCollectedTimestamp,
+  };
+}
 
+async function queryIncomeTransactionsCountFromIndexerForLastDay(
+  accountId: string,
+  lastDayCollectedTimestamp?: string
+): Promise<number> {
+  // since analytics are collected for the previous day,
+  // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
+  // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
+  const timestamp =
+    lastDayCollectedTimestamp ||
+    new BN(new Date().getTime())
+      .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+      .muln(10 ** 6)
+      .toString();
+  const query = await querySingleRow<
+    { in_transactions_count: string },
+    {
+      requested_account_id: string;
+      timestamp: string;
+    }
+  >(
+    [
+      `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
+       FROM transactions
+       LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
+          AND transactions.block_timestamp >= :timestamp
+       WHERE receipts.included_in_block_timestamp >= :timestamp
+          AND transactions.signer_account_id != :requested_account_id
+          AND receipts.receiver_account_id = :requested_account_id`,
+      {
+        requested_account_id: accountId,
+        timestamp,
+      },
+    ],
+    { dataSource: DataSource.Indexer }
+  );
+  if (!query || !query.in_transactions_count) {
+    return 0;
+  }
+  return parseInt(query.in_transactions_count);
+}
+
+const queryAccountIncomeTransactionsCount = async (accountId: string) => {
   const {
     in_transactions_count: inTxCountFromAnalytics,
     last_day_collected_timestamp: lastDayCollectedTimestamp,
