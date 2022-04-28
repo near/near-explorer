@@ -3,11 +3,8 @@ import { useWampSubscription } from "./wamp";
 export const useChainBlockStats = () =>
   useWampSubscription("chain-blocks-stats");
 
-export const useRecentTransactions = () =>
-  useWampSubscription("recent-transactions");
-
-export const useTransactionHistory = () =>
-  useWampSubscription("transaction-history");
+export const useChainTransactionStats = () =>
+  useWampSubscription("chain-transactions-stats");
 
 export const useFinalityStatus = () => useWampSubscription("finality-status");
 
