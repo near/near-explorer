@@ -38,7 +38,11 @@ export const INTERVALS = {
     "NEAR_REGULAR_PUBLISH_FINALITY_STATUS_INTERVAL",
     SECOND
   ),
-  checkStats: getEnvNumberWithDefault(
+  checkChainBlockStats: getEnvNumberWithDefault(
+    "NEAR_REGULAR_QUERY_STATS_INTERVAL",
+    SECOND
+  ),
+  checkRecentTransactions: getEnvNumberWithDefault(
     "NEAR_REGULAR_QUERY_STATS_INTERVAL",
     SECOND
   ),

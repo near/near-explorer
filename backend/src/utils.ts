@@ -42,10 +42,25 @@ function trimError(e: unknown): string {
 const wait = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
+const withReporter = <T, Args extends unknown[]>(
+  description: string,
+  fn: (...args: Args) => Promise<T>
+): ((...args: Args) => Promise<T>) => {
+  return async (...args) => {
+    try {
+      return await fn(...args);
+    } catch (error) {
+      console.warn(`${description} crashed due to:`, error);
+      throw error;
+    }
+  };
+};
+
 export {
   formatDate,
   generateDateArray,
   cumulativeAccountsCountArray,
   trimError,
   wait,
+  withReporter,
 };

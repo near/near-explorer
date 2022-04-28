@@ -89,9 +89,11 @@ export type SubscriptionTopicTypes = {
     latestGasPrice: string;
     recentBlockProductionSpeed: number;
   };
-  "chain-transactions-stats": {
-    transactionsCountHistoryForTwoWeeks: TransactionCountHistory[];
+  "recent-transactions": {
     recentTransactionsCount: number;
+  };
+  "transaction-history": {
+    transactionsCountHistoryForTwoWeeks: TransactionCountHistory[];
   };
   "finality-status": {
     finalBlockTimestampNanosecond: string;
