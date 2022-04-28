@@ -10,4 +10,4 @@ export const useFinalityStatus = () => useWampSubscription("finality-status");
 
 export const useNetworkStats = () => useWampSubscription("network-stats");
 
-export const useNodes = () => useWampSubscription("nodes");
+export const useValidators = () => useWampSubscription("validators");

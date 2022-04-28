@@ -327,7 +327,7 @@ const wampPublish = async <T extends SubscriptionTopicType>(
     }
     session.publish(uri, [], namedArgs);
   } catch (e) {
-    console.error(`${topic} publishing failed.\n${new Error().stack}`);
+    console.error(`${topic} publishing failed.\n${e}\n${new Error().stack}`);
   }
 };
 

@@ -3,8 +3,11 @@ import BN from "bn.js";
 import { PARTNER_LIST, DataSource } from "./consts";
 import { nearStakingPoolAccountSuffix } from "./config";
 import { databases, withPool } from "./db";
-import { AccountPagination, TransactionPagination } from "./client-types";
-import { StakingNode } from "./near";
+import {
+  AccountPagination,
+  TransactionPagination,
+  ValidatorTelemetry,
+} from "./client-types";
 import { trimError } from "./utils";
 
 const ONE_DAY_TIMESTAMP_MILISEC = 24 * 60 * 60 * 1000;
@@ -161,33 +164,13 @@ type GenericNodeModelProps =
   | "longitude"
   | "city";
 
-export type OnlineNode = {
-  accountId: string;
-  ipAddress: string;
-  nodeId: string;
-  lastSeen: number;
-  lastHeight: number;
-  status: string;
-  agentName: string;
-  agentVersion: string;
-  agentBuild: string;
-  latitude: string | null;
-  longitude: string | null;
-  city: string | null;
-};
-
-export type StakingNodeWithTelemetryInfo = StakingNode & {
-  nodeInfo?: OnlineNode;
-};
-
 // query for node information
-const extendWithTelemetryInfo = async (
-  nodes: StakingNode[]
-): Promise<StakingNodeWithTelemetryInfo[]> => {
-  const accountArray = nodes.map((node) => node.account_id);
+const queryTelemetryInfo = async (
+  accountIds: string[]
+): Promise<Map<string, ValidatorTelemetry>> => {
   let nodesInfo = await queryRows<
     Pick<NodeModel, GenericNodeModelProps>,
-    { accountArray: string[] }
+    { ids: string[] }
   >(
     [
       `SELECT ip_address, account_id, node_id,
@@ -195,49 +178,42 @@ const extendWithTelemetryInfo = async (
         agent_name, agent_version, agent_build,
         latitude, longitude, city
       FROM nodes
-      WHERE account_id = ANY (:accountArray)
+      WHERE account_id = ANY (:ids)
       ORDER BY last_seen`,
-      { accountArray },
+      { ids: accountIds },
     ],
     { dataSource: DataSource.Telemetry }
   );
-  let nodeMap = new Map<string, OnlineNode>();
-  if (nodesInfo && nodesInfo.length > 0) {
-    for (let i = 0; i < nodesInfo.length; i++) {
-      const { account_id: accountId, ...nodeInfo } = nodesInfo[i];
-      nodeMap.set(accountId, {
-        accountId,
-        ipAddress: nodeInfo.ip_address,
-        nodeId: nodeInfo.node_id,
-        lastSeen: nodeInfo.last_seen.valueOf(),
-        lastHeight: parseInt(nodeInfo.last_height),
-        status: nodeInfo.status,
-        agentName: nodeInfo.agent_name,
-        agentVersion: nodeInfo.agent_version,
-        agentBuild: nodeInfo.agent_build,
-        latitude: nodeInfo.latitude,
-        longitude: nodeInfo.longitude,
-        city: nodeInfo.city,
-      });
-    }
+  const map = new Map<string, ValidatorTelemetry>();
+  for (const nodeInfo of nodesInfo) {
+    map.set(nodeInfo.account_id, {
+      ipAddress: nodeInfo.ip_address,
+      nodeId: nodeInfo.node_id,
+      lastSeen: nodeInfo.last_seen.valueOf(),
+      lastHeight: parseInt(nodeInfo.last_height),
+      status: nodeInfo.status,
+      agentName: nodeInfo.agent_name,
+      agentVersion: nodeInfo.agent_version,
+      agentBuild: nodeInfo.agent_build,
+      latitude: nodeInfo.latitude,
+      longitude: nodeInfo.longitude,
+      city: nodeInfo.city,
+    });
   }
-
-  return nodes.map((node) => ({
-    ...node,
-    nodeInfo: nodeMap.get(node.account_id),
-  }));
+  return map;
 };
 
-const queryNodeValidators = async (): Promise<{ account_id: string }[]> => {
-  return await queryRows<{ account_id: string }>(
-    [
-      `SELECT
-      account_id
+const queryStakingPoolAccountIds = async (): Promise<string[]> => {
+  return (
+    await queryRows<{ accountId: string }>(
+      [
+        `SELECT account_id as "accountId"
     FROM accounts
     WHERE account_id LIKE '%${nearStakingPoolAccountSuffix}'`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+      ],
+      { dataSource: DataSource.Indexer }
+    )
+  ).map(({ accountId }) => accountId);
 };
 
 const queryOnlineNodesCount = async (): Promise<number> => {
@@ -1630,7 +1606,11 @@ const queryGasUsedInChunks = async (blockHash: string) => {
 };
 
 // node part
-export { queryOnlineNodesCount, extendWithTelemetryInfo, queryNodeValidators };
+export {
+  queryOnlineNodesCount,
+  queryTelemetryInfo,
+  queryStakingPoolAccountIds,
+};
 
 // genesis
 export { queryGenesisAccountCount };

@@ -1,8 +1,17 @@
 import * as React from "react";
 import { Badge, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { StakingStatus } from "../../libraries/wamp/types";
+import { TFunction, useTranslation } from "react-i18next";
 
 import { styled } from "../../libraries/styles";
+
+export type StakingStatus =
+  | "active"
+  | "joining"
+  | "leaving"
+  | "proposal"
+  | "idle"
+  | "onHold"
+  | "newcomer";
 
 const ValidatingLabelWrapper = styled(Badge, {
   padding: "2px 8px",
@@ -33,7 +42,7 @@ const ValidatingLabelWrapper = styled(Badge, {
         backgroundColor: "#e5e5e6",
         color: "#72727a",
       },
-      "on-hold": {
+      onHold: {
         backgroundColor: "#2d9cdb",
         color: "#ffffff",
       },
@@ -45,21 +54,44 @@ const ValidatingLabelWrapper = styled(Badge, {
   },
 });
 
+const TOOLTIP_TEXTS: Record<
+  StakingStatus,
+  (t: TFunction<"common">) => string
+> = {
+  active: (t) => t("component.nodes.ValidatorMainRow.state.active.text"),
+  joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.text"),
+  leaving: (t) => t("component.nodes.ValidatorMainRow.state.leaving.text"),
+  proposal: (t) => t("component.nodes.ValidatorMainRow.state.proposal.text"),
+  idle: (t) => t("component.nodes.ValidatorMainRow.state.idle.text"),
+  newcomer: (t) => t("component.nodes.ValidatorMainRow.state.newcomer.text"),
+  onHold: (t) => t("component.nodes.ValidatorMainRow.state.onHold.text"),
+};
+const LABEL_TEXTS: Record<StakingStatus, (t: TFunction<"common">) => string> = {
+  active: (t) => t("component.nodes.ValidatorMainRow.state.active.title"),
+  joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.title"),
+  leaving: (t) => t("component.nodes.ValidatorMainRow.state.leaving.title"),
+  proposal: (t) => t("component.nodes.ValidatorMainRow.state.proposal.title"),
+  idle: (t) => t("component.nodes.ValidatorMainRow.state.idle.title"),
+  newcomer: (t) => t("component.nodes.ValidatorMainRow.state.newcomer.title"),
+  onHold: (t) => t("component.nodes.ValidatorMainRow.state.onHold.title"),
+};
+
 interface Props {
-  text: string;
   type: StakingStatus;
-  tooltipKey: string;
 }
 
-const ValidatingLabel: React.FC<Props> = React.memo(
-  ({ type, text, tooltipKey, children }) => (
+const ValidatingLabel: React.FC<Props> = React.memo(({ type }) => {
+  const { t } = useTranslation();
+  return (
     <OverlayTrigger
       placement={"right"}
-      overlay={<Tooltip id={tooltipKey}>{text}</Tooltip>}
+      overlay={<Tooltip id={type}>{TOOLTIP_TEXTS[type](t)}</Tooltip>}
     >
-      <ValidatingLabelWrapper type={type}>{children}</ValidatingLabelWrapper>
+      <ValidatingLabelWrapper type={type}>
+        {LABEL_TEXTS[type](t)}
+      </ValidatingLabelWrapper>
     </OverlayTrigger>
-  )
-);
+  );
+});
 
 export default ValidatingLabel;

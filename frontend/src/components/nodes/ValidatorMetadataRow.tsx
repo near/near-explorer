@@ -3,7 +3,7 @@ import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
-import { PoolDetails } from "../../libraries/wamp/types";
+import { ValidatorDescription } from "../../libraries/wamp/types";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesContentRow,
@@ -39,13 +39,13 @@ const ValidatorMetadataElement: React.FC<ElementProps> = React.memo(
 );
 
 interface Props {
-  poolDetails?: PoolDetails;
+  description?: ValidatorDescription;
 }
 
-const ValidatorMetadataRow: React.FC<Props> = React.memo(({ poolDetails }) => {
+const ValidatorMetadataRow: React.FC<Props> = React.memo(({ description }) => {
   const { t } = useTranslation();
 
-  if (!poolDetails) {
+  if (!description) {
     return (
       <ValidatorNodesContentRow noGutters>
         <ValidatorNodesContentCell>
@@ -73,57 +73,57 @@ const ValidatorMetadataRow: React.FC<Props> = React.memo(({ poolDetails }) => {
       <ValidatorMetadataElement
         header={t("component.nodes.ValidatorMetadataRow.pool_info.website")}
       >
-        {poolDetails.url && (
+        {description.url && (
           <a
             href={
-              poolDetails.url.startsWith("http")
-                ? poolDetails.url
-                : `http://${poolDetails.url}`
+              description.url.startsWith("http")
+                ? description.url
+                : `http://${description.url}`
             }
             rel="noreferrer noopener"
             target="_blank"
           >
-            {poolDetails.url}
+            {description.url}
           </a>
         )}
       </ValidatorMetadataElement>
       <ValidatorMetadataElement
         header={t("component.nodes.ValidatorMetadataRow.pool_info.email")}
       >
-        {poolDetails.email && (
-          <a href={`mailto:${poolDetails.email}`}>{poolDetails.email}</a>
+        {description.email && (
+          <a href={`mailto:${description.email}`}>{description.email}</a>
         )}
       </ValidatorMetadataElement>
       <ValidatorMetadataElement
         header={t("component.nodes.ValidatorMetadataRow.pool_info.twitter")}
       >
-        {poolDetails.twitter && (
+        {description.twitter && (
           <a
-            href={`https://twitter.com/${poolDetails.twitter}`}
+            href={`https://twitter.com/${description.twitter}`}
             rel="noreferrer noopener"
             target="_blank"
           >
-            {poolDetails.twitter}
+            {description.twitter}
           </a>
         )}
       </ValidatorMetadataElement>
       <ValidatorMetadataElement
         header={t("component.nodes.ValidatorMetadataRow.pool_info.discord")}
       >
-        {poolDetails.discord && (
+        {description.discord && (
           <a
-            href={poolDetails.discord}
+            href={description.discord}
             rel="noreferrer noopener"
             target="_blank"
           >
-            {poolDetails.discord}
+            {description.discord}
           </a>
         )}
       </ValidatorMetadataElement>
       <ValidatorMetadataElement
         header={t("component.nodes.ValidatorMetadataRow.pool_info.description")}
       >
-        {poolDetails.description && <small>{poolDetails.description}</small>}
+        {description.description && <small>{description.description}</small>}
       </ValidatorMetadataElement>
     </ValidatorNodesContentRow>
   );

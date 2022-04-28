@@ -39,9 +39,13 @@ function trimError(e: unknown): string {
   }`;
 }
 
+const wait = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 export {
   formatDate,
   generateDateArray,
   cumulativeAccountsCountArray,
   trimError,
+  wait,
 };

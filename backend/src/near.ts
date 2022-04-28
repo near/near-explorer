@@ -3,17 +3,27 @@ import * as nearApi from "near-api-js";
 import BN from "bn.js";
 
 import { nearArchivalRpcUrl } from "./config";
-import { queryNodeValidators } from "./db-utils";
-import { NetworkStats, StakingStatus } from "./client-types";
+import { queryStakingPoolAccountIds, queryOnlineNodesCount } from "./db-utils";
 import {
-  CurrentEpochValidatorInfo,
-  NextEpochValidatorInfo,
-} from "near-api-js/lib/providers/provider";
+  NetworkStats,
+  ValidationProgress,
+  ValidatorEpochData,
+} from "./client-types";
 import {
   RpcQueryRequestTypeMapping,
   RpcQueryResponseNarrowed,
   RpcResponseMapping,
+  EpochValidatorInfo,
+  CurrentEpochValidatorInfo,
+  ProtocolConfigView,
 } from "./rpc-types";
+
+type CurrentEpochState = {
+  seatPrice: string;
+  totalStake: string;
+  height: number;
+};
+let currentEpochState: CurrentEpochState | null = null;
 
 const nearRpc = new nearApi.providers.JsonRpcProvider({
   url: nearArchivalRpcUrl,
@@ -36,29 +46,6 @@ export const sendJsonRpcQuery = <K extends keyof RpcQueryRequestTypeMapping>(
   });
 };
 
-let seatPrice: string = "0";
-let totalStake: string = "0";
-let currentEpochStartHeight: number = -1;
-
-type ActiveValidator = CurrentNode & { proposedStake: string };
-type LeavingValidator = CurrentNode;
-type JoiningValidator = Omit<
-  RpcResponseMapping["validators"]["current_proposals"][number],
-  "stake"
-> & {
-  proposedStake: string;
-  stakingStatus: "proposal";
-};
-type NotUsedValidator = { account_id: string };
-
-export type StakingNode =
-  | ActiveValidator
-  | LeavingValidator
-  | JoiningValidator
-  | NotUsedValidator;
-
-let stakingNodes = new Map<string, StakingNode>();
-
 // TODO: Provide an equivalent method in near-api-js, so we don't need to make it external.
 const callViewMethod = async function <T>(
   contractName: string,
@@ -80,249 +67,138 @@ const queryFinalBlock = async (): Promise<RpcResponseMapping["block"]> => {
   });
 };
 
-const queryEpochStats = async (): Promise<
-  Pick<
-    NetworkStats,
-    | "epochLength"
-    | "epochStartHeight"
-    | "epochProtocolVersion"
-    | "totalStake"
-    | "seatPrice"
-    | "genesisTime"
-    | "genesisHeight"
-  > & {
-    currentValidatorsCount: number;
-    stakingNodes: Map<string, StakingNode>;
-  }
-> => {
-  const networkProtocolConfig = await sendJsonRpc(
-    "EXPERIMENTAL_protocol_config",
-    { finality: "final" }
-  );
-  const epochStatus = await sendJsonRpc("validators", [null]);
-  const maxNumberOfSeats =
-    networkProtocolConfig.num_block_producer_seats +
-    networkProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
-      (a, b) => a + b
-    );
-
-  const currentProposals = epochStatus.current_proposals;
-  const currentNodes = getCurrentNodes(epochStatus);
-  const currentPools = await queryNodeValidators();
-
-  // collect all ids
-  const currentPoolsIds = new Set<string>([
-    ...currentPools.map(({ account_id }) => account_id),
-    ...currentNodes.map(({ account_id }) => account_id),
-    ...currentProposals.map(({ account_id }) => account_id),
-  ]);
-
-  // collect current validators and proposal to separate Map()
-  // to keep their list up-to-date
-  const currentValidatorsMap = new Map<string, CurrentNode>();
-  const currentProposalsMap = new Map<
-    string,
-    RpcResponseMapping["validators"]["current_proposals"][number]
-  >();
-  currentNodes.forEach((rawNode) => {
-    const node = rawNode as CurrentNodeModifier<
-      RpcResponseMapping["validators"]["current_validators"][number]
-    >;
-    if (
-      "num_produced_blocks" in node &&
-      "num_expected_blocks" in node &&
-      "num_produced_chunks" in node &&
-      "num_expected_chunks" in node &&
-      node.num_expected_blocks !== 0
-    ) {
-      const {
-        num_produced_blocks,
-        num_expected_blocks,
-        num_produced_chunks,
-        num_expected_chunks,
-        ...restNode
-      } = node;
-      currentValidatorsMap.set(restNode.account_id, {
-        ...restNode,
-        progress: {
-          blocks: {
-            produced: num_produced_blocks,
-            total: num_expected_blocks,
-          },
-          chunks: {
-            produced: num_produced_chunks,
-            total: num_expected_chunks,
-          },
-        },
-      });
-    }
-  });
-  currentProposals.forEach((v) => {
-    currentProposalsMap.set(v.account_id, v);
-  });
-
-  // loop over all pools and
-
-  for (const stakingPool of currentPoolsIds) {
-    const activeValidator = currentValidatorsMap.get(stakingPool);
-    const proposalValidator = currentProposalsMap.get(stakingPool);
-
-    // if current validator included in list of proposals
-    // we add proposedStake to this validator because of different
-    // amount of stake from current to next epoch
-    if (activeValidator && proposalValidator) {
-      stakingNodes.set(stakingPool, {
-        ...activeValidator,
-        proposedStake: proposalValidator.stake,
-      });
-    } else if (activeValidator && !proposalValidator) {
-      // if current validators isn't included in proposals list
-      // we display it as is (mostly for 'leaving' stakingStatus)
-      stakingNodes.set(stakingPool, {
-        ...activeValidator,
-      });
-    } else if (!activeValidator && proposalValidator) {
-      // if proposal validator isn't included in current validators list
-      // we display it with "proposal" stakingStatus
-      // and only 'proposedStake' instead of 'currentStake'
-      const { stake, ...proposal } = proposalValidator;
-      stakingNodes.set(stakingPool, {
-        ...proposal,
-        proposedStake: stake,
-        stakingStatus: "proposal",
-      });
-    } else {
-      // if some validator isn't included in current and proposal
-      // we just push 'account_id' to query for 'fee', 'delegators', 'stake'
-      // from rpc and 'name.near' contract
-      stakingNodes.set(stakingPool, {
-        account_id: stakingPool,
-      });
-    }
-  }
-
-  const {
-    epoch_start_height: epochStartHeight,
-    current_validators: currentValidators,
-  } = epochStatus;
-  const {
-    epoch_length: epochLength,
-    genesis_time: genesisTime,
-    genesis_height: genesisHeight,
-    protocol_version: epochProtocolVersion,
-  } = networkProtocolConfig;
-  const currentEpochValidatingNodes = currentNodes.filter((node) =>
-    ["active", "leaving"].includes(node.stakingStatus)
-  );
-
-  if (currentEpochStartHeight !== epochStartHeight) {
-    // Update seat_price and total_stake each time when epoch starts
-    const { minimum_stake_ratio: epochMinStakeRatio } = await sendJsonRpc(
-      "EXPERIMENTAL_genesis_config",
-      {}
-    );
-    currentEpochStartHeight = epochStartHeight;
-    // for 'protocol_version' less then 49 'epochMinStakeRatio' = undefined
-    // and it works correct because 'findSeatPrice' method handles this
-    seatPrice = nearApi.validators
-      .findSeatPrice(
-        currentValidators,
-        maxNumberOfSeats,
-        epochMinStakeRatio,
-        epochProtocolVersion
-      )
-      .toString();
-
-    totalStake = currentValidators
-      .reduce((acc, node) => acc.add(new BN(node.stake)), new BN(0))
-      .toString();
-  }
-
+const mapProgress = (
+  currentValidator: CurrentEpochValidatorInfo
+): ValidationProgress => {
   return {
-    epochLength,
-    epochStartHeight,
-    epochProtocolVersion,
-    // we must kick of 'joining' validators as they are not part of current epoch
-    currentValidatorsCount: currentEpochValidatingNodes.length,
-    stakingNodes,
-    totalStake,
-    seatPrice,
-    genesisTime,
-    genesisHeight,
+    blocks: {
+      produced: currentValidator.num_produced_blocks,
+      total: currentValidator.num_expected_blocks,
+    },
+    chunks: {
+      produced: currentValidator.num_produced_chunks,
+      total: currentValidator.num_expected_chunks,
+    },
   };
 };
 
-type CurrentNodeModifier<T extends { stake: string }> = Omit<T, "stake"> & {
-  currentStake: string;
-  stakingStatus: StakingStatus;
-};
+const mapValidators = (
+  epochStatus: EpochValidatorInfo,
+  poolIds: string[]
+): ValidatorEpochData[] => {
+  const validatorsMap: Map<string, ValidatorEpochData> = new Map();
 
-export type CurrentNode = CurrentNodeModifier<
-  | NextEpochValidatorInfo
-  | CurrentEpochValidatorInfo
-  | RpcResponseMapping["validators"]["current_validators"][number]
-> & {
-  progress?: Record<
-    "blocks" | "chunks",
-    {
-      produced: number;
-      total: number;
-    }
-  >;
-};
-
-const setValidatorStatus = <T extends { stake: string }>(
-  validators: T[],
-  status: StakingStatus
-): CurrentNodeModifier<T>[] => {
-  return validators.map((v) => {
-    const { stake, ...validator } = v;
-    return {
-      ...validator,
-      currentStake: stake,
-      stakingStatus: status,
-    };
-  });
-};
-
-const getCurrentNodes = (
-  epochStatus: RpcResponseMapping["validators"]
-): CurrentNode[] => {
-  let epochValidatorsDiff = nearApi.validators.diffEpochValidators(
-    epochStatus.current_validators,
-    epochStatus.next_validators
-  );
-
-  const removedValidatorsSet = new Set(
-    epochValidatorsDiff.removedValidators.map((i) => i.account_id)
-  );
-  const activeValidators = epochStatus.current_validators.filter(
-    (v) => !removedValidatorsSet.has(v.account_id)
-  );
-
-  const nextValidators = setValidatorStatus(
-    epochValidatorsDiff.newValidators,
-    "joining"
-  );
-  const removedValidators = setValidatorStatus(
-    epochValidatorsDiff.removedValidators,
-    "leaving"
-  );
-  const currentValidators = setValidatorStatus(activeValidators, "active");
-
-  return [...currentValidators, ...nextValidators, ...removedValidators];
-};
-
-async function getStakingNodesList(): Promise<Map<string, StakingNode>> {
-  if (stakingNodes.size === 0) {
-    await queryEpochStats();
+  for (const currentValidator of epochStatus.current_validators) {
+    validatorsMap.set(currentValidator.account_id, {
+      accountId: currentValidator.account_id,
+      publicKey: currentValidator.public_key,
+      currentEpoch: {
+        stake: currentValidator.stake,
+        progress: mapProgress(currentValidator),
+      },
+    });
   }
-  return stakingNodes;
-}
 
-export {
-  queryFinalBlock,
-  queryEpochStats,
-  getStakingNodesList,
-  callViewMethod,
+  for (const nextValidator of epochStatus.next_validators) {
+    const validator = validatorsMap.get(nextValidator.account_id) || {
+      accountId: nextValidator.account_id,
+      publicKey: nextValidator.public_key,
+    };
+    validator.nextEpoch = {
+      stake: nextValidator.stake,
+    };
+    validatorsMap.set(nextValidator.account_id, validator);
+  }
+
+  for (const nextProposal of epochStatus.current_proposals) {
+    const validator = validatorsMap.get(nextProposal.account_id) || {
+      accountId: nextProposal.account_id,
+      publicKey: nextProposal.public_key,
+    };
+    validator.afterNextEpoch = {
+      stake: nextProposal.stake,
+    };
+    validatorsMap.set(nextProposal.account_id, validator);
+  }
+
+  for (const accountId of poolIds) {
+    const validator = validatorsMap.get(accountId) || {
+      accountId: accountId,
+    };
+    validatorsMap.set(accountId, validator);
+  }
+
+  return [...validatorsMap.values()];
 };
+
+const getEpochState = async (
+  epochStatus: EpochValidatorInfo,
+  networkProtocolConfig: ProtocolConfigView
+) => {
+  if (currentEpochState?.height === epochStatus.epoch_start_height) {
+    return currentEpochState;
+  }
+
+  const { minimum_stake_ratio: epochMinStakeRatio } = await sendJsonRpc(
+    "EXPERIMENTAL_genesis_config",
+    {}
+  );
+  const maxNumberOfSeats =
+    networkProtocolConfig.num_block_producer_seats +
+    networkProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
+      (sum, seat) => sum + seat,
+      0
+    );
+  currentEpochState = {
+    height: epochStatus.epoch_start_height,
+    seatPrice: nearApi.validators
+      .findSeatPrice(
+        epochStatus.current_validators,
+        maxNumberOfSeats,
+        epochMinStakeRatio,
+        networkProtocolConfig.protocol_version
+      )
+      .toString(),
+    totalStake: epochStatus.current_validators
+      .reduce((acc, node) => acc.add(new BN(node.stake)), new BN(0))
+      .toString(),
+  };
+  return currentEpochState;
+};
+
+type EpochData = {
+  stats: NetworkStats;
+  validators: ValidatorEpochData[];
+};
+
+const queryEpochData = async (): Promise<EpochData> => {
+  const [
+    networkProtocolConfig,
+    epochStatus,
+    currentPools,
+    onlineNodesCount,
+  ] = await Promise.all([
+    sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
+    sendJsonRpc("validators", [null]),
+    queryStakingPoolAccountIds(),
+    queryOnlineNodesCount(),
+  ]);
+  const epochState = await getEpochState(epochStatus, networkProtocolConfig);
+
+  return {
+    stats: {
+      epochLength: networkProtocolConfig.epoch_length,
+      epochStartHeight: epochStatus.epoch_start_height,
+      epochProtocolVersion: networkProtocolConfig.protocol_version,
+      currentValidatorsCount: epochStatus.current_validators.length,
+      totalStake: epochState.totalStake,
+      seatPrice: epochState.seatPrice,
+      genesisTime: networkProtocolConfig.genesis_time,
+      genesisHeight: networkProtocolConfig.genesis_height,
+      onlineNodesCount,
+    },
+    validators: mapValidators(epochStatus, currentPools),
+  };
+};
+
+export { queryFinalBlock, queryEpochData, callViewMethod };

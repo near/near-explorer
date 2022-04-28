@@ -7,9 +7,8 @@ import { useTranslation } from "react-i18next";
 import Balance from "../utils/Balance";
 import { OrderTableCell, TableRow } from "../utils/Table";
 import CountryFlag from "../utils/CountryFlag";
-import ValidatingLabel from "./ValidatingLabel";
 import CumulativeStakeChart from "./CumulativeStakeChart";
-import { StakingPoolInfo, StakingStatus } from "../../libraries/wamp/types";
+import { ValidatorPoolInfo } from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
 
 const ValidatorNodesText = styled(Col, {
@@ -58,11 +57,11 @@ interface Props {
   index: number;
   countryCode?: string;
   country?: string;
-  stakingStatus?: StakingStatus;
   publicKey?: string;
-  stakingPoolInfo?: StakingPoolInfo;
-  currentStake?: string;
-  proposedStakeForNextEpoch?: string;
+  poolInfo?: ValidatorPoolInfo;
+  visibleStake?: string;
+  stakeDelta?: BN;
+
   stakePercents: {
     ownPercent: number;
     cumulativePercent: number;
@@ -83,212 +82,113 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
     index,
     countryCode,
     country,
-    stakingStatus,
     publicKey,
-    stakingPoolInfo,
-    currentStake,
-    proposedStakeForNextEpoch,
+    poolInfo,
+    visibleStake,
+    stakeDelta,
     stakePercents,
     handleClick,
+    children,
   }) => {
     const { t } = useTranslation();
-    const stakeProposedAmount =
-      currentStake &&
-      proposedStakeForNextEpoch &&
-      (new BN(currentStake).gt(new BN(proposedStakeForNextEpoch))
-        ? {
-            value: new BN(currentStake)
-              .sub(new BN(proposedStakeForNextEpoch))
-              .toString(),
-            increace: false,
-          }
-        : new BN(currentStake).lt(new BN(proposedStakeForNextEpoch))
-        ? {
-            value: new BN(proposedStakeForNextEpoch)
-              .sub(new BN(currentStake))
-              .toString(),
-            increace: true,
-          }
-        : undefined);
 
     return (
-      <>
-        <TableRow className="mx-0" collapse={isRowActive} key={accountId}>
-          <CollapseRowArrow onClick={handleClick}>
-            <IconCellIcon
-              src={
-                isRowActive
-                  ? "/static/images/icon-minimize.svg"
-                  : "/static/images/icon-maximize.svg"
-              }
-            />
-          </CollapseRowArrow>
+      <TableRow className="mx-0" collapse={isRowActive} key={accountId}>
+        <CollapseRowArrow onClick={handleClick}>
+          <IconCellIcon
+            src={
+              isRowActive
+                ? "/static/images/icon-minimize.svg"
+                : "/static/images/icon-maximize.svg"
+            }
+          />
+        </CollapseRowArrow>
 
-          <OrderTableCell>{index}</OrderTableCell>
-          <td>
-            <CountryFlag
-              id={`country_flag_${accountId}`}
-              countryCode={countryCode}
-              country={country}
-            />
-          </td>
+        <OrderTableCell>{index}</OrderTableCell>
+        <td>
+          <CountryFlag
+            id={`country_flag_${accountId}`}
+            countryCode={countryCode}
+            country={country}
+          />
+        </td>
 
-          <td>
-            <Row noGutters className="align-items-center">
-              <ValidatorsNodeLabel>
-                {stakingStatus === "proposal" ? (
-                  <ValidatingLabel
-                    type="proposal"
-                    text={t(
-                      "component.nodes.ValidatorMainRow.state.proposal.text"
-                    )}
-                    tooltipKey="nodes"
-                  >
-                    {t("component.nodes.ValidatorMainRow.state.proposal.title")}
-                  </ValidatingLabel>
-                ) : stakingStatus === "joining" ? (
-                  <ValidatingLabel
-                    type="joining"
-                    text={t(
-                      "component.nodes.ValidatorMainRow.state.joining.text"
-                    )}
-                    tooltipKey="joining"
-                  >
-                    {t("component.nodes.ValidatorMainRow.state.joining.title")}
-                  </ValidatingLabel>
-                ) : stakingStatus === "leaving" ? (
-                  <ValidatingLabel
-                    type="leaving"
-                    text={t(
-                      "component.nodes.ValidatorMainRow.state.leaving.text"
-                    )}
-                    tooltipKey="leaving"
-                  >
-                    {t("component.nodes.ValidatorMainRow.state.leaving.title")}
-                  </ValidatingLabel>
-                ) : stakingStatus === "active" ? (
-                  <ValidatingLabel
-                    type="active"
-                    text={t(
-                      "component.nodes.ValidatorMainRow.state.active.text"
-                    )}
-                    tooltipKey="current"
-                  >
-                    {t("component.nodes.ValidatorMainRow.state.active.title")}
-                  </ValidatingLabel>
-                ) : stakingStatus === "idle" ? (
-                  <ValidatingLabel
-                    type="idle"
-                    text={t("component.nodes.ValidatorMainRow.state.idle.text")}
-                    tooltipKey="idle"
-                  >
-                    {t("component.nodes.ValidatorMainRow.state.idle.title")}
-                  </ValidatingLabel>
-                ) : stakingStatus === "newcomer" ? (
-                  <ValidatingLabel
-                    type="newcomer"
-                    text={t(
-                      "component.nodes.ValidatorMainRow.state.newcomer.text"
-                    )}
-                    tooltipKey="newcomer"
-                  >
-                    {t("component.nodes.ValidatorMainRow.state.newcomer.title")}
-                  </ValidatingLabel>
-                ) : stakingStatus === "on-hold" ? (
-                  <ValidatingLabel
-                    type="on-hold"
-                    text={t(
-                      "component.nodes.ValidatorMainRow.state.on_hold.text"
-                    )}
-                    tooltipKey="on-hold"
-                  >
-                    {t("component.nodes.ValidatorMainRow.state.on_hold.title")}
-                  </ValidatingLabel>
-                ) : null}
-              </ValidatorsNodeLabel>
+        <td>
+          <Row noGutters className="align-items-center">
+            <ValidatorsNodeLabel>{children}</ValidatorsNodeLabel>
 
-              <ValidatorName>
+            <ValidatorName>
+              <Row noGutters>
+                <ValidatorNameText title={`@${accountId}`}>
+                  {accountId}
+                </ValidatorNameText>
+              </Row>
+              {publicKey && (
                 <Row noGutters>
-                  <ValidatorNameText title={`@${accountId}`}>
-                    {accountId}
-                  </ValidatorNameText>
+                  <PublicKey title={publicKey}>{publicKey}</PublicKey>
                 </Row>
-                {publicKey && (
-                  <Row noGutters>
-                    <PublicKey title={publicKey}>{publicKey}</PublicKey>
-                  </Row>
-                )}
-              </ValidatorName>
-            </Row>
-          </td>
+              )}
+            </ValidatorName>
+          </Row>
+        </td>
 
-          <td>
-            {stakingPoolInfo === undefined ? (
-              <Spinner animation="border" size="sm" />
-            ) : stakingPoolInfo.fee === null ? (
-              t("common.state.not_available")
-            ) : (
-              `${(
-                (stakingPoolInfo.fee.numerator /
-                  stakingPoolInfo.fee.denominator) *
-                100
-              ).toFixed(0)}%`
-            )}
-          </td>
-          <td>
-            {stakingPoolInfo === undefined ? (
-              <Spinner animation="border" size="sm" />
-            ) : stakingPoolInfo.delegatorsCount === null ? (
-              t("common.state.not_available")
-            ) : (
-              stakingPoolInfo.delegatorsCount
-            )}
-          </td>
-          <StakeText as="td" className="text-right">
-            {currentStake ? (
-              <Balance amount={currentStake} label="NEAR" fracDigits={0} />
-            ) : proposedStakeForNextEpoch ? (
-              <Balance
-                amount={proposedStakeForNextEpoch}
-                label="NEAR"
-                fracDigits={0}
-              />
-            ) : (
-              "-"
-            )}
-            {stakeProposedAmount && (
-              <>
-                <br />
-                <small>
-                  {typeof stakeProposedAmount !== undefined && (
-                    <>
-                      {stakeProposedAmount.increace ? "+" : "-"}
-                      {Number(
-                        new BN(stakeProposedAmount.value).div(yoctoNearToNear)
-                      ) < 1 ? (
-                        <Balance
-                          amount={stakeProposedAmount.value}
-                          label="NEAR"
-                          fracDigits={4}
-                        />
-                      ) : (
-                        <Balance
-                          amount={stakeProposedAmount.value}
-                          label="NEAR"
-                          fracDigits={0}
-                        />
-                      )}
-                    </>
-                  )}
-                </small>
-              </>
-            )}
-          </StakeText>
-          <td>
-            <CumulativeStakeChart percents={stakePercents} />
-          </td>
-        </TableRow>
-      </>
+        <td>
+          {poolInfo === undefined ? (
+            <Spinner animation="border" size="sm" />
+          ) : poolInfo.fee === null ? (
+            t("common.state.not_available")
+          ) : (
+            `${(
+              (poolInfo.fee.numerator / poolInfo.fee.denominator) *
+              100
+            ).toFixed(0)}%`
+          )}
+        </td>
+        <td>
+          {poolInfo === undefined ? (
+            <Spinner animation="border" size="sm" />
+          ) : poolInfo.delegatorsCount === null ? (
+            t("common.state.not_available")
+          ) : (
+            poolInfo.delegatorsCount
+          )}
+        </td>
+        <StakeText as="td" className="text-right">
+          {visibleStake ? (
+            <Balance amount={visibleStake} label="NEAR" fracDigits={0} />
+          ) : (
+            "-"
+          )}
+          {stakeDelta && !stakeDelta.isZero() ? (
+            <>
+              <br />
+              <small>
+                {
+                  <>
+                    {!stakeDelta.isNeg() ? "+" : "-"}
+                    {Number(stakeDelta.div(yoctoNearToNear)) < 1 ? (
+                      <Balance
+                        amount={stakeDelta.abs()}
+                        label="NEAR"
+                        fracDigits={4}
+                      />
+                    ) : (
+                      <Balance
+                        amount={stakeDelta.abs()}
+                        label="NEAR"
+                        fracDigits={0}
+                      />
+                    )}
+                  </>
+                }
+              </small>
+            </>
+          ) : null}
+        </StakeText>
+        <td>
+          <CumulativeStakeChart percents={stakePercents} />
+        </td>
+      </TableRow>
     );
   }
 );

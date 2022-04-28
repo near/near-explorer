@@ -119,14 +119,14 @@ Array [
           className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
           style={
             Object {
-              "width": "52.39%",
+              "width": "50.14%",
             }
           }
         />
         <div
           className="c-Label-dmIDyz"
         >
-          52.39%
+          50.14%
         </div>
       </div>
     </td>
@@ -250,7 +250,7 @@ Array [
           className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
           style={
             Object {
-              "width": "52.40%",
+              "width": "50.15%",
             }
           }
         />
@@ -258,14 +258,14 @@ Array [
           className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
           style={
             Object {
-              "width": "25.67%",
+              "width": "24.57%",
             }
           }
         />
         <div
           className="c-Label-dmIDyz"
         >
-          78.07%
+          74.72%
         </div>
       </div>
     </td>
@@ -391,7 +391,7 @@ Array [
           className="c-Value-PJLV c-Value-PJLV-bVUCHg-type-accumulated"
           style={
             Object {
-              "width": "78.08%",
+              "width": "74.73%",
             }
           }
         />
@@ -399,14 +399,14 @@ Array [
           className="c-Value-PJLV c-Value-PJLV-NcDqG-type-own"
           style={
             Object {
-              "width": "21.92%",
+              "width": "20.98%",
             }
           }
         />
         <div
           className="c-Label-dmIDyz"
         >
-          100.00%
+          95.71%
         </div>
       </div>
     </td>
@@ -497,20 +497,6 @@ Array [
          
         NEAR
       </span>
-      <br />
-      <small>
-        +
-        <span
-          onBlur={[Function]}
-          onFocus={[Function]}
-          onMouseOut={[Function]}
-          onMouseOver={[Function]}
-        >
-          569
-           
-          NEAR
-        </span>
-      </small>
     </td>
     <td>
       <div

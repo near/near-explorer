@@ -341,7 +341,7 @@ type GenesisConfig = {
 };
 
 // https://docs.rs/near-chain-configs/latest/near_chain_configs/struct.ProtocolConfigView.html
-type ProtocolConfigView = {
+export type ProtocolConfigView = {
   protocol_version: ProtocolVersion;
   genesis_time: DateTime<Utc>;
   chain_id: String;
@@ -441,10 +441,10 @@ type ValidatorStakeViewV1 = {
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/validator_stake_view/enum.ValidatorStakeView.html
-type ValidatorStakeView = ValidatorStakeViewV1;
+export type ValidatorStakeView = ValidatorStakeViewV1;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.CurrentEpochValidatorInfo.html
-type CurrentEpochValidatorInfo = {
+export type CurrentEpochValidatorInfo = {
   account_id: AccountId;
   public_key: PublicKey;
   is_slashed: bool;
@@ -457,7 +457,7 @@ type CurrentEpochValidatorInfo = {
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.NextEpochValidatorInfo.html
-type NextEpochValidatorInfo = {
+export type NextEpochValidatorInfo = {
   account_id: AccountId;
   public_key: PublicKey;
   stake: Balance;
@@ -495,7 +495,7 @@ type ValidatorKickoutView = {
 };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/views/struct.EpochValidatorInfo.html
-type EpochValidatorInfo = {
+export type EpochValidatorInfo = {
   current_validators: Vec<CurrentEpochValidatorInfo>;
   next_validators: Vec<NextEpochValidatorInfo>;
   current_fishermen: Vec<ValidatorStakeView>;

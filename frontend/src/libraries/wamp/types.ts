@@ -5,9 +5,8 @@ export type TransactionCountHistory = {
   total: number;
 };
 
-export type NodeInfo = {
+export type ValidatorTelemetry = {
   ipAddress: string;
-  accountId?: string;
   nodeId: string;
   lastSeen: number;
   lastHeight: number;
@@ -19,16 +18,8 @@ export type NodeInfo = {
   longitude: string | null;
   city: string | null;
 };
-export type StakingStatus =
-  | "active"
-  | "joining"
-  | "leaving"
-  | "proposal"
-  | "idle"
-  | "newcomer"
-  | "on-hold";
 
-export interface ValidationProgress {
+export type ValidationProgress = {
   chunks: {
     produced: number;
     total: number;
@@ -37,36 +28,44 @@ export interface ValidationProgress {
     produced: number;
     total: number;
   };
-}
-
-export type ValidationNodeInfo = {
-  account_id: string;
-  is_slashed?: boolean;
-  progress?: ValidationProgress;
-  public_key?: string;
-  proposedStake?: string;
-  stakingStatus?: StakingStatus;
-  networkHolder?: boolean;
-  shards?: number[];
-  nodeInfo?: NodeInfo;
-  stakingPoolInfo?: StakingPoolInfo;
-  currentStake?: string;
-  poolDetails?: PoolDetails;
 };
 
-export interface PoolDetails {
+export type ValidatorDescription = {
   country?: string;
-  country_code?: string;
+  countryCode?: string;
   description?: string;
   discord?: string;
   email?: string;
   twitter?: string;
   url?: string;
-}
+};
 
-export type StakingPoolInfo = {
+export type ValidatorPoolInfo = {
   fee: { numerator: number; denominator: number } | null;
   delegatorsCount: number | null;
+};
+
+export type ValidatorEpochData = {
+  accountId: string;
+  publicKey?: string;
+
+  currentEpoch?: {
+    stake: string;
+    progress: ValidationProgress;
+  };
+  nextEpoch?: {
+    stake: string;
+  };
+  afterNextEpoch?: {
+    stake: string;
+  };
+};
+
+export type ValidatorFullData = ValidatorEpochData & {
+  telemetry?: ValidatorTelemetry;
+  poolInfo?: ValidatorPoolInfo;
+  description?: ValidatorDescription;
+  contractStake?: string;
 };
 
 export type NetworkStats = {
@@ -82,8 +81,8 @@ export type NetworkStats = {
 };
 
 export type SubscriptionTopicTypes = {
-  nodes: {
-    stakingNodes: ValidationNodeInfo[];
+  validators: {
+    validators: ValidatorFullData[];
   };
   "chain-blocks-stats": {
     latestBlockHeight: string;
