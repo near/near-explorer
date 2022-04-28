@@ -22,10 +22,6 @@ export const PARTNER_LIST = [
   "amm.counselor.near",
 ];
 
-export const SECOND = 1000;
-export const MINUTE = 60 * SECOND;
-export const HOUR = 60 * MINUTE;
-
 // parter list is from the query
 // select distinct receiver_account_id
 // from transactions

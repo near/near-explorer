@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import BN from "bn.js";
-import { PARTNER_LIST, DataSource, HOUR } from "./consts";
+import { PARTNER_LIST, DataSource } from "./consts";
 import { nearStakingPoolAccountSuffix } from "./config";
 import { databases, withPool } from "./db";
 import {
@@ -10,7 +10,7 @@ import {
 } from "./client-types";
 import { trimError } from "./utils";
 
-const ONE_DAY_TIMESTAMP_MILISEC = 24 * HOUR;
+const ONE_DAY_TIMESTAMP_MILISEC = 24 * 60 * 60 * 1000;
 
 type Replacements = Record<string, unknown> | undefined;
 

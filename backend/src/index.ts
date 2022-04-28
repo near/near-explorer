@@ -1,4 +1,15 @@
-import { INTERVALS, wampNearNetworkName } from "./config";
+import {
+  regularPublishFinalityStatusInterval,
+  regularQueryStatsInterval,
+  regularPublishNetworkInfoInterval,
+  regularFetchStakingPoolsInfoInterval,
+  regularStatsInterval,
+  wampNearNetworkName,
+  regularFetchStakingPoolsMetadataInfoInterval,
+  regularPublishTransactionCountForTwoWeeksInterval,
+  fetchStakingPoolsInfoThrowawayTimeout,
+  regularFetchValidatorsBailoutTimeout,
+} from "./config";
 
 import {
   queryFinalBlock,
@@ -115,7 +126,7 @@ function startDataSourceSpecificJobs(
         )}`
       );
     }
-    setTimeout(regularCheckDataStats, INTERVALS.checkStats);
+    setTimeout(regularCheckDataStats, regularQueryStatsInterval);
   };
   setTimeout(regularCheckDataStats, 0);
 }
@@ -152,7 +163,7 @@ function startStatsAggregation(): void {
     } catch (error) {
       console.warn("Regular Stats Aggregation is crashed due to:", error);
     }
-    setTimeout(regularStatsAggregate, INTERVALS.checkAggregatedStats);
+    setTimeout(regularStatsAggregate, regularStatsInterval);
   };
   setTimeout(regularStatsAggregate, 0);
 }
@@ -276,8 +287,8 @@ const updateStakingPoolStakeProposalsFromContractMap = async (
       .map((validator) => validator.accountId),
     stakingPoolStakeProposalFromContractMap,
     getStakingPoolStakeProposalFromContract,
-    INTERVALS.checkStakingPoolStakeProposal,
-    INTERVALS.timeoutStakingPoolStakeProposal
+    regularFetchStakingPoolsInfoInterval,
+    fetchStakingPoolsInfoThrowawayTimeout
   );
 };
 
@@ -289,8 +300,8 @@ const updatePoolInfoMap = async (
     validators.map((validator) => validator.accountId),
     poolInfoMap,
     getPoolInfo,
-    INTERVALS.checkStakingPoolInfo,
-    INTERVALS.timeoutStakingPoolsInfo
+    regularFetchStakingPoolsInfoInterval,
+    fetchStakingPoolsInfoThrowawayTimeout
   );
 };
 
@@ -318,7 +329,7 @@ async function main(): Promise<void> {
     }
     setTimeout(
       regularPublishTransactionsCount,
-      INTERVALS.checkTransactionCountHistory
+      regularPublishTransactionCountForTwoWeeksInterval
     );
   };
   setTimeout(regularPublishTransactionsCount, 0);
@@ -338,7 +349,10 @@ async function main(): Promise<void> {
     } catch (error) {
       console.warn("Regular final timestamp check crashed due to:", error);
     }
-    setTimeout(regularPublishFinalityStatus, INTERVALS.checkFinalityStatus);
+    setTimeout(
+      regularPublishFinalityStatus,
+      regularPublishFinalityStatusInterval
+    );
   };
   setTimeout(regularPublishFinalityStatus, 0);
 
@@ -355,11 +369,11 @@ async function main(): Promise<void> {
             epochData.validators,
             stakingPoolStakeProposalsFromContract
           ),
-          wait(INTERVALS.timeoutFetchValidatorsBailout),
+          wait(regularFetchValidatorsBailoutTimeout),
         ]),
         Promise.race([
           updatePoolInfoMap(epochData.validators, stakingPoolInfos),
-          wait(INTERVALS.timeoutFetchValidatorsBailout),
+          wait(regularFetchValidatorsBailoutTimeout),
         ]),
       ]);
       void wampPublish(
@@ -381,7 +395,7 @@ async function main(): Promise<void> {
     } catch (error) {
       console.warn("Regular network info publishing crashed due to:", error);
     }
-    setTimeout(regularPublishNetworkInfo, INTERVALS.checkNetworkInfo);
+    setTimeout(regularPublishNetworkInfo, regularPublishNetworkInfoInterval);
   };
   setTimeout(regularPublishNetworkInfo, 0);
 
@@ -397,7 +411,7 @@ async function main(): Promise<void> {
       }
       setTimeout(
         regularFetchStakingPoolsMetadataInfo,
-        INTERVALS.checkValidatorDescriptions
+        regularFetchStakingPoolsMetadataInfoInterval
       );
     };
     setTimeout(regularFetchStakingPoolsMetadataInfo, 0);
