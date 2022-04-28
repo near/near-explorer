@@ -23,6 +23,7 @@ import {
 } from "./config";
 
 import { sendJsonRpc, sendJsonRpcQuery } from "./near";
+import { SECOND } from "./consts";
 
 const wampHandlers: {
   [P in keyof ProcedureTypes]: (
@@ -272,31 +273,35 @@ function setupWamp(): () => Promise<autobahn.Session> {
     max_retry_delay: 10,
   });
 
-  let currentSessionPromise: Promise<autobahn.Session>;
   const openEventEmitter = new EventEmitter();
+  let currentSessionPromise: Promise<autobahn.Session> = new Promise(
+    (resolve, reject) => {
+      setTimeout(reject, 10 * SECOND);
+      wamp.onopen = async (session) => {
+        openEventEmitter.emit("opened", session);
+        resolve(session);
+        currentSessionPromise = Promise.resolve(session);
+        console.log("WAMP connection is established. Waiting for commands...");
 
-  wamp.onopen = async (session) => {
-    openEventEmitter.emit("opened", session);
-    currentSessionPromise = Promise.resolve(session);
-    console.log("WAMP connection is established. Waiting for commands...");
-
-    for (const [name, handler] of Object.entries(wampHandlers)) {
-      const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${name}`;
-      try {
-        await session.register(
-          uri,
-          (handler as unknown) as autobahn.RegisterEndpoint
-        );
-      } catch (error) {
-        console.error(`Failed to register "${uri}" handler due to:`, error);
-        wamp.close();
-        setTimeout(() => {
-          wamp.open();
-        }, 1000);
-        return;
-      }
+        for (const [name, handler] of Object.entries(wampHandlers)) {
+          const uri = `com.nearprotocol.${wampNearNetworkName}.explorer.${name}`;
+          try {
+            await session.register(
+              uri,
+              (handler as unknown) as autobahn.RegisterEndpoint
+            );
+          } catch (error) {
+            console.error(`Failed to register "${uri}" handler due to:`, error);
+            wamp.close();
+            setTimeout(() => {
+              wamp.open();
+            }, 1000);
+            return;
+          }
+        }
+      };
     }
-  };
+  );
 
   wamp.onclose = (reason) => {
     currentSessionPromise = new Promise((resolve) => {
