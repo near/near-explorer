@@ -203,7 +203,7 @@ const queryTelemetryInfo = async (
   return map;
 };
 
-const queryNodeValidators = async (): Promise<string[]> => {
+const queryStakingPoolAccountIds = async (): Promise<string[]> => {
   return (
     await queryRows<{ accountId: string }>(
       [
@@ -1606,7 +1606,11 @@ const queryGasUsedInChunks = async (blockHash: string) => {
 };
 
 // node part
-export { queryOnlineNodesCount, queryTelemetryInfo, queryNodeValidators };
+export {
+  queryOnlineNodesCount,
+  queryTelemetryInfo,
+  queryStakingPoolAccountIds,
+};
 
 // genesis
 export { queryGenesisAccountCount };

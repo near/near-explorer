@@ -3,7 +3,7 @@ import * as nearApi from "near-api-js";
 import BN from "bn.js";
 
 import { nearArchivalRpcUrl } from "./config";
-import { queryNodeValidators, queryOnlineNodesCount } from "./db-utils";
+import { queryStakingPoolAccountIds, queryOnlineNodesCount } from "./db-utils";
 import {
   NetworkStats,
   ValidationProgress,
@@ -180,7 +180,7 @@ const queryEpochData = async (): Promise<EpochData> => {
   ] = await Promise.all([
     sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
     sendJsonRpc("validators", [null]),
-    queryNodeValidators(),
+    queryStakingPoolAccountIds(),
     queryOnlineNodesCount(),
   ]);
   const epochState = await getEpochState(epochStatus, networkProtocolConfig);

@@ -8,6 +8,7 @@ import {
   regularFetchStakingPoolsMetadataInfoInterval,
   regularPublishTransactionCountForTwoWeeksInterval,
   fetchStakingPoolsInfoThrowawayTimeout,
+  regularFetchValidatorsBailoutTimeout,
 } from "./config";
 
 import {
@@ -75,7 +76,7 @@ type PoolMetadataInfo = Record<PoolMetadataAccountId, PoolMetadataAccountInfo>;
 const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
 
 let transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[] = [];
-let stakingPoolsMetadataInfo: Map<string, ValidatorDescription> = new Map();
+let stakingPoolsDescriptions: Map<string, ValidatorDescription> = new Map();
 
 type CachedTimestampMap<T> = {
   timestampMap: Map<string, number>;
@@ -83,12 +84,12 @@ type CachedTimestampMap<T> = {
   promisesMap: Map<string, Promise<void>>;
 };
 
-const contractBalances: CachedTimestampMap<string> = {
+const stakingPoolStakeProposalsFromContract: CachedTimestampMap<string> = {
   timestampMap: new Map(),
   valueMap: new Map(),
   promisesMap: new Map(),
 };
-const poolInfos: CachedTimestampMap<ValidatorPoolInfo> = {
+const stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo> = {
   timestampMap: new Map(),
   valueMap: new Map(),
   promisesMap: new Map(),
@@ -201,7 +202,7 @@ const updateValidatorDescriptions = async (
   }
 };
 
-const getValidatorContractBalance = async (
+const getStakingPoolStakeProposalFromContract = async (
   id: string
 ): Promise<string | undefined> => {
   // for some accounts on 'testnet' we can't get 'currentStake'
@@ -276,16 +277,16 @@ const updateRegularlyFetchedMap = async <T>(
   await Promise.all(ids.map((id) => mappings.promisesMap.get(id)));
 };
 
-const updateContractStakeMap = async (
+const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
-  cachedTimestampMap: CachedTimestampMap<string>
+  stakingPoolStakeProposalFromContractMap: CachedTimestampMap<string>
 ): Promise<void> => {
   return updateRegularlyFetchedMap(
     validators
       .filter((validator) => !validator.currentEpoch)
       .map((validator) => validator.accountId),
-    cachedTimestampMap,
-    getValidatorContractBalance,
+    stakingPoolStakeProposalFromContractMap,
+    getStakingPoolStakeProposalFromContract,
     regularFetchStakingPoolsInfoInterval,
     fetchStakingPoolsInfoThrowawayTimeout
   );
@@ -293,11 +294,11 @@ const updateContractStakeMap = async (
 
 const updatePoolInfoMap = async (
   validators: ValidatorEpochData[],
-  cachedTimestampMap: CachedTimestampMap<ValidatorPoolInfo>
+  poolInfoMap: CachedTimestampMap<ValidatorPoolInfo>
 ): Promise<void> => {
   return updateRegularlyFetchedMap(
     validators.map((validator) => validator.accountId),
-    cachedTimestampMap,
+    poolInfoMap,
     getPoolInfo,
     regularFetchStakingPoolsInfoInterval,
     fetchStakingPoolsInfoThrowawayTimeout
@@ -364,12 +365,15 @@ async function main(): Promise<void> {
       );
       await Promise.all([
         Promise.race([
-          updateContractStakeMap(epochData.validators, contractBalances),
-          wait(2500),
+          updateStakingPoolStakeProposalsFromContractMap(
+            epochData.validators,
+            stakingPoolStakeProposalsFromContract
+          ),
+          wait(regularFetchValidatorsBailoutTimeout),
         ]),
         Promise.race([
-          updatePoolInfoMap(epochData.validators, poolInfos),
-          wait(2500),
+          updatePoolInfoMap(epochData.validators, stakingPoolInfos),
+          wait(regularFetchValidatorsBailoutTimeout),
         ]),
       ]);
       void wampPublish(
@@ -377,9 +381,11 @@ async function main(): Promise<void> {
         {
           validators: epochData.validators.map((validator) => ({
             ...validator,
-            description: stakingPoolsMetadataInfo.get(validator.accountId),
-            poolInfo: poolInfos.valueMap.get(validator.accountId),
-            contractStake: contractBalances.valueMap.get(validator.accountId),
+            description: stakingPoolsDescriptions.get(validator.accountId),
+            poolInfo: stakingPoolInfos.valueMap.get(validator.accountId),
+            contractStake: stakingPoolStakeProposalsFromContract.valueMap.get(
+              validator.accountId
+            ),
             telemetry: telemetryInfo.get(validator.accountId),
           })),
         },
@@ -396,7 +402,7 @@ async function main(): Promise<void> {
   function startRegularFetchStakingPoolsMetadataInfo(): void {
     const regularFetchStakingPoolsMetadataInfo = async (): Promise<void> => {
       try {
-        await updateValidatorDescriptions(stakingPoolsMetadataInfo);
+        await updateValidatorDescriptions(stakingPoolsDescriptions);
       } catch (error) {
         console.warn(
           "Regular fetching staking pools metadata info crashed due to:",

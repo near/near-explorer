@@ -37,6 +37,11 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ telemetry }) => {
 
   return (
     <>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
+        rel="stylesheet"
+      />
+
       <ValidatorNodesContentCell>
         <Row noGutters>
           <ValidatorNodesDetailsTitle>

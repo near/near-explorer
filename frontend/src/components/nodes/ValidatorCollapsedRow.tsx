@@ -24,10 +24,6 @@ const ValidatorCollapsedRow: React.FC<Props> = React.memo(
     <TableCollapseRow collapse={isRowActive}>
       <td colSpan={8}>
         <ValidatorNodesContentRow noGutters>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap"
-            rel="stylesheet"
-          />
           {progress && <ValidatorProgressElement progress={progress} />}
           {telemetry && <ValidatorTelemetryElements telemetry={telemetry} />}
         </ValidatorNodesContentRow>
