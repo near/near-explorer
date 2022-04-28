@@ -1,7 +1,6 @@
 import getNextConfig from "next/config";
 import { ParsedUrlQuery } from "querystring";
-
-export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
+import { NetworkName } from "./wamp/types";
 
 export interface NearNetwork {
   name: NetworkName;
