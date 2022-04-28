@@ -9,7 +9,10 @@ import GasPrice from "../utils/GasPrice";
 import Link from "../utils/Link";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
-import { useChainTransactionStats } from "../../hooks/subscriptions";
+import {
+  useRecentTransactions,
+  useTransactionHistory,
+} from "../../hooks/subscriptions";
 import { useLatestGasPrice } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
 
@@ -27,9 +30,9 @@ const TransactionCharts = styled(Row, {
 
 const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const transactionsCountHistoryForTwoWeeks = useChainTransactionStats()
+  const transactionsCountHistoryForTwoWeeks = useTransactionHistory()
     ?.transactionsCountHistoryForTwoWeeks;
-  const recentTransactionsCount = useChainTransactionStats()
+  const recentTransactionsCount = useRecentTransactions()
     ?.recentTransactionsCount;
   const latestGasPrice = useLatestGasPrice();
 
@@ -87,7 +90,9 @@ const DashboardTransaction: React.FC = React.memo(() => {
       {transactionsCountHistoryForTwoWeeks ? (
         <TransactionCharts>
           <Col md="12">
-            <DashboardTransactionsHistoryChart />
+            <DashboardTransactionsHistoryChart
+              transactionHistory={transactionsCountHistoryForTwoWeeks}
+            />
           </Col>
         </TransactionCharts>
       ) : null}

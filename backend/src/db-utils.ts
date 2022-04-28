@@ -339,7 +339,7 @@ const queryTransactionsCountHistoryForTwoWeeks = async (): Promise<
   }));
 };
 
-const queryRecentTransactionsCount = async (): Promise<number | undefined> => {
+const queryRecentTransactionsCount = async (): Promise<number> => {
   const result = await querySingleRow<{ total: string }>(
     [
       `SELECT
