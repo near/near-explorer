@@ -497,5 +497,3 @@ export type ProcedureResult<
 // See https://stackoverflow.com/a/49402091/2017859
 export type KeysOfUnion<T> = T extends T ? keyof T : never;
 export * as RPC from "../../../../backend/src/rpc-types";
-
-export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
