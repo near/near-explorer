@@ -7,7 +7,7 @@ import {
 
 async function getBlocksList(
   limit: number,
-  paginationIndexer?: number
+  paginationIndexer: number | null
 ): Promise<BlockBase[]> {
   const blocksList = await queryBlocksList(limit, paginationIndexer);
   return blocksList.map((block) => ({

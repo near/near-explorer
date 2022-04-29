@@ -299,7 +299,7 @@ export type ProcedureTypes = {
     result: boolean;
   };
   "accounts-list": {
-    args: [number, number?];
+    args: [number, number | null];
     result: AccountListInfo[];
   };
 
@@ -308,7 +308,7 @@ export type ProcedureTypes = {
     result: Block | null;
   };
   "blocks-list": {
-    args: [number, number?];
+    args: [number, number | null];
     result: BlockBase[];
   };
   "block-by-hash-or-id": {
@@ -439,15 +439,15 @@ export type ProcedureTypes = {
     result: boolean;
   };
   "transactions-list-by-account-id": {
-    args: [string, number, TransactionPagination?];
+    args: [string, number, TransactionPagination | null];
     result: TransactionBaseInfo[];
   };
   "transactions-list-by-block-hash": {
-    args: [string, number, TransactionPagination?];
+    args: [string, number, TransactionPagination | null];
     result: TransactionBaseInfo[];
   };
   "transactions-list": {
-    args: [number, TransactionPagination?];
+    args: [number, TransactionPagination | null];
     result: TransactionBaseInfo[];
   };
   "transaction-info": {

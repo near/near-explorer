@@ -8,7 +8,7 @@ const handler: NextApiHandler = async (req, res) => {
     const nearNetwork = getNearNetwork(req.query, req.headers.host);
     const wampCall = wampApi.getCall(nearNetwork);
     const rpcFinalBlock = await wampCall("nearcore-final-block", []);
-    const indexerFinalBlock = await wampCall("blocks-list", [1]);
+    const indexerFinalBlock = await wampCall("blocks-list", [1, null]);
 
     const prometheusResponse = json2Prom([
       {

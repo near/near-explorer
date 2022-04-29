@@ -63,8 +63,8 @@ async function getIsTransactionIndexed(
 }
 
 async function getTransactionsList(
-  limit?: number,
-  paginationIndexer?: TransactionPagination
+  limit: number | undefined,
+  paginationIndexer: TransactionPagination | null
 ): Promise<TransactionBaseInfo[]> {
   const transactionsList = await queryTransactionsList(
     limit,
@@ -80,8 +80,8 @@ async function getTransactionsList(
 
 async function getAccountTransactionsList(
   accountId: string,
-  limit?: number,
-  paginationIndexer?: TransactionPagination
+  limit: number | undefined,
+  paginationIndexer: TransactionPagination | null
 ): Promise<TransactionBaseInfo[]> {
   const accountTxList = await queryAccountTransactionsList(
     accountId,
@@ -98,8 +98,8 @@ async function getAccountTransactionsList(
 
 async function getTransactionsListInBlock(
   blockHash: string,
-  limit?: number,
-  paginationIndexer?: TransactionPagination
+  limit: number | undefined,
+  paginationIndexer: TransactionPagination | null
 ): Promise<TransactionBaseInfo[]> {
   const txListInBlock = await queryTransactionsListInBlock(
     blockHash,

@@ -22,7 +22,7 @@ async function isAccountIndexed(accountId: string): Promise<boolean> {
 
 async function getAccountsList(
   limit: number,
-  lastAccountIndex?: number
+  lastAccountIndex: number | null
 ): Promise<AccountListInfo[]> {
   const accountsList = await queryAccountsList(limit, lastAccountIndex);
   return accountsList.map((account) => ({

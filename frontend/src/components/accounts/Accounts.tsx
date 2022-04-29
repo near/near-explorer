@@ -11,7 +11,7 @@ const ACCOUNTS_PER_PAGE = 15;
 const fetchDataFn = (
   wampCall: WampCall,
   count: number,
-  paginationIndexer?: number
+  paginationIndexer: number | null
 ) => wampCall("accounts-list", [count, paginationIndexer]);
 
 const AccountsWrapper: React.FC = React.memo(() => (

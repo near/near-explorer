@@ -405,7 +405,7 @@ export type QueryTransaction = {
 
 const queryTransactionsList = async (
   limit: number = 15,
-  paginationIndexer?: TransactionPagination
+  paginationIndexer: TransactionPagination | null
 ): Promise<QueryTransaction[]> => {
   return await queryRows<
     QueryTransaction,
@@ -425,7 +425,7 @@ const queryTransactionsList = async (
         transactions.index_in_chunk as transaction_index
        FROM transactions
        ${
-         paginationIndexer
+         paginationIndexer !== null
            ? `WHERE transactions.block_timestamp < :end_timestamp
        OR (transactions.block_timestamp = :end_timestamp
        AND transactions.index_in_chunk < :transaction_index)`
@@ -434,9 +434,10 @@ const queryTransactionsList = async (
        ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
        LIMIT :limit`,
       {
-        end_timestamp: paginationIndexer
-          ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
-          : undefined,
+        end_timestamp:
+          paginationIndexer !== null
+            ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
+            : undefined,
         transaction_index: paginationIndexer?.transactionIndex,
         limit,
       },
@@ -448,7 +449,7 @@ const queryTransactionsList = async (
 const queryAccountTransactionsList = async (
   accountId: string,
   limit: number = 15,
-  paginationIndexer?: TransactionPagination
+  paginationIndexer: TransactionPagination | null
 ): Promise<QueryTransaction[]> => {
   return await queryRows<
     QueryTransaction,
@@ -468,7 +469,7 @@ const queryAccountTransactionsList = async (
               transactions.index_in_chunk AS transaction_index
       FROM transactions
       ${
-        paginationIndexer
+        paginationIndexer !== null
           ? `WHERE (transaction_hash IN
               (SELECT originated_from_transaction_hash
               FROM receipts
@@ -488,9 +489,10 @@ const queryAccountTransactionsList = async (
       LIMIT :limit`,
       {
         account_id: accountId,
-        end_timestamp: paginationIndexer
-          ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
-          : undefined,
+        end_timestamp:
+          paginationIndexer !== null
+            ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
+            : undefined,
         transaction_index: paginationIndexer?.transactionIndex,
         limit,
       },
@@ -502,7 +504,7 @@ const queryAccountTransactionsList = async (
 const queryTransactionsListInBlock = async (
   blockHash: string,
   limit: number = 15,
-  paginationIndexer?: TransactionPagination
+  paginationIndexer: TransactionPagination | null
 ): Promise<QueryTransaction[]> => {
   return await queryRows<
     QueryTransaction,
@@ -524,7 +526,7 @@ const queryTransactionsListInBlock = async (
        FROM transactions
        WHERE transactions.included_in_block_hash = :block_hash
        ${
-         paginationIndexer
+         paginationIndexer !== null
            ? `AND (transactions.block_timestamp < :end_timestamp
        OR (transactions.block_timestamp = :end_timestamp
        AND transactions.index_in_chunk < :transaction_index)`
@@ -534,9 +536,10 @@ const queryTransactionsListInBlock = async (
        LIMIT :limit`,
       {
         block_hash: blockHash,
-        end_timestamp: paginationIndexer
-          ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
-          : undefined,
+        end_timestamp:
+          paginationIndexer !== null
+            ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
+            : undefined,
         transaction_index: paginationIndexer?.transactionIndex,
         limit,
       },
@@ -709,7 +712,7 @@ const queryIndexedAccount = async (
 
 const queryAccountsList = async (
   limit: number = 15,
-  lastAccountIndex?: number
+  lastAccountIndex: number | null
 ): Promise<
   {
     account_id: string;
@@ -733,12 +736,12 @@ const queryAccountsList = async (
               id AS account_index
        FROM accounts
        LEFT JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
-       ${lastAccountIndex !== undefined ? `WHERE id < :account_index` : ""}
+       ${lastAccountIndex !== null ? `WHERE id < :account_index` : ""}
        ORDER BY account_index DESC
        LIMIT :limit`,
       {
         limit,
-        account_index: lastAccountIndex,
+        account_index: lastAccountIndex ?? undefined,
       },
     ],
     { dataSource: DataSource.Indexer }
@@ -1241,7 +1244,7 @@ type QueryBlock = {
 
 const queryBlocksList = async (
   limit: number = 15,
-  paginationIndexer?: number
+  paginationIndexer: number | null
 ): Promise<QueryBlock[]> => {
   return await queryRows<
     QueryBlock,
@@ -1258,7 +1261,7 @@ const queryBlocksList = async (
         SELECT blocks.block_hash AS block_hash
         FROM blocks
         ${
-          paginationIndexer
+          paginationIndexer !== null
             ? `WHERE blocks.block_timestamp < :pagination_indexer`
             : ""
         }
@@ -1271,9 +1274,10 @@ const queryBlocksList = async (
       ORDER BY blocks.block_timestamp DESC`,
       {
         limit,
-        pagination_indexer: paginationIndexer
-          ? new BN(paginationIndexer).muln(10 ** 6).toString()
-          : undefined,
+        pagination_indexer:
+          paginationIndexer !== null
+            ? new BN(paginationIndexer).muln(10 ** 6).toString()
+            : undefined,
       },
     ],
     { dataSource: DataSource.Indexer }

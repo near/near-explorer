@@ -45,7 +45,11 @@ interface StaticConfig<T, I> {
 
 interface Props<T, I> {
   count: number;
-  fetchDataFn: (wampCall: WampCall, count: number, indexer?: I) => Promise<T[]>;
+  fetchDataFn: (
+    wampCall: WampCall,
+    count: number,
+    indexer: I | null
+  ) => Promise<T[]>;
 }
 
 type UpdateBlockHeightProps = {
@@ -78,7 +82,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
     const fetch = React.useCallback(() => {
       setLoading(true);
       props
-        .fetchDataFn(wampCall, props.count)
+        .fetchDataFn(wampCall, props.count, null)
         .then((items) => {
           setItems(items);
           setHasMore(items.length >= props.count);
