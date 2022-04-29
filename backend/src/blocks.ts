@@ -1,4 +1,4 @@
-import { BlockBase, BlockInfo } from "./client-types";
+import { BlockBase, Block } from "./client-types";
 import {
   queryBlocksList,
   queryBlockInfo,
@@ -21,7 +21,7 @@ async function getBlocksList(
 
 async function getBlockInfo(
   blockId: string | number
-): Promise<BlockInfo | null> {
+): Promise<Omit<Block, "gasUsed" | "receiptsCount"> | null> {
   const blockInfo = await queryBlockInfo(blockId);
   if (!blockInfo) {
     return null;

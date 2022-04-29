@@ -181,7 +181,17 @@ const wampHandlers: {
     return await blocks.getBlocksList(limit, paginationIndexer);
   },
   "block-info": async ([blockId]) => {
-    return await blocks.getBlockInfo(blockId);
+    const block = await blocks.getBlockInfo(blockId);
+    if (!block) {
+      return null;
+    }
+    const receiptsCount = await receipts.getReceiptsCountInBlock(block?.hash);
+    const gasUsedInChunks = await chunks.getGasUsedInChunks(block?.hash);
+    return {
+      ...block,
+      gasUsed: gasUsedInChunks || "0",
+      receiptsCount: receiptsCount || 0,
+    };
   },
   "block-by-hash-or-id": async ([blockId]) => {
     return await blocks.getBlockByHashOrId(blockId);
@@ -227,9 +237,6 @@ const wampHandlers: {
   },
 
   // receipts
-  "receipts-count-in-block": async ([blockHash]) => {
-    return await receipts.getReceiptsCountInBlock(blockHash);
-  },
   "transaction-hash-by-receipt-id": async ([receiptId]) => {
     return await receipts.getReceiptInTransaction(receiptId);
   },
@@ -277,11 +284,6 @@ const wampHandlers: {
       timestamp: contractInfo.blockTimestamp,
       locked,
     };
-  },
-
-  // chunks
-  "gas-used-in-chunks": async ([blockHash]) => {
-    return await chunks.getGasUsedInChunks(blockHash);
   },
 };
 

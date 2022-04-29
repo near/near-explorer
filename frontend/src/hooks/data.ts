@@ -1,7 +1,6 @@
 import BN from "bn.js";
 import * as React from "react";
-import { Block, getBlock } from "../providers/blocks";
-import { useWampQuery } from "./wamp";
+import { useWampSimpleQuery } from "./wamp";
 import {
   useNetworkStats,
   useFinalityStatus,
@@ -10,16 +9,10 @@ import {
 
 export const useEpochStartBlock = () => {
   const blockHashOrHeight = useNetworkStats()?.epochStartHeight;
-  return useWampQuery<Block>(
-    React.useCallback(
-      async (wampCall) => {
-        if (!blockHashOrHeight) {
-          return;
-        }
-        return getBlock(wampCall, blockHashOrHeight);
-      },
-      [blockHashOrHeight]
-    )
+  return useWampSimpleQuery(
+    "block-info",
+    [blockHashOrHeight ?? 0],
+    blockHashOrHeight === undefined
   );
 };
 

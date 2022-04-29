@@ -141,10 +141,12 @@ export type BlockBase = {
   transactionsCount: number;
 };
 
-export type BlockInfo = BlockBase & {
+export type Block = BlockBase & {
   totalSupply: string;
   gasPrice: string;
   authorAccountId: string;
+  gasUsed: string;
+  receiptsCount: number;
 };
 
 export type ContractInfo = {
@@ -303,15 +305,7 @@ export type ProcedureTypes = {
 
   "block-info": {
     args: [string | number];
-    result: BlockInfo | null;
-  };
-  "receipts-count-in-block": {
-    args: [string];
-    result: number | null;
-  };
-  "gas-used-in-chunks": {
-    args: [string];
-    result: string | null;
+    result: Block | null;
   };
   "blocks-list": {
     args: [number, number?];

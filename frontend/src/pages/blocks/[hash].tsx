@@ -13,7 +13,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 import { getNearNetwork } from "../../libraries/config";
 import wampApi from "../../libraries/wamp/api";
-import { Block, getBlock } from "../../providers/blocks";
+import { Block } from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -88,7 +88,8 @@ export const getServerSideProps: GetServerSideProps<
   const hash = params?.hash ?? "";
   try {
     const nearNetwork = getNearNetwork(query, req.headers.host);
-    const block = await getBlock(wampApi.getCall(nearNetwork), hash);
+    const wampCall = wampApi.getCall(nearNetwork);
+    const block = await wampCall("block-info", [hash]);
     if (!block) {
       return {
         props: {
