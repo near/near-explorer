@@ -14,7 +14,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 import wampApi from "../../libraries/wamp/api";
 import { getNearNetwork } from "../../libraries/config";
-import { Account, getAccount } from "../../providers/accounts";
+import { Account } from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -106,7 +106,7 @@ export const getServerSideProps: GetServerSideProps<
         return {
           props: {
             ...commonProps,
-            account: await getAccount(wampCall, accountId),
+            account: (await wampCall("account-info", [accountId]))!,
           },
         };
       } catch (accountFetchingError) {

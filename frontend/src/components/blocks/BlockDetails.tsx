@@ -13,7 +13,7 @@ import GasPrice from "../utils/GasPrice";
 
 import { useTranslation } from "react-i18next";
 import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
-import { Block } from "../../providers/blocks";
+import { Block } from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
 
 const BlockInfoContainer = styled(Col, {

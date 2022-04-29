@@ -6,12 +6,8 @@ import { ViewMode } from "./ActionRowBlock";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
-import {
-  KeysOfUnion,
-  RPC,
-  TransactionBaseInfo,
-} from "../../libraries/wamp/types";
-import { useWampQuery } from "../../hooks/wamp";
+import { TransactionBaseInfo } from "../../libraries/wamp/types";
+import { useWampSimpleQuery } from "../../hooks/wamp";
 
 export interface Props {
   transaction: TransactionBaseInfo;
@@ -21,25 +17,10 @@ export interface Props {
 const TransactionAction: React.FC<Props> = React.memo(
   ({ transaction, viewMode = "sparse" }) => {
     const { t } = useTranslation();
-    const executionStatus = useWampQuery(
-      React.useCallback(
-        async (wampCall) => {
-          // TODO: Expose transaction status via transactions list from chunk
-          // RPC, and store it during Explorer synchronization.
-          //
-          // Meanwhile, we query this information in a non-effective manner,
-          // that is making a separate query per transaction to nearcore RPC.
-          const transactionExtraInfo = await wampCall("nearcore-tx", [
-            transaction.hash,
-            transaction.signerId,
-          ]);
-          return Object.keys(
-            transactionExtraInfo.status
-          )[0] as KeysOfUnion<RPC.FinalExecutionStatus>;
-        },
-        [transaction.hash, transaction.signerId]
-      )
-    );
+    const executionStatus = useWampSimpleQuery("transaction-execution-status", [
+      transaction.hash,
+      transaction.signerId,
+    ]);
 
     if (!transaction.actions) {
       return null;

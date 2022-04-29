@@ -11,7 +11,9 @@ import * as accounts from "./accounts";
 import * as telemetry from "./telemetry";
 
 import {
+  KeysOfUnion,
   ProcedureTypes,
+  RPC,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
 } from "./client-types";
@@ -34,21 +36,6 @@ const wampHandlers: {
     return await telemetry.sendTelemetry(nodeInfo);
   },
 
-  // rpc endpoint
-  "nearcore-view-account": async ([accountId]) => {
-    return await sendJsonRpcQuery("view_account", {
-      finality: "final",
-      account_id: accountId,
-    });
-  },
-
-  "nearcore-view-access-key-list": async ([accountId]) => {
-    return await sendJsonRpcQuery("view_access_key_list", {
-      finality: "final",
-      account_id: accountId,
-    });
-  },
-
   "nearcore-tx": async ([transactionHash, accountId]) => {
     return await sendJsonRpc("EXPERIMENTAL_tx_status", [
       transactionHash,
@@ -65,16 +52,18 @@ const wampHandlers: {
   },
 
   // genesis configuration
-  "nearcore-genesis-protocol-configuration": async ([blockId]) => {
-    return await sendJsonRpc("block", { block_id: blockId });
+  "nearcore-genesis-protocol-configuration": async () => {
+    const networkProtocolConfig = await sendJsonRpc(
+      "EXPERIMENTAL_protocol_config",
+      { finality: "final" }
+    );
+    return await sendJsonRpc("block", {
+      block_id: networkProtocolConfig.genesis_height,
+    });
   },
 
   "get-latest-circulating-supply": async () => {
     return await stats.getLatestCirculatingSupply();
-  },
-
-  "get-account-details": async ([accountId]) => {
-    return await accounts.getAccountDetails(accountId);
   },
 
   // stats part
@@ -123,6 +112,16 @@ const wampHandlers: {
     return await transactions.getTransactionInfo(transactionHash);
   },
 
+  "transaction-execution-status": async ([hash, signerId]) => {
+    const transaction = await sendJsonRpc("EXPERIMENTAL_tx_status", [
+      hash,
+      signerId,
+    ]);
+    return Object.keys(
+      transaction.status
+    )[0] as KeysOfUnion<RPC.FinalExecutionStatus>;
+  },
+
   // accounts
   "new-accounts-count-aggregated-by-date": async () => {
     return await stats.getNewAccountsCountByDate();
@@ -157,7 +156,17 @@ const wampHandlers: {
   },
 
   "account-info": async ([accountId]) => {
-    return await accounts.getAccountInfo(accountId);
+    const [accountInfo, accountDetails] = await Promise.all([
+      accounts.getAccountInfo(accountId),
+      accounts.getAccountDetails(accountId),
+    ]);
+    if (!accountDetails || !accountInfo) {
+      return null;
+    }
+    return {
+      ...accountInfo,
+      ...accountDetails,
+    };
   },
 
   "account-activity": async ([accountId]) => {
@@ -172,7 +181,17 @@ const wampHandlers: {
     return await blocks.getBlocksList(limit, paginationIndexer);
   },
   "block-info": async ([blockId]) => {
-    return await blocks.getBlockInfo(blockId);
+    const block = await blocks.getBlockInfo(blockId);
+    if (!block) {
+      return null;
+    }
+    const receiptsCount = await receipts.getReceiptsCountInBlock(block?.hash);
+    const gasUsedInChunks = await chunks.getGasUsedInChunks(block?.hash);
+    return {
+      ...block,
+      gasUsed: gasUsedInChunks || "0",
+      receiptsCount: receiptsCount || 0,
+    };
   },
   "block-by-hash-or-id": async ([blockId]) => {
     return await blocks.getBlockByHashOrId(blockId);
@@ -218,9 +237,6 @@ const wampHandlers: {
   },
 
   // receipts
-  "receipts-count-in-block": async ([blockHash]) => {
-    return await receipts.getReceiptsCountInBlock(blockHash);
-  },
   "transaction-hash-by-receipt-id": async ([receiptId]) => {
     return await receipts.getReceiptInTransaction(receiptId);
   },
@@ -237,13 +253,37 @@ const wampHandlers: {
   },
 
   // contracts
-  "contract-info-by-account-id": async ([accountId]) => {
-    return await contracts.getContractInfo(accountId);
-  },
-
-  // chunks
-  "gas-used-in-chunks": async ([blockHash]) => {
-    return await chunks.getGasUsedInChunks(blockHash);
+  "contract-info": async ([accountId]) => {
+    const account = await sendJsonRpcQuery("view_account", {
+      finality: "final",
+      account_id: accountId,
+    });
+    // see https://github.com/near/near-explorer/pull/841#discussion_r783205960
+    if (account.code_hash === "11111111111111111111111111111111") {
+      return null;
+    }
+    const [contractInfo, accessKeys] = await Promise.all([
+      contracts.getContractInfo(accountId),
+      sendJsonRpcQuery("view_access_key_list", {
+        finality: "final",
+        account_id: accountId,
+      }),
+    ]);
+    const locked = accessKeys.keys.every(
+      (key) => key.access_key.permission !== "FullAccess"
+    );
+    if (contractInfo === null) {
+      return {
+        codeHash: account.code_hash,
+        locked,
+      };
+    }
+    return {
+      codeHash: account.code_hash,
+      transactionHash: contractInfo.hash,
+      timestamp: contractInfo.blockTimestamp,
+      locked,
+    };
   },
 };
 

@@ -46,7 +46,7 @@ A: Having the backend running, you can query it from CLI just like you can do fr
 $ npm install wamp-cli
 $ ./node_modules/.bin/wampc ws://localhost:10000/ws near-explorer
 
-> session.call('com.nearprotocol.mainnet.explorer.nearcore-view-account', ["frol.near"]).then(console.log);
+> session.call('com.nearprotocol.mainnet.explorer.contract-info', ["aurora.near"]).then(console.log);
 ```
 
 Q: How to auto-format the source code on commit?

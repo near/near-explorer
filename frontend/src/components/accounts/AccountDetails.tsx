@@ -15,7 +15,7 @@ import StorageSize from "../utils/StorageSize";
 import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
 import { useWampSimpleQuery } from "../../hooks/wamp";
-import { Account } from "../../providers/accounts";
+import { Account } from "../../libraries/wamp/types";
 import { styled } from "../../libraries/styles";
 
 const AccountInfoContainer = styled("div", {

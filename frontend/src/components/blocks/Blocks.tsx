@@ -12,7 +12,7 @@ const BLOCKS_PER_PAGE = 15;
 const fetchDataFn = (
   wampCall: WampCall,
   count: number,
-  paginationIndexer?: number
+  paginationIndexer: number | null
 ) => wampCall("blocks-list", [count, paginationIndexer]);
 
 const BlocksWrapper: React.FC = React.memo(() => (

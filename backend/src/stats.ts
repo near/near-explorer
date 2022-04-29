@@ -246,12 +246,12 @@ const aggregateActiveAccountsCountByWeek = retriable(async () => {
 
 const aggregateActiveAccountsList = retriable(async () => {
   const activeAccountsList = await queryActiveAccountsList();
-  ACTIVE_ACCOUNTS_LIST = activeAccountsList.map(
-    ({ account_id: account, transactions_count: transactionsCount }) => ({
+  ACTIVE_ACCOUNTS_LIST = activeAccountsList
+    .map(({ account_id: account, transactions_count: transactionsCount }) => ({
       account,
       transactionsCount,
-    })
-  );
+    }))
+    .reverse();
 }, "Top active accounts with respective transactions count");
 
 // contracts
@@ -287,12 +287,12 @@ const aggregateUniqueDeployedContractsCountByDate = retriable(async () => {
 
 const aggregateActiveContractsList = retriable(async () => {
   const activeContractsList = await queryActiveContractsList();
-  ACTIVE_CONTRACTS_LIST = activeContractsList.map(
-    ({ contract_id: contract, receipts_count: receiptsCount }) => ({
+  ACTIVE_CONTRACTS_LIST = activeContractsList
+    .map(({ contract_id: contract, receipts_count: receiptsCount }) => ({
       contract,
       receiptsCount,
-    })
-  );
+    }))
+    .reverse();
 }, "Top active contracts with respective receipts count");
 
 // partner part

@@ -1,4 +1,4 @@
-import { BlockBase, BlockInfo } from "./client-types";
+import { BlockBase, Block } from "./client-types";
 import {
   queryBlocksList,
   queryBlockInfo,
@@ -7,7 +7,7 @@ import {
 
 async function getBlocksList(
   limit: number,
-  paginationIndexer?: number
+  paginationIndexer: number | null
 ): Promise<BlockBase[]> {
   const blocksList = await queryBlocksList(limit, paginationIndexer);
   return blocksList.map((block) => ({
@@ -21,7 +21,7 @@ async function getBlocksList(
 
 async function getBlockInfo(
   blockId: string | number
-): Promise<BlockInfo | null> {
+): Promise<Omit<Block, "gasUsed" | "receiptsCount"> | null> {
   const blockInfo = await queryBlockInfo(blockId);
   if (!blockInfo) {
     return null;

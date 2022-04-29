@@ -104,15 +104,13 @@ export type SubscriptionTopicTypes = {
 
 export type SubscriptionTopicType = keyof SubscriptionTopicTypes;
 
-export type AccountBasicInfo = {
+export type Account = {
   accountId: string;
   createdByTransactionHash?: string;
   createdAtBlockTimestamp?: number;
   deletedByTransactionHash?: string;
   deletedAtBlockTimestamp?: number;
-};
 
-export type AccountDetails = {
   stakedBalance: string;
   nonStakedBalance: string;
   storageUsage?: string;
@@ -130,12 +128,10 @@ export type AccountTransactionsCount = {
   outTransactionsCount: number;
 };
 
-export type AccountPagination = {
-  endTimestamp?: number;
+export type AccountListInfo = {
+  accountId: string;
   accountIndex: number;
 };
-
-export type PaginatedAccountBasicInfo = AccountBasicInfo & AccountPagination;
 
 export type BlockBase = {
   hash: string;
@@ -145,15 +141,19 @@ export type BlockBase = {
   transactionsCount: number;
 };
 
-export type BlockInfo = BlockBase & {
+export type Block = BlockBase & {
   totalSupply: string;
   gasPrice: string;
   authorAccountId: string;
+  gasUsed: string;
+  receiptsCount: number;
 };
 
 export type ContractInfo = {
-  blockTimestamp: number;
-  hash: string;
+  codeHash: string;
+  locked: boolean;
+  transactionHash?: string;
+  timestamp?: number;
 };
 
 export type ReceiptExecutionStatus =
@@ -283,16 +283,12 @@ export type TelemetryRequest = {
 export type ProcedureTypes = {
   "account-info": {
     args: [string];
-    result: AccountBasicInfo | null;
+    result: Account | null;
   };
   // TODO: seems unused on client side, should we remove it?
   "account-activity": {
     args: [string];
     result: unknown;
-  };
-  "get-account-details": {
-    args: [string];
-    result: AccountDetails | null;
   };
   "account-transactions-count": {
     args: [string];
@@ -303,24 +299,16 @@ export type ProcedureTypes = {
     result: boolean;
   };
   "accounts-list": {
-    args: [number, AccountPagination?];
-    result: PaginatedAccountBasicInfo[];
+    args: [number, number | null];
+    result: AccountListInfo[];
   };
 
   "block-info": {
     args: [string | number];
-    result: BlockInfo | null;
-  };
-  "receipts-count-in-block": {
-    args: [string];
-    result: number | null;
-  };
-  "gas-used-in-chunks": {
-    args: [string];
-    result: string | null;
+    result: Block | null;
   };
   "blocks-list": {
-    args: [number, number?];
+    args: [number, number | null];
     result: BlockBase[];
   };
   "block-by-hash-or-id": {
@@ -332,14 +320,6 @@ export type ProcedureTypes = {
     args: [];
     result: RPC.BlockView;
   };
-  "nearcore-view-account": {
-    args: [string];
-    result: RPC.AccountView;
-  };
-  "nearcore-view-access-key-list": {
-    args: [string];
-    result: RPC.AccessKeyList;
-  };
   "nearcore-total-fee-count": {
     args: [number];
     result: {
@@ -348,7 +328,7 @@ export type ProcedureTypes = {
     } | null;
   };
 
-  "contract-info-by-account-id": {
+  "contract-info": {
     args: [string];
     result: ContractInfo | null;
   };
@@ -382,7 +362,7 @@ export type ProcedureTypes = {
     result: string | null;
   };
   "nearcore-genesis-protocol-configuration": {
-    args: [number];
+    args: [];
     result: RPC.BlockView;
   };
   "partner-first-3-month-transactions-count": {
@@ -450,20 +430,24 @@ export type ProcedureTypes = {
     args: [string, string];
     result: RPC.FinalExecutionOutcomeWithReceiptView;
   };
+  "transaction-execution-status": {
+    args: [string, string];
+    result: KeysOfUnion<RPC.FinalExecutionStatus>;
+  };
   "is-transaction-indexed": {
     args: [string];
     result: boolean;
   };
   "transactions-list-by-account-id": {
-    args: [string, number, TransactionPagination?];
+    args: [string, number, TransactionPagination | null];
     result: TransactionBaseInfo[];
   };
   "transactions-list-by-block-hash": {
-    args: [string, number, TransactionPagination?];
+    args: [string, number, TransactionPagination | null];
     result: TransactionBaseInfo[];
   };
   "transactions-list": {
-    args: [number, TransactionPagination?];
+    args: [number, TransactionPagination | null];
     result: TransactionBaseInfo[];
   };
   "transaction-info": {

@@ -27,7 +27,7 @@ const TransactionsWrapper: React.FC<OuterProps> = React.memo(
       (
         wampCall: WampCall,
         count: number,
-        paginationIndexer?: TransactionPagination
+        paginationIndexer: TransactionPagination | null
       ) => {
         if (accountId) {
           return wampCall("transactions-list-by-account-id", [

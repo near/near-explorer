@@ -3,6 +3,7 @@ import { useNetworkContext } from "./use-network-context";
 import wampApi, { WampCall } from "../libraries/wamp/api";
 import {
   ProcedureArgs,
+  ProcedureResult,
   ProcedureType,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
@@ -13,31 +14,28 @@ export const useWampCall = (): WampCall => {
   return React.useCallback(wampApi.getCall(currentNetwork), [currentNetwork]);
 };
 
-type Fetcher<T> = (wampCall: WampCall) => Promise<T | undefined>;
-
-export const useWampQuery = <T>(fetcher: Fetcher<T>): T | undefined => {
-  const [value, setValue] = React.useState<T>();
+export const useWampSimpleQuery = <P extends ProcedureType>(
+  procedure: P,
+  args: ProcedureArgs<P>,
+  disabled?: boolean
+) => {
+  const [value, setValue] = React.useState<ProcedureResult<P>>();
   const wampCall = useWampCall();
   const fetchValue = React.useCallback(
-    async () => setValue(await fetcher(wampCall)),
-    [setValue, fetcher, wampCall]
+    async () => setValue(await wampCall(procedure, args)),
+    [setValue, procedure, args, wampCall]
   );
   React.useEffect(() => {
+    if (disabled) {
+      return;
+    }
     void fetchValue().catch((error) => {
       console.error(new Error("WAMP call fail").stack);
       console.error(error);
     });
-  }, [fetchValue]);
+  }, [fetchValue, disabled]);
   return value;
 };
-
-export const useWampSimpleQuery = <P extends ProcedureType>(
-  procedure: P,
-  args: ProcedureArgs<P>
-) =>
-  useWampQuery(
-    React.useCallback((wampCall) => wampCall<P>(procedure, args), args)
-  );
 
 export const useWampSubscription = <Topic extends SubscriptionTopicType>(
   topic: Topic
