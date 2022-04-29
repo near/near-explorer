@@ -8,6 +8,7 @@ import {
 import { INTERVALS, wampNearNetworkName } from "./config";
 import {
   queryDashboardBlocksStats,
+  queryStakingPoolAccountIds,
   queryRecentTransactionsCount,
   queryTelemetryInfo,
   queryTransactionsCountHistoryForTwoWeeks,
@@ -66,6 +67,7 @@ export type GlobalState = {
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;
   stakingPoolStakeProposalsFromContract: CachedTimestampMap<string>;
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
+  poolIds: string[];
 };
 
 export type RegularCheckFn = {
@@ -269,7 +271,7 @@ const updatePoolInfoMap = async (
 const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
   fn: async (getSession, state) => {
-    const epochData = await queryEpochData();
+    const epochData = await queryEpochData(state.poolIds);
     const telemetryInfo = await queryTelemetryInfo(
       epochData.validators.map((validator) => validator.accountId)
     );
@@ -341,6 +343,14 @@ const stakingPoolMetadataInfoCheck: RegularCheckFn = {
   shouldSkip: () => wampNearNetworkName !== "mainnet",
 };
 
+const poolIdsCheck: RegularCheckFn = {
+  description: "pool ids check",
+  fn: async (_, state) => {
+    state.poolIds = await queryStakingPoolAccountIds();
+  },
+  interval: INTERVALS.checkPoolIds,
+};
+
 export const regularChecks: RegularCheckFn[] = [
   chainBlockStatsCheck,
   recentTransactionsCountCheck,
@@ -349,4 +359,5 @@ export const regularChecks: RegularCheckFn[] = [
   finalityStatusCheck,
   networkInfoCheck,
   stakingPoolMetadataInfoCheck,
+  poolIdsCheck,
 ];

@@ -28,6 +28,7 @@ async function main(): Promise<void> {
       valueMap: new Map(),
       promisesMap: new Map(),
     },
+    poolIds: [],
   };
   for (const check of regularChecks) {
     if (check.shouldSkip?.()) {
