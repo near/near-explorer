@@ -152,8 +152,10 @@ export type BlockInfo = BlockBase & {
 };
 
 export type ContractInfo = {
-  blockTimestamp: number;
-  hash: string;
+  codeHash: string;
+  locked: boolean;
+  transactionHash?: string;
+  timestamp?: number;
 };
 
 export type ReceiptExecutionStatus =
@@ -332,14 +334,6 @@ export type ProcedureTypes = {
     args: [];
     result: RPC.BlockView;
   };
-  "nearcore-view-account": {
-    args: [string];
-    result: RPC.AccountView;
-  };
-  "nearcore-view-access-key-list": {
-    args: [string];
-    result: RPC.AccessKeyList;
-  };
   "nearcore-total-fee-count": {
     args: [number];
     result: {
@@ -348,7 +342,7 @@ export type ProcedureTypes = {
     } | null;
   };
 
-  "contract-info-by-account-id": {
+  "contract-info": {
     args: [string];
     result: ContractInfo | null;
   };

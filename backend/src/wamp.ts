@@ -34,21 +34,6 @@ const wampHandlers: {
     return await telemetry.sendTelemetry(nodeInfo);
   },
 
-  // rpc endpoint
-  "nearcore-view-account": async ([accountId]) => {
-    return await sendJsonRpcQuery("view_account", {
-      finality: "final",
-      account_id: accountId,
-    });
-  },
-
-  "nearcore-view-access-key-list": async ([accountId]) => {
-    return await sendJsonRpcQuery("view_access_key_list", {
-      finality: "final",
-      account_id: accountId,
-    });
-  },
-
   "nearcore-tx": async ([transactionHash, accountId]) => {
     return await sendJsonRpc("EXPERIMENTAL_tx_status", [
       transactionHash,
@@ -237,8 +222,37 @@ const wampHandlers: {
   },
 
   // contracts
-  "contract-info-by-account-id": async ([accountId]) => {
-    return await contracts.getContractInfo(accountId);
+  "contract-info": async ([accountId]) => {
+    const account = await sendJsonRpcQuery("view_account", {
+      finality: "final",
+      account_id: accountId,
+    });
+    // see https://github.com/near/near-explorer/pull/841#discussion_r783205960
+    if (account.code_hash === "11111111111111111111111111111111") {
+      return null;
+    }
+    const [contractInfo, accessKeys] = await Promise.all([
+      contracts.getContractInfo(accountId),
+      sendJsonRpcQuery("view_access_key_list", {
+        finality: "final",
+        account_id: accountId,
+      }),
+    ]);
+    const locked = accessKeys.keys.every(
+      (key) => key.access_key.permission !== "FullAccess"
+    );
+    if (contractInfo === null) {
+      return {
+        codeHash: account.code_hash,
+        locked,
+      };
+    }
+    return {
+      codeHash: account.code_hash,
+      transactionHash: contractInfo.hash,
+      timestamp: contractInfo.blockTimestamp,
+      locked,
+    };
   },
 
   // chunks
