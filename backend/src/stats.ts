@@ -287,12 +287,12 @@ const aggregateUniqueDeployedContractsCountByDate = retriable(async () => {
 
 const aggregateActiveContractsList = retriable(async () => {
   const activeContractsList = await queryActiveContractsList();
-  ACTIVE_CONTRACTS_LIST = activeContractsList.map(
-    ({ contract_id: contract, receipts_count: receiptsCount }) => ({
+  ACTIVE_CONTRACTS_LIST = activeContractsList
+    .map(({ contract_id: contract, receipts_count: receiptsCount }) => ({
       contract,
       receiptsCount,
-    })
-  );
+    }))
+    .reverse();
 }, "Top active contracts with respective receipts count");
 
 // partner part

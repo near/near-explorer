@@ -6,18 +6,11 @@ import { truncateAccountId } from "../../libraries/formatting";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useWampQuery } from "../../hooks/wamp";
+import { useWampSimpleQuery } from "../../hooks/wamp";
 
 const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const activeContracts =
-    useWampQuery(
-      React.useCallback(
-        async (wampCall) =>
-          ((await wampCall("active-contracts-list", [])) ?? []).reverse(),
-        []
-      )
-    ) ?? [];
+  const activeContracts = useWampSimpleQuery("active-contracts-list", []) ?? [];
   const activeContractsIds = React.useMemo(
     () => activeContracts.map(({ contract }) => truncateAccountId(contract)),
     [activeContracts]
