@@ -100,8 +100,8 @@ export const wampNearNetworkName = getEnvWithDefault(
 
 const isWampSecure = getEnvWithDefault(
   "NEAR_EXPLORER_WAMP_SECURE",
-  Boolean,
-  true
+  (input) => input === "true",
+  false
 );
 const wampHost = getEnvStringWithDefault(
   "NEAR_EXPLORER_WAMP_HOST",
