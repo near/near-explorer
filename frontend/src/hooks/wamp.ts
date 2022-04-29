@@ -23,7 +23,7 @@ export const useWampSimpleQuery = <P extends ProcedureType>(
   const wampCall = useWampCall();
   const fetchValue = React.useCallback(
     async () => setValue(await wampCall(procedure, args)),
-    [setValue, procedure, args, wampCall]
+    [setValue, procedure, wampCall, ...args]
   );
   React.useEffect(() => {
     if (disabled) {
