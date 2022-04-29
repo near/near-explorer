@@ -93,6 +93,18 @@ const wrapRouterHandlerMaintainNetwork = (
   };
 };
 
+type ContextProps = {
+  networkState: NetworkContext;
+};
+
+const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
+  return (
+    <NetworkContext.Provider value={props.networkState}>
+      {props.children}
+    </NetworkContext.Provider>
+  );
+});
+
 const App: AppType = React.memo(
   ({ Component, currentNearNetwork, language, pageProps }) => {
     const router = useRouter();
@@ -131,14 +143,14 @@ const App: AppType = React.memo(
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <NetworkContext.Provider value={networkState}>
+        <AppContextWrapper networkState={networkState}>
           <AppWrapper>
             <Header />
             <BackgroundImage src="/static/images/explorer-bg.svg" />
             <Component {...pageProps} />
           </AppWrapper>
           <Footer />
-        </NetworkContext.Provider>
+        </AppContextWrapper>
         {googleAnalytics ? (
           <>
             <script
