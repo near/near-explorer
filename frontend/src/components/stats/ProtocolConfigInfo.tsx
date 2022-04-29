@@ -10,7 +10,7 @@ import NearBadge from "../nodes/NearBadge";
 import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "../../hooks/subscriptions";
 import { useEpochStartBlock } from "../../hooks/data";
-import { useWampQuery, useWampSimpleQuery } from "../../hooks/wamp";
+import { useWampSimpleQuery } from "../../hooks/wamp";
 import { styled } from "../../libraries/styles";
 
 const ProtocolConfig = styled(InfoCard, {
@@ -41,15 +41,9 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
     "nearcore-genesis-accounts-count",
     []
   );
-  const genesisHeight = networkStats?.genesisHeight;
-  const genesisProtocolConfig = useWampQuery(
-    React.useCallback(
-      async (wampCall) =>
-        genesisHeight
-          ? wampCall("nearcore-genesis-protocol-configuration", [genesisHeight])
-          : undefined,
-      [genesisHeight]
-    )
+  const genesisProtocolConfig = useWampSimpleQuery(
+    "nearcore-genesis-protocol-configuration",
+    []
   );
   const firstProducedBlockTimestamp = useWampSimpleQuery(
     "first-produced-block-timestamp",

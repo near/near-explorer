@@ -50,8 +50,14 @@ const wampHandlers: {
   },
 
   // genesis configuration
-  "nearcore-genesis-protocol-configuration": async ([blockId]) => {
-    return await sendJsonRpc("block", { block_id: blockId });
+  "nearcore-genesis-protocol-configuration": async () => {
+    const networkProtocolConfig = await sendJsonRpc(
+      "EXPERIMENTAL_protocol_config",
+      { finality: "final" }
+    );
+    return await sendJsonRpc("block", {
+      block_id: networkProtocolConfig.genesis_height,
+    });
   },
 
   "get-latest-circulating-supply": async () => {

@@ -376,7 +376,7 @@ export type ProcedureTypes = {
     result: string | null;
   };
   "nearcore-genesis-protocol-configuration": {
-    args: [number];
+    args: [];
     result: RPC.BlockView;
   };
   "partner-first-3-month-transactions-count": {
