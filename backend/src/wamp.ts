@@ -11,7 +11,9 @@ import * as accounts from "./accounts";
 import * as telemetry from "./telemetry";
 
 import {
+  KeysOfUnion,
   ProcedureTypes,
+  RPC,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
 } from "./client-types";
@@ -112,6 +114,16 @@ const wampHandlers: {
 
   "transaction-info": async ([transactionHash]) => {
     return await transactions.getTransactionInfo(transactionHash);
+  },
+
+  "transaction-execution-status": async ([hash, signerId]) => {
+    const transaction = await sendJsonRpc("EXPERIMENTAL_tx_status", [
+      hash,
+      signerId,
+    ]);
+    return Object.keys(
+      transaction.status
+    )[0] as KeysOfUnion<RPC.FinalExecutionStatus>;
   },
 
   // accounts

@@ -444,6 +444,10 @@ export type ProcedureTypes = {
     args: [string, string];
     result: RPC.FinalExecutionOutcomeWithReceiptView;
   };
+  "transaction-execution-status": {
+    args: [string, string];
+    result: KeysOfUnion<RPC.FinalExecutionStatus>;
+  };
   "is-transaction-indexed": {
     args: [string];
     result: boolean;
