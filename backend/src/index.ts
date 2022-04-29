@@ -1,5 +1,4 @@
 import { setupWamp } from "./wamp";
-import { withReporter } from "./utils";
 import { databases, withPool } from "./db";
 import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
 import { GlobalState, regularChecks } from "./checks";
@@ -34,18 +33,19 @@ async function main(): Promise<void> {
     if (check.shouldSkip?.()) {
       continue;
     }
-    const wrappedFn = withReporter(`Regular ${check.description}`, check.fn);
     console.log(`Starting regular check: ${check.description}`);
-    const setTimeoutBound = () =>
-      setTimeout(async () => {
-        try {
-          await wrappedFn(getSession, state);
-        } catch (e) {
-        } finally {
-          setTimeoutBound();
-        }
-      }, check.interval);
-    void wrappedFn(getSession, state);
+
+    const runCheck = async () => {
+      try {
+        await check.fn(getSession, state);
+      } catch (error) {
+        console.warn(`Regular${check.description} crashed due to:`, error);
+      } finally {
+        setTimeoutBound();
+      }
+    };
+    const setTimeoutBound = () => setTimeout(runCheck, check.interval);
+    void runCheck();
   }
 }
 
