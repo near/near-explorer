@@ -1,12 +1,7 @@
 import BN from "bn.js";
 import { sha256 } from "js-sha256";
 
-import {
-  AccountBasicInfo,
-  AccountPagination,
-  AccountTransactionsCount,
-  PaginatedAccountBasicInfo,
-} from "./client-types";
+import { AccountListInfo, AccountTransactionsCount } from "./client-types";
 import { nearLockupAccountIdSuffix } from "./config";
 import {
   queryIndexedAccount,
@@ -27,12 +22,11 @@ async function isAccountIndexed(accountId: string): Promise<boolean> {
 
 async function getAccountsList(
   limit: number,
-  paginationIndexer?: AccountPagination
-): Promise<PaginatedAccountBasicInfo[]> {
-  const accountsList = await queryAccountsList(limit, paginationIndexer);
+  lastAccountIndex?: number
+): Promise<AccountListInfo[]> {
+  const accountsList = await queryAccountsList(limit, lastAccountIndex);
   return accountsList.map((account) => ({
     accountId: account.account_id,
-    createdAtBlockTimestamp: parseInt(account.created_at_block_timestamp),
     accountIndex: parseInt(account.account_index),
   }));
 }
@@ -50,9 +44,7 @@ async function getAccountTransactionsCount(
   };
 }
 
-async function getAccountInfo(
-  accountId: string
-): Promise<AccountBasicInfo | null> {
+async function getAccountInfo(accountId: string) {
   const accountInfo = await queryAccountInfo(accountId);
   if (!accountInfo) {
     return null;

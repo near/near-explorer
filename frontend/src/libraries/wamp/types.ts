@@ -104,15 +104,13 @@ export type SubscriptionTopicTypes = {
 
 export type SubscriptionTopicType = keyof SubscriptionTopicTypes;
 
-export type AccountBasicInfo = {
+export type Account = {
   accountId: string;
   createdByTransactionHash?: string;
   createdAtBlockTimestamp?: number;
   deletedByTransactionHash?: string;
   deletedAtBlockTimestamp?: number;
-};
 
-export type AccountDetails = {
   stakedBalance: string;
   nonStakedBalance: string;
   storageUsage?: string;
@@ -130,12 +128,10 @@ export type AccountTransactionsCount = {
   outTransactionsCount: number;
 };
 
-export type AccountPagination = {
-  endTimestamp?: number;
+export type AccountListInfo = {
+  accountId: string;
   accountIndex: number;
 };
-
-export type PaginatedAccountBasicInfo = AccountBasicInfo & AccountPagination;
 
 export type BlockBase = {
   hash: string;
@@ -285,16 +281,12 @@ export type TelemetryRequest = {
 export type ProcedureTypes = {
   "account-info": {
     args: [string];
-    result: AccountBasicInfo | null;
+    result: Account | null;
   };
   // TODO: seems unused on client side, should we remove it?
   "account-activity": {
     args: [string];
     result: unknown;
-  };
-  "get-account-details": {
-    args: [string];
-    result: AccountDetails | null;
   };
   "account-transactions-count": {
     args: [string];
@@ -305,8 +297,8 @@ export type ProcedureTypes = {
     result: boolean;
   };
   "accounts-list": {
-    args: [number, AccountPagination?];
-    result: PaginatedAccountBasicInfo[];
+    args: [number, number?];
+    result: AccountListInfo[];
   };
 
   "block-info": {

@@ -3,11 +3,7 @@ import BN from "bn.js";
 import { PARTNER_LIST, DataSource, HOUR } from "./consts";
 import { nearStakingPoolAccountSuffix } from "./config";
 import { databases, withPool } from "./db";
-import {
-  AccountPagination,
-  TransactionPagination,
-  ValidatorTelemetry,
-} from "./client-types";
+import { TransactionPagination, ValidatorTelemetry } from "./client-types";
 import { trimError } from "./utils";
 
 const ONE_DAY_TIMESTAMP_MILISEC = 24 * HOUR;
@@ -713,7 +709,7 @@ const queryIndexedAccount = async (
 
 const queryAccountsList = async (
   limit: number = 15,
-  paginationIndexer?: AccountPagination
+  lastAccountIndex?: number
 ): Promise<
   {
     account_id: string;
@@ -734,16 +730,15 @@ const queryAccountsList = async (
   >(
     [
       `SELECT account_id AS account_id,
-              id AS account_index,
-              DIV(receipts.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp
+              id AS account_index
        FROM accounts
        LEFT JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
-       ${paginationIndexer ? `WHERE id < :account_index` : ""}
+       ${lastAccountIndex !== undefined ? `WHERE id < :account_index` : ""}
        ORDER BY account_index DESC
        LIMIT :limit`,
       {
         limit,
-        account_index: paginationIndexer?.accountIndex,
+        account_index: lastAccountIndex,
       },
     ],
     { dataSource: DataSource.Indexer }

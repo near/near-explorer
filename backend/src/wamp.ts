@@ -66,10 +66,6 @@ const wampHandlers: {
     return await stats.getLatestCirculatingSupply();
   },
 
-  "get-account-details": async ([accountId]) => {
-    return await accounts.getAccountDetails(accountId);
-  },
-
   // stats part
   // transaction related
   "transactions-count-aggregated-by-date": async () => {
@@ -160,7 +156,17 @@ const wampHandlers: {
   },
 
   "account-info": async ([accountId]) => {
-    return await accounts.getAccountInfo(accountId);
+    const [accountInfo, accountDetails] = await Promise.all([
+      accounts.getAccountInfo(accountId),
+      accounts.getAccountDetails(accountId),
+    ]);
+    if (!accountDetails || !accountInfo) {
+      return null;
+    }
+    return {
+      ...accountInfo,
+      ...accountDetails,
+    };
   },
 
   "account-activity": async ([accountId]) => {
