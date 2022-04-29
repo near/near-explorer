@@ -82,6 +82,10 @@ export const INTERVALS = {
     "NEAR_REGULAR_PUBLISH_TRANSACTION_COUNT_FOR_TWO_WEEKS_INTERVAL",
     2.5 * SECOND
   ),
+  checkPoolIds: getEnvNumberWithDefault(
+    "NEAR_REGULAR_POOL_IDS_CHECK_INTERVAL",
+    10 * MINUTE
+  ),
 };
 
 const NETWORK_NAMES: Record<NetworkName, true> = {
