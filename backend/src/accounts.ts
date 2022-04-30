@@ -9,7 +9,6 @@ import {
   queryAccountInfo,
   queryAccountOutcomeTransactionsCount,
   queryAccountIncomeTransactionsCount,
-  queryAccountActivity,
 } from "./db-utils";
 import { callViewMethod, sendJsonRpc, sendJsonRpcQuery } from "./near";
 
@@ -62,40 +61,6 @@ async function getAccountInfo(accountId: string) {
       ? parseInt(accountInfo.deleted_at_block_timestamp)
       : undefined,
   };
-}
-
-async function getAccountActivity(accountId: string): Promise<unknown> {
-  const accountActivity = await queryAccountActivity(accountId);
-  if (!accountActivity) {
-    return null;
-  }
-  const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
-  return accountActivity.map((activity) => ({
-    timestamp: activity.timestamp,
-    updateReason: activity.update_reason,
-    nonstakedBalance: activity.nonstaked_balance,
-    stakedBalance: activity.staked_balance,
-    storageUsage: activity.storage_usage,
-    signerId: activity.receipt_signer_id || activity.transaction_signer_id,
-    receiverId:
-      activity.receipt_receiver_id || activity.transaction_receiver_id,
-    action: {
-      kind: activity.transaction_transaction_kind
-        ? indexerCompatibilityTransactionActionKinds.get(
-            activity.transaction_transaction_kind
-          )
-        : activity.receipt_kind
-        ? indexerCompatibilityTransactionActionKinds.get(activity.receipt_kind)
-        : activity.update_reason,
-      args: activity.transaction_args
-        ? typeof activity.transaction_args === "string"
-          ? JSON.parse(activity.transaction_args)
-          : activity.transaction_args
-        : typeof activity.receipt_args === "string"
-        ? JSON.parse(activity.receipt_args)
-        : activity.receipt_args,
-    },
-  }));
 }
 
 function generateLockupAccountIdFromAccountId(accountId: string): string {
@@ -246,6 +211,5 @@ export {
   getAccountsList,
   getAccountTransactionsCount,
   getAccountInfo,
-  getAccountActivity,
   getAccountDetails,
 };
