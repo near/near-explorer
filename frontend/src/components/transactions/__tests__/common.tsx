@@ -1,4 +1,4 @@
-import { Receipt } from "../../../libraries/wamp/types";
+import { Receipt } from "../../../types/procedures";
 import { Transaction } from "../../../pages/transactions/[hash]";
 
 export const TRANSACTIONS: Transaction[] = [

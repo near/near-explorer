@@ -14,8 +14,8 @@ import StorageSize from "../utils/StorageSize";
 
 import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
-import { useWampSimpleQuery } from "../../hooks/wamp";
-import { Account } from "../../libraries/wamp/types";
+import { useFetch } from "../../hooks/use-fetch";
+import { Account } from "../../types/procedures";
 import { styled } from "../../libraries/styles";
 
 const AccountInfoContainer = styled("div", {
@@ -48,7 +48,7 @@ export interface Props {
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
   const { currentNetwork } = useNetworkContext();
-  const transactionCount = useWampSimpleQuery("account-transactions-count", [
+  const transactionCount = useFetch("account-transactions-count", [
     account.accountId,
   ]);
 

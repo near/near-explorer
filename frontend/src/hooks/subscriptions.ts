@@ -1,16 +1,37 @@
-import { useWampSubscription } from "./wamp";
+import * as React from "react";
 
-export const useChainBlockStats = () =>
-  useWampSubscription("chain-blocks-stats");
+import {
+  SubscriptionTopicType,
+  SubscriptionTopicTypes,
+} from "../types/subscriptions";
+import { subscribe } from "../libraries/transport";
+import { useNetworkContext } from "./use-network-context";
+
+const useSubscription = <Topic extends SubscriptionTopicType>(
+  topic: Topic
+): SubscriptionTopicTypes[Topic] | undefined => {
+  const { currentNetwork } = useNetworkContext();
+  const [value, setValue] = React.useState<
+    SubscriptionTopicTypes[Topic] | undefined
+  >();
+  React.useEffect(() => subscribe<Topic>(currentNetwork, topic, setValue), [
+    currentNetwork,
+    topic,
+    setValue,
+  ]);
+  return value;
+};
+
+export const useChainBlockStats = () => useSubscription("chain-blocks-stats");
 
 export const useRecentTransactions = () =>
-  useWampSubscription("recent-transactions");
+  useSubscription("recent-transactions");
 
 export const useTransactionHistory = () =>
-  useWampSubscription("transaction-history");
+  useSubscription("transaction-history");
 
-export const useFinalityStatus = () => useWampSubscription("finality-status");
+export const useFinalityStatus = () => useSubscription("finality-status");
 
-export const useNetworkStats = () => useWampSubscription("network-stats");
+export const useNetworkStats = () => useSubscription("network-stats");
 
-export const useValidators = () => useWampSubscription("validators");
+export const useValidators = () => useSubscription("validators");

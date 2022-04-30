@@ -9,15 +9,19 @@ const nearNetworks: NearNetwork[] = [
   },
 ];
 
-const wampNearExplorerUrl = "ws://this-could-be-any-url/ws";
+const backendConfig = {
+  host: "this-could-be-anything",
+  port: 0,
+  secure: false,
+};
 const config: ExplorerConfig & NextConfig = {
   publicRuntimeConfig: {
     nearNetworks,
-    wampNearExplorerUrl,
+    backendConfig,
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
   },
   serverRuntimeConfig: {
-    wampNearExplorerUrl,
+    backendConfig,
   },
 };
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { ReceiptExecutionStatus } from "../../libraries/wamp/types";
+import { ReceiptExecutionStatus } from "../../types/procedures";
 
 export interface Props {
   status: ReceiptExecutionStatus;

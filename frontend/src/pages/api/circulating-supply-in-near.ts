@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import wampApi from "../../libraries/wamp/api";
+import { getFetcher } from "../../libraries/transport";
 import { getNearNetwork } from "../../libraries/config";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -11,7 +11,7 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const supply = await wampApi.getCall(nearNetwork)(
+    const supply = await getFetcher(nearNetwork)(
       "get-latest-circulating-supply",
       []
     );

@@ -8,17 +8,14 @@ import { cumulativeSumArray } from "../../libraries/stats";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { useFetch } from "../../hooks/use-fetch";
 
 const NewContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const uniqueDeployedContracts =
-    useWampSimpleQuery(
-      "unique-deployed-contracts-count-aggregate-by-date",
-      []
-    ) ?? [];
+    useFetch("unique-deployed-contracts-count-aggregate-by-date", []) ?? [];
   const newContracts =
-    useWampSimpleQuery("new-contracts-count-aggregated-by-date", []) ?? [];
+    useFetch("new-contracts-count-aggregated-by-date", []) ?? [];
 
   const newContractsDates = React.useMemo(
     () => newContracts.map(({ date }) => date.slice(0, 10)),

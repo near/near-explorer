@@ -7,11 +7,11 @@ import Placeholder from "../utils/Placeholder";
 import TransactionAction from "./TransactionAction";
 
 import { useTranslation } from "react-i18next";
-import { WampCall } from "../../libraries/wamp/api";
+import { Fetcher } from "../../libraries/transport";
 import {
   TransactionBaseInfo,
   TransactionPagination,
-} from "../../libraries/wamp/types";
+} from "../../types/procedures";
 
 export interface OuterProps {
   accountId?: string;
@@ -25,25 +25,25 @@ const TransactionsWrapper: React.FC<OuterProps> = React.memo(
   ({ accountId, blockHash, count = TRANSACTIONS_PER_PAGE }) => {
     const fetchDataFn = React.useCallback(
       (
-        wampCall: WampCall,
+        fetcher: Fetcher,
         count: number,
         paginationIndexer: TransactionPagination | null
       ) => {
         if (accountId) {
-          return wampCall("transactions-list-by-account-id", [
+          return fetcher("transactions-list-by-account-id", [
             accountId,
             count,
             paginationIndexer,
           ]);
         }
         if (blockHash) {
-          return wampCall("transactions-list-by-block-hash", [
+          return fetcher("transactions-list-by-block-hash", [
             blockHash,
             count,
             paginationIndexer,
           ]);
         }
-        return wampCall("transactions-list", [count, paginationIndexer]);
+        return fetcher("transactions-list", [count, paginationIndexer]);
       },
       [accountId, blockHash]
     );

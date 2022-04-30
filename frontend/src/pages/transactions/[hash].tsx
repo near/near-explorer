@@ -11,13 +11,10 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import {
-  Action,
-  TransactionBaseInfo,
-  RPC,
-  KeysOfUnion,
-} from "../../libraries/wamp/types";
-import wampApi from "../../libraries/wamp/api";
+import { Action, TransactionBaseInfo } from "../../types/procedures";
+import * as RPC from "../../types/rpc";
+import { KeysOfUnion } from "../../types/util";
+import { getFetcher } from "../../libraries/transport";
 import { getNearNetwork } from "../../libraries/config";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
@@ -151,12 +148,12 @@ export const getServerSideProps: GetServerSideProps<
   const hash = params?.hash ?? "";
   try {
     const nearNetwork = getNearNetwork(query, req.headers.host);
-    const wampCall = wampApi.getCall(nearNetwork);
-    const transactionBaseInfo = await wampCall("transaction-info", [hash]);
+    const fetcher = getFetcher(nearNetwork);
+    const transactionBaseInfo = await fetcher("transaction-info", [hash]);
     if (!transactionBaseInfo) {
       throw new Error(`No hash ${hash} found`);
     }
-    const transactionInfo = await wampCall("nearcore-tx", [
+    const transactionInfo = await fetcher("nearcore-tx", [
       transactionBaseInfo.hash,
       transactionBaseInfo.signerId,
     ]);

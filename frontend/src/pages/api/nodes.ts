@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 import { getNearNetwork } from "../../libraries/config";
-import wampApi from "../../libraries/wamp/api";
+import { getFetcher } from "../../libraries/transport";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -13,14 +13,12 @@ const handler: NextApiHandler = async (req, res) => {
 
     const nearNetwork = getNearNetwork(req.query, req.headers.host);
 
-    wampApi
-      .getCall(nearNetwork)("node-telemetry", [
-        {
-          ...req.body,
-          ip_address: ip_address,
-        },
-      ])
-      .catch(() => {});
+    getFetcher(nearNetwork)("node-telemetry", [
+      {
+        ...req.body,
+        ip_address: ip_address,
+      },
+    ]).catch(() => {});
   } catch (error) {
     console.error(`Handler ${req.url} failed:`, error);
     res.status(400).send(error);

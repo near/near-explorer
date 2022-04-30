@@ -4,7 +4,7 @@ import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
-import { useWampCall } from "../../hooks/wamp";
+import { useFetcher } from "../../hooks/use-fetcher";
 import { styled } from "../../libraries/styles";
 
 const SearchField = styled(FormControl, {
@@ -177,7 +177,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const track = useAnalyticsTrack();
 
   const [value, setValue] = React.useState("");
-  const wampCall = useWampCall();
+  const fetcher = useFetcher();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -188,22 +188,22 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
       if (maybeBlockHeight.match(/^\d{1,20}$/)) {
         const blockHeight = parseInt(maybeBlockHeight);
-        blockPromise = wampCall("block-by-hash-or-id", [blockHeight]).catch(
+        blockPromise = fetcher("block-by-hash-or-id", [blockHeight]).catch(
           () => null
         );
       } else {
-        blockPromise = wampCall("block-by-hash-or-id", [
+        blockPromise = fetcher("block-by-hash-or-id", [
           cleanedSearchValue,
         ]).catch(() => null);
       }
 
-      const transactionPromise = wampCall("is-transaction-indexed", [
+      const transactionPromise = fetcher("is-transaction-indexed", [
         cleanedSearchValue,
       ]).catch(() => false);
-      const accountPromise = wampCall("is-account-indexed", [
+      const accountPromise = fetcher("is-account-indexed", [
         cleanedSearchValue.toLowerCase(),
       ]).catch(() => false);
-      const receiptInTransactionPromise = wampCall(
+      const receiptInTransactionPromise = fetcher(
         "transaction-hash-by-receipt-id",
         [cleanedSearchValue]
       ).catch(() => undefined);
@@ -234,7 +234,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       });
       alert("Result not found!");
     },
-    [value, track, wampCall]
+    [value, track, fetcher]
   );
   const onChange = React.useCallback(
     (event) => setValue(event.currentTarget.value),

@@ -7,7 +7,7 @@ import ActionRow from "./ActionRow";
 import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
-import { Receipt, TransactionBaseInfo } from "../../libraries/wamp/types";
+import { Receipt, TransactionBaseInfo } from "../../types/procedures";
 
 interface Props {
   actionGroup: Receipt | TransactionBaseInfo;

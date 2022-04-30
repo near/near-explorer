@@ -1,11 +1,11 @@
 import * as React from "react";
 import ReactEcharts from "echarts-for-react";
 
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { useFetch } from "../../hooks/use-fetch";
 
 const PartnerTotalTransactionList: React.FC = React.memo(() => {
   const partnerTotalTransactions =
-    useWampSimpleQuery("partner-total-transactions-count", []) ?? [];
+    useFetch("partner-total-transactions-count", []) ?? [];
   const partnerTotalTransactionsAccounts = React.useMemo(
     () => partnerTotalTransactions.map(({ account }) => account),
     [partnerTotalTransactions]

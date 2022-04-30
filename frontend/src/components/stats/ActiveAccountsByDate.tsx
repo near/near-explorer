@@ -6,14 +6,14 @@ import { Tabs, Tab } from "react-bootstrap";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { useFetch } from "../../hooks/use-fetch";
 
 const ActiveAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const accountsByWeekCount =
-    useWampSimpleQuery("active-accounts-count-aggregated-by-week", []) ?? [];
+    useFetch("active-accounts-count-aggregated-by-week", []) ?? [];
   const accountsByDateCount =
-    useWampSimpleQuery("active-accounts-count-aggregated-by-date", []) ?? [];
+    useFetch("active-accounts-count-aggregated-by-date", []) ?? [];
 
   const accountsByWeek = React.useMemo(
     () => accountsByWeekCount.map(({ accountsCount }) => Number(accountsCount)),

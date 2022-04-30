@@ -3,7 +3,7 @@ import { Dropdown } from "react-bootstrap";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 import { useNetworkContext } from "../../hooks/use-network-context";
-import { NetworkName } from "../../libraries/wamp/types";
+import { NetworkName } from "../../types/common";
 import { styled } from "../../libraries/styles";
 
 const HeaderNetworkItemDropdown = styled(Dropdown.Item, {

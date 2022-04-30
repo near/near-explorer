@@ -1,5 +1,6 @@
 import * as React from "react";
-import { KeysOfUnion, RPC } from "../../libraries/wamp/types";
+import { KeysOfUnion } from "../../types/util";
+import * as RPC from "../../types/rpc";
 import { useTranslation } from "react-i18next";
 
 export interface Props {

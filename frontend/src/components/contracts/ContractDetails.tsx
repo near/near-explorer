@@ -9,7 +9,7 @@ import Term from "../utils/Term";
 import TransactionLink from "../utils/TransactionLink";
 
 import { Trans, useTranslation } from "react-i18next";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { useFetch } from "../../hooks/use-fetch";
 import { styled } from "../../libraries/styles";
 
 const ContractInfoContainer = styled("div", {
@@ -48,7 +48,7 @@ interface Props {
 
 const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const contractInfo = useWampSimpleQuery("contract-info", [accountId]);
+  const contractInfo = useFetch("contract-info", [accountId]);
   if (!contractInfo) {
     return null;
   }

@@ -8,14 +8,14 @@ import { cumulativeSumArray } from "../../libraries/stats";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { useFetch } from "../../hooks/use-fetch";
 
 const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const liveAccounts =
-    useWampSimpleQuery("live-accounts-count-aggregated-by-date", []) ?? [];
+    useFetch("live-accounts-count-aggregated-by-date", []) ?? [];
   const newAccounts =
-    useWampSimpleQuery("new-accounts-count-aggregated-by-date", []) ?? [];
+    useFetch("new-accounts-count-aggregated-by-date", []) ?? [];
 
   const newAccountsCount = React.useMemo(
     () => newAccounts.map(({ accountsCount }) => Number(accountsCount)),

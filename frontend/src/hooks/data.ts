@@ -1,6 +1,6 @@
 import BN from "bn.js";
 import * as React from "react";
-import { useWampSimpleQuery } from "./wamp";
+import { useFetch } from "./use-fetch";
 import {
   useNetworkStats,
   useFinalityStatus,
@@ -9,7 +9,7 @@ import {
 
 export const useEpochStartBlock = () => {
   const blockHashOrHeight = useNetworkStats()?.epochStartHeight;
-  return useWampSimpleQuery(
+  return useFetch(
     "block-info",
     [blockHashOrHeight ?? 0],
     blockHashOrHeight === undefined

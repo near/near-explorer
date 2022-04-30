@@ -8,7 +8,7 @@ import Balance from "../utils/Balance";
 import Link from "../utils/Link";
 
 import { useTranslation } from "react-i18next";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { useFetch } from "../../hooks/use-fetch";
 import { styled } from "../../libraries/styles";
 
 const TransactionRow = styled(Row, {
@@ -61,7 +61,7 @@ export interface State {
 
 const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const accountInfo = useWampSimpleQuery("account-info", [accountId]);
+  const accountInfo = useFetch("account-info", [accountId]);
 
   return (
     <Link href={`/accounts/${accountId}`} passHref>

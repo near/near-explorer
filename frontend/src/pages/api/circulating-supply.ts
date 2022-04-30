@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import wampApi from "../../libraries/wamp/api";
+import { getFetcher } from "../../libraries/transport";
 import { getNearNetwork } from "../../libraries/config";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -12,7 +12,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   try {
     res.send(
-      await wampApi.getCall(nearNetwork)("get-latest-circulating-supply", [])
+      await getFetcher(nearNetwork)("get-latest-circulating-supply", [])
     );
   } catch (error) {
     console.error(`Handler ${req.url} failed:`, error);
