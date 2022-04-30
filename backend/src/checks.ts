@@ -100,15 +100,8 @@ const recentTransactionsCountCheck: RegularCheckFn = {
 
 const transactionCountHistoryCheck: RegularCheckFn = {
   description: "transaction count history for 2 weeks",
-  fn: async (controller, state) => {
-    const history = await queryTransactionsCountHistoryForTwoWeeks();
-    state.transactionsCountHistoryForTwoWeeks = history;
-    void controller.publish("transaction-history", {
-      transactionsCountHistoryForTwoWeeks: history.map(({ date, total }) => ({
-        date: formatDate(date),
-        total,
-      })),
-    });
+  fn: async (_, state) => {
+    state.transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
   },
   interval: INTERVALS.checkTransactionCountHistory,
 };

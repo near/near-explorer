@@ -27,9 +27,6 @@ export const useChainBlockStats = () => useSubscription("chain-blocks-stats");
 export const useRecentTransactions = () =>
   useSubscription("recent-transactions");
 
-export const useTransactionHistory = () =>
-  useSubscription("transaction-history");
-
 export const useFinalityStatus = () => useSubscription("finality-status");
 
 export const useNetworkStats = () => useSubscription("network-stats");

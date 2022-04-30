@@ -8,6 +8,7 @@ import {
   wampNearExplorerUrl,
   wampNearExplorerBackendSecret,
 } from "./config";
+import { GlobalState } from "./checks";
 import { SECOND } from "./consts";
 import { procedureHandlers } from "./procedure-handlers";
 
@@ -18,7 +19,7 @@ export type PubSubController = {
   ) => Promise<void>;
 };
 
-export const initPubSub = (): PubSubController => {
+export const initPubSub = (state: GlobalState): PubSubController => {
   console.log(
     `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${wampNearExplorerBackendSecret}`
   );
@@ -54,10 +55,7 @@ export const initPubSub = (): PubSubController => {
     for (const [name, handler] of Object.entries(procedureHandlers)) {
       const uri = `com.nearprotocol.${nearNetworkName}.explorer.${name}`;
       try {
-        await session.register(
-          uri,
-          (handler as unknown) as autobahn.RegisterEndpoint
-        );
+        await session.register(uri, (args: any) => handler(args, state));
       } catch (error) {
         console.error(`Failed to register "${uri}" handler due to:`, error);
         wamp.close();

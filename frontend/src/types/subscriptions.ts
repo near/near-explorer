@@ -1,8 +1,3 @@
-export type TransactionCountHistory = {
-  date: string;
-  total: number;
-};
-
 export type ValidatorTelemetry = {
   ipAddress: string;
   nodeId: string;
@@ -89,9 +84,6 @@ export type SubscriptionTopicTypes = {
   };
   "recent-transactions": {
     recentTransactionsCount: number;
-  };
-  "transaction-history": {
-    transactionsCountHistoryForTwoWeeks: TransactionCountHistory[];
   };
   "finality-status": {
     finalBlockTimestampNanosecond: string;
