@@ -1,11 +1,11 @@
-import { setupWamp } from "./wamp";
+import { initPubSub } from "./pubsub";
 import { databases, withPool } from "./db";
 import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
 import { GlobalState, regularChecks } from "./checks";
 
 async function main(): Promise<void> {
-  console.log("Starting Explorer backend & WAMP listener...");
-  const getSession = setupWamp();
+  console.log("Starting Explorer backend & pub-sub controller...");
+  const controller = initPubSub();
 
   // Skip initializing Telemetry database if the backend is not configured to
   // save telemety data (it is absolutely fine for local development)
@@ -38,7 +38,7 @@ async function main(): Promise<void> {
 
     const runCheck = async () => {
       try {
-        await check.fn(getSession, state);
+        await check.fn(controller, state);
       } catch (error) {
         console.warn(`Regular${check.description} crashed due to:`, error);
       } finally {

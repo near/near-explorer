@@ -71,8 +71,6 @@ import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
 
-import BlocksApi from "../../libraries/explorer-wamp/blocks";
-
 import FlipMove from "../utils/FlipMove";
 import PaginationSpinner from "../utils/PaginationSpinner";
 import DashboardBlocksBlock from "./DashboardBlocksBlock";

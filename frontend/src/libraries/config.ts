@@ -1,6 +1,6 @@
 import getNextConfig from "next/config";
 import { ParsedUrlQuery } from "querystring";
-import { NetworkName } from "./wamp/types";
+import { NetworkName } from "../types/common";
 
 export interface NearNetwork {
   name: NetworkName;
@@ -9,13 +9,19 @@ export interface NearNetwork {
   nearWalletProfilePrefix: string;
 }
 
+export type BackendConfig = {
+  host: string;
+  port: number;
+  secure: boolean;
+};
+
 export interface ExplorerConfig {
   serverRuntimeConfig: {
-    wampNearExplorerUrl: string;
+    backendConfig: BackendConfig;
   };
   publicRuntimeConfig: {
     nearNetworks: NearNetwork[];
-    wampNearExplorerUrl: string;
+    backendConfig: BackendConfig;
     googleAnalytics?: string;
   };
 }

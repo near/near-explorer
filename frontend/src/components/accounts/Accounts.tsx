@@ -3,16 +3,16 @@ import * as React from "react";
 import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 import AccountRow from "./AccountRow";
-import { WampCall } from "../../libraries/wamp/api";
-import { AccountListInfo } from "../../libraries/wamp/types";
+import { Fetcher } from "../../libraries/transport";
+import { AccountListInfo } from "../../types/procedures";
 
 const ACCOUNTS_PER_PAGE = 15;
 
 const fetchDataFn = (
-  wampCall: WampCall,
+  fetcher: Fetcher,
   count: number,
   paginationIndexer: number | null
-) => wampCall("accounts-list", [count, paginationIndexer]);
+) => fetcher("accounts-list", [count, paginationIndexer]);
 
 const AccountsWrapper: React.FC = React.memo(() => (
   <AccountsList count={ACCOUNTS_PER_PAGE} fetchDataFn={fetchDataFn} />

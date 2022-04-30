@@ -12,9 +12,9 @@ import TransactionIconSvg from "../../../public/static/images/icon-t-transaction
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import wampApi from "../../libraries/wamp/api";
+import { getFetcher } from "../../libraries/transport";
 import { getNearNetwork } from "../../libraries/config";
-import { Account } from "../../libraries/wamp/types";
+import { Account } from "../../types/procedures";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -99,14 +99,14 @@ export const getServerSideProps: GetServerSideProps<
 
   try {
     const currentNetwork = getNearNetwork(query, req.headers.host);
-    const wampCall = wampApi.getCall(currentNetwork);
-    const isAccountExist = await wampCall("is-account-indexed", [accountId]);
+    const fetcher = getFetcher(currentNetwork);
+    const isAccountExist = await fetcher("is-account-indexed", [accountId]);
     if (isAccountExist) {
       try {
         return {
           props: {
             ...commonProps,
-            account: (await wampCall("account-info", [accountId]))!,
+            account: (await fetcher("account-info", [accountId]))!,
           },
         };
       } catch (accountFetchingError) {

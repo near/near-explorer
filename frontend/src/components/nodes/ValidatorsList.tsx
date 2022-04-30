@@ -1,7 +1,7 @@
 import BN from "bn.js";
 import * as React from "react";
 import { useNetworkStats } from "../../hooks/subscriptions";
-import { ValidatorFullData } from "../../libraries/wamp/types";
+import { ValidatorFullData } from "../../types/subscriptions";
 
 import ValidatorRow from "./ValidatorRow";
 

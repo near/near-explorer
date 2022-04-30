@@ -6,8 +6,8 @@ import { ViewMode } from "./ActionRowBlock";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
-import { TransactionBaseInfo } from "../../libraries/wamp/types";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { TransactionBaseInfo } from "../../types/procedures";
+import { useFetch } from "../../hooks/use-fetch";
 
 export interface Props {
   transaction: TransactionBaseInfo;
@@ -17,7 +17,7 @@ export interface Props {
 const TransactionAction: React.FC<Props> = React.memo(
   ({ transaction, viewMode = "sparse" }) => {
     const { t } = useTranslation();
-    const executionStatus = useWampSimpleQuery("transaction-execution-status", [
+    const executionStatus = useFetch("transaction-execution-status", [
       transaction.hash,
       transaction.signerId,
     ]);

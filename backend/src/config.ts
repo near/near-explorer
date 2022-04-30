@@ -96,7 +96,7 @@ const NETWORK_NAMES: Record<NetworkName, true> = {
 };
 const isNetworkName = (value: string): value is NetworkName =>
   (Object.keys(NETWORK_NAMES) as NetworkName[]).includes(value as NetworkName);
-export const wampNearNetworkName = getEnvWithDefault(
+export const nearNetworkName = getEnvWithDefault(
   "NEAR_EXPLORER_WAMP_NETWORK_NAME",
   (value = "") => (isNetworkName(value) ? value : undefined),
   "localhostnet"
@@ -127,8 +127,8 @@ export const nearLockupAccountIdSuffix = getEnvStringWithDefault(
 );
 
 export const nearStakingPoolAccountSuffix =
-  wampNearNetworkName === "mainnet"
+  nearNetworkName === "mainnet"
     ? ".poolv1.near"
-    : wampNearNetworkName === "testnet"
+    : nearNetworkName === "testnet"
     ? ".f863973.m0"
     : getEnvStringWithDefault("NEAR_STAKING_POOL_ACCOUNT_SUFFIX", ".no-suffix");

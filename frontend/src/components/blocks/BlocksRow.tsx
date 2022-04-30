@@ -9,7 +9,7 @@ import Link from "../utils/Link";
 
 import { useTranslation } from "react-i18next";
 import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
-import { BlockBase } from "../../libraries/wamp/types";
+import { BlockBase } from "../../types/procedures";
 import { styled } from "../../libraries/styles";
 
 const TransactionRow = styled(Row, {

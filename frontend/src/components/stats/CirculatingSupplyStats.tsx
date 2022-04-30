@@ -6,7 +6,7 @@ import BN from "bn.js";
 import { utils } from "near-api-js";
 
 import { Props } from "./TransactionsByDate";
-import { useWampSimpleQuery } from "../../hooks/wamp";
+import { useFetch } from "../../hooks/use-fetch";
 import { styled } from "../../libraries/styles";
 
 const SupplyHeader = styled("div", {
@@ -26,8 +26,7 @@ const SupplySubHeader = styled("div", {
 
 const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const circulatingSupply =
-    useWampSimpleQuery("circulating-supply-stats", []) ?? [];
+  const circulatingSupply = useFetch("circulating-supply-stats", []) ?? [];
   const circulatingTokenSupply = React.useMemo(
     () =>
       circulatingSupply.map(({ circulatingTokensSupply }) =>

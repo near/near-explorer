@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Action } from "../../libraries/wamp/types";
+import { Action } from "../../types/procedures";
 
 import ActionRow from "./ActionRow";
 import { ViewMode, DetalizationMode } from "./ActionRowBlock";

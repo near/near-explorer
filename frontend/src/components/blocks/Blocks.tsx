@@ -4,16 +4,16 @@ import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 
 import BlocksRow from "./BlocksRow";
-import { WampCall } from "../../libraries/wamp/api";
-import { BlockBase } from "../../libraries/wamp/types";
+import { Fetcher } from "../../libraries/transport";
+import { BlockBase } from "../../types/procedures";
 
 const BLOCKS_PER_PAGE = 15;
 
 const fetchDataFn = (
-  wampCall: WampCall,
+  fetcher: Fetcher,
   count: number,
   paginationIndexer: number | null
-) => wampCall("blocks-list", [count, paginationIndexer]);
+) => fetcher("blocks-list", [count, paginationIndexer]);
 
 const BlocksWrapper: React.FC = React.memo(() => (
   <BlocksList count={BLOCKS_PER_PAGE} fetchDataFn={fetchDataFn} />

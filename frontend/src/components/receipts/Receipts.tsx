@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
-import { Receipt } from "../../libraries/wamp/types";
+import { Receipt } from "../../types/procedures";
 
 import ActionGroup from "../transactions/ActionGroup";
 import ReceiptLink from "../utils/ReceiptLink";

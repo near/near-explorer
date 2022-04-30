@@ -6,7 +6,7 @@ import Balance from "../utils/Balance";
 import CodePreview from "../utils/CodePreview";
 
 import { useTranslation } from "react-i18next";
-import { Action, ActionMapping } from "../../libraries/wamp/types";
+import { Action, ActionMapping } from "../../types/procedures";
 
 export interface Props<A extends Action> {
   actionKind: A["kind"];

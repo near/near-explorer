@@ -9,7 +9,7 @@ import {
   ValidatorTelemetry,
   ValidatorDescription,
   ValidationProgress,
-} from "../../libraries/wamp/types";
+} from "../../types/subscriptions";
 import { ValidatorNodesContentRow } from "./ValidatorRow";
 
 interface Props {

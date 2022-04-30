@@ -1,5 +1,9 @@
 import { NextConfig } from "next";
-import { ExplorerConfig, NearNetwork } from "./src/libraries/config";
+import {
+  BackendConfig,
+  ExplorerConfig,
+  NearNetwork,
+} from "./src/libraries/config";
 
 const getWampHost = (isServer: boolean): string => {
   const wampHost = process.env.NEAR_EXPLORER_WAMP_HOST || "localhost";
@@ -9,12 +13,15 @@ const getWampHost = (isServer: boolean): string => {
   return wampHost;
 };
 
-const getWampPort = (isServer: boolean): string => {
-  const wampPort = process.env.NEAR_EXPLORER_WAMP_PORT || "10000";
+const getWampPort = (isServer: boolean): number => {
+  const wampPort = Number(process.env.NEAR_EXPLORER_WAMP_PORT);
+  const wampPortNumber = isNaN(wampPort) ? 10000 : wampPort;
   if (isServer) {
-    return process.env.NEAR_EXPLORER_WAMP_SSR_PORT || wampPort;
+    const wampSsrPort = Number(process.env.NEAR_EXPLORER_WAMP_SSR_PORT);
+    const wampSsrPortNumber = isNaN(wampSsrPort) ? undefined : wampSsrPort;
+    return wampSsrPortNumber || wampPortNumber;
   }
-  return wampPort;
+  return wampPortNumber;
 };
 
 const getWampSecure = (isServer: boolean): boolean => {
@@ -24,10 +31,12 @@ const getWampSecure = (isServer: boolean): boolean => {
   return process.env.NEAR_EXPLORER_WAMP_SECURE === "true";
 };
 
-const getWampNearExplorerUrl = (isServer: boolean): string => {
-  return `${getWampSecure(isServer) ? "wss" : "ws"}://${getWampHost(
-    isServer
-  )}:${getWampPort(isServer)}/ws`;
+const getBackendConfig = (isServer: boolean): BackendConfig => {
+  return {
+    host: getWampHost(isServer),
+    port: getWampPort(isServer),
+    secure: getWampSecure(isServer),
+  };
 };
 
 let nearNetworks: NearNetwork[];
@@ -45,11 +54,11 @@ if (process.env.NEAR_NETWORKS) {
 
 const config: ExplorerConfig & NextConfig = {
   serverRuntimeConfig: {
-    wampNearExplorerUrl: getWampNearExplorerUrl(true),
+    backendConfig: getBackendConfig(true),
   },
   publicRuntimeConfig: {
     nearNetworks,
-    wampNearExplorerUrl: getWampNearExplorerUrl(false),
+    backendConfig: getBackendConfig(false),
     googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
   },
   webpack: (config, { isServer }) => {
