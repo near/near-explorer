@@ -11,10 +11,13 @@ import * as accounts from "./accounts";
 import * as telemetry from "./telemetry";
 
 import { sendJsonRpc, sendJsonRpcQuery } from "./near";
+import { GlobalState } from "./checks";
+import { formatDate } from "./utils";
 
 export const procedureHandlers: {
   [P in keyof ProcedureTypes]: (
-    args: ProcedureTypes[P]["args"]
+    args: ProcedureTypes[P]["args"],
+    state: GlobalState
   ) => Promise<ProcedureTypes[P]["result"]>;
 } = {
   "node-telemetry": async ([nodeInfo]) => {
@@ -49,6 +52,13 @@ export const procedureHandlers: {
 
   "get-latest-circulating-supply": async () => {
     return await stats.getLatestCirculatingSupply();
+  },
+
+  "transaction-history": async (_, state) => {
+    return state.transactionsCountHistoryForTwoWeeks.map(({ date, total }) => ({
+      date: formatDate(date),
+      total,
+    }));
   },
 
   // stats part

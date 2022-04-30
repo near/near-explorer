@@ -4,17 +4,6 @@ import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
 import { GlobalState, regularChecks } from "./checks";
 
 async function main(): Promise<void> {
-  console.log("Starting Explorer backend & pub-sub controller...");
-  const controller = initPubSub();
-
-  // Skip initializing Telemetry database if the backend is not configured to
-  // save telemety data (it is absolutely fine for local development)
-  if (databases.telemetryBackendWriteOnlyPool) {
-    await withPool(databases.telemetryBackendWriteOnlyPool, (client) =>
-      client.query(TELEMETRY_CREATE_TABLE_QUERY)
-    );
-  }
-
   const state: GlobalState = {
     transactionsCountHistoryForTwoWeeks: [],
     stakingPoolsDescriptions: new Map(),
@@ -30,6 +19,18 @@ async function main(): Promise<void> {
     },
     poolIds: [],
   };
+
+  console.log("Starting Explorer backend & pub-sub controller...");
+  const controller = initPubSub(state);
+
+  // Skip initializing Telemetry database if the backend is not configured to
+  // save telemety data (it is absolutely fine for local development)
+  if (databases.telemetryBackendWriteOnlyPool) {
+    await withPool(databases.telemetryBackendWriteOnlyPool, (client) =>
+      client.query(TELEMETRY_CREATE_TABLE_QUERY)
+    );
+  }
+
   for (const check of regularChecks) {
     if (check.shouldSkip?.()) {
       continue;

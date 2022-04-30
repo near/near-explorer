@@ -177,6 +177,11 @@ export type TelemetryRequest = {
   };
 };
 
+export type TransactionCountHistory = {
+  date: string;
+  total: number;
+};
+
 export type ProcedureTypes = {
   "account-info": {
     args: [string];
@@ -354,6 +359,11 @@ export type ProcedureTypes = {
   "node-telemetry": {
     args: [TelemetryRequest];
     result: void;
+  };
+
+  "transaction-history": {
+    args: [];
+    result: TransactionCountHistory[];
   };
 };
 
