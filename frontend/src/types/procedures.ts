@@ -182,11 +182,6 @@ export type ProcedureTypes = {
     args: [string];
     result: Account | null;
   };
-  // TODO: seems unused on client side, should we remove it?
-  "account-activity": {
-    args: [string];
-    result: unknown;
-  };
   "account-transactions-count": {
     args: [string];
     result: AccountTransactionsCount;

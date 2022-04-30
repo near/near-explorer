@@ -154,10 +154,6 @@ export const procedureHandlers: {
     };
   },
 
-  "account-activity": async ([accountId]) => {
-    return await accounts.getAccountActivity(accountId);
-  },
-
   // blocks
   "first-produced-block-timestamp": async () => {
     return await stats.getFirstProducedBlockTimestamp();
