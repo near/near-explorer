@@ -9,7 +9,6 @@ const Wrapper = styled("div", {
   right: 4,
   padding: "0 4px",
   borderRadius: 6,
-  cursor: "pointer",
 
   variants: {
     expanded: {
@@ -18,6 +17,7 @@ const Wrapper = styled("div", {
         background: "white",
       },
       false: {
+        cursor: "pointer",
         color: "green",
       },
     },
@@ -32,6 +32,13 @@ const Section = styled("div", {
 const Title = styled("div", {
   fontWeight: 500,
   marginTop: 12,
+});
+
+const CloseButton = styled("div", {
+  position: "absolute",
+  top: 4,
+  right: 4,
+  cursor: "pointer",
 });
 
 type Props = {
@@ -71,11 +78,15 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
             <div>loading..</div>
           )}
         </Section>
+        <CloseButton onClick={switchExpanded}>❌</CloseButton>
       </>
     );
   }
   return (
-    <Wrapper onClick={switchExpanded} expanded={expanded}>
+    <Wrapper
+      onClick={expanded ? undefined : switchExpanded}
+      expanded={expanded}
+    >
       {content}
     </Wrapper>
   );
