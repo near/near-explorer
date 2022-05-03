@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Action, ActionMapping } from "../../../libraries/wamp/types";
+import { Action, ActionMapping } from "../../../types/procedures";
 import { formatNear } from "../../../libraries/formatting";
 
 import AccountLink from "../common/AccountLink";

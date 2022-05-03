@@ -8,7 +8,7 @@ import { Args } from "../../transactions/ActionMessage";
 import ReceiptStatus from "./ReceiptStatus";
 import ReceiptArguments from "./ReceiptArguments";
 import TransactionType from "./TransactionType";
-import { Action } from "../../../libraries/wamp/types";
+import { Action } from "../../../types/procedures";
 
 type Props = {
   receipt: TransactionReceipt;

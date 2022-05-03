@@ -86,10 +86,14 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
 export const getServerSideProps: GetServerSideProps<
   Props,
   { hash: TransactionHash }
-> = async ({ req, params }) => {
+> = async ({ req, params, query }) => {
   const hash = params?.hash ?? ("" as TransactionHash);
   const queryClient = createServerQueryClient();
-  const prefetchObject = getPrefetchObject(queryClient, req);
+  const prefetchObject = getPrefetchObject(
+    queryClient,
+    query,
+    req.headers.host
+  );
   await prefetchObject.fetch(transactionByHashQuery, hash);
   return {
     props: {

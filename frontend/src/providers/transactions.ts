@@ -6,8 +6,9 @@ import {
   YoctoNEAR,
 } from "../types/nominal";
 import { failed, QueryConfiguration, successful } from "../libraries/queries";
-import { Action, RPC } from "../libraries/wamp/types";
-import { WampCall } from "../libraries/wamp/api";
+import * as RPC from "../types/rpc";
+import { Action } from "../types/procedures";
+import { Fetcher } from "../libraries/transport";
 
 import {
   RpcTransaction,
@@ -69,7 +70,7 @@ const getDeposit = (actions: Action[]) =>
     .toString() as YoctoNEAR;
 
 const getTransaction = async (
-  wampCall: WampCall,
+  wampCall: Fetcher,
   hash: TransactionHash
 ): Promise<Transaction | null> => {
   try {
@@ -245,7 +246,7 @@ const getTransaction = async (
       gasUsed,
       gasAttached,
       receipts: [...receiptsMap.values()].filter(
-        (receipt) => !receipt.parentReceiptHash
+        (receipt) => !refundReceiptsMap.has(receipt.receiptId)
       ),
       refundReceipts: [...refundReceiptsMap.values()],
     };
