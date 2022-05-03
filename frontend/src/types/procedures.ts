@@ -182,6 +182,14 @@ export type TransactionCountHistory = {
   total: number;
 };
 
+export type DeployInfo = {
+  branch: string;
+  commit: string;
+  instanceId: string;
+  serviceId: string;
+  serviceName: string;
+};
+
 export type ProcedureTypes = {
   "account-info": {
     args: [string];
@@ -364,6 +372,10 @@ export type ProcedureTypes = {
   "transaction-history": {
     args: [];
     result: TransactionCountHistory[];
+  };
+  "deploy-info": {
+    args: [];
+    result: DeployInfo;
   };
 };
 

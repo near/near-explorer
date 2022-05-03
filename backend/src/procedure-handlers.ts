@@ -1,3 +1,6 @@
+import { exec } from "child_process";
+import { promisify } from "util";
+
 import { KeysOfUnion, ProcedureTypes } from "./client-types";
 import * as RPC from "./rpc-types";
 
@@ -13,6 +16,9 @@ import * as telemetry from "./telemetry";
 import { sendJsonRpc, sendJsonRpcQuery } from "./near";
 import { GlobalState } from "./checks";
 import { formatDate } from "./utils";
+import { nearNetworkName } from "./config";
+
+const promisifiedExec = promisify(exec);
 
 export const procedureHandlers: {
   [P in keyof ProcedureTypes]: (
@@ -275,5 +281,29 @@ export const procedureHandlers: {
       timestamp: contractInfo.blockTimestamp,
       locked,
     };
+  },
+
+  "deploy-info": async () => {
+    if (process.env.RENDER) {
+      return {
+        branch: process.env.RENDER_GIT_BRANCH || "unknown",
+        commit: process.env.RENDER_GIT_COMMIT || "unknown",
+        instanceId: process.env.RENDER_INSTANCE_ID || "unknown",
+        serviceId: process.env.RENDER_SERVICE_ID || "unknown",
+        serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
+      };
+    } else {
+      const [{ stdout: branch }, { stdout: commit }] = await Promise.all([
+        promisifiedExec("git branch --show-current"),
+        promisifiedExec("git rev-parse --short HEAD"),
+      ]);
+      return {
+        branch: branch.trim(),
+        commit: commit.trim(),
+        instanceId: "local",
+        serviceId: "local",
+        serviceName: `backend/${nearNetworkName}`,
+      };
+    }
   },
 };
