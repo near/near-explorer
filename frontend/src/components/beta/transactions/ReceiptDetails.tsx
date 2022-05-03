@@ -4,7 +4,7 @@ import { styled } from "../../../libraries/styles";
 import { TransactionReceipt } from "../../../types/transaction";
 
 import ReceiptAction from "./ReceiptAction";
-import { Action } from "../../../libraries/wamp/types";
+import { Action } from "../../../types/procedures";
 
 type Props = {
   receipt: TransactionReceipt;

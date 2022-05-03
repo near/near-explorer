@@ -104,7 +104,8 @@ const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
         <div>
           <AmountHeader>{t("pages.transaction.activity.status")}</AmountHeader>
           <Amount>
-            {["Started", "SuccessValue"].indexOf(status) >= 0 ? (
+            {["Started", "SuccessValue", "SuccessReceiptId"].indexOf(status) >=
+            0 ? (
               <>
                 <SuccessIcon src="/static/images/icon-success.svg" />
               </>

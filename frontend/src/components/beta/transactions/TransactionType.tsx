@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import { Action } from "../../../libraries/wamp/types";
+import { Action } from "../../../types/procedures";
 
 interface Props<A extends Action> {
   actions: {
@@ -48,6 +48,7 @@ const Label = styled("div", {
       },
       Batch: {
         background: "#e9e8e8",
+        boxShadow: "6px 6px 0 0 #f9f8f8",
       },
     },
   },
@@ -55,7 +56,6 @@ const Label = styled("div", {
 
 const TransactionType: React.FC<Props<Action>> = React.memo(({ actions }) => {
   const { t } = useTranslation();
-  console.log("TransactionType | actions: ", actions);
   const actionType = actions.length !== 1 ? "Batch" : actions[0].kind;
 
   return (

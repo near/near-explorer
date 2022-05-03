@@ -1,5 +1,4 @@
 import {
-  // Bytes,
   AccountId,
   ReceiptId,
   BlockHash,
@@ -8,12 +7,10 @@ import {
   YoctoNEAR,
 } from "./nominal";
 
-import {
-  Action,
-  KeysOfUnion,
-  // TransactionBaseInfo,
-  RPC,
-} from "../libraries/wamp/types";
+import { Action } from "../types/procedures";
+import { KeysOfUnion } from "../types/util";
+
+import * as RPC from "../types/rpc";
 
 export type RpcTransaction = {
   hash: TransactionHash;
