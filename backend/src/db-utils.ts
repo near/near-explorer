@@ -383,7 +383,7 @@ export const queryDepositAmountAggregatedByDate = async (): Promise<
   );
 };
 
-export type QueryTransaction = {
+type QueryTransaction = {
   hash: string;
   signer_id: string;
   receiver_id: string;
@@ -893,7 +893,7 @@ export const queryIncomeTransactionsCountFromIndexerForLastDay = async (
   return parseInt(query.in_transactions_count);
 };
 
-export type AccountInfo = {
+type AccountInfo = {
   account_id: string;
   created_at_block_timestamp: string;
   created_by_transaction_hash: string;
@@ -1327,7 +1327,7 @@ export const queryIndexedTransaction = async (
   );
 };
 
-export type QueryReceipt = {
+type QueryReceipt = {
   receipt_id: string;
   originated_from_transaction_hash: string;
   predecessor_id: string;

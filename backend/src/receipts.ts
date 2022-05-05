@@ -3,7 +3,6 @@ import {
   queryReceiptInTransaction,
   queryIncludedReceiptsList,
   queryExecutedReceiptsList,
-  QueryReceipt,
 } from "./db-utils";
 
 import BN from "bn.js";
@@ -34,7 +33,7 @@ function getIndexerCompatibilityReceiptActionKinds() {
 }
 
 function groupReceiptActionsIntoReceipts(
-  receiptActions: QueryReceipt[]
+  receiptActions: Awaited<ReturnType<typeof queryIncludedReceiptsList>>
 ): Receipt[] {
   // The receipt actions are ordered in such a way that the actions for a single receipt go
   // one after another in a correct order, so we can collect them linearly using a moving
