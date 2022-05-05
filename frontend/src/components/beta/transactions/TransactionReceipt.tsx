@@ -17,7 +17,7 @@ const ReceiptWrapper = styled("div", {
   width: "100%",
   display: "flex",
   flexDirection: "column",
-  background: "$textColor",
+  background: "#fff",
   boxShadow: "0px 0px 30px rgba(66, 0, 255, 0.05)",
   borderRadius: 6,
   marginBottom: 0,
