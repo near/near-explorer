@@ -1,15 +1,66 @@
-import { Pool } from "pg";
+import { PoolClient, Pool, PoolConfig } from "pg";
 import BN from "bn.js";
 import geoip from "geoip-lite";
+
+import { databaseConfig } from "../config/database";
 import { PARTNER_LIST, DataSource, HOUR } from "./consts";
 import { nearStakingPoolAccountSuffix } from "./config";
-import { databases, withPool } from "./db";
 import {
   TelemetryRequest,
   TransactionPagination,
   ValidatorTelemetry,
 } from "./client-types";
 import { trimError } from "./utils";
+
+const getPgPool = (config: PoolConfig): Pool => {
+  const pool = new Pool(config);
+  pool.on("error", (error) => {
+    console.error(`Pool ${config.database} errored: ${trimError(error)}`);
+  });
+  return pool;
+};
+
+const telemetryBackendWriteOnlyPool = databaseConfig.writeOnlyTelemetryDatabase
+  .host
+  ? getPgPool(databaseConfig.writeOnlyTelemetryDatabase)
+  : null;
+
+const telemetryBackendReadOnlyPool = getPgPool(
+  databaseConfig.readOnlyTelemetryDatabase
+);
+
+const indexerBackendReadOnlyPool = getPgPool(
+  databaseConfig.readOnlyIndexerDatabase
+);
+
+const analyticsBackendReadOnlyPool = getPgPool(
+  databaseConfig.readOnlyAnalyticsDatabase
+);
+
+const databases = {
+  telemetryBackendWriteOnlyPool,
+  telemetryBackendReadOnlyPool,
+  indexerBackendReadOnlyPool,
+  analyticsBackendReadOnlyPool,
+};
+
+const withPool = async <T>(
+  backend: Pool,
+  run: (client: PoolClient) => Promise<T>
+): Promise<T> => {
+  const client = await backend.connect();
+  const errorHandler = (error: unknown) =>
+    console.error(`Client errored: ${trimError(error)}`);
+  try {
+    client.addListener("error", errorHandler);
+    return await run(client);
+  } finally {
+    if (client) {
+      client.removeListener("error", errorHandler);
+      client.release();
+    }
+  }
+};
 
 const ONE_DAY_TIMESTAMP_MILISEC = 24 * HOUR;
 
