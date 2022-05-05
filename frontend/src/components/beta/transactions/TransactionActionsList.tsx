@@ -12,11 +12,13 @@ type Props = {
 };
 
 const Wrapper = styled("div", {
-  paddingVertical: 24,
-  // TODO: Place a proper padding here
-  paddingHorizontal: 40,
   display: "flex",
   flexDirection: "column",
+  width: "100%",
+  maxWidth: 1161,
+  margin: "auto",
+  paddingVertical: 24,
+  paddingHorizontal: 40,
   fontFamily: "Manrope",
 });
 

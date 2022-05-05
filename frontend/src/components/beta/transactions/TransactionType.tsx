@@ -13,11 +13,13 @@ const Label = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: 202,
+  maxWidth: 174,
+  width: 174,
+  minWidth: 130,
   height: 46,
   borderRadius: 4,
   fontFamily: "Manrope",
-  fontSize: "$font-m",
+  fontSize: 14,
   fontWeight: 500,
 
   variants: {
