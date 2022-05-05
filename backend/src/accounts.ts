@@ -7,8 +7,10 @@ import {
   queryIndexedAccount,
   queryAccountsList,
   queryAccountInfo,
-  queryAccountOutcomeTransactionsCount,
-  queryAccountIncomeTransactionsCount,
+  queryIncomeTransactionsCountFromAnalytics,
+  queryIncomeTransactionsCountFromIndexerForLastDay,
+  queryOutcomeTransactionsCountFromAnalytics,
+  queryOutcomeTransactionsCountFromIndexerForLastDay,
 } from "./db-utils";
 import { callViewMethod, sendJsonRpc, sendJsonRpcQuery } from "./near";
 
@@ -29,6 +31,30 @@ async function getAccountsList(
     accountIndex: parseInt(account.account_index),
   }));
 }
+
+const queryAccountIncomeTransactionsCount = async (accountId: string) => {
+  const {
+    in_transactions_count: inTxCountFromAnalytics,
+    last_day_collected_timestamp: lastDayCollectedTimestamp,
+  } = await queryIncomeTransactionsCountFromAnalytics(accountId);
+  const inTxCountFromIndexer = await queryIncomeTransactionsCountFromIndexerForLastDay(
+    accountId,
+    lastDayCollectedTimestamp
+  );
+  return inTxCountFromAnalytics + inTxCountFromIndexer;
+};
+
+const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
+  const {
+    out_transactions_count: outTxCountFromAnalytics,
+    last_day_collected_timestamp: lastDayCollectedTimestamp,
+  } = await queryOutcomeTransactionsCountFromAnalytics(accountId);
+  const outTxCountFromIndexer = await queryOutcomeTransactionsCountFromIndexerForLastDay(
+    accountId,
+    lastDayCollectedTimestamp
+  );
+  return outTxCountFromAnalytics + outTxCountFromIndexer;
+};
 
 async function getAccountTransactionsCount(
   accountId: string

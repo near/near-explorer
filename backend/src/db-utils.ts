@@ -299,24 +299,6 @@ export const queryRecentBlockProductionSpeed = async () => {
   return parseInt(result!.blocks_count_60_seconds_before) / 60;
 };
 
-// query for new dashboard
-export const queryDashboardBlocksStats = async () => {
-  const [
-    latestBlockHeight,
-    latestGasPrice,
-    recentBlockProductionSpeed,
-  ] = await Promise.all([
-    queryLatestBlockHeight(),
-    queryLatestGasPrice(),
-    queryRecentBlockProductionSpeed(),
-  ]);
-  return {
-    latestBlockHeight,
-    latestGasPrice,
-    recentBlockProductionSpeed,
-  };
-};
-
 export const queryTransactionsCountHistoryForTwoWeeks = async (): Promise<
   { date: Date; total: number }[]
 > => {
@@ -827,20 +809,6 @@ export const queryOutcomeTransactionsCountFromIndexerForLastDay = async (
   return parseInt(query.out_transactions_count);
 };
 
-export const queryAccountOutcomeTransactionsCount = async (
-  accountId: string
-) => {
-  const {
-    out_transactions_count: outTxCountFromAnalytics,
-    last_day_collected_timestamp: lastDayCollectedTimestamp,
-  } = await queryOutcomeTransactionsCountFromAnalytics(accountId);
-  const outTxCountFromIndexer = await queryOutcomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  );
-  return outTxCountFromAnalytics + outTxCountFromIndexer;
-};
-
 export const queryIncomeTransactionsCountFromAnalytics = async (
   accountId: string
 ): Promise<{
@@ -918,20 +886,6 @@ export const queryIncomeTransactionsCountFromIndexerForLastDay = async (
     return 0;
   }
   return parseInt(query.in_transactions_count);
-};
-
-export const queryAccountIncomeTransactionsCount = async (
-  accountId: string
-) => {
-  const {
-    in_transactions_count: inTxCountFromAnalytics,
-    last_day_collected_timestamp: lastDayCollectedTimestamp,
-  } = await queryIncomeTransactionsCountFromAnalytics(accountId);
-  const inTxCountFromIndexer = await queryIncomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  );
-  return inTxCountFromAnalytics + inTxCountFromIndexer;
 };
 
 export type AccountInfo = {
