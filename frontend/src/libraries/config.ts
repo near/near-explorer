@@ -56,7 +56,9 @@ export function getNearNetwork(
     nearNetwork = config.publicRuntimeConfig.nearNetworks[0];
   }
   if (!nearNetwork) {
-    throw new Error("No NEAR networks provided via NEAR_NETWORKS env variable");
+    throw new Error(
+      "No NEAR networks provided via NEAR_EXPLORER_CONFIG__NETWORKS env variable"
+    );
   }
   return nearNetwork;
 }

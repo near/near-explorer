@@ -9,7 +9,7 @@ services:
     <<: *env
     build: wamp
     environment:
-      - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
+      - NEAR_EXPLORER_CONFIG__BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
     ports:
       - 10000:8080
 
@@ -21,9 +21,9 @@ services:
     depends_on:
       - wamp
     environment:
-      - NEAR_EXPLORER_WAMP_PORT=8080
-      - NEAR_EXPLORER_WAMP_HOST=wamp
-      - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
+      - NEAR_EXPLORER_CONFIG__WAMP__PORT=8080
+      - NEAR_EXPLORER_CONFIG__WAMP__HOST=wamp
+      - NEAR_EXPLORER_CONFIG__WAMP__BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
     mem_limit: 1G
     entrypoint: ["npm", "run", "start"]
 
@@ -36,10 +36,10 @@ services:
       - wamp
     environment:
       - PORT=3000
-      - NEAR_EXPLORER_WAMP_HOST=localhost
-      - NEAR_EXPLORER_WAMP_SSR_HOST=wamp
-      - NEAR_EXPLORER_WAMP_SSR_PORT=8080
-      - NEAR_EXPLORER_WAMP_BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
+      - NEAR_EXPLORER_CONFIG__WAMP__PORT=localhost
+      - NEAR_EXPLORER_CONFIG__WAMP_SSR__HOST=wamp
+      - NEAR_EXPLORER_CONFIG__WAMP_SSR__PORT=8080
+      - NEAR_EXPLORER_CONFIG__WAMP__BACKEND_SECRET=THIS_IS_LOCALHOST_SECRET
     ports:
       - 3000:3000
     command: ["npm", "run", "start"]

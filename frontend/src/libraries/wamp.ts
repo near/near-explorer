@@ -1,5 +1,6 @@
 import autobahn from "autobahn";
-import { BackendConfig, getConfig, NearNetwork } from "./config";
+import { getConfig, NearNetwork } from "./config";
+import { getBackendUrl } from "./environment";
 import {
   SubscriptionTopicType,
   SubscriptionTopicTypes,
@@ -28,12 +29,6 @@ const wrapProcedure = <T extends ProcedureType>(
   return (`com.nearprotocol.${nearNetwork.name}.explorer.${procedure}` as unknown) as T;
 };
 
-const getConnectionUrl = (backendConfig: BackendConfig): string => {
-  return `${backendConfig.secure ? "wss" : "ws"}://${backendConfig.host}:${
-    backendConfig.port
-  }/ws`;
-};
-
 let sessionPromise: Promise<autobahn.Session> | undefined;
 
 const createSession = async (): Promise<autobahn.Session> => {
@@ -41,7 +36,7 @@ const createSession = async (): Promise<autobahn.Session> => {
     const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
     console.log("Starting WAMP session...");
     const connection = new autobahn.Connection({
-      url: getConnectionUrl(
+      url: getBackendUrl(
         (typeof window === "undefined"
           ? serverRuntimeConfig
           : publicRuntimeConfig

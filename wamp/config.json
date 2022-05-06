@@ -71,7 +71,7 @@
                   "type": "static",
                   "principals": {
                     "near-explorer-backend": {
-                      "ticket": "${NEAR_EXPLORER_WAMP_BACKEND_SECRET}",
+                      "ticket": "${NEAR_EXPLORER_CONFIG__BACKEND_SECRET}",
                       "role": "near-explorer-backend"
                     }
                   }

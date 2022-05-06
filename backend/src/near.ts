@@ -2,7 +2,7 @@ import * as nearApi from "near-api-js";
 
 import BN from "bn.js";
 
-import { nearArchivalRpcUrl } from "./config";
+import { config } from "./config";
 import { queryOnlineNodesCount } from "./db-utils";
 import {
   NetworkStats,
@@ -26,7 +26,7 @@ type CurrentEpochState = {
 let currentEpochState: CurrentEpochState | null = null;
 
 const nearRpc = new nearApi.providers.JsonRpcProvider({
-  url: nearArchivalRpcUrl,
+  url: config.archivalRpcUrl,
 });
 
 export const sendJsonRpc = <M extends keyof RpcResponseMapping>(

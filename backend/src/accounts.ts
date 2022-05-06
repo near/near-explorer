@@ -2,7 +2,7 @@ import BN from "bn.js";
 import { sha256 } from "js-sha256";
 
 import { AccountListInfo, AccountTransactionsCount } from "./client-types";
-import { nearLockupAccountIdSuffix } from "./config";
+import { config } from "./config";
 import {
   queryIndexedAccount,
   queryAccountsList,
@@ -94,7 +94,7 @@ function generateLockupAccountIdFromAccountId(accountId: string): string {
   return (
     sha256(Buffer.from(accountId)).substring(0, 40) +
     "." +
-    nearLockupAccountIdSuffix
+    config.accountIdSuffix.lockup
   );
 }
 
@@ -121,7 +121,7 @@ function ignoreIfDoesNotExist(error: unknown): null {
 
 const getAccountDetails = async (accountId: string) => {
   let lockupAccountId: string;
-  if (accountId.endsWith(`.${nearLockupAccountIdSuffix}`)) {
+  if (accountId.endsWith(`.${config.accountIdSuffix.lockup}`)) {
     lockupAccountId = accountId;
   } else {
     lockupAccountId = generateLockupAccountIdFromAccountId(accountId);

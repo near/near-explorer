@@ -18,7 +18,7 @@ const config: ExplorerConfig & NextConfig = {
   publicRuntimeConfig: {
     nearNetworks,
     backendConfig,
-    googleAnalytics: process.env.NEAR_EXPLORER_GOOGLE_ANALYTICS,
+    googleAnalytics: "",
   },
   serverRuntimeConfig: {
     backendConfig,
