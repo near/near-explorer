@@ -1,6 +1,5 @@
 import { initPubSub } from "./pubsub";
-import { databases, withPool } from "./db";
-import { TELEMETRY_CREATE_TABLE_QUERY } from "./telemetry";
+import { setup as setupTelemetryDb } from "./telemetry";
 import { GlobalState, regularChecks } from "./checks";
 
 async function main(): Promise<void> {
@@ -23,13 +22,7 @@ async function main(): Promise<void> {
   console.log("Starting Explorer backend & pub-sub controller...");
   const controller = initPubSub(state);
 
-  // Skip initializing Telemetry database if the backend is not configured to
-  // save telemety data (it is absolutely fine for local development)
-  if (databases.telemetryBackendWriteOnlyPool) {
-    await withPool(databases.telemetryBackendWriteOnlyPool, (client) =>
-      client.query(TELEMETRY_CREATE_TABLE_QUERY)
-    );
-  }
+  await setupTelemetryDb();
 
   for (const check of regularChecks) {
     if (check.shouldSkip?.()) {

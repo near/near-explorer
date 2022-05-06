@@ -10,7 +10,6 @@ import {
   queryAccountTransactionsList,
   queryTransactionsListInBlock,
   queryTransactionInfo,
-  QueryTransaction,
 } from "./db-utils";
 
 const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
@@ -30,7 +29,7 @@ const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
 // helper function to init transactions list
 // as we use the same structure but different queries for account, block, txInfo and list
 async function createTransactionsList(
-  transactionsArray: QueryTransaction[]
+  transactionsArray: Awaited<ReturnType<typeof queryTransactionsList>>
 ): Promise<TransactionBaseInfo[]> {
   const transactionsHashes = transactionsArray.map(({ hash }) => hash);
   const transactionsActionsList = await getTransactionsActionsList(

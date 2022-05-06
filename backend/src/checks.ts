@@ -5,11 +5,13 @@ import {
 } from "./client-types";
 import { INTERVALS, nearNetworkName } from "./config";
 import {
-  queryDashboardBlocksStats,
   queryStakingPoolAccountIds,
   queryRecentTransactionsCount,
   queryTelemetryInfo,
   queryTransactionsCountHistoryForTwoWeeks,
+  queryLatestBlockHeight,
+  queryLatestGasPrice,
+  queryRecentBlockProductionSpeed,
 } from "./db-utils";
 import {
   callViewMethod,
@@ -80,10 +82,20 @@ const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
 const chainBlockStatsCheck: RegularCheckFn = {
   description: "block stats check from Indexer",
   fn: async (controller) => {
-    void controller.publish(
-      "chain-blocks-stats",
-      await queryDashboardBlocksStats()
-    );
+    const [
+      latestBlockHeight,
+      latestGasPrice,
+      recentBlockProductionSpeed,
+    ] = await Promise.all([
+      queryLatestBlockHeight(),
+      queryLatestGasPrice(),
+      queryRecentBlockProductionSpeed(),
+    ]);
+    void controller.publish("chain-blocks-stats", {
+      latestBlockHeight,
+      latestGasPrice,
+      recentBlockProductionSpeed,
+    });
   },
   interval: INTERVALS.checkChainBlockStats,
 };
