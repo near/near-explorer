@@ -59,3 +59,25 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run typecheck
         run: cd backend && npm install && npm run typecheck
+
+  backend-database-types-check:
+    name: Backend database types check
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        node: [16]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Prettier
+        run: npm install
+      - name: Install Kanel
+        run: cd backend && npm install
+      - name: Copy original models
+        run: cd backend && cp -r config/models config/models-original
+      - name: Generate types
+        run: cd backend && npm run db:generate-types
+      - name: Run prettier on newly generated types
+        run: npm run fmt
+      - name: Compare types
+        run: cd backend && diff -bur config/models-original config/models
