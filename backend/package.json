@@ -11,7 +11,8 @@
     "build": "tsc",
     "start": "node build/backend/src/index.js",
     "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
-    "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start"
+    "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start",
+    "db:generate-types": "dotenv -c -e ../mainnet.env -- ts-node kanel.ts"
   },
   "repository": {
     "type": "git",
@@ -35,10 +36,12 @@
     "typescript": "^4.5.4"
   },
   "devDependencies": {
+    "@kristiandupont/recase": "^1.1.2",
     "@types/autobahn": "^20.9.0",
     "@types/bn.js": "^5.1.0",
     "@types/geoip-lite": "^1.4.1",
     "@types/pg": "^8.6.4",
+    "kanel": "^2.4.4",
     "nodemon": "^2.0.15"
   }
 }
