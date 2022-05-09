@@ -7,7 +7,7 @@ import { Action, TransactionReceipt } from "../../../types/common";
 import { Args } from "../../transactions/ActionMessage";
 import ReceiptStatus from "./ReceiptStatus";
 import ReceiptArguments from "./ReceiptArguments";
-import TransactionType from "./TransactionType";
+// import TransactionType from "./TransactionType";
 
 type Props = {
   receipt: TransactionReceipt;
@@ -64,9 +64,9 @@ const ReceiptAction: React.FC<Props> = React.memo(({ action, receipt }) => {
       {"args" in action.args ? (
         <>
           <Column>
-            {receipt.actions.length !== 1 ? (
+            {/* {receipt.actions.length !== 1 ? (
               <TransactionType actions={[action]} />
-            ) : null}
+            ) : null} */}
             <Title>
               Arguments:{" "}
               <ArgumentsWrapper>
@@ -112,11 +112,11 @@ const ReceiptAction: React.FC<Props> = React.memo(({ action, receipt }) => {
         </>
       ) : (
         <>
-          {receipt.actions.length !== 1 ? (
+          {/* {receipt.actions.length !== 1 ? (
             <Column>
               <TransactionType actions={[action]} />
             </Column>
-          ) : null}
+          ) : null} */}
           <Column>
             <ArgumentsWrapper>
               <ReceiptArguments

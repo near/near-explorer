@@ -1,74 +1,74 @@
 import * as React from "react";
-import { useTranslation } from "react-i18next";
-import { styled } from "../../../libraries/styles";
-import { Action } from "../../../types/common";
+import { YoctoNEAR } from "../../../types/nominal";
+import { Action } from "../../../types/procedures";
+
+import AccountActivityBadge from "../../beta/accounts/AccountActivityBadge";
 
 interface Props<A extends Action> {
   actions: {
     kind: A["kind"];
   }[];
+  signerId: string;
 }
 
-const Label = styled("div", {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  maxWidth: 174,
-  width: 174,
-  minWidth: 130,
-  height: 46,
-  borderRadius: 4,
-  fontFamily: "Manrope",
-  fontSize: 14,
-  fontWeight: 500,
+const TransactionType: React.FC<Props<Action>> = React.memo(
+  ({ actions, signerId }) => {
+    const getActionMapping = (actions: Action[], isRefund: boolean): any => {
+      if (actions.length === 0) {
+        throw new Error("Unexpected zero-length array of actions");
+      }
+      if (actions.length !== 1) {
+        return {
+          type: "batch",
+          actions: actions.map((action) =>
+            getActionMapping([action], isRefund)
+          ),
+        };
+      }
+      switch (actions[0].kind) {
+        case "AddKey":
+          return {
+            type: "access-key-created",
+          };
+        case "CreateAccount":
+          return {
+            type: "account-created",
+          };
+        case "DeleteAccount":
+          return {
+            type: "account-removed",
+          };
+        case "DeleteKey":
+          return {
+            type: "access-key-removed",
+          };
+        case "DeployContract":
+          return {
+            type: "contract-deployed",
+          };
+        case "FunctionCall":
+          return {
+            type: "call-method",
+            methodName: actions[0].args.method_name,
+          };
+        case "Stake":
+          return {
+            type: "restake",
+          };
+        case "Transfer":
+          return {
+            type: isRefund ? "refund" : "transfer",
+            amount: actions[0].args.deposit as YoctoNEAR,
+          };
+      }
+    };
 
-  variants: {
-    type: {
-      CreateAccount: {
-        backgroundColor: "#fde0ff",
-      },
-      DeleteAccount: {
-        backgroundColor: "#f3d5d7",
-      },
-      DeployContract: {
-        background: "#f9dfc8",
-      },
-      FunctionCall: {
-        background: "#eefaff",
-      },
-      Transfer: {
-        background: "#d0fddf",
-      },
-      Stake: {
-        background: "#bdf4f8",
-      },
-      AddKey: {
-        background: "#aabdee",
-      },
-      DeleteKey: {
-        background: "#f3d5d7",
-      },
-      Batch: {
-        background: "#e9e8e8",
-        boxShadow: "6px 6px 0 0 #f9f8f8",
-      },
-    },
-  },
-});
-
-const TransactionType: React.FC<Props<Action>> = React.memo(({ actions }) => {
-  const { t } = useTranslation();
-  const actionType = actions.length !== 1 ? "Batch" : actions[0].kind;
-
-  return (
-    <Label type={actionType}>
-      {actionType === "Batch"
-        ? t("pages.transaction.type.Batch", {
-            quantity: actions.length,
-          })
-        : t(`pages.transaction.type.${actionType}`)}
-    </Label>
-  );
-});
+    return (
+      <AccountActivityBadge
+        action={getActionMapping(actions as any, signerId === "system")}
+      />
+    );
+  }
+);
 
 export default TransactionType;

@@ -6,7 +6,7 @@ import { TransactionReceipt } from "../../../types/common";
 import { NearAmount } from "../../utils/NearAmount";
 
 import AccountLink from "../common/AccountLink";
-import TransactionType from "./TransactionType";
+// import TransactionType from "./TransactionType";
 
 type Props = {
   onClick: React.MouseEventHandler;
@@ -93,7 +93,7 @@ const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
   const status = Object.keys(receipt.status)[0];
   return (
     <Row onClick={onClick}>
-      <TransactionType actions={receipt.actions} />
+      {/* <TransactionType actions={receipt.actions} /> */}
       <Divider />
       <AccountInfo>
         <div>
