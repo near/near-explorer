@@ -1,5 +1,9 @@
 FROM mhart/alpine-node:16 AS build
 
+WORKDIR /near-explorer/common
+COPY ./common/package.json ./common/package-lock.json ./
+RUN npm clean-install
+
 WORKDIR /near-explorer/backend
 ENV HOME=/tmp
 COPY ./backend/package.json ./backend/package-lock.json ./
@@ -7,6 +11,7 @@ RUN npm clean-install --prod
 RUN cp -a node_modules ../production_node_modules
 RUN npm clean-install
 
+COPY ./common ../common
 COPY ./backend ./
 COPY ./frontend ../frontend/
 

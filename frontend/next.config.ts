@@ -5,7 +5,7 @@ import {
   NearNetwork,
 } from "./src/libraries/config";
 import { merge } from "lodash";
-import { getOverrides } from "../backend/src/environment";
+import { getOverrides } from "./src/libraries/common";
 
 const defaultBackendConfig: BackendConfig = {
   host: "localhost",
@@ -15,8 +15,8 @@ const defaultBackendConfig: BackendConfig = {
 
 const config = merge(
   {
-    backendConfig: defaultBackendConfig,
-    backendConfigSsr: defaultBackendConfig,
+    backend: defaultBackendConfig,
+    backendSsr: defaultBackendConfig,
     networks: [
       {
         name: "localhostnet",
@@ -31,11 +31,11 @@ const config = merge(
 
 const nextConfig: ExplorerConfig & NextConfig = {
   serverRuntimeConfig: {
-    backendConfig: config.backendConfigSsr,
+    backendConfig: config.backendSsr,
   },
   publicRuntimeConfig: {
     nearNetworks: config.networks,
-    backendConfig: config.backendConfig,
+    backendConfig: config.backend,
     googleAnalytics: config.googleAnalytics,
   },
   webpack: (config, { isServer }) => {
@@ -52,6 +52,9 @@ const nextConfig: ExplorerConfig & NextConfig = {
       use: ["@svgr/webpack"],
     });
     return config;
+  },
+  experimental: {
+    externalDir: true,
   },
 };
 

@@ -6,7 +6,7 @@ import { SubscriptionTopicType, SubscriptionTopicTypes } from "./client-types";
 
 import { config } from "./config";
 import { SECOND } from "./consts";
-import { getBackendUrl } from "./environment";
+import { getBackendUrl } from "./common";
 import { procedureHandlers } from "./procedure-handlers";
 
 export type PubSubController = {
@@ -17,9 +17,9 @@ export type PubSubController = {
 };
 
 export const initPubSub = (state: GlobalState): PubSubController => {
-  const wampNearExplorerUrl = getBackendUrl(config.wamp);
+  const wampNearExplorerUrl = getBackendUrl(config.transport);
   console.log(
-    `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${config.wamp.backendSecret}`
+    `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${config.transport.secret}`
   );
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
@@ -33,7 +33,7 @@ export const initPubSub = (state: GlobalState): PubSubController => {
     authid: "near-explorer-backend",
     onchallenge: (_session, method) => {
       if (method === "ticket") {
-        return config.wamp.backendSecret;
+        return config.transport.secret;
       }
       throw "WAMP authentication error: unsupported challenge method";
     },

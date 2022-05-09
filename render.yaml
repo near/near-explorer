@@ -6,30 +6,20 @@ services:
     env: node
     plan: starter plus
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd frontend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../frontend && npm clean-install && npm run build
     startCommand: cd frontend && npm run start
     healthCheckPath: /api/ping
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__SSR_WAMP__HOST
-        fromService:
-          type: web
-          name: wamp
-          property: host
-      - key: NEAR_EXPLORER_CONFIG__WAMP__HOST
+      - key: NEAR_EXPLORER_CONFIG__BACKEND__HOST
         fromService:
           type: web
           name: wamp
           envVarKey: RENDER_EXTERNAL_HOSTNAME
-      - key: NEAR_EXPLORER_CONFIG__WAMP__BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOST
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__BACKEND_SECRET
-      - key: NEAR_EXPLORER_CONFIG__SSR_WAMP__BACKEND_SECRET
-        fromService:
-          type: web
-          name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__BACKEND_SECRET
+          property: host
 
       - fromGroup: frontend
 
@@ -69,7 +59,7 @@ services:
     dockerContext: ./wamp
     repo: https://github.com/near/near-explorer.git
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__SECRET
         generateValue: true
 
   ## Explorer backend [mainnet]
@@ -77,19 +67,19 @@ services:
     name: backend/mainnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__WAMP__HOST
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_CONFIG__WAMP__BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__BACKEND_SECRET
+          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
 
       - fromGroup: backend
       - fromGroup: backend/mainnet
@@ -100,19 +90,19 @@ services:
     name: backend/testnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__WAMP__HOST
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_CONFIG__WAMP__BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__BACKEND_SECRET
+          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
 
       - fromGroup: backend
       - fromGroup: backend/testnet
@@ -123,19 +113,19 @@ services:
     name: backend/guildnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__WAMP__HOST
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_CONFIG__WAMP__BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__BACKEND_SECRET
+          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
 
       - fromGroup: backend
       - fromGroup: backend/guildnet
@@ -144,19 +134,19 @@ services:
 envVarGroups:
   - name: frontend
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__WAMP__SECURE
+      - key: NEAR_EXPLORER_CONFIG__BACKEND__SECURE
         value: true
-      - key: NEAR_EXPLORER_CONFIG__SSR_WAMP__SECURE
+      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__SECURE
         value: false
-      - key: NEAR_EXPLORER_CONFIG__WAMP__PORT
+      - key: NEAR_EXPLORER_CONFIG__BACKEND__PORT
         value: 443
-      - key: NEAR_EXPLORER_CONFIG__SSR_WAMP__PORT
+      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__PORT
         value: 10000
   - name: backend
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__WAMP__SECURE
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECURE
         value: false
-      - key: NEAR_EXPLORER_CONFIG__WAMP__PORT
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__PORT
         value: 10000
   - name: backend/mainnet
     envVars:

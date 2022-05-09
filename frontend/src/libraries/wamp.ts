@@ -1,6 +1,6 @@
 import autobahn from "autobahn";
 import { getConfig, NearNetwork } from "./config";
-import { getBackendUrl } from "./environment";
+import { getBackendUrl } from "./common";
 import {
   SubscriptionTopicType,
   SubscriptionTopicTypes,

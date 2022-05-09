@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 import { NetworkName } from "./client-types";
 import { HOUR, MINUTE, SECOND } from "./consts";
-import { getOverrides } from "./environment";
+import { getOverrides } from "./common";
 
 /*
 To override a config parameter you should use a specific environment variable, following rules:
@@ -45,11 +45,11 @@ export const config = merge(
       timeoutFetchValidatorsBailout: 2.5 * SECOND,
     },
 
-    wamp: {
+    transport: {
       secure: false,
       port: 10000,
       host: "localhost",
-      backendSecret: "THIS_IS_LOCALHOST_SECRET",
+      secret: "THIS_IS_LOCALHOST_SECRET",
     },
   },
   getOverrides("NEAR_EXPLORER_CONFIG")
