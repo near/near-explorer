@@ -4,7 +4,7 @@ import geoip from "geoip-lite";
 
 import { databaseConfig } from "../config/database";
 import { PARTNER_LIST, DataSource, HOUR } from "./consts";
-import { nearStakingPoolAccountSuffix } from "./config";
+import { config } from "./config";
 import {
   TelemetryRequest,
   TransactionPagination,
@@ -263,7 +263,9 @@ export const queryStakingPoolAccountIds = async (): Promise<string[]> => {
       [
         `SELECT account_id as "accountId"
     FROM accounts
-    WHERE account_id LIKE '%${nearStakingPoolAccountSuffix}'`,
+    WHERE account_id LIKE '%${
+      config.accountIdSuffix.stakingPool[config.networkName]
+    }'`,
       ],
       { dataSource: DataSource.Indexer }
     )

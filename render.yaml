@@ -6,31 +6,26 @@ services:
     env: node
     plan: starter plus
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd frontend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../frontend && npm clean-install && npm run build
     startCommand: cd frontend && npm run start
     healthCheckPath: /api/ping
     envVars:
-      - key: NEAR_EXPLORER_WAMP_SSR_HOST
-        fromService:
-          type: web
-          name: wamp
-          property: host
-      - key: NEAR_EXPLORER_WAMP_HOST
+      - key: NEAR_EXPLORER_CONFIG__BACKEND__HOST
         fromService:
           type: web
           name: wamp
           envVarKey: RENDER_EXTERNAL_HOSTNAME
-      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOST
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+          property: host
 
       - fromGroup: frontend
 
-      - key: NEAR_EXPLORER_GOOGLE_ANALYTICS
+      - key: NEAR_EXPLORER_CONFIG__GOOGLE_ANALYTICS
         value: UA-100373569-14
-      - key: NEAR_NETWORKS
+      - key: NEAR_EXPLORER_CONFIG__NETWORKS
         value: |
           [
             {
@@ -64,7 +59,7 @@ services:
     dockerContext: ./wamp
     repo: https://github.com/near/near-explorer.git
     envVars:
-      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__SECRET
         generateValue: true
 
   ## Explorer backend [mainnet]
@@ -72,19 +67,19 @@ services:
     name: backend/mainnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_WAMP_HOST
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
 
       - fromGroup: backend
       - fromGroup: backend/mainnet
@@ -95,19 +90,19 @@ services:
     name: backend/testnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_WAMP_HOST
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
 
       - fromGroup: backend
       - fromGroup: backend/testnet
@@ -118,19 +113,19 @@ services:
     name: backend/guildnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd backend && npm clean-install && npm run build
+    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_WAMP_HOST
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
 
       - fromGroup: backend
       - fromGroup: backend/guildnet
@@ -139,25 +134,25 @@ services:
 envVarGroups:
   - name: frontend
     envVars:
-      - key: NEAR_EXPLORER_WAMP_SECURE
+      - key: NEAR_EXPLORER_CONFIG__BACKEND__SECURE
         value: true
-      - key: NEAR_EXPLORER_WAMP_SSR_SECURE
+      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__SECURE
         value: false
-      - key: NEAR_EXPLORER_WAMP_PORT
+      - key: NEAR_EXPLORER_CONFIG__BACKEND__PORT
         value: 443
-      - key: NEAR_EXPLORER_WAMP_SSR_PORT
+      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__PORT
         value: 10000
   - name: backend
     envVars:
-      - key: NEAR_EXPLORER_WAMP_SECURE
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECURE
         value: false
-      - key: NEAR_EXPLORER_WAMP_PORT
+      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__PORT
         value: 10000
   - name: backend/mainnet
     envVars:
-      - key: NEAR_EXPLORER_WAMP_NETWORK_NAME
+      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
         value: mainnet
-      - key: NEAR_ARCHIVAL_RPC_URL
+      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: https://archive-internal-rpc.mainnet.near.org/
 
       - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST
@@ -175,9 +170,9 @@ envVarGroups:
         value: telemetry_mainnet
   - name: backend/testnet
     envVars:
-      - key: NEAR_EXPLORER_WAMP_NETWORK_NAME
+      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
         value: testnet
-      - key: NEAR_ARCHIVAL_RPC_URL
+      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: https://archive-internal-rpc.testnet.near.org/
 
       - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST
@@ -195,9 +190,9 @@ envVarGroups:
         value: telemetry_testnet
   - name: backend/guildnet
     envVars:
-      - key: NEAR_EXPLORER_WAMP_NETWORK_NAME
+      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
         value: guildnet
-      - key: NEAR_ARCHIVAL_RPC_URL
+      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: https://rpc.openshards.io
 
       - key: NEAR_READ_ONLY_INDEXER_DATABASE_HOST

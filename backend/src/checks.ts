@@ -3,7 +3,7 @@ import {
   ValidatorEpochData,
   ValidatorPoolInfo,
 } from "./client-types";
-import { INTERVALS, nearNetworkName } from "./config";
+import { config } from "./config";
 import {
   queryStakingPoolAccountIds,
   queryRecentTransactionsCount,
@@ -97,7 +97,7 @@ const chainBlockStatsCheck: RegularCheckFn = {
       recentBlockProductionSpeed,
     });
   },
-  interval: INTERVALS.checkChainBlockStats,
+  interval: config.intervals.checkChainBlockStats,
 };
 
 const recentTransactionsCountCheck: RegularCheckFn = {
@@ -107,7 +107,7 @@ const recentTransactionsCountCheck: RegularCheckFn = {
       recentTransactionsCount: await queryRecentTransactionsCount(),
     });
   },
-  interval: INTERVALS.checkRecentTransactions,
+  interval: config.intervals.checkRecentTransactions,
 };
 
 const transactionCountHistoryCheck: RegularCheckFn = {
@@ -115,7 +115,7 @@ const transactionCountHistoryCheck: RegularCheckFn = {
   fn: async (_, state) => {
     state.transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
   },
-  interval: INTERVALS.checkTransactionCountHistory,
+  interval: config.intervals.checkTransactionCountHistory,
 };
 
 const statsAggregationCheck: RegularCheckFn = {
@@ -148,7 +148,7 @@ const statsAggregationCheck: RegularCheckFn = {
     await aggregatePartnerTotalTransactionsCount();
     await aggregatePartnerFirst3MonthTransactionsCount();
   },
-  interval: INTERVALS.checkAggregatedStats,
+  interval: config.intervals.checkAggregatedStats,
 };
 
 const finalityStatusCheck: RegularCheckFn = {
@@ -160,7 +160,7 @@ const finalityStatusCheck: RegularCheckFn = {
       finalBlockHeight: finalBlock.header.height,
     });
   },
-  interval: INTERVALS.checkFinalityStatus,
+  interval: config.intervals.checkFinalityStatus,
 };
 
 const updateRegularlyFetchedMap = async <T>(
@@ -212,8 +212,8 @@ const updateStakingPoolStakeProposalsFromContractMap = async (
       callViewMethod<string>(id, "get_total_staked_balance", {}).catch(
         () => undefined
       ),
-    INTERVALS.checkStakingPoolStakeProposal,
-    INTERVALS.timeoutStakingPoolStakeProposal
+    config.intervals.checkStakingPoolStakeProposal,
+    config.timeouts.timeoutStakingPoolStakeProposal
   );
 };
 
@@ -252,8 +252,8 @@ const updatePoolInfoMap = async (
         >(id, "get_number_of_accounts", {}).catch(() => null),
       };
     },
-    INTERVALS.checkStakingPoolInfo,
-    INTERVALS.timeoutStakingPoolsInfo
+    config.intervals.checkStakingPoolInfo,
+    config.timeouts.timeoutStakingPoolsInfo
   );
 };
 
@@ -270,11 +270,11 @@ const networkInfoCheck: RegularCheckFn = {
           epochData.validators,
           state
         ),
-        wait(INTERVALS.timeoutFetchValidatorsBailout),
+        wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
       Promise.race([
         updatePoolInfoMap(epochData.validators, state),
-        wait(INTERVALS.timeoutFetchValidatorsBailout),
+        wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
     ]);
     void controller.publish("validators", {
@@ -290,7 +290,7 @@ const networkInfoCheck: RegularCheckFn = {
     });
     void controller.publish("network-stats", epochData.stats);
   },
-  interval: INTERVALS.checkNetworkInfo,
+  interval: config.intervals.checkNetworkInfo,
 };
 
 const stakingPoolMetadataInfoCheck: RegularCheckFn = {
@@ -324,8 +324,8 @@ const stakingPoolMetadataInfoCheck: RegularCheckFn = {
       }
     }
   },
-  interval: INTERVALS.checkValidatorDescriptions,
-  shouldSkip: () => nearNetworkName !== "mainnet",
+  interval: config.intervals.checkValidatorDescriptions,
+  shouldSkip: () => config.networkName !== "mainnet",
 };
 
 const poolIdsCheck: RegularCheckFn = {
@@ -333,7 +333,7 @@ const poolIdsCheck: RegularCheckFn = {
   fn: async (_, state) => {
     state.poolIds = await queryStakingPoolAccountIds();
   },
-  interval: INTERVALS.checkPoolIds,
+  interval: config.intervals.checkPoolIds,
 };
 
 export const regularChecks: RegularCheckFn[] = [

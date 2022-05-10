@@ -16,7 +16,7 @@ import * as telemetry from "./telemetry";
 import { sendJsonRpc, sendJsonRpcQuery } from "./near";
 import { GlobalState } from "./checks";
 import { formatDate } from "./utils";
-import { nearNetworkName } from "./config";
+import { config } from "./config";
 
 const promisifiedExec = promisify(exec);
 
@@ -302,7 +302,7 @@ export const procedureHandlers: {
         commit: commit.trim(),
         instanceId: "local",
         serviceId: "local",
-        serviceName: `backend/${nearNetworkName}`,
+        serviceName: `backend/${config.networkName}`,
       };
     }
   },

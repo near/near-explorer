@@ -1,15 +1,12 @@
 import autobahn from "autobahn";
 import EventEmitter from "events";
 
+import { GlobalState } from "./checks";
 import { SubscriptionTopicType, SubscriptionTopicTypes } from "./client-types";
 
-import {
-  nearNetworkName,
-  wampNearExplorerUrl,
-  wampNearExplorerBackendSecret,
-} from "./config";
-import { GlobalState } from "./checks";
+import { config } from "./config";
 import { SECOND } from "./consts";
+import { getBackendUrl } from "./common";
 import { procedureHandlers } from "./procedure-handlers";
 
 export type PubSubController = {
@@ -20,8 +17,9 @@ export type PubSubController = {
 };
 
 export const initPubSub = (state: GlobalState): PubSubController => {
+  const wampNearExplorerUrl = getBackendUrl(config.transport);
   console.log(
-    `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${wampNearExplorerBackendSecret}`
+    `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${config.transport.secret}`
   );
   const wamp = new autobahn.Connection({
     realm: "near-explorer",
@@ -35,7 +33,7 @@ export const initPubSub = (state: GlobalState): PubSubController => {
     authid: "near-explorer-backend",
     onchallenge: (_session, method) => {
       if (method === "ticket") {
-        return wampNearExplorerBackendSecret;
+        return config.transport.secret;
       }
       throw "WAMP authentication error: unsupported challenge method";
     },
@@ -53,7 +51,7 @@ export const initPubSub = (state: GlobalState): PubSubController => {
     console.log("WAMP connection is established. Waiting for commands...");
 
     for (const [name, handler] of Object.entries(procedureHandlers)) {
-      const uri = `com.nearprotocol.${nearNetworkName}.explorer.${name}`;
+      const uri = `com.nearprotocol.${config.networkName}.explorer.${name}`;
       try {
         await session.register(uri, (args: any) => handler(args, state));
       } catch (error) {
@@ -82,7 +80,7 @@ export const initPubSub = (state: GlobalState): PubSubController => {
   return {
     publish: async (topic, namedArgs) => {
       try {
-        const uri = `com.nearprotocol.${nearNetworkName}.explorer.${topic}`;
+        const uri = `com.nearprotocol.${config.networkName}.explorer.${topic}`;
         const session = await currentSessionPromise;
         if (!session.isOpen) {
           console.log(`No session on stack\n${new Error().stack}`);
