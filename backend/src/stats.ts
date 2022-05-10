@@ -10,8 +10,6 @@ import {
   queryActiveContractsCountAggregatedByDate,
   queryActiveContractsList,
   queryActiveAccountsList,
-  queryPartnerTotalTransactions,
-  queryPartnerFirstThreeMonthTransactions,
   queryDepositAmountAggregatedByDate,
   queryGenesisAccountCount,
   queryLatestCirculatingSupply,
@@ -75,14 +73,6 @@ let ACTIVE_CONTRACTS_LIST: Nullable<
     contract: string;
     receiptsCount: string;
   }[]
-> = null;
-
-// partner
-let PARTNER_TOTAL_TRANSACTIONS_COUNT: Nullable<
-  { account: string; transactionsCount: string }[]
-> = null;
-let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT: Nullable<
-  { account: string; transactionsCount: string }[]
 > = null;
 
 // circulating supply
@@ -295,33 +285,6 @@ const aggregateActiveContractsList = retriable(async () => {
     .reverse();
 }, "Top active contracts with respective receipts count");
 
-// partner part
-const aggregatePartnerTotalTransactionsCount = retriable(async () => {
-  const partnerTotalTransactionList = await queryPartnerTotalTransactions();
-  PARTNER_TOTAL_TRANSACTIONS_COUNT = partnerTotalTransactionList.map(
-    ({
-      receiver_account_id: account,
-      transactions_count: transactionsCount,
-    }) => ({
-      account,
-      transactionsCount,
-    })
-  );
-}, "Partners with respective transaction counts");
-
-const aggregatePartnerFirst3MonthTransactionsCount = retriable(async () => {
-  const partnerFirst3MonthTransactionsCount = await queryPartnerFirstThreeMonthTransactions();
-  PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = partnerFirst3MonthTransactionsCount.map(
-    ({
-      receiver_account_id: account,
-      transactions_count: transactionsCount,
-    }) => ({
-      account,
-      transactionsCount,
-    })
-  );
-}, "Partners with respective transaction counts - first 3 months");
-
 const aggregateCirculatingSupplyByDate = retriable(async () => {
   const queryCirculatingSupplyByDate = await queryCirculatingSupply();
   CIRCULATING_SUPPLY_BY_DATE = queryCirculatingSupplyByDate.map(
@@ -417,19 +380,6 @@ async function getActiveContractsList(): Promise<typeof ACTIVE_CONTRACTS_LIST> {
   return ACTIVE_CONTRACTS_LIST;
 }
 
-// partner part
-async function getPartnerTotalTransactionsCount(): Promise<
-  typeof PARTNER_TOTAL_TRANSACTIONS_COUNT
-> {
-  return PARTNER_TOTAL_TRANSACTIONS_COUNT;
-}
-
-async function getPartnerFirst3MonthTransactionsCount(): Promise<
-  typeof PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT
-> {
-  return PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT;
-}
-
 // circulating supply
 async function getLatestCirculatingSupply(): Promise<{
   timestamp: string;
@@ -497,12 +447,6 @@ export {
   aggregateActiveContractsList,
 };
 
-// partner part
-export {
-  aggregatePartnerTotalTransactionsCount,
-  aggregatePartnerFirst3MonthTransactionsCount,
-};
-
 // circulating supply
 export { aggregateCirculatingSupplyByDate };
 
@@ -526,12 +470,6 @@ export {
   getUniqueDeployedContractsCountByDate,
   getActiveContractsCountByDate,
   getActiveContractsList,
-};
-
-// partner part
-export {
-  getPartnerTotalTransactionsCount,
-  getPartnerFirst3MonthTransactionsCount,
 };
 
 // circulating supply

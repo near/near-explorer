@@ -270,14 +270,6 @@ export type ProcedureTypes = {
     args: [];
     result: RPC.BlockView;
   };
-  "partner-first-3-month-transactions-count": {
-    args: [];
-    result: AccountTransactionAmount[] | null;
-  };
-  "partner-total-transactions-count": {
-    args: [];
-    result: AccountTransactionAmount[] | null;
-  };
   "active-contracts-list": {
     args: [];
     result: ContractReceiptsAmount[] | null;
