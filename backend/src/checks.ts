@@ -33,8 +33,6 @@ import {
   aggregateLiveAccountsCountByDate,
   aggregateNewAccountsCountByDate,
   aggregateNewContractsCountByDate,
-  aggregatePartnerFirst3MonthTransactionsCount,
-  aggregatePartnerTotalTransactionsCount,
   aggregateTransactionsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
 } from "./stats";
@@ -121,7 +119,6 @@ const transactionCountHistoryCheck: RegularCheckFn = {
 const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
   fn: async () => {
-    //stats part
     // circulating supply
     await aggregateCirculatingSupplyByDate();
 
@@ -143,10 +140,6 @@ const statsAggregationCheck: RegularCheckFn = {
     await aggregateActiveContractsCountByDate();
     await aggregateUniqueDeployedContractsCountByDate();
     await aggregateActiveContractsList();
-
-    //partner part
-    await aggregatePartnerTotalTransactionsCount();
-    await aggregatePartnerFirst3MonthTransactionsCount();
   },
   interval: config.intervals.checkAggregatedStats,
 };

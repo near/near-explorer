@@ -211,15 +211,6 @@ export const procedureHandlers: {
     return await stats.getActiveContractsList();
   },
 
-  // partner part
-  "partner-total-transactions-count": async () => {
-    return await stats.getPartnerTotalTransactionsCount();
-  },
-
-  "partner-first-3-month-transactions-count": async () => {
-    return await stats.getPartnerFirst3MonthTransactionsCount();
-  },
-
   // genesis stats
   "nearcore-genesis-accounts-count": async () => {
     return await stats.getGenesisAccountsCount();

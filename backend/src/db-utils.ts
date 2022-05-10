@@ -3,7 +3,7 @@ import BN from "bn.js";
 import geoip from "geoip-lite";
 
 import { databaseConfig } from "../config/database";
-import { PARTNER_LIST, DataSource, HOUR } from "./consts";
+import { DataSource, HOUR } from "./consts";
 import { config } from "./config";
 import {
   TelemetryRequest,
@@ -1042,77 +1042,6 @@ export const queryActiveContractsList = async (): Promise<
     ],
     { dataSource: DataSource.Analytics }
   );
-};
-
-// query for partners
-export const queryPartnerTotalTransactions = async (): Promise<
-  {
-    receiver_account_id: string;
-    transactions_count: string;
-  }[]
-> => {
-  return await queryRows<
-    {
-      receiver_account_id: string;
-      transactions_count: string;
-    },
-    {
-      partner_list: string[];
-    }
-  >(
-    [
-      `SELECT
-        receiver_account_id,
-        COUNT(*) AS transactions_count
-      FROM transactions
-      WHERE receiver_account_id = ANY (:partner_list)
-      GROUP BY receiver_account_id
-      ORDER BY transactions_count DESC
-      `,
-      { partner_list: PARTNER_LIST },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-};
-
-export const queryPartnerFirstThreeMonthTransactions = async (): Promise<
-  {
-    receiver_account_id: string;
-    transactions_count: string;
-  }[]
-> => {
-  let partnerList = Array(PARTNER_LIST.length);
-  for (let i = 0; i < PARTNER_LIST.length; i++) {
-    let result = await querySingleRow<
-      {
-        receiver_account_id: string;
-        transactions_count: string;
-      },
-      {
-        partner: string;
-      }
-    >(
-      [
-        `SELECT
-          :partner AS receiver_account_id,
-          COUNT(*) AS transactions_count
-        FROM transactions
-        WHERE receiver_account_id = :partner
-        AND TO_TIMESTAMP(block_timestamp / 1000000000) < (
-          SELECT
-            (TO_TIMESTAMP(block_timestamp / 1000000000) + INTERVAL '3 month')
-          FROM transactions
-          WHERE receiver_account_id = :partner
-          ORDER BY block_timestamp
-          LIMIT 1)
-      `,
-        { partner: PARTNER_LIST[i] },
-      ],
-      { dataSource: DataSource.Indexer }
-    );
-    partnerList[i] = result;
-  }
-  return partnerList;
 };
 
 export const queryLatestCirculatingSupply = async (): Promise<{
