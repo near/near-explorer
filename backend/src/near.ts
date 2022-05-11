@@ -47,7 +47,7 @@ export const sendJsonRpcQuery = <K extends keyof RpcQueryRequestTypeMapping>(
 };
 
 // TODO: Provide an equivalent method in near-api-js, so we don't need to make it external.
-const callViewMethod = async function <T>(
+export const callViewMethod = async function <T>(
   contractName: string,
   methodName: string,
   args: unknown
@@ -61,7 +61,9 @@ const callViewMethod = async function <T>(
   return await account.viewFunction(contractName, methodName, args);
 };
 
-const queryFinalBlock = async (): Promise<RpcResponseMapping["block"]> => {
+export const queryFinalBlock = async (): Promise<
+  RpcResponseMapping["block"]
+> => {
   return await sendJsonRpc("block", {
     finality: "final",
   });
@@ -171,7 +173,7 @@ type EpochData = {
   validators: ValidatorEpochData[];
 };
 
-const queryEpochData = async (poolIds: string[]): Promise<EpochData> => {
+export const queryEpochData = async (poolIds: string[]): Promise<EpochData> => {
   const [
     networkProtocolConfig,
     epochStatus,
@@ -198,5 +200,3 @@ const queryEpochData = async (poolIds: string[]): Promise<EpochData> => {
     validators: mapValidators(epochStatus, poolIds),
   };
 };
-
-export { queryFinalBlock, queryEpochData, callViewMethod };

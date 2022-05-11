@@ -5,10 +5,10 @@ import {
   queryBlockByHashOrId,
 } from "./db-utils";
 
-async function getBlocksList(
+export const getBlocksList = async (
   limit: number,
   paginationIndexer: number | null
-): Promise<BlockBase[]> {
+): Promise<BlockBase[]> => {
   const blocksList = await queryBlocksList(limit, paginationIndexer);
   return blocksList.map((block) => ({
     hash: block.hash,
@@ -17,11 +17,11 @@ async function getBlocksList(
     prevHash: block.prev_hash,
     transactionsCount: parseInt(block.transactions_count),
   }));
-}
+};
 
-async function getBlockInfo(
+export const getBlockInfo = async (
   blockId: string | number
-): Promise<Omit<Block, "gasUsed" | "receiptsCount"> | null> {
+): Promise<Omit<Block, "gasUsed" | "receiptsCount"> | null> => {
   const blockInfo = await queryBlockInfo(blockId);
   if (!blockInfo) {
     return null;
@@ -36,16 +36,14 @@ async function getBlockInfo(
     gasPrice: blockInfo.gas_price,
     authorAccountId: blockInfo.author_account_id,
   };
-}
+};
 
-async function getBlockByHashOrId(
+export const getBlockByHashOrId = async (
   blockId: string | number
-): Promise<string | null> {
+): Promise<string | null> => {
   const block = await queryBlockByHashOrId(blockId);
   if (!block) {
     return null;
   }
   return block.block_hash;
-}
-
-export { getBlocksList, getBlockInfo, getBlockByHashOrId };
+};
