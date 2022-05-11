@@ -14,23 +14,21 @@ import {
 } from "./db-utils";
 import { callViewMethod, sendJsonRpc, sendJsonRpcQuery } from "./near";
 
-import { getIndexerCompatibilityTransactionActionKinds } from "./transactions";
-
-async function isAccountIndexed(accountId: string): Promise<boolean> {
+export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
   const account = await queryIndexedAccount(accountId);
   return Boolean(account?.account_id);
-}
+};
 
-async function getAccountsList(
+export const getAccountsList = async (
   limit: number,
   lastAccountIndex: number | null
-): Promise<AccountListInfo[]> {
+): Promise<AccountListInfo[]> => {
   const accountsList = await queryAccountsList(limit, lastAccountIndex);
   return accountsList.map((account) => ({
     accountId: account.account_id,
     accountIndex: parseInt(account.account_index),
   }));
-}
+};
 
 const queryAccountIncomeTransactionsCount = async (accountId: string) => {
   const {
@@ -56,9 +54,9 @@ const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
   return outTxCountFromAnalytics + outTxCountFromIndexer;
 };
 
-async function getAccountTransactionsCount(
+export const getAccountTransactionsCount = async (
   accountId: string
-): Promise<AccountTransactionsCount> {
+): Promise<AccountTransactionsCount> => {
   const [inTransactionsCount, outTransactionsCount] = await Promise.all([
     queryAccountOutcomeTransactionsCount(accountId),
     queryAccountIncomeTransactionsCount(accountId),
@@ -67,9 +65,9 @@ async function getAccountTransactionsCount(
     inTransactionsCount,
     outTransactionsCount,
   };
-}
+};
 
-async function getAccountInfo(accountId: string) {
+export const getAccountInfo = async (accountId: string) => {
   const accountInfo = await queryAccountInfo(accountId);
   if (!accountInfo) {
     return null;
@@ -87,7 +85,7 @@ async function getAccountInfo(accountId: string) {
       ? parseInt(accountInfo.deleted_at_block_timestamp)
       : undefined,
   };
-}
+};
 
 function generateLockupAccountIdFromAccountId(accountId: string): string {
   // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
@@ -119,7 +117,7 @@ function ignoreIfDoesNotExist(error: unknown): null {
   throw error;
 }
 
-const getAccountDetails = async (accountId: string) => {
+export const getAccountDetails = async (accountId: string) => {
   let lockupAccountId: string;
   if (accountId.endsWith(`.${config.accountIdSuffix.lockup}`)) {
     lockupAccountId = accountId;
@@ -230,12 +228,4 @@ const getAccountDetails = async (accountId: string) => {
     lockupLockedBalance: lockupDetails?.lockedBalance,
     lockupUnlockedBalance: lockupDetails?.unlockedBalance,
   };
-};
-
-export {
-  isAccountIndexed,
-  getAccountsList,
-  getAccountTransactionsCount,
-  getAccountInfo,
-  getAccountDetails,
 };

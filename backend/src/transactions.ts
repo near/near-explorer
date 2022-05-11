@@ -47,24 +47,21 @@ async function createTransactionsList(
   }));
 }
 
-function getIndexerCompatibilityTransactionActionKinds(): Map<
-  string,
-  Action["kind"]
-> {
+export const getIndexerCompatibilityTransactionActionKinds = () => {
   return INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS;
-}
+};
 
-async function getIsTransactionIndexed(
+export const getIsTransactionIndexed = async (
   transactionHash: string
-): Promise<boolean> {
+): Promise<boolean> => {
   const transaction = await queryIndexedTransaction(transactionHash);
   return Boolean(transaction?.transaction_hash);
-}
+};
 
-async function getTransactionsList(
+export const getTransactionsList = async (
   limit: number | undefined,
   paginationIndexer: TransactionPagination | null
-): Promise<TransactionBaseInfo[]> {
+): Promise<TransactionBaseInfo[]> => {
   const transactionsList = await queryTransactionsList(
     limit,
     paginationIndexer
@@ -75,13 +72,13 @@ async function getTransactionsList(
     return [];
   }
   return await createTransactionsList(transactionsList);
-}
+};
 
-async function getAccountTransactionsList(
+export const getAccountTransactionsList = async (
   accountId: string,
   limit: number | undefined,
   paginationIndexer: TransactionPagination | null
-): Promise<TransactionBaseInfo[]> {
+): Promise<TransactionBaseInfo[]> => {
   const accountTxList = await queryAccountTransactionsList(
     accountId,
     limit,
@@ -93,13 +90,13 @@ async function getAccountTransactionsList(
     return [];
   }
   return await createTransactionsList(accountTxList);
-}
+};
 
-async function getTransactionsListInBlock(
+export const getTransactionsListInBlock = async (
   blockHash: string,
   limit: number | undefined,
   paginationIndexer: TransactionPagination | null
-): Promise<TransactionBaseInfo[]> {
+): Promise<TransactionBaseInfo[]> => {
   const txListInBlock = await queryTransactionsListInBlock(
     blockHash,
     limit,
@@ -111,18 +108,18 @@ async function getTransactionsListInBlock(
     return [];
   }
   return await createTransactionsList(txListInBlock);
-}
+};
 
-async function getTransactionInfo(
+export const getTransactionInfo = async (
   transactionHash: string
-): Promise<TransactionBaseInfo | null> {
+): Promise<TransactionBaseInfo | null> => {
   const transactionInfo = await queryTransactionInfo(transactionHash);
   if (!transactionInfo) {
     return null;
   }
   const transaction = await createTransactionsList([transactionInfo]);
   return transaction[0] || null;
-}
+};
 
 export const convertDbArgsToRpcArgs = (
   kind: string,
@@ -190,12 +187,3 @@ async function getTransactionsActionsList(
   });
   return transactionsActionsByHash;
 }
-
-export {
-  getIndexerCompatibilityTransactionActionKinds,
-  getIsTransactionIndexed,
-  getTransactionsList,
-  getAccountTransactionsList,
-  getTransactionsListInBlock,
-  getTransactionInfo,
-};

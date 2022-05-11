@@ -28,9 +28,9 @@ const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
   [null, "Unknown"],
 ]);
 
-function getIndexerCompatibilityReceiptActionKinds() {
+export const getIndexerCompatibilityReceiptActionKinds = () => {
   return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
-}
+};
 
 function groupReceiptActionsIntoReceipts(
   receiptActions: Awaited<ReturnType<typeof queryIncludedReceiptsList>>
@@ -75,29 +75,33 @@ function groupReceiptActionsIntoReceipts(
 // As a temporary solution we split receipts list into two lists:
 // included in block and executed in block
 // more info here https://github.com/near/near-explorer/pull/868
-async function getIncludedReceiptsList(blockHash: string): Promise<Receipt[]> {
+export const getIncludedReceiptsList = async (
+  blockHash: string
+): Promise<Receipt[]> => {
   const receiptActions = await queryIncludedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
-}
+};
 
-async function getExecutedReceiptsList(blockHash: string): Promise<Receipt[]> {
+export const getExecutedReceiptsList = async (
+  blockHash: string
+): Promise<Receipt[]> => {
   const receiptActions = await queryExecutedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
-}
+};
 
-async function getReceiptsCountInBlock(
+export const getReceiptsCountInBlock = async (
   blockHash: string
-): Promise<number | null> {
+): Promise<number | null> => {
   const receiptsCount = await queryReceiptsCountInBlock(blockHash);
   if (!receiptsCount) {
     return null;
   }
   return parseInt(receiptsCount.count);
-}
+};
 
-async function getReceiptInTransaction(
+export const getReceiptInTransaction = async (
   receiptId: string
-): Promise<TransactionHashByReceiptId | null> {
+): Promise<TransactionHashByReceiptId | null> => {
   const transactionInfo = await queryReceiptInTransaction(receiptId);
   if (!transactionInfo) {
     return null;
@@ -107,12 +111,4 @@ async function getReceiptInTransaction(
     originatedFromTransactionHash:
       transactionInfo.originated_from_transaction_hash,
   };
-}
-
-export {
-  getReceiptsCountInBlock,
-  getReceiptInTransaction,
-  getIndexerCompatibilityReceiptActionKinds,
-  getIncludedReceiptsList,
-  getExecutedReceiptsList,
 };

@@ -22,7 +22,7 @@ interface InfoCardCellProps {
   cellOptions?: object;
 }
 
-const InfoCard: React.FC<InfoCardProps> = React.memo(
+export const InfoCard: React.FC<InfoCardProps> = React.memo(
   ({ children, className }) => (
     <InfoCardWrapper noGutters className={className}>
       {children}
@@ -46,7 +46,7 @@ export const InfoCardText = styled(Col, {
   fontFeatureSettings: '"zero", on',
 });
 
-const InfoCardCell: React.FC<InfoCardCellProps> = React.memo(
+export const InfoCardCell: React.FC<InfoCardCellProps> = React.memo(
   ({ children, className, title, cellOptions = undefined }) => (
     <Col {...cellOptions} className={className}>
       <Row noGutters>
@@ -58,5 +58,3 @@ const InfoCardCell: React.FC<InfoCardCellProps> = React.memo(
     </Col>
   )
 );
-
-export { InfoCard, InfoCardCell };
