@@ -2,11 +2,15 @@ import autobahn from "autobahn";
 import EventEmitter from "events";
 
 import { GlobalState } from "./checks";
-import { SubscriptionTopicType, SubscriptionTopicTypes } from "./client-types";
+import {
+  ProcedureType,
+  SubscriptionTopicType,
+  SubscriptionTopicTypes,
+} from "./types";
 
 import { config } from "./config";
 import { SECOND } from "./consts";
-import { getBackendUrl } from "./common";
+import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
 import { procedureHandlers } from "./procedure-handlers";
 
 export type PubSubController = {
@@ -51,7 +55,7 @@ export const initPubSub = (state: GlobalState): PubSubController => {
     console.log("WAMP connection is established. Waiting for commands...");
 
     for (const [name, handler] of Object.entries(procedureHandlers)) {
-      const uri = `com.nearprotocol.${config.networkName}.explorer.${name}`;
+      const uri = wrapProcedure(config.networkName, name as ProcedureType);
       try {
         await session.register(uri, (args: any) => handler(args, state));
       } catch (error) {
@@ -80,7 +84,7 @@ export const initPubSub = (state: GlobalState): PubSubController => {
   return {
     publish: async (topic, namedArgs) => {
       try {
-        const uri = `com.nearprotocol.${config.networkName}.explorer.${topic}`;
+        const uri = wrapTopic(config.networkName, topic);
         const session = await currentSessionPromise;
         if (!session.isOpen) {
           console.log(`No session on stack\n${new Error().stack}`);

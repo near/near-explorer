@@ -4,7 +4,7 @@ import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 import AccountRow from "./AccountRow";
 import { Fetcher } from "../../libraries/transport";
-import { AccountListInfo } from "../../types/procedures";
+import { AccountListInfo } from "../../types/common";
 
 const ACCOUNTS_PER_PAGE = 15;
 

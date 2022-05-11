@@ -13,7 +13,6 @@ RUN npm clean-install
 
 COPY ./common ../common
 COPY ./frontend ./
-COPY ./backend ../backend/
 
 RUN npm run build
 RUN npm run compile-nextjs-config

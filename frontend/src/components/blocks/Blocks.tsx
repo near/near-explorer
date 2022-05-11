@@ -5,7 +5,7 @@ import FlipMove from "../utils/FlipMove";
 
 import BlocksRow from "./BlocksRow";
 import { Fetcher } from "../../libraries/transport";
-import { BlockBase } from "../../types/procedures";
+import { BlockBase } from "../../types/common";
 
 const BLOCKS_PER_PAGE = 15;
 

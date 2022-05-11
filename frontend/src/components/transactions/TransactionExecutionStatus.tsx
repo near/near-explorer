@@ -1,6 +1,5 @@
 import * as React from "react";
-import { KeysOfUnion } from "../../types/util";
-import * as RPC from "../../types/rpc";
+import { KeysOfUnion, RPC } from "../../types/common";
 import { useTranslation } from "react-i18next";
 
 export interface Props {

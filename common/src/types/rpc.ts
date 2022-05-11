@@ -787,7 +787,7 @@ export type FinalExecutionOutcomeWithReceiptView = /* [serde(flatten)] */ FinalE
   receipts: Vec<ReceiptView>;
 };
 
-export type RpcResponseMapping = {
+export type ResponseMapping = {
   EXPERIMENTAL_broadcast_tx_sync: unknown;
   EXPERIMENTAL_changes: unknown;
   EXPERIMENTAL_changes_in_block: unknown;

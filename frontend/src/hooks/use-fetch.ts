@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  ProcedureArgs,
-  ProcedureResult,
-  ProcedureType,
-} from "../types/procedures";
+import { ProcedureArgs, ProcedureResult, ProcedureType } from "../types/common";
 import { useFetcher } from "./use-fetcher";
 
 export const useFetch = <P extends ProcedureType>(

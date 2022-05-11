@@ -8,7 +8,7 @@ import Balance from "../utils/Balance";
 import { OrderTableCell, TableRow } from "../utils/Table";
 import CountryFlag from "../utils/CountryFlag";
 import CumulativeStakeChart from "./CumulativeStakeChart";
-import { ValidatorPoolInfo } from "../../types/subscriptions";
+import { ValidatorPoolInfo } from "../../types/common";
 import { styled } from "../../libraries/styles";
 
 const ValidatorNodesText = styled(Col, {

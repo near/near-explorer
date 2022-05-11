@@ -6,7 +6,7 @@ import moment from "moment";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
-import { TransactionCountHistory } from "../../types/procedures";
+import { TransactionCountHistory } from "../../types/common";
 
 const chartsStyle = {
   height: 232,

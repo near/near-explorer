@@ -16,7 +16,7 @@ import {
   Receipt,
   ReceiptExecutionStatus,
   TransactionHashByReceiptId,
-} from "./client-types";
+} from "./types";
 
 const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
   string | null,

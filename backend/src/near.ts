@@ -8,15 +8,8 @@ import {
   NetworkStats,
   ValidationProgress,
   ValidatorEpochData,
-} from "./client-types";
-import {
-  RpcQueryRequestTypeMapping,
-  RpcQueryResponseNarrowed,
-  RpcResponseMapping,
-  EpochValidatorInfo,
-  CurrentEpochValidatorInfo,
-  ProtocolConfigView,
-} from "./rpc-types";
+  RPC,
+} from "./types";
 
 type CurrentEpochState = {
   seatPrice: string;
@@ -29,18 +22,20 @@ const nearRpc = new nearApi.providers.JsonRpcProvider({
   url: config.archivalRpcUrl,
 });
 
-export const sendJsonRpc = <M extends keyof RpcResponseMapping>(
+export const sendJsonRpc = <M extends keyof RPC.ResponseMapping>(
   method: M,
   args: object
-): Promise<RpcResponseMapping[M]> => {
+): Promise<RPC.ResponseMapping[M]> => {
   return nearRpc.sendJsonRpc(method, args);
 };
 
-export const sendJsonRpcQuery = <K extends keyof RpcQueryRequestTypeMapping>(
+export const sendJsonRpcQuery = <
+  K extends keyof RPC.RpcQueryRequestTypeMapping
+>(
   requestType: K,
   args: object
-): Promise<RpcQueryResponseNarrowed<K>> => {
-  return nearRpc.sendJsonRpc<RpcQueryResponseNarrowed<K>>("query", {
+): Promise<RPC.RpcQueryResponseNarrowed<K>> => {
+  return nearRpc.sendJsonRpc<RPC.RpcQueryResponseNarrowed<K>>("query", {
     request_type: requestType,
     ...args,
   });
@@ -62,7 +57,7 @@ export const callViewMethod = async function <T>(
 };
 
 export const queryFinalBlock = async (): Promise<
-  RpcResponseMapping["block"]
+  RPC.ResponseMapping["block"]
 > => {
   return await sendJsonRpc("block", {
     finality: "final",
@@ -70,7 +65,7 @@ export const queryFinalBlock = async (): Promise<
 };
 
 const mapProgress = (
-  currentValidator: CurrentEpochValidatorInfo
+  currentValidator: RPC.CurrentEpochValidatorInfo
 ): ValidationProgress => {
   return {
     blocks: {
@@ -85,7 +80,7 @@ const mapProgress = (
 };
 
 const mapValidators = (
-  epochStatus: EpochValidatorInfo,
+  epochStatus: RPC.EpochValidatorInfo,
   poolIds: string[]
 ): ValidatorEpochData[] => {
   const validatorsMap: Map<string, ValidatorEpochData> = new Map();
@@ -134,8 +129,8 @@ const mapValidators = (
 };
 
 const getEpochState = async (
-  epochStatus: EpochValidatorInfo,
-  networkProtocolConfig: ProtocolConfigView
+  epochStatus: RPC.EpochValidatorInfo,
+  networkProtocolConfig: RPC.ProtocolConfigView
 ) => {
   if (currentEpochState?.height === epochStatus.epoch_start_height) {
     return currentEpochState;

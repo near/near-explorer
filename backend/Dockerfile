@@ -13,7 +13,6 @@ RUN npm clean-install
 
 COPY ./common ../common
 COPY ./backend ./
-COPY ./frontend ../frontend/
 
 RUN npm run build
 

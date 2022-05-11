@@ -1,7 +1,7 @@
 import React from "react";
 import { useFetch } from "../../hooks/use-fetch";
 import { styled } from "../../libraries/styles";
-import { DeployInfo as DeployInfoProps } from "../../types/procedures";
+import { DeployInfo as DeployInfoProps } from "../../types/common";
 
 const Wrapper = styled("div", {
   position: "fixed",

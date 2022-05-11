@@ -1,8 +1,7 @@
 import { exec } from "child_process";
 import { promisify } from "util";
 
-import { KeysOfUnion, ProcedureTypes } from "./client-types";
-import * as RPC from "./rpc-types";
+import { KeysOfUnion, ProcedureTypes, RPC } from "./types";
 
 import * as stats from "./stats";
 import * as receipts from "./receipts";

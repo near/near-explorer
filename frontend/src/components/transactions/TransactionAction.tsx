@@ -6,7 +6,7 @@ import { ViewMode } from "./ActionRowBlock";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
-import { TransactionBaseInfo } from "../../types/procedures";
+import { TransactionBaseInfo } from "../../types/common";
 import { useFetch } from "../../hooks/use-fetch";
 
 export interface Props {

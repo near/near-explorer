@@ -1,5 +1,5 @@
 import geoip from "geoip-lite";
-import { TelemetryRequest } from "./client-types";
+import { TelemetryRequest } from "./types";
 import { maybeCreateTelemetryTable, maybeSendTelemetry } from "./db-utils";
 
 // Skip initializing Telemetry database if the backend is not configured to

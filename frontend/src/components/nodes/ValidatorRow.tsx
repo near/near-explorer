@@ -9,7 +9,7 @@ import ValidatorCollapsedRow from "./ValidatorCollapsedRow";
 
 import { styled } from "../../libraries/styles";
 import { FRACTION_DIGITS } from "./CumulativeStakeChart";
-import { ValidatorFullData } from "../../types/subscriptions";
+import { ValidatorFullData } from "../../types/common";
 import ValidatingLabel, { StakingStatus } from "./ValidatingLabel";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {

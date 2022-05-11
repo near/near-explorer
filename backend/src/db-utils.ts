@@ -9,7 +9,7 @@ import {
   TelemetryRequest,
   TransactionPagination,
   ValidatorTelemetry,
-} from "./client-types";
+} from "./types";
 import { trimError } from "./utils";
 
 const getPgPool = (config: PoolConfig): Pool => {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Action } from "../../types/procedures";
+import { Action } from "../../types/common";
 
 import actionIcons from "./ActionIcons";
 import ActionMessage from "./ActionMessage";

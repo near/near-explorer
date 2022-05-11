@@ -1,8 +1,4 @@
-import {
-  Action,
-  TransactionBaseInfo,
-  TransactionPagination,
-} from "./client-types";
+import { Action, TransactionBaseInfo, TransactionPagination } from "./types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
