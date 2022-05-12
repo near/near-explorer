@@ -5,7 +5,9 @@ import TransactionIconSvg from "../../../public/static/images/icon-t-transaction
 import BlockDetails from "../../components/blocks/BlockDetails";
 import ReceiptsIncludedInBlock from "../../components/receipts/ReceiptsIncludedInBlock";
 import ReceiptsExecutedInBlock from "../../components/receipts/ReceiptsExecutedInBlock";
-import Transactions from "../../components/transactions/Transactions";
+import Transactions, {
+  Props as TransactionsProps,
+} from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
 import { useTranslation } from "react-i18next";
@@ -27,12 +29,23 @@ type Props = {
   err?: unknown;
 };
 
+const TRANSACTIONS_PER_PAGE = 1000;
+
 const BlockDetail: NextPage<Props> = React.memo((props) => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: props.hash,
   });
   const block = props.block;
+  const fetch = React.useCallback<TransactionsProps["fetch"]>(
+    (fetcher, indexer) =>
+      fetcher("transactions-list-by-block-hash", [
+        props.hash,
+        TRANSACTIONS_PER_PAGE,
+        indexer ?? null,
+      ]),
+    [props.hash]
+  );
 
   return (
     <>
@@ -59,7 +72,7 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
-            <Transactions blockHash={props.hash} count={1000} />
+            <Transactions fetch={fetch} />
           </Content>
 
           <Content
