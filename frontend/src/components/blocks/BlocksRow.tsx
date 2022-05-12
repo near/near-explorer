@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 
 import * as React from "react";
 
@@ -110,8 +110,12 @@ const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
                 <TransactionRowTimerStatus>
                   {!finalBlockTimestampNanosecond
                     ? t("common.blocks.status.checking_finality")
-                    : new BN(block.timestamp).lte(
-                        finalBlockTimestampNanosecond.divn(10 ** 6)
+                    : JSBI.lessThan(
+                        JSBI.BigInt(block.timestamp),
+                        JSBI.divide(
+                          finalBlockTimestampNanosecond,
+                          JSBI.BigInt(10 ** 6)
+                        )
                       )
                     ? t("common.blocks.status.finalized")
                     : t("common.blocks.status.finalizing")}

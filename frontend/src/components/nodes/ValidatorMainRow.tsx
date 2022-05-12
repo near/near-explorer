@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
@@ -10,6 +10,7 @@ import CountryFlag from "../utils/CountryFlag";
 import CumulativeStakeChart from "./CumulativeStakeChart";
 import { ValidatorPoolInfo } from "../../types/common";
 import { styled } from "../../libraries/styles";
+import * as BI from "../../libraries/bigint";
 
 const ValidatorNodesText = styled(Col, {
   fontWeight: 500,
@@ -60,7 +61,7 @@ interface Props {
   publicKey?: string;
   poolInfo?: ValidatorPoolInfo;
   visibleStake?: string;
-  stakeDelta?: BN;
+  stakeDelta?: JSBI;
 
   stakePercents: {
     ownPercent: number;
@@ -69,11 +70,7 @@ interface Props {
   handleClick: React.MouseEventHandler;
 }
 
-const yoctoNearToNear = new BN(1)
-  .muln(10 ** 6)
-  .muln(10 ** 6)
-  .muln(10 ** 6)
-  .muln(10 ** 6);
+const yoctoNearToNear = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(24));
 
 const ValidatorMainRow: React.FC<Props> = React.memo(
   ({
@@ -159,22 +156,25 @@ const ValidatorMainRow: React.FC<Props> = React.memo(
           ) : (
             "-"
           )}
-          {stakeDelta && !stakeDelta.isZero() ? (
+          {stakeDelta && !JSBI.equal(stakeDelta, JSBI.BigInt(0)) ? (
             <>
               <br />
               <small>
                 {
                   <>
-                    {!stakeDelta.isNeg() ? "+" : "-"}
-                    {Number(stakeDelta.div(yoctoNearToNear)) < 1 ? (
+                    {JSBI.greaterThanOrEqual(stakeDelta, JSBI.BigInt(0))
+                      ? "+"
+                      : "-"}
+                    {JSBI.toNumber(JSBI.divide(stakeDelta, yoctoNearToNear)) <
+                    1 ? (
                       <Balance
-                        amount={stakeDelta.abs()}
+                        amount={BI.abs(stakeDelta)}
                         label="NEAR"
                         fracDigits={4}
                       />
                     ) : (
                       <Balance
-                        amount={stakeDelta.abs()}
+                        amount={BI.abs(stakeDelta)}
                         label="NEAR"
                         fracDigits={0}
                       />

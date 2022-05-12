@@ -1,7 +1,6 @@
 import moment from "moment";
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
-import { utils } from "near-api-js";
 
 import { InfoCard, InfoCardCell as Cell } from "../utils/InfoCard";
 import Balance, { formatWithCommas } from "../utils/Balance";
@@ -12,6 +11,7 @@ import { useNetworkStats } from "../../hooks/subscriptions";
 import { useEpochStartBlock } from "../../hooks/data";
 import { useQuery, useQueryOrDefault } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
+import * as BI from "../../libraries/bigint";
 
 const ProtocolConfig = styled(InfoCard, {
   margin: "24px 0",
@@ -58,16 +58,19 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   );
 
   let epochTotalSupply = epochStartBlock
-    ? new BN(epochStartBlock.totalSupply.toString())
-        .div(utils.format.NEAR_NOMINATION)
-        .toNumber() /
+    ? JSBI.toNumber(
+        JSBI.divide(JSBI.BigInt(epochStartBlock.totalSupply), BI.nearNomination)
+      ) /
       10 ** 6
     : null;
 
   const genesisTotalSupply = genesisProtocolConfig
-    ? new BN(genesisProtocolConfig.header.total_supply)
-        .div(utils.format.NEAR_NOMINATION)
-        .toNumber() /
+    ? JSBI.toNumber(
+        JSBI.divide(
+          JSBI.BigInt(genesisProtocolConfig.header.total_supply),
+          BI.nearNomination
+        )
+      ) /
       10 ** 6
     : null;
 
@@ -127,7 +130,7 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           {genesisTotalSupply && genesisProtocolConfig && (
             <GenesisText>
               <ProtocolMetricValue
-                amount={new BN(genesisProtocolConfig.header.total_supply)}
+                amount={JSBI.BigInt(genesisProtocolConfig.header.total_supply)}
                 formulatedAmount={formatWithCommas(
                   genesisTotalSupply.toFixed(1)
                 )}

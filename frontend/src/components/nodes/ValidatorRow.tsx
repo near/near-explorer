@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 
@@ -11,6 +11,7 @@ import { styled } from "../../libraries/styles";
 import { FRACTION_DIGITS } from "./CumulativeStakeChart";
 import { ValidatorFullData } from "../../types/common";
 import ValidatingLabel, { StakingStatus } from "./ValidatingLabel";
+import * as BI from "../../libraries/bigint";
 
 export const ValidatorNodesDetailsTitle = styled(Col, {
   display: "flex",
@@ -47,13 +48,12 @@ const WarningText = styled("td", {
 interface Props {
   validator: ValidatorFullData;
   index: number;
-  totalStake: BN;
-  cumulativeStake: BN;
+  totalStake: JSBI;
+  cumulativeStake: JSBI;
   isNetworkHolder: boolean;
   seatPrice?: string;
 }
 
-const ZERO = new BN(0);
 const EXTRA_PRECISION_MULTIPLIER = Math.pow(10, 2 + FRACTION_DIGITS);
 
 const getStakingStatus = (
@@ -77,15 +77,23 @@ const getStakingStatus = (
           return null;
         }
         const contractStake = validator.contractStake
-          ? new BN(validator.contractStake)
+          ? JSBI.BigInt(validator.contractStake)
           : undefined;
         if (!contractStake) {
           return null;
         }
-        const seatPriceBN = new BN(seatPrice);
-        if (contractStake.gte(seatPriceBN)) {
+        const seatPriceBN = JSBI.BigInt(seatPrice);
+        if (JSBI.greaterThanOrEqual(contractStake, seatPriceBN)) {
           return "onHold";
-        } else if (contractStake.gte(seatPriceBN.muln(20).divn(100))) {
+        } else if (
+          JSBI.greaterThanOrEqual(
+            contractStake,
+            JSBI.divide(
+              JSBI.multiply(seatPriceBN, JSBI.BigInt(20)),
+              JSBI.BigInt(100)
+            )
+          )
+        ) {
           return "newcomer";
         } else {
           return "idle";
@@ -122,23 +130,36 @@ const ValidatorRow: React.FC<Props> = React.memo(
 
     const stakeDelta =
       validator.currentEpoch?.stake && nextVisibleStake
-        ? new BN(nextVisibleStake).sub(new BN(validator.currentEpoch.stake))
+        ? JSBI.subtract(
+            JSBI.BigInt(nextVisibleStake),
+            JSBI.BigInt(validator.currentEpoch.stake)
+          )
         : undefined;
 
     const stakePercents = React.useMemo(() => {
       if (!validator.currentEpoch) {
         return null;
       }
-      const stake = currentStake ? new BN(currentStake) : ZERO;
-      const ownPercent = totalStake.isZero()
+      const stake = currentStake ? JSBI.BigInt(currentStake) : BI.zero;
+      const ownPercent = JSBI.equal(totalStake, BI.zero)
         ? 0
-        : stake.muln(EXTRA_PRECISION_MULTIPLIER).div(totalStake).toNumber();
-      const cumulativeStakePercent = totalStake.isZero()
+        : JSBI.toNumber(
+            JSBI.divide(
+              JSBI.multiply(stake, JSBI.BigInt(EXTRA_PRECISION_MULTIPLIER)),
+              totalStake
+            )
+          );
+      const cumulativeStakePercent = JSBI.equal(totalStake, BI.zero)
         ? 0
-        : cumulativeStake
-            .muln(EXTRA_PRECISION_MULTIPLIER)
-            .div(totalStake)
-            .toNumber();
+        : JSBI.toNumber(
+            JSBI.divide(
+              JSBI.multiply(
+                cumulativeStake,
+                JSBI.BigInt(EXTRA_PRECISION_MULTIPLIER)
+              ),
+              totalStake
+            )
+          );
       return {
         ownPercent: ownPercent / EXTRA_PRECISION_MULTIPLIER,
         cumulativePercent: cumulativeStakePercent / EXTRA_PRECISION_MULTIPLIER,

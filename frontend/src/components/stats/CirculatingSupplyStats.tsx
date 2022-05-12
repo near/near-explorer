@@ -2,12 +2,12 @@ import { useTranslation } from "react-i18next";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
 import * as React from "react";
-import BN from "bn.js";
-import { utils } from "near-api-js";
+import JSBI from "jsbi";
 
 import { Props } from "./TransactionsByDate";
 import { useQueryOrDefault } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
+import * as BI from "../../libraries/bigint";
 
 const SupplyHeader = styled("div", {
   marginLeft: 30,
@@ -31,16 +31,18 @@ const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
   const circulatingTokenSupply = React.useMemo(
     () =>
       circulatingSupply.map(({ circulatingTokensSupply }) =>
-        new BN(circulatingTokensSupply)
-          .div(utils.format.NEAR_NOMINATION)
-          .toNumber()
+        JSBI.toNumber(
+          JSBI.divide(JSBI.BigInt(circulatingTokensSupply), BI.nearNomination)
+        )
       ),
     [circulatingSupply]
   );
   const totalTokenSupply = React.useMemo(
     () =>
       circulatingSupply.map(({ totalTokensSupply }) =>
-        new BN(totalTokensSupply).div(utils.format.NEAR_NOMINATION).toNumber()
+        JSBI.toNumber(
+          JSBI.divide(JSBI.BigInt(totalTokensSupply), BI.nearNomination)
+        )
       ),
     [circulatingSupply]
   );

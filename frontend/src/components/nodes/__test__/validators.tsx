@@ -1,5 +1,6 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import { ValidatorFullData } from "../../../types/common";
+import * as BI from "../../../libraries/bigint";
 
 export const VALIDATORS_LIST: ValidatorFullData[] = [
   {
@@ -300,11 +301,12 @@ export const VALIDATORS_LIST: ValidatorFullData[] = [
   },
 ];
 
-export const getCumulativeStake = (node: ValidatorFullData): BN => {
-  let cumulativeStake = new BN(0);
+export const getCumulativeStake = (node: ValidatorFullData): JSBI => {
+  let cumulativeStake = BI.zero;
   for (const validator of VALIDATORS_LIST) {
-    cumulativeStake = cumulativeStake.add(
-      new BN(validator.currentEpoch?.stake || "0")
+    cumulativeStake = JSBI.add(
+      cumulativeStake,
+      JSBI.BigInt(validator.currentEpoch?.stake || "0")
     );
     if (validator === node) {
       return cumulativeStake;

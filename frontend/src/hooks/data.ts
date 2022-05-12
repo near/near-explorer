@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
 import { useQuery } from "./use-query";
 import {
@@ -14,35 +14,35 @@ export const useEpochStartBlock = () => {
   }).data;
 };
 
-export const useFinalBlockTimestampNanosecond = (): BN | undefined => {
+export const useFinalBlockTimestampNanosecond = (): JSBI | undefined => {
   const finality = useFinalityStatus();
   return React.useMemo(
     () =>
       finality?.finalBlockTimestampNanosecond
-        ? new BN(finality.finalBlockTimestampNanosecond)
+        ? JSBI.BigInt(finality.finalBlockTimestampNanosecond)
         : undefined,
     [finality?.finalBlockTimestampNanosecond]
   );
 };
 
-export const useLatestGasPrice = (): BN | undefined => {
+export const useLatestGasPrice = (): JSBI | undefined => {
   const chainBlockStats = useChainBlockStats();
   const latestGasPrice = React.useMemo(
     () =>
       chainBlockStats?.latestGasPrice
-        ? new BN(chainBlockStats.latestGasPrice)
+        ? JSBI.BigInt(chainBlockStats.latestGasPrice)
         : undefined,
     [chainBlockStats?.latestGasPrice]
   );
   return latestGasPrice;
 };
 
-export const useLatestBlockHeight = (): BN | undefined => {
+export const useLatestBlockHeight = (): JSBI | undefined => {
   const chainBlockStats = useChainBlockStats();
   const latestBlockHeight = React.useMemo(
     () =>
       chainBlockStats?.latestBlockHeight
-        ? new BN(chainBlockStats.latestBlockHeight)
+        ? JSBI.BigInt(chainBlockStats.latestBlockHeight)
         : undefined,
     [chainBlockStats?.latestBlockHeight]
   );

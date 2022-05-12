@@ -1,5 +1,5 @@
 import moment from "moment";
-import BN from "bn.js";
+import JSBI from "jsbi";
 
 import * as React from "react";
 import { Row, Col } from "react-bootstrap";
@@ -52,8 +52,10 @@ export interface Props {
 const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
-  const gasUsed = React.useMemo(() => new BN(block.gasUsed), [block.gasUsed]);
-  const gasPrice = React.useMemo(() => new BN(block.gasPrice), [
+  const gasUsed = React.useMemo(() => JSBI.BigInt(block.gasUsed), [
+    block.gasUsed,
+  ]);
+  const gasPrice = React.useMemo(() => JSBI.BigInt(block.gasPrice), [
     block.gasPrice,
   ]);
 
@@ -96,8 +98,12 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
               text={
                 !finalBlockTimestampNanosecond
                   ? t("common.blocks.status.checking_finality")
-                  : new BN(block.timestamp).lte(
-                      finalBlockTimestampNanosecond.divn(10 ** 6)
+                  : JSBI.lessThan(
+                      JSBI.BigInt(block.timestamp),
+                      JSBI.divide(
+                        finalBlockTimestampNanosecond,
+                        JSBI.BigInt(10 ** 6)
+                      )
                     )
                   ? t("common.blocks.status.finalized")
                   : t("common.blocks.status.finalizing")

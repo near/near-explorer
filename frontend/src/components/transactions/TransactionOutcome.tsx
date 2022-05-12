@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
@@ -41,8 +41,8 @@ export interface Props {
 const TransactionOutcomeView: React.FC<Props> = React.memo(
   ({ transaction }) => {
     const { t } = useTranslation();
-    const gasBurnt = new BN(transaction.outcome?.gas_burnt ?? 0);
-    const tokensBurnt = new BN(transaction.outcome?.tokens_burnt ?? 0);
+    const gasBurnt = JSBI.BigInt(transaction.outcome?.gas_burnt ?? 0);
+    const tokensBurnt = JSBI.BigInt(transaction.outcome?.tokens_burnt ?? 0);
     return (
       <Row noGutters>
         <Col>

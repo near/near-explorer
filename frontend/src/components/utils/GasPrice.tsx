@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
@@ -6,11 +6,11 @@ import { formatNEAR, showInYocto } from "./Balance";
 import { TGAS } from "./Gas";
 
 interface Props {
-  gasPrice: BN;
+  gasPrice: JSBI;
 }
 
 const GasPrice: React.FC<Props> = React.memo(({ gasPrice }) => {
-  let gasPricePerTeragas = new BN(gasPrice).mul(TGAS);
+  let gasPricePerTeragas = JSBI.multiply(gasPrice, TGAS);
   return (
     <OverlayTrigger
       placement={"bottom"}

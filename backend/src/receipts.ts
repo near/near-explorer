@@ -5,8 +5,6 @@ import {
   queryExecutedReceiptsList,
 } from "./db-utils";
 
-import BN from "bn.js";
-
 import {
   convertDbArgsToRpcArgs,
   getIndexerCompatibilityTransactionActionKinds,
@@ -17,6 +15,7 @@ import {
   ReceiptExecutionStatus,
   TransactionHashByReceiptId,
 } from "./types";
+import { nanosecondsToMilliseconds } from "./utils";
 
 const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
   string | null,
@@ -48,9 +47,9 @@ function groupReceiptActionsIntoReceipts(
       actions = [];
       receipts.push({
         actions,
-        blockTimestamp: new BN(receiptAction.executed_in_block_timestamp)
-          .divn(10 ** 6)
-          .toNumber(),
+        blockTimestamp: nanosecondsToMilliseconds(
+          BigInt(receiptAction.executed_in_block_timestamp)
+        ),
         gasBurnt: receiptAction.gas_burnt,
         receiptId: receiptAction.receipt_id,
         receiverId: receiptAction.receiver_id,

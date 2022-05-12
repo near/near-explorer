@@ -11,7 +11,6 @@ import {
   ExtractTypeFromReferenceExpression,
   StringReference,
 } from "kysely/dist/cjs/parser/reference-parser";
-import BN from "bn.js";
 import geoip from "geoip-lite";
 
 import { databaseConfigs } from "../config/database";
@@ -22,6 +21,7 @@ import {
   TransactionPagination,
   ValidatorTelemetry,
 } from "./types";
+import { trimError, millisecondsToNanoseconds } from "./utils";
 
 import * as Indexer from "../config/models/readOnlyIndexerDatabase";
 import * as Telemetry from "../config/models/readOnlyTelemetryDatabase";
@@ -202,13 +202,11 @@ export const queryRecentBlockProductionSpeed = async () => {
   const {
     block_timestamp: latestBlockTimestamp,
   } = lastestBlockTimestampSelection;
-  const latestBlockTimestampBN = new BN(latestBlockTimestamp);
-  const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
-  const latestBlockEpochTimeBN = latestBlockTimestampBN.div(
-    new BN("1000000000")
-  );
+  const latestBlockTimestampBI = BigInt(latestBlockTimestamp);
+  const currentUnixTimeBI = BigInt(Math.floor(new Date().getTime() / 1000));
+  const latestBlockEpochTimeBI = latestBlockTimestampBI / 1000000000n;
   // If the latest block is older than 1 minute from now, we report 0
-  if (currentUnixTimeBN.sub(latestBlockEpochTimeBN).gtn(60)) {
+  if (currentUnixTimeBI - latestBlockEpochTimeBI > 60) {
     return 0;
   }
 
@@ -221,7 +219,7 @@ export const queryRecentBlockProductionSpeed = async () => {
       "block_timestamp",
       ">",
       sql`cast(
-        ${latestBlockEpochTimeBN.toNumber()} - 60 as bigint
+        ${Number(latestBlockEpochTimeBI)} - 60 as bigint
       ) * 1000 * 1000 * 1000`
     )
     .executeTakeFirstOrThrow();
@@ -313,9 +311,9 @@ export const queryTransactionsList = async (
       "index_in_chunk as transaction_index",
     ]);
   if (paginationIndexer !== null) {
-    const endTimestamp = new BN(paginationIndexer.endTimestamp)
-      .muln(10 ** 6)
-      .toString();
+    const endTimestamp = millisecondsToNanoseconds(
+      paginationIndexer.endTimestamp
+    ).toString();
     selection = selection
       .where("block_timestamp", "<", endTimestamp)
       .orWhere((wi) =>
@@ -347,9 +345,9 @@ export const queryAccountTransactionsList = async (
       "index_in_chunk as transaction_index",
     ]);
   if (paginationIndexer !== null) {
-    const endTimestamp = new BN(paginationIndexer.endTimestamp)
-      .muln(10 ** 6)
-      .toString();
+    const endTimestamp = millisecondsToNanoseconds(
+      paginationIndexer.endTimestamp
+    ).toString();
     selection = selection
       .where("transaction_hash", "in", (eb) =>
         eb
@@ -400,9 +398,9 @@ export const queryTransactionsListInBlock = async (
     ])
     .where("included_in_block_hash", "=", blockHash);
   if (paginationIndexer !== null) {
-    const endTimestamp = new BN(paginationIndexer.endTimestamp)
-      .muln(10 ** 6)
-      .toString();
+    const endTimestamp = millisecondsToNanoseconds(
+      paginationIndexer.endTimestamp
+    ).toString();
     selection = selection.where((wi) =>
       wi
         .where("block_timestamp", "<", endTimestamp)
@@ -556,10 +554,9 @@ export const queryOutcomeTransactionsCountFromAnalytics = async (
       ? parseInt(selection.out_transactions_count)
       : 0,
     last_day_collected_timestamp: selection.last_day_collected
-      ? new BN(selection.last_day_collected.getTime())
-          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-          .muln(10 ** 6)
-          .toString()
+      ? millisecondsToNanoseconds(
+          selection.last_day_collected.getTime() + ONE_DAY_TIMESTAMP_MILISEC
+        ).toString()
       : undefined,
   };
 };
@@ -573,10 +570,9 @@ export const queryOutcomeTransactionsCountFromIndexerForLastDay = async (
   // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
   const timestamp =
     lastDayCollectedTimestamp ||
-    new BN(new Date().getTime())
-      .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-      .muln(10 ** 6)
-      .toString();
+    millisecondsToNanoseconds(
+      new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC
+    ).toString();
   const selection = await indexerDatabase
     .selectFrom("transactions")
     .select((eb) => count(eb, "transaction_hash").as("out_transactions_count"))
@@ -602,10 +598,9 @@ export const queryIncomeTransactionsCountFromAnalytics = async (
       ? parseInt(selection.in_transactions_count)
       : 0,
     last_day_collected_timestamp: selection.last_day_collected
-      ? new BN(selection.last_day_collected.getTime())
-          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-          .muln(10 ** 6)
-          .toString()
+      ? millisecondsToNanoseconds(
+          selection.last_day_collected.getTime() + ONE_DAY_TIMESTAMP_MILISEC
+        ).toString()
       : undefined,
   };
 };
@@ -619,10 +614,9 @@ export const queryIncomeTransactionsCountFromIndexerForLastDay = async (
   // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
   const timestamp =
     lastDayCollectedTimestamp ||
-    new BN(new Date().getTime())
-      .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-      .muln(10 ** 6)
-      .toString();
+    millisecondsToNanoseconds(
+      new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC
+    ).toString();
   const selection = await indexerDatabase
     .selectFrom("transactions")
     // TODO: Research if we can get rid of distinct without performance degradation
@@ -846,7 +840,7 @@ export const queryBlocksList = async (
         selection = selection.where(
           "block_timestamp",
           "<",
-          new BN(paginationIndexer).muln(10 ** 6).toString()
+          millisecondsToNanoseconds(paginationIndexer).toString()
         );
       }
       return selection

@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 
 import * as React from "react";
 
@@ -15,6 +15,7 @@ import ActionRow from "./ActionRow";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
 import { NestedReceiptWithOutcome } from "../../types/common";
+import * as BI from "../../libraries/bigint";
 
 const ReceiptRowWrapper = styled(Row, {
   paddingTop: 10,
@@ -113,11 +114,11 @@ const ReceiptRow: React.FC<Props> = React.memo(
       );
     }
 
-    let gasBurnedByReceipt = new BN(0);
-    let tokensBurnedByReceipt = new BN(0);
+    let gasBurnedByReceipt = BI.zero;
+    let tokensBurnedByReceipt = BI.zero;
     if (receipt && receipt.outcome) {
-      gasBurnedByReceipt = new BN(receipt.outcome.gas_burnt);
-      tokensBurnedByReceipt = new BN(receipt.outcome.tokens_burnt);
+      gasBurnedByReceipt = JSBI.BigInt(receipt.outcome.gas_burnt);
+      tokensBurnedByReceipt = JSBI.BigInt(receipt.outcome.tokens_burnt);
     }
     return (
       <ReceiptRowWrapper
