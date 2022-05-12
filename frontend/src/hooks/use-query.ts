@@ -1,4 +1,5 @@
 import * as ReactQuery from "react-query";
+import { getProcedureKey } from "../libraries/queries";
 import { ProcedureArgs, ProcedureResult, ProcedureType } from "../types/common";
 import { useFetcher } from "./use-fetcher";
 
@@ -21,7 +22,7 @@ export const useQuery = <P extends ProcedureType>(
     unknown,
     ProcedureResult<P>,
     ReactQuery.QueryKey
-  >(["procedure", procedure, ...args], () => fetcher(procedure, args), {
+  >(getProcedureKey(procedure, args), () => fetcher(procedure, args), {
     ...(options || {}),
     onError: (error) => {
       console.error(error);

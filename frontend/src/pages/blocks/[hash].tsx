@@ -13,9 +13,8 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getNearNetworkName } from "../../libraries/config";
-import { getFetcher } from "../../libraries/transport";
-import { Block } from "../../types/common";
+import { getPrefetchObject } from "../../libraries/queries";
+import { useQuery } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -25,8 +24,6 @@ const TransactionIcon = styled(TransactionIconSvg, {
 
 type Props = {
   hash: string;
-  block?: Block;
-  err?: unknown;
 };
 
 const TRANSACTIONS_PER_PAGE = 1000;
@@ -36,7 +33,7 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: props.hash,
   });
-  const block = props.block;
+  const blockQuery = useQuery("block-info", [props.hash]);
   const fetch = React.useCallback<TransactionsProps["fetch"]>(
     (fetcher, indexer) =>
       fetcher("transactions-list-by-block-hash", [
@@ -55,18 +52,20 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
       <Content
         title={
           <h1>{`${t("page.blocks.title")} ${
-            block ? `#${block.height}` : `${props.hash.substring(0, 7)}...`
+            blockQuery.data
+              ? `#${blockQuery.data.height}`
+              : `${props.hash.substring(0, 7)}...`
           }`}</h1>
         }
         border={false}
       >
-        {!block ? (
+        {!blockQuery.data ? (
           <>{t("page.blocks.error.block_fetching")}</>
         ) : (
-          <BlockDetails block={block} />
+          <BlockDetails block={blockQuery.data} />
         )}
       </Content>
-      {!("err" in props) ? (
+      {!blockQuery.isError ? (
         <>
           <Content
             icon={<TransactionIcon />}
@@ -100,23 +99,19 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const networkName = getNearNetworkName(query, req.headers.host);
-    const fetcher = getFetcher(networkName);
-    const block = await fetcher("block-info", [hash]);
-    if (!block) {
-      return {
-        props: {
-          hash,
-          err: `Block "${hash}" is not found`,
-        },
-      };
-    }
+    const prefetchObject = getPrefetchObject(query, req.headers.host);
+    await prefetchObject.prefetch("block-info", [hash]);
     return {
-      props: { hash: block.hash, block },
+      props: {
+        hash,
+        dehydratedState: prefetchObject.dehydrate(),
+      },
     };
   } catch (err) {
     return {
-      props: { hash, err: String(err) },
+      props: {
+        hash,
+      },
     };
   }
 };

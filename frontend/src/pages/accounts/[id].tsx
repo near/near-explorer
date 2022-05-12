@@ -14,9 +14,8 @@ import TransactionIconSvg from "../../../public/static/images/icon-t-transaction
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getFetcher } from "../../libraries/transport";
-import { getNearNetworkName } from "../../libraries/config";
-import { Account } from "../../types/common";
+import { getPrefetchObject } from "../../libraries/queries";
+import { useQuery } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -26,72 +25,70 @@ const TransactionIcon = styled(TransactionIconSvg, {
 
 interface Props {
   accountId: string;
-  account?: Account;
-  accountFetchingError?: unknown;
-  accountError?: unknown;
 }
 
 const TRANSACTIONS_PER_PAGE = 10;
 
-const AccountDetail: NextPage<Props> = React.memo(
-  ({ accountId, account, accountError, accountFetchingError }) => {
-    const { t } = useTranslation();
-    useAnalyticsTrackOnMount("Explorer View Individual Account", {
-      accountId,
-    });
-    const fetch = React.useCallback<TransactionsProps["fetch"]>(
-      (fetcher, indexer) =>
-        fetcher("transactions-list-by-account-id", [
-          accountId,
-          TRANSACTIONS_PER_PAGE,
-          indexer ?? null,
-        ]),
-      [accountId]
-    );
+const AccountDetail: NextPage<Props> = React.memo(({ accountId }) => {
+  const { t } = useTranslation();
+  useAnalyticsTrackOnMount("Explorer View Individual Account", {
+    accountId,
+  });
+  const accountQuery = useQuery("account-info", [accountId]);
+  const fetch = React.useCallback<TransactionsProps["fetch"]>(
+    (fetcher, indexer) =>
+      fetcher("transactions-list-by-account-id", [
+        accountId,
+        TRANSACTIONS_PER_PAGE,
+        indexer ?? null,
+      ]),
+    [accountId]
+  );
 
-    return (
-      <>
-        <Head>
-          <title>NEAR Explorer | Account</title>
-        </Head>
-        <Content
-          title={
-            <h1>
-              {t("common.accounts.account")}
-              {`: @${accountId}`}
-            </h1>
-          }
-          border={false}
-        >
-          {account ? (
-            <AccountDetails account={account} />
-          ) : accountError ? (
+  return (
+    <>
+      <Head>
+        <title>NEAR Explorer | Account</title>
+      </Head>
+      <Content
+        title={
+          <h1>
+            {t("common.accounts.account")}
+            {`: @${accountId}`}
+          </h1>
+        }
+        border={false}
+      >
+        {accountQuery.status === "success" ? (
+          accountQuery.data ? (
+            <AccountDetails account={accountQuery.data} />
+          ) : (
             t("page.accounts.error.account_not_found", {
               account_id: accountId,
             })
-          ) : (
-            t("page.accounts.error.account_fetching", {
-              account_id: accountId,
-            })
-          )}
-        </Content>
-        {accountError || accountFetchingError ? null : (
-          <>
-            <Container>
-              <ContractDetails accountId={accountId} />
-            </Container>
-            <Content
-              icon={<TransactionIcon />}
-              title={<h2>{t("common.transactions.transactions")}</h2>}
-            >
-              <Transactions fetch={fetch} />
-            </Content>
-          </>
+          )
+        ) : (
+          t("page.accounts.error.account_fetching", {
+            account_id: accountId,
+          })
         )}
-      </>
-    );
-  }
-);
+      </Content>
+      {!accountQuery.data ? null : (
+        <>
+          <Container>
+            <ContractDetails accountId={accountId} />
+          </Container>
+          <Content
+            icon={<TransactionIcon />}
+            title={<h2>{t("common.transactions.transactions")}</h2>}
+          >
+            <Transactions fetch={fetch} />
+          </Content>
+        </>
+      )}
+    </>
+  );
+});
 
 export const getServerSideProps: GetServerSideProps<
   Props,
@@ -111,21 +108,12 @@ export const getServerSideProps: GetServerSideProps<
   };
 
   try {
-    const networkName = getNearNetworkName(query, req.headers.host);
-    const fetcher = getFetcher(networkName);
-    const maybeAccount = await fetcher("account-info", [accountId]);
-    if (maybeAccount) {
-      return {
-        props: {
-          ...commonProps,
-          account: maybeAccount,
-        },
-      };
-    }
+    const prefetchObject = getPrefetchObject(query, req.headers.host);
+    await prefetchObject.prefetch("account-info", [accountId]);
     return {
       props: {
-        ...commonProps,
-        accountError: `Account ${accountId} does not exist`,
+        accountId,
+        dehydratedState: prefetchObject.dehydrate(),
       },
     };
   } catch (accountError) {
