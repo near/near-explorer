@@ -1,5 +1,4 @@
 import nextJest from "next/jest";
-import * as path from "path";
 
 const createJestConfig = nextJest({
   dir: "./",
@@ -12,6 +11,6 @@ module.exports = createJestConfig({
   collectCoverage: false,
   timers: "modern",
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": path.join(__dirname, "./babel-jest-wrapper"),
+    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest",
   },
 });

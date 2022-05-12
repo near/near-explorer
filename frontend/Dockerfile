@@ -1,9 +1,5 @@
 FROM mhart/alpine-node:16 AS build
 
-WORKDIR /near-explorer/common
-COPY ./common/package.json ./common/package-lock.json ./
-RUN npm clean-install
-
 WORKDIR /near-explorer/frontend
 ENV HOME=/tmp
 COPY ./frontend/package.json ./frontend/package-lock.json ./
@@ -11,8 +7,8 @@ RUN npm clean-install --prod
 RUN cp -a node_modules ../production_node_modules
 RUN npm clean-install
 
-COPY ./common ../common
 COPY ./frontend ./
+COPY ./backend ../backend/
 
 RUN npm run build
 RUN npm run compile-nextjs-config

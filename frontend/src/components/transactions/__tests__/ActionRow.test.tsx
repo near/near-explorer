@@ -6,7 +6,7 @@ import ActionRow from "../ActionRow";
 import TransactionExecutionStatus from "../TransactionExecutionStatus";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
-import { Action } from "../../../types/common";
+import { Action } from "../../../libraries/wamp/types";
 
 describe("<ActionRow />", () => {
   it("renders sparsely ActionRow for transaction by default", () => {

@@ -6,7 +6,7 @@ import * as echarts from "echarts";
 import { cumulativeSumArray } from "../../libraries/stats";
 
 import { useTranslation } from "react-i18next";
-import { useFetch } from "../../hooks/use-fetch";
+import { useWampSimpleQuery } from "../../hooks/wamp";
 
 export interface Props {
   chartStyle: object;
@@ -16,7 +16,7 @@ const TransactionsByDateChart: React.FC<Props> = React.memo(
   ({ chartStyle }) => {
     const { t } = useTranslation();
     const transactionCountByDate =
-      useFetch("transactions-count-aggregated-by-date", []) ?? [];
+      useWampSimpleQuery("transactions-count-aggregated-by-date", []) ?? [];
     const transactionsByDate = React.useMemo(
       () =>
         transactionCountByDate.map(({ transactionsCount }) =>

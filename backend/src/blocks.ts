@@ -1,14 +1,14 @@
-import { BlockBase, Block } from "./types";
+import { BlockBase, BlockInfo } from "./client-types";
 import {
   queryBlocksList,
   queryBlockInfo,
   queryBlockByHashOrId,
 } from "./db-utils";
 
-export const getBlocksList = async (
+async function getBlocksList(
   limit: number,
-  paginationIndexer: number | null
-): Promise<BlockBase[]> => {
+  paginationIndexer?: number
+): Promise<BlockBase[]> {
   const blocksList = await queryBlocksList(limit, paginationIndexer);
   return blocksList.map((block) => ({
     hash: block.hash,
@@ -17,11 +17,11 @@ export const getBlocksList = async (
     prevHash: block.prev_hash,
     transactionsCount: parseInt(block.transactions_count),
   }));
-};
+}
 
-export const getBlockInfo = async (
+async function getBlockInfo(
   blockId: string | number
-): Promise<Omit<Block, "gasUsed" | "receiptsCount"> | null> => {
+): Promise<BlockInfo | null> {
   const blockInfo = await queryBlockInfo(blockId);
   if (!blockInfo) {
     return null;
@@ -36,14 +36,16 @@ export const getBlockInfo = async (
     gasPrice: blockInfo.gas_price,
     authorAccountId: blockInfo.author_account_id,
   };
-};
+}
 
-export const getBlockByHashOrId = async (
+async function getBlockByHashOrId(
   blockId: string | number
-): Promise<string | null> => {
+): Promise<string | null> {
   const block = await queryBlockByHashOrId(blockId);
   if (!block) {
     return null;
   }
   return block.block_hash;
-};
+}
+
+export { getBlocksList, getBlockInfo, getBlockByHashOrId };

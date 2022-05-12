@@ -70,7 +70,7 @@ interface Props {
   pagination?: PaginationProps;
 }
 
-export const TableRow: React.FC<Props> = React.memo(
+const TableRow: React.FC<Props> = React.memo(
   ({ className, children, collapse }) => {
     return (
       <TableRowWrapper className={className} expanded={collapse}>
@@ -80,7 +80,7 @@ export const TableRow: React.FC<Props> = React.memo(
   }
 );
 
-export const TableCollapseRow: React.FC<Props> = React.memo(
+const TableCollapseRow: React.FC<Props> = React.memo(
   ({ children, collapse }) => {
     if (!collapse) {
       return null;
@@ -116,7 +116,7 @@ const TableSectionWrapper = styled(BaseTable, {
   marginBottom: 0,
 });
 
-export const Table: React.FC<Props> = React.memo(
+const Table: React.FC<Props> = React.memo(
   ({ className, children, pagination }) => (
     <TableSection className={className}>
       <TableSectionWrapper responsive>{children}</TableSectionWrapper>
@@ -126,3 +126,4 @@ export const Table: React.FC<Props> = React.memo(
 );
 
 export type { OnPageChange } from "../utils/Pagination";
+export { Table, TableRow, TableCollapseRow };

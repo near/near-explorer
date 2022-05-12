@@ -5,12 +5,12 @@ import * as echarts from "echarts";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useFetch } from "../../hooks/use-fetch";
+import { useWampSimpleQuery } from "../../hooks/wamp";
 
 const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const contractsByDate =
-    useFetch("active-contracts-count-aggregated-by-date", []) ?? [];
+    useWampSimpleQuery("active-contracts-count-aggregated-by-date", []) ?? [];
   const contractsByDateCount = React.useMemo(
     () => contractsByDate.map(({ contractsCount }) => contractsCount),
     [contractsByDate]

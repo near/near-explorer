@@ -5,7 +5,7 @@ import Placeholder from "../utils/Placeholder";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
-import { Receipt } from "../../types/common";
+import { Receipt } from "../../libraries/wamp/types";
 
 interface Props {
   receiptsList?: Receipt[];

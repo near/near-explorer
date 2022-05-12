@@ -1,19 +1,14 @@
 import "../libraries/wdyr";
-import NextApp, { AppContext, ExtraAppInitialProps } from "next/app";
+import NextApp, { AppContext, AppInitialProps } from "next/app";
 import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
-import { exec } from "child_process";
-import { promisify } from "util";
 
-import { getConfig, getNearNetworkName } from "../libraries/config";
-import { NetworkName } from "../types/common";
+import { getConfig, getNearNetwork, NearNetwork } from "../libraries/config";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import { NetworkContext } from "../context/NetworkContext";
-import { DeployInfo } from "../components/utils/DeployInfo";
-import { DeployInfo as DeployInfoProps } from "../types/common";
 
 import {
   getLanguage,
@@ -77,14 +72,10 @@ const {
 } = getConfig();
 
 declare module "next/app" {
-  type ExtraAppInitialProps = {
-    language: Language;
-    networkName: NetworkName;
-    deployInfo: DeployInfoProps;
-  };
-
-  interface AppInitialProps extends ExtraAppInitialProps {
+  interface AppInitialProps {
     pageProps: any;
+    language?: Language;
+    currentNearNetwork: NearNetwork;
   }
 }
 
@@ -102,27 +93,8 @@ const wrapRouterHandlerMaintainNetwork = (
   };
 };
 
-type ContextProps = {
-  networkState: NetworkContext;
-};
-
-const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
-  return (
-    <NetworkContext.Provider value={props.networkState}>
-      {props.children}
-    </NetworkContext.Provider>
-  );
-});
-
-let extraAppInitialPropsCache: ExtraAppInitialProps;
-
 const App: AppType = React.memo(
-  ({ Component, networkName, language, pageProps, deployInfo }) => {
-    extraAppInitialPropsCache = {
-      language,
-      deployInfo,
-      networkName,
-    };
+  ({ Component, currentNearNetwork, language, pageProps }) => {
     const router = useRouter();
     React.useEffect(() => {
       router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
@@ -140,10 +112,10 @@ const App: AppType = React.memo(
 
     const networkState = React.useMemo(
       () => ({
-        networkName,
+        currentNetwork: currentNearNetwork,
         networks: nearNetworks,
       }),
-      [networkName, nearNetworks]
+      [currentNearNetwork, nearNetworks]
     );
 
     return (
@@ -159,15 +131,14 @@ const App: AppType = React.memo(
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <AppContextWrapper networkState={networkState}>
+        <NetworkContext.Provider value={networkState}>
           <AppWrapper>
             <Header />
             <BackgroundImage src="/static/images/explorer-bg.svg" />
             <Component {...pageProps} />
           </AppWrapper>
           <Footer />
-          <DeployInfo client={deployInfo} />
-        </AppContextWrapper>
+        </NetworkContext.Provider>
         {googleAnalytics ? (
           <>
             <script
@@ -194,7 +165,7 @@ const App: AppType = React.memo(
 
 App.getInitialProps = async (appContext) => {
   const req = appContext.ctx.req;
-  let initialProps: ExtraAppInitialProps;
+  let initialProps: Omit<AppInitialProps, "pageProps">;
   if (req) {
     // Being server-side can be detected with 'req' existence
     const language = getLanguage(
@@ -202,32 +173,11 @@ App.getInitialProps = async (appContext) => {
       req.headers.cookie,
       req.headers["accept-language"]
     );
-    let deployInfo: DeployInfoProps;
-    if (process.env.RENDER) {
-      deployInfo = {
-        branch: process.env.RENDER_GIT_BRANCH || "unknown",
-        commit: process.env.RENDER_GIT_COMMIT || "unknown",
-        instanceId: process.env.RENDER_INSTANCE_ID || "unknown",
-        serviceId: process.env.RENDER_SERVICE_ID || "unknown",
-        serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
-      };
-    } else {
-      const promisifiedExec = promisify(exec);
-      const [{ stdout: branch }, { stdout: commit }] = await Promise.all([
-        promisifiedExec("git branch --show-current"),
-        promisifiedExec("git rev-parse --short HEAD"),
-      ]);
-      deployInfo = {
-        branch: branch.trim(),
-        commit: commit.trim(),
-        instanceId: "local",
-        serviceId: "local",
-        serviceName: "frontend",
-      };
-    }
     initialProps = {
-      deployInfo,
-      networkName: getNearNetworkName(appContext.ctx.query, req.headers.host),
+      currentNearNetwork: getNearNetwork(
+        appContext.ctx.query,
+        req.headers.host
+      ),
       language,
     };
     setI18n(await initializeI18n(language));
@@ -239,7 +189,12 @@ App.getInitialProps = async (appContext) => {
   } else {
     // This branch is called only on page change hence we don't need to calculate language at the moment
     // as i18next is already configured
-    initialProps = extraAppInitialPropsCache;
+    initialProps = {
+      currentNearNetwork: getNearNetwork(
+        appContext.ctx.query,
+        window.location.host
+      ),
+    };
   }
 
   return {

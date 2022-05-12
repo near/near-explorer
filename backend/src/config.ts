@@ -1,56 +1,130 @@
-import { merge } from "lodash";
-import { NetworkName } from "./types";
+import { NetworkName } from "./client-types";
 import { HOUR, MINUTE, SECOND } from "./consts";
-import { getOverrides } from "./common";
 
-/*
-To override a config parameter you should use a specific environment variable, following rules:
+const getEnvWithDefault = <T>(
+  variableName: string,
+  parse: (input: string | undefined) => T | undefined,
+  defaultValue: T
+): T => {
+  const variable = parse(process.env[variableName]);
+  return variable === undefined ? defaultValue : variable;
+};
 
-- variable should be prefixed with NEAR_EXPLORER_CONFIG;
-- variable name should be CAPS_CASE'd target variable name;
-- going deep into object should be delimited with double underscore.
+const getEnvStringWithDefault = (
+  variableName: string,
+  defaultValue: string
+): string => getEnvWithDefault(variableName, (value) => value, defaultValue);
 
-For example, to override `config.accountIdSuffix.stakingPool.localhostnet` you should use variable
-NEAR_EXPLORER_CONFIG__ACCOUNT_ID_SUFFIX__STAKING_POOL__LOCALHOSTNET
-*/
-export const config = merge(
-  {
-    archivalRpcUrl: "http://localhost:3030",
-    networkName: "localhostnet" as NetworkName,
-    accountIdSuffix: {
-      lockup: "lockup.near",
-      stakingPool: {
-        mainnet: ".poolv1.near",
-        testnet: undefined,
-        guildnet: undefined,
-        localhostnet: undefined,
-      } as Record<NetworkName, string | undefined>,
+const getEnvNumberWithDefault = (
+  variableName: string,
+  defaultValue: number
+): number =>
+  getEnvWithDefault(
+    variableName,
+    (v) => {
+      const num = parseInt(v || "");
+      return isNaN(num) ? undefined : num;
     },
+    defaultValue
+  );
 
-    intervals: {
-      checkFinalityStatus: SECOND,
-      checkChainBlockStats: SECOND,
-      checkRecentTransactions: SECOND,
-      checkNetworkInfo: SECOND,
-      checkStakingPoolInfo: 15 * SECOND,
-      checkStakingPoolStakeProposal: MINUTE,
-      checkValidatorDescriptions: 10 * MINUTE,
-      checkTransactionCountHistory: 10 * MINUTE,
-      checkAggregatedStats: HOUR,
-      checkPoolIds: 10 * MINUTE,
-    },
-    timeouts: {
-      timeoutStakingPoolsInfo: MINUTE,
-      timeoutStakingPoolStakeProposal: MINUTE,
-      timeoutFetchValidatorsBailout: 2.5 * SECOND,
-    },
-
-    transport: {
-      secure: false,
-      port: 10000,
-      host: "localhost",
-      secret: "THIS_IS_LOCALHOST_SECRET",
-    },
-  },
-  getOverrides("NEAR_EXPLORER_CONFIG")
+export const nearArchivalRpcUrl = getEnvStringWithDefault(
+  "NEAR_ARCHIVAL_RPC_URL",
+  "http://localhost:3030"
 );
+
+export const INTERVALS = {
+  checkFinalityStatus: getEnvNumberWithDefault(
+    "NEAR_REGULAR_PUBLISH_FINALITY_STATUS_INTERVAL",
+    SECOND
+  ),
+  checkChainBlockStats: getEnvNumberWithDefault(
+    "NEAR_REGULAR_QUERY_STATS_INTERVAL",
+    SECOND
+  ),
+  checkRecentTransactions: getEnvNumberWithDefault(
+    "NEAR_REGULAR_QUERY_STATS_INTERVAL",
+    SECOND
+  ),
+  checkNetworkInfo: getEnvNumberWithDefault(
+    "NEAR_REGULAR_PUBLISH_NETWORK_INFO_INTERVAL",
+    SECOND
+  ),
+  checkStakingPoolInfo: getEnvNumberWithDefault(
+    "NEAR_REGULAR_FETCH_STAKING_POOLS_INFO_INTERVAL",
+    15 * SECOND
+  ),
+  checkStakingPoolStakeProposal: getEnvNumberWithDefault(
+    "NEAR_REGULAR_FETCH_STAKING_POOLS_INFO_INTERVAL",
+    15 * SECOND
+  ),
+  timeoutStakingPoolsInfo: getEnvNumberWithDefault(
+    "NEAR_FETCH_STAKING_POOLS_INFO_THROWAWAY_TIMEOUT",
+    MINUTE
+  ),
+  timeoutStakingPoolStakeProposal: getEnvNumberWithDefault(
+    "NEAR_FETCH_STAKING_POOLS_INFO_THROWAWAY_TIMEOUT",
+    MINUTE
+  ),
+  checkValidatorDescriptions: getEnvNumberWithDefault(
+    "NEAR_REGULAR_FETCH_STAKING_POOLS_METADATA_INFO_INTERVAL",
+    10 * MINUTE
+  ),
+  checkAggregatedStats: getEnvNumberWithDefault(
+    "NEAR_REGULAR_STATS_INTERVAL",
+    HOUR
+  ),
+  checkTransactionCountHistory: getEnvNumberWithDefault(
+    "NEAR_REGULAR_PUBLISH_TRANSACTION_COUNT_FOR_TWO_WEEKS_INTERVAL",
+    10 * MINUTE
+  ),
+  timeoutFetchValidatorsBailout: getEnvNumberWithDefault(
+    "NEAR_REGULAR_PUBLISH_TRANSACTION_COUNT_FOR_TWO_WEEKS_INTERVAL",
+    2.5 * SECOND
+  ),
+};
+
+const NETWORK_NAMES: Record<NetworkName, true> = {
+  mainnet: true,
+  testnet: true,
+  guildnet: true,
+  localhostnet: true,
+};
+const isNetworkName = (value: string): value is NetworkName =>
+  (Object.keys(NETWORK_NAMES) as NetworkName[]).includes(value as NetworkName);
+export const wampNearNetworkName = getEnvWithDefault(
+  "NEAR_EXPLORER_WAMP_NETWORK_NAME",
+  (value = "") => (isNetworkName(value) ? value : undefined),
+  "localhostnet"
+);
+
+const isWampSecure = getEnvWithDefault(
+  "NEAR_EXPLORER_WAMP_SECURE",
+  Boolean,
+  true
+);
+const wampHost = getEnvStringWithDefault(
+  "NEAR_EXPLORER_WAMP_HOST",
+  "localhost"
+);
+const wampPort = getEnvNumberWithDefault("NEAR_EXPLORER_WAMP_PORT", 10000);
+export const wampNearExplorerUrl = `${
+  isWampSecure ? "wss" : "ws"
+}://${wampHost}:${wampPort}/ws`;
+
+export const wampNearExplorerBackendSecret = getEnvStringWithDefault(
+  "NEAR_EXPLORER_WAMP_BACKEND_SECRET",
+  "THIS_IS_LOCALHOST_SECRET"
+);
+
+export const nearLockupAccountIdSuffix = getEnvStringWithDefault(
+  "NEAR_LOCKUP_ACCOUNT_SUFFIX",
+  "lockup.near"
+);
+
+export const nearStakingPoolAccountSuffix =
+  wampNearNetworkName === "mainnet"
+    ? ".poolv1.near"
+    : wampNearNetworkName === "testnet"
+    ? ".f863973.m0"
+    : getEnvStringWithDefault("NEAR_STAKING_POOL_ACCOUNT_SUFFIX", ".no-suffix");

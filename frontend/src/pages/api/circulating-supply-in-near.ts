@@ -1,17 +1,17 @@
 import { NextApiHandler } from "next";
-import { getFetcher } from "../../libraries/transport";
-import { getNearNetworkName } from "../../libraries/config";
+import wampApi from "../../libraries/wamp/api";
+import { getNearNetwork } from "../../libraries/config";
 
 const handler: NextApiHandler = async (req, res) => {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
-  const networkName = getNearNetworkName(req.query, req.headers.host);
-  if (networkName !== "mainnet") {
+  const nearNetwork = getNearNetwork(req.query, req.headers.host);
+  if (nearNetwork.name !== "mainnet") {
     res.status(404).end();
     return;
   }
 
   try {
-    const supply = await getFetcher(networkName)(
+    const supply = await wampApi.getCall(nearNetwork)(
       "get-latest-circulating-supply",
       []
     );

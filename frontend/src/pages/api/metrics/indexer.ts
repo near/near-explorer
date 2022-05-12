@@ -1,14 +1,14 @@
 import { NextApiHandler } from "next";
 import json2Prom from "json-2-prom";
-import { getNearNetworkName } from "../../../libraries/config";
-import { getFetcher } from "../../../libraries/transport";
+import { getNearNetwork } from "../../../libraries/config";
+import wampApi from "../../../libraries/wamp/api";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const networkName = getNearNetworkName(req.query, req.headers.host);
-    const fetcher = getFetcher(networkName);
-    const rpcFinalBlock = await fetcher("nearcore-final-block", []);
-    const indexerFinalBlock = await fetcher("blocks-list", [1, null]);
+    const nearNetwork = getNearNetwork(req.query, req.headers.host);
+    const wampCall = wampApi.getCall(nearNetwork);
+    const rpcFinalBlock = await wampCall("nearcore-final-block", []);
+    const indexerFinalBlock = await wampCall("blocks-list", [1]);
 
     const prometheusResponse = json2Prom([
       {
