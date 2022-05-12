@@ -12,7 +12,7 @@ import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryCha
 import { useRecentTransactions } from "../../hooks/subscriptions";
 import { useLatestGasPrice } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQuery } from "../../hooks/use-query";
 
 const TransactionCardNumber = styled(Row, {
   "& > .col-12": {
@@ -28,7 +28,7 @@ const TransactionCharts = styled(Row, {
 
 const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const transactionsCountHistoryForTwoWeeks = useFetch(
+  const { data: transactionsCountHistoryForTwoWeeks } = useQuery(
     "transaction-history",
     []
   );

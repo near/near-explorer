@@ -40,6 +40,3 @@ export const trimError = (e: unknown): string => {
       : ""
   }`;
 };
-
-export const wait = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));

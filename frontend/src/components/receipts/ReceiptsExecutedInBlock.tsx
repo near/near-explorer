@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useFetch } from "../../hooks/use-fetch";
+import { useQuery } from "../../hooks/use-query";
 import ReceiptsList from "./ReceiptsList";
 
 interface Props {
@@ -8,9 +8,9 @@ interface Props {
 }
 
 const ReceiptsExecutedInBlock: React.FC<Props> = React.memo(({ blockHash }) => {
-  const receiptsList = useFetch("executed-receipts-list-by-block-hash", [
-    blockHash,
-  ]);
+  const {
+    data: receiptsList,
+  } = useQuery("executed-receipts-list-by-block-hash", [blockHash]);
   return <ReceiptsList receiptsList={receiptsList} />;
 });
 

@@ -36,7 +36,7 @@ import {
   aggregateTransactionsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
 } from "./stats";
-import { formatDate, wait } from "./utils";
+import { wait } from "./common";
 
 // See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
 type PoolMetadataAccountInfo = {

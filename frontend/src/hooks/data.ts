@@ -1,6 +1,6 @@
 import BN from "bn.js";
 import * as React from "react";
-import { useFetch } from "./use-fetch";
+import { useQuery } from "./use-query";
 import {
   useNetworkStats,
   useFinalityStatus,
@@ -9,11 +9,9 @@ import {
 
 export const useEpochStartBlock = () => {
   const blockHashOrHeight = useNetworkStats()?.epochStartHeight;
-  return useFetch(
-    "block-info",
-    [blockHashOrHeight ?? 0],
-    blockHashOrHeight === undefined
-  );
+  return useQuery("block-info", [blockHashOrHeight ?? 0], {
+    enabled: blockHashOrHeight !== undefined,
+  }).data;
 };
 
 export const useFinalBlockTimestampNanosecond = (): BN | undefined => {
