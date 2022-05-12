@@ -200,9 +200,9 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       const transactionPromise = fetcher("is-transaction-indexed", [
         cleanedSearchValue,
       ]).catch(() => false);
-      const accountPromise = fetcher("is-account-indexed", [
+      const accountPromise = fetcher("account-info", [
         cleanedSearchValue.toLowerCase(),
-      ]).catch(() => false);
+      ]);
       const receiptInTransactionPromise = fetcher(
         "transaction-hash-by-receipt-id",
         [cleanedSearchValue]
