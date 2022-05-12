@@ -299,7 +299,7 @@ export const queryTransactionsList = async (
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
     ]);
   if (paginationIndexer !== null) {
@@ -333,7 +333,7 @@ export const queryAccountTransactionsList = async (
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
     ]);
   if (paginationIndexer !== null) {
@@ -385,7 +385,7 @@ export const queryTransactionsListInBlock = async (
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
     ])
     .where("included_in_block_hash", "=", blockHash);
@@ -429,7 +429,7 @@ export const queryTransactionInfo = async (transactionHash: string) => {
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
     ])
     .where("transaction_hash", "=", transactionHash)
