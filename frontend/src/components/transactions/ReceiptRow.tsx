@@ -13,8 +13,8 @@ import { Args } from "./ActionMessage";
 import ActionRow from "./ActionRow";
 
 import { useTranslation } from "react-i18next";
-import { NestedReceiptWithOutcome } from "../../pages/transactions/[hash]";
 import { styled } from "../../libraries/styles";
+import { NestedReceiptWithOutcome } from "../../types/common";
 
 const ReceiptRowWrapper = styled(Row, {
   paddingTop: 10,

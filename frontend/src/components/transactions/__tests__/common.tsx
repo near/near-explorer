@@ -1,5 +1,4 @@
-import { Receipt } from "../../../types/common";
-import { Transaction } from "../../../pages/transactions/[hash]";
+import { Receipt, Transaction } from "../../../types/common";
 
 export const TRANSACTIONS: Transaction[] = [
   // no action has deposit

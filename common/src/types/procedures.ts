@@ -152,6 +152,36 @@ export type TransactionBaseInfo = {
   actions: Action[];
 };
 
+export type TransactionOutcome = {
+  id: string;
+  outcome: RPC.ExecutionOutcomeView;
+  block_hash: string;
+};
+
+type ReceiptExecutionOutcome = {
+  tokens_burnt: string;
+  logs: string[];
+  outgoing_receipts?: NestedReceiptWithOutcome[];
+  status: RPC.ExecutionStatusView;
+  gas_burnt: number;
+};
+
+export type NestedReceiptWithOutcome = {
+  actions?: Action[];
+  block_hash: string;
+  outcome: ReceiptExecutionOutcome;
+  predecessor_id: string;
+  receipt_id: string;
+  receiver_id: string;
+};
+
+export type Transaction = TransactionBaseInfo & {
+  status: KeysOfUnion<RPC.FinalExecutionStatus>;
+  receiptsOutcome: RPC.ExecutionOutcomeWithIdView[];
+  transactionOutcome: TransactionOutcome;
+  receipt: NestedReceiptWithOutcome;
+};
+
 export type TransactionPagination = {
   endTimestamp: number;
   transactionIndex: number;
@@ -323,10 +353,6 @@ export type ProcedureTypes = {
     result: TransactionsByDateAmount[] | null;
   };
 
-  "nearcore-tx": {
-    args: [string, string];
-    result: RPC.FinalExecutionOutcomeWithReceiptView;
-  };
   "transaction-execution-status": {
     args: [string, string];
     result: KeysOfUnion<RPC.FinalExecutionStatus>;
@@ -349,7 +375,7 @@ export type ProcedureTypes = {
   };
   "transaction-info": {
     args: [string];
-    result: TransactionBaseInfo | null;
+    result: Transaction | null;
   };
   "nearcore-status": {
     args: [];

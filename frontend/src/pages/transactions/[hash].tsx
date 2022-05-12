@@ -11,12 +11,7 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import {
-  Action,
-  TransactionBaseInfo,
-  KeysOfUnion,
-  RPC,
-} from "../../types/common";
+import { Transaction } from "../../types/common";
 import { getFetcher } from "../../libraries/transport";
 import { getNearNetworkName } from "../../libraries/config";
 import { styled } from "../../libraries/styles";
@@ -97,53 +92,6 @@ const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
   );
 });
 
-export type TransactionOutcome = {
-  id: string;
-  outcome: RPC.ExecutionOutcomeView;
-  block_hash: string;
-};
-
-type ReceiptExecutionOutcome = {
-  tokens_burnt: string;
-  logs: string[];
-  outgoing_receipts?: NestedReceiptWithOutcome[];
-  status: RPC.ExecutionStatusView;
-  gas_burnt: number;
-};
-
-export type NestedReceiptWithOutcome = {
-  actions?: Action[];
-  block_hash: string;
-  outcome: ReceiptExecutionOutcome;
-  predecessor_id: string;
-  receipt_id: string;
-  receiver_id: string;
-};
-
-export type Transaction = TransactionBaseInfo & {
-  status: KeysOfUnion<RPC.FinalExecutionStatus>;
-  receiptsOutcome: RPC.ExecutionOutcomeWithIdView[];
-  transactionOutcome: TransactionOutcome;
-  receipt: NestedReceiptWithOutcome;
-};
-
-const mapRpcActionToAction = (action: RPC.ActionView): Action => {
-  if (action === "CreateAccount") {
-    return {
-      kind: "CreateAccount",
-      args: {},
-    };
-  }
-  const kind = Object.keys(action)[0] as keyof Exclude<
-    RPC.ActionView,
-    "CreateAccount"
-  >;
-  return {
-    kind,
-    args: action[kind],
-  } as Action;
-};
-
 export const getServerSideProps: GetServerSideProps<
   Props,
   { hash: string }
@@ -152,90 +100,12 @@ export const getServerSideProps: GetServerSideProps<
   try {
     const networkName = getNearNetworkName(query, req.headers.host);
     const fetcher = getFetcher(networkName);
-    const transactionBaseInfo = await fetcher("transaction-info", [hash]);
-    if (!transactionBaseInfo) {
-      throw new Error(`No hash ${hash} found`);
-    }
-    const transactionInfo = await fetcher("nearcore-tx", [
-      transactionBaseInfo.hash,
-      transactionBaseInfo.signerId,
-    ]);
-    const actions = transactionInfo.transaction.actions.map(
-      mapRpcActionToAction
-    );
-    const receipts = transactionInfo.receipts;
-    const receiptsOutcome = transactionInfo.receipts_outcome;
-    if (
-      receipts.length === 0 ||
-      receipts[0].receipt_id !== receiptsOutcome[0].id
-    ) {
-      receipts.unshift({
-        predecessor_id: transactionInfo.transaction.signer_id,
-        receipt: {
-          Action: {
-            signer_id: transactionInfo.transaction.signer_id,
-            signer_public_key: "",
-            gas_price: "0",
-            output_data_receivers: [],
-            input_data_ids: [],
-            actions: transactionInfo.transaction.actions,
-          },
-        },
-        receipt_id: receiptsOutcome[0].id,
-        receiver_id: transactionInfo.transaction.receiver_id,
-      });
-    }
-    const receiptOutcomesByIdMap = new Map<
-      string,
-      RPC.ExecutionOutcomeWithIdView
-    >();
-    receiptsOutcome.forEach((receipt) => {
-      receiptOutcomesByIdMap.set(receipt.id, receipt);
-    });
-
-    const receiptsByIdMap = new Map<
-      string,
-      Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
-    >();
-    receipts.forEach((receiptItem) => {
-      receiptsByIdMap.set(receiptItem.receipt_id, {
-        ...receiptItem,
-        actions:
-          "Action" in receiptItem.receipt
-            ? receiptItem.receipt.Action.actions.map(mapRpcActionToAction)
-            : [],
-      });
-    });
-
-    const collectNestedReceiptWithOutcome = (
-      receiptHash: string
-    ): NestedReceiptWithOutcome => {
-      const receipt = receiptsByIdMap.get(receiptHash)!;
-      const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash)!;
-      return {
-        ...receipt,
-        ...receiptOutcome,
-        outcome: {
-          ...receiptOutcome.outcome,
-          outgoing_receipts: receiptOutcome.outcome.receipt_ids.map(
-            collectNestedReceiptWithOutcome
-          ),
-        },
-      };
-    };
+    const transaction =
+      (await fetcher("transaction-info", [hash])) ?? undefined;
     return {
       props: {
         hash,
-        transaction: {
-          ...transactionBaseInfo,
-          status: Object.keys(
-            transactionInfo.status
-          )[0] as KeysOfUnion<RPC.FinalExecutionStatus>,
-          actions,
-          receiptsOutcome,
-          receipt: collectNestedReceiptWithOutcome(receiptsOutcome[0].id),
-          transactionOutcome: transactionInfo.transaction_outcome,
-        },
+        transaction,
       },
     };
   } catch (err) {
