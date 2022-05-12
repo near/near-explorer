@@ -1,5 +1,5 @@
 import { merge } from "lodash";
-import { NetworkName } from "./client-types";
+import { NetworkName } from "./types";
 import { HOUR, MINUTE, SECOND } from "./consts";
 import { getOverrides } from "./common";
 

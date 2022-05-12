@@ -12,7 +12,7 @@ import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
 import { NetworkContext } from "../context/NetworkContext";
 import { DeployInfo } from "../components/utils/DeployInfo";
-import { DeployInfo as DeployInfoProps } from "../types/procedures";
+import { DeployInfo as DeployInfoProps } from "../types/common";
 
 import {
   getLanguage,

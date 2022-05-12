@@ -1,1 +1,1 @@
-export * from "../../common/src/environment";
+export * from "../../common/src/index";

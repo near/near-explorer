@@ -2,7 +2,7 @@ import {
   ValidatorDescription,
   ValidatorEpochData,
   ValidatorPoolInfo,
-} from "./client-types";
+} from "./types";
 import { config } from "./config";
 import {
   queryStakingPoolAccountIds,

@@ -3,7 +3,7 @@ import * as React from "react";
 import { Col, Row } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
-import { ValidatorDescription } from "../../types/subscriptions";
+import { ValidatorDescription } from "../../types/common";
 import {
   ValidatorNodesContentCell,
   ValidatorNodesContentRow,

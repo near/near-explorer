@@ -1,4 +1,4 @@
-import { Receipt } from "../../../types/procedures";
+import { Receipt } from "../../../types/common";
 import { Transaction } from "../../../pages/transactions/[hash]";
 
 export const TRANSACTIONS: Transaction[] = [

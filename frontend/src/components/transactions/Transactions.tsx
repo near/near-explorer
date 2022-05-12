@@ -8,10 +8,7 @@ import TransactionAction from "./TransactionAction";
 
 import { useTranslation } from "react-i18next";
 import { Fetcher } from "../../libraries/transport";
-import {
-  TransactionBaseInfo,
-  TransactionPagination,
-} from "../../types/procedures";
+import { TransactionBaseInfo, TransactionPagination } from "../../types/common";
 
 export interface OuterProps {
   accountId?: string;

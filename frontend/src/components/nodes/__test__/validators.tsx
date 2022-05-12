@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { ValidatorFullData } from "../../../types/subscriptions";
+import { ValidatorFullData } from "../../../types/common";
 
 export const VALIDATORS_LIST: ValidatorFullData[] = [
   {

@@ -1,4 +1,4 @@
-import { BlockBase, Block } from "./client-types";
+import { BlockBase, Block } from "./types";
 import {
   queryBlocksList,
   queryBlockInfo,

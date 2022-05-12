@@ -1,14 +1,12 @@
 import { NearNetwork } from "./config";
 import { subscribeTopic, getLastValue, unsubscribeTopic, fetch } from "./wamp";
 import {
-  SubscriptionTopicType,
-  SubscriptionTopicTypes,
-} from "../types/subscriptions";
-import {
   ProcedureType,
   ProcedureArgs,
   ProcedureResult,
-} from "../types/procedures";
+  SubscriptionTopicType,
+  SubscriptionTopicTypes,
+} from "../types/common";
 
 let subscriptions: Record<string, ((data: any) => void)[]> = {};
 

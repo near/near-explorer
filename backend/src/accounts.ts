@@ -1,7 +1,7 @@
 import BN from "bn.js";
 import { sha256 } from "js-sha256";
 
-import { AccountListInfo, AccountTransactionsCount } from "./client-types";
+import { AccountListInfo, AccountTransactionsCount } from "./types";
 import { config } from "./config";
 import {
   queryIndexedAccount,

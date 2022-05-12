@@ -9,7 +9,7 @@ import {
   ValidatorTelemetry,
   ValidatorDescription,
   ValidationProgress,
-} from "../../types/subscriptions";
+} from "../../types/common";
 import { ValidatorNodesContentRow } from "./ValidatorRow";
 
 interface Props {

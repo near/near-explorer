@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
 import { Transaction } from "../../pages/transactions/[hash]";
 import { styled } from "../../libraries/styles";
-import * as RPC from "../../types/rpc";
+import { RPC } from "../../types/common";
 
 const HeaderRow = styled(Row);
 

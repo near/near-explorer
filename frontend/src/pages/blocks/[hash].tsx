@@ -13,7 +13,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 import { getNearNetwork } from "../../libraries/config";
 import { getFetcher } from "../../libraries/transport";
-import { Block } from "../../types/procedures";
+import { Block } from "../../types/common";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 

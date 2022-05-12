@@ -1,33 +1,13 @@
 import autobahn from "autobahn";
 import { getConfig, NearNetwork } from "./config";
-import { getBackendUrl } from "./common";
+import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
 import {
   SubscriptionTopicType,
   SubscriptionTopicTypes,
-} from "../types/subscriptions";
-import {
   ProcedureArgs,
   ProcedureResult,
   ProcedureType,
-} from "../types/procedures";
-
-const wrapTopic = <T extends SubscriptionTopicType>(
-  nearNetwork: NearNetwork,
-  topic: T
-): T => {
-  // That's unfair as we actually change topic name
-  // But the types match so we'll keep it
-  return (`com.nearprotocol.${nearNetwork.name}.explorer.${topic}` as unknown) as T;
-};
-
-const wrapProcedure = <T extends ProcedureType>(
-  nearNetwork: NearNetwork,
-  procedure: T
-): T => {
-  // That's unfair as we actually change procedure name
-  // But the types match so we'll keep it
-  return (`com.nearprotocol.${nearNetwork.name}.explorer.${procedure}` as unknown) as T;
-};
+} from "../types/common";
 
 let sessionPromise: Promise<autobahn.Session> | undefined;
 
@@ -88,7 +68,7 @@ export const subscribeTopic = async <T extends SubscriptionTopicType>(
   nearNetwork: NearNetwork,
   handler: (data: SubscriptionTopicTypes[T]) => void
 ): Promise<void> => {
-  const wrappedTopic = wrapTopic(nearNetwork, topic);
+  const wrappedTopic = wrapTopic(nearNetwork.name, topic);
   if (subscriptionCache[wrappedTopic]) {
     return;
   }
@@ -115,7 +95,7 @@ export const unsubscribeTopic = async <T extends SubscriptionTopicType>(
   topic: T,
   nearNetwork: NearNetwork
 ): Promise<void> => {
-  const wrappedTopic = wrapTopic(nearNetwork, topic);
+  const wrappedTopic = wrapTopic(nearNetwork.name, topic);
   const cacheItem = subscriptionCache[wrappedTopic];
   if (!cacheItem) {
     return;
@@ -128,7 +108,7 @@ export const getLastValue = <T extends SubscriptionTopicType>(
   topic: T,
   nearNetwork: NearNetwork
 ): SubscriptionTopicTypes[T] | undefined => {
-  return subscriptionCache[wrapTopic(nearNetwork, topic)]?.lastValue as
+  return subscriptionCache[wrapTopic(nearNetwork.name, topic)]?.lastValue as
     | SubscriptionTopicTypes[T]
     | undefined;
 };
@@ -140,7 +120,7 @@ export const fetch = async <P extends ProcedureType>(
 ): Promise<ProcedureResult<P>> => {
   const session = await getSession();
   const result = await session.call(
-    wrapProcedure(nearNetwork, procedure),
+    wrapProcedure(nearNetwork.name, procedure),
     args
   );
   return result as ProcedureResult<P>;

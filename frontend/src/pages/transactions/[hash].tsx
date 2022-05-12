@@ -11,9 +11,12 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { Action, TransactionBaseInfo } from "../../types/procedures";
-import * as RPC from "../../types/rpc";
-import { KeysOfUnion } from "../../types/util";
+import {
+  Action,
+  TransactionBaseInfo,
+  KeysOfUnion,
+  RPC,
+} from "../../types/common";
 import { getFetcher } from "../../libraries/transport";
 import { getNearNetwork } from "../../libraries/config";
 import { styled } from "../../libraries/styles";

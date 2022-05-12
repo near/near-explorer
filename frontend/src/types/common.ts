@@ -1,1 +1,1 @@
-export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
+export * from "../../../common/src/types";

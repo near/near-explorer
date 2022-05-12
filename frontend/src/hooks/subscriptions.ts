@@ -1,9 +1,6 @@
 import * as React from "react";
 
-import {
-  SubscriptionTopicType,
-  SubscriptionTopicTypes,
-} from "../types/subscriptions";
+import { SubscriptionTopicType, SubscriptionTopicTypes } from "../types/common";
 import { subscribe } from "../libraries/transport";
 import { useNetworkContext } from "./use-network-context";
 
