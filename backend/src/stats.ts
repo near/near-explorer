@@ -10,6 +10,8 @@ import {
   queryActiveContractsCountAggregatedByDate,
   queryActiveContractsList,
   queryActiveAccountsList,
+  queryPartnerTotalTransactions,
+  queryPartnerFirstThreeMonthTransactions,
   queryDepositAmountAggregatedByDate,
   queryGenesisAccountCount,
   queryLatestCirculatingSupply,
@@ -75,6 +77,14 @@ let ACTIVE_CONTRACTS_LIST: Nullable<
   }[]
 > = null;
 
+// partner
+let PARTNER_TOTAL_TRANSACTIONS_COUNT: Nullable<
+  { account: string; transactionsCount: string }[]
+> = null;
+let PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT: Nullable<
+  { account: string; transactionsCount: string }[]
+> = null;
+
 // circulating supply
 let CIRCULATING_SUPPLY_BY_DATE: Nullable<
   DatedStats<{
@@ -112,7 +122,7 @@ function retriable(
 
 // function that query from indexer
 // transaction related
-export const aggregateTransactionsCountByDate = retriable(async () => {
+const aggregateTransactionsCountByDate = retriable(async () => {
   const transactionsCountAggregatedByDate = await queryTransactionsCountAggregatedByDate();
   TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = transactionsCountAggregatedByDate.map(
     ({ date, transactions_count_by_date }) => ({
@@ -122,7 +132,7 @@ export const aggregateTransactionsCountByDate = retriable(async () => {
   );
 }, "Transactions count time series");
 
-export const aggregateGasUsedByDate = retriable(async () => {
+const aggregateGasUsedByDate = retriable(async () => {
   const gasUsedByDate = await queryGasUsedAggregatedByDate();
   GAS_USED_BY_DATE = gasUsedByDate.map(({ date, gas_used_by_date }) => ({
     date: formatDate(date),
@@ -130,7 +140,7 @@ export const aggregateGasUsedByDate = retriable(async () => {
   }));
 }, "Gas used time series");
 
-export const aggregateDepositAmountByDate = retriable(async () => {
+const aggregateDepositAmountByDate = retriable(async () => {
   const depositAmountByDate = await queryDepositAmountAggregatedByDate();
   DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = depositAmountByDate.map(
     ({ date, total_deposit_amount }) => ({
@@ -141,7 +151,7 @@ export const aggregateDepositAmountByDate = retriable(async () => {
 }, "Deposit amount time series");
 
 // accounts
-export const aggregateNewAccountsCountByDate = retriable(async () => {
+const aggregateNewAccountsCountByDate = retriable(async () => {
   const newAccountsCountAggregatedByDate = await queryNewAccountsCountAggregatedByDate();
   NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = newAccountsCountAggregatedByDate.map(
     ({ date, new_accounts_count_by_date }) => ({
@@ -151,7 +161,7 @@ export const aggregateNewAccountsCountByDate = retriable(async () => {
   );
 }, "New accounts count time series");
 
-export const aggregateDeletedAccountsCountByDate = retriable(async () => {
+const aggregateDeletedAccountsCountByDate = retriable(async () => {
   const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsCountAggregatedByDate();
   DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = deletedAccountsCountAggregatedByDate.map(
     ({ date, deleted_accounts_count_by_date }) => ({
@@ -161,7 +171,7 @@ export const aggregateDeletedAccountsCountByDate = retriable(async () => {
   );
 }, "Deleted accounts count time series");
 
-export const aggregateLiveAccountsCountByDate = retriable(async () => {
+const aggregateLiveAccountsCountByDate = retriable(async () => {
   const genesisCount = await queryGenesisAccountCount();
   ACCOUNTS_COUNT_IN_GENESIS = genesisCount.count;
   if (
@@ -214,7 +224,7 @@ export const aggregateLiveAccountsCountByDate = retriable(async () => {
   }
 }, "Live accounts count time series");
 
-export const aggregateActiveAccountsCountByDate = retriable(async () => {
+const aggregateActiveAccountsCountByDate = retriable(async () => {
   const activeAccountsCountByDate = await queryActiveAccountsCountAggregatedByDate();
   ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = activeAccountsCountByDate.map(
     ({ date, active_accounts_count_by_date }) => ({
@@ -224,7 +234,7 @@ export const aggregateActiveAccountsCountByDate = retriable(async () => {
   );
 }, "Top active accounts count time series");
 
-export const aggregateActiveAccountsCountByWeek = retriable(async () => {
+const aggregateActiveAccountsCountByWeek = retriable(async () => {
   const activeAccountsCountByWeek = await queryActiveAccountsCountAggregatedByWeek();
   ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = activeAccountsCountByWeek.map(
     ({ date, active_accounts_count_by_week }) => ({
@@ -234,18 +244,18 @@ export const aggregateActiveAccountsCountByWeek = retriable(async () => {
   );
 }, "New accounts count time series weekly");
 
-export const aggregateActiveAccountsList = retriable(async () => {
+const aggregateActiveAccountsList = retriable(async () => {
   const activeAccountsList = await queryActiveAccountsList();
-  ACTIVE_ACCOUNTS_LIST = activeAccountsList
-    .map(({ account_id: account, transactions_count: transactionsCount }) => ({
+  ACTIVE_ACCOUNTS_LIST = activeAccountsList.map(
+    ({ account_id: account, transactions_count: transactionsCount }) => ({
       account,
       transactionsCount,
-    }))
-    .reverse();
+    })
+  );
 }, "Top active accounts with respective transactions count");
 
 // contracts
-export const aggregateNewContractsCountByDate = retriable(async () => {
+const aggregateNewContractsCountByDate = retriable(async () => {
   const newContractsByDate = await queryNewContractsCountAggregatedByDate();
   NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
     ({ date, new_contracts_count_by_date }) => ({
@@ -255,7 +265,7 @@ export const aggregateNewContractsCountByDate = retriable(async () => {
   );
 }, "New contracts count time series");
 
-export const aggregateActiveContractsCountByDate = retriable(async () => {
+const aggregateActiveContractsCountByDate = retriable(async () => {
   const activeContractsCountByDate = await queryActiveContractsCountAggregatedByDate();
   ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
     ({ date, active_contracts_count_by_date }) => ({
@@ -265,30 +275,54 @@ export const aggregateActiveContractsCountByDate = retriable(async () => {
   );
 }, "Active contracts count time series");
 
-export const aggregateUniqueDeployedContractsCountByDate = retriable(
-  async () => {
-    const uniqueContractsCountByDate = await queryUniqueDeployedContractsCountAggregatedByDate();
-    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = uniqueContractsCountByDate.map(
-      ({ date, contracts_count_by_date }) => ({
-        date: formatDate(date),
-        contractsCount: contracts_count_by_date,
-      })
-    );
-  },
-  "Unique deployed contracts count time series"
-);
+const aggregateUniqueDeployedContractsCountByDate = retriable(async () => {
+  const uniqueContractsCountByDate = await queryUniqueDeployedContractsCountAggregatedByDate();
+  UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = uniqueContractsCountByDate.map(
+    ({ date, contracts_count_by_date }) => ({
+      date: formatDate(date),
+      contractsCount: contracts_count_by_date,
+    })
+  );
+}, "Unique deployed contracts count time series");
 
-export const aggregateActiveContractsList = retriable(async () => {
+const aggregateActiveContractsList = retriable(async () => {
   const activeContractsList = await queryActiveContractsList();
-  ACTIVE_CONTRACTS_LIST = activeContractsList
-    .map(({ contract_id: contract, receipts_count: receiptsCount }) => ({
+  ACTIVE_CONTRACTS_LIST = activeContractsList.map(
+    ({ contract_id: contract, receipts_count: receiptsCount }) => ({
       contract,
       receiptsCount,
-    }))
-    .reverse();
+    })
+  );
 }, "Top active contracts with respective receipts count");
 
-export const aggregateCirculatingSupplyByDate = retriable(async () => {
+// partner part
+const aggregatePartnerTotalTransactionsCount = retriable(async () => {
+  const partnerTotalTransactionList = await queryPartnerTotalTransactions();
+  PARTNER_TOTAL_TRANSACTIONS_COUNT = partnerTotalTransactionList.map(
+    ({
+      receiver_account_id: account,
+      transactions_count: transactionsCount,
+    }) => ({
+      account,
+      transactionsCount,
+    })
+  );
+}, "Partners with respective transaction counts");
+
+const aggregatePartnerFirst3MonthTransactionsCount = retriable(async () => {
+  const partnerFirst3MonthTransactionsCount = await queryPartnerFirstThreeMonthTransactions();
+  PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT = partnerFirst3MonthTransactionsCount.map(
+    ({
+      receiver_account_id: account,
+      transactions_count: transactionsCount,
+    }) => ({
+      account,
+      transactionsCount,
+    })
+  );
+}, "Partners with respective transaction counts - first 3 months");
+
+const aggregateCirculatingSupplyByDate = retriable(async () => {
   const queryCirculatingSupplyByDate = await queryCirculatingSupply();
   CIRCULATING_SUPPLY_BY_DATE = queryCirculatingSupplyByDate.map(
     ({ date, circulating_tokens_supply, total_tokens_supply }) => ({
@@ -301,88 +335,123 @@ export const aggregateCirculatingSupplyByDate = retriable(async () => {
 
 // get function that exposed to frontend
 // transaction related
-export const getTransactionsByDate = () => {
+async function getTransactionsByDate(): Promise<
+  typeof TRANSACTIONS_COUNT_AGGREGATED_BY_DATE
+> {
   return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
-};
+}
 
-export const getGasUsedByDate = () => {
+async function getGasUsedByDate(): Promise<typeof GAS_USED_BY_DATE> {
   return GAS_USED_BY_DATE;
-};
+}
 
-export const getDepositAmountByDate = () => {
+async function getDepositAmountByDate(): Promise<
+  typeof DEPOSIT_AMOUNT_AGGREGATED_BY_DATE
+> {
   return DEPOSIT_AMOUNT_AGGREGATED_BY_DATE;
-};
+}
 
 //accounts
-export const getNewAccountsCountByDate = () => {
+async function getNewAccountsCountByDate(): Promise<
+  typeof NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
+> {
   return NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
-};
+}
 
-export const getDeletedAccountCountBydate = () => {
+async function getDeletedAccountCountBydate(): Promise<
+  typeof DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
+> {
   return DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
-};
+}
 
-export const getUniqueDeployedContractsCountByDate = () => {
+async function getUniqueDeployedContractsCountByDate(): Promise<
+  typeof UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE
+> {
   return UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
-};
+}
 
-export const getActiveAccountsCountByDate = () => {
+async function getActiveAccountsCountByDate(): Promise<
+  typeof ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
+> {
   return ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
-};
+}
 
-export const getActiveAccountsCountByWeek = () => {
+async function getActiveAccountsCountByWeek(): Promise<
+  typeof ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK
+> {
   return ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK;
-};
+}
 
-export const getLiveAccountsCountByDate = () => {
+async function getLiveAccountsCountByDate(): Promise<
+  typeof LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE
+> {
   return LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE;
-};
+}
 
 // blocks
-export const getFirstProducedBlockTimestamp = async (): Promise<string> => {
+async function getFirstProducedBlockTimestamp(): Promise<string> {
   const {
     first_produced_block_timestamp: firstProducedBlockTimestamp,
   } = await queryFirstProducedBlockTimestamp();
   return formatDate(firstProducedBlockTimestamp);
-};
+}
 
-export const getActiveAccountsList = () => {
+async function getActiveAccountsList(): Promise<typeof ACTIVE_ACCOUNTS_LIST> {
   return ACTIVE_ACCOUNTS_LIST;
-};
+}
 
 // contracts
-export const getNewContractsCountByDate = () => {
+async function getNewContractsCountByDate(): Promise<
+  typeof NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE
+> {
   return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
-};
+}
 
-export const getActiveContractsCountByDate = () => {
+async function getActiveContractsCountByDate(): Promise<
+  typeof ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE
+> {
   return ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
-};
+}
 
-export const getActiveContractsList = () => {
+async function getActiveContractsList(): Promise<typeof ACTIVE_CONTRACTS_LIST> {
   return ACTIVE_CONTRACTS_LIST;
-};
+}
+
+// partner part
+async function getPartnerTotalTransactionsCount(): Promise<
+  typeof PARTNER_TOTAL_TRANSACTIONS_COUNT
+> {
+  return PARTNER_TOTAL_TRANSACTIONS_COUNT;
+}
+
+async function getPartnerFirst3MonthTransactionsCount(): Promise<
+  typeof PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT
+> {
+  return PARTNER_FIRST_3_MONTH_TRANSACTIONS_COUNT;
+}
 
 // circulating supply
-export const getLatestCirculatingSupply = async (): Promise<{
+async function getLatestCirculatingSupply(): Promise<{
   timestamp: string;
   circulating_supply_in_yoctonear: string;
-}> => {
+}> {
   const latestCirculatingSupply = await queryLatestCirculatingSupply();
   return {
     timestamp: latestCirculatingSupply.computed_at_block_timestamp,
     circulating_supply_in_yoctonear:
       latestCirculatingSupply.circulating_tokens_supply,
   };
-};
+}
 
-export const getGenesisAccountsCount = () => {
+async function getGenesisAccountsCount(): Promise<
+  typeof ACCOUNTS_COUNT_IN_GENESIS
+> {
   return ACCOUNTS_COUNT_IN_GENESIS;
-};
+}
 
-export const getTotalFee = async (
+async function getTotalFee(
   daysCount: number
-): Promise<{ date: string; fee: string } | null> => {
+): Promise<{ date: string; fee: string } | null> {
   const feesByDay = await calculateFeesByDay(daysCount);
   if (!feesByDay) {
     return null;
@@ -391,8 +460,84 @@ export const getTotalFee = async (
     date: formatDate(feesByDay.date),
     fee: feesByDay.fee,
   };
+}
+
+async function getCirculatingSupplyByDate(): Promise<
+  typeof CIRCULATING_SUPPLY_BY_DATE
+> {
+  return CIRCULATING_SUPPLY_BY_DATE;
+}
+
+// aggregate part
+// transaction related
+export {
+  aggregateTransactionsCountByDate,
+  aggregateGasUsedByDate,
+  aggregateDepositAmountByDate,
 };
 
-export const getCirculatingSupplyByDate = () => {
-  return CIRCULATING_SUPPLY_BY_DATE;
+// accounts
+export {
+  aggregateNewAccountsCountByDate,
+  aggregateDeletedAccountsCountByDate,
+  aggregateLiveAccountsCountByDate,
+  aggregateActiveAccountsCountByDate,
+  aggregateActiveAccountsCountByWeek,
+  aggregateActiveAccountsList,
+};
+
+// blocks
+export { getFirstProducedBlockTimestamp };
+
+// contracts
+export {
+  aggregateNewContractsCountByDate,
+  aggregateActiveContractsCountByDate,
+  aggregateUniqueDeployedContractsCountByDate,
+  aggregateActiveContractsList,
+};
+
+// partner part
+export {
+  aggregatePartnerTotalTransactionsCount,
+  aggregatePartnerFirst3MonthTransactionsCount,
+};
+
+// circulating supply
+export { aggregateCirculatingSupplyByDate };
+
+// get method
+// transaction related
+export { getTransactionsByDate, getGasUsedByDate, getDepositAmountByDate };
+
+// accounts
+export {
+  getNewAccountsCountByDate,
+  getDeletedAccountCountBydate,
+  getActiveAccountsCountByDate,
+  getActiveAccountsCountByWeek,
+  getActiveAccountsList,
+  getLiveAccountsCountByDate,
+};
+
+// contracts
+export {
+  getNewContractsCountByDate,
+  getUniqueDeployedContractsCountByDate,
+  getActiveContractsCountByDate,
+  getActiveContractsList,
+};
+
+// partner part
+export {
+  getPartnerTotalTransactionsCount,
+  getPartnerFirst3MonthTransactionsCount,
+};
+
+// circulating supply
+export {
+  getLatestCirculatingSupply,
+  getCirculatingSupplyByDate,
+  getGenesisAccountsCount,
+  getTotalFee,
 };

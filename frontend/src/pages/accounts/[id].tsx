@@ -12,9 +12,9 @@ import TransactionIconSvg from "../../../public/static/images/icon-t-transaction
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getFetcher } from "../../libraries/transport";
-import { getNearNetworkName } from "../../libraries/config";
-import { Account } from "../../types/common";
+import wampApi from "../../libraries/wamp/api";
+import { getNearNetwork } from "../../libraries/config";
+import { Account, getAccount } from "../../providers/accounts";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -98,15 +98,15 @@ export const getServerSideProps: GetServerSideProps<
   };
 
   try {
-    const networkName = getNearNetworkName(query, req.headers.host);
-    const fetcher = getFetcher(networkName);
-    const isAccountExist = await fetcher("is-account-indexed", [accountId]);
+    const currentNetwork = getNearNetwork(query, req.headers.host);
+    const wampCall = wampApi.getCall(currentNetwork);
+    const isAccountExist = await wampCall("is-account-indexed", [accountId]);
     if (isAccountExist) {
       try {
         return {
           props: {
             ...commonProps,
-            account: (await fetcher("account-info", [accountId]))!,
+            account: await getAccount(wampCall, accountId),
           },
         };
       } catch (accountFetchingError) {

@@ -14,11 +14,11 @@ import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-tr
 import {
   Action,
   TransactionBaseInfo,
-  KeysOfUnion,
   RPC,
-} from "../../types/common";
-import { getFetcher } from "../../libraries/transport";
-import { getNearNetworkName } from "../../libraries/config";
+  KeysOfUnion,
+} from "../../libraries/wamp/types";
+import wampApi from "../../libraries/wamp/api";
+import { getNearNetwork } from "../../libraries/config";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -150,13 +150,13 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const networkName = getNearNetworkName(query, req.headers.host);
-    const fetcher = getFetcher(networkName);
-    const transactionBaseInfo = await fetcher("transaction-info", [hash]);
+    const nearNetwork = getNearNetwork(query, req.headers.host);
+    const wampCall = wampApi.getCall(nearNetwork);
+    const transactionBaseInfo = await wampCall("transaction-info", [hash]);
     if (!transactionBaseInfo) {
       throw new Error(`No hash ${hash} found`);
     }
-    const transactionInfo = await fetcher("nearcore-tx", [
+    const transactionInfo = await wampCall("nearcore-tx", [
       transactionBaseInfo.hash,
       transactionBaseInfo.signerId,
     ]);

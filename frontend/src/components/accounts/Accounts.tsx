@@ -3,16 +3,19 @@ import * as React from "react";
 import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 import AccountRow from "./AccountRow";
-import { Fetcher } from "../../libraries/transport";
-import { AccountListInfo } from "../../types/common";
+import {
+  AccountPagination,
+  PaginatedAccountBasicInfo,
+} from "../../libraries/wamp/types";
+import { WampCall } from "../../libraries/wamp/api";
 
 const ACCOUNTS_PER_PAGE = 15;
 
 const fetchDataFn = (
-  fetcher: Fetcher,
+  wampCall: WampCall,
   count: number,
-  paginationIndexer: number | null
-) => fetcher("accounts-list", [count, paginationIndexer]);
+  paginationIndexer?: AccountPagination
+) => wampCall("accounts-list", [count, paginationIndexer]);
 
 const AccountsWrapper: React.FC = React.memo(() => (
   <AccountsList count={ACCOUNTS_PER_PAGE} fetchDataFn={fetchDataFn} />
@@ -21,7 +24,7 @@ const AccountsWrapper: React.FC = React.memo(() => (
 export default AccountsWrapper;
 
 interface InnerProps {
-  items: AccountListInfo[];
+  items: PaginatedAccountBasicInfo[];
 }
 
 const Accounts: React.FC<InnerProps> = React.memo(({ items }) => (
@@ -37,5 +40,10 @@ const Accounts: React.FC<InnerProps> = React.memo(({ items }) => (
 const AccountsList = ListHandler({
   Component: Accounts,
   category: "Account",
-  paginationIndexer: (items) => items[items.length - 1].accountIndex,
+  paginationIndexer: (items) => ({
+    endTimestamp: items[items.length - 1].createdAtBlockTimestamp
+      ? items[items.length - 1].createdAtBlockTimestamp || undefined
+      : undefined,
+    accountIndex: items[items.length - 1].accountIndex,
+  }),
 });

@@ -28,7 +28,7 @@ const chartStyle = {
 const Stats: NextPage = React.memo(() => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Stats page");
-  const { networkName } = useNetworkContext();
+  const { currentNetwork } = useNetworkContext();
 
   return (
     <>
@@ -39,7 +39,7 @@ const Stats: NextPage = React.memo(() => {
         <div id="protocolConfiguration">
           <ProtocolConfigInfo />
         </div>
-        {networkName === "mainnet" ? (
+        {currentNetwork.name === "mainnet" ? (
           <div id="circulatingSupply">
             <CirculatingSupplyStats chartStyle={chartStyle} />
           </div>

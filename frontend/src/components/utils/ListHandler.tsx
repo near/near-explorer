@@ -7,8 +7,8 @@ import Update from "./Update";
 
 import { useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
-import { Fetcher } from "../../libraries/transport";
-import { useFetcher } from "../../hooks/use-fetcher";
+import { WampCall } from "../../libraries/wamp/api";
+import { useWampCall } from "../../hooks/wamp";
 import { styled } from "../../libraries/styles";
 
 const LoadButton = styled("button", {
@@ -45,11 +45,7 @@ interface StaticConfig<T, I> {
 
 interface Props<T, I> {
   count: number;
-  fetchDataFn: (
-    fetcher: Fetcher,
-    count: number,
-    indexer: I | null
-  ) => Promise<T[]>;
+  fetchDataFn: (wampCall: WampCall, count: number, indexer?: I) => Promise<T[]>;
 }
 
 type UpdateBlockHeightProps = {
@@ -77,12 +73,12 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
     const [shouldShow, setShouldShow] = React.useState(false);
     const [hasMore, setHasMore] = React.useState(true);
     const [loading, setLoading] = React.useState(false);
-    const fetcher = useFetcher();
+    const wampCall = useWampCall();
 
     const fetch = React.useCallback(() => {
       setLoading(true);
       props
-        .fetchDataFn(fetcher, props.count, null)
+        .fetchDataFn(wampCall, props.count)
         .then((items) => {
           setItems(items);
           setHasMore(items.length >= props.count);
@@ -93,7 +89,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
           setShouldShow(true);
         });
     }, [
-      fetcher,
+      wampCall,
       props.fetchDataFn,
       setItems,
       setHasMore,
@@ -105,7 +101,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
     const fetchMore = React.useCallback(() => {
       setLoading(true);
       props
-        .fetchDataFn(fetcher, props.count, config.paginationIndexer(items))
+        .fetchDataFn(wampCall, props.count, config.paginationIndexer(items))
         .then((nextItems) => {
           setItems(items.concat(nextItems));
           setHasMore(nextItems.length >= props.count);
@@ -113,7 +109,7 @@ const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
         .catch((err: Error) => console.error(err))
         .then(() => setLoading(false));
     }, [
-      fetcher,
+      wampCall,
       props.fetchDataFn,
       setItems,
       setHasMore,

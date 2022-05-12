@@ -2,14 +2,21 @@ import * as nearApi from "near-api-js";
 
 import BN from "bn.js";
 
-import { config } from "./config";
-import { queryOnlineNodesCount } from "./db-utils";
+import { nearArchivalRpcUrl } from "./config";
+import { queryStakingPoolAccountIds, queryOnlineNodesCount } from "./db-utils";
 import {
   NetworkStats,
   ValidationProgress,
   ValidatorEpochData,
-  RPC,
-} from "./types";
+} from "./client-types";
+import {
+  RpcQueryRequestTypeMapping,
+  RpcQueryResponseNarrowed,
+  RpcResponseMapping,
+  EpochValidatorInfo,
+  CurrentEpochValidatorInfo,
+  ProtocolConfigView,
+} from "./rpc-types";
 
 type CurrentEpochState = {
   seatPrice: string;
@@ -19,30 +26,28 @@ type CurrentEpochState = {
 let currentEpochState: CurrentEpochState | null = null;
 
 const nearRpc = new nearApi.providers.JsonRpcProvider({
-  url: config.archivalRpcUrl,
+  url: nearArchivalRpcUrl,
 });
 
-export const sendJsonRpc = <M extends keyof RPC.ResponseMapping>(
+export const sendJsonRpc = <M extends keyof RpcResponseMapping>(
   method: M,
   args: object
-): Promise<RPC.ResponseMapping[M]> => {
+): Promise<RpcResponseMapping[M]> => {
   return nearRpc.sendJsonRpc(method, args);
 };
 
-export const sendJsonRpcQuery = <
-  K extends keyof RPC.RpcQueryRequestTypeMapping
->(
+export const sendJsonRpcQuery = <K extends keyof RpcQueryRequestTypeMapping>(
   requestType: K,
   args: object
-): Promise<RPC.RpcQueryResponseNarrowed<K>> => {
-  return nearRpc.sendJsonRpc<RPC.RpcQueryResponseNarrowed<K>>("query", {
+): Promise<RpcQueryResponseNarrowed<K>> => {
+  return nearRpc.sendJsonRpc<RpcQueryResponseNarrowed<K>>("query", {
     request_type: requestType,
     ...args,
   });
 };
 
 // TODO: Provide an equivalent method in near-api-js, so we don't need to make it external.
-export const callViewMethod = async function <T>(
+const callViewMethod = async function <T>(
   contractName: string,
   methodName: string,
   args: unknown
@@ -56,16 +61,14 @@ export const callViewMethod = async function <T>(
   return await account.viewFunction(contractName, methodName, args);
 };
 
-export const queryFinalBlock = async (): Promise<
-  RPC.ResponseMapping["block"]
-> => {
+const queryFinalBlock = async (): Promise<RpcResponseMapping["block"]> => {
   return await sendJsonRpc("block", {
     finality: "final",
   });
 };
 
 const mapProgress = (
-  currentValidator: RPC.CurrentEpochValidatorInfo
+  currentValidator: CurrentEpochValidatorInfo
 ): ValidationProgress => {
   return {
     blocks: {
@@ -80,7 +83,7 @@ const mapProgress = (
 };
 
 const mapValidators = (
-  epochStatus: RPC.EpochValidatorInfo,
+  epochStatus: EpochValidatorInfo,
   poolIds: string[]
 ): ValidatorEpochData[] => {
   const validatorsMap: Map<string, ValidatorEpochData> = new Map();
@@ -129,8 +132,8 @@ const mapValidators = (
 };
 
 const getEpochState = async (
-  epochStatus: RPC.EpochValidatorInfo,
-  networkProtocolConfig: RPC.ProtocolConfigView
+  epochStatus: EpochValidatorInfo,
+  networkProtocolConfig: ProtocolConfigView
 ) => {
   if (currentEpochState?.height === epochStatus.epoch_start_height) {
     return currentEpochState;
@@ -168,14 +171,16 @@ type EpochData = {
   validators: ValidatorEpochData[];
 };
 
-export const queryEpochData = async (poolIds: string[]): Promise<EpochData> => {
+const queryEpochData = async (): Promise<EpochData> => {
   const [
     networkProtocolConfig,
     epochStatus,
+    currentPools,
     onlineNodesCount,
   ] = await Promise.all([
     sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
     sendJsonRpc("validators", [null]),
+    queryStakingPoolAccountIds(),
     queryOnlineNodesCount(),
   ]);
   const epochState = await getEpochState(epochStatus, networkProtocolConfig);
@@ -192,6 +197,8 @@ export const queryEpochData = async (poolIds: string[]): Promise<EpochData> => {
       genesisHeight: networkProtocolConfig.genesis_height,
       onlineNodesCount,
     },
-    validators: mapValidators(epochStatus, poolIds),
+    validators: mapValidators(epochStatus, currentPools),
   };
 };
+
+export { queryFinalBlock, queryEpochData, callViewMethod };

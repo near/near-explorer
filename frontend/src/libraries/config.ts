@@ -1,26 +1,21 @@
 import getNextConfig from "next/config";
 import { ParsedUrlQuery } from "querystring";
-import { NetworkName } from "../types/common";
+import { NetworkName } from "./wamp/types";
 
 export interface NearNetwork {
+  name: NetworkName;
   explorerLink: string;
   aliases?: string[];
   nearWalletProfilePrefix: string;
 }
 
-export type BackendConfig = {
-  host: string;
-  port: number;
-  secure: boolean;
-};
-
 export interface ExplorerConfig {
   serverRuntimeConfig: {
-    backendConfig: BackendConfig;
+    wampNearExplorerUrl: string;
   };
   publicRuntimeConfig: {
-    nearNetworks: Partial<Record<NetworkName, NearNetwork>>;
-    backendConfig: BackendConfig;
+    nearNetworks: NearNetwork[];
+    wampNearExplorerUrl: string;
     googleAnalytics?: string;
   };
 }
@@ -29,41 +24,33 @@ export const getConfig = (): ExplorerConfig => {
   return getNextConfig();
 };
 
-export function getNearNetworkName(
+export function getNearNetwork(
   query: ParsedUrlQuery,
   hostname?: string
-): NetworkName {
+): NearNetwork {
   const config = getConfig();
-  const networkEntries = Object.entries(
-    config.publicRuntimeConfig.nearNetworks
-  ) as [NetworkName, NearNetwork][];
-  console.log("entries", networkEntries, query, hostname);
 
-  const queryNetwork = Array.isArray(query.network)
-    ? query.network[0]
-    : query.network;
+  const queryNetwork = query.network;
   if (queryNetwork) {
-    const matchedNetwork = networkEntries.find(
-      ([networkName]) => networkName === queryNetwork
+    const matchedNetwork = config.publicRuntimeConfig.nearNetworks.find(
+      (network) => network.name === queryNetwork
     );
     if (matchedNetwork) {
-      return matchedNetwork[0];
+      return matchedNetwork;
     }
   }
 
-  let networkName: NetworkName | undefined;
+  let nearNetwork: NearNetwork | undefined;
   if (hostname) {
-    networkName = networkEntries.find(([, network]) =>
+    nearNetwork = config.publicRuntimeConfig.nearNetworks.find((network) =>
       network.aliases?.includes(hostname)
-    )?.[0];
-  }
-  if (!networkName) {
-    networkName = networkEntries[0][0];
-  }
-  if (!networkName) {
-    throw new Error(
-      "No NEAR networks provided via NEAR_EXPLORER_CONFIG__NETWORKS env variable"
     );
   }
-  return networkName;
+  if (!nearNetwork) {
+    nearNetwork = config.publicRuntimeConfig.nearNetworks[0];
+  }
+  if (!nearNetwork) {
+    throw new Error("No NEAR networks provided via NEAR_NETWORKS env variable");
+  }
+  return nearNetwork;
 }

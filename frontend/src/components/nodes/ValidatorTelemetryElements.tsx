@@ -4,7 +4,7 @@ import { Col, Row, Badge } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
 import { useLatestBlockHeight } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
-import { ValidatorTelemetry } from "../../types/common";
+import { ValidatorTelemetry } from "../../libraries/wamp/types";
 import Term from "../utils/Term";
 import Timer from "../utils/Timer";
 import {

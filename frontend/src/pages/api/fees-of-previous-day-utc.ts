@@ -1,13 +1,13 @@
 import moment from "moment";
 import { NextApiHandler } from "next";
-import { getNearNetworkName } from "../../libraries/config";
-import { getFetcher } from "../../libraries/transport";
+import { getNearNetwork } from "../../libraries/config";
+import wampApi from "../../libraries/wamp/api";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const networkName = getNearNetworkName(req.query, req.headers.host);
-    const feeCountPerDay = await getFetcher(
-      networkName
+    const nearNetwork = getNearNetwork(req.query, req.headers.host);
+    const feeCountPerDay = await wampApi.getCall(
+      nearNetwork
     )("nearcore-total-fee-count", [1]);
     if (!feeCountPerDay) {
       return res.status(500).end();

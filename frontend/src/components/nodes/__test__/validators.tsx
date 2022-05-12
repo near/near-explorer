@@ -1,5 +1,5 @@
 import BN from "bn.js";
-import { ValidatorFullData } from "../../../types/common";
+import { ValidatorFullData } from "../../../libraries/wamp/types";
 
 export const VALIDATORS_LIST: ValidatorFullData[] = [
   {

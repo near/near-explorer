@@ -1,17 +1,16 @@
+import autobahn from "autobahn";
+
 import {
   ValidatorDescription,
   ValidatorEpochData,
   ValidatorPoolInfo,
-} from "./types";
-import { config } from "./config";
+} from "./client-types";
+import { INTERVALS, wampNearNetworkName } from "./config";
 import {
-  queryStakingPoolAccountIds,
+  queryDashboardBlocksStats,
   queryRecentTransactionsCount,
   queryTelemetryInfo,
   queryTransactionsCountHistoryForTwoWeeks,
-  queryLatestBlockHeight,
-  queryLatestGasPrice,
-  queryRecentBlockProductionSpeed,
 } from "./db-utils";
 import {
   callViewMethod,
@@ -19,7 +18,6 @@ import {
   queryFinalBlock,
   sendJsonRpcQuery,
 } from "./near";
-import { PubSubController } from "./pubsub";
 import {
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsCountByWeek,
@@ -33,10 +31,13 @@ import {
   aggregateLiveAccountsCountByDate,
   aggregateNewAccountsCountByDate,
   aggregateNewContractsCountByDate,
+  aggregatePartnerFirst3MonthTransactionsCount,
+  aggregatePartnerTotalTransactionsCount,
   aggregateTransactionsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
 } from "./stats";
 import { formatDate, wait } from "./utils";
+import { wampPublish } from "./wamp";
 
 // See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
 type PoolMetadataAccountInfo = {
@@ -65,12 +66,14 @@ export type GlobalState = {
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;
   stakingPoolStakeProposalsFromContract: CachedTimestampMap<string>;
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
-  poolIds: string[];
 };
 
 export type RegularCheckFn = {
   description: string;
-  fn: (controller: PubSubController, state: GlobalState) => Promise<void>;
+  fn: (
+    getSession: () => Promise<autobahn.Session>,
+    state: GlobalState
+  ) => Promise<void>;
   interval: number;
   shouldSkip?: () => void;
 };
@@ -79,46 +82,51 @@ const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
 
 const chainBlockStatsCheck: RegularCheckFn = {
   description: "block stats check from Indexer",
-  fn: async (controller) => {
-    const [
-      latestBlockHeight,
-      latestGasPrice,
-      recentBlockProductionSpeed,
-    ] = await Promise.all([
-      queryLatestBlockHeight(),
-      queryLatestGasPrice(),
-      queryRecentBlockProductionSpeed(),
-    ]);
-    void controller.publish("chain-blocks-stats", {
-      latestBlockHeight,
-      latestGasPrice,
-      recentBlockProductionSpeed,
-    });
+  fn: async (getSession) => {
+    void wampPublish(
+      "chain-blocks-stats",
+      await queryDashboardBlocksStats(),
+      getSession
+    );
   },
-  interval: config.intervals.checkChainBlockStats,
+  interval: INTERVALS.checkChainBlockStats,
 };
 
 const recentTransactionsCountCheck: RegularCheckFn = {
   description: "recent transactions check from Indexer",
-  fn: async (controller) => {
-    void controller.publish("recent-transactions", {
-      recentTransactionsCount: await queryRecentTransactionsCount(),
-    });
+  fn: async (getSession) => {
+    void wampPublish(
+      "recent-transactions",
+      { recentTransactionsCount: await queryRecentTransactionsCount() },
+      getSession
+    );
   },
-  interval: config.intervals.checkRecentTransactions,
+  interval: INTERVALS.checkRecentTransactions,
 };
 
 const transactionCountHistoryCheck: RegularCheckFn = {
   description: "transaction count history for 2 weeks",
-  fn: async (_, state) => {
-    state.transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
+  fn: async (getSession, state) => {
+    const history = await queryTransactionsCountHistoryForTwoWeeks();
+    state.transactionsCountHistoryForTwoWeeks = history;
+    void wampPublish(
+      "transaction-history",
+      {
+        transactionsCountHistoryForTwoWeeks: history.map(({ date, total }) => ({
+          date: formatDate(date),
+          total,
+        })),
+      },
+      getSession
+    );
   },
-  interval: config.intervals.checkTransactionCountHistory,
+  interval: INTERVALS.checkTransactionCountHistory,
 };
 
 const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
   fn: async () => {
+    //stats part
     // circulating supply
     await aggregateCirculatingSupplyByDate();
 
@@ -140,20 +148,28 @@ const statsAggregationCheck: RegularCheckFn = {
     await aggregateActiveContractsCountByDate();
     await aggregateUniqueDeployedContractsCountByDate();
     await aggregateActiveContractsList();
+
+    //partner part
+    await aggregatePartnerTotalTransactionsCount();
+    await aggregatePartnerFirst3MonthTransactionsCount();
   },
-  interval: config.intervals.checkAggregatedStats,
+  interval: INTERVALS.checkAggregatedStats,
 };
 
 const finalityStatusCheck: RegularCheckFn = {
   description: "publish finality status",
-  fn: async (controller) => {
+  fn: async (getSession) => {
     const finalBlock = await queryFinalBlock();
-    void controller.publish("finality-status", {
-      finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
-      finalBlockHeight: finalBlock.header.height,
-    });
+    void wampPublish(
+      "finality-status",
+      {
+        finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
+        finalBlockHeight: finalBlock.header.height,
+      },
+      getSession
+    );
   },
-  interval: config.intervals.checkFinalityStatus,
+  interval: INTERVALS.checkFinalityStatus,
 };
 
 const updateRegularlyFetchedMap = async <T>(
@@ -205,8 +221,8 @@ const updateStakingPoolStakeProposalsFromContractMap = async (
       callViewMethod<string>(id, "get_total_staked_balance", {}).catch(
         () => undefined
       ),
-    config.intervals.checkStakingPoolStakeProposal,
-    config.timeouts.timeoutStakingPoolStakeProposal
+    INTERVALS.checkStakingPoolStakeProposal,
+    INTERVALS.timeoutStakingPoolStakeProposal
   );
 };
 
@@ -245,15 +261,15 @@ const updatePoolInfoMap = async (
         >(id, "get_number_of_accounts", {}).catch(() => null),
       };
     },
-    config.intervals.checkStakingPoolInfo,
-    config.timeouts.timeoutStakingPoolsInfo
+    INTERVALS.checkStakingPoolInfo,
+    INTERVALS.timeoutStakingPoolsInfo
   );
 };
 
 const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
-  fn: async (controller, state) => {
-    const epochData = await queryEpochData(state.poolIds);
+  fn: async (getSession, state) => {
+    const epochData = await queryEpochData();
     const telemetryInfo = await queryTelemetryInfo(
       epochData.validators.map((validator) => validator.accountId)
     );
@@ -263,27 +279,31 @@ const networkInfoCheck: RegularCheckFn = {
           epochData.validators,
           state
         ),
-        wait(config.timeouts.timeoutFetchValidatorsBailout),
+        wait(INTERVALS.timeoutFetchValidatorsBailout),
       ]),
       Promise.race([
         updatePoolInfoMap(epochData.validators, state),
-        wait(config.timeouts.timeoutFetchValidatorsBailout),
+        wait(INTERVALS.timeoutFetchValidatorsBailout),
       ]),
     ]);
-    void controller.publish("validators", {
-      validators: epochData.validators.map((validator) => ({
-        ...validator,
-        description: state.stakingPoolsDescriptions.get(validator.accountId),
-        poolInfo: state.stakingPoolInfos.valueMap.get(validator.accountId),
-        contractStake: state.stakingPoolStakeProposalsFromContract.valueMap.get(
-          validator.accountId
-        ),
-        telemetry: telemetryInfo.get(validator.accountId),
-      })),
-    });
-    void controller.publish("network-stats", epochData.stats);
+    void wampPublish(
+      "validators",
+      {
+        validators: epochData.validators.map((validator) => ({
+          ...validator,
+          description: state.stakingPoolsDescriptions.get(validator.accountId),
+          poolInfo: state.stakingPoolInfos.valueMap.get(validator.accountId),
+          contractStake: state.stakingPoolStakeProposalsFromContract.valueMap.get(
+            validator.accountId
+          ),
+          telemetry: telemetryInfo.get(validator.accountId),
+        })),
+      },
+      getSession
+    );
+    void wampPublish("network-stats", epochData.stats, getSession);
   },
-  interval: config.intervals.checkNetworkInfo,
+  interval: INTERVALS.checkNetworkInfo,
 };
 
 const stakingPoolMetadataInfoCheck: RegularCheckFn = {
@@ -317,16 +337,8 @@ const stakingPoolMetadataInfoCheck: RegularCheckFn = {
       }
     }
   },
-  interval: config.intervals.checkValidatorDescriptions,
-  shouldSkip: () => config.networkName !== "mainnet",
-};
-
-const poolIdsCheck: RegularCheckFn = {
-  description: "pool ids check",
-  fn: async (_, state) => {
-    state.poolIds = await queryStakingPoolAccountIds();
-  },
-  interval: config.intervals.checkPoolIds,
+  interval: INTERVALS.checkValidatorDescriptions,
+  shouldSkip: () => wampNearNetworkName !== "mainnet",
 };
 
 export const regularChecks: RegularCheckFn[] = [
@@ -337,5 +349,4 @@ export const regularChecks: RegularCheckFn[] = [
   finalityStatusCheck,
   networkInfoCheck,
   stakingPoolMetadataInfoCheck,
-  poolIdsCheck,
 ];

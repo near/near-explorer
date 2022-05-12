@@ -9,10 +9,12 @@ import GasPrice from "../utils/GasPrice";
 import Link from "../utils/Link";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
-import { useRecentTransactions } from "../../hooks/subscriptions";
+import {
+  useRecentTransactions,
+  useTransactionHistory,
+} from "../../hooks/subscriptions";
 import { useLatestGasPrice } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
-import { useFetch } from "../../hooks/use-fetch";
 
 const TransactionCardNumber = styled(Row, {
   "& > .col-12": {
@@ -28,10 +30,8 @@ const TransactionCharts = styled(Row, {
 
 const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const transactionsCountHistoryForTwoWeeks = useFetch(
-    "transaction-history",
-    []
-  );
+  const transactionsCountHistoryForTwoWeeks = useTransactionHistory()
+    ?.transactionsCountHistoryForTwoWeeks;
   const recentTransactionsCount = useRecentTransactions()
     ?.recentTransactionsCount;
   const latestGasPrice = useLatestGasPrice();

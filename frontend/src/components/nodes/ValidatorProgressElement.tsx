@@ -3,7 +3,7 @@ import * as React from "react";
 import { Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
-import { ValidationProgress } from "../../types/common";
+import { ValidationProgress } from "../../libraries/wamp/types";
 import Term from "../utils/Term";
 import {
   ValidatorNodesContentCell,
