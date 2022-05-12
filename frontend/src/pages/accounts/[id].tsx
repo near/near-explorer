@@ -113,27 +113,18 @@ export const getServerSideProps: GetServerSideProps<
   try {
     const networkName = getNearNetworkName(query, req.headers.host);
     const fetcher = getFetcher(networkName);
-    const isAccountExist = await fetcher("is-account-indexed", [accountId]);
-    if (isAccountExist) {
-      try {
-        return {
-          props: {
-            ...commonProps,
-            account: (await fetcher("account-info", [accountId]))!,
-          },
-        };
-      } catch (accountFetchingError) {
-        return {
-          props: {
-            ...commonProps,
-            accountFetchingError,
-          },
-        };
-      }
+    const maybeAccount = await fetcher("account-info", [accountId]);
+    if (maybeAccount) {
+      return {
+        props: {
+          ...commonProps,
+          account: maybeAccount,
+        },
+      };
     }
     return {
       props: {
-        accountId,
+        ...commonProps,
         accountError: `Account ${accountId} does not exist`,
       },
     };
