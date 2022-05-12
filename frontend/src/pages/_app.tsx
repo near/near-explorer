@@ -4,6 +4,7 @@ import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
 import * as ReactQuery from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { exec } from "child_process";
 import { promisify } from "util";
 
@@ -107,14 +108,17 @@ const wrapRouterHandlerMaintainNetwork = (
 type ContextProps = {
   queryClient: ReactQuery.QueryClient;
   networkState: NetworkContext;
+  dehydratedState: ReactQuery.DehydratedState;
 };
 
 const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
   return (
     <ReactQuery.QueryClientProvider client={props.queryClient}>
-      <NetworkContext.Provider value={props.networkState}>
-        {props.children}
-      </NetworkContext.Provider>
+      <ReactQuery.Hydrate state={props.dehydratedState}>
+        <NetworkContext.Provider value={props.networkState}>
+          {props.children}
+        </NetworkContext.Provider>
+      </ReactQuery.Hydrate>
     </ReactQuery.QueryClientProvider>
   );
 });
@@ -168,6 +172,7 @@ const App: AppType = React.memo(
         <AppContextWrapper
           networkState={networkState}
           queryClient={queryClient}
+          dehydratedState={pageProps.dehydratedState}
         >
           <AppWrapper>
             <Header />
@@ -176,6 +181,7 @@ const App: AppType = React.memo(
           </AppWrapper>
           <Footer />
           <DeployInfo client={deployInfo} />
+          <ReactQueryDevtools />
         </AppContextWrapper>
         {googleAnalytics ? (
           <>

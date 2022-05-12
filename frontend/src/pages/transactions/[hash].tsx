@@ -11,11 +11,10 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { Transaction } from "../../types/common";
-import { getFetcher } from "../../libraries/transport";
-import { getNearNetworkName } from "../../libraries/config";
+import { getPrefetchObject } from "../../libraries/queries";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
+import { useQuery } from "../../hooks/use-query";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
@@ -23,8 +22,6 @@ const TransactionIcon = styled(TransactionIconSvg, {
 
 type Props = {
   hash: string;
-  transaction?: Transaction;
-  err?: unknown;
 };
 
 const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
@@ -32,8 +29,8 @@ const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
     transaction_hash: props.hash,
   });
-
-  const transaction = props.transaction;
+  const transactionQuery = useQuery("transaction-info", [props.hash]);
+  const transaction = transactionQuery.data;
 
   return (
     <>
@@ -98,14 +95,12 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const networkName = getNearNetworkName(query, req.headers.host);
-    const fetcher = getFetcher(networkName);
-    const transaction =
-      (await fetcher("transaction-info", [hash])) ?? undefined;
+    const prefetchObject = getPrefetchObject(query, req.headers.host);
+    await prefetchObject.prefetch("transaction-info", [hash]);
     return {
       props: {
         hash,
-        transaction,
+        dehydratedState: prefetchObject.dehydrate(),
       },
     };
   } catch (err) {
