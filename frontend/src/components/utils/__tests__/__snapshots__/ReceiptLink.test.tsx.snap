@@ -16,9 +16,14 @@ exports[`<ReceiptLink /> renders successfully in existing transaction 1`] = `
 
 exports[`<ReceiptLink /> renders successfully in non existing transaction 1`] = `
 <span
-  className="c-DisabledLink-dIJdDd"
-  title="9zSjvFzm6BeNsco3fdNWqKNaYFkrj94AWWfGvgssQJuG"
+  onClick={[Function]}
 >
-  9zSjvFz...
+  <a
+    href="/transactions/hash#9zSjvFzm6BeNsco3fdNWqKNaYFkrj94AWWfGvgssQJuG"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+  >
+    9zSjvFz...
+  </a>
 </span>
 `;

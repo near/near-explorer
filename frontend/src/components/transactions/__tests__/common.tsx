@@ -778,7 +778,7 @@ export const RECEIPTS: Receipt[] = [
     receiverId: "ig27.near",
     signerId: "system",
     status: "SuccessValue",
-    originatedFromTransactionHash: null,
+    originatedFromTransactionHash: "hash",
     tokensBurnt: "0",
   },
   {
@@ -799,7 +799,7 @@ export const RECEIPTS: Receipt[] = [
     receiverId: "5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near",
     signerId: "5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near",
     status: "SuccessValue",
-    originatedFromTransactionHash: null,
+    originatedFromTransactionHash: "hash",
     tokensBurnt: "339889296011800000000",
   },
   {
@@ -820,7 +820,7 @@ export const RECEIPTS: Receipt[] = [
     receiverId: "bisontrails.poolv1.near",
     signerId: "5ce78003b590264df3f259983f3c3e0917fc10ea.lockup.near",
     status: "SuccessValue",
-    originatedFromTransactionHash: null,
+    originatedFromTransactionHash: "hash",
     tokensBurnt: "546162380943300000000",
   },
   {
@@ -836,7 +836,7 @@ export const RECEIPTS: Receipt[] = [
     receiverId: "wbc992.near",
     signerId: "system",
     status: "SuccessValue",
-    originatedFromTransactionHash: null,
+    originatedFromTransactionHash: "hash",
     tokensBurnt: "0",
   },
   {
@@ -858,7 +858,7 @@ export const RECEIPTS: Receipt[] = [
     receiverId: "near",
     signerId: "near",
     status: "SuccessValue",
-    originatedFromTransactionHash: null,
+    originatedFromTransactionHash: "hash",
     tokensBurnt: "324792025517200000000",
   },
   {
@@ -882,7 +882,7 @@ export const RECEIPTS: Receipt[] = [
     receiverId: "rongyuejing.near",
     signerId: "near",
     status: "SuccessValue",
-    originatedFromTransactionHash: null,
+    originatedFromTransactionHash: "hash",
     tokensBurnt: "42455506250000000000",
   },
   {
@@ -895,7 +895,7 @@ export const RECEIPTS: Receipt[] = [
     receiverId: "app.nearcrowd.near",
     signerId: "system",
     status: "SuccessValue",
-    originatedFromTransactionHash: null,
+    originatedFromTransactionHash: "hash",
     tokensBurnt: "0",
   },
   {
