@@ -3,6 +3,7 @@ import {
   queryReceiptInTransaction,
   queryIncludedReceiptsList,
   queryExecutedReceiptsList,
+  QueryReceipt,
 } from "./db-utils";
 
 import BN from "bn.js";
@@ -16,7 +17,7 @@ import {
   Receipt,
   ReceiptExecutionStatus,
   TransactionHashByReceiptId,
-} from "./types";
+} from "./client-types";
 
 const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
   string | null,
@@ -28,12 +29,12 @@ const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
   [null, "Unknown"],
 ]);
 
-export const getIndexerCompatibilityReceiptActionKinds = () => {
+function getIndexerCompatibilityReceiptActionKinds() {
   return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
-};
+}
 
 function groupReceiptActionsIntoReceipts(
-  receiptActions: Awaited<ReturnType<typeof queryIncludedReceiptsList>>
+  receiptActions: QueryReceipt[]
 ): Receipt[] {
   // The receipt actions are ordered in such a way that the actions for a single receipt go
   // one after another in a correct order, so we can collect them linearly using a moving
@@ -75,33 +76,29 @@ function groupReceiptActionsIntoReceipts(
 // As a temporary solution we split receipts list into two lists:
 // included in block and executed in block
 // more info here https://github.com/near/near-explorer/pull/868
-export const getIncludedReceiptsList = async (
-  blockHash: string
-): Promise<Receipt[]> => {
+async function getIncludedReceiptsList(blockHash: string): Promise<Receipt[]> {
   const receiptActions = await queryIncludedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
-};
+}
 
-export const getExecutedReceiptsList = async (
-  blockHash: string
-): Promise<Receipt[]> => {
+async function getExecutedReceiptsList(blockHash: string): Promise<Receipt[]> {
   const receiptActions = await queryExecutedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
-};
+}
 
-export const getReceiptsCountInBlock = async (
+async function getReceiptsCountInBlock(
   blockHash: string
-): Promise<number | null> => {
+): Promise<number | null> {
   const receiptsCount = await queryReceiptsCountInBlock(blockHash);
   if (!receiptsCount) {
     return null;
   }
   return parseInt(receiptsCount.count);
-};
+}
 
-export const getReceiptInTransaction = async (
+async function getReceiptInTransaction(
   receiptId: string
-): Promise<TransactionHashByReceiptId | null> => {
+): Promise<TransactionHashByReceiptId | null> {
   const transactionInfo = await queryReceiptInTransaction(receiptId);
   if (!transactionInfo) {
     return null;
@@ -111,4 +108,12 @@ export const getReceiptInTransaction = async (
     originatedFromTransactionHash:
       transactionInfo.originated_from_transaction_hash,
   };
+}
+
+export {
+  getReceiptsCountInBlock,
+  getReceiptInTransaction,
+  getIndexerCompatibilityReceiptActionKinds,
+  getIncludedReceiptsList,
+  getExecutedReceiptsList,
 };

@@ -9,7 +9,7 @@ import Term from "../utils/Term";
 import TransactionLink from "../utils/TransactionLink";
 
 import { Trans, useTranslation } from "react-i18next";
-import { useFetch } from "../../hooks/use-fetch";
+import { useWampQuery } from "../../hooks/wamp";
 import { styled } from "../../libraries/styles";
 
 const ContractInfoContainer = styled("div", {
@@ -48,8 +48,50 @@ interface Props {
 
 const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const contractInfo = useFetch("contract-info", [accountId]);
-  if (!contractInfo) {
+  const contractInfo = useWampQuery(
+    React.useCallback(
+      async (wampCall) => {
+        // codeHash does not exist for deleted accounts
+        const account = await wampCall("nearcore-view-account", [accountId]);
+        const codeHash = account["code_hash"];
+        // see https://github.com/near/near-explorer/pull/841#discussion_r783205960
+        if (!codeHash || codeHash === "11111111111111111111111111111111") {
+          return;
+        }
+        const [contractInfo, accessKeys] = await Promise.all([
+          wampCall("contract-info-by-account-id", [accountId]),
+          wampCall("nearcore-view-access-key-list", [accountId]),
+        ]);
+        if (contractInfo !== null) {
+          return {
+            codeHash,
+            transactionHash: contractInfo.hash,
+            timestamp: contractInfo.blockTimestamp,
+            accessKeys: accessKeys.keys,
+          };
+        } else {
+          return {
+            codeHash,
+            accessKeys: accessKeys.keys,
+          };
+        }
+      },
+      [accountId]
+    )
+  );
+  const locked = React.useMemo(
+    () =>
+      contractInfo?.accessKeys.every(
+        (key) => key.access_key.permission !== "FullAccess"
+      ),
+    [contractInfo]
+  );
+
+  let lockedShow: string | undefined;
+  if (locked !== undefined) {
+    lockedShow = locked === true ? t("common.state.yes") : t("common.state.no");
+  }
+  if (!contractInfo?.codeHash) {
     return null;
   }
   return (
@@ -126,11 +168,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
                   }
                 />
               }
-              text={
-                contractInfo.locked
-                  ? t("common.state.yes")
-                  : t("common.state.no")
-              }
+              text={lockedShow ? lockedShow : ""}
               className="border-0"
             />
           </Col>

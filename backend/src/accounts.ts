@@ -1,62 +1,45 @@
 import BN from "bn.js";
 import { sha256 } from "js-sha256";
 
-import { AccountListInfo, AccountTransactionsCount } from "./types";
-import { config } from "./config";
+import {
+  AccountBasicInfo,
+  AccountPagination,
+  AccountTransactionsCount,
+  PaginatedAccountBasicInfo,
+} from "./client-types";
+import { nearLockupAccountIdSuffix } from "./config";
 import {
   queryIndexedAccount,
   queryAccountsList,
   queryAccountInfo,
-  queryIncomeTransactionsCountFromAnalytics,
-  queryIncomeTransactionsCountFromIndexerForLastDay,
-  queryOutcomeTransactionsCountFromAnalytics,
-  queryOutcomeTransactionsCountFromIndexerForLastDay,
+  queryAccountOutcomeTransactionsCount,
+  queryAccountIncomeTransactionsCount,
+  queryAccountActivity,
 } from "./db-utils";
 import { callViewMethod, sendJsonRpc, sendJsonRpcQuery } from "./near";
 
-export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
+import { getIndexerCompatibilityTransactionActionKinds } from "./transactions";
+
+async function isAccountIndexed(accountId: string): Promise<boolean> {
   const account = await queryIndexedAccount(accountId);
   return Boolean(account?.account_id);
-};
+}
 
-export const getAccountsList = async (
+async function getAccountsList(
   limit: number,
-  lastAccountIndex: number | null
-): Promise<AccountListInfo[]> => {
-  const accountsList = await queryAccountsList(limit, lastAccountIndex);
+  paginationIndexer?: AccountPagination
+): Promise<PaginatedAccountBasicInfo[]> {
+  const accountsList = await queryAccountsList(limit, paginationIndexer);
   return accountsList.map((account) => ({
     accountId: account.account_id,
+    createdAtBlockTimestamp: parseInt(account.created_at_block_timestamp),
     accountIndex: parseInt(account.account_index),
   }));
-};
+}
 
-const queryAccountIncomeTransactionsCount = async (accountId: string) => {
-  const {
-    in_transactions_count: inTxCountFromAnalytics,
-    last_day_collected_timestamp: lastDayCollectedTimestamp,
-  } = await queryIncomeTransactionsCountFromAnalytics(accountId);
-  const inTxCountFromIndexer = await queryIncomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  );
-  return inTxCountFromAnalytics + inTxCountFromIndexer;
-};
-
-const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
-  const {
-    out_transactions_count: outTxCountFromAnalytics,
-    last_day_collected_timestamp: lastDayCollectedTimestamp,
-  } = await queryOutcomeTransactionsCountFromAnalytics(accountId);
-  const outTxCountFromIndexer = await queryOutcomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  );
-  return outTxCountFromAnalytics + outTxCountFromIndexer;
-};
-
-export const getAccountTransactionsCount = async (
+async function getAccountTransactionsCount(
   accountId: string
-): Promise<AccountTransactionsCount> => {
+): Promise<AccountTransactionsCount> {
   const [inTransactionsCount, outTransactionsCount] = await Promise.all([
     queryAccountOutcomeTransactionsCount(accountId),
     queryAccountIncomeTransactionsCount(accountId),
@@ -65,9 +48,11 @@ export const getAccountTransactionsCount = async (
     inTransactionsCount,
     outTransactionsCount,
   };
-};
+}
 
-export const getAccountInfo = async (accountId: string) => {
+async function getAccountInfo(
+  accountId: string
+): Promise<AccountBasicInfo | null> {
   const accountInfo = await queryAccountInfo(accountId);
   if (!accountInfo) {
     return null;
@@ -85,14 +70,48 @@ export const getAccountInfo = async (accountId: string) => {
       ? parseInt(accountInfo.deleted_at_block_timestamp)
       : undefined,
   };
-};
+}
+
+async function getAccountActivity(accountId: string): Promise<unknown> {
+  const accountActivity = await queryAccountActivity(accountId);
+  if (!accountActivity) {
+    return null;
+  }
+  const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
+  return accountActivity.map((activity) => ({
+    timestamp: activity.timestamp,
+    updateReason: activity.update_reason,
+    nonstakedBalance: activity.nonstaked_balance,
+    stakedBalance: activity.staked_balance,
+    storageUsage: activity.storage_usage,
+    signerId: activity.receipt_signer_id || activity.transaction_signer_id,
+    receiverId:
+      activity.receipt_receiver_id || activity.transaction_receiver_id,
+    action: {
+      kind: activity.transaction_transaction_kind
+        ? indexerCompatibilityTransactionActionKinds.get(
+            activity.transaction_transaction_kind
+          )
+        : activity.receipt_kind
+        ? indexerCompatibilityTransactionActionKinds.get(activity.receipt_kind)
+        : activity.update_reason,
+      args: activity.transaction_args
+        ? typeof activity.transaction_args === "string"
+          ? JSON.parse(activity.transaction_args)
+          : activity.transaction_args
+        : typeof activity.receipt_args === "string"
+        ? JSON.parse(activity.receipt_args)
+        : activity.receipt_args,
+    },
+  }));
+}
 
 function generateLockupAccountIdFromAccountId(accountId: string): string {
   // copied from https://github.com/near/near-wallet/blob/f52a3b1a72b901d87ab2c9cee79770d697be2bd9/src/utils/wallet.js#L601
   return (
     sha256(Buffer.from(accountId)).substring(0, 40) +
     "." +
-    config.accountIdSuffix.lockup
+    nearLockupAccountIdSuffix
   );
 }
 
@@ -117,9 +136,9 @@ function ignoreIfDoesNotExist(error: unknown): null {
   throw error;
 }
 
-export const getAccountDetails = async (accountId: string) => {
+const getAccountDetails = async (accountId: string) => {
   let lockupAccountId: string;
-  if (accountId.endsWith(`.${config.accountIdSuffix.lockup}`)) {
+  if (accountId.endsWith(`.${nearLockupAccountIdSuffix}`)) {
     lockupAccountId = accountId;
   } else {
     lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
@@ -228,4 +247,13 @@ export const getAccountDetails = async (accountId: string) => {
     lockupLockedBalance: lockupDetails?.lockedBalance,
     lockupUnlockedBalance: lockupDetails?.unlockedBalance,
   };
+};
+
+export {
+  isAccountIndexed,
+  getAccountsList,
+  getAccountTransactionsCount,
+  getAccountInfo,
+  getAccountActivity,
+  getAccountDetails,
 };

@@ -3,7 +3,7 @@ import { Dropdown } from "react-bootstrap";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 
 import { useNetworkContext } from "../../hooks/use-network-context";
-import { NetworkName } from "../../types/common";
+import { NetworkName } from "../../libraries/config";
 import { styled } from "../../libraries/styles";
 
 const HeaderNetworkItemDropdown = styled(Dropdown.Item, {
@@ -115,21 +115,21 @@ const IconRight = styled("img", {
 });
 
 const HeaderNetworkDropdown: React.FC = React.memo(() => {
-  const { networkName, networks } = useNetworkContext();
+  const { currentNetwork, networks } = useNetworkContext();
   return (
     <Dropdown>
       <HeaderNetwork variant="secondary">
-        <NetworkIcon network={networkName} />
-        {networkName}
+        <NetworkIcon network={currentNetwork.name} />
+        {currentNetwork.name}
         <IconRight src="/static/images/icon-network-right.svg" />
         <DropdownArrow src="/static/images/down-blue-arrow.svg" />
       </HeaderNetwork>
       <HeaderNetworkDropdownMenu>
-        {networks.map(([name, network]) => {
+        {networks.map((network) => {
           return (
             <HeaderDropdownItem
-              key={name}
-              title={name}
+              key={network.name}
+              title={network.name}
               link={network.explorerLink}
             />
           );

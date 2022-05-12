@@ -11,9 +11,9 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getNearNetworkName } from "../../libraries/config";
-import { getFetcher } from "../../libraries/transport";
-import { Block } from "../../types/common";
+import { getNearNetwork } from "../../libraries/config";
+import wampApi from "../../libraries/wamp/api";
+import { Block, getBlock } from "../../providers/blocks";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -87,9 +87,8 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const networkName = getNearNetworkName(query, req.headers.host);
-    const fetcher = getFetcher(networkName);
-    const block = await fetcher("block-info", [hash]);
+    const nearNetwork = getNearNetwork(query, req.headers.host);
+    const block = await getBlock(wampApi.getCall(nearNetwork), hash);
     if (!block) {
       return {
         props: {

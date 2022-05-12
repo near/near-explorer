@@ -10,7 +10,7 @@ import NearBadge from "../nodes/NearBadge";
 import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "../../hooks/subscriptions";
 import { useEpochStartBlock } from "../../hooks/data";
-import { useFetch } from "../../hooks/use-fetch";
+import { useWampQuery, useWampSimpleQuery } from "../../hooks/wamp";
 import { styled } from "../../libraries/styles";
 
 const ProtocolConfig = styled(InfoCard, {
@@ -37,18 +37,27 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   const networkStats = useNetworkStats();
   const epochStartBlock = useEpochStartBlock();
 
-  const genesisAccountsAmount = useFetch("nearcore-genesis-accounts-count", []);
-  const genesisProtocolConfig = useFetch(
-    "nearcore-genesis-protocol-configuration",
+  const genesisAccountsAmount = useWampSimpleQuery(
+    "nearcore-genesis-accounts-count",
     []
   );
-  const firstProducedBlockTimestamp = useFetch(
+  const genesisHeight = networkStats?.genesisHeight;
+  const genesisProtocolConfig = useWampQuery(
+    React.useCallback(
+      async (wampCall) =>
+        genesisHeight
+          ? wampCall("nearcore-genesis-protocol-configuration", [genesisHeight])
+          : undefined,
+      [genesisHeight]
+    )
+  );
+  const firstProducedBlockTimestamp = useWampSimpleQuery(
     "first-produced-block-timestamp",
     []
   );
 
   const liveAccountsCount =
-    useFetch("live-accounts-count-aggregated-by-date", []) ?? [];
+    useWampSimpleQuery("live-accounts-count-aggregated-by-date", []) ?? [];
   const lastDateLiveAccounts = React.useMemo(
     () => liveAccountsCount[liveAccountsCount.length - 1]?.accountsCount,
     [liveAccountsCount]

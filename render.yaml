@@ -6,44 +6,53 @@ services:
     env: node
     plan: starter plus
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../frontend && npm clean-install && npm run build
+    buildCommand: cd frontend && npm clean-install && npm run build
     startCommand: cd frontend && npm run start
     healthCheckPath: /api/ping
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__BACKEND__HOST
-        fromService:
-          type: web
-          name: wamp
-          envVarKey: RENDER_EXTERNAL_HOSTNAME
-      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOST
+      - key: NEAR_EXPLORER_WAMP_SSR_HOST
         fromService:
           type: web
           name: wamp
           property: host
+      - key: NEAR_EXPLORER_WAMP_HOST
+        fromService:
+          type: web
+          name: wamp
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
+      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
+        fromService:
+          type: web
+          name: wamp
+          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
 
       - fromGroup: frontend
 
-      - key: NEAR_EXPLORER_CONFIG__GOOGLE_ANALYTICS
+      - key: NEAR_EXPLORER_GOOGLE_ANALYTICS
         value: UA-100373569-14
-      - key: NEAR_EXPLORER_CONFIG__NETWORKS
+      - key: NEAR_NETWORKS
         value: |
-          {
-            "mainnet": {
+          [
+            {
+              "name": "mainnet",
               "explorerLink": "https://explorer.near.org/",
               "aliases": ["explorer.near.org", "explorer.mainnet.near.org", "explorer.nearprotocol.com", "explorer.mainnet.nearprotocol.com"],
+              "lockupAccountIdSuffix": "lockup.near",
               "nearWalletProfilePrefix": "https://wallet.near.org/profile"
             },
-            "testnet": {
+            {
+              "name": "testnet",
               "explorerLink": "https://explorer.testnet.near.org/",
               "aliases": ["explorer.testnet.near.org", "explorer.testnet.nearprotocol.com"],
               "nearWalletProfilePrefix": "https://wallet.testnet.near.org/profile"
             },
-            "guildnet": {
+            {
+              "name": "guildnet",
               "explorerLink": "https://explorer.guildnet.near.org/",
               "aliases": ["explorer.guildnet.near.org"],
               "nearWalletProfilePrefix": "https://wallet.openshards.io/profile"
             }
-          }
+          ]
 
   ## Explorer WAMP
   - type: web
@@ -55,7 +64,7 @@ services:
     dockerContext: ./wamp
     repo: https://github.com/near/near-explorer.git
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__SECRET
+      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
         generateValue: true
 
   ## Explorer backend [mainnet]
@@ -63,19 +72,19 @@ services:
     name: backend/mainnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
+    buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
+      - key: NEAR_EXPLORER_WAMP_HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
+      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
+          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
 
       - fromGroup: backend
       - fromGroup: backend/mainnet
@@ -86,19 +95,19 @@ services:
     name: backend/testnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
+    buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
+      - key: NEAR_EXPLORER_WAMP_HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
+      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
+          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
 
       - fromGroup: backend
       - fromGroup: backend/testnet
@@ -109,19 +118,19 @@ services:
     name: backend/guildnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
+    buildCommand: cd backend && npm clean-install && npm run build
     startCommand: cd backend && npm run start
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
+      - key: NEAR_EXPLORER_WAMP_HOST
         fromService:
           type: web
           name: wamp
           property: host
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET
+      - key: NEAR_EXPLORER_WAMP_BACKEND_SECRET
         fromService:
           type: web
           name: wamp
-          envVarKey: NEAR_EXPLORER_CONFIG__SECRET
+          envVarKey: NEAR_EXPLORER_WAMP_BACKEND_SECRET
 
       - fromGroup: backend
       - fromGroup: backend/guildnet
@@ -130,25 +139,25 @@ services:
 envVarGroups:
   - name: frontend
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__BACKEND__SECURE
+      - key: NEAR_EXPLORER_WAMP_SECURE
         value: true
-      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__SECURE
+      - key: NEAR_EXPLORER_WAMP_SSR_SECURE
         value: false
-      - key: NEAR_EXPLORER_CONFIG__BACKEND__PORT
+      - key: NEAR_EXPLORER_WAMP_PORT
         value: 443
-      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__PORT
+      - key: NEAR_EXPLORER_WAMP_SSR_PORT
         value: 10000
   - name: backend
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__SECURE
+      - key: NEAR_EXPLORER_WAMP_SECURE
         value: false
-      - key: NEAR_EXPLORER_CONFIG__TRANSPORT__PORT
+      - key: NEAR_EXPLORER_WAMP_PORT
         value: 10000
   - name: backend/mainnet
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
+      - key: NEAR_EXPLORER_WAMP_NETWORK_NAME
         value: mainnet
-      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
+      - key: NEAR_ARCHIVAL_RPC_URL
         value: https://archive-internal-rpc.mainnet.near.org/
 
       - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST
@@ -166,9 +175,9 @@ envVarGroups:
         value: telemetry_mainnet
   - name: backend/testnet
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
+      - key: NEAR_EXPLORER_WAMP_NETWORK_NAME
         value: testnet
-      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
+      - key: NEAR_ARCHIVAL_RPC_URL
         value: https://archive-internal-rpc.testnet.near.org/
 
       - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST
@@ -186,9 +195,9 @@ envVarGroups:
         value: telemetry_testnet
   - name: backend/guildnet
     envVars:
-      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
+      - key: NEAR_EXPLORER_WAMP_NETWORK_NAME
         value: guildnet
-      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
+      - key: NEAR_ARCHIVAL_RPC_URL
         value: https://rpc.openshards.io
 
       - key: NEAR_READ_ONLY_INDEXER_DATABASE_HOST

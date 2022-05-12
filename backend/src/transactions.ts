@@ -1,4 +1,8 @@
-import { Action, TransactionBaseInfo, TransactionPagination } from "./types";
+import {
+  Action,
+  TransactionBaseInfo,
+  TransactionPagination,
+} from "./client-types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
@@ -6,6 +10,7 @@ import {
   queryAccountTransactionsList,
   queryTransactionsListInBlock,
   queryTransactionInfo,
+  QueryTransaction,
 } from "./db-utils";
 
 const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
@@ -25,7 +30,7 @@ const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
 // helper function to init transactions list
 // as we use the same structure but different queries for account, block, txInfo and list
 async function createTransactionsList(
-  transactionsArray: Awaited<ReturnType<typeof queryTransactionsList>>
+  transactionsArray: QueryTransaction[]
 ): Promise<TransactionBaseInfo[]> {
   const transactionsHashes = transactionsArray.map(({ hash }) => hash);
   const transactionsActionsList = await getTransactionsActionsList(
@@ -43,21 +48,24 @@ async function createTransactionsList(
   }));
 }
 
-export const getIndexerCompatibilityTransactionActionKinds = () => {
+function getIndexerCompatibilityTransactionActionKinds(): Map<
+  string,
+  Action["kind"]
+> {
   return INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS;
-};
+}
 
-export const getIsTransactionIndexed = async (
+async function getIsTransactionIndexed(
   transactionHash: string
-): Promise<boolean> => {
+): Promise<boolean> {
   const transaction = await queryIndexedTransaction(transactionHash);
   return Boolean(transaction?.transaction_hash);
-};
+}
 
-export const getTransactionsList = async (
-  limit: number | undefined,
-  paginationIndexer: TransactionPagination | null
-): Promise<TransactionBaseInfo[]> => {
+async function getTransactionsList(
+  limit?: number,
+  paginationIndexer?: TransactionPagination
+): Promise<TransactionBaseInfo[]> {
   const transactionsList = await queryTransactionsList(
     limit,
     paginationIndexer
@@ -68,13 +76,13 @@ export const getTransactionsList = async (
     return [];
   }
   return await createTransactionsList(transactionsList);
-};
+}
 
-export const getAccountTransactionsList = async (
+async function getAccountTransactionsList(
   accountId: string,
-  limit: number | undefined,
-  paginationIndexer: TransactionPagination | null
-): Promise<TransactionBaseInfo[]> => {
+  limit?: number,
+  paginationIndexer?: TransactionPagination
+): Promise<TransactionBaseInfo[]> {
   const accountTxList = await queryAccountTransactionsList(
     accountId,
     limit,
@@ -86,13 +94,13 @@ export const getAccountTransactionsList = async (
     return [];
   }
   return await createTransactionsList(accountTxList);
-};
+}
 
-export const getTransactionsListInBlock = async (
+async function getTransactionsListInBlock(
   blockHash: string,
-  limit: number | undefined,
-  paginationIndexer: TransactionPagination | null
-): Promise<TransactionBaseInfo[]> => {
+  limit?: number,
+  paginationIndexer?: TransactionPagination
+): Promise<TransactionBaseInfo[]> {
   const txListInBlock = await queryTransactionsListInBlock(
     blockHash,
     limit,
@@ -104,18 +112,18 @@ export const getTransactionsListInBlock = async (
     return [];
   }
   return await createTransactionsList(txListInBlock);
-};
+}
 
-export const getTransactionInfo = async (
+async function getTransactionInfo(
   transactionHash: string
-): Promise<TransactionBaseInfo | null> => {
+): Promise<TransactionBaseInfo | null> {
   const transactionInfo = await queryTransactionInfo(transactionHash);
   if (!transactionInfo) {
     return null;
   }
   const transaction = await createTransactionsList([transactionInfo]);
   return transaction[0] || null;
-};
+}
 
 export const convertDbArgsToRpcArgs = (
   kind: string,
@@ -183,3 +191,12 @@ async function getTransactionsActionsList(
   });
   return transactionsActionsByHash;
 }
+
+export {
+  getIndexerCompatibilityTransactionActionKinds,
+  getIsTransactionIndexed,
+  getTransactionsList,
+  getAccountTransactionsList,
+  getTransactionsListInBlock,
+  getTransactionInfo,
+};

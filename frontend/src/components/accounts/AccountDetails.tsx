@@ -14,8 +14,8 @@ import StorageSize from "../utils/StorageSize";
 
 import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
-import { useFetch } from "../../hooks/use-fetch";
-import { Account } from "../../types/common";
+import { useWampSimpleQuery } from "../../hooks/wamp";
+import { Account } from "../../providers/accounts";
 import { styled } from "../../libraries/styles";
 
 const AccountInfoContainer = styled("div", {
@@ -47,8 +47,8 @@ export interface Props {
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const { network } = useNetworkContext();
-  const transactionCount = useFetch("account-transactions-count", [
+  const { currentNetwork } = useNetworkContext();
+  const transactionCount = useWampSimpleQuery("account-transactions-count", [
     account.accountId,
   ]);
 
@@ -142,8 +142,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
         )}
       </Row>
       {typeof account.nonStakedBalance !== "undefined" &&
-        typeof account.stakedBalance !== "undefined" &&
-        network && (
+        typeof account.stakedBalance !== "undefined" && (
           <Row noGutters>
             <Col xs="12" md="4">
               <CardCell
@@ -203,7 +202,9 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                 text={
                   <WalletLink
                     accountId={account.accountId}
-                    nearWalletProfilePrefix={network.nearWalletProfilePrefix}
+                    nearWalletProfilePrefix={
+                      currentNetwork.nearWalletProfilePrefix
+                    }
                   />
                 }
               />
