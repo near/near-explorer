@@ -1,243 +1,123 @@
-import { PoolClient, Pool, PoolConfig } from "pg";
+import { Pool } from "pg";
+import {
+  ExpressionBuilder,
+  Kysely,
+  PostgresDialect,
+  PostgresDialectConfig,
+  sql,
+} from "kysely";
+import { StringReference } from "kysely/dist/cjs/parser/reference-parser";
 import BN from "bn.js";
 import geoip from "geoip-lite";
 
-import { databaseConfig } from "../config/database";
-import { DataSource, HOUR } from "./consts";
+import { databaseConfigs } from "../config/database";
+import { HOUR } from "./consts";
 import { config } from "./config";
 import {
   TelemetryRequest,
   TransactionPagination,
   ValidatorTelemetry,
 } from "./types";
-import { trimError } from "./utils";
 
-const getPgPool = (config: PoolConfig): Pool => {
+import * as Indexer from "../config/models/readOnlyIndexerDatabase";
+import * as Telemetry from "../config/models/readOnlyTelemetryDatabase";
+import * as Analytics from "../config/models/readOnlyAnalyticsDatabase";
+import { ExtractColumnType } from "kysely/dist/cjs/util/type-utils";
+
+const getPgPool = (config: PostgresDialectConfig): Pool => {
   const pool = new Pool(config);
   pool.on("error", (error) => {
-    console.error(`Pool ${config.database} errored: ${trimError(error)}`);
+    console.error(`Pool ${config.database} failed: ${String(error)}`);
+  });
+  pool.on("connect", (connection) => {
+    connection.on("error", (error) =>
+      console.error(`Client ${config.database} failed: ${String(error)}`)
+    );
   });
   return pool;
 };
 
-const telemetryBackendWriteOnlyPool = databaseConfig.writeOnlyTelemetryDatabase
-  .host
-  ? getPgPool(databaseConfig.writeOnlyTelemetryDatabase)
+const getKysely = <T>(config: PostgresDialectConfig): Kysely<T> =>
+  new Kysely<T>({
+    dialect: new PostgresDialect(getPgPool(config)),
+  });
+
+const telemetryWriteDatabase = databaseConfigs.writeOnlyTelemetryDatabase.host
+  ? getKysely<Telemetry.ModelTypeMap>(
+      databaseConfigs.writeOnlyTelemetryDatabase
+    )
   : null;
 
-const telemetryBackendReadOnlyPool = getPgPool(
-  databaseConfig.readOnlyTelemetryDatabase
+const telemetryDatabase = getKysely<Telemetry.ModelTypeMap>(
+  databaseConfigs.readOnlyTelemetryDatabase
 );
 
-const indexerBackendReadOnlyPool = getPgPool(
-  databaseConfig.readOnlyIndexerDatabase
+const indexerDatabase = getKysely<Indexer.ModelTypeMap>(
+  databaseConfigs.readOnlyIndexerDatabase
 );
 
-const analyticsBackendReadOnlyPool = getPgPool(
-  databaseConfig.readOnlyAnalyticsDatabase
+const analyticsDatabase = getKysely<Analytics.ModelTypeMap>(
+  databaseConfigs.readOnlyAnalyticsDatabase
 );
-
-const databases = {
-  telemetryBackendWriteOnlyPool,
-  telemetryBackendReadOnlyPool,
-  indexerBackendReadOnlyPool,
-  analyticsBackendReadOnlyPool,
-};
-
-const withPool = async <T>(
-  backend: Pool,
-  run: (client: PoolClient) => Promise<T>
-): Promise<T> => {
-  const client = await backend.connect();
-  const errorHandler = (error: unknown) =>
-    console.error(`Client errored: ${trimError(error)}`);
-  try {
-    client.addListener("error", errorHandler);
-    return await run(client);
-  } finally {
-    if (client) {
-      client.removeListener("error", errorHandler);
-      client.release();
-    }
-  }
-};
 
 const ONE_DAY_TIMESTAMP_MILISEC = 24 * HOUR;
 
-type Replacements = Record<string, unknown> | undefined;
+const count = <DB, TB extends keyof DB>(
+  expressionBuilder: ExpressionBuilder<DB, TB>,
+  column: StringReference<DB, TB>
+) => expressionBuilder.fn.count<string>(column);
 
-type QueryArgs<Args extends Replacements> = Args extends undefined
-  ? [string]
-  : [string, Args];
-type QueryOptions = { dataSource: DataSource };
+const sum = <DB, TB extends keyof DB>(
+  expressionBuilder: ExpressionBuilder<DB, TB>,
+  column: StringReference<DB, TB>
+) => expressionBuilder.fn.sum<string>(column);
 
-type QueryReducerArray = [string, unknown[], number];
-const convertParamSqlToPlainSql = <Args extends Replacements>(
-  parameterizedSql: string,
-  params?: Args
-): [string, unknown[]?] => {
-  if (!params) {
-    return [parameterizedSql];
-  }
-  const [text, values] = Object.entries(params).reduce<QueryReducerArray>(
-    ([sql, array, index], [key, value]) =>
-      value === undefined
-        ? [sql, array, index]
-        : [
-            sql.replace(new RegExp(`:${key}`, "g"), `$${index}`),
-            [...array, value],
-            index + 1,
-          ],
-    [parameterizedSql, [], 1]
-  );
-  return [text, values];
+const div = <DB, TB extends keyof DB, C extends string>(
+  _eb: ExpressionBuilder<DB, TB>,
+  column: StringReference<DB, TB>,
+  times: number,
+  alias: C
+) => {
+  // TODO: Evaluation of column type extraction is not correct
+  // See example with 'deletion_receipt' table join
+  // 'deleted_at_block_timestamp' field should be null-able
+  return sql<
+    ExtractColumnType<DB, TB, StringReference<DB, TB>> extends null
+      ? string | null
+      : string
+  >`div(${sql.ref(column)}, ${times})`.as(alias);
 };
 
-const query = async <T extends object, Args extends Replacements>(
-  [query, replacements]: QueryArgs<Args>,
-  { dataSource }: QueryOptions
-): Promise<T[]> => {
-  const [sql, values] = convertParamSqlToPlainSql(query, replacements);
-  try {
-    return await withPool(getPool(dataSource), async (client) => {
-      const result = await client.query<T>(sql, values);
-      return result.rows;
-    });
-  } catch (e) {
-    const errorLines = [
-      `SQL query failed with error: ${trimError(e)}`,
-      `SQL: ${sql}`,
-      values
-        ? `Extrapolated values: ${values.map(
-            (value, index) => `$${index + 1} -> ${value}`
-          )}`
-        : "",
-    ]
-      .filter(Boolean)
-      .join("\n\n");
-    console.error(errorLines);
-    throw e;
-  }
+export const queryGenesisAccountCount = async () => {
+  return indexerDatabase
+    .selectFrom("accounts")
+    .select((eb) => count(eb, "id").as("count"))
+    .where("created_by_receipt_id", "is", null)
+    .executeTakeFirstOrThrow();
 };
-
-export const getPool = (dataSource: DataSource): Pool => {
-  switch (dataSource) {
-    case DataSource.Indexer:
-      return databases.indexerBackendReadOnlyPool;
-    case DataSource.Analytics:
-      return databases.analyticsBackendReadOnlyPool;
-    case DataSource.Telemetry:
-      return databases.telemetryBackendReadOnlyPool;
-  }
-};
-
-// we query block by id or hash in several places
-// so can use this helper
-const blockSearchCriteria = (blockId: string | number): string =>
-  typeof blockId === "string" ? "block_hash" : "block_height";
-
-const querySingleRow = async <
-  T extends object,
-  Args extends Replacements = undefined
->(
-  args: QueryArgs<Args>,
-  options: QueryOptions
-): Promise<T | undefined> => {
-  const result = await query<T, Args>(args, options);
-  return result[0];
-};
-
-const queryRows = async <
-  T extends object,
-  Args extends Replacements = undefined
->(
-  args: QueryArgs<Args>,
-  options: QueryOptions
-): Promise<T[]> => {
-  return await query<T, Args>(args, options);
-};
-
-export const queryGenesisAccountCount = async (): Promise<{
-  count: string;
-}> => {
-  const result = await querySingleRow<{ count: string }>(
-    [
-      `SELECT
-        COUNT(*)
-      FROM accounts
-      WHERE created_by_receipt_id IS NULL`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-  return result!;
-};
-
-// model of "blocks" table in indexer DB
-type BlockModel = {
-  block_height: string;
-  block_hash: string;
-  prev_block_hash: string;
-  block_timestamp: string;
-  total_supply: string;
-  gas_price: string;
-  author_account_id: string;
-};
-
-// model of "nodes" table in telemetry DB
-type NodeModel = {
-  ip_address: string;
-  moniker: string;
-  account_id: string;
-  node_id: string;
-  last_seen: Date;
-  last_height: string;
-  agent_name: string;
-  agent_version: string;
-  agent_build: string;
-  peer_count: string;
-  is_validator: boolean;
-  last_hash: string;
-  signature: string;
-  status: string;
-  latitude: string | null;
-  longitude: string | null;
-  city: string | null;
-};
-
-type GenericNodeModelProps =
-  | "ip_address"
-  | "account_id"
-  | "node_id"
-  | "last_seen"
-  | "last_height"
-  | "agent_name"
-  | "agent_version"
-  | "agent_build"
-  | "status"
-  | "latitude"
-  | "longitude"
-  | "city";
 
 // query for node information
-export const queryTelemetryInfo = async (
-  accountIds: string[]
-): Promise<Map<string, ValidatorTelemetry>> => {
-  let nodesInfo = await queryRows<
-    Pick<NodeModel, GenericNodeModelProps>,
-    { ids: string[] }
-  >(
-    [
-      `SELECT ip_address, account_id, node_id,
-        last_seen, last_height, status,
-        agent_name, agent_version, agent_build,
-        latitude, longitude, city
-      FROM nodes
-      WHERE account_id = ANY (:ids)
-      ORDER BY last_seen`,
-      { ids: accountIds },
-    ],
-    { dataSource: DataSource.Telemetry }
-  );
+export const queryTelemetryInfo = async (accountIds: string[]) => {
+  const nodesInfo = await telemetryDatabase
+    .selectFrom("nodes")
+    .select([
+      "ip_address",
+      "account_id",
+      "node_id",
+      "last_seen",
+      "last_height",
+      "status",
+      "agent_name",
+      "agent_version",
+      "agent_build",
+      "latitude",
+      "longitude",
+      "city",
+    ])
+    .where("account_id", "in", accountIds)
+    .orderBy("last_seen")
+    .execute();
+
   const map = new Map<string, ValidatorTelemetry>();
   for (const nodeInfo of nodesInfo) {
     map.set(nodeInfo.account_id, {
@@ -257,72 +137,61 @@ export const queryTelemetryInfo = async (
   return map;
 };
 
-export const queryStakingPoolAccountIds = async (): Promise<string[]> => {
-  return (
-    await queryRows<{ accountId: string }>(
-      [
-        `SELECT account_id as "accountId"
-    FROM accounts
-    WHERE account_id LIKE '%${
-      config.accountIdSuffix.stakingPool[config.networkName]
-    }'`,
-      ],
-      { dataSource: DataSource.Indexer }
+export const queryStakingPoolAccountIds = async () => {
+  const selection = await indexerDatabase
+    .selectFrom("accounts")
+    .select("account_id as accountId")
+    .where(
+      "account_id",
+      "like",
+      `%${config.accountIdSuffix.stakingPool[config.networkName]}`
     )
-  ).map(({ accountId }) => accountId);
+    .execute();
+  return selection.map(({ accountId }) => accountId);
 };
 
-export const queryOnlineNodesCount = async (): Promise<number> => {
-  const query = await querySingleRow<{ onlineNodesCount: string }>(
-    [
-      `SELECT COUNT(*) as "onlineNodesCount"
-      FROM nodes
-      WHERE last_seen > NOW() - INTERVAL '60 seconds'`,
-    ],
-    { dataSource: DataSource.Telemetry }
-  );
-  return parseInt(query!.onlineNodesCount);
+export const queryOnlineNodesCount = async () => {
+  const selection = await telemetryDatabase
+    .selectFrom("nodes")
+    .select((eb) => count(eb, "node_id").as("onlineNodesCount"))
+    .where("last_seen", ">", sql`now() - '60 seconds'::interval`)
+    .executeTakeFirstOrThrow();
+  return parseInt(selection.onlineNodesCount);
 };
 
-export const queryLatestBlockHeight = async (): Promise<string> => {
-  const latestBlockHeightResult = await querySingleRow<
-    Pick<BlockModel, "block_height">
-  >([`SELECT block_height FROM blocks ORDER BY block_height DESC LIMIT 1`], {
-    dataSource: DataSource.Indexer,
-  });
-  if (!latestBlockHeightResult) {
-    throw new Error("No latest block height found");
-  }
-  return latestBlockHeightResult.block_height;
+export const queryLatestBlockHeight = async () => {
+  const latestBlockHeightSelection = await indexerDatabase
+    .selectFrom("blocks")
+    .select("block_height")
+    .orderBy("block_height", "desc")
+    .limit(1)
+    .executeTakeFirstOrThrow();
+  return latestBlockHeightSelection.block_height;
 };
 
-export const queryLatestGasPrice = async (): Promise<string> => {
-  const latestGasPriceResult = await querySingleRow<
-    Pick<BlockModel, "gas_price">
-  >([`SELECT gas_price FROM blocks ORDER BY block_height DESC LIMIT 1`], {
-    dataSource: DataSource.Indexer,
-  });
-  if (!latestGasPriceResult) {
-    throw new Error("No latest gas price found");
-  }
-  return latestGasPriceResult.gas_price;
+export const queryLatestGasPrice = async () => {
+  const latestGasPriceSelection = await indexerDatabase
+    .selectFrom("blocks")
+    .select("gas_price")
+    .orderBy("block_height", "desc")
+    .limit(1)
+    .executeTakeFirstOrThrow();
+  return latestGasPriceSelection.gas_price;
 };
 
 export const queryRecentBlockProductionSpeed = async () => {
-  const latestBlockTimestampOrNone = await querySingleRow<
-    Pick<BlockModel, "block_timestamp">
-  >(
-    [
-      `SELECT
-        block_timestamp
-      FROM blocks ORDER BY block_timestamp DESC LIMIT 1`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-  if (!latestBlockTimestampOrNone) {
+  const lastestBlockTimestampSelection = await indexerDatabase
+    .selectFrom("blocks")
+    .select("block_timestamp")
+    .orderBy("block_timestamp", "desc")
+    .limit(1)
+    .executeTakeFirst();
+  if (!lastestBlockTimestampSelection) {
     return 0;
   }
-  const { block_timestamp: latestBlockTimestamp } = latestBlockTimestampOrNone;
+  const {
+    block_timestamp: latestBlockTimestamp,
+  } = lastestBlockTimestampSelection;
   const latestBlockTimestampBN = new BN(latestBlockTimestamp);
   const currentUnixTimeBN = new BN(Math.floor(new Date().getTime() / 1000));
   const latestBlockEpochTimeBN = latestBlockTimestampBN.div(
@@ -333,505 +202,358 @@ export const queryRecentBlockProductionSpeed = async () => {
     return 0;
   }
 
-  const result = await querySingleRow<
-    {
-      blocks_count_60_seconds_before: string;
-    },
-    {
-      latest_block_timestamp: number;
-    }
-  >(
-    [
-      `SELECT
-        COUNT(*) AS blocks_count_60_seconds_before
-      FROM blocks
-      WHERE block_timestamp > (CAST(:latest_block_timestamp - 60 AS bigint) * 1000 * 1000 * 1000)`,
-      {
-        latest_block_timestamp: latestBlockEpochTimeBN.toNumber(),
-      },
-    ],
-    {
-      dataSource: DataSource.Indexer,
-    }
-  );
-  return parseInt(result!.blocks_count_60_seconds_before) / 60;
+  const selection = await indexerDatabase
+    .selectFrom("blocks")
+    .select((eb) =>
+      count(eb, "block_hash").as("blocks_count_60_seconds_before")
+    )
+    .where(
+      "block_timestamp",
+      ">",
+      sql`cast(
+        ${latestBlockEpochTimeBN.toNumber()} - 60 as bigint
+      ) * 1000 * 1000 * 1000`
+    )
+    .executeTakeFirstOrThrow();
+  return parseInt(selection.blocks_count_60_seconds_before) / 60;
 };
 
-export const queryTransactionsCountHistoryForTwoWeeks = async (): Promise<
-  { date: Date; total: number }[]
-> => {
-  const query = await queryRows<{ date: Date; total: string }>(
-    [
-      `SELECT collected_for_day AS date,
-              transactions_count AS total
-      FROM daily_transactions_count
-      WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
-      ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryTransactionsCountHistoryForTwoWeeks = async () => {
+  const selection = await analyticsDatabase
+    .selectFrom("daily_transactions_count")
+    .select(["collected_for_day as date", "transactions_count as total"])
+    .where(
+      "collected_for_day",
+      ">=",
+      sql`date_trunc(
+        'day', now() - '2 week'::interval
+      )`
+    )
+    .orderBy("date")
+    .execute();
 
-  return query.map(({ total, ...rest }) => ({
+  return selection.map(({ total, ...rest }) => ({
     total: parseInt(total),
     ...rest,
   }));
 };
 
-export const queryRecentTransactionsCount = async (): Promise<number> => {
-  const result = await querySingleRow<{ total: string }>(
-    [
-      `SELECT
-        COUNT(transaction_hash) AS total
-      FROM transactions
-      WHERE
-        block_timestamp > (CAST(EXTRACT(EPOCH FROM NOW() - INTERVAL '1 day') AS bigint) * 1000 * 1000 * 1000)`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryRecentTransactionsCount = async () => {
+  const selection = await indexerDatabase
+    .selectFrom("transactions")
+    .select((eb) => count(eb, "transaction_hash").as("total"))
+    .where(
+      "block_timestamp",
+      ">",
+      sql`cast(
+        extract(
+          epoch from now() - '1 day'::interval
+        ) as bigint
+      ) * 1000 * 1000 * 1000`
+    )
+    .executeTakeFirstOrThrow();
 
-  return parseInt(result!.total);
+  return parseInt(selection.total);
 };
 
 // query for statistics and charts
 // transactions related
-export const queryTransactionsCountAggregatedByDate = async (): Promise<
-  { date: Date; transactions_count_by_date: string }[]
-> => {
-  return await queryRows<{ date: Date; transactions_count_by_date: string }>(
-    [
-      `SELECT collected_for_day  AS date,
-              transactions_count AS transactions_count_by_date
-       FROM daily_transactions_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryTransactionsCountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_transactions_count")
+    .select([
+      "collected_for_day as date",
+      "transactions_count as transactions_count_by_date",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryGasUsedAggregatedByDate = async (): Promise<
-  { date: Date; gas_used_by_date: string }[]
-> => {
-  return await queryRows<{ date: Date; gas_used_by_date: string }>(
-    [
-      `SELECT collected_for_day AS date,
-              gas_used          AS gas_used_by_date
-       FROM daily_gas_used
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryGasUsedAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_gas_used")
+    .select(["collected_for_day as date", "gas_used as gas_used_by_date"])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryDepositAmountAggregatedByDate = async (): Promise<
-  { date: Date; total_deposit_amount: string }[]
-> => {
-  return await queryRows<{ date: Date; total_deposit_amount: string }>(
-    [
-      `SELECT collected_for_day AS date,
-              deposit_amount    AS total_deposit_amount
-       FROM daily_deposit_amount
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
-};
-
-type QueryTransaction = {
-  hash: string;
-  signer_id: string;
-  receiver_id: string;
-  block_hash: string;
-  block_timestamp: string;
-  transaction_index: number;
+export const queryDepositAmountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_deposit_amount")
+    .select([
+      "collected_for_day as date",
+      "deposit_amount as total_deposit_amount",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
 export const queryTransactionsList = async (
   limit: number = 15,
   paginationIndexer: TransactionPagination | null
-): Promise<QueryTransaction[]> => {
-  return await queryRows<
-    QueryTransaction,
-    {
-      end_timestamp?: string;
-      transaction_index?: number;
-      limit: number;
-    }
-  >(
-    [
-      `SELECT
-        transactions.transaction_hash as hash,
-        transactions.signer_account_id as signer_id,
-        transactions.receiver_account_id as receiver_id,
-        transactions.included_in_block_hash as block_hash,
-        DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
-        transactions.index_in_chunk as transaction_index
-       FROM transactions
-       ${
-         paginationIndexer !== null
-           ? `WHERE transactions.block_timestamp < :end_timestamp
-       OR (transactions.block_timestamp = :end_timestamp
-       AND transactions.index_in_chunk < :transaction_index)`
-           : ""
-       }
-       ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
-       LIMIT :limit`,
-      {
-        end_timestamp:
-          paginationIndexer !== null
-            ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
-            : undefined,
-        transaction_index: paginationIndexer?.transactionIndex,
-        limit,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+) => {
+  let selection = indexerDatabase
+    .selectFrom("transactions")
+    .select([
+      "transaction_hash as hash",
+      "signer_account_id as signer_id",
+      "receiver_account_id as receiver_id",
+      "included_in_block_hash as block_hash",
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      "index_in_chunk as transaction_index",
+    ]);
+  if (paginationIndexer !== null) {
+    const endTimestamp = new BN(paginationIndexer.endTimestamp)
+      .muln(10 ** 6)
+      .toString();
+    selection = selection
+      .where("block_timestamp", "<", endTimestamp)
+      .orWhere((wi) =>
+        wi
+          .where("block_timestamp", "=", endTimestamp)
+          .where("index_in_chunk", "<", paginationIndexer.transactionIndex)
+      );
+  }
+  return selection
+    .orderBy("block_timestamp", "desc")
+    .orderBy("index_in_chunk", "desc")
+    .limit(limit)
+    .execute();
 };
 
 export const queryAccountTransactionsList = async (
   accountId: string,
   limit: number = 15,
   paginationIndexer: TransactionPagination | null
-): Promise<QueryTransaction[]> => {
-  return await queryRows<
-    QueryTransaction,
-    {
-      account_id?: string;
-      end_timestamp?: string;
-      transaction_index?: number;
-      limit: number;
-    }
-  >(
-    [
-      `SELECT transactions.transaction_hash AS hash,
-              transactions.signer_account_id AS signer_id,
-              transactions.receiver_account_id AS receiver_id,
-              transactions.included_in_block_hash AS block_hash,
-              DIV(transactions.block_timestamp, 1000 * 1000) AS block_timestamp,
-              transactions.index_in_chunk AS transaction_index
-      FROM transactions
-      ${
-        paginationIndexer !== null
-          ? `WHERE (transaction_hash IN
-              (SELECT originated_from_transaction_hash
-              FROM receipts
-              WHERE receipts.predecessor_account_id = :account_id
-                OR receipts.receiver_account_id = :account_id))
-      AND (transactions.block_timestamp < :end_timestamp
-            OR (transactions.block_timestamp = :end_timestamp
-                AND transactions.index_in_chunk < :transaction_index))`
-          : `WHERE transaction_hash IN
-            (SELECT originated_from_transaction_hash
-            FROM receipts
-            WHERE receipts.predecessor_account_id = :account_id
-              OR receipts.receiver_account_id = :account_id)`
-      }
-      ORDER BY transactions.block_timestamp DESC,
-              transactions.index_in_chunk DESC
-      LIMIT :limit`,
-      {
-        account_id: accountId,
-        end_timestamp:
-          paginationIndexer !== null
-            ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
-            : undefined,
-        transaction_index: paginationIndexer?.transactionIndex,
-        limit,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+) => {
+  let selection = indexerDatabase
+    .selectFrom("transactions")
+    .select([
+      "transaction_hash as hash",
+      "signer_account_id as signer_id",
+      "receiver_account_id as receiver_id",
+      "included_in_block_hash as block_hash",
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      "index_in_chunk as transaction_index",
+    ]);
+  if (paginationIndexer !== null) {
+    const endTimestamp = new BN(paginationIndexer.endTimestamp)
+      .muln(10 ** 6)
+      .toString();
+    selection = selection
+      .where("transaction_hash", "in", (eb) =>
+        eb
+          .selectFrom("receipts")
+          .select("originated_from_transaction_hash")
+          .where("predecessor_account_id", "=", accountId)
+          .orWhere("receiver_account_id", "=", accountId)
+      )
+      .where((wi) =>
+        wi
+          .where("block_timestamp", "<", endTimestamp)
+          .orWhere((wi) =>
+            wi
+              .where("block_timestamp", "=", endTimestamp)
+              .where("index_in_chunk", "<", paginationIndexer.transactionIndex)
+          )
+      );
+  } else {
+    selection = selection.where("transaction_hash", "in", (eb) =>
+      eb
+        .selectFrom("receipts")
+        .select("originated_from_transaction_hash")
+        .where("predecessor_account_id", "=", accountId)
+        .orWhere("receiver_account_id", "=", accountId)
+    );
+  }
+  return selection
+    .orderBy("block_timestamp", "desc")
+    .orderBy("index_in_chunk", "desc")
+    .limit(limit)
+    .execute();
 };
 
 export const queryTransactionsListInBlock = async (
   blockHash: string,
   limit: number = 15,
   paginationIndexer: TransactionPagination | null
-): Promise<QueryTransaction[]> => {
-  return await queryRows<
-    QueryTransaction,
-    {
-      block_hash?: string;
-      end_timestamp?: string;
-      transaction_index?: number;
-      limit: number;
-    }
-  >(
-    [
-      `SELECT
-        transactions.transaction_hash as hash,
-        transactions.signer_account_id as signer_id,
-        transactions.receiver_account_id as receiver_id,
-        transactions.included_in_block_hash as block_hash,
-        DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
-        transactions.index_in_chunk as transaction_index
-       FROM transactions
-       WHERE transactions.included_in_block_hash = :block_hash
-       ${
-         paginationIndexer !== null
-           ? `AND (transactions.block_timestamp < :end_timestamp
-       OR (transactions.block_timestamp = :end_timestamp
-       AND transactions.index_in_chunk < :transaction_index)`
-           : ""
-       }
-       ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
-       LIMIT :limit`,
-      {
-        block_hash: blockHash,
-        end_timestamp:
-          paginationIndexer !== null
-            ? new BN(paginationIndexer.endTimestamp).muln(10 ** 6).toString()
-            : undefined,
-        transaction_index: paginationIndexer?.transactionIndex,
-        limit,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+) => {
+  let selection = indexerDatabase
+    .selectFrom("transactions")
+    .select([
+      "transaction_hash as hash",
+      "signer_account_id as signer_id",
+      "receiver_account_id as receiver_id",
+      "included_in_block_hash as block_hash",
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      "index_in_chunk as transaction_index",
+    ])
+    .where("included_in_block_hash", "=", blockHash);
+  if (paginationIndexer !== null) {
+    const endTimestamp = new BN(paginationIndexer.endTimestamp)
+      .muln(10 ** 6)
+      .toString();
+    selection = selection.where((wi) =>
+      wi
+        .where("block_timestamp", "<", endTimestamp)
+        .orWhere((wi) =>
+          wi
+            .where("block_timestamp", "=", endTimestamp)
+            .where("index_in_chunk", "<", paginationIndexer.transactionIndex)
+        )
+    );
+  }
+  return selection
+    .orderBy("block_timestamp", "desc")
+    .orderBy("index_in_chunk", "desc")
+    .limit(limit)
+    .execute();
 };
 
 export const queryTransactionsActionsList = async (
   transactionHashes: string[]
-): Promise<
-  {
-    transaction_hash: string;
-    kind: string;
-    args: Record<string, unknown>;
-  }[]
-> => {
-  return await queryRows<
-    {
-      transaction_hash: string;
-      kind: string;
-      args: Record<string, unknown>;
-    },
-    {
-      transaction_hashes: string[];
-    }
-  >(
-    [
-      `SELECT
-        transaction_hash,
-        action_kind AS kind,
-        args
-       FROM transaction_actions
-       WHERE transaction_hash = ANY (:transaction_hashes)
-       ORDER BY transaction_hash`,
-      { transaction_hashes: transactionHashes },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+) => {
+  return indexerDatabase
+    .selectFrom("transaction_actions")
+    .select(["transaction_hash", "action_kind as kind", "args"])
+    .where("transaction_hash", "in", transactionHashes)
+    .orderBy("transaction_hash")
+    .execute();
 };
 
-export const queryTransactionInfo = async (
-  transactionHash: string
-): Promise<QueryTransaction | undefined> => {
-  return await querySingleRow<QueryTransaction, { transaction_hash: string }>(
-    [
-      `SELECT
-        transactions.transaction_hash as hash,
-        transactions.signer_account_id as signer_id,
-        transactions.receiver_account_id as receiver_id,
-        transactions.included_in_block_hash as block_hash,
-        DIV(transactions.block_timestamp, 1000*1000) as block_timestamp,
-        transactions.index_in_chunk as transaction_index
-       FROM transactions
-       WHERE transactions.transaction_hash = :transaction_hash
-       ORDER BY transactions.block_timestamp DESC, transactions.index_in_chunk DESC
-       LIMIT 1`,
-      { transaction_hash: transactionHash },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryTransactionInfo = async (transactionHash: string) => {
+  return indexerDatabase
+    .selectFrom("transactions")
+    .select([
+      "transaction_hash as hash",
+      "signer_account_id as signer_id",
+      "receiver_account_id as receiver_id",
+      "included_in_block_hash as block_hash",
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+      "index_in_chunk as transaction_index",
+    ])
+    .where("transaction_hash", "=", transactionHash)
+    .orderBy("block_timestamp", "desc")
+    .orderBy("index_in_chunk", "desc")
+    .limit(1)
+    .executeTakeFirst();
 };
 
 // accounts
-export const queryNewAccountsCountAggregatedByDate = async (): Promise<
-  { date: Date; new_accounts_count_by_date: number }[]
-> => {
-  return await queryRows<{ date: Date; new_accounts_count_by_date: number }>(
-    [
-      `SELECT collected_for_day  AS date,
-              new_accounts_count AS new_accounts_count_by_date
-       FROM daily_new_accounts_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryNewAccountsCountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_new_accounts_count")
+    .select([
+      "collected_for_day as date",
+      "new_accounts_count as new_accounts_count_by_date",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryDeletedAccountsCountAggregatedByDate = async (): Promise<
-  {
-    date: Date;
-    deleted_accounts_count_by_date: number;
-  }[]
-> => {
-  return await queryRows<{
-    date: Date;
-    deleted_accounts_count_by_date: number;
-  }>(
-    [
-      `SELECT collected_for_day      AS date,
-              deleted_accounts_count AS deleted_accounts_count_by_date
-       FROM daily_deleted_accounts_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryDeletedAccountsCountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_deleted_accounts_count")
+    .select([
+      "collected_for_day as date",
+      "deleted_accounts_count as deleted_accounts_count_by_date",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryActiveAccountsCountAggregatedByDate = async (): Promise<
-  {
-    date: Date;
-    active_accounts_count_by_date: number;
-  }[]
-> => {
-  return await queryRows<{
-    date: Date;
-    active_accounts_count_by_date: number;
-  }>(
-    [
-      `SELECT collected_for_day     AS date,
-              active_accounts_count AS active_accounts_count_by_date
-       FROM daily_active_accounts_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryActiveAccountsCountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_active_accounts_count")
+    .select([
+      "collected_for_day as date",
+      "active_accounts_count as active_accounts_count_by_date",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryActiveAccountsCountAggregatedByWeek = async (): Promise<
-  {
-    date: Date;
-    active_accounts_count_by_week: number;
-  }[]
-> => {
-  return await queryRows<{
-    date: Date;
-    active_accounts_count_by_week: number;
-  }>(
-    [
-      `SELECT collected_for_week    AS date,
-              active_accounts_count AS active_accounts_count_by_week
-       FROM weekly_active_accounts_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryActiveAccountsCountAggregatedByWeek = async () => {
+  return analyticsDatabase
+    .selectFrom("weekly_active_accounts_count")
+    .select([
+      "collected_for_week as date",
+      "active_accounts_count as active_accounts_count_by_week",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryActiveAccountsList = async (): Promise<
-  { account_id: string; transactions_count: string }[]
-> => {
-  return await queryRows<{ account_id: string; transactions_count: string }>(
-    [
-      `SELECT account_id,
-              SUM(outgoing_transactions_count) AS transactions_count
-       FROM daily_outgoing_transactions_per_account_count
-       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
-       GROUP BY account_id
-       ORDER BY transactions_count DESC
-       LIMIT 10`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryActiveAccountsList = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_outgoing_transactions_per_account_count")
+    .select([
+      "account_id",
+      (eb) => sum(eb, "outgoing_transactions_count").as("transactions_count"),
+    ])
+    .where(
+      "collected_for_day",
+      ">=",
+      sql`date_trunc(
+        'day', now() - '2 week'::interval
+      )`
+    )
+    .groupBy("account_id")
+    .orderBy("transactions_count", "desc")
+    .limit(10)
+    .execute();
 };
 
-export const queryIndexedAccount = async (
-  accountId: string
-): Promise<{ account_id: string } | undefined> => {
-  return await querySingleRow<{ account_id: string }, { account_id: string }>(
-    [
-      `SELECT account_id
-       FROM accounts
-       WHERE account_id = :account_id
-       LIMIT 1`,
-      { account_id: accountId },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryIndexedAccount = async (accountId: string) => {
+  return indexerDatabase
+    .selectFrom("accounts")
+    .select("account_id")
+    .where("account_id", "=", accountId)
+    .limit(1)
+    .executeTakeFirst();
 };
 
 export const queryAccountsList = async (
   limit: number = 15,
   lastAccountIndex: number | null
-): Promise<
-  {
-    account_id: string;
-    account_index: string;
-    created_at_block_timestamp: string;
-  }[]
-> => {
-  return await queryRows<
-    {
-      account_id: string;
-      account_index: string;
-      created_at_block_timestamp: string;
-    },
-    {
-      limit: number;
-      account_index?: number;
-    }
-  >(
-    [
-      `SELECT account_id AS account_id,
-              id AS account_index
-       FROM accounts
-       LEFT JOIN receipts ON receipts.receipt_id = accounts.created_by_receipt_id
-       ${lastAccountIndex !== null ? `WHERE id < :account_index` : ""}
-       ORDER BY account_index DESC
-       LIMIT :limit`,
-      {
-        limit,
-        account_index: lastAccountIndex ?? undefined,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+) => {
+  let selection = indexerDatabase
+    .selectFrom("accounts")
+    .select(["account_id", "id as account_index"])
+    .leftJoin("receipts", (join) =>
+      join.onRef("receipt_id", "=", "created_by_receipt_id")
+    );
+  if (lastAccountIndex !== null) {
+    selection = selection.where("id", "<", lastAccountIndex.toString());
+  }
+  return selection.orderBy("account_index", "desc").limit(limit).execute();
 };
 
 export const queryOutcomeTransactionsCountFromAnalytics = async (
   accountId: string
-): Promise<{
-  out_transactions_count: number;
-  last_day_collected_timestamp?: string;
-}> => {
-  const query = await querySingleRow<
-    {
-      out_transactions_count: string;
-      last_day_collected: Date;
-    },
-    {
-      account_id: string;
-    }
-  >(
-    [
-      `SELECT SUM(outgoing_transactions_count) AS out_transactions_count,
-              MAX(collected_for_day) AS last_day_collected
-       FROM daily_outgoing_transactions_per_account_count
-       WHERE account_id = :account_id`,
-      { account_id: accountId },
-    ],
-    { dataSource: DataSource.Analytics }
-  );
-  const lastDayCollectedTimestamp = query?.last_day_collected
-    ? new BN(query.last_day_collected.getTime())
-        .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-        .muln(10 ** 6)
-        .toString()
-    : undefined;
+) => {
+  const selection = await analyticsDatabase
+    .selectFrom("daily_outgoing_transactions_per_account_count")
+    .select([
+      (eb) =>
+        sum(eb, "outgoing_transactions_count").as("out_transactions_count"),
+      (eb) => eb.fn.max("collected_for_day").as("last_day_collected"),
+    ])
+    .where("account_id", "=", accountId)
+    .executeTakeFirstOrThrow();
   return {
-    out_transactions_count: query?.out_transactions_count
-      ? parseInt(query.out_transactions_count)
-      : 0,
-    last_day_collected_timestamp: lastDayCollectedTimestamp,
+    out_transactions_count: parseInt(selection.out_transactions_count),
+    last_day_collected_timestamp: new BN(selection.last_day_collected.getTime())
+      .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+      .muln(10 ** 6)
+      .toString(),
   };
 };
 
 export const queryOutcomeTransactionsCountFromIndexerForLastDay = async (
   accountId: string,
   lastDayCollectedTimestamp?: string
-): Promise<number> => {
+) => {
   // since analytics are collected for the previous day,
   // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
   // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
@@ -841,74 +563,39 @@ export const queryOutcomeTransactionsCountFromIndexerForLastDay = async (
       .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
       .muln(10 ** 6)
       .toString();
-  const query = await querySingleRow<
-    { out_transactions_count: string },
-    {
-      account_id: string;
-      timestamp: string;
-    }
-  >(
-    [
-      `SELECT
-       COUNT(transactions.transaction_hash) AS out_transactions_count
-       FROM transactions
-       WHERE signer_account_id = :account_id
-       AND transactions.block_timestamp >= :timestamp`,
-      {
-        account_id: accountId,
-        timestamp,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-  if (!query || !query.out_transactions_count) {
-    return 0;
-  }
-  return parseInt(query.out_transactions_count);
+  const selection = await indexerDatabase
+    .selectFrom("transactions")
+    .select((eb) => count(eb, "transaction_hash").as("out_transactions_count"))
+    .where("signer_account_id", "=", accountId)
+    .where("block_timestamp", ">=", timestamp)
+    .executeTakeFirstOrThrow();
+  return parseInt(selection.out_transactions_count);
 };
 
 export const queryIncomeTransactionsCountFromAnalytics = async (
   accountId: string
-): Promise<{
-  in_transactions_count: number;
-  last_day_collected_timestamp?: string;
-}> => {
-  const query = await querySingleRow<
-    {
-      in_transactions_count: string;
-      last_day_collected: Date;
-    },
-    {
-      account_id: string;
-    }
-  >(
-    [
-      `SELECT SUM(ingoing_transactions_count) as in_transactions_count,
-              MAX(collected_for_day) AS last_day_collected
-       FROM daily_ingoing_transactions_per_account_count
-       WHERE account_id = :account_id`,
-      { account_id: accountId },
-    ],
-    { dataSource: DataSource.Analytics }
-  );
-  const lastDayCollectedTimestamp = query?.last_day_collected
-    ? new BN(query.last_day_collected.getTime())
-        .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-        .muln(10 ** 6)
-        .toString()
-    : undefined;
+) => {
+  const selection = await analyticsDatabase
+    .selectFrom("daily_ingoing_transactions_per_account_count")
+    .select([
+      (eb) => sum(eb, "ingoing_transactions_count").as("in_transactions_count"),
+      (eb) => eb.fn.max("collected_for_day").as("last_day_collected"),
+    ])
+    .where("account_id", "=", accountId)
+    .executeTakeFirstOrThrow();
   return {
-    in_transactions_count: query?.in_transactions_count
-      ? parseInt(query.in_transactions_count)
-      : 0,
-    last_day_collected_timestamp: lastDayCollectedTimestamp,
+    in_transactions_count: parseInt(selection.in_transactions_count),
+    last_day_collected_timestamp: new BN(selection.last_day_collected.getTime())
+      .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+      .muln(10 ** 6)
+      .toString(),
   };
 };
 
 export const queryIncomeTransactionsCountFromIndexerForLastDay = async (
   accountId: string,
   lastDayCollectedTimestamp?: string
-): Promise<number> => {
+) => {
   // since analytics are collected for the previous day,
   // then 'lastDayCollectedTimestamp' may be 'null' for just created accounts so
   // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
@@ -918,572 +605,497 @@ export const queryIncomeTransactionsCountFromIndexerForLastDay = async (
       .sub(new BN(ONE_DAY_TIMESTAMP_MILISEC))
       .muln(10 ** 6)
       .toString();
-  const query = await querySingleRow<
-    { in_transactions_count: string },
-    {
-      requested_account_id: string;
-      timestamp: string;
-    }
-  >(
-    [
-      `SELECT COUNT(DISTINCT transactions.transaction_hash) AS in_transactions_count
-       FROM transactions
-       LEFT JOIN receipts ON receipts.originated_from_transaction_hash = transactions.transaction_hash
-          AND transactions.block_timestamp >= :timestamp
-       WHERE receipts.included_in_block_timestamp >= :timestamp
-          AND transactions.signer_account_id != :requested_account_id
-          AND receipts.receiver_account_id = :requested_account_id`,
-      {
-        requested_account_id: accountId,
-        timestamp,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-  if (!query || !query.in_transactions_count) {
+  const selection = await indexerDatabase
+    .selectFrom("transactions")
+    // TODO: Research if we can get rid of distinct without performance degradation
+    .select(
+      sql<string>`count(distinct transactions.transaction_hash)`.as(
+        "in_transactions_count"
+      )
+    )
+    .leftJoin("receipts", (jb) =>
+      jb
+        .onRef("originated_from_transaction_hash", "=", "transaction_hash")
+        .on("block_timestamp", ">=", timestamp)
+    )
+    .where("included_in_block_timestamp", ">=", timestamp)
+    .where("signer_account_id", "!=", accountId)
+    .where("receipts.receiver_account_id", "=", accountId)
+    .executeTakeFirst();
+  if (!selection) {
     return 0;
   }
-  return parseInt(query.in_transactions_count);
+  return parseInt(selection.in_transactions_count);
 };
 
-type AccountInfo = {
-  account_id: string;
-  created_at_block_timestamp: string;
-  created_by_transaction_hash: string;
-  deleted_at_block_timestamp: string | null;
-  deleted_by_transaction_hash: string | null;
-};
-
-export const queryAccountInfo = async (
-  accountId: string
-): Promise<AccountInfo | undefined> => {
-  return await querySingleRow<AccountInfo, { account_id: string }>(
-    [
-      `SELECT
-        inneraccounts.account_id,
-        DIV(creation_receipt.included_in_block_timestamp, 1000*1000) AS created_at_block_timestamp,
-        creation_receipt.originated_from_transaction_hash AS created_by_transaction_hash,
-        DIV(deletion_receipt.included_in_block_timestamp, 1000*1000) AS deleted_at_block_timestamp,
-        deletion_receipt.originated_from_transaction_hash AS deleted_by_transaction_hash
-       FROM (
-         SELECT account_id, created_by_receipt_id, deleted_by_receipt_id
-             FROM accounts
-             WHERE account_id = :account_id
-       ) AS inneraccounts
-       LEFT JOIN receipts AS creation_receipt ON creation_receipt.receipt_id = inneraccounts.created_by_receipt_id
-       LEFT JOIN receipts AS deletion_receipt ON deletion_receipt.receipt_id = inneraccounts.deleted_by_receipt_id`,
-      { account_id: accountId },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryAccountInfo = async (accountId: string) => {
+  const selection = await indexerDatabase
+    .selectFrom((eb) =>
+      eb
+        .selectFrom("accounts")
+        .select([
+          "account_id",
+          "created_by_receipt_id",
+          "deleted_by_receipt_id",
+        ])
+        .where("account_id", "=", accountId)
+        .as("inneraccounts")
+    )
+    .leftJoin("receipts as creation_receipt", (jb) =>
+      jb.onRef("creation_receipt.receipt_id", "=", "created_by_receipt_id")
+    )
+    .leftJoin("receipts as deletion_receipt", (jb) =>
+      jb.onRef("deletion_receipt.receipt_id", "=", "deleted_by_receipt_id")
+    )
+    .where("account_id", "=", accountId)
+    .select([
+      "account_id",
+      (eb) =>
+        div(
+          eb,
+          "creation_receipt.included_in_block_timestamp",
+          1000 * 1000,
+          "created_at_block_timestamp"
+        ),
+      "creation_receipt.originated_from_transaction_hash as created_by_transaction_hash",
+      (eb) =>
+        div(
+          eb,
+          "deletion_receipt.included_in_block_timestamp",
+          1000 * 1000,
+          "deleted_at_block_timestamp"
+        ),
+      "deletion_receipt.originated_from_transaction_hash as deleted_by_transaction_hash",
+    ])
+    .executeTakeFirst();
+  if (!selection) {
+    return;
+  }
+  return {
+    // TODO: Discover how to get rid of non-null type assertion
+    account_id: selection.account_id!,
+    created_at_block_timestamp: selection.created_at_block_timestamp,
+    created_by_transaction_hash: selection.created_by_transaction_hash,
+    deleted_at_block_timestamp: selection.deleted_at_block_timestamp,
+    deleted_by_transaction_hash: selection.deleted_by_transaction_hash,
+  };
 };
 
 // contracts
-export const queryNewContractsCountAggregatedByDate = async (): Promise<
-  { date: Date; new_contracts_count_by_date: number }[]
-> => {
-  return await queryRows<{ date: Date; new_contracts_count_by_date: number }>(
-    [
-      `SELECT collected_for_day   AS date,
-              new_contracts_count AS new_contracts_count_by_date
-       FROM daily_new_contracts_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryNewContractsCountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_new_contracts_count")
+    .select([
+      "collected_for_day as date",
+      "new_contracts_count as new_contracts_count_by_date",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryUniqueDeployedContractsCountAggregatedByDate = async (): Promise<
-  { date: Date; contracts_count_by_date: number }[]
-> => {
-  return await queryRows<{ date: Date; contracts_count_by_date: number }>(
-    [
-      `SELECT collected_for_day          AS date,
-              new_unique_contracts_count AS contracts_count_by_date
-       FROM daily_new_unique_contracts_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryUniqueDeployedContractsCountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_new_unique_contracts_count")
+    .select([
+      "collected_for_day as date",
+      "new_unique_contracts_count as contracts_count_by_date",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryActiveContractsCountAggregatedByDate = async (): Promise<
-  {
-    date: Date;
-    active_contracts_count_by_date: number;
-  }[]
-> => {
-  return await queryRows<{
-    date: Date;
-    active_contracts_count_by_date: number;
-  }>(
-    [
-      `SELECT collected_for_day      AS date,
-              active_contracts_count AS active_contracts_count_by_date
-       FROM daily_active_contracts_count
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryActiveContractsCountAggregatedByDate = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_active_contracts_count")
+    .select([
+      "collected_for_day as date",
+      "active_contracts_count as active_contracts_count_by_date",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryActiveContractsList = async (): Promise<
-  { contract_id: string; receipts_count: string }[]
-> => {
-  return await queryRows<{ contract_id: string; receipts_count: string }>(
-    [
-      `SELECT contract_id,
-              SUM(receipts_count) AS receipts_count
-       FROM daily_receipts_per_contract_count
-       WHERE collected_for_day >= DATE_TRUNC('day', NOW() - INTERVAL '2 week')
-       GROUP BY contract_id
-       ORDER BY receipts_count DESC
-       LIMIT 10`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
+export const queryActiveContractsList = async () => {
+  return analyticsDatabase
+    .selectFrom("daily_receipts_per_contract_count")
+    .select([
+      "contract_id",
+      (eb) => sum(eb, "receipts_count").as("receipts_count"),
+    ])
+    .where(
+      "collected_for_day",
+      ">=",
+      sql`date_trunc(
+        'day', now() - '2 week'::interval
+      )`
+    )
+    .groupBy("contract_id")
+    .orderBy("receipts_count", "desc")
+    .limit(10)
+    .execute();
 };
 
-export const queryLatestCirculatingSupply = async (): Promise<{
-  circulating_tokens_supply: string;
-  computed_at_block_timestamp: string;
-}> => {
-  const result = await querySingleRow<{
-    circulating_tokens_supply: string;
-    computed_at_block_timestamp: string;
-  }>(
-    [
-      `SELECT circulating_tokens_supply, computed_at_block_timestamp
-       FROM aggregated__circulating_supply
-       ORDER BY computed_at_block_timestamp DESC
-       LIMIT 1;`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-  if (!result) {
-    throw new Error(
-      "No circulating tokens supply in aggregated__circulating_supply table of indexer"
-    );
-  }
-  return result;
+export const queryLatestCirculatingSupply = async () => {
+  return indexerDatabase
+    .selectFrom("aggregated__circulating_supply")
+    .select(["circulating_tokens_supply", "computed_at_block_timestamp"])
+    .orderBy("computed_at_block_timestamp", "desc")
+    .limit(1)
+    .executeTakeFirstOrThrow();
 };
 
 // pass 'days' to set period of calculation
-export const calculateFeesByDay = async (
-  days: number = 1
-): Promise<{ date: Date; fee: string } | undefined> => {
+export const calculateFeesByDay = async (days: number = 1) => {
   if (!(days >= 1 && days <= 7)) {
     throw Error(
       "calculateFeesByDay can only handle `days` values in range 1..7"
     );
   }
-  return await querySingleRow<{ date: Date; fee: string }>(
-    [
-      `SELECT
-        DATE_TRUNC('day', NOW() - INTERVAL '${days} day') AS date,
-        SUM(execution_outcomes.tokens_burnt) AS fee
-      FROM execution_outcomes
-      WHERE
-        executed_in_block_timestamp >= (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${days} day')) AS bigint) * 1000 * 1000 * 1000)
-      AND
-        executed_in_block_timestamp < (CAST(EXTRACT(EPOCH FROM DATE_TRUNC('day', NOW() - INTERVAL '${
-          days - 1
-        } day')) AS bigint) * 1000 * 1000 * 1000)`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+
+  return indexerDatabase
+    .selectFrom("execution_outcomes")
+    .select([
+      sql<Date>`date_trunc(
+        'day', now() - (${days} || 'days')::interval
+      )`.as("date"),
+      (eb) => sum(eb, "tokens_burnt").as("fee"),
+    ])
+    .where(
+      "executed_in_block_timestamp",
+      ">=",
+      sql`cast(
+        extract(
+          epoch from date_trunc(
+            'day', now() - (${days} || 'days')::interval
+          )
+        ) as bigint
+      ) * 1000 * 1000 * 1000`
+    )
+    .where(
+      "executed_in_block_timestamp",
+      "<",
+      sql`cast(
+        extract(
+          epoch from date_trunc(
+            'day', now() - (${days - 1} || 'days')::interval
+          )
+        ) as bigint
+      ) * 1000 * 1000 * 1000`
+    )
+    .executeTakeFirst();
 };
 
-export const queryCirculatingSupply = async (): Promise<
-  {
-    date: Date;
-    circulating_tokens_supply: string;
-    total_tokens_supply: string;
-  }[]
-> => {
-  return await queryRows<{
-    date: Date;
-    circulating_tokens_supply: string;
-    total_tokens_supply: string;
-  }>(
-    [
-      `SELECT
-        DATE_TRUNC('day', TO_TIMESTAMP(DIV(computed_at_block_timestamp, 1000*1000*1000))) AS date,
-        circulating_tokens_supply,
-        total_tokens_supply
-       FROM aggregated__circulating_supply
-       ORDER BY date`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryCirculatingSupply = async () => {
+  return indexerDatabase
+    .selectFrom("aggregated__circulating_supply")
+    .select([
+      sql<Date>`date_trunc(
+        'day',
+        to_timestamp(
+          div(
+            computed_at_block_timestamp, 1000 * 1000 * 1000
+          )
+        )
+      )`.as("date"),
+      "circulating_tokens_supply",
+      "total_tokens_supply",
+    ])
+    .orderBy("date")
+    .execute();
 };
 
-export const queryFirstProducedBlockTimestamp = async (): Promise<{
-  first_produced_block_timestamp: Date;
-}> => {
-  const result = await querySingleRow<{ first_produced_block_timestamp: Date }>(
-    [
-      `SELECT
-        TO_TIMESTAMP(DIV(block_timestamp, 1000 * 1000 * 1000))::date AS first_produced_block_timestamp
-       FROM blocks
-       ORDER BY blocks.block_timestamp
-       LIMIT 1`,
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-  if (!result) {
-    throw new Error("No blocks found");
-  }
-  return result;
-};
-
-// blocks
-type QueryBlock = {
-  hash: string;
-  height: string;
-  timestamp: string;
-  prev_hash: string;
-  transactions_count: string;
+export const queryFirstProducedBlockTimestamp = async () => {
+  return indexerDatabase
+    .selectFrom("blocks")
+    .select(
+      sql<Date>`to_timestamp(div(block_timestamp, 1000 * 1000 * 1000))::date`.as(
+        "first_produced_block_timestamp"
+      )
+    )
+    .orderBy("block_timestamp")
+    .limit(1)
+    .executeTakeFirstOrThrow();
 };
 
 export const queryBlocksList = async (
   limit: number = 15,
   paginationIndexer: number | null
-): Promise<QueryBlock[]> => {
-  return await queryRows<
-    QueryBlock,
-    { limit: number; pagination_indexer?: string }
-  >(
-    [
-      `SELECT
-        blocks.block_hash AS hash,
-        blocks.block_height AS height,
-        DIV(blocks.block_timestamp, 1000*1000) AS timestamp,
-        blocks.prev_block_hash AS prev_hash,
-        COUNT(transactions.transaction_hash) AS transactions_count
-      FROM (
-        SELECT blocks.block_hash AS block_hash
-        FROM blocks
-        ${
-          paginationIndexer !== null
-            ? `WHERE blocks.block_timestamp < :pagination_indexer`
-            : ""
-        }
-        ORDER BY blocks.block_height DESC
-        LIMIT :limit
-      ) AS innerblocks
-      LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
-      LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
-      GROUP BY blocks.block_hash
-      ORDER BY blocks.block_timestamp DESC`,
-      {
-        limit,
-        pagination_indexer:
-          paginationIndexer !== null
-            ? new BN(paginationIndexer).muln(10 ** 6).toString()
-            : undefined,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+) => {
+  const selection = await indexerDatabase
+    .selectFrom((eb) => {
+      let selection = eb.selectFrom("blocks").select("block_hash");
+      if (paginationIndexer !== null) {
+        selection = selection.where(
+          "block_timestamp",
+          "<",
+          new BN(paginationIndexer).muln(10 ** 6).toString()
+        );
+      }
+      return selection
+        .orderBy("block_height", "desc")
+        .limit(limit)
+        .as("innerblocks");
+    })
+    .leftJoin("transactions", (jb) =>
+      jb.onRef(
+        "transactions.included_in_block_hash",
+        "=",
+        "innerblocks.block_hash"
+      )
+    )
+    .leftJoin("blocks", (jb) =>
+      jb.onRef("blocks.block_hash", "=", "innerblocks.block_hash")
+    )
+    .select([
+      "blocks.block_hash as hash",
+      "block_height as height",
+      (eb) => div(eb, "blocks.block_timestamp", 1000 * 1000, "timestamp"),
+      "prev_block_hash as prev_hash",
+      (eb) => count(eb, "transaction_hash").as("transactions_count"),
+    ])
+    .groupBy("blocks.block_hash")
+    .orderBy("blocks.block_timestamp", "desc")
+    .execute();
+  return selection.map((selectionRow) => ({
+    // TODO: Discover how to get rid of non-null type assertion
+    hash: selectionRow.hash!,
+    // TODO: Discover how to get rid of non-null type assertion
+    height: selectionRow.height!,
+    timestamp: selectionRow.timestamp,
+    // TODO: Discover how to get rid of non-null type assertion
+    prev_hash: selectionRow.prev_hash!,
+    transactions_count: selectionRow.transactions_count,
+  }));
 };
 
-type QueryBlockInfo = QueryBlock & {
-  gas_price: string;
-  total_supply: string;
-  author_account_id: string;
+export const queryBlockInfo = async (blockId: string | number) => {
+  const selection = await indexerDatabase
+    .selectFrom((eb) => {
+      let selection = eb.selectFrom("blocks").select("block_hash");
+      if (typeof blockId === "string") {
+        selection = selection.where("block_hash", "=", blockId);
+      } else {
+        selection = selection.where("block_height", "=", String(blockId));
+      }
+      return selection.as("innerblocks");
+    })
+    .leftJoin("transactions", (jb) =>
+      jb.onRef("included_in_block_hash", "=", "innerblocks.block_hash")
+    )
+    .leftJoin("blocks", (jb) =>
+      jb.onRef("blocks.block_hash", "=", "innerblocks.block_hash")
+    )
+    .select([
+      "blocks.block_hash as hash",
+      "block_height as height",
+      (eb) => div(eb, "blocks.block_timestamp", 1000 * 1000, "timestamp"),
+      "prev_block_hash as prev_hash",
+      "gas_price",
+      "total_supply",
+      "author_account_id",
+      (eb) => count(eb, "transaction_hash").as("transactions_count"),
+    ])
+    .groupBy("blocks.block_hash")
+    .orderBy("blocks.block_timestamp", "desc")
+    .limit(1)
+    .executeTakeFirst();
+  if (!selection || !selection.hash) {
+    return;
+  }
+  return {
+    // TODO: Discover how to get rid of non-null type assertion
+    hash: selection.hash!,
+    // TODO: Discover how to get rid of non-null type assertion
+    height: selection.height!,
+    // TODO: Discover how to get rid of non-null type assertion
+    timestamp: selection.timestamp,
+    // TODO: Discover how to get rid of non-null type assertion
+    prev_hash: selection.prev_hash!,
+    // TODO: Discover how to get rid of non-null type assertion
+    gas_price: selection.gas_price!,
+    // TODO: Discover how to get rid of non-null type assertion
+    total_supply: selection.total_supply!,
+    // TODO: Discover how to get rid of non-null type assertion
+    author_account_id: selection.author_account_id!,
+    transactions_count: selection.transactions_count,
+  };
 };
 
-export const queryBlockInfo = async (
-  blockId: string | number
-): Promise<QueryBlockInfo | undefined> => {
-  const searchCriteria = blockSearchCriteria(blockId);
-  return await querySingleRow<QueryBlockInfo, { block_id: string | number }>(
-    [
-      `SELECT
-        blocks.block_hash AS hash,
-        blocks.block_height AS height,
-        DIV(blocks.block_timestamp, 1000*1000) AS timestamp,
-        blocks.prev_block_hash AS prev_hash,
-        blocks.gas_price AS gas_price,
-        blocks.total_supply AS total_supply,
-        blocks.author_account_id AS author_account_id,
-        COUNT(transactions.transaction_hash) AS transactions_count
-      FROM (
-        SELECT blocks.block_hash AS block_hash
-        FROM blocks
-        WHERE blocks.${searchCriteria} = :block_id
-      ) AS innerblocks
-      LEFT JOIN transactions ON transactions.included_in_block_hash = innerblocks.block_hash
-      LEFT JOIN blocks ON blocks.block_hash = innerblocks.block_hash
-      GROUP BY blocks.block_hash
-      ORDER BY blocks.block_timestamp DESC
-      LIMIT 1`,
-      { block_id: blockId },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-};
-
-export const queryBlockByHashOrId = async (
-  blockId: string | number
-): Promise<{ block_hash: string } | undefined> => {
-  const searchCriteria = blockSearchCriteria(blockId);
-  return await querySingleRow<
-    { block_hash: string },
-    { block_id: string | number }
-  >(
-    [
-      `SELECT block_hash
-       FROM blocks
-       WHERE ${searchCriteria} = :block_id
-       LIMIT 1`,
-      { block_id: blockId },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryBlockByHashOrId = async (blockId: string | number) => {
+  let selection = indexerDatabase.selectFrom("blocks").select("block_hash");
+  if (typeof blockId === "string") {
+    selection = selection.where("block_hash", "=", blockId);
+  } else {
+    selection = selection.where("block_height", "=", String(blockId));
+  }
+  return selection.limit(1).executeTakeFirst();
 };
 
 // receipts
-export const queryReceiptsCountInBlock = async (
-  blockHash: string
-): Promise<{ count: string } | undefined> => {
-  return await querySingleRow<{ count: string }, { block_hash: string }>(
-    [
-      `SELECT
-        COUNT(receipt_id)
-       FROM receipts
-       WHERE receipts.included_in_block_hash = :block_hash
-       AND receipts.receipt_kind = 'ACTION'`,
-      { block_hash: blockHash },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryReceiptsCountInBlock = async (blockHash: string) => {
+  return indexerDatabase
+    .selectFrom("receipts")
+    .select((eb) => count(eb, "receipt_id").as("count"))
+    .where("included_in_block_hash", "=", blockHash)
+    .where("receipt_kind", "=", "ACTION")
+    .executeTakeFirst();
 };
 
-export const queryReceiptInTransaction = async (
-  receiptId: string
-): Promise<
-  | {
-      receipt_id: string;
-      originated_from_transaction_hash: string;
-    }
-  | undefined
-> => {
-  return await querySingleRow<
-    {
-      receipt_id: string;
-      originated_from_transaction_hash: string;
-    },
-    {
-      receipt_id: string;
-    }
-  >(
-    [
-      `SELECT
-        receipt_id, originated_from_transaction_hash
-       FROM receipts
-       WHERE receipt_id = :receipt_id
-       LIMIT 1`,
-      { receipt_id: receiptId },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryReceiptInTransaction = async (receiptId: string) => {
+  return indexerDatabase
+    .selectFrom("receipts")
+    .select(["receipt_id", "originated_from_transaction_hash"])
+    .where("receipt_id", "=", receiptId)
+    .limit(1)
+    .executeTakeFirst();
 };
 
-export const queryIndexedTransaction = async (
-  transactionHash: string
-): Promise<{ transaction_hash: string } | undefined> => {
-  return await querySingleRow<
-    { transaction_hash: string },
-    { transaction_hash: string }
-  >(
-    [
-      `SELECT transaction_hash
-       FROM transactions
-       WHERE transaction_hash = :transaction_hash
-       LIMIT 1`,
-      { transaction_hash: transactionHash },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-};
-
-type QueryReceipt = {
-  receipt_id: string;
-  originated_from_transaction_hash: string;
-  predecessor_id: string;
-  receiver_id: string;
-  status: string;
-  gas_burnt: string;
-  tokens_burnt: string;
-  executed_in_block_timestamp: string;
-  kind: string;
-  args: Record<string, unknown>;
+export const queryIndexedTransaction = async (transactionHash: string) => {
+  return indexerDatabase
+    .selectFrom("transactions")
+    .select("transaction_hash")
+    .where("transaction_hash", "=", transactionHash)
+    .limit(1)
+    .executeTakeFirst();
 };
 
 // expose receipts included in particular block
-export const queryIncludedReceiptsList = async (
-  blockHash: string
-): Promise<QueryReceipt[]> => {
-  return await queryRows<QueryReceipt, { block_hash: string }>(
-    [
-      `SELECT
-        receipts.receipt_id,
-        receipts.originated_from_transaction_hash,
-        receipts.predecessor_account_id AS predecessor_id,
-        receipts.receiver_account_id AS receiver_id,
-        execution_outcomes.status,
-        execution_outcomes.gas_burnt,
-        execution_outcomes.tokens_burnt,
-        execution_outcomes.executed_in_block_timestamp,
-        action_receipt_actions.action_kind AS kind,
-        action_receipt_actions.args
-       FROM action_receipt_actions
-       LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-       LEFT JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-       WHERE receipts.included_in_block_hash = :block_hash
-       AND receipts.receipt_kind = 'ACTION'
-       ORDER BY receipts.included_in_chunk_hash, receipts.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
-      { block_hash: blockHash },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryIncludedReceiptsList = async (blockHash: string) => {
+  return indexerDatabase
+    .selectFrom("action_receipt_actions")
+    .innerJoin("receipts", (jb) =>
+      jb.onRef("receipts.receipt_id", "=", "action_receipt_actions.receipt_id")
+    )
+    .innerJoin("execution_outcomes", (jb) =>
+      jb.onRef(
+        "execution_outcomes.receipt_id",
+        "=",
+        "action_receipt_actions.receipt_id"
+      )
+    )
+    .select([
+      "receipts.receipt_id",
+      "originated_from_transaction_hash",
+      "predecessor_account_id as predecessor_id",
+      "receiver_account_id as receiver_id",
+      "status",
+      "gas_burnt",
+      "tokens_burnt",
+      "executed_in_block_timestamp",
+      "action_kind as kind",
+      "args",
+    ])
+    .where("included_in_block_hash", "=", blockHash)
+    .where("receipt_kind", "=", "ACTION")
+    .orderBy("included_in_block_hash")
+    .orderBy("receipts.index_in_chunk")
+    .orderBy("action_receipt_actions.index_in_action_receipt")
+    .execute();
 };
 
 // query receipts executed in particular block
-export const queryExecutedReceiptsList = async (
-  blockHash: string
-): Promise<QueryReceipt[]> => {
-  return await queryRows<QueryReceipt, { block_hash: string }>(
-    [
-      `SELECT
-        receipts.receipt_id,
-        receipts.originated_from_transaction_hash,
-        receipts.predecessor_account_id AS predecessor_id,
-        receipts.receiver_account_id AS receiver_id,
-        execution_outcomes.status,
-        execution_outcomes.gas_burnt,
-        execution_outcomes.tokens_burnt,
-        execution_outcomes.executed_in_block_timestamp,
-        action_receipt_actions.action_kind AS kind,
-        action_receipt_actions.args
-       FROM action_receipt_actions
-       LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-       LEFT JOIN execution_outcomes ON execution_outcomes.receipt_id = action_receipt_actions.receipt_id
-       WHERE execution_outcomes.executed_in_block_hash = :block_hash
-       AND receipts.receipt_kind = 'ACTION'
-       ORDER BY execution_outcomes.shard_id, execution_outcomes.index_in_chunk, action_receipt_actions.index_in_action_receipt`,
-      { block_hash: blockHash },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryExecutedReceiptsList = async (blockHash: string) => {
+  return indexerDatabase
+    .selectFrom("action_receipt_actions")
+    .innerJoin("receipts", (jb) =>
+      jb.onRef("receipts.receipt_id", "=", "action_receipt_actions.receipt_id")
+    )
+    .innerJoin("execution_outcomes", (jb) =>
+      jb.onRef(
+        "execution_outcomes.receipt_id",
+        "=",
+        "action_receipt_actions.receipt_id"
+      )
+    )
+    .select([
+      "receipts.receipt_id",
+      "originated_from_transaction_hash",
+      "predecessor_account_id as predecessor_id",
+      "receiver_account_id as receiver_id",
+      "status",
+      "gas_burnt",
+      "tokens_burnt",
+      "executed_in_block_timestamp",
+      "action_kind as kind",
+      "args",
+    ])
+    .where("executed_in_block_hash", "=", blockHash)
+    .where("receipt_kind", "=", "ACTION")
+    .orderBy("shard_id")
+    .orderBy("execution_outcomes.index_in_chunk")
+    .orderBy("index_in_action_receipt")
+    .execute();
 };
 
 export const queryContractInfo = async (accountId: string) => {
   // find the latest update in analytics db
-  const latestUpdateResult = await querySingleRow<{
-    latest_updated_timestamp: string;
-  }>(
-    [
-      `SELECT deployed_at_block_timestamp AS latest_updated_timestamp
-       FROM deployed_contracts
-       ORDER BY deployed_at_block_timestamp DESC
-       LIMIT 1`,
-    ],
-    { dataSource: DataSource.Analytics }
-  );
-  if (!latestUpdateResult) {
-    throw new Error("No latest updated timestamp in DB");
-  }
+  const latestUpdateResult = await analyticsDatabase
+    .selectFrom("deployed_contracts")
+    .select("deployed_at_block_timestamp as latest_updated_timestamp")
+    .orderBy("deployed_at_block_timestamp", "desc")
+    .limit(1)
+    .executeTakeFirstOrThrow();
   const {
     latest_updated_timestamp: latestUpdatedTimestamp,
   } = latestUpdateResult;
   // query for the latest info from indexer
   // if it return 'undefined' then there was no update since deployed_at_block_timestamp
-  const contractInfoFromIndexer = await querySingleRow<
-    {
-      block_timestamp: string;
-      hash: string;
-    },
-    {
-      account_id: string;
-      timestamp: string;
-    }
-  >(
-    [
-      `SELECT
-       DIV(receipts.included_in_block_timestamp, 1000*1000) AS block_timestamp,
-       receipts.originated_from_transaction_hash AS hash
-       FROM action_receipt_actions
-       LEFT JOIN receipts ON receipts.receipt_id = action_receipt_actions.receipt_id
-       WHERE action_receipt_actions.action_kind = 'DEPLOY_CONTRACT'
-       AND action_receipt_actions.receipt_receiver_account_id = :account_id
-       AND action_receipt_actions.receipt_included_in_block_timestamp > :timestamp
-       ORDER BY action_receipt_actions.receipt_included_in_block_timestamp DESC
-       LIMIT 1`,
-      {
-        account_id: accountId,
-        timestamp: latestUpdatedTimestamp,
-      },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+  const contractInfoFromIndexer = await indexerDatabase
+    .selectFrom("action_receipt_actions")
+    .leftJoin("receipts", (jb) =>
+      jb.onRef("receipts.receipt_id", "=", "action_receipt_actions.receipt_id")
+    )
+    .select([
+      (eb) =>
+        div(
+          eb,
+          "receipts.included_in_block_timestamp",
+          1000 * 1000,
+          "block_timestamp"
+        ),
+      "receipts.originated_from_transaction_hash as hash",
+    ])
+    .where("action_kind", "=", "DEPLOY_CONTRACT")
+    .where("receipt_receiver_account_id", "=", accountId)
+    .where("receipt_included_in_block_timestamp", ">", latestUpdatedTimestamp)
+    .orderBy("receipt_included_in_block_timestamp", "desc")
+    .limit(1)
+    .executeTakeFirst();
 
   if (contractInfoFromIndexer) {
     return {
       block_timestamp: contractInfoFromIndexer.block_timestamp,
-      hash: contractInfoFromIndexer.hash,
+      // TODO: Discover how to get rid of non-null type assertion
+      hash: contractInfoFromIndexer.hash!,
     };
   }
 
   // query to analytics db to find latest historical record
-  const contractInfoFromAnalytics = await querySingleRow<
-    {
-      receipt_id: string;
-      block_timestamp: string;
-    },
-    { account_id: string }
-  >(
-    [
-      `SELECT
-       deployed_by_receipt_id AS receipt_id,
-       DIV(deployed_at_block_timestamp, 1000*1000) AS block_timestamp
-       FROM deployed_contracts
-       WHERE deployed_to_account_id = :account_id
-       ORDER BY deployed_at_block_timestamp DESC
-       LIMIT 1`,
-      { account_id: accountId },
-    ],
-    { dataSource: DataSource.Analytics }
-  );
-
-  if (!contractInfoFromAnalytics) {
-    throw new Error(
-      `Contract info from analytics DB not found on account ${accountId}`
-    );
-  }
+  const contractInfoFromAnalytics = await analyticsDatabase
+    .selectFrom("deployed_contracts")
+    .select([
+      "deployed_by_receipt_id as receipt_id",
+      (eb) =>
+        div(eb, "deployed_at_block_timestamp", 1000 * 1000, "block_timestamp"),
+    ])
+    .where("deployed_to_account_id", "=", accountId)
+    .orderBy("deployed_at_block_timestamp", "desc")
+    .limit(1)
+    .executeTakeFirstOrThrow();
 
   // query for transaction hash where contact was deployed
-  const transactionHashResult = await querySingleRow<
-    { hash: string },
-    { receipt_id: string }
-  >(
-    [
-      `SELECT originated_from_transaction_hash AS hash
-        FROM receipts
-        WHERE receipt_id = :receipt_id
-        LIMIT 1`,
-      { receipt_id: contractInfoFromAnalytics.receipt_id },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
-
-  if (!transactionHashResult) {
-    throw new Error(
-      `Transaction hash from analytics DB not found on account ${accountId}`
-    );
-  }
+  const transactionHashResult = await indexerDatabase
+    .selectFrom("receipts")
+    .select("originated_from_transaction_hash as hash")
+    .where(
+      "receipt_id",
+      "=",
+      // Different "flavors" in different DBs
+      // there is no way to fix types but force casting
+      contractInfoFromAnalytics.receipt_id as Indexer.ReceiptsId
+    )
+    .limit(1)
+    .executeTakeFirstOrThrow();
 
   if (contractInfoFromAnalytics) {
     return {
@@ -1496,183 +1108,89 @@ export const queryContractInfo = async (accountId: string) => {
 
 // chunks
 export const queryGasUsedInChunks = async (blockHash: string) => {
-  return await querySingleRow<{ gas_used: string }, { block_hash: string }>(
-    [
-      `SELECT SUM(gas_used) AS gas_used
-       FROM chunks
-       WHERE included_in_block_hash = :block_hash`,
-      { block_hash: blockHash },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+  return indexerDatabase
+    .selectFrom("chunks")
+    .select((eb) => sum(eb, "gas_used").as("gas_used"))
+    .where("included_in_block_hash", "=", blockHash)
+    .executeTakeFirst();
 };
-
-type TableField = {
-  name: string;
-  type: string;
-  modifier?: string;
-};
-
-const TELEMETRY_FIELDS: TableField[] = [
-  {
-    name: "ip_address",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "moniker",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "account_id",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "node_id",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL PRIMARY KEY",
-  },
-  {
-    name: "last_seen",
-    type: "TIMESTAMP WITH TIME ZONE",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "last_height",
-    type: "BIGINT",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "agent_name",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "agent_version",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "agent_build",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "peer_count",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "is_validator",
-    type: "BOOLEAN",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "last_hash",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "signature",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "status",
-    type: "VARCHAR(255)",
-    modifier: "NOT NULL",
-  },
-  {
-    name: "latitude",
-    type: "NUMERIC(8, 6)",
-  },
-  {
-    name: "longitude",
-    type: "NUMERIC(9, 6)",
-  },
-  {
-    name: "city",
-    type: "VARCHAR(255)",
-  },
-];
 
 export const maybeCreateTelemetryTable = async () => {
-  // Skip initializing Telemetry database if the backend is not configured to
-  // save telemety data (it is absolutely fine for local development)
-  if (!databases.telemetryBackendWriteOnlyPool) {
+  if (!telemetryWriteDatabase) {
     return;
   }
-  await withPool(databases.telemetryBackendWriteOnlyPool, (client) =>
-    client.query(
-      `CREATE TABLE IF NOT EXISTS nodes (\n${TELEMETRY_FIELDS.map((field) =>
-        [field.name, field.type, field.modifier].filter(Boolean).join(" ")
-      ).join(",\n")}\n);`
-    )
-  );
+  await telemetryWriteDatabase.schema
+    .createTable("nodes")
+    .ifNotExists()
+    .addColumn("ip_address", "varchar(255)", (col) => col.notNull())
+    .addColumn("moniker", "varchar(255)", (col) => col.notNull())
+    .addColumn("account_id", "varchar(255)", (col) => col.notNull())
+    .addColumn("node_id", "varchar(255)", (col) => col.notNull().primaryKey())
+    .addColumn("last_seen", "timestamptz", (col) => col.notNull())
+    .addColumn("last_height", "bigint", (col) => col.notNull())
+    .addColumn("agent_name", "varchar(255)", (col) => col.notNull())
+    .addColumn("agent_version", "varchar(255)", (col) => col.notNull())
+    .addColumn("agent_build", "varchar(255)", (col) => col.notNull())
+    .addColumn("peer_count", "varchar(255)", (col) => col.notNull())
+    .addColumn("is_validator", "boolean", (col) => col.notNull())
+    .addColumn("last_hash", "varchar(255)", (col) => col.notNull())
+    .addColumn("signature", "varchar(255)", (col) => col.notNull())
+    .addColumn("status", "varchar(255)", (col) => col.notNull())
+    .addColumn("latitude", "numeric(8, 6)")
+    .addColumn("longitude", "numeric(9, 6)")
+    .addColumn("city", "varchar(255)")
+    .execute();
 };
 
 export const maybeSendTelemetry = async (
   nodeInfo: TelemetryRequest,
   geo: geoip.Lookup | null
 ) => {
-  if (!databases.telemetryBackendWriteOnlyPool) {
+  if (!telemetryWriteDatabase) {
     return;
   }
-  await withPool(databases.telemetryBackendWriteOnlyPool, (client) => {
-    return client.query(
-      `
-      INSERT INTO nodes (
-        ip_address, moniker, account_id, node_id,
-        last_seen, last_height, agent_name, agent_version,
-        agent_build, peer_count, is_validator, last_hash,
-        signature, status, latitude, longitude, city
-      ) VALUES (
-        $1, $2, $3, $4,
-        $5, $6, $7, $8,
-        $9, $10, $11, $12,
-        $13, $14, $15, $16, $17
-      ) ON CONFLICT (node_id) DO UPDATE
-      SET
-        ip_address = EXCLUDED.ip_address,
-        moniker = EXCLUDED.moniker,
-        account_id = EXCLUDED.account_id,
-        last_seen = EXCLUDED.last_seen,
-        last_height = EXCLUDED.last_height,
-        agent_name = EXCLUDED.agent_name,
-        agent_version = EXCLUDED.agent_version,
-        agent_build = EXCLUDED.agent_build,
-        peer_count = EXCLUDED.peer_count,
-        is_validator = EXCLUDED.is_validator,
-        last_hash = EXCLUDED.last_hash,
-        signature = EXCLUDED.signature,
-        status = EXCLUDED.status,
-        latitude = EXCLUDED.latitude,
-        longitude = EXCLUDED.longitude,
-        city = EXCLUDED.city
-    `,
-      [
-        nodeInfo.ip_address,
-        // moniker has never been really used or implemented on nearcore side
-        nodeInfo.chain.account_id || "",
-        // accountId must be non-empty when the telemetry is submitted by validation nodes
-        nodeInfo.chain.account_id || "",
-        nodeInfo.chain.node_id,
-        new Date().toISOString(),
-        nodeInfo.chain.latest_block_height,
-        nodeInfo.agent.name,
-        nodeInfo.agent.version,
-        nodeInfo.agent.build,
-        nodeInfo.chain.num_peers,
-        nodeInfo.chain.is_validator,
-        nodeInfo.chain.latest_block_hash,
-        nodeInfo.signature || "",
-        nodeInfo.chain.status,
-        geo ? geo.ll[0] : null,
-        geo ? geo.ll[1] : null,
-        geo ? geo.city : null,
-      ]
-    );
-  });
+  await telemetryWriteDatabase
+    .insertInto("nodes")
+    .values({
+      node_id: nodeInfo.chain.node_id,
+      ip_address: nodeInfo.ip_address,
+      // moniker has never been really used or implemented on nearcore side
+      moniker: nodeInfo.chain.account_id || "",
+      // accountId must be non-empty when the telemetry is submitted by validation nodes
+      account_id: nodeInfo.chain.account_id || "",
+      last_seen: new Date(),
+      last_height: nodeInfo.chain.latest_block_height.toString(),
+      agent_name: nodeInfo.agent.name,
+      agent_version: nodeInfo.agent.version,
+      agent_build: nodeInfo.agent.build,
+      peer_count: nodeInfo.chain.num_peers.toString(),
+      is_validator: nodeInfo.chain.is_validator,
+      last_hash: nodeInfo.chain.latest_block_hash,
+      signature: nodeInfo.signature || "",
+      status: nodeInfo.chain.status,
+      latitude: geo ? geo.ll[0].toString() : null,
+      longitude: geo ? geo.ll[1].toString() : null,
+      city: geo ? geo.city : null,
+    })
+    .onConflict((oc) =>
+      oc.column("node_id").doUpdateSet({
+        ip_address: (eb) => eb.ref("excluded.ip_address"),
+        moniker: (eb) => eb.ref("excluded.moniker"),
+        account_id: (eb) => eb.ref("excluded.account_id"),
+        last_seen: (eb) => eb.ref("excluded.last_seen"),
+        last_height: (eb) => eb.ref("excluded.last_height"),
+        agent_name: (eb) => eb.ref("excluded.agent_name"),
+        agent_version: (eb) => eb.ref("excluded.agent_version"),
+        agent_build: (eb) => eb.ref("excluded.agent_build"),
+        peer_count: (eb) => eb.ref("excluded.peer_count"),
+        is_validator: (eb) => eb.ref("excluded.is_validator"),
+        last_hash: (eb) => eb.ref("excluded.last_hash"),
+        signature: (eb) => eb.ref("excluded.signature"),
+        status: (eb) => eb.ref("excluded.status"),
+        latitude: (eb) => eb.ref("excluded.latitude"),
+        longitude: (eb) => eb.ref("excluded.longitude"),
+        city: (eb) => eb.ref("excluded.city"),
+      })
+    )
+    .execute();
 };

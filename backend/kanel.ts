@@ -2,10 +2,10 @@ import { processDatabase } from "kanel";
 import path from "path";
 // @ts-ignore
 import { recase } from "@kristiandupont/recase";
-import { databaseConfig } from "./config/database";
+import { databaseConfigs } from "./config/database";
 
 const run = async () => {
-  for (const [database, config] of Object.entries(databaseConfig)) {
+  for (const [database, config] of Object.entries(databaseConfigs)) {
     // The model is the same as readOnlyTelemetryDatabase
     // And we probably don't have credentials to connect to it
     if (database === "writeOnlyTelemetryDatabase") {

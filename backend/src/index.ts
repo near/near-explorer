@@ -34,7 +34,10 @@ async function main(): Promise<void> {
       try {
         await check.fn(controller, state);
       } catch (error) {
-        console.warn(`Regular${check.description} crashed due to:`, error);
+        console.warn(
+          `Regular ${check.description} crashed due to:`,
+          String(error)
+        );
       } finally {
         setTimeoutBound();
       }
