@@ -92,7 +92,9 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
                 </TransactionRowTimer>
               ) : (
                 <>
-                  <Balance amount={accountInfo.nonStakedBalance} />
+                  <Balance
+                    amount={accountInfo.details?.nonStakedBalance ?? "0"}
+                  />
                   <TransactionRowTimer>
                     {t("component.accounts.AccountRow.created_on")}{" "}
                     {moment(accountInfo.createdAtBlockTimestamp).format("LL")}

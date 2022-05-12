@@ -3,21 +3,16 @@ import { KeysOfUnion } from "./util";
 
 export type Account = {
   accountId: string;
-  createdByTransactionHash?: string;
-  createdAtBlockTimestamp?: number;
+  createdByTransactionHash: string;
+  createdAtBlockTimestamp: number;
   deletedByTransactionHash?: string;
   deletedAtBlockTimestamp?: number;
-
-  stakedBalance: string;
-  nonStakedBalance: string;
-  storageUsage?: string;
-  minimumBalance: string;
-  availableBalance: string;
-  lockupAccountId?: string;
-  lockupTotalBalance?: string;
-  lockupLockedBalance?: string;
-  lockupUnlockedBalance?: string;
-  totalBalance: string;
+  details: {
+    storageUsage: number;
+    stakedBalance: string;
+    nonStakedBalance: string;
+    lockupAccountId?: string;
+  } | null;
 };
 
 export type AccountTransactionsCount = {
