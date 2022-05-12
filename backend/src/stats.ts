@@ -239,7 +239,7 @@ export const aggregateActiveAccountsList = retriable(async () => {
   ACTIVE_ACCOUNTS_LIST = activeAccountsList
     .map(({ account_id: account, transactions_count: transactionsCount }) => ({
       account,
-      transactionsCount,
+      transactionsCount: transactionsCount || "0",
     }))
     .reverse();
 }, "Top active accounts with respective transactions count");
@@ -283,7 +283,7 @@ export const aggregateActiveContractsList = retriable(async () => {
   ACTIVE_CONTRACTS_LIST = activeContractsList
     .map(({ contract_id: contract, receipts_count: receiptsCount }) => ({
       contract,
-      receiptsCount,
+      receiptsCount: receiptsCount || "0",
     }))
     .reverse();
 }, "Top active contracts with respective receipts count");
@@ -389,7 +389,7 @@ export const getTotalFee = async (
   }
   return {
     date: formatDate(feesByDay.date),
-    fee: feesByDay.fee,
+    fee: feesByDay.fee || "0",
   };
 };
 

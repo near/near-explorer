@@ -4,9 +4,13 @@ import {
   Kysely,
   PostgresDialect,
   PostgresDialectConfig,
+  RawBuilder,
   sql,
 } from "kysely";
-import { StringReference } from "kysely/dist/cjs/parser/reference-parser";
+import {
+  ExtractTypeFromReferenceExpression,
+  StringReference,
+} from "kysely/dist/cjs/parser/reference-parser";
 import BN from "bn.js";
 import geoip from "geoip-lite";
 
@@ -62,15 +66,21 @@ const analyticsDatabase = getKysely<Analytics.ModelTypeMap>(
 
 const ONE_DAY_TIMESTAMP_MILISEC = 24 * HOUR;
 
-const count = <DB, TB extends keyof DB>(
+const count = <DB, TB extends keyof DB, C extends StringReference<DB, TB>>(
   expressionBuilder: ExpressionBuilder<DB, TB>,
-  column: StringReference<DB, TB>
+  column: C
 ) => expressionBuilder.fn.count<string>(column);
 
-const sum = <DB, TB extends keyof DB>(
+const sum = <DB, TB extends keyof DB, C extends StringReference<DB, TB>>(
   expressionBuilder: ExpressionBuilder<DB, TB>,
-  column: StringReference<DB, TB>
-) => expressionBuilder.fn.sum<string>(column);
+  column: C
+): RawBuilder<string | null> => expressionBuilder.fn.sum<string>(column);
+
+const max = <DB, TB extends keyof DB, C extends StringReference<DB, TB>>(
+  expressionBuilder: ExpressionBuilder<DB, TB>,
+  column: C
+): RawBuilder<ExtractTypeFromReferenceExpression<DB, TB, C> | null> =>
+  expressionBuilder.fn.max(column);
 
 const div = <DB, TB extends keyof DB, C extends string>(
   _eb: ExpressionBuilder<DB, TB>,
@@ -537,16 +547,20 @@ export const queryOutcomeTransactionsCountFromAnalytics = async (
     .select([
       (eb) =>
         sum(eb, "outgoing_transactions_count").as("out_transactions_count"),
-      (eb) => eb.fn.max("collected_for_day").as("last_day_collected"),
+      (eb) => max(eb, "collected_for_day").as("last_day_collected"),
     ])
     .where("account_id", "=", accountId)
     .executeTakeFirstOrThrow();
   return {
-    out_transactions_count: parseInt(selection.out_transactions_count),
-    last_day_collected_timestamp: new BN(selection.last_day_collected.getTime())
-      .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-      .muln(10 ** 6)
-      .toString(),
+    out_transactions_count: selection.out_transactions_count
+      ? parseInt(selection.out_transactions_count)
+      : 0,
+    last_day_collected_timestamp: selection.last_day_collected
+      ? new BN(selection.last_day_collected.getTime())
+          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+          .muln(10 ** 6)
+          .toString()
+      : undefined,
   };
 };
 
@@ -579,16 +593,20 @@ export const queryIncomeTransactionsCountFromAnalytics = async (
     .selectFrom("daily_ingoing_transactions_per_account_count")
     .select([
       (eb) => sum(eb, "ingoing_transactions_count").as("in_transactions_count"),
-      (eb) => eb.fn.max("collected_for_day").as("last_day_collected"),
+      (eb) => max(eb, "collected_for_day").as("last_day_collected"),
     ])
     .where("account_id", "=", accountId)
     .executeTakeFirstOrThrow();
   return {
-    in_transactions_count: parseInt(selection.in_transactions_count),
-    last_day_collected_timestamp: new BN(selection.last_day_collected.getTime())
-      .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
-      .muln(10 ** 6)
-      .toString(),
+    in_transactions_count: selection.in_transactions_count
+      ? parseInt(selection.in_transactions_count)
+      : 0,
+    last_day_collected_timestamp: selection.last_day_collected
+      ? new BN(selection.last_day_collected.getTime())
+          .add(new BN(ONE_DAY_TIMESTAMP_MILISEC))
+          .muln(10 ** 6)
+          .toString()
+      : undefined,
   };
 };
 
