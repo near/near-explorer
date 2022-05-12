@@ -34,6 +34,7 @@ const run = async () => {
       console.log(`< Types for ${database} successfully generated!`);
     } catch (e) {
       console.error(`< Error generating types for ${database}:`, e);
+      process.exit(1);
     }
   }
 };
