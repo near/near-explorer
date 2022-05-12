@@ -37,7 +37,7 @@ async function createTransactionsList(
     signerId: transaction.signer_id,
     receiverId: transaction.receiver_id,
     blockHash: transaction.block_hash,
-    blockTimestamp: parseInt(transaction.block_timestamp),
+    blockTimestamp: parseInt(transaction.block_timestamp_ms),
     transactionIndex: transaction.transaction_index,
     actions: transactionsActionsList.get(transaction.hash) || [],
   }));

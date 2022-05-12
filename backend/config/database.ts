@@ -1,14 +1,12 @@
-import { PoolConfig } from "pg";
+import { PostgresDialectConfig } from "kysely";
 
-type DatabaseType =
+type DatabaseName =
   | "readOnlyIndexerDatabase"
   | "readOnlyAnalyticsDatabase"
   | "readOnlyTelemetryDatabase"
   | "writeOnlyTelemetryDatabase";
 
-type DbConfig = Record<DatabaseType, PoolConfig>;
-
-export const databaseConfig: DbConfig = {
+export const databaseConfigs: Record<DatabaseName, PostgresDialectConfig> = {
   readOnlyIndexerDatabase: {
     host: process.env.NEAR_READ_ONLY_INDEXER_DATABASE_HOST,
     database: process.env.NEAR_READ_ONLY_INDEXER_DATABASE_NAME,
