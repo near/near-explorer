@@ -1,4 +1,5 @@
 import * as React from "react";
+import JSBI from "jsbi";
 
 import { Col, Row, Badge } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
@@ -61,11 +62,11 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ telemetry }) => {
               latestBlockHeight === undefined
                 ? undefined
                 : Math.abs(
-                    telemetry.lastHeight - latestBlockHeight.toNumber()
+                    telemetry.lastHeight - JSBI.toNumber(latestBlockHeight)
                   ) > 1000
                 ? "text-danger"
                 : Math.abs(
-                    telemetry.lastHeight - latestBlockHeight.toNumber()
+                    telemetry.lastHeight - JSBI.toNumber(latestBlockHeight)
                   ) > 50
                 ? "text-warning"
                 : undefined

@@ -1,9 +1,10 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import { renderElement } from "../../../testing/utils";
 
 import ValidatorRow from "../ValidatorRow";
 
 import { getCumulativeStake, VALIDATORS_LIST } from "./validators";
+import * as BI from "../../../libraries/bigint";
 
 const totalStake = getCumulativeStake(
   VALIDATORS_LIST[VALIDATORS_LIST.length - 1]
@@ -13,7 +14,7 @@ const seatPrice = VALIDATORS_LIST.map(
   (validator) => validator.currentEpoch?.stake
 )
   .filter((x): x is string => Boolean(x))
-  .sort((a, b) => new BN(a).cmp(new BN(b)))[0];
+  .sort((a, b) => BI.cmp(JSBI.BigInt(a), JSBI.BigInt(b)))[0];
 
 describe("<ValidatorRow />", () => {
   it("renders simple 'active' Validators row", () => {

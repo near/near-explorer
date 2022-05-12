@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 
 import { renderElement } from "../../../testing/utils";
 
@@ -18,7 +18,10 @@ describe("<BlockDetails />", () => {
             height: 12345,
             gasPrice: "5000",
             gasUsed: "1000",
-            totalSupply: new BN(10).pow(new BN(24 + 9)).toString(),
+            totalSupply: JSBI.exponentiate(
+              JSBI.BigInt(10),
+              JSBI.BigInt(24 + 9)
+            ).toString(),
             receiptsCount: 5,
           }}
         />

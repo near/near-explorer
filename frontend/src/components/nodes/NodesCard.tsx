@@ -1,10 +1,8 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 
 import * as React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-
-import { utils } from "near-api-js";
 
 import { showInYocto, formatWithCommas } from "../utils/Balance";
 import {
@@ -14,6 +12,7 @@ import {
 } from "../utils/InfoCard";
 import NearBadge from "./NearBadge";
 import { styled } from "../../libraries/styles";
+import * as BI from "../../libraries/bigint";
 
 const NodesCardWrapper = styled(InfoCard, {
   background: "#ffffff",
@@ -59,7 +58,7 @@ const NodeBalanceSuffix = styled("span", {
 });
 
 type BalanceProps = {
-  amount: BN;
+  amount: JSBI;
   type: "totalSupply" | "totalStakeAmount" | "seatPriceAmount";
 };
 
@@ -67,20 +66,15 @@ const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
   if (!amount) return null;
   let value;
   let suffix;
+  const amountInNear = JSBI.toNumber(JSBI.divide(amount, BI.nearNomination));
   if (type === "totalSupply") {
-    value = formatWithCommas(
-      (amount.div(utils.format.NEAR_NOMINATION).toNumber() / 10 ** 6).toFixed(1)
-    );
+    value = formatWithCommas((amountInNear / 10 ** 6).toFixed(1));
     suffix = "M";
   } else if (type === "totalStakeAmount") {
-    value = formatWithCommas(
-      (amount.div(utils.format.NEAR_NOMINATION).toNumber() / 10 ** 6).toFixed(1)
-    );
+    value = formatWithCommas((amountInNear / 10 ** 6).toFixed(1));
     suffix = "M";
   } else if (type === "seatPriceAmount") {
-    value = formatWithCommas(
-      amount.div(utils.format.NEAR_NOMINATION).toNumber().toFixed(0)
-    );
+    value = formatWithCommas(amountInNear.toFixed(0));
   } else {
     value = amount;
   }
@@ -127,7 +121,7 @@ const NodesCard: React.FC<Props> = React.memo(
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
           {totalSupply && (
-            <NodeBalance amount={new BN(totalSupply)} type="totalSupply" />
+            <NodeBalance amount={JSBI.BigInt(totalSupply)} type="totalSupply" />
           )}
         </Cell>
 
@@ -136,7 +130,10 @@ const NodesCard: React.FC<Props> = React.memo(
           cellOptions={{ xs: "12", md: "6", xl: "3" }}
         >
           {totalStake && (
-            <NodeBalance amount={new BN(totalStake)} type="totalStakeAmount" />
+            <NodeBalance
+              amount={JSBI.BigInt(totalStake)}
+              type="totalStakeAmount"
+            />
           )}
         </Cell>
 
@@ -145,7 +142,10 @@ const NodesCard: React.FC<Props> = React.memo(
           cellOptions={{ xs: "12", md: "6", xl: "4" }}
         >
           {seatPrice && (
-            <NodeBalance amount={new BN(seatPrice)} type="seatPriceAmount" />
+            <NodeBalance
+              amount={JSBI.BigInt(seatPrice)}
+              type="seatPriceAmount"
+            />
           )}
         </Cell>
       </NodesCardWrapper>

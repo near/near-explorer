@@ -1,5 +1,5 @@
 import Head from "next/head";
-import BN from "bn.js";
+import JSBI from "jsbi";
 
 import { Container } from "react-bootstrap";
 
@@ -71,9 +71,9 @@ const ValidatorsPage: NextPage = React.memo(() => {
             epochStartHeight={epochStartBlock.height}
             epochStartTimestamp={epochStartBlock.timestamp}
             latestBlockHeight={finalBlockHeight}
-            latestBlockTimestamp={finalBlockTimestampNanosecond
-              .divn(10 ** 6)
-              .toNumber()}
+            latestBlockTimestamp={JSBI.toNumber(
+              JSBI.divide(finalBlockTimestampNanosecond, JSBI.BigInt(10 ** 6))
+            )}
           />
         )}
       </Container>
@@ -89,16 +89,8 @@ const ValidatorsPage: NextPage = React.memo(() => {
           <NodesCard
             currentValidatorsCount={networkStats?.currentValidatorsCount}
             totalSupply={epochStartBlock?.totalSupply.toString()}
-            totalStake={
-              networkStats
-                ? new BN(networkStats.totalStake).toString()
-                : undefined
-            }
-            seatPrice={
-              networkStats
-                ? new BN(networkStats.seatPrice).toString()
-                : undefined
-            }
+            totalStake={networkStats ? networkStats.totalStake : undefined}
+            seatPrice={networkStats ? networkStats.seatPrice : undefined}
           />
         </Container>
         <ValidatorsWrapper>

@@ -2,8 +2,7 @@ import * as React from "react";
 import { Tabs, Tab } from "react-bootstrap";
 import ReactEcharts from "echarts-for-react";
 import * as echarts from "echarts";
-import BN from "bn.js";
-import { utils } from "near-api-js";
+import JSBI from "jsbi";
 
 import { Props } from "./TransactionsByDate";
 
@@ -11,6 +10,9 @@ import { useTranslation } from "react-i18next";
 import { useLatestGasPrice } from "../../hooks/data";
 import { useQueryOrDefault } from "../../hooks/use-query";
 import { cumulativeSumArray } from "../../libraries/stats";
+import * as BI from "../../libraries/bigint";
+
+const gasNomination = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(15));
 
 const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
@@ -20,7 +22,7 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
   const gasUsed = React.useMemo(
     () =>
       gasUsedByDate.map(({ gasUsed }) =>
-        new BN(gasUsed).divn(1000000).divn(1000000).divn(1000).toNumber()
+        JSBI.toNumber(JSBI.divide(JSBI.BigInt(gasUsed), gasNomination))
       ),
     [gasUsedByDate]
   );
@@ -37,11 +39,15 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
     }
     return gasUsedByDate.map(
       ({ gasUsed }) =>
-        new BN(gasUsed)
-          .mul(latestGasPrice)
-          .muln(1000)
-          .div(utils.format.NEAR_NOMINATION)
-          .toNumber() / 1000
+        JSBI.toNumber(
+          JSBI.divide(
+            JSBI.multiply(
+              JSBI.BigInt(gasUsed),
+              JSBI.multiply(JSBI.BigInt(latestGasPrice), JSBI.BigInt(1000))
+            ),
+            BI.nearNomination
+          )
+        ) / 1000
     );
   }, [latestGasPrice, gasUsedByDate]);
 

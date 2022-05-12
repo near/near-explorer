@@ -1,22 +1,23 @@
 import * as React from "react";
-import BN from "bn.js";
+import JSBI from "jsbi";
+import * as BI from "../../libraries/bigint";
 
 interface Props {
-  gas: BN;
+  gas: JSBI;
 }
 
-const MGAS = new BN(10 ** 6);
-const GGAS = new BN(1000).mul(MGAS);
-export const TGAS = new BN(1000).mul(GGAS);
+const MGAS = JSBI.exponentiate(BI.ten, JSBI.BigInt(6));
+const GGAS = JSBI.multiply(MGAS, JSBI.BigInt(1000));
+export const TGAS = JSBI.multiply(GGAS, JSBI.BigInt(1000));
 
 const Gas: React.FC<Props> = React.memo(({ gas }) => {
   let gasShow;
-  if (gas.gte(TGAS)) {
-    gasShow = `${gas.div(TGAS).toString()} Tgas`;
-  } else if (gas.gte(GGAS)) {
-    gasShow = `${gas.div(GGAS).toString()} Ggas`;
-  } else if (gas.gte(MGAS)) {
-    gasShow = `${gas.div(MGAS).toString()} Mgas`;
+  if (JSBI.greaterThan(gas, TGAS)) {
+    gasShow = `${JSBI.divide(gas, TGAS).toString()} Tgas`;
+  } else if (JSBI.greaterThan(gas, GGAS)) {
+    gasShow = `${JSBI.divide(gas, GGAS).toString()} Ggas`;
+  } else if (JSBI.greaterThan(gas, MGAS)) {
+    gasShow = `${JSBI.divide(gas, MGAS).toString()} Mgas`;
   } else {
     gasShow = `${gas.toString()} gas`;
   }

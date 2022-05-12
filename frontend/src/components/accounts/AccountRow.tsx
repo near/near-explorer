@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import moment from "moment";
 
 import * as React from "react";
@@ -54,7 +54,7 @@ export interface Props {
 }
 
 export interface State {
-  nonStakedBalance?: BN;
+  nonStakedBalance?: JSBI;
   deletedAtBlockTimestamp?: number;
   createdAtBlockTimestamp?: number;
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import BN from "bn.js";
+import JSBI from "jsbi";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
 
@@ -25,8 +25,9 @@ const ActionGroup: React.FC<Props> = React.memo(
     if (!actionGroup?.actions) return null;
 
     const isFinal = finalBlockTimestampNanosecond
-      ? new BN(actionGroup.blockTimestamp).lte(
-          finalBlockTimestampNanosecond.divn(10 ** 6)
+      ? JSBI.lessThanOrEqual(
+          JSBI.BigInt(actionGroup.blockTimestamp),
+          JSBI.divide(finalBlockTimestampNanosecond, JSBI.BigInt(10 ** 6))
         )
       : undefined;
 

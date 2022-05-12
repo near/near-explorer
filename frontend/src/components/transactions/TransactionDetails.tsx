@@ -1,4 +1,4 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import moment from "../../libraries/moment";
 
 import { Row, Col } from "react-bootstrap";
@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
 import { RPC, Transaction } from "../../types/common";
+import * as BI from "../../libraries/bigint";
 
 const HeaderRow = styled(Row);
 
@@ -55,10 +56,10 @@ export interface Props {
 }
 
 export interface State {
-  deposit?: BN;
-  gasUsed?: BN;
-  gasAttached?: BN;
-  transactionFee?: BN;
+  deposit?: JSBI;
+  gasUsed?: JSBI;
+  gasAttached?: JSBI;
+  transactionFee?: JSBI;
 }
 
 const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
@@ -67,37 +68,43 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
     return transaction.actions
       .map((action) => {
         if ("deposit" in action.args) {
-          return new BN(action.args.deposit);
+          return JSBI.BigInt(action.args.deposit);
         } else {
-          return new BN(0);
+          return BI.zero;
         }
       })
-      .reduce((accumulator, deposit) => accumulator.add(deposit), new BN(0));
+      .reduce(
+        (accumulator, deposit) => JSBI.add(accumulator, deposit),
+        BI.zero
+      );
   }, [transaction.actions]);
   const gasUsed = React.useMemo(() => {
     const gasBurntByTx = transaction.transactionOutcome
-      ? new BN(transaction.transactionOutcome.outcome.gas_burnt)
-      : new BN(0);
+      ? JSBI.BigInt(transaction.transactionOutcome.outcome.gas_burnt)
+      : BI.zero;
     const gasBurntByReceipts = transaction.receiptsOutcome
       ? transaction.receiptsOutcome
-          .map((receipt) => new BN(receipt.outcome.gas_burnt))
-          .reduce((gasBurnt, currentFee) => gasBurnt.add(currentFee), new BN(0))
-      : new BN(0);
-    return gasBurntByTx.add(gasBurntByReceipts);
+          .map((receipt) => JSBI.BigInt(receipt.outcome.gas_burnt))
+          .reduce(
+            (gasBurnt, currentFee) => JSBI.add(gasBurnt, currentFee),
+            BI.zero
+          )
+      : BI.zero;
+    return JSBI.add(gasBurntByTx, gasBurntByReceipts);
   }, [transaction.transactionOutcome, transaction.receiptsOutcome]);
   const transactionFee = React.useMemo(() => {
     const tokensBurntByTx = transaction.transactionOutcome
-      ? new BN(transaction.transactionOutcome.outcome.tokens_burnt)
-      : new BN(0);
+      ? JSBI.BigInt(transaction.transactionOutcome.outcome.tokens_burnt)
+      : BI.zero;
     const tokensBurntByReceipts = transaction.receiptsOutcome
       ? transaction.receiptsOutcome
-          .map((receipt) => new BN(receipt.outcome.tokens_burnt))
+          .map((receipt) => JSBI.BigInt(receipt.outcome.tokens_burnt))
           .reduce(
-            (tokenBurnt, currentFee) => tokenBurnt.add(currentFee),
-            new BN(0)
+            (tokenBurnt, currentFee) => JSBI.add(tokenBurnt, currentFee),
+            BI.zero
           )
-      : new BN(0);
-    return tokensBurntByTx.add(tokensBurntByReceipts);
+      : BI.zero;
+    return JSBI.add(tokensBurntByTx, tokensBurntByReceipts);
   }, [transaction.transactionOutcome, transaction.receiptsOutcome]);
   const gasAttached = React.useMemo(() => {
     const actionArgs = transaction.actions.map((action) => action.args);
@@ -109,8 +116,9 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
       return gasUsed;
     }
     return gasAttachedArgs.reduce(
-      (accumulator, args) => accumulator.add(new BN(args.gas.toString())),
-      new BN(0)
+      (accumulator, args) =>
+        JSBI.add(accumulator, JSBI.BigInt(args.gas.toString())),
+      BI.zero
     );
   }, [transaction.actions]);
 
@@ -178,8 +186,12 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 )}
                 {!finalBlockTimestampNanosecond
                   ? "/" + t("common.blocks.status.checking_finality")
-                  : new BN(transaction.blockTimestamp).lte(
-                      finalBlockTimestampNanosecond.divn(10 ** 6)
+                  : JSBI.lessThan(
+                      JSBI.BigInt(transaction.blockTimestamp),
+                      JSBI.divide(
+                        finalBlockTimestampNanosecond,
+                        JSBI.BigInt(10 ** 6)
+                      )
                     )
                   ? ""
                   : "/" + t("common.blocks.status.finalizing")}

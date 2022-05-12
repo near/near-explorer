@@ -1,4 +1,3 @@
-import BN from "bn.js";
 import { sha256 } from "js-sha256";
 
 import { AccountListInfo, AccountTransactionsCount } from "./types";
@@ -13,6 +12,7 @@ import {
   queryOutcomeTransactionsCountFromIndexerForLastDay,
 } from "./db-utils";
 import { callViewMethod, sendJsonRpc, sendJsonRpcQuery } from "./near";
+import { BIMax } from "./utils";
 
 export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
   const account = await queryIndexedAccount(accountId);
@@ -143,7 +143,7 @@ export const getAccountDetails = async (accountId: string) => {
         }).catch(ignoreIfDoesNotExist)
       : null,
     callViewMethod<string>(lockupAccountId, "get_locked_amount", {})
-      .then((balance) => new BN(balance))
+      .then((balance) => BigInt(balance))
       .catch(ignoreIfDoesNotExist),
     callViewMethod<string>(
       lockupAccountId,
@@ -157,18 +157,17 @@ export const getAccountDetails = async (accountId: string) => {
     return null;
   }
 
-  const storageUsage = new BN(accountInfo.storage_usage);
-  const storageAmountPerByte = new BN(
+  const storageUsage = BigInt(accountInfo.storage_usage);
+  const storageAmountPerByte = BigInt(
     protocolConfig.runtime_config.storage_amount_per_byte
   );
-  const stakedBalance = new BN(accountInfo.locked);
-  const nonStakedBalance = new BN(accountInfo.amount);
-  const minimumBalance = storageAmountPerByte.mul(storageUsage);
-  const availableBalance = nonStakedBalance
-    .add(stakedBalance)
-    .sub(BN.max(stakedBalance, minimumBalance));
+  const stakedBalance = BigInt(accountInfo.locked);
+  const nonStakedBalance = BigInt(accountInfo.amount);
+  const minimumBalance = storageAmountPerByte * storageUsage;
+  const availableBalance =
+    nonStakedBalance + stakedBalance - BIMax(stakedBalance, minimumBalance);
 
-  let lockupDelegatedToStakingPoolBalance: BN | null = null;
+  let lockupDelegatedToStakingPoolBalance: bigint | null = null;
   if (lockupStakingPoolAccountId) {
     lockupDelegatedToStakingPoolBalance = await callViewMethod<string>(
       lockupStakingPoolAccountId,
@@ -177,11 +176,11 @@ export const getAccountDetails = async (accountId: string) => {
         account_id: lockupAccountId,
       }
     )
-      .then((balance) => new BN(balance))
+      .then((balance) => BigInt(balance))
       .catch(ignoreIfDoesNotExist);
   }
 
-  let totalBalance = stakedBalance.add(nonStakedBalance);
+  let totalBalance = stakedBalance + nonStakedBalance;
   let lockupDetails: {
     accountId: string;
     totalBalance: string;
@@ -193,24 +192,24 @@ export const getAccountDetails = async (accountId: string) => {
   if (accountId === lockupAccountId) {
     // It is a lockup account
     if (lockupDelegatedToStakingPoolBalance) {
-      totalBalance.iadd(lockupDelegatedToStakingPoolBalance);
+      totalBalance += lockupDelegatedToStakingPoolBalance;
     }
   } else {
     // TODO: could it be that `lockupLockedBalance` is null but we still have info?
     if (lockupAccountInfo && lockupLockedBalance) {
       // It is a regular account with lockup
-      const lockupStakedBalance = new BN(lockupAccountInfo.locked);
-      const lockupNonStakedBalance = new BN(lockupAccountInfo.amount);
-      let lockupTotalBalance = lockupStakedBalance.add(lockupNonStakedBalance);
+      const lockupStakedBalance = BigInt(lockupAccountInfo.locked);
+      const lockupNonStakedBalance = BigInt(lockupAccountInfo.amount);
+      let lockupTotalBalance = lockupStakedBalance + lockupNonStakedBalance;
       if (lockupDelegatedToStakingPoolBalance) {
-        lockupTotalBalance.iadd(lockupDelegatedToStakingPoolBalance);
+        lockupTotalBalance += lockupDelegatedToStakingPoolBalance;
       }
-      totalBalance.iadd(lockupTotalBalance);
+      totalBalance = totalBalance + lockupTotalBalance;
       lockupDetails = {
         accountId: lockupAccountId,
         totalBalance: lockupTotalBalance.toString(),
         lockedBalance: lockupLockedBalance.toString(),
-        unlockedBalance: lockupTotalBalance.sub(lockupLockedBalance).toString(),
+        unlockedBalance: (lockupTotalBalance - lockupLockedBalance).toString(),
       };
     }
     // It is a regular account without lockup

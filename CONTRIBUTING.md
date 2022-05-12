@@ -61,7 +61,7 @@ Here is an artificial example:
 ```javascript
 import url from "url";
 
-import BN from "bn.js";
+import JSBI from "jsbi";
 import moment from "moment";
 
 import Head from "next/head";

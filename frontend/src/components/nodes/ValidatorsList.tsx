@@ -1,13 +1,14 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
 import { useNetworkStats } from "../../hooks/subscriptions";
 import { ValidatorFullData } from "../../types/common";
 
 import ValidatorRow from "./ValidatorRow";
+import * as BI from "../../libraries/bigint";
 
 // The share of "network holders", cumulative amount of validators
 // that considered "in control" of the network by holding significant amount of staked tokens
-const NETWORK_HOLDER_SHARE = 0.33;
+const NETWORK_HOLDER_SHARE_PERCENT = 33;
 
 interface Props {
   validators: ValidatorFullData[];
@@ -21,7 +22,7 @@ type ValidatorSortFn = (a: ValidatorFullData, b: ValidatorFullData) => number;
 
 const sortByBNComparison = (aValue?: string, bValue?: string) => {
   if (aValue !== undefined && bValue !== undefined) {
-    return new BN(bValue).cmp(new BN(aValue));
+    return BI.cmp(JSBI.BigInt(bValue), JSBI.BigInt(aValue));
   } else if (aValue) {
     return -1;
   } else if (bValue) {
@@ -39,8 +40,6 @@ const validatorsSortFns: ValidatorSortFn[] = [
   (a, b) => sortByBNComparison(a.contractStake, b.contractStake),
 ];
 
-const ZERO = new BN(0);
-
 const ValidatorsList: React.FC<Props> = React.memo(
   ({ validators, totalStake, selectedPageIndex }) => {
     const sortedValidators = React.useMemo(
@@ -51,15 +50,15 @@ const ValidatorsList: React.FC<Props> = React.memo(
       [validators]
     );
 
-    const cumulativeAmounts = React.useMemo<BN[]>(
+    const cumulativeAmounts = React.useMemo<JSBI[]>(
       () =>
-        sortedValidators.reduce<BN[]>((cumulativeAmounts, validator) => {
+        sortedValidators.reduce<JSBI[]>((cumulativeAmounts, validator) => {
           const lastAmount =
-            cumulativeAmounts[cumulativeAmounts.length - 1] ?? ZERO;
+            cumulativeAmounts[cumulativeAmounts.length - 1] ?? BI.zero;
           return [
             ...cumulativeAmounts,
             validator.currentEpoch
-              ? lastAmount.add(new BN(validator.currentEpoch.stake))
+              ? JSBI.add(lastAmount, JSBI.BigInt(validator.currentEpoch.stake))
               : lastAmount,
           ];
         }, []),
@@ -67,9 +66,15 @@ const ValidatorsList: React.FC<Props> = React.memo(
     );
 
     const networkHolderIndex = React.useMemo(() => {
-      const holderLimit = new BN(totalStake).muln(NETWORK_HOLDER_SHARE);
+      const holderLimit = JSBI.divide(
+        JSBI.multiply(
+          JSBI.BigInt(totalStake),
+          JSBI.BigInt(NETWORK_HOLDER_SHARE_PERCENT)
+        ),
+        JSBI.BigInt(100)
+      );
       return cumulativeAmounts.findIndex((cumulativeAmount) =>
-        cumulativeAmount.gt(holderLimit)
+        JSBI.greaterThan(cumulativeAmount, holderLimit)
       );
     }, [totalStake, cumulativeAmounts]);
 
@@ -88,7 +93,7 @@ const ValidatorsList: React.FC<Props> = React.memo(
                 key={validator.accountId}
                 validator={validator}
                 index={pagedIndex}
-                totalStake={new BN(totalStake)}
+                totalStake={JSBI.BigInt(totalStake)}
                 cumulativeStake={cumulativeAmounts[pagedIndex]}
                 isNetworkHolder={networkHolderIndex === pagedIndex}
                 seatPrice={seatPrice}

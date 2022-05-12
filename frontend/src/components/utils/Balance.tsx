@@ -1,11 +1,10 @@
-/// Copied from near-wallet project:
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
-import { utils } from "near-api-js";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import * as BI from "../../libraries/bigint";
 
 interface Props {
-  amount: string | BN;
+  amount: string | JSBI;
   label?: React.ReactNode;
   suffix?: React.ReactNode;
   className?: string;
@@ -48,8 +47,39 @@ const Balance: React.FC<Props> = React.memo(
   }
 );
 
-export const formatNEAR = (amount: string | BN, fracDigits = 5): string => {
-  let ret = utils.format.formatNearAmount(amount.toString(), fracDigits);
+const ROUNDING_OFFSETS: JSBI[] = [];
+for (
+  let i = 0, offset = JSBI.BigInt(5);
+  i < BI.nearNominationExponent;
+  i++, offset = JSBI.multiply(offset, BI.ten)
+) {
+  ROUNDING_OFFSETS[i] = offset;
+}
+
+const formatNearAmount = (
+  balance: string | JSBI,
+  fracDigits: number
+): string => {
+  let balanceBN = JSBI.BigInt(balance);
+  if (fracDigits !== BI.nearNominationExponent) {
+    // Adjust balance for rounding at given number of digits
+    const roundingExp = BI.nearNominationExponent - fracDigits - 1;
+    if (roundingExp > 0) {
+      balanceBN = JSBI.add(balanceBN, ROUNDING_OFFSETS[roundingExp]);
+    }
+  }
+  balance = balanceBN.toString();
+  const wholeStr =
+    balance.substring(0, balance.length - BI.nearNominationExponent) || "0";
+  const fractionStr = balance
+    .substring(balance.length - BI.nearNominationExponent)
+    .padStart(BI.nearNominationExponent, "0")
+    .substring(0, fracDigits);
+  return `${formatWithCommas(wholeStr)}.${fractionStr}`.replace(/\.?0*$/, "");
+};
+
+export const formatNEAR = (amount: string | JSBI, fracDigits = 5): string => {
+  const ret = formatNearAmount(amount.toString(), fracDigits);
 
   if (amount === "0") {
     return amount;

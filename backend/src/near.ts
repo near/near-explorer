@@ -1,7 +1,5 @@
 import * as nearApi from "near-api-js";
 
-import BN from "bn.js";
-
 import { config } from "./config";
 import { queryOnlineNodesCount } from "./db-utils";
 import {
@@ -157,7 +155,7 @@ const getEpochState = async (
       )
       .toString(),
     totalStake: epochStatus.current_validators
-      .reduce((acc, node) => acc.add(new BN(node.stake)), new BN(0))
+      .reduce((acc, node) => acc + BigInt(node.stake), 0n)
       .toString(),
   };
   return currentEpochState;
