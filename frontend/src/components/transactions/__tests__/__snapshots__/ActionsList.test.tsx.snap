@@ -16,7 +16,7 @@ exports[`<ActionsList /> renders ActionsList for Receipts without transactionHas
   detailsLink={
     <Memo
       receiptId="D6a85wNQ47v3dPy8bGF2WQpKQu5di2dnx4EMohm9f5fc"
-      transactionHash={null}
+      transactionHash="hash"
     />
   }
   receiverId="ig27.near"
@@ -595,10 +595,15 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
             className="c-ActionRowTransaction-lbSlCc col"
           >
             <span
-              className="c-DisabledLink-dIJdDd"
-              title="BvG4qfnrxVfpqXrSgxxnfdrHYTKFjTcf2LtgEeX5Mzyz"
+              onClick={[Function]}
             >
-              BvG4qfn...
+              <a
+                href="/transactions/hash#BvG4qfnrxVfpqXrSgxxnfdrHYTKFjTcf2LtgEeX5Mzyz"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+              >
+                BvG4qfn...
+              </a>
             </span>
           </div>
         </div>

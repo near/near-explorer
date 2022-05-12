@@ -224,7 +224,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
         return Router.push("/accounts/" + value.toLowerCase());
       }
       const receipt = await receiptInTransactionPromise;
-      if (receipt && receipt.originatedFromTransactionHash) {
+      if (receipt) {
         return Router.push(
           `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
         );

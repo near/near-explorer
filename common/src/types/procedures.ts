@@ -67,12 +67,10 @@ export type Receipt = {
   receiverId: string;
   signerId: string;
   status?: ReceiptExecutionStatus;
-  originatedFromTransactionHash?: string | null;
+  originatedFromTransactionHash: string;
   tokensBurnt: string;
 };
 
-// from the search side 'originatedFromTransactionHash'
-// can't be null
 export type TransactionHashByReceiptId = {
   receiptId: string;
   originatedFromTransactionHash: string;

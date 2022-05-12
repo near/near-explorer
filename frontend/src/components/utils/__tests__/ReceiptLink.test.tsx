@@ -18,6 +18,7 @@ describe("<ReceiptLink />", () => {
     expect(
       renderElement(
         <ReceiptLink
+          transactionHash="hash"
           receiptId={"9zSjvFzm6BeNsco3fdNWqKNaYFkrj94AWWfGvgssQJuG"}
         />
       )
