@@ -11,7 +11,7 @@ import Content from "../../components/utils/Content";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getNearNetwork } from "../../libraries/config";
+import { getNearNetworkName } from "../../libraries/config";
 import { getFetcher } from "../../libraries/transport";
 import { Block } from "../../types/common";
 import { styled } from "../../libraries/styles";
@@ -87,8 +87,8 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const nearNetwork = getNearNetwork(query, req.headers.host);
-    const fetcher = getFetcher(nearNetwork);
+    const networkName = getNearNetworkName(query, req.headers.host);
+    const fetcher = getFetcher(networkName);
     const block = await fetcher("block-info", [hash]);
     if (!block) {
       return {

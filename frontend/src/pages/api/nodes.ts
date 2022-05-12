@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import { getNearNetwork } from "../../libraries/config";
+import { getNearNetworkName } from "../../libraries/config";
 import { getFetcher } from "../../libraries/transport";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -11,9 +11,9 @@ const handler: NextApiHandler = async (req, res) => {
 
     res.send({});
 
-    const nearNetwork = getNearNetwork(req.query, req.headers.host);
+    const networkName = getNearNetworkName(req.query, req.headers.host);
 
-    getFetcher(nearNetwork)("node-telemetry", [
+    getFetcher(networkName)("node-telemetry", [
       {
         ...req.body,
         ip_address: ip_address,

@@ -1,4 +1,4 @@
-import { NearNetwork } from "./config";
+import { NetworkName } from "../types/common";
 import { subscribeTopic, getLastValue, unsubscribeTopic, fetch } from "./wamp";
 import {
   ProcedureType,
@@ -11,7 +11,7 @@ import {
 let subscriptions: Record<string, ((data: any) => void)[]> = {};
 
 export const subscribe = <T extends SubscriptionTopicType>(
-  nearNetwork: NearNetwork,
+  networkName: NetworkName,
   topic: T,
   handler: (data: SubscriptionTopicTypes[T]) => void
 ): (() => void) => {
@@ -19,10 +19,10 @@ export const subscribe = <T extends SubscriptionTopicType>(
     subscriptions[topic] = [];
   }
   subscriptions[topic].push(handler);
-  void subscribeTopic(topic, nearNetwork, (data) =>
+  void subscribeTopic(topic, networkName, (data) =>
     subscriptions[topic].forEach((handler) => handler(data))
   );
-  const lastValue = getLastValue(topic, nearNetwork);
+  const lastValue = getLastValue(topic, networkName);
   if (lastValue) {
     handler(lastValue);
   }
@@ -30,7 +30,7 @@ export const subscribe = <T extends SubscriptionTopicType>(
     subscriptions[topic] = subscriptions[topic].filter(
       (lookupHandler) => lookupHandler !== handler
     );
-    void unsubscribeTopic(topic, nearNetwork);
+    void unsubscribeTopic(topic, networkName);
   };
 };
 
@@ -39,7 +39,7 @@ export type Fetcher = <P extends ProcedureType>(
   args: ProcedureArgs<P>
 ) => Promise<ProcedureResult<P>>;
 
-export const getFetcher = (nearNetwork: NearNetwork): Fetcher => (
+export const getFetcher = (networkName: NetworkName): Fetcher => (
   procedure,
   args
-) => fetch(procedure, nearNetwork, args);
+) => fetch(procedure, networkName, args);

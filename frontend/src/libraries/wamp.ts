@@ -1,5 +1,5 @@
 import autobahn from "autobahn";
-import { getConfig, NearNetwork } from "./config";
+import { getConfig } from "./config";
 import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
 import {
   SubscriptionTopicType,
@@ -7,6 +7,7 @@ import {
   ProcedureArgs,
   ProcedureResult,
   ProcedureType,
+  NetworkName,
 } from "../types/common";
 
 let sessionPromise: Promise<autobahn.Session> | undefined;
@@ -65,10 +66,10 @@ let subscriptionCache: Partial<
 
 export const subscribeTopic = async <T extends SubscriptionTopicType>(
   topic: T,
-  nearNetwork: NearNetwork,
+  networkName: NetworkName,
   handler: (data: SubscriptionTopicTypes[T]) => void
 ): Promise<void> => {
-  const wrappedTopic = wrapTopic(nearNetwork.name, topic);
+  const wrappedTopic = wrapTopic(networkName, topic);
   if (subscriptionCache[wrappedTopic]) {
     return;
   }
@@ -93,9 +94,9 @@ export const subscribeTopic = async <T extends SubscriptionTopicType>(
 
 export const unsubscribeTopic = async <T extends SubscriptionTopicType>(
   topic: T,
-  nearNetwork: NearNetwork
+  networkName: NetworkName
 ): Promise<void> => {
-  const wrappedTopic = wrapTopic(nearNetwork.name, topic);
+  const wrappedTopic = wrapTopic(networkName, topic);
   const cacheItem = subscriptionCache[wrappedTopic];
   if (!cacheItem) {
     return;
@@ -106,21 +107,21 @@ export const unsubscribeTopic = async <T extends SubscriptionTopicType>(
 
 export const getLastValue = <T extends SubscriptionTopicType>(
   topic: T,
-  nearNetwork: NearNetwork
+  networkName: NetworkName
 ): SubscriptionTopicTypes[T] | undefined => {
-  return subscriptionCache[wrapTopic(nearNetwork.name, topic)]?.lastValue as
+  return subscriptionCache[wrapTopic(networkName, topic)]?.lastValue as
     | SubscriptionTopicTypes[T]
     | undefined;
 };
 
 export const fetch = async <P extends ProcedureType>(
   procedure: P,
-  nearNetwork: NearNetwork,
+  networkName: NetworkName,
   args: ProcedureArgs<P>
 ): Promise<ProcedureResult<P>> => {
   const session = await getSession();
   const result = await session.call(
-    wrapProcedure(nearNetwork.name, procedure),
+    wrapProcedure(networkName, procedure),
     args
   );
   return result as ProcedureResult<P>;

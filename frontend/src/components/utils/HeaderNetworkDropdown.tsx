@@ -115,21 +115,21 @@ const IconRight = styled("img", {
 });
 
 const HeaderNetworkDropdown: React.FC = React.memo(() => {
-  const { currentNetwork, networks } = useNetworkContext();
+  const { networkName, networks } = useNetworkContext();
   return (
     <Dropdown>
       <HeaderNetwork variant="secondary">
-        <NetworkIcon network={currentNetwork.name} />
-        {currentNetwork.name}
+        <NetworkIcon network={networkName} />
+        {networkName}
         <IconRight src="/static/images/icon-network-right.svg" />
         <DropdownArrow src="/static/images/down-blue-arrow.svg" />
       </HeaderNetwork>
       <HeaderNetworkDropdownMenu>
-        {networks.map((network) => {
+        {networks.map(([name, network]) => {
           return (
             <HeaderDropdownItem
-              key={network.name}
-              title={network.name}
+              key={name}
+              title={name}
               link={network.explorerLink}
             />
           );

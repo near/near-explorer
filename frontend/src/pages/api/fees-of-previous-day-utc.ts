@@ -1,13 +1,13 @@
 import moment from "moment";
 import { NextApiHandler } from "next";
-import { getNearNetwork } from "../../libraries/config";
+import { getNearNetworkName } from "../../libraries/config";
 import { getFetcher } from "../../libraries/transport";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const nearNetwork = getNearNetwork(req.query, req.headers.host);
+    const networkName = getNearNetworkName(req.query, req.headers.host);
     const feeCountPerDay = await getFetcher(
-      nearNetwork
+      networkName
     )("nearcore-total-fee-count", [1]);
     if (!feeCountPerDay) {
       return res.status(500).end();

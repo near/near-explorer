@@ -27,27 +27,23 @@ services:
         value: UA-100373569-14
       - key: NEAR_EXPLORER_CONFIG__NETWORKS
         value: |
-          [
-            {
-              "name": "mainnet",
+          {
+            "mainnet": {
               "explorerLink": "https://explorer.near.org/",
               "aliases": ["explorer.near.org", "explorer.mainnet.near.org", "explorer.nearprotocol.com", "explorer.mainnet.nearprotocol.com"],
-              "lockupAccountIdSuffix": "lockup.near",
               "nearWalletProfilePrefix": "https://wallet.near.org/profile"
             },
-            {
-              "name": "testnet",
+            "testnet": {
               "explorerLink": "https://explorer.testnet.near.org/",
               "aliases": ["explorer.testnet.near.org", "explorer.testnet.nearprotocol.com"],
               "nearWalletProfilePrefix": "https://wallet.testnet.near.org/profile"
             },
-            {
-              "name": "guildnet",
+            "guildnet": {
               "explorerLink": "https://explorer.guildnet.near.org/",
               "aliases": ["explorer.guildnet.near.org"],
               "nearWalletProfilePrefix": "https://wallet.openshards.io/profile"
             }
-          ]
+          }
 
   ## Explorer WAMP
   - type: web

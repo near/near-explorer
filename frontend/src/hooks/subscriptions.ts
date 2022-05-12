@@ -7,12 +7,12 @@ import { useNetworkContext } from "./use-network-context";
 const useSubscription = <Topic extends SubscriptionTopicType>(
   topic: Topic
 ): SubscriptionTopicTypes[Topic] | undefined => {
-  const { currentNetwork } = useNetworkContext();
+  const { networkName } = useNetworkContext();
   const [value, setValue] = React.useState<
     SubscriptionTopicTypes[Topic] | undefined
   >();
-  React.useEffect(() => subscribe<Topic>(currentNetwork, topic, setValue), [
-    currentNetwork,
+  React.useEffect(() => subscribe<Topic>(networkName, topic, setValue), [
+    networkName,
     topic,
     setValue,
   ]);
