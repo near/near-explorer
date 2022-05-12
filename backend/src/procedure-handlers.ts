@@ -226,12 +226,12 @@ export const procedureHandlers: {
       accounts.getAccountInfo(accountId),
       accounts.getAccountDetails(accountId),
     ]);
-    if (!accountDetails || !accountInfo) {
+    if (!accountInfo) {
       return null;
     }
     return {
       ...accountInfo,
-      ...accountDetails,
+      details: accountDetails,
     };
   },
 

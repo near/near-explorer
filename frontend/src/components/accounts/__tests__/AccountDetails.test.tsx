@@ -13,10 +13,12 @@ describe("<AccountDetails />", () => {
             accountId: "megan.near",
             createdAtBlockTimestamp: Number(new Date(2019, 1, 1)),
             createdByTransactionHash: "Genesis",
-            stakedBalance: "0",
-            nonStakedBalance: "654345665432345678765",
-            storageUsage: "876",
-            lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            details: {
+              stakedBalance: "0",
+              nonStakedBalance: "654345665432345678765",
+              storageUsage: 876,
+              lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            },
           }}
         />
       )
@@ -29,10 +31,14 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             accountId: "megan.near",
-            stakedBalance: "0",
-            nonStakedBalance: "654345665432345678765",
-            storageUsage: "876",
-            lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            createdByTransactionHash: "Genesis",
+            createdAtBlockTimestamp: 0,
+            details: {
+              stakedBalance: "0",
+              nonStakedBalance: "654345665432345678765",
+              storageUsage: 876,
+              lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            },
           }}
         />
       )
@@ -48,10 +54,14 @@ describe("<AccountDetails />", () => {
             deletedAtBlockTimestamp: Number(new Date(2019, 1, 2)),
             deletedByTransactionHash:
               "3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp",
-            stakedBalance: "0",
-            nonStakedBalance: "654345665432345678765",
-            storageUsage: "876",
-            lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            createdByTransactionHash: "Genesis",
+            createdAtBlockTimestamp: 0,
+            details: {
+              stakedBalance: "0",
+              nonStakedBalance: "654345665432345678765",
+              storageUsage: 876,
+              lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            },
           }}
         />
       )
@@ -67,10 +77,12 @@ describe("<AccountDetails />", () => {
             createdAtBlockTimestamp: Number(new Date(2019, 1, 1)),
             createdByTransactionHash:
               "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
-            stakedBalance: "0",
-            nonStakedBalance: "654345665432345678765",
-            storageUsage: "876",
-            lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            details: {
+              stakedBalance: "0",
+              nonStakedBalance: "654345665432345678765",
+              storageUsage: 876,
+              lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
+            },
           }}
         />
       )
@@ -86,9 +98,11 @@ describe("<AccountDetails />", () => {
             createdAtBlockTimestamp: Number(new Date(2019, 1, 1)),
             createdByTransactionHash:
               "EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL",
-            stakedBalance: "0",
-            nonStakedBalance: "6987876845678765",
-            storageUsage: "1876",
+            details: {
+              stakedBalance: "0",
+              nonStakedBalance: "6987876845678765",
+              storageUsage: 1876,
+            },
           }}
         />
       )

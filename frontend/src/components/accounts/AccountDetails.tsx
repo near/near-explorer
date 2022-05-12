@@ -39,15 +39,145 @@ const ColoredCell = styled(CardCell, {
   backgroundColor: "#f8f8f8",
 });
 
+type StakingBalanceProps = {
+  stakedBalance: string;
+  nonStakedBalance: string;
+  accountId: string;
+};
+
+const StakingBalanceDetails: React.FC<StakingBalanceProps> = ({
+  stakedBalance,
+  nonStakedBalance,
+  accountId,
+}) => {
+  const { t } = useTranslation();
+  const { network } = useNetworkContext();
+  if (!network) {
+    return null;
+  }
+  return (
+    <Row noGutters>
+      <Col xs="12" md="4">
+        <CardCell
+          title={
+            <Term
+              title={t(
+                "component.accounts.AccountDetails.native_account_balance.title"
+              )}
+              text={t(
+                "component.accounts.AccountDetails.native_account_balance.text"
+              )}
+              href={
+                "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+              }
+            />
+          }
+          text={<Balance amount={nonStakedBalance} />}
+          className="border-0"
+        />
+      </Col>
+      <Col md="4">
+        <CardCell
+          title={
+            <Term
+              title={t(
+                "component.accounts.AccountDetails.validator_stake.title"
+              )}
+              text={
+                <Trans
+                  i18nKey="component.accounts.AccountDetails.validator_stake.text"
+                  components={{ p: <p /> }}
+                />
+              }
+              href={
+                "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+              }
+            />
+          }
+          text={<Balance amount={stakedBalance} />}
+        />
+      </Col>
+      <Col md="4">
+        <CardCell
+          title={
+            <Term
+              title={t(
+                "component.accounts.AccountDetails.balance_profile.title"
+              )}
+              text={t("component.accounts.AccountDetails.balance_profile.text")}
+              href={
+                "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
+              }
+            />
+          }
+          text={
+            <WalletLink
+              accountId={accountId}
+              nearWalletProfilePrefix={network.nearWalletProfilePrefix}
+            />
+          }
+        />
+      </Col>
+    </Row>
+  );
+};
+
+type DetailsProps = {
+  lockupAccountId?: string;
+  storageUsage: number;
+};
+
+const ExistingAccountDetails: React.FC<DetailsProps> = ({
+  lockupAccountId,
+  storageUsage,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <>
+      <Col xs="12" md={lockupAccountId ? "4" : "8"}>
+        <CardCell
+          title={
+            <Term
+              title={t("component.accounts.AccountDetails.storage_usage.title")}
+              text={t("component.accounts.AccountDetails.storage_usage.text")}
+              href={"https://docs.near.org/docs/concepts/storage-staking"}
+            />
+          }
+          imgLink="/static/images/icon-storage.svg"
+          text={<StorageSize value={storageUsage} />}
+        />
+      </Col>
+      {lockupAccountId && (
+        <Col xs="12" md="4">
+          <CardCell
+            title={
+              <Term
+                title={t(
+                  "component.accounts.AccountDetails.lockup_account.title"
+                )}
+                text={t(
+                  "component.accounts.AccountDetails.lockup_account.text"
+                )}
+                href={
+                  "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
+                }
+              />
+            }
+            imgLink="/static/images/icon-m-transaction.svg"
+            text={<AccountLink accountId={lockupAccountId} />}
+          />
+        </Col>
+      )}
+    </>
+  );
+};
+
 export interface Props {
-  account: Partial<Omit<Account, "accountId">> & {
-    accountId: string;
-  };
+  account: Account;
 }
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const { network } = useNetworkContext();
   const { data: transactionCount } = useQuery("account-transactions-count", [
     account.accountId,
   ]);
@@ -55,10 +185,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   return (
     <AccountInfoContainer>
       <Row noGutters>
-        <Col
-          xs="12"
-          md={typeof account.storageUsage === "undefined" ? "12" : "4"}
-        >
+        <Col xs="12" md={!account.details ? "12" : "4"}>
           <CardCell
             title={
               <Term
@@ -94,122 +221,20 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
             className="border-0"
           />
         </Col>
-        {typeof account.storageUsage !== "undefined" && (
-          <Col xs="12" md={account.lockupAccountId ? "4" : "8"}>
-            <CardCell
-              title={
-                <Term
-                  title={t(
-                    "component.accounts.AccountDetails.storage_usage.title"
-                  )}
-                  text={t(
-                    "component.accounts.AccountDetails.storage_usage.text"
-                  )}
-                  href={"https://docs.near.org/docs/concepts/storage-staking"}
-                />
-              }
-              imgLink="/static/images/icon-storage.svg"
-              text={<StorageSize value={Number(account.storageUsage)} />}
-            />
-          </Col>
-        )}
-        {account.lockupAccountId && (
-          <Col xs="12" md="4">
-            <CardCell
-              title={
-                <Term
-                  title={t(
-                    "component.accounts.AccountDetails.lockup_account.title"
-                  )}
-                  text={t(
-                    "component.accounts.AccountDetails.lockup_account.text"
-                  )}
-                  href={
-                    "https://docs.near.org/docs/tokens/lockup#the-lockup-contract"
-                  }
-                />
-              }
-              imgLink="/static/images/icon-m-transaction.svg"
-              text={
-                account.lockupAccountId ? (
-                  <AccountLink accountId={account.lockupAccountId} />
-                ) : (
-                  ""
-                )
-              }
-            />
-          </Col>
-        )}
+        {account.details ? (
+          <ExistingAccountDetails
+            storageUsage={account.details.storageUsage}
+            lockupAccountId={account.details.lockupAccountId}
+          />
+        ) : null}
       </Row>
-      {typeof account.nonStakedBalance !== "undefined" &&
-        typeof account.stakedBalance !== "undefined" &&
-        network && (
-          <Row noGutters>
-            <Col xs="12" md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={t(
-                      "component.accounts.AccountDetails.native_account_balance.title"
-                    )}
-                    text={t(
-                      "component.accounts.AccountDetails.native_account_balance.text"
-                    )}
-                    href={
-                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                    }
-                  />
-                }
-                text={<Balance amount={account.nonStakedBalance} />}
-                className="border-0"
-              />
-            </Col>
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={t(
-                      "component.accounts.AccountDetails.validator_stake.title"
-                    )}
-                    text={
-                      <Trans
-                        i18nKey="component.accounts.AccountDetails.validator_stake.text"
-                        components={{ p: <p /> }}
-                      />
-                    }
-                    href={
-                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                    }
-                  />
-                }
-                text={<Balance amount={account.stakedBalance} />}
-              />
-            </Col>
-            <Col md="4">
-              <CardCell
-                title={
-                  <Term
-                    title={t(
-                      "component.accounts.AccountDetails.balance_profile.title"
-                    )}
-                    text={t(
-                      "component.accounts.AccountDetails.balance_profile.text"
-                    )}
-                    href={
-                      "https://docs.near.org/docs/validator/economics#1-near-tokens-to-stake"
-                    }
-                  />
-                }
-                text={
-                  <WalletLink
-                    accountId={account.accountId}
-                    nearWalletProfilePrefix={network.nearWalletProfilePrefix}
-                  />
-                }
-              />
-            </Col>
-          </Row>
-        )}
+      {account.details ? (
+        <StakingBalanceDetails
+          accountId={account.accountId}
+          stakedBalance={account.details.stakedBalance}
+          nonStakedBalance={account.details.nonStakedBalance}
+        />
+      ) : null}
       {!account.deletedAtBlockTimestamp ? (
         <Row noGutters className="border-0">
           <Col md="4">
@@ -224,7 +249,6 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                 />
               }
               text={
-                !account.createdByTransactionHash ||
                 account.createdByTransactionHash === "Genesis" ? (
                   "Genesis"
                 ) : account.createdAtBlockTimestamp ? (
@@ -240,8 +264,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
               className="border-0"
             />
           </Col>
-          {!account.createdByTransactionHash ||
-          account.createdByTransactionHash === "Genesis" ? null : (
+          {account.createdByTransactionHash === "Genesis" ? null : (
             <Col md="8">
               <ColoredCell
                 title={

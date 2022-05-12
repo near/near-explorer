@@ -11,7 +11,7 @@ import {
   queryOutcomeTransactionsCountFromAnalytics,
   queryOutcomeTransactionsCountFromIndexerForLastDay,
 } from "./db-utils";
-import { callViewMethod, sendJsonRpc, sendJsonRpcQuery } from "./near";
+import { callViewMethod, sendJsonRpcQuery } from "./near";
 import { BIMax } from "./utils";
 
 export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
@@ -75,10 +75,10 @@ export const getAccountInfo = async (accountId: string) => {
   return {
     accountId: accountInfo.account_id,
     createdByTransactionHash:
-      accountInfo.created_by_transaction_hash || undefined,
+      accountInfo.created_by_transaction_hash || "Genesis",
     createdAtBlockTimestamp: accountInfo.created_at_block_timestamp
       ? parseInt(accountInfo.created_at_block_timestamp)
-      : undefined,
+      : 0,
     deletedByTransactionHash:
       accountInfo.deleted_by_transaction_hash || undefined,
     deletedAtBlockTimestamp: accountInfo.deleted_at_block_timestamp
@@ -117,114 +117,40 @@ function ignoreIfDoesNotExist(error: unknown): null {
   throw error;
 }
 
-export const getAccountDetails = async (accountId: string) => {
-  let lockupAccountId: string;
+const getLockupAccountId = async (
+  accountId: string
+): Promise<string | undefined> => {
   if (accountId.endsWith(`.${config.accountIdSuffix.lockup}`)) {
-    lockupAccountId = accountId;
-  } else {
-    lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
+    return;
   }
+  const lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
+  const account = await sendJsonRpcQuery("view_account", {
+    finality: "final",
+    account_id: lockupAccountId,
+  }).catch(ignoreIfDoesNotExist);
+  if (!account) {
+    return;
+  }
+  return lockupAccountId;
+};
 
-  const [
-    accountInfo,
-    lockupAccountInfo,
-    lockupLockedBalance,
-    lockupStakingPoolAccountId,
-    protocolConfig,
-  ] = await Promise.all([
+export const getAccountDetails = async (accountId: string) => {
+  const [accountInfo, lockupAccountId] = await Promise.all([
     sendJsonRpcQuery("view_account", {
       finality: "final",
       account_id: accountId,
     }).catch(ignoreIfDoesNotExist),
-    accountId !== lockupAccountId
-      ? sendJsonRpcQuery("view_account", {
-          finality: "final",
-          account_id: lockupAccountId,
-        }).catch(ignoreIfDoesNotExist)
-      : null,
-    callViewMethod<string>(lockupAccountId, "get_locked_amount", {})
-      .then((balance) => BigInt(balance))
-      .catch(ignoreIfDoesNotExist),
-    callViewMethod<string>(
-      lockupAccountId,
-      "get_staking_pool_account_id",
-      {}
-    ).catch(ignoreIfDoesNotExist),
-    sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
+    getLockupAccountId(accountId),
   ]);
 
   if (accountInfo === null) {
     return null;
   }
 
-  const storageUsage = BigInt(accountInfo.storage_usage);
-  const storageAmountPerByte = BigInt(
-    protocolConfig.runtime_config.storage_amount_per_byte
-  );
-  const stakedBalance = BigInt(accountInfo.locked);
-  const nonStakedBalance = BigInt(accountInfo.amount);
-  const minimumBalance = storageAmountPerByte * storageUsage;
-  const availableBalance =
-    nonStakedBalance + stakedBalance - BIMax(stakedBalance, minimumBalance);
-
-  let lockupDelegatedToStakingPoolBalance: bigint | null = null;
-  if (lockupStakingPoolAccountId) {
-    lockupDelegatedToStakingPoolBalance = await callViewMethod<string>(
-      lockupStakingPoolAccountId,
-      "get_account_total_balance",
-      {
-        account_id: lockupAccountId,
-      }
-    )
-      .then((balance) => BigInt(balance))
-      .catch(ignoreIfDoesNotExist);
-  }
-
-  let totalBalance = stakedBalance + nonStakedBalance;
-  let lockupDetails: {
-    accountId: string;
-    totalBalance: string;
-    lockedBalance: string;
-    unlockedBalance: string;
-  } | null = null;
-  // The following section could be compressed into more complicated checks,
-  // but it is left in a readable form.
-  if (accountId === lockupAccountId) {
-    // It is a lockup account
-    if (lockupDelegatedToStakingPoolBalance) {
-      totalBalance += lockupDelegatedToStakingPoolBalance;
-    }
-  } else {
-    // TODO: could it be that `lockupLockedBalance` is null but we still have info?
-    if (lockupAccountInfo && lockupLockedBalance) {
-      // It is a regular account with lockup
-      const lockupStakedBalance = BigInt(lockupAccountInfo.locked);
-      const lockupNonStakedBalance = BigInt(lockupAccountInfo.amount);
-      let lockupTotalBalance = lockupStakedBalance + lockupNonStakedBalance;
-      if (lockupDelegatedToStakingPoolBalance) {
-        lockupTotalBalance += lockupDelegatedToStakingPoolBalance;
-      }
-      totalBalance = totalBalance + lockupTotalBalance;
-      lockupDetails = {
-        accountId: lockupAccountId,
-        totalBalance: lockupTotalBalance.toString(),
-        lockedBalance: lockupLockedBalance.toString(),
-        unlockedBalance: (lockupTotalBalance - lockupLockedBalance).toString(),
-      };
-    }
-    // It is a regular account without lockup
-  }
-
   return {
-    storageUsage: storageUsage.toString(),
-    stakedBalance: stakedBalance.toString(),
-    nonStakedBalance: nonStakedBalance.toString(),
-    minimumBalance: minimumBalance.toString(),
-    availableBalance: availableBalance.toString(),
-    totalBalance: totalBalance.toString(),
-    lockupAccountId: lockupDetails?.accountId,
-    lockupTotalBalance: lockupDetails?.totalBalance,
-    lockupLockedBalance: lockupDetails?.lockedBalance,
-    lockupUnlockedBalance: lockupDetails?.unlockedBalance,
+    storageUsage: accountInfo.storage_usage,
+    stakedBalance: accountInfo.locked,
+    nonStakedBalance: accountInfo.amount.toString(),
+    lockupAccountId,
   };
 };
