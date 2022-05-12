@@ -37,7 +37,6 @@ export function getNearNetworkName(
   const networkEntries = Object.entries(
     config.publicRuntimeConfig.nearNetworks
   ) as [NetworkName, NearNetwork][];
-  console.log("entries", networkEntries, query, hostname);
 
   const queryNetwork = Array.isArray(query.network)
     ? query.network[0]
