@@ -4,7 +4,9 @@ import { Container } from "react-bootstrap";
 
 import AccountDetails from "../../components/accounts/AccountDetails";
 import ContractDetails from "../../components/contracts/ContractDetails";
-import Transactions from "../../components/transactions/Transactions";
+import Transactions, {
+  Props as TransactionsProps,
+} from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
 import TransactionIconSvg from "../../../public/static/images/icon-t-transactions.svg";
@@ -29,12 +31,23 @@ interface Props {
   accountError?: unknown;
 }
 
+const TRANSACTIONS_PER_PAGE = 10;
+
 const AccountDetail: NextPage<Props> = React.memo(
   ({ accountId, account, accountError, accountFetchingError }) => {
     const { t } = useTranslation();
     useAnalyticsTrackOnMount("Explorer View Individual Account", {
       accountId,
     });
+    const fetch = React.useCallback<TransactionsProps["fetch"]>(
+      (fetcher, indexer) =>
+        fetcher("transactions-list-by-account-id", [
+          accountId,
+          TRANSACTIONS_PER_PAGE,
+          indexer ?? null,
+        ]),
+      [accountId]
+    );
 
     return (
       <>
@@ -71,7 +84,7 @@ const AccountDetail: NextPage<Props> = React.memo(
               icon={<TransactionIcon />}
               title={<h2>{t("common.transactions.transactions")}</h2>}
             >
-              <Transactions accountId={accountId} count={10} />
+              <Transactions fetch={fetch} />
             </Content>
           </>
         )}

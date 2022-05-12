@@ -1,6 +1,7 @@
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import * as React from "react";
+import * as ReactQuery from "react-query";
 
 import PaginationSpinner from "./PaginationSpinner";
 import Update from "./Update";
@@ -36,21 +37,13 @@ const LoadButton = styled("button", {
   },
 });
 
-interface StaticConfig<T, I> {
+export type StaticConfig<T, I> = {
+  key: string;
   Component: React.FC<{ items: T[] }>;
-  category: string;
-  paginationIndexer: (items: T[]) => I;
+  paginationIndexer: ReactQuery.GetNextPageParamFunction<T[]>;
   hasUpdateButton?: boolean;
-}
-
-interface Props<T, I> {
-  count: number;
-  fetchDataFn: (
-    fetcher: Fetcher,
-    count: number,
-    indexer: I | null
-  ) => Promise<T[]>;
-}
+  fetch: (fetcher: Fetcher, indexer: I | undefined) => Promise<T[]>;
+};
 
 type UpdateBlockHeightProps = {
   onClick: () => void;
@@ -70,86 +63,64 @@ const UpdateBlockHeight: React.FC<UpdateBlockHeightProps> = React.memo(
   }
 );
 
-const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC<Props<T, I>> => {
-  return React.memo((props) => {
+const Wrapper = <T, I>(config: StaticConfig<T, I>): React.FC => {
+  return React.memo(() => {
     const { t } = useTranslation();
-    const [items, setItems] = React.useState<T[]>([]);
-    const [shouldShow, setShouldShow] = React.useState(false);
-    const [hasMore, setHasMore] = React.useState(true);
-    const [loading, setLoading] = React.useState(false);
     const fetcher = useFetcher();
 
-    const fetch = React.useCallback(() => {
-      setLoading(true);
-      props
-        .fetchDataFn(fetcher, props.count, null)
-        .then((items) => {
-          setItems(items);
-          setHasMore(items.length >= props.count);
-        })
-        .catch((err: Error) => console.error(err))
-        .then(() => {
-          setLoading(false);
-          setShouldShow(true);
-        });
-    }, [
-      fetcher,
-      props.fetchDataFn,
-      setItems,
-      setHasMore,
-      setLoading,
-      setShouldShow,
-      props.count,
-    ]);
+    const queryClient = ReactQuery.useQueryClient();
+    const key = ["list", config.key];
 
-    const fetchMore = React.useCallback(() => {
-      setLoading(true);
-      props
-        .fetchDataFn(fetcher, props.count, config.paginationIndexer(items))
-        .then((nextItems) => {
-          setItems(items.concat(nextItems));
-          setHasMore(nextItems.length >= props.count);
-        })
-        .catch((err: Error) => console.error(err))
-        .then(() => setLoading(false));
-    }, [
-      fetcher,
-      props.fetchDataFn,
-      setItems,
-      setHasMore,
-      setLoading,
-      items,
-      props.count,
-    ]);
+    const {
+      data,
+      fetchNextPage,
+      hasNextPage,
+      isFetching,
+      isFetchingNextPage,
+      refetch,
+    } = ReactQuery.useInfiniteQuery(
+      key,
+      ({
+        pageParam,
+      }: ReactQuery.QueryFunctionContext<ReactQuery.QueryKey, I>) =>
+        config.fetch(fetcher, pageParam),
+      {
+        getNextPageParam: config.paginationIndexer,
+      }
+    );
+    const allItems =
+      data?.pages.reduce((acc, page) => [...acc, ...page], []) ?? [];
+    const fetchMore = React.useCallback(() => fetchNextPage(), [fetchNextPage]);
 
-    React.useEffect(() => {
-      fetch();
-    }, []);
+    const refetchAll = React.useCallback(() => {
+      queryClient.setQueryData(key, undefined);
+      refetch();
+    }, [key, queryClient, refetch]);
 
-    if (!shouldShow) {
+    if (isFetching && !isFetchingNextPage) {
       return <PaginationSpinner />;
     }
     return (
       <>
-        {config.hasUpdateButton ? <UpdateBlockHeight onClick={fetch} /> : null}
+        {config.hasUpdateButton ? (
+          <UpdateBlockHeight onClick={refetchAll} />
+        ) : null}
         <InfiniteScroll
-          dataLength={items.length}
+          dataLength={allItems.length}
           next={fetchMore}
-          hasMore={hasMore}
+          hasMore={hasNextPage ?? true}
           loader={
-            loading ? (
+            isFetchingNextPage ? (
               <PaginationSpinner />
             ) : (
-              <>
-                <LoadButton onClick={fetchMore} visible={hasMore}>
-                  {t("button.load_more")}
-                </LoadButton>
-              </>
+              <LoadButton onClick={fetchMore} visible={hasNextPage}>
+                {t("button.load_more")}
+              </LoadButton>
             )
           }
           style={{ overflowX: "hidden" }}
         >
-          <config.Component items={items} />
+          <config.Component items={allItems} />
         </InfiniteScroll>
       </>
     );
