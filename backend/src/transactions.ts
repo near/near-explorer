@@ -1,4 +1,10 @@
-import { Action, TransactionBaseInfo, TransactionPagination } from "./types";
+import {
+  Action,
+  NestedReceiptWithOutcome,
+  TransactionBaseInfo,
+  TransactionPagination,
+  RPC,
+} from "./types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
@@ -183,3 +189,46 @@ async function getTransactionsActionsList(
   });
   return transactionsActionsByHash;
 }
+
+export const mapRpcActionToAction = (action: RPC.ActionView): Action => {
+  if (action === "CreateAccount") {
+    return {
+      kind: "CreateAccount",
+      args: {},
+    };
+  }
+  const kind = Object.keys(action)[0] as keyof Exclude<
+    RPC.ActionView,
+    "CreateAccount"
+  >;
+  return {
+    kind,
+    args: action[kind],
+  } as Action;
+};
+
+export const collectNestedReceiptWithOutcome = (
+  receiptHash: string,
+  receiptsByIdMap: Map<
+    string,
+    Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
+  >,
+  receiptOutcomesByIdMap: Map<string, RPC.ExecutionOutcomeWithIdView>
+): NestedReceiptWithOutcome => {
+  const receipt = receiptsByIdMap.get(receiptHash)!;
+  const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash)!;
+  return {
+    ...receipt,
+    ...receiptOutcome,
+    outcome: {
+      ...receiptOutcome.outcome,
+      outgoing_receipts: receiptOutcome.outcome.receipt_ids.map((id) =>
+        collectNestedReceiptWithOutcome(
+          id,
+          receiptsByIdMap,
+          receiptOutcomesByIdMap
+        )
+      ),
+    },
+  };
+};
