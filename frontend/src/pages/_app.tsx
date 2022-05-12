@@ -3,6 +3,7 @@ import NextApp, { AppContext, ExtraAppInitialProps } from "next/app";
 import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
+import * as ReactQuery from "react-query";
 import { exec } from "child_process";
 import { promisify } from "util";
 
@@ -26,6 +27,7 @@ import { AppType } from "next/dist/shared/lib/utils";
 import { setI18n } from "react-i18next";
 import { YEAR } from "../libraries/time";
 import { globalCss, styled } from "../libraries/styles";
+import { useClientQueryClient } from "../libraries/queries";
 
 const globalStyles = globalCss({
   body: {
@@ -103,14 +105,17 @@ const wrapRouterHandlerMaintainNetwork = (
 };
 
 type ContextProps = {
+  queryClient: ReactQuery.QueryClient;
   networkState: NetworkContext;
 };
 
 const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
   return (
-    <NetworkContext.Provider value={props.networkState}>
-      {props.children}
-    </NetworkContext.Provider>
+    <ReactQuery.QueryClientProvider client={props.queryClient}>
+      <NetworkContext.Provider value={props.networkState}>
+        {props.children}
+      </NetworkContext.Provider>
+    </ReactQuery.QueryClientProvider>
   );
 });
 
@@ -123,6 +128,7 @@ const App: AppType = React.memo(
       deployInfo,
       networkName,
     };
+    const queryClient = useClientQueryClient();
     const router = useRouter();
     React.useEffect(() => {
       router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
@@ -159,7 +165,10 @@ const App: AppType = React.memo(
             content="initial-scale=1.0, width=device-width"
           />
         </Head>
-        <AppContextWrapper networkState={networkState}>
+        <AppContextWrapper
+          networkState={networkState}
+          queryClient={queryClient}
+        >
           <AppWrapper>
             <Header />
             <BackgroundImage src="/static/images/explorer-bg.svg" />

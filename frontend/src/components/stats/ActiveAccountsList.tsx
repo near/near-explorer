@@ -6,11 +6,11 @@ import { truncateAccountId } from "../../libraries/formatting";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQueryOrDefault } from "../../hooks/use-query";
 
 const ActiveAccountsList: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const accounts = useFetch("active-accounts-list", []) ?? [];
+  const accounts = useQueryOrDefault("active-accounts-list", [], []) ?? [];
   const accountsIds = React.useMemo(
     () => accounts.map(({ account }) => truncateAccountId(account)),
     [accounts]

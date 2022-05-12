@@ -8,14 +8,14 @@ import { cumulativeSumArray } from "../../libraries/stats";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQueryOrDefault } from "../../hooks/use-query";
 
 const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const liveAccounts =
-    useFetch("live-accounts-count-aggregated-by-date", []) ?? [];
+    useQueryOrDefault("live-accounts-count-aggregated-by-date", [], []) ?? [];
   const newAccounts =
-    useFetch("new-accounts-count-aggregated-by-date", []) ?? [];
+    useQueryOrDefault("new-accounts-count-aggregated-by-date", [], []) ?? [];
 
   const newAccountsCount = React.useMemo(
     () => newAccounts.map(({ accountsCount }) => Number(accountsCount)),

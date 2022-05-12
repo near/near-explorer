@@ -67,6 +67,7 @@
     "react-infinite-scroll-component": "^5.1.0",
     "react-motion": "^0.5.2",
     "react-paginate": "^7.1.5",
+    "react-query": "^3.39.0",
     "react-text-collapse": "^0.5.2",
     "styled-components": "^4.4.0",
     "tslib": "^2.3.1",

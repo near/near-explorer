@@ -8,14 +8,18 @@ import { cumulativeSumArray } from "../../libraries/stats";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQueryOrDefault } from "../../hooks/use-query";
 
 const NewContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const uniqueDeployedContracts =
-    useFetch("unique-deployed-contracts-count-aggregate-by-date", []) ?? [];
+    useQueryOrDefault(
+      "unique-deployed-contracts-count-aggregate-by-date",
+      [],
+      []
+    ) ?? [];
   const newContracts =
-    useFetch("new-contracts-count-aggregated-by-date", []) ?? [];
+    useQueryOrDefault("new-contracts-count-aggregated-by-date", [], []) ?? [];
 
   const newContractsDates = React.useMemo(
     () => newContracts.map(({ date }) => date.slice(0, 10)),

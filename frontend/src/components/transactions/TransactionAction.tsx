@@ -7,7 +7,7 @@ import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
 import { TransactionBaseInfo } from "../../types/common";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQuery } from "../../hooks/use-query";
 
 export interface Props {
   transaction: TransactionBaseInfo;
@@ -17,7 +17,7 @@ export interface Props {
 const TransactionAction: React.FC<Props> = React.memo(
   ({ transaction, viewMode = "sparse" }) => {
     const { t } = useTranslation();
-    const executionStatus = useFetch("transaction-execution-status", [
+    const { data: executionStatus } = useQuery("transaction-execution-status", [
       transaction.hash,
       transaction.signerId,
     ]);

@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as ReactQuery from "react-query";
 import { setI18n } from "react-i18next";
 import renderer, {
   ReactTestRenderer,
@@ -6,6 +7,7 @@ import renderer, {
 } from "react-test-renderer";
 import { NetworkContext } from "../context/NetworkContext";
 import { setMomentLanguage } from "../libraries/language";
+import { createQueryClient } from "../libraries/queries";
 
 const networkContext: NetworkContext = {
   networkName: "testnet",
@@ -25,11 +27,14 @@ export const renderElement = (
   setI18n((global as any).i18nInstance);
   setMomentLanguage("en");
   let root: ReactTestRenderer;
+  const queryClient = createQueryClient();
   renderer.act(() => {
     root = renderer.create(
-      <NetworkContext.Provider value={networkContext}>
-        {nextElement}
-      </NetworkContext.Provider>,
+      <ReactQuery.QueryClientProvider client={queryClient}>
+        <NetworkContext.Provider value={networkContext}>
+          {nextElement}
+        </NetworkContext.Provider>
+      </ReactQuery.QueryClientProvider>,
       options
     );
   });

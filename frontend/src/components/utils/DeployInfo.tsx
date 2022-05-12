@@ -1,5 +1,5 @@
 import React from "react";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQuery } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
 import { DeployInfo as DeployInfoProps } from "../../types/common";
 
@@ -51,7 +51,7 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
     () => setExpanded((expanded) => !expanded),
     [setExpanded]
   );
-  const server = useFetch("deploy-info", [], !expanded);
+  const { data: server } = useQuery("deploy-info", [], { enabled: expanded });
   let content: React.ReactNode = "◍";
   if (expanded) {
     content = (

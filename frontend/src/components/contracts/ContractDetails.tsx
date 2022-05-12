@@ -9,7 +9,7 @@ import Term from "../utils/Term";
 import TransactionLink from "../utils/TransactionLink";
 
 import { Trans, useTranslation } from "react-i18next";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQuery } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
 
 const ContractInfoContainer = styled("div", {
@@ -48,7 +48,7 @@ interface Props {
 
 const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const contractInfo = useFetch("contract-info", [accountId]);
+  const { data: contractInfo } = useQuery("contract-info", [accountId]);
   if (!contractInfo) {
     return null;
   }

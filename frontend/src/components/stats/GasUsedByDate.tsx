@@ -9,13 +9,14 @@ import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
 import { useLatestGasPrice } from "../../hooks/data";
-import { useFetch } from "../../hooks/use-fetch";
+import { useQueryOrDefault } from "../../hooks/use-query";
 import { cumulativeSumArray } from "../../libraries/stats";
 
 const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const latestGasPrice = useLatestGasPrice();
-  const gasUsedByDate = useFetch("gas-used-aggregated-by-date", []) ?? [];
+  const gasUsedByDate =
+    useQueryOrDefault("gas-used-aggregated-by-date", [], []) ?? [];
   const gasUsed = React.useMemo(
     () =>
       gasUsedByDate.map(({ gasUsed }) =>
