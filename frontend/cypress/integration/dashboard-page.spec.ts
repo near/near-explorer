@@ -45,7 +45,7 @@ context("Dashboard", () => {
       .should("exist")
       .first()
       .invoke("text")
-      .should("match", /^\d+$/);
+      .should("match", /^\d[\d,]+$/);
   });
 
   it("Transactions card is visible", () => {
