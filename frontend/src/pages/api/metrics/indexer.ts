@@ -1,12 +1,12 @@
 import { NextApiHandler } from "next";
 import json2Prom from "json-2-prom";
-import { getNearNetwork } from "../../../libraries/config";
+import { getNearNetworkName } from "../../../libraries/config";
 import { getFetcher } from "../../../libraries/transport";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    const nearNetwork = getNearNetwork(req.query, req.headers.host);
-    const fetcher = getFetcher(nearNetwork);
+    const networkName = getNearNetworkName(req.query, req.headers.host);
+    const fetcher = getFetcher(networkName);
     const rpcFinalBlock = await fetcher("nearcore-final-block", []);
     const indexerFinalBlock = await fetcher("blocks-list", [1, null]);
 

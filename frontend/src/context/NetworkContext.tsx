@@ -1,9 +1,10 @@
 import * as React from "react";
 import { NearNetwork } from "../libraries/config";
+import { NetworkName } from "../types/common";
 
 export interface NetworkContext {
-  currentNetwork: NearNetwork;
-  networks: NearNetwork[];
+  networkName: NetworkName;
+  networks: Partial<Record<NetworkName, NearNetwork>>;
 }
 
 export const NetworkContext = React.createContext<NetworkContext | undefined>(

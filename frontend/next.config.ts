@@ -6,6 +6,7 @@ import {
 } from "./src/libraries/config";
 import { merge } from "lodash";
 import { getOverrides } from "./src/libraries/common";
+import { NetworkName } from "./src/types/common";
 
 const defaultBackendConfig: BackendConfig = {
   host: "localhost",
@@ -17,13 +18,7 @@ const config = merge(
   {
     backend: defaultBackendConfig,
     backendSsr: defaultBackendConfig,
-    networks: [
-      {
-        name: "localhostnet",
-        explorerLink: "http://localhost:3000",
-        nearWalletProfilePrefix: "https://wallet.near.org/profile",
-      },
-    ] as NearNetwork[],
+    networks: {} as Partial<Record<NetworkName, NearNetwork>>,
     googleAnalytics: undefined,
   },
   getOverrides("NEAR_EXPLORER_CONFIG")

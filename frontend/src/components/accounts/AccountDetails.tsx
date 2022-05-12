@@ -47,7 +47,7 @@ export interface Props {
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const { currentNetwork } = useNetworkContext();
+  const { network } = useNetworkContext();
   const transactionCount = useFetch("account-transactions-count", [
     account.accountId,
   ]);
@@ -142,7 +142,8 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
         )}
       </Row>
       {typeof account.nonStakedBalance !== "undefined" &&
-        typeof account.stakedBalance !== "undefined" && (
+        typeof account.stakedBalance !== "undefined" &&
+        network && (
           <Row noGutters>
             <Col xs="12" md="4">
               <CardCell
@@ -202,9 +203,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                 text={
                   <WalletLink
                     accountId={account.accountId}
-                    nearWalletProfilePrefix={
-                      currentNetwork.nearWalletProfilePrefix
-                    }
+                    nearWalletProfilePrefix={network.nearWalletProfilePrefix}
                   />
                 }
               />

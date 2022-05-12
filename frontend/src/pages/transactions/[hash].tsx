@@ -18,7 +18,7 @@ import {
   RPC,
 } from "../../types/common";
 import { getFetcher } from "../../libraries/transport";
-import { getNearNetwork } from "../../libraries/config";
+import { getNearNetworkName } from "../../libraries/config";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -150,8 +150,8 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ req, params, query }) => {
   const hash = params?.hash ?? "";
   try {
-    const nearNetwork = getNearNetwork(query, req.headers.host);
-    const fetcher = getFetcher(nearNetwork);
+    const networkName = getNearNetworkName(query, req.headers.host);
+    const fetcher = getFetcher(networkName);
     const transactionBaseInfo = await fetcher("transaction-info", [hash]);
     if (!transactionBaseInfo) {
       throw new Error(`No hash ${hash} found`);

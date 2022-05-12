@@ -6,7 +6,8 @@ import * as React from "react";
 import { exec } from "child_process";
 import { promisify } from "util";
 
-import { getConfig, getNearNetwork, NearNetwork } from "../libraries/config";
+import { getConfig, getNearNetworkName } from "../libraries/config";
+import { NetworkName } from "../types/common";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
@@ -78,7 +79,7 @@ const {
 declare module "next/app" {
   type ExtraAppInitialProps = {
     language: Language;
-    currentNearNetwork: NearNetwork;
+    networkName: NetworkName;
     deployInfo: DeployInfoProps;
   };
 
@@ -116,8 +117,12 @@ const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
 let extraAppInitialPropsCache: ExtraAppInitialProps;
 
 const App: AppType = React.memo(
-  ({ Component, currentNearNetwork, language, pageProps, deployInfo }) => {
-    extraAppInitialPropsCache = { language, deployInfo, currentNearNetwork };
+  ({ Component, networkName, language, pageProps, deployInfo }) => {
+    extraAppInitialPropsCache = {
+      language,
+      deployInfo,
+      networkName,
+    };
     const router = useRouter();
     React.useEffect(() => {
       router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
@@ -135,10 +140,10 @@ const App: AppType = React.memo(
 
     const networkState = React.useMemo(
       () => ({
-        currentNetwork: currentNearNetwork,
+        networkName,
         networks: nearNetworks,
       }),
-      [currentNearNetwork, nearNetworks]
+      [networkName, nearNetworks]
     );
 
     return (
@@ -222,10 +227,7 @@ App.getInitialProps = async (appContext) => {
     }
     initialProps = {
       deployInfo,
-      currentNearNetwork: getNearNetwork(
-        appContext.ctx.query,
-        req.headers.host
-      ),
+      networkName: getNearNetworkName(appContext.ctx.query, req.headers.host),
       language,
     };
     setI18n(await initializeI18n(language));

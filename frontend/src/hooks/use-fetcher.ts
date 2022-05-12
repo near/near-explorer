@@ -3,6 +3,6 @@ import { Fetcher, getFetcher } from "../libraries/transport";
 import { useNetworkContext } from "./use-network-context";
 
 export const useFetcher = (): Fetcher => {
-  const { currentNetwork } = useNetworkContext();
-  return React.useCallback(getFetcher(currentNetwork), [currentNetwork]);
+  const { networkName } = useNetworkContext();
+  return React.useCallback(getFetcher(networkName), [networkName]);
 };

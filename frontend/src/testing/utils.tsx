@@ -8,12 +8,13 @@ import { NetworkContext } from "../context/NetworkContext";
 import { setMomentLanguage } from "../libraries/language";
 
 const networkContext: NetworkContext = {
-  currentNetwork: {
-    name: "testnet",
-    explorerLink: "http://explorer/",
-    nearWalletProfilePrefix: "http://wallet/profile",
+  networkName: "testnet",
+  networks: {
+    testnet: {
+      explorerLink: "http://explorer/",
+      nearWalletProfilePrefix: "http://wallet/profile",
+    },
   },
-  networks: [],
 };
 
 export const renderElement = (

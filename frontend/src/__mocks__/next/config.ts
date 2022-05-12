@@ -1,13 +1,5 @@
 import { NextConfig } from "next";
-import type { ExplorerConfig, NearNetwork } from "../../libraries/config";
-
-const nearNetworks: NearNetwork[] = [
-  {
-    name: "localhostnet",
-    explorerLink: "http://localhost:3000",
-    nearWalletProfilePrefix: "https://wallet.near.org/profile",
-  },
-];
+import type { ExplorerConfig } from "../../libraries/config";
 
 const backendConfig = {
   host: "this-could-be-anything",
@@ -16,7 +8,7 @@ const backendConfig = {
 };
 const config: ExplorerConfig & NextConfig = {
   publicRuntimeConfig: {
-    nearNetworks,
+    nearNetworks: {},
     backendConfig,
     googleAnalytics: "",
   },
