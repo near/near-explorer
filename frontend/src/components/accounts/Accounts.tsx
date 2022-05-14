@@ -24,7 +24,13 @@ const Accounts: React.FC<Props> = React.memo(({ items }) => (
 const AccountsList = ListHandler<AccountListInfo, number>({
   Component: Accounts,
   key: "Account",
-  paginationIndexer: (items) => items[items.length - 1].accountIndex,
+  paginationIndexer: (lastPage) => {
+    const lastElement = lastPage[lastPage.length - 1];
+    if (!lastElement) {
+      return;
+    }
+    return lastElement.accountIndex;
+  },
   fetch: (fetcher, indexer) =>
     fetcher("accounts-list", [ACCOUNTS_PER_PAGE, indexer ?? null]),
 });
