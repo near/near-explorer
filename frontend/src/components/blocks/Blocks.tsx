@@ -26,7 +26,13 @@ const BlocksList = ListHandler<BlockBase, number>({
   Component: Blocks,
   key: "Block",
   hasUpdateButton: true,
-  paginationIndexer: (items) => items[items.length - 1].timestamp,
+  paginationIndexer: (lastPage) => {
+    const lastElement = lastPage[lastPage.length - 1];
+    if (!lastElement) {
+      return;
+    }
+    return lastElement.timestamp;
+  },
   fetch: (fetcher, paginationIndexer) =>
     fetcher("blocks-list", [BLOCKS_PER_PAGE, paginationIndexer ?? null]),
 });

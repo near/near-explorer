@@ -44,10 +44,16 @@ const TransactionsList: React.FC<Props> = ({ fetch }) => {
       ListHandler({
         Component: Transactions,
         key: "Transaction",
-        paginationIndexer: (items) => ({
-          endTimestamp: items[items.length - 1].blockTimestamp,
-          transactionIndex: items[items.length - 1].transactionIndex,
-        }),
+        paginationIndexer: (lastPage) => {
+          const lastElement = lastPage[lastPage.length - 1];
+          if (!lastElement) {
+            return;
+          }
+          return {
+            endTimestamp: lastElement.blockTimestamp,
+            transactionIndex: lastElement.transactionIndex,
+          };
+        },
         fetch,
       }),
     [fetch]
