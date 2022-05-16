@@ -10,10 +10,10 @@ import InspectReceipt from "./InspectReceipt";
 type Props = {
   isRowActive: boolean;
   receipt: TransactionReceipt;
-  refundReceipts?: RefundReceipt[];
+  refundReceipts?: TransactionReceipt[];
 };
 
-const Wrapper = styled("div", {
+const TabsWrapper = styled("div", {
   padding: "24px 40px",
   display: "flex",
   flexDirection: "column",
@@ -31,12 +31,12 @@ const ReceiptInfo: React.FC<Props> = React.memo(
       return null;
     }
     return (
-      <Wrapper>
+      <TabsWrapper>
         <Tabs
           tabs={[
             {
-              id: "details",
-              label: <TabLabel>{t("pages.transaction.tabs.details")}</TabLabel>,
+              id: "output",
+              label: <TabLabel>{t("pages.transaction.tabs.output")}</TabLabel>,
               node: <ReceiptDetails receipt={receipt} />,
             },
             {
@@ -51,7 +51,7 @@ const ReceiptInfo: React.FC<Props> = React.memo(
             },
           ]}
         />
-      </Wrapper>
+      </TabsWrapper>
     );
   }
 );

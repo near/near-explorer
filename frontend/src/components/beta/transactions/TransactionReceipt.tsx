@@ -3,9 +3,12 @@ import { TransactionReceipt as TxReceipt } from "../../../types/transaction";
 import { styled } from "../../../libraries/styles";
 
 import TransactionType from "./TransactionType";
+import ReceiptInfo from "./ReceiptInfo";
+import CodeArgs from "../common/CodeArgs";
 
 type Props = {
   receipt: TxReceipt;
+  refundReceiptsMap: Map<string, TxReceipt[]>;
   senderIsReceiver?: boolean;
 };
 
@@ -15,8 +18,9 @@ const ReceiptWrapper = styled("div", {
 
 const Author = styled("div", {
   display: "flex",
-  color: "#3f4246",
-  fontWeight: 500,
+  fontFamily: "SF Pro Display",
+  color: "#000",
+  fontWeight: 600,
   fontSize: "$font-m",
   lineHeight: "150%",
 });
@@ -30,9 +34,11 @@ const Avatar = styled("div", {
 });
 
 const ActionItems = styled("div", {
+  display: "flex",
+  flexDirection: "column",
   position: "relative",
   paddingLeft: 18,
-  borderLeft: "1px solid rgba(0, 0, 0, .2)",
+  borderLeft: ".5px solid #000",
   marginLeft: "8.5px",
   marginVertical: 10,
 
@@ -45,8 +51,8 @@ const ActionItems = styled("div", {
     height: 5,
     bottom: 0,
     left: "-3px",
-    borderLeft: "1px solid rgba(0, 0, 0, .2)",
-    borderTop: "1px solid rgba(0, 0, 0, .2)",
+    borderLeft: ".5px solid #000",
+    borderTop: ".5px solid #000",
     transform: "rotate(225deg)",
   },
 });
@@ -54,7 +60,12 @@ const ActionItems = styled("div", {
 const ExecutedReceiptRow = styled(ActionItems);
 
 const TransactionReceipt: React.FC<Props> = React.memo(
-  ({ receipt, senderIsReceiver }) => {
+  ({ receipt, refundReceiptsMap, senderIsReceiver }) => {
+    const [isTxTypeActive, setTxTypeActive] = React.useState(false);
+    const switchActiveTxType = React.useCallback(
+      () => setTxTypeActive((x) => !x),
+      [setTxTypeActive]
+    );
     return (
       <ReceiptWrapper>
         {!senderIsReceiver ? (
@@ -67,7 +78,17 @@ const TransactionReceipt: React.FC<Props> = React.memo(
         <ActionItems>
           <TransactionType
             actions={receipt.actions}
-            signerId={receipt.signerId}
+            // signerId={receipt.signerId}
+            // isTxTypeActive={isTxTypeActive}
+            onClick={switchActiveTxType}
+          />
+          {isTxTypeActive && "args" in receipt.actions[0] ? (
+            <CodeArgs args={receipt.actions[0].args} />
+          ) : null}
+          <ReceiptInfo
+            isRowActive={isTxTypeActive}
+            receipt={receipt}
+            refundReceipts={refundReceiptsMap.get(receipt.receiptId)}
           />
         </ActionItems>
 
@@ -80,6 +101,7 @@ const TransactionReceipt: React.FC<Props> = React.memo(
           <ExecutedReceiptRow key={outgoingReceipt.receiptId}>
             <TransactionReceipt
               receipt={outgoingReceipt}
+              refundReceiptsMap={refundReceiptsMap}
               senderIsReceiver={receipt.receiverId === outgoingReceipt.signerId}
             />
           </ExecutedReceiptRow>

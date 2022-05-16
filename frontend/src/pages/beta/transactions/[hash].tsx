@@ -34,6 +34,8 @@ const TransactionPage: NextPage<Props> = React.memo((props) => {
         href="https://fonts.googleapis.com/css2?family=Manrope&display=swap"
         rel="stylesheet"
       />
+      <link href="https://v1.fontapi.ir/css/SFProDisplay" rel="stylesheet" />
+      <link href="https://v1.fontapi.ir/css/SFMono" rel="stylesheet" />
       <TransactionQueryView {...transactionQuery} hash={props.hash} />
     </>
   );
@@ -49,6 +51,8 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
   switch (props.status) {
     case "success":
       if (props.data) {
+        console.log("props.data: ", props.data);
+
         return (
           <>
             <TransactionHeader transaction={props.data} />

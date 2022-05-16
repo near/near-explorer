@@ -24,9 +24,10 @@ const Wrapper = styled("div", {
 });
 
 const Title = styled("h4", {
+  fontFamily: "Manrope",
   width: "100%",
   fontSize: 16,
-  fontWeight: 700,
+  fontWeight: "700",
   lineHeight: "28px",
   borderBottom: "1px solid rgba(0, 0, 0, .1)",
   marginBottom: 30,
@@ -34,12 +35,29 @@ const Title = styled("h4", {
 });
 
 const TransactionActionsList: React.FC<Props> = React.memo(
-  ({ transaction: { receipt } }) => {
+  ({ transaction: { receipt, refundReceipts } }) => {
+    const refundReceiptsMap = new Map();
+    refundReceipts.forEach((receipt) => {
+      // handle multiple refunds per receipt
+      if (refundReceiptsMap.has(receipt.parentReceiptHash)) {
+        refundReceiptsMap.set(receipt.parentReceiptHash, [
+          ...refundReceiptsMap.get(receipt.parentReceiptHash),
+          receipt,
+        ]);
+      } else {
+        refundReceiptsMap.set(receipt.parentReceiptHash, [receipt]);
+      }
+    });
+    console.log("refundReceiptsMap: ", refundReceiptsMap);
+
     return (
       <Contaier>
         <Wrapper>
           <Title>Execution Plan</Title>
-          <TransactionReceipt receipt={receipt} />
+          <TransactionReceipt
+            receipt={receipt}
+            refundReceiptsMap={refundReceiptsMap}
+          />
         </Wrapper>
       </Contaier>
     );

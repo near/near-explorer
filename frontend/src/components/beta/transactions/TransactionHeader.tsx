@@ -1,4 +1,3 @@
-import JSBI from "jsbi";
 import moment from "moment";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
@@ -6,7 +5,6 @@ import { styled } from "../../../libraries/styles";
 
 import CopyToClipboard from "../../beta/common/CopyToClipboard";
 import { NearAmount } from "../../utils/NearAmount";
-import Gas from "../../utils/Gas";
 import TransactionStatus from "./TransactionStatus";
 
 type Props = {
@@ -101,22 +99,6 @@ const TransactionHeader: React.FC<Props> = React.memo((props) => {
                 amount={props.transaction.transactionFee}
                 decimalPlaces={2}
               />
-            </Amount>
-          </div>
-          <NumericDivider />
-          <div>
-            <AmountHeader>
-              {t("pages.transaction.header.attached")}
-            </AmountHeader>
-            <Amount>
-              <Gas gas={JSBI.BigInt(props.transaction.gasAttached || 0)} />
-            </Amount>
-          </div>
-          <NumericDivider />
-          <div>
-            <AmountHeader>{t("pages.transaction.header.burned")}</AmountHeader>
-            <Amount>
-              <Gas gas={JSBI.BigInt(props.transaction.gasUsed || 0)} />
             </Amount>
           </div>
           <NumericDivider />

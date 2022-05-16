@@ -151,14 +151,14 @@
     "transaction": {
       "header": {
         "title": "Transaction",
-        "fee": "Fee",
+        "fee": "Total Fee",
         "attached": "Attached",
         "burned": "Burned",
         "when": "When"
       },
       "dateFormat": "DD/MM/YYYY h:mm A",
       "tabs": {
-        "details": "Details",
+        "output": "Output",
         "inspect": "Inspect"
       },
       "activity": {
@@ -169,15 +169,17 @@
         "status": "Status"
       },
       "type": {
-        "CreateAccount": "Account Created",
-        "DeleteAccount": "Account Deleted",
-        "DeployContract": "Contract Deployed",
-        "FunctionCall": "Function Call",
-        "Transfer": "Transfer",
-        "Stake": "Restake Tokens",
-        "AddKey": "Access Key Added",
-        "DeleteKey": "Access Key Deleted",
-        "Batch": "Batch (${quantity})"
+        "transfer": "Transfer",
+        "restake": "Restake",
+        "contract-deployed": "Contract Deployed",
+        "access-key-created": "Access Key Created",
+        "access-key-removed": "Access Key Deleted",
+        "call-method": "",
+        "account-created": "Account created",
+        "account-removed": "Account removed",
+        "batch": "Batch (${quantity})",
+        "refund": "Refund",
+        "validator-reward": "Validator reward"
       }
     }
   },
