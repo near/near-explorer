@@ -214,41 +214,25 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                         component.transactions.ActionMessage.FunctionCall.arguments
                       </dt>
                       <dd>
-                        <div>
-                          <div
-                            style={
-                              Object {
-                                "display": "block",
-                                "height": "0px",
-                                "overflow": "hidden",
-                              }
+                        <div
+                          className="c-Wrapper-fswXQT"
+                          style={
+                            Object {
+                              "maxHeight": 200,
                             }
-                          >
-                            <link
-                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                              rel="stylesheet"
-                            />
-                            <textarea
-                              className="c-CodePreviewWrapper-gWwuPL"
-                              readOnly={true}
-                              value="{
-  \\"listing_id\\": \\"000028066\\",
-  \\"seller_transaction_id\\": \\"tr_1IWD3SBwavzc3Cjzlb5ZMkPk\\"
-}"
-                            />
-                          </div>
+                          }
+                        >
+                          <link
+                            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                            rel="stylesheet"
+                          />
                           <div
-                            onClick={[Function]}
+                            className="c-CodePreviewWrapper-gWwuPL"
                           >
-                            <div
-                              style={
-                                Object {
-                                  "float": "left",
-                                }
-                              }
-                            >
-                              button.show_more
-                            </div>
+                            {
+  "listing_id": "000028066",
+  "seller_transaction_id": "tr_1IWD3SBwavzc3Cjzlb5ZMkPk"
+}
                           </div>
                         </div>
                       </dd>
@@ -773,43 +757,27 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                         component.transactions.ActionMessage.FunctionCall.arguments
                       </dt>
                       <dd>
-                        <div>
-                          <div
-                            style={
-                              Object {
-                                "display": "block",
-                                "height": "0px",
-                                "overflow": "hidden",
-                              }
+                        <div
+                          className="c-Wrapper-fswXQT"
+                          style={
+                            Object {
+                              "maxHeight": 200,
                             }
-                          >
-                            <link
-                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                              rel="stylesheet"
-                            />
-                            <textarea
-                              className="c-CodePreviewWrapper-gWwuPL"
-                              readOnly={true}
-                              value="{
-  \\"receiver_id\\": \\"farm.berryclub.ek.near\\",
-  \\"amount\\": \\"9807229473212706028\\",
-  \\"memo\\": \\"Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒\\",
-  \\"msg\\": \\"\\\\\\"DepositAndStake\\\\\\"\\"
-}"
-                            />
-                          </div>
+                          }
+                        >
+                          <link
+                            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                            rel="stylesheet"
+                          />
                           <div
-                            onClick={[Function]}
+                            className="c-CodePreviewWrapper-gWwuPL"
                           >
-                            <div
-                              style={
-                                Object {
-                                  "float": "left",
-                                }
-                              }
-                            >
-                              button.show_more
-                            </div>
+                            {
+  "receiver_id": "farm.berryclub.ek.near",
+  "amount": "9807229473212706028",
+  "memo": "Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒",
+  "msg": "\\"DepositAndStake\\""
+}
                           </div>
                         </div>
                       </dd>
@@ -1068,42 +1036,26 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 component.transactions.ActionMessage.FunctionCall.arguments
                               </dt>
                               <dd>
-                                <div>
-                                  <div
-                                    style={
-                                      Object {
-                                        "display": "block",
-                                        "height": "0px",
-                                        "overflow": "hidden",
-                                      }
+                                <div
+                                  className="c-Wrapper-fswXQT"
+                                  style={
+                                    Object {
+                                      "maxHeight": 200,
                                     }
-                                  >
-                                    <link
-                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                                      rel="stylesheet"
-                                    />
-                                    <textarea
-                                      className="c-CodePreviewWrapper-gWwuPL"
-                                      readOnly={true}
-                                      value="{
-  \\"sender_id\\": \\"leonardwcai.near\\",
-  \\"amount\\": \\"9807229473212706028\\",
-  \\"msg\\": \\"\\\\\\"DepositAndStake\\\\\\"\\"
-}"
-                                    />
-                                  </div>
+                                  }
+                                >
+                                  <link
+                                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                                    rel="stylesheet"
+                                  />
                                   <div
-                                    onClick={[Function]}
+                                    className="c-CodePreviewWrapper-gWwuPL"
                                   >
-                                    <div
-                                      style={
-                                        Object {
-                                          "float": "left",
-                                        }
-                                      }
-                                    >
-                                      button.show_more
-                                    </div>
+                                    {
+  "sender_id": "leonardwcai.near",
+  "amount": "9807229473212706028",
+  "msg": "\\"DepositAndStake\\""
+}
                                   </div>
                                 </div>
                               </dd>
@@ -1126,38 +1078,22 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   component.transactions.ReceiptRow.result
                   : 
                 </i>
-                <div>
-                  <div
-                    style={
-                      Object {
-                        "display": "block",
-                        "height": "0px",
-                        "overflow": "hidden",
-                      }
+                <div
+                  className="c-Wrapper-fswXQT"
+                  style={
+                    Object {
+                      "maxHeight": 200,
                     }
-                  >
-                    <link
-                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                      rel="stylesheet"
-                    />
-                    <textarea
-                      className="c-CodePreviewWrapper-gWwuPL"
-                      readOnly={true}
-                      value="\\"0\\""
-                    />
-                  </div>
+                  }
+                >
+                  <link
+                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                    rel="stylesheet"
+                  />
                   <div
-                    onClick={[Function]}
+                    className="c-CodePreviewWrapper-gWwuPL"
                   >
-                    <div
-                      style={
-                        Object {
-                          "float": "left",
-                        }
-                      }
-                    >
-                      button.show_more
-                    </div>
+                    "0"
                   </div>
                 </div>
               </div>
@@ -1649,42 +1585,26 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                                 component.transactions.ActionMessage.FunctionCall.arguments
                               </dt>
                               <dd>
-                                <div>
-                                  <div
-                                    style={
-                                      Object {
-                                        "display": "block",
-                                        "height": "0px",
-                                        "overflow": "hidden",
-                                      }
+                                <div
+                                  className="c-Wrapper-fswXQT"
+                                  style={
+                                    Object {
+                                      "maxHeight": 200,
                                     }
-                                  >
-                                    <link
-                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                                      rel="stylesheet"
-                                    />
-                                    <textarea
-                                      className="c-CodePreviewWrapper-gWwuPL"
-                                      readOnly={true}
-                                      value="{
-  \\"sender_id\\": \\"leonardwcai.near\\",
-  \\"receiver_id\\": \\"farm.berryclub.ek.near\\",
-  \\"amount\\": \\"9807229473212706028\\"
-}"
-                                    />
-                                  </div>
+                                  }
+                                >
+                                  <link
+                                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                                    rel="stylesheet"
+                                  />
                                   <div
-                                    onClick={[Function]}
+                                    className="c-CodePreviewWrapper-gWwuPL"
                                   >
-                                    <div
-                                      style={
-                                        Object {
-                                          "float": "left",
-                                        }
-                                      }
-                                    >
-                                      button.show_more
-                                    </div>
+                                    {
+  "sender_id": "leonardwcai.near",
+  "receiver_id": "farm.berryclub.ek.near",
+  "amount": "9807229473212706028"
+}
                                   </div>
                                 </div>
                               </dd>
@@ -1707,38 +1627,22 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   component.transactions.ReceiptRow.result
                   : 
                 </i>
-                <div>
-                  <div
-                    style={
-                      Object {
-                        "display": "block",
-                        "height": "0px",
-                        "overflow": "hidden",
-                      }
+                <div
+                  className="c-Wrapper-fswXQT"
+                  style={
+                    Object {
+                      "maxHeight": 200,
                     }
-                  >
-                    <link
-                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                      rel="stylesheet"
-                    />
-                    <textarea
-                      className="c-CodePreviewWrapper-gWwuPL"
-                      readOnly={true}
-                      value="\\"9807229473212706028\\""
-                    />
-                  </div>
+                  }
+                >
+                  <link
+                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                    rel="stylesheet"
+                  />
                   <div
-                    onClick={[Function]}
+                    className="c-CodePreviewWrapper-gWwuPL"
                   >
-                    <div
-                      style={
-                        Object {
-                          "float": "left",
-                        }
-                      }
-                    >
-                      button.show_more
-                    </div>
+                    "9807229473212706028"
                   </div>
                 </div>
               </div>
@@ -2484,44 +2388,28 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                         component.transactions.ActionMessage.FunctionCall.arguments
                       </dt>
                       <dd>
-                        <div>
-                          <div
-                            style={
-                              Object {
-                                "display": "block",
-                                "height": "0px",
-                                "overflow": "hidden",
-                              }
+                        <div
+                          className="c-Wrapper-fswXQT"
+                          style={
+                            Object {
+                              "maxHeight": 200,
                             }
-                          >
-                            <link
-                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                              rel="stylesheet"
-                            />
-                            <textarea
-                              className="c-CodePreviewWrapper-gWwuPL"
-                              readOnly={true}
-                              value="{
-  \\"request\\": {
-    \\"left\\": 32626789,
-    \\"right\\": 32132129
-  },
-  \\"response\\": \\"Skipped\\"
-}"
-                            />
-                          </div>
+                          }
+                        >
+                          <link
+                            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                            rel="stylesheet"
+                          />
                           <div
-                            onClick={[Function]}
+                            className="c-CodePreviewWrapper-gWwuPL"
                           >
-                            <div
-                              style={
-                                Object {
-                                  "float": "left",
-                                }
-                              }
-                            >
-                              button.show_more
-                            </div>
+                            {
+  "request": {
+    "left": 32626789,
+    "right": 32132129
+  },
+  "response": "Skipped"
+}
                           </div>
                         </div>
                       </dd>
@@ -2544,41 +2432,25 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           component.transactions.ReceiptRow.result
           : 
         </i>
-        <div>
-          <div
-            style={
-              Object {
-                "display": "block",
-                "height": "0px",
-                "overflow": "hidden",
-              }
+        <div
+          className="c-Wrapper-fswXQT"
+          style={
+            Object {
+              "maxHeight": 200,
             }
-          >
-            <link
-              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-              rel="stylesheet"
-            />
-            <textarea
-              className="c-CodePreviewWrapper-gWwuPL"
-              readOnly={true}
-              value="{
-  \\"left\\": 29647268,
-  \\"right\\": 22016008
-}"
-            />
-          </div>
+          }
+        >
+          <link
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+            rel="stylesheet"
+          />
           <div
-            onClick={[Function]}
+            className="c-CodePreviewWrapper-gWwuPL"
           >
-            <div
-              style={
-                Object {
-                  "float": "left",
-                }
-              }
-            >
-              button.show_more
-            </div>
+            {
+  "left": 29647268,
+  "right": 22016008
+}
           </div>
         </div>
       </div>

@@ -31,12 +31,15 @@ export const Args: React.FC<{ args: string }> = React.memo(({ args }) => {
   }
   return (
     <CodePreview
-      collapseOptions={{
-        collapseText: t("button.show_more"),
-        expandText: t("button.show_less"),
-        minHeight: 200,
-        maxHeight: 600,
-      }}
+      collapseHeight={200}
+      maxHeight={600}
+      expandComponent={({ isOverflown, collapsed, setCollapsed }) =>
+        isOverflown ? (
+          <div onClick={() => setCollapsed(!collapsed)}>
+            {collapsed ? t("button.show_more") : t("button.show_less")}
+          </div>
+        ) : null
+      }
       value={prettyArgs}
     />
   );
