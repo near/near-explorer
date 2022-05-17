@@ -1,8 +1,8 @@
 import * as React from "react";
-import ReactTextCollapse from "react-text-collapse";
 import { styled } from "../../libraries/styles";
+import Expandable, { ExpandComponent } from "./Expandable";
 
-const CodePreviewWrapper = styled("textarea", {
+const CodePreviewWrapper = styled("div", {
   fontFamily: '"Source Code Pro", monospace',
   background: "#424957",
   color: "white",
@@ -11,27 +11,33 @@ const CodePreviewWrapper = styled("textarea", {
   height: "99%",
 });
 
-export interface CollapseOptions {
-  collapseText: string;
-  expandText: string;
-  minHeight: number;
-  maxHeight: number;
-}
-
 export interface Props {
-  collapseOptions: CollapseOptions;
   value: string;
+  expandComponent: ExpandComponent;
+  collapseHeight: number;
+  maxHeight: number;
 }
 
 const CodePreview: React.FC<Props> = React.memo((props) => {
   return (
-    <ReactTextCollapse options={props.collapseOptions}>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-        rel="stylesheet"
-      />
-      <CodePreviewWrapper readOnly value={props.value} />
-    </ReactTextCollapse>
+    <Expandable
+      collapseHeight={props.collapseHeight}
+      expandComponent={props.expandComponent}
+      dependencies={[props.value]}
+      maxHeight={props.maxHeight}
+    >
+      {(ref) => (
+        <>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+            rel="stylesheet"
+          />
+          <CodePreviewWrapper ref={ref as React.RefObject<HTMLDivElement>}>
+            {props.value}
+          </CodePreviewWrapper>
+        </>
+      )}
+    </Expandable>
   );
 });
 
