@@ -211,40 +211,24 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
                 component.transactions.ActionMessage.FunctionCall.arguments
               </dt>
               <dd>
-                <div>
-                  <div
-                    style={
-                      Object {
-                        "display": "block",
-                        "height": "0px",
-                        "overflow": "hidden",
-                      }
+                <div
+                  className="c-Wrapper-fswXQT"
+                  style={
+                    Object {
+                      "maxHeight": 200,
                     }
-                  >
-                    <link
-                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                      rel="stylesheet"
-                    />
-                    <textarea
-                      className="c-CodePreviewWrapper-gWwuPL"
-                      readOnly={true}
-                      value="{
-  \\"value\\": 1
-}"
-                    />
-                  </div>
+                  }
+                >
+                  <link
+                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                    rel="stylesheet"
+                  />
                   <div
-                    onClick={[Function]}
+                    className="c-CodePreviewWrapper-gWwuPL"
                   >
-                    <div
-                      style={
-                        Object {
-                          "float": "left",
-                        }
-                      }
-                    >
-                      button.show_more
-                    </div>
+                    {
+  "value": 1
+}
                   </div>
                 </div>
               </dd>
