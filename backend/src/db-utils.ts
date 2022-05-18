@@ -21,7 +21,7 @@ import {
   TransactionPagination,
   ValidatorTelemetry,
 } from "./types";
-import { trimError, millisecondsToNanoseconds } from "./utils";
+import { millisecondsToNanoseconds } from "./utils";
 
 import * as Indexer from "../config/models/readOnlyIndexerDatabase";
 import * as Telemetry from "../config/models/readOnlyTelemetryDatabase";
