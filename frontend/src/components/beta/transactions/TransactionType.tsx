@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import { Action } from "../../../types/procedures";
+import { Action } from "../../../types/common";
 
 interface Props<A extends Action> {
   actions: {

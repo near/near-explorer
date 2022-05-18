@@ -1,12 +1,11 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import * as React from "react";
 import { styled } from "../../../libraries/styles";
-import { formatNear } from "../../../libraries/formatting";
-import { RefundReceipt, TransactionReceipt } from "../../../types/transaction";
-import BlockLink from "../common/BlockLink";
-
+import * as BI from "../../../libraries/bigint";
+import { RefundReceipt, TransactionReceipt } from "../../../types/common";
+import { NearAmount } from "../../utils/NearAmount";
 import Gas from "../../utils/Gas";
-import { YoctoNEAR } from "../../../types/nominal";
+import BlockLink from "../common/BlockLink";
 
 type Props = {
   receipt: TransactionReceipt;
@@ -29,8 +28,8 @@ const InspectReceipt: React.FC<Props> = React.memo(
     const refund =
       refundReceipts
         ?.reduce(
-          (acc, receipt) => acc.add(new BN(receipt.refund || 0)),
-          new BN(0)
+          (acc, receipt) => JSBI.add(acc, JSBI.BigInt(receipt.refund || 0)),
+          BI.zero
         )
         .toString() ?? "0";
     return (
@@ -58,7 +57,7 @@ const InspectReceipt: React.FC<Props> = React.memo(
           <TableElement>
             {"args" in receipt.actions[0] &&
             "gas" in receipt.actions[0].args ? (
-              <Gas gas={new BN(receipt.actions[0].args?.gas)} />
+              <Gas gas={JSBI.BigInt(receipt.actions[0].args?.gas)} />
             ) : (
               "-"
             )}
@@ -67,17 +66,19 @@ const InspectReceipt: React.FC<Props> = React.memo(
         <tr>
           <TableElement>Gas Burned</TableElement>
           <TableElement>
-            <Gas gas={new BN(receipt.gasBurnt || 0)} />
+            <Gas gas={JSBI.BigInt(receipt.gasBurnt || 0)} />
           </TableElement>
         </tr>
         <tr>
           <TableElement>Tokens Burned</TableElement>
-          <TableElement>{formatNear(receipt.tokensBurnt)}</TableElement>
+          <TableElement>
+            <NearAmount amount={receipt.tokensBurnt} decimalPlaces={2} />
+          </TableElement>
         </tr>
         <tr>
           <TableElement>Refunded</TableElement>
           <TableElement>
-            {refund ? formatNear(refund as YoctoNEAR) : "0"}
+            {refund ? <NearAmount amount={refund} decimalPlaces={2} /> : "0"}
           </TableElement>
         </tr>
       </Table>

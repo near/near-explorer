@@ -2,8 +2,8 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { styled } from "../../../libraries/styles";
-import { formatNear } from "../../../libraries/formatting";
-import { TransactionReceipt } from "../../../types/transaction";
+import { TransactionReceipt } from "../../../types/common";
+import { NearAmount } from "../../utils/NearAmount";
 
 import AccountLink from "../common/AccountLink";
 import TransactionType from "./TransactionType";
@@ -36,7 +36,7 @@ const AccountInfo = styled("div", {
 const Divider = styled("div", {
   height: "100%",
   width: 1,
-  marginHorizontal: 16,
+  margin: "0 16px",
 });
 
 const AmountHeader = styled("div", {
@@ -124,12 +124,16 @@ const Receipt: React.FC<Props> = React.memo(({ onClick, receipt }) => {
         <Divider />
         <div>
           <AmountHeader>{t("pages.transaction.activity.amount")}</AmountHeader>
-          <Amount>{receipt.deposit ? formatNear(receipt.deposit) : "0"}</Amount>
+          <Amount>
+            <NearAmount amount={receipt.deposit || "0"} decimalPlaces={2} />
+          </Amount>
         </div>
         <Divider />
         <div>
           <AmountHeader>{t("pages.transaction.activity.fee")}</AmountHeader>
-          <Amount>{formatNear(receipt.tokensBurnt)}</Amount>
+          <Amount>
+            <NearAmount amount={receipt.tokensBurnt} decimalPlaces={2} />
+          </Amount>
         </div>
         <Divider />
         <Status>

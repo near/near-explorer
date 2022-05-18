@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   RefundReceipt,
   TransactionReceipt as TxReceipt,
-} from "../../../types/transaction";
+} from "../../../types/common";
 import { styled } from "../../../libraries/styles";
 
 import Receipt from "./Receipt";

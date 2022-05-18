@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Action, ActionMapping } from "../../../types/procedures";
-import { formatNear } from "../../../libraries/formatting";
+import { Action, ActionMapping } from "../../../types/common";
+import { NearAmount } from "../../utils/NearAmount";
 
 import AccountLink from "../common/AccountLink";
-import { YoctoNEAR } from "../../../types/nominal";
 
 interface Props<A extends Action> {
   actionKind: A["kind"];
@@ -80,7 +79,7 @@ const Transfer: TransactionMessageRenderers["Transfer"] = React.memo(
     return (
       <>
         {t("component.transactions.ActionMessage.Transfer.transferred")}
-        {formatNear(deposit as YoctoNEAR)}
+        <NearAmount amount={deposit} />{" "}
         {t("component.transactions.ActionMessage.Transfer.to")}
         <AccountLink accountId={receiverId} />
       </>
@@ -94,7 +93,7 @@ const Stake: TransactionMessageRenderers["Stake"] = React.memo(
     return (
       <>
         {t("component.transactions.ActionMessage.Stake.staked")}
-        {formatNear(stake as YoctoNEAR)}{" "}
+        <NearAmount amount={stake} />{" "}
         {t("component.transactions.ActionMessage.Stake.with_key", {
           public_key: public_key.substring(0, 15),
         })}

@@ -1,14 +1,14 @@
 import * as React from "react";
 import { styled } from "../../../libraries/styles";
 import {
-  Transaction,
+  TransactionDetails,
   TransactionReceipt as TxReceipt,
-} from "../../../types/transaction";
+} from "../../../types/common";
 
 import TransactionReceipt from "./TransactionReceipt";
 
 type Props = {
-  transaction: Transaction;
+  transaction: TransactionDetails;
 };
 
 const Wrapper = styled("div", {
@@ -17,8 +17,7 @@ const Wrapper = styled("div", {
   width: "100%",
   maxWidth: 1161,
   margin: "auto",
-  paddingVertical: 24,
-  paddingHorizontal: 40,
+  padding: "24px 40px",
   fontFamily: "Manrope",
 });
 
