@@ -11,8 +11,7 @@ import {
   queryOutcomeTransactionsCountFromAnalytics,
   queryOutcomeTransactionsCountFromIndexerForLastDay,
 } from "./db-utils";
-import { callViewMethod, sendJsonRpcQuery } from "./near";
-import { BIMax } from "./utils";
+import { sendJsonRpcQuery } from "./near";
 
 export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
   const account = await queryIndexedAccount(accountId);
