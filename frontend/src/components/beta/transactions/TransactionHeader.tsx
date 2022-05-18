@@ -1,11 +1,11 @@
-import BN from "bn.js";
+import JSBI from "jsbi";
 import moment from "moment";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { formatNear } from "../../../libraries/formatting";
 import { styled } from "../../../libraries/styles";
 
 import CopyToClipboard from "../../beta/common/CopyToClipboard";
+import { NearAmount } from "../../utils/NearAmount";
 import Gas from "../../utils/Gas";
 import TransactionStatus from "./TransactionStatus";
 
@@ -23,8 +23,7 @@ const Content = styled("div", {
   width: "100%",
   maxWidth: 1161,
   margin: "auto",
-  paddingVertical: 40,
-  paddingHorizontal: 40,
+  padding: 40,
   fontFamily: "Manrope",
 });
 
@@ -59,7 +58,7 @@ const NumericInfo = styled("div", {
 const NumericDivider = styled("div", {
   height: "100%",
   width: 1,
-  marginHorizontal: 40,
+  margin: "0 40px",
 });
 
 const AmountHeader = styled("div", {
@@ -97,7 +96,12 @@ const TransactionHeader: React.FC<Props> = React.memo((props) => {
         <NumericInfo>
           <div>
             <AmountHeader>{t("pages.transaction.header.fee")}</AmountHeader>
-            <Amount>{formatNear(props.transaction.transactionFee)}</Amount>
+            <Amount>
+              <NearAmount
+                amount={props.transaction.transactionFee}
+                decimalPlaces={2}
+              />
+            </Amount>
           </div>
           <NumericDivider />
           <div>
@@ -105,14 +109,14 @@ const TransactionHeader: React.FC<Props> = React.memo((props) => {
               {t("pages.transaction.header.attached")}
             </AmountHeader>
             <Amount>
-              <Gas gas={new BN(props.transaction.gasAttached) || 0} />
+              <Gas gas={JSBI.BigInt(props.transaction.gasAttached || 0)} />
             </Amount>
           </div>
           <NumericDivider />
           <div>
             <AmountHeader>{t("pages.transaction.header.burned")}</AmountHeader>
             <Amount>
-              <Gas gas={new BN(props.transaction.gasUsed) || 0} />
+              <Gas gas={JSBI.BigInt(props.transaction.gasUsed || 0)} />
             </Amount>
           </div>
           <NumericDivider />

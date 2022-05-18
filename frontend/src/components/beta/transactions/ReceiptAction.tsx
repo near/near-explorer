@@ -2,13 +2,12 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { styled } from "../../../libraries/styles";
-import { TransactionReceipt } from "../../../types/transaction";
+import { Action, TransactionReceipt } from "../../../types/common";
 
 import { Args } from "../../transactions/ActionMessage";
 import ReceiptStatus from "./ReceiptStatus";
 import ReceiptArguments from "./ReceiptArguments";
 import TransactionType from "./TransactionType";
-import { Action } from "../../../types/procedures";
 
 type Props = {
   receipt: TransactionReceipt;
@@ -18,10 +17,10 @@ type Props = {
 const Row = styled("div", {
   display: "flex",
   justifyContent: "space-between",
-  marginVertical: 20,
+  margin: "20px 0",
 
   "&:last-child": {
-    marginVertical: 0,
+    margin: 0,
   },
 });
 
@@ -32,7 +31,6 @@ const Column = styled("div", {
 });
 
 const CodeArgs = styled("div", {
-  // background: "#ABAFB4",
   background: "#f8f8f8",
   borderRadius: 4,
   color: "#3f4246",

@@ -1,5 +1,5 @@
 import * as ReactQuery from "react-query";
-import { timeout } from "./promise";
+import { timeout } from "./common";
 
 export const createServerQueryClient = (): ReactQuery.QueryClient => {
   return new ReactQuery.QueryClient({

@@ -5,25 +5,16 @@ import * as ReactQuery from "react-query";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 
-import { transactionByHashQuery } from "../../../providers/transactions";
+import { TransactionDetails } from "../../../types/common";
 import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
-
-import { useQuery } from "../../../hooks/use-query";
-import {
-  createServerQueryClient,
-  getPrefetchObject,
-} from "../../../libraries/queries";
-import { TransactionHash } from "../../../types/nominal";
-import {
-  Transaction,
-  TransactionErrorResponse,
-} from "../../../types/transaction";
+import { getPrefetchObject } from "../../../libraries/queries";
 
 import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
 import TransactionActionsList from "../../../components/beta/transactions/TransactionActionsList";
+import { useQuery } from "../../../hooks/use-query";
 
 type Props = {
-  hash: TransactionHash;
+  hash: string;
 };
 
 const TransactionPage: NextPage<Props> = React.memo((props) => {
@@ -31,7 +22,7 @@ const TransactionPage: NextPage<Props> = React.memo((props) => {
     transaction_hash: props.hash,
   });
 
-  const transactionQuery = useQuery(transactionByHashQuery, props.hash);
+  const transactionQuery = useQuery("transaction", [props.hash]);
 
   return (
     <>
@@ -47,11 +38,8 @@ const TransactionPage: NextPage<Props> = React.memo((props) => {
   );
 });
 
-type QueryProps = ReactQuery.UseQueryResult<
-  Transaction | null,
-  TransactionErrorResponse
-> & {
-  hash: TransactionHash;
+type QueryProps = ReactQuery.UseQueryResult<TransactionDetails | null> & {
+  hash: string;
 };
 
 const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
@@ -85,20 +73,15 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
 
 export const getServerSideProps: GetServerSideProps<
   Props,
-  { hash: TransactionHash }
+  { hash: string }
 > = async ({ req, params, query }) => {
-  const hash = params?.hash ?? ("" as TransactionHash);
-  const queryClient = createServerQueryClient();
-  const prefetchObject = getPrefetchObject(
-    queryClient,
-    query,
-    req.headers.host
-  );
-  await prefetchObject.fetch(transactionByHashQuery, hash);
+  const hash = params?.hash ?? "";
+  const prefetchObject = getPrefetchObject(query, req.headers.host);
+  await prefetchObject.prefetch("transaction", [hash]);
   return {
     props: {
       hash,
-      dehydratedState: prefetchObject.getDehydratedState(),
+      dehydratedState: prefetchObject.dehydrate(),
     },
   };
 };

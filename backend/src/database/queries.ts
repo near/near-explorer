@@ -930,21 +930,12 @@ export const queryBlockByHashOrId = async (blockId: string | number) => {
   return selection.limit(1).executeTakeFirst();
 };
 
-const queryBlockHeightsByHashes = async (
-  blockHashes: string[]
-): Promise<{ block_height: number; block_hash: string }[]> => {
-  return await queryRows<
-    { block_height: number; block_hash: string },
-    { blockHashes: string[] }
-  >(
-    [
-      `SELECT block_height, block_hash
-       FROM blocks
-       WHERE block_hash = ANY (:blockHashes)`,
-      { blockHashes },
-    ],
-    { dataSource: DataSource.Indexer }
-  );
+export const queryBlockHeightsByHashes = async (blockHashes: string[]) => {
+  return indexerDatabase
+    .selectFrom("blocks")
+    .select(["block_height", "block_hash"])
+    .where("block_hash", "in", blockHashes)
+    .execute();
 };
 
 // receipts

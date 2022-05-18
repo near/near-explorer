@@ -1,4 +1,4 @@
-import { RPC } from "../types";
+import { RPC, TransactionOutcome, KeysOfUnion } from "../types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
@@ -10,6 +10,10 @@ import {
 } from "../database/queries";
 import { z } from "zod";
 import { validators } from "../router/validators";
+
+import { getBlockHeightsByHashes } from "./blocks";
+
+import { sendJsonRpc } from "../utils/near";
 
 const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
   string,
@@ -144,6 +148,139 @@ export const getTransactionInfo = async (
   return transaction[0] || null;
 };
 
+export const getTransactionDetails = async (
+  transactionHash: string
+): Promise<TransactionDetails | null> => {
+  const transactionBaseInfo = await getTransactionInfo(transactionHash);
+
+  if (!transactionBaseInfo) {
+    throw new Error(`No hash ${transactionHash} found`);
+  }
+  const transactionInfo = await sendJsonRpc("EXPERIMENTAL_tx_status", [
+    transactionBaseInfo.hash,
+    transactionBaseInfo.signerId,
+  ]);
+  const blockHashes = transactionInfo.receipts_outcome.map(
+    (receipt) => receipt.block_hash
+  );
+  const blockHeights = await getBlockHeightsByHashes(blockHashes);
+  const includedInBlockMap = blockHeights.reduce((acc, block) => {
+    acc.set(block.block_hash, block.block_height);
+    return acc;
+  }, new Map());
+  const receiptsOutcome = transactionInfo.receipts_outcome.map((receipt) => ({
+    id: receipt.id,
+    proof: receipt.proof,
+    outcome: receipt.outcome,
+    includedInBlock: {
+      hash: receipt.block_hash,
+      height: includedInBlockMap.get(receipt.block_hash),
+    },
+  }));
+
+  if (
+    transactionInfo.receipts.length === 0 ||
+    transactionInfo.receipts[0].receipt_id !== receiptsOutcome[0].id
+  ) {
+    transactionInfo.receipts.unshift({
+      predecessor_id: transactionInfo.transaction.signer_id,
+      receipt: {
+        Action: {
+          signer_id: transactionInfo.transaction.signer_id,
+          signer_public_key: "",
+          gas_price: "0",
+          output_data_receivers: [],
+          input_data_ids: [],
+          actions: transactionInfo.transaction.actions,
+        },
+      },
+      receipt_id: receiptsOutcome[0].id,
+      receiver_id: transactionInfo.transaction.receiver_id,
+    });
+  }
+
+  const receiptOutcomesByIdMap = receiptsOutcome.reduce(
+    (acc: Map<string, ReceiptsOutcome>, receipt) => {
+      acc.set(receipt.id, receipt);
+      return acc;
+    },
+    new Map()
+  );
+  const receiptsByIdMap = transactionInfo.receipts.reduce(
+    (
+      acc: Map<
+        string,
+        Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
+      >,
+      receiptItem
+    ) => {
+      acc.set(receiptItem.receipt_id, {
+        ...receiptItem,
+        actions:
+          "Action" in receiptItem.receipt
+            ? receiptItem.receipt.Action.actions.map(mapRpcActionToAction)
+            : [],
+      });
+      return acc;
+    },
+    new Map()
+  );
+  const receiptsMap: Map<string, TransactionReceipt> = new Map();
+  const receiptsToValues = collectReceiptsWithOutcome(
+    receiptsOutcome[0].id,
+    null,
+    receiptsMap,
+    receiptsByIdMap,
+    receiptOutcomesByIdMap
+  );
+  const refundReceiptsMap = receiptsToValues.reduce(
+    (acc: Map<string, RefundReceipt>, receipt) => {
+      const parentReceipt =
+        receipt.parentReceiptHash && receiptsMap.has(receipt.parentReceiptHash);
+      if (receipt.signerId === "system" && parentReceipt) {
+        acc.set(receipt.receiptId, {
+          ...receipt,
+          refund: getDeposit(receipt.actions),
+        });
+      }
+      return acc;
+    },
+    new Map()
+  );
+
+  const gasUsed = getGasUsed(
+    transactionInfo.transaction_outcome,
+    receiptsOutcome
+  );
+  const txActions = transactionInfo.transaction.actions.map(
+    mapRpcActionToAction
+  );
+  const gasAttached = getGasAttached(gasUsed, txActions);
+  const transactionFee = getTransactionFee(
+    transactionInfo.transaction_outcome,
+    receiptsOutcome
+  );
+
+  return {
+    hash: transactionHash,
+    created: {
+      timestamp: transactionBaseInfo.blockTimestamp,
+      blockHash: transactionBaseInfo.blockHash,
+    },
+    transaction: transactionInfo.transaction,
+    transactionIndex: transactionBaseInfo.transactionIndex,
+    transactionOutcome: transactionInfo.transaction_outcome,
+    transactionFee,
+    status: Object.keys(transactionInfo.status)[0] as any, // need to resolve
+    gasUsed,
+    gasAttached,
+    receipts: [...receiptsMap.values()].filter(
+      (receipt) => !refundReceiptsMap.has(receipt.receiptId)
+    ),
+    refundReceipts: [...refundReceiptsMap.values()],
+  };
+};
+
 export const convertDbArgsToRpcArgs = (
   kind: string,
   jsonArgs: Record<string, unknown>
@@ -257,6 +394,48 @@ export type NestedReceiptWithOutcome = {
   receiver_id: string;
 };
 
+export type TransactionDetails = {
+  hash: string;
+  created: {
+    timestamp: number;
+    blockHash: string;
+  };
+  transaction: RPC.SignedTransactionView;
+  transactionIndex: number;
+  transactionFee: string;
+  transactionOutcome: TransactionOutcome;
+  status: KeysOfUnion<RPC.FinalExecutionStatus>;
+  gasUsed: string;
+  gasAttached: string;
+  receipts: TransactionReceipt[];
+  refundReceipts: RefundReceipt[];
+};
+
+export type TransactionBlockInfo = {
+  hash: string;
+  height: number;
+};
+export type ReceiptsOutcome = Omit<
+  RPC.ExecutionOutcomeWithIdView,
+  "block_hash"
+> & { includedInBlock: TransactionBlockInfo };
+
+export type TransactionReceipt = {
+  actions: Action[];
+  deposit: string | null;
+  signerId: string;
+  parentReceiptHash: string | null;
+  includedInBlock: TransactionBlockInfo;
+  receiptId: string;
+  receiverId: string;
+  gasBurnt?: number;
+  tokensBurnt: string;
+  logs: string[] | [];
+  status: RPC.ExecutionStatusView;
+};
+
+export type RefundReceipt = TransactionReceipt & { refund: string };
+
 export const collectNestedReceiptWithOutcome = (
   receiptHash: string,
   receiptsByIdMap: Map<
@@ -281,4 +460,103 @@ export const collectNestedReceiptWithOutcome = (
       ),
     },
   };
+};
+
+const collectReceiptsWithOutcome = (
+  receiptHash: string,
+  parentReceiptHash: string | null = null,
+  receiptsMap: Map<string, TransactionReceipt>,
+  receiptsByIdMap: Map<
+    string,
+    Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
+  >,
+  receiptOutcomesByIdMap: Map<string, ReceiptsOutcome>
+): TransactionReceipt[] => {
+  const receipt = receiptsByIdMap.get(receiptHash)!;
+  const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash)!;
+
+  receiptsMap.set(receiptHash, {
+    actions: receipt.actions,
+    deposit: getDeposit(receipt.actions ?? []) || null,
+    signerId: receipt.predecessor_id, // do we need to rename 'signerId' to 'predecessor_id'?
+    parentReceiptHash,
+    includedInBlock: receiptOutcome.includedInBlock, // executed in block
+    receiptId: receiptOutcome.id,
+    receiverId: receiptOutcome.outcome.executor_id,
+    gasBurnt: receiptOutcome.outcome.gas_burnt,
+    tokensBurnt: receiptOutcome.outcome.tokens_burnt,
+    logs: receiptOutcome.outcome.logs || [],
+    status: receiptOutcome.outcome.status,
+  });
+
+  receiptOutcome.outcome.receipt_ids.forEach((executedReceipt: string) =>
+    collectReceiptsWithOutcome(
+      executedReceipt,
+      receiptHash,
+      receiptsMap,
+      receiptsByIdMap,
+      receiptOutcomesByIdMap
+    )
+  );
+
+  return [...receiptsMap.values()];
+};
+
+export const getDeposit = (actions: Action[]) =>
+  actions
+    .map((action: Action) => {
+      if ("deposit" in action.args) {
+        return BigInt(action.args.deposit);
+      } else {
+        return 0n;
+      }
+    })
+    .reduce((accumulator, deposit) => accumulator + deposit, 0n)
+    .toString();
+
+export const getGasUsed = (
+  transactionOutcome: TransactionOutcome,
+  receiptsOutcome: ReceiptsOutcome[]
+) => {
+  const gasBurntByTx = transactionOutcome
+    ? BigInt(transactionOutcome.outcome.gas_burnt)
+    : 0n;
+  const gasBurntByReceipts = receiptsOutcome
+    ? receiptsOutcome
+        .map((receipt: ReceiptsOutcome) => BigInt(receipt.outcome.gas_burnt))
+        .reduce((gasBurnt, currentFee) => gasBurnt + currentFee, 0n)
+    : 0n;
+  return (gasBurntByTx + gasBurntByReceipts).toString();
+};
+
+export const getGasAttached = (
+  gasUsed: string,
+  transactionActions: Action[]
+) => {
+  const gasAttached = transactionActions
+    .map((action) => {
+      if ("gas" in action.args) {
+        return BigInt(action.args.gas);
+      } else {
+        return 0n;
+      }
+    })
+    .reduce((accumulator, gas) => accumulator + gas, 0n)
+    .toString();
+  return gasAttached ?? gasUsed;
+};
+
+export const getTransactionFee = (
+  transactionOutcome: TransactionOutcome,
+  receiptsOutcome: ReceiptsOutcome[]
+) => {
+  const tokensBurntByTx = transactionOutcome
+    ? BigInt(transactionOutcome.outcome.tokens_burnt)
+    : 0n;
+  const tokensBurntByReceipts = receiptsOutcome
+    ? receiptsOutcome
+        .map((receipt) => BigInt(receipt.outcome.tokens_burnt))
+        .reduce((tokenBurnt, currentFee) => tokenBurnt + currentFee, 0n)
+    : 0n;
+  return (tokensBurntByTx + tokensBurntByReceipts).toString();
 };

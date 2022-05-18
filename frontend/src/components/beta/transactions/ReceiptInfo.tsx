@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import { RefundReceipt, TransactionReceipt } from "../../../types/transaction";
+import { RefundReceipt, TransactionReceipt } from "../../../types/common";
 
 import { Tabs } from "../common/Tabs";
 import ReceiptDetails from "./ReceiptDetails";
@@ -14,9 +14,7 @@ type Props = {
 };
 
 const Wrapper = styled("div", {
-  paddingVertical: 24,
-  // TODO: Place a proper padding here
-  paddingHorizontal: 40,
+  padding: "24px 40px",
   display: "flex",
   flexDirection: "column",
   fontFamily: "Manrope",

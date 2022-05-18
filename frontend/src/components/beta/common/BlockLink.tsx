@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "../../utils/Link";
 import { styled } from "../../../libraries/styles";
-import { TransactionBlockInfo } from "../../../types/transaction";
+import { TransactionBlockInfo } from "../../../types/common";
 
 export interface Props {
   block: TransactionBlockInfo;
