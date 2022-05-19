@@ -465,7 +465,7 @@
         "first_produced_block": "Перший виготовлений блок",
         "genesis_started": "Генезис розпочато",
         "genesis_protocol_or_current_protocol": "Протокол Genesis / поточний протокол",
-        "genesis_height": "Висота genesis",
+        "genesis_height": "Висота генезису",
         "epoch_length": "Тривалiсть епохи",
         "genesis_total_supply": "Повний запас Genesis",
         "accounts_in_genesis": "Облікові записи в Genesis",
