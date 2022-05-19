@@ -1,12 +1,10 @@
 {
-  "compileOnSave": false,
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "esnext",
-    "moduleResolution": "node",
-    "strict": true,
-    "outDir": "build"
+    "outDir": "build",
+    "noUnusedLocals": false,
+    "noEmit": false
   },
-  "lib": ["es2015"]
+  "include": ["**/*", "../common/**/*"]
 }

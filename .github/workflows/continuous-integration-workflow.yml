@@ -15,8 +15,10 @@ jobs:
         node: [16]
     steps:
       - uses: actions/checkout@v1
+      - name: Install packages
+        run: npm install
       - name: Run code formatting check
-        run: npm install && npm run fmt:check
+        run: npm run fmt:check
 
   frontend-test:
     name: Frontend unit testing
@@ -27,12 +29,10 @@ jobs:
         node: [16]
     steps:
       - uses: actions/checkout@v1
-      - name: Install common packages
-        run: cd common && npm install
-      - name: Install frontend packages
-        run: cd frontend && npm install
+      - name: Install packages
+        run: npm install
       - name: Run unit tests
-        run: cd frontend && npm run test
+        run: npm run -w frontend test
 
   frontend-e2e-test:
     name: Frontend e2e testing
@@ -43,14 +43,12 @@ jobs:
         node: [16]
     steps:
       - uses: actions/checkout@v1
-      - name: Install common packages
-        run: cd common && npm install
-      - name: Install frontend packages
-        run: cd frontend && npm install
+      - name: Install packages
+        run: npm install
       - name: Build Project
-        run: cd frontend && npm run build
+        run: npm run -w frontend build
       - name: Run Cypress
-        run: cd frontend && npm run test:ci
+        run: npm run -w frontend test:ci
         env:
           CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
 
@@ -63,12 +61,10 @@ jobs:
         node: [16]
     steps:
       - uses: actions/checkout@v1
-      - name: Install common packages
-        run: cd common && npm install
-      - name: Install backend packages
-        run: cd backend && npm install
+      - name: Install packages
+        run: npm install
       - name: Run typecheck
-        run: cd backend && npm run typecheck
+        run: npm run -w backend typecheck
 
   backend-database-types-check:
     name: Backend database types check
@@ -79,15 +75,13 @@ jobs:
         node: [16]
     steps:
       - uses: actions/checkout@v1
-      - name: Install Prettier
+      - name: Install packages
         run: npm install
-      - name: Install Kanel
-        run: cd backend && npm install
       - name: Copy original models
-        run: cd backend && cp -r config/models config/models-original
+        run: cp -r backend/config/models backend/config/models-original
       - name: Generate types
-        run: cd backend && npm run db:generate-types
+        run: npm run -w backend db:generate-types
       - name: Run prettier on newly generated types
         run: npm run fmt
       - name: Compare types
-        run: cd backend && diff -bur config/models-original config/models
+        run: diff -bur backend/config/models-original backend/config/models

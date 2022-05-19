@@ -1,3 +1,4 @@
+import autobahnBrowser from "autobahn-browser";
 import autobahn from "autobahn";
 import { getConfig } from "./config";
 import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
@@ -16,7 +17,9 @@ const createSession = async (): Promise<autobahn.Session> => {
   return new Promise((resolve, reject) => {
     const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
     console.log("Starting WAMP session...");
-    const connection = new autobahn.Connection({
+    const autobahnLocal =
+      typeof window === "undefined" ? autobahn : autobahnBrowser;
+    const connection = new autobahnLocal.Connection({
       url: getBackendUrl(
         (typeof window === "undefined"
           ? serverRuntimeConfig
