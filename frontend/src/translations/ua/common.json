@@ -8,7 +8,7 @@
       "accounts": "Акаунти"
     },
     "blocks": {
-      "blocks": "Blocks",
+      "blocks": "Блоки",
       "status": {
         "fetching_status": "Отримання статусу...",
         "checking_finality": "Перевірка остаточності...",
