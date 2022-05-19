@@ -10,8 +10,7 @@ import { TransactionCountHistory } from "../../types/common";
 
 const chartsStyle = {
   height: 232,
-  marginTop: 26,
-  marginBottom: 26,
+  marginVertical: 26,
 };
 
 type Props = {

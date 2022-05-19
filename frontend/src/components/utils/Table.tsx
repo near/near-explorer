@@ -36,8 +36,7 @@ export const TableRowWrapper = styled("tr", {
         boxShadow:
           "inset 4px 0px 0px #0598eb, inset 0px -1px 0px #f0f0f0, inset 0px 1px 0px #2b9af4, inset -1px 0px 0px #2b9af4",
         transition: "height 0.5s 0.5s, opacity 0.5s",
-        marginTop: 16,
-        marginBottom: 16,
+        marginVertical: 16,
 
         [`& + ${TableExpandRow}`]: {
           boxShadow:

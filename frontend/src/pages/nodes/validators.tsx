@@ -32,8 +32,7 @@ const NodesPage = styled(Content, {
 
 const ContentHeaderWrapper = styled(ContentHeader, {
   background: "#fafafa",
-  marginLeft: -15,
-  marginRight: -15,
+  marginHorizontal: -15,
   paddingBottom: 0,
 
   "@media (min-width: 576px)": {

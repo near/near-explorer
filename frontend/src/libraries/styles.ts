@@ -6,6 +6,14 @@ const stitches = createStitches({
       width: value,
       height: value,
     }),
+    marginHorizontal: (value: PropertyValue<"marginLeft" | "marginRight">) => ({
+      marginLeft: value,
+      marginRight: value,
+    }),
+    marginVertical: (value: PropertyValue<"marginTop" | "marginBottom">) => ({
+      marginTop: value,
+      marginBottom: value,
+    }),
   },
 });
 
