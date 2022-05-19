@@ -73,9 +73,9 @@
       "no": "Ні"
     },
     "date_time": {
-      "date_time_format": "MMMM DD, YYYY [at] h:mm:ssa",
+      "date_time_format": "MMMM DD, YYYY [об] h:mm:ssa",
       "date_format": "MMMM DD, YYYY",
-      "time_format": "[at] h:mm:ssa"
+      "time_format": "[об] h:mm:ssa"
     }
   },
   "page": {
