@@ -1,36 +1,11 @@
 {
-  "compileOnSave": false,
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "jsx": "preserve",
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
-    "strict": true,
-    "moduleResolution": "node",
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types"],
     "lib": ["dom", "es2015", "es2016"],
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "incremental": true
+    "paths": {
+      "common/*": ["../common/*/"]
+    }
   },
   "exclude": ["node_modules", "cypress", "next.config.ts"],
-  "include": [
-    "next-env.d.ts",
-    "additional.d.ts",
-    "svg.d.ts",
-    "i18n.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "include": ["**/*", "../common/**/*", "**/*.json"]
 }
