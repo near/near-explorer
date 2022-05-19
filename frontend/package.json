@@ -1,7 +1,7 @@
 {
-  "name": "near-explorer-frontend",
+  "name": "near-explorer",
   "version": "0.0.1",
-  "description": "NEAR blockchain explorer frontend",
+  "description": "NEAR blockchain explorer",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && env TZ=UTC jest",
@@ -22,7 +22,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:ci": "start-server-and-test start:production-wamp 3000 cy:run",
-    "compile-nextjs-config": "tsc --project nextjs.tsconfig.json"
+    "compile-nextjs-config": "tsc --project nextjs.tsconfig.json",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,7 @@
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
     "@stitches/react": "^1.2.6",
-    "autobahn-browser": "^20.9.2",
+    "autobahn": "^20.9.2",
     "babel-plugin-named-stitches-classnames": "^0.1.0",
     "bootstrap": "^4.6.1",
     "classnames": "^2.3.1",
@@ -53,6 +54,7 @@
     "mixpanel-browser": "^2.42.0",
     "moment": "^2.29.2",
     "next": "^12.1.0",
+    "patch-package": "^6.4.7",
     "rc-progress": "^3.1.4",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",

@@ -103,7 +103,8 @@ $ npm run test:ci
 To run cypress tests:
 
 ```
-$ npm run -w frontend cy:open
+$ cd frontend
+$ ./node-modules/.bin/cypress open
 ```
 
 Then you can choose which tests exactly you want to run.

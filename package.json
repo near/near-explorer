@@ -11,14 +11,8 @@
     "docker:up:testnet": "ENV=testnet docker-compose up",
     "docker:up:mainnet": "ENV=mainnet docker-compose up",
     "docker:up:guildnet": "ENV=guildnet docker-compose up",
-    "typecheck": "npm run -w frontend typecheck && npm run -w backend typecheck",
-    "postinstall": "patch-package"
+    "typecheck": "npm --prefix frontend run typecheck && npm --prefix backend run typecheck"
   },
-  "workspaces": [
-    "common",
-    "frontend",
-    "backend"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -31,7 +25,6 @@
     ]
   },
   "dependencies": {
-    "dotenv-cli": "^5.0.0",
-    "patch-package": "^6.4.7"
+    "dotenv-cli": "^5.0.0"
   }
 }
