@@ -1,4 +1,4 @@
-import autobahn from "autobahn-browser";
+import autobahn from "autobahn";
 import { getConfig } from "./config";
 import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
 import {
