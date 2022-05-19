@@ -468,7 +468,7 @@
         "genesis_height": "Висота генезису",
         "epoch_length": "Тривалiсть епохи",
         "genesis_total_supply": "Повний запас Генезису",
-        "accounts_in_genesis": "Облікові записи в Genesis",
+        "accounts_in_genesis": "Облікові записи в Генезисі",
         "total_supply": "Повний запас",
         "live_accounts": "Активні акаунти"
       },
