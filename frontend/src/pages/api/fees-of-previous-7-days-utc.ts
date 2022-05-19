@@ -12,7 +12,8 @@ const handler: NextApiHandler = async (req, res) => {
         networkName
       )("nearcore-total-fee-count", [i]);
       if (!feeCountPerDay) {
-        return res.status(500).end();
+        res.status(500).end();
+        return;
       }
       resp.push({
         date: moment(feeCountPerDay?.date).format("YYYY-MM-DD"),
