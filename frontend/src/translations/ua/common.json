@@ -27,9 +27,9 @@
         "SuccessValue": "Успішно"
       },
       "execution": {
-        "convert_transaction_to_receipt": "Convert Transaction To Receipt",
-        "gas_burned": "Gas Burned",
-        "tokens_burned": "Tokens Burned"
+        "convert_transaction_to_receipt": "Конвертація транзакції в квитанцію",
+        "gas_burned": "Використано газу",
+        "tokens_burned": "Використано токенів"
       }
     },
     "actions": {
