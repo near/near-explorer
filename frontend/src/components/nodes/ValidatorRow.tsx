@@ -31,8 +31,7 @@ export const ValidatorNodesContentCell = styled(Col, {
 });
 
 export const ValidatorNodesContentRow = styled(Row, {
-  paddingTop: 16,
-  paddingBottom: 16,
+  paddingVertical: 16,
 });
 
 const CumulativeStakeholdersRow = styled("tr", {

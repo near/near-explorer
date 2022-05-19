@@ -14,6 +14,18 @@ const stitches = createStitches({
       marginTop: value,
       marginBottom: value,
     }),
+    paddingHorizontal: (
+      value: PropertyValue<"paddingLeft" | "paddingRight">
+    ) => ({
+      paddingLeft: value,
+      paddingRight: value,
+    }),
+    paddingVertical: (
+      value: PropertyValue<"paddingTop" | "paddingBottom">
+    ) => ({
+      paddingTop: value,
+      paddingBottom: value,
+    }),
   },
 });
 

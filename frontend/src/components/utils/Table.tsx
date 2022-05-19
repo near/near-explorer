@@ -101,8 +101,7 @@ const TableSection = styled("div", {
 
     "& th": {
       border: "none",
-      paddingTop: 16,
-      paddingBottom: 16,
+      paddingVertical: 16,
       color: "#72727a",
       fontWeight: 500,
       fontSize: 12,
