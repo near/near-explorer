@@ -80,8 +80,7 @@ const HeaderNetworkDropdownMenu = styled(Dropdown.Menu, {
 const NetworkIcon = styled("div", {
   display: "inline-block",
   marginRight: 8,
-  width: 8,
-  height: 8,
+  size: 8,
   borderRadius: "50%",
 
   variants: {
@@ -108,8 +107,7 @@ const DropdownArrow = styled("img", {
 });
 
 const IconRight = styled("img", {
-  height: 15,
-  width: 15,
+  size: 15,
   marginLeft: 16,
   marginTop: -3,
 });

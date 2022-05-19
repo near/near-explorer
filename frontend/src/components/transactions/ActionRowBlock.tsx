@@ -13,17 +13,14 @@ const ActionRowImage = styled("div", {
       sparse: {
         margin: 10,
         display: "inline",
-        height: 20,
-        width: 20,
+        size: 20,
 
         "& svg": {
-          height: 16,
-          width: 16,
+          size: 16,
         },
       },
       compact: {
-        width: 24,
-        height: 24,
+        size: 24,
         border: "solid 2px #f8f8f8",
         backgroundColor: "#ffffff",
         borderRadius: "50%",
@@ -32,8 +29,7 @@ const ActionRowImage = styled("div", {
         lineHeight: 1.1,
 
         "& svg": {
-          height: 12,
-          width: 12,
+          size: 12,
         },
       },
     },
