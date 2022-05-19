@@ -180,7 +180,7 @@
           "discord": "Discord",
           "description": "Опис"
         },
-        "pool_info_tip": "Якщо ви є власником нода, не соромтеся заповнювати всі <poolLink>дані</poolLink> для просування власного нода!!"
+        "pool_info_tip": "Якщо ви є власником ноди, не соромтеся заповнювати всі <poolLink>дані</poolLink> для просування власної ноди!"
       },
       "NodesEpoch": {
         "current_epoch_start": "Початок поточної епохи",
