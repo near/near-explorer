@@ -1,5 +1,5 @@
 import { NetworkName } from "../types/common";
-import { subscribeTopic, getLastValue, unsubscribeTopic, fetch } from "./wamp";
+import { subscribeTopic, getLastValue, unsubscribeTopic } from "./pubsub";
 import {
   ProcedureType,
   ProcedureArgs,
@@ -7,6 +7,7 @@ import {
   SubscriptionTopicType,
   SubscriptionTopicTypes,
 } from "../types/common";
+import { getConfig } from "./config";
 
 let subscriptions: Record<string, ((data: any) => void)[]> = {};
 
@@ -39,7 +40,33 @@ export type Fetcher = <P extends ProcedureType>(
   args: ProcedureArgs<P>
 ) => Promise<ProcedureResult<P>>;
 
+export const fetchProcedure = async <P extends ProcedureType>(
+  procedure: P,
+  networkName: NetworkName,
+  args: ProcedureArgs<P>
+): Promise<ProcedureResult<P>> => {
+  const {
+    publicRuntimeConfig: { backendConfig },
+  } = getConfig();
+  const host = backendConfig.hosts[networkName];
+  if (!host) {
+    throw new Error(`Network ${networkName} is not supported on this host`);
+  }
+  const baseUrl = `${backendConfig.secure ? "https" : "http"}://${host}:${
+    backendConfig.port
+  }/`;
+  const response = await fetch(
+    baseUrl + procedure + `?network=${networkName}`,
+    {
+      method: "POST",
+      body: JSON.stringify(args),
+    }
+  );
+  const json = await response.json();
+  return json as ProcedureResult<P>;
+};
+
 export const getFetcher = (networkName: NetworkName): Fetcher => (
   procedure,
   args
-) => fetch(procedure, networkName, args);
+) => fetchProcedure(procedure, networkName, args);

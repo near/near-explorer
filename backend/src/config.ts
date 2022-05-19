@@ -45,12 +45,7 @@ export const config = merge(
       timeoutFetchValidatorsBailout: 2.5 * SECOND,
     },
 
-    transport: {
-      secure: false,
-      port: 10000,
-      host: "localhost",
-      secret: "THIS_IS_LOCALHOST_SECRET",
-    },
+    port: 10000,
   },
   getOverrides("NEAR_EXPLORER_CONFIG")
 );

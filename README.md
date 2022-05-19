@@ -27,8 +27,9 @@ NOTE: You may want to run them in background, so just add `--detach` flag.
 
 Now you can reach the services:
 
--   http://localhost:3000/ -- frontend
--   ws://localhost:10000/ws -- WAMP router (you don't need it unless you are a developer)
+-   http://localhost:3000/ -- frontend server
+-   http://localhost:10000/ -- backend server (you don't need it unless you are a developer)
+-   ws://localhost:10000/ws -- pubsub server (you don't need it unless you are a developer)
 
 ## Development Q&A
 
@@ -37,17 +38,6 @@ Q: How to run the local development version of the frontend/backend?
 A: It is recommended to use `docker-compose` to run all the services and then stop the one that
 you want to develop locally (`docker-compose stop frontend`). (Follow the execution instructions
 written in the relevant README file of the subproject)
-
-Q: How to query Explorer backend from CLI?
-
-A: Having the backend running, you can query it from CLI just like you can do from the frontend using [wamp-cli](https://www.npmjs.com/package/wamp-cli):
-
-```bash
-$ npm install wamp-cli
-$ ./node_modules/.bin/wampc ws://localhost:10000/ws near-explorer
-
-> session.call('com.nearprotocol.mainnet.explorer.contract-info', ["aurora.near"]).then(console.log);
-```
 
 Q: How to auto-format the source code on commit?
 

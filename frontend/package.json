@@ -6,12 +6,12 @@
     "typecheck": "tsc --noEmit",
     "test": "npm run typecheck && env TZ=UTC jest",
     "dev": "dotenv -c -e ../frontend.env -- next",
-    "dev:local-wamp": "npm run dev",
-    "dev:production-wamp": "dotenv -c -e ../production-wamp.env -- npm run dev",
+    "dev:local-backend": "npm run dev",
+    "dev:production-backend": "dotenv -c -e ../production-backend.env -- npm run dev",
     "build": "next build",
     "start": "dotenv -c -e ../frontend.env -- next start",
-    "start:local-wamp": "npm run start",
-    "start:production-wamp": "dotenv -c -e ../production-wamp.env -- npm run start",
+    "start:local-backend": "npm run start",
+    "start:production-backend": "dotenv -c -e ../production-backend.env -- npm run start",
     "e2e:test": "npm start & cypress run",
     "e2e": "cypress run",
     "e2e:chrome": "cypress run --browser chrome",
@@ -21,7 +21,7 @@
     "cy:version": "cypress version",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "test:ci": "start-server-and-test start:production-wamp 3000 cy:run",
+    "test:ci": "start-server-and-test start:production-backend 3000 cy:run",
     "compile-nextjs-config": "tsc --project nextjs.tsconfig.json"
   },
   "repository": {
@@ -64,6 +64,7 @@
     "react-infinite-scroll-component": "^5.1.0",
     "react-paginate": "^7.1.5",
     "react-query": "^3.39.0",
+    "reconnecting-websocket": "^4.4.0",
     "styled-components": "^4.4.0",
     "tslib": "^2.3.1",
     "universal-cookie": "^4.0.4"

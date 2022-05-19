@@ -9,7 +9,12 @@ import { getOverrides } from "./src/libraries/common";
 import { NetworkName } from "./src/types/common";
 
 const defaultBackendConfig: BackendConfig = {
-  host: "localhost",
+  hosts: {
+    mainnet: "localhost",
+    testnet: "localhost",
+    guildnet: "localhost",
+    localhostnet: "localhost",
+  },
   port: 10000,
   secure: false,
 };

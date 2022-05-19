@@ -10,9 +10,9 @@ import { setMomentLanguage } from "../libraries/language";
 import { createQueryClient } from "../libraries/queries";
 
 const networkContext: NetworkContext = {
-  networkName: "testnet",
+  networkName: "localhostnet",
   networks: {
-    testnet: {
+    localhostnet: {
       explorerLink: "http://explorer/",
       nearWalletProfilePrefix: "http://wallet/profile",
     },
@@ -28,6 +28,7 @@ export const renderElement = (
   setMomentLanguage("en");
   let root: ReactTestRenderer;
   const queryClient = createQueryClient();
+  throw new Error("Find out how to fix warning in jest console");
   renderer.act(() => {
     root = renderer.create(
       <ReactQuery.QueryClientProvider client={queryClient}>

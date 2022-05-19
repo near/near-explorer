@@ -1,16 +1,12 @@
-import autobahn from "autobahn";
-import EventEmitter from "events";
-
+import uWS from "uWebSockets.js";
 import { GlobalState } from "./checks";
 import {
-  ProcedureType,
+  OutcomingMessage,
   SubscriptionTopicType,
   SubscriptionTopicTypes,
 } from "./types";
-
 import { config } from "./config";
-import { SECOND } from "./consts";
-import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
+import { wrapTopic } from "./common";
 import { procedureHandlers } from "./procedure-handlers";
 
 export type PubSubController = {
@@ -20,77 +16,89 @@ export type PubSubController = {
   ) => Promise<void>;
 };
 
+const textDecoder = new TextDecoder("utf8");
+
 export const initPubSub = (state: GlobalState): PubSubController => {
-  const wampNearExplorerUrl = getBackendUrl(config.transport);
-  console.log(
-    `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${config.transport.secret}`
-  );
-  const wamp = new autobahn.Connection({
-    realm: "near-explorer",
-    transports: [
-      {
-        url: wampNearExplorerUrl,
-        type: "websocket",
+  let connected = 0;
+  let app = uWS
+    .App()
+    .ws("/ws", {
+      compression: uWS.SHARED_COMPRESSOR,
+      maxPayloadLength: 16 * 1024 * 1024,
+      idleTimeout: 0,
+
+      open: () => {
+        connected++;
       },
-    ],
-    authmethods: ["ticket"],
-    authid: "near-explorer-backend",
-    onchallenge: (_session, method) => {
-      if (method === "ticket") {
-        return config.transport.secret;
-      }
-      throw "WAMP authentication error: unsupported challenge method";
-    },
-    retry_if_unreachable: true,
-    max_retries: Number.MAX_SAFE_INTEGER,
-    max_retry_delay: 10,
-  });
+      close: () => {
+        connected--;
+      },
+      message: (ws, rawMessage) => {
+        const [type, topic]: OutcomingMessage = JSON.parse(
+          textDecoder.decode(rawMessage)
+        );
+        switch (type) {
+          case "sub":
+            return ws.subscribe(topic);
+          case "unsub":
+            return ws.unsubscribe(topic);
+        }
+      },
+    })
+    .get("/ping", (res) => res.end("OK"));
 
-  let currentSessionPromise: Promise<autobahn.Session>;
-  const openEventEmitter = new EventEmitter();
-
-  wamp.onopen = async (session) => {
-    openEventEmitter.emit("opened", session);
-    currentSessionPromise = Promise.resolve(session);
-    console.log("WAMP connection is established. Waiting for commands...");
-
-    for (const [name, handler] of Object.entries(procedureHandlers)) {
-      const uri = wrapProcedure(config.networkName, name as ProcedureType);
-      try {
-        await session.register(uri, (args: any) => handler(args, state));
-      } catch (error) {
-        console.error(`Failed to register "${uri}" handler due to:`, error);
-        wamp.close();
-        setTimeout(() => {
-          wamp.open();
-        }, SECOND);
+  app = Object.entries(procedureHandlers).reduce((app, [key, handler]) => {
+    return app.post("/" + key, async (res) => {
+      res.onAborted(() => {
         return;
+      });
+      try {
+        const data = await new Promise<Buffer>((resolve) => {
+          let data = Buffer.from("");
+          res.onData((chunk, isLast) => {
+            data = Buffer.concat([data, Buffer.from(chunk)]);
+            if (isLast) {
+              resolve(data);
+            }
+          });
+        });
+        const args = JSON.parse(data.toString("utf8"));
+        const result = await handler(args, state);
+        res.writeHeader("Access-Control-Allow-Origin", "*");
+        res.writeStatus("200").end(JSON.stringify(result));
+      } catch (e) {
+        res.writeStatus("500").end(JSON.stringify({ error: e }));
       }
-    }
-  };
-
-  wamp.onclose = (reason) => {
-    currentSessionPromise = new Promise((resolve) => {
-      openEventEmitter.addListener("opened", resolve);
     });
-    console.log(
-      "WAMP connection has been closed (check WAMP router availability and credentials):",
-      reason
-    );
-    return false;
-  };
+  }, app);
 
-  wamp.open();
+  setInterval(() => {
+    console.log("Connections amount:", connected);
+  }, 2500);
+
+  const startPromise = new Promise<void>((resolve, reject) => {
+    const pubSubPort = config.port;
+    app
+      .any("/*", (res) => {
+        res.writeStatus("404").end();
+      })
+      .listen(pubSubPort, (token) => {
+        if (token) {
+          console.log("uWS listening to port " + pubSubPort, token);
+          resolve();
+        } else {
+          console.log("uWS failed to listen to port " + pubSubPort);
+          reject();
+        }
+      });
+  });
   return {
     publish: async (topic, namedArgs) => {
+      await startPromise;
       try {
-        const uri = wrapTopic(config.networkName, topic);
-        const session = await currentSessionPromise;
-        if (!session.isOpen) {
-          console.log(`No session on stack\n${new Error().stack}`);
-          return;
-        }
-        session.publish(uri, [], namedArgs);
+        const wrappedTopic = wrapTopic(config.networkName, topic);
+        const publishMessage = [wrappedTopic, namedArgs];
+        app.publish(wrappedTopic, JSON.stringify(publishMessage));
       } catch (e) {
         console.error(
           `${topic} publishing failed.\n${e}\n${new Error().stack}`

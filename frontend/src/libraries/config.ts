@@ -9,7 +9,7 @@ export interface NearNetwork {
 }
 
 export type BackendConfig = {
-  host: string;
+  hosts: Partial<Record<NetworkName, string>>;
   port: number;
   secure: boolean;
 };
