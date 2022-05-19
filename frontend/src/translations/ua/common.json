@@ -21,10 +21,10 @@
       "transactions": "Транзакції",
       "status": {
         "fetching_status": "Отримання статусу...",
-        "NotStarted": "не розпочато",
-        "Started": "розпочато",
+        "NotStarted": "Не розпочато",
+        "Started": "Розпочато",
         "Failure": "Сталася помилка",
-        "SuccessValue": "успішно"
+        "SuccessValue": "Успішно"
       },
       "execution": {
         "convert_transaction_to_receipt": "Convert Transaction To Receipt",
