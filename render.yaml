@@ -6,8 +6,8 @@ services:
     env: node
     plan: starter plus
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../frontend && npm clean-install && npm run build
-    startCommand: cd frontend && npm run start
+    buildCommand: npm clean-install && npm run -w frontend build
+    startCommand: npm run -w frontend start
     healthCheckPath: /api/ping
     envVars:
       - key: NEAR_EXPLORER_CONFIG__BACKEND__HOST
@@ -63,8 +63,8 @@ services:
     name: backend/mainnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
-    startCommand: cd backend && npm run start
+    buildCommand: npm clean-install && npm run -w backend build
+    startCommand: npm run -w backend start
     envVars:
       - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
@@ -86,8 +86,8 @@ services:
     name: backend/testnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
-    startCommand: cd backend && npm run start
+    buildCommand: npm clean-install && npm run -w backend build
+    startCommand: npm run -w backend start
     envVars:
       - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
@@ -109,8 +109,8 @@ services:
     name: backend/guildnet
     env: node
     repo: https://github.com/near/near-explorer.git
-    buildCommand: cd common && npm clean-install && cd ../backend && npm clean-install && npm run build
-    startCommand: cd backend && npm run start
+    buildCommand: npm clean-install && npm run -w backend build
+    startCommand: npm run -w backend start
     envVars:
       - key: NEAR_EXPLORER_CONFIG__TRANSPORT__HOST
         fromService:
