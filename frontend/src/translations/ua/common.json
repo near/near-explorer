@@ -524,7 +524,7 @@
     "utils": {
       "Search": {
         "title": "Пошук",
-        "hint": "Пошук за ID акаунту, ID квитанції, Txn hash, Block hash, або Block height"
+        "hint": "Пошук за ID акаунту, ID квитанції, хеш транзакції, хеш або висота блоку"
       },
       "Header": {
         "home": "Додому"
