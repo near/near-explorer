@@ -685,11 +685,23 @@ export const queryAccountInfo = async (accountId: string) => {
   }
   return {
     // TODO: Discover how to get rid of non-null type assertion
-    account_id: selection.account_id!,
-    created_at_block_timestamp: selection.created_at_block_timestamp,
-    created_by_transaction_hash: selection.created_by_transaction_hash,
-    deleted_at_block_timestamp: selection.deleted_at_block_timestamp,
-    deleted_by_transaction_hash: selection.deleted_by_transaction_hash,
+    accountId: selection.account_id!,
+    created:
+      selection.created_at_block_timestamp &&
+      selection.created_by_transaction_hash
+        ? {
+            timestamp: selection.created_at_block_timestamp,
+            hash: selection.created_by_transaction_hash,
+          }
+        : undefined,
+    deleted:
+      selection.deleted_at_block_timestamp &&
+      selection.deleted_by_transaction_hash
+        ? {
+            timestamp: selection.deleted_at_block_timestamp,
+            hash: selection.deleted_by_transaction_hash,
+          }
+        : undefined,
   };
 };
 

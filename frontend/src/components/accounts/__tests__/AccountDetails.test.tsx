@@ -11,8 +11,6 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             accountId: "megan.near",
-            createdAtBlockTimestamp: Number(new Date(2019, 1, 1)),
-            createdByTransactionHash: "Genesis",
             details: {
               stakedBalance: "0",
               nonStakedBalance: "654345665432345678765",
@@ -31,8 +29,6 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             accountId: "megan.near",
-            createdByTransactionHash: "Genesis",
-            createdAtBlockTimestamp: 0,
             details: {
               stakedBalance: "0",
               nonStakedBalance: "654345665432345678765",
@@ -51,11 +47,10 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             accountId: "megan.near",
-            deletedAtBlockTimestamp: Number(new Date(2019, 1, 2)),
-            deletedByTransactionHash:
-              "3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp",
-            createdByTransactionHash: "Genesis",
-            createdAtBlockTimestamp: 0,
+            deleted: {
+              timestamp: Number(new Date(2019, 1, 2)),
+              hash: "3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp",
+            },
             details: {
               stakedBalance: "0",
               nonStakedBalance: "654345665432345678765",
@@ -74,9 +69,10 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             accountId: "megan.near",
-            createdAtBlockTimestamp: Number(new Date(2019, 1, 1)),
-            createdByTransactionHash:
-              "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
+            created: {
+              timestamp: Number(new Date(2019, 1, 1)),
+              hash: "EVvWW1S9BFaEjY1JBNSdstb7ZTtTFjQ6cygkbw1KY4tL",
+            },
             details: {
               stakedBalance: "0",
               nonStakedBalance: "654345665432345678765",
@@ -95,9 +91,10 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             accountId: "near.near",
-            createdAtBlockTimestamp: Number(new Date(2019, 1, 1)),
-            createdByTransactionHash:
-              "EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL",
+            created: {
+              timestamp: Number(new Date(2019, 1, 1)),
+              hash: "EVvWW1S9BFlkjkmnjmkb7ZTtTFjQ6cygkbw1KY4tL",
+            },
             details: {
               stakedBalance: "0",
               nonStakedBalance: "6987876845678765",

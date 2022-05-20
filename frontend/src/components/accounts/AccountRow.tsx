@@ -1,4 +1,3 @@
-import JSBI from "jsbi";
 import moment from "moment";
 
 import * as React from "react";
@@ -53,12 +52,6 @@ export interface Props {
   accountId: string;
 }
 
-export interface State {
-  nonStakedBalance?: JSBI;
-  deletedAtBlockTimestamp?: number;
-  createdAtBlockTimestamp?: number;
-}
-
 const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
   const { data: accountInfo } = useQuery("account-info", [accountId]);
@@ -70,7 +63,7 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
           <Col md="auto" xs="1" className="pr-0">
             <AccountIcon
               src={
-                accountInfo?.deletedAtBlockTimestamp
+                accountInfo?.deleted
                   ? "/static/images/icon-t-acct-delete.svg"
                   : "/static/images/icon-t-acct.svg"
               }
@@ -85,10 +78,10 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
             className="ml-auto pt-1 text-right"
           >
             {accountInfo ? (
-              accountInfo.deletedAtBlockTimestamp ? (
+              accountInfo.deleted ? (
                 <TransactionRowTimer>
                   {t("component.accounts.AccountRow.deleted_on")}{" "}
-                  {moment(accountInfo.deletedAtBlockTimestamp).format("LL")}
+                  {moment(accountInfo.deleted.timestamp).format("LL")}
                 </TransactionRowTimer>
               ) : (
                 <>
@@ -97,7 +90,9 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
                   />
                   <TransactionRowTimer>
                     {t("component.accounts.AccountRow.created_on")}{" "}
-                    {moment(accountInfo.createdAtBlockTimestamp).format("LL")}
+                    {accountInfo.created
+                      ? moment(accountInfo.created.timestamp).format("LL")
+                      : "Genesis"}
                   </TransactionRowTimer>
                 </>
               )
