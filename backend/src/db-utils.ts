@@ -1154,6 +1154,7 @@ export const maybeCreateTelemetryTable = async () => {
     .execute();
 };
 
+const extraPool = getPgPool(databaseConfigs.writeOnlyTelemetryDatabase);
 export const maybeSendTelemetry = async (
   nodeInfo: TelemetryRequest,
   geo: geoip.Lookup | null
@@ -1209,10 +1210,9 @@ export const maybeSendTelemetry = async (
   const compileStart = Date.now();
   const compiled = query.compile();
   const compileEnd = Date.now();
-  const pool = getPgPool(databaseConfigs.writeOnlyTelemetryDatabase);
 
   const queryStart = Date.now();
-  await pool.query(compiled.sql, compiled.parameters as any);
+  await extraPool.query(compiled.sql, compiled.parameters as any);
   const queryEnd = Date.now();
 
   const insertEnd = Date.now();
