@@ -377,7 +377,7 @@ export type ProcedureTypes = {
 
   "node-telemetry": {
     args: [TelemetryRequest];
-    result: void;
+    result: any;
   };
 
   "transaction-history": {
