@@ -1159,8 +1159,9 @@ export const maybeSendTelemetry = async (
   geo: geoip.Lookup | null
 ) => {
   if (!telemetryWriteDatabase) {
-    return;
+    return {};
   }
+  const insertStart = Date.now();
   await telemetryWriteDatabase
     .insertInto("nodes")
     .values({
@@ -1205,4 +1206,8 @@ export const maybeSendTelemetry = async (
       })
     )
     .execute();
+  const insertEnd = Date.now();
+  return {
+    insert: { start: insertStart, end: insertEnd },
+  };
 };
