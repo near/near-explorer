@@ -3,10 +3,14 @@ import { KeysOfUnion } from "./util";
 
 export type Account = {
   accountId: string;
-  createdByTransactionHash: string;
-  createdAtBlockTimestamp: number;
-  deletedByTransactionHash?: string;
-  deletedAtBlockTimestamp?: number;
+  created?: {
+    hash: string;
+    timestamp: number;
+  };
+  deleted?: {
+    hash: string;
+    timestamp: number;
+  };
   details: {
     storageUsage: number;
     stakedBalance: string;
