@@ -1162,7 +1162,7 @@ export const maybeSendTelemetry = async (
     return {};
   }
   const insertStart = Date.now();
-  await telemetryWriteDatabase
+  const query = telemetryWriteDatabase
     .insertInto("nodes")
     .values({
       node_id: nodeInfo.chain.node_id,
@@ -1204,10 +1204,21 @@ export const maybeSendTelemetry = async (
         longitude: (eb) => eb.ref("excluded.longitude"),
         city: (eb) => eb.ref("excluded.city"),
       })
-    )
-    .execute();
+    );
+
+  const compileStart = Date.now();
+  const compiled = query.compile();
+  const compileEnd = Date.now();
+  const pool = getPgPool(databaseConfigs.writeOnlyTelemetryDatabase);
+
+  const queryStart = Date.now();
+  await pool.query(compiled.sql, compiled.parameters as any);
+  const queryEnd = Date.now();
+
   const insertEnd = Date.now();
   return {
     insert: { start: insertStart, end: insertEnd },
+    compile: { start: compileStart, end: compileEnd },
+    query: { start: queryStart, end: queryEnd },
   };
 };
