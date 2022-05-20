@@ -72,16 +72,18 @@ export const getAccountInfo = async (accountId: string) => {
     return null;
   }
   return {
-    accountId: accountInfo.account_id,
-    createdByTransactionHash:
-      accountInfo.created_by_transaction_hash || "Genesis",
-    createdAtBlockTimestamp: accountInfo.created_at_block_timestamp
-      ? parseInt(accountInfo.created_at_block_timestamp)
-      : 0,
-    deletedByTransactionHash:
-      accountInfo.deleted_by_transaction_hash || undefined,
-    deletedAtBlockTimestamp: accountInfo.deleted_at_block_timestamp
-      ? parseInt(accountInfo.deleted_at_block_timestamp)
+    accountId: accountInfo.accountId,
+    created: accountInfo.created
+      ? {
+          hash: accountInfo.created.hash,
+          timestamp: parseInt(accountInfo.created.timestamp),
+        }
+      : undefined,
+    deleted: accountInfo.deleted
+      ? {
+          hash: accountInfo.deleted.hash,
+          timestamp: parseInt(accountInfo.deleted.timestamp),
+        }
       : undefined,
   };
 };

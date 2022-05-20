@@ -235,7 +235,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
           nonStakedBalance={account.details.nonStakedBalance}
         />
       ) : null}
-      {!account.deletedAtBlockTimestamp ? (
+      {!account.deleted ? (
         <Row noGutters className="border-0">
           <Col md="4">
             <ColoredCell
@@ -249,22 +249,20 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                 />
               }
               text={
-                account.createdByTransactionHash === "Genesis" ? (
+                !account.created ? (
                   "Genesis"
-                ) : account.createdAtBlockTimestamp ? (
+                ) : (
                   <>
-                    {moment(account.createdAtBlockTimestamp).format(
+                    {moment(account.created.timestamp).format(
                       t("common.date_time.date_time_format")
                     )}
                   </>
-                ) : (
-                  t("common.state.not_available")
                 )
               }
               className="border-0"
             />
           </Col>
-          {account.createdByTransactionHash === "Genesis" ? null : (
+          {!account.created ? null : (
             <Col md="8">
               <ColoredCell
                 title={
@@ -280,10 +278,8 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                 }
                 text={
                   <>
-                    {account.createdByTransactionHash}
-                    <TransactionLink
-                      transactionHash={account.createdByTransactionHash}
-                    >
+                    {account.created.hash}
+                    <TransactionLink transactionHash={account.created.hash}>
                       <TransactionLinkIcon
                         src={"/static/images/icon-m-copy.svg"}
                       />
@@ -310,7 +306,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
               }
               text={
                 <>
-                  {moment(account.deletedAtBlockTimestamp).format(
+                  {moment(account.deleted.timestamp).format(
                     t("common.date_time.date_time_format")
                   )}
                 </>
@@ -333,10 +329,8 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
               }
               text={
                 <>
-                  {account.deletedByTransactionHash}
-                  <TransactionLink
-                    transactionHash={account.deletedByTransactionHash!}
-                  >
+                  {account.deleted.hash}
+                  <TransactionLink transactionHash={account.deleted.hash}>
                     <TransactionLinkIcon
                       src={"/static/images/icon-m-copy.svg"}
                     />
