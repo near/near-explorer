@@ -103,9 +103,6 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
-  const commonProps = {
-    accountId,
-  };
 
   try {
     const prefetchObject = getPrefetchObject(query, req.headers.host);
@@ -116,11 +113,10 @@ export const getServerSideProps: GetServerSideProps<
         dehydratedState: prefetchObject.dehydrate(),
       },
     };
-  } catch (accountError) {
+  } catch {
     return {
       props: {
-        ...commonProps,
-        accountFetchingError: String(accountError),
+        accountId,
       },
     };
   }
