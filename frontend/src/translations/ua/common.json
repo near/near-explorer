@@ -467,8 +467,8 @@
         "genesis_protocol_or_current_protocol": "Протокол генезису / поточний протокол",
         "genesis_height": "Висота генезису",
         "epoch_length": "Тривалiсть епохи",
-        "genesis_total_supply": "Повний запас Генезису",
-        "accounts_in_genesis": "Облікові записи в Генезисі",
+        "genesis_total_supply": "Повний запас генезису",
+        "accounts_in_genesis": "Облікові записи в генезисі",
         "total_supply": "Повний запас",
         "live_accounts": "Активні акаунти"
       },
