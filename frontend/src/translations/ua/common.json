@@ -299,7 +299,7 @@
         "result": "Результат",
         "empty_result": "Порожній результат",
         "failure": "Невдача",
-        "success_receipt_id": "SuccessReceiptId",
+        "success_receipt_id": "ID квитанції що має бути використано як результат та статус виконання транзакції",
         "no_logs": "Логи відсутні",
         "no_actions": "Дії відсутні"
       }
