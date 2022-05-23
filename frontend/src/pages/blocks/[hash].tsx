@@ -71,7 +71,7 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
-            <Transactions fetch={fetch} />
+            <Transactions fetch={fetch} queryKey={props.hash} />
           </Content>
 
           <Content

@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as ReactQuery from "react-query";
 
 import FlipMove from "../utils/FlipMove";
 import ListHandler, { StaticConfig } from "../utils/ListHandler";
@@ -36,14 +37,15 @@ const Transactions: React.FC<InnerProps> = React.memo(({ items }) => {
 
 export type Props = {
   fetch: StaticConfig<TransactionBaseInfo, TransactionPagination>["fetch"];
+  queryKey: ReactQuery.QueryKey;
 };
 
-const TransactionsList: React.FC<Props> = ({ fetch }) => {
+const TransactionsList: React.FC<Props> = ({ fetch, queryKey }) => {
   const Component = React.useMemo(
     () =>
       ListHandler({
         Component: Transactions,
-        key: "Transaction",
+        key: ["Transaction", queryKey],
         paginationIndexer: (lastPage) => {
           const lastElement = lastPage[lastPage.length - 1];
           if (!lastElement) {
@@ -56,7 +58,7 @@ const TransactionsList: React.FC<Props> = ({ fetch }) => {
         },
         fetch,
       }),
-    [fetch]
+    [fetch, queryKey]
   );
   return <Component />;
 };
