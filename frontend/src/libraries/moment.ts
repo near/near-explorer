@@ -3,6 +3,7 @@ import moment from "moment";
 import "moment/locale/ru";
 import "moment/locale/zh-cn";
 import "moment/locale/vi";
+import "moment/locale/uk";
 
 moment.relativeTimeThreshold("ss", 1);
 
@@ -90,6 +91,27 @@ moment.updateLocale("ru", {
   },
 });
 
+moment.updateLocale("uk", {
+  relativeTime: {
+    future: "через %s",
+    past: "%s назад",
+    s: "секунд",
+    ss: relativeTimeWithPluralUa,
+    m: relativeTimeWithPluralUa,
+    mm: relativeTimeWithPluralUa,
+    h: "годниа",
+    hh: relativeTimeWithPluralUa,
+    d: "день",
+    dd: relativeTimeWithPluralUa,
+    w: "тиждень",
+    ww: relativeTimeWithPluralUa,
+    M: "місяць",
+    MM: relativeTimeWithPluralUa,
+    y: "рік",
+    yy: relativeTimeWithPluralUa,
+  },
+});
+
 function plural(word: string, num: number): string {
   var forms = word.split("_");
   return num % 10 === 1 && num % 100 !== 11
@@ -114,6 +136,27 @@ function relativeTimeWithPlural(
   };
   if (key === "m") {
     return withoutSuffix ? "минута" : "минуту";
+  } else {
+    return number + " " + plural(format[key], +number);
+  }
+}
+
+function relativeTimeWithPluralUa(
+  number: number,
+  withoutSuffix: boolean,
+  key: string
+) {
+  const format: Record<string, string> = {
+    ss: withoutSuffix ? "секунда_секунди_секунд" : "секунду_секунди_секунд",
+    mm: withoutSuffix ? "хвилина_хвилини_хвилин" : "хвилину_хвилини_хвилин",
+    hh: "гадина_години_годин",
+    dd: "день_дня_днів",
+    ww: "тиждень_тижня_тижнів",
+    MM: "місяць_місяця_місяців",
+    yy: "рік_року_років",
+  };
+  if (key === "m") {
+    return withoutSuffix ? "хвилина" : "хвилину";
   } else {
     return number + " " + plural(format[key], +number);
   }

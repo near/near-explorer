@@ -55,6 +55,7 @@ const LANGUAGE_NAMES: Record<Language, string> = {
   "zh-Hans": "简体中文",
   vi: "Tiếng Việt",
   ru: "Русский",
+  uk: "Українська",
 };
 
 type Props = {
