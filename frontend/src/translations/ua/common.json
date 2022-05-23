@@ -13,7 +13,7 @@
         "fetching_status": "Отримання статусу...",
         "checking_finality": "Перевірка остаточності...",
         "finalized": "Завершено",
-        "finalizing": "Завершаємо"
+        "finalizing": "Завершуємо"
       }
     },
     "transactions": {
