@@ -11,8 +11,7 @@ import { useQuery } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
 
 const TransactionRow = styled(Row, {
-  paddingTop: 10,
-  paddingBottom: 10,
+  paddingVertical: 10,
   borderTop: "solid 2px #f8f8f8",
   "&:hover": {
     background: "rgba(0, 0, 0, 0.1)",

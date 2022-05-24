@@ -24,21 +24,18 @@ const NodesPage = styled(Content, {
 
   "@media (max-width: 576px)": {
     "& > .container-fluid, & > .container-fluid > .container": {
-      paddingLeft: 0,
-      paddingRight: 0,
+      paddingHorizontal: 0,
     },
   },
 });
 
 const ContentHeaderWrapper = styled(ContentHeader, {
   background: "#fafafa",
-  marginLeft: -15,
-  marginRight: -15,
+  marginHorizontal: -15,
   paddingBottom: 0,
 
   "@media (min-width: 576px)": {
-    paddingLeft: 32,
-    paddingRight: 32,
+    paddingHorizontal: 32,
   },
 });
 

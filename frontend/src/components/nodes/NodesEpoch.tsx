@@ -27,8 +27,7 @@ const NodesEpochRow = styled(Row, {
 });
 
 const NodesEpochLineProgress = styled(ProgressBar, {
-  paddingLeft: 0,
-  paddingRight: 0,
+  paddingHorizontal: 0,
   height: 4,
 });
 

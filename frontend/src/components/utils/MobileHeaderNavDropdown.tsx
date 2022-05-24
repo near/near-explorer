@@ -20,8 +20,7 @@ const Icon = styled("svg", {
 const HeaderNavLink = styled("a", {
   color: "#a5a5a5",
   display: "block",
-  paddingTop: 14,
-  paddingBottom: 14,
+  paddingVertical: 14,
   paddingLeft: 16,
   width: "100%",
 
@@ -93,9 +92,8 @@ const Bar = styled("div", {
 });
 
 const MobileNav = styled("div", {
-  paddingTop: 14,
+  paddingVertical: 14,
   paddingLeft: 16,
-  paddingBottom: 15,
   color: "#f8f8f8",
   letterSpacing: 1,
 });

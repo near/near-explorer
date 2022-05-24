@@ -10,8 +10,7 @@ const ContentContainer = styled(Container, {
 
 export const ContentHeader = styled(Row, {
   padding: "2em 0.9375em 1em",
-  marginLeft: 0,
-  marginRight: 0,
+  marginHorizontal: 0,
 
   variants: {
     bordered: {
