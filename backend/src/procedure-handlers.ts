@@ -13,18 +13,20 @@ import * as accounts from "./accounts";
 import * as telemetry from "./telemetry";
 
 import { sendJsonRpc, sendJsonRpcQuery } from "./near";
-import { GlobalState } from "./checks";
+import { GlobalState } from "./global-state";
 import { formatDate } from "./utils";
 import { config } from "./config";
 
 const promisifiedExec = promisify(exec);
 
-export const procedureHandlers: {
+export type ProcedureHandlers = {
   [P in keyof ProcedureTypes]: (
     args: ProcedureTypes[P]["args"],
     state: GlobalState
   ) => Promise<ProcedureTypes[P]["result"]>;
-} = {
+};
+
+export const procedureHandlers: ProcedureHandlers = {
   "node-telemetry": async ([nodeInfo]) => {
     return telemetry.sendTelemetry(nodeInfo);
   },
