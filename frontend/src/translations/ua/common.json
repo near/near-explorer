@@ -40,7 +40,7 @@
       "receipts": "Квитанції",
       "receipt_id": "ID квитанції",
       "executed_in_block": "Виконано в блоку",
-      "predecessor_id": "ID попередника",
+      "predecessor_id": "ID відправника",
       "receiver_id": "ID одержувача",
       "status": {
         "Unknown": "Невідомо",
@@ -164,7 +164,7 @@
           "title": "Останнє оновлення телеметрії"
         },
         "node_agent_name": {
-          "text": "Протокол NEAR може мати кілька реалізацій, тому агент - це ім'я цієї реалізації, де 'near-rs' - це <nearCoreLink>офіційна реалізація</nearCoreLink>..",
+          "text": "Протокол NEAR може мати кілька реалізацій, тому агент - це ім'я цієї реалізації, де 'near-rs' - це <nearCoreLink>офіційна реалізація</nearCoreLink>.",
           "title": "Ім'я агента вузла"
         },
         "node_agent_version_or_build": {
@@ -224,12 +224,12 @@
           "contract_deployed": "Контракт розміщено: "
         },
         "FunctionCall": {
-          "called_method": "Викликаний метод: '${method_name}' в контракті: ",
+          "called_method": "Викликано метод: '${method_name}' в контракті: ",
           "arguments": "Аргументи:"
         },
         "Transfer": {
-          "transferred": "Надіслано",
-          "to": " на "
+          "transferred": "Надіслано ",
+          "to": " "
         },
         "Stake": {
           "staked": "Застейкано: ",

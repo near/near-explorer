@@ -94,12 +94,12 @@ moment.updateLocale("ru", {
 moment.updateLocale("uk", {
   relativeTime: {
     future: "через %s",
-    past: "%s назад",
+    past: "%s тому",
     s: "секунд",
     ss: relativeTimeWithPluralUa,
     m: relativeTimeWithPluralUa,
     mm: relativeTimeWithPluralUa,
-    h: "годниа",
+    h: "година",
     hh: relativeTimeWithPluralUa,
     d: "день",
     dd: relativeTimeWithPluralUa,
