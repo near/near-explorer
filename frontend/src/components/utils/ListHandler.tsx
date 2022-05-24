@@ -38,7 +38,7 @@ const LoadButton = styled("button", {
 });
 
 export type StaticConfig<T, I> = {
-  key: string;
+  key: ReactQuery.QueryKey;
   Component: React.FC<{ items: T[] }>;
   paginationIndexer: ReactQuery.GetNextPageParamFunction<T[]>;
   hasUpdateButton?: boolean;
