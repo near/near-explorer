@@ -33,7 +33,7 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
     className="col-auto"
   >
     <div
-      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-idjfRB-type-compact"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
     >
       <test-file-stub />
     </div>
@@ -146,7 +146,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-idjfRB-type-compact"
+        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
       >
         <test-file-stub />
       </div>
@@ -255,7 +255,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-idjfRB-type-compact"
+        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-eBHKI-type-compact"
       >
         <test-file-stub />
       </div>
@@ -372,7 +372,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
     className="col-auto"
   >
     <div
-      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
     >
       <test-file-stub />
     </div>
@@ -511,7 +511,7 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
     className="col-auto"
   >
     <div
-      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
     >
       <test-file-stub />
     </div>
@@ -624,7 +624,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
       >
         <test-file-stub />
       </div>
@@ -733,7 +733,7 @@ Array [
       className="col-auto"
     >
       <div
-        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+        className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
       >
         <test-file-stub />
       </div>

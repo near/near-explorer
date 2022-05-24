@@ -126,7 +126,7 @@ exports[`<NodesEpoch /> renders 1`] = `
     className="d-none d-md-block px-0 col-12"
   >
     <div
-      className="c-ProgressBarWrapper-zRPCk c-NodesEpochLineProgress-qhFsX progress-bar"
+      className="c-ProgressBarWrapper-zRPCk c-NodesEpochLineProgress-cCPkdF progress-bar"
     >
       <svg
         className="rc-progress-line c-ProgressBarElement-kDmFHT"

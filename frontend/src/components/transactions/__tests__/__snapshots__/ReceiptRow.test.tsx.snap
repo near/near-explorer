@@ -176,7 +176,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
             className="col-auto"
           >
             <div
-              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
             >
               <test-file-stub />
             </div>
@@ -465,7 +465,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                     className="col-auto"
                   >
                     <div
-                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
                     >
                       <test-file-stub />
                     </div>
@@ -719,7 +719,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
             className="col-auto"
           >
             <div
-              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
             >
               <test-file-stub />
             </div>
@@ -998,7 +998,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     className="col-auto"
                   >
                     <div
-                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
                     >
                       <test-file-stub />
                     </div>
@@ -1288,7 +1288,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             className="col-auto"
                           >
                             <div
-                              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+                              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
                             >
                               <test-file-stub />
                             </div>
@@ -1547,7 +1547,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     className="col-auto"
                   >
                     <div
-                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
                     >
                       <test-file-stub />
                     </div>
@@ -1837,7 +1837,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                             className="col-auto"
                           >
                             <div
-                              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+                              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
                             >
                               <test-file-stub />
                             </div>
@@ -2096,7 +2096,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                     className="col-auto"
                   >
                     <div
-                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
                     >
                       <test-file-stub />
                     </div>
@@ -2350,7 +2350,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
             className="col-auto"
           >
             <div
-              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+              className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
             >
               <test-file-stub />
             </div>
@@ -2645,7 +2645,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                     className="col-auto"
                   >
                     <div
-                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-GvEWB-type-sparse"
+                      className="c-ActionRowImage-PJLV c-ActionRowImage-PJLV-LCgTA-type-sparse"
                     >
                       <test-file-stub />
                     </div>

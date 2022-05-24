@@ -28,7 +28,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               component.transactions.TransactionDetails.signed_by.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -79,7 +79,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               component.transactions.TransactionDetails.receiver.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -130,7 +130,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               component.transactions.TransactionDetails.status.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -179,7 +179,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               component.transactions.TransactionDetails.transaction_fee.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -228,7 +228,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               component.transactions.TransactionDetails.deposit_value.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -277,7 +277,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               component.transactions.TransactionDetails.gas_used.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -317,7 +317,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               />
               component.transactions.TransactionDetails.attached_gas.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -357,7 +357,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               component.transactions.TransactionDetails.created.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -393,7 +393,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               component.transactions.TransactionDetails.hash.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -433,7 +433,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             >
               component.transactions.TransactionDetails.block_hash.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -494,7 +494,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               component.transactions.TransactionDetails.signed_by.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -545,7 +545,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               component.transactions.TransactionDetails.receiver.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -596,7 +596,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               component.transactions.TransactionDetails.status.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -645,7 +645,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               component.transactions.TransactionDetails.transaction_fee.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -694,7 +694,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               component.transactions.TransactionDetails.deposit_value.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -743,7 +743,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               component.transactions.TransactionDetails.gas_used.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -783,7 +783,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               />
               component.transactions.TransactionDetails.attached_gas.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -823,7 +823,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               component.transactions.TransactionDetails.created.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -859,7 +859,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               component.transactions.TransactionDetails.hash.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -899,7 +899,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             >
               component.transactions.TransactionDetails.block_hash.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -960,7 +960,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               component.transactions.TransactionDetails.signed_by.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1011,7 +1011,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               component.transactions.TransactionDetails.receiver.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1062,7 +1062,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               component.transactions.TransactionDetails.status.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1111,7 +1111,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               component.transactions.TransactionDetails.transaction_fee.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1160,7 +1160,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               component.transactions.TransactionDetails.deposit_value.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1209,7 +1209,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               component.transactions.TransactionDetails.gas_used.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1249,7 +1249,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               />
               component.transactions.TransactionDetails.attached_gas.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1289,7 +1289,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               component.transactions.TransactionDetails.created.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1325,7 +1325,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               component.transactions.TransactionDetails.hash.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1365,7 +1365,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             >
               component.transactions.TransactionDetails.block_hash.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img

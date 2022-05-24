@@ -4,7 +4,7 @@ exports[`<CardCell /> renders 1`] = `
 Array [
   "Nodes Online",
   <div
-    className="c-TermHelper-gkIpUV"
+    className="c-TermHelper-ZvBTK"
     onClick={[Function]}
   >
     <img

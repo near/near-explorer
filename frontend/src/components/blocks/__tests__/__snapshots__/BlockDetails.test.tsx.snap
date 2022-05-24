@@ -31,7 +31,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 />
                 component.blocks.BlockDetails.transactions.title
                 <div
-                  className="c-TermHelper-gkIpUV"
+                  className="c-TermHelper-ZvBTK"
                   onClick={[Function]}
                 >
                   <img
@@ -97,7 +97,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 />
                 component.blocks.BlockDetails.status.title
                 <div
-                  className="c-TermHelper-gkIpUV"
+                  className="c-TermHelper-ZvBTK"
                   onClick={[Function]}
                 >
                   <img
@@ -178,7 +178,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 />
                 component.blocks.BlockDetails.gas_used.title
                 <div
-                  className="c-TermHelper-gkIpUV"
+                  className="c-TermHelper-ZvBTK"
                   onClick={[Function]}
                 >
                   <img
@@ -218,7 +218,7 @@ exports[`<BlockDetails /> renders 1`] = `
                 />
                 component.blocks.BlockDetails.gas_price.title
                 <div
-                  className="c-TermHelper-gkIpUV"
+                  className="c-TermHelper-ZvBTK"
                   onClick={[Function]}
                 >
                   <img
@@ -266,7 +266,7 @@ exports[`<BlockDetails /> renders 1`] = `
               >
                 component.blocks.BlockDetails.created.title
                 <div
-                  className="c-TermHelper-gkIpUV"
+                  className="c-TermHelper-ZvBTK"
                   onClick={[Function]}
                 >
                   <img
@@ -302,7 +302,7 @@ exports[`<BlockDetails /> renders 1`] = `
               >
                 component.blocks.BlockDetails.hash.title
                 <div
-                  className="c-TermHelper-gkIpUV"
+                  className="c-TermHelper-ZvBTK"
                   onClick={[Function]}
                 >
                   <img
@@ -342,7 +342,7 @@ exports[`<BlockDetails /> renders 1`] = `
               >
                 component.blocks.BlockDetails.parent_hash.title
                 <div
-                  className="c-TermHelper-gkIpUV"
+                  className="c-TermHelper-ZvBTK"
                   onClick={[Function]}
                 >
                   <img

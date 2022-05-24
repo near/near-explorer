@@ -135,7 +135,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row with full data 1`] = `
         }
       />
       <div
-        className="c-Label-dmIDyz"
+        className="c-Label-hocOjJ"
       >
         50.14%
       </div>
@@ -267,7 +267,7 @@ exports[`<ValidatorRow /> renders 'active' Validators row without 'description' 
         }
       />
       <div
-        className="c-Label-dmIDyz"
+        className="c-Label-hocOjJ"
       >
         50.14%
       </div>
@@ -359,7 +359,7 @@ exports[`<ValidatorRow /> renders 'idle' Validators row with minimum data 1`] = 
       className="c-Wrapper-jTdjUT"
     >
       <div
-        className="c-Label-dmIDyz"
+        className="c-Label-hocOjJ"
       >
         common.state.not_available
       </div>
@@ -492,7 +492,7 @@ Array [
           }
         />
         <div
-          className="c-Label-dmIDyz"
+          className="c-Label-hocOjJ"
         >
           50.14%
         </div>

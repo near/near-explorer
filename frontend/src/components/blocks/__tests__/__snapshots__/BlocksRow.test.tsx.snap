@@ -11,7 +11,7 @@ exports[`<BlocksRow /> renders 1`] = `
     onMouseEnter={[Function]}
   >
     <div
-      className="c-TransactionRow-lhkeTw mx-0 row"
+      className="c-TransactionRow-keHKEY mx-0 row"
     >
       <div
         className="pr-0 col-md-auto col-1"

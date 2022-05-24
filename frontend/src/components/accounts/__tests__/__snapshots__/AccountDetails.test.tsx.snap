@@ -28,7 +28,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               />
               component.accounts.AccountDetails.transactions.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -80,7 +80,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               />
               component.accounts.AccountDetails.storage_usage.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -127,7 +127,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
               />
               component.accounts.AccountDetails.lockup_account.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -178,7 +178,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               component.accounts.AccountDetails.native_account_balance.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -223,7 +223,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               component.accounts.AccountDetails.validator_stake.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -268,7 +268,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               component.accounts.AccountDetails.balance_profile.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -319,7 +319,7 @@ exports[`<AccountDetails /> renders with account created at genesis (legacy) 1`]
             >
               component.accounts.AccountDetails.created_at.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -370,7 +370,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               />
               component.accounts.AccountDetails.transactions.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -422,7 +422,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               />
               component.accounts.AccountDetails.storage_usage.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -469,7 +469,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
               />
               component.accounts.AccountDetails.lockup_account.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -520,7 +520,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               component.accounts.AccountDetails.native_account_balance.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -565,7 +565,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               component.accounts.AccountDetails.validator_stake.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -610,7 +610,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               component.accounts.AccountDetails.balance_profile.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -661,7 +661,7 @@ exports[`<AccountDetails /> renders with account created at genesis 1`] = `
             >
               component.accounts.AccountDetails.created_at.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -712,7 +712,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               />
               component.accounts.AccountDetails.transactions.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -764,7 +764,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               />
               component.accounts.AccountDetails.storage_usage.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -811,7 +811,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
               />
               component.accounts.AccountDetails.lockup_account.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -862,7 +862,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               component.accounts.AccountDetails.native_account_balance.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -907,7 +907,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               component.accounts.AccountDetails.validator_stake.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -952,7 +952,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               component.accounts.AccountDetails.balance_profile.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1003,7 +1003,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               component.accounts.AccountDetails.deleted_at.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1039,7 +1039,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             >
               component.accounts.AccountDetails.deleted_by_transaction.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1104,7 +1104,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               />
               component.accounts.AccountDetails.transactions.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1156,7 +1156,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               />
               component.accounts.AccountDetails.storage_usage.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1203,7 +1203,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
               />
               component.accounts.AccountDetails.lockup_account.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1254,7 +1254,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               component.accounts.AccountDetails.native_account_balance.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1299,7 +1299,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               component.accounts.AccountDetails.validator_stake.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1344,7 +1344,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               component.accounts.AccountDetails.balance_profile.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1395,7 +1395,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               component.accounts.AccountDetails.created_at.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1431,7 +1431,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             >
               component.accounts.AccountDetails.created_by_transaction.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1496,7 +1496,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               />
               component.accounts.AccountDetails.transactions.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1548,7 +1548,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
               />
               component.accounts.AccountDetails.storage_usage.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1595,7 +1595,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               component.accounts.AccountDetails.native_account_balance.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1640,7 +1640,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               component.accounts.AccountDetails.validator_stake.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1685,7 +1685,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               component.accounts.AccountDetails.balance_profile.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1736,7 +1736,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               component.accounts.AccountDetails.created_at.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
@@ -1772,7 +1772,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             >
               component.accounts.AccountDetails.created_by_transaction.title
               <div
-                className="c-TermHelper-gkIpUV"
+                className="c-TermHelper-ZvBTK"
                 onClick={[Function]}
               >
                 <img
