@@ -27,7 +27,7 @@ const TransactionsPage: NextPage = React.memo(() => {
         <title>NEAR Explorer | Transactions</title>
       </Head>
       <Content title={<h1>{t("common.transactions.transactions")}</h1>}>
-        <Transactions fetch={fetch} queryKey={"total-list"} />
+        <Transactions fetch={fetch} />
       </Content>
     </>
   );

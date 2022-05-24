@@ -37,7 +37,7 @@ const Transactions: React.FC<InnerProps> = React.memo(({ items }) => {
 
 export type Props = {
   fetch: StaticConfig<TransactionBaseInfo, TransactionPagination>["fetch"];
-  queryKey: ReactQuery.QueryKey;
+  queryKey?: ReactQuery.QueryKey;
 };
 
 const TransactionsList: React.FC<Props> = ({ fetch, queryKey }) => {

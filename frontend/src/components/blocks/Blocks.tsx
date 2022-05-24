@@ -24,7 +24,7 @@ const Blocks: React.FC<Props> = React.memo(({ items }) => (
 
 const BlocksList = ListHandler<BlockBase, number>({
   Component: Blocks,
-  key: ["Block", "total-list"],
+  key: "Block",
   hasUpdateButton: true,
   paginationIndexer: (lastPage) => {
     const lastElement = lastPage[lastPage.length - 1];

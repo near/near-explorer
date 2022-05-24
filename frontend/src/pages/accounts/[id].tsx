@@ -82,7 +82,7 @@ const AccountDetail: NextPage<Props> = React.memo(({ accountId }) => {
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
-            <Transactions fetch={fetch} queryKey={accountId} />
+            <Transactions fetch={fetch} queryKey={["account", accountId]} />
           </Content>
         </>
       )}

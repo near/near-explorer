@@ -23,7 +23,7 @@ const Accounts: React.FC<Props> = React.memo(({ items }) => (
 
 const AccountsList = ListHandler<AccountListInfo, number>({
   Component: Accounts,
-  key: ["Account", "total-list"],
+  key: "Account",
   paginationIndexer: (lastPage) => {
     const lastElement = lastPage[lastPage.length - 1];
     if (!lastElement) {
