@@ -114,6 +114,8 @@ export function setMomentLanguage(language: Language): string {
       return moment.locale("vi");
     case "zh-Hans":
       return moment.locale("zh-cn");
+    case "uk":
+      return moment.locale("uk");
   }
 }
 
