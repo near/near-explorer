@@ -26,13 +26,7 @@ export const procedureHandlers: {
   ) => Promise<ProcedureTypes[P]["result"]>;
 } = {
   "node-telemetry": async ([nodeInfo]) => {
-    const start = Date.now();
-    const timing = await telemetry.sendTelemetry(nodeInfo);
-    const end = Date.now();
-    return {
-      general: { start, end },
-      ...timing,
-    };
+    return telemetry.sendTelemetry(nodeInfo);
   },
 
   "nearcore-final-block": async () => {

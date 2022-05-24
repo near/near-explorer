@@ -1172,9 +1172,8 @@ export const maybeSendTelemetry = async (
   geo: geoip.Lookup | null
 ) => {
   if (!telemetryWriteDatabase) {
-    return {};
+    return;
   }
-  const insertStart = Date.now();
   const query = telemetryWriteDatabase
     .insertInto("nodes")
     .values({
@@ -1219,18 +1218,7 @@ export const maybeSendTelemetry = async (
       })
     );
 
-  const compileStart = Date.now();
   const compiled = query.compile();
-  const compileEnd = Date.now();
-
-  const queryStart = Date.now();
+  // TODO: figure out why raw query run faster than kysely query
   await extraPool.query(compiled.sql, compiled.parameters as any);
-  const queryEnd = Date.now();
-
-  const insertEnd = Date.now();
-  return {
-    insert: { start: insertStart, end: insertEnd },
-    compile: { start: compileStart, end: compileEnd },
-    query: { start: queryStart, end: queryEnd },
-  };
 };

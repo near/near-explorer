@@ -10,12 +10,12 @@ export const setup = async () => {
 
 export const sendTelemetry = async (
   nodeInfo: TelemetryRequest
-): Promise<any> => {
+): Promise<void> => {
   if (!nodeInfo.hasOwnProperty("agent")) {
     // This seems to be an old format, and all our nodes should support the new
     // Telemetry format as of 2020-04-14, so we just ignore those old Telemetry
     // reports.
-    return {};
+    return;
   }
 
   // TODO update validators list ones per epoch
@@ -52,12 +52,6 @@ export const sendTelemetry = async (
     }
   }
   */
-  const geoStart = Date.now();
   const geo = geoip.lookup(nodeInfo.ip_address);
-  const geoEnd = Date.now();
-  const timing = await maybeSendTelemetry(nodeInfo, geo);
-  return {
-    geo: { start: geoStart, end: geoEnd },
-    ...timing,
-  };
+  return maybeSendTelemetry(nodeInfo, geo);
 };
