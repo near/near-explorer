@@ -11,13 +11,13 @@ const handler: NextApiHandler = async (req, res) => {
 
     const networkName = getNearNetworkName(req.query, req.headers.host);
 
-    const timing = await getFetcher(networkName)("node-telemetry", [
+    await getFetcher(networkName)("node-telemetry", [
       {
         ...req.body,
         ip_address: ip_address,
       },
     ]);
-    res.send(req.query.debug ? { timing } : {});
+    res.send({});
   } catch (error) {
     console.error(`Handler ${req.url} failed:`, error);
     res.status(400).send(error);
