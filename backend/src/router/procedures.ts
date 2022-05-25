@@ -201,34 +201,10 @@ export const router = trpc
       if (!isTransactionIndexed) {
         return null;
       }
-      const transactionBaseInfo = await transactions.getTransactionInfo(
-        transactionHash
-      );
-      if (!transactionBaseInfo) {
-        throw new Error(`No hash ${transactionHash} found`);
-      }
-      const transactionInfo = await nearApi.sendJsonRpc("EXPERIMENTAL_tx_status", [
-        transactionBaseInfo.hash,
-        transactionBaseInfo.signerId,
-      ]);
-
-      return {
-        hash: transactionBaseInfo.hash,
-        created: {
-          timestamp: transactionBaseInfo.blockTimestamp,
-          blockHash: transactionBaseInfo.blockHash,
-        },
-        transactionIndex: transactionBaseInfo.transactionIndex,
-        receipts: transactionInfo.receipts,
-        receiptsOutcome: transactionInfo.receipts_outcome,
-        status: Object.keys(transactionInfo.status)[0],
-        transaction: transactionInfo.transaction,
-        transactionOutcome: transactionInfo.transaction_outcome,
-      };
+      return await transactions.getTransactionDetails(transactionHash);
     },
   })
   // accounts
-<<<<<<< HEAD
   .query("new-accounts-count-aggregated-by-date", {
     resolve: () => {
       return stats.getNewAccountsCountByDate();
@@ -346,124 +322,6 @@ export const router = trpc
 
       const idsToFetch = accounts.getIdsFromAccountChanges(changes);
       const [
-=======
-  "new-accounts-count-aggregated-by-date": async () => {
-    return await stats.getNewAccountsCountByDate();
-  },
-
-  "live-accounts-count-aggregated-by-date": async () => {
-    return await stats.getLiveAccountsCountByDate();
-  },
-
-  "active-accounts-count-aggregated-by-week": async () => {
-    return await stats.getActiveAccountsCountByWeek();
-  },
-
-  "active-accounts-count-aggregated-by-date": async () => {
-    return await stats.getActiveAccountsCountByDate();
-  },
-
-  "active-accounts-list": async () => {
-    return await stats.getActiveAccountsList();
-  },
-
-  account: async ([accountId]) => {
-    const isAccountIndexed = await accounts.isAccountIndexed(accountId);
-    if (!isAccountIndexed) {
-      return null;
-    }
-    const [
-      accountInfo,
-      accountDetails,
-      nearCoreAccount,
-      transactionsCount,
-    ] = await Promise.all([
-      accounts.getAccountInfo(accountId),
-      accounts.getAccountDetails(accountId),
-      nearApi.sendJsonRpcQuery("view_account", {
-        finality: "final",
-        account_id: accountId,
-      }),
-      accounts.getAccountTransactionsCount(accountId),
-    ]);
-    if (!accountInfo || !accountDetails) {
-      return null;
-    }
-    return {
-      id: accountId,
-      isContract:
-        nearCoreAccount.code_hash !== "11111111111111111111111111111111",
-      created: accountInfo.created,
-      storageUsed: accountDetails.storageUsage,
-      nonStakedBalance: accountDetails.nonStakedBalance,
-      stakedBalance: accountDetails.stakedBalance,
-      transactionsQuantity:
-        transactionsCount.inTransactionsCount +
-        transactionsCount.outTransactionsCount,
-    };
-  },
-
-  transaction: async ([transactionHash]) => {
-    const isTransactionIndexed = await transactions.getIsTransactionIndexed(
-      transactionHash
-    );
-    if (!isTransactionIndexed) {
-      return null;
-    }
-    return await transactions.getTransactionDetails(transactionHash);
-  },
-
-  "is-account-indexed": async ([accountId]) => {
-    return await accounts.isAccountIndexed(accountId);
-  },
-
-  "accounts-list": async ([limit, paginationIndexer]) => {
-    return await accounts.getAccountsList(limit, paginationIndexer);
-  },
-
-  "account-transactions-count": async ([accountId]) => {
-    return await accounts.getAccountTransactionsCount(accountId);
-  },
-
-  "account-info": async ([accountId]) => {
-    const [accountInfo, accountDetails] = await Promise.all([
-      accounts.getAccountInfo(accountId),
-      accounts.getAccountDetails(accountId),
-    ]);
-    if (!accountInfo) {
-      return null;
-    }
-    return {
-      ...accountInfo,
-      details: accountDetails,
-    };
-  },
-
-  "account-activity": async ([accountId, limit, cursor]) => {
-    const changes = await accounts.getAccountChanges(
-      accountId,
-      limit,
-      cursor || undefined
-    );
-
-    const idsToFetch = accounts.getIdsFromAccountChanges(changes);
-    const [
-      receiptsMapping,
-      transactionsMapping,
-      blocksMapping,
-    ] = await Promise.all([
-      receipts.getReceiptsByIds(idsToFetch.receiptIds),
-      transactions.getTransactionsByHashes(idsToFetch.transactionHashes),
-      blocks.getBlockHeightsByTimestamps(idsToFetch.blocksTimestamps),
-    ]);
-    return changes.map((change) => ({
-      timestamp: nanosecondsToMilliseconds(BigInt(change.blockTimestamp)),
-      involvedAccountId: change.involvedAccountId,
-      direction: change.direction === "INBOUND" ? "inbound" : "outbound",
-      deltaAmount: change.deltaNonStakedAmount,
-      action: accounts.getAccountActivityAction(
-        change,
->>>>>>> 6eb42a18 (Refactor file structure)
         receiptsMapping,
         transactionsMapping,
         blocksMapping,

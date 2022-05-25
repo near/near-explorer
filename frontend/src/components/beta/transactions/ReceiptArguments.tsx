@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
-import { Action, ActionMapping } from "../../../types/common";
+import { Action } from "../../../types/common";
 import { NearAmount } from "../../utils/NearAmount";
 
 import AccountLink from "../common/AccountLink";
@@ -11,8 +11,14 @@ interface Props<A extends Action> {
   receiverId: string;
 }
 
+type InferAction<Kind extends Action["kind"], A = Action> = A extends {
+  kind: Kind;
+}
+  ? A
+  : never;
+
 type TransactionMessageRenderers = {
-  [K in Action["kind"]]: React.FC<Props<ActionMapping[K]>>;
+  [K in Action["kind"]]: React.FC<Props<InferAction<K>>>;
 };
 
 const CreateAccount: TransactionMessageRenderers["CreateAccount"] = React.memo(
