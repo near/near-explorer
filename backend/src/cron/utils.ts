@@ -1,8 +1,4 @@
-export type CachedTimestampMap<T> = {
-  timestampMap: Map<string, number>;
-  valueMap: Map<string, T>;
-  promisesMap: Map<string, Promise<void>>;
-};
+import { CachedTimestampMap } from "./types";
 
 export const updateRegularlyFetchedMap = async <T>(
   ids: string[],

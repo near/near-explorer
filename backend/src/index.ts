@@ -1,9 +1,9 @@
 import { initPubSub } from "./pubsub";
-import { setup as setupTelemetryDb } from "./telemetry";
-import { runChecks } from "./checks";
+import { setup as setupTelemetryDb } from "./providers/telemetry";
+import { runTasks } from "./cron";
 import { GlobalState, initGlobalState } from "./global-state";
 import { Context } from "./context";
-import { ProcedureHandlers, procedureHandlers } from "./procedure-handlers";
+import { ProcedureHandlers, procedureHandlers } from "./router/procedures";
 import autobahn from "autobahn";
 
 async function main(handlers: ProcedureHandlers): Promise<void> {
@@ -24,11 +24,11 @@ async function main(handlers: ProcedureHandlers): Promise<void> {
 
   await setupTelemetryDb();
 
-  const stopChecks = runChecks(context);
+  const stopTasks = runTasks(context);
 
   const gracefulShutdown = (signal: NodeJS.Signals) => {
     console.log(`Got ${signal} signal, shutting down`);
-    stopChecks();
+    stopTasks();
     console.log(`Shut down gracefully`);
     process.exit(0);
   };

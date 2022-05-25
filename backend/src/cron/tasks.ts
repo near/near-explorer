@@ -1,5 +1,5 @@
-import { ValidatorEpochData, ValidatorPoolInfo } from "./types";
-import { config } from "./config";
+import { ValidatorEpochData, ValidatorPoolInfo } from "../types";
+import { config } from "../config";
 import {
   queryStakingPoolAccountIds,
   queryRecentTransactionsCount,
@@ -8,13 +8,8 @@ import {
   queryLatestBlockHeight,
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
-} from "./db-utils";
-import {
-  callViewMethod,
-  queryEpochData,
-  queryFinalBlock,
-  sendJsonRpcQuery,
-} from "./near";
+} from "../database/queries";
+import { callViewMethod, sendJsonRpcQuery } from "../utils/near";
 import {
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsCountByWeek,
@@ -30,38 +25,14 @@ import {
   aggregateNewContractsCountByDate,
   aggregateTransactionsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
-} from "./stats";
-import { wait } from "./common";
-import { Context } from "./context";
-import { GlobalState } from "./global-state";
-import { updateRegularlyFetchedMap } from "./check-utils";
+} from "../providers/stats";
+import { queryEpochData, queryFinalBlock } from "../providers/network";
+import { wait } from "../common";
+import { GlobalState } from "../global-state";
+import { RegularCheckFn } from "./types";
+import { updateRegularlyFetchedMap } from "./utils";
 
-// See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
-type PoolMetadataAccountInfo = {
-  description?: string;
-  logo?: string;
-  name?: string;
-  country_code: string;
-  url?: string;
-  twitter?: string;
-  email?: string;
-  telegram?: string;
-  discord?: string;
-  country?: string;
-  city?: string;
-  github?: string;
-};
-
-export type RegularCheckFn = {
-  description: string;
-  fn: (publish: Context["publishWamp"], context: Context) => Promise<void>;
-  interval: number;
-  shouldSkip?: () => void;
-};
-
-const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
-
-const chainBlockStatsCheck: RegularCheckFn = {
+export const chainBlockStatsCheck: RegularCheckFn = {
   description: "block stats check from Indexer",
   fn: async (publish) => {
     const [
@@ -82,7 +53,7 @@ const chainBlockStatsCheck: RegularCheckFn = {
   interval: config.intervals.checkChainBlockStats,
 };
 
-const recentTransactionsCountCheck: RegularCheckFn = {
+export const recentTransactionsCountCheck: RegularCheckFn = {
   description: "recent transactions check from Indexer",
   fn: async (publish) => {
     void publish("recent-transactions", {
@@ -92,7 +63,7 @@ const recentTransactionsCountCheck: RegularCheckFn = {
   interval: config.intervals.checkRecentTransactions,
 };
 
-const transactionCountHistoryCheck: RegularCheckFn = {
+export const transactionCountHistoryCheck: RegularCheckFn = {
   description: "transaction count history for 2 weeks",
   fn: async (_, context) => {
     context.state.transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
@@ -100,7 +71,7 @@ const transactionCountHistoryCheck: RegularCheckFn = {
   interval: config.intervals.checkTransactionCountHistory,
 };
 
-const statsAggregationCheck: RegularCheckFn = {
+export const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
   fn: async () => {
     // circulating supply
@@ -128,7 +99,7 @@ const statsAggregationCheck: RegularCheckFn = {
   interval: config.intervals.checkAggregatedStats,
 };
 
-const finalityStatusCheck: RegularCheckFn = {
+export const finalityStatusCheck: RegularCheckFn = {
   description: "publish finality status",
   fn: async (publish) => {
     const finalBlock = await queryFinalBlock();
@@ -140,7 +111,7 @@ const finalityStatusCheck: RegularCheckFn = {
   interval: config.intervals.checkFinalityStatus,
 };
 
-const updateStakingPoolStakeProposalsFromContractMap = async (
+export const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
 ): Promise<void> => {
@@ -161,7 +132,7 @@ const updateStakingPoolStakeProposalsFromContractMap = async (
   );
 };
 
-const updatePoolInfoMap = async (
+export const updatePoolInfoMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
 ): Promise<void> => {
@@ -201,10 +172,13 @@ const updatePoolInfoMap = async (
   );
 };
 
-const networkInfoCheck: RegularCheckFn = {
+export const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
   fn: async (publish, context) => {
-    const epochData = await queryEpochData(context.state.poolIds);
+    const epochData = await queryEpochData(
+      context.state.poolIds,
+      context.state.currentEpochState
+    );
     const telemetryInfo = await queryTelemetryInfo(
       epochData.validators.map((validator) => validator.accountId)
     );
@@ -241,7 +215,24 @@ const networkInfoCheck: RegularCheckFn = {
   interval: config.intervals.checkNetworkInfo,
 };
 
-const stakingPoolMetadataInfoCheck: RegularCheckFn = {
+// See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
+type PoolMetadataAccountInfo = {
+  description?: string;
+  logo?: string;
+  name?: string;
+  country_code: string;
+  url?: string;
+  twitter?: string;
+  email?: string;
+  telegram?: string;
+  discord?: string;
+  country?: string;
+  city?: string;
+  github?: string;
+};
+
+const VALIDATOR_DESCRIPTION_QUERY_AMOUNT = 100;
+export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
   description: "staking pool metadata check",
   fn: async (_, context) => {
     for (
@@ -276,51 +267,10 @@ const stakingPoolMetadataInfoCheck: RegularCheckFn = {
   shouldSkip: () => config.networkName !== "mainnet",
 };
 
-const poolIdsCheck: RegularCheckFn = {
+export const poolIdsCheck: RegularCheckFn = {
   description: "pool ids check",
   fn: async (_, context) => {
     context.state.poolIds = await queryStakingPoolAccountIds();
   },
   interval: config.intervals.checkPoolIds,
-};
-
-const regularChecks: RegularCheckFn[] = [
-  chainBlockStatsCheck,
-  recentTransactionsCountCheck,
-  transactionCountHistoryCheck,
-  statsAggregationCheck,
-  finalityStatusCheck,
-  networkInfoCheck,
-  stakingPoolMetadataInfoCheck,
-  poolIdsCheck,
-];
-
-export const runChecks = (context: Context) => {
-  const timeouts: Record<string, NodeJS.Timeout> = {};
-  for (const check of regularChecks) {
-    if (check.shouldSkip?.()) {
-      continue;
-    }
-
-    const runCheck = async () => {
-      try {
-        await check.fn(context.publishWamp, context);
-      } catch (error) {
-        console.warn(
-          `Regular ${check.description} crashed due to:`,
-          String(error)
-        );
-      } finally {
-        setTimeoutBound();
-      }
-    };
-    const setTimeoutBound = () => {
-      timeouts[check.description] = setTimeout(runCheck, check.interval);
-    };
-    void runCheck();
-  }
-  return () => {
-    const timeoutIds = Object.values(timeouts);
-    timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId));
-  };
 };

@@ -1,7 +1,7 @@
 import { sha256 } from "js-sha256";
 
-import { AccountListInfo, AccountTransactionsCount } from "./types";
-import { config } from "./config";
+import { AccountListInfo, AccountTransactionsCount } from "../types";
+import { config } from "../config";
 import {
   queryIndexedAccount,
   queryAccountsList,
@@ -10,8 +10,8 @@ import {
   queryIncomeTransactionsCountFromIndexerForLastDay,
   queryOutcomeTransactionsCountFromAnalytics,
   queryOutcomeTransactionsCountFromIndexerForLastDay,
-} from "./db-utils";
-import { sendJsonRpcQuery } from "./near";
+} from "../database/queries";
+import * as nearApi from "../utils/near";
 
 export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
   const account = await queryIndexedAccount(accountId);
@@ -125,10 +125,12 @@ const getLockupAccountId = async (
     return;
   }
   const lockupAccountId = generateLockupAccountIdFromAccountId(accountId);
-  const account = await sendJsonRpcQuery("view_account", {
-    finality: "final",
-    account_id: lockupAccountId,
-  }).catch(ignoreIfDoesNotExist);
+  const account = await nearApi
+    .sendJsonRpcQuery("view_account", {
+      finality: "final",
+      account_id: lockupAccountId,
+    })
+    .catch(ignoreIfDoesNotExist);
   if (!account) {
     return;
   }
@@ -137,10 +139,12 @@ const getLockupAccountId = async (
 
 export const getAccountDetails = async (accountId: string) => {
   const [accountInfo, lockupAccountId] = await Promise.all([
-    sendJsonRpcQuery("view_account", {
-      finality: "final",
-      account_id: accountId,
-    }).catch(ignoreIfDoesNotExist),
+    nearApi
+      .sendJsonRpcQuery("view_account", {
+        finality: "final",
+        account_id: accountId,
+      })
+      .catch(ignoreIfDoesNotExist),
     getLockupAccountId(accountId),
   ]);
 

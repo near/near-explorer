@@ -1,4 +1,4 @@
-import { queryContractInfo } from "./db-utils";
+import { queryContractInfo } from "../database/queries";
 
 export const getContractInfo = async (
   accountId: string

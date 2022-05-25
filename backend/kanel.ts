@@ -2,7 +2,7 @@ import { processDatabase } from "kanel";
 import path from "path";
 // @ts-ignore
 import { recase } from "@kristiandupont/recase";
-import { databaseConfigs } from "./config/database";
+import { databaseConfigs } from "./src/database/configs";
 
 const run = async () => {
   for (const [database, config] of Object.entries(databaseConfigs)) {
@@ -27,7 +27,7 @@ const run = async () => {
           {
             name: "public",
             ignore: ["__diesel_schema_migrations"],
-            modelFolder: path.join(__dirname, "config/models", database),
+            modelFolder: path.join(__dirname, "src/database/models", database),
           },
         ],
       });

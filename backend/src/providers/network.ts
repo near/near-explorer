@@ -1,63 +1,17 @@
-import * as nearApi from "near-api-js";
-
-import { config } from "./config";
-import { queryOnlineNodesCount } from "./db-utils";
+import { queryOnlineNodesCount } from "../database/queries";
 import {
-  NetworkStats,
+  RPC,
   ValidationProgress,
   ValidatorEpochData,
-  RPC,
-} from "./types";
-
-type CurrentEpochState = {
-  seatPrice: string;
-  totalStake: string;
-  height: number;
-};
-let currentEpochState: CurrentEpochState | null = null;
-
-const nearRpc = new nearApi.providers.JsonRpcProvider({
-  url: config.archivalRpcUrl,
-});
-
-export const sendJsonRpc = <M extends keyof RPC.ResponseMapping>(
-  method: M,
-  args: object
-): Promise<RPC.ResponseMapping[M]> => {
-  return nearRpc.sendJsonRpc(method, args);
-};
-
-export const sendJsonRpcQuery = <
-  K extends keyof RPC.RpcQueryRequestTypeMapping
->(
-  requestType: K,
-  args: object
-): Promise<RPC.RpcQueryResponseNarrowed<K>> => {
-  return nearRpc.sendJsonRpc<RPC.RpcQueryResponseNarrowed<K>>("query", {
-    request_type: requestType,
-    ...args,
-  });
-};
-
-// TODO: Provide an equivalent method in near-api-js, so we don't need to make it external.
-export const callViewMethod = async function <T>(
-  contractName: string,
-  methodName: string,
-  args: unknown
-): Promise<T> {
-  const account = new nearApi.Account(
-    ({
-      provider: nearRpc,
-    } as unknown) as nearApi.Connection,
-    "near"
-  );
-  return await account.viewFunction(contractName, methodName, args);
-};
+  NetworkStats,
+  CurrentEpochState,
+} from "../types";
+import * as nearApi from "../utils/near";
 
 export const queryFinalBlock = async (): Promise<
   RPC.ResponseMapping["block"]
 > => {
-  return await sendJsonRpc("block", {
+  return await nearApi.sendJsonRpc("block", {
     finality: "final",
   });
 };
@@ -127,6 +81,7 @@ const mapValidators = (
 };
 
 const getEpochState = async (
+  currentEpochState: CurrentEpochState | null,
   epochStatus: RPC.EpochValidatorInfo,
   networkProtocolConfig: RPC.ProtocolConfigView
 ) => {
@@ -134,7 +89,7 @@ const getEpochState = async (
     return currentEpochState;
   }
 
-  const { minimum_stake_ratio: epochMinStakeRatio } = await sendJsonRpc(
+  const { minimum_stake_ratio: epochMinStakeRatio } = await nearApi.sendJsonRpc(
     "EXPERIMENTAL_genesis_config",
     {}
   );
@@ -166,17 +121,24 @@ type EpochData = {
   validators: ValidatorEpochData[];
 };
 
-export const queryEpochData = async (poolIds: string[]): Promise<EpochData> => {
+export const queryEpochData = async (
+  poolIds: string[],
+  currentEpochState: CurrentEpochState | null
+): Promise<EpochData> => {
   const [
     networkProtocolConfig,
     epochStatus,
     onlineNodesCount,
   ] = await Promise.all([
-    sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
-    sendJsonRpc("validators", [null]),
+    nearApi.sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
+    nearApi.sendJsonRpc("validators", [null]),
     queryOnlineNodesCount(),
   ]);
-  const epochState = await getEpochState(epochStatus, networkProtocolConfig);
+  const epochState = await getEpochState(
+    currentEpochState,
+    epochStatus,
+    networkProtocolConfig
+  );
 
   return {
     stats: {

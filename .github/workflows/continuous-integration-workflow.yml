@@ -78,10 +78,10 @@ jobs:
       - name: Install packages
         run: npm install
       - name: Copy original models
-        run: cp -r backend/config/models backend/config/models-original
+        run: cp -r backend/src/database/models backend/src/database/models-original
       - name: Generate types
         run: npm run -w backend db:generate-types
       - name: Run prettier on newly generated types
         run: npm run fmt
       - name: Compare types
-        run: diff -bur backend/config/models-original backend/config/models
+        run: diff -bur backend/src/database/models-original backend/src/database/models

@@ -1,102 +1,23 @@
-import { Pool } from "pg";
-import {
-  ExpressionBuilder,
-  Kysely,
-  PostgresDialect,
-  PostgresDialectConfig,
-  RawBuilder,
-  sql,
-} from "kysely";
-import {
-  ExtractTypeFromReferenceExpression,
-  StringReference,
-} from "kysely/dist/cjs/parser/reference-parser";
+import { sql } from "kysely";
 import geoip from "geoip-lite";
 
-import { databaseConfigs } from "../config/database";
-import { HOUR } from "./consts";
-import { config } from "./config";
+import {
+  indexerDatabase,
+  analyticsDatabase,
+  telemetryDatabase,
+  telemetryWriteDatabase,
+  extraPool,
+  Indexer,
+} from "./databases";
+import { DAY } from "../utils/time";
+import { config } from "../config";
 import {
   TelemetryRequest,
   TransactionPagination,
   ValidatorTelemetry,
-} from "./types";
-import { millisecondsToNanoseconds } from "./utils";
-
-import * as Indexer from "../config/models/readOnlyIndexerDatabase";
-import * as Telemetry from "../config/models/readOnlyTelemetryDatabase";
-import * as Analytics from "../config/models/readOnlyAnalyticsDatabase";
-import { ExtractColumnType } from "kysely/dist/cjs/util/type-utils";
-
-const getPgPool = (config: PostgresDialectConfig): Pool => {
-  const pool = new Pool(config);
-  pool.on("error", (error) => {
-    console.error(`Pool ${config.database} failed: ${String(error)}`);
-  });
-  pool.on("connect", (connection) => {
-    connection.on("error", (error) =>
-      console.error(`Client ${config.database} failed: ${String(error)}`)
-    );
-  });
-  return pool;
-};
-
-const getKysely = <T>(config: PostgresDialectConfig): Kysely<T> =>
-  new Kysely<T>({
-    dialect: new PostgresDialect(getPgPool(config)),
-  });
-
-const telemetryWriteDatabase = databaseConfigs.writeOnlyTelemetryDatabase.host
-  ? getKysely<Telemetry.ModelTypeMap>(
-      databaseConfigs.writeOnlyTelemetryDatabase
-    )
-  : null;
-
-const telemetryDatabase = getKysely<Telemetry.ModelTypeMap>(
-  databaseConfigs.readOnlyTelemetryDatabase
-);
-
-const indexerDatabase = getKysely<Indexer.ModelTypeMap>(
-  databaseConfigs.readOnlyIndexerDatabase
-);
-
-const analyticsDatabase = getKysely<Analytics.ModelTypeMap>(
-  databaseConfigs.readOnlyAnalyticsDatabase
-);
-
-const ONE_DAY_TIMESTAMP_MILISEC = 24 * HOUR;
-
-const count = <DB, TB extends keyof DB, C extends StringReference<DB, TB>>(
-  expressionBuilder: ExpressionBuilder<DB, TB>,
-  column: C
-) => expressionBuilder.fn.count<string>(column);
-
-const sum = <DB, TB extends keyof DB, C extends StringReference<DB, TB>>(
-  expressionBuilder: ExpressionBuilder<DB, TB>,
-  column: C
-): RawBuilder<string | null> => expressionBuilder.fn.sum<string>(column);
-
-const max = <DB, TB extends keyof DB, C extends StringReference<DB, TB>>(
-  expressionBuilder: ExpressionBuilder<DB, TB>,
-  column: C
-): RawBuilder<ExtractTypeFromReferenceExpression<DB, TB, C> | null> =>
-  expressionBuilder.fn.max(column);
-
-const div = <DB, TB extends keyof DB, C extends string>(
-  _eb: ExpressionBuilder<DB, TB>,
-  column: StringReference<DB, TB>,
-  times: number,
-  alias: C
-) => {
-  // TODO: Evaluation of column type extraction is not correct
-  // See example with 'deletion_receipt' table join
-  // 'deleted_at_block_timestamp' field should be null-able
-  return sql<
-    ExtractColumnType<DB, TB, StringReference<DB, TB>> extends null
-      ? string | null
-      : string
-  >`div(${sql.ref(column)}, ${times})`.as(alias);
-};
+} from "../types";
+import { millisecondsToNanoseconds } from "../utils/bigint";
+import { count, sum, max, div } from "./utils";
 
 export const queryGenesisAccountCount = async () => {
   return indexerDatabase
@@ -555,7 +476,7 @@ export const queryOutcomeTransactionsCountFromAnalytics = async (
       : 0,
     last_day_collected_timestamp: selection.last_day_collected
       ? millisecondsToNanoseconds(
-          selection.last_day_collected.getTime() + ONE_DAY_TIMESTAMP_MILISEC
+          selection.last_day_collected.getTime() + DAY
         ).toString()
       : undefined,
   };
@@ -570,9 +491,7 @@ export const queryOutcomeTransactionsCountFromIndexerForLastDay = async (
   // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
   const timestamp =
     lastDayCollectedTimestamp ||
-    millisecondsToNanoseconds(
-      new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC
-    ).toString();
+    millisecondsToNanoseconds(new Date().getTime() - DAY).toString();
   const selection = await indexerDatabase
     .selectFrom("transactions")
     .select((eb) => count(eb, "transaction_hash").as("out_transactions_count"))
@@ -599,7 +518,7 @@ export const queryIncomeTransactionsCountFromAnalytics = async (
       : 0,
     last_day_collected_timestamp: selection.last_day_collected
       ? millisecondsToNanoseconds(
-          selection.last_day_collected.getTime() + ONE_DAY_TIMESTAMP_MILISEC
+          selection.last_day_collected.getTime() + DAY
         ).toString()
       : undefined,
   };
@@ -614,9 +533,7 @@ export const queryIncomeTransactionsCountFromIndexerForLastDay = async (
   // we must put 'lastDayCollectedTimestamp' as below to dislay correct value
   const timestamp =
     lastDayCollectedTimestamp ||
-    millisecondsToNanoseconds(
-      new Date().getTime() - ONE_DAY_TIMESTAMP_MILISEC
-    ).toString();
+    millisecondsToNanoseconds(new Date().getTime() - DAY).toString();
   const selection = await indexerDatabase
     .selectFrom("transactions")
     // TODO: Research if we can get rid of distinct without performance degradation
@@ -1166,7 +1083,6 @@ export const maybeCreateTelemetryTable = async () => {
     .execute();
 };
 
-const extraPool = getPgPool(databaseConfigs.writeOnlyTelemetryDatabase);
 export const maybeSendTelemetry = async (
   nodeInfo: TelemetryRequest,
   geo: geoip.Lookup | null
