@@ -1,11 +1,11 @@
 import * as React from "react";
 import { styled } from "../../../libraries/styles";
-import { Transaction } from "../../../types/transaction";
+import { TransactionDetails } from "../../../types/common";
 
 import TransactionReceipt from "./TransactionReceipt";
 
 type Props = {
-  transaction: Transaction;
+  transaction: TransactionDetails;
 };
 
 const Contaier = styled("div", {

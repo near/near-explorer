@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TransactionReceipt as TxReceipt } from "../../../types/transaction";
+import { TransactionReceipt as TxReceipt } from "../../../types/common";
 import { styled } from "../../../libraries/styles";
 
 import TransactionType from "./TransactionType";

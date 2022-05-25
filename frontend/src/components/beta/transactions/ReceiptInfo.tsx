@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import { RefundReceipt, TransactionReceipt } from "../../../types/common";
+import { TransactionReceipt } from "../../../types/common";
 
 import { Tabs } from "../common/Tabs";
 import ReceiptDetails from "./ReceiptDetails";

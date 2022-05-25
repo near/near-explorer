@@ -1,11 +1,9 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import { YoctoNEAR } from "../../../types/nominal";
-import { Action } from "../../../types/procedures";
-import { TransactionActivityAction } from "../../../types/transaction";
+import { Action, TransactionActivityAction } from "../../../types/common";
 
-import { formatNear } from "../../../libraries/formatting";
+import { NearAmount } from "../../utils/NearAmount";
 interface Props {
   actions: Action[];
   onClick: any;
@@ -129,7 +127,7 @@ const TransactionType: React.FC<Props> = React.memo(({ actions, onClick }) => {
       case "Transfer":
         return {
           type: "transfer",
-          amount: actions[0].args.deposit as YoctoNEAR,
+          amount: actions[0].args.deposit,
         };
     }
   };
@@ -151,7 +149,9 @@ const TransactionType: React.FC<Props> = React.memo(({ actions, onClick }) => {
       </ActionType>
       {actionMapping.type === "transfer" ? (
         <Description>
-          <span>{formatNear(actionMapping.amount)}</span>
+          <span>
+            <NearAmount amount={actionMapping.amount} decimalPlaces={2} />
+          </span>
         </Description>
       ) : null}
     </Wrapper>
