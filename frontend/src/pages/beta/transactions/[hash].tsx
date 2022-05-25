@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import * as React from "react";
 import * as ReactQuery from "react-query";
@@ -7,22 +8,22 @@ import { GetServerSideProps, NextPage } from "next";
 
 import { TransactionDetails } from "../../../types/common";
 import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
-import { getPrefetchObject } from "../../../libraries/queries";
 
 import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
 import TransactionActionsList from "../../../components/beta/transactions/TransactionActionsList";
-import { useQuery } from "../../../hooks/use-query";
+import { trpc } from "../../../libraries/trpc";
 
 type Props = {
   hash: string;
 };
 
 const TransactionPage: NextPage<Props> = React.memo((props) => {
+  const transactionHash = useRouter().query.hash as string;
   useAnalyticsTrackOnMount("Explorer Beta | Individual Transaction Page", {
     transaction_hash: props.hash,
   });
 
-  const transactionQuery = useQuery("transaction", [props.hash]);
+  const transactionQuery = trpc.useQuery(["transaction", { transactionHash }]);
 
   return (
     <>
@@ -72,18 +73,10 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
 });
 
 export const getServerSideProps: GetServerSideProps<
-  Props,
+  {},
   { hash: string }
-> = async ({ req, params, query }) => {
-  const hash = params?.hash ?? "";
-  const prefetchObject = getPrefetchObject(query, req.headers.host);
-  await prefetchObject.prefetch("transaction", [hash]);
-  return {
-    props: {
-      hash,
-      dehydratedState: prefetchObject.dehydrate(),
-    },
-  };
+> = async () => {
+  return { props: {} };
 };
 
 export default TransactionPage;

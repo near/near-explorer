@@ -376,65 +376,6 @@ export const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   } as Action;
 };
 
-type ReceiptExecutionOutcome = {
-  tokens_burnt: string;
-  logs: string[];
-  outgoing_receipts?: NestedReceiptWithOutcome[];
-  status: RPC.ExecutionStatusView;
-  gas_burnt: number;
-};
-
-export type NestedReceiptWithOutcome = {
-  actions?: Action[];
-  block_hash: string;
-  outcome: ReceiptExecutionOutcome;
-  predecessor_id: string;
-  receipt_id: string;
-  receiver_id: string;
-};
-
-export type TransactionDetails = {
-  hash: string;
-  created: {
-    timestamp: number;
-    blockHash: string;
-  };
-  transaction: RPC.SignedTransactionView;
-  transactionIndex: number;
-  transactionFee: string;
-  transactionOutcome: TransactionOutcome;
-  status: KeysOfUnion<RPC.FinalExecutionStatus>;
-  gasUsed: string;
-  gasAttached: string;
-  receipts: TransactionReceipt[];
-  refundReceipts: RefundReceipt[];
-};
-
-export type TransactionBlockInfo = {
-  hash: string;
-  height: number;
-};
-export type ReceiptsOutcome = Omit<
-  RPC.ExecutionOutcomeWithIdView,
-  "block_hash"
-> & { includedInBlock: TransactionBlockInfo };
-
-export type TransactionReceipt = {
-  actions: Action[];
-  deposit: string | null;
-  signerId: string;
-  parentReceiptHash: string | null;
-  includedInBlock: TransactionBlockInfo;
-  receiptId: string;
-  receiverId: string;
-  gasBurnt?: number;
-  tokensBurnt: string;
-  logs: string[] | [];
-  status: RPC.ExecutionStatusView;
-};
-
-export type RefundReceipt = TransactionReceipt & { refund: string };
-
 export const collectNestedReceiptWithOutcome = (
   receiptHash: string,
   receiptsByIdMap: Map<
@@ -559,3 +500,62 @@ export const getTransactionFee = (
     : 0n;
   return (tokensBurntByTx + tokensBurntByReceipts).toString();
 };
+
+type ReceiptExecutionOutcome = {
+  tokens_burnt: string;
+  logs: string[];
+  outgoing_receipts?: NestedReceiptWithOutcome[];
+  status: RPC.ExecutionStatusView;
+  gas_burnt: number;
+};
+
+export type NestedReceiptWithOutcome = {
+  actions?: Action[];
+  block_hash: string;
+  outcome: ReceiptExecutionOutcome;
+  predecessor_id: string;
+  receipt_id: string;
+  receiver_id: string;
+};
+
+export type TransactionDetails = {
+  hash: string;
+  created: {
+    timestamp: number;
+    blockHash: string;
+  };
+  transaction: RPC.SignedTransactionView;
+  transactionIndex: number;
+  transactionFee: string;
+  transactionOutcome: RPC.ExecutionOutcomeWithIdView;
+  status: KeysOfUnion<RPC.FinalExecutionStatus>;
+  gasUsed: string;
+  gasAttached: string;
+  receipts: TransactionReceipt[];
+  refundReceipts: RefundReceipt[];
+};
+
+export type TransactionBlockInfo = {
+  hash: string;
+  height: number;
+};
+export type ReceiptsOutcome = Omit<
+  RPC.ExecutionOutcomeWithIdView,
+  "block_hash"
+> & { includedInBlock: TransactionBlockInfo };
+
+export type TransactionReceipt = {
+  actions: Action[];
+  deposit: string | null;
+  signerId: string;
+  parentReceiptHash: string | null;
+  includedInBlock: TransactionBlockInfo;
+  receiptId: string;
+  receiverId: string;
+  gasBurnt?: number;
+  tokensBurnt: string;
+  logs: string[] | [];
+  status: RPC.ExecutionStatusView;
+};
+
+export type RefundReceipt = TransactionReceipt & { refund: string };

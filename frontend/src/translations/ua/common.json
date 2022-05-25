@@ -147,6 +147,38 @@
         },
         "dateFormat": "DD/MM/YYYY hh:mm"
       }
+    },
+    "transaction": {
+      "header": {
+        "title": "Транзакція",
+        "fee": "Комісія",
+        "attached": "Прикріплено",
+        "burned": "Спалено",
+        "when": "Коли"
+      },
+      "dateFormat": "DD/MM/YYYY h:mm A",
+      "tabs": {
+        "details": "Деталі",
+        "inspect": "Огляд"
+      },
+      "activity": {
+        "from": "Від",
+        "to": "До",
+        "amount": "Кількість",
+        "fee": "Комісія",
+        "status": "Статус"
+      },
+      "type": {
+        "CreateAccount": "Акаунт створено",
+        "DeleteAccount": "Акаунт видалено",
+        "DeployContract": "Контракт задеплоєно",
+        "FunctionCall": "Викликано функцію",
+        "Transfer": "Переказ",
+        "Stake": "Стейк токенів",
+        "AddKey": "Додано ключ",
+        "DeleteKey": "Видалено ключ",
+        "Batch": "Пакет (${quantity})"
+      }
     }
   },
   "component": {
