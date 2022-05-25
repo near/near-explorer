@@ -1,5 +1,9 @@
-import { CachedTimestampMap } from "./check-utils";
-import { ValidatorDescription, ValidatorPoolInfo } from "./types";
+import { CachedTimestampMap } from "./cron/types";
+import {
+  CurrentEpochState,
+  ValidatorDescription,
+  ValidatorPoolInfo,
+} from "./types";
 
 export type GlobalState = {
   transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[];
@@ -7,6 +11,7 @@ export type GlobalState = {
   stakingPoolStakeProposalsFromContract: CachedTimestampMap<string>;
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
   poolIds: string[];
+  currentEpochState: CurrentEpochState | null;
 };
 
 export const initGlobalState = (): GlobalState => ({
@@ -23,4 +28,5 @@ export const initGlobalState = (): GlobalState => ({
     promisesMap: new Map(),
   },
   poolIds: [],
+  currentEpochState: null,
 });

@@ -1,4 +1,4 @@
-import { queryGasUsedInChunks } from "./db-utils";
+import { queryGasUsedInChunks } from "../database/queries";
 
 export const getGasUsedInChunks = async (
   blockHash: string

@@ -1,9 +1,9 @@
-import { BlockBase, Block } from "./types";
+import { BlockBase, Block } from "../types";
 import {
   queryBlocksList,
   queryBlockInfo,
   queryBlockByHashOrId,
-} from "./db-utils";
+} from "../database/queries";
 
 export const getBlocksList = async (
   limit: number,

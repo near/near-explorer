@@ -3,7 +3,7 @@ import {
   queryReceiptInTransaction,
   queryIncludedReceiptsList,
   queryExecutedReceiptsList,
-} from "./db-utils";
+} from "../database/queries";
 
 import {
   convertDbArgsToRpcArgs,
@@ -14,8 +14,8 @@ import {
   Receipt,
   ReceiptExecutionStatus,
   TransactionHashByReceiptId,
-} from "./types";
-import { nanosecondsToMilliseconds } from "./utils";
+} from "../types";
+import { nanosecondsToMilliseconds } from "../utils/bigint";
 
 const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
   string | null,

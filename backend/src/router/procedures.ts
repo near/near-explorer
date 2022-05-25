@@ -1,21 +1,21 @@
 import { exec } from "child_process";
 import { promisify } from "util";
 
-import { Action, KeysOfUnion, ProcedureTypes, RPC } from "./types";
+import { Action, KeysOfUnion, ProcedureTypes, RPC } from "../types";
 
-import * as stats from "./stats";
-import * as receipts from "./receipts";
-import * as transactions from "./transactions";
-import * as contracts from "./contracts";
-import * as blocks from "./blocks";
-import * as chunks from "./chunks";
-import * as accounts from "./accounts";
-import * as telemetry from "./telemetry";
+import * as stats from "../providers/stats";
+import * as receipts from "../providers/receipts";
+import * as transactions from "../providers/transactions";
+import * as contracts from "../providers/contracts";
+import * as blocks from "../providers/blocks";
+import * as chunks from "../providers/chunks";
+import * as accounts from "../providers/accounts";
+import * as telemetry from "../providers/telemetry";
 
-import { sendJsonRpc, sendJsonRpcQuery } from "./near";
-import { GlobalState } from "./global-state";
-import { formatDate } from "./utils";
-import { config } from "./config";
+import * as nearApi from "../utils/near";
+import { GlobalState } from "../global-state";
+import { formatDate } from "../utils/formatting";
+import { config } from "../config";
 
 const promisifiedExec = promisify(exec);
 
@@ -32,20 +32,20 @@ export const procedureHandlers: ProcedureHandlers = {
   },
 
   "nearcore-final-block": async () => {
-    return await sendJsonRpc("block", { finality: "final" });
+    return await nearApi.sendJsonRpc("block", { finality: "final" });
   },
 
   "nearcore-status": async () => {
-    return await sendJsonRpc("status", [null]);
+    return await nearApi.sendJsonRpc("status", [null]);
   },
 
   // genesis configuration
   "nearcore-genesis-protocol-configuration": async () => {
-    const networkProtocolConfig = await sendJsonRpc(
+    const networkProtocolConfig = await nearApi.sendJsonRpc(
       "EXPERIMENTAL_protocol_config",
       { finality: "final" }
     );
-    return await sendJsonRpc("block", {
+    return await nearApi.sendJsonRpc("block", {
       block_id: networkProtocolConfig.genesis_height,
     });
   },
@@ -110,10 +110,10 @@ export const procedureHandlers: ProcedureHandlers = {
     if (!transactionBaseInfo) {
       return null;
     }
-    const transactionInfo = await sendJsonRpc("EXPERIMENTAL_tx_status", [
-      transactionBaseInfo.hash,
-      transactionBaseInfo.signerId,
-    ]);
+    const transactionInfo = await nearApi.sendJsonRpc(
+      "EXPERIMENTAL_tx_status",
+      [transactionBaseInfo.hash, transactionBaseInfo.signerId]
+    );
 
     const actions = transactionInfo.transaction.actions.map(
       transactions.mapRpcActionToAction
@@ -181,7 +181,7 @@ export const procedureHandlers: ProcedureHandlers = {
   },
 
   "transaction-execution-status": async ([hash, signerId]) => {
-    const transaction = await sendJsonRpc("EXPERIMENTAL_tx_status", [
+    const transaction = await nearApi.sendJsonRpc("EXPERIMENTAL_tx_status", [
       hash,
       signerId,
     ]);
@@ -309,7 +309,7 @@ export const procedureHandlers: ProcedureHandlers = {
 
   // contracts
   "contract-info": async ([accountId]) => {
-    const account = await sendJsonRpcQuery("view_account", {
+    const account = await nearApi.sendJsonRpcQuery("view_account", {
       finality: "final",
       account_id: accountId,
     });
@@ -319,7 +319,7 @@ export const procedureHandlers: ProcedureHandlers = {
     }
     const [contractInfo, accessKeys] = await Promise.all([
       contracts.getContractInfo(accountId),
-      sendJsonRpcQuery("view_access_key_list", {
+      nearApi.sendJsonRpcQuery("view_access_key_list", {
         finality: "final",
         account_id: accountId,
       }),

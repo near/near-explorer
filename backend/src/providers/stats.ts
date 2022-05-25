@@ -16,13 +16,9 @@ import {
   queryCirculatingSupply,
   calculateFeesByDay,
   queryFirstProducedBlockTimestamp,
-} from "./db-utils";
-import {
-  formatDate,
-  generateDateArray,
-  cumulativeAccountsCountArray,
-  trimError,
-} from "./utils";
+} from "../database/queries";
+import { formatDate } from "../utils/formatting";
+import { trimError } from "../utils/logging";
 
 type Nullable<T> = T | null;
 type DatedStats<T> = (T & { date: string })[];
@@ -160,6 +156,30 @@ export const aggregateDeletedAccountsCountByDate = retriable(async () => {
     })
   );
 }, "Deleted accounts count time series");
+
+const generateDateArray = (
+  startDate: string,
+  endDate: Date = new Date()
+): string[] => {
+  for (
+    var arr = [], dt = new Date(startDate);
+    dt <= endDate;
+    dt.setDate(dt.getDate() + 1)
+  ) {
+    arr.push(formatDate(new Date(dt)));
+  }
+  return arr;
+};
+
+const cumulativeAccountsCountArray = <T extends { accountsCount: number }>(
+  array: T[]
+): T[] => {
+  return array.reduce((r, a) => {
+    if (r.length > 0) a.accountsCount += r[r.length - 1].accountsCount;
+    r.push(a);
+    return r;
+  }, Array());
+};
 
 export const aggregateLiveAccountsCountByDate = retriable(async () => {
   const genesisCount = await queryGenesisAccountCount();

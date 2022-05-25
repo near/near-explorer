@@ -1,6 +1,9 @@
 import geoip from "geoip-lite";
-import { TelemetryRequest } from "./types";
-import { maybeCreateTelemetryTable, maybeSendTelemetry } from "./db-utils";
+import { TelemetryRequest } from "../types";
+import {
+  maybeCreateTelemetryTable,
+  maybeSendTelemetry,
+} from "../database/queries";
 
 // Skip initializing Telemetry database if the backend is not configured to
 // save telemety data (it is absolutely fine for local development)

@@ -9,7 +9,7 @@ import {
 } from "./types";
 
 import { config } from "./config";
-import { SECOND } from "./consts";
+import { SECOND } from "./utils/time";
 import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
 
 export type PubSubController = {

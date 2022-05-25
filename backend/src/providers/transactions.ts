@@ -4,7 +4,7 @@ import {
   TransactionBaseInfo,
   TransactionPagination,
   RPC,
-} from "./types";
+} from "../types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
@@ -12,7 +12,7 @@ import {
   queryAccountTransactionsList,
   queryTransactionsListInBlock,
   queryTransactionInfo,
-} from "./db-utils";
+} from "../database/queries";
 
 const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
   string,
