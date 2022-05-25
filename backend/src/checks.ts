@@ -1,9 +1,4 @@
-import {
-  SubscriptionTopicType,
-  SubscriptionTopicTypes,
-  ValidatorEpochData,
-  ValidatorPoolInfo,
-} from "./types";
+import { ValidatorEpochData, ValidatorPoolInfo } from "./types";
 import { config } from "./config";
 import {
   queryStakingPoolAccountIds,
@@ -39,7 +34,7 @@ import {
 import { wait } from "./common";
 import { Context } from "./context";
 import { GlobalState } from "./global-state";
-import { CachedTimestampMap } from "./check-utils";
+import { updateRegularlyFetchedMap } from "./check-utils";
 
 // See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
 type PoolMetadataAccountInfo = {
@@ -143,39 +138,6 @@ const finalityStatusCheck: RegularCheckFn = {
     });
   },
   interval: config.intervals.checkFinalityStatus,
-};
-
-const updateRegularlyFetchedMap = async <T>(
-  ids: string[],
-  mappings: CachedTimestampMap<T>,
-  fetchFn: (id: string) => Promise<T>,
-  refetchInterval: number,
-  throwAwayTimeout: number
-): Promise<void> => {
-  const updatePromise = async (id: string) => {
-    try {
-      const result = await fetchFn(id);
-      mappings.valueMap.set(id, result);
-    } catch (e) {
-      mappings.promisesMap.delete(id);
-    }
-  };
-  for (const id of ids) {
-    mappings.timestampMap.set(id, Date.now());
-    if (!mappings.promisesMap.get(id)) {
-      mappings.promisesMap.set(id, updatePromise(id));
-      const intervalId = setInterval(() => {
-        const lastTimestamp = mappings.timestampMap.get(id) || 0;
-        if (Date.now() - lastTimestamp <= throwAwayTimeout) {
-          mappings.promisesMap.set(id, updatePromise(id));
-        } else {
-          mappings.promisesMap.delete(id);
-          clearInterval(intervalId);
-        }
-      }, refetchInterval);
-    }
-  }
-  await Promise.all(ids.map((id) => mappings.promisesMap.get(id)));
 };
 
 const updateStakingPoolStakeProposalsFromContractMap = async (
