@@ -1,50 +1,41 @@
 import { initPubSub } from "./pubsub";
 import { setup as setupTelemetryDb } from "./telemetry";
-import { GlobalState, regularChecks } from "./checks";
+import { runChecks } from "./checks";
+import { GlobalState, initGlobalState } from "./global-state";
+import { Context } from "./context";
+import { ProcedureHandlers, procedureHandlers } from "./procedure-handlers";
+import autobahn from "autobahn";
 
-async function main(): Promise<void> {
-  const state: GlobalState = {
-    transactionsCountHistoryForTwoWeeks: [],
-    stakingPoolsDescriptions: new Map(),
-    stakingPoolStakeProposalsFromContract: {
-      timestampMap: new Map(),
-      valueMap: new Map(),
-      promisesMap: new Map(),
-    },
-    stakingPoolInfos: {
-      timestampMap: new Map(),
-      valueMap: new Map(),
-      promisesMap: new Map(),
-    },
-    poolIds: [],
-  };
-
+async function main(handlers: ProcedureHandlers): Promise<void> {
   console.log("Starting Explorer backend & pub-sub controller...");
-  const controller = initPubSub(state);
+
+  const state: GlobalState = initGlobalState();
+  const controller = initPubSub(
+    state,
+    Object.entries(handlers).map(([key, handler]) => [
+      key,
+      ((args) => handler(args as any, state)) as autobahn.RegisterEndpoint,
+    ])
+  );
+  const context: Context = {
+    state,
+    publishWamp: controller.publish,
+  };
 
   await setupTelemetryDb();
 
-  for (const check of regularChecks) {
-    if (check.shouldSkip?.()) {
-      continue;
-    }
-    console.log(`Starting regular check: ${check.description}`);
+  const stopChecks = runChecks(context);
 
-    const runCheck = async () => {
-      try {
-        await check.fn(controller, state);
-      } catch (error) {
-        console.warn(
-          `Regular ${check.description} crashed due to:`,
-          String(error)
-        );
-      } finally {
-        setTimeoutBound();
-      }
-    };
-    const setTimeoutBound = () => setTimeout(runCheck, check.interval);
-    void runCheck();
-  }
+  const gracefulShutdown = (signal: NodeJS.Signals) => {
+    console.log(`Got ${signal} signal, shutting down`);
+    stopChecks();
+    console.log(`Shut down gracefully`);
+    process.exit(0);
+  };
+  process.on("SIGTERM", gracefulShutdown);
+  process.on("SIGINT", gracefulShutdown);
+
+  console.log("Explorer backend started");
 }
 
-void main();
+void main(procedureHandlers);

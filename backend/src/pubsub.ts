@@ -1,7 +1,7 @@
 import autobahn from "autobahn";
 import EventEmitter from "events";
 
-import { GlobalState } from "./checks";
+import { GlobalState } from "./global-state";
 import {
   ProcedureType,
   SubscriptionTopicType,
@@ -11,7 +11,6 @@ import {
 import { config } from "./config";
 import { SECOND } from "./consts";
 import { getBackendUrl, wrapProcedure, wrapTopic } from "./common";
-import { procedureHandlers } from "./procedure-handlers";
 
 export type PubSubController = {
   publish: <T extends SubscriptionTopicType>(
@@ -20,7 +19,10 @@ export type PubSubController = {
   ) => Promise<void>;
 };
 
-export const initPubSub = (state: GlobalState): PubSubController => {
+export const initPubSub = (
+  state: GlobalState,
+  handlers: [string, autobahn.RegisterEndpoint][]
+): PubSubController => {
   const wampNearExplorerUrl = getBackendUrl(config.transport);
   console.log(
     `WAMP setup: connecting to ${wampNearExplorerUrl} with ticket ${config.transport.secret}`
@@ -54,10 +56,10 @@ export const initPubSub = (state: GlobalState): PubSubController => {
     currentSessionPromise = Promise.resolve(session);
     console.log("WAMP connection is established. Waiting for commands...");
 
-    for (const [name, handler] of Object.entries(procedureHandlers)) {
+    for (const [name, endpoint] of handlers) {
       const uri = wrapProcedure(config.networkName, name as ProcedureType);
       try {
-        await session.register(uri, (args: any) => handler(args, state));
+        await session.register(uri, (args: any) => endpoint(args, state));
       } catch (error) {
         console.error(`Failed to register "${uri}" handler due to:`, error);
         wamp.close();
