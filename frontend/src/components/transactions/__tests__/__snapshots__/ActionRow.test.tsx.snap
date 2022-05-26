@@ -20,7 +20,7 @@ exports[`<ActionRow /> renders compact for receipt 1`] = `
       className="c-ActionRowMessage-PJLV c-ActionRowMessage-PJLV-knUOqr-type-compact row no-gutters"
     >
       <div
-        className="col-md-8 col-7"
+        className="col-md-12 col-12"
       >
         <div
           className="row no-gutters"
@@ -212,23 +212,27 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
               </dt>
               <dd>
                 <div
-                  className="c-Wrapper-fswXQT"
-                  style={
-                    Object {
-                      "maxHeight": 200,
-                    }
-                  }
+                  className="c-Wrapper-hgxcBQ"
                 >
-                  <link
-                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                    rel="stylesheet"
-                  />
                   <div
-                    className="c-CodePreviewWrapper-gWwuPL"
+                    className="c-Wrapper-fswXQT"
+                    style={
+                      Object {
+                        "maxHeight": 200,
+                      }
+                    }
                   >
-                    {
+                    <link
+                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                      rel="stylesheet"
+                    />
+                    <div
+                      className="c-CodePreviewWrapper-gJFGlx"
+                    >
+                      {
   "value": 1
 }
+                    </div>
                   </div>
                 </div>
               </dd>

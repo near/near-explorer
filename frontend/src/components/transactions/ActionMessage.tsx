@@ -20,7 +20,6 @@ type TransactionMessageRenderers = {
 };
 
 export const Args: React.FC<{ args: string }> = React.memo(({ args }) => {
-  const { t } = useTranslation();
   const decodedArgs = Buffer.from(args, "base64");
   let prettyArgs: string;
   try {
@@ -30,18 +29,7 @@ export const Args: React.FC<{ args: string }> = React.memo(({ args }) => {
     prettyArgs = hexy(decodedArgs, { format: "twos" });
   }
   return (
-    <CodePreview
-      collapseHeight={200}
-      maxHeight={600}
-      expandComponent={({ isOverflown, collapsed, setCollapsed }) =>
-        isOverflown ? (
-          <div onClick={() => setCollapsed(!collapsed)}>
-            {collapsed ? t("button.show_more") : t("button.show_less")}
-          </div>
-        ) : null
-      }
-      value={prettyArgs}
-    />
+    <CodePreview collapseHeight={200} maxHeight={600} value={prettyArgs} />
   );
 });
 
