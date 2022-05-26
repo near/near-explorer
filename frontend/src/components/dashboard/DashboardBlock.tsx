@@ -9,6 +9,17 @@ import Link from "../utils/Link";
 import { Trans, useTranslation } from "react-i18next";
 import { useChainBlockStats } from "../../hooks/subscriptions";
 import { useLatestBlockHeight } from "../../hooks/data";
+import CopyToClipboard from "../utils/CopyToClipboard";
+import { styled } from "../../libraries/styles";
+
+const ElementWrapper = styled("div", {
+  display: "flex",
+  alignItems: "center",
+
+  "& > *:not(:first-child)": {
+    marginLeft: 8,
+  },
+});
 
 const DashboardBlock: React.FC = React.memo(() => {
   const { t } = useTranslation();
@@ -46,7 +57,14 @@ const DashboardBlock: React.FC = React.memo(() => {
               />
             }
             loading={latestBlockHeight === undefined}
-            text={latestBlockHeight?.toLocaleString()}
+            text={
+              latestBlockHeight ? (
+                <ElementWrapper>
+                  <span>{latestBlockHeight.toLocaleString()}</span>
+                  <CopyToClipboard text={latestBlockHeight.toString()} />
+                </ElementWrapper>
+              ) : null
+            }
           />
         </Col>
         <Col xs="6" md="12">
