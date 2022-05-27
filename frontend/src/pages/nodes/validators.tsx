@@ -47,9 +47,10 @@ const ValidatorsWrapper = styled(Container, {
 const ValidatorsPage: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Validator Node page");
 
-  const networkStats = useNetworkStats();
+  const { data: networkStats } = useNetworkStats();
   const epochStartBlock = useEpochStartBlock();
-  const finalBlockHeight = useFinalityStatus()?.finalBlockHeight;
+  const { data: finality } = useFinalityStatus();
+  const finalBlockHeight = finality?.finalBlockHeight;
   const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
 
   return (

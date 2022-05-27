@@ -80,7 +80,8 @@ const ValidatorsList: React.FC<Props> = React.memo(
 
     const startValidatorIndex = selectedPageIndex * ITEMS_PER_PAGE;
 
-    const seatPrice = useNetworkStats()?.seatPrice;
+    const { data: networkStats } = useNetworkStats();
+    const seatPrice = networkStats?.seatPrice;
 
     return (
       <>

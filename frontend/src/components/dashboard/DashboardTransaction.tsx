@@ -32,8 +32,8 @@ const DashboardTransaction: React.FC = React.memo(() => {
     "transaction-history",
     []
   );
-  const recentTransactionsCount = useRecentTransactions()
-    ?.recentTransactionsCount;
+  const { data: recentTransactions } = useRecentTransactions();
+  const recentTransactionsCount = recentTransactions?.recentTransactionsCount;
   const latestGasPrice = useLatestGasPrice();
 
   return (

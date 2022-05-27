@@ -8,14 +8,15 @@ import {
 } from "./subscriptions";
 
 export const useEpochStartBlock = () => {
-  const blockHashOrHeight = useNetworkStats()?.epochStartHeight;
-  return useQuery("block-info", [blockHashOrHeight ?? 0], {
-    enabled: blockHashOrHeight !== undefined,
+  const { data: networkStats } = useNetworkStats();
+  const blockHeight = networkStats?.epochStartHeight;
+  return useQuery("block-info", [blockHeight ?? 0], {
+    enabled: blockHeight !== undefined,
   }).data;
 };
 
 export const useFinalBlockTimestampNanosecond = (): JSBI | undefined => {
-  const finality = useFinalityStatus();
+  const { data: finality } = useFinalityStatus();
   return React.useMemo(
     () =>
       finality?.finalBlockTimestampNanosecond
@@ -26,7 +27,7 @@ export const useFinalBlockTimestampNanosecond = (): JSBI | undefined => {
 };
 
 export const useLatestGasPrice = (): JSBI | undefined => {
-  const chainBlockStats = useChainBlockStats();
+  const { data: chainBlockStats } = useChainBlockStats();
   const latestGasPrice = React.useMemo(
     () =>
       chainBlockStats?.latestGasPrice
@@ -38,7 +39,7 @@ export const useLatestGasPrice = (): JSBI | undefined => {
 };
 
 export const useLatestBlockHeight = (): JSBI | undefined => {
-  const chainBlockStats = useChainBlockStats();
+  const { data: chainBlockStats } = useChainBlockStats();
   const latestBlockHeight = React.useMemo(
     () =>
       chainBlockStats?.latestBlockHeight
