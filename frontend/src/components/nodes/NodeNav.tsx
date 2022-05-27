@@ -41,7 +41,7 @@ const NodeLink = styled("a", {
 
 const NodeNav: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const networkStats = useNetworkStats();
+  const { data: networkStats } = useNetworkStats();
 
   return (
     <Row>

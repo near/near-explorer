@@ -34,7 +34,7 @@ const BalanceSuffix = styled("span", {
 
 const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const networkStats = useNetworkStats();
+  const { data: networkStats } = useNetworkStats();
   const epochStartBlock = useEpochStartBlock();
 
   const { data: genesisAccountsAmount } = useQuery(

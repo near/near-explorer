@@ -29,8 +29,10 @@ const Validators: React.FC = React.memo(() => {
     [setSelectedPageIndex]
   );
 
-  const validators = useValidators()?.validators;
-  const totalStake = useNetworkStats()?.totalStake;
+  const validatorsQuery = useValidators();
+  const validators = validatorsQuery.data?.validators;
+  const { data: networkStats } = useNetworkStats();
+  const totalStake = networkStats?.totalStake;
 
   if (!validators || !totalStake) {
     return <PaginationSpinner />;

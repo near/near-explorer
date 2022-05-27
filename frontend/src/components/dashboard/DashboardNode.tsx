@@ -18,7 +18,7 @@ const CountCell = styled(LongCardCell, {
 
 const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const networkStats = useNetworkStats();
+  const { data: networkStats } = useNetworkStats();
 
   return (
     <DashboardCard

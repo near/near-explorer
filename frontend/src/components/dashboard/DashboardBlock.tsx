@@ -24,8 +24,9 @@ const ElementWrapper = styled("div", {
 const DashboardBlock: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const latestBlockHeight = useLatestBlockHeight();
-  const recentBlockProductionSpeed = useChainBlockStats()
-    ?.recentBlockProductionSpeed;
+  const { data: chainBlockStats } = useChainBlockStats();
+  const recentBlockProductionSpeed =
+    chainBlockStats?.recentBlockProductionSpeed;
 
   return (
     <DashboardCard
