@@ -48,7 +48,6 @@ const TransactionActionsList: React.FC<Props> = React.memo(
         refundReceiptsMap.set(receipt.parentReceiptHash, [receipt]);
       }
     });
-    console.log("refundReceiptsMap: ", refundReceiptsMap);
 
     return (
       <Contaier>

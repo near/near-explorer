@@ -29,6 +29,11 @@ const ActionType = styled("div", {
   lineHeight: "18px",
   transition: "all .15s ease-in-out",
 
+  "&:hover": {
+    color: "#fff",
+    backgroundColor: "#1E93FF",
+  },
+
   variants: {
     type: {
       transfer: {
@@ -51,11 +56,6 @@ const ActionType = styled("div", {
       },
       "call-method": {
         backgroundColor: "#EEFAFF",
-
-        "&:hover": {
-          color: "#fff",
-          backgroundColor: "#1E93FF",
-        },
       },
       "account-created": {
         backgroundColor: "#FEF3FF",

@@ -158,7 +158,7 @@
       },
       "dateFormat": "DD/MM/YYYY h:mm A",
       "tabs": {
-        "details": "Деталі",
+        "output": "Підсумок",
         "inspect": "Огляд"
       },
       "activity": {
@@ -169,15 +169,17 @@
         "status": "Статус"
       },
       "type": {
-        "CreateAccount": "Акаунт створено",
-        "DeleteAccount": "Акаунт видалено",
-        "DeployContract": "Контракт задеплоєно",
-        "FunctionCall": "Викликано функцію",
-        "Transfer": "Переказ",
-        "Stake": "Стейк токенів",
-        "AddKey": "Додано ключ",
-        "DeleteKey": "Видалено ключ",
-        "Batch": "Пакет (${quantity})"
+        "transfer": "Переказ",
+        "restake": "Стейк",
+        "contract-deployed": "Контракт задеплоєно",
+        "access-key-created": "Додавання ключа",
+        "access-key-removed": "Видалення ключа",
+        "call-method": "",
+        "account-created": "Акаунт створено",
+        "account-removed": "Акаунт видалено",
+        "batch": "Пакет (${quantity})",
+        "refund": "Решта",
+        "validator-reward": "Нагорода валідатора"
       }
     }
   },

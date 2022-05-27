@@ -10,14 +10,18 @@ type Props = {
   receipt: TxReceipt;
   refundReceiptsMap: Map<string, TxReceipt[]>;
   senderIsReceiver?: boolean;
+  index?: number;
 };
 
 const ReceiptWrapper = styled("div", {
   position: "relative",
+  background: "#fff",
+  zIndex: 999,
 });
 
 const Author = styled("div", {
   display: "flex",
+  alignItems: "center",
   fontFamily: "SF Pro Display",
   color: "#000",
   fontWeight: 600,
@@ -26,21 +30,23 @@ const Author = styled("div", {
 });
 
 const Avatar = styled("div", {
-  size: "$avatarSizeSmall",
-  backgroundColor: "$avatarFallback",
+  size: 20,
+  backgroundColor: "#c4c4c4",
   opacity: 0.2,
-  borderRadius: "$round",
-  marginRight: "$space-s",
+  borderRadius: "50%",
+  marginRight: 8,
 });
 
 const ActionItems = styled("div", {
   display: "flex",
   flexDirection: "column",
   position: "relative",
-  paddingLeft: 18,
+  paddingLeft: 14,
   borderLeft: ".5px solid #000",
   marginLeft: "8.5px",
-  marginVertical: 10,
+  marginTop: 10,
+  paddingBottom: 10,
+  overflowY: "hidden",
 
   "&::after": {
     zIndex: 1,
@@ -57,56 +63,96 @@ const ActionItems = styled("div", {
   },
 });
 
-const ExecutedReceiptRow = styled(ActionItems);
+const ExecutedReceiptRow = styled(ActionItems, {
+  [`& ${ReceiptWrapper}`]: {
+    paddingBottom: 20,
+    zIndex: 0,
+    // position: "absolute",
+    // position: "static",
+
+    "&::after": {
+      // zIndex: 1,
+      display: "block",
+      content: "",
+      position: "absolute",
+      width: 0.5,
+      // height: "1000vh",
+      // height: "100%",
+      backgroundColor: "#000",
+      // top: "calc(-1000vh + 100%)",
+      top: 0,
+      left: -24.5,
+    },
+
+    [`& ${ActionItems}`]: {
+      marginTop: 0,
+      paddingTop: 10,
+    },
+  },
+});
 
 const TransactionReceipt: React.FC<Props> = React.memo(
-  ({ receipt, refundReceiptsMap, senderIsReceiver }) => {
+  ({ receipt, refundReceiptsMap, senderIsReceiver, index = 0 }) => {
     const [isTxTypeActive, setTxTypeActive] = React.useState(false);
     const switchActiveTxType = React.useCallback(
       () => setTxTypeActive((x) => !x),
       [setTxTypeActive]
     );
+
     return (
-      <ReceiptWrapper>
-        {!senderIsReceiver ? (
+      <>
+        <ReceiptWrapper
+          css={{
+            marginLeft: `calc(33px * ${index})`,
+          }}
+        >
+          {!senderIsReceiver ? (
+            <Author>
+              <Avatar />
+              <span>{receipt.signerId}</span>
+            </Author>
+          ) : null}
+
+          <ActionItems>
+            <TransactionType
+              actions={receipt.actions}
+              // signerId={receipt.signerId}
+              // isTxTypeActive={isTxTypeActive}
+              onClick={switchActiveTxType}
+            />
+            {isTxTypeActive && "args" in receipt.actions[0] ? (
+              <CodeArgs args={receipt.actions[0].args} />
+            ) : null}
+            <ReceiptInfo
+              isRowActive={isTxTypeActive}
+              receipt={receipt}
+              refundReceipts={refundReceiptsMap.get(receipt.receiptId)}
+            />
+          </ActionItems>
+
           <Author>
             <Avatar />
-            <span>{receipt.signerId}</span>
+            <span>{receipt.receiverId}</span>
           </Author>
-        ) : null}
-
-        <ActionItems>
-          <TransactionType
-            actions={receipt.actions}
-            // signerId={receipt.signerId}
-            // isTxTypeActive={isTxTypeActive}
-            onClick={switchActiveTxType}
-          />
-          {isTxTypeActive && "args" in receipt.actions[0] ? (
-            <CodeArgs args={receipt.actions[0].args} />
-          ) : null}
-          <ReceiptInfo
-            isRowActive={isTxTypeActive}
-            receipt={receipt}
-            refundReceipts={refundReceiptsMap.get(receipt.receiptId)}
-          />
-        </ActionItems>
-
-        <Author>
-          <Avatar />
-          <span>{receipt.receiverId}</span>
-        </Author>
-
-        {receipt.outgoingReceipts.map((outgoingReceipt: TxReceipt) => (
-          <ExecutedReceiptRow key={outgoingReceipt.receiptId}>
-            <TransactionReceipt
-              receipt={outgoingReceipt}
-              refundReceiptsMap={refundReceiptsMap}
-              senderIsReceiver={receipt.receiverId === outgoingReceipt.signerId}
-            />
+        </ReceiptWrapper>
+        {receipt.outgoingReceipts.length > 0 ? (
+          <ExecutedReceiptRow>
+            {receipt.outgoingReceipts.map(
+              (outgoingReceipt: TxReceipt, index: number) => (
+                <TransactionReceipt
+                  key={outgoingReceipt.receiptId}
+                  receipt={outgoingReceipt}
+                  refundReceiptsMap={refundReceiptsMap}
+                  senderIsReceiver={
+                    receipt.receiverId === outgoingReceipt.signerId
+                  }
+                  index={receipt.outgoingReceipts.length - (index + 1)}
+                />
+              )
+            )}
           </ExecutedReceiptRow>
-        ))}
-      </ReceiptWrapper>
+        ) : null}
+      </>
     );
   }
 );
