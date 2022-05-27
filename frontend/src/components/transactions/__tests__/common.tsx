@@ -143,7 +143,7 @@ export const TRANSACTIONS: Transaction[] = [
           executor_id: "signer.test",
           metadata: {
             version: 1,
-            gas_profile: undefined,
+            gas_profile: null,
           },
         },
         proof: [],
@@ -165,7 +165,7 @@ export const TRANSACTIONS: Transaction[] = [
           executor_id: "signer.test",
           metadata: {
             version: 1,
-            gas_profile: undefined,
+            gas_profile: null,
           },
         },
         proof: [],
@@ -182,7 +182,7 @@ export const TRANSACTIONS: Transaction[] = [
           executor_id: "signer.test",
           metadata: {
             version: 1,
-            gas_profile: undefined,
+            gas_profile: null,
           },
         },
         proof: [],
@@ -199,7 +199,7 @@ export const TRANSACTIONS: Transaction[] = [
           executor_id: "signer.test",
           metadata: {
             version: 1,
-            gas_profile: undefined,
+            gas_profile: null,
           },
         },
         proof: [],
@@ -217,7 +217,7 @@ export const TRANSACTIONS: Transaction[] = [
         executor_id: "signer.test",
         metadata: {
           version: 1,
-          gas_profile: undefined,
+          gas_profile: null,
         },
       },
     },
@@ -290,7 +290,7 @@ export const TRANSACTIONS: Transaction[] = [
           executor_id: "signer.test",
           metadata: {
             version: 1,
-            gas_profile: undefined,
+            gas_profile: null,
           },
         },
         proof: [],
@@ -308,7 +308,7 @@ export const TRANSACTIONS: Transaction[] = [
         executor_id: "signer.test",
         metadata: {
           version: 1,
-          gas_profile: undefined,
+          gas_profile: null,
         },
       },
     },
@@ -370,7 +370,7 @@ export const TRANSACTIONS: Transaction[] = [
           executor_id: "signer.test",
           metadata: {
             version: 1,
-            gas_profile: undefined,
+            gas_profile: null,
           },
         },
         proof: [],
@@ -388,7 +388,7 @@ export const TRANSACTIONS: Transaction[] = [
         executor_id: "signer.test",
         metadata: {
           version: 1,
-          gas_profile: undefined,
+          gas_profile: null,
         },
       },
     },
@@ -477,7 +477,7 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
       executor_id: "signer.test",
       metadata: {
         version: 1,
-        gas_profile: undefined,
+        gas_profile: null,
       },
     },
   },
@@ -660,7 +660,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
       executor_id: "signer.test",
       metadata: {
         version: 1,
-        gas_profile: undefined,
+        gas_profile: null,
       },
     },
   },
@@ -761,7 +761,7 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: Transaction = {
       executor_id: "signer.test",
       metadata: {
         version: 1,
-        gas_profile: undefined,
+        gas_profile: null,
       },
     },
   },

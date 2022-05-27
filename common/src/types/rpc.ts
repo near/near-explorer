@@ -12,7 +12,8 @@ type u64 = number;
 type u128 = string;
 type bool = boolean;
 type isize = u64 | u32;
-type Option<T> = T | undefined;
+type usize = u64 | u32;
+type Option<T> = T | null;
 type String = string;
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/version/type.ProtocolVersion.html
@@ -787,6 +788,37 @@ export type FinalExecutionOutcomeWithReceiptView = /* [serde(flatten)] */ FinalE
   receipts: Vec<ReceiptView>;
 };
 
+// https://docs.rs/near-primitives/0.12.0/near_primitives/network/struct.PeerId.html
+type PeerId = PublicKey;
+
+// https://doc.rust-lang.org/nightly/std/net/enum.SocketAddr.html
+type SocketAddr = string;
+
+// https://docs.rs/near-jsonrpc-primitives/0.12.0/near_jsonrpc_primitives/types/network_info/struct.RpcPeerInfo.html
+type RpcPeerInfo = {
+  id: PeerId;
+  addr: Option<SocketAddr>;
+  account_id: Option<AccountId>;
+};
+
+// https://docs.rs/near-jsonrpc-primitives/0.12.0/near_jsonrpc_primitives/types/network_info/struct.RpcKnownProducer.html
+type RpcKnownProducer = {
+  account_id: AccountId;
+  addr: Option<SocketAddr>;
+  peer_id: PeerId;
+};
+
+// https://docs.rs/near-jsonrpc-client/latest/near_jsonrpc_client/methods/network_info/struct.RpcNetworkInfoResponse.html
+export type RpcNetworkInfoResponse = {
+  active_peers: Vec<RpcPeerInfo>;
+  num_active_peers: usize;
+  peer_max_count: u32;
+  sent_bytes_per_sec: u64;
+  received_bytes_per_sec: u64;
+  /// Accounts of known block and chunk producers from routing table.
+  known_producers: Vec<RpcKnownProducer>;
+};
+
 export type ResponseMapping = {
   EXPERIMENTAL_broadcast_tx_sync: unknown;
   EXPERIMENTAL_changes: unknown;
@@ -808,7 +840,8 @@ export type ResponseMapping = {
   gas_price: unknown;
   health: unknown;
   light_client_proof: unknown;
-  network_info: unknown;
+  // https://docs.rs/near-jsonrpc-client/latest/near_jsonrpc_client/methods/network_info/struct.RpcNetworkInfoResponse.html
+  network_info: RpcNetworkInfoResponse;
   next_light_client_block: unknown;
   // https://docs.rs/near-jsonrpc-client/latest/near_jsonrpc_client/methods/query/struct.RpcQueryResponse.html
   query: RpcQueryResponse;
