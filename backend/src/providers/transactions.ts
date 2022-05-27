@@ -62,12 +62,9 @@ export const getIsTransactionIndexed = async (
 
 export const getTransactionsList = async (
   limit: number | undefined,
-  paginationIndexer: TransactionPagination | null
+  cursor?: TransactionPagination
 ): Promise<TransactionBaseInfo[]> => {
-  const transactionsList = await queryTransactionsList(
-    limit,
-    paginationIndexer
-  );
+  const transactionsList = await queryTransactionsList(limit, cursor);
   if (transactionsList.length === 0) {
     // we should return an empty array instead of undefined
     // to allow our ListHandler to work properly
@@ -79,12 +76,12 @@ export const getTransactionsList = async (
 export const getAccountTransactionsList = async (
   accountId: string,
   limit: number | undefined,
-  paginationIndexer: TransactionPagination | null
+  cursor?: TransactionPagination
 ): Promise<TransactionBaseInfo[]> => {
   const accountTxList = await queryAccountTransactionsList(
     accountId,
     limit,
-    paginationIndexer
+    cursor
   );
   if (accountTxList.length === 0) {
     // we should return an empty array instead of undefined
@@ -97,12 +94,12 @@ export const getAccountTransactionsList = async (
 export const getTransactionsListInBlock = async (
   blockHash: string,
   limit: number | undefined,
-  paginationIndexer: TransactionPagination | null
+  cursor?: TransactionPagination
 ): Promise<TransactionBaseInfo[]> => {
   const txListInBlock = await queryTransactionsListInBlock(
     blockHash,
     limit,
-    paginationIndexer
+    cursor
   );
   if (txListInBlock.length === 0) {
     // we should return an empty array instead of undefined

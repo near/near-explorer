@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 import AccountDetails from "../../components/accounts/AccountDetails";
 import ContractDetails from "../../components/contracts/ContractDetails";
 import Transactions, {
-  Props as TransactionsProps,
+  getNextPageParam,
 } from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
@@ -18,6 +18,7 @@ import { getPrefetchObject } from "../../libraries/queries";
 import { useQuery } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
+import { useInfiniteQuery } from "../../hooks/use-infinite-query";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
@@ -35,14 +36,10 @@ const AccountDetail: NextPage<Props> = React.memo(({ accountId }) => {
     accountId,
   });
   const accountQuery = useQuery("account-info", [accountId]);
-  const fetch = React.useCallback<TransactionsProps["fetch"]>(
-    (fetcher, indexer) =>
-      fetcher("transactions-list-by-account-id", [
-        accountId,
-        TRANSACTIONS_PER_PAGE,
-        indexer ?? null,
-      ]),
-    [accountId]
+  const query = useInfiniteQuery(
+    "transactions-list-by-account-id",
+    { accountId, limit: TRANSACTIONS_PER_PAGE },
+    { getNextPageParam }
   );
 
   return (
@@ -82,7 +79,7 @@ const AccountDetail: NextPage<Props> = React.memo(({ accountId }) => {
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
-            <Transactions fetch={fetch} queryKey={["account", accountId]} />
+            <Transactions query={query} />
           </Content>
         </>
       )}

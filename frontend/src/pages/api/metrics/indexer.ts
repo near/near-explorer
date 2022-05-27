@@ -8,7 +8,10 @@ const handler: NextApiHandler = async (req, res) => {
     const networkName = getNearNetworkName(req.query, req.headers.host);
     const fetcher = getFetcher(networkName);
     const rpcFinalBlock = await fetcher("nearcore-final-block", []);
-    const indexerFinalBlock = await fetcher("blocks-list", [1, null]);
+    const indexerFinalBlock = await fetcher("blocks-list", {
+      limit: 1,
+      cursor: undefined,
+    });
 
     const prometheusResponse = json2Prom([
       {

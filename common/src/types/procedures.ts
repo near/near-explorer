@@ -231,7 +231,10 @@ export type ProcedureTypes = {
     result: boolean;
   };
   "accounts-list": {
-    args: [number, number | null];
+    args: {
+      limit: number;
+      cursor: number | undefined;
+    };
     result: AccountListInfo[];
   };
 
@@ -240,7 +243,10 @@ export type ProcedureTypes = {
     result: Block | null;
   };
   "blocks-list": {
-    args: [number, number | null];
+    args: {
+      limit: number;
+      cursor: number | undefined;
+    };
     result: BlockBase[];
   };
   "block-by-hash-or-id": {
@@ -359,15 +365,26 @@ export type ProcedureTypes = {
     result: boolean;
   };
   "transactions-list-by-account-id": {
-    args: [string, number, TransactionPagination | null];
+    args: {
+      accountId: string;
+      limit: number;
+      cursor: TransactionPagination | undefined;
+    };
     result: TransactionBaseInfo[];
   };
   "transactions-list-by-block-hash": {
-    args: [string, number, TransactionPagination | null];
+    args: {
+      blockHash: string;
+      limit: number;
+      cursor: TransactionPagination | undefined;
+    };
     result: TransactionBaseInfo[];
   };
   "transactions-list": {
-    args: [number, TransactionPagination | null];
+    args: {
+      limit: number;
+      cursor: TransactionPagination | undefined;
+    };
     result: TransactionBaseInfo[];
   };
   "transaction-info": {

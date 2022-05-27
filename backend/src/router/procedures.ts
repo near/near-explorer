@@ -75,31 +75,23 @@ export const procedureHandlers: ProcedureHandlers = {
     return await stats.getDepositAmountByDate();
   },
 
-  "transactions-list": async ([limit, paginationIndexer]) => {
-    return await transactions.getTransactionsList(limit, paginationIndexer);
+  "transactions-list": async ({ limit, cursor }) => {
+    return await transactions.getTransactionsList(limit, cursor);
   },
 
-  "transactions-list-by-account-id": async ([
-    accountId,
-    limit,
-    paginationIndexer,
-  ]) => {
+  "transactions-list-by-account-id": async ({ accountId, limit, cursor }) => {
     return await transactions.getAccountTransactionsList(
       accountId,
       limit,
-      paginationIndexer
+      cursor
     );
   },
 
-  "transactions-list-by-block-hash": async ([
-    blockHash,
-    limit,
-    paginationIndexer,
-  ]) => {
+  "transactions-list-by-block-hash": async ({ blockHash, limit, cursor }) => {
     return await transactions.getTransactionsListInBlock(
       blockHash,
       limit,
-      paginationIndexer
+      cursor
     );
   },
 
@@ -215,8 +207,8 @@ export const procedureHandlers: ProcedureHandlers = {
     return await accounts.isAccountIndexed(accountId);
   },
 
-  "accounts-list": async ([limit, paginationIndexer]) => {
-    return await accounts.getAccountsList(limit, paginationIndexer);
+  "accounts-list": async ({ limit, cursor }) => {
+    return await accounts.getAccountsList(limit, cursor);
   },
 
   "account-transactions-count": async ([accountId]) => {
@@ -241,8 +233,8 @@ export const procedureHandlers: ProcedureHandlers = {
   "first-produced-block-timestamp": async () => {
     return await stats.getFirstProducedBlockTimestamp();
   },
-  "blocks-list": async ([limit, paginationIndexer]) => {
-    return await blocks.getBlocksList(limit, paginationIndexer);
+  "blocks-list": async ({ limit, cursor }) => {
+    return await blocks.getBlocksList(limit, cursor);
   },
   "block-info": async ([blockId]) => {
     const block = await blocks.getBlockInfo(blockId);

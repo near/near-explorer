@@ -7,9 +7,9 @@ import {
 
 export const getBlocksList = async (
   limit: number,
-  paginationIndexer: number | null
+  cursor?: number
 ): Promise<BlockBase[]> => {
-  const blocksList = await queryBlocksList(limit, paginationIndexer);
+  const blocksList = await queryBlocksList(limit, cursor);
   return blocksList.map((block) => ({
     hash: block.hash,
     height: parseInt(block.height),
