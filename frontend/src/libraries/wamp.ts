@@ -123,9 +123,10 @@ export const fetch = async <P extends ProcedureType>(
   args: ProcedureArgs<P>
 ): Promise<ProcedureResult<P>> => {
   const session = await getSession();
-  const result = await session.call(
-    wrapProcedure(networkName, procedure),
-    args
-  );
-  return result as ProcedureResult<P>;
+  const procedureName = wrapProcedure(networkName, procedure);
+  if (Array.isArray(args)) {
+    return session.call<ProcedureResult<P>>(procedureName, args, {});
+  } else {
+    return session.call<ProcedureResult<P>>(procedureName, [], args);
+  }
 };

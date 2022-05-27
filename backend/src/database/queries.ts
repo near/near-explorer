@@ -219,7 +219,7 @@ export const queryDepositAmountAggregatedByDate = async () => {
 
 export const queryTransactionsList = async (
   limit: number = 15,
-  paginationIndexer: TransactionPagination | null
+  cursor?: TransactionPagination
 ) => {
   let selection = indexerDatabase
     .selectFrom("transactions")
@@ -231,16 +231,16 @@ export const queryTransactionsList = async (
       (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
     ]);
-  if (paginationIndexer !== null) {
+  if (cursor !== undefined) {
     const endTimestamp = millisecondsToNanoseconds(
-      paginationIndexer.endTimestamp
+      cursor.endTimestamp
     ).toString();
     selection = selection
       .where("block_timestamp", "<", endTimestamp)
       .orWhere((wi) =>
         wi
           .where("block_timestamp", "=", endTimestamp)
-          .where("index_in_chunk", "<", paginationIndexer.transactionIndex)
+          .where("index_in_chunk", "<", cursor.transactionIndex)
       );
   }
   return selection
@@ -253,7 +253,7 @@ export const queryTransactionsList = async (
 export const queryAccountTransactionsList = async (
   accountId: string,
   limit: number = 15,
-  paginationIndexer: TransactionPagination | null
+  cursor?: TransactionPagination
 ) => {
   let selection = indexerDatabase
     .selectFrom("transactions")
@@ -265,9 +265,9 @@ export const queryAccountTransactionsList = async (
       (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
     ]);
-  if (paginationIndexer !== null) {
+  if (cursor !== undefined) {
     const endTimestamp = millisecondsToNanoseconds(
-      paginationIndexer.endTimestamp
+      cursor.endTimestamp
     ).toString();
     selection = selection
       .where("transaction_hash", "in", (eb) =>
@@ -283,7 +283,7 @@ export const queryAccountTransactionsList = async (
           .orWhere((wi) =>
             wi
               .where("block_timestamp", "=", endTimestamp)
-              .where("index_in_chunk", "<", paginationIndexer.transactionIndex)
+              .where("index_in_chunk", "<", cursor.transactionIndex)
           )
       );
   } else {
@@ -305,7 +305,7 @@ export const queryAccountTransactionsList = async (
 export const queryTransactionsListInBlock = async (
   blockHash: string,
   limit: number = 15,
-  paginationIndexer: TransactionPagination | null
+  cursor?: TransactionPagination
 ) => {
   let selection = indexerDatabase
     .selectFrom("transactions")
@@ -318,9 +318,9 @@ export const queryTransactionsListInBlock = async (
       "index_in_chunk as transaction_index",
     ])
     .where("included_in_block_hash", "=", blockHash);
-  if (paginationIndexer !== null) {
+  if (cursor !== undefined) {
     const endTimestamp = millisecondsToNanoseconds(
-      paginationIndexer.endTimestamp
+      cursor.endTimestamp
     ).toString();
     selection = selection.where((wi) =>
       wi
@@ -328,7 +328,7 @@ export const queryTransactionsListInBlock = async (
         .orWhere((wi) =>
           wi
             .where("block_timestamp", "=", endTimestamp)
-            .where("index_in_chunk", "<", paginationIndexer.transactionIndex)
+            .where("index_in_chunk", "<", cursor.transactionIndex)
         )
     );
   }
@@ -444,7 +444,7 @@ export const queryIndexedAccount = async (accountId: string) => {
 
 export const queryAccountsList = async (
   limit: number = 15,
-  lastAccountIndex: number | null
+  cursor?: number
 ) => {
   let selection = indexerDatabase
     .selectFrom("accounts")
@@ -452,8 +452,8 @@ export const queryAccountsList = async (
     .leftJoin("receipts", (join) =>
       join.onRef("receipt_id", "=", "created_by_receipt_id")
     );
-  if (lastAccountIndex !== null) {
-    selection = selection.where("id", "<", lastAccountIndex.toString());
+  if (cursor !== undefined) {
+    selection = selection.where("id", "<", cursor.toString());
   }
   return selection.orderBy("account_index", "desc").limit(limit).execute();
 };
@@ -758,18 +758,15 @@ export const queryFirstProducedBlockTimestamp = async () => {
     .executeTakeFirstOrThrow();
 };
 
-export const queryBlocksList = async (
-  limit: number = 15,
-  paginationIndexer: number | null
-) => {
+export const queryBlocksList = async (limit: number = 15, cursor?: number) => {
   const selection = await indexerDatabase
     .selectFrom((eb) => {
       let selection = eb.selectFrom("blocks").select("block_hash");
-      if (paginationIndexer !== null) {
+      if (cursor !== undefined) {
         selection = selection.where(
           "block_timestamp",
           "<",
-          millisecondsToNanoseconds(paginationIndexer).toString()
+          millisecondsToNanoseconds(cursor).toString()
         );
       }
       return selection

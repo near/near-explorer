@@ -1,40 +1,59 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 
 import BlocksRow from "./BlocksRow";
-import { BlockBase } from "../../types/common";
+import Placeholder from "../utils/Placeholder";
+import { useInfiniteQuery } from "../../hooks/use-infinite-query";
+import { useLatestBlockHeight } from "../../hooks/data";
 
 const BLOCKS_PER_PAGE = 15;
 
-export interface Props {
-  items: BlockBase[];
-}
+const Blocks: React.FC = React.memo(() => {
+  const { t } = useTranslation();
+  const latestBlockHeight = useLatestBlockHeight();
 
-const Blocks: React.FC<Props> = React.memo(({ items }) => (
-  <FlipMove duration={1000} staggerDurationBy={0}>
-    {items.map((block) => (
-      <div key={block.hash}>
-        <BlocksRow block={block} />
-      </div>
-    ))}
-  </FlipMove>
-));
-
-const BlocksList = ListHandler<BlockBase, number>({
-  Component: Blocks,
-  key: "Block",
-  hasUpdateButton: true,
-  paginationIndexer: (lastPage) => {
-    const lastElement = lastPage[lastPage.length - 1];
-    if (!lastElement) {
-      return;
+  const query = useInfiniteQuery(
+    "blocks-list",
+    { limit: BLOCKS_PER_PAGE },
+    {
+      getNextPageParam: (lastPage) => {
+        const lastElement = lastPage[lastPage.length - 1];
+        if (!lastElement) {
+          return;
+        }
+        return lastElement.timestamp;
+      },
     }
-    return lastElement.timestamp;
-  },
-  fetch: (fetcher, paginationIndexer) =>
-    fetcher("blocks-list", [BLOCKS_PER_PAGE, paginationIndexer ?? null]),
+  );
+
+  const refetch = React.useCallback(() => query.refetch(), [query.refetch]);
+
+  return (
+    <ListHandler
+      query={query}
+      prependChildren={
+        <div onClick={refetch}>
+          <Placeholder>
+            {`${t("utils.ListHandler.last_block")}#${latestBlockHeight}.`}
+            {t("utils.Update.refresh")}
+          </Placeholder>
+        </div>
+      }
+    >
+      {(items) => (
+        <FlipMove duration={1000} staggerDurationBy={0}>
+          {items.map((block) => (
+            <div key={block.hash}>
+              <BlocksRow block={block} />
+            </div>
+          ))}
+        </FlipMove>
+      )}
+    </ListHandler>
+  );
 });
 
-export default BlocksList;
+export default Blocks;

@@ -59,7 +59,13 @@ export const initPubSub = (
     for (const [name, endpoint] of handlers) {
       const uri = wrapProcedure(config.networkName, name as ProcedureType);
       try {
-        await session.register(uri, (args: any) => endpoint(args, state));
+        await session.register(uri, (args, kwargs) => {
+          if (Object.keys(kwargs).length !== 0) {
+            return endpoint(kwargs, state);
+          } else {
+            return endpoint(args, state);
+          }
+        });
       } catch (error) {
         console.error(`Failed to register "${uri}" handler due to:`, error);
         wamp.close();

@@ -6,7 +6,7 @@ import BlockDetails from "../../components/blocks/BlockDetails";
 import ReceiptsIncludedInBlock from "../../components/receipts/ReceiptsIncludedInBlock";
 import ReceiptsExecutedInBlock from "../../components/receipts/ReceiptsExecutedInBlock";
 import Transactions, {
-  Props as TransactionsProps,
+  getNextPageParam,
 } from "../../components/transactions/Transactions";
 import Content from "../../components/utils/Content";
 
@@ -17,6 +17,7 @@ import { getPrefetchObject } from "../../libraries/queries";
 import { useQuery } from "../../hooks/use-query";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
+import { useInfiniteQuery } from "../../hooks/use-infinite-query";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
@@ -34,14 +35,10 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
     block: props.hash,
   });
   const blockQuery = useQuery("block-info", [props.hash]);
-  const fetch = React.useCallback<TransactionsProps["fetch"]>(
-    (fetcher, indexer) =>
-      fetcher("transactions-list-by-block-hash", [
-        props.hash,
-        TRANSACTIONS_PER_PAGE,
-        indexer ?? null,
-      ]),
-    [props.hash]
+  const query = useInfiniteQuery(
+    "transactions-list-by-block-hash",
+    { blockHash: props.hash, limit: TRANSACTIONS_PER_PAGE },
+    { getNextPageParam }
   );
 
   return (
@@ -71,7 +68,7 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
             icon={<TransactionIcon />}
             title={<h2>{t("common.transactions.transactions")}</h2>}
           >
-            <Transactions fetch={fetch} queryKey={["block", props.hash]} />
+            <Transactions query={query} />
           </Content>
 
           <Content

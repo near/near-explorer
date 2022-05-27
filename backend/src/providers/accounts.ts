@@ -20,9 +20,9 @@ export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
 
 export const getAccountsList = async (
   limit: number,
-  lastAccountIndex: number | null
+  cursor?: number
 ): Promise<AccountListInfo[]> => {
-  const accountsList = await queryAccountsList(limit, lastAccountIndex);
+  const accountsList = await queryAccountsList(limit, cursor);
   return accountsList.map((account) => ({
     accountId: account.account_id,
     accountIndex: parseInt(account.account_index),

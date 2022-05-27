@@ -10,7 +10,7 @@ import { MINUTE } from "./time";
 export const getProcedureKey = <P extends ProcedureType>(
   procedure: P,
   args: ProcedureArgs<P>
-): ReactQuery.QueryKey => ["procedure", procedure, ...args];
+): ReactQuery.QueryKey => ["procedure", procedure, args];
 
 export const createQueryClient = () =>
   new ReactQuery.QueryClient({
