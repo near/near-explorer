@@ -188,7 +188,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
               className="c-ActionRowMessage-PJLV row no-gutters"
             >
               <div
-                className="col-md-8 col-7"
+                className="col-md-12 col-12"
               >
                 <div
                   className="row no-gutters"
@@ -215,24 +215,28 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                       </dt>
                       <dd>
                         <div
-                          className="c-Wrapper-fswXQT"
-                          style={
-                            Object {
-                              "maxHeight": 200,
-                            }
-                          }
+                          className="c-Wrapper-hgxcBQ"
                         >
-                          <link
-                            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                            rel="stylesheet"
-                          />
                           <div
-                            className="c-CodePreviewWrapper-gWwuPL"
+                            className="c-Wrapper-fswXQT"
+                            style={
+                              Object {
+                                "maxHeight": 200,
+                              }
+                            }
                           >
-                            {
+                            <link
+                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                              rel="stylesheet"
+                            />
+                            <div
+                              className="c-CodePreviewWrapper-gJFGlx"
+                            >
+                              {
   "listing_id": "000028066",
   "seller_transaction_id": "tr_1IWD3SBwavzc3Cjzlb5ZMkPk"
 }
+                            </div>
                           </div>
                         </div>
                       </dd>
@@ -477,7 +481,7 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
                       className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
-                        className="col-md-8 col-7"
+                        className="col-md-12 col-12"
                       >
                         <div
                           className="row no-gutters"
@@ -731,7 +735,7 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
               className="c-ActionRowMessage-PJLV row no-gutters"
             >
               <div
-                className="col-md-8 col-7"
+                className="col-md-12 col-12"
               >
                 <div
                   className="row no-gutters"
@@ -758,26 +762,30 @@ exports[`<ReceiptRow /> renders receipt with many outcome receipts 1`] = `
                       </dt>
                       <dd>
                         <div
-                          className="c-Wrapper-fswXQT"
-                          style={
-                            Object {
-                              "maxHeight": 200,
-                            }
-                          }
+                          className="c-Wrapper-hgxcBQ"
                         >
-                          <link
-                            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                            rel="stylesheet"
-                          />
                           <div
-                            className="c-CodePreviewWrapper-gWwuPL"
+                            className="c-Wrapper-fswXQT"
+                            style={
+                              Object {
+                                "maxHeight": 200,
+                              }
+                            }
                           >
-                            {
+                            <link
+                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                              rel="stylesheet"
+                            />
+                            <div
+                              className="c-CodePreviewWrapper-gJFGlx"
+                            >
+                              {
   "receiver_id": "farm.berryclub.ek.near",
   "amount": "9807229473212706028",
   "memo": "Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒",
   "msg": "\\"DepositAndStake\\""
 }
+                            </div>
                           </div>
                         </div>
                       </dd>
@@ -1010,7 +1018,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
-                        className="col-md-8 col-7"
+                        className="col-md-12 col-12"
                       >
                         <div
                           className="row no-gutters"
@@ -1037,25 +1045,29 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               </dt>
                               <dd>
                                 <div
-                                  className="c-Wrapper-fswXQT"
-                                  style={
-                                    Object {
-                                      "maxHeight": 200,
-                                    }
-                                  }
+                                  className="c-Wrapper-hgxcBQ"
                                 >
-                                  <link
-                                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                                    rel="stylesheet"
-                                  />
                                   <div
-                                    className="c-CodePreviewWrapper-gWwuPL"
+                                    className="c-Wrapper-fswXQT"
+                                    style={
+                                      Object {
+                                        "maxHeight": 200,
+                                      }
+                                    }
                                   >
-                                    {
+                                    <link
+                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                                      rel="stylesheet"
+                                    />
+                                    <div
+                                      className="c-CodePreviewWrapper-gJFGlx"
+                                    >
+                                      {
   "sender_id": "leonardwcai.near",
   "amount": "9807229473212706028",
   "msg": "\\"DepositAndStake\\""
 }
+                                    </div>
                                   </div>
                                 </div>
                               </dd>
@@ -1079,21 +1091,25 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   : 
                 </i>
                 <div
-                  className="c-Wrapper-fswXQT"
-                  style={
-                    Object {
-                      "maxHeight": 200,
-                    }
-                  }
+                  className="c-Wrapper-hgxcBQ"
                 >
-                  <link
-                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                    rel="stylesheet"
-                  />
                   <div
-                    className="c-CodePreviewWrapper-gWwuPL"
+                    className="c-Wrapper-fswXQT"
+                    style={
+                      Object {
+                        "maxHeight": 200,
+                      }
+                    }
                   >
-                    "0"
+                    <link
+                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                      rel="stylesheet"
+                    />
+                    <div
+                      className="c-CodePreviewWrapper-gJFGlx"
+                    >
+                      "0"
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1300,7 +1316,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               className="c-ActionRowMessage-PJLV row no-gutters"
                             >
                               <div
-                                className="col-md-8 col-7"
+                                className="col-md-12 col-12"
                               >
                                 <div
                                   className="row no-gutters"
@@ -1559,7 +1575,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
-                        className="col-md-8 col-7"
+                        className="col-md-12 col-12"
                       >
                         <div
                           className="row no-gutters"
@@ -1586,25 +1602,29 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               </dt>
                               <dd>
                                 <div
-                                  className="c-Wrapper-fswXQT"
-                                  style={
-                                    Object {
-                                      "maxHeight": 200,
-                                    }
-                                  }
+                                  className="c-Wrapper-hgxcBQ"
                                 >
-                                  <link
-                                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                                    rel="stylesheet"
-                                  />
                                   <div
-                                    className="c-CodePreviewWrapper-gWwuPL"
+                                    className="c-Wrapper-fswXQT"
+                                    style={
+                                      Object {
+                                        "maxHeight": 200,
+                                      }
+                                    }
                                   >
-                                    {
+                                    <link
+                                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                                      rel="stylesheet"
+                                    />
+                                    <div
+                                      className="c-CodePreviewWrapper-gJFGlx"
+                                    >
+                                      {
   "sender_id": "leonardwcai.near",
   "receiver_id": "farm.berryclub.ek.near",
   "amount": "9807229473212706028"
 }
+                                    </div>
                                   </div>
                                 </div>
                               </dd>
@@ -1628,21 +1648,25 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                   : 
                 </i>
                 <div
-                  className="c-Wrapper-fswXQT"
-                  style={
-                    Object {
-                      "maxHeight": 200,
-                    }
-                  }
+                  className="c-Wrapper-hgxcBQ"
                 >
-                  <link
-                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                    rel="stylesheet"
-                  />
                   <div
-                    className="c-CodePreviewWrapper-gWwuPL"
+                    className="c-Wrapper-fswXQT"
+                    style={
+                      Object {
+                        "maxHeight": 200,
+                      }
+                    }
                   >
-                    "9807229473212706028"
+                    <link
+                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                      rel="stylesheet"
+                    />
+                    <div
+                      className="c-CodePreviewWrapper-gJFGlx"
+                    >
+                      "9807229473212706028"
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1849,7 +1873,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                               className="c-ActionRowMessage-PJLV row no-gutters"
                             >
                               <div
-                                className="col-md-8 col-7"
+                                className="col-md-12 col-12"
                               >
                                 <div
                                   className="row no-gutters"
@@ -2108,7 +2132,7 @@ Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒
                       className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
-                        className="col-md-8 col-7"
+                        className="col-md-12 col-12"
                       >
                         <div
                           className="row no-gutters"
@@ -2362,7 +2386,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
               className="c-ActionRowMessage-PJLV row no-gutters"
             >
               <div
-                className="col-md-8 col-7"
+                className="col-md-12 col-12"
               >
                 <div
                   className="row no-gutters"
@@ -2389,27 +2413,31 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                       </dt>
                       <dd>
                         <div
-                          className="c-Wrapper-fswXQT"
-                          style={
-                            Object {
-                              "maxHeight": 200,
-                            }
-                          }
+                          className="c-Wrapper-hgxcBQ"
                         >
-                          <link
-                            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                            rel="stylesheet"
-                          />
                           <div
-                            className="c-CodePreviewWrapper-gWwuPL"
+                            className="c-Wrapper-fswXQT"
+                            style={
+                              Object {
+                                "maxHeight": 200,
+                              }
+                            }
                           >
-                            {
+                            <link
+                              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                              rel="stylesheet"
+                            />
+                            <div
+                              className="c-CodePreviewWrapper-gJFGlx"
+                            >
+                              {
   "request": {
     "left": 32626789,
     "right": 32132129
   },
   "response": "Skipped"
 }
+                            </div>
                           </div>
                         </div>
                       </dd>
@@ -2433,24 +2461,28 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
           : 
         </i>
         <div
-          className="c-Wrapper-fswXQT"
-          style={
-            Object {
-              "maxHeight": 200,
-            }
-          }
+          className="c-Wrapper-hgxcBQ"
         >
-          <link
-            href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-            rel="stylesheet"
-          />
           <div
-            className="c-CodePreviewWrapper-gWwuPL"
+            className="c-Wrapper-fswXQT"
+            style={
+              Object {
+                "maxHeight": 200,
+              }
+            }
           >
-            {
+            <link
+              href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+              rel="stylesheet"
+            />
+            <div
+              className="c-CodePreviewWrapper-gJFGlx"
+            >
+              {
   "left": 29647268,
   "right": 22016008
 }
+            </div>
           </div>
         </div>
       </div>
@@ -2657,7 +2689,7 @@ exports[`<ReceiptRow /> renders successful receipt 1`] = `
                       className="c-ActionRowMessage-PJLV row no-gutters"
                     >
                       <div
-                        className="col-md-8 col-7"
+                        className="col-md-12 col-12"
                       >
                         <div
                           className="row no-gutters"

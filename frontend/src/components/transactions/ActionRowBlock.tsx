@@ -162,7 +162,10 @@ const ActionRowBlock: React.FC<Props> = React.memo(
           </Col>
           <ActionRowDetails type={viewMode}>
             <ActionRowMessage type={viewMode} noGutters>
-              <Col md="8" xs="7">
+              <Col
+                md={detalizationMode === "detailed" ? 8 : 12}
+                xs={detalizationMode === "detailed" ? 7 : 12}
+              >
                 <Row noGutters>
                   <ActionRowTitle>{title}</ActionRowTitle>
                 </Row>

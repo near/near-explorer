@@ -411,23 +411,27 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
               </dt>
               <dd>
                 <div
-                  className="c-Wrapper-fswXQT"
-                  style={
-                    Object {
-                      "maxHeight": 200,
-                    }
-                  }
+                  className="c-Wrapper-hgxcBQ"
                 >
-                  <link
-                    href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-                    rel="stylesheet"
-                  />
                   <div
-                    className="c-CodePreviewWrapper-gWwuPL"
+                    className="c-Wrapper-fswXQT"
+                    style={
+                      Object {
+                        "maxHeight": 200,
+                      }
+                    }
                   >
-                    {
+                    <link
+                      href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
+                      rel="stylesheet"
+                    />
+                    <div
+                      className="c-CodePreviewWrapper-gJFGlx"
+                    >
+                      {
   "text": "when ico?"
 }
+                    </div>
                   </div>
                 </div>
               </dd>
