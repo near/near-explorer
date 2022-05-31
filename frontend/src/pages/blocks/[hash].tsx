@@ -11,33 +11,31 @@ import Transactions, {
 import Content from "../../components/utils/Content";
 
 import { useTranslation } from "react-i18next";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getPrefetchObject } from "../../libraries/queries";
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
-import { useInfiniteQuery } from "../../hooks/use-infinite-query";
+import { useRouter } from "next/router";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
 });
 
-type Props = {
-  hash: string;
-};
-
 const TRANSACTIONS_PER_PAGE = 1000;
 
-const BlockDetail: NextPage<Props> = React.memo((props) => {
+const BlockDetail: NextPage = React.memo(() => {
+  const hash = useRouter().query.hash as string;
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
-    block: props.hash,
+    block: hash,
   });
-  const blockQuery = useQuery("block-info", [props.hash]);
-  const query = useInfiniteQuery(
-    "transactions-list-by-block-hash",
-    { blockHash: props.hash, limit: TRANSACTIONS_PER_PAGE },
+  const blockQuery = trpc.useQuery(["block-info", [hash]]);
+  const query = trpc.useInfiniteQuery(
+    [
+      "transactions-list-by-block-hash",
+      { blockHash: hash, limit: TRANSACTIONS_PER_PAGE },
+    ],
     { getNextPageParam }
   );
 
@@ -51,7 +49,7 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
           <h1>{`${t("page.blocks.title")} ${
             blockQuery.data
               ? `#${blockQuery.data.height}`
-              : `${props.hash.substring(0, 7)}...`
+              : `${hash.substring(0, 7)}...`
           }`}</h1>
         }
         border={false}
@@ -75,42 +73,19 @@ const BlockDetail: NextPage<Props> = React.memo((props) => {
             icon={<TransactionIcon />}
             title={<h2>{t("component.receipts.ReceiptsIncludedInBlock")}</h2>}
           >
-            <ReceiptsIncludedInBlock blockHash={props.hash} />
+            <ReceiptsIncludedInBlock blockHash={hash} />
           </Content>
 
           <Content
             icon={<TransactionIcon />}
             title={<h2>{t("component.receipts.ReceiptsExecutedInBlock")}</h2>}
           >
-            <ReceiptsExecutedInBlock blockHash={props.hash} />
+            <ReceiptsExecutedInBlock blockHash={hash} />
           </Content>
         </>
       ) : null}
     </>
   );
 });
-
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { hash: string }
-> = async ({ req, params, query }) => {
-  const hash = params?.hash ?? "";
-  try {
-    const prefetchObject = getPrefetchObject(query, req.headers.host);
-    await prefetchObject.prefetch("block-info", [hash]);
-    return {
-      props: {
-        hash,
-        dehydratedState: prefetchObject.dehydrate(),
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        hash,
-      },
-    };
-  }
-};
 
 export default BlockDetail;

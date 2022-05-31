@@ -27,25 +27,32 @@
   },
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
-    "autobahn": "^20.9.2",
+    "@trpc/server": "^9.23.3",
+    "cors": "^2.8.5",
     "dotenv-cli": "^5.0.0",
+    "express": "^4.18.1",
     "geoip-lite": "^1.4.2",
     "js-sha256": "^0.9.0",
-    "lodash": "^4.17.21",
     "kysely": "^0.18.1",
+    "lodash": "^4.17.21",
     "near-api-js": "^0.44.1",
     "pg": "^8.7.3",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "ws": "^8.6.0",
+    "zod": "^3.16.0"
   },
   "devDependencies": {
     "@kristiandupont/recase": "^1.1.2",
-    "@types/autobahn": "^20.9.0",
     "@types/bn.js": "^5.1.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
     "@types/geoip-lite": "^1.4.1",
     "@types/lodash": "^4.14.182",
     "@types/pg": "^8.6.4",
+    "@types/ws": "^8.5.3",
     "kanel": "^2.4.4",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "typed-emitter": "^2.1.0"
   }
 }

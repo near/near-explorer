@@ -1,9 +1,10 @@
 import geoip from "geoip-lite";
-import { TelemetryRequest } from "../types";
+import { z } from "zod";
 import {
   maybeCreateTelemetryTable,
   maybeSendTelemetry,
 } from "../database/queries";
+import { validators } from "../router/validators";
 
 // Skip initializing Telemetry database if the backend is not configured to
 // save telemety data (it is absolutely fine for local development)
@@ -12,7 +13,7 @@ export const setup = async () => {
 };
 
 export const sendTelemetry = async (
-  nodeInfo: TelemetryRequest
+  nodeInfo: z.infer<typeof validators.telemetryRequest>
 ): Promise<void> => {
   if (!nodeInfo.hasOwnProperty("agent")) {
     // This seems to be an old format, and all our nodes should support the new

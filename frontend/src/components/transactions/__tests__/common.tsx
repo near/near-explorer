@@ -220,6 +220,7 @@ export const TRANSACTIONS: Transaction[] = [
           gas_profile: null,
         },
       },
+      proof: [],
     },
   },
   //one deposit with small amount
@@ -311,6 +312,7 @@ export const TRANSACTIONS: Transaction[] = [
           gas_profile: null,
         },
       },
+      proof: [],
     },
   },
   //multi deposit with huge amount
@@ -391,6 +393,7 @@ export const TRANSACTIONS: Transaction[] = [
           gas_profile: null,
         },
       },
+      proof: [],
     },
   },
 ];
@@ -480,6 +483,7 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
         gas_profile: null,
       },
     },
+    proof: [],
   },
 };
 
@@ -663,6 +667,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
         gas_profile: null,
       },
     },
+    proof: [],
   },
 };
 
@@ -764,6 +769,7 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: Transaction = {
         gas_profile: null,
       },
     },
+    proof: [],
   },
 };
 

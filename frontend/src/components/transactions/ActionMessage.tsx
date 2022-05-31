@@ -6,7 +6,7 @@ import Balance from "../utils/Balance";
 import CodePreview from "../utils/CodePreview";
 
 import { useTranslation } from "react-i18next";
-import { Action, ActionMapping } from "../../types/common";
+import { Action } from "../../types/common";
 
 export interface Props<A extends Action> {
   actionKind: A["kind"];
@@ -15,8 +15,14 @@ export interface Props<A extends Action> {
   showDetails?: boolean;
 }
 
+type InferAction<Kind extends Action["kind"], A = Action> = A extends {
+  kind: Kind;
+}
+  ? A
+  : never;
+
 type TransactionMessageRenderers = {
-  [K in Action["kind"]]: React.FC<Props<ActionMapping[K]>>;
+  [K in Action["kind"]]: React.FC<Props<InferAction<K>>>;
 };
 
 export const Args: React.FC<{ args: string }> = React.memo(({ args }) => {

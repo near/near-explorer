@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import { DeployInfo as DeployInfoProps } from "../../types/common";
 
@@ -51,7 +51,9 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
     () => setExpanded((expanded) => !expanded),
     [setExpanded]
   );
-  const { data: server } = useQuery("deploy-info", [], { enabled: expanded });
+  const { data: server } = trpc.useQuery(["deploy-info"], {
+    enabled: expanded,
+  });
   let content: React.ReactNode = "◍";
   if (expanded) {
     content = (

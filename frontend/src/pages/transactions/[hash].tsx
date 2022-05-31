@@ -9,27 +9,24 @@ import TransactionOutcome from "../../components/transactions/TransactionOutcome
 import Content from "../../components/utils/Content";
 
 import { useTranslation } from "react-i18next";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getPrefetchObject } from "../../libraries/queries";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
+import { useRouter } from "next/router";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
 });
 
-type Props = {
-  hash: string;
-};
-
-const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
+const TransactionDetailsPage: NextPage = React.memo(() => {
+  const hash = useRouter().query.hash as string;
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
-    transaction_hash: props.hash,
+    transaction_hash: hash,
   });
-  const transactionQuery = useQuery("transaction-info", [props.hash]);
+  const transactionQuery = trpc.useQuery(["transaction-info", [hash]]);
   const transaction = transactionQuery.data;
 
   return (
@@ -41,9 +38,7 @@ const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
         title={
           <h1>
             {t("common.transactions.transaction")}
-            {`: ${props.hash.substring(0, 7)}...${props.hash.substring(
-              props.hash.length - 4
-            )}`}
+            {`: ${hash.substring(0, 7)}...${hash.substring(hash.length - 4)}`}
           </h1>
         }
         border={false}
@@ -88,26 +83,5 @@ const TransactionDetailsPage: NextPage<Props> = React.memo((props) => {
     </>
   );
 });
-
-export const getServerSideProps: GetServerSideProps<
-  Props,
-  { hash: string }
-> = async ({ req, params, query }) => {
-  const hash = params?.hash ?? "";
-  try {
-    const prefetchObject = getPrefetchObject(query, req.headers.host);
-    await prefetchObject.prefetch("transaction-info", [hash]);
-    return {
-      props: {
-        hash,
-        dehydratedState: prefetchObject.dehydrate(),
-      },
-    };
-  } catch (err) {
-    return {
-      props: { hash, err: String(err) },
-    };
-  }
-};
 
 export default TransactionDetailsPage;

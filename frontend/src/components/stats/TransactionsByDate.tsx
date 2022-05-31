@@ -6,7 +6,7 @@ import * as echarts from "echarts";
 import { cumulativeSumArray } from "../../libraries/stats";
 
 import { useTranslation } from "react-i18next";
-import { useQueryOrDefault } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 
 export interface Props {
   chartStyle: object;
@@ -16,7 +16,7 @@ const TransactionsByDateChart: React.FC<Props> = React.memo(
   ({ chartStyle }) => {
     const { t } = useTranslation();
     const transactionCountByDate =
-      useQueryOrDefault("transactions-count-aggregated-by-date", [], []) ?? [];
+      trpc.useQuery(["transactions-count-aggregated-by-date"]).data ?? [];
     const transactionsByDate = React.useMemo(
       () =>
         transactionCountByDate.map(({ transactionsCount }) =>

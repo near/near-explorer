@@ -1,14 +1,10 @@
-import { BlockBase, Block } from "../types";
 import {
   queryBlocksList,
   queryBlockInfo,
   queryBlockByHashOrId,
 } from "../database/queries";
 
-export const getBlocksList = async (
-  limit: number,
-  cursor?: number
-): Promise<BlockBase[]> => {
+export const getBlocksList = async (limit: number, cursor?: number) => {
   const blocksList = await queryBlocksList(limit, cursor);
   return blocksList.map((block) => ({
     hash: block.hash,
@@ -19,9 +15,7 @@ export const getBlocksList = async (
   }));
 };
 
-export const getBlockInfo = async (
-  blockId: string | number
-): Promise<Omit<Block, "gasUsed" | "receiptsCount"> | null> => {
+export const getBlockInfo = async (blockId: string | number) => {
   const blockInfo = await queryBlockInfo(blockId);
   if (!blockInfo) {
     return null;

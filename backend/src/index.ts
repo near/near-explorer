@@ -1,26 +1,35 @@
-import { initPubSub } from "./pubsub";
+import { EventEmitter } from "events";
 import { setup as setupTelemetryDb } from "./providers/telemetry";
 import { runTasks } from "./cron";
-import { GlobalState, initGlobalState } from "./global-state";
+import { AppRouter, router } from "./router";
+import { connectWebsocketServer, createApp } from "./server";
+import { config } from "./config";
+import { initGlobalState } from "./global-state";
 import { Context } from "./context";
-import { ProcedureHandlers, procedureHandlers } from "./router/procedures";
-import autobahn from "autobahn";
 
-async function main(handlers: ProcedureHandlers): Promise<void> {
-  console.log("Starting Explorer backend & pub-sub controller...");
-
-  const state: GlobalState = initGlobalState();
-  const controller = initPubSub(
-    state,
-    Object.entries(handlers).map(([key, handler]) => [
-      key,
-      ((args) => handler(args as any, state)) as autobahn.RegisterEndpoint,
-    ])
-  );
+async function main(router: AppRouter): Promise<void> {
+  console.log("Starting Explorer backend...");
   const context: Context = {
-    state,
-    publishWamp: controller.publish,
+    state: initGlobalState(),
+    subscriptionsCache: {},
+    subscriptionsEventEmitter: new EventEmitter() as Context["subscriptionsEventEmitter"],
   };
+
+  // We subscribe to the emitter on every client subscriber
+  // Therefore we set max listeners to limit to infinity
+  context.subscriptionsEventEmitter.setMaxListeners(0);
+  const trpcOptions = {
+    router,
+    createContext: () => context,
+  };
+
+  const app = createApp(trpcOptions);
+
+  const server = app.listen(config.port, () => {
+    console.log(`Server is running on port ${config.port}`);
+  });
+
+  const disconnectWebsocketServer = connectWebsocketServer(server, trpcOptions);
 
   await setupTelemetryDb();
 
@@ -28,9 +37,15 @@ async function main(handlers: ProcedureHandlers): Promise<void> {
 
   const gracefulShutdown = (signal: NodeJS.Signals) => {
     console.log(`Got ${signal} signal, shutting down`);
+    disconnectWebsocketServer();
     stopTasks();
-    console.log(`Shut down gracefully`);
-    process.exit(0);
+    server.close((err) => {
+      if (err) {
+        console.error("Error on server close", err);
+      }
+      console.log(`Shut down ${err ? "with error" : "gracefully"}`);
+      process.exit(err ? 1 : 0);
+    });
   };
   process.on("SIGTERM", gracefulShutdown);
   process.on("SIGINT", gracefulShutdown);
@@ -38,4 +53,4 @@ async function main(handlers: ProcedureHandlers): Promise<void> {
   console.log("Explorer backend started");
 }
 
-void main(procedureHandlers);
+void main(router);

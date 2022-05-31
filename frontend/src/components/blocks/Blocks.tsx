@@ -6,7 +6,7 @@ import FlipMove from "../utils/FlipMove";
 
 import BlocksRow from "./BlocksRow";
 import Placeholder from "../utils/Placeholder";
-import { useInfiniteQuery } from "../../hooks/use-infinite-query";
+import { trpc } from "../../libraries/trpc";
 import { useLatestBlockHeight } from "../../hooks/data";
 
 const BLOCKS_PER_PAGE = 15;
@@ -15,9 +15,8 @@ const Blocks: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const latestBlockHeight = useLatestBlockHeight();
 
-  const query = useInfiniteQuery(
-    "blocks-list",
-    { limit: BLOCKS_PER_PAGE },
+  const query = trpc.useInfiniteQuery(
+    ["blocks-list", { limit: BLOCKS_PER_PAGE }],
     {
       getNextPageParam: (lastPage) => {
         const lastElement = lastPage[lastPage.length - 1];

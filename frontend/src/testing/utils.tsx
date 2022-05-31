@@ -5,14 +5,15 @@ import renderer, {
   ReactTestRenderer,
   TestRendererOptions,
 } from "react-test-renderer";
+import fetch from "isomorphic-fetch";
 import { NetworkContext } from "../context/NetworkContext";
 import { setMomentLanguage } from "../libraries/language";
-import { createQueryClient } from "../libraries/queries";
+import { trpc } from "../libraries/trpc";
 
 const networkContext: NetworkContext = {
-  networkName: "testnet",
+  networkName: "localhostnet",
   networks: {
-    testnet: {
+    localhostnet: {
       explorerLink: "http://explorer/",
       nearWalletProfilePrefix: "http://wallet/profile",
     },
@@ -27,14 +28,20 @@ export const renderElement = (
   setI18n((global as any).i18nInstance);
   setMomentLanguage("en");
   let root: ReactTestRenderer;
-  const queryClient = createQueryClient();
+  const queryClient = new ReactQuery.QueryClient();
+  const client = trpc.createClient({
+    url: "http://localhost/",
+    fetch,
+  });
   renderer.act(() => {
     root = renderer.create(
-      <ReactQuery.QueryClientProvider client={queryClient}>
-        <NetworkContext.Provider value={networkContext}>
-          {nextElement}
-        </NetworkContext.Provider>
-      </ReactQuery.QueryClientProvider>,
+      <trpc.Provider queryClient={queryClient} client={client}>
+        <ReactQuery.QueryClientProvider client={queryClient}>
+          <NetworkContext.Provider value={networkContext}>
+            {nextElement}
+          </NetworkContext.Provider>
+        </ReactQuery.QueryClientProvider>
+      </trpc.Provider>,
       options
     );
   });

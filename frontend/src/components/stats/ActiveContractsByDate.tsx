@@ -5,13 +5,12 @@ import * as echarts from "echarts";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useQueryOrDefault } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 
 const ActiveContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const contractsByDate =
-    useQueryOrDefault("active-contracts-count-aggregated-by-date", [], []) ??
-    [];
+    trpc.useQuery(["active-contracts-count-aggregated-by-date"]).data ?? [];
   const contractsByDateCount = React.useMemo(
     () => contractsByDate.map(({ contractsCount }) => contractsCount),
     [contractsByDate]

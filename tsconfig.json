@@ -10,7 +10,7 @@
     "strict": true,
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noEmit": true,
     "resolveJsonModule": true,

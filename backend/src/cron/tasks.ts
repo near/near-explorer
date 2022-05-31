@@ -1,4 +1,4 @@
-import { ValidatorEpochData, ValidatorPoolInfo } from "../types";
+import { ValidatorEpochData, ValidatorPoolInfo } from "../router/types";
 import { config } from "../config";
 import {
   queryStakingPoolAccountIds,
@@ -44,7 +44,7 @@ export const chainBlockStatsCheck: RegularCheckFn = {
       queryLatestGasPrice(),
       queryRecentBlockProductionSpeed(),
     ]);
-    void publish("chain-blocks-stats", {
+    publish("chain-blocks-stats", {
       latestBlockHeight,
       latestGasPrice,
       recentBlockProductionSpeed,
@@ -56,7 +56,7 @@ export const chainBlockStatsCheck: RegularCheckFn = {
 export const recentTransactionsCountCheck: RegularCheckFn = {
   description: "recent transactions check from Indexer",
   fn: async (publish) => {
-    void publish("recent-transactions", {
+    publish("recent-transactions", {
       recentTransactionsCount: await queryRecentTransactionsCount(),
     });
   },
@@ -103,7 +103,7 @@ export const finalityStatusCheck: RegularCheckFn = {
   description: "publish finality status",
   fn: async (publish) => {
     const finalBlock = await queryFinalBlock();
-    void publish("finality-status", {
+    publish("finality-status", {
       finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
       finalBlockHeight: finalBlock.header.height,
     });
@@ -195,7 +195,7 @@ export const networkInfoCheck: RegularCheckFn = {
         wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
     ]);
-    void publish("validators", {
+    publish("validators", {
       validators: epochData.validators.map((validator) => ({
         ...validator,
         description: context.state.stakingPoolsDescriptions.get(
@@ -210,7 +210,7 @@ export const networkInfoCheck: RegularCheckFn = {
         telemetry: telemetryInfo.get(validator.accountId),
       })),
     });
-    void publish("network-stats", epochData.stats);
+    publish("network-stats", epochData.stats);
   },
   interval: config.intervals.checkNetworkInfo,
 };

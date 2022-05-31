@@ -17,15 +17,7 @@ context("Accounts List page", () => {
       .and("not.be.empty");
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find("a @TransactionRowTransactionId")
-      .should("exist")
-      .then(($el) => {
-        if ($el.children().length > 0) {
-          cy.get($el.toString())
-            .children("span")
-            .should("exist")
-            .and("not.be.empty");
-        }
-      });
+      .should("exist");
 
     cy.get(".infinite-scroll-component__outerdiv .infinite-scroll-component")
       .find("a @TransactionRow")

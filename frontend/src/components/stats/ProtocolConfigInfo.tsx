@@ -9,7 +9,7 @@ import NearBadge from "../nodes/NearBadge";
 import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "../../hooks/subscriptions";
 import { useEpochStartBlock } from "../../hooks/data";
-import { useQuery, useQueryOrDefault } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
 
@@ -37,21 +37,18 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { data: networkStats } = useNetworkStats();
   const epochStartBlock = useEpochStartBlock();
 
-  const { data: genesisAccountsAmount } = useQuery(
+  const { data: genesisAccountsAmount } = trpc.useQuery([
     "nearcore-genesis-accounts-count",
-    []
-  );
-  const { data: genesisProtocolConfig } = useQuery(
+  ]);
+  const { data: genesisProtocolConfig } = trpc.useQuery([
     "nearcore-genesis-protocol-configuration",
-    []
-  );
-  const { data: firstProducedBlockTimestamp } = useQuery(
+  ]);
+  const { data: firstProducedBlockTimestamp } = trpc.useQuery([
     "first-produced-block-timestamp",
-    []
-  );
+  ]);
 
   const liveAccountsCount =
-    useQueryOrDefault("live-accounts-count-aggregated-by-date", [], []) ?? [];
+    trpc.useQuery(["live-accounts-count-aggregated-by-date"]).data ?? [];
   const lastDateLiveAccounts = React.useMemo(
     () => liveAccountsCount[liveAccountsCount.length - 1]?.accountsCount,
     [liveAccountsCount]

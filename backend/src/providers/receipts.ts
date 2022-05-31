@@ -8,14 +8,15 @@ import {
 import {
   convertDbArgsToRpcArgs,
   getIndexerCompatibilityTransactionActionKinds,
-} from "./transactions";
-import {
   Action,
-  Receipt,
-  ReceiptExecutionStatus,
-  TransactionHashByReceiptId,
-} from "../types";
+} from "./transactions";
 import { nanosecondsToMilliseconds } from "../utils/bigint";
+
+export type ReceiptExecutionStatus =
+  | "Unknown"
+  | "Failure"
+  | "SuccessValue"
+  | "SuccessReceiptId";
 
 const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
   string | null,
@@ -29,6 +30,18 @@ const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
 
 export const getIndexerCompatibilityReceiptActionKinds = () => {
   return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
+};
+
+export type Receipt = {
+  actions: Action[];
+  blockTimestamp: number;
+  receiptId: string;
+  gasBurnt: string;
+  receiverId: string;
+  signerId: string;
+  status?: ReceiptExecutionStatus;
+  originatedFromTransactionHash: string;
+  tokensBurnt: string;
 };
 
 function groupReceiptActionsIntoReceipts(
@@ -96,6 +109,11 @@ export const getReceiptsCountInBlock = async (
     return null;
   }
   return parseInt(receiptsCount.count);
+};
+
+export type TransactionHashByReceiptId = {
+  receiptId: string;
+  originatedFromTransactionHash: string;
 };
 
 export const getReceiptInTransaction = async (

@@ -1,11 +1,10 @@
 import { queryOnlineNodesCount } from "../database/queries";
 import {
-  RPC,
+  NetworkStats,
   ValidationProgress,
   ValidatorEpochData,
-  NetworkStats,
-  CurrentEpochState,
-} from "../types";
+} from "../router/types";
+import { RPC, CurrentEpochState } from "../types";
 import * as nearApi from "../utils/near";
 
 export const queryFinalBlock = async (): Promise<

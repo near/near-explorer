@@ -17,6 +17,8 @@ describe("<AccountDetails />", () => {
               storageUsage: 876,
               lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
             },
+            created: undefined,
+            deleted: undefined,
           }}
         />
       )
@@ -35,6 +37,8 @@ describe("<AccountDetails />", () => {
               storageUsage: 876,
               lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
             },
+            created: undefined,
+            deleted: undefined,
           }}
         />
       )
@@ -47,6 +51,7 @@ describe("<AccountDetails />", () => {
         <AccountDetails
           account={{
             accountId: "megan.near",
+            created: undefined,
             deleted: {
               timestamp: Number(new Date(2019, 1, 2)),
               hash: "3RAqiv3SzjmtMT3ncqU96q1efRm67YT6gxtS7hhPvADp",
@@ -79,6 +84,7 @@ describe("<AccountDetails />", () => {
               storageUsage: 876,
               lockupAccountId: "gjturigjgkjnfidsjffjsa.lockup.near",
             },
+            deleted: undefined,
           }}
         />
       )
@@ -99,7 +105,9 @@ describe("<AccountDetails />", () => {
               stakedBalance: "0",
               nonStakedBalance: "6987876845678765",
               storageUsage: 1876,
+              lockupAccountId: undefined,
             },
+            deleted: undefined,
           }}
         />
       )

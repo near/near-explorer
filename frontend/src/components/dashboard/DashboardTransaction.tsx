@@ -12,7 +12,7 @@ import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryCha
 import { useRecentTransactions } from "../../hooks/subscriptions";
 import { useLatestGasPrice } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 
 const TransactionCardNumber = styled(Row, {
   "& > .col-12": {
@@ -28,10 +28,9 @@ const TransactionCharts = styled(Row, {
 
 const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: transactionsCountHistoryForTwoWeeks } = useQuery(
+  const { data: transactionsCountHistoryForTwoWeeks } = trpc.useQuery([
     "transaction-history",
-    []
-  );
+  ]);
   const { data: recentTransactions } = useRecentTransactions();
   const recentTransactionsCount = recentTransactions?.recentTransactionsCount;
   const latestGasPrice = useLatestGasPrice();

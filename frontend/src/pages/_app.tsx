@@ -1,15 +1,19 @@
 import "../libraries/wdyr";
-import NextApp, { AppContext, ExtraAppInitialProps } from "next/app";
+import { ExtraAppInitialProps } from "next/app";
+import { withTRPC } from "@trpc/next";
+import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
+import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
+import { splitLink } from "@trpc/client/links/splitLink";
+import { TRPCLink } from "@trpc/client";
 import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
-import * as ReactQuery from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { exec } from "child_process";
 import { promisify } from "util";
 
 import { getConfig, getNearNetworkName } from "../libraries/config";
-import { NetworkName } from "../types/common";
+import { AppRouter, NetworkName } from "../types/common";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
@@ -26,9 +30,9 @@ import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
 import { initializeI18n, Language, LANGUAGES } from "../libraries/i18n";
 import { AppType } from "next/dist/shared/lib/utils";
 import { setI18n } from "react-i18next";
-import { YEAR } from "../libraries/time";
+import { MINUTE, YEAR } from "../libraries/time";
 import { globalCss, styled } from "../libraries/styles";
-import { useClientQueryClient } from "../libraries/queries";
+import { getBackendUrl } from "../libraries/transport";
 
 const globalStyles = globalCss({
   body: {
@@ -86,8 +90,8 @@ declare module "next/app" {
     deployInfo: DeployInfoProps;
   };
 
-  interface AppInitialProps extends ExtraAppInitialProps {
-    pageProps: any;
+  interface AppInitialProps {
+    pageProps: ExtraAppInitialProps;
   }
 }
 
@@ -106,106 +110,87 @@ const wrapRouterHandlerMaintainNetwork = (
 };
 
 type ContextProps = {
-  queryClient: ReactQuery.QueryClient;
   networkState: NetworkContext;
-  dehydratedState: ReactQuery.DehydratedState;
 };
 
 const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
   return (
-    <ReactQuery.QueryClientProvider client={props.queryClient}>
-      <ReactQuery.Hydrate state={props.dehydratedState}>
-        <NetworkContext.Provider value={props.networkState}>
-          {props.children}
-        </NetworkContext.Provider>
-      </ReactQuery.Hydrate>
-    </ReactQuery.QueryClientProvider>
+    <NetworkContext.Provider value={props.networkState}>
+      {props.children}
+    </NetworkContext.Provider>
   );
 });
 
 let extraAppInitialPropsCache: ExtraAppInitialProps;
 
-const App: AppType = React.memo(
-  ({ Component, networkName, language, pageProps, deployInfo }) => {
-    extraAppInitialPropsCache = {
-      language,
-      deployInfo,
+const App: AppType = React.memo(({ Component, pageProps }) => {
+  const { networkName, language, deployInfo, ...restPageProps } = pageProps;
+  extraAppInitialPropsCache = {
+    language,
+    deployInfo,
+    networkName,
+  };
+  const router = useRouter();
+  React.useEffect(() => {
+    router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
+    router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
+  }, [router]);
+
+  if (typeof window !== "undefined" && language) {
+    setMomentLanguage(language);
+    // There is no react way of waiting till i18n is initialized before render
+    // But at the moment SSR should render content properly
+    void initializeI18n(language);
+  }
+  useAnalyticsInit();
+  globalStyles();
+
+  const networkState = React.useMemo(
+    () => ({
       networkName,
-    };
-    const queryClient = useClientQueryClient();
-    const router = useRouter();
-    React.useEffect(() => {
-      router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
-      router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
-    }, [router]);
+      networks: nearNetworks,
+    }),
+    [networkName, nearNetworks]
+  );
 
-    if (typeof window !== "undefined" && language) {
-      setMomentLanguage(language);
-      // There is no react way of waiting till i18n is initialized before render
-      // But at the moment SSR should render content properly
-      void initializeI18n(language);
-    }
-    useAnalyticsInit();
-    globalStyles();
-
-    const networkState = React.useMemo(
-      () => ({
-        networkName,
-        networks: nearNetworks,
-      }),
-      [networkName, nearNetworks]
-    );
-
-    return (
-      <>
-        <Head>
-          <link
-            rel="shortcut icon"
-            type="image/png"
-            href="/static/favicon.ico"
+  return (
+    <>
+      <Head>
+        <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <AppContextWrapper networkState={networkState}>
+        <AppWrapper>
+          <Header />
+          <BackgroundImage src="/static/images/explorer-bg.svg" />
+          <Component {...restPageProps} />
+        </AppWrapper>
+        <Footer />
+        <DeployInfo client={deployInfo} />
+        <ReactQueryDevtools />
+      </AppContextWrapper>
+      {googleAnalytics ? (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
           />
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
-        </Head>
-        <AppContextWrapper
-          networkState={networkState}
-          queryClient={queryClient}
-          dehydratedState={pageProps.dehydratedState}
-        >
-          <AppWrapper>
-            <Header />
-            <BackgroundImage src="/static/images/explorer-bg.svg" />
-            <Component {...pageProps} />
-          </AppWrapper>
-          <Footer />
-          <DeployInfo client={deployInfo} />
-          <ReactQueryDevtools />
-        </AppContextWrapper>
-        {googleAnalytics ? (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalytics}`}
-            />
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
 
                 gtag('config', '${googleAnalytics}');
               `,
-              }}
-            />
-          </>
-        ) : null}
-      </>
-    );
-  }
-);
+            }}
+          />
+        </>
+      ) : null}
+    </>
+  );
+});
 
 App.getInitialProps = async (appContext) => {
   const req = appContext.ctx.req;
@@ -258,9 +243,57 @@ App.getInitialProps = async (appContext) => {
   }
 
   return {
-    ...(await NextApp.getInitialProps(appContext as AppContext)),
-    ...initialProps,
+    pageProps: initialProps,
   };
 };
 
-export default App;
+const getLinks = (
+  endpointUrl: string,
+  wsUrl: string
+): TRPCLink<AppRouter>[] => {
+  if (typeof window === "undefined") {
+    return [
+      httpBatchLink({
+        url: endpointUrl,
+      }),
+    ];
+  }
+  return [
+    splitLink({
+      condition: (op) => op.type === "subscription",
+      true: wsLink<AppRouter>({
+        client: createWSClient({
+          url: wsUrl,
+        }),
+      }),
+      false: httpBatchLink({
+        url: endpointUrl,
+      }),
+    }),
+  ];
+};
+
+export default withTRPC<AppRouter>({
+  config: (info) => {
+    const networkName =
+      "props" in info
+        ? info.props.pageProps.networkName
+        : getNearNetworkName(info.ctx.query ?? {}, info.ctx.req?.headers.host);
+    const httpUrl = getBackendUrl(networkName, "http");
+    const wsUrl = getBackendUrl(networkName, "websocket");
+    return {
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+            retry: false,
+            staleTime: MINUTE,
+          },
+        },
+      },
+      links: getLinks(httpUrl, wsUrl),
+      ssrTimeout: 3000,
+    };
+  },
+  ssr: true,
+})(App);

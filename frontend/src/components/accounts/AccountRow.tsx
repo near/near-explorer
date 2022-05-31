@@ -7,7 +7,7 @@ import Balance from "../utils/Balance";
 import Link from "../utils/Link";
 
 import { useTranslation } from "react-i18next";
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 
 const TransactionRow = styled(Row, {
@@ -53,7 +53,7 @@ export interface Props {
 
 const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const { data: accountInfo } = useQuery("account-info", [accountId]);
+  const { data: accountInfo } = trpc.useQuery(["account-info", [accountId]]);
 
   return (
     <Link href={`/accounts/${accountId}`} passHref>
