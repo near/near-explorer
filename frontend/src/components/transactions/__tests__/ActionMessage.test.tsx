@@ -29,7 +29,7 @@ describe("<ActionMessage />", () => {
     ).toMatchSnapshot();
   });
 
-  it.only("renders DeployContract", () => {
+  it("renders DeployContract", () => {
     expect(
       renderElement(
         <ActionMessage

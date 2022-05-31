@@ -173,13 +173,14 @@ Array [
       component.transactions.ActionMessage.FunctionCall.arguments
     </dt>
     <dd>
-      <div>
+      <div
+        className="c-Wrapper-hgxcBQ"
+      >
         <div
+          className="c-Wrapper-fswXQT"
           style={
             Object {
-              "display": "block",
-              "height": "0px",
-              "overflow": "hidden",
+              "maxHeight": 200,
             }
           }
         >
@@ -187,25 +188,12 @@ Array [
             href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
             rel="stylesheet"
           />
-          <textarea
-            className="c-CodePreviewWrapper-gWwuPL"
-            readOnly={true}
-            value="{
-  \\"text\\": \\"when ico?\\"
-}"
-          />
-        </div>
-        <div
-          onClick={[Function]}
-        >
           <div
-            style={
-              Object {
-                "float": "left",
-              }
-            }
+            className="c-CodePreviewWrapper-gJFGlx"
           >
-            button.show_more
+            {
+  "text": "when ico?"
+}
           </div>
         </div>
       </div>
