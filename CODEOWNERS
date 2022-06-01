@@ -1,7 +1,6 @@
 # CODEOWNERS: https://help.github.com/articles/about-codeowners/
 
-/ @luixo
+* @luixo
 
 /backend/ @luixo @shelegdmitriy
-/wamp/ @luixo
 /frontend/ @luixo @shelegdmitriy

@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import { getFetcher } from "../../libraries/transport";
+import { getTrpcClient } from "../../libraries/trpc";
 import { getNearNetworkName } from "../../libraries/config";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -12,7 +12,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   try {
     res.send(
-      await getFetcher(networkName)("get-latest-circulating-supply", [])
+      await getTrpcClient(networkName).query("get-latest-circulating-supply")
     );
   } catch (error) {
     console.error(`Handler ${req.url} failed:`, error);

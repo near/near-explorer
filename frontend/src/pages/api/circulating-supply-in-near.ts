@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import { getFetcher } from "../../libraries/transport";
+import { getTrpcClient } from "../../libraries/trpc";
 import { getNearNetworkName } from "../../libraries/config";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -11,9 +11,8 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const supply = await getFetcher(networkName)(
-      "get-latest-circulating-supply",
-      []
+    const supply = await getTrpcClient(networkName).query(
+      "get-latest-circulating-supply"
     );
     const supplyInYoctoNEAR = supply.circulating_supply_in_yoctonear;
     res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));

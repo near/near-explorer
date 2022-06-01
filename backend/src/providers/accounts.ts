@@ -1,6 +1,5 @@
 import { sha256 } from "js-sha256";
 
-import { AccountListInfo, AccountTransactionsCount } from "../types";
 import { config } from "../config";
 import {
   queryIndexedAccount,
@@ -18,10 +17,7 @@ export const isAccountIndexed = async (accountId: string): Promise<boolean> => {
   return Boolean(account?.account_id);
 };
 
-export const getAccountsList = async (
-  limit: number,
-  cursor?: number
-): Promise<AccountListInfo[]> => {
+export const getAccountsList = async (limit: number, cursor?: number) => {
   const accountsList = await queryAccountsList(limit, cursor);
   return accountsList.map((account) => ({
     accountId: account.account_id,
@@ -53,9 +49,7 @@ const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
   return outTxCountFromAnalytics + outTxCountFromIndexer;
 };
 
-export const getAccountTransactionsCount = async (
-  accountId: string
-): Promise<AccountTransactionsCount> => {
+export const getAccountTransactionsCount = async (accountId: string) => {
   const [inTransactionsCount, outTransactionsCount] = await Promise.all([
     queryAccountOutcomeTransactionsCount(accountId),
     queryAccountIncomeTransactionsCount(accountId),

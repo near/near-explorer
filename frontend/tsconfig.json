@@ -7,5 +7,5 @@
     }
   },
   "exclude": ["node_modules", "cypress", "next.config.ts"],
-  "include": ["**/*", "../common/**/*", "**/*.json"]
+  "include": ["**/*", "../common/**/*", "**/*.json", "../backend/**/*"]
 }

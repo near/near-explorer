@@ -5,7 +5,7 @@ import * as React from "react";
 import JSBI from "jsbi";
 
 import { Props } from "./TransactionsByDate";
-import { useQueryOrDefault } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
 
@@ -27,7 +27,7 @@ const SupplySubHeader = styled("div", {
 const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const circulatingSupply =
-    useQueryOrDefault("circulating-supply-stats", [], []) ?? [];
+    trpc.useQuery(["circulating-supply-stats"]).data ?? [];
   const circulatingTokenSupply = React.useMemo(
     () =>
       circulatingSupply.map(({ circulatingTokensSupply }) =>

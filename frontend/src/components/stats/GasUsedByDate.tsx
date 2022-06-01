@@ -8,7 +8,7 @@ import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
 import { useLatestGasPrice } from "../../hooks/data";
-import { useQueryOrDefault } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { cumulativeSumArray } from "../../libraries/stats";
 import * as BI from "../../libraries/bigint";
 
@@ -18,7 +18,7 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const latestGasPrice = useLatestGasPrice();
   const gasUsedByDate =
-    useQueryOrDefault("gas-used-aggregated-by-date", [], []) ?? [];
+    trpc.useQuery(["gas-used-aggregated-by-date"]).data ?? [];
   const gasUsed = React.useMemo(
     () =>
       gasUsedByDate.map(({ gasUsed }) =>

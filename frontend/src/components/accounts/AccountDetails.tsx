@@ -14,7 +14,7 @@ import StorageSize from "../utils/StorageSize";
 
 import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { Account } from "../../types/common";
 import { styled } from "../../libraries/styles";
 
@@ -178,8 +178,9 @@ export interface Props {
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const { data: transactionCount } = useQuery("account-transactions-count", [
-    account.accountId,
+  const { data: transactionCount } = trpc.useQuery([
+    "account-transactions-count",
+    [account.accountId],
   ]);
 
   return (

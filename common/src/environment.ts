@@ -30,11 +30,3 @@ export const getOverrides = <T extends Partial<Record<string, unknown>>>(
   }
   return overrides;
 };
-
-export const getBackendUrl = (input: {
-  host: string;
-  port: number;
-  secure: boolean;
-}): string => {
-  return `${input.secure ? "wss" : "ws"}://${input.host}:${input.port}/ws`;
-};

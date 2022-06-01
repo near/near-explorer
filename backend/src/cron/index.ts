@@ -1,5 +1,6 @@
 import { Context } from "../context";
 import * as tasks from "./tasks";
+import { PublishTopic } from "./types";
 
 const regularTasks = [
   tasks.chainBlockStatsCheck,
@@ -13,6 +14,13 @@ const regularTasks = [
 ];
 
 export const runTasks = (context: Context) => {
+  const publish: PublishTopic = (topic, output) => {
+    // TODO: Find a proper version of TypedEmitter
+    // @ts-ignore
+    context.subscriptionsCache[topic] = output;
+    // @ts-ignore
+    void context.subscriptionsEventEmitter.emit(topic, output);
+  };
   const timeouts: Record<string, NodeJS.Timeout> = {};
   for (const task of regularTasks) {
     if (task.shouldSkip?.()) {
@@ -21,7 +29,7 @@ export const runTasks = (context: Context) => {
 
     const runTask = async () => {
       try {
-        await task.fn(context.publishWamp, context);
+        await task.fn(publish, context);
       } catch (error) {
         console.warn(
           `Regular ${task.description} crashed due to:`,

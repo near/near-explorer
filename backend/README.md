@@ -20,12 +20,6 @@ NOTE: There is also configuration for `mainnet`, just use `dev:mainnet` command.
 
 NOTE: To override `testnet.env` values during local development, create file `testnet.env.local` and export all the necessary environment variables there
 
-Explorer backend exposes all its capabilities though [WAMP-proto](https://wamp-proto.org/), so you will need to run the router, and the simplest way to do that is with Docker Compose:
-
-```
-$ docker-compose up -d wamp
-```
-
 ## Configure Backend
 
 If you maintain your own Indexer for Explorer database or NEAR Archival Node, you can create a local config file `.testnet.env.local`.

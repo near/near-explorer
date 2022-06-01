@@ -1,5 +1,6 @@
 import { sql } from "kysely";
 import geoip from "geoip-lite";
+import { z } from "zod";
 
 import {
   indexerDatabase,
@@ -11,13 +12,9 @@ import {
 } from "./databases";
 import { DAY } from "../utils/time";
 import { config } from "../config";
-import {
-  TelemetryRequest,
-  TransactionPagination,
-  ValidatorTelemetry,
-} from "../types";
 import { millisecondsToNanoseconds } from "../utils/bigint";
 import { count, sum, max, div } from "./utils";
+import { validators } from "../router/validators";
 
 export const queryGenesisAccountCount = async () => {
   return indexerDatabase
@@ -49,7 +46,22 @@ export const queryTelemetryInfo = async (accountIds: string[]) => {
     .orderBy("last_seen")
     .execute();
 
-  const map = new Map<string, ValidatorTelemetry>();
+  const map = new Map<
+    string,
+    {
+      ipAddress: string;
+      nodeId: string;
+      lastSeen: number;
+      lastHeight: number;
+      status: string;
+      agentName: string;
+      agentVersion: string;
+      agentBuild: string;
+      latitude: string | null;
+      longitude: string | null;
+      city: string | null;
+    }
+  >();
   for (const nodeInfo of nodesInfo) {
     map.set(nodeInfo.account_id, {
       ipAddress: nodeInfo.ip_address,
@@ -219,7 +231,7 @@ export const queryDepositAmountAggregatedByDate = async () => {
 
 export const queryTransactionsList = async (
   limit: number = 15,
-  cursor?: TransactionPagination
+  cursor?: z.infer<typeof validators.transactionPagination>
 ) => {
   let selection = indexerDatabase
     .selectFrom("transactions")
@@ -253,7 +265,7 @@ export const queryTransactionsList = async (
 export const queryAccountTransactionsList = async (
   accountId: string,
   limit: number = 15,
-  cursor?: TransactionPagination
+  cursor?: z.infer<typeof validators.transactionPagination>
 ) => {
   let selection = indexerDatabase
     .selectFrom("transactions")
@@ -305,7 +317,7 @@ export const queryAccountTransactionsList = async (
 export const queryTransactionsListInBlock = async (
   blockHash: string,
   limit: number = 15,
-  cursor?: TransactionPagination
+  cursor?: z.infer<typeof validators.transactionPagination>
 ) => {
   let selection = indexerDatabase
     .selectFrom("transactions")
@@ -687,12 +699,6 @@ export const queryLatestCirculatingSupply = async () => {
 
 // pass 'days' to set period of calculation
 export const calculateFeesByDay = async (days: number = 1) => {
-  if (!(days >= 1 && days <= 7)) {
-    throw Error(
-      "calculateFeesByDay can only handle `days` values in range 1..7"
-    );
-  }
-
   return indexerDatabase
     .selectFrom("execution_outcomes")
     .select([
@@ -1081,7 +1087,7 @@ export const maybeCreateTelemetryTable = async () => {
 };
 
 export const maybeSendTelemetry = async (
-  nodeInfo: TelemetryRequest,
+  nodeInfo: z.infer<typeof validators.telemetryRequest>,
   geo: geoip.Lookup | null
 ) => {
   if (!telemetryWriteDatabase) {

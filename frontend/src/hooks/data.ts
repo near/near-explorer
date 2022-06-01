@@ -1,6 +1,6 @@
 import JSBI from "jsbi";
 import * as React from "react";
-import { useQuery } from "./use-query";
+import { trpc } from "../libraries/trpc";
 import {
   useNetworkStats,
   useFinalityStatus,
@@ -10,7 +10,7 @@ import {
 export const useEpochStartBlock = () => {
   const { data: networkStats } = useNetworkStats();
   const blockHeight = networkStats?.epochStartHeight;
-  return useQuery("block-info", [blockHeight ?? 0], {
+  return trpc.useQuery(["block-info", [blockHeight ?? 0]], {
     enabled: blockHeight !== undefined,
   }).data;
 };

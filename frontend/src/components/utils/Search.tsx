@@ -4,7 +4,7 @@ import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
 import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
-import { useFetcher } from "../../hooks/use-fetcher";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 
 const SearchField = styled(FormControl, {
@@ -177,7 +177,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const track = useAnalyticsTrack();
 
   const [value, setValue] = React.useState("");
-  const fetcher = useFetcher();
+  const trpcContext = trpc.useContext();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -188,25 +188,25 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
       if (maybeBlockHeight.match(/^\d{1,20}$/)) {
         const blockHeight = parseInt(maybeBlockHeight);
-        blockPromise = fetcher("block-by-hash-or-id", [blockHeight]).catch(
-          () => null
-        );
+        blockPromise = trpcContext
+          .fetchQuery(["block-by-hash-or-id", [blockHeight]])
+          .catch(() => null);
       } else {
-        blockPromise = fetcher("block-by-hash-or-id", [
-          cleanedSearchValue,
-        ]).catch(() => null);
+        blockPromise = trpcContext
+          .fetchQuery(["block-by-hash-or-id", [cleanedSearchValue]])
+          .catch(() => null);
       }
 
-      const transactionPromise = fetcher("is-transaction-indexed", [
-        cleanedSearchValue,
-      ]).catch(() => false);
-      const accountPromise = fetcher("account-info", [
-        cleanedSearchValue.toLowerCase(),
+      const transactionPromise = trpcContext
+        .fetchQuery(["is-transaction-indexed", [cleanedSearchValue]])
+        .catch(() => false);
+      const accountPromise = trpcContext.fetchQuery([
+        "account-info",
+        [cleanedSearchValue.toLowerCase()],
       ]);
-      const receiptInTransactionPromise = fetcher(
-        "transaction-hash-by-receipt-id",
-        [cleanedSearchValue]
-      ).catch(() => undefined);
+      const receiptInTransactionPromise = trpcContext
+        .fetchQuery(["transaction-hash-by-receipt-id", [cleanedSearchValue]])
+        .catch(() => undefined);
 
       const block = await blockPromise;
       if (block) {
@@ -234,7 +234,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       });
       alert("Result not found!");
     },
-    [value, track, fetcher]
+    [value, track, trpcContext.fetchQuery]
   );
   const onChange = React.useCallback(
     (event) => setValue(event.currentTarget.value),

@@ -6,7 +6,6 @@ import ActionRow from "../ActionRow";
 import TransactionExecutionStatus from "../TransactionExecutionStatus";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
-import { Action } from "../../../types/common";
 
 describe("<ActionRow />", () => {
   it("renders sparsely ActionRow for transaction by default", () => {
@@ -116,8 +115,8 @@ describe("<ActionRow />", () => {
     ).toMatchSnapshot();
   });
 
-  const actionFunctionCall: Action = {
-    kind: "FunctionCall",
+  const actionFunctionCall = {
+    kind: "FunctionCall" as const,
     args: {
       args: "eyJ2YWx1ZSI6MX0=",
       deposit: "1",

@@ -2,7 +2,7 @@ import { NextConfig } from "next";
 import type { ExplorerConfig } from "../../libraries/config";
 
 const backendConfig = {
-  host: "this-could-be-anything",
+  hosts: { localhostnet: "this-could-be-anything" },
   port: 0,
   secure: false,
 };

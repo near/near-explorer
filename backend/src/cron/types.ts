@@ -1,4 +1,5 @@
 import { Context } from "../context";
+import { SubscriptionEventMap } from "../router/types";
 
 export type CachedTimestampMap<T> = {
   timestampMap: Map<string, number>;
@@ -6,9 +7,14 @@ export type CachedTimestampMap<T> = {
   promisesMap: Map<string, Promise<void>>;
 };
 
+export type PublishTopic = <S extends keyof SubscriptionEventMap>(
+  event: S,
+  arg: Parameters<SubscriptionEventMap[S]>[0]
+) => void;
+
 export type RegularCheckFn = {
   description: string;
-  fn: (publish: Context["publishWamp"], context: Context) => Promise<void>;
+  fn: (publish: PublishTopic, context: Context) => Promise<void>;
   interval: number;
   shouldSkip?: () => void;
 };

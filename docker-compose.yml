@@ -5,42 +5,30 @@ x-services: &env
     - ${ENV:-testnet}.env
 
 services:
-  wamp:
-    <<: *env
-    build: wamp
-    environment:
-      - NEAR_EXPLORER_CONFIG__SECRET=THIS_IS_LOCALHOST_SECRET
-    ports:
-      - 10000:8080
-
   backend:
     <<: *env
     build:
       context: .
       dockerfile: backend/Dockerfile
-    depends_on:
-      - wamp
     environment:
-      - NEAR_EXPLORER_CONFIG__TRANSPORT__PORT=8080
-      - NEAR_EXPLORER_CONFIG__TRANSPORT__HOST=wamp
-      - NEAR_EXPLORER_CONFIG__TRANSPORT__SECRET=THIS_IS_LOCALHOST_SECRET
+      - NEAR_EXPLORER_CONFIG__PORT=8080
     mem_limit: 1G
     entrypoint: ["npm", "run", "start"]
+    ports:
+      - 10000:8080
 
   frontend:
     <<: *env
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    depends_on:
-      - wamp
     environment:
       - PORT=3000
-      - NEAR_EXPLORER_CONFIG__BACKEND__HOST=localhost
-      - NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOST=wamp
-      - NEAR_EXPLORER_CONFIG__BACKEND__PORT=localhost
+      - NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__MAINNET=backend
+      - NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__TESTNET=backend
+      - NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__GUILDNET=backend
       - NEAR_EXPLORER_CONFIG__BACKEND_SSR__PORT=8080
-      - NEAR_EXPLORER_CONFIG__BACKEND__SECRET=THIS_IS_LOCALHOST_SECRET
+      - NEAR_EXPLORER_CONFIG__BACKEND_SSR__SECURE=false
     ports:
       - 3000:3000
     command: ["npm", "run", "start"]

@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 import { getNearNetworkName } from "../../libraries/config";
-import { getFetcher } from "../../libraries/transport";
+import { getTrpcClient } from "../../libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -11,7 +11,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     const networkName = getNearNetworkName(req.query, req.headers.host);
 
-    await getFetcher(networkName)("node-telemetry", [
+    await getTrpcClient(networkName).mutation("node-telemetry", [
       {
         ...req.body,
         ip_address: ip_address,

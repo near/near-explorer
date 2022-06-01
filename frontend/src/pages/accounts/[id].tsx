@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 import { Container } from "react-bootstrap";
 
@@ -14,31 +15,28 @@ import TransactionIconSvg from "../../../public/static/images/icon-t-transaction
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { getPrefetchObject } from "../../libraries/queries";
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
-import { useInfiniteQuery } from "../../hooks/use-infinite-query";
 
 const TransactionIcon = styled(TransactionIconSvg, {
   width: 22,
 });
 
-interface Props {
-  accountId: string;
-}
-
 const TRANSACTIONS_PER_PAGE = 10;
 
-const AccountDetail: NextPage<Props> = React.memo(({ accountId }) => {
+const AccountDetail: NextPage = React.memo(() => {
+  const accountId = useRouter().query.id as string;
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Individual Account", {
     accountId,
   });
-  const accountQuery = useQuery("account-info", [accountId]);
-  const query = useInfiniteQuery(
-    "transactions-list-by-account-id",
-    { accountId, limit: TRANSACTIONS_PER_PAGE },
+  const accountQuery = trpc.useQuery(["account-info", [accountId]]);
+  const query = trpc.useInfiniteQuery(
+    [
+      "transactions-list-by-account-id",
+      { accountId, limit: TRANSACTIONS_PER_PAGE },
+    ],
     { getNextPageParam }
   );
 
@@ -88,9 +86,9 @@ const AccountDetail: NextPage<Props> = React.memo(({ accountId }) => {
 });
 
 export const getServerSideProps: GetServerSideProps<
-  Props,
+  {},
   { id: string }
-> = async ({ req, params, query }) => {
+> = async ({ params }) => {
   const accountId = params?.id ?? "";
   if (/[A-Z]/.test(accountId)) {
     return {
@@ -100,23 +98,7 @@ export const getServerSideProps: GetServerSideProps<
       },
     };
   }
-
-  try {
-    const prefetchObject = getPrefetchObject(query, req.headers.host);
-    await prefetchObject.prefetch("account-info", [accountId]);
-    return {
-      props: {
-        accountId,
-        dehydratedState: prefetchObject.dehydrate(),
-      },
-    };
-  } catch {
-    return {
-      props: {
-        accountId,
-      },
-    };
-  }
+  return { props: {} };
 };
 
 export default AccountDetail;

@@ -8,18 +8,15 @@ import { cumulativeSumArray } from "../../libraries/stats";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useQueryOrDefault } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 
 const NewContractsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const uniqueDeployedContracts =
-    useQueryOrDefault(
-      "unique-deployed-contracts-count-aggregate-by-date",
-      [],
-      []
-    ) ?? [];
+    trpc.useQuery(["unique-deployed-contracts-count-aggregate-by-date"]).data ??
+    [];
   const newContracts =
-    useQueryOrDefault("new-contracts-count-aggregated-by-date", [], []) ?? [];
+    trpc.useQuery(["new-contracts-count-aggregated-by-date"]).data ?? [];
 
   const newContractsDates = React.useMemo(
     () => newContracts.map(({ date }) => date.slice(0, 10)),

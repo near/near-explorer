@@ -8,14 +8,14 @@ import { cumulativeSumArray } from "../../libraries/stats";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useQueryOrDefault } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 
 const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const liveAccounts =
-    useQueryOrDefault("live-accounts-count-aggregated-by-date", [], []) ?? [];
+    trpc.useQuery(["live-accounts-count-aggregated-by-date"]).data ?? [];
   const newAccounts =
-    useQueryOrDefault("new-accounts-count-aggregated-by-date", [], []) ?? [];
+    trpc.useQuery(["new-accounts-count-aggregated-by-date"]).data ?? [];
 
   const newAccountsCount = React.useMemo(
     () => newAccounts.map(({ accountsCount }) => Number(accountsCount)),

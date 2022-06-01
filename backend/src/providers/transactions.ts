@@ -1,10 +1,4 @@
-import {
-  Action,
-  NestedReceiptWithOutcome,
-  TransactionBaseInfo,
-  TransactionPagination,
-  RPC,
-} from "../types";
+import { RPC } from "../types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
@@ -13,6 +7,8 @@ import {
   queryTransactionsListInBlock,
   queryTransactionInfo,
 } from "../database/queries";
+import { z } from "zod";
+import { validators } from "../router/validators";
 
 const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
   string,
@@ -27,6 +23,16 @@ const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
   ["STAKE", "Stake"],
   ["TRANSFER", "Transfer"],
 ]);
+
+export type TransactionBaseInfo = {
+  hash: string;
+  signerId: string;
+  receiverId: string;
+  blockHash: string;
+  blockTimestamp: number;
+  transactionIndex: number;
+  actions: Action[];
+};
 
 // helper function to init transactions list
 // as we use the same structure but different queries for account, block, txInfo and list
@@ -62,7 +68,7 @@ export const getIsTransactionIndexed = async (
 
 export const getTransactionsList = async (
   limit: number | undefined,
-  cursor?: TransactionPagination
+  cursor?: z.infer<typeof validators.transactionPagination>
 ): Promise<TransactionBaseInfo[]> => {
   const transactionsList = await queryTransactionsList(limit, cursor);
   if (transactionsList.length === 0) {
@@ -76,7 +82,7 @@ export const getTransactionsList = async (
 export const getAccountTransactionsList = async (
   accountId: string,
   limit: number | undefined,
-  cursor?: TransactionPagination
+  cursor?: z.infer<typeof validators.transactionPagination>
 ): Promise<TransactionBaseInfo[]> => {
   const accountTxList = await queryAccountTransactionsList(
     accountId,
@@ -94,7 +100,7 @@ export const getAccountTransactionsList = async (
 export const getTransactionsListInBlock = async (
   blockHash: string,
   limit: number | undefined,
-  cursor?: TransactionPagination
+  cursor?: z.infer<typeof validators.transactionPagination>
 ): Promise<TransactionBaseInfo[]> => {
   const txListInBlock = await queryTransactionsListInBlock(
     blockHash,
@@ -187,6 +193,18 @@ async function getTransactionsActionsList(
   return transactionsActionsByHash;
 }
 
+export type Action<
+  A extends RPC.ActionView = RPC.ActionView
+> = A extends Exclude<RPC.ActionView, "CreateAccount">
+  ? {
+      kind: keyof A;
+      args: A[keyof A];
+    }
+  : {
+      kind: "CreateAccount";
+      args: {};
+    };
+
 export const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   if (action === "CreateAccount") {
     return {
@@ -202,6 +220,23 @@ export const mapRpcActionToAction = (action: RPC.ActionView): Action => {
     kind,
     args: action[kind],
   } as Action;
+};
+
+type ReceiptExecutionOutcome = {
+  tokens_burnt: string;
+  logs: string[];
+  outgoing_receipts?: NestedReceiptWithOutcome[];
+  status: RPC.ExecutionStatusView;
+  gas_burnt: number;
+};
+
+export type NestedReceiptWithOutcome = {
+  actions?: Action[];
+  block_hash: string;
+  outcome: ReceiptExecutionOutcome;
+  predecessor_id: string;
+  receipt_id: string;
+  receiver_id: string;
 };
 
 export const collectNestedReceiptWithOutcome = (

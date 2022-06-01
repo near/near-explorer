@@ -34,8 +34,8 @@ jobs:
       - name: Run unit tests
         run: npm run -w frontend test
 
-  frontend-e2e-test:
-    name: Frontend e2e testing
+  e2e-test:
+    name: e2e testing
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -45,10 +45,12 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install packages
         run: npm install
-      - name: Build Project
+      - name: Build frontend
         run: npm run -w frontend build
+      - name: Build backend
+        run: npm run -w backend build
       - name: Run Cypress
-        run: npm run -w frontend test:ci
+        run: npm run test:ci
         env:
           CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
 

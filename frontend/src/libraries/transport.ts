@@ -1,45 +1,26 @@
 import { NetworkName } from "../types/common";
-import { subscribeTopic, getLastValue, unsubscribeTopic, fetch } from "./wamp";
-import {
-  ProcedureType,
-  ProcedureArgs,
-  ProcedureResult,
-  SubscriptionTopicType,
-  SubscriptionTopicTypes,
-} from "../types/common";
+import { getConfig } from "./config";
 
-let subscriptions: Record<string, ((data: any) => void)[]> = {};
-
-export const subscribe = <T extends SubscriptionTopicType>(
-  networkName: NetworkName,
-  topic: T,
-  handler: (data: SubscriptionTopicTypes[T]) => void
-): (() => void) => {
-  if (!subscriptions[topic]) {
-    subscriptions[topic] = [];
-  }
-  subscriptions[topic].push(handler);
-  void subscribeTopic(topic, networkName, (data) =>
-    subscriptions[topic].forEach((handler) => handler(data))
-  );
-  const lastValue = getLastValue(topic, networkName);
-  if (lastValue) {
-    handler(lastValue);
-  }
-  return () => {
-    subscriptions[topic] = subscriptions[topic].filter(
-      (lookupHandler) => lookupHandler !== handler
-    );
-    void unsubscribeTopic(topic, networkName);
-  };
+type Protocol = "http" | "websocket";
+const secureProtocols: Record<Protocol, string> = {
+  http: "https",
+  websocket: "wss",
 };
-
-export type Fetcher = <P extends ProcedureType>(
-  procedure: P,
-  args: ProcedureArgs<P>
-) => Promise<ProcedureResult<P>>;
-
-export const getFetcher = (networkName: NetworkName): Fetcher => (
-  procedure,
-  args
-) => fetch(procedure, networkName, args);
+const insecureProtocols: Record<Protocol, string> = {
+  http: "http",
+  websocket: "ws",
+};
+const endpoints: Record<Protocol, string> = {
+  http: "trpc",
+  websocket: "ws",
+};
+const {
+  publicRuntimeConfig: { backendConfig },
+} = getConfig();
+export const getBackendUrl = (networkName: NetworkName, type: Protocol) => {
+  if (!backendConfig.hosts[networkName]) {
+    throw new Error(`Network ${networkName} is not supported on this host`);
+  }
+  const protocols = backendConfig.secure ? secureProtocols : insecureProtocols;
+  return `${protocols[type]}://${backendConfig.hosts[networkName]}:${backendConfig.port}/${endpoints[type]}`;
+};

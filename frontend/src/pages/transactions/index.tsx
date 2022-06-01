@@ -9,16 +9,15 @@ import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 import * as React from "react";
-import { useInfiniteQuery } from "../../hooks/use-infinite-query";
+import { trpc } from "../../libraries/trpc";
 
 const TRANSACTIONS_PER_PAGE = 15;
 
 const TransactionsPage: NextPage = React.memo(() => {
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Transactions Page");
-  const query = useInfiniteQuery(
-    "transactions-list",
-    { limit: TRANSACTIONS_PER_PAGE },
+  const query = trpc.useInfiniteQuery(
+    ["transactions-list", { limit: TRANSACTIONS_PER_PAGE }],
     { getNextPageParam }
   );
 

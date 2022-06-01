@@ -3,14 +3,13 @@ import * as React from "react";
 import ListHandler from "../utils/ListHandler";
 import FlipMove from "../utils/FlipMove";
 import AccountRow from "./AccountRow";
-import { useInfiniteQuery } from "../../hooks/use-infinite-query";
+import { trpc } from "../../libraries/trpc";
 
 const ACCOUNTS_PER_PAGE = 15;
 
 const Accounts: React.FC = React.memo(() => {
-  const query = useInfiniteQuery(
-    "accounts-list",
-    { limit: ACCOUNTS_PER_PAGE },
+  const query = trpc.useInfiniteQuery(
+    ["accounts-list", { limit: ACCOUNTS_PER_PAGE }],
     {
       getNextPageParam: (lastPage) => {
         const lastElement = lastPage[lastPage.length - 1];

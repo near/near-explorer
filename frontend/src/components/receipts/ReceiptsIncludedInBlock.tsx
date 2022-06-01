@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useQuery } from "../../hooks/use-query";
+import { trpc } from "../../libraries/trpc";
 import ReceiptsList from "./ReceiptsList";
 
 interface Props {
@@ -8,9 +8,10 @@ interface Props {
 }
 
 const ReceiptsIncludedInBlock: React.FC<Props> = React.memo(({ blockHash }) => {
-  const {
-    data: receiptsList,
-  } = useQuery("included-receipts-list-by-block-hash", [blockHash]);
+  const { data: receiptsList } = trpc.useQuery([
+    "included-receipts-list-by-block-hash",
+    [blockHash],
+  ]);
   return <ReceiptsList receiptsList={receiptsList} />;
 });
 

@@ -43,7 +43,7 @@ Project Root
 It is useful to have a live-updating dev-server during development, and most of the time you can use the production Explorer backend:
 
 ```
-$ npm run dev:production-wamp
+$ npm run dev:production-backend
 ```
 
 Or you could run frontend with a local backend.
@@ -65,7 +65,7 @@ $ npm run start
 Also, there is a common command to run the release bundle against the deployed Explorer backend:
 
 ```
-$ npm run start:production-wamp
+$ npm run start:production-backend
 ```
 
 ## Run Tests
@@ -86,7 +86,7 @@ $ npm run test -- --updateSnapshot
 
 , and commit those changes in the snapshots together with your PR.
 
-To run end-to-end testing against the local WAMP router:
+To run end-to-end testing against the local backend server:
 
 ```
 $ npm run build
