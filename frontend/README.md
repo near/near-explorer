@@ -40,13 +40,7 @@ Project Root
 
 ## Run Frontend for Development
 
-It is useful to have a live-updating dev-server during development, and most of the time you can use the production Explorer backend:
-
-```
-$ npm run dev:production-backend
-```
-
-Or you could run frontend with a local backend.
+Frontend required running backend to be run in the background to be usable.
 Follow the [backend instructions](../backend/README.md) and start frontend like this:
 
 ```
@@ -60,12 +54,6 @@ If you want to build a release bundle and run it:
 ```
 $ npm run build
 $ npm run start
-```
-
-Also, there is a common command to run the release bundle against the deployed Explorer backend:
-
-```
-$ npm run start:production-backend
 ```
 
 ## Run Tests

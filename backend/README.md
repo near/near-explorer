@@ -10,27 +10,15 @@
 ## Run Backend
 
 The simplest way to get started is to use [Indexer for Explorer](https://github.com/near/near-indexer-for-explorer) data.
-Conveniently, there are all the basic settings done in `package.json` and `testnet.env`, so you can just run:
+Conveniently, there are all the basic settings done in `package.json` and `mainnet.env` / `testnet.env` / `guildnet.env`, so you can just run:
 
 ```
-$ npm run dev:testnet
+$ npm run dev:mainnet
 ```
 
-NOTE: There is also configuration for `mainnet`, just use `dev:mainnet` command.
+NOTE: There are also configurations for `testnet` and `guildnet`, just change command suffix.
 
-NOTE: To override `testnet.env` values during local development, create file `testnet.env.local` and export all the necessary environment variables there
-
-## Configure Backend
-
-If you maintain your own Indexer for Explorer database or NEAR Archival Node, you can create a local config file `.testnet.env.local`.
-
-When all preparation is done run backend:
-
-```
-$ npm run dev:testnet
-```
-
-NOTE: There is also configuration for `mainnet`, just apply the same reasoning and use the relevant config file name and command.
+NOTE: To override `mainnet.env` values during local development, create file `mainnet.env.local` and export all the necessary environment variables there
 
 ## Run Backend for Production
 
