@@ -5,6 +5,11 @@ services:
     name: frontend
     env: node
     plan: starter plus
+    scaling:
+      minInstances: 1
+      maxInstances: 4
+      targetMemoryPercent: 85
+      targetCPUPercent: 85
     repo: https://github.com/near/near-explorer.git
     buildCommand: npm clean-install && npm run -w frontend build
     startCommand: npm run -w frontend start
@@ -69,6 +74,12 @@ services:
   - type: web
     name: backend/mainnet
     env: node
+    plan: starter plus
+    scaling:
+      minInstances: 1
+      maxInstances: 4
+      targetMemoryPercent: 85
+      targetCPUPercent: 85
     repo: https://github.com/near/near-explorer.git
     buildCommand: npm clean-install && npm run -w backend build
     startCommand: npm run -w backend start
