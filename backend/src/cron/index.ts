@@ -1,4 +1,5 @@
 import { Context } from "../context";
+import { SECOND } from "../utils/time";
 import * as tasks from "./tasks";
 import { PublishTopic } from "./types";
 
@@ -27,9 +28,10 @@ export const runTasks = (context: Context) => {
       continue;
     }
 
+    let timeout = SECOND;
     const runTask = async () => {
       try {
-        await task.fn(publish, context);
+        timeout = await task.fn(publish, context);
       } catch (error) {
         console.warn(
           `Regular ${task.description} crashed due to:`,
@@ -40,7 +42,7 @@ export const runTasks = (context: Context) => {
       }
     };
     const setTimeoutBound = () => {
-      timeouts[task.description] = setTimeout(runTask, task.interval);
+      timeouts[task.description] = setTimeout(runTask, timeout);
     };
     void runTask();
   }

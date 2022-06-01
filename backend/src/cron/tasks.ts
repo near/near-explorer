@@ -49,8 +49,8 @@ export const chainBlockStatsCheck: RegularCheckFn = {
       latestGasPrice,
       recentBlockProductionSpeed,
     });
+    return config.intervals.checkChainBlockStats;
   },
-  interval: config.intervals.checkChainBlockStats,
 };
 
 export const recentTransactionsCountCheck: RegularCheckFn = {
@@ -59,16 +59,16 @@ export const recentTransactionsCountCheck: RegularCheckFn = {
     publish("recent-transactions", {
       recentTransactionsCount: await queryRecentTransactionsCount(),
     });
+    return config.intervals.checkRecentTransactions;
   },
-  interval: config.intervals.checkRecentTransactions,
 };
 
 export const transactionCountHistoryCheck: RegularCheckFn = {
   description: "transaction count history for 2 weeks",
   fn: async (_, context) => {
     context.state.transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
+    return config.intervals.checkTransactionCountHistory;
   },
-  interval: config.intervals.checkTransactionCountHistory,
 };
 
 export const statsAggregationCheck: RegularCheckFn = {
@@ -95,8 +95,9 @@ export const statsAggregationCheck: RegularCheckFn = {
     await aggregateActiveContractsCountByDate();
     await aggregateUniqueDeployedContractsCountByDate();
     await aggregateActiveContractsList();
+
+    return config.intervals.checkAggregatedStats;
   },
-  interval: config.intervals.checkAggregatedStats,
 };
 
 export const finalityStatusCheck: RegularCheckFn = {
@@ -107,8 +108,8 @@ export const finalityStatusCheck: RegularCheckFn = {
       finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
       finalBlockHeight: finalBlock.header.height,
     });
+    return config.intervals.checkFinalityStatus;
   },
-  interval: config.intervals.checkFinalityStatus,
 };
 
 export const updateStakingPoolStakeProposalsFromContractMap = async (
@@ -211,8 +212,8 @@ export const networkInfoCheck: RegularCheckFn = {
       })),
     });
     publish("network-stats", epochData.stats);
+    return config.intervals.checkNetworkInfo;
   },
-  interval: config.intervals.checkNetworkInfo,
 };
 
 // See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
@@ -248,7 +249,7 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
       });
       const entries = Object.entries(metadataInfo);
       if (entries.length === 0) {
-        return;
+        return config.intervals.checkValidatorDescriptions;
       }
       for (const [accountId, poolMetadataInfo] of entries) {
         context.state.stakingPoolsDescriptions.set(accountId, {
@@ -263,7 +264,6 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
       }
     }
   },
-  interval: config.intervals.checkValidatorDescriptions,
   shouldSkip: () => config.networkName !== "mainnet",
 };
 
@@ -271,6 +271,6 @@ export const poolIdsCheck: RegularCheckFn = {
   description: "pool ids check",
   fn: async (_, context) => {
     context.state.poolIds = await queryStakingPoolAccountIds();
+    return config.intervals.checkPoolIds;
   },
-  interval: config.intervals.checkPoolIds,
 };

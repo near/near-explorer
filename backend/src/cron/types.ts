@@ -14,7 +14,6 @@ export type PublishTopic = <S extends keyof SubscriptionEventMap>(
 
 export type RegularCheckFn = {
   description: string;
-  fn: (publish: PublishTopic, context: Context) => Promise<void>;
-  interval: number;
+  fn: (publish: PublishTopic, context: Context) => Promise<number>;
   shouldSkip?: () => void;
 };
