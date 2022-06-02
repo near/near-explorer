@@ -195,8 +195,9 @@ export const networkInfoCheck: RegularCheckFn = {
         wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
     ]);
-    publish("validators", {
-      validators: epochData.validators.map((validator) => ({
+    publish(
+      "validators",
+      epochData.validators.map((validator) => ({
         ...validator,
         description: context.state.stakingPoolsDescriptions.get(
           validator.accountId
@@ -208,8 +209,8 @@ export const networkInfoCheck: RegularCheckFn = {
           validator.accountId
         ),
         telemetry: telemetryInfo.get(validator.accountId),
-      })),
-    });
+      }))
+    );
     publish("network-stats", epochData.stats);
     return config.intervals.checkNetworkInfo;
   },

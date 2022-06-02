@@ -32,7 +32,7 @@ export type TransactionOutcome = NonNullable<
 
 export type DeployInfo = TRPCQueryOutput<"deploy-info">;
 
-export type ValidatorFullData = TRPCSubscriptionOutput<"validators">["validators"][number];
+export type ValidatorFullData = TRPCSubscriptionOutput<"validators">[number];
 export type ValidationProgress = NonNullable<
   ValidatorFullData["currentEpoch"]
 >["progress"];

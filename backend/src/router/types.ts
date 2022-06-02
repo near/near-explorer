@@ -74,9 +74,7 @@ export type NetworkStats = {
 };
 
 export type SubscriptionTopicTypes = {
-  validators: {
-    validators: ValidatorFullData[];
-  };
+  validators: ValidatorFullData[];
   latestBlock: {
     height: number;
     timestamp: number;
