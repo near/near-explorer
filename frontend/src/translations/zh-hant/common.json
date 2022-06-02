@@ -28,8 +28,8 @@
       },
       "execution": {
         "convert_transaction_to_receipt": "將交易轉換為收據",
-        "gas_burned": "銷毀的Gas",
-        "tokens_burned": "銷毀的Tokens"
+        "gas_burned": "已銷毀的Gas",
+        "tokens_burned": "已銷毀的代幣"
       }
     },
     "actions": {
@@ -170,7 +170,7 @@
         "node_agent_version_or_build": {
           "title": "節點代理版本 / 構建ID"
         },
-        "produced_blocks_and_chunks": "produced ${num_produced_blocks}/${num_expected_blocks} blocks, ${num_produced_chunks}/${num_expected_chunks} chunks"
+        "produced_blocks_and_chunks": "已生產 ${num_produced_blocks}/${num_expected_blocks} 區塊, ${num_produced_chunks}/${num_expected_chunks} chunks"
       },
       "ValidatorMetadataRow": {
         "pool_info": {
@@ -197,7 +197,7 @@
       },
       "NodesCard": {
         "nodes_validating": "正在驗證的節點",
-        "total_supply": "總供應量",
+        "total_supply": "總供給量",
         "total_stake": "總質押量",
         "seat_price": "席位價格"
       },
@@ -214,7 +214,7 @@
       },
       "ActionMessage": {
         "CreateAccount": {
-          "new_account_created": "創建新賬戶: "
+          "new_account_created": "已創建新賬戶: "
         },
         "DeleteAccount": {
           "delete_account": "刪除賬戶 ",
@@ -228,7 +228,7 @@
           "arguments": "參數:"
         },
         "Transfer": {
-          "transferred": "轉賬 ",
+          "transferred": "已轉賬 ",
           "to": " 到 "
         },
         "Stake": {
@@ -243,7 +243,7 @@
           "any": "任何"
         },
         "DeleteKey": {
-          "key_deleted": "刪除密鑰: ${public_key}..."
+          "key_deleted": "已刪除密鑰: ${public_key}..."
         }
       },
       "TransactionAction": {
@@ -268,7 +268,7 @@
         },
         "transaction_fee": {
           "title": "交易費",
-          "text": "為執行本交易支付的費用，以NEAR計費"
+          "text": "為執行本交易的費用，以NEAR為單位"
         },
         "deposit_value": {
           "title": "存款額",
@@ -287,12 +287,12 @@
           "text": "本交易提交時刻的時間戳"
         },
         "hash": {
-          "title": "交易哈希",
-          "text": "本交易的唯一的ID（哈希）"
+          "title": "交易hash",
+          "text": "本交易的唯一的ID（hash）"
         },
         "block_hash": {
-          "title": "區塊哈希",
-          "text": "包含了本交易的區塊的唯一ID（哈希）"
+          "title": "區塊hash",
+          "text": "包含了本交易的區塊的唯一ID（hash）"
         }
       },
       "ReceiptRow": {
@@ -306,14 +306,14 @@
     },
     "receipts": {
       "ReceiptAction": {
-        "batch_receipt": "Batch Receipt",
-        "fetching_status": "Fetching Status..."
+        "batch_receipt": "批量收據",
+        "fetching_status": "獲取狀態..."
       },
       "ReceiptsList": {
-        "no_receipts": "There are no receipts in this block"
+        "no_receipts": "此區塊中沒有收據"
       },
-      "ReceiptsIncludedInBlock": "Receipts included in this block",
-      "ReceiptsExecutedInBlock": "Receipts executed in this block"
+      "ReceiptsIncludedInBlock": "此區塊已包含的收據",
+      "ReceiptsExecutedInBlock": "此區塊已執行的收據"
     },
     "blocks": {
       "BlockDetails": {
@@ -344,12 +344,12 @@
           "text": "區塊完成時的時間戳。"
         },
         "hash": {
-          "title": "哈希",
-          "text": "該區塊的唯一標識符(哈希)。"
+          "title": "hash",
+          "text": "該區塊的唯一標識符(hash)。"
         },
         "parent_hash": {
-          "title": "父哈希",
-          "text": "前一個區塊的唯一標識符(哈希)。"
+          "title": "父hash",
+          "text": "前一個區塊的唯一標識符(hash)。"
         }
       }
     },
@@ -408,78 +408,17 @@
           "text": "合約的最近一次部署時間"
         },
         "transaction_hash": {
-          "title": "交易哈希",
-          "text": "合約最近一次部署的交易的唯一ID（哈希）"
+          "title": "交易hash",
+          "text": "合約最近一次部署的交易的唯一ID（hash）"
         },
         "locked": {
           "title": "鎖定合約?",
           "text": "<p>鎖定合約是指該合約已經沒有訪問密鑰可用於合約的重新部署。</p><p>在大多數情況下，代碼可以通過如下方式重新部署:<ol><li>通過直接包含了重新部署代碼的操作的交易</li><li>合約本身可以實現函數調用用於觸發部署代碼的操作</li></ol></p><p>為了發起交易重新部署合約代碼，交易必須用完全訪問密鑰（full-access key）簽名才行。如果合約上已經沒有這樣的密鑰了，那就無法重新部署合約，除非合約代碼里實現了專門的支持，這樣的合約我們認為它是鎖定了的。</p><p>如果合約上註冊了至少一個完全訪問密鑰（full-access key），它就不是鎖定的。</p>"
         },
         "code_hash": {
-          "title": "代碼哈希",
+          "title": "代碼hash",
           "text": "合約二進制數據的校驗和（SHA-256通過 base58編碼）"
         }
-      }
-    },
-    "stats": {
-      "ProtocolConfigInfo": {
-        "first_produced_block": "First produced block",
-        "genesis_started": "創世區塊時間",
-        "genesis_protocol_or_current_protocol": "創世協議版本 / 當前協議版本",
-        "genesis_height": "創世區塊高度",
-        "epoch_length": "周期長度",
-        "genesis_total_supply": "創世總供給量",
-        "accounts_in_genesis": "創世時賬戶數",
-        "total_supply": "當前總供給量",
-        "live_accounts": "在線賬戶"
-      },
-      "CirculatingSupplyStats": {
-        "circulating_supply": "流通供應統計",
-        "tooltip": {
-          "circulating_supply": "circulating supply",
-          "total_tokens_supply": "total supply",
-          "total_tokens_supply_explain": "NEAR tokens that are available for circulation on the market (i.e. not locked in lockup contracts)"
-        }
-      },
-      "TransactionsByDate": {
-        "daily_number_of_transactions": "每日交易數",
-        "total_number_of_transactions": "總交易數",
-        "transactions": "交易數"
-      },
-      "GasUsedByDate": {
-        "daily_amount_of_used_gas": "每日Gas使用量",
-        "petagas": "PetaGas",
-        "total_amount_of_used_gas": "總Gas使用量",
-        "gas_fee": "Gas費",
-        "daily_gas_fee_in_near": "以NEAR計算的每日Gas費",
-        "fee": "費用"
-      },
-      "NewAccountsByDate": {
-        "daily_number_of_new_accounts": "每日新增賬戶數",
-        "daily_number_of_live_accounts": "每日在線賬戶數",
-        "total_number_of_new_accounts": "總新增賬戶數",
-        "new_accounts": "新賬戶數"
-      },
-      "NewContractsByDate": {
-        "daily_number_of_new_contracts": "每日新增合約數",
-        "total_number_of_new_contracts": "總新增合約數",
-        "total_number_of_unique_contracts": "總單獨合約數",
-        "new_contracts": "新合約數"
-      },
-      "ActiveAccountsByDate": {
-        "daily_number_of_active_accounts": "每日活躍賬戶數",
-        "weekly_number_of_active_accounts": "周活躍賬戶數",
-        "active_accounts": "活躍賬戶數"
-      },
-      "ActiveContractsByDate": {
-        "daily_number_of_active_contracts": "每日活躍合約數",
-        "active_contracts": "活躍合約數"
-      },
-      "ActiveAccountsList": {
-        "title": "過去14天最活躍的10個賬戶"
-      },
-      "ActiveContractsList": {
-        "title": "過去14天最活躍的10個合約"
       }
     },
     "dashboard": {
@@ -521,10 +460,71 @@
         "date_format": "MoDo"
       }
     },
+    "stats": {
+      "ProtocolConfigInfo": {
+        "first_produced_block": "First produced block",
+        "genesis_started": "創世區塊時間",
+        "genesis_protocol_or_current_protocol": "創世協議版本 / 當前協議版本",
+        "genesis_height": "創世區塊高度",
+        "epoch_length": "周期長度",
+        "genesis_total_supply": "創世總供給量",
+        "accounts_in_genesis": "創世時賬戶數",
+        "total_supply": "總供給量",
+        "live_accounts": "在線賬戶"
+      },
+      "CirculatingSupplyStats": {
+        "circulating_supply": "流通供給量統計",
+        "tooltip": {
+          "circulating_supply": "流通供給量",
+          "total_tokens_supply": "總供給量",
+          "total_tokens_supply_explain": "可在市場上流通的NEAR代幣（即沒有被合約鎖鎖定的代幣）"
+        }
+      },
+      "TransactionsByDate": {
+        "daily_number_of_transactions": "每日交易數",
+        "total_number_of_transactions": "總交易數",
+        "transactions": "交易數"
+      },
+      "GasUsedByDate": {
+        "daily_amount_of_used_gas": "每日Gas使用量",
+        "petagas": "PetaGas",
+        "total_amount_of_used_gas": "總Gas使用量",
+        "gas_fee": "Gas費用",
+        "daily_gas_fee_in_near": "以NEAR為單位的每日Gas費用",
+        "fee": "費用"
+      },
+      "NewAccountsByDate": {
+        "daily_number_of_new_accounts": "每日新增賬戶數",
+        "daily_number_of_live_accounts": "每日在線賬戶數",
+        "total_number_of_new_accounts": "總新增賬戶數",
+        "new_accounts": "新賬戶數"
+      },
+      "NewContractsByDate": {
+        "daily_number_of_new_contracts": "每日新增合約數",
+        "total_number_of_new_contracts": "總新增合約數",
+        "total_number_of_unique_contracts": "總單獨合約數",
+        "new_contracts": "新合約數"
+      },
+      "ActiveAccountsByDate": {
+        "daily_number_of_active_accounts": "每日活躍賬戶數",
+        "weekly_number_of_active_accounts": "周活躍賬戶數",
+        "active_accounts": "活躍賬戶數"
+      },
+      "ActiveContractsByDate": {
+        "daily_number_of_active_contracts": "每日活躍合約數",
+        "active_contracts": "活躍合約數"
+      },
+      "ActiveAccountsList": {
+        "title": "過去14天最活躍的10個賬戶"
+      },
+      "ActiveContractsList": {
+        "title": "過去14天最活躍的10個合約"
+      }
+    },
     "utils": {
       "Search": {
         "title": "搜尋",
-        "hint": "搜尋：賬戶ID、交易哈希、區塊哈希、區塊高度"
+        "hint": "搜尋：賬戶ID、交易hash、區塊hash、區塊高度"
       },
       "Header": {
         "home": "主頁"
