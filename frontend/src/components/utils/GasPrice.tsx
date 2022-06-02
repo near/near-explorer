@@ -6,11 +6,14 @@ import { formatNEAR, showInYocto } from "./Balance";
 import { TGAS } from "./Gas";
 
 interface Props {
-  gasPrice: JSBI;
+  gasPrice: string;
 }
 
 const GasPrice: React.FC<Props> = React.memo(({ gasPrice }) => {
-  let gasPricePerTeragas = JSBI.multiply(gasPrice, TGAS);
+  const gasPricePerTeragas = React.useMemo(
+    () => JSBI.multiply(JSBI.BigInt(gasPrice), TGAS),
+    [gasPrice]
+  );
   return (
     <OverlayTrigger
       placement={"bottom"}

@@ -1,9 +1,8 @@
 import * as React from "react";
-import JSBI from "jsbi";
 
 import { Col, Row, Badge } from "react-bootstrap";
 import { Trans, useTranslation } from "react-i18next";
-import { useLatestBlockHeight } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
 import { ValidatorTelemetry } from "../../types/common";
 import Term from "../utils/Term";
@@ -34,7 +33,7 @@ interface Props {
 const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ telemetry }) => {
   const { t } = useTranslation();
 
-  const latestBlockHeight = useLatestBlockHeight();
+  const latestBlockSub = useSubscription(["latestBlock"]);
 
   return (
     <>
@@ -59,15 +58,13 @@ const ValidatorTelemetryRow: React.FC<Props> = React.memo(({ telemetry }) => {
         <Row noGutters>
           <ValidatorNodesText
             className={
-              latestBlockHeight === undefined
+              latestBlockSub.status !== "success"
                 ? undefined
-                : Math.abs(
-                    telemetry.lastHeight - JSBI.toNumber(latestBlockHeight)
-                  ) > 1000
+                : Math.abs(telemetry.lastHeight - latestBlockSub.data.height) >
+                  1000
                 ? "text-danger"
-                : Math.abs(
-                    telemetry.lastHeight - JSBI.toNumber(latestBlockHeight)
-                  ) > 50
+                : Math.abs(telemetry.lastHeight - latestBlockSub.data.height) >
+                  50
                 ? "text-warning"
                 : undefined
             }

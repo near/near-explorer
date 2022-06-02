@@ -13,7 +13,7 @@ import Term from "../utils/Term";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
-import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
 import { RPC, Transaction } from "../../types/common";
 import * as BI from "../../libraries/bigint";
@@ -122,7 +122,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
     );
   }, [transaction.actions]);
 
-  const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
+  const latestBlockSub = useSubscription(["latestBlock"]);
 
   return (
     <TransactionInfoContainer>
@@ -184,15 +184,9 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 ) : (
                   t("common.blocks.status.fetching_status")
                 )}
-                {!finalBlockTimestampNanosecond
+                {latestBlockSub.status !== "success"
                   ? "/" + t("common.blocks.status.checking_finality")
-                  : JSBI.lessThan(
-                      JSBI.BigInt(transaction.blockTimestamp),
-                      JSBI.divide(
-                        finalBlockTimestampNanosecond,
-                        JSBI.BigInt(10 ** 6)
-                      )
-                    )
+                  : transaction.blockTimestamp < latestBlockSub.data.timestamp
                   ? ""
                   : "/" + t("common.blocks.status.finalizing")}
               </TransactionStatusWrapper>

@@ -28,8 +28,9 @@ export const config = merge(
     },
 
     intervals: {
-      checkFinalityStatus: SECOND,
-      checkChainBlockStats: SECOND,
+      checkLatestBlock: SECOND,
+      checkLatestGasPrice: 15 * SECOND,
+      checkBlockProductionSpeed: 5 * SECOND,
       checkRecentTransactions: SECOND,
       checkNetworkInfo: SECOND,
       checkStakingPoolInfo: 15 * SECOND,

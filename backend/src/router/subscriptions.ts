@@ -54,11 +54,23 @@ const getQueryResolve = <S extends keyof SubscriptionEventMap>(
 
 export const router = trpc
   .router<Context>()
-  .query("chain-blocks-stats", {
-    resolve: getQueryResolve("chain-blocks-stats"),
+  .query("blockProductionSpeed", {
+    resolve: getQueryResolve("blockProductionSpeed"),
   })
-  .subscription("chain-blocks-stats", {
-    resolve: getSubscriptionResolve("chain-blocks-stats"),
+  .subscription("blockProductionSpeed", {
+    resolve: getSubscriptionResolve("blockProductionSpeed"),
+  })
+  .query("latestBlock", {
+    resolve: getQueryResolve("latestBlock"),
+  })
+  .subscription("latestBlock", {
+    resolve: getSubscriptionResolve("latestBlock"),
+  })
+  .query("latestGasPrice", {
+    resolve: getQueryResolve("latestGasPrice"),
+  })
+  .subscription("latestGasPrice", {
+    resolve: getSubscriptionResolve("latestGasPrice"),
   })
   .query("validators", {
     resolve: getQueryResolve("validators"),
@@ -66,17 +78,11 @@ export const router = trpc
   .subscription("validators", {
     resolve: getSubscriptionResolve("validators"),
   })
-  .query("recent-transactions", {
-    resolve: getQueryResolve("recent-transactions"),
+  .query("recentTransactionsCount", {
+    resolve: getQueryResolve("recentTransactionsCount"),
   })
-  .subscription("recent-transactions", {
-    resolve: getSubscriptionResolve("recent-transactions"),
-  })
-  .query("finality-status", {
-    resolve: getQueryResolve("finality-status"),
-  })
-  .subscription("finality-status", {
-    resolve: getSubscriptionResolve("finality-status"),
+  .subscription("recentTransactionsCount", {
+    resolve: getSubscriptionResolve("recentTransactionsCount"),
   })
   .query("network-stats", {
     resolve: getQueryResolve("network-stats"),

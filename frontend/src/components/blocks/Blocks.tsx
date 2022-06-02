@@ -7,13 +7,13 @@ import FlipMove from "../utils/FlipMove";
 import BlocksRow from "./BlocksRow";
 import Placeholder from "../utils/Placeholder";
 import { trpc } from "../../libraries/trpc";
-import { useLatestBlockHeight } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 
 const BLOCKS_PER_PAGE = 15;
 
 const Blocks: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const latestBlockHeight = useLatestBlockHeight();
+  const latestBlockSub = useSubscription(["latestBlock"]);
 
   const query = trpc.useInfiniteQuery(
     ["blocks-list", { limit: BLOCKS_PER_PAGE }],
@@ -36,7 +36,11 @@ const Blocks: React.FC = React.memo(() => {
       prependChildren={
         <div onClick={refetch}>
           <Placeholder>
-            {`${t("utils.ListHandler.last_block")}#${latestBlockHeight}.`}
+            {latestBlockSub.status === "success"
+              ? t("utils.ListHandler.last_block", {
+                  height: latestBlockSub.data.height,
+                })
+              : null}
             {t("utils.Update.refresh")}
           </Placeholder>
         </div>

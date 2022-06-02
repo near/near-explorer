@@ -77,18 +77,13 @@ export type SubscriptionTopicTypes = {
   validators: {
     validators: ValidatorFullData[];
   };
-  "chain-blocks-stats": {
-    latestBlockHeight: string;
-    latestGasPrice: string;
-    recentBlockProductionSpeed: number;
+  latestBlock: {
+    height: number;
+    timestamp: number;
   };
-  "recent-transactions": {
-    recentTransactionsCount: number;
-  };
-  "finality-status": {
-    finalBlockTimestampNanosecond: string;
-    finalBlockHeight: number;
-  };
+  latestGasPrice: string;
+  blockProductionSpeed: number;
+  recentTransactionsCount: number;
   "network-stats": NetworkStats;
 };
 

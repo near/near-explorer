@@ -4,11 +4,12 @@ import * as tasks from "./tasks";
 import { PublishTopic } from "./types";
 
 const regularTasks = [
-  tasks.chainBlockStatsCheck,
+  tasks.latestBlockCheck,
+  tasks.latestGasPriceCheck,
+  tasks.blockProductionSpeedCheck,
   tasks.recentTransactionsCountCheck,
   tasks.transactionCountHistoryCheck,
   tasks.statsAggregationCheck,
-  tasks.finalityStatusCheck,
   tasks.networkInfoCheck,
   tasks.stakingPoolMetadataInfoCheck,
   tasks.poolIdsCheck,
