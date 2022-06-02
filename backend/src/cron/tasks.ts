@@ -9,7 +9,7 @@ import {
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
 } from "../database/queries";
-import { callViewMethod, sendJsonRpcQuery } from "../utils/near";
+import * as nearApi from "../utils/near";
 import {
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsCountByWeek,
@@ -118,9 +118,9 @@ export const updateStakingPoolStakeProposalsFromContractMap = async (
     // because they looks like pool accounts but they are not so
     // that's why we catch this error to avoid unnecessary errors in console
     async (id) =>
-      callViewMethod<string>(id, "get_total_staked_balance", {}).catch(
-        () => undefined
-      ),
+      nearApi
+        .callViewMethod<string>(id, "get_total_staked_balance", {})
+        .catch(() => undefined),
     config.intervals.checkStakingPoolStakeProposal,
     config.timeouts.timeoutStakingPoolStakeProposal
   );
@@ -134,7 +134,7 @@ export const updatePoolInfoMap = async (
     validators.map((validator) => validator.accountId),
     state.stakingPoolInfos,
     async (id) => {
-      const account = await sendJsonRpcQuery("view_account", {
+      const account = await nearApi.sendJsonRpcQuery("view_account", {
         account_id: id,
         finality: "final",
       });
@@ -151,14 +151,20 @@ export const updatePoolInfoMap = async (
         // for some accounts on 'testnet' we can't get 'fee' and 'delegatorsCount'
         // because they looks like pool accounts but they are not so
         // that's why we catch this error to avoid unnecessary errors in console
-        fee: await callViewMethod<ValidatorPoolInfo["fee"]>(
-          id,
-          "get_reward_fee_fraction",
-          {}
-        ).catch(() => null),
-        delegatorsCount: await callViewMethod<
-          ValidatorPoolInfo["delegatorsCount"]
-        >(id, "get_number_of_accounts", {}).catch(() => null),
+        fee: await nearApi
+          .callViewMethod<ValidatorPoolInfo["fee"]>(
+            id,
+            "get_reward_fee_fraction",
+            {}
+          )
+          .catch(() => null),
+        delegatorsCount: await nearApi
+          .callViewMethod<ValidatorPoolInfo["delegatorsCount"]>(
+            id,
+            "get_number_of_accounts",
+            {}
+          )
+          .catch(() => null),
       };
     },
     config.intervals.checkStakingPoolInfo,
@@ -234,7 +240,7 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
       true;
       currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT
     ) {
-      const metadataInfo = await callViewMethod<
+      const metadataInfo = await nearApi.callViewMethod<
         Record<string, PoolMetadataAccountInfo>
       >("name.near", "get_all_fields", {
         from_index: currentIndex,
