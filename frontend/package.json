@@ -17,7 +17,7 @@
     "cy:version": "cypress version",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "compile-nextjs-config": "tsc --project nextjs.tsconfig.json"
+    "compile-nextjs-config": "ncc build next.config.ts --transpile-only --tsconfig-path nextjs.tsconfig.json --out . && mv index.js next.config.js"
   },
   "repository": {
     "type": "git",
@@ -80,6 +80,7 @@
     "@types/react-dom": "^16.9.14",
     "@types/react-paginate": "^7.1.1",
     "@types/react-test-renderer": "^17.0.1",
+    "@vercel/ncc": "^0.34.0",
     "@welldone-software/why-did-you-render": "^6.2.3",
     "autoprefixer": "^10.4.0",
     "cypress": "^8.7.0",

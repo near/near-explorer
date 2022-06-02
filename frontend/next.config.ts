@@ -1,12 +1,12 @@
-import { NextConfig } from "next";
-import {
+import type { NextConfig } from "next";
+import type {
   BackendConfig,
   ExplorerConfig,
   NearNetwork,
 } from "./src/libraries/config";
 import { merge, cloneDeep } from "lodash";
 import { getOverrides } from "./src/libraries/common";
-import { NetworkName } from "./src/types/common";
+import type { NetworkName } from "./src/types/common";
 
 const defaultBackendConfig: BackendConfig = {
   hosts: {
