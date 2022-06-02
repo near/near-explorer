@@ -17,7 +17,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types"],
-    "lib": ["esnext"],
+    "lib": ["dom", "esnext"],
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "isolatedModules": true,

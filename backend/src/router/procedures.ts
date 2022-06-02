@@ -1,5 +1,3 @@
-import { exec } from "child_process";
-import { promisify } from "util";
 import { z } from "zod";
 
 import * as trpc from "@trpc/server";
@@ -15,12 +13,11 @@ import * as accounts from "../providers/accounts";
 import * as telemetry from "../providers/telemetry";
 
 import * as nearApi from "../utils/near";
+import { getBranch, getShortCommitSha } from "../common";
 import { Context } from "../context";
 import { formatDate } from "../utils/formatting";
 import { config } from "../config";
 import { validators } from "./validators";
-
-const promisifiedExec = promisify(exec);
 
 export const router = trpc
   .router<Context>()
@@ -415,13 +412,13 @@ export const router = trpc
           serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
         };
       } else {
-        const [{ stdout: branch }, { stdout: commit }] = await Promise.all([
-          promisifiedExec("git branch --show-current"),
-          promisifiedExec("git rev-parse --short HEAD"),
+        const [branch, commit] = await Promise.all([
+          getBranch(),
+          getShortCommitSha(),
         ]);
         return {
-          branch: branch.trim(),
-          commit: commit.trim(),
+          branch,
+          commit,
           instanceId: "local",
           serviceId: "local",
           serviceName: `backend/${config.networkName}`,
