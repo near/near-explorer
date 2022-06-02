@@ -5,7 +5,7 @@ import {
   queryRecentTransactionsCount,
   queryTelemetryInfo,
   queryTransactionsCountHistoryForTwoWeeks,
-  queryLatestBlockHeight,
+  queryLatestBlock,
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
 } from "../database/queries";
@@ -26,41 +26,46 @@ import {
   aggregateTransactionsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
 } from "../providers/stats";
-import { queryEpochData, queryFinalBlock } from "../providers/network";
+import { queryEpochData } from "../providers/network";
 import { wait } from "../common";
 import { GlobalState } from "../global-state";
 import { RegularCheckFn } from "./types";
-import { updateRegularlyFetchedMap } from "./utils";
+import { publishOnChange, updateRegularlyFetchedMap } from "./utils";
 
-export const chainBlockStatsCheck: RegularCheckFn = {
-  description: "block stats check from Indexer",
-  fn: async (publish) => {
-    const [
-      latestBlockHeight,
-      latestGasPrice,
-      recentBlockProductionSpeed,
-    ] = await Promise.all([
-      queryLatestBlockHeight(),
-      queryLatestGasPrice(),
-      queryRecentBlockProductionSpeed(),
-    ]);
-    publish("chain-blocks-stats", {
-      latestBlockHeight,
-      latestGasPrice,
-      recentBlockProductionSpeed,
-    });
-    return config.intervals.checkChainBlockStats;
-  },
+export const latestBlockCheck: RegularCheckFn = {
+  description: "publish finality status",
+  fn: publishOnChange(
+    "latestBlock",
+    queryLatestBlock,
+    config.intervals.checkLatestBlock
+  ),
+};
+
+export const latestGasPriceCheck: RegularCheckFn = {
+  description: "latest gas price check from Indexer",
+  fn: publishOnChange(
+    "latestGasPrice",
+    queryLatestGasPrice,
+    config.intervals.checkLatestGasPrice
+  ),
+};
+
+export const blockProductionSpeedCheck: RegularCheckFn = {
+  description: "block production speed check from Indexer",
+  fn: publishOnChange(
+    "blockProductionSpeed",
+    queryRecentBlockProductionSpeed,
+    config.intervals.checkBlockProductionSpeed
+  ),
 };
 
 export const recentTransactionsCountCheck: RegularCheckFn = {
   description: "recent transactions check from Indexer",
-  fn: async (publish) => {
-    publish("recent-transactions", {
-      recentTransactionsCount: await queryRecentTransactionsCount(),
-    });
-    return config.intervals.checkRecentTransactions;
-  },
+  fn: publishOnChange(
+    "recentTransactionsCount",
+    queryRecentTransactionsCount,
+    config.intervals.checkRecentTransactions
+  ),
 };
 
 export const transactionCountHistoryCheck: RegularCheckFn = {
@@ -97,18 +102,6 @@ export const statsAggregationCheck: RegularCheckFn = {
     await aggregateActiveContractsList();
 
     return config.intervals.checkAggregatedStats;
-  },
-};
-
-export const finalityStatusCheck: RegularCheckFn = {
-  description: "publish finality status",
-  fn: async (publish) => {
-    const finalBlock = await queryFinalBlock();
-    publish("finality-status", {
-      finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
-      finalBlockHeight: finalBlock.header.height,
-    });
-    return config.intervals.checkFinalityStatus;
   },
 };
 

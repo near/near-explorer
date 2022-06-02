@@ -9,8 +9,7 @@ import GasPrice from "../utils/GasPrice";
 import Link from "../utils/Link";
 
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
-import { useRecentTransactions } from "../../hooks/subscriptions";
-import { useLatestGasPrice } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
 import { trpc } from "../../libraries/trpc";
 
@@ -31,9 +30,10 @@ const DashboardTransaction: React.FC = React.memo(() => {
   const { data: transactionsCountHistoryForTwoWeeks } = trpc.useQuery([
     "transaction-history",
   ]);
-  const { data: recentTransactions } = useRecentTransactions();
-  const recentTransactionsCount = recentTransactions?.recentTransactionsCount;
-  const latestGasPrice = useLatestGasPrice();
+  const recentTransactionsCountSub = useSubscription([
+    "recentTransactionsCount",
+  ]);
+  const latestGasPriceSub = useSubscription(["latestGasPrice"]);
 
   return (
     <DashboardCard
@@ -60,8 +60,12 @@ const DashboardTransaction: React.FC = React.memo(() => {
                 href={"https://docs.near.org/docs/concepts/transaction"}
               />
             }
-            loading={recentTransactionsCount === undefined}
-            text={recentTransactionsCount?.toLocaleString()}
+            loading={recentTransactionsCountSub.status === "loading"}
+            text={
+              recentTransactionsCountSub.status === "success"
+                ? recentTransactionsCountSub.data.toLocaleString()
+                : null
+            }
           />
         </Col>
         <Col xs="12" md="8">
@@ -77,10 +81,10 @@ const DashboardTransaction: React.FC = React.memo(() => {
                 href={"https://docs.near.org/docs/concepts/gas"}
               />
             }
-            loading={latestGasPrice === undefined}
+            loading={latestGasPriceSub.status === "loading"}
             text={
-              latestGasPrice !== undefined ? (
-                <GasPrice gasPrice={latestGasPrice} />
+              latestGasPriceSub.status === "success" ? (
+                <GasPrice gasPrice={latestGasPriceSub.data} />
               ) : undefined
             }
           />

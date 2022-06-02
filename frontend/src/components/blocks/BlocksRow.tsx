@@ -1,5 +1,3 @@
-import JSBI from "jsbi";
-
 import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
@@ -8,7 +6,7 @@ import Timer from "../utils/Timer";
 import Link from "../utils/Link";
 
 import { useTranslation } from "react-i18next";
-import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import { BlockBase } from "../../types/common";
 import { styled } from "../../libraries/styles";
 
@@ -70,7 +68,7 @@ export interface Props {
 
 const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
-  const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
+  const latestBlockSub = useSubscription(["latestBlock"]);
   return (
     <Link href={`/blocks/${block.hash}`} passHref>
       <LinkWrapper>
@@ -107,15 +105,9 @@ const BlocksRow: React.FC<Props> = React.memo(({ block }) => {
             <Row>
               <TransactionRowTimer>
                 <TransactionRowTimerStatus>
-                  {!finalBlockTimestampNanosecond
+                  {latestBlockSub.status !== "success"
                     ? t("common.blocks.status.checking_finality")
-                    : JSBI.lessThan(
-                        JSBI.BigInt(block.timestamp),
-                        JSBI.divide(
-                          finalBlockTimestampNanosecond,
-                          JSBI.BigInt(10 ** 6)
-                        )
-                      )
+                    : block.timestamp < latestBlockSub.data.timestamp
                     ? t("common.blocks.status.finalized")
                     : t("common.blocks.status.finalizing")}
                 </TransactionRowTimerStatus>

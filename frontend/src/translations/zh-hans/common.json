@@ -546,7 +546,7 @@
       "refresh": " 刷新或单击以查看最新数据."
     },
     "ListHandler": {
-      "last_block": "最后的区块高度是"
+      "last_block": "最后的区块高度是 #${height}"
     },
     "StorageSize": {
       "bytes": "B",

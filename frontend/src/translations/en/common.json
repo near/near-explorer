@@ -546,7 +546,7 @@
       "refresh": " Refresh or Click to view the latest data."
     },
     "ListHandler": {
-      "last_block": "The latest block height is "
+      "last_block": "The latest block height is #${height}"
     },
     "StorageSize": {
       "bytes": "B",

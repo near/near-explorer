@@ -1,5 +1,4 @@
 import Head from "next/head";
-import JSBI from "jsbi";
 
 import { Container } from "react-bootstrap";
 
@@ -11,11 +10,8 @@ import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { useNetworkStats, useFinalityStatus } from "../../hooks/subscriptions";
-import {
-  useEpochStartBlock,
-  useFinalBlockTimestampNanosecond,
-} from "../../hooks/data";
+import { useNetworkStats } from "../../hooks/subscriptions";
+import { useEpochStartBlock } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -49,9 +45,6 @@ const ValidatorsPage: NextPage = React.memo(() => {
 
   const { data: networkStats } = useNetworkStats();
   const epochStartBlock = useEpochStartBlock();
-  const { data: finality } = useFinalityStatus();
-  const finalBlockHeight = finality?.finalBlockHeight;
-  const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
 
   return (
     <>
@@ -60,18 +53,11 @@ const ValidatorsPage: NextPage = React.memo(() => {
       </Head>
 
       <Container fluid>
-        {!networkStats ||
-        !epochStartBlock ||
-        typeof finalBlockHeight !== "number" ||
-        !finalBlockTimestampNanosecond ? null : (
+        {!networkStats || !epochStartBlock ? null : (
           <NodesEpoch
             epochLength={networkStats.epochLength}
             epochStartHeight={epochStartBlock.height}
             epochStartTimestamp={epochStartBlock.timestamp}
-            latestBlockHeight={finalBlockHeight}
-            latestBlockTimestamp={JSBI.toNumber(
-              JSBI.divide(finalBlockTimestampNanosecond, JSBI.BigInt(10 ** 6))
-            )}
           />
         )}
       </Container>

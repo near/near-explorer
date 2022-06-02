@@ -102,14 +102,20 @@ export const queryOnlineNodesCount = async () => {
   return parseInt(selection.onlineNodesCount);
 };
 
-export const queryLatestBlockHeight = async () => {
+export const queryLatestBlock = async () => {
   const latestBlockHeightSelection = await indexerDatabase
     .selectFrom("blocks")
-    .select("block_height")
+    .select([
+      "block_height as blockHeight",
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "blockTimestampMs"),
+    ])
     .orderBy("block_height", "desc")
     .limit(1)
     .executeTakeFirstOrThrow();
-  return latestBlockHeightSelection.block_height;
+  return {
+    height: Number(latestBlockHeightSelection.blockHeight),
+    timestamp: Number(latestBlockHeightSelection.blockTimestampMs),
+  };
 };
 
 export const queryLatestGasPrice = async () => {

@@ -7,8 +7,7 @@ import Term from "../utils/Term";
 import Link from "../utils/Link";
 
 import { Trans, useTranslation } from "react-i18next";
-import { useChainBlockStats } from "../../hooks/subscriptions";
-import { useLatestBlockHeight } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import CopyToClipboard from "../utils/CopyToClipboard";
 import { styled } from "../../libraries/styles";
 
@@ -23,10 +22,8 @@ const ElementWrapper = styled("div", {
 
 const DashboardBlock: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const latestBlockHeight = useLatestBlockHeight();
-  const { data: chainBlockStats } = useChainBlockStats();
-  const recentBlockProductionSpeed =
-    chainBlockStats?.recentBlockProductionSpeed;
+  const latestBlockSub = useSubscription(["latestBlock"]);
+  const blockProductionSpeedSub = useSubscription(["blockProductionSpeed"]);
 
   return (
     <DashboardCard
@@ -57,12 +54,14 @@ const DashboardBlock: React.FC = React.memo(() => {
                 href={"https://docs.near.org/docs/concepts/new-to-near"}
               />
             }
-            loading={latestBlockHeight === undefined}
+            loading={latestBlockSub.status === "loading"}
             text={
-              latestBlockHeight ? (
+              latestBlockSub.status === "success" ? (
                 <ElementWrapper>
-                  <span>{latestBlockHeight.toLocaleString()}</span>
-                  <CopyToClipboard text={latestBlockHeight.toString()} />
+                  <span>{latestBlockSub.data.height.toLocaleString()}</span>
+                  <CopyToClipboard
+                    text={latestBlockSub.data.height.toString()}
+                  />
                 </ElementWrapper>
               ) : null
             }
@@ -80,10 +79,10 @@ const DashboardBlock: React.FC = React.memo(() => {
                 )}
               />
             }
-            loading={recentBlockProductionSpeed === undefined}
+            loading={blockProductionSpeedSub.status === "loading"}
             text={
-              recentBlockProductionSpeed !== undefined
-                ? `${(1.0 / recentBlockProductionSpeed).toFixed(4)} ${t(
+              blockProductionSpeedSub.status === "success"
+                ? `${(1.0 / blockProductionSpeedSub.data).toFixed(4)} ${t(
                     "common.unit.seconds"
                   )}`
                 : undefined
