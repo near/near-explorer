@@ -8,6 +8,7 @@ const regularTasks = [
   tasks.latestGasPriceCheck,
   tasks.blockProductionSpeedCheck,
   tasks.recentTransactionsCountCheck,
+  tasks.onlineNodesCountCheck,
   tasks.transactionCountHistoryCheck,
   tasks.statsAggregationCheck,
   tasks.networkInfoCheck,

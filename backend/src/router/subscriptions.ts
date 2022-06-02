@@ -84,6 +84,12 @@ export const router = trpc
   .subscription("recentTransactionsCount", {
     resolve: getSubscriptionResolve("recentTransactionsCount"),
   })
+  .query("onlineNodesCount", {
+    resolve: getQueryResolve("onlineNodesCount"),
+  })
+  .subscription("onlineNodesCount", {
+    resolve: getSubscriptionResolve("onlineNodesCount"),
+  })
   .query("network-stats", {
     resolve: getQueryResolve("network-stats"),
   })

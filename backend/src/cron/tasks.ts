@@ -8,6 +8,7 @@ import {
   queryLatestBlock,
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
+  queryOnlineNodesCount,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
 import {
@@ -65,6 +66,15 @@ export const recentTransactionsCountCheck: RegularCheckFn = {
     "recentTransactionsCount",
     queryRecentTransactionsCount,
     config.intervals.checkRecentTransactions
+  ),
+};
+
+export const onlineNodesCountCheck: RegularCheckFn = {
+  description: "online nodes count check",
+  fn: publishOnChange(
+    "onlineNodesCount",
+    queryOnlineNodesCount,
+    config.intervals.checkOnlineNodesCount
   ),
 };
 

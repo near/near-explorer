@@ -63,7 +63,6 @@ export type ValidatorFullData = ValidatorEpochData & {
 
 export type NetworkStats = {
   currentValidatorsCount: number;
-  onlineNodesCount: number;
   epochLength: number;
   epochStartHeight: number;
   epochProtocolVersion: number;
@@ -82,6 +81,7 @@ export type SubscriptionTopicTypes = {
   latestGasPrice: string;
   blockProductionSpeed: number;
   recentTransactionsCount: number;
+  onlineNodesCount: number;
   "network-stats": NetworkStats;
 };
 
