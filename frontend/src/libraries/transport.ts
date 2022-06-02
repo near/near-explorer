@@ -16,11 +16,17 @@ const endpoints: Record<Protocol, string> = {
 };
 const {
   publicRuntimeConfig: { backendConfig },
+  serverRuntimeConfig: { backendConfig: ssrBackendConfig },
 } = getConfig();
-export const getBackendUrl = (networkName: NetworkName, type: Protocol) => {
-  if (!backendConfig.hosts[networkName]) {
+export const getBackendUrl = (
+  networkName: NetworkName,
+  type: Protocol,
+  ssr: boolean
+) => {
+  const config = ssr ? ssrBackendConfig : backendConfig;
+  if (!config.hosts[networkName]) {
     throw new Error(`Network ${networkName} is not supported on this host`);
   }
-  const protocols = backendConfig.secure ? secureProtocols : insecureProtocols;
-  return `${protocols[type]}://${backendConfig.hosts[networkName]}:${backendConfig.port}/${endpoints[type]}`;
+  const protocols = config.secure ? secureProtocols : insecureProtocols;
+  return `${protocols[type]}://${config.hosts[networkName]}:${config.port}/${endpoints[type]}`;
 };

@@ -6,5 +6,5 @@ export const trpc = trpcReact.createReactQueryHooks<AppRouter>();
 
 export const getTrpcClient = (networkName: NetworkName) =>
   trpc.createClient({
-    url: getBackendUrl(networkName, "http"),
+    url: getBackendUrl(networkName, "http", typeof window === "undefined"),
   });

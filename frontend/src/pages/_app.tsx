@@ -277,8 +277,9 @@ export default withTRPC<AppRouter>({
       "props" in info
         ? info.props.pageProps.networkName
         : getNearNetworkName(info.ctx.query ?? {}, info.ctx.req?.headers.host);
-    const httpUrl = getBackendUrl(networkName, "http");
-    const wsUrl = getBackendUrl(networkName, "websocket");
+    const isSsr = typeof window === "undefined";
+    const httpUrl = getBackendUrl(networkName, "http", isSsr);
+    const wsUrl = getBackendUrl(networkName, "websocket", isSsr);
     return {
       queryClientConfig: {
         defaultOptions: {

@@ -4,7 +4,7 @@ import {
   ExplorerConfig,
   NearNetwork,
 } from "./src/libraries/config";
-import { merge } from "lodash";
+import { merge, cloneDeep } from "lodash";
 import { getOverrides } from "./src/libraries/common";
 import { NetworkName } from "./src/types/common";
 
@@ -21,8 +21,8 @@ const defaultBackendConfig: BackendConfig = {
 
 const config = merge(
   {
-    backend: defaultBackendConfig,
-    backendSsr: defaultBackendConfig,
+    backend: cloneDeep(defaultBackendConfig),
+    backendSsr: cloneDeep(defaultBackendConfig),
     networks: {} as Partial<Record<NetworkName, NearNetwork>>,
     googleAnalytics: undefined,
   },
