@@ -1,6 +1,7 @@
 import moment from "moment";
 
 import "moment/locale/ru";
+import "moment/locale/zh-tw";
 import "moment/locale/zh-cn";
 import "moment/locale/vi";
 import "moment/locale/uk";

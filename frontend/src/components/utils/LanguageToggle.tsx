@@ -52,6 +52,7 @@ const LangSelector = styled("select", {
 
 const LANGUAGE_NAMES: Record<Language, string> = {
   en: "English",
+  "zh-Hant": "繁體中文",
   "zh-Hans": "简体中文",
   vi: "Tiếng Việt",
   ru: "Русский",

@@ -56,7 +56,7 @@ function findBestSupportedLanguage(
   const narrowedLanguages = browserLanguages.map((language) => {
     // Handle special cases for traditional Chinesee fallback
     if (["zh-TW", "zh-HK"].includes(language)) {
-      return "zh-Hans";
+      return "zh-Hant";
     }
 
     return language;
@@ -112,6 +112,8 @@ export function setMomentLanguage(language: Language): string {
       return moment.locale("ru");
     case "vi":
       return moment.locale("vi");
+    case "zh-Hant":
+      return moment.locale("zh-tw");
     case "zh-Hans":
       return moment.locale("zh-cn");
     case "uk":
