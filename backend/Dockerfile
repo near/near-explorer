@@ -27,4 +27,4 @@ COPY --from=build /near-explorer/backend/build/ ./backend/build/
 COPY --from=build /near-explorer/backend/package.json ./backend/package.json
 
 USER nobody
-ENTRYPOINT ["npm run -w backend start"]
+ENTRYPOINT ["npm", "run", "-w", "backend", "start"]
