@@ -34,4 +34,4 @@ COPY --from=build /near-explorer/frontend/next.config.js ./frontend/
 COPY --from=build /near-explorer/frontend/.next ./frontend/.next
 COPY --from=build /near-explorer/frontend/package.json ./frontend/package.json
 
-CMD ["npm run -w frontend start --port $PORT"]
+ENTRYPOINT ["npm", "run", "-w", "frontend", "start"]
