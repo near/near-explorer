@@ -1,9 +1,72 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import { Action, TransactionActivityAction } from "../../../types/common";
+import { Action } from "../../../types/common";
 
 import { NearAmount } from "../../utils/NearAmount";
+
+export type TransactionTransferAction = {
+  type: "transfer";
+  amount: string;
+};
+
+// export type TransactionRefundAction = {
+//   type: "refund";
+//   amount: string;
+// };
+
+// export type TransactionValidatorRewardAction = {
+//   type: "validator-reward";
+//   amount: string;
+//   blockHash: BlockHash;
+// };
+
+export type TransactionContractDeployedAction = {
+  type: "contract-deployed";
+};
+
+export type TransactionAccessKeyCreatedAction = {
+  type: "access-key-created";
+};
+
+export type TransactionAccessKeyRemovedAction = {
+  type: "access-key-removed";
+};
+
+export type TransactionCallMethodAction = {
+  type: "call-method";
+  methodName: string;
+};
+
+export type TransactionRestakeAction = {
+  type: "restake";
+};
+
+export type TransactionAccountCreatedAction = {
+  type: "account-created";
+};
+
+export type TransactionAccountRemovedAction = {
+  type: "account-removed";
+};
+
+export type TransactionBatchAction = {
+  type: "batch";
+  actions: TransactionActivityAction[];
+};
+
+export type TransactionActivityAction =
+  | TransactionTransferAction
+  // | TransactionRefundAction
+  // | TransactionValidatorRewardAction
+  | TransactionContractDeployedAction
+  | TransactionAccessKeyCreatedAction
+  | TransactionAccessKeyRemovedAction
+  | TransactionCallMethodAction
+  | TransactionRestakeAction
+  | TransactionAccountCreatedAction
+  | TransactionAccountRemovedAction
+  | TransactionBatchAction;
 interface Props {
   actions: Action[];
   onClick: any;
