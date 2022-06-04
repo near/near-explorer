@@ -1,4 +1,3 @@
-import { queryOnlineNodesCount } from "../database/queries";
 import {
   NetworkStats,
   ValidationProgress,
@@ -124,14 +123,9 @@ export const queryEpochData = async (
   poolIds: string[],
   currentEpochState: CurrentEpochState | null
 ): Promise<EpochData> => {
-  const [
-    networkProtocolConfig,
-    epochStatus,
-    onlineNodesCount,
-  ] = await Promise.all([
+  const [networkProtocolConfig, epochStatus] = await Promise.all([
     nearApi.sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
     nearApi.sendJsonRpc("validators", [null]),
-    queryOnlineNodesCount(),
   ]);
   const epochState = await getEpochState(
     currentEpochState,
@@ -149,7 +143,6 @@ export const queryEpochData = async (
       seatPrice: epochState.seatPrice,
       genesisTime: networkProtocolConfig.genesis_time,
       genesisHeight: networkProtocolConfig.genesis_height,
-      onlineNodesCount,
     },
     validators: mapValidators(epochStatus, poolIds),
   };
