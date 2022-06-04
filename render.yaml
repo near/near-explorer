@@ -137,18 +137,18 @@ envVarGroups:
       - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: https://archive-internal-rpc.mainnet.near.org/
 
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__HOST
         value: 34.78.19.198
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_NAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__DATABASE
         value: indexer_analytics_mainnet
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_USERNAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__USER
         value: public_readonly
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_PASSWORD
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__PASSWORD
         value: nearprotocol
 
-      - key: NEAR_READ_ONLY_TELEMETRY_DATABASE_HOST
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
         value: 34.78.19.198
-      - key: NEAR_READ_ONLY_TELEMETRY_DATABASE_NAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
         value: telemetry_mainnet
   - name: backend/testnet
     envVars:
@@ -157,18 +157,18 @@ envVarGroups:
       - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: https://archive-internal-rpc.testnet.near.org/
 
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__HOST
         value: 35.241.197.241
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_NAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__DATABASE
         value: indexer_analytics_testnet
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_USERNAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__USER
         value: public_readonly
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_PASSWORD
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__PASSWORD
         value: nearprotocol
 
-      - key: NEAR_READ_ONLY_TELEMETRY_DATABASE_HOST
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
         value: 35.241.197.241
-      - key: NEAR_READ_ONLY_TELEMETRY_DATABASE_NAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
         value: telemetry_testnet
   - name: backend/guildnet
     envVars:
@@ -177,25 +177,25 @@ envVarGroups:
       - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: https://rpc.openshards.io
 
-      - key: NEAR_READ_ONLY_INDEXER_DATABASE_HOST
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__HOST
         value: 159.89.46.95
-      - key: NEAR_READ_ONLY_INDEXER_DATABASE_NAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__DATABASE
         value: guildnet_explorer
-      - key: NEAR_READ_ONLY_INDEXER_DATABASE_USERNAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__USER
         value: public_readonly
-      - key: NEAR_READ_ONLY_INDEXER_DATABASE_PASSWORD
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__PASSWORD
         value: nearprotocol
 
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_HOST
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__HOST
         value: 35.205.19.192
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_NAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__DATABASE
         value: indexer_analytics_guildnet
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_USERNAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__USER
         value: public_readonly
-      - key: NEAR_READ_ONLY_ANALYTICS_DATABASE_PASSWORD
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__PASSWORD
         value: nearprotocol
 
-      - key: NEAR_READ_ONLY_TELEMETRY_DATABASE_HOST
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
         value: 35.205.19.192
-      - key: NEAR_READ_ONLY_TELEMETRY_DATABASE_NAME
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
         value: telemetry_guildnet
