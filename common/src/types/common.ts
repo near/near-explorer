@@ -1,4 +1,4 @@
-export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localhostnet";
+export type NetworkName = "mainnet" | "testnet" | "guildnet" | "localnet";
 
 // Workaround of Omit breaking discriminated unions
 // https://github.com/microsoft/TypeScript/issues/31501
