@@ -12,6 +12,10 @@ export type GlobalState = {
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
   poolIds: string[];
   currentEpochState: CurrentEpochState | null;
+  genesis: {
+    minStakeRatio: [number, number];
+    accountCount: number;
+  } | null;
 };
 
 export const initGlobalState = (): GlobalState => ({
@@ -29,4 +33,5 @@ export const initGlobalState = (): GlobalState => ({
   },
   poolIds: [],
   currentEpochState: null,
+  genesis: null,
 });

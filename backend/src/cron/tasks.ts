@@ -9,6 +9,7 @@ import {
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
   queryOnlineNodesCount,
+  queryGenesisAccountCount,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
 import {
@@ -78,6 +79,28 @@ export const onlineNodesCountCheck: RegularCheckFn = {
   ),
 };
 
+export const genesisProtocolInfoFetch: RegularCheckFn = {
+  description: "genesis protocol info",
+  fn: async (publish, context) => {
+    const [genesisProtocolConfig, genesisAccountCount] = await Promise.all([
+      nearApi.sendJsonRpc("EXPERIMENTAL_genesis_config", { finality: "final" }),
+      queryGenesisAccountCount(),
+    ]);
+    context.state.genesis = {
+      minStakeRatio: genesisProtocolConfig.minimum_stake_ratio,
+      accountCount: Number(genesisAccountCount.count),
+    };
+    publish("genesisConfig", {
+      height: genesisProtocolConfig.genesis_height,
+      timestamp: new Date(genesisProtocolConfig.genesis_time).valueOf(),
+      protocolVersion: genesisProtocolConfig.protocol_version,
+      totalSupply: genesisProtocolConfig.total_supply,
+      accountCount: Number(genesisAccountCount.count),
+    });
+    return Infinity;
+  },
+};
+
 export const transactionCountHistoryCheck: RegularCheckFn = {
   description: "transaction count history for 2 weeks",
   fn: async (_, context) => {
@@ -88,7 +111,7 @@ export const transactionCountHistoryCheck: RegularCheckFn = {
 
 export const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
-  fn: async () => {
+  fn: async (_, context) => {
     // circulating supply
     await aggregateCirculatingSupplyByDate();
 
@@ -100,7 +123,7 @@ export const statsAggregationCheck: RegularCheckFn = {
     // account
     await aggregateNewAccountsCountByDate();
     await aggregateDeletedAccountsCountByDate();
-    await aggregateLiveAccountsCountByDate();
+    await aggregateLiveAccountsCountByDate(context);
     await aggregateActiveAccountsCountByDate();
     await aggregateActiveAccountsCountByWeek();
     await aggregateActiveAccountsList();
@@ -185,10 +208,7 @@ export const updatePoolInfoMap = async (
 export const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
   fn: async (publish, context) => {
-    const epochData = await queryEpochData(
-      context.state.poolIds,
-      context.state.currentEpochState
-    );
+    const epochData = await queryEpochData(context);
     const telemetryInfo = await queryTelemetryInfo(
       epochData.validators.map((validator) => validator.accountId)
     );

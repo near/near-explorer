@@ -12,6 +12,8 @@ import { useEpochStartBlock } from "../../hooks/data";
 import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
+import { useSubscription } from "../../hooks/use-subscription";
+import { Spinner } from "react-bootstrap";
 
 const ProtocolConfig = styled(InfoCard, {
   margin: "24px 0",
@@ -37,15 +39,7 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { data: networkStats } = useNetworkStats();
   const epochStartBlock = useEpochStartBlock();
 
-  const { data: genesisAccountsAmount } = trpc.useQuery([
-    "nearcore-genesis-accounts-count",
-  ]);
-  const { data: genesisProtocolConfig } = trpc.useQuery([
-    "nearcore-genesis-protocol-configuration",
-  ]);
-  const { data: firstProducedBlockTimestamp } = trpc.useQuery([
-    "first-produced-block-timestamp",
-  ]);
+  const genesisConfigSub = useSubscription(["genesisConfig"]);
 
   const liveAccountsCount =
     trpc.useQuery(["live-accounts-count-aggregated-by-date"]).data ?? [];
@@ -61,16 +55,6 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
       10 ** 6
     : null;
 
-  const genesisTotalSupply = genesisProtocolConfig
-    ? JSBI.toNumber(
-        JSBI.divide(
-          JSBI.BigInt(genesisProtocolConfig.header.total_supply),
-          BI.nearNomination
-        )
-      ) /
-      10 ** 6
-    : null;
-
   return (
     <>
       <ProtocolConfig>
@@ -78,9 +62,9 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.first_produced_block")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
-          {firstProducedBlockTimestamp && (
+          {genesisConfigSub.status === "success" && (
             <span>
-              {moment(firstProducedBlockTimestamp).format(
+              {moment(genesisConfigSub.data.timestamp).format(
                 t("common.date_time.date_format")
               )}
             </span>
@@ -93,10 +77,10 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           )}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
         >
-          {genesisProtocolConfig && networkStats && (
+          {genesisConfigSub.status === "success" && networkStats && (
             <>
               <GenesisText>
-                v{genesisProtocolConfig.header.latest_protocol_version}
+                v{genesisConfigSub.data.protocolVersion}
               </GenesisText>{" "}
               / <span>v{networkStats.epochProtocolVersion}</span>
             </>
@@ -107,8 +91,8 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.genesis_height")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
-          {networkStats && (
-            <GenesisText>{networkStats.genesisHeight}</GenesisText>
+          {genesisConfigSub.status === "success" && (
+            <GenesisText>{genesisConfigSub.data.height}</GenesisText>
           )}
         </Cell>
         <Cell
@@ -124,12 +108,20 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.genesis_total_supply")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
-          {genesisTotalSupply && genesisProtocolConfig && (
+          {genesisConfigSub.status === "success" && (
             <GenesisText>
               <ProtocolMetricValue
-                amount={JSBI.BigInt(genesisProtocolConfig.header.total_supply)}
+                amount={JSBI.BigInt(genesisConfigSub.data.totalSupply)}
                 formulatedAmount={formatWithCommas(
-                  genesisTotalSupply.toFixed(1)
+                  (
+                    JSBI.toNumber(
+                      JSBI.divide(
+                        JSBI.BigInt(genesisConfigSub.data.totalSupply),
+                        BI.nearNomination
+                      )
+                    ) /
+                    10 ** 6
+                  ).toFixed(1)
                 )}
                 suffix={<BalanceSuffix>M</BalanceSuffix>}
                 label={<NearBadge />}
@@ -142,7 +134,9 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.accounts_in_genesis")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
         >
-          {genesisAccountsAmount}
+          {genesisConfigSub.data?.accountCount ?? (
+            <Spinner animation="border" variant="secondary" />
+          )}
         </Cell>
 
         <Cell
