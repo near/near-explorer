@@ -1,4 +1,9 @@
 FROM mhart/alpine-node:16 AS build
+RUN apk add --no-cache --update \
+  python3 \
+  make \
+  gcc \
+  g++
 
 WORKDIR /near-explorer
 ENV HOME=/tmp
@@ -26,12 +31,13 @@ RUN apk add --no-cache git
 
 WORKDIR /near-explorer
 ENV HOME=/tmp \
-    PORT=3000
+  PORT=3000
 COPY --from=build /near-explorer/node_modules ./node_modules
 COPY --from=build /near-explorer/package.json ./package.json
 COPY --from=build /near-explorer/frontend/public ./frontend/public
 COPY --from=build /near-explorer/frontend/next.config.js ./frontend/
 COPY --from=build /near-explorer/frontend/.next ./frontend/.next
+COPY --from=build /near-explorer/frontend/server ./frontend/server
 COPY --from=build /near-explorer/frontend/package.json ./frontend/package.json
 
 ENTRYPOINT ["npm", "run", "-w", "frontend", "start"]

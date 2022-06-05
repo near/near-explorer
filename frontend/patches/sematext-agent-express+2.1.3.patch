@@ -1,0 +1,139 @@
+diff --git a/node_modules/sematext-agent-express/lib/agent.js b/node_modules/sematext-agent-express/lib/agent.js
+index 028072f..6aaa888 100644
+--- a/node_modules/sematext-agent-express/lib/agent.js
++++ b/node_modules/sematext-agent-express/lib/agent.js
+@@ -19,7 +19,7 @@ const stMonitor = require('./metrics/stMonitor')
+ const stLogger = require('./logs/stLogger')
+ const stHttpLoggerMiddleware = require('./logs/stHttpLoggerMiddleware')
+ 
+-const sematextAgentExpress = () => {
++const sematextAgentExpress = (options = {}) => {
+   const monitoringToken = process.env.MONITORING_TOKEN
+   const logsToken = process.env.LOGS_TOKEN
+   const infraToken = process.env.INFRA_TOKEN
+@@ -37,8 +37,8 @@ const sematextAgentExpress = () => {
+   } else if (!monitoringToken && logsToken) {
+     return {
+       stMonitor: { start: () => console.log('Please add a MONITORING_TOKEN if you want to configure shipping metrics') },
+-      stLogger: stLogger(),
+-      stHttpLoggerMiddleware: stHttpLoggerMiddleware()
++      stLogger: stLogger(options.logger),
++      stHttpLoggerMiddleware: stHttpLoggerMiddleware(options.httpLogger, options.logger)
+     }
+   } else if (monitoringToken && !logsToken) {
+     return {
+@@ -50,8 +50,8 @@ const sematextAgentExpress = () => {
+ 
+   return {
+     stMonitor: stMonitor(),
+-    stLogger: stLogger(),
+-    stHttpLoggerMiddleware: stHttpLoggerMiddleware()
++    stLogger: stLogger(options.logger),
++    stHttpLoggerMiddleware: stHttpLoggerMiddleware(options.httpLogger, options.logger)
+   }
+ }
+ 
+diff --git a/node_modules/sematext-agent-express/lib/index.js b/node_modules/sematext-agent-express/lib/index.js
+index 23d8eec..7e36802 100644
+--- a/node_modules/sematext-agent-express/lib/index.js
++++ b/node_modules/sematext-agent-express/lib/index.js
+@@ -17,4 +17,4 @@
+ 
+ require('../config')
+ const sematextAgentExpress = require('./agent')
+-module.exports = sematextAgentExpress()
++module.exports = sematextAgentExpress
+diff --git a/node_modules/sematext-agent-express/lib/logs/createStLogger.js b/node_modules/sematext-agent-express/lib/logs/createStLogger.js
+index 2945141..052ae8c 100644
+--- a/node_modules/sematext-agent-express/lib/logs/createStLogger.js
++++ b/node_modules/sematext-agent-express/lib/logs/createStLogger.js
+@@ -17,13 +17,15 @@
+ 
+ const winston = require('winston')
+ const Logsene = require('winston-logsene')
+-const createStLogger = (logsToken, logsReceiverUrl, logsType) =>
++const createStLogger = (logsToken, logsReceiverUrl, logsType, options = {}) => 
+   winston.createLogger({
++    ...options,
+     transports: [new Logsene({
+       token: logsToken,
+       level: 'info',
+       type: logsType,
+       url: logsReceiverUrl
+-    })]
++    }), ...(options.transports || [])]
+   })
++
+ module.exports = createStLogger
+diff --git a/node_modules/sematext-agent-express/lib/logs/stHttpLoggerMiddleware.js b/node_modules/sematext-agent-express/lib/logs/stHttpLoggerMiddleware.js
+index feb7b89..1531409 100644
+--- a/node_modules/sematext-agent-express/lib/logs/stHttpLoggerMiddleware.js
++++ b/node_modules/sematext-agent-express/lib/logs/stHttpLoggerMiddleware.js
+@@ -17,36 +17,41 @@
+ 
+ const morgan = require('morgan')
+ const json = require('morgan-json')
+-const format = json({
+-  method: ':method',
+-  url: ':url',
+-  status: ':status',
+-  contentLength: ':res[content-length]',
+-  responseTime: ':response-time'
+-})
+ const createStLogger = require('./createStLogger')
+ const logsToken = process.env.LOGS_TOKEN
+ const logsReceiverUrl = process.env.LOGSENE_RECEIVER_URL || 'https://logsene-receiver.sematext.com/_bulk'
+ 
+-const createStHttpLoggerMiddleware = (logger) =>
+-  morgan(format, {
++const createStHttpLoggerMiddleware = (logger, options) => {
++  const format = json({
++    method: ':method',
++    url: ':url',
++    status: ':status',
++    contentLength: ':res[content-length]',
++    responseTime: ':response-time',
++    ...(options.morganFormat || {})
++  })
++  return morgan(format, {
+     stream: {
+       write: (message) => {
+-        const { method, url, status, contentLength, responseTime } = JSON.parse(message)
+-        logger.info('HTTP_LOG', {
++        const { method, url, status, contentLength, responseTime, id } = JSON.parse(message)
++        logger.info(options.loggerMessage || 'HTTP_LOG', {
+           method,
+           url,
+           status: Number(status),
+           contentLength,
+-          responseTime: Number(responseTime)
++          responseTime: Number(responseTime),
++          id
+         })
+       }
+-    }
++    },
++    ...(options.morganOptions || {})
+   })
++};
+ 
+-const stHttpLoggerMiddleware = () =>
++const stHttpLoggerMiddleware = (options = {}, loggerOptions) =>
+   createStHttpLoggerMiddleware(
+-    createStLogger(logsToken, logsReceiverUrl, 'HTTP_LOGS')
++    createStLogger(logsToken, logsReceiverUrl, 'HTTP_LOGS', loggerOptions),
++    options
+   )
+ 
+ module.exports = stHttpLoggerMiddleware
+diff --git a/node_modules/sematext-agent-express/lib/logs/stLogger.js b/node_modules/sematext-agent-express/lib/logs/stLogger.js
+index 4f61a41..cae0dd1 100644
+--- a/node_modules/sematext-agent-express/lib/logs/stLogger.js
++++ b/node_modules/sematext-agent-express/lib/logs/stLogger.js
+@@ -19,5 +19,5 @@ const createStLogger = require('./createStLogger')
+ const logsToken = process.env.LOGS_TOKEN
+ const logsReceiverUrl = process.env.LOGSENE_RECEIVER_URL || 'https://logsene-receiver.sematext.com/_bulk'
+ 
+-const stLogger = () => createStLogger(logsToken, logsReceiverUrl, 'LOGS')
++const stLogger = (options) => createStLogger(logsToken, logsReceiverUrl, 'LOGS', options)
+ module.exports = stLogger
