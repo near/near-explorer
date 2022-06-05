@@ -299,7 +299,7 @@
         "result": "結果",
         "empty_result": "結果為空",
         "failure": "失敗",
-        "success_receipt_id": "成功交易回執ID",
+        "success_receipt_id": "成功交易收據ID",
         "no_logs": "沒有日誌",
         "no_actions": "沒有操作"
       }
@@ -322,7 +322,7 @@
           "text": "該區塊的交易數。"
         },
         "receipts": {
-          "title": "交易回執數"
+          "title": "交易收據數"
         },
         "status": {
           "title": "狀態",
