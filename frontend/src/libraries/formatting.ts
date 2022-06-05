@@ -84,3 +84,15 @@ export const BASIC_DENOMINATION: Record<BasicDecimalPower, string> = {
   7: "Z",
   8: "Y",
 };
+
+const LAST_SYMBOLS_QUANTITY = 4;
+const DELIMITER = "..";
+export const shortenString = (input: string, maxSymbols = 16): string => {
+  if (input.length <= maxSymbols) {
+    return input;
+  }
+  return `${input.slice(
+    0,
+    maxSymbols - (LAST_SYMBOLS_QUANTITY + DELIMITER.length)
+  )}${DELIMITER}${input.slice(-LAST_SYMBOLS_QUANTITY)}`;
+};
