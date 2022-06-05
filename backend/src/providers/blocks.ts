@@ -2,6 +2,7 @@ import {
   queryBlocksList,
   queryBlockInfo,
   queryBlockByHashOrId,
+  queryBlocksHashes,
 } from "../database/queries";
 
 export const getBlocksList = async (limit: number, cursor?: number) => {
@@ -40,4 +41,17 @@ export const getBlockByHashOrId = async (
     return null;
   }
   return block.block_hash;
+};
+
+export const getBlockHeightsByTimestamps = async (
+  blockTimestamps: string[]
+): Promise<Map<string, { hash: string }>> => {
+  if (blockTimestamps.length === 0) {
+    return new Map();
+  }
+  const blocks = await queryBlocksHashes(blockTimestamps);
+  return blocks.reduce((acc, block) => {
+    acc.set(block.timestamp, { hash: block.hash });
+    return acc;
+  }, new Map());
 };

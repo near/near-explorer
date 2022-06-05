@@ -125,10 +125,27 @@
       },
       "tabs": {
         "activity": "Активность",
+        "activityDetails": "(${transactionsQuantity})",
         "tokens": "Токены",
         "collectibles": "Коллекционирование",
         "accessKeys": "Ключи",
         "lockedUp": "Locked up"
+      },
+      "activity": {
+        "type": {
+          "transfer": "Перевод",
+          "restake": "Стейк",
+          "contract-deployed": "Деплой контракта",
+          "access-key-created": "Добавление ключа",
+          "access-key-removed": "Удаление ключа",
+          "call-method": "Вызов метода",
+          "account-created": "Создание аккаунта",
+          "account-removed": "Удаление аккаунта",
+          "batch": "Пакет (${quantity})",
+          "refund": "Сдача",
+          "validator-reward": "Награда валидатора"
+        },
+        "dateFormat": "DD/MM/YYYY hh:mm"
       }
     }
   },

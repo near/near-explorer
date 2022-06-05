@@ -18,6 +18,7 @@ import { Context } from "../context";
 import { formatDate } from "../utils/formatting";
 import { config } from "../config";
 import { validators } from "./validators";
+import { nanosecondsToMilliseconds } from "../utils/bigint";
 
 export const router = trpc
   .router<Context>()
@@ -286,6 +287,48 @@ export const router = trpc
           transactionsCount.inTransactionsCount +
           transactionsCount.outTransactionsCount,
       };
+    },
+  })
+  .query("account-activity", {
+    input: z.strictObject({
+      accountId: validators.accountId,
+      limit: validators.limit,
+      cursor: validators.accountActivityCursor.optional(),
+    }),
+    resolve: async ({ input }) => {
+      const changes = await accounts.getAccountChanges(
+        input.accountId,
+        input.limit,
+        input.cursor
+      );
+
+      const idsToFetch = accounts.getIdsFromAccountChanges(changes);
+      const [
+        receiptsMapping,
+        transactionsMapping,
+        blocksMapping,
+      ] = await Promise.all([
+        receipts.getReceiptsByIds(idsToFetch.receiptIds),
+        transactions.getTransactionsByHashes(idsToFetch.transactionHashes),
+        blocks.getBlockHeightsByTimestamps(idsToFetch.blocksTimestamps),
+      ]);
+      return changes.map((change) => ({
+        timestamp: nanosecondsToMilliseconds(BigInt(change.blockTimestamp)),
+        involvedAccountId: change.involvedAccountId,
+        direction: change.direction === "INBOUND" ? "inbound" : "outbound",
+        deltaAmount: change.deltaNonStakedAmount,
+        action: accounts.getAccountActivityAction(
+          change,
+          receiptsMapping,
+          transactionsMapping,
+          blocksMapping
+        ),
+        cursor: {
+          blockTimestamp: change.blockTimestamp,
+          shardId: change.shardId,
+          indexInChunk: change.indexInChunk,
+        },
+      }));
     },
   })
   // blocks

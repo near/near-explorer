@@ -9,6 +9,7 @@ import {
   telemetryWriteDatabase,
   extraPool,
   Indexer,
+  indexerTestDatabase,
 } from "./databases";
 import { DAY } from "../utils/time";
 import { config } from "../config";
@@ -264,6 +265,21 @@ export const queryTransactionsList = async (
     .orderBy("block_timestamp", "desc")
     .orderBy("index_in_chunk", "desc")
     .limit(limit)
+    .execute();
+};
+
+export const queryTransactionsByHashes = async (hashes: string[]) => {
+  return indexerDatabase
+    .selectFrom("transactions")
+    .select([
+      "transaction_hash as hash",
+      "signer_account_id as signer_id",
+      "receiver_account_id as receiver_id",
+      "included_in_block_hash as block_hash",
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
+      "index_in_chunk as transaction_index",
+    ])
+    .where("transaction_hash", "in", hashes)
     .execute();
 };
 
@@ -639,6 +655,44 @@ export const queryAccountInfo = async (accountId: string) => {
   };
 };
 
+export const queryBalanceChanges = async (
+  accountId: string,
+  limit: number,
+  cursor?: z.infer<typeof validators.accountActivityCursor>
+) => {
+  let selection = indexerTestDatabase
+    .selectFrom("balance_changes")
+    .select([
+      "involved_account_id as involvedAccountId",
+      "block_timestamp as blockTimestamp",
+      "shard_id as shardId",
+      "index_in_chunk as indexInChunk",
+      "transaction_hash as transactionHash",
+      "receipt_id as receiptId",
+      "direction",
+      "cause",
+      "status",
+      "delta_nonstaked_amount as deltaNonStakedAmount",
+      "absolute_nonstaked_amount as absoluteNonStakedAmount",
+      "delta_staked_amount as deltaStakedAmount",
+      "absolute_staked_amount as absoluteStakedAmount",
+    ])
+    .where("affected_account_id", "=", accountId);
+  if (cursor) {
+    selection = selection
+      .where("block_timestamp", "<=", cursor.blockTimestamp)
+      .where("shard_id", "<=", cursor.shardId)
+      .where("index_in_chunk", "<=", cursor.indexInChunk)
+      .offset(1);
+  }
+  return selection
+    .orderBy("block_timestamp", "desc")
+    .orderBy("shard_id", "desc")
+    .orderBy("index_in_chunk", "desc")
+    .limit(limit)
+    .execute();
+};
+
 // contracts
 export const queryNewContractsCountAggregatedByDate = async () => {
   return analyticsDatabase
@@ -804,6 +858,14 @@ export const queryBlocksList = async (limit: number = 15, cursor?: number) => {
   }));
 };
 
+export const queryBlocksHashes = async (timestamps: string[]) => {
+  return indexerDatabase
+    .selectFrom("blocks")
+    .select(["block_timestamp as timestamp", "block_hash as hash"])
+    .where("block_timestamp", "in", timestamps)
+    .execute();
+};
+
 export const queryBlockInfo = async (blockId: string | number) => {
   const selection = await indexerDatabase
     .selectFrom((eb) => {
@@ -960,6 +1022,36 @@ export const queryExecutedReceiptsList = async (blockHash: string) => {
     .orderBy("shard_id")
     .orderBy("execution_outcomes.index_in_chunk")
     .orderBy("index_in_action_receipt")
+    .execute();
+};
+
+export const queryReceiptsByIds = async (ids: string[]) => {
+  return indexerDatabase
+    .selectFrom("action_receipt_actions")
+    .innerJoin("receipts", (jb) =>
+      jb.onRef("receipts.receipt_id", "=", "action_receipt_actions.receipt_id")
+    )
+    .innerJoin("execution_outcomes", (jb) =>
+      jb.onRef(
+        "execution_outcomes.receipt_id",
+        "=",
+        "action_receipt_actions.receipt_id"
+      )
+    )
+    .select([
+      "action_receipt_actions.receipt_id",
+      "originated_from_transaction_hash",
+      "predecessor_account_id as predecessor_id",
+      "receiver_account_id as receiver_id",
+      "status",
+      "gas_burnt",
+      "tokens_burnt",
+      "executed_in_block_timestamp",
+      "action_kind as kind",
+      "args",
+    ])
+    .where("action_receipt_actions.receipt_id", "in", ids)
+    .where("receipt_kind", "=", "ACTION")
     .execute();
 };
 
