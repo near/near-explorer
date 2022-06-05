@@ -6,7 +6,8 @@ import PaginationSpinner from "../utils/PaginationSpinner";
 import ValidatorsList, { ITEMS_PER_PAGE } from "./ValidatorsList";
 
 import { useTranslation } from "react-i18next";
-import { useNetworkStats, useValidators } from "../../hooks/subscriptions";
+import { useNetworkStats } from "../../hooks/subscriptions";
+import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
 import { PaginateWrapper } from "../utils/Pagination";
 
@@ -29,22 +30,21 @@ const Validators: React.FC = React.memo(() => {
     [setSelectedPageIndex]
   );
 
-  const validatorsQuery = useValidators();
-  const validators = validatorsQuery.data?.validators;
+  const validatorsSub = useSubscription(["validators"]);
   const { data: networkStats } = useNetworkStats();
   const totalStake = networkStats?.totalStake;
 
-  if (!validators || !totalStake) {
+  if (validatorsSub.status !== "success" || !totalStake) {
     return <PaginationSpinner />;
   }
 
   return (
     <Table
       pagination={
-        validators.length > ITEMS_PER_PAGE
+        validatorsSub.data.length > ITEMS_PER_PAGE
           ? {
               overrideComponent: ValidatorNodePagination,
-              pageCount: Math.ceil(validators.length / ITEMS_PER_PAGE),
+              pageCount: Math.ceil(validatorsSub.data.length / ITEMS_PER_PAGE),
               marginPagesDisplayed: 1,
               pageRangeDisplayed: 3,
               onPageChange,
@@ -68,7 +68,7 @@ const Validators: React.FC = React.memo(() => {
       </thead>
       <tbody>
         <ValidatorsList
-          validators={validators}
+          validators={validatorsSub.data}
           totalStake={totalStake}
           selectedPageIndex={selectedPageIndex}
         />

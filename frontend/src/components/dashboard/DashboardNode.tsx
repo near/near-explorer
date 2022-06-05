@@ -9,6 +9,7 @@ import LongCardCell, { CardCellText } from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
 import { useNetworkStats } from "../../hooks/subscriptions";
+import { useSubscription } from "../../hooks/use-subscription";
 
 const CountCell = styled(LongCardCell, {
   [`& ${CardCellText}`]: {
@@ -19,6 +20,7 @@ const CountCell = styled(LongCardCell, {
 const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const { data: networkStats } = useNetworkStats();
+  const onlineNodesCountSub = useSubscription(["onlineNodesCount"]);
 
   return (
     <DashboardCard
@@ -40,8 +42,12 @@ const DashboardNode: React.FC = React.memo(() => {
                 }
               />
             }
-            loading={networkStats === undefined}
-            text={networkStats?.onlineNodesCount.toLocaleString()}
+            loading={onlineNodesCountSub.status === "loading"}
+            text={
+              onlineNodesCountSub.status === "success"
+                ? onlineNodesCountSub.data.toLocaleString()
+                : null
+            }
           />
         </Col>
         <Col xs="6" md="12">

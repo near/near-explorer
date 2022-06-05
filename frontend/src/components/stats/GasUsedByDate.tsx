@@ -7,7 +7,7 @@ import JSBI from "jsbi";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { useLatestGasPrice } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import { trpc } from "../../libraries/trpc";
 import { cumulativeSumArray } from "../../libraries/stats";
 import * as BI from "../../libraries/bigint";
@@ -16,7 +16,7 @@ const gasNomination = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(15));
 
 const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const latestGasPrice = useLatestGasPrice();
+  const latestGasPriceSub = useSubscription(["latestGasPrice"]);
   const gasUsedByDate =
     trpc.useQuery(["gas-used-aggregated-by-date"]).data ?? [];
   const gasUsed = React.useMemo(
@@ -34,7 +34,7 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
     [gasUsedByDate]
   );
   const feeUsedByDate = React.useMemo(() => {
-    if (!latestGasPrice) {
+    if (latestGasPriceSub.data === undefined) {
       return [];
     }
     return gasUsedByDate.map(
@@ -43,13 +43,16 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
           JSBI.divide(
             JSBI.multiply(
               JSBI.BigInt(gasUsed),
-              JSBI.multiply(JSBI.BigInt(latestGasPrice), JSBI.BigInt(1000))
+              JSBI.multiply(
+                JSBI.BigInt(latestGasPriceSub.data),
+                JSBI.BigInt(1000)
+              )
             ),
             BI.nearNomination
           )
         ) / 1000
     );
-  }, [latestGasPrice, gasUsedByDate]);
+  }, [latestGasPriceSub.data, gasUsedByDate]);
 
   const getOption = (title: string, data: Array<number>, name: string) => {
     return {

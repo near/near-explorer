@@ -7,6 +7,7 @@ import ProgressBar from "../utils/ProgressBar";
 
 import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
+import { useSubscription } from "../../hooks/use-subscription";
 
 const NodesEpochContent = styled(Col, {
   margin: "15px 0",
@@ -43,24 +44,20 @@ const NodesEpochCircleProgressLabel = styled("span", {
 interface Props {
   epochLength: number;
   epochStartHeight: number;
-  latestBlockHeight: number;
   epochStartTimestamp: number;
-  latestBlockTimestamp: number;
 }
 
 const NodesEpoch: React.FC<Props> = React.memo(
-  ({
-    epochStartHeight,
-    latestBlockHeight,
-    epochLength,
-    epochStartTimestamp,
-    latestBlockTimestamp,
-  }) => {
+  ({ epochStartHeight, epochLength, epochStartTimestamp }) => {
     const { t } = useTranslation();
+    const latestBlockSub = useSubscription(["latestBlock"]);
+    if (latestBlockSub.status !== "success") {
+      return null;
+    }
     const epochProgress =
-      ((latestBlockHeight - epochStartHeight) / epochLength) * 100;
+      ((latestBlockSub.data.height - epochStartHeight) / epochLength) * 100;
     const timeRemaining =
-      ((latestBlockTimestamp - epochStartTimestamp) / epochProgress) *
+      ((latestBlockSub.data.timestamp - epochStartTimestamp) / epochProgress) *
       (100 - epochProgress);
 
     return (

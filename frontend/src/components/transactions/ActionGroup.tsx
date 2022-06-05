@@ -1,12 +1,11 @@
 import * as React from "react";
-import JSBI from "jsbi";
 
 import BatchTransactionIcon from "../../../public/static/images/icon-m-batch.svg";
 
 import ActionRow from "./ActionRow";
 import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
-import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import { Receipt, TransactionBaseInfo } from "../../types/common";
 
 interface Props {
@@ -20,16 +19,14 @@ interface Props {
 
 const ActionGroup: React.FC<Props> = React.memo(
   ({ actionGroup, detailsLink, status, viewMode, title, icon }) => {
-    const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
+    const latestBlockSub = useSubscription(["latestBlock"]);
 
     if (!actionGroup?.actions) return null;
 
-    const isFinal = finalBlockTimestampNanosecond
-      ? JSBI.lessThanOrEqual(
-          JSBI.BigInt(actionGroup.blockTimestamp),
-          JSBI.divide(finalBlockTimestampNanosecond, JSBI.BigInt(10 ** 6))
-        )
-      : undefined;
+    const isFinal =
+      latestBlockSub.status === "success"
+        ? actionGroup.blockTimestamp < latestBlockSub.data.timestamp
+        : undefined;
 
     return (
       <>

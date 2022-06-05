@@ -5,11 +5,12 @@ import {
   queryRecentTransactionsCount,
   queryTelemetryInfo,
   queryTransactionsCountHistoryForTwoWeeks,
-  queryLatestBlockHeight,
+  queryLatestBlock,
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
+  queryOnlineNodesCount,
 } from "../database/queries";
-import { callViewMethod, sendJsonRpcQuery } from "../utils/near";
+import * as nearApi from "../utils/near";
 import {
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsCountByWeek,
@@ -26,41 +27,55 @@ import {
   aggregateTransactionsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
 } from "../providers/stats";
-import { queryEpochData, queryFinalBlock } from "../providers/network";
+import { queryEpochData } from "../providers/network";
 import { wait } from "../common";
 import { GlobalState } from "../global-state";
 import { RegularCheckFn } from "./types";
-import { updateRegularlyFetchedMap } from "./utils";
+import { publishOnChange, updateRegularlyFetchedMap } from "./utils";
 
-export const chainBlockStatsCheck: RegularCheckFn = {
-  description: "block stats check from Indexer",
-  fn: async (publish) => {
-    const [
-      latestBlockHeight,
-      latestGasPrice,
-      recentBlockProductionSpeed,
-    ] = await Promise.all([
-      queryLatestBlockHeight(),
-      queryLatestGasPrice(),
-      queryRecentBlockProductionSpeed(),
-    ]);
-    publish("chain-blocks-stats", {
-      latestBlockHeight,
-      latestGasPrice,
-      recentBlockProductionSpeed,
-    });
-    return config.intervals.checkChainBlockStats;
-  },
+export const latestBlockCheck: RegularCheckFn = {
+  description: "publish finality status",
+  fn: publishOnChange(
+    "latestBlock",
+    queryLatestBlock,
+    config.intervals.checkLatestBlock
+  ),
+};
+
+export const latestGasPriceCheck: RegularCheckFn = {
+  description: "latest gas price check from Indexer",
+  fn: publishOnChange(
+    "latestGasPrice",
+    queryLatestGasPrice,
+    config.intervals.checkLatestGasPrice
+  ),
+};
+
+export const blockProductionSpeedCheck: RegularCheckFn = {
+  description: "block production speed check from Indexer",
+  fn: publishOnChange(
+    "blockProductionSpeed",
+    queryRecentBlockProductionSpeed,
+    config.intervals.checkBlockProductionSpeed
+  ),
 };
 
 export const recentTransactionsCountCheck: RegularCheckFn = {
   description: "recent transactions check from Indexer",
-  fn: async (publish) => {
-    publish("recent-transactions", {
-      recentTransactionsCount: await queryRecentTransactionsCount(),
-    });
-    return config.intervals.checkRecentTransactions;
-  },
+  fn: publishOnChange(
+    "recentTransactionsCount",
+    queryRecentTransactionsCount,
+    config.intervals.checkRecentTransactions
+  ),
+};
+
+export const onlineNodesCountCheck: RegularCheckFn = {
+  description: "online nodes count check",
+  fn: publishOnChange(
+    "onlineNodesCount",
+    queryOnlineNodesCount,
+    config.intervals.checkOnlineNodesCount
+  ),
 };
 
 export const transactionCountHistoryCheck: RegularCheckFn = {
@@ -100,18 +115,6 @@ export const statsAggregationCheck: RegularCheckFn = {
   },
 };
 
-export const finalityStatusCheck: RegularCheckFn = {
-  description: "publish finality status",
-  fn: async (publish) => {
-    const finalBlock = await queryFinalBlock();
-    publish("finality-status", {
-      finalBlockTimestampNanosecond: finalBlock.header.timestamp_nanosec,
-      finalBlockHeight: finalBlock.header.height,
-    });
-    return config.intervals.checkFinalityStatus;
-  },
-};
-
 export const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
@@ -125,9 +128,9 @@ export const updateStakingPoolStakeProposalsFromContractMap = async (
     // because they looks like pool accounts but they are not so
     // that's why we catch this error to avoid unnecessary errors in console
     async (id) =>
-      callViewMethod<string>(id, "get_total_staked_balance", {}).catch(
-        () => undefined
-      ),
+      nearApi
+        .callViewMethod<string>(id, "get_total_staked_balance", {})
+        .catch(() => undefined),
     config.intervals.checkStakingPoolStakeProposal,
     config.timeouts.timeoutStakingPoolStakeProposal
   );
@@ -141,7 +144,7 @@ export const updatePoolInfoMap = async (
     validators.map((validator) => validator.accountId),
     state.stakingPoolInfos,
     async (id) => {
-      const account = await sendJsonRpcQuery("view_account", {
+      const account = await nearApi.sendJsonRpcQuery("view_account", {
         account_id: id,
         finality: "final",
       });
@@ -158,14 +161,20 @@ export const updatePoolInfoMap = async (
         // for some accounts on 'testnet' we can't get 'fee' and 'delegatorsCount'
         // because they looks like pool accounts but they are not so
         // that's why we catch this error to avoid unnecessary errors in console
-        fee: await callViewMethod<ValidatorPoolInfo["fee"]>(
-          id,
-          "get_reward_fee_fraction",
-          {}
-        ).catch(() => null),
-        delegatorsCount: await callViewMethod<
-          ValidatorPoolInfo["delegatorsCount"]
-        >(id, "get_number_of_accounts", {}).catch(() => null),
+        fee: await nearApi
+          .callViewMethod<ValidatorPoolInfo["fee"]>(
+            id,
+            "get_reward_fee_fraction",
+            {}
+          )
+          .catch(() => null),
+        delegatorsCount: await nearApi
+          .callViewMethod<ValidatorPoolInfo["delegatorsCount"]>(
+            id,
+            "get_number_of_accounts",
+            {}
+          )
+          .catch(() => null),
       };
     },
     config.intervals.checkStakingPoolInfo,
@@ -196,8 +205,9 @@ export const networkInfoCheck: RegularCheckFn = {
         wait(config.timeouts.timeoutFetchValidatorsBailout),
       ]),
     ]);
-    publish("validators", {
-      validators: epochData.validators.map((validator) => ({
+    publish(
+      "validators",
+      epochData.validators.map((validator) => ({
         ...validator,
         description: context.state.stakingPoolsDescriptions.get(
           validator.accountId
@@ -209,8 +219,8 @@ export const networkInfoCheck: RegularCheckFn = {
           validator.accountId
         ),
         telemetry: telemetryInfo.get(validator.accountId),
-      })),
-    });
+      }))
+    );
     publish("network-stats", epochData.stats);
     return config.intervals.checkNetworkInfo;
   },
@@ -241,7 +251,7 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
       true;
       currentIndex += VALIDATOR_DESCRIPTION_QUERY_AMOUNT
     ) {
-      const metadataInfo = await callViewMethod<
+      const metadataInfo = await nearApi.callViewMethod<
         Record<string, PoolMetadataAccountInfo>
       >("name.near", "get_all_fields", {
         from_index: currentIndex,

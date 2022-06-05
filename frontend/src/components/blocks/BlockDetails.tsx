@@ -12,7 +12,7 @@ import Gas from "../utils/Gas";
 import GasPrice from "../utils/GasPrice";
 
 import { useTranslation } from "react-i18next";
-import { useFinalBlockTimestampNanosecond } from "../../hooks/data";
+import { useSubscription } from "../../hooks/use-subscription";
 import { Block } from "../../types/common";
 import { styled } from "../../libraries/styles";
 
@@ -51,12 +51,9 @@ export interface Props {
 
 const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
-  const finalBlockTimestampNanosecond = useFinalBlockTimestampNanosecond();
+  const latestBlockSub = useSubscription(["latestBlock"]);
   const gasUsed = React.useMemo(() => JSBI.BigInt(block.gasUsed), [
     block.gasUsed,
-  ]);
-  const gasPrice = React.useMemo(() => JSBI.BigInt(block.gasPrice), [
-    block.gasPrice,
   ]);
 
   return (
@@ -96,15 +93,9 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
               }
               imgLink="/static/images/icon-t-status.svg"
               text={
-                !finalBlockTimestampNanosecond
+                latestBlockSub.status !== "success"
                   ? t("common.blocks.status.checking_finality")
-                  : JSBI.lessThan(
-                      JSBI.BigInt(block.timestamp),
-                      JSBI.divide(
-                        finalBlockTimestampNanosecond,
-                        JSBI.BigInt(10 ** 6)
-                      )
-                    )
+                  : block.timestamp < latestBlockSub.data.timestamp
                   ? t("common.blocks.status.finalized")
                   : t("common.blocks.status.finalizing")
               }
@@ -142,7 +133,7 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                 />
               }
               imgLink="/static/images/icon-m-filter.svg"
-              text={<GasPrice gasPrice={gasPrice} />}
+              text={<GasPrice gasPrice={block.gasPrice} />}
             />
           </Col>
         </Row>

@@ -9,8 +9,6 @@ import Head from "next/head";
 import { NextRouter, useRouter } from "next/router";
 import * as React from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { exec } from "child_process";
-import { promisify } from "util";
 
 import { getConfig, getNearNetworkName } from "../libraries/config";
 import { AppRouter, NetworkName } from "../types/common";
@@ -21,6 +19,7 @@ import { NetworkContext } from "../context/NetworkContext";
 import { DeployInfo } from "../components/utils/DeployInfo";
 import { DeployInfo as DeployInfoProps } from "../types/common";
 
+import { getBranch, getShortCommitSha } from "../libraries/common";
 import {
   getLanguage,
   LANGUAGE_COOKIE,
@@ -212,14 +211,13 @@ App.getInitialProps = async (appContext) => {
         serviceName: process.env.RENDER_SERVICE_NAME || "unknown",
       };
     } else {
-      const promisifiedExec = promisify(exec);
-      const [{ stdout: branch }, { stdout: commit }] = await Promise.all([
-        promisifiedExec("git branch --show-current"),
-        promisifiedExec("git rev-parse --short HEAD"),
+      const [branch, commit] = await Promise.all([
+        getBranch(),
+        getShortCommitSha(),
       ]);
       deployInfo = {
-        branch: branch.trim(),
-        commit: commit.trim(),
+        branch,
+        commit,
         instanceId: "local",
         serviceId: "local",
         serviceName: "frontend",
@@ -279,8 +277,9 @@ export default withTRPC<AppRouter>({
       "props" in info
         ? info.props.pageProps.networkName
         : getNearNetworkName(info.ctx.query ?? {}, info.ctx.req?.headers.host);
-    const httpUrl = getBackendUrl(networkName, "http");
-    const wsUrl = getBackendUrl(networkName, "websocket");
+    const isSsr = typeof window === "undefined";
+    const httpUrl = getBackendUrl(networkName, "http", isSsr);
+    const wsUrl = getBackendUrl(networkName, "websocket", isSsr);
     return {
       queryClientConfig: {
         defaultOptions: {

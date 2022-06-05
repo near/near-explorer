@@ -546,7 +546,7 @@
       "refresh": " Làm mới trang, hoặc Nhấp vào để xem dữ liệu mới nhất."
     },
     "ListHandler": {
-      "last_block": "Chiều cao khối mới nhất là "
+      "last_block": "Chiều cao khối mới nhất là #${height}"
     },
     "StorageSize": {
       "bytes": "B",

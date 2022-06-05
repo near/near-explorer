@@ -57,7 +57,7 @@ export function getNearNetworkName(
     )?.[0];
   }
   if (!networkName) {
-    networkName = networkEntries[0][0];
+    networkName = networkEntries[0]?.[0];
   }
   if (!networkName) {
     throw new Error(

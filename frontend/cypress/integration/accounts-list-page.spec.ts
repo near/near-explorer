@@ -7,7 +7,7 @@ context("Accounts List page", () => {
     cy.title().should("contain", "Accounts");
   });
 
-  it("Check accounts row data", () => {
+  it.skip("Check accounts row data", () => {
     cy.get(".infinite-scroll-component__outerdiv", { timeout: 5000 }).should(
       "exist"
     );

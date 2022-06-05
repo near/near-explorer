@@ -14,8 +14,8 @@
     "docker:up:mainnet": "ENV=mainnet docker-compose up",
     "docker:up:guildnet": "ENV=guildnet docker-compose up",
     "typecheck": "npm run -w frontend typecheck && npm run -w backend typecheck",
-    "start:local": "concurrently \"npm run -w frontend start:local-backend\" \"npm run -w backend start:mainnet\"",
-    "test:ci": "start-server-and-test start:local \"3000|http://localhost:10000/ping\" \"npm run -w frontend cy:run\"",
+    "start": "concurrently \"npm run -w frontend start\" \"npm run -w backend start:mainnet\"",
+    "test:ci": "start-server-and-test start \"3000|http://localhost:10000/ping\" \"npm run -w frontend cy:run\"",
     "postinstall": "patch-package"
   },
   "workspaces": [

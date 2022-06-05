@@ -63,7 +63,6 @@ export type ValidatorFullData = ValidatorEpochData & {
 
 export type NetworkStats = {
   currentValidatorsCount: number;
-  onlineNodesCount: number;
   epochLength: number;
   epochStartHeight: number;
   epochProtocolVersion: number;
@@ -74,21 +73,15 @@ export type NetworkStats = {
 };
 
 export type SubscriptionTopicTypes = {
-  validators: {
-    validators: ValidatorFullData[];
+  validators: ValidatorFullData[];
+  latestBlock: {
+    height: number;
+    timestamp: number;
   };
-  "chain-blocks-stats": {
-    latestBlockHeight: string;
-    latestGasPrice: string;
-    recentBlockProductionSpeed: number;
-  };
-  "recent-transactions": {
-    recentTransactionsCount: number;
-  };
-  "finality-status": {
-    finalBlockTimestampNanosecond: string;
-    finalBlockHeight: number;
-  };
+  latestGasPrice: string;
+  blockProductionSpeed: number;
+  recentTransactionsCount: number;
+  onlineNodesCount: number;
   "network-stats": NetworkStats;
 };
 
