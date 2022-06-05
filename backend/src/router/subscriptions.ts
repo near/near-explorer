@@ -90,6 +90,12 @@ export const router = trpc
   .subscription("onlineNodesCount", {
     resolve: getSubscriptionResolve("onlineNodesCount"),
   })
+  .query("genesisConfig", {
+    resolve: getQueryResolve("genesisConfig"),
+  })
+  .subscription("genesisConfig", {
+    resolve: getSubscriptionResolve("genesisConfig"),
+  })
   .query("network-stats", {
     resolve: getQueryResolve("network-stats"),
   })
