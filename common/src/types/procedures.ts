@@ -1,6 +1,7 @@
 import { TRPCQueryOutput, TRPCSubscriptionOutput } from "./trpc";
 
-export type Account = NonNullable<TRPCQueryOutput<"account-info">>;
+export type AccountOld = NonNullable<TRPCQueryOutput<"account-info">>;
+export type Account = NonNullable<TRPCQueryOutput<"account">>;
 export type AccountListInfo = TRPCQueryOutput<"accounts-list">[number];
 
 export type Block = NonNullable<TRPCQueryOutput<"block-info">>;

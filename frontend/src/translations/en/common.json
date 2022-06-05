@@ -76,6 +76,9 @@
       "date_time_format": "MMMM DD, YYYY [at] h:mm:ssa",
       "date_format": "MMMM DD, YYYY",
       "time_format": "[at] h:mm:ssa"
+    },
+    "terms": {
+      "genesis": "Genesis"
     }
   },
   "page": {
@@ -102,6 +105,30 @@
       "transaction_execution_plan": "Transaction Execution Plan",
       "error": {
         "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+      }
+    }
+  },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Created: ${fromNow}",
+        "storageUsed": "Storage used: ${amount}",
+        "accountType": {
+          "user": "User",
+          "contract": "Contract"
+        },
+        "amounts": {
+          "balance": "Balance",
+          "staked": "Staked",
+          "transactions": "Transactions"
+        }
+      },
+      "tabs": {
+        "activity": "Activity",
+        "tokens": "Tokens",
+        "collectibles": "Collectibles",
+        "accessKeys": "Access Keys",
+        "lockedUp": "Locked up"
       }
     }
   },

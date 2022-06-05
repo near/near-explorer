@@ -15,7 +15,7 @@ import StorageSize from "../utils/StorageSize";
 import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
 import { trpc } from "../../libraries/trpc";
-import { Account } from "../../types/common";
+import { AccountOld } from "../../types/common";
 import { styled } from "../../libraries/styles";
 
 const AccountInfoContainer = styled("div", {
@@ -173,7 +173,7 @@ const ExistingAccountDetails: React.FC<DetailsProps> = ({
 };
 
 export interface Props {
-  account: Account;
+  account: AccountOld;
 }
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {

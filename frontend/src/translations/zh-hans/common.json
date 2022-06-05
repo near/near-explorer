@@ -76,6 +76,9 @@
       "date_time_format": "MoDo, YYYY, ah:mm:ss",
       "date_format": "MoDo, YYYY",
       "time_format": "a h:mm:ss"
+    },
+    "terms": {
+      "genesis": "Genesis"
     }
   },
   "page": {
@@ -102,6 +105,30 @@
       "transaction_execution_plan": "交易执行计划",
       "error": {
         "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+      }
+    }
+  },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Created: ${fromNow}",
+        "storageUsed": "Storage used: ${amount}",
+        "accountType": {
+          "user": "User",
+          "contract": "Contract"
+        },
+        "amounts": {
+          "balance": "Balance",
+          "staked": "Staked",
+          "transactions": "Transactions"
+        }
+      },
+      "tabs": {
+        "activity": "Activity",
+        "tokens": "Tokens",
+        "collectibles": "Collectibles",
+        "accessKeys": "Access Keys",
+        "lockedUp": "Locked up"
       }
     }
   },
