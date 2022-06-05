@@ -10,20 +10,20 @@ To override a config parameter you should use a specific environment variable, f
 - variable name should be CAPS_CASE'd target variable name;
 - going deep into object should be delimited with double underscore.
 
-For example, to override `config.accountIdSuffix.stakingPool.localhostnet` you should use variable
-NEAR_EXPLORER_CONFIG__ACCOUNT_ID_SUFFIX__STAKING_POOL__LOCALHOSTNET
+For example, to override `config.accountIdSuffix.stakingPool.localnet` you should use variable
+NEAR_EXPLORER_CONFIG__ACCOUNT_ID_SUFFIX__STAKING_POOL__LOCALNET
 */
 export const config = merge(
   {
     archivalRpcUrl: "http://localhost:3030",
-    networkName: "localhostnet" as NetworkName,
+    networkName: "localnet" as NetworkName,
     accountIdSuffix: {
       lockup: "lockup.near",
       stakingPool: {
         mainnet: ".poolv1.near",
         testnet: undefined,
         guildnet: undefined,
-        localhostnet: undefined,
+        localnet: undefined,
       } as Record<NetworkName, string | undefined>,
     },
 

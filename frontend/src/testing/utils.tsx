@@ -11,9 +11,9 @@ import { setMomentLanguage } from "../libraries/language";
 import { trpc } from "../libraries/trpc";
 
 const networkContext: NetworkContext = {
-  networkName: "localhostnet",
+  networkName: "localnet",
   networks: {
-    localhostnet: {
+    localnet: {
       explorerLink: "http://explorer/",
       nearWalletProfilePrefix: "http://wallet/profile",
     },
