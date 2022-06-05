@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Next.js: debug dev server on mainnet",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev:production-wamp-with-indexer-mainnet",
+      "cwd": "${workspaceFolder}/frontend"
+    },
+    {
+      "name": "Next.js: debug prod server on mainnet",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run start:production-wamp-with-indexer-mainnet",
+      "preLaunchTask": "build",
+      "cwd": "${workspaceFolder}/frontend"
+    }
+  ]
+}
