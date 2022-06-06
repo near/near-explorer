@@ -27,8 +27,8 @@ export const resources: Record<Language, ResourceType> = {
   uk: { common: uaTranslation },
 };
 
-export const initializeI18n = async (language?: Language): Promise<i18n> => {
-  const instance = createInstance({
+export const createI18n = (language?: Language): i18n => {
+  return createInstance({
     resources,
     fallbackLng: DEFAULT_LANGUAGE,
     lng: language || DEFAULT_LANGUAGE,
@@ -40,6 +40,4 @@ export const initializeI18n = async (language?: Language): Promise<i18n> => {
       suffix: "}",
     },
   }).use(initReactI18next);
-  await instance.init();
-  return instance;
 };

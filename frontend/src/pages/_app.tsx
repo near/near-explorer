@@ -1,5 +1,5 @@
 import "../libraries/wdyr";
-import { ExtraAppInitialProps } from "next/app";
+import { ExtraAppInitialProps, ServerAppInitialProps } from "next/app";
 import { withTRPC } from "@trpc/next";
 import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
@@ -20,18 +20,18 @@ import { DeployInfo } from "../components/utils/DeployInfo";
 import { DeployInfo as DeployInfoProps } from "../types/common";
 
 import { getBranch, getShortCommitSha } from "../libraries/common";
-import {
-  getLanguage,
-  LANGUAGE_COOKIE,
-  setMomentLanguage,
-} from "../libraries/language";
+import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
-import { initializeI18n, Language, LANGUAGES } from "../libraries/i18n";
+import { createI18n, LANGUAGES } from "../libraries/i18n";
 import { AppType } from "next/dist/shared/lib/utils";
-import { setI18n } from "react-i18next";
+import { LanguageContext } from "../context/LanguageContext";
+import { i18n } from "i18next";
 import { MINUTE, YEAR } from "../libraries/time";
 import { globalCss, styled } from "../libraries/styles";
 import { getBackendUrl } from "../libraries/transport";
+import { useLanguageCookie } from "../hooks/use-language-context";
+import { useMomentLanguage } from "../hooks/use-moment-language";
+import { useI18n } from "../hooks/use-i18n";
 
 const globalStyles = globalCss({
   body: {
@@ -83,10 +83,16 @@ const {
 } = getConfig();
 
 declare module "next/app" {
+  // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
+  type ServerAppInitialProps = {
+    i18n: i18n;
+  };
+
   type ExtraAppInitialProps = {
-    language: Language;
+    language: LanguageContext["language"];
     networkName: NetworkName;
     deployInfo: DeployInfoProps;
+    getServerProps?: () => ServerAppInitialProps;
   };
 
   interface AppInitialProps {
@@ -110,37 +116,47 @@ const wrapRouterHandlerMaintainNetwork = (
 
 type ContextProps = {
   networkState: NetworkContext;
+  languageContext: LanguageContext;
 };
 
 const AppContextWrapper: React.FC<ContextProps> = React.memo((props) => {
   return (
-    <NetworkContext.Provider value={props.networkState}>
-      {props.children}
-    </NetworkContext.Provider>
+    <LanguageContext.Provider value={props.languageContext}>
+      <NetworkContext.Provider value={props.networkState}>
+        {props.children}
+      </NetworkContext.Provider>
+    </LanguageContext.Provider>
   );
 });
 
-let extraAppInitialPropsCache: ExtraAppInitialProps;
+let extraAppInitialPropsCache: Omit<ExtraAppInitialProps, "getServerProps">;
 
 const App: AppType = React.memo(({ Component, pageProps }) => {
-  const { networkName, language, deployInfo, ...restPageProps } = pageProps;
+  const {
+    networkName,
+    language: initialLanguage,
+    deployInfo,
+    getServerProps,
+    ...restPageProps
+  } = pageProps;
   extraAppInitialPropsCache = {
-    language,
+    language: initialLanguage,
     deployInfo,
     networkName,
   };
+  const serverProps = getServerProps?.();
+
   const router = useRouter();
   React.useEffect(() => {
     router.replace = wrapRouterHandlerMaintainNetwork(router, router.replace);
     router.push = wrapRouterHandlerMaintainNetwork(router, router.push);
   }, [router]);
 
-  if (typeof window !== "undefined" && language) {
-    setMomentLanguage(language);
-    // There is no react way of waiting till i18n is initialized before render
-    // But at the moment SSR should render content properly
-    void initializeI18n(language);
-  }
+  const [language, setLanguage] = React.useState(initialLanguage);
+  useLanguageCookie(language);
+  useMomentLanguage(language);
+  useI18n(serverProps?.i18n || (() => createI18n(language)), language);
+
   useAnalyticsInit();
   globalStyles();
 
@@ -152,13 +168,21 @@ const App: AppType = React.memo(({ Component, pageProps }) => {
     [networkName, nearNetworks]
   );
 
+  const languageContext = React.useMemo(() => ({ language, setLanguage }), [
+    language,
+    setLanguage,
+  ]);
+
   return (
     <>
       <Head>
         <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <AppContextWrapper networkState={networkState}>
+      <AppContextWrapper
+        networkState={networkState}
+        languageContext={languageContext}
+      >
         <AppWrapper>
           <Header />
           <BackgroundImage src="/static/images/explorer-bg.svg" />
@@ -223,17 +247,22 @@ App.getInitialProps = async (appContext) => {
         serviceName: "frontend",
       };
     }
+    const serverProps: ServerAppInitialProps = {
+      i18n: createI18n(language),
+    };
     initialProps = {
       deployInfo,
       networkName: getNearNetworkName(appContext.ctx.query, req.headers.host),
       language,
+      getServerProps: () => serverProps,
     };
-    setI18n(await initializeI18n(language));
-    setMomentLanguage(language);
-    appContext.ctx.res!.setHeader(
-      "set-cookie",
-      `${LANGUAGE_COOKIE}=${language}; Max-Age=${YEAR / 1000}`
-    );
+    appContext.ctx.res!.setHeader("set-cookie", [
+      // We forgot to append a path to our cookie so now we may have
+      // a bunch of different language cookies for each path.
+      // So we're wiping them out and putting a proper one.
+      `${LANGUAGE_COOKIE}=${language}; Max-Age=-1; Path=${appContext.ctx.pathname}`,
+      `${LANGUAGE_COOKIE}=${language}; Max-Age=${YEAR / 1000}; Path=/`,
+    ]);
   } else {
     // This branch is called only on page change hence we don't need to calculate language at the moment
     // as i18next is already configured
