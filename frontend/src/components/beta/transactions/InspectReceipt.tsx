@@ -22,7 +22,16 @@ const Table = styled("table", {
 const TableElement = styled("td", {
   color: "#000000",
   fontSize: "$font-s",
-  lineHeight: "20px",
+  lineHeight: "175%",
+});
+
+const BalanceTitle = styled("div", {
+  marginTop: 36,
+  fontWeight: 600,
+});
+
+const BalanceAmount = styled("div", {
+  color: "#1A8300",
 });
 
 const InspectReceipt: React.FC<Props> = React.memo(
@@ -86,6 +95,27 @@ const InspectReceipt: React.FC<Props> = React.memo(
           <TableElement>Refunded</TableElement>
           <TableElement>
             {refund ? <NearAmount amount={refund} decimalPlaces={2} /> : "0"}
+          </TableElement>
+        </tr>
+        <tr>
+          <TableElement colSpan={2}>
+            <BalanceTitle>New Balance</BalanceTitle>
+          </TableElement>
+        </tr>
+        <tr>
+          <TableElement>
+            <AccountLink accountId={receipt.signerId} />
+          </TableElement>
+          <TableElement>
+            <BalanceAmount>--.--.--</BalanceAmount>
+          </TableElement>
+        </tr>
+        <tr>
+          <TableElement>
+            <AccountLink accountId={receipt.receiverId} />
+          </TableElement>
+          <TableElement>
+            <BalanceAmount>--.--.--</BalanceAmount>
           </TableElement>
         </tr>
       </Table>

@@ -154,7 +154,8 @@
         "fee": "Total Fee",
         "attached": "Attached",
         "burned": "Burned",
-        "when": "When"
+        "when": "When",
+        "processed": "Выполнено за "
       },
       "dateFormat": "DD/MM/YYYY h:mm A",
       "tabs": {

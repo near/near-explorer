@@ -59,6 +59,13 @@ export const getBlockHeightsByTimestamps = async (
 
 export const getBlockHeightsByHashes = async (
   blockHashes: string[]
-): Promise<{ block_height: string; block_hash: string }[]> => {
-  return await queryBlockHeightsByHashes(blockHashes);
+): Promise<
+  { blockHeight: number; blockHash: string; blockTimestamp: number }[]
+> => {
+  const blocks = await queryBlockHeightsByHashes(blockHashes);
+  return blocks.map((block) => ({
+    blockHeight: parseInt(block.block_height),
+    blockHash: block.block_hash,
+    blockTimestamp: parseInt(block.block_timestamp),
+  }));
 };

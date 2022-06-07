@@ -165,7 +165,10 @@ export const getTransactionDetails = async (
   );
   const blockHeights = await getBlockHeightsByHashes(blockHashes);
   const includedInBlockMap = blockHeights.reduce((acc, block) => {
-    acc.set(block.block_hash, block.block_height);
+    acc.set(block.blockHash, {
+      blockHeight: block.blockHeight,
+      blockTimestamp: block.blockTimestamp,
+    });
     return acc;
   }, new Map());
   const receiptsOutcome = transactionInfo.receipts_outcome.map((receipt) => ({
@@ -174,7 +177,8 @@ export const getTransactionDetails = async (
     outcome: receipt.outcome,
     includedInBlock: {
       hash: receipt.block_hash,
-      height: includedInBlockMap.get(receipt.block_hash),
+      height: includedInBlockMap.get(receipt.block_hash).blockHeight,
+      timestamp: includedInBlockMap.get(receipt.block_hash).blockTimestamp,
     },
   }));
 
@@ -535,6 +539,7 @@ export type TransactionDetails = {
 export type TransactionBlockInfo = {
   hash: string;
   height: number;
+  timestamp: number;
 };
 export type ReceiptsOutcome = Omit<
   RPC.ExecutionOutcomeWithIdView,

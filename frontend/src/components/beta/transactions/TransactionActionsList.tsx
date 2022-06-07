@@ -17,10 +17,12 @@ const Wrapper = styled("div", {
   display: "flex",
   flexDirection: "column",
   width: "100%",
-  maxWidth: 1161,
-  margin: "auto",
-  padding: "24px 40px",
+  maxWidth: 1196,
+  margin: "32px auto",
+  padding: 40,
   fontFamily: "Manrope",
+  border: "1px solid #ebebeb",
+  borderRadius: 10,
 });
 
 const Title = styled("h4", {
@@ -29,7 +31,6 @@ const Title = styled("h4", {
   fontSize: 16,
   fontWeight: "700",
   lineHeight: "28px",
-  borderBottom: "1px solid rgba(0, 0, 0, .1)",
   marginBottom: 30,
   paddingBottom: 8,
 });

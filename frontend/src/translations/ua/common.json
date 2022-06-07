@@ -154,7 +154,8 @@
         "fee": "Комісія",
         "attached": "Прикріплено",
         "burned": "Спалено",
-        "when": "Коли"
+        "when": "Коли",
+        "processed": "Виконано за "
       },
       "dateFormat": "DD/MM/YYYY h:mm A",
       "tabs": {

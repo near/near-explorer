@@ -1,27 +1,26 @@
-import moment from "moment";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
+import Moment from "../../../libraries/moment";
 
 import CopyToClipboard from "../../beta/common/CopyToClipboard";
 import { NearAmount } from "../../utils/NearAmount";
 import TransactionStatus from "./TransactionStatus";
+import { TransactionDetails } from "../../../types/common";
 
 type Props = {
-  transaction: any;
+  transaction: TransactionDetails;
 };
 
 const Wrapper = styled("div", {
-  backgroundColor: "#1b1d1f",
-});
-
-const Content = styled("div", {
   display: "flex",
   justifyContent: "space-between",
   width: "100%",
-  maxWidth: 1161,
-  margin: "auto",
-  padding: 40,
+  maxWidth: 1196,
+  backgroundColor: "#1b1d1f",
+  margin: "32px auto",
+  padding: 28,
+  borderRadius: 8,
   fontFamily: "Manrope",
 });
 
@@ -29,24 +28,26 @@ const BaseInfo = styled("div", {
   display: "flex",
 });
 
-const Title = styled("div", {
-  fontSize: 30,
-  fontWeight: 600,
-  lineHeight: "45px",
-  color: "#fff",
-});
-
-const TransactionHash = styled("div", {
-  fontSize: 18,
+const TransactionHash = styled("h1", {
+  fontSize: 36,
+  fontWeight: 700,
   color: "#fff",
   lineHeight: "27px",
   marginRight: 14,
 });
 
+const TransactionCopy = styled("span", {
+  marginLeft: ".5em",
+});
+
+const PendingTime = styled("div", {
+  color: "#fff",
+});
+
 const BaseInfoDetails = styled("div", {
   display: "flex",
   alignItems: "center",
-  marginTop: 8,
+  marginTop: 24,
 });
 
 const NumericInfo = styled("div", {
@@ -71,47 +72,51 @@ const Amount = styled("div", {
   marginTop: 16,
 });
 
-const TransactionHeader: React.FC<Props> = React.memo((props) => {
+const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
   const { t } = useTranslation();
+  const start = Moment(transaction.created.timestamp);
+  const end = Moment(
+    transaction.receipt.outgoingReceipts[
+      transaction.receipt.outgoingReceipts.length - 1
+    ]?.includedInBlock.timestamp
+  );
+  const pending = end.from(start, true);
   return (
     <Wrapper>
-      <Content>
-        <BaseInfo>
-          <div>
-            <Title>{t("common.transactions.transaction")}</Title>
-            <BaseInfoDetails>
-              <TransactionHash>
-                {`${props.transaction.hash.slice(
-                  0,
-                  7
-                )}...${props.transaction.hash.slice(-4)}`}
-              </TransactionHash>
-              <CopyToClipboard text={props.transaction.hash} />
-              <TransactionStatus status={props.transaction.status} />
-            </BaseInfoDetails>
-          </div>
-        </BaseInfo>
-        <NumericInfo>
-          <div>
-            <AmountHeader>{t("pages.transaction.header.fee")}</AmountHeader>
-            <Amount>
-              <NearAmount
-                amount={props.transaction.transactionFee}
-                decimalPlaces={2}
-              />
-            </Amount>
-          </div>
-          <NumericDivider />
-          <div>
-            <AmountHeader>{t("pages.transaction.header.when")}</AmountHeader>
-            <Amount>
-              {moment(props.transaction.created.timestamp).format(
-                t("pages.transaction.dateFormat")
-              )}
-            </Amount>
-          </div>
-        </NumericInfo>
-      </Content>
+      <BaseInfo>
+        <div>
+          <TransactionHash>
+            {`${transaction.hash.slice(0, 7)}...${transaction.hash.slice(-4)}`}
+            <TransactionCopy>
+              <CopyToClipboard text={transaction.hash} />
+            </TransactionCopy>
+          </TransactionHash>
+          <BaseInfoDetails>
+            <PendingTime>
+              {t("pages.transaction.header.processed")}
+              <b>{pending}</b>
+            </PendingTime>
+            <TransactionStatus status={transaction.status} />
+          </BaseInfoDetails>
+        </div>
+      </BaseInfo>
+      <NumericInfo>
+        <div>
+          <AmountHeader>{t("pages.transaction.header.fee")}</AmountHeader>
+          <Amount>
+            <NearAmount amount={transaction.transactionFee} decimalPlaces={2} />
+          </Amount>
+        </div>
+        <NumericDivider />
+        <div>
+          <AmountHeader>{t("pages.transaction.header.when")}</AmountHeader>
+          <Amount>
+            {Moment(transaction.created.timestamp).format(
+              t("pages.transaction.dateFormat")
+            )}
+          </Amount>
+        </div>
+      </NumericInfo>
     </Wrapper>
   );
 });

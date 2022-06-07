@@ -932,7 +932,11 @@ export const queryBlockByHashOrId = async (blockId: string | number) => {
 export const queryBlockHeightsByHashes = async (blockHashes: string[]) => {
   return indexerDatabase
     .selectFrom("blocks")
-    .select(["block_height", "block_hash"])
+    .select([
+      "block_height",
+      "block_hash",
+      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp"),
+    ])
     .where("block_hash", "in", blockHashes)
     .execute();
 };
