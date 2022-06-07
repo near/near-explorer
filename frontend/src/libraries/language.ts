@@ -119,6 +119,16 @@ export function setMomentLanguage(language: Language): string {
   }
 }
 
+const LANGUAGES: Record<Language, true> = {
+  en: true,
+  uk: true,
+  "zh-Hans": true,
+  vi: true,
+  ru: true,
+};
+const isLanguage = (input: string): input is Language =>
+  Object.keys(LANGUAGES).includes(input);
+
 export function getLanguage(
   languages: readonly Language[],
   cookies?: string,
@@ -126,11 +136,11 @@ export function getLanguage(
 ): Language {
   const parsedCookies = new Cookies(cookies);
   const languageCookie = parsedCookies.get(LANGUAGE_COOKIE);
-  if (languageCookie) {
+  if (languageCookie && isLanguage(languageCookie)) {
     return languageCookie;
   }
   const acceptedLanguage = getAcceptedLanguage(languages, acceptedLanguages);
-  if (acceptedLanguage) {
+  if (acceptedLanguage && isLanguage(acceptedLanguage)) {
     return acceptedLanguage;
   }
   return DEFAULT_LANGUAGE;
