@@ -757,19 +757,6 @@ export const queryCirculatingSupply = async () => {
     .execute();
 };
 
-export const queryFirstProducedBlockTimestamp = async () => {
-  return indexerDatabase
-    .selectFrom("blocks")
-    .select(
-      sql<Date>`to_timestamp(div(block_timestamp, 1000 * 1000 * 1000))::date`.as(
-        "first_produced_block_timestamp"
-      )
-    )
-    .orderBy("block_timestamp")
-    .limit(1)
-    .executeTakeFirstOrThrow();
-};
-
 export const queryBlocksList = async (limit: number = 15, cursor?: number) => {
   const selection = await indexerDatabase
     .selectFrom((eb) => {

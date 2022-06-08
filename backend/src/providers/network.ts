@@ -1,9 +1,10 @@
+import { Context } from "../context";
 import {
   NetworkStats,
   ValidationProgress,
   ValidatorEpochData,
 } from "../router/types";
-import { RPC, CurrentEpochState } from "../types";
+import { RPC } from "../types";
 import * as nearApi from "../utils/near";
 
 export const queryFinalBlock = async (): Promise<
@@ -79,39 +80,42 @@ const mapValidators = (
 };
 
 const getEpochState = async (
-  currentEpochState: CurrentEpochState | null,
+  context: Context,
   epochStatus: RPC.EpochValidatorInfo,
   networkProtocolConfig: RPC.ProtocolConfigView
 ) => {
-  if (currentEpochState?.height === epochStatus.epoch_start_height) {
-    return currentEpochState;
+  if (
+    context.state.currentEpochState?.height ===
+      epochStatus.epoch_start_height &&
+    (context.state.currentEpochState.seatPrice !== undefined ||
+      !context.state.genesis)
+  ) {
+    return context.state.currentEpochState;
   }
 
-  const { minimum_stake_ratio: epochMinStakeRatio } = await nearApi.sendJsonRpc(
-    "EXPERIMENTAL_genesis_config",
-    {}
-  );
   const maxNumberOfSeats =
     networkProtocolConfig.num_block_producer_seats +
     networkProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
       (sum, seat) => sum + seat,
       0
     );
-  currentEpochState = {
+  context.state.currentEpochState = {
     height: epochStatus.epoch_start_height,
-    seatPrice: nearApi.validators
-      .findSeatPrice(
-        epochStatus.current_validators,
-        maxNumberOfSeats,
-        epochMinStakeRatio,
-        networkProtocolConfig.protocol_version
-      )
-      .toString(),
+    seatPrice: context.state.genesis
+      ? nearApi.validators
+          .findSeatPrice(
+            epochStatus.current_validators,
+            maxNumberOfSeats,
+            context.state.genesis.minStakeRatio,
+            networkProtocolConfig.protocol_version
+          )
+          .toString()
+      : undefined,
     totalStake: epochStatus.current_validators
       .reduce((acc, node) => acc + BigInt(node.stake), 0n)
       .toString(),
   };
-  return currentEpochState;
+  return context.state.currentEpochState;
 };
 
 type EpochData = {
@@ -119,16 +123,13 @@ type EpochData = {
   validators: ValidatorEpochData[];
 };
 
-export const queryEpochData = async (
-  poolIds: string[],
-  currentEpochState: CurrentEpochState | null
-): Promise<EpochData> => {
+export const queryEpochData = async (context: Context): Promise<EpochData> => {
   const [networkProtocolConfig, epochStatus] = await Promise.all([
     nearApi.sendJsonRpc("EXPERIMENTAL_protocol_config", { finality: "final" }),
     nearApi.sendJsonRpc("validators", [null]),
   ]);
   const epochState = await getEpochState(
-    currentEpochState,
+    context,
     epochStatus,
     networkProtocolConfig
   );
@@ -141,9 +142,7 @@ export const queryEpochData = async (
       currentValidatorsCount: epochStatus.current_validators.length,
       totalStake: epochState.totalStake,
       seatPrice: epochState.seatPrice,
-      genesisTime: networkProtocolConfig.genesis_time,
-      genesisHeight: networkProtocolConfig.genesis_height,
     },
-    validators: mapValidators(epochStatus, poolIds),
+    validators: mapValidators(epochStatus, context.state.poolIds),
   };
 };

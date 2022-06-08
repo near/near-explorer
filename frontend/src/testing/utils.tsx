@@ -8,12 +8,13 @@ import renderer, {
 import fetch from "isomorphic-fetch";
 import { NetworkContext } from "../context/NetworkContext";
 import { setMomentLanguage } from "../libraries/language";
+import { LanguageContext } from "../context/LanguageContext";
 import { trpc } from "../libraries/trpc";
 
 const networkContext: NetworkContext = {
-  networkName: "localhostnet",
+  networkName: "localnet",
   networks: {
-    localhostnet: {
+    localnet: {
       explorerLink: "http://explorer/",
       nearWalletProfilePrefix: "http://wallet/profile",
     },
@@ -33,13 +34,19 @@ export const renderElement = (
     url: "http://localhost/",
     fetch,
   });
+  const languageContext = {
+    language: "en" as const,
+    setLanguage: () => {},
+  };
   renderer.act(() => {
     root = renderer.create(
       <trpc.Provider queryClient={queryClient} client={client}>
         <ReactQuery.QueryClientProvider client={queryClient}>
-          <NetworkContext.Provider value={networkContext}>
-            {nextElement}
-          </NetworkContext.Provider>
+          <LanguageContext.Provider value={languageContext}>
+            <NetworkContext.Provider value={networkContext}>
+              {nextElement}
+            </NetworkContext.Provider>
+          </LanguageContext.Provider>
         </ReactQuery.QueryClientProvider>
       </trpc.Provider>,
       options

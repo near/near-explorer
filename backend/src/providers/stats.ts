@@ -1,3 +1,4 @@
+import { Context } from "../context";
 import {
   queryTransactionsCountAggregatedByDate,
   queryGasUsedAggregatedByDate,
@@ -11,11 +12,9 @@ import {
   queryActiveContractsList,
   queryActiveAccountsList,
   queryDepositAmountAggregatedByDate,
-  queryGenesisAccountCount,
   queryLatestCirculatingSupply,
   queryCirculatingSupply,
   calculateFeesByDay,
-  queryFirstProducedBlockTimestamp,
 } from "../database/queries";
 import { formatDate } from "../utils/formatting";
 import { trimError } from "../utils/logging";
@@ -52,7 +51,6 @@ let LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE: Nullable<
 let ACTIVE_ACCOUNTS_LIST: Nullable<
   { account: string; transactionsCount: string }[]
 > = null;
-let ACCOUNTS_COUNT_IN_GENESIS: Nullable<string> = null;
 
 // contracts
 let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE: Nullable<
@@ -81,14 +79,14 @@ let CIRCULATING_SUPPLY_BY_DATE: Nullable<
 
 // This is a decorator that auto-retry failing function up to 5 times before giving up.
 // If the wrapped function fails 5 times in a row, the result value is going to be undefined.
-function retriable(
-  wrapped: () => Promise<void>,
+function retriable<Args extends unknown[]>(
+  wrapped: (...args: Args) => Promise<void>,
   action: string
-): () => Promise<void> {
-  return async function () {
+): (...args: Args) => Promise<void> {
+  return async function (...args: Args) {
     for (let attempts = 1; ; ++attempts) {
       try {
-        await wrapped();
+        await wrapped(...args);
         return;
       } catch (error) {
         if (attempts >= 5) {
@@ -181,58 +179,66 @@ const cumulativeAccountsCountArray = <T extends { accountsCount: number }>(
   }, Array());
 };
 
-export const aggregateLiveAccountsCountByDate = retriable(async () => {
-  const genesisCount = await queryGenesisAccountCount();
-  ACCOUNTS_COUNT_IN_GENESIS = genesisCount.count;
-  if (
-    NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE &&
-    DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
-  ) {
-    const startDate = NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[0].date;
-    const dateArray = generateDateArray(startDate);
-    let changedAccountsCountByDate = dateArray.map((date) => ({
-      date: date,
-      accountsCount: 0,
-    }));
-    changedAccountsCountByDate[0].accountsCount = Number(
-      ACCOUNTS_COUNT_IN_GENESIS
-    );
-
-    let newAccountMap = new Map<string, number>();
-    for (let i = 0; i < NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
-      newAccountMap.set(
-        NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
-        Number(NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
-      );
+export const aggregateLiveAccountsCountByDate = retriable(
+  async (context: Context) => {
+    if (!context.state.genesis) {
+      return;
     }
-
-    let deletedAccountMap = new Map<string, number>();
-    for (let i = 0; i < DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
-      deletedAccountMap.set(
-        DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
-        Number(DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
+    if (
+      NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE &&
+      DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE
+    ) {
+      const startDate = NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[0].date;
+      const dateArray = generateDateArray(startDate);
+      let changedAccountsCountByDate = dateArray.map((date) => ({
+        date: date,
+        accountsCount: 0,
+      }));
+      changedAccountsCountByDate[0].accountsCount = Number(
+        context.state.genesis.accountCount
       );
-    }
 
-    for (let i = 0; i < changedAccountsCountByDate.length; i++) {
-      const newAccountsCount = newAccountMap.get(
-        changedAccountsCountByDate[i].date
-      );
-      if (newAccountsCount) {
-        changedAccountsCountByDate[i].accountsCount += newAccountsCount;
+      let newAccountMap = new Map<string, number>();
+      for (let i = 0; i < NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length; i++) {
+        newAccountMap.set(
+          NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
+          Number(NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
+        );
       }
-      const deletedAccountsCount = deletedAccountMap.get(
-        changedAccountsCountByDate[i].date
-      );
-      if (deletedAccountsCount) {
-        changedAccountsCountByDate[i].accountsCount -= deletedAccountsCount;
+
+      let deletedAccountMap = new Map<string, number>();
+      for (
+        let i = 0;
+        i < DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE.length;
+        i++
+      ) {
+        deletedAccountMap.set(
+          DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].date,
+          Number(DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE[i].accountsCount)
+        );
       }
+
+      for (let i = 0; i < changedAccountsCountByDate.length; i++) {
+        const newAccountsCount = newAccountMap.get(
+          changedAccountsCountByDate[i].date
+        );
+        if (newAccountsCount) {
+          changedAccountsCountByDate[i].accountsCount += newAccountsCount;
+        }
+        const deletedAccountsCount = deletedAccountMap.get(
+          changedAccountsCountByDate[i].date
+        );
+        if (deletedAccountsCount) {
+          changedAccountsCountByDate[i].accountsCount -= deletedAccountsCount;
+        }
+      }
+      LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = cumulativeAccountsCountArray(
+        changedAccountsCountByDate
+      );
     }
-    LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE = cumulativeAccountsCountArray(
-      changedAccountsCountByDate
-    );
-  }
-}, "Live accounts count time series");
+  },
+  "Live accounts count time series"
+);
 
 export const aggregateActiveAccountsCountByDate = retriable(async () => {
   const activeAccountsCountByDate = await queryActiveAccountsCountAggregatedByDate();
@@ -358,14 +364,6 @@ export const getLiveAccountsCountByDate = () => {
   return LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE;
 };
 
-// blocks
-export const getFirstProducedBlockTimestamp = async (): Promise<string> => {
-  const {
-    first_produced_block_timestamp: firstProducedBlockTimestamp,
-  } = await queryFirstProducedBlockTimestamp();
-  return formatDate(firstProducedBlockTimestamp);
-};
-
 export const getActiveAccountsList = () => {
   return ACTIVE_ACCOUNTS_LIST;
 };
@@ -394,10 +392,6 @@ export const getLatestCirculatingSupply = async (): Promise<{
     circulating_supply_in_yoctonear:
       latestCirculatingSupply.circulating_tokens_supply,
   };
-};
-
-export const getGenesisAccountsCount = () => {
-  return ACCOUNTS_COUNT_IN_GENESIS;
 };
 
 export const getTotalFee = async (

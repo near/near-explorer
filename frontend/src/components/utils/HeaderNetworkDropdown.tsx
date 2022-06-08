@@ -94,11 +94,11 @@ const NetworkIcon = styled("div", {
       guildnet: {
         background: "#0072ce",
       },
-      localhostnet: {},
+      localnet: {},
     },
   },
   defaultVariants: {
-    network: "localhostnet",
+    network: "localnet",
   },
 });
 

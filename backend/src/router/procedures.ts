@@ -37,18 +37,6 @@ export const router = trpc
       return nearApi.sendJsonRpc("status", [null]);
     },
   })
-  // genesis configuration
-  .query("nearcore-genesis-protocol-configuration", {
-    resolve: async () => {
-      const networkProtocolConfig = await nearApi.sendJsonRpc(
-        "EXPERIMENTAL_protocol_config",
-        { finality: "final" }
-      );
-      return nearApi.sendJsonRpc("block", {
-        block_id: networkProtocolConfig.genesis_height,
-      });
-    },
-  })
   .query("get-latest-circulating-supply", {
     resolve: () => {
       return stats.getLatestCirculatingSupply();
@@ -265,11 +253,6 @@ export const router = trpc
     },
   })
   // blocks
-  .query("first-produced-block-timestamp", {
-    resolve: () => {
-      return stats.getFirstProducedBlockTimestamp();
-    },
-  })
   .query("blocks-list", {
     input: z.strictObject({
       limit: validators.limit,
@@ -323,11 +306,6 @@ export const router = trpc
     },
   })
   // genesis stats
-  .query("nearcore-genesis-accounts-count", {
-    resolve: () => {
-      return stats.getGenesisAccountsCount();
-    },
-  })
   .query("nearcore-total-fee-count", {
     input: z.tuple([z.number().min(1).max(7)]),
     resolve: ({ input: [daysCount] }) => {

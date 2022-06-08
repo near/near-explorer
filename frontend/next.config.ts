@@ -13,7 +13,7 @@ const defaultBackendConfig: BackendConfig = {
     mainnet: "localhost",
     testnet: "localhost",
     guildnet: "localhost",
-    localhostnet: "localhost",
+    localnet: "localhost",
   },
   port: 10000,
   secure: false,

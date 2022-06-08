@@ -67,9 +67,7 @@ export type NetworkStats = {
   epochStartHeight: number;
   epochProtocolVersion: number;
   totalStake: string;
-  seatPrice: string;
-  genesisTime: string;
-  genesisHeight: number;
+  seatPrice?: string;
 };
 
 export type SubscriptionTopicTypes = {
@@ -82,6 +80,13 @@ export type SubscriptionTopicTypes = {
   blockProductionSpeed: number;
   recentTransactionsCount: number;
   onlineNodesCount: number;
+  genesisConfig: {
+    height: number;
+    timestamp: number;
+    protocolVersion: number;
+    totalSupply: string;
+    accountCount: number;
+  };
   "network-stats": NetworkStats;
 };
 

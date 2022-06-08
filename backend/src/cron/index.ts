@@ -9,6 +9,7 @@ const regularTasks = [
   tasks.blockProductionSpeedCheck,
   tasks.recentTransactionsCountCheck,
   tasks.onlineNodesCountCheck,
+  tasks.genesisProtocolInfoFetch,
   tasks.transactionCountHistoryCheck,
   tasks.statsAggregationCheck,
   tasks.networkInfoCheck,
@@ -40,7 +41,9 @@ export const runTasks = (context: Context) => {
           String(error)
         );
       } finally {
-        setTimeoutBound();
+        if (timeout !== Infinity) {
+          setTimeoutBound();
+        }
       }
     };
     const setTimeoutBound = () => {
