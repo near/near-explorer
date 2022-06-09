@@ -1,0 +1,29 @@
+name: Install packages
+runs:
+  using: composite
+  steps:
+    - name: Cache npm packages
+      uses: actions/cache@v3
+      id: npm-cache
+      with:
+        path: ~/.npm
+        key: node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          node-${{ hashFiles('**/package-lock.json') }}
+          node-
+    - name: Cache node_modules
+      uses: actions/cache@v3
+      id: node-modules-cache
+      with:
+        path: |
+          ${{ github.workspace }}/node_modules
+          ${{ github.workspace }}/common/node_modules
+          ${{ github.workspace }}/frontend/node_modules
+          ${{ github.workspace }}/backend/node_modules
+        key: node-modules-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          node-modules-${{ hashFiles('**/package-lock.json') }}
+    - name: Install packages
+      if: steps.node-modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm install

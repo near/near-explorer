@@ -1,4 +1,4 @@
-name: Run Tests
+name: CI
 on:
   pull_request:
   push:
@@ -6,84 +6,117 @@ on:
       - master
 
 jobs:
-  codestyle:
-    name: Code Style
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04]
-        node: [16]
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Install packages
-        run: npm install
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
       - name: Run code formatting check
         run: npm run fmt:check
 
+  frontend-typecheck:
+    name: Frontend typecheck
+    needs: prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
+      - name: Run typecheck
+        run: npm run -w frontend typecheck
+
+  frontend-build:
+    name: Build frontend
+    needs: frontend-typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
+      - name: Build frontend
+        run: npm run -w frontend build
+      - name: Upload frontend build
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-dist
+          path: frontend/.next/
+
+  backend-typecheck:
+    name: Backend typecheck
+    needs: prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
+      - name: Run typecheck
+        run: npm run -w backend typecheck
+
+  backend-build:
+    name: Build backend
+    needs: backend-typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
+      - name: Build backend
+        run: npm run -w backend build
+      - name: Upload backend build
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-dist
+          path: backend/build/
+
   frontend-test:
     name: Frontend unit testing
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04]
-        node: [16]
+    needs: frontend-build
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Install packages
-        run: npm install
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
       - name: Run unit tests
         run: npm run -w frontend test
 
   e2e-test:
     name: e2e testing
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04]
-        node: [16]
+    needs: [frontend-build, backend-build]
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Install packages
-        run: npm install
-      - name: Build frontend
-        run: npm run -w frontend build
-      - name: Build backend
-        run: npm run -w backend build
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
+      - uses: ./.github/actions/install-cypress
+      - name: Download frontend dist
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend-dist
+          path: frontend/.next/
+      - name: Download backend dist
+        uses: actions/download-artifact@v3
+        with:
+          name: backend-dist
+          path: backend/build/
       - name: Run Cypress
         run: npm run test:ci
-        env:
-          CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
-
-  backend-typecheck:
-    name: Backend typecheck
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04]
-        node: [16]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Install packages
-        run: npm install
-      - name: Run typecheck
-        run: npm run -w backend typecheck
 
   backend-database-types-check:
     name: Backend database types check
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-18.04]
-        node: [16]
+    needs: backend-typecheck
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@v1
-      - name: Install packages
-        run: npm install
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-node
+      - uses: ./.github/actions/install-packages
       - name: Copy original models
         run: cp -r backend/src/database/models backend/src/database/models-original
       - name: Generate types
         run: npm run -w backend db:generate-types
       - name: Run prettier on newly generated types
-        run: npm run fmt
+        run: npm run -w backend db:generated-types:fmt
       - name: Compare types
         run: diff -bur backend/src/database/models-original backend/src/database/models
