@@ -43,9 +43,10 @@ const ListHandler = <T,>({ query, children, prependChildren }: Props<T>) => {
   const { t } = useTranslation();
   const allItems =
     query.data?.pages.reduce((acc, page) => [...acc, ...page], []) ?? [];
-  const fetchMore = React.useCallback(() => query.fetchNextPage(), [
-    query.fetchNextPage,
-  ]);
+  const fetchMore = React.useCallback(
+    () => query.fetchNextPage(),
+    [query.fetchNextPage]
+  );
 
   if (query.isFetching && !query.isFetchingNextPage) {
     return <PaginationSpinner />;

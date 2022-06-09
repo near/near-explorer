@@ -52,9 +52,10 @@ export interface Props {
 const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const latestBlockSub = useSubscription(["latestBlock"]);
-  const gasUsed = React.useMemo(() => JSBI.BigInt(block.gasUsed), [
-    block.gasUsed,
-  ]);
+  const gasUsed = React.useMemo(
+    () => JSBI.BigInt(block.gasUsed),
+    [block.gasUsed]
+  );
 
   return (
     <Row noGutters>

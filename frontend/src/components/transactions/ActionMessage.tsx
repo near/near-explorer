@@ -69,8 +69,8 @@ const DeleteAccount: TransactionMessageRenderers["DeleteAccount"] = React.memo(
   }
 );
 
-const DeployContract: TransactionMessageRenderers["DeployContract"] = React.memo(
-  ({ receiverId }) => {
+const DeployContract: TransactionMessageRenderers["DeployContract"] =
+  React.memo(({ receiverId }) => {
     const { t } = useTranslation();
     return (
       <>
@@ -80,8 +80,7 @@ const DeployContract: TransactionMessageRenderers["DeployContract"] = React.memo
         <AccountLink accountId={receiverId} />
       </>
     );
-  }
-);
+  });
 
 const FunctionCall: TransactionMessageRenderers["FunctionCall"] = React.memo(
   ({ receiverId, actionArgs, showDetails }) => {

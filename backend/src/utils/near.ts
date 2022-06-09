@@ -33,9 +33,9 @@ export const callViewMethod = async function <T>(
   args: unknown
 ): Promise<T> {
   const account = new nearApi.Account(
-    ({
+    {
       provider: nearRpc,
-    } as unknown) as nearApi.Connection,
+    } as unknown as nearApi.Connection,
     "near"
   );
   return await account.viewFunction(contractName, methodName, args);

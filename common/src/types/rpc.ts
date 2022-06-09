@@ -518,10 +518,11 @@ type QueryResponseKind = {
 };
 
 // https://docs.rs/near-jsonrpc-client/latest/near_jsonrpc_client/methods/query/struct.RpcQueryResponse.html
-type RpcQueryResponse = /* [serde(flatten)], [serde(untagged)] */ QueryResponseKind[keyof QueryResponseKind] & {
-  block_height: BlockHeight;
-  block_hash: CryptoHash;
-};
+type RpcQueryResponse =
+  /* [serde(flatten)], [serde(untagged)] */ QueryResponseKind[keyof QueryResponseKind] & {
+    block_height: BlockHeight;
+    block_hash: CryptoHash;
+  };
 
 export type RpcQueryRequestTypeMapping = {
   view_account: AccountView;
@@ -784,9 +785,10 @@ export type ReceiptView = {
 };
 
 // https://docs.rs/near-primitives/latest/near_primitives/views/struct.FinalExecutionOutcomeWithReceiptView.html
-export type FinalExecutionOutcomeWithReceiptView = /* [serde(flatten)] */ FinalExecutionOutcomeView & {
-  receipts: Vec<ReceiptView>;
-};
+export type FinalExecutionOutcomeWithReceiptView =
+  /* [serde(flatten)] */ FinalExecutionOutcomeView & {
+    receipts: Vec<ReceiptView>;
+  };
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/network/struct.PeerId.html
 type PeerId = PublicKey;

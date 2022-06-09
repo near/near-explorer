@@ -168,10 +168,10 @@ const App: AppType = React.memo(({ Component, pageProps }) => {
     [networkName, nearNetworks]
   );
 
-  const languageContext = React.useMemo(() => ({ language, setLanguage }), [
-    language,
-    setLanguage,
-  ]);
+  const languageContext = React.useMemo(
+    () => ({ language, setLanguage }),
+    [language, setLanguage]
+  );
 
   return (
     <>

@@ -47,8 +47,7 @@ export const TRANSACTIONS: Transaction[] = [
               {
                 kind: "FunctionCall",
                 args: {
-                  args:
-                    "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
+                  args: "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
                   deposit: "0",
                   gas: 3333333333333333,
                   method_name: "unstake",
@@ -64,8 +63,7 @@ export const TRANSACTIONS: Transaction[] = [
                     {
                       kind: "FunctionCall",
                       args: {
-                        args:
-                          "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
+                        args: "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
                         deposit: "0",
                         gas: 12512121223123,
                         method_name: "unstake",
@@ -89,8 +87,7 @@ export const TRANSACTIONS: Transaction[] = [
                     {
                       kind: "FunctionCall",
                       args: {
-                        args:
-                          "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
+                        args: "eyJhbW91bnQiOiIxNzU2MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9",
                         deposit: "0",
                         gas: 25252525002200,
                         method_name: "on_staking_pool_unstake",
@@ -248,8 +245,7 @@ export const TRANSACTIONS: Transaction[] = [
         {
           kind: "FunctionCall",
           args: {
-            args:
-              "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMwMjA1MzEyLCJyaWdodCI6Mjk0MDIzNDJ9LCJyZXNwb25zZSI6IlNlbGVjdGVkUmlnaHQifQ==",
+            args: "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMwMjA1MzEyLCJyaWdodCI6Mjk0MDIzNDJ9LCJyZXNwb25zZSI6IlNlbGVjdGVkUmlnaHQifQ==",
             deposit: "0",
             gas: 100000000000000,
             method_name: "vote",
@@ -410,8 +406,7 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
     {
       kind: "FunctionCall",
       args: {
-        args:
-          "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMyNjI2Nzg5LCJyaWdodCI6MzIxMzIxMjl9LCJyZXNwb25zZSI6IlNraXBwZWQifQ==",
+        args: "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMyNjI2Nzg5LCJyaWdodCI6MzIxMzIxMjl9LCJyZXNwb25zZSI6IlNraXBwZWQifQ==",
         deposit: "0",
         gas: 100000000000000,
         method_name: "vote",
@@ -423,8 +418,7 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
       {
         kind: "FunctionCall",
         args: {
-          args:
-            "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMyNjI2Nzg5LCJyaWdodCI6MzIxMzIxMjl9LCJyZXNwb25zZSI6IlNraXBwZWQifQ==",
+          args: "eyJyZXF1ZXN0Ijp7ImxlZnQiOjMyNjI2Nzg5LCJyaWdodCI6MzIxMzIxMjl9LCJyZXNwb25zZSI6IlNraXBwZWQifQ==",
           deposit: "0",
           gas: 100000000000000,
           method_name: "vote",
@@ -499,8 +493,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
     {
       kind: "FunctionCall",
       args: {
-        args:
-          "eyJyZWNlaXZlcl9pZCI6ImZhcm0uYmVycnljbHViLmVrLm5lYXIiLCJhbW91bnQiOiI5ODA3MjI5NDczMjEyNzA2MDI4IiwibWVtbyI6IlN3YXBwaW5nIDk4MDcyMjk0NzMyMTI3MDYwMjgg8J+NjCB0byBnZXQgOTgwNzIyOTQ3MzIxMjcwNjAyOCDwn6WSIiwibXNnIjoiXCJEZXBvc2l0QW5kU3Rha2VcIiJ9",
+        args: "eyJyZWNlaXZlcl9pZCI6ImZhcm0uYmVycnljbHViLmVrLm5lYXIiLCJhbW91bnQiOiI5ODA3MjI5NDczMjEyNzA2MDI4IiwibWVtbyI6IlN3YXBwaW5nIDk4MDcyMjk0NzMyMTI3MDYwMjgg8J+NjCB0byBnZXQgOTgwNzIyOTQ3MzIxMjcwNjAyOCDwn6WSIiwibXNnIjoiXCJEZXBvc2l0QW5kU3Rha2VcIiJ9",
         deposit: "1",
         gas: 50000000000000,
         method_name: "ft_transfer_call",
@@ -512,8 +505,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
       {
         kind: "FunctionCall",
         args: {
-          args:
-            "eyJyZWNlaXZlcl9pZCI6ImZhcm0uYmVycnljbHViLmVrLm5lYXIiLCJhbW91bnQiOiI5ODA3MjI5NDczMjEyNzA2MDI4IiwibWVtbyI6IlN3YXBwaW5nIDk4MDcyMjk0NzMyMTI3MDYwMjgg8J+NjCB0byBnZXQgOTgwNzIyOTQ3MzIxMjcwNjAyOCDwn6WSIiwibXNnIjoiXCJEZXBvc2l0QW5kU3Rha2VcIiJ9",
+          args: "eyJyZWNlaXZlcl9pZCI6ImZhcm0uYmVycnljbHViLmVrLm5lYXIiLCJhbW91bnQiOiI5ODA3MjI5NDczMjEyNzA2MDI4IiwibWVtbyI6IlN3YXBwaW5nIDk4MDcyMjk0NzMyMTI3MDYwMjgg8J+NjCB0byBnZXQgOTgwNzIyOTQ3MzIxMjcwNjAyOCDwn6WSIiwibXNnIjoiXCJEZXBvc2l0QW5kU3Rha2VcIiJ9",
           deposit: "1",
           gas: 50000000000000,
           method_name: "ft_transfer_call",
@@ -532,8 +524,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
             {
               kind: "FunctionCall",
               args: {
-                args:
-                  "eyJzZW5kZXJfaWQiOiJsZW9uYXJkd2NhaS5uZWFyIiwiYW1vdW50IjoiOTgwNzIyOTQ3MzIxMjcwNjAyOCIsIm1zZyI6IlwiRGVwb3NpdEFuZFN0YWtlXCIifQ==",
+                args: "eyJzZW5kZXJfaWQiOiJsZW9uYXJkd2NhaS5uZWFyIiwiYW1vdW50IjoiOTgwNzIyOTQ3MzIxMjcwNjAyOCIsIm1zZyI6IlwiRGVwb3NpdEFuZFN0YWtlXCIifQ==",
                 deposit: "0",
                 gas: 20000000000000,
                 method_name: "ft_on_transfer",
@@ -577,8 +568,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
             {
               kind: "FunctionCall",
               args: {
-                args:
-                  "eyJzZW5kZXJfaWQiOiJsZW9uYXJkd2NhaS5uZWFyIiwicmVjZWl2ZXJfaWQiOiJmYXJtLmJlcnJ5Y2x1Yi5lay5uZWFyIiwiYW1vdW50IjoiOTgwNzIyOTQ3MzIxMjcwNjAyOCJ9",
+                args: "eyJzZW5kZXJfaWQiOiJsZW9uYXJkd2NhaS5uZWFyIiwicmVjZWl2ZXJfaWQiOiJmYXJtLmJlcnJ5Y2x1Yi5lay5uZWFyIiwiYW1vdW50IjoiOTgwNzIyOTQ3MzIxMjcwNjAyOCJ9",
                 deposit: "0",
                 gas: 5000000000000,
                 method_name: "ft_resolve_transfer",
@@ -683,8 +673,7 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: Transaction = {
     {
       kind: "FunctionCall",
       args: {
-        args:
-          "eyJsaXN0aW5nX2lkIjoiMDAwMDI4MDY2Iiwic2VsbGVyX3RyYW5zYWN0aW9uX2lkIjoidHJfMUlXRDNTQndhdnpjM0NqemxiNVpNa1BrIn0=",
+        args: "eyJsaXN0aW5nX2lkIjoiMDAwMDI4MDY2Iiwic2VsbGVyX3RyYW5zYWN0aW9uX2lkIjoidHJfMUlXRDNTQndhdnpjM0NqemxiNVpNa1BrIn0=",
         deposit: "0",
         gas: 30000000000000,
         method_name: "set_listing_seller_transaction_id",
@@ -696,8 +685,7 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: Transaction = {
       {
         kind: "FunctionCall",
         args: {
-          args:
-            "eyJsaXN0aW5nX2lkIjoiMDAwMDI4MDY2Iiwic2VsbGVyX3RyYW5zYWN0aW9uX2lkIjoidHJfMUlXRDNTQndhdnpjM0NqemxiNVpNa1BrIn0=",
+          args: "eyJsaXN0aW5nX2lkIjoiMDAwMDI4MDY2Iiwic2VsbGVyX3RyYW5zYWN0aW9uX2lkIjoidHJfMUlXRDNTQndhdnpjM0NqemxiNVpNa1BrIn0=",
           deposit: "0",
           gas: 30000000000000,
           method_name: "set_listing_seller_transaction_id",
@@ -851,8 +839,7 @@ export const RECEIPTS: Receipt[] = [
         args: {
           gas: 20000000000000,
           deposit: "0",
-          args:
-            "eyJwcmVkZWNlc3Nvcl9hY2NvdW50X2lkIjoid2JjOTkyLm5lYXIiLCJhbW91bnQiOiIxMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ==",
+          args: "eyJwcmVkZWNlc3Nvcl9hY2NvdW50X2lkIjoid2JjOTkyLm5lYXIiLCJhbW91bnQiOiIxMTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAifQ==",
           method_name: "on_account_created",
         },
         kind: "FunctionCall",
@@ -910,8 +897,7 @@ export const RECEIPTS: Receipt[] = [
         args: {
           gas: 30000000000000,
           deposit: "0",
-          args:
-            "eyJ0YXNrX29yZGluYWwiOjAsInNvbHV0aW9uX2hhc2giOlsyMjQsMTMwLDk1LDk1LDI1Miw5LDY1LDE5LDIzOCw1NSwxMCwxMDYsMTE0LDQ2LDIxNCw0LDQzLDkwLDIzMywyMTIsMjI1LDExNCwxNTgsNDEsMjM5LDEzNCwxOTEsMTcyLDE0MiwxNDgsNTAsNzddfQ==",
+          args: "eyJ0YXNrX29yZGluYWwiOjAsInNvbHV0aW9uX2hhc2giOlsyMjQsMTMwLDk1LDk1LDI1Miw5LDY1LDE5LDIzOCw1NSwxMCwxMDYsMTE0LDQ2LDIxNCw0LDQzLDkwLDIzMywyMTIsMjI1LDExNCwxNTgsNDEsMjM5LDEzNCwxOTEsMTcyLDE0MiwxNDgsNTAsNzddfQ==",
           method_name: "submit_approved_solution",
         },
         kind: "FunctionCall",

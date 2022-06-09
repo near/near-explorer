@@ -63,11 +63,12 @@ const ButtonSearch = styled(Button, {
     borderColor: "#0072ce",
   },
 
-  "&:not(:disabled):active, &:not(:disabled):active:focus, &:not(:disabled):focus": {
-    backgroundColor: "#2b9af4",
-    borderColor: "#0072ce",
-    boxShadow: "none",
-  },
+  "&:not(:disabled):active, &:not(:disabled):active:focus, &:not(:disabled):focus":
+    {
+      backgroundColor: "#2b9af4",
+      borderColor: "#0072ce",
+      boxShadow: "none",
+    },
 });
 
 const InputGroupWrapper = styled(InputGroup, {
@@ -79,10 +80,11 @@ const InputGroupWrapper = styled(InputGroup, {
     background: "white",
   },
 
-  [`&:focus-within ${SearchField}, &:focus-within .input-group-prepend ${InputGroupText}`]: {
-    borderColor: "#0072ce !important",
-    backgroundColor: "white",
-  },
+  [`&:focus-within ${SearchField}, &:focus-within .input-group-prepend ${InputGroupText}`]:
+    {
+      borderColor: "#0072ce !important",
+      backgroundColor: "white",
+    },
 
   "&:hover": {
     background: "#f8f9fb",

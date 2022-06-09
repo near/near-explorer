@@ -30,10 +30,11 @@ const queryAccountIncomeTransactionsCount = async (accountId: string) => {
     in_transactions_count: inTxCountFromAnalytics,
     last_day_collected_timestamp: lastDayCollectedTimestamp,
   } = await queryIncomeTransactionsCountFromAnalytics(accountId);
-  const inTxCountFromIndexer = await queryIncomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  );
+  const inTxCountFromIndexer =
+    await queryIncomeTransactionsCountFromIndexerForLastDay(
+      accountId,
+      lastDayCollectedTimestamp
+    );
   return inTxCountFromAnalytics + inTxCountFromIndexer;
 };
 
@@ -42,10 +43,11 @@ const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
     out_transactions_count: outTxCountFromAnalytics,
     last_day_collected_timestamp: lastDayCollectedTimestamp,
   } = await queryOutcomeTransactionsCountFromAnalytics(accountId);
-  const outTxCountFromIndexer = await queryOutcomeTransactionsCountFromIndexerForLastDay(
-    accountId,
-    lastDayCollectedTimestamp
-  );
+  const outTxCountFromIndexer =
+    await queryOutcomeTransactionsCountFromIndexerForLastDay(
+      accountId,
+      lastDayCollectedTimestamp
+    );
   return outTxCountFromAnalytics + outTxCountFromIndexer;
 };
 

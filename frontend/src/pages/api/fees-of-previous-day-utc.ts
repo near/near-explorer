@@ -6,9 +6,10 @@ import { getTrpcClient } from "../../libraries/trpc";
 const handler: NextApiHandler = async (req, res) => {
   try {
     const networkName = getNearNetworkName(req.query, req.headers.host);
-    const feeCountPerDay = await getTrpcClient(
-      networkName
-    ).query("nearcore-total-fee-count", [1]);
+    const feeCountPerDay = await getTrpcClient(networkName).query(
+      "nearcore-total-fee-count",
+      [1]
+    );
     if (!feeCountPerDay) {
       res.status(500).end();
       return;

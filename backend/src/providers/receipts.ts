@@ -53,7 +53,8 @@ function groupReceiptActionsIntoReceipts(
   const receipts: Receipt[] = [];
   let actions: Action[] = [];
   let previousReceiptId = "";
-  const indexerCompatibilityTransactionActionKinds = getIndexerCompatibilityTransactionActionKinds();
+  const indexerCompatibilityTransactionActionKinds =
+    getIndexerCompatibilityTransactionActionKinds();
   for (const receiptAction of receiptActions) {
     if (previousReceiptId !== receiptAction.receipt_id) {
       previousReceiptId = receiptAction.receipt_id;

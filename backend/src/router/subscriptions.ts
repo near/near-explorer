@@ -5,29 +5,34 @@ import { Subscription } from "@trpc/server";
 import { Context } from "../context";
 import { SubscriptionEventMap } from "./types";
 
-const getSubscriptionResolve = <S extends keyof SubscriptionEventMap>(
-  path: S
-): ProcedureResolver<
-  Context,
-  undefined,
-  Subscription<Parameters<SubscriptionEventMap[S]>[0]>
-> => async ({ ctx }) =>
-  new trpc.Subscription<Parameters<SubscriptionEventMap[S]>[0]>((emit) => {
-    const onData = emit.data as SubscriptionEventMap[S];
-    if (ctx.subscriptionsCache[path]) {
-      onData(ctx.subscriptionsCache[path]!);
-    }
-    ctx.subscriptionsEventEmitter.on(path, onData);
-    return () => void ctx.subscriptionsEventEmitter.off(path, onData);
-  });
+const getSubscriptionResolve =
+  <S extends keyof SubscriptionEventMap>(
+    path: S
+  ): ProcedureResolver<
+    Context,
+    undefined,
+    Subscription<Parameters<SubscriptionEventMap[S]>[0]>
+  > =>
+  async ({ ctx }) =>
+    new trpc.Subscription<Parameters<SubscriptionEventMap[S]>[0]>((emit) => {
+      const onData = emit.data as SubscriptionEventMap[S];
+      if (ctx.subscriptionsCache[path]) {
+        onData(ctx.subscriptionsCache[path]!);
+      }
+      ctx.subscriptionsEventEmitter.on(path, onData);
+      return () => void ctx.subscriptionsEventEmitter.off(path, onData);
+    });
 
-const getQueryResolve = <S extends keyof SubscriptionEventMap>(
-  path: S
-): ProcedureResolver<
-  Context,
-  undefined,
-  Parameters<SubscriptionEventMap[S]>[0] | undefined
-> => ({ ctx }) => ctx.subscriptionsCache[path];
+const getQueryResolve =
+  <S extends keyof SubscriptionEventMap>(
+    path: S
+  ): ProcedureResolver<
+    Context,
+    undefined,
+    Parameters<SubscriptionEventMap[S]>[0] | undefined
+  > =>
+  ({ ctx }) =>
+    ctx.subscriptionsCache[path];
 
 /*
   TODO: write a function to add an ability to easily add subscriptions

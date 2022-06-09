@@ -47,15 +47,14 @@ type InferInfiniteQueryNames<Obj extends AnyProcedureRecord> = {
     : never;
 }[keyof Obj];
 
-type InferHandlerInput<
-  TProcedure extends AnyProcedure
-> = TProcedure extends Procedure<any, any, any, infer TInput, any, any, any>
-  ? undefined extends TInput // ? is input optional
-    ? unknown extends TInput // ? is input unset
-      ? [(null | undefined)?] // -> there is no input
-      : [(TInput | null | undefined)?] // -> there is optional input
-    : [TInput] // -> input is required
-  : [(undefined | null)?]; // -> there is no input
+type InferHandlerInput<TProcedure extends AnyProcedure> =
+  TProcedure extends Procedure<any, any, any, infer TInput, any, any, any>
+    ? undefined extends TInput // ? is input optional
+      ? unknown extends TInput // ? is input unset
+        ? [(null | undefined)?] // -> there is no input
+        : [(TInput | null | undefined)?] // -> there is optional input
+      : [TInput] // -> input is required
+    : [(undefined | null)?]; // -> there is no input
 
 type InferQueryNameByResult<Obj extends AnyProcedureRecord, R> = {
   [Path in keyof Obj]: InferProcedureInput<Obj[Path]> extends R ? Path : never;
@@ -110,27 +109,23 @@ export type TRPCMutationOutput<Path extends TRPCMutationKey> = DefValues<
   "mutations"
 >[Path]["output"];
 
-export type TRPCMutationResult<
-  Path extends TRPCMutationKey
-> = UseMutationResult<
-  TRPCMutationOutput<Path>,
-  TRPCError,
-  TRPCMutationInput<Path>
->;
+export type TRPCMutationResult<Path extends TRPCMutationKey> =
+  UseMutationResult<
+    TRPCMutationOutput<Path>,
+    TRPCError,
+    TRPCMutationInput<Path>
+  >;
 
 export type TRPCSubscriptionKey = DefKey<AppRouter, "subscriptions">;
 
-export type TRPCSubscriptionInput<
-  Path extends TRPCSubscriptionKey
-> = InferSubscription<DefValues<AppRouter, "subscriptions">[Path]["input"]>;
+export type TRPCSubscriptionInput<Path extends TRPCSubscriptionKey> =
+  InferSubscription<DefValues<AppRouter, "subscriptions">[Path]["input"]>;
 
-export type TRPCSubscriptionOutput<
-  Path extends TRPCSubscriptionKey
-> = InferSubscription<DefValues<AppRouter, "subscriptions">[Path]["output"]>;
+export type TRPCSubscriptionOutput<Path extends TRPCSubscriptionKey> =
+  InferSubscription<DefValues<AppRouter, "subscriptions">[Path]["output"]>;
 
-export type TRPCSubscriptionInputs<
-  Path extends TRPCSubscriptionKey
-> = InferHandlerInput<AppRouter["_def"]["subscriptions"][Path]>;
+export type TRPCSubscriptionInputs<Path extends TRPCSubscriptionKey> =
+  InferHandlerInput<AppRouter["_def"]["subscriptions"][Path]>;
 
 export type TRPCError = TRPCClientErrorLike<AppRouter>;
 

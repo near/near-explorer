@@ -104,7 +104,8 @@ export const genesisProtocolInfoFetch: RegularCheckFn = {
 export const transactionCountHistoryCheck: RegularCheckFn = {
   description: "transaction count history for 2 weeks",
   fn: async (_, context) => {
-    context.state.transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
+    context.state.transactionsCountHistoryForTwoWeeks =
+      await queryTransactionsCountHistoryForTwoWeeks();
     return config.intervals.checkTransactionCountHistory;
   },
 };
@@ -235,9 +236,10 @@ export const networkInfoCheck: RegularCheckFn = {
         poolInfo: context.state.stakingPoolInfos.valueMap.get(
           validator.accountId
         ),
-        contractStake: context.state.stakingPoolStakeProposalsFromContract.valueMap.get(
-          validator.accountId
-        ),
+        contractStake:
+          context.state.stakingPoolStakeProposalsFromContract.valueMap.get(
+            validator.accountId
+          ),
         telemetry: telemetryInfo.get(validator.accountId),
       }))
     );

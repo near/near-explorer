@@ -26,9 +26,10 @@ const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
       ),
     [gasUsedByDate]
   );
-  const gasUsedCumulative = React.useMemo(() => cumulativeSumArray(gasUsed), [
-    gasUsed,
-  ]);
+  const gasUsedCumulative = React.useMemo(
+    () => cumulativeSumArray(gasUsed),
+    [gasUsed]
+  );
   const gasUsedDates = React.useMemo(
     () => gasUsedByDate.map(({ date }) => date.slice(0, 10)),
     [gasUsedByDate]

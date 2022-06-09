@@ -6,7 +6,8 @@ export type AccountListInfo = TRPCQueryOutput<"accounts-list">[number];
 export type Block = NonNullable<TRPCQueryOutput<"block-info">>;
 export type BlockBase = TRPCQueryOutput<"blocks-list">[number];
 
-export type TransactionCountHistory = TRPCQueryOutput<"transaction-history">[number];
+export type TransactionCountHistory =
+  TRPCQueryOutput<"transaction-history">[number];
 
 export type ReceiptExecutionStatus = NonNullable<
   TRPCQueryOutput<"executed-receipts-list-by-block-hash">[number]["status"]
@@ -21,7 +22,8 @@ export type TransactionBaseInfo = TRPCQueryOutput<
   | "transactions-list"
   | "transactions-list-by-block-hash"
 >[number];
-export type Action = TRPCQueryOutput<"transactions-list">[number]["actions"][number];
+export type Action =
+  TRPCQueryOutput<"transactions-list">[number]["actions"][number];
 export type NestedReceiptWithOutcome = NonNullable<
   TRPCQueryOutput<"transaction-info">
 >["receipt"];

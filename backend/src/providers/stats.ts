@@ -107,7 +107,8 @@ function retriable<Args extends unknown[]>(
 // function that query from indexer
 // transaction related
 export const aggregateTransactionsCountByDate = retriable(async () => {
-  const transactionsCountAggregatedByDate = await queryTransactionsCountAggregatedByDate();
+  const transactionsCountAggregatedByDate =
+    await queryTransactionsCountAggregatedByDate();
   TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = transactionsCountAggregatedByDate.map(
     ({ date, transactions_count_by_date }) => ({
       date: formatDate(date),
@@ -136,7 +137,8 @@ export const aggregateDepositAmountByDate = retriable(async () => {
 
 // accounts
 export const aggregateNewAccountsCountByDate = retriable(async () => {
-  const newAccountsCountAggregatedByDate = await queryNewAccountsCountAggregatedByDate();
+  const newAccountsCountAggregatedByDate =
+    await queryNewAccountsCountAggregatedByDate();
   NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = newAccountsCountAggregatedByDate.map(
     ({ date, new_accounts_count_by_date }) => ({
       date: formatDate(date),
@@ -146,13 +148,15 @@ export const aggregateNewAccountsCountByDate = retriable(async () => {
 }, "New accounts count time series");
 
 export const aggregateDeletedAccountsCountByDate = retriable(async () => {
-  const deletedAccountsCountAggregatedByDate = await queryDeletedAccountsCountAggregatedByDate();
-  DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = deletedAccountsCountAggregatedByDate.map(
-    ({ date, deleted_accounts_count_by_date }) => ({
-      date: formatDate(date),
-      accountsCount: deleted_accounts_count_by_date,
-    })
-  );
+  const deletedAccountsCountAggregatedByDate =
+    await queryDeletedAccountsCountAggregatedByDate();
+  DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE =
+    deletedAccountsCountAggregatedByDate.map(
+      ({ date, deleted_accounts_count_by_date }) => ({
+        date: formatDate(date),
+        accountsCount: deleted_accounts_count_by_date,
+      })
+    );
 }, "Deleted accounts count time series");
 
 const generateDateArray = (
@@ -241,7 +245,8 @@ export const aggregateLiveAccountsCountByDate = retriable(
 );
 
 export const aggregateActiveAccountsCountByDate = retriable(async () => {
-  const activeAccountsCountByDate = await queryActiveAccountsCountAggregatedByDate();
+  const activeAccountsCountByDate =
+    await queryActiveAccountsCountAggregatedByDate();
   ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_DATE = activeAccountsCountByDate.map(
     ({ date, active_accounts_count_by_date }) => ({
       date: formatDate(date),
@@ -251,7 +256,8 @@ export const aggregateActiveAccountsCountByDate = retriable(async () => {
 }, "Top active accounts count time series");
 
 export const aggregateActiveAccountsCountByWeek = retriable(async () => {
-  const activeAccountsCountByWeek = await queryActiveAccountsCountAggregatedByWeek();
+  const activeAccountsCountByWeek =
+    await queryActiveAccountsCountAggregatedByWeek();
   ACTIVE_ACCOUNTS_COUNT_AGGREGATED_BY_WEEK = activeAccountsCountByWeek.map(
     ({ date, active_accounts_count_by_week }) => ({
       date: formatDate(date),
@@ -282,7 +288,8 @@ export const aggregateNewContractsCountByDate = retriable(async () => {
 }, "New contracts count time series");
 
 export const aggregateActiveContractsCountByDate = retriable(async () => {
-  const activeContractsCountByDate = await queryActiveContractsCountAggregatedByDate();
+  const activeContractsCountByDate =
+    await queryActiveContractsCountAggregatedByDate();
   ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
     ({ date, active_contracts_count_by_date }) => ({
       date: formatDate(date),
@@ -293,13 +300,13 @@ export const aggregateActiveContractsCountByDate = retriable(async () => {
 
 export const aggregateUniqueDeployedContractsCountByDate = retriable(
   async () => {
-    const uniqueContractsCountByDate = await queryUniqueDeployedContractsCountAggregatedByDate();
-    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE = uniqueContractsCountByDate.map(
-      ({ date, contracts_count_by_date }) => ({
+    const uniqueContractsCountByDate =
+      await queryUniqueDeployedContractsCountAggregatedByDate();
+    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE =
+      uniqueContractsCountByDate.map(({ date, contracts_count_by_date }) => ({
         date: formatDate(date),
         contractsCount: contracts_count_by_date,
-      })
-    );
+      }));
   },
   "Unique deployed contracts count time series"
 );

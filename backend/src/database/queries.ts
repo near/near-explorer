@@ -138,9 +138,8 @@ export const queryRecentBlockProductionSpeed = async () => {
   if (!lastestBlockTimestampSelection) {
     return 0;
   }
-  const {
-    block_timestamp: latestBlockTimestamp,
-  } = lastestBlockTimestampSelection;
+  const { block_timestamp: latestBlockTimestamp } =
+    lastestBlockTimestampSelection;
   const latestBlockTimestampBI = BigInt(latestBlockTimestamp);
   const currentUnixTimeBI = BigInt(Math.floor(new Date().getTime() / 1000));
   const latestBlockEpochTimeBI = latestBlockTimestampBI / 1000000000n;
@@ -972,9 +971,8 @@ export const queryContractInfo = async (accountId: string) => {
     .orderBy("deployed_at_block_timestamp", "desc")
     .limit(1)
     .executeTakeFirstOrThrow();
-  const {
-    latest_updated_timestamp: latestUpdatedTimestamp,
-  } = latestUpdateResult;
+  const { latest_updated_timestamp: latestUpdatedTimestamp } =
+    latestUpdateResult;
   // query for the latest info from indexer
   // if it return 'undefined' then there was no update since deployed_at_block_timestamp
   const contractInfoFromIndexer = await indexerDatabase

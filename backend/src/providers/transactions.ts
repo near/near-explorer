@@ -193,17 +193,16 @@ async function getTransactionsActionsList(
   return transactionsActionsByHash;
 }
 
-export type Action<
-  A extends RPC.ActionView = RPC.ActionView
-> = A extends Exclude<RPC.ActionView, "CreateAccount">
-  ? {
-      kind: keyof A;
-      args: A[keyof A];
-    }
-  : {
-      kind: "CreateAccount";
-      args: {};
-    };
+export type Action<A extends RPC.ActionView = RPC.ActionView> =
+  A extends Exclude<RPC.ActionView, "CreateAccount">
+    ? {
+        kind: keyof A;
+        args: A[keyof A];
+      }
+    : {
+        kind: "CreateAccount";
+        args: {};
+      };
 
 export const mapRpcActionToAction = (action: RPC.ActionView): Action => {
   if (action === "CreateAccount") {

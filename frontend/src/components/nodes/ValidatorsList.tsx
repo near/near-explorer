@@ -44,9 +44,10 @@ const ValidatorsList: React.FC<Props> = React.memo(
   ({ validators, totalStake, selectedPageIndex }) => {
     const sortedValidators = React.useMemo(
       () =>
-        validatorsSortFns.reduceRight((acc, sortFn) => acc.sort(sortFn), [
-          ...validators,
-        ]),
+        validatorsSortFns.reduceRight(
+          (acc, sortFn) => acc.sort(sortFn),
+          [...validators]
+        ),
       [validators]
     );
 
