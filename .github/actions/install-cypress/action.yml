@@ -1,0 +1,22 @@
+name: Install cypress
+runs:
+  using: composite
+  steps:
+    - name: Get cypress version
+      id: getCypressVersion
+      shell: bash
+      run: |
+        version=`cat frontend/package.json | jq '.devDependencies.cypress'`
+        echo "::set-output name=version::$version"
+    - name: Cache cypress
+      uses: actions/cache@v3
+      id: cypress-cache
+      with:
+        path: ~/.cache/Cypress
+        key: cypress-${{ steps.getCypressVersion.outputs.version }}
+        restore-keys: |
+          cypress-${{ steps.getCypressVersion.outputs.version }}
+    - name: Install cypress
+      if: steps.cypress-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm explore cypress -- npm run postinstall

@@ -14,7 +14,8 @@
     "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
     "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start",
     "start:guildnet": "dotenv -c -e ../guildnet.env -- npm run start",
-    "db:generate-types": "dotenv -c -e ../mainnet.env -- ts-node kanel.ts"
+    "db:generate-types": "dotenv -c -e ../mainnet.env -- ts-node kanel.ts",
+    "db:generated-types:fmt": "prettier --write 'src/database/models/**/*.ts'"
   },
   "repository": {
     "type": "git",
