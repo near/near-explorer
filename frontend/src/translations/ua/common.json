@@ -178,7 +178,6 @@
         "call-method": "",
         "account-created": "Акаунт створено",
         "account-removed": "Акаунт видалено",
-        "batch": "Пакет (${quantity})",
         "refund": "Решта",
         "validator-reward": "Нагорода валідатора"
       }

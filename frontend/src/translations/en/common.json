@@ -178,7 +178,6 @@
         "call-method": "",
         "account-created": "Account created",
         "account-removed": "Account removed",
-        "batch": "Batch (${quantity})",
         "refund": "Refund",
         "validator-reward": "Validator reward"
       }

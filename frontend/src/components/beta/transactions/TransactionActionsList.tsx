@@ -57,6 +57,7 @@ const TransactionActionsList: React.FC<Props> = React.memo(
           <TransactionReceipt
             receipt={receipt}
             refundReceiptsMap={refundReceiptsMap}
+            convertionReceipt={true}
           />
         </Wrapper>
       </Contaier>

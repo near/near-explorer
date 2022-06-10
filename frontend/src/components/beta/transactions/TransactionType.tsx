@@ -4,6 +4,7 @@ import { styled } from "../../../libraries/styles";
 import { Action } from "../../../types/common";
 
 import { NearAmount } from "../../utils/NearAmount";
+import CodeArgs from "../common/CodeArgs";
 
 export type TransactionTransferAction = {
   type: "transfer";
@@ -50,11 +51,6 @@ export type TransactionAccountRemovedAction = {
   type: "account-removed";
 };
 
-export type TransactionBatchAction = {
-  type: "batch";
-  actions: TransactionActivityAction[];
-};
-
 export type TransactionActivityAction =
   | TransactionTransferAction
   // | TransactionRefundAction
@@ -65,18 +61,16 @@ export type TransactionActivityAction =
   | TransactionCallMethodAction
   | TransactionRestakeAction
   | TransactionAccountCreatedAction
-  | TransactionAccountRemovedAction
-  | TransactionBatchAction;
+  | TransactionAccountRemovedAction;
 interface Props {
-  actions: Action[];
-  onClick: any;
+  action: Action;
+  onClick: React.MouseEventHandler;
+  isTxTypeActive: boolean;
 }
 
 const Wrapper = styled("div", {
-  display: "inline-flex",
   alignItems: "center",
   fontFamily: "SF Mono",
-  cursor: "pointer",
 });
 
 const ActionType = styled("div", {
@@ -91,6 +85,7 @@ const ActionType = styled("div", {
   fontSize: "$font-s",
   lineHeight: "18px",
   transition: "all .15s ease-in-out",
+  cursor: "pointer",
 
   "&:hover": {
     color: "#fff",
@@ -145,80 +140,77 @@ const Description = styled("div", {
   },
 });
 
-const TransactionType: React.FC<Props> = React.memo(({ actions, onClick }) => {
-  const { t } = useTranslation();
-  const getActionMapping = (actions: Action[]): TransactionActivityAction => {
-    if (actions.length === 0) {
-      throw new Error("Unexpected zero-length array of actions");
-    }
-    if (actions.length !== 1) {
-      return {
-        type: "batch",
-        actions: actions.map((action) => getActionMapping([action])),
-      };
-    }
-    switch (actions[0].kind) {
-      case "AddKey":
-        return {
-          type: "access-key-created",
-        };
-      case "CreateAccount":
-        return {
-          type: "account-created",
-        };
-      case "DeleteAccount":
-        return {
-          type: "account-removed",
-        };
-      case "DeleteKey":
-        return {
-          type: "access-key-removed",
-        };
-      case "DeployContract":
-        return {
-          type: "contract-deployed",
-        };
-      case "FunctionCall":
-        return {
-          type: "call-method",
-          methodName: actions[0].args.method_name,
-        };
-      case "Stake":
-        return {
-          type: "restake",
-        };
-      case "Transfer":
-        return {
-          type: "transfer",
-          amount: actions[0].args.deposit,
-        };
-    }
-  };
+const TransactionType: React.FC<Props> = React.memo(
+  ({ action, onClick, isTxTypeActive }) => {
+    // const [isActive, setActive] = React.useState(false);
+    // const switchActiveTxType = React.useCallback(() => setActive((x) => !x), [
+    //   setActive,
+    // ]);
 
-  const actionMapping = getActionMapping(actions);
+    const { t } = useTranslation();
+    const getActionType = (action: Action): TransactionActivityAction => {
+      switch (action.kind) {
+        case "AddKey":
+          return {
+            type: "access-key-created",
+          };
+        case "CreateAccount":
+          return {
+            type: "account-created",
+          };
+        case "DeleteAccount":
+          return {
+            type: "account-removed",
+          };
+        case "DeleteKey":
+          return {
+            type: "access-key-removed",
+          };
+        case "DeployContract":
+          return {
+            type: "contract-deployed",
+          };
+        case "FunctionCall":
+          return {
+            type: "call-method",
+            methodName: action.args.method_name,
+          };
+        case "Stake":
+          return {
+            type: "restake",
+          };
+        case "Transfer":
+          return {
+            type: "transfer",
+            amount: action.args.deposit,
+          };
+      }
+    };
 
-  return (
-    <Wrapper onClick={onClick}>
-      <ActionType type={actionMapping.type}>
-        {t(`pages.transaction.type.${actionMapping.type}`, {
-          quantity:
-            actionMapping.type === "batch"
-              ? actionMapping.actions.length
-              : undefined,
-        })}
-        {actionMapping.type === "call-method" ? (
-          <Description>&lsquo;{actionMapping.methodName}&lsquo;</Description>
+    const actionType = getActionType(action);
+
+    return (
+      <Wrapper>
+        <ActionType type={actionType.type} onClick={onClick}>
+          {t(`pages.transaction.type.${actionType.type}`)}
+          {actionType.type === "call-method" ? (
+            <Description>&lsquo;{actionType.methodName}&lsquo;</Description>
+          ) : null}
+        </ActionType>
+        {actionType.type === "transfer" ? (
+          <Description>
+            <span>
+              <NearAmount amount={actionType.amount} decimalPlaces={2} />
+            </span>
+          </Description>
         ) : null}
-      </ActionType>
-      {actionMapping.type === "transfer" ? (
-        <Description>
-          <span>
-            <NearAmount amount={actionMapping.amount} decimalPlaces={2} />
-          </span>
-        </Description>
-      ) : null}
-    </Wrapper>
-  );
-});
+
+        {"args" in action && "args" in action.args && isTxTypeActive ? (
+          <CodeArgs args={action.args.args} />
+        ) : null}
+      </Wrapper>
+    );
+  }
+);
 
 export default TransactionType;

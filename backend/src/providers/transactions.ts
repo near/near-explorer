@@ -532,6 +532,7 @@ export type TransactionDetails = {
   status: KeysOfUnion<RPC.FinalExecutionStatus>;
   gasUsed: string;
   gasAttached: string;
+  // receipt: TransactionReceipt & { outcome: any };
   receipt: TransactionReceipt;
   refundReceipts: TransactionReceipt[];
 };
