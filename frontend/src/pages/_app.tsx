@@ -19,7 +19,7 @@ import { NetworkContext } from "../context/NetworkContext";
 import { DeployInfo } from "../components/utils/DeployInfo";
 import { DeployInfo as DeployInfoProps } from "../types/common";
 
-import { getBranch, getShortCommitSha } from "../libraries/common";
+import { getBranch, getShortCommitSha, SSR_TIMEOUT } from "../libraries/common";
 import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
 import { createI18n, LANGUAGES } from "../libraries/i18n";
@@ -320,7 +320,7 @@ export default withTRPC<AppRouter>({
         },
       },
       links: getLinks(httpUrl, wsUrl),
-      ssrTimeout: 3000,
+      ssrTimeout: SSR_TIMEOUT,
     };
   },
   ssr: true,

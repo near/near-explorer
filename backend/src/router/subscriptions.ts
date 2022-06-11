@@ -4,6 +4,7 @@ import { Subscription } from "@trpc/server";
 
 import { Context } from "../context";
 import { SubscriptionEventMap } from "./types";
+import { SSR_TIMEOUT, wait } from "../common";
 
 const getSubscriptionResolve =
   <S extends keyof SubscriptionEventMap>(
@@ -31,8 +32,20 @@ const getQueryResolve =
     undefined,
     Parameters<SubscriptionEventMap[S]>[0] | undefined
   > =>
-  ({ ctx }) =>
-    ctx.subscriptionsCache[path];
+  async ({ ctx }) => {
+    if (!ctx.subscriptionsCache[path]) {
+      return new Promise(async (resolve) => {
+        const onData = ((data) => {
+          ctx.subscriptionsEventEmitter.off(path, onData);
+          resolve(data);
+        }) as SubscriptionEventMap[S];
+        ctx.subscriptionsEventEmitter.on(path, onData);
+        await wait(SSR_TIMEOUT);
+        ctx.subscriptionsEventEmitter.off(path, onData);
+      });
+    }
+    return ctx.subscriptionsCache[path];
+  };
 
 /*
   TODO: write a function to add an ability to easily add subscriptions
