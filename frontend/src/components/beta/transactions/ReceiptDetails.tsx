@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import CodeArgs from "../common/CodeArgs";
+import JsonView from "../common/JsonView";
 
 import { styled } from "../../../libraries/styles";
 import { TransactionReceipt } from "../../../types/common";
-
-import ReceiptStatus from "./ReceiptStatus";
 
 type Props = {
   receipt: TransactionReceipt;
@@ -32,8 +32,7 @@ const Column = styled("div", {
   width: "48%",
 });
 
-const CodeArgs = styled("div", {
-  // background: "#ABAFB4",
+const CodeArgsWrapper = styled("div", {
   background: "#f8f8f8",
   borderRadius: 4,
   color: "#3f4246",
@@ -62,30 +61,46 @@ const Title = styled("h4", {
 
 const ReceiptDetails: React.FC<Props> = React.memo(({ receipt }) => {
   const { t } = useTranslation();
+  let statusInfo;
+  if ("SuccessValue" in receipt.status) {
+    const { SuccessValue } = receipt.status;
+    if (SuccessValue.length === 0) {
+      statusInfo = (
+        <CodeArgsWrapper>
+          {t("component.transactions.ReceiptRow.empty_result")}
+        </CodeArgsWrapper>
+      );
+    } else {
+      statusInfo = <CodeArgs args={SuccessValue} />;
+    }
+  } else if ("Failure" in receipt.status) {
+    const { Failure } = receipt.status;
+    statusInfo = <JsonView args={Failure as object} />;
+  } else if ("SuccessReceiptId" in receipt.status) {
+    const { SuccessReceiptId } = receipt.status;
+    statusInfo = (
+      <CodeArgsWrapper>
+        <pre>{SuccessReceiptId}</pre>
+      </CodeArgsWrapper>
+    );
+  }
   return (
     <DetailsWrapper>
       <Row>
         <Column>
           <div>
             <Title>Logs</Title>
-            <CodeArgs>
+            <CodeArgsWrapper>
               {receipt.logs.length === 0 ? (
                 t("component.transactions.ReceiptRow.no_logs")
               ) : (
                 <pre>{receipt.logs.join("\n")}</pre>
               )}
-            </CodeArgs>
+            </CodeArgsWrapper>
           </div>
           <div>
             <Title>Result</Title>
-            <CodeArgs>
-              {"SuccessValue" in receipt.status &&
-              receipt.status["SuccessValue"].length === 0 ? (
-                t("component.transactions.ReceiptRow.empty_result")
-              ) : (
-                <ReceiptStatus status={receipt.status} />
-              )}
-            </CodeArgs>
+            {statusInfo}
           </div>
         </Column>
       </Row>

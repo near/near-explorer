@@ -28,11 +28,10 @@ const ActionItems = styled("div", {
   display: "flex",
   flexDirection: "column",
   position: "relative",
-  paddingLeft: 14,
   borderLeft: ".5px solid #000",
-  marginLeft: "8.5px",
-  paddingTop: 10,
-  paddingBottom: 10,
+  marginLeft: 8.5,
+  paddingVertical: 4,
+  paddingLeft: 14,
 });
 
 const ReceiptWrapper = styled("div", {
@@ -49,7 +48,7 @@ const ReceiptWrapper = styled("div", {
         position: "absolute",
         width: 5,
         height: 5,
-        bottom: 22,
+        bottom: 31,
         left: 6.235,
         background: "url(/static/images/icon-arrow-down-black.svg) no-repeat",
       },
@@ -97,13 +96,14 @@ const TransactionReceipt: React.FC<Props> = React.memo(
               ? {
                   paddingLeft: 0,
                   borderLeftColor: "transparent",
+                  marginTop: 0,
                 }
               : {}
           }
           css={{ ...customCss }}
         >
           {convertionReceipt ? (
-            <Author>
+            <Author css={{ marginBottom: 10 }}>
               <Avatar />
               <span>{receipt.signerId}</span>
             </Author>
@@ -115,6 +115,7 @@ const TransactionReceipt: React.FC<Props> = React.memo(
               refundReceiptsMap={refundReceiptsMap}
               convertionReceipt={false}
               fellowOutgoingReceipts={remainingFellowOutgoingReceipts}
+              customCss={{ paddingBottom: 20, marginTop: 0 }}
             />
           ) : null}
           <ActionItems>
@@ -136,7 +137,7 @@ const TransactionReceipt: React.FC<Props> = React.memo(
             </ReceiptInfoWrapper>
           ) : null}
 
-          <Author>
+          <Author css={{ marginTop: 10 }}>
             <Avatar />
             <span>{receipt.receiverId}</span>
           </Author>

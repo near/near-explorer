@@ -13,10 +13,21 @@ type Props = {
 };
 
 const TabsWrapper = styled("div", {
-  padding: "24px 40px",
+  padding: "0 40px",
   display: "flex",
   flexDirection: "column",
   fontFamily: "Manrope",
+
+  "& > div": {
+    "& > div:first-child > div": {
+      margin: "16px 36px",
+
+      "&:last-child": {
+        margin: 0,
+        bottom: 6,
+      },
+    },
+  },
 });
 
 const TabLabel = styled("div", {

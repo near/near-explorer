@@ -21,7 +21,7 @@ const Table = styled("table", {
 
 const TableElement = styled("td", {
   color: "#000000",
-  fontSize: "$font-s",
+  fontSize: 14,
   lineHeight: "175%",
 });
 

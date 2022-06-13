@@ -16,8 +16,7 @@ const JsonView: React.FC<Props> = React.memo(({ args }) => (
     displayDataTypes={false}
     style={{
       fontSize: "14px",
-      padding: "10px",
-      margin: "10px 0",
+      padding: "10px 0",
       fontFamily: "SF Mono",
     }}
   />

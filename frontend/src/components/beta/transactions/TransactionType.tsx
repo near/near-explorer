@@ -71,19 +71,21 @@ interface Props {
 const Wrapper = styled("div", {
   alignItems: "center",
   fontFamily: "SF Mono",
+  marginVertical: 10,
 });
 
 const ActionType = styled("div", {
-  paddingHorizontal: 6,
+  paddingHorizontal: 10,
   paddingVertical: 8,
+  marginRight: 13,
   minWidth: 60,
   minHeight: 25,
   borderRadius: 4,
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  fontSize: "$font-s",
-  lineHeight: "18px",
+  fontSize: 14,
+  lineHeight: "21px",
   transition: "all .15s ease-in-out",
   cursor: "pointer",
 
@@ -131,22 +133,21 @@ const ActionType = styled("div", {
 const Description = styled("div", {
   display: "inline-flex",
   fontWeight: 400,
-  fontSize: "$font-s",
+  fontSize: 14,
   lineHeight: "150%",
-  marginLeft: "4.5px",
 
   "& span": {
     fontWeight: 600,
   },
 });
 
+const ArgsWrapper = styled("div", {
+  padding: "10px 0",
+  marginLeft: 100,
+});
+
 const TransactionType: React.FC<Props> = React.memo(
   ({ action, onClick, isTxTypeActive }) => {
-    // const [isActive, setActive] = React.useState(false);
-    // const switchActiveTxType = React.useCallback(() => setActive((x) => !x), [
-    //   setActive,
-    // ]);
-
     const { t } = useTranslation();
     const getActionType = (action: Action): TransactionActivityAction => {
       switch (action.kind) {
@@ -206,7 +207,9 @@ const TransactionType: React.FC<Props> = React.memo(
         ) : null}
 
         {"args" in action && "args" in action.args && isTxTypeActive ? (
-          <CodeArgs args={action.args.args} />
+          <ArgsWrapper>
+            <CodeArgs args={action.args.args} />
+          </ArgsWrapper>
         ) : null}
       </Wrapper>
     );

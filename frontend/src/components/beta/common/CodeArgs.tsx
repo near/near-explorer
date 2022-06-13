@@ -7,6 +7,8 @@ import CodePreview from "../../utils/CodePreview";
 import JsonView from "./JsonView";
 
 const HexArgs = styled("div", {
+  padding: "10px 0",
+
   "& > div": {
     background: "#f8f8f8",
     borderRadius: 4,
@@ -32,13 +34,12 @@ const CodeArgs: React.FC<{ args: string }> = React.memo(({ args }) => {
 
   let prettyArgs: object | string;
   try {
-    prettyArgs = JSON.parse(decodedArgs.toString());
+    const parsedJSONArgs = JSON.parse(decodedArgs.toString());
+    prettyArgs =
+      typeof parsedJSONArgs === "boolean"
+        ? JSON.stringify(parsedJSONArgs)
+        : parsedJSONArgs;
   } catch {
-    console.log(
-      "catch hexy: ",
-      JSON.stringify(hexy(decodedArgs, { format: "twos" }))
-    );
-
     prettyArgs = hexy(decodedArgs, { format: "twos" });
   }
   return typeof prettyArgs === "object" ? (

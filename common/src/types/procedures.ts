@@ -32,6 +32,7 @@ export type TransactionDetails = NonNullable<TRPCQueryOutput<"transaction">>;
 export type TransactionReceipt = TransactionDetails["receipt"];
 export type RefundReceipt = TransactionDetails["refundReceipts"][number];
 export type TransactionBlockInfo = TransactionReceipt["includedInBlock"];
+export type TransactionReceiptExecutionStatus = TransactionReceipt["status"];
 
 export type NestedReceiptWithOutcome = NonNullable<
   TRPCQueryOutput<"transaction-info">
