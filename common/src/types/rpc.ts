@@ -652,11 +652,123 @@ type SignedTransactionView = {
   hash: CryptoHash;
 };
 
-// https://docs.rs/near-primitives/0.12.0/near_primitives/views/enum.ExecutionStatusView.html
 // The unknown types may be wrong!
+type CompilationError =
+  | { CodeDoesNotExist: { account_id: AccountId } }
+  // https://docs.rs/near-vm-errors/0.12.0/near_vm_errors/enum.PrepareError.html
+  | { PrepareError: unknown }
+  | { WasmerCompileError: { msg: String } }
+  | { UnsupportedCompiler: { msg: String } };
+type FunctionCallError =
+  | { CompilationError: CompilationError }
+  | { LinkError: { msg: String } }
+  // https://docs.rs/near-vm-errors/0.12.0/near_vm_errors/enum.MethodResolveError.html
+  | { MethodResolveError: unknown }
+  // https://docs.rs/near-vm-errors/0.12.0/near_vm_errors/enum.WasmTrap.html
+  | { WasmTrap: unknown }
+  // https://docs.rs/near-vm-errors/0.12.0/near_vm_errors/enum.FunctionCallErrorSer.html#variant.WasmUnknownError
+  | { WasmUnknownError: unknown }
+  // https://docs.rs/near-vm-errors/0.12.0/near_vm_errors/enum.HostError.html
+  | { HostError: unknown }
+  | { _EVMError: unknown }
+  | { ExecutionError: String };
+
+// https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.ActionsValidationError.html
+type ActionsValidation = unknown;
+type NewReceiptValidationError =
+  | { InvalidPredecessorId: { account_id: String } }
+  | { InvalidReceiverId: { account_id: String } }
+  | { InvalidSignerId: { account_id: String } }
+  | { InvalidDataReceiverId: { account_id: String } }
+  | { ReturnedValueLengthExceeded: { length: u64; limit: u64 } }
+  | {
+      NumberInputDataDependenciesExceeded: {
+        number_of_input_data_dependencies: u64;
+        limit: u64;
+      };
+    }
+  | { ActionsValidation: ActionsValidation };
+
+type ActionErrorKind =
+  | { AccountAlreadyExists: { account_id: AccountId } }
+  | { AccountDoesNotExist: { account_id: AccountId } }
+  | {
+      CreateAccountOnlyByRegistrar: {
+        account_id: AccountId;
+        registrar_account_id: AccountId;
+        predecessor_id: AccountId;
+      };
+    }
+  | {
+      CreateAccountNotAllowed: {
+        account_id: AccountId;
+        predecessor_id: AccountId;
+      };
+    }
+  | { ActorNoPermission: { account_id: AccountId; actor_id: AccountId } }
+  | { DeleteKeyDoesNotExist: { account_id: AccountId; public_key: PublicKey } }
+  | { AddKeyAlreadyExists: { account_id: AccountId; public_key: PublicKey } }
+  | { DeleteAccountStaking: { account_id: AccountId } }
+  | { LackBalanceForState: { account_id: AccountId; amount: Balance } }
+  | { TriesToUnstake: { account_id: AccountId } }
+  | {
+      TriesToStake: {
+        account_id: AccountId;
+        stake: Balance;
+        locked: Balance;
+        balance: Balance;
+      };
+    }
+  | {
+      InsufficientStake: {
+        account_id: AccountId;
+        stake: Balance;
+        minimum_stake: Balance;
+      };
+    }
+  | { FunctionCallError: FunctionCallError }
+  | { NewReceiptValidationError: NewReceiptValidationError }
+  | { OnlyImplicitAccountCreationAllowed: { account_id: AccountId } }
+  | { DeleteAccountWithLargeState: { account_id: AccountId } };
+
+type ActionError = {
+  index: u64;
+  kind: ActionErrorKind;
+};
+
+type InvalidTxError =
+  // https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.InvalidAccessKeyError.html
+  | { InvalidAccessKeyError: unknown }
+  | { InvalidSignerId: { signer_id: String } }
+  | { SignerDoesNotExist: { signer_id: AccountId } }
+  | { InvalidNonce: { tx_nonce: Nonce; ak_nonce: Nonce } }
+  | { NonceTooLarge: { tx_nonce: Nonce; upper_bound: Nonce } }
+  | { InvalidReceiverId: { receiver_id: String } }
+  // https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.InvalidTxError.html#variant.InvalidSignature
+  | { InvalidSignature: unknown }
+  | {
+      NotEnoughBalance: {
+        signer_id: AccountId;
+        balance: Balance;
+        cost: Balance;
+      };
+    }
+  | { LackBalanceForState: { signer_id: AccountId; amount: Balance } }
+  | { CostOverflow: unknown }
+  | { InvalidChain: unknown }
+  | { Expired: unknown }
+  // https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.ActionsValidationError.html
+  | { ActionsValidation: unknown }
+  | { TransactionSizeExceeded: { size: u64; limit: u64 } };
+
+type TxExecutionError =
+  | { ActionError: ActionError }
+  | { InvalidTxError: InvalidTxError };
+
+// https://docs.rs/near-primitives/0.12.0/near_primitives/views/enum.ExecutionStatusView.html
 export type ExecutionStatusView =
   | { Unknown: unknown }
-  | { Failure: unknown }
+  | { Failure: TxExecutionError }
   | { SuccessValue: String }
   | { SuccessReceiptId: CryptoHash };
 
