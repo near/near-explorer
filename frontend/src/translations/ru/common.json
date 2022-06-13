@@ -76,6 +76,9 @@
       "date_time_format": "DD MMMM YYYY [в] h:mm:ss",
       "date_format": "DD MMMM YYYY",
       "time_format": "[в] h:mm:ss"
+    },
+    "terms": {
+      "genesis": "Генезис"
     }
   },
   "page": {
@@ -102,6 +105,30 @@
       "transaction_execution_plan": "План выполнения транзакции",
       "error": {
         "transaction_fetching": "На данный момент информация недоступна. Пожалуйста, проверьте правильность хеша транзакции или попробуйте позже."
+      }
+    }
+  },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Создан: ${fromNow}",
+        "storageUsed": "Задействовано хранилища: ${amount}",
+        "accountType": {
+          "user": "Пользователь",
+          "contract": "Контракт"
+        },
+        "amounts": {
+          "balance": "Баланс",
+          "staked": "В стейкинге",
+          "transactions": "Транзакций"
+        }
+      },
+      "tabs": {
+        "activity": "Активность",
+        "tokens": "Токены",
+        "collectibles": "Коллекционирование",
+        "accessKeys": "Ключи",
+        "lockedUp": "Locked up"
       }
     }
   },

@@ -252,6 +252,42 @@ export const router = trpc
       };
     },
   })
+  .query("account", {
+    input: z.strictObject({
+      accountId: validators.accountId,
+    }),
+    resolve: async ({ input: { accountId } }) => {
+      const isAccountIndexed = await accounts.isAccountIndexed(accountId);
+      if (!isAccountIndexed) {
+        return null;
+      }
+      const [accountInfo, accountDetails, nearCoreAccount, transactionsCount] =
+        await Promise.all([
+          accounts.getAccountInfo(accountId),
+          accounts.getAccountDetails(accountId),
+          nearApi.sendJsonRpcQuery("view_account", {
+            finality: "final",
+            account_id: accountId,
+          }),
+          accounts.getAccountTransactionsCount(accountId),
+        ]);
+      if (!accountInfo || !accountDetails) {
+        return null;
+      }
+      return {
+        id: accountId,
+        isContract:
+          nearCoreAccount.code_hash !== "11111111111111111111111111111111",
+        created: accountInfo.created,
+        storageUsed: accountDetails.storageUsage,
+        nonStakedBalance: accountDetails.nonStakedBalance,
+        stakedBalance: accountDetails.stakedBalance,
+        transactionsQuantity:
+          transactionsCount.inTransactionsCount +
+          transactionsCount.outTransactionsCount,
+      };
+    },
+  })
   // blocks
   .query("blocks-list", {
     input: z.strictObject({
