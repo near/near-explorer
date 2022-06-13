@@ -151,35 +151,27 @@
     "transaction": {
       "header": {
         "title": "Transaction",
-        "fee": "Total Fee",
-        "attached": "Attached",
-        "burned": "Burned",
-        "when": "When",
+        "fee": "Общая комиссия",
+        "amount": "Сумма",
+        "when": "Когда",
         "processed": "Выполнено за "
       },
       "dateFormat": "DD/MM/YYYY h:mm A",
       "tabs": {
-        "output": "Output",
-        "inspect": "Inspect"
-      },
-      "activity": {
-        "from": "From",
-        "to": "To",
-        "amount": "Amount",
-        "fee": "Fee",
-        "status": "Status"
+        "output": "Итог",
+        "inspect": "Обзор"
       },
       "type": {
-        "transfer": "Transfer",
-        "restake": "Restake",
-        "contract-deployed": "Contract Deployed",
-        "access-key-created": "Access Key Created",
-        "access-key-removed": "Access Key Deleted",
+        "transfer": "Перевод",
+        "restake": "Стейк",
+        "contract-deployed": "Деплой контракта",
+        "access-key-created": "Добавление ключа",
+        "access-key-removed": "Удаление ключа",
         "call-method": "",
-        "account-created": "Account created",
-        "account-removed": "Account removed",
-        "refund": "Refund",
-        "validator-reward": "Validator reward"
+        "account-created": "Создание аккаунта",
+        "account-removed": "Удаление аккаунта",
+        "refund": "Сдача",
+        "validator-reward": "Награда валидатора"
       }
     }
   },

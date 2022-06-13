@@ -152,8 +152,7 @@
       "header": {
         "title": "Transaction",
         "fee": "Total Fee",
-        "attached": "Attached",
-        "burned": "Burned",
+        "amount": "Amount",
         "when": "When",
         "processed": "Processed in "
       },
@@ -161,13 +160,6 @@
       "tabs": {
         "output": "Output",
         "inspect": "Inspect"
-      },
-      "activity": {
-        "from": "From",
-        "to": "To",
-        "amount": "Amount",
-        "fee": "Fee",
-        "status": "Status"
       },
       "type": {
         "transfer": "Transfer",

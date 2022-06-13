@@ -72,6 +72,7 @@ const Wrapper = styled("div", {
   alignItems: "center",
   fontFamily: "SF Mono",
   marginVertical: 10,
+  userSelect: "none",
 });
 
 const ActionType = styled("div", {
@@ -143,7 +144,11 @@ const Description = styled("div", {
 
 const ArgsWrapper = styled("div", {
   padding: "10px 0",
-  marginLeft: 100,
+  marginLeft: 25,
+});
+
+const ExpandSign = styled("span", {
+  marginLeft: 8,
 });
 
 const TransactionType: React.FC<Props> = React.memo(
@@ -197,6 +202,7 @@ const TransactionType: React.FC<Props> = React.memo(
           {actionType.type === "call-method" ? (
             <Description>&lsquo;{actionType.methodName}&lsquo;</Description>
           ) : null}
+          <ExpandSign>{isTxTypeActive ? " - " : " + "}</ExpandSign>
         </ActionType>
         {actionType.type === "transfer" ? (
           <Description>

@@ -75,7 +75,7 @@ const ReceiptDetails: React.FC<Props> = React.memo(({ receipt }) => {
     }
   } else if ("Failure" in receipt.status) {
     const { Failure } = receipt.status;
-    statusInfo = <JsonView args={Failure as object} />;
+    statusInfo = <JsonView args={Failure} />;
   } else if ("SuccessReceiptId" in receipt.status) {
     const { SuccessReceiptId } = receipt.status;
     statusInfo = (

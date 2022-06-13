@@ -13,14 +13,13 @@ const Label = styled("div", {
   justifyContent: "center",
   height: 20,
   borderRadius: 4,
-  fontFamily: "Manrope",
+  fontFamily: "SF Pro Display",
   fontSize: 10,
   fontWeight: 700,
   color: "#fff",
-  lineHeight: "15px",
+  lineHeight: "150%",
   textTransform: "uppercase",
-  marginLeft: 14,
-  paddingHorizontal: 5,
+  paddingHorizontal: 7.5,
 
   variants: {
     type: {

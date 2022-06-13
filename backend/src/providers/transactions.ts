@@ -235,14 +235,14 @@ export const getTransactionDetails = async (
     transactionInfo.transaction_outcome,
     receiptsOutcome
   );
-  const txActions = transactionInfo.transaction.actions.map(
-    mapRpcActionToAction
-  );
+  const txActions =
+    transactionInfo.transaction.actions.map(mapRpcActionToAction);
   const gasAttached = getGasAttached(gasUsed, txActions);
   const transactionFee = getTransactionFee(
     transactionInfo.transaction_outcome,
     receiptsOutcome
   );
+  const transactionAmount = getDeposit(txActions);
 
   return {
     hash: transactionHash,
@@ -254,6 +254,7 @@ export const getTransactionDetails = async (
     transactionIndex: transactionBaseInfo.transactionIndex,
     transactionOutcome: transactionInfo.transaction_outcome,
     transactionFee,
+    transactionAmount,
     status: Object.keys(transactionInfo.status)[0] as any, // need to resolve
     gasUsed,
     gasAttached,
@@ -528,11 +529,11 @@ export type TransactionDetails = {
   transaction: RPC.SignedTransactionView;
   transactionIndex: number;
   transactionFee: string;
+  transactionAmount: string;
   transactionOutcome: RPC.ExecutionOutcomeWithIdView;
   status: KeysOfUnion<RPC.FinalExecutionStatus>;
   gasUsed: string;
   gasAttached: string;
-  // receipt: TransactionReceipt & { outcome: any };
   receipt: TransactionReceipt;
   refundReceipts: TransactionReceipt[];
 };

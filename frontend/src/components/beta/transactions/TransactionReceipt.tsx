@@ -11,6 +11,7 @@ type Props = {
   convertionReceipt: boolean;
   fellowOutgoingReceipts?: TxReceipt[];
   customCss?: React.CSSProperties;
+  expandAll: boolean;
 };
 
 const Author = styled("div", {
@@ -76,12 +77,15 @@ const TransactionReceipt: React.FC<Props> = React.memo(
     convertionReceipt,
     fellowOutgoingReceipts,
     customCss,
+    expandAll,
   }) => {
     const [isTxTypeActive, setTxTypeActive] = React.useState(false);
     const switchActiveTxType = React.useCallback(
       () => setTxTypeActive((x) => !x),
       [setTxTypeActive]
     );
+
+    React.useEffect(() => switchActiveTxType, [expandAll]);
 
     const remainingFellowOutgoingReceipts = [...(fellowOutgoingReceipts || [])];
     const lastFellowOutgoingReceipt = remainingFellowOutgoingReceipts.pop();
@@ -116,6 +120,7 @@ const TransactionReceipt: React.FC<Props> = React.memo(
               convertionReceipt={false}
               fellowOutgoingReceipts={remainingFellowOutgoingReceipts}
               customCss={{ paddingBottom: 20, marginTop: 0 }}
+              expandAll={expandAll}
             />
           ) : null}
           <ActionItems>
@@ -152,6 +157,7 @@ const TransactionReceipt: React.FC<Props> = React.memo(
               borderLeftColor: "transparent",
               paddingLeft: 0,
             }}
+            expandAll={expandAll}
           />
         ) : null}
       </>

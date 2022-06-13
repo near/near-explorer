@@ -317,15 +317,12 @@ export const router = trpc
       );
 
       const idsToFetch = accounts.getIdsFromAccountChanges(changes);
-      const [
-        receiptsMapping,
-        transactionsMapping,
-        blocksMapping,
-      ] = await Promise.all([
-        receipts.getReceiptsByIds(idsToFetch.receiptIds),
-        transactions.getTransactionsByHashes(idsToFetch.transactionHashes),
-        blocks.getBlockHeightsByTimestamps(idsToFetch.blocksTimestamps),
-      ]);
+      const [receiptsMapping, transactionsMapping, blocksMapping] =
+        await Promise.all([
+          receipts.getReceiptsByIds(idsToFetch.receiptIds),
+          transactions.getTransactionsByHashes(idsToFetch.transactionHashes),
+          blocks.getBlockHeightsByTimestamps(idsToFetch.blocksTimestamps),
+        ]);
       return changes.map((change) => ({
         timestamp: nanosecondsToMilliseconds(BigInt(change.blockTimestamp)),
         involvedAccountId: change.involvedAccountId,
