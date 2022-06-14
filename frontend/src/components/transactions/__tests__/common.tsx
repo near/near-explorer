@@ -258,8 +258,15 @@ export const TRANSACTIONS: Transaction[] = [
         outgoing_receipts: [],
         status: {
           Failure: {
-            error_message: "Exceeded the prepaid gas.",
-            error_type: "ActionError::FunctionCallError",
+            ActionError: {
+              index: 0,
+              kind: {
+                FunctionCallError: {
+                  ExecutionError:
+                    "Smart contract panicked: ERR_INCORRECT_NONCE",
+                },
+              },
+            },
           },
         },
         gas_burnt: 222222,
@@ -278,8 +285,15 @@ export const TRANSACTIONS: Transaction[] = [
           receipt_ids: [],
           status: {
             Failure: {
-              error_message: "Exceeded the prepaid gas.",
-              error_type: "ActionError::FunctionCallError",
+              ActionError: {
+                index: 0,
+                kind: {
+                  FunctionCallError: {
+                    ExecutionError:
+                      "Smart contract panicked: ERR_INCORRECT_NONCE",
+                  },
+                },
+              },
             },
           },
           gas_burnt: 222222,
