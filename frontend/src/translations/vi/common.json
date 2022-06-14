@@ -456,7 +456,8 @@
         },
         "nodes_validating": {
           "title": "Node đang xác thực",
-          "text": "Tổng số lượng node đang xác thực."
+          "text": "Tổng số lượng node đang xác thực.",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardBlock": {
@@ -466,7 +467,8 @@
         },
         "avg_block_time": {
           "title": "Thời gian khối trung bình",
-          "text": "Thời gian trung bình để tạo ra một khối."
+          "text": "Thời gian trung bình để tạo ra một khối.",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardTransaction": {

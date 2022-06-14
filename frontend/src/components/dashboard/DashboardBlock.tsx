@@ -82,9 +82,13 @@ const DashboardBlock: React.FC = React.memo(() => {
             loading={blockProductionSpeedSub.status === "loading"}
             text={
               blockProductionSpeedSub.status === "success"
-                ? `${(1.0 / blockProductionSpeedSub.data).toFixed(4)} ${t(
-                    "common.unit.seconds"
-                  )}`
+                ? blockProductionSpeedSub.data === 0
+                  ? t(
+                      "component.dashboard.DashboardBlock.avg_block_time.unavailable"
+                    )
+                  : `${(1.0 / blockProductionSpeedSub.data).toFixed(4)} ${t(
+                      "common.unit.seconds"
+                    )}`
                 : undefined
             }
           />
