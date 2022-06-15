@@ -348,11 +348,6 @@ export const router = trpc
       return stats.getTotalFee(daysCount);
     },
   })
-  .query("circulating-supply-stats", {
-    resolve: () => {
-      return stats.getCirculatingSupplyByDate();
-    },
-  })
   // receipts
   .query("transaction-hash-by-receipt-id", {
     input: z.tuple([validators.receiptId]),

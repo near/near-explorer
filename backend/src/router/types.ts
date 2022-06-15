@@ -87,6 +87,11 @@ export type SubscriptionTopicTypes = {
     totalSupply: string;
     accountCount: number;
   };
+  tokensSupply: {
+    totalSupply: string;
+    circulatingSupply: string;
+    timestamp: number;
+  }[];
   "network-stats": NetworkStats;
 };
 

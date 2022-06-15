@@ -737,8 +737,8 @@ export const calculateFeesByDay = async (days: number = 1) => {
     .executeTakeFirst();
 };
 
-export const queryCirculatingSupply = async () => {
-  return indexerDatabase
+export const queryTokensSupply = async () => {
+  const selection = await indexerDatabase
     .selectFrom("aggregated__circulating_supply")
     .select([
       sql<Date>`date_trunc(
@@ -749,11 +749,15 @@ export const queryCirculatingSupply = async () => {
           )
         )
       )`.as("date"),
-      "circulating_tokens_supply",
-      "total_tokens_supply",
+      "circulating_tokens_supply as circulatingSupply",
+      "total_tokens_supply as totalSupply",
     ])
     .orderBy("date")
     .execute();
+  return selection.map(({ date, ...row }) => ({
+    ...row,
+    timestamp: date.valueOf(),
+  }));
 };
 
 export const queryBlocksList = async (limit: number = 15, cursor?: number) => {

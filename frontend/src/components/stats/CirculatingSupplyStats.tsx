@@ -5,7 +5,7 @@ import * as React from "react";
 import JSBI from "jsbi";
 
 import { Props } from "./TransactionsByDate";
-import { trpc } from "../../libraries/trpc";
+import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
 
@@ -26,29 +26,29 @@ const SupplySubHeader = styled("div", {
 
 const CirculatingSupplyStats: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const circulatingSupply =
-    trpc.useQuery(["circulating-supply-stats"]).data ?? [];
+  const tokensSupplySub = useSubscription(["tokensSupply"]);
   const circulatingTokenSupply = React.useMemo(
     () =>
-      circulatingSupply.map(({ circulatingTokensSupply }) =>
+      (tokensSupplySub.data ?? []).map(({ circulatingSupply }) =>
         JSBI.toNumber(
-          JSBI.divide(JSBI.BigInt(circulatingTokensSupply), BI.nearNomination)
+          JSBI.divide(JSBI.BigInt(circulatingSupply), BI.nearNomination)
         )
       ),
-    [circulatingSupply]
+    [tokensSupplySub.data]
   );
   const totalTokenSupply = React.useMemo(
     () =>
-      circulatingSupply.map(({ totalTokensSupply }) =>
-        JSBI.toNumber(
-          JSBI.divide(JSBI.BigInt(totalTokensSupply), BI.nearNomination)
-        )
+      (tokensSupplySub.data ?? []).map(({ totalSupply }) =>
+        JSBI.toNumber(JSBI.divide(JSBI.BigInt(totalSupply), BI.nearNomination))
       ),
-    [circulatingSupply]
+    [tokensSupplySub.data]
   );
   const supplyDates = React.useMemo(
-    () => circulatingSupply.map(({ date }) => date.slice(0, 10)),
-    [circulatingSupply]
+    () =>
+      (tokensSupplySub.data ?? []).map(({ timestamp }) =>
+        new Date(timestamp).toISOString().slice(0, 10)
+      ),
+    [tokensSupplySub.data]
   );
 
   const getOption = (seriesNameArray: Array<string>) => {
