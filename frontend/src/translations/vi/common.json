@@ -75,7 +75,8 @@
     "date_time": {
       "date_time_format": "Do MMMM YYYY, h:mm:ss a",
       "date_format": "Do MMMM YYYY",
-      "time_format": "h:mm:ss a"
+      "time_format": "h:mm:ss a",
+      "transaction_date_format": "DD/MM/YYYY h:mm"
     },
     "terms": {
       "genesis": "Genesis"
@@ -129,6 +130,19 @@
         "collectibles": "Collectibles",
         "accessKeys": "Access Keys",
         "lockedUp": "Locked up"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Total Fee",
+        "amount": "Amount",
+        "when": "When"
+      },
+      "status": {
+        "fetching": "Đang lấy thông tin Trạng thái...",
+        "fail": "Thất bại",
+        "success": "Thành công"
       }
     }
   },

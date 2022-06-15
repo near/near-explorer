@@ -22,6 +22,9 @@ export type TransactionBaseInfo = TRPCQueryOutput<
   | "transactions-list"
   | "transactions-list-by-block-hash"
 >[number];
+
+export type TransactionDetails = NonNullable<TRPCQueryOutput<"transaction">>;
+
 export type Action =
   TRPCQueryOutput<"transactions-list">[number]["actions"][number];
 export type NestedReceiptWithOutcome = NonNullable<

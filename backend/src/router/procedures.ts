@@ -173,6 +173,14 @@ export const router = trpc
       )[0] as KeysOfUnion<RPC.FinalExecutionStatus>;
     },
   })
+  .query("transaction", {
+    input: z.strictObject({
+      hash: validators.transactionHash,
+    }),
+    resolve: ({ input: { hash } }) => {
+      return transactions.getTransactionDetails(hash);
+    },
+  })
   // accounts
   .query("new-accounts-count-aggregated-by-date", {
     resolve: () => {
