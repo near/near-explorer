@@ -13,7 +13,6 @@ import {
   queryActiveAccountsList,
   queryDepositAmountAggregatedByDate,
   queryLatestCirculatingSupply,
-  queryCirculatingSupply,
   calculateFeesByDay,
 } from "../database/queries";
 import { formatDate } from "../utils/formatting";
@@ -67,14 +66,6 @@ let ACTIVE_CONTRACTS_LIST: Nullable<
     contract: string;
     receiptsCount: string;
   }[]
-> = null;
-
-// circulating supply
-let CIRCULATING_SUPPLY_BY_DATE: Nullable<
-  DatedStats<{
-    circulatingTokensSupply: string;
-    totalTokensSupply: string;
-  }>
 > = null;
 
 // This is a decorator that auto-retry failing function up to 5 times before giving up.
@@ -321,17 +312,6 @@ export const aggregateActiveContractsList = retriable(async () => {
     .reverse();
 }, "Top active contracts with respective receipts count");
 
-export const aggregateCirculatingSupplyByDate = retriable(async () => {
-  const queryCirculatingSupplyByDate = await queryCirculatingSupply();
-  CIRCULATING_SUPPLY_BY_DATE = queryCirculatingSupplyByDate.map(
-    ({ date, circulating_tokens_supply, total_tokens_supply }) => ({
-      date: formatDate(date),
-      circulatingTokensSupply: circulating_tokens_supply,
-      totalTokensSupply: total_tokens_supply,
-    })
-  );
-}, "Circulating supply & total supply time series");
-
 // get function that exposed to frontend
 // transaction related
 export const getTransactionsByDate = () => {
@@ -412,8 +392,4 @@ export const getTotalFee = async (
     date: formatDate(feesByDay.date),
     fee: feesByDay.fee || "0",
   };
-};
-
-export const getCirculatingSupplyByDate = () => {
-  return CIRCULATING_SUPPLY_BY_DATE;
 };

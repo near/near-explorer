@@ -114,6 +114,12 @@ export const router = trpc
   .subscription("genesisConfig", {
     resolve: getSubscriptionResolve("genesisConfig"),
   })
+  .query("tokensSupply", {
+    resolve: getQueryResolve("tokensSupply"),
+  })
+  .subscription("tokensSupply", {
+    resolve: getSubscriptionResolve("tokensSupply"),
+  })
   .query("network-stats", {
     resolve: getQueryResolve("network-stats"),
   })

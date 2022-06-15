@@ -40,6 +40,7 @@ export const config = merge(
       checkTransactionCountHistory: 10 * MINUTE,
       checkAggregatedStats: HOUR,
       checkPoolIds: 10 * MINUTE,
+      checkTokensSupply: HOUR,
     },
     timeouts: {
       timeoutStakingPoolsInfo: MINUTE,

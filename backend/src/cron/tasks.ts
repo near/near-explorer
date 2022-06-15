@@ -10,6 +10,7 @@ import {
   queryRecentBlockProductionSpeed,
   queryOnlineNodesCount,
   queryGenesisAccountCount,
+  queryTokensSupply,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
 import {
@@ -18,7 +19,6 @@ import {
   aggregateActiveAccountsList,
   aggregateActiveContractsCountByDate,
   aggregateActiveContractsList,
-  aggregateCirculatingSupplyByDate,
   aggregateDeletedAccountsCountByDate,
   aggregateDepositAmountByDate,
   aggregateGasUsedByDate,
@@ -110,12 +110,18 @@ export const transactionCountHistoryCheck: RegularCheckFn = {
   },
 };
 
+export const tokensSupplyCheck: RegularCheckFn = {
+  description: "circulatingSupplyCheck",
+  fn: publishOnChange(
+    "tokensSupply",
+    queryTokensSupply,
+    config.intervals.checkTokensSupply
+  ),
+};
+
 export const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
   fn: async (_, context) => {
-    // circulating supply
-    await aggregateCirculatingSupplyByDate();
-
     // transactions related
     await aggregateTransactionsCountByDate();
     await aggregateGasUsedByDate();
