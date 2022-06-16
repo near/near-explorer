@@ -517,7 +517,8 @@
         },
         "nodes_validating": {
           "title": "正在验证的节点",
-          "text": "正在验证的节点的总数"
+          "text": "正在验证的节点的总数",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardBlock": {
@@ -527,7 +528,8 @@
         },
         "avg_block_time": {
           "title": "平均出块时间",
-          "text": "产生一个区快的平均时间"
+          "text": "产生一个区快的平均时间",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardTransaction": {

@@ -456,7 +456,8 @@
         },
         "nodes_validating": {
           "title": "Node validating",
-          "text": "Total number of validating nodes."
+          "text": "Total number of validating nodes.",
+          "unavailable": "Temporary unavailable"
         }
       },
       "DashboardBlock": {
@@ -466,7 +467,8 @@
         },
         "avg_block_time": {
           "title": "Avg block time",
-          "text": "Average time for producing one block."
+          "text": "Average time for producing one block.",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardTransaction": {
