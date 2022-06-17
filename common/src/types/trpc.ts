@@ -5,14 +5,95 @@ import type {
   ProcedureRecord,
 } from "@trpc/server/dist/declarations/src/router";
 import type { Subscription } from "@trpc/server/dist/declarations/src/subscription";
+import type {
+  inferProcedureFromOptions,
+  CreateProcedureOptions,
+  CreateProcedureWithoutInput,
+} from "@trpc/server/dist/declarations/src/internals/procedure";
 import type { TRPCClient as _TRPCClient } from "@trpc/client";
 import { UseMutationResult, UseQueryResult } from "react-query";
 
 import type { AppRouter } from "../../../backend/src/router";
 
-type AnyRouter<TContext = any> = Router<any, TContext, any, any, any, any, any>;
+export type AnyRouter<TContext = any> = Router<
+  any,
+  TContext,
+  any,
+  any,
+  any,
+  any,
+  any
+>;
 type AnyProcedure = Procedure<any, any, any, any, any, any, any>;
 type AnyProcedureRecord = ProcedureRecord<any, any, any, any, any, any>;
+type AnyCreateProcedureOptions = CreateProcedureOptions<
+  any,
+  any,
+  any,
+  any,
+  any,
+  any
+>;
+
+export type CreateProcedureSubscription<
+  R extends AnyRouter,
+  Output
+> = R extends Router<any, infer Context, infer Meta, any, any, any, any>
+  ? CreateProcedureWithoutInput<Context, Meta, Output, Output>
+  : never;
+
+type ProcedureWithOutputSubscription<
+  TOptions extends CreateProcedureOptions<any, any, any, any, any, any>
+> = TOptions extends CreateProcedureOptions<
+  infer TContext,
+  infer TMeta,
+  infer TInput,
+  infer TParsedInput,
+  infer TOutput,
+  infer TParsedOutput
+>
+  ? CreateProcedureOptions<
+      TContext,
+      TMeta,
+      TInput,
+      TParsedInput,
+      Subscription<TOutput>,
+      TParsedOutput
+    >
+  : never;
+
+export type RouterWithSubscriptionsAndQueries<
+  R extends AnyRouter,
+  SubscriptionProcedures extends Record<string, AnyCreateProcedureOptions>
+> = R extends Router<
+  infer InputContext,
+  infer Context,
+  infer Meta,
+  infer Queries,
+  infer Mutations,
+  infer Subscriptions,
+  infer Error
+>
+  ? Router<
+      InputContext,
+      Context,
+      Meta,
+      Queries & {
+        [Path in keyof SubscriptionProcedures]: inferProcedureFromOptions<
+          InputContext,
+          SubscriptionProcedures[Path]
+        >;
+      },
+      Mutations,
+      Subscriptions & {
+        [Path in keyof SubscriptionProcedures]: inferProcedureFromOptions<
+          InputContext,
+          ProcedureWithOutputSubscription<SubscriptionProcedures[Path]>
+        >;
+      },
+      Error
+    >
+  : never;
 
 type InferProcedureInput<P extends AnyProcedure> = P extends Procedure<
   any,
