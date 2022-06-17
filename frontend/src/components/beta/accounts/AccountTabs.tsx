@@ -16,6 +16,8 @@ import {
   formatToPowerOfTen,
 } from "../../../libraries/formatting";
 
+import AccountNonFungibleTokensView from "./AccountNonFungibleTokens";
+
 const TabLabel = styled("div", {
   display: "flex",
 });
@@ -68,9 +70,11 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
         },
         {
           id: "collectibles",
-          disabled: true,
           label: <TabLabel>{t("pages.account.tabs.collectibles")}</TabLabel>,
-          node: null,
+          node:
+            options.tab === "collectibles" ? (
+              <AccountNonFungibleTokensView options={options} />
+            ) : null,
         },
         {
           id: "access-keys",

@@ -80,6 +80,9 @@ const nextConfig: ExplorerConfig & NextConfig = {
   experimental: {
     externalDir: true,
   },
+  images: {
+    domains: ["cloudflare-ipfs.com", "ipfs.fleek.co"],
+  },
 };
 
 export = nextConfig;
