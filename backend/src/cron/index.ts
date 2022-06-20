@@ -10,7 +10,7 @@ const regularTasks = [
   tasks.recentTransactionsCountCheck,
   tasks.onlineNodesCountCheck,
   tasks.genesisProtocolInfoFetch,
-  tasks.transactionCountHistoryCheck,
+  tasks.transactionsHistoryCheck,
   tasks.statsAggregationCheck,
   tasks.networkInfoCheck,
   tasks.stakingPoolMetadataInfoCheck,

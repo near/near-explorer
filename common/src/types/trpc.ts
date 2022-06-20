@@ -9,9 +9,11 @@ import type {
   inferProcedureFromOptions,
   CreateProcedureOptions,
   CreateProcedureWithoutInput,
+  CreateProcedureWithInput,
 } from "@trpc/server/dist/declarations/src/internals/procedure";
 import type { TRPCClient as _TRPCClient } from "@trpc/client";
 import { UseMutationResult, UseQueryResult } from "react-query";
+import { Equals } from "tsafe";
 
 import type { AppRouter } from "../../../backend/src/router";
 
@@ -37,28 +39,34 @@ type AnyCreateProcedureOptions = CreateProcedureOptions<
 
 export type CreateProcedureSubscription<
   R extends AnyRouter,
-  Output
+  Output,
+  Input = undefined
 > = R extends Router<any, infer Context, infer Meta, any, any, any, any>
-  ? CreateProcedureWithoutInput<Context, Meta, Output, Output>
+  ? Equals<Input, undefined> extends true
+    ? CreateProcedureWithoutInput<Context, Meta, Output, Output>
+    : CreateProcedureWithInput<Context, Meta, Input, Output>
   : never;
 
 type ProcedureWithOutputSubscription<
   TOptions extends CreateProcedureOptions<any, any, any, any, any, any>
-> = TOptions extends CreateProcedureOptions<
-  infer TContext,
-  infer TMeta,
-  infer TInput,
-  infer TParsedInput,
-  infer TOutput,
-  infer TParsedOutput
+> = TOptions extends CreateProcedureWithInput<
+  infer Context,
+  infer Meta,
+  infer Input,
+  infer Output
 >
-  ? CreateProcedureOptions<
-      TContext,
-      TMeta,
-      TInput,
-      TParsedInput,
-      Subscription<TOutput>,
-      TParsedOutput
+  ? CreateProcedureWithInput<Context, Meta, Input, Subscription<Output>>
+  : TOptions extends CreateProcedureWithoutInput<
+      infer Context,
+      infer Meta,
+      infer Output,
+      infer Output
+    >
+  ? CreateProcedureWithoutInput<
+      Context,
+      Meta,
+      Subscription<Output>,
+      Subscription<Output>
     >
   : never;
 
@@ -198,9 +206,6 @@ export type TRPCMutationResult<Path extends TRPCMutationKey> =
   >;
 
 export type TRPCSubscriptionKey = DefKey<AppRouter, "subscriptions">;
-
-export type TRPCSubscriptionInput<Path extends TRPCSubscriptionKey> =
-  InferSubscription<DefValues<AppRouter, "subscriptions">[Path]["input"]>;
 
 export type TRPCSubscriptionOutput<Path extends TRPCSubscriptionKey> =
   InferSubscription<DefValues<AppRouter, "subscriptions">[Path]["output"]>;

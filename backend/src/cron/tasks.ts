@@ -4,7 +4,7 @@ import {
   queryStakingPoolAccountIds,
   queryRecentTransactionsCount,
   queryTelemetryInfo,
-  queryTransactionsCountHistoryForTwoWeeks,
+  queryTransactionsHistory,
   queryLatestBlock,
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
@@ -25,7 +25,6 @@ import {
   aggregateLiveAccountsCountByDate,
   aggregateNewAccountsCountByDate,
   aggregateNewContractsCountByDate,
-  aggregateTransactionsCountByDate,
   aggregateUniqueDeployedContractsCountByDate,
 } from "../providers/stats";
 import { queryEpochData } from "../providers/network";
@@ -101,13 +100,13 @@ export const genesisProtocolInfoFetch: RegularCheckFn = {
   },
 };
 
-export const transactionCountHistoryCheck: RegularCheckFn = {
-  description: "transaction count history for 2 weeks",
-  fn: async (_, context) => {
-    context.state.transactionsCountHistoryForTwoWeeks =
-      await queryTransactionsCountHistoryForTwoWeeks();
-    return config.intervals.checkTransactionCountHistory;
-  },
+export const transactionsHistoryCheck: RegularCheckFn = {
+  description: "transactionsHistoryCheck",
+  fn: publishOnChange(
+    "transactionsHistory",
+    queryTransactionsHistory,
+    config.intervals.checkTransactionHistory
+  ),
 };
 
 export const tokensSupplyCheck: RegularCheckFn = {
@@ -123,7 +122,6 @@ export const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
   fn: async (_, context) => {
     // transactions related
-    await aggregateTransactionsCountByDate();
     await aggregateGasUsedByDate();
     await aggregateDepositAmountByDate();
 

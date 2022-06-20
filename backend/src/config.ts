@@ -37,7 +37,7 @@ export const config = merge(
       checkStakingPoolInfo: 15 * SECOND,
       checkStakingPoolStakeProposal: MINUTE,
       checkValidatorDescriptions: 10 * MINUTE,
-      checkTransactionCountHistory: 10 * MINUTE,
+      checkTransactionHistory: HOUR,
       checkAggregatedStats: HOUR,
       checkPoolIds: 10 * MINUTE,
       checkTokensSupply: HOUR,

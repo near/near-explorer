@@ -6,7 +6,6 @@ import {
 } from "./types";
 
 export type GlobalState = {
-  transactionsCountHistoryForTwoWeeks: { date: Date; total: number }[];
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;
   stakingPoolStakeProposalsFromContract: CachedTimestampMap<string>;
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
@@ -19,7 +18,6 @@ export type GlobalState = {
 };
 
 export const initGlobalState = (): GlobalState => ({
-  transactionsCountHistoryForTwoWeeks: [],
   stakingPoolsDescriptions: new Map(),
   stakingPoolStakeProposalsFromContract: {
     timestampMap: new Map(),

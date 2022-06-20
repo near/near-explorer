@@ -92,6 +92,10 @@ export type SubscriptionTopicTypes = {
     circulatingSupply: string;
     timestamp: number;
   }[];
+  transactionsHistory: {
+    count: number;
+    timestamp: number;
+  }[];
   "network-stats": NetworkStats;
 };
 

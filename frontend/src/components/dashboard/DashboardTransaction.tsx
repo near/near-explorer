@@ -11,7 +11,6 @@ import Link from "../utils/Link";
 import DashboardTransactionsHistoryChart from "./DashboardTransactionsHistoryChart";
 import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
-import { trpc } from "../../libraries/trpc";
 
 const TransactionCardNumber = styled(Row, {
   "& > .col-12": {
@@ -27,8 +26,9 @@ const TransactionCharts = styled(Row, {
 
 const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: transactionsCountHistoryForTwoWeeks } = trpc.useQuery([
-    "transaction-history",
+  const transactionHistorySub = useSubscription([
+    "transactionsHistory",
+    { amountOfDays: 14 },
   ]);
   const recentTransactionsCountSub = useSubscription([
     "recentTransactionsCount",
@@ -90,11 +90,11 @@ const DashboardTransaction: React.FC = React.memo(() => {
           />
         </Col>
       </TransactionCardNumber>
-      {transactionsCountHistoryForTwoWeeks ? (
+      {transactionHistorySub.status === "success" ? (
         <TransactionCharts>
           <Col md="12">
             <DashboardTransactionsHistoryChart
-              transactionHistory={transactionsCountHistoryForTwoWeeks}
+              transactionHistory={transactionHistorySub.data}
             />
           </Col>
         </TransactionCharts>

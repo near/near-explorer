@@ -1,6 +1,5 @@
 import { Context } from "../context";
 import {
-  queryTransactionsCountAggregatedByDate,
   queryGasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
   queryDeletedAccountsCountAggregatedByDate,
@@ -22,10 +21,6 @@ type Nullable<T> = T | null;
 type DatedStats<T> = (T & { date: string })[];
 
 // term that store data from query
-// transaction related
-let TRANSACTIONS_COUNT_AGGREGATED_BY_DATE: Nullable<
-  DatedStats<{ transactionsCount: string }>
-> = null;
 let GAS_USED_BY_DATE: Nullable<DatedStats<{ gasUsed: string }>> = null;
 let DEPOSIT_AMOUNT_AGGREGATED_BY_DATE: Nullable<
   DatedStats<{ depositAmount: string }>
@@ -96,18 +91,6 @@ function retriable<Args extends unknown[]>(
 }
 
 // function that query from indexer
-// transaction related
-export const aggregateTransactionsCountByDate = retriable(async () => {
-  const transactionsCountAggregatedByDate =
-    await queryTransactionsCountAggregatedByDate();
-  TRANSACTIONS_COUNT_AGGREGATED_BY_DATE = transactionsCountAggregatedByDate.map(
-    ({ date, transactions_count_by_date }) => ({
-      date: formatDate(date),
-      transactionsCount: transactions_count_by_date,
-    })
-  );
-}, "Transactions count time series");
-
 export const aggregateGasUsedByDate = retriable(async () => {
   const gasUsedByDate = await queryGasUsedAggregatedByDate();
   GAS_USED_BY_DATE = gasUsedByDate.map(({ date, gas_used_by_date }) => ({
@@ -313,10 +296,6 @@ export const aggregateActiveContractsList = retriable(async () => {
 }, "Top active contracts with respective receipts count");
 
 // get function that exposed to frontend
-// transaction related
-export const getTransactionsByDate = () => {
-  return TRANSACTIONS_COUNT_AGGREGATED_BY_DATE;
-};
 
 export const getGasUsedByDate = () => {
   return GAS_USED_BY_DATE;

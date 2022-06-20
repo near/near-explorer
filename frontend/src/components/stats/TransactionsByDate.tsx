@@ -6,7 +6,7 @@ import * as echarts from "echarts";
 import { cumulativeSumArray } from "../../libraries/stats";
 
 import { useTranslation } from "react-i18next";
-import { trpc } from "../../libraries/trpc";
+import { useSubscription } from "../../hooks/use-subscription";
 
 export interface Props {
   chartStyle: object;
@@ -15,22 +15,21 @@ export interface Props {
 const TransactionsByDateChart: React.FC<Props> = React.memo(
   ({ chartStyle }) => {
     const { t } = useTranslation();
-    const transactionCountByDate =
-      trpc.useQuery(["transactions-count-aggregated-by-date"]).data ?? [];
+    const transactionsHistorySub = useSubscription(["transactionsHistory"]);
     const transactionsByDate = React.useMemo(
-      () =>
-        transactionCountByDate.map(({ transactionsCount }) =>
-          Number(transactionsCount)
-        ),
-      [transactionCountByDate]
+      () => (transactionsHistorySub.data ?? []).map(({ count }) => count),
+      [transactionsHistorySub.data]
     );
     const transactionsByDateCumulative = React.useMemo(
       () => cumulativeSumArray(transactionsByDate),
       [transactionsByDate]
     );
     const transactionDates = React.useMemo(
-      () => transactionCountByDate.map(({ date }) => date.slice(0, 10)),
-      [transactionCountByDate]
+      () =>
+        (transactionsHistorySub.data ?? []).map(({ timestamp }) =>
+          new Date(timestamp).toISOString().slice(0, 10)
+        ),
+      [transactionsHistorySub.data]
     );
 
     const getOption = (
