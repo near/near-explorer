@@ -164,26 +164,6 @@ export const queryRecentBlockProductionSpeed = async () => {
   return parseInt(selection.blocks_count_60_seconds_before) / 60;
 };
 
-export const queryTransactionsCountHistoryForTwoWeeks = async () => {
-  const selection = await analyticsDatabase
-    .selectFrom("daily_transactions_count")
-    .select(["collected_for_day as date", "transactions_count as total"])
-    .where(
-      "collected_for_day",
-      ">=",
-      sql`date_trunc(
-        'day', now() - '2 week'::interval
-      )`
-    )
-    .orderBy("date")
-    .execute();
-
-  return selection.map(({ total, ...rest }) => ({
-    total: parseInt(total),
-    ...rest,
-  }));
-};
-
 export const queryRecentTransactionsCount = async () => {
   const selection = await indexerDatabase
     .selectFrom("transactions")
@@ -204,15 +184,16 @@ export const queryRecentTransactionsCount = async () => {
 
 // query for statistics and charts
 // transactions related
-export const queryTransactionsCountAggregatedByDate = async () => {
-  return analyticsDatabase
+export const queryTransactionsHistory = async () => {
+  const selection = await analyticsDatabase
     .selectFrom("daily_transactions_count")
-    .select([
-      "collected_for_day as date",
-      "transactions_count as transactions_count_by_date",
-    ])
+    .select(["collected_for_day as date", "transactions_count as count"])
     .orderBy("date")
     .execute();
+  return selection.map((row) => ({
+    count: Number(row.count),
+    timestamp: row.date.valueOf(),
+  }));
 };
 
 export const queryGasUsedAggregatedByDate = async () => {

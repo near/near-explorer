@@ -6,7 +6,7 @@ import moment from "moment";
 import PaginationSpinner from "../utils/PaginationSpinner";
 
 import { useTranslation } from "react-i18next";
-import { TransactionCountHistory } from "../../types/common";
+import { TransactionsHistory } from "../../types/common";
 
 const chartsStyle = {
   height: 232,
@@ -14,23 +14,17 @@ const chartsStyle = {
 };
 
 type Props = {
-  transactionHistory?: TransactionCountHistory[];
+  transactionHistory: TransactionsHistory;
 };
 
 const DashboardTransactionHistoryChart: React.FC<Props> = React.memo(
   ({ transactionHistory = [] }) => {
     const { t } = useTranslation();
 
-    const getDate = () => {
+    const option = React.useMemo(() => {
       const format = t(
         "component.dashboard.DashboardTransactionHistoryChart.date_format"
       );
-      const date = transactionHistory.map((t) => moment(t.date).format(format));
-      return date;
-    };
-
-    const count = transactionHistory.map((t) => t.total);
-    const getOption = () => {
       return {
         title: {
           text: t(
@@ -58,7 +52,9 @@ const DashboardTransactionHistoryChart: React.FC<Props> = React.memo(
           {
             type: "category",
             boundaryGap: false,
-            data: getDate(),
+            data: transactionHistory.map(({ timestamp }) =>
+              moment(timestamp).format(format)
+            ),
             axisLine: {
               show: false,
             },
@@ -117,16 +113,16 @@ const DashboardTransactionHistoryChart: React.FC<Props> = React.memo(
                 },
               ]),
             },
-            data: count,
+            data: transactionHistory.map(({ count }) => count),
           },
         ],
       };
-    };
+    }, [t, transactionHistory]);
 
     if (transactionHistory.length === 0) {
       return <PaginationSpinner />;
     }
-    return <ReactEcharts option={getOption()} style={chartsStyle} />;
+    return <ReactEcharts option={option} style={chartsStyle} />;
   }
 );
 

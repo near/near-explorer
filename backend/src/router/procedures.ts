@@ -42,23 +42,7 @@ export const router = trpc
       return stats.getLatestCirculatingSupply();
     },
   })
-  .query("transaction-history", {
-    resolve: ({ ctx }) => {
-      return ctx.state.transactionsCountHistoryForTwoWeeks.map(
-        ({ date, total }) => ({
-          date: formatDate(date),
-          total,
-        })
-      );
-    },
-  })
   // stats part
-  // transaction related
-  .query("transactions-count-aggregated-by-date", {
-    resolve: () => {
-      return stats.getTransactionsByDate();
-    },
-  })
   .query("gas-used-aggregated-by-date", {
     resolve: () => {
       return stats.getGasUsedByDate();
