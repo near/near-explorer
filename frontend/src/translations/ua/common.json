@@ -75,7 +75,8 @@
     "date_time": {
       "date_time_format": "MMMM DD, YYYY [об] h:mm:ssa",
       "date_format": "MMMM DD, YYYY",
-      "time_format": "[об] h:mm:ssa"
+      "time_format": "[об] h:mm:ssa",
+      "transaction_date_format": "DD/MM/YYYY h:mm"
     },
     "terms": {
       "genesis": "Генезис"
@@ -129,6 +130,19 @@
         "collectibles": "Колекціонування",
         "accessKeys": "Ключі",
         "lockedUp": "Заблоковано"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Транзакція",
+        "fee": "Комісія",
+        "amount": "Сума",
+        "when": "Коли"
+      },
+      "status": {
+        "fetching": "Отримання статусу...",
+        "fail": "Сталася помилка",
+        "success": "Успішно"
       }
     }
   },

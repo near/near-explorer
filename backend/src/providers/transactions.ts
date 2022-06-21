@@ -1,4 +1,4 @@
-import { RPC } from "../types";
+import { RPC, TransactionOutcome } from "../types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
@@ -9,6 +9,8 @@ import {
 } from "../database/queries";
 import { z } from "zod";
 import { validators } from "../router/validators";
+
+import * as nearApi from "../utils/near";
 
 const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
   string,
@@ -124,6 +126,53 @@ export const getTransactionInfo = async (
   }
   const transaction = await createTransactionsList([transactionInfo]);
   return transaction[0] || null;
+};
+
+export const getTransactionDetails = async (
+  transactionHash: string
+): Promise<TransactionDetails | null> => {
+  const transactionBaseInfo = await getTransactionInfo(transactionHash);
+
+  if (!transactionBaseInfo) {
+    return null;
+  }
+  const transactionInfo = await nearApi.sendJsonRpc("EXPERIMENTAL_tx_status", [
+    transactionBaseInfo.hash,
+    transactionBaseInfo.signerId,
+  ]);
+
+  const transactionFee = getTransactionFee(
+    transactionInfo.transaction_outcome,
+    transactionInfo.receipts_outcome
+  );
+
+  const txActions =
+    transactionInfo.transaction.actions.map(mapRpcActionToAction);
+  const transactionAmount = getDeposit(txActions);
+
+  return {
+    hash: transactionHash,
+    timestamp: transactionBaseInfo.blockTimestamp,
+    signerId: transactionInfo.transaction.signer_id,
+    receiverId: transactionInfo.transaction.receiver_id,
+    fee: transactionFee.toString(),
+    amount: transactionAmount.toString(),
+    status: convertRpcTxStatusToStatus(transactionInfo.status),
+  };
+};
+
+const convertRpcTxStatusToStatus = (
+  status: RPC.FinalExecutionStatus
+): TransactionStatus => {
+  const txStatus = Object.keys(status)[0];
+  switch (txStatus) {
+    case "Failure":
+      return "fail";
+    case "SuccessValue":
+      return "success";
+    default:
+      return "fetching";
+  }
 };
 
 export const convertDbArgsToRpcArgs = (
@@ -263,3 +312,37 @@ export const collectNestedReceiptWithOutcome = (
     },
   };
 };
+
+export const getDeposit = (actions: Action[]) =>
+  actions
+    .map((action) => {
+      if ("deposit" in action.args) {
+        return BigInt(action.args.deposit);
+      } else {
+        return 0n;
+      }
+    })
+    .reduce((accumulator, deposit) => accumulator + deposit, 0n);
+
+export const getTransactionFee = (
+  transactionOutcome: TransactionOutcome,
+  receiptsOutcome: RPC.ExecutionOutcomeWithIdView[]
+) => {
+  const tokensBurntByTx = BigInt(transactionOutcome.outcome.tokens_burnt);
+  const tokensBurntByReceipts = receiptsOutcome
+    .map((receipt) => BigInt(receipt.outcome.tokens_burnt))
+    .reduce((tokenBurnt, currentFee) => tokenBurnt + currentFee, 0n);
+  return tokensBurntByTx + tokensBurntByReceipts;
+};
+
+export type TransactionDetails = {
+  hash: string;
+  timestamp: number;
+  signerId: string;
+  receiverId: string;
+  fee: string;
+  amount: string;
+  status: TransactionStatus;
+};
+
+export type TransactionStatus = "fetching" | "fail" | "success";

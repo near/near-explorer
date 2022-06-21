@@ -75,7 +75,8 @@
     "date_time": {
       "date_time_format": "MMMM DD, YYYY [at] h:mm:ssa",
       "date_format": "MMMM DD, YYYY",
-      "time_format": "[at] h:mm:ssa"
+      "time_format": "[at] h:mm:ssa",
+      "transaction_date_format": "DD/MM/YYYY h:mm"
     },
     "terms": {
       "genesis": "Genesis"
@@ -129,6 +130,19 @@
         "collectibles": "Collectibles",
         "accessKeys": "Access Keys",
         "lockedUp": "Locked up"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Total Fee",
+        "amount": "Amount",
+        "when": "When"
+      },
+      "status": {
+        "fetching": "Fetching Status...",
+        "fail": "Failed",
+        "success": "Success"
       }
     }
   },
