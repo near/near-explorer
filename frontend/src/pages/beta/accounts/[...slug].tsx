@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 import * as React from "react";
 import * as ReactQuery from "react-query";
@@ -13,6 +12,12 @@ import AccountHeader from "../../../components/beta/accounts/AccountHeader";
 import AccountTabs from "../../../components/beta/accounts/AccountTabs";
 import { trpc } from "../../../libraries/trpc";
 import { styled } from "../../../libraries/styles";
+import {
+  useAccountPageOptions,
+  parseAccountSlug,
+  AccountPageOptions,
+  buildAccountUrl,
+} from "../../../hooks/use-account-page-options";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",
@@ -20,11 +25,14 @@ const Wrapper = styled("div", {
 });
 
 const AccountPage: NextPage = React.memo(() => {
-  const accountId = useRouter().query.id as string;
+  const options = useAccountPageOptions();
   useAnalyticsTrackOnMount("Explorer Beta | Account Page", {
-    accountId,
+    accountId: options.accountId,
   });
-  const accountQuery = trpc.useQuery(["account", { accountId }]);
+  const accountQuery = trpc.useQuery([
+    "account",
+    { accountId: options.accountId },
+  ]);
 
   return (
     <>
@@ -36,14 +44,14 @@ const AccountPage: NextPage = React.memo(() => {
         rel="stylesheet"
       />
       <Wrapper>
-        <AccountQueryView {...accountQuery} id={accountId} />
+        <AccountQueryView {...accountQuery} options={options} />
       </Wrapper>
     </>
   );
 });
 
 type QueryProps = ReactQuery.UseQueryResult<Account | null> & {
-  id: string;
+  options: AccountPageOptions;
 };
 
 const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
@@ -61,7 +69,7 @@ const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
       return (
         <div>
           {t("page.accounts.error.account_not_found", {
-            account_id: props.id,
+            account_id: props.options.accountId,
           })}
         </div>
       );
@@ -69,7 +77,7 @@ const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
       return (
         <div>
           {t("page.accounts.error.account_fetching", {
-            account_id: props.id,
+            account_id: props.options.accountId,
           })}
         </div>
       );
@@ -82,18 +90,27 @@ const AccountQueryView: React.FC<QueryProps> = React.memo((props) => {
 
 export const getServerSideProps: GetServerSideProps<
   {},
-  { id: string }
+  { slug: string[] }
 > = async ({ params }) => {
-  const accountId = params?.id ?? "";
-  if (/[A-Z]/.test(accountId)) {
+  try {
+    const options = parseAccountSlug(params?.slug ?? []);
+    if (/[A-Z]/.test(options.accountId)) {
+      return {
+        redirect: {
+          permanent: true,
+          destination: buildAccountUrl({
+            ...options,
+            accountId: options.accountId.toLowerCase(),
+          }),
+        },
+      };
+    }
+    return { props: {} };
+  } catch {
     return {
-      redirect: {
-        permanent: true,
-        destination: `/accounts/${accountId.toLowerCase()}`,
-      },
+      notFound: true,
     };
   }
-  return { props: {} };
 };
 
 export default AccountPage;
