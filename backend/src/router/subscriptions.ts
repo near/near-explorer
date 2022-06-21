@@ -115,10 +115,5 @@ export const router = withTopics(trpc.router<Context>(), {
   tokensSupply: undefined,
   "network-stats": undefined,
   transactionsHistory: (elements, input) =>
-    input
-      ? [...elements]
-          .reverse()
-          .filter((_, index) => index < input.amountOfDays)
-          .reverse()
-      : elements,
+    input ? elements.slice(-input.amountOfDays) : elements,
 });
