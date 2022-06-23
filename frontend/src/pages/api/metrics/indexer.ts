@@ -7,9 +7,11 @@ const handler: NextApiHandler = async (req, res) => {
   try {
     const networkName = getNearNetworkName(req.query, req.headers.host);
     const trpcClient = getTrpcClient(networkName);
-    const rpcFinalBlock = await trpcClient.query("nearcore-final-block");
-    const indexerFinalBlock = await trpcClient.query("blocks-list", {
-      limit: 1,
+    const rpcFinalBlock = await trpcClient.query("block.final", {
+      source: "rpc",
+    });
+    const indexerFinalBlock = await trpcClient.query("block.final", {
+      source: "indexer",
     });
 
     const prometheusResponse = json2Prom([
@@ -19,7 +21,7 @@ const handler: NextApiHandler = async (req, res) => {
         type: "COUNTER",
         metrics: [
           {
-            value: rpcFinalBlock.header.height,
+            value: rpcFinalBlock.height,
           },
         ],
       },
@@ -29,7 +31,7 @@ const handler: NextApiHandler = async (req, res) => {
         type: "COUNTER",
         metrics: [
           {
-            value: indexerFinalBlock[0].height,
+            value: indexerFinalBlock.height,
           },
         ],
       },

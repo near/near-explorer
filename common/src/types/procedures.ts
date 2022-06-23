@@ -4,8 +4,8 @@ export type AccountOld = NonNullable<TRPCQueryOutput<"account-info">>;
 export type Account = NonNullable<TRPCQueryOutput<"account">>;
 export type AccountListInfo = TRPCQueryOutput<"accounts-list">[number];
 
-export type Block = NonNullable<TRPCQueryOutput<"block-info">>;
-export type BlockBase = TRPCQueryOutput<"blocks-list">[number];
+export type Block = NonNullable<TRPCQueryOutput<"block.byId">>;
+export type BlockBase = TRPCQueryOutput<"block.list">[number];
 
 export type TransactionsHistory = TRPCSubscriptionOutput<"transactionsHistory">;
 

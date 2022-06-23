@@ -741,127 +741,7 @@ export const queryTokensSupply = async () => {
   }));
 };
 
-export const queryBlocksList = async (limit: number = 15, cursor?: number) => {
-  const selection = await indexerDatabase
-    .selectFrom((eb) => {
-      let selection = eb.selectFrom("blocks").select("block_hash");
-      if (cursor !== undefined) {
-        selection = selection.where(
-          "block_timestamp",
-          "<",
-          millisecondsToNanoseconds(cursor).toString()
-        );
-      }
-      return selection
-        .orderBy("block_height", "desc")
-        .limit(limit)
-        .as("innerblocks");
-    })
-    .leftJoin("transactions", (jb) =>
-      jb.onRef(
-        "transactions.included_in_block_hash",
-        "=",
-        "innerblocks.block_hash"
-      )
-    )
-    .leftJoin("blocks", (jb) =>
-      jb.onRef("blocks.block_hash", "=", "innerblocks.block_hash")
-    )
-    .select([
-      "blocks.block_hash as hash",
-      "block_height as height",
-      (eb) => div(eb, "blocks.block_timestamp", 1000 * 1000, "timestamp"),
-      "prev_block_hash as prev_hash",
-      (eb) => count(eb, "transaction_hash").as("transactions_count"),
-    ])
-    .groupBy("blocks.block_hash")
-    .orderBy("blocks.block_timestamp", "desc")
-    .execute();
-  return selection.map((selectionRow) => ({
-    // TODO: Discover how to get rid of non-null type assertion
-    hash: selectionRow.hash!,
-    // TODO: Discover how to get rid of non-null type assertion
-    height: selectionRow.height!,
-    timestamp: selectionRow.timestamp,
-    // TODO: Discover how to get rid of non-null type assertion
-    prev_hash: selectionRow.prev_hash!,
-    transactions_count: selectionRow.transactions_count,
-  }));
-};
-
-export const queryBlockInfo = async (blockId: string | number) => {
-  const selection = await indexerDatabase
-    .selectFrom((eb) => {
-      let selection = eb.selectFrom("blocks").select("block_hash");
-      if (typeof blockId === "string") {
-        selection = selection.where("block_hash", "=", blockId);
-      } else {
-        selection = selection.where("block_height", "=", String(blockId));
-      }
-      return selection.as("innerblocks");
-    })
-    .leftJoin("transactions", (jb) =>
-      jb.onRef("included_in_block_hash", "=", "innerblocks.block_hash")
-    )
-    .leftJoin("blocks", (jb) =>
-      jb.onRef("blocks.block_hash", "=", "innerblocks.block_hash")
-    )
-    .select([
-      "blocks.block_hash as hash",
-      "block_height as height",
-      (eb) => div(eb, "blocks.block_timestamp", 1000 * 1000, "timestamp"),
-      "prev_block_hash as prev_hash",
-      "gas_price",
-      "total_supply",
-      "author_account_id",
-      (eb) => count(eb, "transaction_hash").as("transactions_count"),
-    ])
-    .groupBy("blocks.block_hash")
-    .orderBy("blocks.block_timestamp", "desc")
-    .limit(1)
-    .executeTakeFirst();
-  if (!selection || !selection.hash) {
-    return;
-  }
-  return {
-    // TODO: Discover how to get rid of non-null type assertion
-    hash: selection.hash!,
-    // TODO: Discover how to get rid of non-null type assertion
-    height: selection.height!,
-    // TODO: Discover how to get rid of non-null type assertion
-    timestamp: selection.timestamp,
-    // TODO: Discover how to get rid of non-null type assertion
-    prev_hash: selection.prev_hash!,
-    // TODO: Discover how to get rid of non-null type assertion
-    gas_price: selection.gas_price!,
-    // TODO: Discover how to get rid of non-null type assertion
-    total_supply: selection.total_supply!,
-    // TODO: Discover how to get rid of non-null type assertion
-    author_account_id: selection.author_account_id!,
-    transactions_count: selection.transactions_count,
-  };
-};
-
-export const queryBlockByHashOrId = async (blockId: string | number) => {
-  let selection = indexerDatabase.selectFrom("blocks").select("block_hash");
-  if (typeof blockId === "string") {
-    selection = selection.where("block_hash", "=", blockId);
-  } else {
-    selection = selection.where("block_height", "=", String(blockId));
-  }
-  return selection.limit(1).executeTakeFirst();
-};
-
 // receipts
-export const queryReceiptsCountInBlock = async (blockHash: string) => {
-  return indexerDatabase
-    .selectFrom("receipts")
-    .select((eb) => count(eb, "receipt_id").as("count"))
-    .where("included_in_block_hash", "=", blockHash)
-    .where("receipt_kind", "=", "ACTION")
-    .executeTakeFirst();
-};
-
 export const queryReceiptInTransaction = async (receiptId: string) => {
   return indexerDatabase
     .selectFrom("receipts")
@@ -1024,15 +904,6 @@ export const queryContractInfo = async (accountId: string) => {
     };
   }
   return undefined;
-};
-
-// chunks
-export const queryGasUsedInChunks = async (blockHash: string) => {
-  return indexerDatabase
-    .selectFrom("chunks")
-    .select((eb) => sum(eb, "gas_used").as("gas_used"))
-    .where("included_in_block_hash", "=", blockHash)
-    .executeTakeFirst();
 };
 
 export const maybeCreateTelemetryTable = async () => {
