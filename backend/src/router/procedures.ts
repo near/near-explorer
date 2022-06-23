@@ -15,7 +15,6 @@ import * as telemetry from "../providers/telemetry";
 import * as nearApi from "../utils/near";
 import { getBranch, getShortCommitSha } from "../common";
 import { Context } from "../context";
-import { formatDate } from "../utils/formatting";
 import { config } from "../config";
 import { validators } from "./validators";
 
