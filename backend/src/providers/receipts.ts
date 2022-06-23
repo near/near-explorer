@@ -1,4 +1,5 @@
 import {
+  queryReceiptsCountInBlock,
   queryReceiptInTransaction,
   queryIncludedReceiptsList,
   queryExecutedReceiptsList,
@@ -99,6 +100,16 @@ export const getExecutedReceiptsList = async (
 ): Promise<Receipt[]> => {
   const receiptActions = await queryExecutedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
+};
+
+export const getReceiptsCountInBlock = async (
+  blockHash: string
+): Promise<number | null> => {
+  const receiptsCount = await queryReceiptsCountInBlock(blockHash);
+  if (!receiptsCount) {
+    return null;
+  }
+  return parseInt(receiptsCount.count);
 };
 
 export type TransactionHashByReceiptId = {

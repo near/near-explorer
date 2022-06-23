@@ -30,7 +30,7 @@ const BlockDetail: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Individual Block", {
     block: hash,
   });
-  const blockQuery = trpc.useQuery(["block.byId", { hash }]);
+  const blockQuery = trpc.useQuery(["block-info", [hash]]);
   const query = trpc.useInfiniteQuery(
     [
       "transactions-list-by-block-hash",

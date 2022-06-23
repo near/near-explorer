@@ -16,7 +16,7 @@ const Blocks: React.FC = React.memo(() => {
   const latestBlockSub = useSubscription(["latestBlock"]);
 
   const query = trpc.useInfiniteQuery(
-    ["block.list", { limit: BLOCKS_PER_PAGE }],
+    ["blocks-list", { limit: BLOCKS_PER_PAGE }],
     {
       getNextPageParam: (lastPage) => {
         const lastElement = lastPage[lastPage.length - 1];
