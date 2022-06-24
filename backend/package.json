@@ -8,11 +8,13 @@
     "dev": "nodemon src/index.ts",
     "dev:testnet": "dotenv -c -e ../testnet.env -- npm run dev",
     "dev:mainnet": "dotenv -c -e ../mainnet.env -- npm run dev",
+    "dev:shardnet": "dotenv -c -e ../shardnet.env -- npm run dev",
     "dev:guildnet": "dotenv -c -e ../guildnet.env -- npm run dev",
     "build": "tsc",
     "start": "node build/backend/src/index.js",
     "start:testnet": "dotenv -c -e ../testnet.env -- npm run start",
     "start:mainnet": "dotenv -c -e ../mainnet.env -- npm run start",
+    "start:shardnet": "dotenv -c -e ../shardnet.env -- npm run start",
     "start:guildnet": "dotenv -c -e ../guildnet.env -- npm run start",
     "db:generate-types": "dotenv -c -e ../mainnet.env -- ts-node kanel.ts",
     "db:generated-types:fmt": "prettier --write 'src/database/models/**/*.ts'"

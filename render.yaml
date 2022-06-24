@@ -35,6 +35,16 @@ services:
           type: web
           name: backend/testnet
           property: host
+      - key: NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__SHARDNET
+        fromService:
+          type: web
+          name: backend/shardnet
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
+      - key: NEAR_EXPLORER_CONFIG__BACKEND_SSR__HOSTS__SHARDNET
+        fromService:
+          type: web
+          name: backend/shardnet
+          property: host 
       - key: NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__GUILDNET
         fromService:
           type: web
@@ -63,6 +73,11 @@ services:
               "aliases": ["explorer.testnet.near.org", "explorer.testnet.nearprotocol.com"],
               "nearWalletProfilePrefix": "https://wallet.testnet.near.org/profile"
             },
+            "shardnet": {
+              "explorerLink": "https://explorer.shardnet.near.org/",
+              "aliases": ["explorer.shardnet.near.org"],
+              "nearWalletProfilePrefix": "https://wallet.shardnet.near.org/profile"
+            }, 
             "guildnet": {
               "explorerLink": "https://explorer.guildnet.near.org/",
               "aliases": ["explorer.guildnet.near.org"],
@@ -101,6 +116,19 @@ services:
       - fromGroup: backend
       - fromGroup: backend/testnet
       - fromGroup: backend/testnet/secret
+
+  ## Explorer backend [shardnet]
+  - type: web
+    name: backend/shardnet
+    env: node
+    repo: https://github.com/near/near-explorer.git
+    buildCommand: npm clean-install && npm run -w backend build
+    startCommand: npm run -w backend start
+    healthCheckPath: /ping
+    envVars:
+      - fromGroup: backend
+      - fromGroup: backend/shardnet
+      - fromGroup: backend/shardnet/secret
 
   ## Explorer backend [guildnet]
   - type: web
@@ -170,6 +198,26 @@ envVarGroups:
         value: 35.241.197.241
       - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
         value: telemetry_testnet
+  - name: backend/shardnet
+    envVars:
+      - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME
+        value: shardnet
+      - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
+        value: http://34.147.104.174:3030/
+
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__HOST
+        value: 34.150.152.210
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__DATABASE
+        value: indexer_analytics_shardnet
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__USER
+        value: public_readonly
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__PASSWORD
+        value: nearprotocol
+
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
+        value: 34.150.152.210
+      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__DATABASE
+        value: telemetry_shardnet
   - name: backend/guildnet
     envVars:
       - key: NEAR_EXPLORER_CONFIG__NETWORK_NAME

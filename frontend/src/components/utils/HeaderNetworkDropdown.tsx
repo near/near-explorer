@@ -91,6 +91,9 @@ const NetworkIcon = styled("div", {
       testnet: {
         background: "#e9b870",
       },
+      shardnet: {
+        background: "#aa89f1",
+      },
       guildnet: {
         background: "#0072ce",
       },

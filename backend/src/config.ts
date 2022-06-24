@@ -22,6 +22,7 @@ export const config = merge(
       stakingPool: {
         mainnet: ".poolv1.near",
         testnet: undefined,
+        shardnet: undefined,
         guildnet: undefined,
         localnet: undefined,
       } as Record<NetworkName, string | undefined>,
