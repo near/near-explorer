@@ -12,6 +12,7 @@ const defaultBackendConfig: BackendConfig = {
   hosts: {
     mainnet: "localhost",
     testnet: "localhost",
+    shardnet: "localhost",
     guildnet: "localhost",
     localnet: "localhost",
   },
