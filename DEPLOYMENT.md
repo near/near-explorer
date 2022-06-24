@@ -7,7 +7,7 @@ Current deployment process is tightly coupled with `render.com` blueprints.
 ### Secrets
 
 Most environment variables are sane, but some of the secrets cannot be published in repository (e.g. database passwords).
-To run new deployment, first create environment groups for secrets: `backend/mainnet/secret`, `backend/testnet/secret`, `backend/guildnet/secret` and add missing environment keys.
+To run new deployment, first create environment groups for secrets: `backend/mainnet/secret`, `backend/testnet/secret`, `backend/shardnet/secret`, `backend/guildnet/secret` and add missing environment keys.
 
 For every backend there should be keys:
 
