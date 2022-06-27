@@ -18,7 +18,6 @@ jobs:
 
   frontend-typecheck:
     name: Frontend typecheck
-    needs: prettier
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -45,7 +44,6 @@ jobs:
 
   backend-typecheck:
     name: Backend typecheck
-    needs: prettier
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
