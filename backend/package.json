@@ -17,6 +17,7 @@
     "start:shardnet": "dotenv -c -e ../shardnet.env -- npm run start",
     "start:guildnet": "dotenv -c -e ../guildnet.env -- npm run start",
     "db:generate-types": "dotenv -c -e ../mainnet.env -- ts-node kanel.ts",
+    "db:generated-types:fix": "sed -i 's/ModelId =/ModelId = unknown;/' ./backend/src/database/models/readOnlyIndexerActivity/index.ts",
     "db:generated-types:fmt": "prettier --write 'src/database/models/**/*.ts'"
   },
   "repository": {

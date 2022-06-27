@@ -2,21 +2,63 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
 import { Tabs } from "../common/Tabs";
+import { Account } from "../../../types/common";
+import AccountActivityView from "./AccountActivityView";
+import {
+  BasicDecimalPower,
+  BASIC_DENOMINATION,
+  formatToPowerOfTen,
+} from "../../../libraries/formatting";
+import {
+  AccountPageOptions,
+  AccountTab,
+  buildAccountUrl,
+} from "../../../hooks/use-account-page-options";
+
+type Props = {
+  account: Account;
+  options: AccountPageOptions;
+};
 
 const TabLabel = styled("div", {
   display: "flex",
 });
 
-const AccountTabs: React.FC = React.memo(() => {
+const TabDetails = styled("div", {
+  fontSize: 10,
+  lineHeight: "150%",
+});
+
+const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
   const { t } = useTranslation();
+  const transactionsQuantity = formatToPowerOfTen<BasicDecimalPower>(
+    account.transactionsQuantity.toString(),
+    6
+  );
   return (
-    <Tabs
+    <Tabs<AccountTab>
+      buildHref={React.useCallback(
+        (tab: AccountTab) =>
+          buildAccountUrl({ accountId: options.accountId, tab }),
+        [options.accountId]
+      )}
+      initialSelectedId={options.tab}
       tabs={[
         {
           id: "activity",
-          disabled: true,
-          label: <TabLabel>{t("pages.account.tabs.activity")}</TabLabel>,
-          node: null,
+          label: (
+            <TabLabel>
+              {t("pages.account.tabs.activity")}
+              <TabDetails>
+                {t("pages.account.tabs.activityDetails", {
+                  transactionsQuantity: `${transactionsQuantity.quotient}${
+                    BASIC_DENOMINATION[transactionsQuantity.prefix]
+                  }`,
+                })}
+              </TabDetails>
+            </TabLabel>
+          ),
+          node: <AccountActivityView accountId={options.accountId} />,
         },
         {
           id: "tokens",
