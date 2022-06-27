@@ -16,6 +16,8 @@ const regularTasks = [
   tasks.stakingPoolMetadataInfoCheck,
   tasks.poolIdsCheck,
   tasks.tokensSupplyCheck,
+  tasks.rpcStatusCheck,
+  tasks.indexerStatusCheck,
 ];
 
 export const runTasks = (context: Context) => {

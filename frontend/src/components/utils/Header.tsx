@@ -14,6 +14,7 @@ import NearMiniLogoSvg from "../../../public/static/images/near_logo_icon.svg";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import { styled } from "../../libraries/styles";
+import { ServiceStatusView } from "./ServiceStatus";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",
@@ -40,6 +41,12 @@ const NearMiniLogo = styled(NearMiniLogoSvg, {
 
 const HeaderMainBar = styled(Row, {
   padding: "3px 16px 4px 6px",
+});
+
+const CenteredCol = styled(Col, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 });
 
 const SearchBoxColumn = styled(Col, {
@@ -77,7 +84,11 @@ const Header: React.FC = React.memo(() => {
               </Link>
             </Col>
 
-            <Col xs="8" md="2" className="align-self-center text-center">
+            <CenteredCol md="2" xs="1">
+              <ServiceStatusView />
+            </CenteredCol>
+
+            <Col xs="7" md="2" className="align-self-center text-center">
               <HeaderNetworkDropdown />
             </Col>
 

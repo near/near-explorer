@@ -1,3 +1,4 @@
+import moment from "moment";
 import { ValidatorEpochData, ValidatorPoolInfo } from "../router/types";
 import { config } from "../config";
 import {
@@ -11,6 +12,7 @@ import {
   queryOnlineNodesCount,
   queryGenesisAccountCount,
   queryTokensSupply,
+  healthCheck,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
 import {
@@ -32,6 +34,7 @@ import { wait } from "../common";
 import { GlobalState } from "../global-state";
 import { RegularCheckFn } from "./types";
 import { publishOnChange, updateRegularlyFetchedMap } from "./utils";
+import { MINUTE } from "../utils/time";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",
@@ -308,5 +311,82 @@ export const poolIdsCheck: RegularCheckFn = {
   fn: async (_, context) => {
     context.state.poolIds = await queryStakingPoolAccountIds();
     return config.intervals.checkPoolIds;
+  },
+};
+
+const RPC_BLOCK_AFFORDABLE_LAG = 5 * MINUTE;
+export const rpcStatusCheck: RegularCheckFn = {
+  description: "rpc status check",
+  fn: async (publish, context) => {
+    try {
+      const status = await nearApi.sendJsonRpc("status", []);
+      const latestBlockTime = new Date(status.sync_info.latest_block_time);
+      const now = Date.now();
+      if (latestBlockTime.valueOf() + RPC_BLOCK_AFFORDABLE_LAG < now) {
+        context.state.rpcStatus = {
+          ok: false,
+          message: `RPC doesn't report any new blocks for ${moment
+            .duration(RPC_BLOCK_AFFORDABLE_LAG)
+            .humanize()}`,
+          timestamp: now,
+        };
+      } else {
+        context.state.rpcStatus = {
+          ok: true,
+          timestamp: now,
+        };
+      }
+    } catch (e) {
+      context.state.rpcStatus = {
+        ok: false,
+        message: "RPC is having troubles",
+        timestamp: Date.now(),
+      };
+    } finally {
+      publish("rpcStatus", context.state.rpcStatus);
+      return config.intervals.checkRpcStatus;
+    }
+  },
+};
+
+const INDEXER_BLOCK_AFFORDABLE_LAG = 5 * MINUTE;
+export const indexerStatusCheck: RegularCheckFn = {
+  description: "indexer status check",
+  fn: async (publish, context) => {
+    try {
+      await healthCheck();
+      const now = Date.now();
+      const latestBlock = context.subscriptionsCache.latestBlock;
+      if (!latestBlock) {
+        context.state.indexerStatus = {
+          ok: true,
+          timestamp: now,
+        };
+      } else {
+        if (latestBlock.timestamp + INDEXER_BLOCK_AFFORDABLE_LAG < now) {
+          context.state.indexerStatus = {
+            ok: false,
+            message: `Indexer doesn't report any new blocks for ${moment
+              .duration(INDEXER_BLOCK_AFFORDABLE_LAG)
+              .humanize()}`,
+            timestamp: now,
+          };
+        } else {
+          context.state.indexerStatus = {
+            ok: true,
+            timestamp: now,
+          };
+        }
+      }
+    } catch (e) {
+      context.state.rpcStatus = {
+        ok: false,
+        message: "Indexer is having troubles",
+        timestamp: Date.now(),
+      };
+    } finally {
+      publish("indexerStatus", context.state.indexerStatus);
+      return config.intervals.checkIndexerStatus;
+    }
   },
 };

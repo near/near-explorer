@@ -32,6 +32,7 @@ import { getBackendUrl } from "../libraries/transport";
 import { useLanguageCookie } from "../hooks/use-language-context";
 import { useMomentLanguage } from "../hooks/use-moment-language";
 import { useI18n } from "../hooks/use-i18n";
+import { ToastController } from "../components/utils/ToastController";
 
 const globalStyles = globalCss({
   body: {
@@ -185,6 +186,7 @@ const App: AppType = React.memo(({ Component, pageProps }) => {
       >
         <AppWrapper>
           <Header />
+          <ToastController />
           <BackgroundImage src="/static/images/explorer-bg.svg" />
           <Component {...restPageProps} />
         </AppWrapper>

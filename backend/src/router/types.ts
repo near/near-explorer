@@ -1,3 +1,5 @@
+import { HealthStatus } from "../types";
+
 export type ValidatorTelemetry = {
   ipAddress: string;
   nodeId: string;
@@ -97,6 +99,8 @@ export type SubscriptionTopicTypes = {
     timestamp: number;
   }[];
   "network-stats": NetworkStats;
+  rpcStatus: HealthStatus;
+  indexerStatus: HealthStatus;
 };
 
 export type SubscriptionTopicType = keyof SubscriptionTopicTypes;
