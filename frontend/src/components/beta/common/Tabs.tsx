@@ -1,5 +1,6 @@
 import * as React from "react";
 import { styled } from "../../../libraries/styles";
+import LinkWrapper from "../../utils/Link";
 
 const Wrapper = styled("div", {});
 
@@ -51,19 +52,28 @@ const TabSlider = styled("div", {
   transition: "all 0.2s linear",
 });
 
-type TabProps = {
-  id: string;
+type BaseTabProps = {
   label: React.ReactNode;
   node: React.ReactNode;
-  disabled?: boolean;
 };
 
-type Props = {
-  initialSelectedId?: string;
-  tabs: TabProps[];
+type DisabledTabProps = BaseTabProps & {
+  id: string;
+  disabled: true;
 };
 
-export const Tabs: React.FC<Props> = React.memo((props) => {
+type EnabledTabProps<T extends string> = BaseTabProps & {
+  id: T;
+  disabled?: false;
+};
+
+type Props<T extends string> = {
+  initialSelectedId?: T;
+  buildHref?: (id: T) => string | undefined;
+  tabs: (DisabledTabProps | EnabledTabProps<T>)[];
+};
+
+export const Tabs = React.memo(<T extends string>(props: Props<T>) => {
   const firstEnabledTab = props.tabs.find((tab) => !tab.disabled);
   const [selectedId, setSelectedId] = React.useState(
     props.initialSelectedId || (firstEnabledTab ?? props.tabs[0]).id
@@ -93,16 +103,25 @@ export const Tabs: React.FC<Props> = React.memo((props) => {
   return (
     <Wrapper>
       <TabLabels ref={labelsElementRef}>
-        {props.tabs.map(({ label, id, disabled }) => (
-          <TabHeader
-            key={id}
-            onClick={disabled ? undefined : () => setSelectedId(id)}
-            ref={(element) => (labelsRecordRef.current[id] = element)}
-            disabled={Boolean(disabled)}
-          >
-            {label}
-          </TabHeader>
-        ))}
+        {props.tabs.map(({ label, id, disabled }) => {
+          const href = disabled ? undefined : props.buildHref?.(id);
+          return (
+            <TabHeader
+              key={id}
+              onClick={disabled ? undefined : () => setSelectedId(id)}
+              ref={(element) => (labelsRecordRef.current[id] = element)}
+              disabled={Boolean(disabled)}
+            >
+              {href ? (
+                <LinkWrapper href={href} shallow>
+                  {label}
+                </LinkWrapper>
+              ) : (
+                label
+              )}
+            </TabHeader>
+          );
+        })}
         <TabSlider style={sliderPosition} />
       </TabLabels>
       {props.tabs.map(({ node, id }) => {
