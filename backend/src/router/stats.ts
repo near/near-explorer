@@ -16,11 +16,6 @@ export const router = trpc
       return stats.getGasUsedByDate();
     },
   })
-  .query("deposit-amount-aggregated-by-date", {
-    resolve: () => {
-      return stats.getDepositAmountByDate();
-    },
-  })
   .query("new-accounts-count-aggregated-by-date", {
     resolve: () => {
       return stats.getNewAccountsCountByDate();

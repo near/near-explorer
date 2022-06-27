@@ -20,7 +20,6 @@ import {
   aggregateActiveContractsCountByDate,
   aggregateActiveContractsList,
   aggregateDeletedAccountsCountByDate,
-  aggregateDepositAmountByDate,
   aggregateGasUsedByDate,
   aggregateLiveAccountsCountByDate,
   aggregateNewAccountsCountByDate,
@@ -123,7 +122,6 @@ export const statsAggregationCheck: RegularCheckFn = {
   fn: async (_, context) => {
     // transactions related
     await aggregateGasUsedByDate();
-    await aggregateDepositAmountByDate();
 
     // account
     await aggregateNewAccountsCountByDate();

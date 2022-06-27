@@ -10,7 +10,6 @@ import {
   queryActiveContractsCountAggregatedByDate,
   queryActiveContractsList,
   queryActiveAccountsList,
-  queryDepositAmountAggregatedByDate,
   queryLatestCirculatingSupply,
   calculateFeesByDay,
 } from "../database/queries";
@@ -22,9 +21,6 @@ type DatedStats<T> = (T & { date: string })[];
 
 // term that store data from query
 let GAS_USED_BY_DATE: Nullable<DatedStats<{ gasUsed: string }>> = null;
-let DEPOSIT_AMOUNT_AGGREGATED_BY_DATE: Nullable<
-  DatedStats<{ depositAmount: string }>
-> = null;
 
 // accounts
 let NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE: Nullable<
@@ -98,16 +94,6 @@ export const aggregateGasUsedByDate = retriable(async () => {
     gasUsed: gas_used_by_date,
   }));
 }, "Gas used time series");
-
-export const aggregateDepositAmountByDate = retriable(async () => {
-  const depositAmountByDate = await queryDepositAmountAggregatedByDate();
-  DEPOSIT_AMOUNT_AGGREGATED_BY_DATE = depositAmountByDate.map(
-    ({ date, total_deposit_amount }) => ({
-      date: formatDate(date),
-      depositAmount: total_deposit_amount,
-    })
-  );
-}, "Deposit amount time series");
 
 // accounts
 export const aggregateNewAccountsCountByDate = retriable(async () => {
@@ -299,10 +285,6 @@ export const aggregateActiveContractsList = retriable(async () => {
 
 export const getGasUsedByDate = () => {
   return GAS_USED_BY_DATE;
-};
-
-export const getDepositAmountByDate = () => {
-  return DEPOSIT_AMOUNT_AGGREGATED_BY_DATE;
 };
 
 //accounts

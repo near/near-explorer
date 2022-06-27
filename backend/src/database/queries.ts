@@ -204,17 +204,6 @@ export const queryGasUsedAggregatedByDate = async () => {
     .execute();
 };
 
-export const queryDepositAmountAggregatedByDate = async () => {
-  return analyticsDatabase
-    .selectFrom("daily_deposit_amount")
-    .select([
-      "collected_for_day as date",
-      "deposit_amount as total_deposit_amount",
-    ])
-    .orderBy("date")
-    .execute();
-};
-
 export const queryTransactionsList = async (
   limit: number = 15,
   cursor?: z.infer<typeof validators.transactionPagination>
