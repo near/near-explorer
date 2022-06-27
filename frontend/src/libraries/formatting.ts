@@ -1,4 +1,5 @@
 import JSBI from "jsbi";
+import * as BI from "./bigint";
 
 export function truncateAccountId(
   accountId: string,
@@ -9,12 +10,15 @@ export function truncateAccountId(
     : accountId;
 }
 
-const POWER_OF_10 = JSBI.BigInt(10 ** 3);
+const POWER = 3;
+const POWER_OF_10 = JSBI.BigInt(10 ** POWER);
 export const formatToPowerOfTen = <P extends number>(
   input: string,
   maxPower: P
 ): { quotient: string; remainder: string; prefix: P } => {
-  let quotient = JSBI.BigInt(input);
+  const bigIntInput = JSBI.BigInt(input);
+  const isInputNegative = JSBI.lessThan(bigIntInput, BI.zero);
+  let quotient = isInputNegative ? JSBI.unaryMinus(bigIntInput) : bigIntInput;
   let currentPower: P = 0 as P;
   let remainder = "";
   while (
@@ -22,12 +26,14 @@ export const formatToPowerOfTen = <P extends number>(
     currentPower < maxPower
   ) {
     currentPower++;
-    remainder = JSBI.remainder(quotient, POWER_OF_10).toString() + remainder;
+    remainder =
+      JSBI.remainder(quotient, POWER_OF_10).toString().padStart(POWER, "0") +
+      remainder;
     quotient = JSBI.divide(quotient, POWER_OF_10);
   }
   return {
-    quotient: quotient.toString(),
-    remainder,
+    quotient: (isInputNegative ? "-" : "") + quotient.toString(),
+    remainder: remainder,
     prefix: currentPower,
   };
 };

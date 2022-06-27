@@ -456,6 +456,56 @@ export const queryAccountsList = async (
   return selection.orderBy("account_index", "desc").limit(limit).execute();
 };
 
+export const queryAccountFungibleTokenContractIds = async (
+  accountId: string
+): Promise<string[]> => {
+  const selection = await indexerDatabase
+    .selectFrom("assets__fungible_token_events")
+    .select("emitted_by_contract_account_id as contractId")
+    .distinctOn("emitted_by_contract_account_id")
+    .where("token_new_owner_account_id", "=", accountId)
+    .orWhere("token_old_owner_account_id", "=", accountId)
+    .orderBy("emitted_by_contract_account_id", "desc")
+    .execute();
+  return selection.map((row) => row.contractId);
+};
+
+export const queryAccountFungibleTokenHistory = async (
+  accountId: string,
+  tokenAuthorAccountId: string
+) => {
+  const selection = await indexerDatabase
+    .selectFrom("assets__fungible_token_events")
+    .innerJoin("receipts", (qb) =>
+      qb.onRef("emitted_for_receipt_id", "=", "receipts.receipt_id")
+    )
+    .innerJoin("blocks", (qb) =>
+      qb.onRef("blocks.block_hash", "=", "receipts.included_in_block_hash")
+    )
+    .select([
+      "amount",
+      "token_old_owner_account_id as prevAccountId",
+      "token_new_owner_account_id as nextAccountId",
+      "emitted_for_receipt_id as receiptId",
+      (eb) => div(eb, "emitted_at_block_timestamp", 1000 * 1000, "timestamp"),
+      "originated_from_transaction_hash as transactionHash",
+      "block_height as blockHeight",
+    ])
+    .where("emitted_by_contract_account_id", "=", tokenAuthorAccountId)
+    .where((wi) =>
+      wi
+        .where("token_new_owner_account_id", "=", accountId)
+        .orWhere("token_old_owner_account_id", "=", accountId)
+    )
+    .orderBy("emitted_at_block_timestamp", "desc")
+    .orderBy("emitted_in_shard_id", "desc")
+    .orderBy("emitted_index_of_event_entry_in_shard", "desc")
+    // Pagination to be introduced soon..
+    .limit(200)
+    .execute();
+  return selection;
+};
+
 export const queryOutcomeTransactionsCountFromAnalytics = async (
   accountId: string
 ) => {

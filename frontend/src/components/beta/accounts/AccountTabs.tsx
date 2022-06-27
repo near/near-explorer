@@ -1,16 +1,30 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import {
+  AccountPageOptions,
+  AccountTab,
+  buildAccountUrl,
+} from "../../../hooks/use-account-page-options";
 import { styled } from "../../../libraries/styles";
 import { Tabs } from "../common/Tabs";
+import AccountFungibleTokens from "./AccountFungibleTokens";
 
 const TabLabel = styled("div", {
   display: "flex",
 });
 
-const AccountTabs: React.FC = React.memo(() => {
+type Props = { options: AccountPageOptions };
+
+const AccountTabs: React.FC<Props> = React.memo(({ options }) => {
   const { t } = useTranslation();
   return (
-    <Tabs
+    <Tabs<AccountTab>
+      buildHref={React.useCallback(
+        (tab: AccountTab) =>
+          buildAccountUrl({ accountId: options.accountId, tab }),
+        [options.accountId]
+      )}
+      initialSelectedId={options.tab}
       tabs={[
         {
           id: "activity",
@@ -19,10 +33,12 @@ const AccountTabs: React.FC = React.memo(() => {
           node: null,
         },
         {
-          id: "tokens",
-          disabled: true,
+          id: "fungible-tokens",
           label: <TabLabel>{t("pages.account.tabs.tokens")}</TabLabel>,
-          node: null,
+          node:
+            options.tab === "fungible-tokens" ? (
+              <AccountFungibleTokens options={options} />
+            ) : null,
         },
         {
           id: "collectibles",

@@ -4,23 +4,49 @@ type BaseAccountPageOptions = {
   accountId: string;
 };
 
-export type AccountPageOptions = BaseAccountPageOptions;
+export type FungibleTokensAccountPageOptions = BaseAccountPageOptions & {
+  tab: "fungible-tokens";
+  token?: string;
+};
+
+export type AccountPageOptions = FungibleTokensAccountPageOptions;
+
+export type AccountTab = AccountPageOptions["tab"];
 
 export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
-  const [accountId, ...restSlug] = slug.filter(Boolean);
+  const [accountId, tab, ...restSlug] = slug.filter(Boolean);
   if (!accountId) {
     throw new Error("No account id in slug");
   }
-  if (restSlug.length !== 0) {
-    throw new Error("Too many parameters in slug");
+  if (tab) {
+    if (tab === "fungible-tokens") {
+      if (restSlug.length > 1) {
+        throw new Error("Too many parameters in slug");
+      }
+      return {
+        accountId,
+        tab: "fungible-tokens",
+        token: restSlug[0],
+      };
+    }
+    throw new Error(`Unknown tab: ${tab}`);
   }
   return {
     accountId,
+    tab: "fungible-tokens",
   };
 };
 
 export const buildAccountUrl = (options: AccountPageOptions) => {
-  return ["/beta", "accounts", options.accountId].filter(Boolean).join("/");
+  return [
+    "/beta",
+    "accounts",
+    options.accountId,
+    options.tab,
+    "token" in options ? options.token : undefined,
+  ]
+    .filter(Boolean)
+    .join("/");
 };
 
 export const useAccountPageOptions = (): AccountPageOptions => {
