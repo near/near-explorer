@@ -1,4 +1,5 @@
 import * as nearApi from "near-api-js";
+import { CodeResult } from "near-api-js/lib/providers/provider";
 
 import { config } from "../config";
 import { RPC } from "../types";
@@ -26,19 +27,25 @@ export const sendJsonRpcQuery = <
   });
 };
 
+type CallViewMethodOptions =
+  | { finality: "optimistic" | "final" }
+  | { block_id: number | string };
+
 // TODO: Provide an equivalent method in near-api-js, so we don't need to make it external.
 export const callViewMethod = async function <T>(
   contractName: string,
   methodName: string,
-  args: unknown
+  args: unknown,
+  options: CallViewMethodOptions = { finality: "optimistic" }
 ): Promise<T> {
-  const account = new nearApi.Account(
-    {
-      provider: nearRpc,
-    } as unknown as nearApi.Connection,
-    "near"
-  );
-  return await account.viewFunction(contractName, methodName, args);
+  const rawResult = await nearRpc.query<CodeResult>({
+    request_type: "call_function",
+    account_id: contractName,
+    method_name: methodName,
+    args_base64: Buffer.from(JSON.stringify(args)).toString("base64"),
+    ...options,
+  });
+  return JSON.parse(Buffer.from(rawResult.result).toString());
 };
 
 export * from "near-api-js";

@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { Context } from "../context";
 import * as accounts from "../providers/accounts";
-import * as contracts from "../providers/contracts";
+import * as fungibleTokens from "../providers/fungible-tokens";
 import * as nearApi from "../utils/near";
 import { validators } from "./validators";
 
@@ -80,5 +80,25 @@ export const router = trpc
     input: z.tuple([validators.accountId]),
     resolve: ({ input: [accountId] }) => {
       return accounts.getAccountTransactionsCount(accountId);
+    },
+  })
+  .query("account-fungible-tokens", {
+    input: z.strictObject({
+      accountId: validators.accountId,
+    }),
+    resolve: async ({ input: { accountId } }) => {
+      return fungibleTokens.getFungibleTokens(accountId);
+    },
+  })
+  .query("account-fungible-token-history", {
+    input: z.strictObject({
+      accountId: validators.accountId,
+      tokenAuthorAccountId: z.string(),
+    }),
+    resolve: async ({ input: { accountId, tokenAuthorAccountId } }) => {
+      return fungibleTokens.getFungibleTokenHistory(
+        accountId,
+        tokenAuthorAccountId
+      );
     },
   });

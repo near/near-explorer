@@ -3,6 +3,12 @@ import { TRPCQueryOutput, TRPCSubscriptionOutput } from "./trpc";
 export type AccountOld = NonNullable<TRPCQueryOutput<"account-info">>;
 export type Account = NonNullable<TRPCQueryOutput<"account">>;
 export type AccountListInfo = TRPCQueryOutput<"accounts-list">[number];
+export type AccountFungibleToken =
+  TRPCQueryOutput<"account-fungible-tokens">[number];
+export type AccountFungibleTokenHistory =
+  TRPCQueryOutput<"account-fungible-token-history">;
+export type AccountFungibleTokenHistoryElement =
+  AccountFungibleTokenHistory["elements"][number];
 
 export type Block = NonNullable<TRPCQueryOutput<"block-info">>;
 export type BlockBase = TRPCQueryOutput<"blocks-list">[number];
