@@ -499,8 +499,7 @@
         "14_day_history": {
           "title": "Історія за 14 днів",
           "transactions": "Транзакції"
-        },
-        "date_format": "MMM D"
+        }
       }
     },
     "stats": {

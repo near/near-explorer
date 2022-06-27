@@ -12,7 +12,7 @@ import {
 } from "./databases";
 import { DAY } from "../utils/time";
 import { config } from "../config";
-import { millisecondsToNanoseconds } from "../utils/bigint";
+import { millisecondsToNanoseconds, nearNomination } from "../utils/bigint";
 import { count, sum, max, div } from "./utils";
 import { validators } from "../router/validators";
 
@@ -190,10 +190,10 @@ export const queryTransactionsHistory = async () => {
     .select(["collected_for_day as date", "transactions_count as count"])
     .orderBy("date")
     .execute();
-  return selection.map((row) => ({
-    count: Number(row.count),
-    timestamp: row.date.valueOf(),
-  }));
+  return selection.map<[number, number]>((row) => [
+    row.date.valueOf(),
+    Number(row.count),
+  ]);
 };
 
 export const queryGasUsedAggregatedByDate = async () => {
@@ -774,10 +774,13 @@ export const queryTokensSupply = async () => {
     ])
     .orderBy("date")
     .execute();
-  return selection.map(({ date, ...row }) => ({
-    ...row,
-    timestamp: date.valueOf(),
-  }));
+  return selection.map<[number, number, number]>(
+    ({ date, totalSupply, circulatingSupply }) => [
+      date.valueOf(),
+      Number(BigInt(totalSupply) / nearNomination),
+      Number(BigInt(circulatingSupply) / nearNomination),
+    ]
+  );
 };
 
 export const queryBlocksList = async (limit: number = 15, cursor?: number) => {
