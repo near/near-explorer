@@ -499,8 +499,7 @@
         "14_day_history": {
           "title": "14 Day History",
           "transactions": "Txns"
-        },
-        "date_format": "MMM D"
+        }
       }
     },
     "stats": {

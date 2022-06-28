@@ -70,6 +70,10 @@ export type NetworkStats = {
   seatPrice?: string;
 };
 
+type TimestampDataSeries<T> = (T extends unknown[]
+  ? [number, ...T]
+  : [number, T])[];
+
 export type SubscriptionTopicTypes = {
   validators: ValidatorFullData[];
   latestBlock: {
@@ -87,15 +91,8 @@ export type SubscriptionTopicTypes = {
     totalSupply: string;
     accountCount: number;
   };
-  tokensSupply: {
-    totalSupply: string;
-    circulatingSupply: string;
-    timestamp: number;
-  }[];
-  transactionsHistory: {
-    count: number;
-    timestamp: number;
-  }[];
+  tokensSupply: TimestampDataSeries<[number, number]>;
+  transactionsHistory: TimestampDataSeries<number>;
   "network-stats": NetworkStats;
 };
 

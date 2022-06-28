@@ -18,18 +18,8 @@ const TransactionCardNumber = styled(Row, {
   },
 });
 
-const TransactionCharts = styled(Row, {
-  "@media (max-width: 768px)": {
-    marginBottom: 178,
-  },
-});
-
 const DashboardTransaction: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const transactionHistorySub = useSubscription([
-    "transactionsHistory",
-    { amountOfDays: 14 },
-  ]);
   const recentTransactionsCountSub = useSubscription([
     "recentTransactionsCount",
   ]);
@@ -90,15 +80,7 @@ const DashboardTransaction: React.FC = React.memo(() => {
           />
         </Col>
       </TransactionCardNumber>
-      {transactionHistorySub.status === "success" ? (
-        <TransactionCharts>
-          <Col md="12">
-            <DashboardTransactionsHistoryChart
-              transactionHistory={transactionHistorySub.data}
-            />
-          </Col>
-        </TransactionCharts>
-      ) : null}
+      <DashboardTransactionsHistoryChart />
     </DashboardCard>
   );
 });

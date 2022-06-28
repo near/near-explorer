@@ -13,8 +13,6 @@ export type AccountFungibleTokenHistoryElement =
 export type Block = NonNullable<TRPCQueryOutput<"block-info">>;
 export type BlockBase = TRPCQueryOutput<"blocks-list">[number];
 
-export type TransactionsHistory = TRPCSubscriptionOutput<"transactionsHistory">;
-
 export type ReceiptExecutionStatus = NonNullable<
   TRPCQueryOutput<"executed-receipts-list-by-block-hash">[number]["status"]
 >;
