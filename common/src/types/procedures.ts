@@ -50,3 +50,5 @@ export type ValidatorDescription = NonNullable<
   ValidatorFullData["description"]
 >;
 export type ValidatorPoolInfo = NonNullable<ValidatorFullData["poolInfo"]>;
+
+export type HealthStatus = TRPCSubscriptionOutput<"rpcStatus">;

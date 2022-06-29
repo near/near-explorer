@@ -1159,3 +1159,7 @@ export const maybeSendTelemetry = async (
   // TODO: figure out why raw query run faster than kysely query
   await extraPool.query(compiled.sql, compiled.parameters as any);
 };
+
+export const healthCheck = async () => {
+  await sql`select 1`.execute(indexerDatabase);
+};
