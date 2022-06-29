@@ -12,7 +12,11 @@ import {
 } from "./databases";
 import { DAY } from "../utils/time";
 import { config } from "../config";
-import { millisecondsToNanoseconds, nearNomination } from "../utils/bigint";
+import {
+  teraGasNomination,
+  millisecondsToNanoseconds,
+  nearNomination,
+} from "../utils/bigint";
 import { count, sum, max, div } from "./utils";
 import { validators } from "../router/validators";
 
@@ -197,11 +201,15 @@ export const queryTransactionsHistory = async () => {
 };
 
 export const queryGasUsedAggregatedByDate = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_gas_used")
-    .select(["collected_for_day as date", "gas_used as gas_used_by_date"])
+    .select(["collected_for_day as date", "gas_used as gasUsed"])
     .orderBy("date")
     .execute();
+  return selection.map<[number, number]>(({ date, gasUsed }) => [
+    date.valueOf(),
+    Number(BigInt(gasUsed) / teraGasNomination),
+  ]);
 };
 
 export const queryTransactionsList = async (

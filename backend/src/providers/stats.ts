@@ -1,6 +1,5 @@
 import { Context } from "../context";
 import {
-  queryGasUsedAggregatedByDate,
   queryNewAccountsCountAggregatedByDate,
   queryDeletedAccountsCountAggregatedByDate,
   queryUniqueDeployedContractsCountAggregatedByDate,
@@ -18,9 +17,6 @@ import { trimError } from "../utils/logging";
 
 type Nullable<T> = T | null;
 type DatedStats<T> = (T & { date: string })[];
-
-// term that store data from query
-let GAS_USED_BY_DATE: Nullable<DatedStats<{ gasUsed: string }>> = null;
 
 // accounts
 let NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE: Nullable<
@@ -85,15 +81,6 @@ function retriable<Args extends unknown[]>(
     }
   };
 }
-
-// function that query from indexer
-export const aggregateGasUsedByDate = retriable(async () => {
-  const gasUsedByDate = await queryGasUsedAggregatedByDate();
-  GAS_USED_BY_DATE = gasUsedByDate.map(({ date, gas_used_by_date }) => ({
-    date: formatDate(date),
-    gasUsed: gas_used_by_date,
-  }));
-}, "Gas used time series");
 
 // accounts
 export const aggregateNewAccountsCountByDate = retriable(async () => {
@@ -282,10 +269,6 @@ export const aggregateActiveContractsList = retriable(async () => {
 }, "Top active contracts with respective receipts count");
 
 // get function that exposed to frontend
-
-export const getGasUsedByDate = () => {
-  return GAS_USED_BY_DATE;
-};
 
 //accounts
 export const getNewAccountsCountByDate = () => {

@@ -95,6 +95,7 @@ export type SubscriptionTopicTypes = {
   };
   tokensSupply: TimestampDataSeries<[number, number]>;
   transactionsHistory: TimestampDataSeries<number>;
+  gasUsedHistory: TimestampDataSeries<[number]>;
   "network-stats": NetworkStats;
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;

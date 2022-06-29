@@ -1,5 +1,8 @@
 import JSBI from "jsbi";
-import { nearNominationExponent } from "../../../common/src/utils/near";
+import {
+  nearNominationExponent,
+  teraGasNominationExponent,
+} from "../../../common/src/utils/near";
 
 export const zero = JSBI.BigInt(0);
 export const minusOne = JSBI.BigInt(-1);
@@ -31,4 +34,4 @@ export const nearNomination = JSBI.exponentiate(
   JSBI.BigInt(nearNominationExponent)
 );
 
-export { nearNominationExponent };
+export { nearNominationExponent, teraGasNominationExponent };
