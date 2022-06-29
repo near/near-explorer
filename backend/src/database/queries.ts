@@ -1,13 +1,10 @@
 import { sql } from "kysely";
-import geoip from "geoip-lite";
 import { z } from "zod";
 
 import {
   indexerDatabase,
   analyticsDatabase,
   telemetryDatabase,
-  telemetryWriteDatabase,
-  extraPool,
   Indexer,
 } from "./databases";
 import { DAY } from "../utils/time";
@@ -1075,89 +1072,6 @@ export const queryGasUsedInChunks = async (blockHash: string) => {
     .select((eb) => sum(eb, "gas_used").as("gas_used"))
     .where("included_in_block_hash", "=", blockHash)
     .executeTakeFirst();
-};
-
-export const maybeCreateTelemetryTable = async () => {
-  if (!telemetryWriteDatabase) {
-    return;
-  }
-  await telemetryWriteDatabase.schema
-    .createTable("nodes")
-    .ifNotExists()
-    .addColumn("ip_address", "varchar(255)", (col) => col.notNull())
-    .addColumn("moniker", "varchar(255)", (col) => col.notNull())
-    .addColumn("account_id", "varchar(255)", (col) => col.notNull())
-    .addColumn("node_id", "varchar(255)", (col) => col.notNull().primaryKey())
-    .addColumn("last_seen", "timestamptz", (col) => col.notNull())
-    .addColumn("last_height", "bigint", (col) => col.notNull())
-    .addColumn("agent_name", "varchar(255)", (col) => col.notNull())
-    .addColumn("agent_version", "varchar(255)", (col) => col.notNull())
-    .addColumn("agent_build", "varchar(255)", (col) => col.notNull())
-    .addColumn("peer_count", "varchar(255)", (col) => col.notNull())
-    .addColumn("is_validator", "boolean", (col) => col.notNull())
-    .addColumn("last_hash", "varchar(255)", (col) => col.notNull())
-    .addColumn("signature", "varchar(255)", (col) => col.notNull())
-    .addColumn("status", "varchar(255)", (col) => col.notNull())
-    .addColumn("latitude", "numeric(8, 6)")
-    .addColumn("longitude", "numeric(9, 6)")
-    .addColumn("city", "varchar(255)")
-    .execute();
-};
-
-export const maybeSendTelemetry = async (
-  nodeInfo: z.infer<typeof validators.telemetryRequest>,
-  geo: geoip.Lookup | null
-) => {
-  if (!telemetryWriteDatabase) {
-    return;
-  }
-  const query = telemetryWriteDatabase
-    .insertInto("nodes")
-    .values({
-      node_id: nodeInfo.chain.node_id,
-      ip_address: nodeInfo.ip_address,
-      // moniker has never been really used or implemented on nearcore side
-      moniker: nodeInfo.chain.account_id || "",
-      // accountId must be non-empty when the telemetry is submitted by validation nodes
-      account_id: nodeInfo.chain.account_id || "",
-      last_seen: new Date(),
-      last_height: nodeInfo.chain.latest_block_height.toString(),
-      agent_name: nodeInfo.agent.name,
-      agent_version: nodeInfo.agent.version,
-      agent_build: nodeInfo.agent.build,
-      peer_count: nodeInfo.chain.num_peers.toString(),
-      is_validator: nodeInfo.chain.is_validator,
-      last_hash: nodeInfo.chain.latest_block_hash,
-      signature: nodeInfo.signature || "",
-      status: nodeInfo.chain.status,
-      latitude: geo ? geo.ll[0].toString() : null,
-      longitude: geo ? geo.ll[1].toString() : null,
-      city: geo ? geo.city : null,
-    })
-    .onConflict((oc) =>
-      oc.column("node_id").doUpdateSet({
-        ip_address: (eb) => eb.ref("excluded.ip_address"),
-        moniker: (eb) => eb.ref("excluded.moniker"),
-        account_id: (eb) => eb.ref("excluded.account_id"),
-        last_seen: (eb) => eb.ref("excluded.last_seen"),
-        last_height: (eb) => eb.ref("excluded.last_height"),
-        agent_name: (eb) => eb.ref("excluded.agent_name"),
-        agent_version: (eb) => eb.ref("excluded.agent_version"),
-        agent_build: (eb) => eb.ref("excluded.agent_build"),
-        peer_count: (eb) => eb.ref("excluded.peer_count"),
-        is_validator: (eb) => eb.ref("excluded.is_validator"),
-        last_hash: (eb) => eb.ref("excluded.last_hash"),
-        signature: (eb) => eb.ref("excluded.signature"),
-        status: (eb) => eb.ref("excluded.status"),
-        latitude: (eb) => eb.ref("excluded.latitude"),
-        longitude: (eb) => eb.ref("excluded.longitude"),
-        city: (eb) => eb.ref("excluded.city"),
-      })
-    );
-
-  const compiled = query.compile();
-  // TODO: figure out why raw query run faster than kysely query
-  await extraPool.query(compiled.sql, compiled.parameters as any);
 };
 
 export const healthCheck = async () => {
