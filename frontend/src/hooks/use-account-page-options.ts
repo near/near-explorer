@@ -13,9 +13,14 @@ export type ActivityAccountPageOptions = BaseAccountPageOptions & {
   tab: "activity";
 };
 
+export type NonFungibleTokensAccountPageOptions = BaseAccountPageOptions & {
+  tab: "collectibles";
+};
+
 export type AccountPageOptions =
   | FungibleTokensAccountPageOptions
-  | ActivityAccountPageOptions;
+  | ActivityAccountPageOptions
+  | NonFungibleTokensAccountPageOptions;
 
 export type AccountTab = AccountPageOptions["tab"];
 
@@ -45,6 +50,15 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
           tab: "activity",
         };
       }
+      case "collectibles": {
+        if (restSlug.length > 0) {
+          throw new Error("Too many parameters in slug");
+        }
+        return {
+          accountId,
+          tab: "collectibles",
+        };
+      }
       default:
         throw new Error(`Unknown tab: ${tab}`);
     }
@@ -60,6 +74,7 @@ const getAccountTabParts = (options: AccountPageOptions) => {
     case "fungible-tokens":
       return [options.tab, options.token];
     case "activity":
+    case "collectibles":
       return [];
   }
 };

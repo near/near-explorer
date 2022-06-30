@@ -2,9 +2,14 @@ import * as React from "react";
 import Image from "next/image";
 
 import { styled } from "../../../libraries/styles";
+import { rgbDataURL } from "../../../libraries/rgbplaceholder";
+import { trpc } from "../../../libraries/trpc";
 
 import ListHandler from "../../utils/ListHandler";
-import { trpc } from "../../../libraries/trpc";
+import { AccountNonFungibleToken } from "../../../types/common";
+import { NonFungibleTokensAccountPageOptions } from "../../../hooks/use-account-page-options";
+import AccountNonFungibleTokensHistory from "./AccountNonFungibleTokensHistory";
+import Img from "../common/Img";
 
 const TOKENS_PER_PAGE = 20;
 
@@ -23,6 +28,7 @@ const Token = styled("div", {
   flexDirection: "column",
   cursor: "pointer",
   transition: "border-color .15s ease-in-out",
+  boxSizing: "content-box",
 
   "&:hover": {
     borderColor: "#1e93ff",
@@ -77,77 +83,100 @@ const TokenInfo = styled("div", {
 });
 
 type ItemProps = {
-  token: any;
+  token: AccountNonFungibleToken;
+  onClick: React.ReactEventHandler;
+  modalOpen: boolean;
 };
 
-const AccountFungibleTokenView: React.FC<ItemProps> = React.memo(({ token }) => {
-  return (
-    <Token>
-      <TokenImage>
-        <Image src={token.metadata.media} layout="fill" />
-      </TokenImage>
+const AccountFungibleTokenView: React.FC<ItemProps> = React.memo(
+  ({ token, onClick, modalOpen }) => {
+    return (
+      <>
+        <Token
+          onClick={onClick}
+          css={modalOpen ? { borderColor: "#1e93ff" } : {}}
+        >
+          <TokenImage>
+            <Img src={token.metadata.media} />
+          </TokenImage>
 
-      <TokenBody>
-        <TokenName>
-          <span>{token.metadata.title}</span>
-        </TokenName>
+          <TokenBody>
+            <TokenName>
+              <span>{token.metadata.title}</span>
+            </TokenName>
 
-        <TokenInfo>
-          <TokenLogo>
-            {token.contractMetadata.icon ? (
-              <Image src={token.contractMetadata.icon} layout="fill" />
-            ) : null}
-          </TokenLogo>
-          <TokenName>{token.contractMetadata.name}</TokenName>
-        </TokenInfo>
-      </TokenBody>
-    </Token>
-  );
-});
-
-type NonFungibleTokensAccountPageOptions = {
-  accountId: string;
-  tab: "collectibles";
-  token?: string;
-};
+            <TokenInfo>
+              <TokenLogo>
+                {token.contractMetadata.icon ? (
+                  <Image src={token.contractMetadata.icon} layout="fill" />
+                ) : null}
+              </TokenLogo>
+              <TokenName>{token.contractMetadata.name}</TokenName>
+            </TokenInfo>
+          </TokenBody>
+        </Token>
+        {modalOpen ? (
+          <AccountNonFungibleTokensHistory token={token} onClick={onClick} />
+        ) : null}
+      </>
+    );
+  }
+);
 
 type Props = {
   options: NonFungibleTokensAccountPageOptions;
 };
 
-const AccountNonFungibleTokensView: React.FC<Props> = React.memo(({ options }) => {
-  const query = trpc.useInfiniteQuery(
-    ["account-non-fungible-tokens", {
-      accountId: options.accountId,
-      limit: TOKENS_PER_PAGE
-    }],
-    {
-      getNextPageParam: (lastPage) => {
-        const lastElement = lastPage[lastPage.length - 1];
-        if (!lastElement) {
-          return;
-        }
-        return lastElement.cursor;
-      },
-    }
-  );
+const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
+  ({ options }) => {
+    const [selectedId, setSelectedId] = React.useState(null);
+    const showModal = React.useCallback(
+      (id) => () => setSelectedId((prevId) => (prevId === id ? null : id)),
+      [setSelectedId]
+    );
+    const query = trpc.useInfiniteQuery(
+      [
+        "account-non-fungible-tokens",
+        {
+          accountId: options.accountId,
+          limit: TOKENS_PER_PAGE,
+        },
+      ],
+      {
+        getNextPageParam: (lastPage) => {
+          const lastElement = lastPage[lastPage.length - 1];
+          if (!(lastElement.index + 1 < lastElement.totalNftCount)) {
+            return;
+          }
+          return lastElement.index + 1;
+        },
+      }
+    );
 
-  return (
-    <ListHandler query={query}>
-      {(items) => {
-        if (items.length === 0) {
-          return <div>No collectibles yet!</div>;
-        }
-        return (
-          <Wrapper>
-            {items.map((token) => (
-              <AccountFungibleTokenView key={token.token_id} token={token} />
-            ))}
-          </Wrapper>
-        );
-      }}
-    </ListHandler>
-  );
-});
+    console.log("query: ", query);
+
+    return (
+      <ListHandler query={query}>
+        {(items) => {
+          if (items.length === 0) {
+            return <div>No collectibles yet!</div>;
+          }
+          return (
+            <Wrapper>
+              {items.map((token) => (
+                <AccountFungibleTokenView
+                  key={token.tokenId}
+                  token={token}
+                  onClick={showModal(token.tokenId)}
+                  modalOpen={selectedId === token.tokenId}
+                />
+              ))}
+            </Wrapper>
+          );
+        }}
+      </ListHandler>
+    );
+  }
+);
 
 export default AccountNonFungibleTokensView;
