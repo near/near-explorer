@@ -12,6 +12,7 @@ import {
   queryOnlineNodesCount,
   queryGenesisAccountCount,
   queryTokensSupply,
+  queryGasUsedAggregatedByDate,
   healthCheck,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
@@ -22,7 +23,6 @@ import {
   aggregateActiveContractsCountByDate,
   aggregateActiveContractsList,
   aggregateDeletedAccountsCountByDate,
-  aggregateGasUsedByDate,
   aggregateLiveAccountsCountByDate,
   aggregateNewAccountsCountByDate,
   aggregateNewContractsCountByDate,
@@ -120,12 +120,18 @@ export const tokensSupplyCheck: RegularCheckFn = {
   ),
 };
 
+export const gasUsedHistoryCheck: RegularCheckFn = {
+  description: "gasUsedHistoryCheck",
+  fn: publishOnChange(
+    "gasUsedHistory",
+    queryGasUsedAggregatedByDate,
+    config.intervals.checkAggregatedStats
+  ),
+};
+
 export const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
   fn: async (_, context) => {
-    // transactions related
-    await aggregateGasUsedByDate();
-
     // account
     await aggregateNewAccountsCountByDate();
     await aggregateDeletedAccountsCountByDate();

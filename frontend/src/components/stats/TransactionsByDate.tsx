@@ -6,6 +6,7 @@ import * as echarts from "echarts";
 import { useTranslation } from "react-i18next";
 import { useSubscription } from "../../hooks/use-subscription";
 import PaginationSpinner from "../utils/PaginationSpinner";
+import { getCumulativeArray } from "../../libraries/stats";
 
 const getOption = (
   title: string,
@@ -108,25 +109,7 @@ const TransactionsByDateChart: React.FC<Props> = React.memo(
         cumulative: getOption(
           t("component.stats.TransactionsByDate.total_number_of_transactions"),
           t("component.stats.TransactionsByDate.transactions"),
-          transactionsHistorySub.data.reduce<{
-            cumulativeData: number;
-            series: [number, number][];
-          }>(
-            (
-              { cumulativeData: prevCumulativeData, series },
-              [timestamp, data]
-            ) => {
-              const cumulativeData = prevCumulativeData + data;
-              return {
-                cumulativeData,
-                series: [...series, [timestamp, cumulativeData]],
-              };
-            },
-            {
-              cumulativeData: 0,
-              series: [],
-            }
-          ).series
+          getCumulativeArray(transactionsHistorySub.data, ([count]) => count)
         ),
       };
     }, [transactionsHistorySub.data, i18n.language]);

@@ -113,6 +113,7 @@ export const router = withTopics(trpc.router<Context>(), {
   onlineNodesCount: undefined,
   genesisConfig: undefined,
   tokensSupply: undefined,
+  gasUsedHistory: undefined,
   "network-stats": undefined,
   transactionsHistory: (elements, input) =>
     input ? elements.slice(-input.amountOfDays) : elements,

@@ -1,4 +1,4 @@
-import { nearNominationExponent } from "../common";
+import { nearNominationExponent, teraGasNominationExponent } from "../common";
 
 export const BIMax = (...args: bigint[]) =>
   args.reduce((m, e) => (e > m ? e : m));
@@ -14,3 +14,4 @@ export const nanosecondsToMilliseconds = (ns: bigint): number => {
 };
 
 export const nearNomination = 10n ** BigInt(nearNominationExponent);
+export const teraGasNomination = 10n ** BigInt(teraGasNominationExponent);

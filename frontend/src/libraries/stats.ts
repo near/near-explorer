@@ -3,3 +3,25 @@ export const cumulativeSumArray = (array: number[]): number[] =>
     acc.push(acc.length === 0 ? element : element + acc[acc.length - 1]);
     return acc;
   }, []);
+
+export const getCumulativeArray = <Rest extends unknown[]>(
+  data: [number, ...Rest][],
+  getNumberFromRest: (elements: Rest) => number
+) => {
+  return data.reduce<{
+    cumulativeData: number;
+    series: [number, number][];
+  }>(
+    ({ cumulativeData: prevCumulativeData, series }, [timestamp, ...els]) => {
+      const cumulativeData = prevCumulativeData + getNumberFromRest(els);
+      return {
+        cumulativeData,
+        series: [...series, [timestamp, cumulativeData]],
+      };
+    },
+    {
+      cumulativeData: 0,
+      series: [],
+    }
+  ).series;
+};

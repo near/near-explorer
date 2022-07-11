@@ -8,164 +8,181 @@ import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
 import { useSubscription } from "../../hooks/use-subscription";
-import { trpc } from "../../libraries/trpc";
-import { cumulativeSumArray } from "../../libraries/stats";
+import { getCumulativeArray } from "../../libraries/stats";
 import * as BI from "../../libraries/bigint";
+import { TRPCSubscriptionOutput } from "../../types/common";
+import PaginationSpinner from "../utils/PaginationSpinner";
 
-const gasNomination = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(15));
+const getOption = (
+  title: string,
+  yAxisTitle: string,
+  data: TRPCSubscriptionOutput<"gasUsedHistory">
+) => {
+  return {
+    title: {
+      text: title,
+    },
+    tooltip: {
+      trigger: "axis",
+    },
+    grid: {
+      left: "3%",
+      right: "4%",
+      bottom: "3%",
+      containLabel: true,
+      backgroundColor: "#F9F9F9",
+      show: true,
+      color: "white",
+    },
+    xAxis: [
+      {
+        type: "time",
+        boundaryGap: false,
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+        name: yAxisTitle,
+        splitLine: {
+          lineStyle: {
+            color: "white",
+          },
+        },
+      },
+    ],
+    dataZoom: [
+      {
+        type: "inside",
+        start: 0,
+        end: 100,
+        filterMode: "filter",
+      },
+      {
+        start: 0,
+        end: 100,
+      },
+    ],
+    series: [
+      {
+        name: yAxisTitle,
+        type: "line",
+        lineStyle: {
+          color: "#4d84d6",
+          width: 2,
+        },
+        symbol: "none",
+        itemStyle: {
+          color: "#25272A",
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: "rgb(21, 99, 214)",
+            },
+            {
+              offset: 1,
+              color: "rgb(197, 221, 255)",
+            },
+          ]),
+        },
+        data,
+      },
+    ],
+  };
+};
+
+const getGasCostInNear = (
+  gasPrice: string,
+  teraGasUsed: number,
+  precision = 3
+) => {
+  const precisionMultiplier = 10 ** precision;
+  const gasPriceWithPrecision = JSBI.multiply(
+    JSBI.BigInt(gasPrice),
+    JSBI.BigInt(precisionMultiplier)
+  );
+  const gasInYoctoNearWithPrecision = JSBI.multiply(
+    JSBI.BigInt(teraGasUsed),
+    gasPriceWithPrecision
+  );
+  const gasInNearWithPrecision = JSBI.divide(
+    gasInYoctoNearWithPrecision,
+    JSBI.exponentiate(
+      BI.ten,
+      JSBI.BigInt(BI.nearNominationExponent - BI.teraGasNominationExponent)
+    )
+  );
+  return JSBI.toNumber(gasInNearWithPrecision) / precisionMultiplier;
+};
 
 const GasUsedByDateChart: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const latestGasPriceSub = useSubscription(["latestGasPrice"]);
-  const gasUsedByDate =
-    trpc.useQuery(["gas-used-aggregated-by-date"]).data ?? [];
-  const gasUsed = React.useMemo(
-    () =>
-      gasUsedByDate.map(({ gasUsed }) =>
-        JSBI.toNumber(JSBI.divide(JSBI.BigInt(gasUsed), gasNomination))
-      ),
-    [gasUsedByDate]
-  );
-  const gasUsedCumulative = React.useMemo(
-    () => cumulativeSumArray(gasUsed),
-    [gasUsed]
-  );
-  const gasUsedDates = React.useMemo(
-    () => gasUsedByDate.map(({ date }) => date.slice(0, 10)),
-    [gasUsedByDate]
-  );
-  const feeUsedByDate = React.useMemo(() => {
-    if (latestGasPriceSub.data === undefined) {
-      return [];
-    }
-    return gasUsedByDate.map(
-      ({ gasUsed }) =>
-        JSBI.toNumber(
-          JSBI.divide(
-            JSBI.multiply(
-              JSBI.BigInt(gasUsed),
-              JSBI.multiply(
-                JSBI.BigInt(latestGasPriceSub.data),
-                JSBI.BigInt(1000)
-              )
-            ),
-            BI.nearNomination
-          )
-        ) / 1000
-    );
-  }, [latestGasPriceSub.data, gasUsedByDate]);
+  const gasUsedHistorySub = useSubscription(["gasUsedHistory"]);
 
-  const getOption = (title: string, data: Array<number>, name: string) => {
+  const options = React.useMemo(() => {
+    if (!gasUsedHistorySub.data) {
+      return;
+    }
     return {
-      title: {
-        text: title,
-      },
-      tooltip: {
-        trigger: "axis",
-      },
-      grid: {
-        left: "3%",
-        right: "4%",
-        bottom: "3%",
-        containLabel: true,
-        backgroundColor: "#F9F9F9",
-        show: true,
-        color: "white",
-      },
-      xAxis: [
-        {
-          type: "category",
-          boundaryGap: false,
-          data: gasUsedDates,
-        },
-      ],
-      yAxis: [
-        {
-          type: "value",
-          name: name,
-          splitLine: {
-            lineStyle: {
-              color: "white",
-            },
-          },
-        },
-      ],
-      dataZoom: [
-        {
-          type: "inside",
-          start: 0,
-          end: 100,
-          filterMode: "filter",
-        },
-        {
-          start: 0,
-          end: 100,
-        },
-      ],
-      series: [
-        {
-          name: name,
-          type: "line",
-          lineStyle: {
-            color: "#4d84d6",
-            width: 2,
-          },
-          symbol: "circle",
-          itemStyle: {
-            color: "#25272A",
-          },
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              {
-                offset: 0,
-                color: "rgb(21, 99, 214)",
-              },
-              {
-                offset: 1,
-                color: "rgb(197, 221, 255)",
-              },
-            ]),
-          },
-          data: data,
-        },
-      ],
+      daily: getOption(
+        t("component.stats.GasUsedByDate.daily_amount_of_used_gas"),
+        t("component.stats.GasUsedByDate.petagas"),
+        gasUsedHistorySub.data.map(([timestamp, teraGasUsed]) => [
+          timestamp,
+          teraGasUsed / 1000,
+        ])
+      ),
+      cumulative: getOption(
+        t("component.stats.GasUsedByDate.total_amount_of_used_gas"),
+        t("component.stats.GasUsedByDate.petagas"),
+        getCumulativeArray(
+          gasUsedHistorySub.data,
+          ([teraGasUsed]) => teraGasUsed / 1000
+        )
+      ),
     };
-  };
+  }, [gasUsedHistorySub.data, i18n.language]);
+
+  const feeOption = React.useMemo(() => {
+    if (!gasUsedHistorySub.data || !latestGasPriceSub.data) {
+      return;
+    }
+    return getOption(
+      t("component.stats.GasUsedByDate.daily_gas_fee_in_near"),
+      "NEAR",
+      gasUsedHistorySub.data.map(([timestamp, teraGasUsed]) => [
+        timestamp,
+        getGasCostInNear(latestGasPriceSub.data, teraGasUsed),
+      ])
+    );
+  }, [gasUsedHistorySub.data, latestGasPriceSub.data, i18n.language]);
 
   return (
     <Tabs defaultActiveKey="daily" id="gasUsedByDate">
       <Tab eventKey="daily" title={t("common.stats.daily")}>
-        <ReactEcharts
-          option={getOption(
-            t("component.stats.GasUsedByDate.daily_amount_of_used_gas"),
-            gasUsed,
-            t("component.stats.GasUsedByDate.petagas")
-          )}
-          style={chartStyle}
-        />
+        {options ? (
+          <ReactEcharts option={options.daily} style={chartStyle} />
+        ) : (
+          <PaginationSpinner />
+        )}
       </Tab>
       <Tab eventKey="total" title={t("common.stats.total")}>
-        <ReactEcharts
-          option={getOption(
-            t("component.stats.GasUsedByDate.total_amount_of_used_gas"),
-            gasUsedCumulative,
-            t("component.stats.GasUsedByDate.petagas")
-          )}
-          style={chartStyle}
-        />
+        {options ? (
+          <ReactEcharts option={options.cumulative} style={chartStyle} />
+        ) : (
+          <PaginationSpinner />
+        )}
       </Tab>
-      {feeUsedByDate.length > 0 && (
-        <Tab eventKey="fee" title={t("component.stats.GasUsedByDate.gas_fee")}>
-          <ReactEcharts
-            option={getOption(
-              t("component.stats.GasUsedByDate.daily_gas_fee_in_near"),
-              feeUsedByDate,
-              "NEAR"
-            )}
-            style={chartStyle}
-          />
-        </Tab>
-      )}
+      <Tab eventKey="fee" title={t("component.stats.GasUsedByDate.gas_fee")}>
+        {feeOption ? (
+          <ReactEcharts option={feeOption} style={chartStyle} />
+        ) : (
+          <PaginationSpinner />
+        )}
+      </Tab>
     </Tabs>
   );
 });

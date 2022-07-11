@@ -12,6 +12,7 @@ const regularTasks = [
   tasks.genesisProtocolInfoFetch,
   tasks.transactionsHistoryCheck,
   tasks.statsAggregationCheck,
+  tasks.gasUsedHistoryCheck,
   tasks.networkInfoCheck,
   tasks.stakingPoolMetadataInfoCheck,
   tasks.poolIdsCheck,
