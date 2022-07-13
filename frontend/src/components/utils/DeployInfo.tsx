@@ -51,7 +51,7 @@ export const DeployInfo: React.FC<Props> = ({ client }) => {
     () => setExpanded((expanded) => !expanded),
     [setExpanded]
   );
-  const { data: server } = trpc.useQuery(["deploy-info"], {
+  const { data: server } = trpc.useQuery(["utils.deployInfo"], {
     enabled: expanded,
   });
   let content: React.ReactNode = "◍";

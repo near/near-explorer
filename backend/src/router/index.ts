@@ -13,7 +13,7 @@ import { router as utilsRouter } from "./utils";
 export const router = trpc
   .router<Context>()
   .merge(subscriptionsRouter)
-  .merge(utilsRouter)
+  .merge("utils.", utilsRouter)
   .merge(statsRouter)
   .merge("block.", blockRouter)
   .merge(transactionRouter)
