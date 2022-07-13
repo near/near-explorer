@@ -54,7 +54,6 @@ const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
     if (activeContractsListSub.status !== "success") {
       return;
     }
-    console.log("data", activeContractsListSub.data);
     return getOption(
       t("component.stats.ActiveContractsList.title"),
       t("common.receipts.receipts"),
