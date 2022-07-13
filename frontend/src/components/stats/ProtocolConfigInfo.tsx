@@ -42,7 +42,7 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   const genesisConfigSub = useSubscription(["genesisConfig"]);
 
   const liveAccountsCount =
-    trpc.useQuery(["live-accounts-count-aggregated-by-date"]).data ?? [];
+    trpc.useQuery(["stats.liveAccountsHistory"]).data ?? [];
   const lastDateLiveAccounts = React.useMemo(
     () => liveAccountsCount[liveAccountsCount.length - 1]?.accountsCount,
     [liveAccountsCount]

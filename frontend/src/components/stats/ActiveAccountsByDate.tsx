@@ -11,9 +11,9 @@ import { trpc } from "../../libraries/trpc";
 const ActiveAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
   const accountsByWeekCount =
-    trpc.useQuery(["active-accounts-count-aggregated-by-week"]).data ?? [];
+    trpc.useQuery(["stats.activeAccountsByWeekHistory"]).data ?? [];
   const accountsByDateCount =
-    trpc.useQuery(["active-accounts-count-aggregated-by-date"]).data ?? [];
+    trpc.useQuery(["stats.activeAccountsByDayHistory"]).data ?? [];
 
   const accountsByWeek = React.useMemo(
     () => accountsByWeekCount.map(({ accountsCount }) => Number(accountsCount)),

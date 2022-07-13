@@ -499,50 +499,6 @@ export const queryActiveContractsList = async () => {
   ]);
 };
 
-export const queryLatestCirculatingSupply = async () => {
-  return indexerDatabase
-    .selectFrom("aggregated__circulating_supply")
-    .select(["circulating_tokens_supply", "computed_at_block_timestamp"])
-    .orderBy("computed_at_block_timestamp", "desc")
-    .limit(1)
-    .executeTakeFirstOrThrow();
-};
-
-// pass 'days' to set period of calculation
-export const calculateFeesByDay = async (days: number = 1) => {
-  return indexerDatabase
-    .selectFrom("execution_outcomes")
-    .select([
-      sql<Date>`date_trunc(
-        'day', now() - (${days} || 'days')::interval
-      )`.as("date"),
-      (eb) => sum(eb, "tokens_burnt").as("fee"),
-    ])
-    .where(
-      "executed_in_block_timestamp",
-      ">=",
-      sql`cast(
-        extract(
-          epoch from date_trunc(
-            'day', now() - (${days} || 'days')::interval
-          )
-        ) as bigint
-      ) * 1000 * 1000 * 1000`
-    )
-    .where(
-      "executed_in_block_timestamp",
-      "<",
-      sql`cast(
-        extract(
-          epoch from date_trunc(
-            'day', now() - (${days - 1} || 'days')::interval
-          )
-        ) as bigint
-      ) * 1000 * 1000 * 1000`
-    )
-    .executeTakeFirst();
-};
-
 export const queryTokensSupply = async () => {
   const selection = await indexerDatabase
     .selectFrom("aggregated__circulating_supply")

@@ -12,10 +12,8 @@ import { trpc } from "../../libraries/trpc";
 
 const NewAccountsByDate: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const liveAccounts =
-    trpc.useQuery(["live-accounts-count-aggregated-by-date"]).data ?? [];
-  const newAccounts =
-    trpc.useQuery(["new-accounts-count-aggregated-by-date"]).data ?? [];
+  const liveAccounts = trpc.useQuery(["stats.liveAccountsHistory"]).data ?? [];
+  const newAccounts = trpc.useQuery(["stats.newAccountsHistory"]).data ?? [];
 
   const newAccountsCount = React.useMemo(
     () => newAccounts.map(({ accountsCount }) => Number(accountsCount)),

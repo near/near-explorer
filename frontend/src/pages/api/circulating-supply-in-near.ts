@@ -11,10 +11,10 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    const supply = await getTrpcClient(networkName).query(
-      "get-latest-circulating-supply"
+    const latestCirculatingSupply = await getTrpcClient(networkName).query(
+      "stats.latestCirculatingSupply"
     );
-    const supplyInYoctoNEAR = supply.circulating_supply_in_yoctonear;
+    const supplyInYoctoNEAR = latestCirculatingSupply.supply;
     res.send(supplyInYoctoNEAR.substr(0, supplyInYoctoNEAR.length - 24));
   } catch (error) {
     console.error(`Handler ${req.url} failed:`, error);
