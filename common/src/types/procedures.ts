@@ -40,7 +40,7 @@ export type TransactionOutcome = NonNullable<
   TRPCQueryOutput<"transaction-info">
 >["transactionOutcome"];
 
-export type DeployInfo = TRPCQueryOutput<"deploy-info">;
+export type DeployInfo = TRPCQueryOutput<"utils.deployInfo">;
 
 export type ValidatorFullData = TRPCSubscriptionOutput<"validators">[number];
 export type ValidationProgress = NonNullable<
