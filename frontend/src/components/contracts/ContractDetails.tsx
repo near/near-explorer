@@ -48,7 +48,10 @@ interface Props {
 
 const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const { data: contractInfo } = trpc.useQuery(["contract-info", [accountId]]);
+  const { data: contractInfo } = trpc.useQuery([
+    "contract.byId",
+    { id: accountId },
+  ]);
   if (!contractInfo) {
     return null;
   }
