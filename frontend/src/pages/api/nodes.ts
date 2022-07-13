@@ -4,19 +4,17 @@ import { getTrpcClient } from "../../libraries/trpc";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    let ip_address =
+    let ipAddress =
       req.headers["x-forwarded-for"] ||
       req.connection.remoteAddress ||
       req.socket.remoteAddress;
 
     const networkName = getNearNetworkName(req.query, req.headers.host);
 
-    await getTrpcClient(networkName).mutation("node-telemetry", [
-      {
-        ...req.body,
-        ip_address: ip_address,
-      },
-    ]);
+    await getTrpcClient(networkName).mutation("telemetry.upsert", {
+      ...req.body,
+      ipAddress,
+    });
     res.send({});
   } catch (error) {
     console.error(`Handler ${req.url} failed:`, error);

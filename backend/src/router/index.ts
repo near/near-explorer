@@ -20,6 +20,6 @@ export const router = trpc
   .merge(receiptRouter)
   .merge(accountRouter)
   .merge(contractRouter)
-  .merge(telemetryRouter);
+  .merge("telemetry.", telemetryRouter);
 
 export type AppRouter = typeof router;

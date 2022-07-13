@@ -14,7 +14,7 @@ export const validators = {
   transactionHash: z.string(),
   limit: z.number().positive(),
   telemetryRequest: z.object({
-    ip_address: z.string(),
+    ipAddress: z.string(),
     signature: z.string().optional(),
     agent: z.object({
       name: z.string(),
