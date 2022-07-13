@@ -10,7 +10,7 @@ import { trpc } from "../../libraries/trpc";
 
 const ActiveAccountsList: React.FC<Props> = React.memo(({ chartStyle }) => {
   const { t } = useTranslation();
-  const accounts = trpc.useQuery(["active-accounts-list"]).data ?? [];
+  const accounts = trpc.useQuery(["stats.topActiveAccounts"]).data ?? [];
   const accountsIds = React.useMemo(
     () => accounts.map(({ account }) => truncateAccountId(account)),
     [accounts]

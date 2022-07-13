@@ -14,7 +14,7 @@ export const router = trpc
   .router<Context>()
   .merge(subscriptionsRouter)
   .merge("utils.", utilsRouter)
-  .merge(statsRouter)
+  .merge("stats.", statsRouter)
   .merge("block.", blockRouter)
   .merge(transactionRouter)
   .merge(receiptRouter)

@@ -5,8 +5,6 @@ import {
   queryActiveAccountsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByWeek,
   queryActiveAccountsList,
-  queryLatestCirculatingSupply,
-  calculateFeesByDay,
 } from "../database/queries";
 import { formatDate } from "../utils/formatting";
 import { trimError } from "../utils/logging";
@@ -225,30 +223,4 @@ export const getLiveAccountsCountByDate = () => {
 
 export const getActiveAccountsList = () => {
   return ACTIVE_ACCOUNTS_LIST;
-};
-
-// circulating supply
-export const getLatestCirculatingSupply = async (): Promise<{
-  timestamp: string;
-  circulating_supply_in_yoctonear: string;
-}> => {
-  const latestCirculatingSupply = await queryLatestCirculatingSupply();
-  return {
-    timestamp: latestCirculatingSupply.computed_at_block_timestamp,
-    circulating_supply_in_yoctonear:
-      latestCirculatingSupply.circulating_tokens_supply,
-  };
-};
-
-export const getTotalFee = async (
-  daysCount: number
-): Promise<{ date: string; fee: string } | null> => {
-  const feesByDay = await calculateFeesByDay(daysCount);
-  if (!feesByDay) {
-    return null;
-  }
-  return {
-    date: formatDate(feesByDay.date),
-    fee: feesByDay.fee || "0",
-  };
 };

@@ -11,9 +11,13 @@ const handler: NextApiHandler = async (req, res) => {
   }
 
   try {
-    res.send(
-      await getTrpcClient(networkName).query("get-latest-circulating-supply")
+    const response = await getTrpcClient(networkName).query(
+      "stats.latestCirculatingSupply"
     );
+    res.send({
+      timestamp: response.timestamp,
+      circulating_supply_in_yoctonear: response.supply,
+    });
   } catch (error) {
     console.error(`Handler ${req.url} failed:`, error);
     res.status(502).send(error);
