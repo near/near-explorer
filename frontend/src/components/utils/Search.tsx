@@ -186,19 +186,9 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
 
       const cleanedSearchValue = value.replace(/\s/g, "");
 
-      let blockPromise: Promise<string | null>;
-      const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
-      if (maybeBlockHeight.match(/^\d{1,20}$/)) {
-        const blockHeight = parseInt(maybeBlockHeight);
-        blockPromise = trpcContext
-          .fetchQuery(["block-by-hash-or-id", [blockHeight]])
-          .catch(() => null);
-      } else {
-        blockPromise = trpcContext
-          .fetchQuery(["block-by-hash-or-id", [cleanedSearchValue]])
-          .catch(() => null);
-      }
-
+      const blockPromise = trpcContext
+        .fetchQuery(["block.getHashById", { blockId: cleanedSearchValue }])
+        .catch(() => null);
       const transactionPromise = trpcContext
         .fetchQuery(["is-transaction-indexed", [cleanedSearchValue]])
         .catch(() => false);

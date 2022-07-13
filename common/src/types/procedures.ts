@@ -10,8 +10,8 @@ export type AccountFungibleTokenHistory =
 export type AccountFungibleTokenHistoryElement =
   AccountFungibleTokenHistory["elements"][number];
 
-export type Block = NonNullable<TRPCQueryOutput<"block-info">>;
-export type BlockBase = TRPCQueryOutput<"blocks-list">[number];
+export type Block = NonNullable<TRPCQueryOutput<"block.byId">>;
+export type BlockBase = TRPCQueryOutput<"block.list">[number];
 
 export type ReceiptExecutionStatus = NonNullable<
   TRPCQueryOutput<"executed-receipts-list-by-block-hash">[number]["status"]
