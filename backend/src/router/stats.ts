@@ -36,26 +36,6 @@ export const router = trpc
       return stats.getActiveAccountsList();
     },
   })
-  .query("new-contracts-count-aggregated-by-date", {
-    resolve: () => {
-      return stats.getNewContractsCountByDate();
-    },
-  })
-  .query("unique-deployed-contracts-count-aggregate-by-date", {
-    resolve: () => {
-      return stats.getUniqueDeployedContractsCountByDate();
-    },
-  })
-  .query("active-contracts-count-aggregated-by-date", {
-    resolve: () => {
-      return stats.getActiveContractsCountByDate();
-    },
-  })
-  .query("active-contracts-list", {
-    resolve: () => {
-      return stats.getActiveContractsList();
-    },
-  })
   .query("nearcore-total-fee-count", {
     input: z.tuple([z.number().min(1).max(7)]),
     resolve: ({ input: [daysCount] }) => {

@@ -13,6 +13,10 @@ import {
   queryGenesisAccountCount,
   queryTokensSupply,
   queryGasUsedAggregatedByDate,
+  queryNewContractsCountAggregatedByDate,
+  queryUniqueDeployedContractsCountAggregatedByDate,
+  queryActiveContractsCountAggregatedByDate,
+  queryActiveContractsList,
   healthCheck,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
@@ -20,13 +24,9 @@ import {
   aggregateActiveAccountsCountByDate,
   aggregateActiveAccountsCountByWeek,
   aggregateActiveAccountsList,
-  aggregateActiveContractsCountByDate,
-  aggregateActiveContractsList,
   aggregateDeletedAccountsCountByDate,
   aggregateLiveAccountsCountByDate,
   aggregateNewAccountsCountByDate,
-  aggregateNewContractsCountByDate,
-  aggregateUniqueDeployedContractsCountByDate,
 } from "../providers/stats";
 import { queryEpochData } from "../providers/network";
 import { wait } from "../common";
@@ -129,6 +129,39 @@ export const gasUsedHistoryCheck: RegularCheckFn = {
   ),
 };
 
+export const contractsHistoryCheck: RegularCheckFn = {
+  description: "contractsHistory",
+  fn: publishOnChange(
+    "contractsHistory",
+    async () => {
+      const [newContracts, uniqueContracts] = await Promise.all([
+        queryNewContractsCountAggregatedByDate(),
+        queryUniqueDeployedContractsCountAggregatedByDate(),
+      ]);
+      return { newContracts, uniqueContracts };
+    },
+    config.intervals.checkAggregatedStats
+  ),
+};
+
+export const activeContractsHistoryCheck: RegularCheckFn = {
+  description: "activeContractsHistory",
+  fn: publishOnChange(
+    "activeContractsHistory",
+    queryActiveContractsCountAggregatedByDate,
+    config.intervals.checkAggregatedStats
+  ),
+};
+
+export const activeContractsListCheck: RegularCheckFn = {
+  description: "activeContractsList",
+  fn: publishOnChange(
+    "activeContractsList",
+    queryActiveContractsList,
+    config.intervals.checkAggregatedStats
+  ),
+};
+
 export const statsAggregationCheck: RegularCheckFn = {
   description: "stats aggregation",
   fn: async (_, context) => {
@@ -139,12 +172,6 @@ export const statsAggregationCheck: RegularCheckFn = {
     await aggregateActiveAccountsCountByDate();
     await aggregateActiveAccountsCountByWeek();
     await aggregateActiveAccountsList();
-
-    // contract
-    await aggregateNewContractsCountByDate();
-    await aggregateActiveContractsCountByDate();
-    await aggregateUniqueDeployedContractsCountByDate();
-    await aggregateActiveContractsList();
 
     return config.intervals.checkAggregatedStats;
   },

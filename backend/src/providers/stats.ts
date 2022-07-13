@@ -2,12 +2,8 @@ import { Context } from "../context";
 import {
   queryNewAccountsCountAggregatedByDate,
   queryDeletedAccountsCountAggregatedByDate,
-  queryUniqueDeployedContractsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByDate,
   queryActiveAccountsCountAggregatedByWeek,
-  queryNewContractsCountAggregatedByDate,
-  queryActiveContractsCountAggregatedByDate,
-  queryActiveContractsList,
   queryActiveAccountsList,
   queryLatestCirculatingSupply,
   calculateFeesByDay,
@@ -36,23 +32,6 @@ let LIVE_ACCOUNTS_COUNT_AGGREGATE_BY_DATE: Nullable<
 > = null;
 let ACTIVE_ACCOUNTS_LIST: Nullable<
   { account: string; transactionsCount: string }[]
-> = null;
-
-// contracts
-let NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE: Nullable<
-  DatedStats<{ contractsCount: number }>
-> = null;
-let ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE: Nullable<
-  DatedStats<{ contractsCount: number }>
-> = null;
-let UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE: Nullable<
-  DatedStats<{ contractsCount: number }>
-> = null;
-let ACTIVE_CONTRACTS_LIST: Nullable<
-  {
-    contract: string;
-    receiptsCount: string;
-  }[]
 > = null;
 
 // This is a decorator that auto-retry failing function up to 5 times before giving up.
@@ -223,53 +202,6 @@ export const aggregateActiveAccountsList = retriable(async () => {
     .reverse();
 }, "Top active accounts with respective transactions count");
 
-// contracts
-export const aggregateNewContractsCountByDate = retriable(async () => {
-  const newContractsByDate = await queryNewContractsCountAggregatedByDate();
-  NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE = newContractsByDate.map(
-    ({ date, new_contracts_count_by_date }) => ({
-      date: formatDate(date),
-      contractsCount: new_contracts_count_by_date,
-    })
-  );
-}, "New contracts count time series");
-
-export const aggregateActiveContractsCountByDate = retriable(async () => {
-  const activeContractsCountByDate =
-    await queryActiveContractsCountAggregatedByDate();
-  ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE = activeContractsCountByDate.map(
-    ({ date, active_contracts_count_by_date }) => ({
-      date: formatDate(date),
-      contractsCount: active_contracts_count_by_date,
-    })
-  );
-}, "Active contracts count time series");
-
-export const aggregateUniqueDeployedContractsCountByDate = retriable(
-  async () => {
-    const uniqueContractsCountByDate =
-      await queryUniqueDeployedContractsCountAggregatedByDate();
-    UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE =
-      uniqueContractsCountByDate.map(({ date, contracts_count_by_date }) => ({
-        date: formatDate(date),
-        contractsCount: contracts_count_by_date,
-      }));
-  },
-  "Unique deployed contracts count time series"
-);
-
-export const aggregateActiveContractsList = retriable(async () => {
-  const activeContractsList = await queryActiveContractsList();
-  ACTIVE_CONTRACTS_LIST = activeContractsList
-    .map(({ contract_id: contract, receipts_count: receiptsCount }) => ({
-      contract,
-      receiptsCount: receiptsCount || "0",
-    }))
-    .reverse();
-}, "Top active contracts with respective receipts count");
-
-// get function that exposed to frontend
-
 //accounts
 export const getNewAccountsCountByDate = () => {
   return NEW_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
@@ -277,10 +209,6 @@ export const getNewAccountsCountByDate = () => {
 
 export const getDeletedAccountCountBydate = () => {
   return DELETED_ACCOUNTS_COUNT_AGGREGATED_BY_DATE;
-};
-
-export const getUniqueDeployedContractsCountByDate = () => {
-  return UNIQUE_DEPLOYED_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
 };
 
 export const getActiveAccountsCountByDate = () => {
@@ -297,19 +225,6 @@ export const getLiveAccountsCountByDate = () => {
 
 export const getActiveAccountsList = () => {
   return ACTIVE_ACCOUNTS_LIST;
-};
-
-// contracts
-export const getNewContractsCountByDate = () => {
-  return NEW_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
-};
-
-export const getActiveContractsCountByDate = () => {
-  return ACTIVE_CONTRACTS_COUNT_AGGREGATED_BY_DATE;
-};
-
-export const getActiveContractsList = () => {
-  return ACTIVE_CONTRACTS_LIST;
 };
 
 // circulating supply

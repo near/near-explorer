@@ -6,54 +6,66 @@ import { truncateAccountId } from "../../libraries/formatting";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { trpc } from "../../libraries/trpc";
+import { useSubscription } from "../../hooks/use-subscription";
+import { TRPCSubscriptionOutput } from "../../types/common";
+import PaginationSpinner from "../utils/PaginationSpinner";
+
+const getOption = (
+  title: string,
+  xAxisTitle: string,
+  data: TRPCSubscriptionOutput<"activeContractsList">
+) => {
+  return {
+    title: {
+      text: title,
+    },
+    grid: { containLabel: true },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    xAxis: [
+      {
+        name: xAxisTitle,
+        type: "value",
+      },
+    ],
+    yAxis: [
+      {
+        data: data.map(([accountId]) => truncateAccountId(accountId)),
+      },
+    ],
+    series: [
+      {
+        type: "bar",
+        data: data.map(([, receiptsCount]) => receiptsCount),
+      },
+    ],
+  };
+};
 
 const ActiveContractsList: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const activeContracts = trpc.useQuery(["active-contracts-list"]).data ?? [];
-  const activeContractsIds = React.useMemo(
-    () => activeContracts.map(({ contract }) => truncateAccountId(contract)),
-    [activeContracts]
-  );
-  const activeContractsReceiptsCount = React.useMemo(
-    () => activeContracts.map(({ receiptsCount }) => Number(receiptsCount)),
-    [activeContracts]
-  );
+  const { t, i18n } = useTranslation();
+  const activeContractsListSub = useSubscription(["activeContractsList"]);
 
-  const getOption = () => {
-    return {
-      title: {
-        text: t("component.stats.ActiveContractsList.title"),
-      },
-      grid: { containLabel: true },
-      tooltip: {
-        trigger: "axis",
-        axisPointer: {
-          type: "shadow",
-        },
-      },
-      xAxis: [
-        {
-          name: t("common.receipts.receipts"),
-          type: "value",
-        },
-      ],
-      yAxis: [
-        {
-          type: "category",
-          data: activeContractsIds,
-        },
-      ],
-      series: [
-        {
-          type: "bar",
-          data: activeContractsReceiptsCount,
-        },
-      ],
-    };
-  };
+  const option = React.useMemo(() => {
+    if (activeContractsListSub.status !== "success") {
+      return;
+    }
+    console.log("data", activeContractsListSub.data);
+    return getOption(
+      t("component.stats.ActiveContractsList.title"),
+      t("common.receipts.receipts"),
+      activeContractsListSub.data.reverse()
+    );
+  }, [activeContractsListSub.data, i18n.language]);
 
-  return <ReactEcharts option={getOption()} style={chartStyle} />;
+  if (!option) {
+    return <PaginationSpinner />;
+  }
+  return <ReactEcharts option={option} style={chartStyle} />;
 });
 
 export default ActiveContractsList;

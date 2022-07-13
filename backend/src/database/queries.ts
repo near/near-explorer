@@ -427,44 +427,59 @@ export const queryActiveAccountsList = async () => {
 
 // contracts
 export const queryNewContractsCountAggregatedByDate = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_new_contracts_count")
     .select([
       "collected_for_day as date",
-      "new_contracts_count as new_contracts_count_by_date",
+      "new_contracts_count as contractsCount",
     ])
     .orderBy("date")
     .execute();
+
+  return selection.map<[number, number]>(({ date, contractsCount }) => [
+    date.valueOf(),
+    contractsCount,
+  ]);
 };
 
 export const queryUniqueDeployedContractsCountAggregatedByDate = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_new_unique_contracts_count")
     .select([
       "collected_for_day as date",
-      "new_unique_contracts_count as contracts_count_by_date",
+      "new_unique_contracts_count as contractsCount",
     ])
     .orderBy("date")
     .execute();
+
+  return selection.map<[number, number]>(({ date, contractsCount }) => [
+    date.valueOf(),
+    contractsCount,
+  ]);
 };
 
 export const queryActiveContractsCountAggregatedByDate = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_active_contracts_count")
     .select([
       "collected_for_day as date",
-      "active_contracts_count as active_contracts_count_by_date",
+      "active_contracts_count as contractsCount",
     ])
     .orderBy("date")
     .execute();
+
+  return selection.map<[number, number]>(({ date, contractsCount }) => [
+    date.valueOf(),
+    contractsCount,
+  ]);
 };
 
 export const queryActiveContractsList = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_receipts_per_contract_count")
     .select([
-      "contract_id",
-      (eb) => sum(eb, "receipts_count").as("receipts_count"),
+      "contract_id as accountId",
+      (eb) => sum(eb, "receipts_count").as("receiptsCount"),
     ])
     .where(
       "collected_for_day",
@@ -474,9 +489,14 @@ export const queryActiveContractsList = async () => {
       )`
     )
     .groupBy("contract_id")
-    .orderBy("receipts_count", "desc")
+    .orderBy("receiptsCount", "desc")
     .limit(10)
     .execute();
+
+  return selection.map<[string, number]>(({ accountId, receiptsCount }) => [
+    accountId,
+    Number(receiptsCount || 0),
+  ]);
 };
 
 export const queryLatestCirculatingSupply = async () => {
