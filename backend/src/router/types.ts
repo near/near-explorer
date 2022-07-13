@@ -93,9 +93,17 @@ export type SubscriptionTopicTypes = {
     totalSupply: string;
     accountCount: number;
   };
-  tokensSupply: TimestampDataSeries<[number, number]>;
+  tokensSupply: TimestampDataSeries<
+    [totalSupply: number, circulatingSupply: number]
+  >;
   transactionsHistory: TimestampDataSeries<number>;
-  gasUsedHistory: TimestampDataSeries<[number]>;
+  gasUsedHistory: TimestampDataSeries<[teraGasUsed: number]>;
+  contractsHistory: {
+    newContracts: TimestampDataSeries<[contractsCount: number]>;
+    uniqueContracts: TimestampDataSeries<[contractsCount: number]>;
+  };
+  activeContractsHistory: TimestampDataSeries<[contractsCount: number]>;
+  activeContractsList: [accountId: string, receiptsCount: number][];
   "network-stats": NetworkStats;
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;
