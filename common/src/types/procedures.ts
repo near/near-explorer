@@ -1,12 +1,13 @@
 import { TRPCQueryOutput, TRPCSubscriptionOutput } from "./trpc";
 
-export type AccountOld = NonNullable<TRPCQueryOutput<"account-info">>;
-export type Account = NonNullable<TRPCQueryOutput<"account">>;
-export type AccountListInfo = TRPCQueryOutput<"accounts-list">[number];
+export type AccountOld = NonNullable<TRPCQueryOutput<"account.byIdOld">>;
+export type Account = NonNullable<TRPCQueryOutput<"account.byId">>;
+export type AccountListInfo =
+  TRPCQueryOutput<"account.listByTimestamp">[number];
 export type AccountFungibleToken =
-  TRPCQueryOutput<"account-fungible-tokens">[number];
+  TRPCQueryOutput<"account.fungibleTokens">[number];
 export type AccountFungibleTokenHistory =
-  TRPCQueryOutput<"account-fungible-token-history">;
+  TRPCQueryOutput<"account.fungibleTokenHistory">;
 export type AccountFungibleTokenHistoryElement =
   AccountFungibleTokenHistory["elements"][number];
 

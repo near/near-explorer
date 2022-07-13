@@ -121,7 +121,7 @@ type Props = {
 
 const AccountFungibleTokensView: React.FC<Props> = React.memo(({ options }) => {
   const tokensQuery = trpc.useQuery([
-    "account-fungible-tokens",
+    "account.fungibleTokens",
     { accountId: options.accountId },
   ]);
   const tokens = tokensQuery.data || [];

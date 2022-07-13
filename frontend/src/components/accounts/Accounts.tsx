@@ -9,7 +9,7 @@ const ACCOUNTS_PER_PAGE = 15;
 
 const Accounts: React.FC = React.memo(() => {
   const query = trpc.useInfiniteQuery(
-    ["accounts-list", { limit: ACCOUNTS_PER_PAGE }],
+    ["account.listByTimestamp", { limit: ACCOUNTS_PER_PAGE }],
     {
       getNextPageParam: (lastPage) => {
         const lastElement = lastPage[lastPage.length - 1];

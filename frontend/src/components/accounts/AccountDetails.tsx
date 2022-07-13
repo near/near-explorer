@@ -179,8 +179,8 @@ export interface Props {
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
   const { data: transactionCount } = trpc.useQuery([
-    "account-transactions-count",
-    [account.accountId],
+    "account.transactionsCount",
+    { id: account.accountId },
   ]);
 
   return (

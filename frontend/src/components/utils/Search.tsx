@@ -193,8 +193,8 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
         .fetchQuery(["is-transaction-indexed", [cleanedSearchValue]])
         .catch(() => false);
       const accountPromise = trpcContext.fetchQuery([
-        "account-info",
-        [cleanedSearchValue.toLowerCase()],
+        "account.byIdOld",
+        { id: cleanedSearchValue.toLowerCase() },
       ]);
       const receiptInTransactionPromise = trpcContext
         .fetchQuery(["transaction-hash-by-receipt-id", [cleanedSearchValue]])
