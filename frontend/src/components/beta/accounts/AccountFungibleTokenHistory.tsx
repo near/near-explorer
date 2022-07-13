@@ -138,7 +138,7 @@ type Props = {
 const AccountFungibleTokenHistory: React.FC<Props> = React.memo(
   ({ accountId, token }) => {
     const tokenHistoryQuery = trpc.useQuery([
-      "account-fungible-token-history",
+      "account.fungibleTokenHistory",
       { accountId, tokenAuthorAccountId: token.authorAccountId },
     ]);
     if (tokenHistoryQuery.status !== "success") {

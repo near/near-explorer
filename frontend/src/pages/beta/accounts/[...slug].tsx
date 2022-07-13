@@ -30,8 +30,8 @@ const AccountPage: NextPage = React.memo(() => {
     accountId: options.accountId,
   });
   const accountQuery = trpc.useQuery([
-    "account",
-    { accountId: options.accountId },
+    "account.byId",
+    { id: options.accountId },
   ]);
 
   return (
