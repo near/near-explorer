@@ -7,7 +7,6 @@ import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
 import { TransactionBaseInfo } from "../../types/common";
-import { trpc } from "../../libraries/trpc";
 
 export interface Props {
   transaction: TransactionBaseInfo;
@@ -17,10 +16,6 @@ export interface Props {
 const TransactionAction: React.FC<Props> = React.memo(
   ({ transaction, viewMode = "sparse" }) => {
     const { t } = useTranslation();
-    const { data: executionStatus } = trpc.useQuery([
-      "transaction-execution-status",
-      [transaction.hash, transaction.signerId],
-    ]);
 
     if (!transaction.actions) {
       return null;
@@ -29,13 +24,7 @@ const TransactionAction: React.FC<Props> = React.memo(
       <ActionGroup
         actionGroup={transaction}
         detailsLink={<TransactionLink transactionHash={transaction.hash} />}
-        status={
-          executionStatus ? (
-            <TransactionExecutionStatus status={executionStatus} />
-          ) : (
-            t("common.transactions.status.fetching_status")
-          )
-        }
+        status={<TransactionExecutionStatus status={transaction.status} />}
         viewMode={viewMode}
         title={t("component.transactions.TransactionAction.batch_transaction")}
       />

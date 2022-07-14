@@ -20,11 +20,9 @@
       "transaction": "Транзакция",
       "transactions": "Транзакции",
       "status": {
-        "fetching_status": "Получение статуса...",
-        "NotStarted": "Не начато",
-        "Started": "Начато",
-        "Failure": "Сбой",
-        "SuccessValue": "Успешно"
+        "unknown": "Обрабатывается...",
+        "failure": "Сбой",
+        "success": "Успешно"
       },
       "execution": {
         "convert_transaction_to_receipt": "Преобразование транзакции в квитанцию",
@@ -43,10 +41,10 @@
       "predecessor_id": "ID отправителя",
       "receiver_id": "ID получателя",
       "status": {
-        "Unknown": "Неизвестен",
-        "Failure": "Сбой",
-        "SuccessValue": "Успешно",
-        "SuccessReceiptId": "Успешно"
+        "unknown": "Неизвестен",
+        "failure": "Сбой",
+        "successValue": "Успешно",
+        "successReceiptId": "Успешно"
       }
     },
     "contracts": {
@@ -278,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "Добавлен новый ключ для ",
-          "with_permission_and_nounce": "с разрешением ${permission}",
+          "fullAccessPermission": "с разрешением на любые операции",
           "access_key_added_for_contract": "Ключ доступа добавлен для контракта ",
           "with_permission_call_method_and_nounce": "с разрешением для вызова ${methods} методов",
           "any": "любой"

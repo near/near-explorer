@@ -84,32 +84,29 @@ const ReceiptRow: React.FC<Props> = React.memo(
   ({ receipt, transactionHash }) => {
     const { t } = useTranslation();
     let statusInfo;
-    if ("SuccessValue" in receipt.outcome.status) {
-      const { SuccessValue } = receipt.outcome.status;
-      if (SuccessValue.length === 0) {
+    if (receipt.outcome.status.type === "successValue") {
+      if (!receipt.outcome.status.value) {
         statusInfo = t("component.transactions.ReceiptRow.empty_result");
       } else {
         statusInfo = (
           <>
             <i>{t("component.transactions.ReceiptRow.result")}: </i>
-            <Args args={SuccessValue} />
+            <Args args={receipt.outcome.status.value} />
           </>
         );
       }
-    } else if ("Failure" in receipt.outcome.status) {
-      const { Failure } = receipt.outcome.status;
+    } else if (receipt.outcome.status.type === "failure") {
       statusInfo = (
         <>
           <i>{t("component.transactions.ReceiptRow.failure")}: </i>
-          <pre>{JSON.stringify(Failure, null, 2)}</pre>
+          <pre>{JSON.stringify(receipt.outcome.status.error, null, 2)}</pre>
         </>
       );
-    } else if ("SuccessReceiptId" in receipt.outcome.status) {
-      const { SuccessReceiptId } = receipt.outcome.status;
+    } else if (receipt.outcome.status.type === "successReceiptId") {
       statusInfo = (
         <>
           <i>{t("component.transactions.ReceiptRow.success_receipt_id")}: </i>
-          <pre>{SuccessReceiptId}</pre>
+          <pre>{receipt.outcome.status.receiptId}</pre>
         </>
       );
     }

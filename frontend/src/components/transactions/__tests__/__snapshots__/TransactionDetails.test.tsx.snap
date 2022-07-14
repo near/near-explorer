@@ -146,7 +146,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
               <div
                 className="c-TransactionStatusWrapper-bPodHi"
               >
-                common.transactions.status.SuccessValue
+                common.transactions.status.success
                 /common.blocks.status.checking_finality
               </div>
             </div>
@@ -612,7 +612,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
               <div
                 className="c-TransactionStatusWrapper-bPodHi"
               >
-                common.transactions.status.SuccessValue
+                common.transactions.status.success
                 /common.blocks.status.checking_finality
               </div>
             </div>
@@ -1078,7 +1078,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
               <div
                 className="c-TransactionStatusWrapper-bPodHi"
               >
-                common.transactions.status.SuccessValue
+                common.transactions.status.success
                 /common.blocks.status.checking_finality
               </div>
             </div>

@@ -261,16 +261,11 @@ exports[`<ReceiptRow /> renders Failure receipt 1`] = `
         </i>
         <pre>
           {
-  "ActionError": {
-    "index": 0,
-    "kind": {
-      "FunctionCallError": {
-        "HostError": {
-          "GuestPanic": {
-            "panic_msg": "listings not found"
-          }
-        }
-      }
+  "type": "action",
+  "error": {
+    "type": "functionCallError",
+    "error": {
+      "type": "hostError"
     }
   }
 }

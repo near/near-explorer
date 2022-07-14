@@ -20,11 +20,9 @@
       "transaction": "Транзакція",
       "transactions": "Транзакції",
       "status": {
-        "fetching_status": "Отримання статусу...",
-        "NotStarted": "Не розпочато",
-        "Started": "Розпочато",
-        "Failure": "Сталася помилка",
-        "SuccessValue": "Успішно"
+        "unknown": "Обробляти...",
+        "failure": "Сталася помилка",
+        "success": "Успішно"
       },
       "execution": {
         "convert_transaction_to_receipt": "Конвертація транзакції в квитанцію",
@@ -43,10 +41,10 @@
       "predecessor_id": "ID відправника",
       "receiver_id": "ID одержувача",
       "status": {
-        "Unknown": "Невідомо",
-        "Failure": "Не вдалося",
-        "SuccessValue": "Успішно",
-        "SuccessReceiptId": "Успішно"
+        "unknown": "Невідомо",
+        "failure": "Не вдалося",
+        "successValue": "Успішно",
+        "successReceiptId": "Успішно"
       }
     },
     "contracts": {
@@ -278,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "Додано новий ключ для ",
-          "with_permission_and_nounce": "з дозволом ${permission}",
+          "fullAccessPermission": "з дозволом на будь-які операції",
           "access_key_added_for_contract": "Ключ доступу додано до контракту ",
           "with_permission_call_method_and_nounce": "з дозволом викликати методи ${methods} ",
           "any": "будь-який"

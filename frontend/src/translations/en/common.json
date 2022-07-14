@@ -20,11 +20,9 @@
       "transaction": "Transaction",
       "transactions": "Transactions",
       "status": {
-        "fetching_status": "Fetching Status...",
-        "NotStarted": "Not started",
-        "Started": "Started",
-        "Failure": "Failed",
-        "SuccessValue": "Succeeded"
+        "unknown": "In progress...",
+        "failure": "Failed",
+        "success": "Succeeded"
       },
       "execution": {
         "convert_transaction_to_receipt": "Convert Transaction To Receipt",
@@ -43,10 +41,10 @@
       "predecessor_id": "Predecessor ID",
       "receiver_id": "Receiver ID",
       "status": {
-        "Unknown": "Unknown",
-        "Failure": "Failed",
-        "SuccessValue": "Succeeded",
-        "SuccessReceiptId": "Succeeded"
+        "unknown": "Unknown",
+        "failure": "Failed",
+        "successValue": "Succeeded",
+        "successReceiptId": "Succeeded"
       }
     },
     "contracts": {
@@ -278,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "New key added for ",
-          "with_permission_and_nounce": "with permission ${permission}",
+          "fullAccessPermission": "with full access permission",
           "access_key_added_for_contract": "Access key added for contract ",
           "with_permission_call_method_and_nounce": "with permission to call ${methods} methods",
           "any": "any"

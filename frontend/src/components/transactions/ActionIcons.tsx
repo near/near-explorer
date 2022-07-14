@@ -1,19 +1,19 @@
-import CreateAccount from "../../../public/static/images/icon-t-acct.svg";
-import DeleteAccount from "../../../public/static/images/icon-t-key-delete.svg";
-import DeployContract from "../../../public/static/images/icon-t-contract.svg";
-import FunctionCall from "../../../public/static/images/icon-t-call.svg";
-import Transfer from "../../../public/static/images/icon-t-transfer.svg";
-import Stake from "../../../public/static/images/icon-t-stake.svg";
-import AddKey from "../../../public/static/images/icon-t-key-new.svg";
-import DeleteKey from "../../../public/static/images/icon-t-key-delete.svg";
+import createAccount from "../../../public/static/images/icon-t-acct.svg";
+import deleteAccount from "../../../public/static/images/icon-t-key-delete.svg";
+import deployContract from "../../../public/static/images/icon-t-contract.svg";
+import functionCall from "../../../public/static/images/icon-t-call.svg";
+import transfer from "../../../public/static/images/icon-t-transfer.svg";
+import stake from "../../../public/static/images/icon-t-stake.svg";
+import addKey from "../../../public/static/images/icon-t-key-new.svg";
+import deleteKey from "../../../public/static/images/icon-t-key-delete.svg";
 
 export default {
-  CreateAccount,
-  DeleteAccount,
-  DeployContract,
-  FunctionCall,
-  Transfer,
-  Stake,
-  AddKey,
-  DeleteKey,
+  createAccount,
+  deleteAccount,
+  deployContract,
+  functionCall,
+  transfer,
+  stake,
+  addKey,
+  deleteKey,
 };

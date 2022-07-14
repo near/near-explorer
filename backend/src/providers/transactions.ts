@@ -1,4 +1,4 @@
-import { RPC, TransactionOutcome } from "../types";
+import { RPC } from "../types";
 import {
   queryIndexedTransaction,
   queryTransactionsList,
@@ -11,20 +11,18 @@ import { z } from "zod";
 import { validators } from "../router/validators";
 
 import * as nearApi from "../utils/near";
-
-const INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS = new Map<
-  string,
-  Action["kind"]
->([
-  ["ADD_KEY", "AddKey"],
-  ["CREATE_ACCOUNT", "CreateAccount"],
-  ["DELETE_ACCOUNT", "DeleteAccount"],
-  ["DELETE_KEY", "DeleteKey"],
-  ["DEPLOY_CONTRACT", "DeployContract"],
-  ["FUNCTION_CALL", "FunctionCall"],
-  ["STAKE", "Stake"],
-  ["TRANSFER", "Transfer"],
-]);
+import { ReceiptExecutionStatus } from "../utils/receipt-status";
+import {
+  mapDatabaseTransactionStatus,
+  mapRpcTransactionStatus,
+  TransactionStatus,
+} from "../utils/transaction-status";
+import {
+  mapDatabaseActionToAction,
+  Action,
+  mapRpcActionToAction,
+  DatabaseAction,
+} from "../utils/actions";
 
 export type TransactionBaseInfo = {
   hash: string;
@@ -34,6 +32,7 @@ export type TransactionBaseInfo = {
   blockTimestamp: number;
   transactionIndex: number;
   actions: Action[];
+  status: TransactionStatus;
 };
 
 // helper function to init transactions list
@@ -54,12 +53,9 @@ async function createTransactionsList(
     blockTimestamp: parseInt(transaction.block_timestamp_ms),
     transactionIndex: transaction.transaction_index,
     actions: transactionsActionsList.get(transaction.hash) || [],
+    status: mapDatabaseTransactionStatus(transaction.status),
   }));
 }
-
-export const getIndexerCompatibilityTransactionActionKinds = () => {
-  return INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS;
-};
 
 export const getIsTransactionIndexed = async (
   transactionHash: string
@@ -157,65 +153,8 @@ export const getTransactionDetails = async (
     receiverId: transactionInfo.transaction.receiver_id,
     fee: transactionFee.toString(),
     amount: transactionAmount.toString(),
-    status: convertRpcTxStatusToStatus(transactionInfo.status),
+    status: mapRpcTransactionStatus(transactionInfo.status),
   };
-};
-
-const convertRpcTxStatusToStatus = (
-  status: RPC.FinalExecutionStatus
-): TransactionStatus => {
-  const txStatus = Object.keys(status)[0];
-  switch (txStatus) {
-    case "Failure":
-      return "fail";
-    case "SuccessValue":
-      return "success";
-    default:
-      return "fetching";
-  }
-};
-
-export const convertDbArgsToRpcArgs = (
-  kind: string,
-  jsonArgs: Record<string, unknown>
-): Action["args"] => {
-  switch (kind) {
-    case "FUNCTION_CALL":
-      return {
-        ...jsonArgs,
-        args_base64: undefined,
-        args_json: undefined,
-        args: jsonArgs.args_base64,
-      };
-    case "ADD_KEY": {
-      const dbArgs = jsonArgs as any;
-      if (dbArgs.access_key.permission.permission_kind === "FULL_ACCESS") {
-        return {
-          ...dbArgs,
-          access_key: {
-            ...dbArgs.access_key,
-            permission: "FullAccess",
-          },
-        };
-      } else {
-        return {
-          ...dbArgs,
-          access_key: {
-            ...dbArgs.access_key,
-            permission: {
-              FunctionCall: dbArgs.access_key.permission.permission_details,
-            },
-          },
-        };
-      }
-    }
-    case "DEPLOY_CONTRACT":
-      return {
-        code: jsonArgs.code_sha256,
-      };
-    default:
-      return jsonArgs;
-  }
 };
 
 async function getTransactionsActionsList(
@@ -229,52 +168,20 @@ async function getTransactionsActionsList(
     return transactionsActionsByHash;
   }
   transactionsActions.forEach((action) => {
-    const txAction =
-      transactionsActionsByHash.get(action.transaction_hash) || [];
-    return transactionsActionsByHash.set(action.transaction_hash, [
+    const txAction = transactionsActionsByHash.get(action.hash) || [];
+    return transactionsActionsByHash.set(action.hash, [
       ...txAction,
-      {
-        kind: INDEXER_COMPATIBILITY_TRANSACTION_ACTION_KINDS.get(action.kind),
-        args: convertDbArgsToRpcArgs(action.kind, action.args),
-      } as Action,
+      mapDatabaseActionToAction(action as DatabaseAction),
     ]);
   });
   return transactionsActionsByHash;
 }
 
-export type Action<A extends RPC.ActionView = RPC.ActionView> =
-  A extends Exclude<RPC.ActionView, "CreateAccount">
-    ? {
-        kind: keyof A;
-        args: A[keyof A];
-      }
-    : {
-        kind: "CreateAccount";
-        args: {};
-      };
-
-export const mapRpcActionToAction = (action: RPC.ActionView): Action => {
-  if (action === "CreateAccount") {
-    return {
-      kind: "CreateAccount",
-      args: {},
-    };
-  }
-  const kind = Object.keys(action)[0] as keyof Exclude<
-    RPC.ActionView,
-    "CreateAccount"
-  >;
-  return {
-    kind,
-    args: action[kind],
-  } as Action;
-};
-
 type ReceiptExecutionOutcome = {
   tokens_burnt: string;
   logs: string[];
   outgoing_receipts?: NestedReceiptWithOutcome[];
-  status: RPC.ExecutionStatusView;
+  status: ReceiptExecutionStatus;
   gas_burnt: number;
 };
 
@@ -293,7 +200,14 @@ export const collectNestedReceiptWithOutcome = (
     string,
     Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
   >,
-  receiptOutcomesByIdMap: Map<string, RPC.ExecutionOutcomeWithIdView>
+  receiptOutcomesByIdMap: Map<
+    string,
+    Omit<RPC.ExecutionOutcomeWithIdView, "outcome"> & {
+      outcome: Omit<RPC.ExecutionOutcomeView, "status"> & {
+        status: ReceiptExecutionStatus;
+      };
+    }
+  >
 ): NestedReceiptWithOutcome => {
   const receipt = receiptsByIdMap.get(receiptHash)!;
   const receiptOutcome = receiptOutcomesByIdMap.get(receiptHash)!;
@@ -325,7 +239,7 @@ export const getDeposit = (actions: Action[]) =>
     .reduce((accumulator, deposit) => accumulator + deposit, 0n);
 
 export const getTransactionFee = (
-  transactionOutcome: TransactionOutcome,
+  transactionOutcome: RPC.ExecutionOutcomeWithIdView,
   receiptsOutcome: RPC.ExecutionOutcomeWithIdView[]
 ) => {
   const tokensBurntByTx = BigInt(transactionOutcome.outcome.tokens_burnt);
@@ -344,5 +258,3 @@ export type TransactionDetails = {
   amount: string;
   status: TransactionStatus;
 };
-
-export type TransactionStatus = "fetching" | "fail" | "success";

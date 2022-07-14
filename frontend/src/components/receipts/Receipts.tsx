@@ -25,13 +25,7 @@ const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
               receiptId={receipt.receiptId}
             />
           }
-          status={
-            receipt.status ? (
-              <ReceiptExecutionStatus status={receipt.status} />
-            ) : (
-              <>{t("component.receipts.ReceiptAction.fetching_status")}</>
-            )
-          }
+          status={<ReceiptExecutionStatus status={receipt.status} />}
           title={t("component.receipts.ReceiptAction.batch_receipt")}
         />
       ))}

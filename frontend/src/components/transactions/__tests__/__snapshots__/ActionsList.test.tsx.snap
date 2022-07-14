@@ -8,7 +8,7 @@ exports[`<ActionsList /> renders ActionsList for Receipts without transactionHas
         "args": Object {
           "deposit": "8403180157952936387200",
         },
-        "kind": "Transfer",
+        "kind": "transfer",
       },
     ]
   }
@@ -290,7 +290,7 @@ Array [
               </span>
               : ed25519:8LXEySy...
               <p>
-                component.transactions.ActionMessage.AddKey.with_permission_and_nounce
+                component.transactions.ActionMessage.AddKey.fullAccessPermission
               </p>
             </div>
           </div>
@@ -772,7 +772,7 @@ Array [
               </span>
               : ed25519:8LXEySy...
               <p>
-                component.transactions.ActionMessage.AddKey.with_permission_and_nounce
+                component.transactions.ActionMessage.AddKey.fullAccessPermission
               </p>
             </div>
           </div>

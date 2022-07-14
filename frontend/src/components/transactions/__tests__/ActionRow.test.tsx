@@ -6,6 +6,7 @@ import ActionRow from "../ActionRow";
 import TransactionExecutionStatus from "../TransactionExecutionStatus";
 
 import { RECEIPTS, TRANSACTIONS } from "./common";
+import { Action } from "../../../types/common";
 
 describe("<ActionRow />", () => {
   it("renders sparsely ActionRow for transaction by default", () => {
@@ -19,7 +20,7 @@ describe("<ActionRow />", () => {
           }
           receiverId={TRANSACTIONS[0].receiverId}
           action={{
-            kind: "CreateAccount",
+            kind: "createAccount",
             args: {},
           }}
         />
@@ -38,7 +39,7 @@ describe("<ActionRow />", () => {
           }
           receiverId={TRANSACTIONS[0].receiverId}
           action={{
-            kind: "CreateAccount",
+            kind: "createAccount",
             args: {},
           }}
           status={
@@ -87,13 +88,13 @@ describe("<ActionRow />", () => {
           }
           receiverId={TRANSACTIONS[0].receiverId}
           action={{
-            kind: "AddKey",
+            kind: "addKey",
             args: {
-              access_key: {
+              accessKey: {
                 nonce: 0,
-                permission: "FullAccess",
+                permission: { type: "fullAccess" },
               },
-              public_key: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx",
+              publicKey: "ed25519:8LXEySyBYewiTTLxjfF1TKDsxxxxxxxxxxxxxxxxxx",
             },
           }}
         />
@@ -115,13 +116,13 @@ describe("<ActionRow />", () => {
     ).toMatchSnapshot();
   });
 
-  const actionFunctionCall = {
-    kind: "FunctionCall" as const,
+  const actionFunctionCall: Action = {
+    kind: "functionCall",
     args: {
       args: "eyJ2YWx1ZSI6MX0=",
       deposit: "1",
       gas: 2000000000000,
-      method_name: "incrementCounter",
+      methodName: "incrementCounter",
     },
   };
 

@@ -222,6 +222,7 @@ export const queryTransactionsList = async (
       "included_in_block_hash as block_hash",
       (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
+      "status",
     ]);
   if (cursor !== undefined) {
     const endTimestamp = millisecondsToNanoseconds(
@@ -256,6 +257,7 @@ export const queryAccountTransactionsList = async (
       "included_in_block_hash as block_hash",
       (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
+      "status",
     ]);
   if (cursor !== undefined) {
     const endTimestamp = millisecondsToNanoseconds(
@@ -308,6 +310,7 @@ export const queryTransactionsListInBlock = async (
       "included_in_block_hash as block_hash",
       (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
+      "status",
     ])
     .where("included_in_block_hash", "=", blockHash);
   if (cursor !== undefined) {
@@ -336,7 +339,7 @@ export const queryTransactionsActionsList = async (
 ) => {
   return indexerDatabase
     .selectFrom("transaction_actions")
-    .select(["transaction_hash", "action_kind as kind", "args"])
+    .select(["transaction_hash as hash", "action_kind as kind", "args"])
     .where("transaction_hash", "in", transactionHashes)
     .orderBy("transaction_hash")
     .execute();
@@ -352,6 +355,7 @@ export const queryTransactionInfo = async (transactionHash: string) => {
       "included_in_block_hash as block_hash",
       (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
       "index_in_chunk as transaction_index",
+      "status",
     ])
     .where("transaction_hash", "=", transactionHash)
     .orderBy("block_timestamp", "desc")

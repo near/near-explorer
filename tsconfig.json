@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "composite": true,
     "target": "esnext",
     "module": "esnext",
     "jsx": "preserve",

@@ -22,10 +22,10 @@ const Label = styled("div", {
 
   variants: {
     type: {
-      fetching: {
+      unknown: {
         backgroundColor: "#38abb2",
       },
-      fail: {
+      failure: {
         background: "#aa4710",
       },
       success: {
@@ -37,7 +37,9 @@ const Label = styled("div", {
 
 const TransactionStatus: React.FC<Props> = React.memo(({ status }) => {
   const { t } = useTranslation();
-  return <Label type={status}>{t(`pages.transaction.status.${status}`)}</Label>;
+  return (
+    <Label type={status}>{t(`common.transactions.status.${status}`)}</Label>
+  );
 });
 
 export default TransactionStatus;
