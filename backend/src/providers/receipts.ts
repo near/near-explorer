@@ -1,5 +1,4 @@
 import {
-  queryReceiptInTransaction,
   queryIncludedReceiptsList,
   queryExecutedReceiptsList,
 } from "../database/queries";
@@ -81,23 +80,4 @@ export const getExecutedReceiptsList = async (
 ): Promise<Receipt[]> => {
   const receiptActions = await queryExecutedReceiptsList(blockHash);
   return groupReceiptActionsIntoReceipts(receiptActions);
-};
-
-export type TransactionHashByReceiptId = {
-  receiptId: string;
-  originatedFromTransactionHash: string;
-};
-
-export const getReceiptInTransaction = async (
-  receiptId: string
-): Promise<TransactionHashByReceiptId | null> => {
-  const transactionInfo = await queryReceiptInTransaction(receiptId);
-  if (!transactionInfo) {
-    return null;
-  }
-  return {
-    receiptId: transactionInfo.receipt_id,
-    originatedFromTransactionHash:
-      transactionInfo.originated_from_transaction_hash,
-  };
 };

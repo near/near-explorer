@@ -29,7 +29,7 @@ const TransactionPage: NextPage<Props> = React.memo((props) => {
     transaction_hash: props.hash,
   });
 
-  const transactionQuery = trpc.useQuery(["transaction", { hash }]);
+  const transactionQuery = trpc.useQuery(["transaction.byHash", { hash }]);
 
   return (
     <>

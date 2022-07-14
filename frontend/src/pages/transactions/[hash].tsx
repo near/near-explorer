@@ -26,7 +26,7 @@ const TransactionDetailsPage: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
     transaction_hash: hash,
   });
-  const transactionQuery = trpc.useQuery(["transaction-info", [hash]]);
+  const transactionQuery = trpc.useQuery(["transaction.byHashOld", { hash }]);
   const transaction = transactionQuery.data;
 
   return (
