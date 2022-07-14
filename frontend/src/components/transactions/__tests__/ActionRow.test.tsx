@@ -63,7 +63,7 @@ describe("<ActionRow />", () => {
           detailsLink={
             <ReceiptLink
               transactionHash={RECEIPTS[7].originatedFromTransactionHash}
-              receiptId={RECEIPTS[7].receiptId}
+              receiptId={RECEIPTS[7].id}
             />
           }
           status={

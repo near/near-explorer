@@ -17,12 +17,12 @@ const Receipts: React.FC<Props> = React.memo(({ receipts }) => {
     <>
       {receipts.map((receipt, index) => (
         <ActionGroup
-          key={`${receipt.receiptId}_${index}`}
+          key={`${receipt.id}_${index}`}
           actionGroup={receipt}
           detailsLink={
             <ReceiptLink
               transactionHash={receipt.originatedFromTransactionHash}
-              receiptId={receipt.receiptId}
+              receiptId={receipt.id}
             />
           }
           status={<ReceiptExecutionStatus status={receipt.status} />}
