@@ -15,11 +15,10 @@ export type Block = NonNullable<TRPCQueryOutput<"block.byId">>;
 export type BlockBase = TRPCQueryOutput<"block.list">[number];
 
 export type ReceiptExecutionStatus = NonNullable<
-  TRPCQueryOutput<"executed-receipts-list-by-block-hash">[number]["status"]
+  TRPCQueryOutput<"receipt.listExecutedByBlockHash">[number]["status"]
 >;
 export type Receipt = TRPCQueryOutput<
-  | "executed-receipts-list-by-block-hash"
-  | "included-receipts-list-by-block-hash"
+  "receipt.listExecutedByBlockHash" | "receipt.listIncludedByBlockHash"
 >[number];
 
 export type TransactionListResponse = TRPCQueryOutput<
