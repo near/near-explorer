@@ -653,13 +653,13 @@ type SignedTransactionView = {
 };
 
 // The unknown types may be wrong!
-type CompilationError =
+export type CompilationError =
   | { CodeDoesNotExist: { account_id: AccountId } }
   // https://docs.rs/near-vm-errors/0.12.0/near_vm_errors/enum.PrepareError.html
   | { PrepareError: unknown }
   | { WasmerCompileError: { msg: String } }
   | { UnsupportedCompiler: { msg: String } };
-type FunctionCallError =
+export type FunctionCallError =
   | { CompilationError: CompilationError }
   | { LinkError: { msg: String } }
   // https://docs.rs/near-vm-errors/0.12.0/near_vm_errors/enum.MethodResolveError.html
@@ -675,7 +675,7 @@ type FunctionCallError =
 
 // https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.ActionsValidationError.html
 type ActionsValidation = unknown;
-type NewReceiptValidationError =
+export type NewReceiptValidationError =
   | { InvalidPredecessorId: { account_id: String } }
   | { InvalidReceiverId: { account_id: String } }
   | { InvalidSignerId: { account_id: String } }
@@ -731,12 +731,12 @@ type ActionErrorKind =
   | { OnlyImplicitAccountCreationAllowed: { account_id: AccountId } }
   | { DeleteAccountWithLargeState: { account_id: AccountId } };
 
-type ActionError = {
+export type ActionError = {
   index: u64;
   kind: ActionErrorKind;
 };
 
-type InvalidTxError =
+export type InvalidTxError =
   // https://docs.rs/near-primitives/0.12.0/near_primitives/errors/enum.InvalidAccessKeyError.html
   | { InvalidAccessKeyError: unknown }
   | { InvalidSignerId: { signer_id: String } }
@@ -761,7 +761,7 @@ type InvalidTxError =
   | { ActionsValidation: unknown }
   | { TransactionSizeExceeded: { size: u64; limit: u64 } };
 
-type TxExecutionError =
+export type TxExecutionError =
   | { ActionError: ActionError }
   | { InvalidTxError: InvalidTxError };
 

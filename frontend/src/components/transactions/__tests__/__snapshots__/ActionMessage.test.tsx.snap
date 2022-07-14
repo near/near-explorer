@@ -17,7 +17,7 @@ Array [
   </span>,
   ": ed25519:BgXFiJS...",
   <p>
-    component.transactions.ActionMessage.AddKey.with_permission_and_nounce
+    component.transactions.ActionMessage.AddKey.fullAccessPermission
   </p>,
 ]
 `;

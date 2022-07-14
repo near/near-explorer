@@ -9,8 +9,10 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"CreateAccount"}
-          actionArgs={{}}
+          action={{
+            kind: "createAccount",
+            args: {},
+          }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
       )
@@ -21,8 +23,10 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"DeleteAccount"}
-          actionArgs={{ beneficiary_id: "near" }}
+          action={{
+            kind: "deleteAccount",
+            args: { beneficiaryId: "near" },
+          }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
       )
@@ -33,8 +37,10 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"DeployContract"}
-          actionArgs={{}}
+          action={{
+            kind: "deployContract",
+            args: { code: "0" },
+          }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
       )
@@ -45,8 +51,15 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"FunctionCall"}
-          actionArgs={{ method_name: "method_name", args: "e30=" }}
+          action={{
+            kind: "functionCall",
+            args: {
+              methodName: "method_name",
+              args: "e30=",
+              gas: 1,
+              deposit: "0",
+            },
+          }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
       )
@@ -57,10 +70,14 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"FunctionCall"}
-          actionArgs={{
-            method_name: "method_name",
-            args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
+          action={{
+            kind: "functionCall",
+            args: {
+              methodName: "method_name",
+              args: "eyJ0ZXh0Ijoid2hlbiBpY28/In0=",
+              gas: 1,
+              deposit: "0",
+            },
           }}
           receiverId={TRANSACTIONS[1].receiverId}
           showDetails
@@ -73,8 +90,10 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"Transfer"}
-          actionArgs={{ deposit: "1" }}
+          action={{
+            kind: "transfer",
+            args: { deposit: "1" },
+          }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
       )
@@ -85,10 +104,12 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"Stake"}
-          actionArgs={{
-            stake: "1",
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+          action={{
+            kind: "stake",
+            args: {
+              stake: "1",
+              publicKey: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+            },
           }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
@@ -100,18 +121,19 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"AddKey"}
-          actionArgs={{
-            access_key: {
-              permission: {
-                FunctionCall: {
-                  method_names: [],
-                  receiver_id: "stake",
+          action={{
+            kind: "addKey",
+            args: {
+              accessKey: {
+                permission: {
+                  type: "functionCall",
+                  methodNames: [],
+                  contractId: "stake",
                 },
+                nonce: 0,
               },
-              nonce: 0,
+              publicKey: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
             },
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
@@ -123,23 +145,24 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"AddKey"}
-          actionArgs={{
-            access_key: {
-              permission: {
-                FunctionCall: {
-                  method_names: [
+          action={{
+            kind: "addKey",
+            args: {
+              accessKey: {
+                permission: {
+                  type: "functionCall",
+                  methodNames: [
                     "add_request",
                     "delete_request",
                     "confirm",
                     "add_request_and_confirm",
                   ],
-                  receiver_id: "stake",
+                  contractId: "stake",
                 },
+                nonce: 0,
               },
-              nonce: 0,
+              publicKey: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
             },
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
@@ -151,13 +174,15 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"AddKey"}
-          actionArgs={{
-            access_key: {
-              nonce: 0,
-              permission: "FullAccess",
+          action={{
+            kind: "addKey",
+            args: {
+              accessKey: {
+                nonce: 0,
+                permission: { type: "fullAccess" },
+              },
+              publicKey: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
             },
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
           }}
           receiverId={TRANSACTIONS[0].receiverId}
         />
@@ -169,9 +194,11 @@ describe("<ActionMessage />", () => {
     expect(
       renderElement(
         <ActionMessage
-          actionKind={"DeleteKey"}
-          actionArgs={{
-            public_key: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+          action={{
+            kind: "deleteKey",
+            args: {
+              publicKey: "ed25519:BgXFiJSzXz8VNFSW32rYNBiU7fUotKKeeDtPiSMkXMhx",
+            },
           }}
           receiverId={TRANSACTIONS[0].receiverId}
         />

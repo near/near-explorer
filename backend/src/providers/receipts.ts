@@ -4,32 +4,16 @@ import {
   queryExecutedReceiptsList,
 } from "../database/queries";
 
-import {
-  convertDbArgsToRpcArgs,
-  getIndexerCompatibilityTransactionActionKinds,
-  Action,
-} from "./transactions";
 import { nanosecondsToMilliseconds } from "../utils/bigint";
-
-export type ReceiptExecutionStatus =
-  | "Unknown"
-  | "Failure"
-  | "SuccessValue"
-  | "SuccessReceiptId";
-
-const INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS = new Map<
-  string | null,
-  ReceiptExecutionStatus
->([
-  ["SUCCESS_RECEIPT_ID", "SuccessReceiptId"],
-  ["SUCCESS_VALUE", "SuccessValue"],
-  ["FAILURE", "Failure"],
-  [null, "Unknown"],
-]);
-
-export const getIndexerCompatibilityReceiptActionKinds = () => {
-  return INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS;
-};
+import {
+  Action,
+  DatabaseAction,
+  mapDatabaseActionToAction,
+} from "../utils/actions";
+import {
+  mapDatabaseReceiptStatus,
+  ReceiptExecutionStatus,
+} from "../utils/receipt-status";
 
 export type Receipt = {
   actions: Action[];
@@ -38,7 +22,7 @@ export type Receipt = {
   gasBurnt: string;
   receiverId: string;
   signerId: string;
-  status?: ReceiptExecutionStatus;
+  status: ReceiptExecutionStatus["type"];
   originatedFromTransactionHash: string;
   tokensBurnt: string;
 };
@@ -52,8 +36,6 @@ function groupReceiptActionsIntoReceipts(
   const receipts: Receipt[] = [];
   let actions: Action[] = [];
   let previousReceiptId = "";
-  const indexerCompatibilityTransactionActionKinds =
-    getIndexerCompatibilityTransactionActionKinds();
   for (const receiptAction of receiptActions) {
     if (previousReceiptId !== receiptAction.receipt_id) {
       previousReceiptId = receiptAction.receipt_id;
@@ -67,18 +49,18 @@ function groupReceiptActionsIntoReceipts(
         receiptId: receiptAction.receipt_id,
         receiverId: receiptAction.receiver_id,
         signerId: receiptAction.predecessor_id,
-        status: INDEXER_COMPATIBILITY_RECEIPT_ACTION_KINDS.get(
-          receiptAction.status
-        ),
+        status: mapDatabaseReceiptStatus(receiptAction.status),
         originatedFromTransactionHash:
           receiptAction.originated_from_transaction_hash,
         tokensBurnt: receiptAction.tokens_burnt,
       });
     }
-    actions.push({
-      args: convertDbArgsToRpcArgs(receiptAction.kind, receiptAction.args),
-      kind: indexerCompatibilityTransactionActionKinds.get(receiptAction.kind)!,
-    } as Action);
+    actions.push(
+      mapDatabaseActionToAction({
+        ...receiptAction,
+        hash: receiptAction.originated_from_transaction_hash,
+      } as DatabaseAction)
+    );
   }
 
   return receipts;

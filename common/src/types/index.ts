@@ -1,5 +1,4 @@
 export * from "./common";
-export * from "./util";
 
 export * as RPC from "./rpc";
 

@@ -20,11 +20,9 @@
       "transaction": "交易",
       "transactions": "交易",
       "status": {
-        "fetching_status": "获取状态...",
-        "NotStarted": "未开始",
-        "Started": "已开始",
-        "Failure": "失败",
-        "SuccessValue": "成功"
+        "unknown": "正在进行的交易...",
+        "failure": "失败",
+        "success": "成功"
       },
       "execution": {
         "convert_transaction_to_receipt": "将交易转换为回执",
@@ -43,10 +41,10 @@
       "predecessor_id": "前任账户ID",
       "receiver_id": "接收账户ID",
       "status": {
-        "Unknown": "未知",
-        "Failure": "失败",
-        "SuccessValue": "成功",
-        "SuccessReceiptId": "成功"
+        "unknown": "未知",
+        "failure": "失败",
+        "successValue": "成功",
+        "successReceiptId": "成功"
       }
     },
     "contracts": {
@@ -278,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "添加新密钥 ",
-          "with_permission_and_nounce": "具有 ${permission} 权限，nonce为 ${nonce}",
+          "fullAccessPermission": "具有 full access 权限",
           "access_key_added_for_contract": "访问密钥已添加到合约 ",
           "with_permission_call_method_and_nounce": "具有调用 ${methods} 方法的权限，nonce为 ${nonce}",
           "any": "任何"

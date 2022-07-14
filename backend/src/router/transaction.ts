@@ -4,9 +4,15 @@ import { z } from "zod";
 import { Context } from "../context";
 import * as transactions from "../providers/transactions";
 import * as receipts from "../providers/receipts";
-import { KeysOfUnion, RPC } from "../types";
+import { RPC } from "../types";
 import * as nearApi from "../utils/near";
 import { validators } from "./validators";
+import { mapRpcTransactionStatus } from "../utils/transaction-status";
+import { Action, mapRpcActionToAction } from "../utils/actions";
+import {
+  mapRpcReceiptStatus,
+  ReceiptExecutionStatus,
+} from "../utils/receipt-status";
 
 export const router = trpc
   .router<Context>()
@@ -24,11 +30,18 @@ export const router = trpc
         [transactionBaseInfo.hash, transactionBaseInfo.signerId]
       );
 
-      const actions = transactionInfo.transaction.actions.map(
-        transactions.mapRpcActionToAction
-      );
+      const actions =
+        transactionInfo.transaction.actions.map(mapRpcActionToAction);
       const receipts = transactionInfo.receipts;
-      const receiptsOutcome = transactionInfo.receipts_outcome;
+      const receiptsOutcome = transactionInfo.receipts_outcome.map(
+        (outcome) => ({
+          ...outcome,
+          outcome: {
+            ...outcome.outcome,
+            status: mapRpcReceiptStatus(outcome.outcome.status),
+          },
+        })
+      );
       if (
         receipts.length === 0 ||
         receipts[0].receipt_id !== receiptsOutcome[0].id
@@ -51,7 +64,11 @@ export const router = trpc
       }
       const receiptOutcomesByIdMap = new Map<
         string,
-        RPC.ExecutionOutcomeWithIdView
+        Omit<RPC.ExecutionOutcomeWithIdView, "outcome"> & {
+          outcome: Omit<RPC.ExecutionOutcomeView, "status"> & {
+            status: ReceiptExecutionStatus;
+          };
+        }
       >();
       receiptsOutcome.forEach((receipt) => {
         receiptOutcomesByIdMap.set(receipt.id, receipt);
@@ -59,25 +76,21 @@ export const router = trpc
 
       const receiptsByIdMap = new Map<
         string,
-        Omit<RPC.ReceiptView, "actions"> & { actions: transactions.Action[] }
+        Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
       >();
       receipts.forEach((receiptItem) => {
         receiptsByIdMap.set(receiptItem.receipt_id, {
           ...receiptItem,
           actions:
             "Action" in receiptItem.receipt
-              ? receiptItem.receipt.Action.actions.map(
-                  transactions.mapRpcActionToAction
-                )
+              ? receiptItem.receipt.Action.actions.map(mapRpcActionToAction)
               : [],
         });
       });
 
       return {
         ...transactionBaseInfo,
-        status: Object.keys(
-          transactionInfo.status
-        )[0] as KeysOfUnion<RPC.FinalExecutionStatus>,
+        status: mapRpcTransactionStatus(transactionInfo.status),
         actions,
         receiptsOutcome,
         receipt: transactions.collectNestedReceiptWithOutcome(
@@ -85,7 +98,15 @@ export const router = trpc
           receiptsByIdMap,
           receiptOutcomesByIdMap
         ),
-        transactionOutcome: transactionInfo.transaction_outcome,
+        transactionOutcome: {
+          ...transactionInfo.transaction_outcome,
+          outcome: {
+            ...transactionInfo.transaction_outcome.outcome,
+            status: mapRpcReceiptStatus(
+              transactionInfo.transaction_outcome.outcome.status
+            ),
+          },
+        },
       };
     },
   })
@@ -95,18 +116,6 @@ export const router = trpc
     }),
     resolve: ({ input: { hash } }) => {
       return transactions.getTransactionDetails(hash);
-    },
-  })
-  .query("transaction-execution-status", {
-    input: z.tuple([validators.transactionHash, validators.accountId]),
-    resolve: async ({ input: [hash, signerId] }) => {
-      const transaction = await nearApi.sendJsonRpc("EXPERIMENTAL_tx_status", [
-        hash,
-        signerId,
-      ]);
-      return Object.keys(
-        transaction.status
-      )[0] as KeysOfUnion<RPC.FinalExecutionStatus>;
     },
   })
   .query("transaction-hash-by-receipt-id", {

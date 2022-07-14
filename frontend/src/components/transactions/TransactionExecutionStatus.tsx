@@ -1,9 +1,9 @@
 import * as React from "react";
-import { KeysOfUnion, RPC } from "../../types/common";
+import { Transaction } from "../../types/common";
 import { useTranslation } from "react-i18next";
 
 export interface Props {
-  status: KeysOfUnion<RPC.FinalExecutionStatus>;
+  status: Transaction["status"];
 }
 const TransactionExecutionStatusComponent: React.FC<Props> = React.memo(
   ({ status }) => {
