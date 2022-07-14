@@ -189,15 +189,18 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
       const blockPromise = trpcContext
         .fetchQuery(["block.getHashById", { blockId: cleanedSearchValue }])
         .catch(() => null);
-      const transactionPromise = trpcContext
-        .fetchQuery(["is-transaction-indexed", [cleanedSearchValue]])
-        .catch(() => false);
+      const transactionByHashPromise = trpcContext
+        .fetchQuery(["transaction.byHash", { hash: cleanedSearchValue }])
+        .catch(() => undefined);
       const accountPromise = trpcContext.fetchQuery([
         "account.byIdOld",
         { id: cleanedSearchValue.toLowerCase() },
       ]);
-      const receiptInTransactionPromise = trpcContext
-        .fetchQuery(["transaction-hash-by-receipt-id", [cleanedSearchValue]])
+      const transactionByReceiptIdPromise = trpcContext
+        .fetchQuery([
+          "transaction.byReceiptId",
+          { receiptId: cleanedSearchValue },
+        ])
         .catch(() => undefined);
 
       const block = await blockPromise;
@@ -205,20 +208,21 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
         track("Explorer Search for block", { block: block });
         return Router.push("/blocks/" + block);
       }
-      if (await transactionPromise) {
+      const transaction = await transactionByHashPromise;
+      if (transaction) {
         track("Explorer Search for transaction", {
           transaction: value,
         });
-        return Router.push("/transactions/" + value);
+        return Router.push("/transactions/" + transaction.hash);
       }
       if (await accountPromise) {
         track("Explorer Search for account", { account: value });
         return Router.push("/accounts/" + value.toLowerCase());
       }
-      const receipt = await receiptInTransactionPromise;
+      const receipt = await transactionByReceiptIdPromise;
       if (receipt) {
         return Router.push(
-          `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
+          `/transactions/${receipt.transactionHash}#${receipt.receiptId}`
         );
       }
       track("Explorer Search result not found", {

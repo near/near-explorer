@@ -209,22 +209,6 @@ export const queryGasUsedAggregatedByDate = async () => {
   ]);
 };
 
-export const queryTransactionInfo = async (transactionHash: string) => {
-  return indexerDatabase
-    .selectFrom("transactions")
-    .select([
-      "transaction_hash as hash",
-      "signer_account_id as signer_id",
-      "included_in_block_hash as block_hash",
-      "block_timestamp",
-    ])
-    .where("transaction_hash", "=", transactionHash)
-    .orderBy("block_timestamp", "desc")
-    .orderBy("index_in_chunk", "desc")
-    .limit(1)
-    .executeTakeFirst();
-};
-
 // accounts
 export const queryNewAccountsCountAggregatedByDate = async () => {
   return analyticsDatabase
@@ -388,25 +372,6 @@ export const queryTokensSupply = async () => {
       Number(BigInt(circulatingSupply) / nearNomination),
     ]
   );
-};
-
-// receipts
-export const queryReceiptInTransaction = async (receiptId: string) => {
-  return indexerDatabase
-    .selectFrom("receipts")
-    .select(["receipt_id", "originated_from_transaction_hash"])
-    .where("receipt_id", "=", receiptId)
-    .limit(1)
-    .executeTakeFirst();
-};
-
-export const queryIndexedTransaction = async (transactionHash: string) => {
-  return indexerDatabase
-    .selectFrom("transactions")
-    .select("transaction_hash")
-    .where("transaction_hash", "=", transactionHash)
-    .limit(1)
-    .executeTakeFirst();
 };
 
 // expose receipts included in particular block
