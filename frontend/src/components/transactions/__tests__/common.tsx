@@ -37,10 +37,10 @@ export const TRANSACTIONS: TransactionOld[] = [
           },
         },
       ],
-      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
       outcome: {
+        blockHash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
         logs: [],
-        outgoing_receipts: [
+        nestedReceipts: [
           {
             actions: [
               {
@@ -53,10 +53,10 @@ export const TRANSACTIONS: TransactionOld[] = [
                 },
               },
             ],
-            block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
             outcome: {
+              blockHash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
               logs: ["LOG: Counter is now: 1"],
-              outgoing_receipts: [
+              nestedReceipts: [
                 {
                   actions: [
                     {
@@ -69,17 +69,17 @@ export const TRANSACTIONS: TransactionOld[] = [
                       },
                     },
                   ],
-                  block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
                   outcome: {
+                    blockHash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
                     logs: [],
-                    outgoing_receipts: [],
+                    nestedReceipts: [],
                     status: { type: "successValue", value: "" },
-                    gas_burnt: 55555555,
-                    tokens_burnt: "2345678987654321",
+                    gasBurnt: 55555555,
+                    tokensBurnt: "2345678987654321",
                   },
-                  predecessor_id: "signer.test",
-                  receipt_id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-                  receiver_id: "receiver.test",
+                  predecessorId: "signer.test",
+                  id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
+                  receiverId: "receiver.test",
                 },
                 {
                   actions: [
@@ -93,131 +93,42 @@ export const TRANSACTIONS: TransactionOld[] = [
                       },
                     },
                   ],
-                  block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
                   outcome: {
+                    blockHash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
                     logs: [],
-                    outgoing_receipts: [],
+                    nestedReceipts: [],
                     status: { type: "successValue", value: "" },
-                    gas_burnt: 444444444444,
-                    tokens_burnt: "654345678876543",
+                    gasBurnt: 444444444444,
+                    tokensBurnt: "654345678876543",
                   },
-                  predecessor_id: "signer.test",
-                  receipt_id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
-                  receiver_id: "receiver.test",
+                  predecessorId: "signer.test",
+                  id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
+                  receiverId: "receiver.test",
                 },
               ],
               status: {
                 type: "successReceiptId",
                 receiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
               },
-              gas_burnt: 999999999,
-              tokens_burnt: "5678987654567",
+              gasBurnt: 999999999,
+              tokensBurnt: "5678987654567",
             },
-            predecessor_id: "signer.test",
-            receipt_id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
-            receiver_id: "receiver.test",
+            predecessorId: "signer.test",
+            id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
+            receiverId: "receiver.test",
           },
         ],
         status: { type: "successValue", value: "" },
-        gas_burnt: 100000,
-        tokens_burnt: "12345678987654",
+        gasBurnt: 100000,
+        tokensBurnt: "12345678987654",
       },
-      predecessor_id: "signer.test",
-      receipt_id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-      receiver_id: "receiver.test",
-    },
-    receiptsOutcome: [
-      {
-        id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: [],
-          receipt_ids: ["A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v"],
-          status: { type: "successValue", value: "" },
-          gas_burnt: 100000,
-          tokens_burnt: "12345678987654",
-          executor_id: "signer.test",
-          metadata: {
-            version: 1,
-            gas_profile: null,
-          },
-        },
-        proof: [],
-      },
-      {
-        id: "A8HaLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQvN3v",
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: ["LOG: Counter is now: 1"],
-          receipt_ids: [
-            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-            "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
-          ],
-          status: {
-            type: "successReceiptId",
-            receiptId: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-          },
-          gas_burnt: 999999999,
-          tokens_burnt: "5678987654567",
-          executor_id: "signer.test",
-          metadata: {
-            version: 1,
-            gas_profile: null,
-          },
-        },
-        proof: [],
-      },
-      {
-        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK1111",
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: [],
-          receipt_ids: [],
-          status: { type: "successValue", value: "" },
-          gas_burnt: 55555555,
-          tokens_burnt: "2345678987654321",
-          executor_id: "signer.test",
-          metadata: {
-            version: 1,
-            gas_profile: null,
-          },
-        },
-        proof: [],
-      },
-      {
-        id: "A5oSQ6z71zWi3X1KFy9xhNzyjj8bQx4wwboWUMnK2222",
-        block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-        outcome: {
-          logs: [],
-          receipt_ids: [],
-          status: { type: "successValue", value: "" },
-          gas_burnt: 444444444444,
-          tokens_burnt: "654345678876543",
-          executor_id: "signer.test",
-          metadata: {
-            version: 1,
-            gas_profile: null,
-          },
-        },
-        proof: [],
-      },
-    ],
-    transactionOutcome: {
+      predecessorId: "signer.test",
       id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-      outcome: {
-        logs: [],
-        receipt_ids: ["9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs"],
-        status: { type: "successValue", value: "" },
-        gas_burnt: 333,
-        tokens_burnt: "163548451464",
-        executor_id: "signer.test",
-        metadata: {
-          version: 1,
-          gas_profile: null,
-        },
-      },
-      proof: [],
+      receiverId: "receiver.test",
+    },
+    outcome: {
+      gasBurnt: 333,
+      tokensBurnt: "163548451464",
     },
   },
   //one deposit with small amount
@@ -251,10 +162,10 @@ export const TRANSACTIONS: TransactionOld[] = [
           },
         },
       ],
-      block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
       outcome: {
+        blockHash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
         logs: [],
-        outgoing_receipts: [],
+        nestedReceipts: [],
         status: {
           type: "failure",
           error: {
@@ -268,60 +179,16 @@ export const TRANSACTIONS: TransactionOld[] = [
             },
           },
         },
-        gas_burnt: 222222,
-        tokens_burnt: "231549875456",
+        gasBurnt: 222222,
+        tokensBurnt: "231549875456",
       },
-      predecessor_id: "signer2.test",
-      receipt_id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
-      receiver_id: "receiver2.test",
+      predecessorId: "signer2.test",
+      id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
+      receiverId: "receiver2.test",
     },
-    receiptsOutcome: [
-      {
-        id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
-        block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
-        outcome: {
-          logs: [],
-          receipt_ids: [],
-          status: {
-            type: "failure",
-            error: {
-              type: "action",
-              error: {
-                type: "functionCallError",
-                error: {
-                  type: "executionError",
-                  error: "Smart contract panicked: ERR_INCORRECT_NONCE",
-                },
-              },
-            },
-          },
-          gas_burnt: 222222,
-          tokens_burnt: "231549875456",
-          executor_id: "signer.test",
-          metadata: {
-            version: 1,
-            gas_profile: null,
-          },
-        },
-        proof: [],
-      },
-    ],
-    transactionOutcome: {
-      id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-      outcome: {
-        logs: [],
-        receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
-        status: { type: "successValue", value: "" },
-        gas_burnt: 1111111,
-        tokens_burnt: "12315657498754",
-        executor_id: "signer.test",
-        metadata: {
-          version: 1,
-          gas_profile: null,
-        },
-      },
-      proof: [],
+    outcome: {
+      gasBurnt: 1111111,
+      tokensBurnt: "12315657498754",
     },
   },
   //multi deposit with huge amount
@@ -355,53 +222,21 @@ export const TRANSACTIONS: TransactionOld[] = [
           },
         },
       ],
-      block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
       outcome: {
+        blockHash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
         logs: ["LOG: Counter is now: 1"],
-        outgoing_receipts: [],
+        nestedReceipts: [],
         status: { type: "successValue", value: "" },
-        gas_burnt: 123123123,
-        tokens_burnt: "0",
+        gasBurnt: 123123123,
+        tokensBurnt: "0",
       },
-      predecessor_id: "signer2.test",
-      receipt_id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
-      receiver_id: "receiver2.test",
+      predecessorId: "signer2.test",
+      id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
+      receiverId: "receiver2.test",
     },
-    receiptsOutcome: [
-      {
-        id: "222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222",
-        block_hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
-        outcome: {
-          logs: ["LOG: Counter is now: 1"],
-          receipt_ids: [],
-          status: { type: "successValue", value: "" },
-          gas_burnt: 123123123,
-          tokens_burnt: "0",
-          executor_id: "signer.test",
-          metadata: {
-            version: 1,
-            gas_profile: null,
-          },
-        },
-        proof: [],
-      },
-    ],
-    transactionOutcome: {
-      id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-      block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-      outcome: {
-        logs: [],
-        receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
-        status: { type: "successValue", value: "" },
-        gas_burnt: 456456,
-        tokens_burnt: "456456",
-        executor_id: "signer.test",
-        metadata: {
-          version: 1,
-          gas_profile: null,
-        },
-      },
-      proof: [],
+    outcome: {
+      gasBurnt: 456456,
+      tokensBurnt: "456456",
     },
   },
 ];
@@ -436,10 +271,10 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: TransactionOld = {
         },
       },
     ],
-    block_hash: "B222222222222222222222222222222222222222222",
     outcome: {
+      blockHash: "B222222222222222222222222222222222222222222",
       logs: [],
-      outgoing_receipts: [
+      nestedReceipts: [
         {
           actions: [
             {
@@ -450,46 +285,32 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: TransactionOld = {
             },
           ],
           outcome: {
+            blockHash: "B333333333333333333333333333333333333333333",
             logs: [],
-            outgoing_receipts: [],
+            nestedReceipts: [],
             status: { type: "successValue", value: "" },
-            gas_burnt: 0,
-            tokens_burnt: "0",
+            gasBurnt: 0,
+            tokensBurnt: "0",
           },
-          block_hash: "B333333333333333333333333333333333333333333",
-          predecessor_id: "system",
-          receipt_id: "R2222222222222222222222222222222222222222222",
-          receiver_id: "receiver.test",
+          predecessorId: "system",
+          id: "R2222222222222222222222222222222222222222222",
+          receiverId: "receiver.test",
         },
       ],
       status: {
         type: "successValue",
         value: "eyJsZWZ0IjoyOTY0NzI2OCwicmlnaHQiOjIyMDE2MDA4fQ==",
       },
-      gas_burnt: 6121577723732,
-      tokens_burnt: "612157772373200000000",
+      gasBurnt: 6121577723732,
+      tokensBurnt: "612157772373200000000",
     },
-    predecessor_id: "signer.test",
-    receipt_id: "R1111111111111111111111111111111111111111111",
-    receiver_id: "receiver.test",
+    predecessorId: "signer.test",
+    id: "R1111111111111111111111111111111111111111111",
+    receiverId: "receiver.test",
   },
-  receiptsOutcome: [],
-  transactionOutcome: {
-    id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-    block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-    outcome: {
-      logs: [],
-      receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
-      status: { type: "successValue", value: "" },
-      gas_burnt: 456456,
-      tokens_burnt: "456456",
-      executor_id: "signer.test",
-      metadata: {
-        version: 1,
-        gas_profile: null,
-      },
-    },
-    proof: [],
+  outcome: {
+    gasBurnt: 456456,
+    tokensBurnt: "456456",
   },
 };
 
@@ -523,13 +344,13 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
         },
       },
     ],
-    block_hash: "B222222222222222222222222222222222222222222",
     outcome: {
+      blockHash: "B222222222222222222222222222222222222222222",
       logs: [
         "Transfer 9807229473212706028 from signer.test to receiver.test",
         "Memo: Swapping 9807229473212706028 🍌 to get 9807229473212706028 🥒",
       ],
-      outgoing_receipts: [
+      nestedReceipts: [
         {
           actions: [
             {
@@ -545,7 +366,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
           outcome: {
             logs: [],
             status: { type: "successValue", value: "IjAi" },
-            outgoing_receipts: [
+            nestedReceipts: [
               {
                 actions: [
                   {
@@ -554,25 +375,25 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
                   },
                 ],
                 outcome: {
+                  blockHash: "B444444444444444444444444444444444444444444",
                   logs: [],
-                  outgoing_receipts: [],
+                  nestedReceipts: [],
                   status: { type: "successValue", value: "" },
-                  gas_burnt: 0,
-                  tokens_burnt: "0",
+                  gasBurnt: 0,
+                  tokensBurnt: "0",
                 },
-                block_hash: "B444444444444444444444444444444444444444444",
-                predecessor_id: "system",
-                receipt_id: "R555555555555555555555555555555555555555555",
-                receiver_id: "receiver.test",
+                predecessorId: "system",
+                id: "R555555555555555555555555555555555555555555",
+                receiverId: "receiver.test",
               },
             ],
-            gas_burnt: 4118773191051,
-            tokens_burnt: "411877319105100000000",
+            gasBurnt: 4118773191051,
+            tokensBurnt: "411877319105100000000",
+            blockHash: "B333333333333333333333333333333333333333333",
           },
-          block_hash: "B333333333333333333333333333333333333333333",
-          predecessor_id: "signer1.test",
-          receipt_id: "R222222222222222222222222222222222222222222",
-          receiver_id: "receiver.test",
+          predecessorId: "signer1.test",
+          id: "R222222222222222222222222222222222222222222",
+          receiverId: "receiver.test",
         },
         {
           actions: [
@@ -586,10 +407,10 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
               },
             },
           ],
-          block_hash: "B4444444444444444444444444444444444444444444",
           outcome: {
+            blockHash: "B4444444444444444444444444444444444444444444",
             logs: [],
-            outgoing_receipts: [
+            nestedReceipts: [
               {
                 actions: [
                   {
@@ -599,29 +420,29 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
                     },
                   },
                 ],
-                block_hash: "B666666666666666666666666666666666666666666",
                 outcome: {
+                  blockHash: "B666666666666666666666666666666666666666666",
                   logs: [],
-                  outgoing_receipts: [],
+                  nestedReceipts: [],
                   status: { type: "successValue", value: "" },
-                  gas_burnt: 0,
-                  tokens_burnt: "0",
+                  gasBurnt: 0,
+                  tokensBurnt: "0",
                 },
-                predecessor_id: "system",
-                receipt_id: "R6666666666666666666666666666666666666666666",
-                receiver_id: "receiver.test",
+                predecessorId: "system",
+                id: "R6666666666666666666666666666666666666666666",
+                receiverId: "receiver.test",
               },
             ],
             status: {
               type: "successValue",
               value: "Ijk4MDcyMjk0NzMyMTI3MDYwMjgi",
             },
-            gas_burnt: 3521810343748,
-            tokens_burnt: "352181034374800000000",
+            gasBurnt: 3521810343748,
+            tokensBurnt: "352181034374800000000",
           },
-          predecessor_id: "signer1.test",
-          receipt_id: "R3333333333333333333333333333333333333333333",
-          receiver_id: "receiver1.test",
+          predecessorId: "signer1.test",
+          id: "R3333333333333333333333333333333333333333333",
+          receiverId: "receiver1.test",
         },
         {
           actions: [
@@ -632,47 +453,33 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
               },
             },
           ],
-          block_hash: "B555555555555555555555555555555555555555555",
           outcome: {
+            blockHash: "B555555555555555555555555555555555555555555",
             logs: [],
-            outgoing_receipts: [],
+            nestedReceipts: [],
             status: { type: "successValue", value: "" },
-            gas_burnt: 0,
-            tokens_burnt: "0",
+            gasBurnt: 0,
+            tokensBurnt: "0",
           },
-          predecessor_id: "system",
-          receipt_id: "R4444444444444444444444444444444444444444444",
-          receiver_id: "receiver.test",
+          predecessorId: "system",
+          id: "R4444444444444444444444444444444444444444444",
+          receiverId: "receiver.test",
         },
       ],
       status: {
         type: "successReceiptId",
         receiptId: "R3333333333333333333333333333333333333333333",
       },
-      gas_burnt: 20876917901092,
-      tokens_burnt: "2087691790109200000000",
+      gasBurnt: 20876917901092,
+      tokensBurnt: "2087691790109200000000",
     },
-    predecessor_id: "signer.test",
-    receipt_id: "R1111111111111111111111111111111111111111111",
-    receiver_id: "receiver.test",
+    predecessorId: "signer.test",
+    id: "R1111111111111111111111111111111111111111111",
+    receiverId: "receiver.test",
   },
-  receiptsOutcome: [],
-  transactionOutcome: {
-    id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-    block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-    outcome: {
-      logs: [],
-      receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
-      status: { type: "successValue", value: "" },
-      gas_burnt: 456456,
-      tokens_burnt: "456456",
-      executor_id: "signer.test",
-      metadata: {
-        version: 1,
-        gas_profile: null,
-      },
-    },
-    proof: [],
+  outcome: {
+    gasBurnt: 456456,
+    tokensBurnt: "456456",
   },
 };
 
@@ -706,10 +513,10 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: TransactionOld = {
         },
       },
     ],
-    block_hash: "B111111111111111111111111111111111111111111",
     outcome: {
+      blockHash: "B111111111111111111111111111111111111111111",
       logs: ["000028066 listings not found"],
-      outgoing_receipts: [
+      nestedReceipts: [
         {
           actions: [
             {
@@ -721,15 +528,15 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: TransactionOld = {
           ],
           outcome: {
             logs: [],
-            outgoing_receipts: [],
+            nestedReceipts: [],
             status: { type: "successValue", value: "" },
-            gas_burnt: 0,
-            tokens_burnt: "0",
+            gasBurnt: 0,
+            tokensBurnt: "0",
+            blockHash: "B222222222222222222222222222222222222222222",
           },
-          block_hash: "B222222222222222222222222222222222222222222",
-          predecessor_id: "system",
-          receipt_id: "R2222222222222222222222222222222222222222222",
-          receiver_id: "receiver.test",
+          predecessorId: "system",
+          id: "R2222222222222222222222222222222222222222222",
+          receiverId: "receiver.test",
         },
       ],
       status: {
@@ -744,30 +551,16 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: TransactionOld = {
           },
         },
       },
-      gas_burnt: 3380537230112,
-      tokens_burnt: "338053723011200000000",
+      gasBurnt: 3380537230112,
+      tokensBurnt: "338053723011200000000",
     },
-    predecessor_id: "signer.test",
-    receipt_id: "R1111111111111111111111111111111111111111111",
-    receiver_id: "receiver.test",
+    predecessorId: "signer.test",
+    id: "R1111111111111111111111111111111111111111111",
+    receiverId: "receiver.test",
   },
-  receiptsOutcome: [],
-  transactionOutcome: {
-    id: "9uZxS2cuZv7yphcidRiwNqDayMxcVRE1zHkAmwrHr1vs",
-    block_hash: "000eW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaV000",
-    outcome: {
-      logs: [],
-      receipt_ids: ["222aLh5pzaeuiq4VVnmgghT6RzCRuiNftkJCZmVQv222"],
-      status: { type: "successValue", value: "" },
-      gas_burnt: 456456,
-      tokens_burnt: "456456",
-      executor_id: "signer.test",
-      metadata: {
-        version: 1,
-        gas_profile: null,
-      },
-    },
-    proof: [],
+  outcome: {
+    gasBurnt: 456456,
+    tokensBurnt: "456456",
   },
 };
 

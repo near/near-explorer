@@ -215,11 +215,8 @@ export const queryTransactionInfo = async (transactionHash: string) => {
     .select([
       "transaction_hash as hash",
       "signer_account_id as signer_id",
-      "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
       "block_timestamp",
-      "index_in_chunk as transaction_index",
-      "status",
     ])
     .where("transaction_hash", "=", transactionHash)
     .orderBy("block_timestamp", "desc")

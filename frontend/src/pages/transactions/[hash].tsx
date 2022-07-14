@@ -70,9 +70,7 @@ const TransactionDetailsPage: NextPage = React.memo(() => {
           icon={<TransactionIcon />}
           title={<h2>{t("page.transactions.transaction_execution_plan")}</h2>}
         >
-          {transaction.transactionOutcome && (
-            <TransactionOutcome transaction={transaction.transactionOutcome} />
-          )}
+          <TransactionOutcome outcome={transaction.outcome} />
 
           <ReceiptRow
             receipt={transaction.receipt}

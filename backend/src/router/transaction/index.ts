@@ -8,105 +8,76 @@ import * as receipts from "../../providers/receipts";
 import { RPC } from "../../types";
 import * as nearApi from "../../utils/near";
 import { validators } from "../validators";
+import { mapRpcActionToAction } from "../../utils/actions";
 import { mapRpcTransactionStatus } from "../../utils/transaction-status";
-import { Action, mapRpcActionToAction } from "../../utils/actions";
-import {
-  mapRpcReceiptStatus,
-  ReceiptExecutionStatus,
-} from "../../utils/receipt-status";
 
 export const router = trpc
   .router<Context>()
   .query("transaction-info", {
     input: z.tuple([validators.transactionHash]),
     resolve: async ({ input: [transactionHash] }) => {
-      const transactionBaseInfo = await transactions.getTransactionInfo(
+      const databaseTransaction = await transactions.getTransactionInfo(
         transactionHash
       );
-      if (!transactionBaseInfo) {
+      if (!databaseTransaction) {
         return null;
       }
-      const transactionInfo = await nearApi.sendJsonRpc(
+      const rpcTransaction = await nearApi.sendJsonRpc(
         "EXPERIMENTAL_tx_status",
-        [transactionBaseInfo.hash, transactionBaseInfo.signerId]
+        [databaseTransaction.hash, databaseTransaction.signerId]
       );
 
-      const actions =
-        transactionInfo.transaction.actions.map(mapRpcActionToAction);
-      const receipts = transactionInfo.receipts;
-      const receiptsOutcome = transactionInfo.receipts_outcome.map(
-        (outcome) => ({
-          ...outcome,
-          outcome: {
-            ...outcome.outcome,
-            status: mapRpcReceiptStatus(outcome.outcome.status),
-          },
-        })
-      );
+      const receipts = rpcTransaction.receipts;
+      const receiptsOutcome = rpcTransaction.receipts_outcome;
       if (
         receipts.length === 0 ||
         receipts[0].receipt_id !== receiptsOutcome[0].id
       ) {
         receipts.unshift({
-          predecessor_id: transactionInfo.transaction.signer_id,
+          predecessor_id: rpcTransaction.transaction.signer_id,
           receipt: {
             Action: {
-              signer_id: transactionInfo.transaction.signer_id,
+              signer_id: rpcTransaction.transaction.signer_id,
               signer_public_key: "",
               gas_price: "0",
               output_data_receivers: [],
               input_data_ids: [],
-              actions: transactionInfo.transaction.actions,
+              actions: rpcTransaction.transaction.actions,
             },
           },
           receipt_id: receiptsOutcome[0].id,
-          receiver_id: transactionInfo.transaction.receiver_id,
+          receiver_id: rpcTransaction.transaction.receiver_id,
         });
       }
       const receiptOutcomesByIdMap = new Map<
         string,
-        Omit<RPC.ExecutionOutcomeWithIdView, "outcome"> & {
-          outcome: Omit<RPC.ExecutionOutcomeView, "status"> & {
-            status: ReceiptExecutionStatus;
-          };
-        }
+        RPC.ExecutionOutcomeWithIdView
       >();
       receiptsOutcome.forEach((receipt) => {
         receiptOutcomesByIdMap.set(receipt.id, receipt);
       });
 
-      const receiptsByIdMap = new Map<
-        string,
-        Omit<RPC.ReceiptView, "actions"> & { actions: Action[] }
-      >();
-      receipts.forEach((receiptItem) => {
-        receiptsByIdMap.set(receiptItem.receipt_id, {
-          ...receiptItem,
-          actions:
-            "Action" in receiptItem.receipt
-              ? receiptItem.receipt.Action.actions.map(mapRpcActionToAction)
-              : [],
-        });
+      const receiptsByIdMap = new Map<string, RPC.ReceiptView>();
+      receipts.forEach((receipt) => {
+        receiptsByIdMap.set(receipt.receipt_id, receipt);
       });
 
       return {
-        ...transactionBaseInfo,
-        status: mapRpcTransactionStatus(transactionInfo.status),
-        actions,
-        receiptsOutcome,
+        hash: transactionHash,
+        signerId: rpcTransaction.transaction.signer_id,
+        receiverId: rpcTransaction.transaction.receiver_id,
+        status: mapRpcTransactionStatus(rpcTransaction.status),
+        blockHash: databaseTransaction.blockHash,
+        blockTimestamp: databaseTransaction.blockTimestamp,
+        actions: rpcTransaction.transaction.actions.map(mapRpcActionToAction),
         receipt: transactions.collectNestedReceiptWithOutcome(
           receiptsOutcome[0].id,
           receiptsByIdMap,
           receiptOutcomesByIdMap
         ),
-        transactionOutcome: {
-          ...transactionInfo.transaction_outcome,
-          outcome: {
-            ...transactionInfo.transaction_outcome.outcome,
-            status: mapRpcReceiptStatus(
-              transactionInfo.transaction_outcome.outcome.status
-            ),
-          },
+        outcome: {
+          gasBurnt: rpcTransaction.transaction_outcome.outcome.gas_burnt,
+          tokensBurnt: rpcTransaction.transaction_outcome.outcome.tokens_burnt,
         },
       };
     },

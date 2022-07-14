@@ -35,52 +35,45 @@ const TransactionOutcomeText = styled(Col, {
 });
 
 export interface Props {
-  transaction: TransactionOutcome;
+  outcome: TransactionOutcome;
 }
 
-const TransactionOutcomeView: React.FC<Props> = React.memo(
-  ({ transaction }) => {
-    const { t } = useTranslation();
-    const gasBurnt = JSBI.BigInt(transaction.outcome?.gas_burnt ?? 0);
-    const tokensBurnt = JSBI.BigInt(transaction.outcome?.tokens_burnt ?? 0);
-    return (
-      <Row noGutters>
-        <Col>
-          <Row noGutters>
-            <TransactionOutcomeTitle main>
-              <b>
-                {t(
-                  "common.transactions.execution.convert_transaction_to_receipt"
-                )}
-              </b>
-            </TransactionOutcomeTitle>
-          </Row>
-
-          <TransactionOutcomeRow noGutters className="mx-0 pl-4">
-            <TransactionOutcomeTitle>
-              {t("common.transactions.execution.gas_burned")}:
-            </TransactionOutcomeTitle>
-            <TransactionOutcomeText>
-              {gasBurnt ? <Gas gas={gasBurnt} /> : "..."}
-            </TransactionOutcomeText>
-          </TransactionOutcomeRow>
-
-          <TransactionOutcomeRow noGutters className="mx-0 pl-4">
-            <TransactionOutcomeTitle>
-              {t("common.transactions.execution.tokens_burned")}:
-            </TransactionOutcomeTitle>
-            <TransactionOutcomeText>
-              {tokensBurnt ? (
-                <Balance amount={tokensBurnt.toString()} />
-              ) : (
-                "..."
+const TransactionOutcomeView: React.FC<Props> = React.memo(({ outcome }) => {
+  const { t } = useTranslation();
+  const gasBurnt = JSBI.BigInt(outcome.gasBurnt);
+  return (
+    <Row noGutters>
+      <Col>
+        <Row noGutters>
+          <TransactionOutcomeTitle main>
+            <b>
+              {t(
+                "common.transactions.execution.convert_transaction_to_receipt"
               )}
-            </TransactionOutcomeText>
-          </TransactionOutcomeRow>
-        </Col>
-      </Row>
-    );
-  }
-);
+            </b>
+          </TransactionOutcomeTitle>
+        </Row>
+
+        <TransactionOutcomeRow noGutters className="mx-0 pl-4">
+          <TransactionOutcomeTitle>
+            {t("common.transactions.execution.gas_burned")}:
+          </TransactionOutcomeTitle>
+          <TransactionOutcomeText>
+            <Gas gas={gasBurnt} />
+          </TransactionOutcomeText>
+        </TransactionOutcomeRow>
+
+        <TransactionOutcomeRow noGutters className="mx-0 pl-4">
+          <TransactionOutcomeTitle>
+            {t("common.transactions.execution.tokens_burned")}:
+          </TransactionOutcomeTitle>
+          <TransactionOutcomeText>
+            <Balance amount={outcome.tokensBurnt} />
+          </TransactionOutcomeText>
+        </TransactionOutcomeRow>
+      </Col>
+    </Row>
+  );
+});
 
 export default TransactionOutcomeView;

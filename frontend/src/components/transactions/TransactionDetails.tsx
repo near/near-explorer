@@ -15,7 +15,11 @@ import TransactionExecutionStatus from "./TransactionExecutionStatus";
 import { useTranslation } from "react-i18next";
 import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
-import { RPC, TransactionOld } from "../../types/common";
+import {
+  NestedReceiptWithOutcome,
+  RPC,
+  TransactionOld,
+} from "../../types/common";
 import * as BI from "../../libraries/bigint";
 
 const HeaderRow = styled(Row);
@@ -62,6 +66,19 @@ export interface State {
   transactionFee?: JSBI;
 }
 
+const flattenReceiptOutcomes = (
+  receipt: NestedReceiptWithOutcome
+): NestedReceiptWithOutcome["outcome"][] =>
+  receipt.outcome.nestedReceipts.reduce<NestedReceiptWithOutcome["outcome"][]>(
+    (acc, subReceipt) => [
+      ...acc,
+      ...(subReceipt.outcome.nestedReceipts
+        ? flattenReceiptOutcomes(subReceipt)
+        : []),
+    ],
+    [receipt.outcome]
+  );
+
 const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
   const { t } = useTranslation();
   const deposit = React.useMemo(() => {
@@ -78,34 +95,26 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
         BI.zero
       );
   }, [transaction.actions]);
-  const gasUsed = React.useMemo(() => {
-    const gasBurntByTx = transaction.transactionOutcome
-      ? JSBI.BigInt(transaction.transactionOutcome.outcome.gas_burnt)
-      : BI.zero;
-    const gasBurntByReceipts = transaction.receiptsOutcome
-      ? transaction.receiptsOutcome
-          .map((receipt) => JSBI.BigInt(receipt.outcome.gas_burnt))
-          .reduce(
-            (gasBurnt, currentFee) => JSBI.add(gasBurnt, currentFee),
-            BI.zero
-          )
-      : BI.zero;
-    return JSBI.add(gasBurntByTx, gasBurntByReceipts);
-  }, [transaction.transactionOutcome, transaction.receiptsOutcome]);
-  const transactionFee = React.useMemo(() => {
-    const tokensBurntByTx = transaction.transactionOutcome
-      ? JSBI.BigInt(transaction.transactionOutcome.outcome.tokens_burnt)
-      : BI.zero;
-    const tokensBurntByReceipts = transaction.receiptsOutcome
-      ? transaction.receiptsOutcome
-          .map((receipt) => JSBI.BigInt(receipt.outcome.tokens_burnt))
-          .reduce(
-            (tokenBurnt, currentFee) => JSBI.add(tokenBurnt, currentFee),
-            BI.zero
-          )
-      : BI.zero;
-    return JSBI.add(tokensBurntByTx, tokensBurntByReceipts);
-  }, [transaction.transactionOutcome, transaction.receiptsOutcome]);
+  const { tokensBurnt, gasUsed } = React.useMemo(() => {
+    const outcomes = [
+      transaction.outcome,
+      ...flattenReceiptOutcomes(transaction.receipt),
+    ];
+    return {
+      gasUsed: outcomes
+        .map((outcome) => JSBI.BigInt(outcome.gasBurnt))
+        .reduce(
+          (gasBurnt, currentFee) => JSBI.add(gasBurnt, currentFee),
+          BI.zero
+        ),
+      tokensBurnt: outcomes
+        .map((outcome) => JSBI.BigInt(outcome.tokensBurnt))
+        .reduce(
+          (tokenBurnt, currentFee) => JSBI.add(tokenBurnt, currentFee),
+          BI.zero
+        ),
+    };
+  }, [transaction.outcome, transaction.receipt]);
   const gasAttached = React.useMemo(() => {
     const actionArgs = transaction.actions.map((action) => action.args);
     const gasAttachedArgs = actionArgs.filter(
@@ -210,13 +219,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
               />
             }
             imgLink="/static/images/icon-m-size.svg"
-            text={
-              transactionFee ? (
-                <Balance amount={transactionFee.toString()} />
-              ) : (
-                "..."
-              )
-            }
+            text={<Balance amount={tokensBurnt.toString()} />}
             className="border-0"
           />
         </Col>
@@ -254,7 +257,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
               />
             }
             imgLink="/static/images/icon-m-size.svg"
-            text={gasUsed ? <Gas gas={gasUsed} /> : "..."}
+            text={<Gas gas={gasUsed} />}
             className="border-sm-0"
           />
         </Col>
@@ -271,7 +274,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
               />
             }
             imgLink="/static/images/icon-m-size.svg"
-            text={gasAttached ? <Gas gas={gasAttached} /> : "..."}
+            text={<Gas gas={gasAttached} />}
             className="border-sm-0"
           />
         </Col>
