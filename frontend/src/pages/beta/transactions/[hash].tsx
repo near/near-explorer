@@ -9,9 +9,10 @@ import { NextPage } from "next";
 import { Transaction } from "../../../types/common";
 import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
 
-import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
 import { trpc } from "../../../libraries/trpc";
 import { styled } from "../../../libraries/styles";
+import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
+import TransactionActionsList from "../../../components/beta/transactions/TransactionActionsList";
 
 type Props = {
   hash: string;
@@ -57,7 +58,12 @@ const TransactionQueryView: React.FC<QueryProps> = React.memo((props) => {
   switch (props.status) {
     case "success":
       if (props.data) {
-        return <TransactionHeader transaction={props.data} />;
+        return (
+          <>
+            <TransactionHeader transaction={props.data} />
+            <TransactionActionsList transaction={props.data} />
+          </>
+        );
       }
       return (
         <div>

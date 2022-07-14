@@ -157,6 +157,23 @@
         "fetching": "Получение статуса...",
         "fail": "Сбой",
         "success": "Успешно"
+      },
+      "processed": "Выполнено за ${time}",
+      "execution_plan": "План выполнения",
+      "tabs": {
+        "output": "Итог",
+        "inspect": "Обзор"
+      },
+      "type": {
+        "transfer": "Перевод",
+        "stake": "Стейк",
+        "deployContract": "Деплой контракта",
+        "addKey": "Добавление ключа",
+        "deleteKey": "Удаление ключа",
+        "functionCall": "",
+        "createAccount": "Создание аккаунта",
+        "deleteAccount": "Удаление аккаунта",
+        "refund": "Сдача"
       }
     }
   },

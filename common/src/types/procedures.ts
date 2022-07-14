@@ -41,6 +41,7 @@ export type TransactionPreview = TransactionListResponse["items"][number];
 
 export type Transaction = NonNullable<TRPCQueryOutput<"transaction.byHash">>;
 export type TransactionStatus = Transaction["status"];
+export type TransactionReceipt = Transaction["receipt"];
 
 export type Action = TransactionPreview["actions"][number];
 export type TransactionOld = NonNullable<

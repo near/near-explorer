@@ -157,6 +157,23 @@
         "fetching": "Отримання статусу...",
         "fail": "Сталася помилка",
         "success": "Успішно"
+      },
+      "processed": "Виконано за ${time}",
+      "execution_plan": "План виконання",
+      "tabs": {
+        "output": "Підсумок",
+        "inspect": "Огляд"
+      },
+      "type": {
+        "transfer": "Переказ",
+        "stake": "Стейк",
+        "deployContract": "Контракт задеплоєно",
+        "addKey": "Додавання ключа",
+        "deleteKey": "Видалення ключа",
+        "functionCall": "",
+        "createAccount": "Акаунт створено",
+        "deleteAccount": "Акаунт видалено",
+        "refund": "Решта"
       }
     }
   },

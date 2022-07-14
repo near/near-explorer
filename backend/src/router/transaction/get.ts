@@ -5,7 +5,10 @@ import { Context } from "../../context";
 import { RPC } from "../../types";
 import * as nearApi from "../../utils/near";
 import { validators } from "../validators";
-import { indexerDatabase } from "../../database/databases";
+import {
+  indexerActivityDatabase,
+  indexerDatabase,
+} from "../../database/databases";
 import { Action, mapRpcActionToAction } from "../../utils/actions";
 import { mapRpcTransactionStatus } from "../../utils/transaction-status";
 import {
@@ -15,13 +18,13 @@ import {
 import { nanosecondsToMilliseconds } from "../../utils/bigint";
 import { div } from "../../database/utils";
 
-type ParsedReceipt = Omit<NestedReceiptWithOutcome, "outcome"> & {
-  outcome: Omit<NestedReceiptWithOutcome["outcome"], "nestedReceipts"> & {
+type ParsedReceiptOld = Omit<NestedReceiptWithOutcomeOld, "outcome"> & {
+  outcome: Omit<NestedReceiptWithOutcomeOld["outcome"], "nestedReceipts"> & {
     receiptIds: string[];
   };
 };
 
-type NestedReceiptWithOutcome = {
+type NestedReceiptWithOutcomeOld = {
   id: string;
   predecessorId: string;
   receiverId: string;
@@ -32,8 +35,51 @@ type NestedReceiptWithOutcome = {
     gasBurnt: number;
     status: ReceiptExecutionStatus;
     logs: string[];
+    nestedReceipts: NestedReceiptWithOutcomeOld[];
+  };
+};
+
+const collectNestedReceiptWithOutcomeOld = (
+  idOrHash: string,
+  parsedMap: Map<string, ParsedReceiptOld>
+): NestedReceiptWithOutcomeOld => {
+  const parsedElement = parsedMap.get(idOrHash)!;
+  const { receiptIds, ...restOutcome } = parsedElement.outcome;
+  return {
+    ...parsedElement,
+    outcome: {
+      ...restOutcome,
+      nestedReceipts: receiptIds.map((id) =>
+        collectNestedReceiptWithOutcomeOld(id, parsedMap)
+      ),
+    },
+  };
+};
+
+type NestedReceiptWithOutcome = Omit<NestedReceiptWithOutcomeOld, "outcome"> & {
+  outcome: Omit<
+    NestedReceiptWithOutcomeOld["outcome"],
+    "nestedReceipts" | "blockHash"
+  > & {
+    block: {
+      hash: string;
+      height: number;
+      timestamp: number;
+    };
     nestedReceipts: NestedReceiptWithOutcome[];
   };
+};
+
+type ParsedReceipt = Omit<NestedReceiptWithOutcome, "outcome"> & {
+  outcome: Omit<NestedReceiptWithOutcome["outcome"], "nestedReceipts"> & {
+    receiptIds: string[];
+  };
+};
+
+type ParsedBlock = {
+  hash: string;
+  height: number;
+  timestamp: number;
 };
 
 const collectNestedReceiptWithOutcome = (
@@ -95,9 +141,9 @@ const parseReceipt = (
   };
 };
 
-const parseOutcome = (
+const parseOutcomeOld = (
   outcome: RPC.ExecutionOutcomeWithIdView
-): ParsedReceipt["outcome"] => {
+): ParsedReceiptOld["outcome"] => {
   return {
     blockHash: outcome.block_hash,
     tokensBurnt: outcome.outcome.tokens_burnt,
@@ -105,6 +151,17 @@ const parseOutcome = (
     status: mapRpcReceiptStatus(outcome.outcome.status),
     logs: outcome.outcome.logs,
     receiptIds: outcome.outcome.receipt_ids,
+  };
+};
+
+const parseOutcome = (
+  outcome: RPC.ExecutionOutcomeWithIdView,
+  blocksMap: Map<string, ParsedBlock>
+): ParsedReceipt["outcome"] => {
+  const { blockHash, ...oldParsedOutcome } = parseOutcomeOld(outcome);
+  return {
+    ...oldParsedOutcome,
+    block: blocksMap.get(blockHash)!,
   };
 };
 
@@ -143,10 +200,10 @@ export const router = trpc
           );
           return mapping.set(receiptOutcome.id, {
             ...receipt,
-            outcome: parseOutcome(receiptOutcome),
+            outcome: parseOutcomeOld(receiptOutcome),
           });
         },
-        new Map<string, ParsedReceipt>()
+        new Map<string, ParsedReceiptOld>()
       );
 
       return {
@@ -161,7 +218,7 @@ export const router = trpc
           mapRpcActionToAction(action)
         ),
         status: mapRpcTransactionStatus(rpcTransaction.status),
-        receipt: collectNestedReceiptWithOutcome(
+        receipt: collectNestedReceiptWithOutcomeOld(
           rpcTransaction.transaction_outcome.outcome.receipt_ids[0],
           receiptsMap
         ),
@@ -192,6 +249,28 @@ export const router = trpc
         "EXPERIMENTAL_tx_status",
         [hash, databaseTransaction.signerId]
       );
+      const blocks = await indexerDatabase
+        .selectFrom("blocks")
+        .select([
+          "block_height as height",
+          "block_hash as hash",
+          (eb) => div(eb, "block_timestamp", 1000 * 1000, "timestamp"),
+        ])
+        .where(
+          "block_hash",
+          "in",
+          rpcTransaction.receipts_outcome.map((outcome) => outcome.block_hash)
+        )
+        .execute();
+      const blocksMap = blocks.reduce(
+        (map, row) =>
+          map.set(row.hash, {
+            hash: row.hash,
+            height: parseInt(row.height),
+            timestamp: parseInt(row.timestamp),
+          }),
+        new Map<string, ParsedBlock>()
+      );
 
       const transactionFee = getTransactionFee(
         rpcTransaction.transaction_outcome,
@@ -202,6 +281,23 @@ export const router = trpc
         rpcTransaction.transaction.actions.map(mapRpcActionToAction);
       const transactionAmount = getDeposit(txActions);
 
+      const receiptsMap = rpcTransaction.receipts_outcome.reduce(
+        (mapping, receiptOutcome) => {
+          const receipt = parseReceipt(
+            rpcTransaction.receipts.find(
+              (receipt) => receipt.receipt_id === receiptOutcome.id
+            ),
+            receiptOutcome,
+            rpcTransaction.transaction
+          );
+          return mapping.set(receiptOutcome.id, {
+            ...receipt,
+            outcome: parseOutcome(receiptOutcome, blocksMap),
+          });
+        },
+        new Map<string, ParsedReceipt>()
+      );
+
       return {
         hash,
         timestamp: parseInt(databaseTransaction.timestamp),
@@ -210,6 +306,10 @@ export const router = trpc
         fee: transactionFee.toString(),
         amount: transactionAmount.toString(),
         status: mapRpcTransactionStatus(rpcTransaction.status),
+        receipt: collectNestedReceiptWithOutcome(
+          rpcTransaction.transaction_outcome.outcome.receipt_ids[0],
+          receiptsMap
+        ),
       };
     },
   })
@@ -226,5 +326,25 @@ export const router = trpc
         .limit(1)
         .executeTakeFirst();
       return transactionInfo;
+    },
+  })
+  .query("accountBalanceChange", {
+    input: z.strictObject({
+      accountId: validators.accountId,
+      receiptId: validators.receiptId,
+    }),
+    resolve: async ({ input: { accountId, receiptId } }) => {
+      const balanceChanges = await indexerActivityDatabase
+        .selectFrom("balance_changes")
+        .select(["absolute_nonstaked_amount as absoluteNonStakedAmount"])
+        .where("affected_account_id", "=", accountId)
+        .where("receipt_id", "=", receiptId)
+        .orderBy("index_in_chunk", "desc")
+        .limit(1)
+        .executeTakeFirst();
+      if (!balanceChanges) {
+        return null;
+      }
+      return balanceChanges.absoluteNonStakedAmount;
     },
   });
