@@ -1,84 +1,23 @@
 import { RPC } from "../types";
 import {
-  queryIndexedTransaction,
-  queryTransactionsList,
-  queryTransactionsActionsList,
-  queryAccountTransactionsList,
-  queryTransactionsListInBlock,
   queryTransactionInfo,
+  queryIndexedTransaction,
 } from "../database/queries";
-import { z } from "zod";
-import { validators } from "../router/validators";
 
 import * as nearApi from "../utils/near";
 import { ReceiptExecutionStatus } from "../utils/receipt-status";
 import {
-  mapDatabaseTransactionStatus,
   mapRpcTransactionStatus,
   TransactionStatus,
 } from "../utils/transaction-status";
 import {
-  mapDatabaseActionToAction,
   Action,
-  mapRpcActionToAction,
   DatabaseAction,
+  mapDatabaseActionToAction,
+  mapRpcActionToAction,
 } from "../utils/actions";
 import { nanosecondsToMilliseconds } from "../utils/bigint";
-
-type TransactionPreview = {
-  hash: string;
-  signerId: string;
-  receiverId: string;
-  blockHash: string;
-  blockTimestamp: number;
-  actions: Action[];
-  status: TransactionStatus;
-};
-
-type TransactionList = {
-  items: TransactionPreview[];
-  cursor: z.infer<typeof validators.transactionPagination>;
-};
-
-// helper function to init transactions list
-// as we use the same structure but different queries for account, block, txInfo and list
-async function createTransactionsList(
-  transactions: Awaited<ReturnType<typeof queryTransactionsList>>
-): Promise<TransactionList> {
-  if (transactions.length === 0) {
-    return {
-      items: [],
-      cursor: {
-        timestamp: "",
-        indexInChunk: 0,
-      },
-    };
-  }
-
-  const transactionsHashes = transactions.map(({ hash }) => hash);
-  const transactionsActionsList = await getTransactionsActionsList(
-    transactionsHashes
-  );
-
-  const lastTransaction = transactions[transactions.length - 1];
-  return {
-    items: transactions.map((transaction) => ({
-      hash: transaction.hash,
-      signerId: transaction.signer_id,
-      receiverId: transaction.receiver_id,
-      blockHash: transaction.block_hash,
-      blockTimestamp: nanosecondsToMilliseconds(
-        BigInt(transaction.block_timestamp)
-      ),
-      actions: transactionsActionsList.get(transaction.hash) || [],
-      status: mapDatabaseTransactionStatus(transaction.status),
-    })),
-    cursor: {
-      timestamp: lastTransaction.block_timestamp,
-      indexInChunk: lastTransaction.transaction_index,
-    },
-  };
-}
+import { indexerDatabase } from "../database/databases";
 
 export const getIsTransactionIndexed = async (
   transactionHash: string
@@ -87,49 +26,28 @@ export const getIsTransactionIndexed = async (
   return Boolean(transaction?.transaction_hash);
 };
 
-export const getTransactionsList = async (
-  limit: number | undefined,
-  cursor?: z.infer<typeof validators.transactionPagination>
-): Promise<TransactionList> => {
-  const transactionsList = await queryTransactionsList(limit, cursor);
-  return await createTransactionsList(transactionsList);
-};
-
-export const getAccountTransactionsList = async (
-  accountId: string,
-  limit: number | undefined,
-  cursor?: z.infer<typeof validators.transactionPagination>
-): Promise<TransactionList> => {
-  const accountTxList = await queryAccountTransactionsList(
-    accountId,
-    limit,
-    cursor
-  );
-  return await createTransactionsList(accountTxList);
-};
-
-export const getTransactionsListInBlock = async (
-  blockHash: string,
-  limit: number | undefined,
-  cursor?: z.infer<typeof validators.transactionPagination>
-): Promise<TransactionList> => {
-  const txListInBlock = await queryTransactionsListInBlock(
-    blockHash,
-    limit,
-    cursor
-  );
-  return await createTransactionsList(txListInBlock);
-};
-
-export const getTransactionInfo = async (
-  transactionHash: string
-): Promise<TransactionPreview | null> => {
+export const getTransactionInfo = async (transactionHash: string) => {
   const transactionInfo = await queryTransactionInfo(transactionHash);
   if (!transactionInfo) {
     return null;
   }
-  const transaction = await createTransactionsList([transactionInfo]);
-  return transaction.items[0] || null;
+  const actions = await indexerDatabase
+    .selectFrom("transaction_actions")
+    .select(["transaction_hash as hash", "action_kind as kind", "args"])
+    .where("transaction_hash", "=", transactionInfo.hash)
+    .execute();
+  return {
+    hash: transactionInfo.hash,
+    signerId: transactionInfo.signer_id,
+    receiverId: transactionInfo.receiver_id,
+    blockHash: transactionInfo.block_hash,
+    blockTimestamp: nanosecondsToMilliseconds(
+      BigInt(transactionInfo.block_timestamp)
+    ),
+    actions: actions.map((action) =>
+      mapDatabaseActionToAction(action as DatabaseAction)
+    ),
+  };
 };
 
 export const getTransactionDetails = async (
@@ -164,26 +82,6 @@ export const getTransactionDetails = async (
     status: mapRpcTransactionStatus(transactionInfo.status),
   };
 };
-
-async function getTransactionsActionsList(
-  transactionsHashes: string[]
-): Promise<Map<string, Action[]>> {
-  const transactionsActionsByHash = new Map<string, Action[]>();
-  const transactionsActions = await queryTransactionsActionsList(
-    transactionsHashes
-  );
-  if (transactionsActions.length === 0) {
-    return transactionsActionsByHash;
-  }
-  transactionsActions.forEach((action) => {
-    const txAction = transactionsActionsByHash.get(action.hash) || [];
-    return transactionsActionsByHash.set(action.hash, [
-      ...txAction,
-      mapDatabaseActionToAction(action as DatabaseAction),
-    ]);
-  });
-  return transactionsActionsByHash;
-}
 
 type ReceiptExecutionOutcome = {
   tokens_burnt: string;

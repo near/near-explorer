@@ -1,18 +1,19 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 
-import { Context } from "../context";
-import * as transactions from "../providers/transactions";
-import * as receipts from "../providers/receipts";
-import { RPC } from "../types";
-import * as nearApi from "../utils/near";
-import { validators } from "./validators";
-import { mapRpcTransactionStatus } from "../utils/transaction-status";
-import { Action, mapRpcActionToAction } from "../utils/actions";
+import { Context } from "../../context";
+import { router as listRouter } from "./list";
+import * as transactions from "../../providers/transactions";
+import * as receipts from "../../providers/receipts";
+import { RPC } from "../../types";
+import * as nearApi from "../../utils/near";
+import { validators } from "../validators";
+import { mapRpcTransactionStatus } from "../../utils/transaction-status";
+import { Action, mapRpcActionToAction } from "../../utils/actions";
 import {
   mapRpcReceiptStatus,
   ReceiptExecutionStatus,
-} from "../utils/receipt-status";
+} from "../../utils/receipt-status";
 
 export const router = trpc
   .router<Context>()
@@ -130,32 +131,4 @@ export const router = trpc
       return transactions.getIsTransactionIndexed(transactionHash);
     },
   })
-  .query("transactions-list", {
-    input: z.strictObject({
-      limit: validators.limit,
-      cursor: validators.transactionPagination.optional(),
-    }),
-    resolve: ({ input: { limit, cursor } }) => {
-      return transactions.getTransactionsList(limit, cursor);
-    },
-  })
-  .query("transactions-list-by-account-id", {
-    input: z.strictObject({
-      accountId: validators.accountId,
-      limit: validators.limit,
-      cursor: validators.transactionPagination.optional(),
-    }),
-    resolve: ({ input: { accountId, limit, cursor } }) => {
-      return transactions.getAccountTransactionsList(accountId, limit, cursor);
-    },
-  })
-  .query("transactions-list-by-block-hash", {
-    input: z.strictObject({
-      blockHash: validators.blockHash,
-      limit: validators.limit,
-      cursor: validators.transactionPagination.optional(),
-    }),
-    resolve: ({ input: { blockHash, limit, cursor } }) => {
-      return transactions.getTransactionsListInBlock(blockHash, limit, cursor);
-    },
-  });
+  .merge("transaction.", listRouter);

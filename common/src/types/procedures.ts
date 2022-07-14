@@ -23,9 +23,9 @@ export type Receipt = TRPCQueryOutput<
 >[number];
 
 export type TransactionListResponse = TRPCQueryOutput<
-  | "transactions-list-by-account-id"
-  | "transactions-list"
-  | "transactions-list-by-block-hash"
+  | "transaction.listByAccountId"
+  | "transaction.listByTimestamp"
+  | "transaction.listByBlockHash"
 >;
 export type TransactionPreview = TransactionListResponse["items"][number];
 
