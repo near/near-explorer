@@ -74,8 +74,9 @@ const getAccountTabParts = (options: AccountPageOptions) => {
     case "fungible-tokens":
       return [options.tab, options.token];
     case "activity":
-    case "collectibles":
       return [];
+    case "collectibles":
+      return [options.tab];
   }
 };
 

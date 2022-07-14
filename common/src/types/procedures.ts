@@ -11,9 +11,11 @@ export type AccountFungibleTokenHistory =
 export type AccountFungibleTokenHistoryElement =
   AccountFungibleTokenHistory["elements"][number];
 export type AccountNonFungibleToken =
-  TRPCQueryOutput<"account-non-fungible-tokens">[number];
+  TRPCQueryOutput<"account.nonFungibleTokens">;
+export type AccountNonFungibleTokenElement =
+  TRPCQueryOutput<"account.nonFungibleTokens">["items"][number];
 export type AccountNonFungibleTokenHistoryElement =
-  TRPCQueryOutput<"account-non-fungible-token-history">[number];
+  TRPCQueryOutput<"account.nonFungibleTokenHistory">[number];
 
 export type AccountActivity = TRPCQueryOutput<"account.activity">;
 export type AccountActivityElement = AccountActivity["items"][number];

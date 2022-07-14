@@ -6,14 +6,16 @@ import { indexerDatabase } from "../../database/databases";
 import { div } from "../../database/utils";
 import * as nearApi from "../../utils/near";
 import { validators } from "../validators";
-import { notNullGuard } from "../../common";
+import { validateBase64Image } from "./fungible-tokens";
 
+// https://nomicon.io/Standards/Tokens/NonFungibleToken/Core#nft-interface
 type Token = {
   token_id: string;
   owner_id: string;
   metadata: TokenMetadata;
 };
 
+// https://nomicon.io/Standards/Tokens/NonFungibleToken/Metadata#interface
 type NFTContractMetadata = {
   spec: string; // required, essentially a version like "nft-2.0.0", replacing "2.0.0" with the implemented version of NEP-177
   name: string; // required, ex. "Mochi Rising — Digital Edition" or "Metaverse 3"
@@ -39,37 +41,18 @@ type TokenMetadata = {
   reference_hash: string | null; // Base64-encoded sha256 hash of JSON from reference field. Required if `reference` is included.
 };
 
-type AccountNonFungibleToken = {
-  tokenId: string;
-  ownerId: string;
-  authorAccountId: string;
-  metadata: NFTMetadata;
-  contractMetadata: Omit<
-    NFTContractMetadata,
-    "spec" | "reference" | "reference_hash" | "base_uri"
-  >;
-  index: number;
-  totalNftCount: number;
-};
-
-type NFTMetadata = {
-  title: string | null;
-  description: string | null;
-  media: string | null;
-};
-
 // copied from Wallet https://github.com/near/near-wallet/blob/master/packages/frontend/src/services/NonFungibleTokens.js#L95
 const buildMediaUrl = (
   media: TokenMetadata["media"],
-  base_uri: NFTContractMetadata["base_uri"]
+  baseUri: NFTContractMetadata["base_uri"]
 ) => {
   // return the provided media string if it is empty or already in a URI format
   if (!media || media.includes("://") || media.startsWith("data:image")) {
     return media;
   }
 
-  if (base_uri) {
-    return `${base_uri}/${media}`;
+  if (baseUri) {
+    return `${baseUri}/${media}`;
   }
 
   return `https://cloudflare-ipfs.com/ipfs/${media}`;
@@ -77,7 +60,7 @@ const buildMediaUrl = (
 
 export const router = trpc
   .router<Context>()
-  .query("contract-list", {
+  .query("nonFungibleTokenContracts", {
     input: z.strictObject({ accountId: validators.accountId }),
     resolve: async ({ input: { accountId } }) => {
       const selection = await indexerDatabase
@@ -89,35 +72,31 @@ export const router = trpc
       return selection.map((row) => row.contractId);
     },
   })
-  .query("tokens-list", {
+  .query("nonFungibleTokens", {
     input: z.strictObject({
       contractId: z.string(),
       accountId: validators.accountId,
       limit: validators.limit,
       cursor: z.number().optional(),
     }),
-    resolve: async ({ input: { contractId, accountId, limit, cursor = 0 } }) => {
-      const nonFungibleTokenCount: string = await nearApi.callViewMethod(
-        contractId,
-        "nft_supply_for_owner",
-        {
-          account_id: accountId,
-        }
-      );
-      const nonFungibleTokenContractMetadata: NFTContractMetadata =
-        await nearApi.callViewMethod(contractId, "nft_metadata", {});
+    resolve: async ({
+      input: { contractId, accountId, limit, cursor = 0 },
+    }) => {
+      const [nonFungibleTokenContractMetadata, nonFungibleTokenMetadata] =
+        await Promise.all([
+          nearApi.callViewMethod<NFTContractMetadata>(
+            contractId,
+            "nft_metadata",
+            {}
+          ),
+          nearApi.callViewMethod<Token[]>(contractId, "nft_tokens_for_owner", {
+            account_id: accountId,
+            from_index: cursor.toString(),
+            limit,
+          }),
+        ]);
 
-      const nonFungibleTokenMetadata: Token[] = await nearApi.callViewMethod(
-        contractId,
-        "nft_tokens_for_owner",
-        {
-          account_id: accountId,
-          from_index: cursor.toString(),
-          limit,
-        }
-      );
-
-      return nonFungibleTokenMetadata.map((token, index) => ({
+      const items = nonFungibleTokenMetadata.map((token, index) => ({
         tokenId: token.token_id,
         ownerId: token.owner_id,
         authorAccountId: contractId,
@@ -134,16 +113,43 @@ export const router = trpc
         contractMetadata: {
           name: nonFungibleTokenContractMetadata.name,
           symbol: nonFungibleTokenContractMetadata.symbol,
-          icon: nonFungibleTokenContractMetadata.icon,
+          icon: validateBase64Image(nonFungibleTokenContractMetadata.icon),
         },
         index: cursor + index,
-        totalNftCount: parseInt(nonFungibleTokenCount ?? 0),
       }));
+      const lastItem = items.at(-1);
+      return {
+        items,
+        cursor: lastItem ? lastItem.index + 1 : undefined,
+      };
     },
   })
-  .query("token-history", {
+  .query("nonFungibleTokensCount", {
+    input: z.strictObject({ accountId: validators.accountId }),
+    resolve: async ({ input: { accountId } }) => {
+      const selection = await indexerDatabase
+        .selectFrom("assets__non_fungible_token_events")
+        .select("emitted_by_contract_account_id as contractId")
+        .distinctOn("emitted_by_contract_account_id")
+        .where("token_new_owner_account_id", "=", accountId)
+        .execute();
+      const nftsPerContractCount = await Promise.all(
+        selection.map(({ contractId }) =>
+          nearApi.callViewMethod<string>(contractId, "nft_supply_for_owner", {
+            account_id: accountId,
+          })
+        )
+      );
+
+      return nftsPerContractCount.reduce(
+        (acc, count) => acc + parseInt(count),
+        0
+      );
+    },
+  })
+  .query("nonFungibleTokenHistory", {
     input: z.strictObject({
-      tokenAuthorAccountId: z.string(),
+      tokenAuthorAccountId: validators.accountId,
       tokenId: z.string(),
     }),
     resolve: async ({ input: { tokenAuthorAccountId, tokenId } }) => {
@@ -161,7 +167,8 @@ export const router = trpc
           "token_old_owner_account_id as prevAccountId",
           "token_new_owner_account_id as nextAccountId",
           "emitted_for_receipt_id as receiptId",
-          (eb) => div(eb, "emitted_at_block_timestamp", 1000 * 1000, "timestamp"),
+          (eb) =>
+            div(eb, "emitted_at_block_timestamp", 1000 * 1000, "timestamp"),
           "originated_from_transaction_hash as transactionHash",
           "block_height as blockHeight",
         ])

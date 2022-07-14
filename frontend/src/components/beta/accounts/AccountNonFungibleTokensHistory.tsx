@@ -1,16 +1,18 @@
 import * as React from "react";
 import Image from "next/image";
+import { useTranslation } from "react-i18next";
 
 import { styled } from "../../../libraries/styles";
 import { trpc } from "../../../libraries/trpc";
 
 import {
-  AccountNonFungibleToken,
+  AccountNonFungibleTokenElement,
   AccountNonFungibleTokenHistoryElement,
 } from "../../../types/common";
-import Img from "../common/Img";
+import NFTMedia from "../common/NFTMedia";
 import AccountLink from "../../utils/AccountLink";
 import ReceiptLink from "../../utils/ReceiptLink";
+import { useFormatDistance } from "../../../hooks/use-format-distance";
 
 const Wrapper = styled("div", {
   width: 380,
@@ -100,6 +102,8 @@ type ElementProps = {
 };
 const AccountNonFungibleTokensHistoryElement: React.FC<ElementProps> =
   React.memo(({ element }) => {
+    const formatDuration = useFormatDistance();
+
     let eventType;
     if (element.eventKind === "MINT") {
       eventType = "minted by";
@@ -120,19 +124,21 @@ const AccountNonFungibleTokensHistoryElement: React.FC<ElementProps> =
           transactionHash={element.transactionHash}
           receiptId={element.receiptId}
         />
+        <span>{formatDuration(element.timestamp)}</span>
       </History>
     );
   });
 
 type Props = {
-  token: AccountNonFungibleToken;
+  token: AccountNonFungibleTokenElement;
   onClick: React.ReactEventHandler;
 };
 
 const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
   ({ token, onClick }) => {
+    const { t } = useTranslation();
     const tokenHistoryQuery = trpc.useQuery([
-      "account-non-fungible-token-history",
+      "account.nonFungibleTokenHistory",
       { tokenAuthorAccountId: token.authorAccountId, tokenId: token.tokenId },
     ]);
     const elements = tokenHistoryQuery.data ?? [];
@@ -155,9 +161,14 @@ const AccountNonFungibleTokensHistory: React.FC<Props> = React.memo(
           <TokenName>{token.contractMetadata.name}</TokenName>
         </TokenInfo>
         <TokenImage>
-          <Img src={token.metadata.media} />
+          <NFTMedia src={token.metadata.media} />
         </TokenImage>
-        <Description>{token.metadata.description}</Description>
+        {token.metadata.description ? (
+          <>
+            <Heading>Description</Heading>
+            <Description>{token.metadata.description}</Description>
+          </>
+        ) : null}
 
         <Heading>Owner</Heading>
         <Description>{token.ownerId}</Description>

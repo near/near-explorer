@@ -2,37 +2,69 @@ import * as React from "react";
 import Image from "next/image";
 
 import { styled } from "../../../libraries/styles";
-import { rgbDataURL } from "../../../libraries/rgbplaceholder";
 import { trpc } from "../../../libraries/trpc";
 
 import ListHandler from "../../utils/ListHandler";
-import { AccountNonFungibleToken } from "../../../types/common";
+import {
+  AccountNonFungibleToken,
+  AccountNonFungibleTokenElement,
+} from "../../../types/common";
 import { NonFungibleTokensAccountPageOptions } from "../../../hooks/use-account-page-options";
 import AccountNonFungibleTokensHistory from "./AccountNonFungibleTokensHistory";
-import Img from "../common/Img";
+import NFTMedia from "../common/NFTMedia";
 
-const TOKENS_PER_PAGE = 20;
+const TOKENS_PER_PAGE = 4;
 
 const Wrapper = styled("div", {
   display: "flex",
-  flexWrap: "wrap",
 });
 
-const Token = styled("div", {
-  margin: 10,
-  border: "1px solid #e7e7e7",
-  borderRadius: 10,
-  width: 225,
-  height: 280,
-  display: "flex",
-  flexDirection: "column",
+const ContractItem = styled(Wrapper, {
   cursor: "pointer",
+  maxWidth: 345,
+  border: "1px solid #ededed",
   transition: "border-color .15s ease-in-out",
-  boxSizing: "content-box",
+  borderRadius: 10,
+  paddingHorizontal: 20,
+  paddingVertical: 16,
 
   "&:hover": {
     borderColor: "#1e93ff",
   },
+
+  variants: {
+    active: {
+      true: {
+        borderColor: "#1e93ff",
+      },
+    },
+  },
+});
+
+const ContractsWrapper = styled("div", {
+  display: "flex",
+  flex: 1,
+  flexDirection: "column",
+
+  [`& ${ContractItem}:not(:first-child)`]: {
+    marginTop: 12,
+  },
+});
+
+const TokensWrapper = styled(Wrapper, {
+  flexWrap: "wrap",
+  flex: 2,
+});
+
+const Token = styled(ContractItem, {
+  margin: 10,
+  border: "1px solid #e7e7e7",
+  maxWidth: "auto",
+  padding: 0,
+  width: 225,
+  height: 280,
+  flexDirection: "column",
+  boxSizing: "content-box",
 });
 
 const TokenImage = styled("div", {
@@ -83,21 +115,18 @@ const TokenInfo = styled("div", {
 });
 
 type ItemProps = {
-  token: AccountNonFungibleToken;
+  token: AccountNonFungibleTokenElement;
   onClick: React.ReactEventHandler;
   modalOpen: boolean;
 };
 
-const AccountFungibleTokenView: React.FC<ItemProps> = React.memo(
+const AccountNonFungibleTokenView: React.FC<ItemProps> = React.memo(
   ({ token, onClick, modalOpen }) => {
     return (
       <>
-        <Token
-          onClick={onClick}
-          css={modalOpen ? { borderColor: "#1e93ff" } : {}}
-        >
+        <Token onClick={onClick} active={modalOpen}>
           <TokenImage>
-            <Img src={token.metadata.media} />
+            <NFTMedia src={token.metadata.media} />
           </TokenImage>
 
           <TokenBody>
@@ -123,58 +152,104 @@ const AccountFungibleTokenView: React.FC<ItemProps> = React.memo(
   }
 );
 
+type ContractProps = {
+  contract: string;
+  accountId: string;
+};
+
+const parser = (result: AccountNonFungibleToken) => result.items;
+
+const AccountNonFungibleTokens: React.FC<ContractProps> = React.memo(
+  ({ contract, accountId }) => {
+    const [selectedId, setSelectedId] = React.useState(null);
+    const showModal = React.useCallback(
+      (id) => () => setSelectedId((prevId) => (prevId === id ? null : id)),
+      [setSelectedId]
+    );
+
+    const query = trpc.useInfiniteQuery(
+      [
+        "account.nonFungibleTokens",
+        {
+          contractId: contract,
+          accountId,
+          limit: TOKENS_PER_PAGE,
+        },
+      ],
+      {
+        getNextPageParam: (lastPage) => lastPage.cursor,
+      }
+    );
+
+    return (
+      <TokensWrapper>
+        {query.status === "error" ? (
+          <div>Failed to load NFTs</div>
+        ) : (
+          <ListHandler query={query} parser={parser}>
+            {(items) => {
+              return (
+                <TokensWrapper>
+                  {items.map((token) => (
+                    <AccountNonFungibleTokenView
+                      key={token.tokenId}
+                      token={token}
+                      onClick={showModal(token.tokenId)}
+                      modalOpen={selectedId === token.tokenId}
+                    />
+                  ))}
+                </TokensWrapper>
+              );
+            }}
+          </ListHandler>
+        )}
+      </TokensWrapper>
+    );
+  }
+);
+
 type Props = {
   options: NonFungibleTokensAccountPageOptions;
 };
 
 const AccountNonFungibleTokensView: React.FC<Props> = React.memo(
   ({ options }) => {
-    const [selectedId, setSelectedId] = React.useState(null);
-    const showModal = React.useCallback(
-      (id) => () => setSelectedId((prevId) => (prevId === id ? null : id)),
-      [setSelectedId]
-    );
-    const query = trpc.useInfiniteQuery(
-      [
-        "account-non-fungible-tokens",
-        {
-          accountId: options.accountId,
-          limit: TOKENS_PER_PAGE,
-        },
-      ],
-      {
-        getNextPageParam: (lastPage) => {
-          const lastElement = lastPage[lastPage.length - 1];
-          if (!(lastElement.index + 1 < lastElement.totalNftCount)) {
-            return;
-          }
-          return lastElement.index + 1;
-        },
-      }
+    const [selectedContract, setContract] = React.useState(null);
+    const setActiveContract = React.useCallback(
+      (contract) => () => setContract(contract),
+      [setContract]
     );
 
-    console.log("query: ", query);
+    const query = trpc.useQuery([
+      "account.nonFungibleTokenContracts",
+      { accountId: options.accountId },
+    ]);
+    const contracts = query.data || [];
+
+    if (contracts.length === 0) {
+      return <div>No collectibles yet!</div>;
+    }
 
     return (
-      <ListHandler query={query}>
-        {(items) => {
-          if (items.length === 0) {
-            return <div>No collectibles yet!</div>;
-          }
-          return (
-            <Wrapper>
-              {items.map((token) => (
-                <AccountFungibleTokenView
-                  key={token.tokenId}
-                  token={token}
-                  onClick={showModal(token.tokenId)}
-                  modalOpen={selectedId === token.tokenId}
-                />
-              ))}
-            </Wrapper>
-          );
-        }}
-      </ListHandler>
+      <Wrapper>
+        <ContractsWrapper>
+          {contracts.map((contract) => (
+            <ContractItem
+              key={contract}
+              onClick={setActiveContract(contract)}
+              active={selectedContract === contract}
+            >
+              {contract}
+            </ContractItem>
+          ))}
+        </ContractsWrapper>
+        {selectedContract ? (
+          <AccountNonFungibleTokens
+            contract={selectedContract}
+            accountId={options.accountId}
+          />
+        ) : null}
+      </Wrapper>
     );
   }
 );

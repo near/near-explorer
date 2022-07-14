@@ -17,6 +17,7 @@ import {
 } from "../../../libraries/formatting";
 
 import AccountNonFungibleTokensView from "./AccountNonFungibleTokens";
+import { trpc } from "../../../libraries/trpc";
 
 const TabLabel = styled("div", {
   display: "flex",
@@ -35,6 +36,18 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
     account.transactionsQuantity.toString(),
     6
   );
+  const collectiblesCount = trpc.useQuery([
+    "account.nonFungibleTokensCount",
+    { accountId: options.accountId },
+  ]);
+
+  const collectiblesQuantity = collectiblesCount.data
+    ? formatToPowerOfTen<BasicDecimalPower>(
+        collectiblesCount.data.toString(),
+        6
+      )
+    : null;
+
   return (
     <Tabs<AccountTab>
       buildHref={React.useCallback(
@@ -70,7 +83,20 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
         },
         {
           id: "collectibles",
-          label: <TabLabel>{t("pages.account.tabs.collectibles")}</TabLabel>,
+          label: (
+            <TabLabel>
+              {t("pages.account.tabs.collectibles")}
+              {collectiblesQuantity ? (
+                <TabDetails>
+                  {t("pages.account.tabs.activityDetails", {
+                    transactionsQuantity: `${collectiblesQuantity.quotient}${
+                      BASIC_DENOMINATION[collectiblesQuantity.prefix]
+                    }`,
+                  })}
+                </TabDetails>
+              ) : null}
+            </TabLabel>
+          ),
           node:
             options.tab === "collectibles" ? (
               <AccountNonFungibleTokensView options={options} />

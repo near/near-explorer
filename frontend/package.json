@@ -60,6 +60,7 @@
     "react-flip-move": "^3.0.3",
     "react-hot-toast": "^2.2.0",
     "react-i18next": "^11.15.1",
+    "react-image": "^4.0.3",
     "react-infinite-scroll-component": "^5.1.0",
     "react-json-view": "^1.21.3",
     "react-paginate": "^7.1.5",
