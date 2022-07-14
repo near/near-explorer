@@ -35,7 +35,7 @@ export type TransactionStatus = Transaction["status"];
 export type Action = TransactionPreview["actions"][number];
 export type TransactionOld = NonNullable<TRPCQueryOutput<"transaction-info">>;
 export type NestedReceiptWithOutcome = TransactionOld["receipt"];
-export type TransactionOutcome = TransactionOld["transactionOutcome"];
+export type TransactionOutcome = TransactionOld["outcome"];
 
 export type DeployInfo = TRPCQueryOutput<"utils.deployInfo">;
 

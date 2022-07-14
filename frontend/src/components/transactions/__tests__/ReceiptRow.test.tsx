@@ -15,7 +15,7 @@ describe("<ReceiptRow />", () => {
         <ReceiptRow
           receipt={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!}
           transactionHash={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.hash}
-          key={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!.receipt_id}
+          key={TRANSACTION_WITH_SUCCESSFUL_RECEIPT.receipt!.id}
         />
       )
     ).toMatchSnapshot();
@@ -27,7 +27,7 @@ describe("<ReceiptRow />", () => {
         <ReceiptRow
           receipt={TRANSACTION_WITH_MANY_RECEIPTS.receipt!}
           transactionHash={TRANSACTION_WITH_MANY_RECEIPTS.hash}
-          key={TRANSACTION_WITH_MANY_RECEIPTS.receipt!.receipt_id}
+          key={TRANSACTION_WITH_MANY_RECEIPTS.receipt!.id}
         />
       )
     ).toMatchSnapshot();
@@ -39,7 +39,7 @@ describe("<ReceiptRow />", () => {
         <ReceiptRow
           receipt={TRANSACTION_WITH_FAILING_RECEIPT.receipt!}
           transactionHash={TRANSACTION_WITH_FAILING_RECEIPT.hash}
-          key={TRANSACTION_WITH_FAILING_RECEIPT.receipt!.receipt_id}
+          key={TRANSACTION_WITH_FAILING_RECEIPT.receipt!.id}
         />
       )
     ).toMatchSnapshot();
