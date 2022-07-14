@@ -9,7 +9,6 @@ export const TRANSACTIONS: Transaction[] = [
     status: "success",
     blockHash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    transactionIndex: 0,
     actions: [
       {
         kind: "createAccount",
@@ -229,7 +228,6 @@ export const TRANSACTIONS: Transaction[] = [
     status: "success",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    transactionIndex: 0,
     actions: [
       {
         kind: "functionCall",
@@ -334,7 +332,6 @@ export const TRANSACTIONS: Transaction[] = [
     status: "success",
     blockHash: "222BBBgnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
     blockTimestamp: +new Date(2019, 1, 1),
-    transactionIndex: 0,
     actions: [
       {
         kind: "transfer",
@@ -416,7 +413,6 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
   status: "success",
   blockHash: "B111111111111111111111111111111111111111111",
   blockTimestamp: +new Date(2019, 1, 1),
-  transactionIndex: 0,
   actions: [
     {
       kind: "functionCall",
@@ -504,7 +500,6 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
   status: "success",
   blockHash: "B111111111111111111111111111111111111111111",
   blockTimestamp: +new Date(2019, 1, 1),
-  transactionIndex: 0,
   actions: [
     {
       kind: "functionCall",
@@ -688,7 +683,6 @@ export const TRANSACTION_WITH_FAILING_RECEIPT: Transaction = {
   status: "failure",
   blockHash: "B111111111111111111111111111111111111111111",
   blockTimestamp: +new Date(2019, 1, 1),
-  transactionIndex: 0,
   actions: [
     {
       kind: "functionCall",

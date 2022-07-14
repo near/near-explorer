@@ -8,30 +8,29 @@ import Placeholder from "../utils/Placeholder";
 import TransactionAction from "./TransactionAction";
 
 import { useTranslation } from "react-i18next";
-import { TransactionBaseInfo } from "../../types/common";
+import {
+  TransactionPreview,
+  TransactionListResponse,
+} from "../../types/common";
 
 export const getNextPageParam: ReactQuery.GetNextPageParamFunction<
-  TransactionBaseInfo[]
-> = (lastPage) => {
-  const lastElement = lastPage[lastPage.length - 1];
-  if (!lastElement) {
-    return;
-  }
-  return {
-    endTimestamp: lastElement.blockTimestamp,
-    transactionIndex: lastElement.transactionIndex,
-  };
-};
+  TransactionListResponse
+> = (lastPage) => lastPage.cursor;
+
+const parser = (result: TransactionListResponse) => result.items;
 
 interface Props {
-  query: ReactQuery.UseInfiniteQueryResult<TransactionBaseInfo[], unknown>;
+  query: ReactQuery.UseInfiniteQueryResult<TransactionListResponse, unknown>;
 }
 
 const Transactions: React.FC<Props> = React.memo(({ query }) => {
   const { t } = useTranslation();
 
   return (
-    <ListHandler query={query}>
+    <ListHandler<TransactionPreview, TransactionListResponse>
+      query={query}
+      parser={parser}
+    >
       {(items) => {
         if (items.length === 0) {
           return (

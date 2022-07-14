@@ -8,6 +8,8 @@ import BlocksRow from "./BlocksRow";
 import Placeholder from "../utils/Placeholder";
 import { trpc } from "../../libraries/trpc";
 import { useSubscription } from "../../hooks/use-subscription";
+import { BlockBase } from "../../types/common";
+import { id } from "../../libraries/common";
 
 const BLOCKS_PER_PAGE = 15;
 
@@ -31,8 +33,9 @@ const Blocks: React.FC = React.memo(() => {
   const refetch = React.useCallback(() => query.refetch(), [query.refetch]);
 
   return (
-    <ListHandler
+    <ListHandler<BlockBase>
       query={query}
+      parser={id}
       prependChildren={
         <div onClick={refetch}>
           <Placeholder>

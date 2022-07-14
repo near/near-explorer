@@ -6,10 +6,10 @@ import { ViewMode } from "./ActionRowBlock";
 import TransactionExecutionStatus from "./TransactionExecutionStatus";
 
 import { useTranslation } from "react-i18next";
-import { TransactionBaseInfo } from "../../types/common";
+import { TransactionPreview } from "../../types/common";
 
 export interface Props {
-  transaction: TransactionBaseInfo;
+  transaction: TransactionPreview;
   viewMode?: ViewMode;
 }
 
