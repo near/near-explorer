@@ -22,16 +22,16 @@ export type Receipt = TRPCQueryOutput<
   | "included-receipts-list-by-block-hash"
 >[number];
 
-export type TransactionBaseInfo = TRPCQueryOutput<
+export type TransactionListResponse = TRPCQueryOutput<
   | "transactions-list-by-account-id"
   | "transactions-list"
   | "transactions-list-by-block-hash"
->[number];
+>;
+export type TransactionPreview = TransactionListResponse["items"][number];
 
 export type TransactionDetails = NonNullable<TRPCQueryOutput<"transaction">>;
 
-export type Action =
-  TRPCQueryOutput<"transactions-list">[number]["actions"][number];
+export type Action = TransactionPreview["actions"][number];
 export type NestedReceiptWithOutcome = NonNullable<
   TRPCQueryOutput<"transaction-info">
 >["receipt"];

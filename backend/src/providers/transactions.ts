@@ -23,38 +23,61 @@ import {
   mapRpcActionToAction,
   DatabaseAction,
 } from "../utils/actions";
+import { nanosecondsToMilliseconds } from "../utils/bigint";
 
-export type TransactionBaseInfo = {
+type TransactionPreview = {
   hash: string;
   signerId: string;
   receiverId: string;
   blockHash: string;
   blockTimestamp: number;
-  transactionIndex: number;
   actions: Action[];
   status: TransactionStatus;
+};
+
+type TransactionList = {
+  items: TransactionPreview[];
+  cursor: z.infer<typeof validators.transactionPagination>;
 };
 
 // helper function to init transactions list
 // as we use the same structure but different queries for account, block, txInfo and list
 async function createTransactionsList(
-  transactionsArray: Awaited<ReturnType<typeof queryTransactionsList>>
-): Promise<TransactionBaseInfo[]> {
-  const transactionsHashes = transactionsArray.map(({ hash }) => hash);
+  transactions: Awaited<ReturnType<typeof queryTransactionsList>>
+): Promise<TransactionList> {
+  if (transactions.length === 0) {
+    return {
+      items: [],
+      cursor: {
+        timestamp: "",
+        indexInChunk: 0,
+      },
+    };
+  }
+
+  const transactionsHashes = transactions.map(({ hash }) => hash);
   const transactionsActionsList = await getTransactionsActionsList(
     transactionsHashes
   );
 
-  return transactionsArray.map((transaction) => ({
-    hash: transaction.hash,
-    signerId: transaction.signer_id,
-    receiverId: transaction.receiver_id,
-    blockHash: transaction.block_hash,
-    blockTimestamp: parseInt(transaction.block_timestamp_ms),
-    transactionIndex: transaction.transaction_index,
-    actions: transactionsActionsList.get(transaction.hash) || [],
-    status: mapDatabaseTransactionStatus(transaction.status),
-  }));
+  const lastTransaction = transactions[transactions.length - 1];
+  return {
+    items: transactions.map((transaction) => ({
+      hash: transaction.hash,
+      signerId: transaction.signer_id,
+      receiverId: transaction.receiver_id,
+      blockHash: transaction.block_hash,
+      blockTimestamp: nanosecondsToMilliseconds(
+        BigInt(transaction.block_timestamp)
+      ),
+      actions: transactionsActionsList.get(transaction.hash) || [],
+      status: mapDatabaseTransactionStatus(transaction.status),
+    })),
+    cursor: {
+      timestamp: lastTransaction.block_timestamp,
+      indexInChunk: lastTransaction.transaction_index,
+    },
+  };
 }
 
 export const getIsTransactionIndexed = async (
@@ -67,13 +90,8 @@ export const getIsTransactionIndexed = async (
 export const getTransactionsList = async (
   limit: number | undefined,
   cursor?: z.infer<typeof validators.transactionPagination>
-): Promise<TransactionBaseInfo[]> => {
+): Promise<TransactionList> => {
   const transactionsList = await queryTransactionsList(limit, cursor);
-  if (transactionsList.length === 0) {
-    // we should return an empty array instead of undefined
-    // to allow our ListHandler to work properly
-    return [];
-  }
   return await createTransactionsList(transactionsList);
 };
 
@@ -81,17 +99,12 @@ export const getAccountTransactionsList = async (
   accountId: string,
   limit: number | undefined,
   cursor?: z.infer<typeof validators.transactionPagination>
-): Promise<TransactionBaseInfo[]> => {
+): Promise<TransactionList> => {
   const accountTxList = await queryAccountTransactionsList(
     accountId,
     limit,
     cursor
   );
-  if (accountTxList.length === 0) {
-    // we should return an empty array instead of undefined
-    // to allow our ListHandler to work properly
-    return [];
-  }
   return await createTransactionsList(accountTxList);
 };
 
@@ -99,29 +112,24 @@ export const getTransactionsListInBlock = async (
   blockHash: string,
   limit: number | undefined,
   cursor?: z.infer<typeof validators.transactionPagination>
-): Promise<TransactionBaseInfo[]> => {
+): Promise<TransactionList> => {
   const txListInBlock = await queryTransactionsListInBlock(
     blockHash,
     limit,
     cursor
   );
-  if (txListInBlock.length === 0) {
-    // we should return an empty array instead of undefined
-    // to allow our ListHandler to work properly
-    return [];
-  }
   return await createTransactionsList(txListInBlock);
 };
 
 export const getTransactionInfo = async (
   transactionHash: string
-): Promise<TransactionBaseInfo | null> => {
+): Promise<TransactionPreview | null> => {
   const transactionInfo = await queryTransactionInfo(transactionHash);
   if (!transactionInfo) {
     return null;
   }
   const transaction = await createTransactionsList([transactionInfo]);
-  return transaction[0] || null;
+  return transaction.items[0] || null;
 };
 
 export const getTransactionDetails = async (

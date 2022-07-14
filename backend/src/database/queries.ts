@@ -220,21 +220,20 @@ export const queryTransactionsList = async (
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
+      "block_timestamp",
       "index_in_chunk as transaction_index",
       "status",
     ]);
   if (cursor !== undefined) {
-    const endTimestamp = millisecondsToNanoseconds(
-      cursor.endTimestamp
-    ).toString();
-    selection = selection
-      .where("block_timestamp", "<", endTimestamp)
-      .orWhere((wi) =>
-        wi
-          .where("block_timestamp", "=", endTimestamp)
-          .where("index_in_chunk", "<", cursor.transactionIndex)
-      );
+    selection = selection.where((wi) =>
+      wi
+        .where("block_timestamp", "<", cursor.timestamp)
+        .orWhere((wi) =>
+          wi
+            .where("block_timestamp", "=", cursor.timestamp)
+            .where("index_in_chunk", "<", cursor.indexInChunk)
+        )
+    );
   }
   return selection
     .orderBy("block_timestamp", "desc")
@@ -255,14 +254,11 @@ export const queryAccountTransactionsList = async (
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
+      "block_timestamp",
       "index_in_chunk as transaction_index",
       "status",
     ]);
   if (cursor !== undefined) {
-    const endTimestamp = millisecondsToNanoseconds(
-      cursor.endTimestamp
-    ).toString();
     selection = selection
       .where("transaction_hash", "in", (eb) =>
         eb
@@ -273,11 +269,11 @@ export const queryAccountTransactionsList = async (
       )
       .where((wi) =>
         wi
-          .where("block_timestamp", "<", endTimestamp)
+          .where("block_timestamp", "<", cursor.timestamp)
           .orWhere((wi) =>
             wi
-              .where("block_timestamp", "=", endTimestamp)
-              .where("index_in_chunk", "<", cursor.transactionIndex)
+              .where("block_timestamp", "=", cursor.timestamp)
+              .where("index_in_chunk", "<", cursor.indexInChunk)
           )
       );
   } else {
@@ -308,22 +304,19 @@ export const queryTransactionsListInBlock = async (
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
+      "block_timestamp",
       "index_in_chunk as transaction_index",
       "status",
     ])
     .where("included_in_block_hash", "=", blockHash);
   if (cursor !== undefined) {
-    const endTimestamp = millisecondsToNanoseconds(
-      cursor.endTimestamp
-    ).toString();
     selection = selection.where((wi) =>
       wi
-        .where("block_timestamp", "<", endTimestamp)
+        .where("block_timestamp", "<", cursor.timestamp)
         .orWhere((wi) =>
           wi
-            .where("block_timestamp", "=", endTimestamp)
-            .where("index_in_chunk", "<", cursor.transactionIndex)
+            .where("block_timestamp", "=", cursor.timestamp)
+            .where("index_in_chunk", "<", cursor.indexInChunk)
         )
     );
   }
@@ -353,7 +346,7 @@ export const queryTransactionInfo = async (transactionHash: string) => {
       "signer_account_id as signer_id",
       "receiver_account_id as receiver_id",
       "included_in_block_hash as block_hash",
-      (eb) => div(eb, "block_timestamp", 1000 * 1000, "block_timestamp_ms"),
+      "block_timestamp",
       "index_in_chunk as transaction_index",
       "status",
     ])
