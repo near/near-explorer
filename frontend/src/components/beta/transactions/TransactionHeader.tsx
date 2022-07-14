@@ -7,11 +7,11 @@ import Moment from "../../../libraries/moment";
 import CopyToClipboard from "../../beta/common/CopyToClipboard";
 import { NearAmount } from "../../utils/NearAmount";
 import TransactionStatus from "./TransactionStatus";
-import { TransactionDetails } from "../../../types/common";
+import { Transaction } from "../../../types/common";
 import UtcLabel from "../common/UtcLabel";
 
 type Props = {
-  transaction: TransactionDetails;
+  transaction: Transaction;
 };
 
 const AVATAR_SIZE = 26;

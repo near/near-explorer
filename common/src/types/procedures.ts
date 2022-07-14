@@ -29,16 +29,13 @@ export type TransactionListResponse = TRPCQueryOutput<
 >;
 export type TransactionPreview = TransactionListResponse["items"][number];
 
-export type TransactionDetails = NonNullable<TRPCQueryOutput<"transaction">>;
+export type Transaction = NonNullable<TRPCQueryOutput<"transaction">>;
+export type TransactionStatus = Transaction["status"];
 
 export type Action = TransactionPreview["actions"][number];
-export type NestedReceiptWithOutcome = NonNullable<
-  TRPCQueryOutput<"transaction-info">
->["receipt"];
-export type Transaction = NonNullable<TRPCQueryOutput<"transaction-info">>;
-export type TransactionOutcome = NonNullable<
-  TRPCQueryOutput<"transaction-info">
->["transactionOutcome"];
+export type TransactionOld = NonNullable<TRPCQueryOutput<"transaction-info">>;
+export type NestedReceiptWithOutcome = TransactionOld["receipt"];
+export type TransactionOutcome = TransactionOld["transactionOutcome"];
 
 export type DeployInfo = TRPCQueryOutput<"utils.deployInfo">;
 

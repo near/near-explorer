@@ -1,6 +1,6 @@
-import { Receipt, Transaction } from "../../../types/common";
+import { Receipt, TransactionOld } from "../../../types/common";
 
-export const TRANSACTIONS: Transaction[] = [
+export const TRANSACTIONS: TransactionOld[] = [
   // no action has deposit
   {
     hash: "BvJeW6gnFjkCBKCsRNEBrRLDQCFZNxLAi6uXzmLaVrrj",
@@ -406,7 +406,7 @@ export const TRANSACTIONS: Transaction[] = [
   },
 ];
 
-export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
+export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: TransactionOld = {
   hash: "T1111111111111111111111111111111111111111111",
   signerId: "signer.test",
   receiverId: "receiver.test",
@@ -493,7 +493,7 @@ export const TRANSACTION_WITH_SUCCESSFUL_RECEIPT: Transaction = {
   },
 };
 
-export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
+export const TRANSACTION_WITH_MANY_RECEIPTS: TransactionOld = {
   hash: "T1111111111111111111111111111111111111111111",
   signerId: "signer.test",
   receiverId: "receiver.test",
@@ -676,7 +676,7 @@ export const TRANSACTION_WITH_MANY_RECEIPTS: Transaction = {
   },
 };
 
-export const TRANSACTION_WITH_FAILING_RECEIPT: Transaction = {
+export const TRANSACTION_WITH_FAILING_RECEIPT: TransactionOld = {
   hash: "T1111111111111111111111111111111111111111111",
   signerId: "signer.test",
   receiverId: "receiver.test",
