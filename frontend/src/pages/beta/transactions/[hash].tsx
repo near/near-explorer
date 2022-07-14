@@ -6,7 +6,7 @@ import * as ReactQuery from "react-query";
 import { useTranslation } from "react-i18next";
 import { NextPage } from "next";
 
-import { TransactionDetails } from "../../../types/common";
+import { Transaction } from "../../../types/common";
 import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
 
 import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
@@ -47,7 +47,7 @@ const TransactionPage: NextPage<Props> = React.memo((props) => {
   );
 });
 
-type QueryProps = ReactQuery.UseQueryResult<TransactionDetails | null> & {
+type QueryProps = ReactQuery.UseQueryResult<Transaction | null> & {
   hash: string;
 };
 

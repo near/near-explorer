@@ -15,7 +15,7 @@ import TransactionExecutionStatus from "./TransactionExecutionStatus";
 import { useTranslation } from "react-i18next";
 import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
-import { RPC, Transaction } from "../../types/common";
+import { RPC, TransactionOld } from "../../types/common";
 import * as BI from "../../libraries/bigint";
 
 const HeaderRow = styled(Row);
@@ -52,7 +52,7 @@ const TransactionStatusWrapper = styled("div", {
 });
 
 export interface Props {
-  transaction: Transaction;
+  transaction: TransactionOld;
 }
 
 export interface State {
