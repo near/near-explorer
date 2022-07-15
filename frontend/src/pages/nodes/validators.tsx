@@ -10,8 +10,6 @@ import NodesContentHeader from "../../components/nodes/NodesContentHeader";
 
 import { NextPage } from "next";
 import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
-import { useNetworkStats } from "../../hooks/subscriptions";
-import { useEpochStartBlock } from "../../hooks/data";
 import { styled } from "../../libraries/styles";
 import * as React from "react";
 
@@ -43,9 +41,6 @@ const ValidatorsWrapper = styled(Container, {
 const ValidatorsPage: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Validator Node page");
 
-  const { data: networkStats } = useNetworkStats();
-  const epochStartBlock = useEpochStartBlock();
-
   return (
     <>
       <Head>
@@ -53,13 +48,7 @@ const ValidatorsPage: NextPage = React.memo(() => {
       </Head>
 
       <Container fluid>
-        {!networkStats || !epochStartBlock ? null : (
-          <NodesEpoch
-            epochLength={networkStats.epochLength}
-            epochStartHeight={epochStartBlock.height}
-            epochStartTimestamp={epochStartBlock.timestamp}
-          />
-        )}
+        <NodesEpoch />
       </Container>
 
       <NodesPage
@@ -70,12 +59,7 @@ const ValidatorsPage: NextPage = React.memo(() => {
         overrideHeader={ContentHeaderWrapper}
       >
         <Container>
-          <NodesCard
-            currentValidatorsCount={networkStats?.currentValidatorsCount}
-            totalSupply={epochStartBlock?.totalSupply.toString()}
-            totalStake={networkStats ? networkStats.totalStake : undefined}
-            seatPrice={networkStats ? networkStats.seatPrice : undefined}
-          />
+          <NodesCard />
         </Container>
         <ValidatorsWrapper>
           <Validators />

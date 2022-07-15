@@ -4,7 +4,7 @@ import { Badge, Col, Row } from "react-bootstrap";
 import Link from "../utils/Link";
 
 import { useTranslation } from "react-i18next";
-import { useNetworkStats } from "../../hooks/subscriptions";
+import { useSubscription } from "../../hooks/use-subscription";
 import { styled } from "../../libraries/styles";
 
 const NodeSelector = styled(Col, {
@@ -41,7 +41,7 @@ const NodeLink = styled("a", {
 
 const NodeNav: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useNetworkStats();
+  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
 
   return (
     <Row>
@@ -50,7 +50,9 @@ const NodeNav: React.FC = React.memo(() => {
           <NodeLink>
             {t("component.nodes.NodeNav.validating")}{" "}
             <NodeAmountLabel pill>
-              {networkStats ? networkStats.currentValidatorsCount : "--"}
+              {currentValidatorsCountSub.status === "success"
+                ? currentValidatorsCountSub.data
+                : "--"}
             </NodeAmountLabel>
           </NodeLink>
         </Link>

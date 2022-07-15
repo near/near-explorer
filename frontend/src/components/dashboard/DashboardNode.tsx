@@ -8,7 +8,6 @@ import DashboardCard from "../utils/DashboardCard";
 import LongCardCell, { CardCellText } from "../utils/LongCardCell";
 import Term from "../utils/Term";
 
-import { useNetworkStats } from "../../hooks/subscriptions";
 import { useSubscription } from "../../hooks/use-subscription";
 
 const CountCell = styled(LongCardCell, {
@@ -19,7 +18,7 @@ const CountCell = styled(LongCardCell, {
 
 const DashboardNode: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useNetworkStats();
+  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
   const onlineNodesCountSub = useSubscription(["onlineNodesCount"]);
 
   return (
@@ -69,8 +68,12 @@ const DashboardNode: React.FC = React.memo(() => {
                 }
               />
             }
-            loading={networkStats === undefined}
-            text={networkStats?.currentValidatorsCount.toLocaleString()}
+            loading={currentValidatorsCountSub.status === "loading"}
+            text={
+              currentValidatorsCountSub.status === "success"
+                ? currentValidatorsCountSub.data.toLocaleString()
+                : null
+            }
             href={"/nodes/validators"}
           />
         </Col>

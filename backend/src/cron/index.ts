@@ -18,7 +18,7 @@ const regularTasks = [
   tasks.accountsHistoryCheck,
   tasks.activeAccountsHistoryCheck,
   tasks.activeAccountsListCheck,
-  tasks.networkInfoCheck,
+  tasks.currentEpochProtocolInfoCheck,
   tasks.stakingPoolMetadataInfoCheck,
   tasks.poolIdsCheck,
   tasks.tokensSupplyCheck,

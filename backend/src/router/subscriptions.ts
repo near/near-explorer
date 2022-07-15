@@ -124,7 +124,8 @@ export const router = withTopics(trpc.router<Context>(), {
   }),
   activeAccountsList: undefined,
   activeAccountsHistory: undefined,
-  "network-stats": undefined,
+  currentEpochConfig: undefined,
+  currentValidatorsCount: undefined,
   transactionsHistory: (elements, input) =>
     input ? elements.slice(-input.amountOfDays) : elements,
   contractsHistory: undefined,

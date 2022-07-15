@@ -1,6 +1,6 @@
 import JSBI from "jsbi";
 import * as React from "react";
-import { useNetworkStats } from "../../hooks/subscriptions";
+import { useSubscription } from "../../hooks/use-subscription";
 import { ValidatorFullData } from "../../types/common";
 
 import ValidatorRow from "./ValidatorRow";
@@ -12,7 +12,6 @@ const NETWORK_HOLDER_SHARE_PERCENT = 33;
 
 interface Props {
   validators: ValidatorFullData[];
-  totalStake: string;
   selectedPageIndex: number;
 }
 
@@ -41,7 +40,9 @@ const validatorsSortFns: ValidatorSortFn[] = [
 ];
 
 const ValidatorsList: React.FC<Props> = React.memo(
-  ({ validators, totalStake, selectedPageIndex }) => {
+  ({ validators, selectedPageIndex }) => {
+    const currentEpochConfigSub = useSubscription(["currentEpochConfig"]);
+
     const sortedValidators = React.useMemo(
       () =>
         validatorsSortFns.reduceRight(
@@ -67,9 +68,12 @@ const ValidatorsList: React.FC<Props> = React.memo(
     );
 
     const networkHolderIndex = React.useMemo(() => {
+      if (!currentEpochConfigSub.data) {
+        return -1;
+      }
       const holderLimit = JSBI.divide(
         JSBI.multiply(
-          JSBI.BigInt(totalStake),
+          JSBI.BigInt(currentEpochConfigSub.data.validation.totalStake),
           JSBI.BigInt(NETWORK_HOLDER_SHARE_PERCENT)
         ),
         JSBI.BigInt(100)
@@ -77,12 +81,9 @@ const ValidatorsList: React.FC<Props> = React.memo(
       return cumulativeAmounts.findIndex((cumulativeAmount) =>
         JSBI.greaterThan(cumulativeAmount, holderLimit)
       );
-    }, [totalStake, cumulativeAmounts]);
+    }, [currentEpochConfigSub.data, cumulativeAmounts]);
 
     const startValidatorIndex = selectedPageIndex * ITEMS_PER_PAGE;
-
-    const { data: networkStats } = useNetworkStats();
-    const seatPrice = networkStats?.seatPrice;
 
     return (
       <>
@@ -95,10 +96,12 @@ const ValidatorsList: React.FC<Props> = React.memo(
                 key={validator.accountId}
                 validator={validator}
                 index={pagedIndex}
-                totalStake={JSBI.BigInt(totalStake)}
+                totalStake={JSBI.BigInt(
+                  currentEpochConfigSub.data?.validation.totalStake || "0"
+                )}
                 cumulativeStake={cumulativeAmounts[pagedIndex]}
                 isNetworkHolder={networkHolderIndex === pagedIndex}
-                seatPrice={seatPrice}
+                seatPrice={currentEpochConfigSub.data?.validation.seatPrice}
               />
             );
           })}

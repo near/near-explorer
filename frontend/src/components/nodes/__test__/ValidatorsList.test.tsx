@@ -15,7 +15,6 @@ describe("<ValidatorsList />", () => {
         <ValidatorsList
           validators={VALIDATORS_LIST.slice(0, 5)}
           selectedPageIndex={0}
-          totalStake={totalStake.toString()}
         />
       )
     ).toMatchSnapshot();

@@ -7,8 +7,7 @@ import Balance, { formatWithCommas } from "../utils/Balance";
 import NearBadge from "../nodes/NearBadge";
 
 import { useTranslation } from "react-i18next";
-import { useNetworkStats } from "../../hooks/subscriptions";
-import { useEpochStartBlock } from "../../hooks/data";
+import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
 import { useSubscription } from "../../hooks/use-subscription";
@@ -35,9 +34,8 @@ const BalanceSuffix = styled("span", {
 
 const ProtocolConfigInfo: React.FC = React.memo(() => {
   const { t } = useTranslation();
-  const { data: networkStats } = useNetworkStats();
-  const epochStartBlock = useEpochStartBlock();
 
+  const currentEpochConfigSub = useSubscription(["currentEpochConfig"]);
   const genesisConfigSub = useSubscription(["genesisConfig"]);
 
   const lastAccountsHistorySub = useSubscription([
@@ -46,13 +44,6 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
   ]);
   const lastDateLiveAccountsCount =
     lastAccountsHistorySub.data?.liveAccounts[0]?.[1];
-
-  let epochTotalSupply = epochStartBlock
-    ? JSBI.toNumber(
-        JSBI.divide(JSBI.BigInt(epochStartBlock.totalSupply), BI.nearNomination)
-      ) /
-      10 ** 6
-    : null;
 
   return (
     <>
@@ -76,14 +67,15 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           )}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "4" }}
         >
-          {genesisConfigSub.status === "success" && networkStats && (
-            <>
-              <GenesisText>
-                v{genesisConfigSub.data.protocolVersion}
-              </GenesisText>{" "}
-              / <span>v{networkStats.epochProtocolVersion}</span>
-            </>
-          )}
+          {genesisConfigSub.status === "success" &&
+            currentEpochConfigSub.status === "success" && (
+              <>
+                <GenesisText>
+                  v{genesisConfigSub.data.protocolVersion}
+                </GenesisText>{" "}
+                / <span>v{currentEpochConfigSub.data.protocolVersion}</span>
+              </>
+            )}
         </Cell>
 
         <Cell
@@ -98,7 +90,9 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.epoch_length")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
-          {networkStats?.epochLength && <span>{networkStats.epochLength}</span>}
+          {currentEpochConfigSub.status === "success" ? (
+            <span>{currentEpochConfigSub.data.epochLength}</span>
+          ) : null}
         </Cell>
       </ProtocolConfig>
 
@@ -142,10 +136,20 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.total_supply")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
         >
-          {epochTotalSupply && (
+          {currentEpochConfigSub.status === "success" && (
             <ProtocolMetricValue
-              amount={epochStartBlock!.totalSupply}
-              formulatedAmount={formatWithCommas(epochTotalSupply.toFixed(1))}
+              amount={currentEpochConfigSub.data.totalSupply}
+              formulatedAmount={formatWithCommas(
+                (
+                  JSBI.toNumber(
+                    JSBI.divide(
+                      JSBI.BigInt(currentEpochConfigSub.data.totalSupply),
+                      BI.nearNomination
+                    )
+                  ) /
+                  10 ** 6
+                ).toFixed(1)
+              )}
               suffix={<BalanceSuffix>M</BalanceSuffix>}
               label={<NearBadge />}
             />

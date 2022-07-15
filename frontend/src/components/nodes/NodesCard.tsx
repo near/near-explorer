@@ -13,6 +13,7 @@ import {
 import NearBadge from "./NearBadge";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
+import { useSubscription } from "../../hooks/use-subscription";
 
 const NodesCardWrapper = styled(InfoCard, {
   background: "#ffffff",
@@ -95,62 +96,64 @@ const NodeBalance: React.FC<BalanceProps> = React.memo(({ amount, type }) => {
   );
 });
 
-interface Props {
-  currentValidatorsCount?: number;
-  totalSupply?: string;
-  totalStake?: string;
-  seatPrice?: string;
-}
+const NodesCard: React.FC = React.memo(() => {
+  const { t } = useTranslation();
 
-const NodesCard: React.FC<Props> = React.memo(
-  ({ currentValidatorsCount, totalSupply, totalStake, seatPrice }) => {
-    const { t } = useTranslation();
-    return (
-      <NodesCardWrapper>
-        <Cell
-          title={t("component.nodes.NodesCard.nodes_validating")}
-          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
-        >
-          {currentValidatorsCount !== undefined && (
-            <Validating>{currentValidatorsCount}</Validating>
-          )}
-        </Cell>
+  const currentValidatorsCountSub = useSubscription(["currentValidatorsCount"]);
+  const currentEpochConfigSub = useSubscription(["currentEpochConfig"]);
 
-        <Cell
-          title={t("component.nodes.NodesCard.total_supply")}
-          cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
-        >
-          {totalSupply && (
-            <NodeBalance amount={JSBI.BigInt(totalSupply)} type="totalSupply" />
-          )}
-        </Cell>
+  return (
+    <NodesCardWrapper>
+      <Cell
+        title={t("component.nodes.NodesCard.nodes_validating")}
+        cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
+      >
+        {currentValidatorsCountSub.status === "success" && (
+          <Validating>{currentValidatorsCountSub.data}</Validating>
+        )}
+      </Cell>
 
-        <Cell
-          title={t("component.nodes.NodesCard.total_stake")}
-          cellOptions={{ xs: "12", md: "6", xl: "3" }}
-        >
-          {totalStake && (
+      {currentEpochConfigSub.status === "success" ? (
+        <>
+          <Cell
+            title={t("component.nodes.NodesCard.total_supply")}
+            cellOptions={{ xs: "12", sm: "6", md: "6", xl: "3" }}
+          >
             <NodeBalance
-              amount={JSBI.BigInt(totalStake)}
+              amount={JSBI.BigInt(currentEpochConfigSub.data.totalSupply)}
+              type="totalSupply"
+            />
+          </Cell>
+
+          <Cell
+            title={t("component.nodes.NodesCard.total_stake")}
+            cellOptions={{ xs: "12", md: "6", xl: "3" }}
+          >
+            <NodeBalance
+              amount={JSBI.BigInt(
+                currentEpochConfigSub.data.validation.totalStake
+              )}
               type="totalStakeAmount"
             />
-          )}
-        </Cell>
+          </Cell>
 
-        <Cell
-          title={t("component.nodes.NodesCard.seat_price")}
-          cellOptions={{ xs: "12", md: "6", xl: "4" }}
-        >
-          {seatPrice && (
-            <NodeBalance
-              amount={JSBI.BigInt(seatPrice)}
-              type="seatPriceAmount"
-            />
-          )}
-        </Cell>
-      </NodesCardWrapper>
-    );
-  }
-);
+          <Cell
+            title={t("component.nodes.NodesCard.seat_price")}
+            cellOptions={{ xs: "12", md: "6", xl: "4" }}
+          >
+            {currentEpochConfigSub.data.validation.seatPrice ? (
+              <NodeBalance
+                amount={JSBI.BigInt(
+                  currentEpochConfigSub.data.validation.seatPrice
+                )}
+                type="seatPriceAmount"
+              />
+            ) : null}
+          </Cell>
+        </>
+      ) : null}
+    </NodesCardWrapper>
+  );
+});
 
 export default NodesCard;

@@ -1,23 +1,26 @@
 import { CachedTimestampMap } from "./cron/types";
-import {
-  CurrentEpochState,
-  HealthStatus,
-  ValidatorDescription,
-  ValidatorPoolInfo,
-} from "./types";
+import { HealthStatus, ValidatorDescription, ValidatorPoolInfo } from "./types";
 
 export type GlobalState = {
   stakingPoolsDescriptions: Map<string, ValidatorDescription>;
   stakingPoolStakeProposalsFromContract: CachedTimestampMap<string>;
   stakingPoolInfos: CachedTimestampMap<ValidatorPoolInfo>;
   poolIds: string[];
-  currentEpochState: CurrentEpochState | null;
   genesis: {
     minStakeRatio: [number, number];
     accountCount: number;
   } | null;
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;
+  currentEpoch: {
+    height: number;
+    length: number;
+    protocolVersion: number;
+  } | null;
+  currentValidatorsToDo: {
+    totalStake: string;
+    seatPrice: string;
+  } | null;
 };
 
 export const initGlobalState = (): GlobalState => ({
@@ -33,8 +36,9 @@ export const initGlobalState = (): GlobalState => ({
     promisesMap: new Map(),
   },
   poolIds: [],
-  currentEpochState: null,
+  currentEpoch: null,
   genesis: null,
   rpcStatus: { timestamp: Date.now(), ok: true },
   indexerStatus: { timestamp: Date.now(), ok: true },
+  currentValidatorsToDo: null,
 });

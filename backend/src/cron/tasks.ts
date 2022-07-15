@@ -25,7 +25,6 @@ import {
   healthCheck,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
-import { queryEpochData } from "../providers/network";
 import { wait } from "../common";
 import { GlobalState } from "../global-state";
 import { RegularCheckFn } from "./types";
@@ -35,6 +34,8 @@ import {
   updateRegularlyFetchedMap,
 } from "./utils";
 import { SECOND, MINUTE } from "../utils/time";
+import { RPC } from "../types";
+import { Context } from "../context";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",
@@ -154,6 +155,184 @@ export const activeContractsHistoryCheck: RegularCheckFn = {
   ),
 };
 
+const mapValidators = (
+  epochStatus: RPC.EpochValidatorInfo,
+  context: Context
+): ValidatorEpochData[] => {
+  const validatorsMap: Map<string, ValidatorEpochData> = new Map();
+
+  for (const currentValidator of epochStatus.current_validators) {
+    validatorsMap.set(currentValidator.account_id, {
+      accountId: currentValidator.account_id,
+      publicKey: currentValidator.public_key,
+      currentEpoch: {
+        stake: currentValidator.stake,
+        progress: {
+          blocks: {
+            produced: currentValidator.num_produced_blocks,
+            total: currentValidator.num_expected_blocks,
+          },
+          chunks: {
+            produced: currentValidator.num_produced_chunks,
+            total: currentValidator.num_expected_chunks,
+          },
+        },
+      },
+    });
+  }
+
+  for (const nextValidator of epochStatus.next_validators) {
+    const validator = validatorsMap.get(nextValidator.account_id) || {
+      accountId: nextValidator.account_id,
+      publicKey: nextValidator.public_key,
+    };
+    validator.nextEpoch = {
+      stake: nextValidator.stake,
+    };
+    validatorsMap.set(nextValidator.account_id, validator);
+  }
+
+  for (const nextProposal of epochStatus.current_proposals) {
+    const validator = validatorsMap.get(nextProposal.account_id) || {
+      accountId: nextProposal.account_id,
+      publicKey: nextProposal.public_key,
+    };
+    validator.afterNextEpoch = {
+      stake: nextProposal.stake,
+    };
+    validatorsMap.set(nextProposal.account_id, validator);
+  }
+
+  for (const accountId of context.state.poolIds) {
+    const validator = validatorsMap.get(accountId) || {
+      accountId: accountId,
+    };
+    validatorsMap.set(accountId, validator);
+  }
+
+  return [...validatorsMap.values()];
+};
+
+const publishValidators = async (
+  validatorsResponse: RPC.EpochValidatorInfo,
+  ...[publish, context]: Parameters<RegularCheckFn["fn"]>
+) => {
+  const validatorsMapped = mapValidators(validatorsResponse, context);
+  const telemetryInfo = await queryTelemetryInfo(
+    validatorsMapped.map((validator) => validator.accountId)
+  );
+  await Promise.all([
+    Promise.race([
+      updateStakingPoolStakeProposalsFromContractMap(
+        validatorsMapped,
+        context.state
+      ),
+      wait(config.timeouts.timeoutFetchValidatorsBailout),
+    ]),
+    Promise.race([
+      updatePoolInfoMap(validatorsMapped, context.state),
+      wait(config.timeouts.timeoutFetchValidatorsBailout),
+    ]),
+  ]);
+  publish(
+    "validators",
+    validatorsMapped.map((validator) => ({
+      ...validator,
+      description: context.state.stakingPoolsDescriptions.get(
+        validator.accountId
+      ),
+      poolInfo: context.state.stakingPoolInfos.valueMap.get(
+        validator.accountId
+      ),
+      contractStake:
+        context.state.stakingPoolStakeProposalsFromContract.valueMap.get(
+          validator.accountId
+        ),
+      telemetry: telemetryInfo.get(validator.accountId),
+    }))
+  );
+};
+
+export const currentEpochProtocolInfoCheck: RegularCheckFn = {
+  description: "current epoch protocol info check",
+  fn: async (publish, context) => {
+    const [currentEpochProtocolConfig, validatorsResponse] = await Promise.all([
+      nearApi.sendJsonRpc("EXPERIMENTAL_protocol_config", {
+        finality: "final",
+      }),
+      nearApi.sendJsonRpc("validators", [null]),
+    ]);
+
+    const publishValidatorsPromise = publishValidators(
+      validatorsResponse,
+      publish,
+      context
+    );
+
+    const maxNumberOfSeats =
+      currentEpochProtocolConfig.num_block_producer_seats +
+      currentEpochProtocolConfig.avg_hidden_validator_seats_per_shard.reduce(
+        (sum, seat) => sum + seat,
+        0
+      );
+    const publishIfChanged = getPublishIfChanged(publish, context);
+    publishIfChanged(
+      "currentValidatorsCount",
+      validatorsResponse.current_validators.length
+    );
+    const epochStartBlock = await nearApi.sendJsonRpc("block", {
+      block_id: validatorsResponse.epoch_start_height,
+    });
+    const currentGenesisConfig = context.state.genesis;
+    const currentEpochConfig = {
+      height: validatorsResponse.epoch_start_height,
+      timestamp: epochStartBlock.header.timestamp,
+      epochLength: currentEpochProtocolConfig.epoch_length,
+      protocolVersion: currentEpochProtocolConfig.protocol_version,
+      totalSupply: epochStartBlock.header.total_supply,
+      validation: {
+        seatPrice: currentGenesisConfig
+          ? nearApi.validators
+              .findSeatPrice(
+                validatorsResponse.current_validators,
+                maxNumberOfSeats,
+                currentGenesisConfig.minStakeRatio,
+                currentEpochProtocolConfig.protocol_version
+              )
+              .toString()
+          : undefined,
+        totalStake: validatorsResponse.current_validators
+          .reduce((acc, node) => acc + BigInt(node.stake), 0n)
+          .toString(),
+      },
+    };
+    publishIfChanged("currentEpochConfig", currentEpochConfig);
+
+    await publishValidatorsPromise;
+
+    if (
+      currentEpochConfig.validation.seatPrice !== undefined ||
+      !currentGenesisConfig
+    ) {
+      return 3 * SECOND;
+    }
+
+    const latestBlock = context.subscriptionsCache.latestBlock;
+    if (!latestBlock) {
+      return 10 * SECOND;
+    }
+    const epochProgress =
+      ((latestBlock.height - epochStartBlock.header.height) /
+        currentEpochProtocolConfig.epoch_length) *
+      100;
+    const timeRemaining =
+      ((latestBlock.timestamp - epochStartBlock.header.timestamp) /
+        epochProgress) *
+      (100 - epochProgress);
+    return Math.max(SECOND, timeRemaining);
+  },
+};
+
 export const activeContractsListCheck: RegularCheckFn = {
   description: "activeContractsList",
   fn: publishOnChange(
@@ -239,7 +418,7 @@ export const activeAccountsListCheck: RegularCheckFn = {
   ),
 };
 
-export const updateStakingPoolStakeProposalsFromContractMap = async (
+const updateStakingPoolStakeProposalsFromContractMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
 ): Promise<void> => {
@@ -260,7 +439,7 @@ export const updateStakingPoolStakeProposalsFromContractMap = async (
   );
 };
 
-export const updatePoolInfoMap = async (
+const updatePoolInfoMap = async (
   validators: ValidatorEpochData[],
   state: GlobalState
 ): Promise<void> => {
@@ -304,48 +483,6 @@ export const updatePoolInfoMap = async (
     config.intervals.checkStakingPoolInfo,
     config.timeouts.timeoutStakingPoolsInfo
   );
-};
-
-export const networkInfoCheck: RegularCheckFn = {
-  description: "publish network info",
-  fn: async (publish, context) => {
-    const epochData = await queryEpochData(context);
-    const telemetryInfo = await queryTelemetryInfo(
-      epochData.validators.map((validator) => validator.accountId)
-    );
-    await Promise.all([
-      Promise.race([
-        updateStakingPoolStakeProposalsFromContractMap(
-          epochData.validators,
-          context.state
-        ),
-        wait(config.timeouts.timeoutFetchValidatorsBailout),
-      ]),
-      Promise.race([
-        updatePoolInfoMap(epochData.validators, context.state),
-        wait(config.timeouts.timeoutFetchValidatorsBailout),
-      ]),
-    ]);
-    publish(
-      "validators",
-      epochData.validators.map((validator) => ({
-        ...validator,
-        description: context.state.stakingPoolsDescriptions.get(
-          validator.accountId
-        ),
-        poolInfo: context.state.stakingPoolInfos.valueMap.get(
-          validator.accountId
-        ),
-        contractStake:
-          context.state.stakingPoolStakeProposalsFromContract.valueMap.get(
-            validator.accountId
-          ),
-        telemetry: telemetryInfo.get(validator.accountId),
-      }))
-    );
-    publish("network-stats", epochData.stats);
-    return config.intervals.checkNetworkInfo;
-  },
 };
 
 // See https://github.com/zavodil/near-pool-details/blob/master/FIELDS.md
