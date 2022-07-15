@@ -97,3 +97,11 @@ $ npm run -w frontend cy:open
 Then you can choose which tests exactly you want to run.
 
 TIP: Some tests is running with mock data. You can view/add/replace them in `frontend/cypress/fixtures`
+
+### Analyzing bundle
+
+To run bundle analyzer:
+
+```
+STATS=true OPEN_ANALYZER=true npm -w frontend run build
+```
