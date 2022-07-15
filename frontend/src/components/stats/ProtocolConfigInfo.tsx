@@ -9,7 +9,6 @@ import NearBadge from "../nodes/NearBadge";
 import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "../../hooks/subscriptions";
 import { useEpochStartBlock } from "../../hooks/data";
-import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
 import { useSubscription } from "../../hooks/use-subscription";
@@ -41,12 +40,12 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
 
   const genesisConfigSub = useSubscription(["genesisConfig"]);
 
-  const liveAccountsCount =
-    trpc.useQuery(["stats.liveAccountsHistory"]).data ?? [];
-  const lastDateLiveAccounts = React.useMemo(
-    () => liveAccountsCount[liveAccountsCount.length - 1]?.accountsCount,
-    [liveAccountsCount]
-  );
+  const lastAccountsHistorySub = useSubscription([
+    "accountsHistory",
+    { amountOfDays: 1 },
+  ]);
+  const lastDateLiveAccountsCount =
+    lastAccountsHistorySub.data?.liveAccounts[0]?.[1];
 
   let epochTotalSupply = epochStartBlock
     ? JSBI.toNumber(
@@ -157,7 +156,7 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.live_accounts")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
-          {lastDateLiveAccounts}
+          {lastDateLiveAccountsCount}
         </Cell>
       </ProtocolConfig>
     </>

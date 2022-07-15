@@ -211,55 +211,71 @@ export const queryGasUsedAggregatedByDate = async () => {
 
 // accounts
 export const queryNewAccountsCountAggregatedByDate = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_new_accounts_count")
     .select([
       "collected_for_day as date",
-      "new_accounts_count as new_accounts_count_by_date",
+      "new_accounts_count as accountsCount",
     ])
     .orderBy("date")
     .execute();
+  return selection.map<[number, number]>(({ date, accountsCount }) => [
+    date.valueOf(),
+    accountsCount,
+  ]);
 };
 
 export const queryDeletedAccountsCountAggregatedByDate = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_deleted_accounts_count")
     .select([
       "collected_for_day as date",
-      "deleted_accounts_count as deleted_accounts_count_by_date",
+      "deleted_accounts_count as accountsCount",
     ])
     .orderBy("date")
     .execute();
+  return selection.map<[number, number]>(({ date, accountsCount }) => [
+    date.valueOf(),
+    accountsCount,
+  ]);
 };
 
 export const queryActiveAccountsCountAggregatedByDate = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_active_accounts_count")
     .select([
       "collected_for_day as date",
-      "active_accounts_count as active_accounts_count_by_date",
+      "active_accounts_count as accountsCount",
     ])
     .orderBy("date")
     .execute();
+  return selection.map<[number, number]>(({ date, accountsCount }) => [
+    date.valueOf(),
+    accountsCount,
+  ]);
 };
 
 export const queryActiveAccountsCountAggregatedByWeek = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("weekly_active_accounts_count")
     .select([
       "collected_for_week as date",
-      "active_accounts_count as active_accounts_count_by_week",
+      "active_accounts_count as accountsCount",
     ])
     .orderBy("date")
     .execute();
+  return selection.map<[number, number]>(({ date, accountsCount }) => [
+    date.valueOf(),
+    accountsCount,
+  ]);
 };
 
 export const queryActiveAccountsList = async () => {
-  return analyticsDatabase
+  const selection = await analyticsDatabase
     .selectFrom("daily_outgoing_transactions_per_account_count")
     .select([
-      "account_id",
-      (eb) => sum(eb, "outgoing_transactions_count").as("transactions_count"),
+      "account_id as accountId",
+      (eb) => sum(eb, "outgoing_transactions_count").as("transactionsCount"),
     ])
     .where(
       "collected_for_day",
@@ -269,9 +285,13 @@ export const queryActiveAccountsList = async () => {
       )`
     )
     .groupBy("account_id")
-    .orderBy("transactions_count", "desc")
+    .orderBy("transactionsCount", "desc")
     .limit(10)
     .execute();
+  return selection.map<[string, number]>(({ accountId, transactionsCount }) => [
+    accountId,
+    Number(transactionsCount || 0),
+  ]);
 };
 
 // contracts

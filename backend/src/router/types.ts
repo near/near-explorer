@@ -104,6 +104,15 @@ export type SubscriptionTopicTypes = {
   };
   activeContractsHistory: TimestampDataSeries<[contractsCount: number]>;
   activeContractsList: [accountId: string, receiptsCount: number][];
+  accountsHistory: {
+    newAccounts: TimestampDataSeries<[accountsCount: number]>;
+    liveAccounts: TimestampDataSeries<[accountsCount: number]>;
+  };
+  activeAccountsList: [accountId: string, transactionsCount: number][];
+  activeAccountsHistory: {
+    byDay: TimestampDataSeries<[accountsCount: number]>;
+    byWeek: TimestampDataSeries<[accountsCount: number]>;
+  };
   "network-stats": NetworkStats;
   rpcStatus: HealthStatus;
   indexerStatus: HealthStatus;

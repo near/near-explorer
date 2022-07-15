@@ -15,18 +15,13 @@ const subscriptionInputs = {
     z.undefined(),
     z.strictObject({ amountOfDays: z.number() }),
   ]),
+  accountsHistory: z.union([
+    z.undefined(),
+    z.strictObject({ amountOfDays: z.number() }),
+  ]),
 } as const;
 
 type SubscriptionInputMap = typeof subscriptionInputs;
-
-const processData = <T, I = undefined>(
-  ...args: undefined extends I ? [T, (data: T, input: I) => T, I] : [T]
-): T => {
-  if (!args[1]) {
-    return args[0];
-  }
-  return args[1](args[0], args[2]!);
-};
 
 const withTopics = <InitialRouter extends AnyRouter<Context>>(
   router: InitialRouter,
@@ -61,8 +56,17 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
       topic in subscriptionInputs
         ? subscriptionInputs[topic as keyof typeof subscriptionInputs]
         : z.undefined();
-    type TopicDataType = Parameters<SubscriptionEventMap[typeof topic]>[0] &
-      Parameters<NonNullable<typeof filterFn>>[0];
+    type TopicDataType = Parameters<SubscriptionEventMap[typeof topic]>[0];
+    const getProcessedData = (
+      data: TopicDataType,
+      input: z.infer<SubscriptionInputMap[keyof typeof subscriptionInputs]>
+    ) => {
+      if (filterFn) {
+        return filterFn(data as any, input);
+      } else {
+        return data;
+      }
+    };
     return router
       .subscription(topic, {
         input,
@@ -71,7 +75,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
             Parameters<SubscriptionEventMap[typeof topic]>[0]
           >((emit) => {
             const onData = (data: TopicDataType) => {
-              emit.data(processData(data, filterFn!, input));
+              emit.data(getProcessedData(data, input));
             };
             if (ctx.subscriptionsCache[topic]) {
               onData(ctx.subscriptionsCache[topic] as TopicDataType);
@@ -88,7 +92,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
             return new Promise(async (resolve) => {
               const onData = (data: TopicDataType) => {
                 ctx.subscriptionsEventEmitter.off(topic, onData);
-                resolve(processData(data, filterFn!, input));
+                resolve(getProcessedData(data, input));
               };
               ctx.subscriptionsEventEmitter.on(topic, onData);
               await wait(SSR_TIMEOUT);
@@ -96,9 +100,7 @@ const withTopics = <InitialRouter extends AnyRouter<Context>>(
             });
           }
           const cachedData = ctx.subscriptionsCache[topic] as TopicDataType;
-          return cachedData
-            ? processData(cachedData, filterFn!, input)
-            : cachedData;
+          return cachedData ? getProcessedData(cachedData, input) : cachedData;
         },
       }) as any;
   }, router) as any;
@@ -114,6 +116,14 @@ export const router = withTopics(trpc.router<Context>(), {
   genesisConfig: undefined,
   tokensSupply: undefined,
   gasUsedHistory: undefined,
+  accountsHistory: ({ newAccounts, liveAccounts }, input) => ({
+    newAccounts: input ? newAccounts.slice(-input.amountOfDays) : newAccounts,
+    liveAccounts: input
+      ? liveAccounts.slice(-input.amountOfDays)
+      : liveAccounts,
+  }),
+  activeAccountsList: undefined,
+  activeAccountsHistory: undefined,
   "network-stats": undefined,
   transactionsHistory: (elements, input) =>
     input ? elements.slice(-input.amountOfDays) : elements,
