@@ -13,6 +13,11 @@ import {
   queryGenesisAccountCount,
   queryTokensSupply,
   queryGasUsedAggregatedByDate,
+  queryNewAccountsCountAggregatedByDate,
+  queryDeletedAccountsCountAggregatedByDate,
+  queryActiveAccountsList,
+  queryActiveAccountsCountAggregatedByDate,
+  queryActiveAccountsCountAggregatedByWeek,
   queryNewContractsCountAggregatedByDate,
   queryUniqueDeployedContractsCountAggregatedByDate,
   queryActiveContractsCountAggregatedByDate,
@@ -20,20 +25,16 @@ import {
   healthCheck,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
-import {
-  aggregateActiveAccountsCountByDate,
-  aggregateActiveAccountsCountByWeek,
-  aggregateActiveAccountsList,
-  aggregateDeletedAccountsCountByDate,
-  aggregateLiveAccountsCountByDate,
-  aggregateNewAccountsCountByDate,
-} from "../providers/stats";
 import { queryEpochData } from "../providers/network";
 import { wait } from "../common";
 import { GlobalState } from "../global-state";
 import { RegularCheckFn } from "./types";
-import { publishOnChange, updateRegularlyFetchedMap } from "./utils";
-import { MINUTE } from "../utils/time";
+import {
+  getPublishIfChanged,
+  publishOnChange,
+  updateRegularlyFetchedMap,
+} from "./utils";
+import { SECOND, MINUTE } from "../utils/time";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",
@@ -162,19 +163,80 @@ export const activeContractsListCheck: RegularCheckFn = {
   ),
 };
 
-export const statsAggregationCheck: RegularCheckFn = {
-  description: "stats aggregation",
-  fn: async (_, context) => {
-    // account
-    await aggregateNewAccountsCountByDate();
-    await aggregateDeletedAccountsCountByDate();
-    await aggregateLiveAccountsCountByDate(context);
-    await aggregateActiveAccountsCountByDate();
-    await aggregateActiveAccountsCountByWeek();
-    await aggregateActiveAccountsList();
+export const accountsHistoryCheck: RegularCheckFn = {
+  description: "accountsHistoryCheck",
+  fn: async (publish, context) => {
+    const publishIfChanged = getPublishIfChanged(publish, context);
+    if (!context.state.genesis) {
+      return 10 * SECOND;
+    }
+    const [newAccounts, deletedAccounts] = await Promise.all([
+      queryNewAccountsCountAggregatedByDate(),
+      queryDeletedAccountsCountAggregatedByDate(),
+    ]);
+    const newAccountMap = new Map<number, number>();
+    for (let i = 0; i < newAccounts.length; i++) {
+      const [timestamp, accountsCount] = newAccounts[i];
+      newAccountMap.set(timestamp, accountsCount);
+    }
 
+    const deletedAccountMap = new Map<number, number>();
+    for (let i = 0; i < deletedAccounts.length; i++) {
+      const [timestamp, accountsCount] = deletedAccounts[i];
+      deletedAccountMap.set(timestamp, accountsCount);
+    }
+
+    const allTimestamps = [
+      ...new Set([
+        ...newAccounts.map(([timestamp]) => timestamp),
+        ...deletedAccounts.map(([timestamp]) => timestamp),
+      ]),
+    ].sort();
+
+    const liveAccounts = allTimestamps
+      .reduce<[number, number][]>(
+        (acc, timestamp) => {
+          const newAccountsCount = newAccountMap.get(timestamp) ?? 0;
+          const deletedAccountsCount = deletedAccountMap.get(timestamp) ?? 0;
+          const prevAccountsCount = acc[acc.length - 1][1];
+          return [
+            ...acc,
+            [
+              timestamp,
+              prevAccountsCount + newAccountsCount - deletedAccountsCount,
+            ],
+          ];
+        },
+        [[0, context.state.genesis.accountCount]]
+      )
+      .slice(1);
+    publishIfChanged("accountsHistory", { newAccounts, liveAccounts });
     return config.intervals.checkAggregatedStats;
   },
+};
+
+export const activeAccountsHistoryCheck: RegularCheckFn = {
+  description: "activeAccountsHistory",
+  fn: publishOnChange(
+    "activeAccountsHistory",
+    async () => {
+      const [byDay, byWeek] = await Promise.all([
+        queryActiveAccountsCountAggregatedByDate(),
+        queryActiveAccountsCountAggregatedByWeek(),
+      ]);
+      return { byDay, byWeek };
+    },
+    config.intervals.checkAggregatedStats
+  ),
+};
+
+export const activeAccountsListCheck: RegularCheckFn = {
+  description: "activeAccountsListCheck",
+  fn: publishOnChange(
+    "activeAccountsList",
+    queryActiveAccountsList,
+    config.intervals.checkAggregatedStats
+  ),
 };
 
 export const updateStakingPoolStakeProposalsFromContractMap = async (
