@@ -1,7 +1,6 @@
 import JSBI from "jsbi";
-import moment from "moment";
 import * as React from "react";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {
   BasicDecimalPower,
   BASIC_DENOMINATION,
@@ -15,6 +14,7 @@ import { NearAmount } from "../../utils/NearAmount";
 import CopyToClipboard from "../common/CopyToClipboard";
 import * as BI from "../../../libraries/bigint";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import Timer from "../../utils/Timer";
 
 type Props = {
   account: Account;
@@ -156,11 +156,17 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
                   : undefined
               }
             >
-              {props.account.created
-                ? t("pages.account.header.createdAt", {
-                    fromNow: moment(props.account.created.timestamp).fromNow(),
-                  })
-                : t("common.terms.genesis")}
+              {props.account.created ? (
+                <Trans
+                  i18nKey="pages.account.header.createdAt"
+                  t={t}
+                  components={{
+                    Timer: <Timer time={props.account.created.timestamp} />,
+                  }}
+                />
+              ) : (
+                t("common.terms.genesis")
+              )}
             </CreatedBy>
             <InfoLineGap />
             <InfoLine>

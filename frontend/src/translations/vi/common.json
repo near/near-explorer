@@ -71,10 +71,10 @@
       "no": "Không"
     },
     "date_time": {
-      "date_time_format": "Do MMMM YYYY, h:mm:ss a",
-      "date_format": "Do MMMM YYYY",
-      "time_format": "h:mm:ss a",
-      "transaction_date_format": "DD/MM/YYYY h:mm"
+      "date_time_format": "do MMMM yyyy, h:mm:ss aaa",
+      "date_format": "do MMMM yyyy",
+      "time_format": "h:mm:ss aaa",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
     },
     "terms": {
       "genesis": "Genesis"
@@ -110,7 +110,7 @@
   "pages": {
     "account": {
       "header": {
-        "createdAt": "Created: ${fromNow}",
+        "createdAt": "Created: <Timer />",
         "storageUsed": "Storage used: ${amount}",
         "accountType": {
           "user": "User",

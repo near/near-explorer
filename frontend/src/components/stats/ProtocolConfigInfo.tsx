@@ -1,4 +1,4 @@
-import moment from "moment";
+import { useDateFormat } from "../../hooks/use-date-format";
 import JSBI from "jsbi";
 import * as React from "react";
 
@@ -54,6 +54,8 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
       10 ** 6
     : null;
 
+  const format = useDateFormat();
+
   return (
     <>
       <ProtocolConfig>
@@ -63,7 +65,8 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
         >
           {genesisConfigSub.status === "success" && (
             <span>
-              {moment(genesisConfigSub.data.timestamp).format(
+              {format(
+                genesisConfigSub.data.timestamp,
                 t("common.date_time.date_format")
               )}
             </span>

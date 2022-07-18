@@ -13,6 +13,7 @@ import {
   ReceiptExecutionStatus,
 } from "../../utils/receipt-status";
 import { nanosecondsToMilliseconds } from "../../utils/bigint";
+import { div } from "../../database/utils";
 
 type ParsedReceipt = Omit<NestedReceiptWithOutcome, "outcome"> & {
   outcome: Omit<NestedReceiptWithOutcome["outcome"], "nestedReceipts"> & {
@@ -180,7 +181,7 @@ export const router = trpc
         .selectFrom("transactions")
         .select([
           "signer_account_id as signerId",
-          "block_timestamp as timestamp",
+          (eb) => div(eb, "blocks.block_timestamp", 1000 * 1000, "timestamp"),
         ])
         .where("transaction_hash", "=", hash)
         .executeTakeFirst();
@@ -203,7 +204,7 @@ export const router = trpc
 
       return {
         hash,
-        timestamp: databaseTransaction.timestamp,
+        timestamp: parseInt(databaseTransaction.timestamp),
         signerId: rpcTransaction.transaction.signer_id,
         receiverId: rpcTransaction.transaction.receiver_id,
         fee: transactionFee.toString(),

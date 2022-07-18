@@ -127,7 +127,7 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
             </span>
              
             <span>
-              in 2y
+              2y past
             </span>
           </div>
         </div>
@@ -240,7 +240,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>
@@ -353,7 +353,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>
@@ -497,7 +497,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
             </span>
              
             <span>
-              1s ago
+              0s
             </span>
           </div>
         </div>
@@ -609,7 +609,7 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
             </span>
              
             <span>
-              in 2y
+              2y past
             </span>
           </div>
         </div>
@@ -722,7 +722,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>
@@ -835,7 +835,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>

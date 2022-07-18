@@ -71,10 +71,10 @@
       "no": "Нет"
     },
     "date_time": {
-      "date_time_format": "DD MMMM YYYY [в] h:mm:ss",
-      "date_format": "DD MMMM YYYY",
-      "time_format": "[в] h:mm:ss",
-      "transaction_date_format": "DD/MM/YYYY h:mm"
+      "date_time_format": "dd MMMM yyyy 'в' H:mm:ss",
+      "date_format": "dd MMMM yyyy",
+      "time_format": "'в' H:mm:ss",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
     },
     "terms": {
       "genesis": "Генезис"
@@ -110,7 +110,7 @@
   "pages": {
     "account": {
       "header": {
-        "createdAt": "Создан: ${fromNow}",
+        "createdAt": "Создан: <Timer />",
         "storageUsed": "Задействовано хранилища: ${amount}",
         "accountType": {
           "user": "Пользователь",

@@ -1,5 +1,4 @@
-import moment from "moment";
-
+import { useDateFormat } from "../../hooks/use-date-format";
 import * as React from "react";
 
 import { Row, Col } from "react-bootstrap";
@@ -52,6 +51,7 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
     "contract.byId",
     { id: accountId },
   ]);
+  const format = useDateFormat();
   if (!contractInfo) {
     return null;
   }
@@ -80,7 +80,8 @@ const ContractDetails: React.FC<Props> = React.memo(({ accountId }) => {
               }
               text={
                 contractInfo.timestamp
-                  ? moment(contractInfo.timestamp).format(
+                  ? format(
+                      contractInfo.timestamp,
                       t("common.date_time.date_time_format")
                     )
                   : t("common.state.not_available")

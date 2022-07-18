@@ -21,6 +21,7 @@ import { DeployInfo as DeployInfoProps } from "../types/common";
 
 import { getBranch, getShortCommitSha, SSR_TIMEOUT } from "../libraries/common";
 import { getLanguage, LANGUAGE_COOKIE } from "../libraries/language";
+import { getDateLocale } from "../libraries/date-locale";
 import { useAnalyticsInit } from "../hooks/analytics/use-analytics-init";
 import { createI18n, LANGUAGES } from "../libraries/i18n";
 import { AppType } from "next/dist/shared/lib/utils";
@@ -30,7 +31,7 @@ import { MINUTE, YEAR } from "../libraries/time";
 import { globalCss, styled } from "../libraries/styles";
 import { getBackendUrl } from "../libraries/transport";
 import { useLanguageCookie } from "../hooks/use-language-context";
-import { useMomentLanguage } from "../hooks/use-moment-language";
+import { useDateLocale } from "../hooks/use-date-locale";
 import { useI18n } from "../hooks/use-i18n";
 import { ToastController } from "../components/utils/ToastController";
 
@@ -87,6 +88,7 @@ declare module "next/app" {
   // Props we need on SSR but don't want to pass via __NEXT_DATA__ to CSR
   type ServerAppInitialProps = {
     i18n: i18n;
+    locale: LanguageContext["locale"];
   };
 
   type ExtraAppInitialProps = {
@@ -155,7 +157,7 @@ const App: AppType = React.memo(({ Component, pageProps }) => {
 
   const [language, setLanguage] = React.useState(initialLanguage);
   useLanguageCookie(language);
-  useMomentLanguage(language);
+  const locale = useDateLocale(serverProps?.locale, language);
   useI18n(serverProps?.i18n || (() => createI18n(language)), language);
 
   useAnalyticsInit();
@@ -170,8 +172,8 @@ const App: AppType = React.memo(({ Component, pageProps }) => {
   );
 
   const languageContext = React.useMemo(
-    () => ({ language, setLanguage }),
-    [language, setLanguage]
+    () => ({ language, setLanguage, locale }),
+    [language, setLanguage, locale]
   );
 
   return (
@@ -251,6 +253,7 @@ App.getInitialProps = async (appContext) => {
     }
     const serverProps: ServerAppInitialProps = {
       i18n: createI18n(language),
+      locale: await getDateLocale(language),
     };
     initialProps = {
       deployInfo,

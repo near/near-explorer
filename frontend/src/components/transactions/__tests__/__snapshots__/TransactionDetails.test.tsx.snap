@@ -370,7 +370,7 @@ exports[`<TransactionDetails /> renders no deposit 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              co00on.5amt5_ti05.5amt5_ti05_for0amt
+              2019-02-01T00:00:00Z formatted by common.date_time.date_time_format
             </div>
           </div>
         </div>
@@ -836,7 +836,7 @@ exports[`<TransactionDetails /> renders with one small deposit 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              co00on.5amt5_ti05.5amt5_ti05_for0amt
+              2019-02-01T00:00:00Z formatted by common.date_time.date_time_format
             </div>
           </div>
         </div>
@@ -1302,7 +1302,7 @@ exports[`<TransactionDetails /> renders with two big deposit 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              co00on.5amt5_ti05.5amt5_ti05_for0amt
+              2019-02-01T00:00:00Z formatted by common.date_time.date_time_format
             </div>
           </div>
         </div>
