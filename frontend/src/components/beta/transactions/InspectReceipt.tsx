@@ -4,7 +4,7 @@ import { styled } from "../../../libraries/styles";
 import * as BI from "../../../libraries/bigint";
 import { trpc } from "../../../libraries/trpc";
 
-import { Action, TransactionReceipt } from "../../../types/common";
+import { Action, RPC, TransactionReceipt } from "../../../types/common";
 import { NearAmount } from "../../utils/NearAmount";
 import Gas from "../../utils/Gas";
 import AccountLink from "../common/AccountLink";
@@ -41,6 +41,22 @@ const getDeposit = (actions: Action[]): JSBI => {
     )
     .reduce((accumulator, deposit) => JSBI.add(accumulator, deposit), BI.zero);
 };
+const getGasAttached = (actions: Action[]): JSBI => {
+  const gasAttached = actions
+    .map((action) => action.args)
+    .filter(
+      (args): args is RPC.FunctionCallActionView["FunctionCall"] =>
+        "gas" in args
+    );
+  if (gasAttached.length === 0) {
+    return BI.zero;
+  }
+  return gasAttached.reduce(
+    (accumulator, args) =>
+      JSBI.add(accumulator, JSBI.BigInt(args.gas.toString())),
+    BI.zero
+  );
+};
 
 const InspectReceipt: React.FC<Props> = React.memo(
   ({ receipt: { id, ...receipt } }) => {
@@ -53,10 +69,11 @@ const InspectReceipt: React.FC<Props> = React.memo(
       { accountId: receipt.receiverId, receiptId: id },
     ]);
 
+    const gasAttached = getGasAttached(receipt.actions);
     const refund =
       receipt.outcome.nestedReceipts
         .filter((receipt) => receipt.predecessorId === "system")
-        ?.reduce(
+        .reduce(
           (acc, receipt) => JSBI.add(acc, getDeposit(receipt.actions)),
           BI.zero
         )
@@ -92,17 +109,13 @@ const InspectReceipt: React.FC<Props> = React.memo(
         <tr>
           <TableElement>Attached Gas</TableElement>
           <TableElement>
-            {receipt.actions[0].kind === "functionCall" ? (
-              <Gas gas={JSBI.BigInt(receipt.actions[0].args.gas)} />
-            ) : (
-              "-"
-            )}
+            <Gas gas={gasAttached} />
           </TableElement>
         </tr>
         <tr>
           <TableElement>Gas Burned</TableElement>
           <TableElement>
-            <Gas gas={JSBI.BigInt(receipt.outcome.gasBurnt || 0)} />
+            <Gas gas={JSBI.BigInt(receipt.outcome.gasBurnt)} />
           </TableElement>
         </tr>
         <tr>
@@ -117,7 +130,7 @@ const InspectReceipt: React.FC<Props> = React.memo(
         <tr>
           <TableElement>Refunded</TableElement>
           <TableElement>
-            {refund ? <NearAmount amount={refund} decimalPlaces={2} /> : "0"}
+            <NearAmount amount={refund} decimalPlaces={2} />
           </TableElement>
         </tr>
         <tr>

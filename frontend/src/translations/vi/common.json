@@ -160,6 +160,7 @@
       },
       "processed": "Processed in ${time}",
       "execution_plan": "Execution Plan",
+      "expand_all": "Expand All",
       "tabs": {
         "output": "Output",
         "inspect": "Inspect"

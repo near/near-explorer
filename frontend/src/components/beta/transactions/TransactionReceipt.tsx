@@ -9,6 +9,7 @@ type Props = {
   receipt: TransactionReceipt;
   convertionReceipt: boolean;
   fellowOutgoingReceipts: TransactionReceipt[];
+  className: string;
   customCss?: React.CSSProperties;
   expandAll: boolean;
 };
@@ -21,6 +22,14 @@ const Author = styled("div", {
   fontSize: 14,
   lineHeight: "150%",
   position: "relative",
+});
+
+const Predecessor = styled(Author, {
+  marginBottom: 10,
+});
+
+const Receiver = styled(Author, {
+  marginTop: 10,
 });
 
 const ActionItems = styled("div", {
@@ -53,6 +62,26 @@ const ReceiptWrapper = styled("div", {
       },
     },
   },
+
+  "&.lastFellowReceipt": {
+    paddingBottom: 20,
+    marginTop: 0,
+  },
+
+  "&.lastNonRefundReceipt": {
+    borderLeftColor: "transparent",
+    paddingLeft: 0,
+  },
+
+  variants: {
+    convertionReceipt: {
+      true: {
+        paddingLeft: 0,
+        borderLeftColor: "transparent",
+        marginTop: 0,
+      },
+    },
+  },
 });
 
 const Avatar = styled("div", {
@@ -73,7 +102,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
     receipt,
     convertionReceipt,
     fellowOutgoingReceipts,
-    customCss,
+    className,
     expandAll,
   }) => {
     const [isTxTypeActive, setTxTypeActive] = React.useState(false);
@@ -84,32 +113,25 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
 
     React.useEffect(() => switchActiveTxType, [expandAll]);
 
-    const remainingFellowOutgoingReceipts = [...fellowOutgoingReceipts];
-    const lastFellowOutgoingReceipt = remainingFellowOutgoingReceipts.pop();
-    const nonRefundNestedReceipts = receipt.outcome.nestedReceipts.filter(
+    const remainingFellowOutgoingReceipts = fellowOutgoingReceipts.slice(0, -1);
+    const lastFellowOutgoingReceipt = fellowOutgoingReceipts.at(-1);
+    const filterRefundNestedReceipts = receipt.outcome.nestedReceipts.filter(
       (receipt) => receipt.predecessorId !== "system"
     );
-    const lastNonRefundNestedReceipt = nonRefundNestedReceipts.pop();
+    const nonRefundNestedReceipts = filterRefundNestedReceipts.slice(0, -1);
+    const lastNonRefundNestedReceipt = filterRefundNestedReceipts.at(-1);
 
     return (
       <>
         <ReceiptWrapper
-          style={
-            convertionReceipt
-              ? {
-                  paddingLeft: 0,
-                  borderLeftColor: "transparent",
-                  marginTop: 0,
-                }
-              : {}
-          }
-          css={{ ...customCss }}
+          convertionReceipt={convertionReceipt}
+          className={className}
         >
           {convertionReceipt ? (
-            <Author css={{ marginBottom: 10 }}>
+            <Predecessor>
               <Avatar />
               <span>{receipt.predecessorId}</span>
-            </Author>
+            </Predecessor>
           ) : null}
 
           {lastFellowOutgoingReceipt ? (
@@ -117,7 +139,7 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
               receipt={lastFellowOutgoingReceipt}
               convertionReceipt={false}
               fellowOutgoingReceipts={remainingFellowOutgoingReceipts}
-              customCss={{ paddingBottom: 20, marginTop: 0 }}
+              className="lastFellowReceipt"
               expandAll={expandAll}
             />
           ) : null}
@@ -137,20 +159,17 @@ const TransactionReceiptView: React.FC<Props> = React.memo(
             </ReceiptInfoWrapper>
           ) : null}
 
-          <Author css={{ marginTop: 10 }}>
+          <Receiver>
             <Avatar />
             <span>{receipt.receiverId}</span>
-          </Author>
+          </Receiver>
         </ReceiptWrapper>
         {lastNonRefundNestedReceipt ? (
           <TransactionReceiptView
             receipt={lastNonRefundNestedReceipt}
             convertionReceipt={false}
             fellowOutgoingReceipts={nonRefundNestedReceipts}
-            customCss={{
-              borderLeftColor: "transparent",
-              paddingLeft: 0,
-            }}
+            className="lastNonRefundReceipt"
             expandAll={expandAll}
           />
         ) : null}

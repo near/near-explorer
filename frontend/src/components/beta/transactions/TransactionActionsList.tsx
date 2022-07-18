@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
-import Moment from "../../../libraries/moment";
+import { useFormatDistance } from "../../../hooks/use-format-distance";
 
 import { Transaction } from "../../../types/common";
 
@@ -72,13 +72,13 @@ const TransactionActionsList: React.FC<Props> = React.memo(
       [setExpandAll]
     );
     const { t } = useTranslation();
+    const formatDistance = useFormatDistance();
 
-    const start = Moment(timestamp);
-    const end = Moment(
+    const pending = formatDistance(
+      timestamp,
       receipt.outcome.nestedReceipts[receipt.outcome.nestedReceipts.length - 1]
         ?.outcome.block.timestamp
     );
-    const pending = end.from(start, true);
 
     return (
       <Container>
@@ -93,13 +93,14 @@ const TransactionActionsList: React.FC<Props> = React.memo(
               </span>
             </div>
             <Expand onClick={expandAllReceipts}>
-              Expand All
+              {t("pages.transaction.expand_all")}
               <span>+</span>
             </Expand>
           </TitleWrapper>
           <TransactionReceipt
             receipt={receipt}
             fellowOutgoingReceipts={[]}
+            className=""
             convertionReceipt={true}
             expandAll={expandAll}
           />

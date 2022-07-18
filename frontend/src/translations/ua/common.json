@@ -160,6 +160,7 @@
       },
       "processed": "Виконано за ${time}",
       "execution_plan": "План виконання",
+      "expand_all": "Розкрити всі",
       "tabs": {
         "output": "Підсумок",
         "inspect": "Огляд"

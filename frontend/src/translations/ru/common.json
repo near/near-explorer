@@ -160,6 +160,7 @@
       },
       "processed": "Выполнено за ${time}",
       "execution_plan": "План выполнения",
+      "expand_all": "Раскрыть все",
       "tabs": {
         "output": "Итог",
         "inspect": "Обзор"

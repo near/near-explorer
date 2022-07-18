@@ -238,7 +238,7 @@ export const router = trpc
         .selectFrom("transactions")
         .select([
           "signer_account_id as signerId",
-          (eb) => div(eb, "blocks.block_timestamp", 1000 * 1000, "timestamp"),
+          (eb) => div(eb, "block_timestamp", 1000 * 1000, "timestamp"),
         ])
         .where("transaction_hash", "=", hash)
         .executeTakeFirst();

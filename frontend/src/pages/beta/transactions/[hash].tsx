@@ -9,10 +9,10 @@ import { NextPage } from "next";
 import { Transaction } from "../../../types/common";
 import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
 
-import { trpc } from "../../../libraries/trpc";
-import { styled } from "../../../libraries/styles";
 import TransactionHeader from "../../../components/beta/transactions/TransactionHeader";
 import TransactionActionsList from "../../../components/beta/transactions/TransactionActionsList";
+import { trpc } from "../../../libraries/trpc";
+import { styled } from "../../../libraries/styles";
 
 type Props = {
   hash: string;
