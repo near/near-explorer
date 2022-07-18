@@ -156,6 +156,10 @@ jobs:
         with:
           name: pr-stats
           path: stats/pr
+      - name: debug-2
+        run: ls -a stats/base || exit 0
+      - name: debug-3
+        run: ls -a stats/pr/server/chunks || exit 0
       - name: Get client diff
         id: get-client-diff
         uses: NejcZdovc/bundle-size-diff@v1
