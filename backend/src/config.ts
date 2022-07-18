@@ -16,6 +16,7 @@ NEAR_EXPLORER_CONFIG__ACCOUNT_ID_SUFFIX__STAKING_POOL__LOCALNET
 export const config = merge(
   {
     archivalRpcUrl: "http://localhost:3030",
+    archivalRpcApiKey: "",
     networkName: "localnet" as NetworkName,
     accountIdSuffix: {
       lockup: "lockup.near",

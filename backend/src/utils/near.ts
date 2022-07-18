@@ -6,6 +6,9 @@ import { RPC } from "../types";
 
 const nearRpc = new nearApi.providers.JsonRpcProvider({
   url: config.archivalRpcUrl,
+  headers: config.archivalRpcApiKey
+    ? { "x-api-key": config.archivalRpcApiKey }
+    : undefined,
 });
 
 export const sendJsonRpc = <M extends keyof RPC.ResponseMapping>(
