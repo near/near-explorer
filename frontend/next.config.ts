@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 import type {
   BackendConfig,
   ExplorerConfig,
@@ -7,6 +8,14 @@ import type {
 import { merge, cloneDeep } from "lodash";
 import { getOverrides } from "./src/libraries/common";
 import type { NetworkName } from "./src/types/common";
+// @ts-ignore
+import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+
+const statsOptions = {
+  baseDir: "stats",
+  enabled: Boolean(process.env.STATS),
+  openAnalyzer: Boolean(process.env.OPEN_ANALYZER),
+};
 
 const defaultBackendConfig: BackendConfig = {
   hosts: {
@@ -52,6 +61,20 @@ const nextConfig: ExplorerConfig & NextConfig = {
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
+    if (statsOptions.enabled) {
+      config.plugins.push(
+        // Analyzer with foam plot
+        new BundleAnalyzerPlugin({
+          analyzerMode: "static",
+          openAnalyzer: statsOptions.openAnalyzer,
+          reportFilename: isServer
+            ? path.join(statsOptions.baseDir, "./server.html")
+            : path.join(statsOptions.baseDir, "./client.html"),
+          generateStatsFile: true,
+        })
+      );
+    }
+
     return config;
   },
   experimental: {
