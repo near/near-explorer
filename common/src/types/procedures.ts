@@ -38,6 +38,8 @@ export type TransactionOld = NonNullable<
 export type NestedReceiptWithOutcome = TransactionOld["receipt"];
 export type TransactionOutcome = TransactionOld["outcome"];
 
+export type FungibleTokenItem = TRPCQueryOutput<"fungibleTokens.list">[number];
+
 export type DeployInfo = TRPCQueryOutput<"utils.deployInfo">;
 
 export type ValidatorFullData = TRPCSubscriptionOutput<"validators">[number];
