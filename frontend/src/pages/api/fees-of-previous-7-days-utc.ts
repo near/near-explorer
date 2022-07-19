@@ -1,5 +1,5 @@
-import moment from "moment";
 import { NextApiHandler } from "next";
+import { format } from "date-fns";
 import { getNearNetworkName } from "../../libraries/config";
 import { getTrpcClient } from "../../libraries/trpc";
 
@@ -17,7 +17,7 @@ const handler: NextApiHandler = async (req, res) => {
         return;
       }
       resp.push({
-        date: moment(tokensBurntPerDay.timestamp).format("YYYY-MM-DD"),
+        date: format(tokensBurntPerDay.timestamp, "yyyy-MM-dd"),
         collected_fee_in_yoctonear: tokensBurntPerDay.tokensBurnt,
       });
     }

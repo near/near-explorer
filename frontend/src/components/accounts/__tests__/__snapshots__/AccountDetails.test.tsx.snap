@@ -1016,7 +1016,7 @@ exports[`<AccountDetails /> renders with account deletion at 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              co00on.6amt6_ti06.6amt6_ti06_for0amt
+              2019-02-02T00:00:00Z formatted by common.date_time.date_time_format
             </div>
           </div>
         </div>
@@ -1408,7 +1408,7 @@ exports[`<AccountDetails /> renders with lockup account 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              co00on.5amt5_ti05.5amt5_ti05_for0amt
+              2019-02-01T00:00:00Z formatted by common.date_time.date_time_format
             </div>
           </div>
         </div>
@@ -1749,7 +1749,7 @@ exports[`<AccountDetails /> renders without lockup account 1`] = `
             <div
               className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
             >
-              co00on.5amt5_ti05.5amt5_ti05_for0amt
+              2019-02-01T00:00:00Z formatted by common.date_time.date_time_format
             </div>
           </div>
         </div>

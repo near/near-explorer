@@ -8,7 +8,7 @@ import {
   AccountFungibleTokenHistoryElement,
 } from "../../../types/common";
 import { trpc } from "../../../libraries/trpc";
-import moment from "moment";
+import { useDateFormat } from "../../../hooks/use-date-format";
 import { useTranslation } from "react-i18next";
 import { TokenAmount } from "../../utils/TokenAmount";
 import LinkWrapper from "../../utils/Link";
@@ -81,6 +81,7 @@ type ItemProps = {
 const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
   ({ item, token, balance }) => {
     const { t } = useTranslation();
+    const format = useDateFormat();
     return (
       <TableRow>
         <Link
@@ -123,7 +124,7 @@ const AccountFungibleTokenHistoryElementView: React.FC<ItemProps> = React.memo(
           <TableElement>{shortenString(item.receiptId)}</TableElement>
         </Link>
         <TableElement>
-          {moment(item.timestamp).format(t("common.date_time.date_format"))}
+          {format(item.timestamp, t("common.date_time.date_format"))}
         </TableElement>
       </TableRow>
     );

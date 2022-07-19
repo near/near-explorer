@@ -5,7 +5,6 @@
  * - https://github.com/near/near-wallet/blob/master/src/utils/getUserLocale.js
  */
 
-import moment from "./moment";
 import Cookies from "universal-cookie";
 import { DEFAULT_LANGUAGE, Language } from "./i18n";
 
@@ -101,21 +100,6 @@ function findBestSupportedLanguage(
   if (Object.keys(matchedLanguages).length > 0) {
     return Object.values(matchedLanguages).sort((a, b) => b.score - a.score)[0]
       .language;
-  }
-}
-
-export function setMomentLanguage(language: Language): string {
-  switch (language) {
-    case "en":
-      return moment.locale("en");
-    case "ru":
-      return moment.locale("ru");
-    case "vi":
-      return moment.locale("vi");
-    case "zh-Hans":
-      return moment.locale("zh-cn");
-    case "uk":
-      return moment.locale("uk");
   }
 }
 

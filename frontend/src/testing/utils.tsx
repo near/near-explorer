@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactQuery from "react-query";
+import { i18n } from "i18next";
 import { setI18n } from "react-i18next";
 import renderer, {
   ReactTestRenderer,
@@ -7,9 +8,9 @@ import renderer, {
 } from "react-test-renderer";
 import fetch from "isomorphic-fetch";
 import { NetworkContext } from "../context/NetworkContext";
-import { setMomentLanguage } from "../libraries/language";
 import { LanguageContext } from "../context/LanguageContext";
 import { trpc } from "../libraries/trpc";
+import { Locale } from "../libraries/date-locale";
 
 const networkContext: NetworkContext = {
   networkName: "localnet",
@@ -21,22 +22,27 @@ const networkContext: NetworkContext = {
   },
 };
 
+// Variables were set in testing/env.ts
+declare global {
+  var i18nInstance: i18n;
+  var locale: Locale;
+}
+
 export const renderElement = (
   nextElement: React.ReactNode,
   options?: TestRendererOptions
 ): ReactTestRenderer => {
-  // Instance was set to global in testing/env.ts
-  setI18n((global as any).i18nInstance);
-  setMomentLanguage("en");
+  setI18n(global.i18nInstance);
   let root: ReactTestRenderer;
   const queryClient = new ReactQuery.QueryClient();
   const client = trpc.createClient({
     url: "http://localhost/",
     fetch,
   });
-  const languageContext = {
-    language: "en" as const,
+  const languageContext: LanguageContext = {
+    language: "en",
     setLanguage: () => {},
+    locale: global.locale,
   };
   renderer.act(() => {
     root = renderer.create(

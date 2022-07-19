@@ -1,5 +1,5 @@
 import JSBI from "jsbi";
-import moment from "../../libraries/moment";
+import { useDateFormat } from "../../hooks/use-date-format";
 
 import { Row, Col } from "react-bootstrap";
 import * as React from "react";
@@ -132,6 +132,7 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
   }, [transaction.actions]);
 
   const latestBlockSub = useSubscription(["latestBlock"]);
+  const format = useDateFormat();
 
   return (
     <TransactionInfoContainer>
@@ -293,7 +294,8 @@ const TransactionDetails: React.FC<Props> = React.memo(({ transaction }) => {
                 href={"https://docs.near.org/docs/concepts/transaction"}
               />
             }
-            text={moment(transaction.blockTimestamp).format(
+            text={format(
+              transaction.blockTimestamp,
               t("common.date_time.date_time_format")
             )}
             className="border-0"

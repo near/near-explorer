@@ -88,7 +88,7 @@ exports[`<BlocksRow /> renders 1`] = `
             </span>
               
             <span>
-              1s ago
+              0s
             </span>
           </div>
         </div>

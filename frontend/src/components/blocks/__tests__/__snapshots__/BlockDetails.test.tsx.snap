@@ -279,7 +279,7 @@ exports[`<BlockDetails /> renders 1`] = `
               <div
                 className="c-CardCellText-eLcwWo ml-auto align-self-center col-md-12 col-auto"
               >
-                co00on.5amt5_ti05.5amt5_ti05_for0amt
+                2019-02-01T00:00:00Z formatted by common.date_time.date_time_format
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import moment from "moment";
+import { formatDuration, intervalToDuration } from "date-fns";
 import { ValidatorEpochData, ValidatorPoolInfo } from "../router/types";
 import { config } from "../config";
 import {
@@ -418,9 +418,12 @@ export const rpcStatusCheck: RegularCheckFn = {
       if (latestBlockTime.valueOf() + RPC_BLOCK_AFFORDABLE_LAG < now) {
         context.state.rpcStatus = {
           ok: false,
-          message: `RPC doesn't report any new blocks for ${moment
-            .duration(RPC_BLOCK_AFFORDABLE_LAG)
-            .humanize()}`,
+          message: `RPC doesn't report any new blocks for ${formatDuration(
+            intervalToDuration({
+              start: now - RPC_BLOCK_AFFORDABLE_LAG,
+              end: now,
+            })
+          )}`,
           timestamp: now,
         };
       } else {
@@ -459,9 +462,12 @@ export const indexerStatusCheck: RegularCheckFn = {
         if (latestBlock.timestamp + INDEXER_BLOCK_AFFORDABLE_LAG < now) {
           context.state.indexerStatus = {
             ok: false,
-            message: `Indexer doesn't report any new blocks for ${moment
-              .duration(INDEXER_BLOCK_AFFORDABLE_LAG)
-              .humanize()}`,
+            message: `Indexer doesn't report any new blocks for ${formatDuration(
+              intervalToDuration({
+                start: now - INDEXER_BLOCK_AFFORDABLE_LAG,
+                end: now,
+              })
+            )}`,
             timestamp: now,
           };
         } else {

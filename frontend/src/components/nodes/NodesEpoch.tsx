@@ -1,5 +1,5 @@
 import * as React from "react";
-import moment from "moment";
+import { useDateFormat } from "../../hooks/use-date-format";
 
 import { Row, Col } from "react-bootstrap";
 
@@ -8,6 +8,7 @@ import ProgressBar from "../utils/ProgressBar";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../libraries/styles";
 import { useSubscription } from "../../hooks/use-subscription";
+import { parseISO } from "date-fns";
 
 const NodesEpochContent = styled(Col, {
   margin: "15px 0",
@@ -51,6 +52,7 @@ const NodesEpoch: React.FC<Props> = React.memo(
   ({ epochStartHeight, epochLength, epochStartTimestamp }) => {
     const { t } = useTranslation();
     const latestBlockSub = useSubscription(["latestBlock"]);
+    const format = useDateFormat();
     if (latestBlockSub.status !== "success") {
       return null;
     }
@@ -93,7 +95,7 @@ const NodesEpoch: React.FC<Props> = React.memo(
                 {epochProgress.toFixed(0)}
                 {"% " + t("component.nodes.NodesEpoch.complete")}
               </TextValueRemainedPercent>
-              {` (${moment.utc(timeRemaining).format("HH:mm:ss")} ${t(
+              {` (${format(timeRemaining, "HH:mm:ss", { utc: true })} ${t(
                 "component.nodes.NodesEpoch.remaining"
               )})`}
             </Col>

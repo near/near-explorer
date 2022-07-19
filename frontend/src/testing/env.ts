@@ -1,6 +1,7 @@
 import i18next from "i18next";
 import { initReactI18next } from "react-i18next";
 import JSDomEnvironment from "jest-environment-jsdom";
+import { getDateLocale } from "../libraries/date-locale";
 
 export default class extends JSDomEnvironment {
   async setup() {
@@ -10,7 +11,8 @@ export default class extends JSDomEnvironment {
       lng: "cimode",
       resources: {},
     });
-    // Will use this instance in renderElement
+    // Will use this variables in renderElement
     this.global.i18nInstance = i18nInstance;
+    this.global.locale = await getDateLocale("cimode");
   }
 }

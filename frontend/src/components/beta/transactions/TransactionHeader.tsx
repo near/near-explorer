@@ -2,13 +2,13 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "../../../libraries/styles";
 import { shortenString } from "../../../libraries/formatting";
-import Moment from "../../../libraries/moment";
 
 import CopyToClipboard from "../../beta/common/CopyToClipboard";
 import { NearAmount } from "../../utils/NearAmount";
 import TransactionStatus from "./TransactionStatus";
 import { Transaction } from "../../../types/common";
 import UtcLabel from "../common/UtcLabel";
+import { useDateFormat } from "../../../hooks/use-date-format";
 
 type Props = {
   transaction: Transaction;
@@ -93,6 +93,7 @@ const Amount = styled("div", {
 
 const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
   const { t } = useTranslation();
+  const format = useDateFormat();
   return (
     <Wrapper>
       <BaseInfo>
@@ -138,7 +139,8 @@ const TransactionHeader: React.FC<Props> = React.memo(({ transaction }) => {
           <AmountHeader>{t("pages.transaction.header.when")}</AmountHeader>
           <Amount>
             <CenteredContainer>
-              {Moment(transaction.timestamp).format(
+              {format(
+                transaction.timestamp,
                 t("common.date_time.transaction_date_format")
               )}
               <UtcLabel />

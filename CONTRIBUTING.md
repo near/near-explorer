@@ -62,7 +62,7 @@ Here is an artificial example:
 import url from "url";
 
 import JSBI from "jsbi";
-import moment from "moment";
+import * as dateFns from "date-fns";
 
 import Head from "next/head";
 import Link from "next/link";

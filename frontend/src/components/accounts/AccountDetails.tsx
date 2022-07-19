@@ -1,5 +1,4 @@
-import moment from "moment";
-
+import { useDateFormat } from "../../hooks/use-date-format";
 import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
@@ -182,6 +181,7 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
     "account.transactionsCount",
     { id: account.accountId },
   ]);
+  const format = useDateFormat();
 
   return (
     <AccountInfoContainer>
@@ -254,7 +254,8 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                   "Genesis"
                 ) : (
                   <>
-                    {moment(account.created.timestamp).format(
+                    {format(
+                      account.created.timestamp,
                       t("common.date_time.date_time_format")
                     )}
                   </>
@@ -307,7 +308,8 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
               }
               text={
                 <>
-                  {moment(account.deleted.timestamp).format(
+                  {format(
+                    account.deleted.timestamp,
                     t("common.date_time.date_time_format")
                   )}
                 </>

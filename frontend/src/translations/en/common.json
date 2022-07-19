@@ -71,10 +71,10 @@
       "no": "No"
     },
     "date_time": {
-      "date_time_format": "MMMM DD, YYYY [at] h:mm:ssa",
-      "date_format": "MMMM DD, YYYY",
-      "time_format": "[at] h:mm:ssa",
-      "transaction_date_format": "DD/MM/YYYY h:mm"
+      "date_time_format": "MMMM dd, yyyy 'at' h:mm:ssaaa",
+      "date_format": "MMMM dd, yyyy",
+      "time_format": "'at' h:mm:ssaaa",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
     },
     "terms": {
       "genesis": "Genesis"
@@ -110,7 +110,7 @@
   "pages": {
     "account": {
       "header": {
-        "createdAt": "Created: ${fromNow}",
+        "createdAt": "Created: <Timer />",
         "storageUsed": "Storage used: ${amount}",
         "accountType": {
           "user": "User",
