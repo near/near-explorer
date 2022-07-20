@@ -14,6 +14,8 @@ export const getDateLocale = async (
       return (await import("./locales/ru")).locale;
     case "vi":
       return (await import("./locales/vi")).locale;
+    case "zh-Hant":
+      return (await import("./locales/zh-Hant")).locale;
     case "zh-Hans":
       return (await import("./locales/zh-Hans")).locale;
     case "uk":
