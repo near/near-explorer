@@ -45,7 +45,11 @@ const DashboardNode: React.FC = React.memo(() => {
             loading={onlineNodesCountSub.status === "loading"}
             text={
               onlineNodesCountSub.status === "success"
-                ? onlineNodesCountSub.data.toLocaleString()
+                ? onlineNodesCountSub.data === 0
+                  ? t(
+                      "component.dashboard.DashboardNode.nodes_validating.unavailable"
+                    )
+                  : onlineNodesCountSub.data.toLocaleString()
                 : null
             }
           />

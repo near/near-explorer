@@ -10,11 +10,20 @@ const regularTasks = [
   tasks.recentTransactionsCountCheck,
   tasks.onlineNodesCountCheck,
   tasks.genesisProtocolInfoFetch,
-  tasks.transactionCountHistoryCheck,
-  tasks.statsAggregationCheck,
+  tasks.transactionsHistoryCheck,
+  tasks.gasUsedHistoryCheck,
+  tasks.contractsHistoryCheck,
+  tasks.activeContractsHistoryCheck,
+  tasks.activeContractsListCheck,
+  tasks.accountsHistoryCheck,
+  tasks.activeAccountsHistoryCheck,
+  tasks.activeAccountsListCheck,
   tasks.networkInfoCheck,
   tasks.stakingPoolMetadataInfoCheck,
   tasks.poolIdsCheck,
+  tasks.tokensSupplyCheck,
+  tasks.rpcStatusCheck,
+  tasks.indexerStatusCheck,
 ];
 
 export const runTasks = (context: Context) => {

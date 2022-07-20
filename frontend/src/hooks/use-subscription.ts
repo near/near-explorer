@@ -11,7 +11,7 @@ import {
 import { trpc } from "../libraries/trpc";
 import { subscribe } from "../libraries/subscriptions";
 
-export type UseSubcriptionResult<R> = StableOmit<
+export type UseSubscriptionResult<R> = StableOmit<
   ReactQuery.QueryObserverResult<R, TRPCError>,
   | "isStale"
   | "isPlaceholderData"
@@ -28,7 +28,7 @@ export type UseSubcriptionResult<R> = StableOmit<
 
 export type UseSubscriptionResultByTopic<
   TPath extends TRPCSubscriptionKey & string
-> = UseSubcriptionResult<TRPCSubscriptionOutput<TPath>>;
+> = UseSubscriptionResult<TRPCSubscriptionOutput<TPath>>;
 
 const useSubscriptionClient = <TPath extends TRPCSubscriptionKey & string>(
   pathAndInput: [path: TPath, ...args: TRPCSubscriptionInputs<TPath>],

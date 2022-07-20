@@ -16,12 +16,14 @@ NEAR_EXPLORER_CONFIG__ACCOUNT_ID_SUFFIX__STAKING_POOL__LOCALNET
 export const config = merge(
   {
     archivalRpcUrl: "http://localhost:3030",
+    archivalRpcApiKey: "",
     networkName: "localnet" as NetworkName,
     accountIdSuffix: {
       lockup: "lockup.near",
       stakingPool: {
         mainnet: ".poolv1.near",
         testnet: undefined,
+        shardnet: undefined,
         guildnet: undefined,
         localnet: undefined,
       } as Record<NetworkName, string | undefined>,
@@ -37,9 +39,12 @@ export const config = merge(
       checkStakingPoolInfo: 15 * SECOND,
       checkStakingPoolStakeProposal: MINUTE,
       checkValidatorDescriptions: 10 * MINUTE,
-      checkTransactionCountHistory: 10 * MINUTE,
+      checkTransactionHistory: HOUR,
       checkAggregatedStats: HOUR,
       checkPoolIds: 10 * MINUTE,
+      checkTokensSupply: HOUR,
+      checkRpcStatus: 10 * SECOND,
+      checkIndexerStatus: 10 * SECOND,
     },
     timeouts: {
       timeoutStakingPoolsInfo: MINUTE,

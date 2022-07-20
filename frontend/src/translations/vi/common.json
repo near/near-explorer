@@ -20,11 +20,9 @@
       "transaction": "Giao dịch",
       "transactions": "Các giao dịch",
       "status": {
-        "fetching_status": "Đang lấy thông tin Trạng thái...",
-        "NotStarted": "Chưa bắt đầu",
-        "Started": "Đã bắt đầu",
-        "Failure": "Thất bại",
-        "SuccessValue": "Thành công"
+        "unknown": "Xử lý...",
+        "failure": "Thất bại",
+        "success": "Thất bại"
       },
       "execution": {
         "convert_transaction_to_receipt": "Chuyển Giao Dịch Thành Biên Nhận",
@@ -43,10 +41,10 @@
       "predecessor_id": "ID Người tiền nhiệm",
       "receiver_id": "ID Người nhận",
       "status": {
-        "Unknown": "Không xác định",
-        "Failure": "Thất bại",
-        "SuccessValue": "Thành công",
-        "SuccessReceiptId": "Thành công"
+        "unknown": "Không xác định",
+        "failure": "Thất bại",
+        "successValue": "Thành công",
+        "successReceiptId": "Thành công"
       }
     },
     "contracts": {
@@ -73,9 +71,13 @@
       "no": "Không"
     },
     "date_time": {
-      "date_time_format": "Do MMMM YYYY, h:mm:ss a",
-      "date_format": "Do MMMM YYYY",
-      "time_format": "h:mm:ss a"
+      "date_time_format": "do MMMM yyyy, h:mm:ss aaa",
+      "date_format": "do MMMM yyyy",
+      "time_format": "h:mm:ss aaa",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
+    },
+    "terms": {
+      "genesis": "Genesis"
     }
   },
   "page": {
@@ -102,6 +104,43 @@
       "transaction_execution_plan": "Kế hoạch Thực thi Giao dịch",
       "error": {
         "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+      }
+    }
+  },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Created: <Timer />",
+        "storageUsed": "Storage used: ${amount}",
+        "accountType": {
+          "user": "User",
+          "contract": "Contract"
+        },
+        "amounts": {
+          "balance": "Balance",
+          "staked": "Staked",
+          "transactions": "Transactions"
+        }
+      },
+      "tabs": {
+        "activity": "Activity",
+        "tokens": "Tokens",
+        "collectibles": "Collectibles",
+        "accessKeys": "Access Keys",
+        "lockedUp": "Locked up"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Total Fee",
+        "amount": "Amount",
+        "when": "When"
+      },
+      "status": {
+        "fetching": "Đang lấy thông tin Trạng thái...",
+        "fail": "Thất bại",
+        "success": "Thành công"
       }
     }
   },
@@ -237,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "Khóa mới đã thêm cho ",
-          "with_permission_and_nounce": "với thẩm quyền ${permission} và số nonce ${nonce}",
+          "fullAccessPermission": "với thẩm quyền full access",
           "access_key_added_for_contract": "Đã thêm khóa truy cập cho hợp đồng ",
           "with_permission_call_method_and_nounce": "với thẩm quyền gọi các method ${methods} và số nonce ${nonce}",
           "any": "bất kì"
@@ -429,7 +468,8 @@
         },
         "nodes_validating": {
           "title": "Node đang xác thực",
-          "text": "Tổng số lượng node đang xác thực."
+          "text": "Tổng số lượng node đang xác thực.",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardBlock": {
@@ -439,7 +479,8 @@
         },
         "avg_block_time": {
           "title": "Thời gian khối trung bình",
-          "text": "Thời gian trung bình để tạo ra một khối."
+          "text": "Thời gian trung bình để tạo ra một khối.",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardTransaction": {
@@ -456,8 +497,7 @@
         "14_day_history": {
           "title": "Lịch sử 14 ngày",
           "transactions": "GD"
-        },
-        "date_format": "MMM D"
+        }
       }
     },
     "stats": {

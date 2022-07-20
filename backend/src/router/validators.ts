@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const validators = {
   transactionPagination: z.strictObject({
-    endTimestamp: z.number().positive(),
-    transactionIndex: z.number().gte(0),
+    timestamp: z.string(),
+    indexInChunk: z.number().gte(0),
   }),
   accountPagination: z.number(),
   blockPagination: z.number(),
@@ -14,7 +14,7 @@ export const validators = {
   transactionHash: z.string(),
   limit: z.number().positive(),
   telemetryRequest: z.object({
-    ip_address: z.string(),
+    ipAddress: z.string(),
     signature: z.string().optional(),
     agent: z.object({
       name: z.string(),

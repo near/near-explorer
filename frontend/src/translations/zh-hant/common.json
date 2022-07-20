@@ -105,6 +105,43 @@
       }
     }
   },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Created: <Timer />",
+        "storageUsed": "Storage used: ${amount}",
+        "accountType": {
+          "user": "User",
+          "contract": "Contract"
+        },
+        "amounts": {
+          "balance": "Balance",
+          "staked": "Staked",
+          "transactions": "Transactions"
+        }
+      },
+      "tabs": {
+        "activity": "Activity",
+        "tokens": "Tokens",
+        "collectibles": "Collectibles",
+        "accessKeys": "Access Keys",
+        "lockedUp": "Locked up"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Total Fee",
+        "amount": "Amount",
+        "when": "When"
+      },
+      "status": {
+        "fetching": "獲取狀態...",
+        "fail": "失敗",
+        "success": "成功"
+      }
+    }
+  },
   "component": {
     "nodes": {
       "Validators": {
@@ -421,45 +458,6 @@
         }
       }
     },
-    "dashboard": {
-      "DashboardNode": {
-        "nodes_online": {
-          "title": "在線節點",
-          "text": "在線節點的總數"
-        },
-        "nodes_validating": {
-          "title": "正在驗證的節點",
-          "text": "正在驗證的節點的總數"
-        }
-      },
-      "DashboardBlock": {
-        "block_height": {
-          "title": "區塊高度",
-          "text": "<p>最新記錄到區塊鏈上的區塊的高度。</p><p>區塊高度是區塊鏈上最新的快的序號。</p><p>例如，區塊高度為1000意味著至多已經有1001個區塊存在在區塊鏈上（創世區塊 + 隨後的1000個區塊）。在NEAR上，不能保證每個序號都有對應的區塊產生，比如序號為982的區塊並不一定存在。</p>"
-        },
-        "avg_block_time": {
-          "title": "平均出塊時間",
-          "text": "產生一個區快的平均時間"
-        }
-      },
-      "DashboardTransaction": {
-        "24h_total": {
-          "title": "24小時總數",
-          "text": "過於24小時內的交易數量。"
-        },
-        "gas_price": {
-          "title": "Gas價格",
-          "text": "Tgas (TerraGas) 是 10^12 個單位Gas. 由於如果用 NEAR 計費，Gas的數字會相當小，所以TGas是更常用的。"
-        }
-      },
-      "DashboardTransactionHistoryChart": {
-        "14_day_history": {
-          "title": "過去14天歷史",
-          "transactions": "交易數"
-        },
-        "date_format": "MoDo"
-      }
-    },
     "stats": {
       "ProtocolConfigInfo": {
         "first_produced_block": "First produced block",
@@ -519,6 +517,45 @@
       },
       "ActiveContractsList": {
         "title": "過去14天最活躍的10個合約"
+      }
+    },
+    "dashboard": {
+      "DashboardNode": {
+        "nodes_online": {
+          "title": "在線節點",
+          "text": "在線節點的總數"
+        },
+        "nodes_validating": {
+          "title": "正在驗證的節點",
+          "text": "正在驗證的節點的總數"
+        }
+      },
+      "DashboardBlock": {
+        "block_height": {
+          "title": "區塊高度",
+          "text": "<p>最新記錄到區塊鏈上的區塊的高度。</p><p>區塊高度是區塊鏈上最新的快的序號。</p><p>例如，區塊高度為1000意味著至多已經有1001個區塊存在在區塊鏈上（創世區塊 + 隨後的1000個區塊）。在NEAR上，不能保證每個序號都有對應的區塊產生，比如序號為982的區塊並不一定存在。</p>"
+        },
+        "avg_block_time": {
+          "title": "平均出塊時間",
+          "text": "產生一個區快的平均時間"
+        }
+      },
+      "DashboardTransaction": {
+        "24h_total": {
+          "title": "24小時總數",
+          "text": "過於24小時內的交易數量。"
+        },
+        "gas_price": {
+          "title": "Gas價格",
+          "text": "Tgas (TerraGas) 是 10^12 個單位Gas. 由於如果用 NEAR 計費，Gas的數字會相當小，所以TGas是更常用的。"
+        }
+      },
+      "DashboardTransactionHistoryChart": {
+        "14_day_history": {
+          "title": "過去14天歷史",
+          "transactions": "交易數"
+        },
+        "date_format": "MoDo"
       }
     },
     "utils": {

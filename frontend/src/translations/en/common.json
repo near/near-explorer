@@ -20,11 +20,9 @@
       "transaction": "Transaction",
       "transactions": "Transactions",
       "status": {
-        "fetching_status": "Fetching Status...",
-        "NotStarted": "Not started",
-        "Started": "Started",
-        "Failure": "Failed",
-        "SuccessValue": "Succeeded"
+        "unknown": "In progress...",
+        "failure": "Failed",
+        "success": "Succeeded"
       },
       "execution": {
         "convert_transaction_to_receipt": "Convert Transaction To Receipt",
@@ -43,10 +41,10 @@
       "predecessor_id": "Predecessor ID",
       "receiver_id": "Receiver ID",
       "status": {
-        "Unknown": "Unknown",
-        "Failure": "Failed",
-        "SuccessValue": "Succeeded",
-        "SuccessReceiptId": "Succeeded"
+        "unknown": "Unknown",
+        "failure": "Failed",
+        "successValue": "Succeeded",
+        "successReceiptId": "Succeeded"
       }
     },
     "contracts": {
@@ -73,9 +71,13 @@
       "no": "No"
     },
     "date_time": {
-      "date_time_format": "MMMM DD, YYYY [at] h:mm:ssa",
-      "date_format": "MMMM DD, YYYY",
-      "time_format": "[at] h:mm:ssa"
+      "date_time_format": "MMMM dd, yyyy 'at' h:mm:ssaaa",
+      "date_format": "MMMM dd, yyyy",
+      "time_format": "'at' h:mm:ssaaa",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
+    },
+    "terms": {
+      "genesis": "Genesis"
     }
   },
   "page": {
@@ -102,6 +104,43 @@
       "transaction_execution_plan": "Transaction Execution Plan",
       "error": {
         "transaction_fetching": "Information is not available at the moment. Please, check if the transaction hash is correct or try later."
+      }
+    }
+  },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Created: <Timer />",
+        "storageUsed": "Storage used: ${amount}",
+        "accountType": {
+          "user": "User",
+          "contract": "Contract"
+        },
+        "amounts": {
+          "balance": "Balance",
+          "staked": "Staked",
+          "transactions": "Transactions"
+        }
+      },
+      "tabs": {
+        "activity": "Activity",
+        "tokens": "Tokens",
+        "collectibles": "Collectibles",
+        "accessKeys": "Access Keys",
+        "lockedUp": "Locked up"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Total Fee",
+        "amount": "Amount",
+        "when": "When"
+      },
+      "status": {
+        "fetching": "Fetching Status...",
+        "fail": "Failed",
+        "success": "Success"
       }
     }
   },
@@ -237,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "New key added for ",
-          "with_permission_and_nounce": "with permission ${permission}",
+          "fullAccessPermission": "with full access permission",
           "access_key_added_for_contract": "Access key added for contract ",
           "with_permission_call_method_and_nounce": "with permission to call ${methods} methods",
           "any": "any"
@@ -429,7 +468,8 @@
         },
         "nodes_validating": {
           "title": "Node validating",
-          "text": "Total number of validating nodes."
+          "text": "Total number of validating nodes.",
+          "unavailable": "Temporary unavailable"
         }
       },
       "DashboardBlock": {
@@ -439,7 +479,8 @@
         },
         "avg_block_time": {
           "title": "Avg block time",
-          "text": "Average time for producing one block."
+          "text": "Average time for producing one block.",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardTransaction": {
@@ -456,8 +497,7 @@
         "14_day_history": {
           "title": "14 Day History",
           "transactions": "Txns"
-        },
-        "date_format": "MMM D"
+        }
       }
     },
     "stats": {

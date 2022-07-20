@@ -39,6 +39,7 @@
     "classnames": "^2.3.1",
     "country-data": "0.0.31",
     "d3": "^5.16.0",
+    "date-fns": "^2.28.0",
     "dotenv-cli": "^5.0.0",
     "echarts": "^5.2.2",
     "echarts-for-react": "^3.0.1",
@@ -48,7 +49,6 @@
     "json-2-prom": "1.0.3",
     "lodash": "^4.17.21",
     "mixpanel-browser": "^2.42.0",
-    "moment": "^2.29.2",
     "next": "^12.1.0",
     "rc-progress": "^3.1.4",
     "react": "^17.0.2",
@@ -58,6 +58,7 @@
     "react-country-flag": "^3.0.2",
     "react-dom": "^17.0.2",
     "react-flip-move": "^3.0.3",
+    "react-hot-toast": "^2.2.0",
     "react-i18next": "^11.15.1",
     "react-infinite-scroll-component": "^5.1.0",
     "react-paginate": "^7.1.5",
@@ -92,6 +93,7 @@
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2",
     "url-loader": "^1.1.2",
-    "wait-on": "^3.3.0"
+    "wait-on": "^3.3.0",
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

@@ -2,9 +2,7 @@ import { exec } from "child_process";
 import { promisify } from "util";
 
 const universalExec: typeof exec =
-  typeof window === "undefined"
-    ? exec
-    : (((() => {}) as unknown) as typeof exec);
+  typeof window === "undefined" ? exec : ((() => {}) as unknown as typeof exec);
 const promisifiedExec = promisify(universalExec);
 
 const isGitDirectory = async () => {

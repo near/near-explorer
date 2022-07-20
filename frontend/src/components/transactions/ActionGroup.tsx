@@ -6,10 +6,10 @@ import ActionRow from "./ActionRow";
 import ActionRowBlock, { ViewMode } from "./ActionRowBlock";
 import ActionsList from "./ActionsList";
 import { useSubscription } from "../../hooks/use-subscription";
-import { Receipt, TransactionBaseInfo } from "../../types/common";
+import { Receipt, TransactionPreview } from "../../types/common";
 
 interface Props {
-  actionGroup: Receipt | TransactionBaseInfo;
+  actionGroup: Receipt | TransactionPreview;
   detailsLink?: React.ReactNode;
   status?: React.ReactNode;
   viewMode?: ViewMode;

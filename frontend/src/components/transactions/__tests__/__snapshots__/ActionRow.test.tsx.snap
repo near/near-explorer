@@ -92,7 +92,7 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
             </span>
             : ed25519:8LXEySy...
             <p>
-              component.transactions.ActionMessage.AddKey.with_permission_and_nounce
+              component.transactions.ActionMessage.AddKey.fullAccessPermission
             </p>
           </div>
         </div>
@@ -155,7 +155,7 @@ exports[`<ActionRow /> renders compact for transaction 1`] = `
             </span>
              
             <span>
-              1s ago
+              0s
             </span>
           </div>
         </div>
@@ -286,7 +286,7 @@ exports[`<ActionRow /> renders functioncall with detail 1`] = `
             </span>
              
             <span>
-              1s ago
+              0s
             </span>
           </div>
         </div>
@@ -393,12 +393,12 @@ exports[`<ActionRow /> renders sparsely ActionRow for receipt 1`] = `
             <span
               className="c-ActionRowTimerStatus-cJbzxd"
             >
-              common.transactions.status.SuccessValue
+              common.transactions.status.success
               /common.blocks.status.checking_finality
             </span>
              
             <span>
-              in 2y
+              2y past
             </span>
           </div>
         </div>
@@ -510,7 +510,7 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction by default 1`]
             </span>
              
             <span>
-              1s ago
+              0s
             </span>
           </div>
         </div>
@@ -617,12 +617,12 @@ exports[`<ActionRow /> renders sparsely ActionRow for transaction with status 1`
             <span
               className="c-ActionRowTimerStatus-cJbzxd"
             >
-              common.transactions.status.SuccessValue
+              common.transactions.status.success
               /common.blocks.status.checking_finality
             </span>
              
             <span>
-              1s ago
+              0s
             </span>
           </div>
         </div>

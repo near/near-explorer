@@ -12,7 +12,8 @@ async function main(router: AppRouter): Promise<void> {
   const context: Context = {
     state: initGlobalState(),
     subscriptionsCache: {},
-    subscriptionsEventEmitter: new EventEmitter() as Context["subscriptionsEventEmitter"],
+    subscriptionsEventEmitter:
+      new EventEmitter() as Context["subscriptionsEventEmitter"],
   };
 
   // We subscribe to the emitter on every client subscriber

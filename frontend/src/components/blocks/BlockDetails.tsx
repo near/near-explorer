@@ -1,4 +1,4 @@
-import moment from "moment";
+import { useDateFormat } from "../../hooks/use-date-format";
 import JSBI from "jsbi";
 
 import * as React from "react";
@@ -52,9 +52,11 @@ export interface Props {
 const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
   const { t } = useTranslation();
   const latestBlockSub = useSubscription(["latestBlock"]);
-  const gasUsed = React.useMemo(() => JSBI.BigInt(block.gasUsed), [
-    block.gasUsed,
-  ]);
+  const gasUsed = React.useMemo(
+    () => JSBI.BigInt(block.gasUsed),
+    [block.gasUsed]
+  );
+  const format = useDateFormat();
 
   return (
     <Row noGutters>
@@ -146,7 +148,8 @@ const BlockDetails: React.FC<Props> = React.memo(({ block }) => {
                   text={t("component.blocks.BlockDetails.created.text")}
                 />
               }
-              text={moment(block.timestamp).format(
+              text={format(
+                block.timestamp,
                 t("common.date_time.date_time_format")
               )}
               className="border-0"

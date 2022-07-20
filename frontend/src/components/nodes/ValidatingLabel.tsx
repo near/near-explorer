@@ -54,18 +54,16 @@ const ValidatingLabelWrapper = styled(Badge, {
   },
 });
 
-const TOOLTIP_TEXTS: Record<
-  StakingStatus,
-  (t: TFunction<"common">) => string
-> = {
-  active: (t) => t("component.nodes.ValidatorMainRow.state.active.text"),
-  joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.text"),
-  leaving: (t) => t("component.nodes.ValidatorMainRow.state.leaving.text"),
-  proposal: (t) => t("component.nodes.ValidatorMainRow.state.proposal.text"),
-  idle: (t) => t("component.nodes.ValidatorMainRow.state.idle.text"),
-  newcomer: (t) => t("component.nodes.ValidatorMainRow.state.newcomer.text"),
-  onHold: (t) => t("component.nodes.ValidatorMainRow.state.onHold.text"),
-};
+const TOOLTIP_TEXTS: Record<StakingStatus, (t: TFunction<"common">) => string> =
+  {
+    active: (t) => t("component.nodes.ValidatorMainRow.state.active.text"),
+    joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.text"),
+    leaving: (t) => t("component.nodes.ValidatorMainRow.state.leaving.text"),
+    proposal: (t) => t("component.nodes.ValidatorMainRow.state.proposal.text"),
+    idle: (t) => t("component.nodes.ValidatorMainRow.state.idle.text"),
+    newcomer: (t) => t("component.nodes.ValidatorMainRow.state.newcomer.text"),
+    onHold: (t) => t("component.nodes.ValidatorMainRow.state.onHold.text"),
+  };
 const LABEL_TEXTS: Record<StakingStatus, (t: TFunction<"common">) => string> = {
   active: (t) => t("component.nodes.ValidatorMainRow.state.active.title"),
   joining: (t) => t("component.nodes.ValidatorMainRow.state.joining.title"),

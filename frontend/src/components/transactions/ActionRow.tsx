@@ -43,8 +43,7 @@ const ActionRow: React.FC<Props> = React.memo(
         title={
           <ActionMessage
             receiverId={receiverId}
-            actionKind={action.kind}
-            actionArgs={action.args}
+            action={action}
             showDetails={showDetails}
           />
         }

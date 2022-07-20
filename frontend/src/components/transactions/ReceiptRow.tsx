@@ -84,32 +84,29 @@ const ReceiptRow: React.FC<Props> = React.memo(
   ({ receipt, transactionHash }) => {
     const { t } = useTranslation();
     let statusInfo;
-    if ("SuccessValue" in receipt.outcome.status) {
-      const { SuccessValue } = receipt.outcome.status;
-      if (SuccessValue.length === 0) {
+    if (receipt.outcome.status.type === "successValue") {
+      if (!receipt.outcome.status.value) {
         statusInfo = t("component.transactions.ReceiptRow.empty_result");
       } else {
         statusInfo = (
           <>
             <i>{t("component.transactions.ReceiptRow.result")}: </i>
-            <Args args={SuccessValue} />
+            <Args args={receipt.outcome.status.value} />
           </>
         );
       }
-    } else if ("Failure" in receipt.outcome.status) {
-      const { Failure } = receipt.outcome.status;
+    } else if (receipt.outcome.status.type === "failure") {
       statusInfo = (
         <>
           <i>{t("component.transactions.ReceiptRow.failure")}: </i>
-          <pre>{JSON.stringify(Failure, null, 2)}</pre>
+          <pre>{JSON.stringify(receipt.outcome.status.error, null, 2)}</pre>
         </>
       );
-    } else if ("SuccessReceiptId" in receipt.outcome.status) {
-      const { SuccessReceiptId } = receipt.outcome.status;
+    } else if (receipt.outcome.status.type === "successReceiptId") {
       statusInfo = (
         <>
           <i>{t("component.transactions.ReceiptRow.success_receipt_id")}: </i>
-          <pre>{SuccessReceiptId}</pre>
+          <pre>{receipt.outcome.status.receiptId}</pre>
         </>
       );
     }
@@ -117,15 +114,11 @@ const ReceiptRow: React.FC<Props> = React.memo(
     let gasBurnedByReceipt = BI.zero;
     let tokensBurnedByReceipt = BI.zero;
     if (receipt && receipt.outcome) {
-      gasBurnedByReceipt = JSBI.BigInt(receipt.outcome.gas_burnt);
-      tokensBurnedByReceipt = JSBI.BigInt(receipt.outcome.tokens_burnt);
+      gasBurnedByReceipt = JSBI.BigInt(receipt.outcome.gasBurnt);
+      tokensBurnedByReceipt = JSBI.BigInt(receipt.outcome.tokensBurnt);
     }
     return (
-      <ReceiptRowWrapper
-        noGutters
-        key={receipt.receipt_id}
-        id={receipt.receipt_id}
-      >
+      <ReceiptRowWrapper noGutters key={receipt.id} id={receipt.id}>
         <Col>
           <Row noGutters>
             <ReceiptRowHashTitle>
@@ -140,7 +133,7 @@ const ReceiptRow: React.FC<Props> = React.memo(
             <ReceiptRowReceiptHash truncateLink>
               <ReceiptLink
                 transactionHash={transactionHash}
-                receiptId={receipt.receipt_id}
+                receiptId={receipt.id}
                 truncate={false}
               />
             </ReceiptRowReceiptHash>
@@ -151,7 +144,10 @@ const ReceiptRow: React.FC<Props> = React.memo(
               {t("common.receipts.executed_in_block")}:
             </ReceiptRowTitle>
             <ReceiptRowReceiptHash truncateLink>
-              <BlockLink blockHash={receipt.block_hash} truncate={false} />
+              <BlockLink
+                blockHash={receipt.outcome.blockHash}
+                truncate={false}
+              />
             </ReceiptRowReceiptHash>
           </ReceiptRowSection>
 
@@ -159,8 +155,8 @@ const ReceiptRow: React.FC<Props> = React.memo(
             <ReceiptRowTitle>
               {t("common.receipts.predecessor_id")}:
             </ReceiptRowTitle>
-            <ReceiptRowReceiptHash title={receipt.predecessor_id}>
-              <AccountLink accountId={receipt.predecessor_id} />
+            <ReceiptRowReceiptHash title={receipt.predecessorId}>
+              <AccountLink accountId={receipt.predecessorId} />
             </ReceiptRowReceiptHash>
           </ReceiptRowSection>
 
@@ -168,8 +164,8 @@ const ReceiptRow: React.FC<Props> = React.memo(
             <ReceiptRowTitle>
               {t("common.receipts.receiver_id")}:
             </ReceiptRowTitle>
-            <ReceiptRowReceiptHash title={receipt.receiver_id}>
-              <AccountLink accountId={receipt.receiver_id} />
+            <ReceiptRowReceiptHash title={receipt.receiverId}>
+              <AccountLink accountId={receipt.receiverId} />
             </ReceiptRowReceiptHash>
           </ReceiptRowSection>
 
@@ -200,10 +196,10 @@ const ReceiptRow: React.FC<Props> = React.memo(
               {receipt.actions && receipt.actions.length > 0
                 ? receipt.actions.map((action, index) => (
                     <ActionRow
-                      key={receipt.receipt_id + index}
+                      key={receipt.id + index}
                       action={action}
-                      receiverId={receipt.receiver_id}
-                      signerId={receipt.predecessor_id}
+                      receiverId={receipt.receiverId}
+                      signerId={receipt.predecessorId}
                       detalizationMode="minimal"
                       showDetails
                     />
@@ -226,10 +222,9 @@ const ReceiptRow: React.FC<Props> = React.memo(
             </ReceiptRowText>
           </ReceiptRowSection>
 
-          {receipt.outcome.outgoing_receipts &&
-            receipt.outcome.outgoing_receipts.length > 0 &&
-            receipt.outcome.outgoing_receipts.map((executedReceipt) => (
-              <ExecutedReceiptRow noGutters key={executedReceipt.receipt_id}>
+          {receipt.outcome.nestedReceipts.length > 0 &&
+            receipt.outcome.nestedReceipts.map((executedReceipt) => (
+              <ExecutedReceiptRow noGutters key={executedReceipt.id}>
                 <Col>
                   <ReceiptRow
                     transactionHash={transactionHash}

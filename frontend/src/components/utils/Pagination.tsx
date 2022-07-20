@@ -39,10 +39,11 @@ export const PaginateWrapper = styled(ReactPaginate, {
     color: "#d5d4d8",
   },
 
-  "& li.disabled, & li.disabled a, & li.disabled a:hover, & li.previous.disabled a:hover": {
-    color: "#d5d4d8",
-    cursor: "default",
-  },
+  "& li.disabled, & li.disabled a, & li.disabled a:hover, & li.previous.disabled a:hover":
+    {
+      color: "#d5d4d8",
+      cursor: "default",
+    },
 
   "& li.selected a": {
     fontWeight: 500,

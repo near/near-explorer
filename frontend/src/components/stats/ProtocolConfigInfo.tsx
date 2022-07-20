@@ -1,4 +1,4 @@
-import moment from "moment";
+import { useDateFormat } from "../../hooks/use-date-format";
 import JSBI from "jsbi";
 import * as React from "react";
 
@@ -9,7 +9,6 @@ import NearBadge from "../nodes/NearBadge";
 import { useTranslation } from "react-i18next";
 import { useNetworkStats } from "../../hooks/subscriptions";
 import { useEpochStartBlock } from "../../hooks/data";
-import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
 import * as BI from "../../libraries/bigint";
 import { useSubscription } from "../../hooks/use-subscription";
@@ -41,12 +40,12 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
 
   const genesisConfigSub = useSubscription(["genesisConfig"]);
 
-  const liveAccountsCount =
-    trpc.useQuery(["live-accounts-count-aggregated-by-date"]).data ?? [];
-  const lastDateLiveAccounts = React.useMemo(
-    () => liveAccountsCount[liveAccountsCount.length - 1]?.accountsCount,
-    [liveAccountsCount]
-  );
+  const lastAccountsHistorySub = useSubscription([
+    "accountsHistory",
+    { amountOfDays: 1 },
+  ]);
+  const lastDateLiveAccountsCount =
+    lastAccountsHistorySub.data?.liveAccounts[0]?.[1];
 
   let epochTotalSupply = epochStartBlock
     ? JSBI.toNumber(
@@ -54,6 +53,8 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
       ) /
       10 ** 6
     : null;
+
+  const format = useDateFormat();
 
   return (
     <>
@@ -64,7 +65,8 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
         >
           {genesisConfigSub.status === "success" && (
             <span>
-              {moment(genesisConfigSub.data.timestamp).format(
+              {format(
+                genesisConfigSub.data.timestamp,
                 t("common.date_time.date_format")
               )}
             </span>
@@ -157,7 +159,7 @@ const ProtocolConfigInfo: React.FC = React.memo(() => {
           title={t("component.stats.ProtocolConfigInfo.live_accounts")}
           cellOptions={{ xs: "12", sm: "6", md: "6", xl: "2" }}
         >
-          {lastDateLiveAccounts}
+          {lastDateLiveAccountsCount}
         </Cell>
       </ProtocolConfig>
     </>

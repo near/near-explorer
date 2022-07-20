@@ -8,7 +8,7 @@ exports[`<ActionsList /> renders ActionsList for Receipts without transactionHas
         "args": Object {
           "deposit": "8403180157952936387200",
         },
-        "kind": "Transfer",
+        "kind": "transfer",
       },
     ]
   }
@@ -127,7 +127,7 @@ exports[`<ActionsList /> renders compact for Receipts 1`] = `
             </span>
              
             <span>
-              in 2y
+              2y past
             </span>
           </div>
         </div>
@@ -240,7 +240,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>
@@ -290,7 +290,7 @@ Array [
               </span>
               : ed25519:8LXEySy...
               <p>
-                component.transactions.ActionMessage.AddKey.with_permission_and_nounce
+                component.transactions.ActionMessage.AddKey.fullAccessPermission
               </p>
             </div>
           </div>
@@ -353,7 +353,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>
@@ -497,7 +497,7 @@ exports[`<ActionsList /> renders functioncall by default 1`] = `
             </span>
              
             <span>
-              1s ago
+              0s
             </span>
           </div>
         </div>
@@ -609,7 +609,7 @@ exports[`<ActionsList /> renders sparsely by default for Receipts 1`] = `
             </span>
              
             <span>
-              in 2y
+              2y past
             </span>
           </div>
         </div>
@@ -722,7 +722,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>
@@ -772,7 +772,7 @@ Array [
               </span>
               : ed25519:8LXEySy...
               <p>
-                component.transactions.ActionMessage.AddKey.with_permission_and_nounce
+                component.transactions.ActionMessage.AddKey.fullAccessPermission
               </p>
             </div>
           </div>
@@ -835,7 +835,7 @@ Array [
               </span>
                
               <span>
-                1s ago
+                0s
               </span>
             </div>
           </div>

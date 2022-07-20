@@ -1,5 +1,5 @@
-import moment from "moment";
 import { NextApiHandler } from "next";
+import { format } from "date-fns";
 import { getNearNetworkName } from "../../libraries/config";
 import { getTrpcClient } from "../../libraries/trpc";
 
@@ -8,16 +8,17 @@ const handler: NextApiHandler = async (req, res) => {
     const networkName = getNearNetworkName(req.query, req.headers.host);
     let resp = [];
     for (let i = 1; i <= 7; i++) {
-      const feeCountPerDay = await getTrpcClient(
-        networkName
-      ).query("nearcore-total-fee-count", [i]);
-      if (!feeCountPerDay) {
+      const tokensBurntPerDay = await getTrpcClient(networkName).query(
+        "stats.tokensBurnt",
+        { daysFromNow: i }
+      );
+      if (!tokensBurntPerDay) {
         res.status(500).end();
         return;
       }
       resp.push({
-        date: moment(feeCountPerDay?.date).format("YYYY-MM-DD"),
-        collected_fee_in_yoctonear: feeCountPerDay?.fee,
+        date: format(tokensBurntPerDay.timestamp, "yyyy-MM-dd"),
+        collected_fee_in_yoctonear: tokensBurntPerDay.tokensBurnt,
       });
     }
     res.send(resp);

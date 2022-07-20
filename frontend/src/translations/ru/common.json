@@ -20,11 +20,9 @@
       "transaction": "Транзакция",
       "transactions": "Транзакции",
       "status": {
-        "fetching_status": "Получение статуса...",
-        "NotStarted": "Не начато",
-        "Started": "Начато",
-        "Failure": "Сбой",
-        "SuccessValue": "Успешно"
+        "unknown": "Обрабатывается...",
+        "failure": "Сбой",
+        "success": "Успешно"
       },
       "execution": {
         "convert_transaction_to_receipt": "Преобразование транзакции в квитанцию",
@@ -43,10 +41,10 @@
       "predecessor_id": "ID отправителя",
       "receiver_id": "ID получателя",
       "status": {
-        "Unknown": "Неизвестен",
-        "Failure": "Сбой",
-        "SuccessValue": "Успешно",
-        "SuccessReceiptId": "Успешно"
+        "unknown": "Неизвестен",
+        "failure": "Сбой",
+        "successValue": "Успешно",
+        "successReceiptId": "Успешно"
       }
     },
     "contracts": {
@@ -73,9 +71,13 @@
       "no": "Нет"
     },
     "date_time": {
-      "date_time_format": "DD MMMM YYYY [в] h:mm:ss",
-      "date_format": "DD MMMM YYYY",
-      "time_format": "[в] h:mm:ss"
+      "date_time_format": "dd MMMM yyyy 'в' H:mm:ss",
+      "date_format": "dd MMMM yyyy",
+      "time_format": "'в' H:mm:ss",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
+    },
+    "terms": {
+      "genesis": "Генезис"
     }
   },
   "page": {
@@ -102,6 +104,43 @@
       "transaction_execution_plan": "План выполнения транзакции",
       "error": {
         "transaction_fetching": "На данный момент информация недоступна. Пожалуйста, проверьте правильность хеша транзакции или попробуйте позже."
+      }
+    }
+  },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Создан: <Timer />",
+        "storageUsed": "Задействовано хранилища: ${amount}",
+        "accountType": {
+          "user": "Пользователь",
+          "contract": "Контракт"
+        },
+        "amounts": {
+          "balance": "Баланс",
+          "staked": "В стейкинге",
+          "transactions": "Транзакций"
+        }
+      },
+      "tabs": {
+        "activity": "Активность",
+        "tokens": "Токены",
+        "collectibles": "Коллекционирование",
+        "accessKeys": "Ключи",
+        "lockedUp": "Locked up"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Общая комиссия",
+        "amount": "Сумма",
+        "when": "Когда"
+      },
+      "status": {
+        "fetching": "Получение статуса...",
+        "fail": "Сбой",
+        "success": "Успешно"
       }
     }
   },
@@ -237,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "Добавлен новый ключ для ",
-          "with_permission_and_nounce": "с разрешением ${permission}",
+          "fullAccessPermission": "с разрешением на любые операции",
           "access_key_added_for_contract": "Ключ доступа добавлен для контракта ",
           "with_permission_call_method_and_nounce": "с разрешением для вызова ${methods} методов",
           "any": "любой"
@@ -429,7 +468,8 @@
         },
         "nodes_validating": {
           "title": "Валидаторы",
-          "text": "Общее количество узлов-валидаторов."
+          "text": "Общее количество узлов-валидаторов.",
+          "unavailable": "Временно недоступно"
         }
       },
       "DashboardBlock": {
@@ -439,7 +479,8 @@
         },
         "avg_block_time": {
           "title": "Среднее время создания блока",
-          "text": "Среднее время создания одного блока."
+          "text": "Среднее время создания одного блока.",
+          "unavailable": "Временно недоступно"
         }
       },
       "DashboardTransaction": {
@@ -456,8 +497,7 @@
         "14_day_history": {
           "title": "История за 14 дней",
           "transactions": "Количество транзакций за 14 дней"
-        },
-        "date_format": "D MMM"
+        }
       }
     },
     "stats": {

@@ -1,5 +1,4 @@
-import moment from "moment";
-
+import { useDateFormat } from "../../hooks/use-date-format";
 import * as React from "react";
 
 import { Row, Col, Spinner } from "react-bootstrap";
@@ -15,7 +14,7 @@ import StorageSize from "../utils/StorageSize";
 import { Trans, useTranslation } from "react-i18next";
 import { useNetworkContext } from "../../hooks/use-network-context";
 import { trpc } from "../../libraries/trpc";
-import { Account } from "../../types/common";
+import { AccountOld } from "../../types/common";
 import { styled } from "../../libraries/styles";
 
 const AccountInfoContainer = styled("div", {
@@ -173,15 +172,16 @@ const ExistingAccountDetails: React.FC<DetailsProps> = ({
 };
 
 export interface Props {
-  account: Account;
+  account: AccountOld;
 }
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
   const { data: transactionCount } = trpc.useQuery([
-    "account-transactions-count",
-    [account.accountId],
+    "account.transactionsCount",
+    { id: account.accountId },
   ]);
+  const format = useDateFormat();
 
   return (
     <AccountInfoContainer>
@@ -254,7 +254,8 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
                   "Genesis"
                 ) : (
                   <>
-                    {moment(account.created.timestamp).format(
+                    {format(
+                      account.created.timestamp,
                       t("common.date_time.date_time_format")
                     )}
                   </>
@@ -307,7 +308,8 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
               }
               text={
                 <>
-                  {moment(account.deleted.timestamp).format(
+                  {format(
+                    account.deleted.timestamp,
                     t("common.date_time.date_time_format")
                   )}
                 </>

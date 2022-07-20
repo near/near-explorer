@@ -1,5 +1,4 @@
-import moment from "moment";
-
+import { useDateFormat } from "../../hooks/use-date-format";
 import * as React from "react";
 import { Row, Col } from "react-bootstrap";
 
@@ -53,7 +52,11 @@ export interface Props {
 
 const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
   const { t } = useTranslation();
-  const { data: accountInfo } = trpc.useQuery(["account-info", [accountId]]);
+  const { data: accountInfo } = trpc.useQuery([
+    "account.byIdOld",
+    { id: accountId },
+  ]);
+  const format = useDateFormat();
 
   return (
     <Link href={`/accounts/${accountId}`} passHref>
@@ -80,7 +83,7 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
               accountInfo.deleted ? (
                 <TransactionRowTimer>
                   {t("component.accounts.AccountRow.deleted_on")}{" "}
-                  {moment(accountInfo.deleted.timestamp).format("LL")}
+                  {format(accountInfo.deleted.timestamp, "PPP")}
                 </TransactionRowTimer>
               ) : (
                 <>
@@ -90,7 +93,7 @@ const AccountRow: React.FC<Props> = React.memo(({ accountId }) => {
                   <TransactionRowTimer>
                     {t("component.accounts.AccountRow.created_on")}{" "}
                     {accountInfo.created
-                      ? moment(accountInfo.created.timestamp).format("LL")
+                      ? format(accountInfo.created.timestamp, "PPP")
                       : "Genesis"}
                   </TransactionRowTimer>
                 </>

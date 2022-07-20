@@ -31,10 +31,10 @@ const AccountDetail: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Individual Account", {
     accountId,
   });
-  const accountQuery = trpc.useQuery(["account-info", [accountId]]);
+  const accountQuery = trpc.useQuery(["account.byIdOld", { id: accountId }]);
   const query = trpc.useInfiniteQuery(
     [
-      "transactions-list-by-account-id",
+      "transaction.listByAccountId",
       { accountId, limit: TRANSACTIONS_PER_PAGE },
     ],
     { getNextPageParam }

@@ -6,54 +6,65 @@ import { truncateAccountId } from "../../libraries/formatting";
 import { Props } from "./TransactionsByDate";
 
 import { useTranslation } from "react-i18next";
-import { trpc } from "../../libraries/trpc";
+import { useSubscription } from "../../hooks/use-subscription";
+import { TRPCSubscriptionOutput } from "../../types/common";
+import PaginationSpinner from "../utils/PaginationSpinner";
+
+const getOption = (
+  title: string,
+  xAxisTitle: string,
+  data: TRPCSubscriptionOutput<"activeAccountsList">
+) => {
+  return {
+    title: {
+      text: title,
+    },
+    grid: { containLabel: true },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    xAxis: [
+      {
+        name: xAxisTitle,
+        type: "value",
+      },
+    ],
+    yAxis: [
+      {
+        data: data.map(([accountId]) => truncateAccountId(accountId)),
+      },
+    ],
+    series: [
+      {
+        type: "bar",
+        data: data.map(([, transactionsCount]) => transactionsCount),
+      },
+    ],
+  };
+};
 
 const ActiveAccountsList: React.FC<Props> = React.memo(({ chartStyle }) => {
-  const { t } = useTranslation();
-  const accounts = trpc.useQuery(["active-accounts-list"]).data ?? [];
-  const accountsIds = React.useMemo(
-    () => accounts.map(({ account }) => truncateAccountId(account)),
-    [accounts]
-  );
-  const accountsTransactionCount = React.useMemo(
-    () => accounts.map(({ transactionsCount }) => Number(transactionsCount)),
-    [accounts]
-  );
+  const { t, i18n } = useTranslation();
+  const activeAccountsListSub = useSubscription(["activeAccountsList"]);
 
-  const getOption = () => {
-    return {
-      title: {
-        text: t("component.stats.ActiveAccountsList.title"),
-      },
-      grid: { containLabel: true },
-      tooltip: {
-        trigger: "axis",
-        axisPointer: {
-          type: "shadow",
-        },
-      },
-      xAxis: [
-        {
-          name: t("common.transactions.transactions"),
-          type: "value",
-        },
-      ],
-      yAxis: [
-        {
-          type: "category",
-          data: accountsIds,
-        },
-      ],
-      series: [
-        {
-          type: "bar",
-          data: accountsTransactionCount,
-        },
-      ],
-    };
-  };
+  const option = React.useMemo(() => {
+    if (!activeAccountsListSub.data) {
+      return;
+    }
+    return getOption(
+      t("component.stats.ActiveAccountsList.title"),
+      t("common.transactions.transactions"),
+      activeAccountsListSub.data.reverse()
+    );
+  }, [activeAccountsListSub.data, i18n.language]);
 
-  return <ReactEcharts option={getOption()} style={chartStyle} />;
+  if (!option) {
+    return <PaginationSpinner />;
+  }
+  return <ReactEcharts option={option} style={chartStyle} />;
 });
 
 export default ActiveAccountsList;

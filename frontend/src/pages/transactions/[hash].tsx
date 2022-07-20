@@ -26,7 +26,7 @@ const TransactionDetailsPage: NextPage = React.memo(() => {
   useAnalyticsTrackOnMount("Explorer View Individual Transaction Page", {
     transaction_hash: hash,
   });
-  const transactionQuery = trpc.useQuery(["transaction-info", [hash]]);
+  const transactionQuery = trpc.useQuery(["transaction.byHashOld", { hash }]);
   const transaction = transactionQuery.data;
 
   return (
@@ -70,9 +70,7 @@ const TransactionDetailsPage: NextPage = React.memo(() => {
           icon={<TransactionIcon />}
           title={<h2>{t("page.transactions.transaction_execution_plan")}</h2>}
         >
-          {transaction.transactionOutcome && (
-            <TransactionOutcome transaction={transaction.transactionOutcome} />
-          )}
+          <TransactionOutcome outcome={transaction.outcome} />
 
           <ReceiptRow
             receipt={transaction.receipt}

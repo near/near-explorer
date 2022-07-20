@@ -1,38 +1,40 @@
+import { formatDuration, intervalToDuration } from "date-fns";
 import { ValidatorEpochData, ValidatorPoolInfo } from "../router/types";
 import { config } from "../config";
 import {
   queryStakingPoolAccountIds,
   queryRecentTransactionsCount,
   queryTelemetryInfo,
-  queryTransactionsCountHistoryForTwoWeeks,
+  queryTransactionsHistory,
   queryLatestBlock,
   queryLatestGasPrice,
   queryRecentBlockProductionSpeed,
   queryOnlineNodesCount,
   queryGenesisAccountCount,
+  queryTokensSupply,
+  queryGasUsedAggregatedByDate,
+  queryNewAccountsCountAggregatedByDate,
+  queryDeletedAccountsCountAggregatedByDate,
+  queryActiveAccountsList,
+  queryActiveAccountsCountAggregatedByDate,
+  queryActiveAccountsCountAggregatedByWeek,
+  queryNewContractsCountAggregatedByDate,
+  queryUniqueDeployedContractsCountAggregatedByDate,
+  queryActiveContractsCountAggregatedByDate,
+  queryActiveContractsList,
+  healthCheck,
 } from "../database/queries";
 import * as nearApi from "../utils/near";
-import {
-  aggregateActiveAccountsCountByDate,
-  aggregateActiveAccountsCountByWeek,
-  aggregateActiveAccountsList,
-  aggregateActiveContractsCountByDate,
-  aggregateActiveContractsList,
-  aggregateCirculatingSupplyByDate,
-  aggregateDeletedAccountsCountByDate,
-  aggregateDepositAmountByDate,
-  aggregateGasUsedByDate,
-  aggregateLiveAccountsCountByDate,
-  aggregateNewAccountsCountByDate,
-  aggregateNewContractsCountByDate,
-  aggregateTransactionsCountByDate,
-  aggregateUniqueDeployedContractsCountByDate,
-} from "../providers/stats";
 import { queryEpochData } from "../providers/network";
 import { wait } from "../common";
 import { GlobalState } from "../global-state";
 import { RegularCheckFn } from "./types";
-import { publishOnChange, updateRegularlyFetchedMap } from "./utils";
+import {
+  getPublishIfChanged,
+  publishOnChange,
+  updateRegularlyFetchedMap,
+} from "./utils";
+import { SECOND, MINUTE } from "../utils/time";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",
@@ -101,41 +103,140 @@ export const genesisProtocolInfoFetch: RegularCheckFn = {
   },
 };
 
-export const transactionCountHistoryCheck: RegularCheckFn = {
-  description: "transaction count history for 2 weeks",
-  fn: async (_, context) => {
-    context.state.transactionsCountHistoryForTwoWeeks = await queryTransactionsCountHistoryForTwoWeeks();
-    return config.intervals.checkTransactionCountHistory;
+export const transactionsHistoryCheck: RegularCheckFn = {
+  description: "transactionsHistoryCheck",
+  fn: publishOnChange(
+    "transactionsHistory",
+    queryTransactionsHistory,
+    config.intervals.checkTransactionHistory
+  ),
+};
+
+export const tokensSupplyCheck: RegularCheckFn = {
+  description: "circulatingSupplyCheck",
+  fn: publishOnChange(
+    "tokensSupply",
+    queryTokensSupply,
+    config.intervals.checkTokensSupply
+  ),
+};
+
+export const gasUsedHistoryCheck: RegularCheckFn = {
+  description: "gasUsedHistoryCheck",
+  fn: publishOnChange(
+    "gasUsedHistory",
+    queryGasUsedAggregatedByDate,
+    config.intervals.checkAggregatedStats
+  ),
+};
+
+export const contractsHistoryCheck: RegularCheckFn = {
+  description: "contractsHistory",
+  fn: publishOnChange(
+    "contractsHistory",
+    async () => {
+      const [newContracts, uniqueContracts] = await Promise.all([
+        queryNewContractsCountAggregatedByDate(),
+        queryUniqueDeployedContractsCountAggregatedByDate(),
+      ]);
+      return { newContracts, uniqueContracts };
+    },
+    config.intervals.checkAggregatedStats
+  ),
+};
+
+export const activeContractsHistoryCheck: RegularCheckFn = {
+  description: "activeContractsHistory",
+  fn: publishOnChange(
+    "activeContractsHistory",
+    queryActiveContractsCountAggregatedByDate,
+    config.intervals.checkAggregatedStats
+  ),
+};
+
+export const activeContractsListCheck: RegularCheckFn = {
+  description: "activeContractsList",
+  fn: publishOnChange(
+    "activeContractsList",
+    queryActiveContractsList,
+    config.intervals.checkAggregatedStats
+  ),
+};
+
+export const accountsHistoryCheck: RegularCheckFn = {
+  description: "accountsHistoryCheck",
+  fn: async (publish, context) => {
+    const publishIfChanged = getPublishIfChanged(publish, context);
+    if (!context.state.genesis) {
+      return 10 * SECOND;
+    }
+    const [newAccounts, deletedAccounts] = await Promise.all([
+      queryNewAccountsCountAggregatedByDate(),
+      queryDeletedAccountsCountAggregatedByDate(),
+    ]);
+    const newAccountMap = new Map<number, number>();
+    for (let i = 0; i < newAccounts.length; i++) {
+      const [timestamp, accountsCount] = newAccounts[i];
+      newAccountMap.set(timestamp, accountsCount);
+    }
+
+    const deletedAccountMap = new Map<number, number>();
+    for (let i = 0; i < deletedAccounts.length; i++) {
+      const [timestamp, accountsCount] = deletedAccounts[i];
+      deletedAccountMap.set(timestamp, accountsCount);
+    }
+
+    const allTimestamps = [
+      ...new Set([
+        ...newAccounts.map(([timestamp]) => timestamp),
+        ...deletedAccounts.map(([timestamp]) => timestamp),
+      ]),
+    ].sort();
+
+    const liveAccounts = allTimestamps
+      .reduce<[number, number][]>(
+        (acc, timestamp) => {
+          const newAccountsCount = newAccountMap.get(timestamp) ?? 0;
+          const deletedAccountsCount = deletedAccountMap.get(timestamp) ?? 0;
+          const prevAccountsCount = acc[acc.length - 1][1];
+          return [
+            ...acc,
+            [
+              timestamp,
+              prevAccountsCount + newAccountsCount - deletedAccountsCount,
+            ],
+          ];
+        },
+        [[0, context.state.genesis.accountCount]]
+      )
+      .slice(1);
+    publishIfChanged("accountsHistory", { newAccounts, liveAccounts });
+    return config.intervals.checkAggregatedStats;
   },
 };
 
-export const statsAggregationCheck: RegularCheckFn = {
-  description: "stats aggregation",
-  fn: async (_, context) => {
-    // circulating supply
-    await aggregateCirculatingSupplyByDate();
+export const activeAccountsHistoryCheck: RegularCheckFn = {
+  description: "activeAccountsHistory",
+  fn: publishOnChange(
+    "activeAccountsHistory",
+    async () => {
+      const [byDay, byWeek] = await Promise.all([
+        queryActiveAccountsCountAggregatedByDate(),
+        queryActiveAccountsCountAggregatedByWeek(),
+      ]);
+      return { byDay, byWeek };
+    },
+    config.intervals.checkAggregatedStats
+  ),
+};
 
-    // transactions related
-    await aggregateTransactionsCountByDate();
-    await aggregateGasUsedByDate();
-    await aggregateDepositAmountByDate();
-
-    // account
-    await aggregateNewAccountsCountByDate();
-    await aggregateDeletedAccountsCountByDate();
-    await aggregateLiveAccountsCountByDate(context);
-    await aggregateActiveAccountsCountByDate();
-    await aggregateActiveAccountsCountByWeek();
-    await aggregateActiveAccountsList();
-
-    // contract
-    await aggregateNewContractsCountByDate();
-    await aggregateActiveContractsCountByDate();
-    await aggregateUniqueDeployedContractsCountByDate();
-    await aggregateActiveContractsList();
-
-    return config.intervals.checkAggregatedStats;
-  },
+export const activeAccountsListCheck: RegularCheckFn = {
+  description: "activeAccountsListCheck",
+  fn: publishOnChange(
+    "activeAccountsList",
+    queryActiveAccountsList,
+    config.intervals.checkAggregatedStats
+  ),
 };
 
 export const updateStakingPoolStakeProposalsFromContractMap = async (
@@ -235,9 +336,10 @@ export const networkInfoCheck: RegularCheckFn = {
         poolInfo: context.state.stakingPoolInfos.valueMap.get(
           validator.accountId
         ),
-        contractStake: context.state.stakingPoolStakeProposalsFromContract.valueMap.get(
-          validator.accountId
-        ),
+        contractStake:
+          context.state.stakingPoolStakeProposalsFromContract.valueMap.get(
+            validator.accountId
+          ),
         telemetry: telemetryInfo.get(validator.accountId),
       }))
     );
@@ -302,5 +404,88 @@ export const poolIdsCheck: RegularCheckFn = {
   fn: async (_, context) => {
     context.state.poolIds = await queryStakingPoolAccountIds();
     return config.intervals.checkPoolIds;
+  },
+};
+
+const RPC_BLOCK_AFFORDABLE_LAG = 5 * MINUTE;
+export const rpcStatusCheck: RegularCheckFn = {
+  description: "rpc status check",
+  fn: async (publish, context) => {
+    try {
+      const status = await nearApi.sendJsonRpc("status", []);
+      const latestBlockTime = new Date(status.sync_info.latest_block_time);
+      const now = Date.now();
+      if (latestBlockTime.valueOf() + RPC_BLOCK_AFFORDABLE_LAG < now) {
+        context.state.rpcStatus = {
+          ok: false,
+          message: `RPC doesn't report any new blocks for ${formatDuration(
+            intervalToDuration({
+              start: now - RPC_BLOCK_AFFORDABLE_LAG,
+              end: now,
+            })
+          )}`,
+          timestamp: now,
+        };
+      } else {
+        context.state.rpcStatus = {
+          ok: true,
+          timestamp: now,
+        };
+      }
+    } catch (e) {
+      context.state.rpcStatus = {
+        ok: false,
+        message: "RPC is having troubles",
+        timestamp: Date.now(),
+      };
+    } finally {
+      publish("rpcStatus", context.state.rpcStatus);
+      return config.intervals.checkRpcStatus;
+    }
+  },
+};
+
+const INDEXER_BLOCK_AFFORDABLE_LAG = 5 * MINUTE;
+export const indexerStatusCheck: RegularCheckFn = {
+  description: "indexer status check",
+  fn: async (publish, context) => {
+    try {
+      await healthCheck();
+      const now = Date.now();
+      const latestBlock = context.subscriptionsCache.latestBlock;
+      if (!latestBlock) {
+        context.state.indexerStatus = {
+          ok: true,
+          timestamp: now,
+        };
+      } else {
+        if (latestBlock.timestamp + INDEXER_BLOCK_AFFORDABLE_LAG < now) {
+          context.state.indexerStatus = {
+            ok: false,
+            message: `Indexer doesn't report any new blocks for ${formatDuration(
+              intervalToDuration({
+                start: now - INDEXER_BLOCK_AFFORDABLE_LAG,
+                end: now,
+              })
+            )}`,
+            timestamp: now,
+          };
+        } else {
+          context.state.indexerStatus = {
+            ok: true,
+            timestamp: now,
+          };
+        }
+      }
+    } catch (e) {
+      context.state.rpcStatus = {
+        ok: false,
+        message: "Indexer is having troubles",
+        timestamp: Date.now(),
+      };
+    } finally {
+      publish("indexerStatus", context.state.indexerStatus);
+      return config.intervals.checkIndexerStatus;
+    }
   },
 };

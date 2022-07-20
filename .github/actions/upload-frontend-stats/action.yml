@@ -1,0 +1,17 @@
+name: Upload base stats
+inputs:
+  name:
+    description: "Artifact name"
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.name }}
+        if-no-files-found: error
+        path: |
+          frontend/.next/stats.json
+          frontend/.next/stats/client.html
+          frontend/.next/server/chunks/stats.json
+          frontend/.next/server/chunks/stats/server.html

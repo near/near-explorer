@@ -63,11 +63,12 @@ const ButtonSearch = styled(Button, {
     borderColor: "#0072ce",
   },
 
-  "&:not(:disabled):active, &:not(:disabled):active:focus, &:not(:disabled):focus": {
-    backgroundColor: "#2b9af4",
-    borderColor: "#0072ce",
-    boxShadow: "none",
-  },
+  "&:not(:disabled):active, &:not(:disabled):active:focus, &:not(:disabled):focus":
+    {
+      backgroundColor: "#2b9af4",
+      borderColor: "#0072ce",
+      boxShadow: "none",
+    },
 });
 
 const InputGroupWrapper = styled(InputGroup, {
@@ -79,10 +80,11 @@ const InputGroupWrapper = styled(InputGroup, {
     background: "white",
   },
 
-  [`&:focus-within ${SearchField}, &:focus-within .input-group-prepend ${InputGroupText}`]: {
-    borderColor: "#0072ce !important",
-    backgroundColor: "white",
-  },
+  [`&:focus-within ${SearchField}, &:focus-within .input-group-prepend ${InputGroupText}`]:
+    {
+      borderColor: "#0072ce !important",
+      backgroundColor: "white",
+    },
 
   "&:hover": {
     background: "#f8f9fb",
@@ -184,28 +186,21 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
 
       const cleanedSearchValue = value.replace(/\s/g, "");
 
-      let blockPromise: Promise<string | null>;
-      const maybeBlockHeight = cleanedSearchValue.replace(/[,]/g, "");
-      if (maybeBlockHeight.match(/^\d{1,20}$/)) {
-        const blockHeight = parseInt(maybeBlockHeight);
-        blockPromise = trpcContext
-          .fetchQuery(["block-by-hash-or-id", [blockHeight]])
-          .catch(() => null);
-      } else {
-        blockPromise = trpcContext
-          .fetchQuery(["block-by-hash-or-id", [cleanedSearchValue]])
-          .catch(() => null);
-      }
-
-      const transactionPromise = trpcContext
-        .fetchQuery(["is-transaction-indexed", [cleanedSearchValue]])
-        .catch(() => false);
+      const blockPromise = trpcContext
+        .fetchQuery(["block.getHashById", { blockId: cleanedSearchValue }])
+        .catch(() => null);
+      const transactionByHashPromise = trpcContext
+        .fetchQuery(["transaction.byHash", { hash: cleanedSearchValue }])
+        .catch(() => undefined);
       const accountPromise = trpcContext.fetchQuery([
-        "account-info",
-        [cleanedSearchValue.toLowerCase()],
+        "account.byIdOld",
+        { id: cleanedSearchValue.toLowerCase() },
       ]);
-      const receiptInTransactionPromise = trpcContext
-        .fetchQuery(["transaction-hash-by-receipt-id", [cleanedSearchValue]])
+      const transactionByReceiptIdPromise = trpcContext
+        .fetchQuery([
+          "transaction.byReceiptId",
+          { receiptId: cleanedSearchValue },
+        ])
         .catch(() => undefined);
 
       const block = await blockPromise;
@@ -213,20 +208,21 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
         track("Explorer Search for block", { block: block });
         return Router.push("/blocks/" + block);
       }
-      if (await transactionPromise) {
+      const transaction = await transactionByHashPromise;
+      if (transaction) {
         track("Explorer Search for transaction", {
           transaction: value,
         });
-        return Router.push("/transactions/" + value);
+        return Router.push("/transactions/" + transaction.hash);
       }
       if (await accountPromise) {
         track("Explorer Search for account", { account: value });
         return Router.push("/accounts/" + value.toLowerCase());
       }
-      const receipt = await receiptInTransactionPromise;
+      const receipt = await transactionByReceiptIdPromise;
       if (receipt) {
         return Router.push(
-          `/transactions/${receipt.originatedFromTransactionHash}#${receipt.receiptId}`
+          `/transactions/${receipt.transactionHash}#${receipt.receiptId}`
         );
       }
       track("Explorer Search result not found", {

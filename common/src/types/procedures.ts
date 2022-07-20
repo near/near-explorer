@@ -1,36 +1,44 @@
 import { TRPCQueryOutput, TRPCSubscriptionOutput } from "./trpc";
 
-export type Account = NonNullable<TRPCQueryOutput<"account-info">>;
-export type AccountListInfo = TRPCQueryOutput<"accounts-list">[number];
+export type AccountOld = NonNullable<TRPCQueryOutput<"account.byIdOld">>;
+export type Account = NonNullable<TRPCQueryOutput<"account.byId">>;
+export type AccountListInfo =
+  TRPCQueryOutput<"account.listByTimestamp">[number];
+export type AccountFungibleToken =
+  TRPCQueryOutput<"account.fungibleTokens">[number];
+export type AccountFungibleTokenHistory =
+  TRPCQueryOutput<"account.fungibleTokenHistory">;
+export type AccountFungibleTokenHistoryElement =
+  AccountFungibleTokenHistory["elements"][number];
 
-export type Block = NonNullable<TRPCQueryOutput<"block-info">>;
-export type BlockBase = TRPCQueryOutput<"blocks-list">[number];
-
-export type TransactionCountHistory = TRPCQueryOutput<"transaction-history">[number];
+export type Block = NonNullable<TRPCQueryOutput<"block.byId">>;
+export type BlockBase = TRPCQueryOutput<"block.list">[number];
 
 export type ReceiptExecutionStatus = NonNullable<
-  TRPCQueryOutput<"executed-receipts-list-by-block-hash">[number]["status"]
+  TRPCQueryOutput<"receipt.listExecutedByBlockHash">[number]["status"]
 >;
 export type Receipt = TRPCQueryOutput<
-  | "executed-receipts-list-by-block-hash"
-  | "included-receipts-list-by-block-hash"
+  "receipt.listExecutedByBlockHash" | "receipt.listIncludedByBlockHash"
 >[number];
 
-export type TransactionBaseInfo = TRPCQueryOutput<
-  | "transactions-list-by-account-id"
-  | "transactions-list"
-  | "transactions-list-by-block-hash"
->[number];
-export type Action = TRPCQueryOutput<"transactions-list">[number]["actions"][number];
-export type NestedReceiptWithOutcome = NonNullable<
-  TRPCQueryOutput<"transaction-info">
->["receipt"];
-export type Transaction = NonNullable<TRPCQueryOutput<"transaction-info">>;
-export type TransactionOutcome = NonNullable<
-  TRPCQueryOutput<"transaction-info">
->["transactionOutcome"];
+export type TransactionListResponse = TRPCQueryOutput<
+  | "transaction.listByAccountId"
+  | "transaction.listByTimestamp"
+  | "transaction.listByBlockHash"
+>;
+export type TransactionPreview = TransactionListResponse["items"][number];
 
-export type DeployInfo = TRPCQueryOutput<"deploy-info">;
+export type Transaction = NonNullable<TRPCQueryOutput<"transaction.byHash">>;
+export type TransactionStatus = Transaction["status"];
+
+export type Action = TransactionPreview["actions"][number];
+export type TransactionOld = NonNullable<
+  TRPCQueryOutput<"transaction.byHashOld">
+>;
+export type NestedReceiptWithOutcome = TransactionOld["receipt"];
+export type TransactionOutcome = TransactionOld["outcome"];
+
+export type DeployInfo = TRPCQueryOutput<"utils.deployInfo">;
 
 export type ValidatorFullData = TRPCSubscriptionOutput<"validators">[number];
 export type ValidationProgress = NonNullable<
@@ -41,3 +49,5 @@ export type ValidatorDescription = NonNullable<
   ValidatorFullData["description"]
 >;
 export type ValidatorPoolInfo = NonNullable<ValidatorFullData["poolInfo"]>;
+
+export type HealthStatus = TRPCSubscriptionOutput<"rpcStatus">;

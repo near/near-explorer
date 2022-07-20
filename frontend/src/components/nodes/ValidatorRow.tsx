@@ -113,9 +113,10 @@ const ValidatorRow: React.FC<Props> = React.memo(
   }) => {
     const { t } = useTranslation();
     const [isRowActive, setRowActive] = React.useState(false);
-    const switchRowActive = React.useCallback(() => setRowActive((x) => !x), [
-      setRowActive,
-    ]);
+    const switchRowActive = React.useCallback(
+      () => setRowActive((x) => !x),
+      [setRowActive]
+    );
 
     const visibleStake =
       validator.currentEpoch?.stake ??

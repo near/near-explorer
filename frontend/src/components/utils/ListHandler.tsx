@@ -33,19 +33,29 @@ const LoadButton = styled("button", {
   },
 });
 
-export type Props<T> = {
-  query: ReactQuery.UseInfiniteQueryResult<T[], unknown>;
+export type Props<T, R = T[]> = {
+  query: ReactQuery.UseInfiniteQueryResult<R, unknown>;
+  parser: (input: R) => T[];
   children: (items: T[]) => React.ReactNode;
   prependChildren?: React.ReactNode;
 };
 
-const ListHandler = <T,>({ query, children, prependChildren }: Props<T>) => {
+const ListHandler = <T, R = T[]>({
+  query,
+  parser,
+  children,
+  prependChildren,
+}: Props<T, R>) => {
   const { t } = useTranslation();
   const allItems =
-    query.data?.pages.reduce((acc, page) => [...acc, ...page], []) ?? [];
-  const fetchMore = React.useCallback(() => query.fetchNextPage(), [
-    query.fetchNextPage,
-  ]);
+    query.data?.pages.reduce<T[]>(
+      (acc, page) => [...acc, ...parser(page)],
+      []
+    ) ?? [];
+  const fetchMore = React.useCallback(
+    () => query.fetchNextPage(),
+    [query.fetchNextPage]
+  );
 
   if (query.isFetching && !query.isFetchingNextPage) {
     return <PaginationSpinner />;
