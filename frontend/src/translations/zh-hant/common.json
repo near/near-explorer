@@ -20,11 +20,9 @@
       "transaction": "交易",
       "transactions": "交易",
       "status": {
-        "fetching_status": "獲取狀態...",
-        "NotStarted": "未開始",
-        "Started": "已開始",
-        "Failure": "失敗",
-        "SuccessValue": "成功"
+        "unknown": "正在進行的交易...",
+        "failure": "失敗",
+        "success": "成功"
       },
       "execution": {
         "convert_transaction_to_receipt": "將交易轉換為收據",
@@ -43,10 +41,10 @@
       "predecessor_id": "前任賬戶ID",
       "receiver_id": "接收賬戶ID",
       "status": {
-        "Unknown": "未知",
-        "Failure": "失敗",
-        "SuccessValue": "成功",
-        "SuccessReceiptId": "成功"
+        "unknown": "未知",
+        "failure": "失敗",
+        "successValue": "成功",
+        "successReceiptId": "成功"
       }
     },
     "contracts": {
@@ -73,9 +71,13 @@
       "no": "否"
     },
     "date_time": {
-      "date_time_format": "MoDo, YYYY, ah:mm:ss",
-      "date_format": "MoDo, YYYY",
-      "time_format": "a h:mm:ss"
+      "date_time_format": "Modo, yyyy, aaah:mm:ss",
+      "date_format": "Modo, yyyy",
+      "time_format": "aaa h:mm:ss",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
+    },
+    "terms": {
+      "genesis": "Genesis"
     }
   },
   "page": {
@@ -274,7 +276,7 @@
         },
         "AddKey": {
           "new_key_added": "添加新密鑰 ",
-          "with_permission_and_nounce": "具有 ${permission} 權限，nonce為 ${nonce}",
+          "fullAccessPermission": "具有 full access 權限",
           "access_key_added_for_contract": "訪問密鑰已添加到合約 ",
           "with_permission_call_method_and_nounce": "具有調用 ${methods} 方法的權限，nonce為 ${nonce}",
           "any": "任何"
@@ -527,7 +529,8 @@
         },
         "nodes_validating": {
           "title": "正在驗證的節點",
-          "text": "正在驗證的節點的總數"
+          "text": "正在驗證的節點的總數",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardBlock": {
@@ -537,7 +540,8 @@
         },
         "avg_block_time": {
           "title": "平均出塊時間",
-          "text": "產生一個區快的平均時間"
+          "text": "產生一個區快的平均時間",
+          "unavailable": "Temporarily unavailable"
         }
       },
       "DashboardTransaction": {
@@ -554,8 +558,7 @@
         "14_day_history": {
           "title": "過去14天歷史",
           "transactions": "交易數"
-        },
-        "date_format": "MoDo"
+        }
       }
     },
     "utils": {
@@ -583,7 +586,7 @@
       "refresh": " 刷新或單擊以查看最新數據."
     },
     "ListHandler": {
-      "last_block": "最後的區塊高度是"
+      "last_block": "最後的區塊高度是 #${height}"
     },
     "StorageSize": {
       "bytes": "B",
