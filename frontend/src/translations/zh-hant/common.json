@@ -1,0 +1,606 @@
+{
+  "app": {
+    "name": "NEAR 瀏覽器"
+  },
+  "common": {
+    "accounts": {
+      "account": "賬戶",
+      "accounts": "賬戶"
+    },
+    "blocks": {
+      "blocks": "區塊",
+      "status": {
+        "fetching_status": "獲取狀態...",
+        "checking_finality": "檢查確定狀態...",
+        "finalized": "已確定",
+        "finalizing": "確定中"
+      }
+    },
+    "transactions": {
+      "transaction": "交易",
+      "transactions": "交易",
+      "status": {
+        "unknown": "正在進行的交易...",
+        "failure": "失敗",
+        "success": "成功"
+      },
+      "execution": {
+        "convert_transaction_to_receipt": "將交易轉換為收據",
+        "gas_burned": "已銷毀的Gas",
+        "tokens_burned": "已銷毀的代幣"
+      }
+    },
+    "actions": {
+      "actions": "操作"
+    },
+    "receipts": {
+      "receipt": "交易收據",
+      "receipts": "交易收據",
+      "receipt_id": "交易收據ID",
+      "executed_in_block": "執行時所在的區塊",
+      "predecessor_id": "前任賬戶ID",
+      "receiver_id": "接收賬戶ID",
+      "status": {
+        "unknown": "未知",
+        "failure": "失敗",
+        "successValue": "成功",
+        "successReceiptId": "成功"
+      }
+    },
+    "contracts": {
+      "contract": "合約"
+    },
+    "nodes": {
+      "title": "節點"
+    },
+    "stats": {
+      "title": "統計",
+      "title_charts_and_stats": "圖表 / 統計",
+      "daily": "每日",
+      "weekly": "每周",
+      "total": "總數",
+      "unique": "合約數目",
+      "live": "在線賬戶"
+    },
+    "unit": {
+      "seconds": "秒"
+    },
+    "state": {
+      "not_available": "不適用",
+      "yes": "是",
+      "no": "否"
+    },
+    "date_time": {
+      "date_time_format": "Modo, yyyy, aaah:mm:ss",
+      "date_format": "Modo, yyyy",
+      "time_format": "aaa h:mm:ss",
+      "transaction_date_format": "dd/MM/yyyy h:mm"
+    },
+    "terms": {
+      "genesis": "Genesis"
+    }
+  },
+  "page": {
+    "home": {
+      "title": {
+        "explore": "探索",
+        "near_blockchain": "\nNEAR區塊鏈"
+      }
+    },
+    "accounts": {
+      "account": "賬戶",
+      "error": {
+        "account_fetching": "目前尚無資訊。請檢查賬戶名稱是否正確或稍後再次嘗試。",
+        "account_not_found": "賬戶${account_id}無法查找。請檢查賬戶名稱是否正確或稍後再次嘗試。"
+      }
+    },
+    "blocks": {
+      "title": "區塊",
+      "error": {
+        "block_fetching": "目前尚無資訊。請檢查區塊的 hash 值是否正確或稍後再次嘗試。"
+      }
+    },
+    "transactions": {
+      "transaction_execution_plan": "交易執行計劃",
+      "error": {
+        "transaction_fetching": "目前尚無資訊。請檢查交易 hash 值是否正確或稍後再次嘗試。"
+      }
+    }
+  },
+  "pages": {
+    "account": {
+      "header": {
+        "createdAt": "Created: <Timer />",
+        "storageUsed": "Storage used: ${amount}",
+        "accountType": {
+          "user": "User",
+          "contract": "Contract"
+        },
+        "amounts": {
+          "balance": "Balance",
+          "staked": "Staked",
+          "transactions": "Transactions"
+        }
+      },
+      "tabs": {
+        "activity": "Activity",
+        "tokens": "Tokens",
+        "collectibles": "Collectibles",
+        "accessKeys": "Access Keys",
+        "lockedUp": "Locked up"
+      }
+    },
+    "transaction": {
+      "header": {
+        "title": "Transaction",
+        "fee": "Total Fee",
+        "amount": "Amount",
+        "when": "When"
+      },
+      "status": {
+        "fetching": "獲取狀態...",
+        "fail": "失敗",
+        "success": "成功"
+      }
+    }
+  },
+  "component": {
+    "nodes": {
+      "Validators": {
+        "location": "位置",
+        "validator": "驗證節點",
+        "fee": "費用",
+        "delegators": "委托人數",
+        "stake": "質押",
+        "cumulative_stake": "累積質押"
+      },
+      "ValidatorRow": {
+        "warning_tip": "前${node_tip_max}個驗證節點持有了超過33%的累積質押。委托給以下的驗證節點可以提高網路的去中心化。"
+      },
+      "ValidatorMainRow": {
+        "state": {
+          "active": {
+            "text": "當前驗證節點",
+            "title": "有效的"
+          },
+          "joining": {
+            "title": "加入中",
+            "text": "下一周期即將到來的驗證節點"
+          },
+          "leaving": {
+            "title": "被踢出",
+            "text": "下一周期被踢出的節點"
+          },
+          "proposal": {
+            "title": "提案",
+            "text": "節點將要被標記為新的驗證節點"
+          },
+          "idle": {
+            "title": "空閑",
+            "text": "低於當前席位價格20%的質押池"
+          },
+          "newcomer": {
+            "title": "新手",
+            "text": "至少擁有當前席位價格20%的質押池"
+          },
+          "onHold": {
+            "title": "擱置",
+            "text": "質押有足夠的代幣進行驗證，但尚未提交權益提案"
+          }
+        }
+      },
+      "ValidatorTelemetryRow": {
+        "uptime": {
+          "text": "在線率是通過已產生出塊數與預期出塊數的比值估算的",
+          "title": "在線率"
+        },
+        "latest_produced_block": {
+          "text": "驗證節點在最近的檢測心跳中上報的塊高度。",
+          "title": "最新區塊"
+        },
+        "latest_telemetry_update": {
+          "text": "檢測是來自節點的常規通知，其中包括諸如最新已知塊高度和 NEAR 協議代理 (nearcore) 版本等通用信息。",
+          "title": "最新檢測更新"
+        },
+        "node_agent_name": {
+          "text": "NEAR協議可以有多種實現，'節點代理名稱'是該實現的名稱, 其中'near-rs'是<nearCoreLink>官方實現</nearCoreLink>。",
+          "title": "節點代理名稱"
+        },
+        "node_agent_version_or_build": {
+          "title": "節點代理版本 / 構建ID"
+        },
+        "produced_blocks_and_chunks": "已生產 ${num_produced_blocks}/${num_expected_blocks} 區塊, ${num_produced_chunks}/${num_expected_chunks} chunks"
+      },
+      "ValidatorMetadataRow": {
+        "pool_info": {
+          "website": "網站",
+          "email": "郵箱",
+          "twitter": "Twitter",
+          "discord": "Discord",
+          "description": "描述"
+        },
+        "pool_info_tip": "如果您是節點所有者，請填寫<poolLink>相關信息</poolLink>以推廣您的節點！"
+      },
+      "NodesEpoch": {
+        "current_epoch_start": "當前周期開始在",
+        "block": "區塊",
+        "complete": "完成",
+        "remaining": "剩餘"
+      },
+      "NodesContentHeader": {
+        "nodes": "節點"
+      },
+      "NodeNav": {
+        "validating": "正在驗證",
+        "proposed": "已經提議"
+      },
+      "NodesCard": {
+        "nodes_validating": "正在驗證的節點",
+        "total_supply": "總供給量",
+        "total_stake": "總質押量",
+        "seat_price": "席位價格"
+      },
+      "NodeRow": {
+        "online": {
+          "title": "在線",
+          "text": "在線節點"
+        }
+      }
+    },
+    "transactions": {
+      "Transactions": {
+        "no_transactions": "沒有交易"
+      },
+      "ActionMessage": {
+        "CreateAccount": {
+          "new_account_created": "已創建新賬戶: "
+        },
+        "DeleteAccount": {
+          "delete_account": "刪除賬戶 ",
+          "and_transfer_fund_to": " 並將剩餘資金轉移到 "
+        },
+        "DeployContract": {
+          "contract_deployed": "部署合約: "
+        },
+        "FunctionCall": {
+          "called_method": "調用 '${method_name}' 方法於合約: ",
+          "arguments": "參數:"
+        },
+        "Transfer": {
+          "transferred": "已轉賬 ",
+          "to": " 到 "
+        },
+        "Stake": {
+          "staked": "質押: ",
+          "with_key": "用密鑰 ${public_key}..."
+        },
+        "AddKey": {
+          "new_key_added": "添加新密鑰 ",
+          "fullAccessPermission": "具有 full access 權限",
+          "access_key_added_for_contract": "訪問密鑰已添加到合約 ",
+          "with_permission_call_method_and_nounce": "具有調用 ${methods} 方法的權限，nonce為 ${nonce}",
+          "any": "任何"
+        },
+        "DeleteKey": {
+          "key_deleted": "已刪除密鑰: ${public_key}..."
+        }
+      },
+      "TransactionAction": {
+        "batch_transaction": "批量交易",
+        "fetching_status": "獲取狀態..."
+      },
+      "ActionRowBlock": {
+        "by": "發起者"
+      },
+      "TransactionDetails": {
+        "signed_by": {
+          "title": "簽名賬戶",
+          "text": "簽名並發送交易的賬戶"
+        },
+        "receiver": {
+          "title": "接收賬戶",
+          "text": "接收交易的賬戶"
+        },
+        "status": {
+          "title": "狀態",
+          "text": "交易的當前狀態（待定、成功、失敗，以及已確認、未確認）"
+        },
+        "transaction_fee": {
+          "title": "交易費",
+          "text": "為執行本交易的費用，以NEAR為單位"
+        },
+        "deposit_value": {
+          "title": "存款額",
+          "text": "從簽名賬戶轉賬到接收賬戶的所有NEAR通證之和，包含轉賬操作中發送的通證，以及函數調用（Function Call）操作中附加的NEAR通證"
+        },
+        "gas_used": {
+          "title": "Gas用量",
+          "text": "執行本交易所需的單位Gas數量"
+        },
+        "attached_gas": {
+          "title": "附加的Gas",
+          "text": "附加到本交易的單位Gas數量（通常高於'Gas用量'）"
+        },
+        "created": {
+          "title": "創建於",
+          "text": "本交易提交時刻的時間戳"
+        },
+        "hash": {
+          "title": "交易hash",
+          "text": "本交易的唯一的ID（hash）"
+        },
+        "block_hash": {
+          "title": "區塊hash",
+          "text": "包含了本交易的區塊的唯一ID（hash）"
+        }
+      },
+      "ReceiptRow": {
+        "result": "結果",
+        "empty_result": "結果為空",
+        "failure": "失敗",
+        "success_receipt_id": "成功交易收據ID",
+        "no_logs": "沒有日誌",
+        "no_actions": "沒有操作"
+      }
+    },
+    "receipts": {
+      "ReceiptAction": {
+        "batch_receipt": "批量收據",
+        "fetching_status": "獲取狀態..."
+      },
+      "ReceiptsList": {
+        "no_receipts": "此區塊中沒有收據"
+      },
+      "ReceiptsIncludedInBlock": "此區塊已包含的收據",
+      "ReceiptsExecutedInBlock": "此區塊已執行的收據"
+    },
+    "blocks": {
+      "BlockDetails": {
+        "transactions": {
+          "title": "交易數",
+          "text": "該區塊的交易數。"
+        },
+        "receipts": {
+          "title": "交易收據數"
+        },
+        "status": {
+          "title": "狀態",
+          "text": "塊的當前狀態(確定中或已確定)。"
+        },
+        "author": {
+          "title": "作者"
+        },
+        "gas_used": {
+          "title": "Gas用量",
+          "text": "該區塊中交易使用的gas總量。"
+        },
+        "gas_price": {
+          "title": "Gas價格",
+          "text": "1Tgas = 1*10^12 Gas。NEAR的 Gas 成本很低，這也是為什麼Tgas得到更普遍使用的原因。"
+        },
+        "created": {
+          "title": "創建於",
+          "text": "區塊完成時的時間戳。"
+        },
+        "hash": {
+          "title": "hash",
+          "text": "該區塊的唯一標識符(hash)。"
+        },
+        "parent_hash": {
+          "title": "父hash",
+          "text": "前一個區塊的唯一標識符(hash)。"
+        }
+      }
+    },
+    "accounts": {
+      "AccountDetails": {
+        "transactions": {
+          "title": "交易數",
+          "text": "此帳戶發送和接收的總交易量. "
+        },
+        "storage_usage": {
+          "title": "存儲用量",
+          "text": "該賬戶使用的全部區塊鏈存儲空間（以位元組計算）。"
+        },
+        "native_account_balance": {
+          "title": "Ⓝ 原生賬戶餘額",
+          "text": "NEAR Protocol為每個賬戶定義了一種流動餘額，該餘額被直接用來支付由該賬戶發布的交易，不過這筆餘額並非您可能通過該賬戶控制的全部通證的總餘額。更多細節請查看\"聚合餘額\"          "
+        },
+        "validator_stake": {
+          "title": "Ⓝ 驗證節點質押",
+          "text": "<p>該通證正在被用來支持驗證節點以確保網路安全。在NEAR贖回質押需要3個周期（~36小時），因此當您決定贖回該通證後，可能過一段時間之後該信息才會在您的可用餘額中得到展示。</p> <p> 該區域僅為質押通證，為網路安全提供支持的驗證節點顯示NEAR餘額。如果您正通過錢包向驗證節點池質押（委托），您會在此區域看到\"0\"，您可通過錢包的餘額信息頁面查看我們為您聚合的餘額情況。</p>"
+        },
+        "balance_profile": {
+          "title": "Ⓝ 餘額總覽",
+          "text": "NEAR通證可能會被鎖在合約中，也可能會被質押和委托，有時在沒有您的幫助下我們甚至無法對其進行追蹤。錢包信息頁面會展示我們通過各種渠道聚集的絕大多數餘額，如果您想估算\"總\"餘額，錢包信息頁面會是個好工具。"
+        },
+        "created_at": {
+          "title": "創建於",
+          "text": "該賬戶的創建日期。某些賬戶被收錄在網路的第一個區塊（創世區塊）中。"
+        },
+        "created_by_transaction": {
+          "title": "被交易創建",
+          "text": "您可以檢查創建該賬戶的交易。"
+        },
+        "deleted_at": {
+          "title": "刪除於",
+          "text": "該賬戶的刪除日期。"
+        },
+        "deleted_by_transaction": {
+          "title": "被交易刪除",
+          "text": "您可以檢查刪除該賬戶的交易。"
+        },
+        "lockup_account": {
+          "title": "鎖定賬戶",
+          "text": "鎖定賬戶/合約是一種特殊的智能合約，可確保全部通證甚至是部分通證在規定解鎖日期之前是不可轉賬狀態。"
+        }
+      },
+      "AccountRow": {
+        "deleted_on": "刪除於",
+        "created_on": "創建於"
+      }
+    },
+    "contracts": {
+      "ContractDetails": {
+        "last_updated": {
+          "title": "上次更新",
+          "text": "合約的最近一次部署時間"
+        },
+        "transaction_hash": {
+          "title": "交易hash",
+          "text": "合約最近一次部署的交易的唯一ID（hash）"
+        },
+        "locked": {
+          "title": "鎖定合約?",
+          "text": "<p>鎖定合約是指該合約已經沒有訪問密鑰可用於合約的重新部署。</p><p>在大多數情況下，代碼可以通過如下方式重新部署:<ol><li>通過直接包含了重新部署代碼的操作的交易</li><li>合約本身可以實現函數調用用於觸發部署代碼的操作</li></ol></p><p>為了發起交易重新部署合約代碼，交易必須用完全訪問密鑰（full-access key）簽名才行。如果合約上已經沒有這樣的密鑰了，那就無法重新部署合約，除非合約代碼里實現了專門的支持，這樣的合約我們認為它是鎖定了的。</p><p>如果合約上註冊了至少一個完全訪問密鑰（full-access key），它就不是鎖定的。</p>"
+        },
+        "code_hash": {
+          "title": "代碼hash",
+          "text": "合約二進制數據的校驗和（SHA-256通過 base58編碼）"
+        }
+      }
+    },
+    "stats": {
+      "ProtocolConfigInfo": {
+        "first_produced_block": "First produced block",
+        "genesis_started": "創世區塊時間",
+        "genesis_protocol_or_current_protocol": "創世協議版本 / 當前協議版本",
+        "genesis_height": "創世區塊高度",
+        "epoch_length": "周期長度",
+        "genesis_total_supply": "創世總供給量",
+        "accounts_in_genesis": "創世時賬戶數",
+        "total_supply": "總供給量",
+        "live_accounts": "在線賬戶"
+      },
+      "CirculatingSupplyStats": {
+        "circulating_supply": "流通供給量統計",
+        "tooltip": {
+          "circulating_supply": "流通供給量",
+          "total_tokens_supply": "總供給量",
+          "total_tokens_supply_explain": "可在市場上流通的NEAR代幣（即沒有被合約鎖鎖定的代幣）"
+        }
+      },
+      "TransactionsByDate": {
+        "daily_number_of_transactions": "每日交易數",
+        "total_number_of_transactions": "總交易數",
+        "transactions": "交易數"
+      },
+      "GasUsedByDate": {
+        "daily_amount_of_used_gas": "每日Gas使用量",
+        "petagas": "PetaGas",
+        "total_amount_of_used_gas": "總Gas使用量",
+        "gas_fee": "Gas費用",
+        "daily_gas_fee_in_near": "以NEAR為單位的每日Gas費用",
+        "fee": "費用"
+      },
+      "NewAccountsByDate": {
+        "daily_number_of_new_accounts": "每日新增賬戶數",
+        "daily_number_of_live_accounts": "每日在線賬戶數",
+        "total_number_of_new_accounts": "總新增賬戶數",
+        "new_accounts": "新賬戶數"
+      },
+      "NewContractsByDate": {
+        "daily_number_of_new_contracts": "每日新增合約數",
+        "total_number_of_new_contracts": "總新增合約數",
+        "total_number_of_unique_contracts": "總單獨合約數",
+        "new_contracts": "新合約數"
+      },
+      "ActiveAccountsByDate": {
+        "daily_number_of_active_accounts": "每日活躍賬戶數",
+        "weekly_number_of_active_accounts": "周活躍賬戶數",
+        "active_accounts": "活躍賬戶數"
+      },
+      "ActiveContractsByDate": {
+        "daily_number_of_active_contracts": "每日活躍合約數",
+        "active_contracts": "活躍合約數"
+      },
+      "ActiveAccountsList": {
+        "title": "過去14天最活躍的10個賬戶"
+      },
+      "ActiveContractsList": {
+        "title": "過去14天最活躍的10個合約"
+      }
+    },
+    "dashboard": {
+      "DashboardNode": {
+        "nodes_online": {
+          "title": "在線節點",
+          "text": "在線節點的總數"
+        },
+        "nodes_validating": {
+          "title": "正在驗證的節點",
+          "text": "正在驗證的節點的總數",
+          "unavailable": "Temporarily unavailable"
+        }
+      },
+      "DashboardBlock": {
+        "block_height": {
+          "title": "區塊高度",
+          "text": "<p>最新記錄到區塊鏈上的區塊的高度。</p><p>區塊高度是區塊鏈上最新的快的序號。</p><p>例如，區塊高度為1000意味著至多已經有1001個區塊存在在區塊鏈上（創世區塊 + 隨後的1000個區塊）。在NEAR上，不能保證每個序號都有對應的區塊產生，比如序號為982的區塊並不一定存在。</p>"
+        },
+        "avg_block_time": {
+          "title": "平均出塊時間",
+          "text": "產生一個區快的平均時間",
+          "unavailable": "Temporarily unavailable"
+        }
+      },
+      "DashboardTransaction": {
+        "24h_total": {
+          "title": "24小時總數",
+          "text": "過於24小時內的交易數量。"
+        },
+        "gas_price": {
+          "title": "Gas價格",
+          "text": "Tgas (TerraGas) 是 10^12 個單位Gas. 由於如果用 NEAR 計費，Gas的數字會相當小，所以TGas是更常用的。"
+        }
+      },
+      "DashboardTransactionHistoryChart": {
+        "14_day_history": {
+          "title": "過去14天歷史",
+          "transactions": "交易數"
+        }
+      }
+    },
+    "utils": {
+      "Search": {
+        "title": "搜尋",
+        "hint": "搜尋：賬戶ID、交易hash、區塊hash、區塊高度"
+      },
+      "Header": {
+        "home": "主頁"
+      },
+      "HeaderNavDropdown": {
+        "title": "瀏覽"
+      },
+      "Footer": {
+        "privacy_policy": "隱私政策",
+        "terms_of_service": "服務條款",
+        "all_rights_reserved": "版權所有",
+        "join_the_community": "加入社區",
+        "questions": "有問題"
+      }
+    }
+  },
+  "utils": {
+    "Update": {
+      "refresh": " 刷新或單擊以查看最新數據."
+    },
+    "ListHandler": {
+      "last_block": "最後的區塊高度是 #${height}"
+    },
+    "StorageSize": {
+      "bytes": "B",
+      "kilo_bytes": "kB",
+      "mega_bytes": "MB",
+      "giga_bytes": "GB"
+    },
+    "WalletLink": "${account_id} on ${wallet_name}"
+  },
+  "button": {
+    "view_all": "查看全部",
+    "docs": "查看文檔",
+    "load_more": "載入更多",
+    "show_more": "顯示更多",
+    "show_less": "折疊顯示"
+  }
+}
