@@ -32,16 +32,19 @@ const formatDurationString = (
   );
 };
 
-export const useFormatDistanceToNow = () => {
+export const useFormatDistance = () => {
   const { locale } = React.useContext(LanguageContext);
   return React.useCallback(
-    (timestamp: number | Date) => {
+    (
+      timestampStart: number | Date,
+      timestampEnd: number | Date = new Date()
+    ) => {
       if (!locale) {
         return "";
       }
       const duration = intervalToDuration({
-        start: timestamp,
-        end: new Date(),
+        start: timestampStart,
+        end: timestampEnd,
       });
       return formatDurationString(duration, locale.durationFormatter);
     },
