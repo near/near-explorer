@@ -54,7 +54,7 @@ function findBestSupportedLanguage(
 
   // Process special mappings
   const narrowedLanguages = browserLanguages.map((language) => {
-    // Handle special cases for traditional Chinesee fallback
+    // Set zh-Hant (Traditional Chinese) as the preferred languages for zh-TW and zh-HK
     if (["zh-TW", "zh-HK"].includes(language)) {
       return "zh-Hant";
     }
@@ -124,6 +124,7 @@ export function setMomentLanguage(language: Language): string {
 const LANGUAGES: Record<Language, true> = {
   en: true,
   uk: true,
+  "zh-Hant": true,
   "zh-Hans": true,
   vi: true,
   ru: true,
