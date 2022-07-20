@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEverySecond } from "../../hooks/use-every-second";
-import { useFormatDistanceToNow } from "../../hooks/use-format-distance-to-now";
+import { useFormatDistance } from "../../hooks/use-format-distance";
 
 interface Props {
   time?: number;
@@ -11,7 +11,7 @@ const Timer: React.FC<Props> = React.memo((props) => {
   useEverySecond(() => setCounter((c) => c + 1), [setCounter, props.time], {
     runOnMount: true,
   });
-  const formatDuration = useFormatDistanceToNow();
+  const formatDuration = useFormatDistance();
   return <span>{formatDuration(props.time || new Date())}</span>;
 });
 
