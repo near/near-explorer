@@ -6,9 +6,13 @@ import { config } from "./src/config";
 
 const run = async () => {
   for (const [database, dbConfig] of Object.entries(config.db)) {
-    // The model is the same as readOnlyTelemetryDatabase
-    // And we probably don't have credentials to connect to it
-    if (database === "writeOnlyTelemetry") {
+    if (
+      // The model is the same as readOnlyTelemetryDatabase
+      // And we probably don't have credentials to connect to it
+      database === "writeOnlyTelemetry" ||
+      // We don't have public credentials for readOnlyIndexerActivityDatabase
+      database === "readOnlyIndexerActivity"
+    ) {
       continue;
     }
     console.log(`\n> Generating types for ${database}...`);
