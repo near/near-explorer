@@ -9,7 +9,13 @@ export type FungibleTokensAccountPageOptions = BaseAccountPageOptions & {
   token?: string;
 };
 
-export type AccountPageOptions = FungibleTokensAccountPageOptions;
+export type ActivityAccountPageOptions = BaseAccountPageOptions & {
+  tab: "activity";
+};
+
+export type AccountPageOptions =
+  | FungibleTokensAccountPageOptions
+  | ActivityAccountPageOptions;
 
 export type AccountTab = AccountPageOptions["tab"];
 
@@ -19,22 +25,43 @@ export const parseAccountSlug = (slug: string[]): AccountPageOptions => {
     throw new Error("No account id in slug");
   }
   if (tab) {
-    if (tab === "fungible-tokens") {
-      if (restSlug.length > 1) {
-        throw new Error("Too many parameters in slug");
+    switch (tab) {
+      case "fungible-tokens": {
+        if (restSlug.length > 1) {
+          throw new Error("Too many parameters in slug");
+        }
+        return {
+          accountId,
+          tab: "fungible-tokens",
+          token: restSlug[0],
+        };
       }
-      return {
-        accountId,
-        tab: "fungible-tokens",
-        token: restSlug[0],
-      };
+      case "activity": {
+        if (restSlug.length > 0) {
+          throw new Error("Too many parameters in slug");
+        }
+        return {
+          accountId,
+          tab: "activity",
+        };
+      }
+      default:
+        throw new Error(`Unknown tab: ${tab}`);
     }
-    throw new Error(`Unknown tab: ${tab}`);
   }
   return {
     accountId,
-    tab: "fungible-tokens",
+    tab: "activity",
   };
+};
+
+const getAccountTabParts = (options: AccountPageOptions) => {
+  switch (options.tab) {
+    case "fungible-tokens":
+      return [options.tab, options.token];
+    case "activity":
+      return [];
+  }
 };
 
 export const buildAccountUrl = (options: AccountPageOptions) => {
@@ -42,8 +69,7 @@ export const buildAccountUrl = (options: AccountPageOptions) => {
     "/beta",
     "accounts",
     options.accountId,
-    options.tab,
-    "token" in options ? options.token : undefined,
+    ...getAccountTabParts(options),
   ]
     .filter(Boolean)
     .join("/");

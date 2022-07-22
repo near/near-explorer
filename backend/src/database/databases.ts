@@ -5,6 +5,7 @@ import { config } from "../config";
 import * as Indexer from "./models/readOnlyIndexer";
 import * as Telemetry from "./models/readOnlyTelemetry";
 import * as Analytics from "./models/readOnlyAnalytics";
+import * as IndexerActivity from "./models/readOnlyIndexerActivity";
 
 const getPgPool = (config: PostgresDialectConfig): Pool => {
   const pool = new Pool(config);
@@ -34,6 +35,10 @@ export const telemetryDatabase = getKysely<Telemetry.ModelTypeMap>(
 
 export const indexerDatabase = getKysely<Indexer.ModelTypeMap>(
   config.db.readOnlyIndexer
+);
+
+export const indexerActivityDatabase = getKysely<IndexerActivity.ModelTypeMap>(
+  config.db.readOnlyIndexerActivity
 );
 
 export const analyticsDatabase = getKysely<Analytics.ModelTypeMap>(

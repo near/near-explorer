@@ -19,7 +19,9 @@ const CopyToClipboard: React.FC<Props> = React.memo((props) => {
   const onCopy = React.useCallback(
     (text, result) => {
       props.onCopy?.(text, result);
-      setCopied(true);
+      if (result) {
+        setCopied(true);
+      }
     },
     [props.onCopy]
   );
@@ -32,8 +34,15 @@ const CopyToClipboard: React.FC<Props> = React.memo((props) => {
       return () => void window.clearTimeout(timeoutId);
     }
   }, [copied]);
+  const stopPropagation = React.useCallback<
+    React.MouseEventHandler<HTMLDivElement>
+  >((e) => {
+    console.log("STUP");
+    e.stopPropagation();
+    e.preventDefault();
+  }, []);
   return (
-    <Wrapper>
+    <Wrapper onClick={stopPropagation}>
       <RawCopyToClipboard text={props.text} onCopy={onCopy}>
         {copied ? (
           <svg height=".6em" width=".6em" viewBox="0 0 16 16">

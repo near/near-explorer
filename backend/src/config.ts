@@ -81,6 +81,12 @@ export const config = merge(
         min: 0,
         max: 15,
       },
+      readOnlyIndexerActivity: {
+        host: "",
+        database: "",
+        user: "",
+        password: "",
+      },
     },
   },
   getOverrides("NEAR_EXPLORER_CONFIG")

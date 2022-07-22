@@ -124,10 +124,26 @@
       },
       "tabs": {
         "activity": "Активність",
+        "activityDetails": "(${transactionsQuantity})",
         "tokens": "Токени",
         "collectibles": "Колекціонування",
         "accessKeys": "Ключі",
         "lockedUp": "Заблоковано"
+      },
+      "activity": {
+        "type": {
+          "transfer": "Переказ",
+          "stake": "Стейк",
+          "deployContract": "Деплой контракту",
+          "addKey": "Додавання ключа",
+          "deleteKey": "Видалення ключа",
+          "functionCall": "Виклик методу",
+          "createAccount": "Створення акаунта",
+          "deleteAccount": "Видалення акаунта",
+          "batch": "Пакет (${quantity})",
+          "validatorReward": "Нагорода валідатора"
+        },
+        "dateFormat": "DD/MM/YYYY hh:mm"
       }
     },
     "transaction": {
