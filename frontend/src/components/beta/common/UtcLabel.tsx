@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled } from "../../../libraries/styles";
 
 const UTC = styled("div", {
-  fontFamily: "SF Mono",
   fontWeight: 600,
   fontSize: 12,
   lineHeight: "20px",

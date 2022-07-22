@@ -157,6 +157,24 @@
         "fetching": "Đang lấy thông tin Trạng thái...",
         "fail": "Thất bại",
         "success": "Thành công"
+      },
+      "processed": "Processed in ${time}",
+      "execution_plan": "Execution Plan",
+      "expand_all": "Expand All",
+      "tabs": {
+        "output": "Output",
+        "inspect": "Inspect"
+      },
+      "type": {
+        "transfer": "Transfer",
+        "stake": "Restake",
+        "deployContract": "Contract Deployed",
+        "addKey": "Access Key Created",
+        "deleteKey": "Access Key Deleted",
+        "functionCall": "",
+        "createAccount": "Account created",
+        "deleteAccount": "Account removed",
+        "refund": "Refund"
       }
     }
   },
