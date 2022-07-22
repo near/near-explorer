@@ -1,29 +1,7 @@
 import { formatDuration, intervalToDuration } from "date-fns";
+import { sql } from "kysely";
 import { ValidatorEpochData, ValidatorPoolInfo } from "../router/types";
 import { config } from "../config";
-import {
-  queryStakingPoolAccountIds,
-  queryRecentTransactionsCount,
-  queryTelemetryInfo,
-  queryTransactionsHistory,
-  queryLatestBlock,
-  queryLatestGasPrice,
-  queryRecentBlockProductionSpeed,
-  queryOnlineNodesCount,
-  queryGenesisAccountCount,
-  queryTokensSupply,
-  queryGasUsedAggregatedByDate,
-  queryNewAccountsCountAggregatedByDate,
-  queryDeletedAccountsCountAggregatedByDate,
-  queryActiveAccountsList,
-  queryActiveAccountsCountAggregatedByDate,
-  queryActiveAccountsCountAggregatedByWeek,
-  queryNewContractsCountAggregatedByDate,
-  queryUniqueDeployedContractsCountAggregatedByDate,
-  queryActiveContractsCountAggregatedByDate,
-  queryActiveContractsList,
-  healthCheck,
-} from "../database/queries";
 import * as nearApi from "../utils/near";
 import { queryEpochData } from "../providers/network";
 import { wait } from "../common";
@@ -35,12 +13,33 @@ import {
   updateRegularlyFetchedMap,
 } from "./utils";
 import { SECOND, MINUTE } from "../utils/time";
+import {
+  analyticsDatabase,
+  indexerDatabase,
+  telemetryDatabase,
+} from "../database/databases";
+import { count, div, sum } from "../database/utils";
+import { nearNomination, teraGasNomination } from "../utils/bigint";
 
 export const latestBlockCheck: RegularCheckFn = {
   description: "publish finality status",
   fn: publishOnChange(
     "latestBlock",
-    queryLatestBlock,
+    async () => {
+      const latestBlockHeightSelection = await indexerDatabase
+        .selectFrom("blocks")
+        .select([
+          "block_height as blockHeight",
+          (eb) => div(eb, "block_timestamp", 1000 * 1000, "blockTimestampMs"),
+        ])
+        .orderBy("block_height", "desc")
+        .limit(1)
+        .executeTakeFirstOrThrow();
+      return {
+        height: Number(latestBlockHeightSelection.blockHeight),
+        timestamp: Number(latestBlockHeightSelection.blockTimestampMs),
+      };
+    },
     config.intervals.checkLatestBlock
   ),
 };
@@ -49,7 +48,15 @@ export const latestGasPriceCheck: RegularCheckFn = {
   description: "latest gas price check from Indexer",
   fn: publishOnChange(
     "latestGasPrice",
-    queryLatestGasPrice,
+    async () => {
+      const latestGasPriceSelection = await indexerDatabase
+        .selectFrom("blocks")
+        .select("gas_price")
+        .orderBy("block_height", "desc")
+        .limit(1)
+        .executeTakeFirstOrThrow();
+      return latestGasPriceSelection.gas_price;
+    },
     config.intervals.checkLatestGasPrice
   ),
 };
@@ -58,7 +65,41 @@ export const blockProductionSpeedCheck: RegularCheckFn = {
   description: "block production speed check from Indexer",
   fn: publishOnChange(
     "blockProductionSpeed",
-    queryRecentBlockProductionSpeed,
+    async () => {
+      const lastestBlockTimestampSelection = await indexerDatabase
+        .selectFrom("blocks")
+        .select("block_timestamp")
+        .orderBy("block_timestamp", "desc")
+        .limit(1)
+        .executeTakeFirst();
+      if (!lastestBlockTimestampSelection) {
+        return 0;
+      }
+      const { block_timestamp: latestBlockTimestamp } =
+        lastestBlockTimestampSelection;
+      const latestBlockTimestampBI = BigInt(latestBlockTimestamp);
+      const currentUnixTimeBI = BigInt(Math.floor(new Date().getTime() / 1000));
+      const latestBlockEpochTimeBI = latestBlockTimestampBI / 1000000000n;
+      // If the latest block is older than 1 minute from now, we report 0
+      if (currentUnixTimeBI - latestBlockEpochTimeBI > 60) {
+        return 0;
+      }
+
+      const selection = await indexerDatabase
+        .selectFrom("blocks")
+        .select((eb) =>
+          count(eb, "block_hash").as("blocks_count_60_seconds_before")
+        )
+        .where(
+          "block_timestamp",
+          ">",
+          sql`cast(
+            ${Number(latestBlockEpochTimeBI)} - 60 as bigint
+          ) * 1000 * 1000 * 1000`
+        )
+        .executeTakeFirstOrThrow();
+      return parseInt(selection.blocks_count_60_seconds_before) / 60;
+    },
     config.intervals.checkBlockProductionSpeed
   ),
 };
@@ -67,7 +108,23 @@ export const recentTransactionsCountCheck: RegularCheckFn = {
   description: "recent transactions check from Indexer",
   fn: publishOnChange(
     "recentTransactionsCount",
-    queryRecentTransactionsCount,
+    async () => {
+      const selection = await indexerDatabase
+        .selectFrom("transactions")
+        .select((eb) => count(eb, "transaction_hash").as("total"))
+        .where(
+          "block_timestamp",
+          ">",
+          sql`cast(
+            extract(
+              epoch from now() - '1 day'::interval
+            ) as bigint
+          ) * 1000 * 1000 * 1000`
+        )
+        .executeTakeFirstOrThrow();
+
+      return parseInt(selection.total);
+    },
     config.intervals.checkRecentTransactions
   ),
 };
@@ -76,7 +133,14 @@ export const onlineNodesCountCheck: RegularCheckFn = {
   description: "online nodes count check",
   fn: publishOnChange(
     "onlineNodesCount",
-    queryOnlineNodesCount,
+    async () => {
+      const selection = await telemetryDatabase
+        .selectFrom("nodes")
+        .select((eb) => count(eb, "node_id").as("onlineNodesCount"))
+        .where("last_seen", ">", sql`now() - '60 seconds'::interval`)
+        .executeTakeFirstOrThrow();
+      return parseInt(selection.onlineNodesCount);
+    },
     config.intervals.checkOnlineNodesCount
   ),
 };
@@ -86,7 +150,11 @@ export const genesisProtocolInfoFetch: RegularCheckFn = {
   fn: async (publish, context) => {
     const [genesisProtocolConfig, genesisAccountCount] = await Promise.all([
       nearApi.sendJsonRpc("EXPERIMENTAL_genesis_config", { finality: "final" }),
-      queryGenesisAccountCount(),
+      indexerDatabase
+        .selectFrom("accounts")
+        .select((eb) => count(eb, "id").as("count"))
+        .where("created_by_receipt_id", "is", null)
+        .executeTakeFirstOrThrow(),
     ]);
     context.state.genesis = {
       minStakeRatio: genesisProtocolConfig.minimum_stake_ratio,
@@ -107,7 +175,17 @@ export const transactionsHistoryCheck: RegularCheckFn = {
   description: "transactionsHistoryCheck",
   fn: publishOnChange(
     "transactionsHistory",
-    queryTransactionsHistory,
+    async () => {
+      const selection = await analyticsDatabase
+        .selectFrom("daily_transactions_count")
+        .select(["collected_for_day as date", "transactions_count as count"])
+        .orderBy("date")
+        .execute();
+      return selection.map<[number, number]>((row) => [
+        row.date.valueOf(),
+        Number(row.count),
+      ]);
+    },
     config.intervals.checkTransactionHistory
   ),
 };
@@ -116,7 +194,31 @@ export const tokensSupplyCheck: RegularCheckFn = {
   description: "circulatingSupplyCheck",
   fn: publishOnChange(
     "tokensSupply",
-    queryTokensSupply,
+    async () => {
+      const selection = await indexerDatabase
+        .selectFrom("aggregated__circulating_supply")
+        .select([
+          sql<Date>`date_trunc(
+            'day',
+            to_timestamp(
+              div(
+                computed_at_block_timestamp, 1000 * 1000 * 1000
+              )
+            )
+          )`.as("date"),
+          "circulating_tokens_supply as circulatingSupply",
+          "total_tokens_supply as totalSupply",
+        ])
+        .orderBy("date")
+        .execute();
+      return selection.map<[number, number, number]>(
+        ({ date, totalSupply, circulatingSupply }) => [
+          date.valueOf(),
+          Number(BigInt(totalSupply) / nearNomination),
+          Number(BigInt(circulatingSupply) / nearNomination),
+        ]
+      );
+    },
     config.intervals.checkTokensSupply
   ),
 };
@@ -125,7 +227,17 @@ export const gasUsedHistoryCheck: RegularCheckFn = {
   description: "gasUsedHistoryCheck",
   fn: publishOnChange(
     "gasUsedHistory",
-    queryGasUsedAggregatedByDate,
+    async () => {
+      const selection = await analyticsDatabase
+        .selectFrom("daily_gas_used")
+        .select(["collected_for_day as date", "gas_used as gasUsed"])
+        .orderBy("date")
+        .execute();
+      return selection.map<[number, number]>(({ date, gasUsed }) => [
+        date.valueOf(),
+        Number(BigInt(gasUsed) / teraGasNomination),
+      ]);
+    },
     config.intervals.checkAggregatedStats
   ),
 };
@@ -136,8 +248,32 @@ export const contractsHistoryCheck: RegularCheckFn = {
     "contractsHistory",
     async () => {
       const [newContracts, uniqueContracts] = await Promise.all([
-        queryNewContractsCountAggregatedByDate(),
-        queryUniqueDeployedContractsCountAggregatedByDate(),
+        (
+          await analyticsDatabase
+            .selectFrom("daily_new_contracts_count")
+            .select([
+              "collected_for_day as date",
+              "new_contracts_count as contractsCount",
+            ])
+            .orderBy("date")
+            .execute()
+        ).map<[number, number]>(({ date, contractsCount }) => [
+          date.valueOf(),
+          contractsCount,
+        ]),
+        (
+          await analyticsDatabase
+            .selectFrom("daily_new_unique_contracts_count")
+            .select([
+              "collected_for_day as date",
+              "new_unique_contracts_count as contractsCount",
+            ])
+            .orderBy("date")
+            .execute()
+        ).map<[number, number]>(({ date, contractsCount }) => [
+          date.valueOf(),
+          contractsCount,
+        ]),
       ]);
       return { newContracts, uniqueContracts };
     },
@@ -149,7 +285,21 @@ export const activeContractsHistoryCheck: RegularCheckFn = {
   description: "activeContractsHistory",
   fn: publishOnChange(
     "activeContractsHistory",
-    queryActiveContractsCountAggregatedByDate,
+    async () => {
+      const selection = await analyticsDatabase
+        .selectFrom("daily_active_contracts_count")
+        .select([
+          "collected_for_day as date",
+          "active_contracts_count as contractsCount",
+        ])
+        .orderBy("date")
+        .execute();
+
+      return selection.map<[number, number]>(({ date, contractsCount }) => [
+        date.valueOf(),
+        contractsCount,
+      ]);
+    },
     config.intervals.checkAggregatedStats
   ),
 };
@@ -158,7 +308,30 @@ export const activeContractsListCheck: RegularCheckFn = {
   description: "activeContractsList",
   fn: publishOnChange(
     "activeContractsList",
-    queryActiveContractsList,
+    async () => {
+      const selection = await analyticsDatabase
+        .selectFrom("daily_receipts_per_contract_count")
+        .select([
+          "contract_id as accountId",
+          (eb) => sum(eb, "receipts_count").as("receiptsCount"),
+        ])
+        .where(
+          "collected_for_day",
+          ">=",
+          sql`date_trunc(
+            'day', now() - '2 week'::interval
+          )`
+        )
+        .groupBy("contract_id")
+        .orderBy("receiptsCount", "desc")
+        .limit(10)
+        .execute();
+
+      return selection.map<[string, number]>(({ accountId, receiptsCount }) => [
+        accountId,
+        Number(receiptsCount || 0),
+      ]);
+    },
     config.intervals.checkAggregatedStats
   ),
 };
@@ -171,8 +344,32 @@ export const accountsHistoryCheck: RegularCheckFn = {
       return 10 * SECOND;
     }
     const [newAccounts, deletedAccounts] = await Promise.all([
-      queryNewAccountsCountAggregatedByDate(),
-      queryDeletedAccountsCountAggregatedByDate(),
+      (
+        await analyticsDatabase
+          .selectFrom("daily_new_accounts_count")
+          .select([
+            "collected_for_day as date",
+            "new_accounts_count as accountsCount",
+          ])
+          .orderBy("date")
+          .execute()
+      ).map<[number, number]>(({ date, accountsCount }) => [
+        date.valueOf(),
+        accountsCount,
+      ]),
+      (
+        await analyticsDatabase
+          .selectFrom("daily_deleted_accounts_count")
+          .select([
+            "collected_for_day as date",
+            "deleted_accounts_count as accountsCount",
+          ])
+          .orderBy("date")
+          .execute()
+      ).map<[number, number]>(({ date, accountsCount }) => [
+        date.valueOf(),
+        accountsCount,
+      ]),
     ]);
     const newAccountMap = new Map<number, number>();
     for (let i = 0; i < newAccounts.length; i++) {
@@ -221,8 +418,32 @@ export const activeAccountsHistoryCheck: RegularCheckFn = {
     "activeAccountsHistory",
     async () => {
       const [byDay, byWeek] = await Promise.all([
-        queryActiveAccountsCountAggregatedByDate(),
-        queryActiveAccountsCountAggregatedByWeek(),
+        (
+          await analyticsDatabase
+            .selectFrom("daily_active_accounts_count")
+            .select([
+              "collected_for_day as date",
+              "active_accounts_count as accountsCount",
+            ])
+            .orderBy("date")
+            .execute()
+        ).map<[number, number]>(({ date, accountsCount }) => [
+          date.valueOf(),
+          accountsCount,
+        ]),
+        (
+          await analyticsDatabase
+            .selectFrom("weekly_active_accounts_count")
+            .select([
+              "collected_for_week as date",
+              "active_accounts_count as accountsCount",
+            ])
+            .orderBy("date")
+            .execute()
+        ).map<[number, number]>(({ date, accountsCount }) => [
+          date.valueOf(),
+          accountsCount,
+        ]),
       ]);
       return { byDay, byWeek };
     },
@@ -234,7 +455,32 @@ export const activeAccountsListCheck: RegularCheckFn = {
   description: "activeAccountsListCheck",
   fn: publishOnChange(
     "activeAccountsList",
-    queryActiveAccountsList,
+    async () => {
+      const selection = await analyticsDatabase
+        .selectFrom("daily_outgoing_transactions_per_account_count")
+        .select([
+          "account_id as accountId",
+          (eb) =>
+            sum(eb, "outgoing_transactions_count").as("transactionsCount"),
+        ])
+        .where(
+          "collected_for_day",
+          ">=",
+          sql`date_trunc(
+            'day', now() - '2 week'::interval
+          )`
+        )
+        .groupBy("account_id")
+        .orderBy("transactionsCount", "desc")
+        .limit(10)
+        .execute();
+      return selection.map<[string, number]>(
+        ({ accountId, transactionsCount }) => [
+          accountId,
+          Number(transactionsCount || 0),
+        ]
+      );
+    },
     config.intervals.checkAggregatedStats
   ),
 };
@@ -310,9 +556,61 @@ export const networkInfoCheck: RegularCheckFn = {
   description: "publish network info",
   fn: async (publish, context) => {
     const epochData = await queryEpochData(context);
-    const telemetryInfo = await queryTelemetryInfo(
-      epochData.validators.map((validator) => validator.accountId)
-    );
+    const nodesInfo = await telemetryDatabase
+      .selectFrom("nodes")
+      .select([
+        "ip_address",
+        "account_id",
+        "node_id",
+        "last_seen",
+        "last_height",
+        "status",
+        "agent_name",
+        "agent_version",
+        "agent_build",
+        "latitude",
+        "longitude",
+        "city",
+      ])
+      .where(
+        "account_id",
+        "in",
+        epochData.validators.map((validator) => validator.accountId)
+      )
+      .orderBy("last_seen")
+      .execute();
+
+    const telemetryInfo = new Map<
+      string,
+      {
+        ipAddress: string;
+        nodeId: string;
+        lastSeen: number;
+        lastHeight: number;
+        status: string;
+        agentName: string;
+        agentVersion: string;
+        agentBuild: string;
+        latitude: string | null;
+        longitude: string | null;
+        city: string | null;
+      }
+    >();
+    for (const nodeInfo of nodesInfo) {
+      telemetryInfo.set(nodeInfo.account_id, {
+        ipAddress: nodeInfo.ip_address,
+        nodeId: nodeInfo.node_id,
+        lastSeen: nodeInfo.last_seen.valueOf(),
+        lastHeight: parseInt(nodeInfo.last_height),
+        status: nodeInfo.status,
+        agentName: nodeInfo.agent_name,
+        agentVersion: nodeInfo.agent_version,
+        agentBuild: nodeInfo.agent_build,
+        latitude: nodeInfo.latitude,
+        longitude: nodeInfo.longitude,
+        city: nodeInfo.city,
+      });
+    }
     await Promise.all([
       Promise.race([
         updateStakingPoolStakeProposalsFromContractMap(
@@ -402,7 +700,16 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
 export const poolIdsCheck: RegularCheckFn = {
   description: "pool ids check",
   fn: async (_, context) => {
-    context.state.poolIds = await queryStakingPoolAccountIds();
+    const selection = await indexerDatabase
+      .selectFrom("accounts")
+      .select("account_id as accountId")
+      .where(
+        "account_id",
+        "like",
+        `%${config.accountIdSuffix.stakingPool[config.networkName]}`
+      )
+      .execute();
+    context.state.poolIds = selection.map(({ accountId }) => accountId);
     return config.intervals.checkPoolIds;
   },
 };
@@ -450,7 +757,7 @@ export const indexerStatusCheck: RegularCheckFn = {
   description: "indexer status check",
   fn: async (publish, context) => {
     try {
-      await healthCheck();
+      await sql`select 1`.execute(indexerDatabase);
       const now = Date.now();
       const latestBlock = context.subscriptionsCache.latestBlock;
       if (!latestBlock) {
