@@ -7,17 +7,7 @@ import { div } from "../../database/utils";
 import * as nearApi from "../../utils/near";
 import { validators } from "../validators";
 import { notNullGuard } from "../../common";
-
-// https://nomicon.io/Standards/Tokens/FungibleToken/Metadata
-type FungibleTokenMetadata = {
-  spec: string;
-  name: string;
-  symbol: string;
-  icon: string | null;
-  reference: string | null;
-  reference_hash: string | null;
-  decimals: number;
-};
+import { FungibleTokenMetadata } from "../fungible-tokens";
 
 const base64ImageRegex = /^data:image/;
 const validateBase64Image = (base64Image: string | null): string | null => {

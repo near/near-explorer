@@ -9,6 +9,7 @@ import { router as accountRouter } from "./account";
 import { router as contractRouter } from "./contract";
 import { router as receiptRouter } from "./receipt";
 import { router as utilsRouter } from "./utils";
+import { router as fungibleTokensRouter } from "./fungible-tokens";
 
 export const router = trpc
   .router<Context>()
@@ -20,6 +21,7 @@ export const router = trpc
   .merge("receipt.", receiptRouter)
   .merge("account.", accountRouter)
   .merge("contract.", contractRouter)
-  .merge("telemetry.", telemetryRouter);
+  .merge("telemetry.", telemetryRouter)
+  .merge("fungibleTokens.", fungibleTokensRouter);
 
 export type AppRouter = typeof router;
