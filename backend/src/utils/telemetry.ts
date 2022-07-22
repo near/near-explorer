@@ -2,7 +2,7 @@ import { telemetryWriteDatabase } from "../database/databases";
 
 // Skip initializing Telemetry database if the backend is not configured to
 // save telemety data (it is absolutely fine for local development)
-export const setup = async () => {
+export const setupTelemetryDb = async () => {
   if (!telemetryWriteDatabase) {
     return;
   }

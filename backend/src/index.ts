@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { setup as setupTelemetryDb } from "./providers/telemetry";
+import { setupTelemetryDb } from "./utils/telemetry";
 import { runTasks } from "./cron";
 import { AppRouter, router } from "./router";
 import { connectWebsocketServer, createApp } from "./server";
