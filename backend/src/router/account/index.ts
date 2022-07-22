@@ -4,10 +4,12 @@ import { router as byIdRouter } from "./by-id";
 import { router as listRouter } from "./list";
 import { router as transactionsCountRouter } from "./transactions-count";
 import { router as fungibleTokensRouter } from "./fungible-tokens";
+import { router as activityRouter } from "./activity";
 
 export const router = trpc
   .router<Context>()
   .merge(byIdRouter)
   .merge(listRouter)
   .merge(transactionsCountRouter)
-  .merge(fungibleTokensRouter);
+  .merge(fungibleTokensRouter)
+  .merge(activityRouter);

@@ -1,0 +1,44 @@
+diff --git a/node_modules/kanel/build/generateIndexFile.js b/node_modules/kanel/build/generateIndexFile.js
+index a9dfa11..160071d 100644
+--- a/node_modules/kanel/build/generateIndexFile.js
++++ b/node_modules/kanel/build/generateIndexFile.js
+@@ -50,7 +50,7 @@ function generateIndexFile(models, userTypes, nominators) {
+             : []), true), (exportId ? [nominators.idNominator(givenName, m.name)] : []), true);
+         return "  ".concat(exports.join(', '), ",");
+     };
+-    var lines = __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], (0, ramda_1.map)(importLine, models), true), (0, ramda_1.map)(function (t) {
++    var lines = __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], (0, ramda_1.map)(importLine, models), true), (0, ramda_1.map)(function (t) {
+         return "import ".concat(nominators.typeNominator(t), " from './").concat(nominators.fileNominator(nominators.typeNominator(t), t), "';");
+     }, userTypes), true), [
+         '',
+@@ -60,11 +60,14 @@ function generateIndexFile(models, userTypes, nominators) {
+         'interface ModelTypeMap {'
+     ], false), (0, ramda_1.map)(function (model) { return "  '".concat(model.name, "': ").concat(nominators.modelNominator(model.name), ";"); }, models), true), [
+         '}',
+-        '',
+-        'type ModelId ='
+-    ], false), (0, ramda_1.map)(function (model) {
+-        return "  | ".concat(nominators.idNominator(nominators.modelNominator(model.name), model.name));
+-    }, modelsWithIdColumn), true), [
++        ''
++    ], false), (modelsWithIdColumn.length === 0
++        ? []
++        : __spreadArray([
++            'type ModelId ='
++        ], (0, ramda_1.map)(function (model) {
++            return "  | ".concat(nominators.idNominator(nominators.modelNominator(model.name), model.name));
++        }, modelsWithIdColumn), true)), true), [
+         '',
+         'interface ModelIdTypeMap {'
+     ], false), (0, ramda_1.map)(function (model) {
+@@ -89,8 +92,8 @@ function generateIndexFile(models, userTypes, nominators) {
+     ], false), (0, ramda_1.map)(exportLine, models), true), (0, ramda_1.map)(function (t) { return "  ".concat(nominators.typeNominator(t), ","); }, userTypes), true), [
+         '',
+         '  Model,',
+-        '  ModelTypeMap,',
+-        '  ModelId,',
++        '  ModelTypeMap,'
++    ], false), (modelsWithIdColumn.length === 0 ? [] : ['  ModelId,']), true), [
+         '  ModelIdTypeMap,',
+         '  Initializer,',
+         '  InitializerTypeMap',

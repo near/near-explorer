@@ -124,10 +124,26 @@
       },
       "tabs": {
         "activity": "Activity",
+        "activityDetails": "(${transactionsQuantity})",
         "tokens": "Tokens",
         "collectibles": "Collectibles",
         "accessKeys": "Access Keys",
         "lockedUp": "Locked up"
+      },
+      "activity": {
+        "type": {
+          "transfer": "Transfer",
+          "stake": "Restake",
+          "deployContract": "Contract Deployed",
+          "addKey": "Access Key Created",
+          "deleteKey": "Access Key Deleted",
+          "functionCall": "Method called",
+          "createAccount": "Account created",
+          "deleteAccount": "Account removed",
+          "batch": "Batch (${quantity})",
+          "validatorReward": "Validator reward"
+        },
+        "dateFormat": "dd/MM/yyyy hh:mm"
       }
     },
     "transaction": {

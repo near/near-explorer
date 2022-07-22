@@ -11,6 +11,17 @@ export type AccountFungibleTokenHistory =
 export type AccountFungibleTokenHistoryElement =
   AccountFungibleTokenHistory["elements"][number];
 
+export type AccountActivity = TRPCQueryOutput<"account.activity">;
+export type AccountActivityElement = AccountActivity["items"][number];
+export type AccountActivityElementAction = AccountActivityElement["action"];
+export type AccountActivityRelatedAction = NonNullable<
+  AccountActivityElement["action"]["parentAction"]
+>;
+type InferAccountActivityAction<T extends AccountActivityElementAction> =
+  T extends { kind: "batch" } ? T["actions"][number] : never;
+export type AccountActivityAction =
+  InferAccountActivityAction<AccountActivityElementAction>;
+
 export type Block = NonNullable<TRPCQueryOutput<"block.byId">>;
 export type BlockBase = TRPCQueryOutput<"block.list">[number];
 

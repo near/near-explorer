@@ -8,15 +8,31 @@ import {
 import { styled } from "../../../libraries/styles";
 import { Tabs } from "../common/Tabs";
 import AccountFungibleTokens from "./AccountFungibleTokens";
+import { Account } from "../../../types/common";
+import AccountActivityView from "./AccountActivityView";
+import {
+  BasicDecimalPower,
+  BASIC_DENOMINATION,
+  formatToPowerOfTen,
+} from "../../../libraries/formatting";
 
 const TabLabel = styled("div", {
   display: "flex",
 });
 
-type Props = { options: AccountPageOptions };
+type Props = { account: Account; options: AccountPageOptions };
 
-const AccountTabs: React.FC<Props> = React.memo(({ options }) => {
+const TabDetails = styled("div", {
+  fontSize: 10,
+  lineHeight: "150%",
+});
+
+const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
   const { t } = useTranslation();
+  const transactionsQuantity = formatToPowerOfTen<BasicDecimalPower>(
+    account.transactionsQuantity.toString(),
+    6
+  );
   return (
     <Tabs<AccountTab>
       buildHref={React.useCallback(
@@ -28,9 +44,19 @@ const AccountTabs: React.FC<Props> = React.memo(({ options }) => {
       tabs={[
         {
           id: "activity",
-          disabled: true,
-          label: <TabLabel>{t("pages.account.tabs.activity")}</TabLabel>,
-          node: null,
+          label: (
+            <TabLabel>
+              {t("pages.account.tabs.activity")}
+              <TabDetails>
+                {t("pages.account.tabs.activityDetails", {
+                  transactionsQuantity: `${transactionsQuantity.quotient}${
+                    BASIC_DENOMINATION[transactionsQuantity.prefix]
+                  }`,
+                })}
+              </TabDetails>
+            </TabLabel>
+          ),
+          node: <AccountActivityView accountId={options.accountId} />,
         },
         {
           id: "fungible-tokens",

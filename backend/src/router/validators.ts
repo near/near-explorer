@@ -6,6 +6,11 @@ export const validators = {
     indexInChunk: z.number().gte(0),
   }),
   accountPagination: z.number(),
+  accountActivityCursor: z.strictObject({
+    blockTimestamp: z.string(),
+    shardId: z.number(),
+    indexInChunk: z.number(),
+  }),
   blockPagination: z.number(),
   accountId: z.string(),
   blockHash: z.string(),
