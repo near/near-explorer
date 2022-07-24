@@ -13,10 +13,12 @@ export const router = trpc.router<Context>().query("getHashById", {
     let selection = indexerDatabase
       .selectFrom("blocks")
       .select("block_hash as hash");
-    if (isNaN(parseInt(blockId))) {
+    if ([43, 44].indexOf(blockId.length) >= 0) {
       selection = selection.where("block_hash", "=", blockId);
-    } else {
+    } else if (!isNaN(Number(blockId))) {
       selection = selection.where("block_height", "=", blockId);
+    } else {
+      return null;
     }
     const block = await selection.limit(1).executeTakeFirst();
     if (block) {
