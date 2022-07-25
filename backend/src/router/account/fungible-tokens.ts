@@ -10,7 +10,9 @@ import { notNullGuard } from "../../common";
 import { FungibleTokenMetadata } from "../fungible-tokens";
 
 const base64ImageRegex = /^data:image/;
-const validateBase64Image = (base64Image: string | null): string | null => {
+export const validateBase64Image = (
+  base64Image: string | null
+): string | null => {
   if (!base64Image) {
     return null;
   }

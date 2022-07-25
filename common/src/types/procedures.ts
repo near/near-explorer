@@ -10,6 +10,12 @@ export type AccountFungibleTokenHistory =
   TRPCQueryOutput<"account.fungibleTokenHistory">;
 export type AccountFungibleTokenHistoryElement =
   AccountFungibleTokenHistory["elements"][number];
+export type AccountNonFungibleToken =
+  TRPCQueryOutput<"account.nonFungibleTokens">;
+export type AccountNonFungibleTokenElement =
+  TRPCQueryOutput<"account.nonFungibleTokens">["items"][number];
+export type AccountNonFungibleTokenHistoryElement =
+  TRPCQueryOutput<"account.nonFungibleTokenHistory">[number];
 
 export type AccountActivity = TRPCQueryOutput<"account.activity">;
 export type AccountActivityElement = AccountActivity["items"][number];
