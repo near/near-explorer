@@ -40,6 +40,8 @@ export default interface Nodes {
   longitude: string | null;
 
   city: string | null;
+
+  blob: string | null;
 }
 
 export interface NodesInitializer {
@@ -79,4 +81,6 @@ export interface NodesInitializer {
   longitude?: string | null;
 
   city?: string | null;
+
+  blob?: string | null;
 }
