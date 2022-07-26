@@ -41,7 +41,7 @@ export const router = trpc.router<Context>().mutation("upsert", {
         latitude: geo ? geo.ll[0].toString() : null,
         longitude: geo ? geo.ll[1].toString() : null,
         city: geo ? geo.city : null,
-        blob: nodeInfo.blob,
+        extra_info: nodeInfo.extra_info,
       })
       .onConflict((oc) =>
         oc.column("node_id").doUpdateSet({
@@ -61,7 +61,7 @@ export const router = trpc.router<Context>().mutation("upsert", {
           latitude: (eb) => eb.ref("excluded.latitude"),
           longitude: (eb) => eb.ref("excluded.longitude"),
           city: (eb) => eb.ref("excluded.city"),
-          blob: (eb) => eb.ref("excluded.blob"),
+          extra_info: (eb) => eb.ref("excluded.extra_info"),
         })
       );
 

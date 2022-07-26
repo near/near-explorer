@@ -26,6 +26,6 @@ export const setupTelemetryDb = async () => {
     .addColumn("latitude", "numeric(8, 6)")
     .addColumn("longitude", "numeric(9, 6)")
     .addColumn("city", "varchar(255)")
-    .addColumn("blob", "varchar(1048575)")
+    .addColumn("extra_info", "varchar(1048575)")
     .execute();
 };

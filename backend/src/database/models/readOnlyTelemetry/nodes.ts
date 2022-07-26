@@ -41,7 +41,7 @@ export default interface Nodes {
 
   city: string | null;
 
-  blob: string | null;
+  extra_info: string | null;
 }
 
 export interface NodesInitializer {
@@ -82,5 +82,5 @@ export interface NodesInitializer {
 
   city?: string | null;
 
-  blob?: string | null;
+  extra_info?: string | null;
 }

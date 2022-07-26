@@ -35,6 +35,6 @@ export const validators = {
       latest_block_hash: z.string(),
       status: z.string(),
     }),
-    blob: z.string(),
+    extra_info: z.string(),
   }),
 };
