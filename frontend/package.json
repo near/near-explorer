@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/near/near-explorer#readme",
   "dependencies": {
-    "@stitches/react": "^1.2.6",
+    "@stitches/react": "^1.2.8",
     "@trpc/client": "^9.23.4",
     "@trpc/next": "^9.23.4",
     "@trpc/react": "^9.23.4",
