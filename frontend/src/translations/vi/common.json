@@ -22,7 +22,7 @@
       "status": {
         "unknown": "Xử lý...",
         "failure": "Thất bại",
-        "success": "Thất bại"
+        "success": "Thành công"
       },
       "execution": {
         "convert_transaction_to_receipt": "Chuyển Giao Dịch Thành Biên Nhận",
