@@ -13,12 +13,17 @@ import { validators } from "../validators";
 
 const queryContractFromIndexer = async (accountId: string) => {
   // find the latest update in analytics db
-  const latestUpdateResult = await analyticsDatabase
-    .selectFrom("deployed_contracts")
-    .select("deployed_at_block_timestamp as timestamp")
-    .orderBy("deployed_at_block_timestamp", "desc")
-    .limit(1)
-    .executeTakeFirstOrThrow();
+  const latestUpdateResult = analyticsDatabase
+    ? await analyticsDatabase
+        .selectFrom("deployed_contracts")
+        .select("deployed_at_block_timestamp as timestamp")
+        .orderBy("deployed_at_block_timestamp", "desc")
+        .limit(1)
+        .executeTakeFirstOrThrow()
+    : undefined;
+  const latestUpdateTimestamp = latestUpdateResult
+    ? latestUpdateResult.timestamp
+    : "0";
   // query for the latest info from indexer
   // if it return 'undefined' then there was no update since deployed_at_block_timestamp
   const contractInfoFromIndexer = await indexerDatabase
@@ -38,11 +43,7 @@ const queryContractFromIndexer = async (accountId: string) => {
     ])
     .where("action_kind", "=", "DEPLOY_CONTRACT")
     .where("receipt_receiver_account_id", "=", accountId)
-    .where(
-      "receipt_included_in_block_timestamp",
-      ">",
-      latestUpdateResult.timestamp
-    )
+    .where("receipt_included_in_block_timestamp", ">", latestUpdateTimestamp)
     .orderBy("receipt_included_in_block_timestamp", "desc")
     .limit(1)
     .executeTakeFirst();
@@ -59,6 +60,9 @@ const queryContractFromIndexer = async (accountId: string) => {
 };
 
 const queryContractFromAnalytics = async (accountId: string) => {
+  if (!analyticsDatabase) {
+    return;
+  }
   // query to analytics db to find latest historical record
   const contractInfoFromAnalytics = await analyticsDatabase
     .selectFrom("deployed_contracts")

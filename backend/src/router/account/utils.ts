@@ -5,6 +5,9 @@ import { millisecondsToNanoseconds } from "../../utils/bigint";
 import { DAY } from "../../utils/time";
 
 const queryAccountIncomeTransactionsCount = async (accountId: string) => {
+  if (!analyticsDatabase) {
+    return;
+  }
   const dailyTransactionsSelection = await analyticsDatabase
     .selectFrom("daily_ingoing_transactions_per_account_count")
     .select([
@@ -48,6 +51,9 @@ const queryAccountIncomeTransactionsCount = async (accountId: string) => {
 };
 
 const queryAccountOutcomeTransactionsCount = async (accountId: string) => {
+  if (!analyticsDatabase) {
+    return;
+  }
   const dailyTransactionsSelection = await analyticsDatabase
     .selectFrom("daily_outgoing_transactions_per_account_count")
     .select([
@@ -84,6 +90,9 @@ export const getAccountTransactionsCount = async (accountId: string) => {
     queryAccountOutcomeTransactionsCount(accountId),
     queryAccountIncomeTransactionsCount(accountId),
   ]);
+  if (inTransactionsCount === undefined || outTransactionsCount === undefined) {
+    return;
+  }
   return {
     inTransactionsCount,
     outTransactionsCount,

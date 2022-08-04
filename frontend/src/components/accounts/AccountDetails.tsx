@@ -177,7 +177,7 @@ export interface Props {
 
 const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
   const { t } = useTranslation();
-  const { data: transactionCount } = trpc.useQuery([
+  const { data: transactionCount, isLoading } = trpc.useQuery([
     "account.transactionsCount",
     { id: account.accountId },
   ]);
@@ -202,19 +202,23 @@ const AccountDetails: React.FC<Props> = React.memo(({ account }) => {
               <>
                 <span>
                   &uarr;
-                  {transactionCount !== undefined ? (
-                    transactionCount.outTransactionsCount.toLocaleString()
-                  ) : (
+                  {isLoading ? (
                     <Spinner animation="border" variant="secondary" />
+                  ) : transactionCount === undefined ? (
+                    "-"
+                  ) : (
+                    transactionCount.outTransactionsCount.toLocaleString()
                   )}
                 </span>
                 &nbsp;&nbsp;
                 <span>
                   &darr;
-                  {transactionCount !== undefined ? (
-                    transactionCount.inTransactionsCount.toLocaleString()
-                  ) : (
+                  {isLoading ? (
                     <Spinner animation="border" variant="secondary" />
+                  ) : transactionCount === undefined ? (
+                    "-"
+                  ) : (
+                    transactionCount.inTransactionsCount.toLocaleString()
                   )}
                 </span>
               </>
