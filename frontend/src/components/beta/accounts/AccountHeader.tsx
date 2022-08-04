@@ -127,10 +127,13 @@ const Quantity = styled("div", {
 
 const AccountHeader: React.FC<Props> = React.memo((props) => {
   const { t } = useTranslation();
-  const transactionsQuantity = formatToPowerOfTen<BasicDecimalPower>(
-    props.account.transactionsQuantity.toString(),
-    6
-  );
+  const transactionsQuantity =
+    props.account.transactionsQuantity === undefined
+      ? undefined
+      : formatToPowerOfTen<BasicDecimalPower>(
+          props.account.transactionsQuantity.toString(),
+          6
+        );
   return (
     <Wrapper>
       <BaseInfo>
@@ -218,9 +221,11 @@ const AccountHeader: React.FC<Props> = React.memo((props) => {
           <QuantityHeader>
             {t("pages.account.header.amounts.transactions")}
           </QuantityHeader>
-          <Quantity>{`${transactionsQuantity.quotient}${
-            BASIC_DENOMINATION[transactionsQuantity.prefix]
-          }`}</Quantity>
+          {transactionsQuantity ? (
+            <Quantity>{`${transactionsQuantity.quotient}${
+              BASIC_DENOMINATION[transactionsQuantity.prefix]
+            }`}</Quantity>
+          ) : null}
         </div>
       </NumericInfo>
     </Wrapper>

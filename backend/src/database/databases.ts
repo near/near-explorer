@@ -41,9 +41,9 @@ export const indexerActivityDatabase = getKysely<IndexerActivity.ModelTypeMap>(
   config.db.readOnlyIndexerActivity
 );
 
-export const analyticsDatabase = getKysely<Analytics.ModelTypeMap>(
-  config.db.readOnlyAnalytics
-);
+export const analyticsDatabase = config.db.readOnlyAnalytics.host
+  ? getKysely<Analytics.ModelTypeMap>(config.db.readOnlyAnalytics)
+  : null;
 
 export const extraPool = getPgPool(config.db.writeOnlyTelemetry);
 

@@ -32,10 +32,13 @@ const TabDetails = styled("div", {
 
 const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
   const { t } = useTranslation();
-  const transactionsQuantity = formatToPowerOfTen<BasicDecimalPower>(
-    account.transactionsQuantity.toString(),
-    6
-  );
+  const transactionsQuantity =
+    account.transactionsQuantity === undefined
+      ? undefined
+      : formatToPowerOfTen<BasicDecimalPower>(
+          account.transactionsQuantity.toString(),
+          6
+        );
   const collectiblesCount = trpc.useQuery([
     "account.nonFungibleTokensCount",
     { accountId: options.accountId },
@@ -62,13 +65,15 @@ const AccountTabs: React.FC<Props> = React.memo(({ account, options }) => {
           label: (
             <TabLabel>
               {t("pages.account.tabs.activity")}
-              <TabDetails>
-                {t("pages.account.tabs.activityDetails", {
-                  transactionsQuantity: `${transactionsQuantity.quotient}${
-                    BASIC_DENOMINATION[transactionsQuantity.prefix]
-                  }`,
-                })}
-              </TabDetails>
+              {transactionsQuantity === undefined ? undefined : (
+                <TabDetails>
+                  {t("pages.account.tabs.activityDetails", {
+                    transactionsQuantity: `${transactionsQuantity.quotient}${
+                      BASIC_DENOMINATION[transactionsQuantity.prefix]
+                    }`,
+                  })}
+                </TabDetails>
+              )}
             </TabLabel>
           ),
           node: <AccountActivityView accountId={options.accountId} />,

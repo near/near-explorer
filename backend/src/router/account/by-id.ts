@@ -185,9 +185,10 @@ export const router = trpc
         storageUsed: accountDetails.storageUsage,
         nonStakedBalance: accountDetails.nonStakedBalance,
         stakedBalance: accountDetails.stakedBalance,
-        transactionsQuantity:
-          transactionsCount.inTransactionsCount +
-          transactionsCount.outTransactionsCount,
+        transactionsQuantity: transactionsCount
+          ? transactionsCount.inTransactionsCount +
+            transactionsCount.outTransactionsCount
+          : undefined,
       };
     },
   });

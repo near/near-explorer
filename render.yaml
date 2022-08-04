@@ -44,7 +44,7 @@ services:
         fromService:
           type: web
           name: backend/shardnet
-          property: host 
+          property: host
       - key: NEAR_EXPLORER_CONFIG__BACKEND__HOSTS__GUILDNET
         fromService:
           type: web
@@ -204,15 +204,6 @@ envVarGroups:
         value: shardnet
       - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: http://34.147.104.174:3030/
-
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__HOST
-        value: 34.150.152.210
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__DATABASE
-        value: indexer_analytics_shardnet
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__USER
-        value: public_readonly
-      - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_ANALYTICS__PASSWORD
-        value: nearprotocol
 
       - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
         value: 34.150.152.210

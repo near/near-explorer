@@ -176,6 +176,9 @@ export const transactionsHistoryCheck: RegularCheckFn = {
   fn: publishOnChange(
     "transactionsHistory",
     async () => {
+      if (!analyticsDatabase) {
+        return [];
+      }
       const selection = await analyticsDatabase
         .selectFrom("daily_transactions_count")
         .select(["collected_for_day as date", "transactions_count as count"])
@@ -228,6 +231,9 @@ export const gasUsedHistoryCheck: RegularCheckFn = {
   fn: publishOnChange(
     "gasUsedHistory",
     async () => {
+      if (!analyticsDatabase) {
+        return [];
+      }
       const selection = await analyticsDatabase
         .selectFrom("daily_gas_used")
         .select(["collected_for_day as date", "gas_used as gasUsed"])
@@ -247,6 +253,9 @@ export const contractsHistoryCheck: RegularCheckFn = {
   fn: publishOnChange(
     "contractsHistory",
     async () => {
+      if (!analyticsDatabase) {
+        return { newContracts: [], uniqueContracts: [] };
+      }
       const [newContracts, uniqueContracts] = await Promise.all([
         (
           await analyticsDatabase
@@ -286,6 +295,9 @@ export const activeContractsHistoryCheck: RegularCheckFn = {
   fn: publishOnChange(
     "activeContractsHistory",
     async () => {
+      if (!analyticsDatabase) {
+        return [];
+      }
       const selection = await analyticsDatabase
         .selectFrom("daily_active_contracts_count")
         .select([
@@ -309,6 +321,9 @@ export const activeContractsListCheck: RegularCheckFn = {
   fn: publishOnChange(
     "activeContractsList",
     async () => {
+      if (!analyticsDatabase) {
+        return [];
+      }
       const selection = await analyticsDatabase
         .selectFrom("daily_receipts_per_contract_count")
         .select([
@@ -339,6 +354,9 @@ export const activeContractsListCheck: RegularCheckFn = {
 export const accountsHistoryCheck: RegularCheckFn = {
   description: "accountsHistoryCheck",
   fn: async (publish, context) => {
+    if (!analyticsDatabase) {
+      return Infinity;
+    }
     const publishIfChanged = getPublishIfChanged(publish, context);
     if (!context.state.genesis) {
       return 10 * SECOND;
@@ -417,6 +435,9 @@ export const activeAccountsHistoryCheck: RegularCheckFn = {
   fn: publishOnChange(
     "activeAccountsHistory",
     async () => {
+      if (!analyticsDatabase) {
+        return { byDay: [], byWeek: [] };
+      }
       const [byDay, byWeek] = await Promise.all([
         (
           await analyticsDatabase
@@ -456,6 +477,9 @@ export const activeAccountsListCheck: RegularCheckFn = {
   fn: publishOnChange(
     "activeAccountsList",
     async () => {
+      if (!analyticsDatabase) {
+        return [];
+      }
       const selection = await analyticsDatabase
         .selectFrom("daily_outgoing_transactions_per_account_count")
         .select([
