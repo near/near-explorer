@@ -1,4 +1,4 @@
-import Router from "next/router";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { Button, FormControl, InputGroup, Row } from "react-bootstrap";
 
@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import { useAnalyticsTrack } from "../../hooks/analytics/use-analytics-track";
 import { trpc } from "../../libraries/trpc";
 import { styled } from "../../libraries/styles";
+import { TRPCClient } from "../../types/common";
+import { useQueryParam } from "../../hooks/use-query-param";
 
 const SearchField = styled(FormControl, {
   background: "#ffffff",
@@ -174,63 +176,84 @@ interface Props {
   dashboard?: boolean;
 }
 
+export const getLookupPage = async (
+  trpcClient: TRPCClient,
+  query?: string | string[]
+) => {
+  if (!query) {
+    return;
+  }
+  const parsedQuery =
+    typeof query === "string" ? query : query[query.length - 1];
+  const cleanedSearchValue = parsedQuery.replace(/\s/g, "");
+
+  const promises = [
+    // Block hash
+    trpcClient
+      .query("block.getHashById", { blockId: cleanedSearchValue })
+      .then((block) => {
+        if (!block) {
+          throw new Error("No block found");
+        }
+        return "/blocks/" + block;
+      }),
+    // Transaction hash
+    trpcClient
+      .query("transaction.byHash", { hash: cleanedSearchValue })
+      .then((transaction) => {
+        if (!transaction) {
+          throw new Error("No transaction found");
+        }
+        return "/transactions/" + transaction.hash;
+      }),
+    // Account id
+    trpcClient
+      .query("account.byIdOld", {
+        id: cleanedSearchValue.toLowerCase(),
+      })
+      .then((result) => {
+        if (!result) {
+          throw new Error("No account found");
+        }
+        return "/accounts/" + result.accountId;
+      }),
+    // ReceiptId
+    trpcClient
+      .query("transaction.byReceiptId", { receiptId: cleanedSearchValue })
+      .then((receipt) => {
+        if (!receipt) {
+          throw new Error("No receipt found");
+        }
+        return `/transactions/${receipt.transactionHash}#${receipt.receiptId}`;
+      }),
+  ];
+  if (Promise.any) {
+    return Promise.any(promises).catch(() => undefined);
+  }
+  // In case of an old browser
+  return Promise.race(promises).catch(() => undefined);
+};
+
 const Search: React.FC<Props> = React.memo(({ dashboard }) => {
+  const router = useRouter();
+
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = useQueryParam("query");
   const trpcContext = trpc.useContext();
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-
-      const cleanedSearchValue = value.replace(/\s/g, "");
-
-      const blockPromise = trpcContext
-        .fetchQuery(["block.getHashById", { blockId: cleanedSearchValue }])
-        .catch(() => null);
-      const transactionByHashPromise = trpcContext
-        .fetchQuery(["transaction.byHash", { hash: cleanedSearchValue }])
-        .catch(() => undefined);
-      const accountPromise = trpcContext.fetchQuery([
-        "account.byIdOld",
-        { id: cleanedSearchValue.toLowerCase() },
-      ]);
-      const transactionByReceiptIdPromise = trpcContext
-        .fetchQuery([
-          "transaction.byReceiptId",
-          { receiptId: cleanedSearchValue },
-        ])
-        .catch(() => undefined);
-
-      const block = await blockPromise;
-      if (block) {
-        track("Explorer Search for block", { block: block });
-        return Router.push("/blocks/" + block);
+      const page = await getLookupPage(trpcContext.client, value);
+      if (page) {
+        track("Explorer Search", { page });
+        router.push(page);
+      } else {
+        alert("Result not found!");
       }
-      const transaction = await transactionByHashPromise;
-      if (transaction) {
-        track("Explorer Search for transaction", {
-          transaction: value,
-        });
-        return Router.push("/transactions/" + transaction.hash);
-      }
-      if (await accountPromise) {
-        track("Explorer Search for account", { account: value });
-        return Router.push("/accounts/" + value.toLowerCase());
-      }
-      const receipt = await transactionByReceiptIdPromise;
-      if (receipt) {
-        return Router.push(
-          `/transactions/${receipt.transactionHash}#${receipt.receiptId}`
-        );
-      }
-      track("Explorer Search result not found", {
-        detail: value,
-      });
-      alert("Result not found!");
     },
-    [value, track, trpcContext.fetchQuery]
+    [value, trpcContext, router]
   );
   const onChange = React.useCallback(
     (event) => setValue(event.currentTarget.value),
@@ -259,6 +282,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
             autoCapitalize="none"
             onChange={onChange}
             compact={compact}
+            value={value}
           />
 
           {dashboard && (
