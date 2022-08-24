@@ -12,6 +12,7 @@ import { styled } from "../libraries/styles";
 import { DashboardCardWrapper } from "../components/utils/DashboardCard";
 import * as React from "react";
 import { NextPage } from "next";
+import { NextRouter, useRouter } from "next/router";
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",
@@ -49,7 +50,19 @@ const DashboardContainer = styled(Container, {
   },
 });
 
+const getQuery: (router: NextRouter) => string = (router) => {
+  // Gets the optional `q` query string parameter.
+  const { q } = router.query;
+  if (q) {
+    return typeof q === "string" ? q : q[0];
+  }
+  return "";
+};
+
 const Dashboard: NextPage = React.memo(() => {
+  const router = useRouter();
+  const query = getQuery(router);
+  console.log({ query });
   const { t } = useTranslation();
   useAnalyticsTrackOnMount("Explorer View Landing Page");
 
@@ -66,7 +79,7 @@ const Dashboard: NextPage = React.memo(() => {
         <InnerContent noGutters>
           <Col xs="12" className="d-none d-md-block d-lg-block">
             <SearchRowWrapper noGutters>
-              <Search dashboard />
+              <Search dashboard query={query} />
             </SearchRowWrapper>
           </Col>
           <Col xs="12">

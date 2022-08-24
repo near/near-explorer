@@ -172,9 +172,60 @@ const SearchBox = styled(Row, {
 
 interface Props {
   dashboard?: boolean;
+  query?: string;
 }
 
-const Search: React.FC<Props> = React.memo(({ dashboard }) => {
+const redirectToAppropriatePage: (
+  query: string,
+  trpcContext: any,
+  track: any
+) => Promise<boolean | undefined> = async (query, trpcContext, track) => {
+  // TODO: Specify the types for `trpcContext` and `track`.
+  const cleanedSearchValue = query.replace(/\s/g, "");
+
+  const blockPromise = trpcContext
+    .fetchQuery(["block.getHashById", { blockId: cleanedSearchValue }])
+    .catch(() => null);
+  const transactionByHashPromise = trpcContext
+    .fetchQuery(["transaction.byHash", { hash: cleanedSearchValue }])
+    .catch(() => undefined);
+  const accountPromise = trpcContext.fetchQuery([
+    "account.byIdOld",
+    { id: cleanedSearchValue.toLowerCase() },
+  ]);
+  const transactionByReceiptIdPromise = trpcContext
+    .fetchQuery(["transaction.byReceiptId", { receiptId: cleanedSearchValue }])
+    .catch(() => undefined);
+
+  const block = await blockPromise;
+  if (block) {
+    track("Explorer Search for block", { block: block });
+    return Router.push("/blocks/" + block);
+  }
+  const transaction = await transactionByHashPromise;
+  if (transaction) {
+    track("Explorer Search for transaction", {
+      transaction: query,
+    });
+    return Router.push("/transactions/" + transaction.hash);
+  }
+  if (await accountPromise) {
+    track("Explorer Search for account", { account: query });
+    return Router.push("/accounts/" + query.toLowerCase());
+  }
+  const receipt = await transactionByReceiptIdPromise;
+  if (receipt) {
+    return Router.push(
+      `/transactions/${receipt.transactionHash}#${receipt.receiptId}`
+    );
+  }
+  track("Explorer Search result not found", {
+    detail: query,
+  });
+  alert("Result not found!");
+};
+
+const Search: React.FC<Props> = React.memo(({ dashboard, query }) => {
   const { t } = useTranslation();
   const track = useAnalyticsTrack();
 
@@ -183,54 +234,9 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   const onSubmit = React.useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-
-      const cleanedSearchValue = value.replace(/\s/g, "");
-
-      const blockPromise = trpcContext
-        .fetchQuery(["block.getHashById", { blockId: cleanedSearchValue }])
-        .catch(() => null);
-      const transactionByHashPromise = trpcContext
-        .fetchQuery(["transaction.byHash", { hash: cleanedSearchValue }])
-        .catch(() => undefined);
-      const accountPromise = trpcContext.fetchQuery([
-        "account.byIdOld",
-        { id: cleanedSearchValue.toLowerCase() },
-      ]);
-      const transactionByReceiptIdPromise = trpcContext
-        .fetchQuery([
-          "transaction.byReceiptId",
-          { receiptId: cleanedSearchValue },
-        ])
-        .catch(() => undefined);
-
-      const block = await blockPromise;
-      if (block) {
-        track("Explorer Search for block", { block: block });
-        return Router.push("/blocks/" + block);
-      }
-      const transaction = await transactionByHashPromise;
-      if (transaction) {
-        track("Explorer Search for transaction", {
-          transaction: value,
-        });
-        return Router.push("/transactions/" + transaction.hash);
-      }
-      if (await accountPromise) {
-        track("Explorer Search for account", { account: value });
-        return Router.push("/accounts/" + value.toLowerCase());
-      }
-      const receipt = await transactionByReceiptIdPromise;
-      if (receipt) {
-        return Router.push(
-          `/transactions/${receipt.transactionHash}#${receipt.receiptId}`
-        );
-      }
-      track("Explorer Search result not found", {
-        detail: value,
-      });
-      alert("Result not found!");
+      redirectToAppropriatePage(value, trpcContext, track);
     },
-    [value, track, trpcContext.fetchQuery]
+    [value, trpcContext.fetchQuery]
   );
   const onChange = React.useCallback(
     (event) => setValue(event.currentTarget.value),
@@ -238,6 +244,16 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
   );
 
   const compact = !dashboard;
+
+  React.useEffect(() => {
+    // On page load, fetch any query from the 'q' query string parameter, and if it exists, call `redirectToAppropriatePage`.
+    // This feature enables helpful tools such as Chrome Custom Search Engines.
+
+    if (query) {
+      setValue(query);
+      redirectToAppropriatePage(query, trpcContext, track);
+    }
+  }, [track]);
 
   return (
     <SearchWrapper onSubmit={onSubmit} compact={compact}>
@@ -259,6 +275,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
             autoCapitalize="none"
             onChange={onChange}
             compact={compact}
+            defaultValue={value}
           />
 
           {dashboard && (

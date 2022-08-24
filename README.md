@@ -37,7 +37,8 @@ Q: How to run the local development version of the frontend/backend?
 
 A: It is recommended to use `docker-compose` to run all the services and then stop the one that
 you want to develop locally (`docker-compose stop frontend`). (Follow the execution instructions
-written in the relevant README file of the subproject)
+written in the relevant README file of the subproject, such as
+[frontend/README.md](frontend/README.md) or [backend/README.md](backend/README.md).)
 
 Q: How to auto-format the source code on commit?
 

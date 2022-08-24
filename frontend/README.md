@@ -40,7 +40,7 @@ Project Root
 
 ## Run Frontend for Development
 
-Frontend required running backend to be run in the background to be usable.
+Frontend requires running backend to be run in the background to be usable.
 Follow the [backend instructions](../backend/README.md) and start frontend like this:
 
 ```
