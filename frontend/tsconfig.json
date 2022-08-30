@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["dom", "es2015", "es2016"],
+    "lib": ["dom", "es2015", "es2016", "es2021"],
     "paths": {
       "common/*": ["../common/*/"]
     }

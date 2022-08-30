@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { Container, Row, Col } from "react-bootstrap";
 
-import Search from "../components/utils/Search";
+import Search, { getLookupPage } from "../components/utils/Search";
 import DashboardNode from "../components/dashboard/DashboardNode";
 import DashboardBlock from "../components/dashboard/DashboardBlock";
 import DashboardTransaction from "../components/dashboard/DashboardTransaction";
@@ -11,7 +11,9 @@ import { useAnalyticsTrackOnMount } from "../hooks/analytics/use-analytics-track
 import { styled } from "../libraries/styles";
 import { DashboardCardWrapper } from "../components/utils/DashboardCard";
 import * as React from "react";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
+import { getTrpcClient } from "../libraries/trpc";
+import { getNearNetworkName } from "../libraries/config";
 
 const InnerContent = styled(Row, {
   margin: "71px 185px",
@@ -87,5 +89,23 @@ const Dashboard: NextPage = React.memo(() => {
     </>
   );
 });
+
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  req,
+}) => {
+  const networkName = getNearNetworkName(query, req.headers.host);
+  const trpcClient = await getTrpcClient(networkName);
+  const redirectPage = await getLookupPage(trpcClient, query.query);
+  if (redirectPage) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: redirectPage,
+      },
+    };
+  }
+  return { props: {} };
+};
 
 export default Dashboard;
