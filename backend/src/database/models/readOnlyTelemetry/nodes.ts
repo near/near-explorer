@@ -40,6 +40,24 @@ export default interface Nodes {
   longitude: string | null;
 
   city: string | null;
+
+  bandwidth_download: number | null;
+
+  bandwidth_upload: number | null;
+
+  cpu_usage: number | null;
+
+  memory_usage: number | null;
+
+  boot_time_seconds: Date | null;
+
+  block_production_tracking_delay: number | null;
+
+  min_block_production_delay: number | null;
+
+  max_block_production_delay: number | null;
+
+  max_block_wait_delay: number | null;
 }
 
 export interface NodesInitializer {

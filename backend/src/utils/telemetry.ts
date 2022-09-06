@@ -26,5 +26,16 @@ export const setupTelemetryDb = async () => {
     .addColumn("latitude", "numeric(8, 6)")
     .addColumn("longitude", "numeric(9, 6)")
     .addColumn("city", "varchar(255)")
+
+    .addColumn("bandwidth_download", "float4")
+    .addColumn("bandwidth_upload", "float4")
+    .addColumn("cpu_usage", "float4")
+    .addColumn("memory_usage", "int8")
+    .addColumn("boot_time_seconds", "timestamptz")
+
+    .addColumn("block_production_tracking_delay", "float4")
+    .addColumn("min_block_production_delay", "float4")
+    .addColumn("max_block_production_delay", "float4")
+    .addColumn("max_block_wait_delay", "float4")
     .execute();
 };

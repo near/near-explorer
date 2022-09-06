@@ -41,6 +41,20 @@ export const router = trpc.router<Context>().mutation("upsert", {
         latitude: geo ? geo.ll[0].toString() : null,
         longitude: geo ? geo.ll[1].toString() : null,
         city: geo ? geo.city : null,
+
+        bandwidth_download: nodeInfo.system.bandwidth_download,
+        bandwidth_upload: nodeInfo.system.bandwidth_upload,
+        cpu_usage: nodeInfo.system.cpu_usage,
+        memory_usage: nodeInfo.system.memory_usage,
+        boot_time_seconds: nodeInfo.system.boot_time_seconds
+          ? new Date(nodeInfo.system.boot_time_seconds * 1000)
+          : null,
+
+        block_production_tracking_delay:
+          nodeInfo.chain.block_production_tracking_delay,
+        min_block_production_delay: nodeInfo.chain.min_block_production_delay,
+        max_block_production_delay: nodeInfo.chain.max_block_production_delay,
+        max_block_wait_delay: nodeInfo.chain.max_block_wait_delay,
       })
       .onConflict((oc) =>
         oc.column("node_id").doUpdateSet({
@@ -60,6 +74,20 @@ export const router = trpc.router<Context>().mutation("upsert", {
           latitude: (eb) => eb.ref("excluded.latitude"),
           longitude: (eb) => eb.ref("excluded.longitude"),
           city: (eb) => eb.ref("excluded.city"),
+
+          bandwidth_download: (eb) => eb.ref("excluded.bandwidth_download"),
+          bandwidth_upload: (eb) => eb.ref("excluded.bandwidth_upload"),
+          cpu_usage: (eb) => eb.ref("excluded.cpu_usage"),
+          memory_usage: (eb) => eb.ref("excluded.memory_usage"),
+          boot_time_seconds: (eb) => eb.ref("excluded.boot_time_seconds"),
+
+          block_production_tracking_delay: (eb) =>
+            eb.ref("excluded.block_production_tracking_delay"),
+          min_block_production_delay: (eb) =>
+            eb.ref("excluded.min_block_production_delay"),
+          max_block_production_delay: (eb) =>
+            eb.ref("excluded.max_block_production_delay"),
+          max_block_wait_delay: (eb) => eb.ref("excluded.max_block_wait_delay"),
         })
       );
 
