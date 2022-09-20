@@ -26,6 +26,13 @@ export const validators = {
       version: z.string(),
       build: z.string(),
     }),
+    system: z.object({
+      bandwidth_download: z.number(),
+      bandwidth_upload: z.number(),
+      cpu_usage: z.number(),
+      memory_usage: z.number(),
+      boot_time_seconds: z.number().optional(),
+    }),
     chain: z.object({
       node_id: z.string(),
       account_id: z.string().nullish(),
@@ -34,6 +41,11 @@ export const validators = {
       is_validator: z.boolean(),
       latest_block_hash: z.string(),
       status: z.string(),
+
+      block_production_tracking_delay: z.number().optional(),
+      min_block_production_delay: z.number().optional(),
+      max_block_production_delay: z.number().optional(),
+      max_block_wait_delay: z.number().optional(),
     }),
   }),
 };
