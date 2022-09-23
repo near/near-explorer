@@ -30,16 +30,17 @@ async function main(router: AppRouter): Promise<void> {
     console.log(`Server is running on port ${config.port}`);
   });
 
-  const disconnectWebsocketServer = connectWebsocketServer(server, trpcOptions);
+  let shutdownHandlers: (() => void)[] = [];
 
-  await setupTelemetryDb();
-
-  const stopTasks = runTasks(context);
+  shutdownHandlers.push(connectWebsocketServer(server, trpcOptions));
+  if (!config.offline) {
+    await setupTelemetryDb();
+    shutdownHandlers.push(runTasks(context));
+  }
 
   const gracefulShutdown = (signal: NodeJS.Signals) => {
     console.log(`Got ${signal} signal, shutting down`);
-    disconnectWebsocketServer();
-    stopTasks();
+    shutdownHandlers.forEach((handler) => handler());
     server.close((err) => {
       if (err) {
         console.error("Error on server close", err);

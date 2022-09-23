@@ -15,6 +15,7 @@ import { AppRouter, NetworkName } from "../types/common";
 
 import Header from "../components/utils/Header";
 import Footer from "../components/utils/Footer";
+import OfflineSplash from "../components/utils/OfflineSplash";
 import { NetworkContext } from "../context/NetworkContext";
 import { DeployInfo } from "../components/utils/DeployInfo";
 import { DeployInfo as DeployInfoProps } from "../types/common";
@@ -170,6 +171,8 @@ const App: AppType = React.memo(({ Component, pageProps }) => {
     }),
     [networkName, nearNetworks]
   );
+  const currentNetwork = nearNetworks[networkName];
+  const offline = Boolean(currentNetwork?.offline);
 
   const languageContext = React.useMemo(
     () => ({ language, setLanguage, locale }),
@@ -190,7 +193,7 @@ const App: AppType = React.memo(({ Component, pageProps }) => {
           <Header />
           <ToastController />
           <BackgroundImage src="/static/images/explorer-bg.svg" />
-          <Component {...restPageProps} />
+          {offline ? <OfflineSplash /> : <Component {...restPageProps} />}
         </AppWrapper>
         <Footer />
         <DeployInfo client={deployInfo} />

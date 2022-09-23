@@ -75,11 +75,13 @@ services:
             },
             "shardnet": {
               "explorerLink": "https://explorer.shardnet.near.org/",
+              "offline": true,
               "aliases": ["explorer.shardnet.near.org"],
               "nearWalletProfilePrefix": "https://wallet.shardnet.near.org/profile"
             }, 
             "guildnet": {
               "explorerLink": "https://explorer.guildnet.near.org/",
+              "offline": true,
               "aliases": ["explorer.guildnet.near.org"],
               "nearWalletProfilePrefix": "https://wallet.openshards.io/profile"
             }
@@ -204,6 +206,8 @@ envVarGroups:
         value: shardnet
       - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: http://34.147.104.174:3030/
+      - key: NEAR_EXPLORER_CONFIG__OFFLINE
+        value: true
 
       - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_TELEMETRY__HOST
         value: 34.150.152.210
@@ -215,6 +219,8 @@ envVarGroups:
         value: guildnet
       - key: NEAR_EXPLORER_CONFIG__ARCHIVAL_RPC_URL
         value: https://rpc.openshards.io
+      - key: NEAR_EXPLORER_CONFIG__OFFLINE
+        value: true
 
       - key: NEAR_EXPLORER_CONFIG__DB__READ_ONLY_INDEXER__HOST
         value: 159.89.46.95

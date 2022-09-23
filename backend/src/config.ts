@@ -18,6 +18,7 @@ export const config = merge(
     archivalRpcUrl: "http://localhost:3030",
     archivalRpcApiKey: "",
     networkName: "localnet" as NetworkName,
+    offline: false,
     accountIdSuffix: {
       lockup: "lockup.near",
       stakingPool: {
