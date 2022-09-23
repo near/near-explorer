@@ -1,5 +1,5 @@
-import { Dict } from "mixpanel-browser";
 import * as React from "react";
+import { Dict } from "./analytics";
 import { useAnalyticsTrack } from "./use-analytics-track";
 
 export const useAnalyticsTrackOnMount = (event: string, args?: Dict) => {

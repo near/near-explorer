@@ -23,6 +23,7 @@ export interface ExplorerConfig {
     nearNetworks: Partial<Record<NetworkName, NearNetwork>>;
     backendConfig: BackendConfig;
     googleAnalytics?: string;
+    segmentWriteKey: string;
   };
 }
 
