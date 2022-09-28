@@ -1,4 +1,5 @@
 import { NextApiHandler } from "next";
+import { isNetworkOffline, respondNetworkOffline } from "../../libraries/api";
 import { getNearNetworkName } from "../../libraries/config";
 import { getTrpcClient } from "../../libraries/trpc";
 
@@ -10,6 +11,9 @@ const handler: NextApiHandler = async (req, res) => {
       req.socket.remoteAddress;
 
     const networkName = getNearNetworkName(req.query, req.headers.host);
+    if (isNetworkOffline(networkName)) {
+      return respondNetworkOffline(res, networkName);
+    }
 
     await getTrpcClient(networkName).mutation("telemetry.upsert", {
       ...req.body,

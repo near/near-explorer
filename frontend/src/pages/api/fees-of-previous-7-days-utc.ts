@@ -2,10 +2,14 @@ import { NextApiHandler } from "next";
 import { format } from "date-fns";
 import { getNearNetworkName } from "../../libraries/config";
 import { getTrpcClient } from "../../libraries/trpc";
+import { isNetworkOffline, respondNetworkOffline } from "../../libraries/api";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
     const networkName = getNearNetworkName(req.query, req.headers.host);
+    if (isNetworkOffline(networkName)) {
+      return respondNetworkOffline(res, networkName);
+    }
     let resp = [];
     for (let i = 1; i <= 7; i++) {
       const tokensBurntPerDay = await getTrpcClient(networkName).query(
