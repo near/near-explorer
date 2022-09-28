@@ -3,14 +3,23 @@ import * as trpcWsAdapter from "@trpc/server/adapters/ws";
 import http from "http";
 import stream from "stream";
 import ws from "ws";
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { AppRouter } from "./router";
 import { Context } from "./context";
+import { escapeHtml } from "./utils/html";
 
 type RouterOptions = {
   router: AppRouter;
   createContext: () => Context;
+};
+
+const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
+  const error = `Error on ${req.url}\n${String(err)}${
+    err.stack ? `\n${err.stack}` : ""
+  }`;
+  console.error(error);
+  res.status(500).send(escapeHtml(error));
 };
 
 export const createApp = (options: RouterOptions) => {
@@ -19,7 +28,8 @@ export const createApp = (options: RouterOptions) => {
   app
     .use(cors())
     .use("/trpc", trpcExpress.createExpressMiddleware(options))
-    .use("/ping", (_req, res) => res.send("OK"));
+    .use("/ping", (_req, res) => res.send("OK"))
+    .use(errorHandler);
 
   return app;
 };
