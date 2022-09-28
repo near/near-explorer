@@ -6,6 +6,7 @@ export interface NearNetwork {
   explorerLink: string;
   aliases?: string[];
   nearWalletProfilePrefix: string;
+  offline?: boolean;
 }
 
 export type BackendConfig = {

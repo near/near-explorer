@@ -14,6 +14,7 @@ const config: ExplorerConfig & NextConfig = {
   },
   serverRuntimeConfig: {
     backendConfig,
+    offline: false,
   },
 };
 

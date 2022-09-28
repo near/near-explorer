@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import { styled } from "../../libraries/styles";
 import { ServiceStatusView } from "./ServiceStatus";
+import { useNetworkContext } from "../../hooks/use-network-context";
 
 const HeaderContainer = styled(Container, {
   background: "#ffffff",
@@ -62,6 +63,7 @@ const HeaderHome = styled("a", {
 const Header: React.FC = React.memo(() => {
   const { t } = useTranslation();
   const router = useRouter();
+  const { network } = useNetworkContext();
 
   return (
     <HeaderContainer fluid>
@@ -84,9 +86,11 @@ const Header: React.FC = React.memo(() => {
               </Link>
             </Col>
 
-            <CenteredCol md="2" xs="1">
-              <ServiceStatusView />
-            </CenteredCol>
+            {network?.offline ? null : (
+              <CenteredCol md="2" xs="1">
+                <ServiceStatusView />
+              </CenteredCol>
+            )}
 
             <Col xs="7" md="2" className="align-self-center text-center">
               <HeaderNetworkDropdown />
