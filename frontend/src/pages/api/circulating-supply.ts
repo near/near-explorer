@@ -1,6 +1,7 @@
 import { NextApiHandler } from "next";
 import { getTrpcClient } from "../../libraries/trpc";
 import { getNearNetworkName } from "../../libraries/config";
+import { isNetworkOffline, respondNetworkOffline } from "../../libraries/api";
 
 const handler: NextApiHandler = async (req, res) => {
   // This API is currently providing computed estimation based on the inflation, so we only have it for mainnet
@@ -8,6 +9,9 @@ const handler: NextApiHandler = async (req, res) => {
   if (networkName !== "mainnet") {
     res.status(404).end();
     return;
+  }
+  if (isNetworkOffline(networkName)) {
+    return respondNetworkOffline(res, networkName);
   }
 
   try {
