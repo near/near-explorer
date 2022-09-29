@@ -18,7 +18,7 @@ export const getBranch = async () => {
   if (!(await isGitDirectory())) {
     return "unknown";
   }
-  const response = await promisifiedExec("git branch --show-current");
+  const response = await promisifiedExec("git rev-parse --abbrev-ref HEAD");
   return response.stdout.trim();
 };
 
@@ -28,4 +28,15 @@ export const getShortCommitSha = async () => {
   }
   const response = await promisifiedExec("git rev-parse --short HEAD");
   return response.stdout.trim();
+};
+
+export type GitData = { branch: string; sha: string };
+let gitData: GitData;
+export const getGitData = async (): Promise<GitData> => {
+  if (gitData) {
+    return gitData;
+  }
+  const [branch, sha] = await Promise.all([getBranch(), getShortCommitSha()]);
+  gitData = { branch, sha };
+  return gitData;
 };

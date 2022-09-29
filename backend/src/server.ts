@@ -1,18 +1,19 @@
 import * as trpcExpress from "@trpc/server/adapters/express";
 import * as trpcWsAdapter from "@trpc/server/adapters/ws";
+import { NodeHTTPHandlerOptions } from "@trpc/server/dist/declarations/src/adapters/node-http";
+import { Registry } from "prom-client";
 import http from "http";
 import stream from "stream";
 import ws from "ws";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { AppRouter } from "./router";
-import { Context } from "./context";
 import { escapeHtml } from "./utils/html";
+import { getMetricsHandler } from "../../common/src/utils/logging";
 
-type RouterOptions = {
-  router: AppRouter;
-  createContext: () => Context;
-};
+type RouterOptions =
+  | NodeHTTPHandlerOptions<AppRouter, express.Request, express.Response> &
+      Omit<trpcWsAdapter.WSSHandlerOptions<AppRouter>, "wss">;
 
 const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   const error = `Error on ${req.url}\n${String(err)}${
@@ -22,11 +23,12 @@ const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   res.status(500).send(escapeHtml(error));
 };
 
-export const createApp = (options: RouterOptions) => {
+export const createApp = (options: RouterOptions, registry: Registry) => {
   const app = express();
 
   app
     .use(cors())
+    .use("/metrics", getMetricsHandler(registry))
     .use("/trpc", trpcExpress.createExpressMiddleware(options))
     .use("/ping", (_req, res) => res.send("OK"))
     .use(errorHandler);
