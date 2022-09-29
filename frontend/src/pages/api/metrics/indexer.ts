@@ -2,10 +2,17 @@ import { NextApiHandler } from "next";
 import json2Prom from "json-2-prom";
 import { getNearNetworkName } from "../../../libraries/config";
 import { getTrpcClient } from "../../../libraries/trpc";
+import {
+  isNetworkOffline,
+  respondNetworkOffline,
+} from "../../../libraries/api";
 
 const handler: NextApiHandler = async (req, res) => {
   try {
     const networkName = getNearNetworkName(req.query, req.headers.host);
+    if (isNetworkOffline(networkName)) {
+      return respondNetworkOffline(res, networkName);
+    }
     const trpcClient = getTrpcClient(networkName);
     const rpcFinalBlock = await trpcClient.query("block.final", {
       source: "rpc",
