@@ -1,18 +1,20 @@
 import * as trpcExpress from "@trpc/server/adapters/express";
 import * as trpcWsAdapter from "@trpc/server/adapters/ws";
+import { HTTPBaseHandlerOptions } from "@trpc/server/dist/declarations/src/http/internals/types";
+import { NodeHTTPCreateContextOption } from "@trpc/server/dist/declarations/src/adapters/node-http";
 import http from "http";
 import stream from "stream";
 import ws from "ws";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { AppRouter } from "./router";
-import { Context } from "./context";
 import { escapeHtml } from "./utils/html";
 
-type RouterOptions = {
-  router: AppRouter;
-  createContext: () => Context;
-};
+export type RouterOptions = HTTPBaseHandlerOptions<
+  AppRouter,
+  http.IncomingMessage
+> &
+  NodeHTTPCreateContextOption<AppRouter, http.IncomingMessage, unknown>;
 
 const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   const error = `Error on ${req.url}\n${String(err)}${
