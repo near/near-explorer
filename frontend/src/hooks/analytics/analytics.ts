@@ -2,16 +2,17 @@ import Analytics from "analytics-node";
 import { uniqueId } from "lodash";
 import { getConfig } from "../../libraries/config";
 
-export interface Dict {
+export type AnalyticsEvent = {
   [key: string]: any;
-}
+};
 
 let segment: Analytics;
 let anonymousId: string;
 
-function init() {
-  if (segment)
+const init = () => {
+  if (segment) {
     return console.log("Segment Analytics has already been initialized");
+  }
   anonymousId = uniqueId(Date.now() + "_");
   //flushAt=1 is useful for testing new events
   const {
@@ -19,26 +20,24 @@ function init() {
   } = getConfig();
   const options = process.env.NODE_ENV === "development" ? { flushAt: 1 } : {};
   segment = new Analytics(segmentWriteKey, options);
-}
+};
 
-function track(eventLabel: string, properties?: Dict) {
+const track = (eventLabel: string, properties?: AnalyticsEvent) => {
   segment.track({
     anonymousId,
     event: eventLabel,
     properties,
   });
-}
+};
 
-function identify() {
+const identify = () => {
   segment.identify({
     userId: anonymousId,
   });
-}
+};
 
-const fns = {
+export default {
   identify,
   init,
   track,
 };
-
-export default fns;
