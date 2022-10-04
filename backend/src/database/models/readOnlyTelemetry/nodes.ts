@@ -13,7 +13,6 @@ export default interface Nodes {
   /** Primary key. Index: nodes_pkey */
   node_id: NodesId;
 
-  /** Index: nodes_last_seen */
   last_seen: Date;
 
   last_height: string;
@@ -26,7 +25,6 @@ export default interface Nodes {
 
   peer_count: string;
 
-  /** Index: nodes_is_validator */
   is_validator: boolean;
 
   last_hash: string;
@@ -41,16 +39,23 @@ export default interface Nodes {
 
   city: string | null;
 
-  bandwidth_download?: number | null;
-  bandwidth_upload?: number | null;
-  cpu_usage?: number | null;
-  memory_usage?: number | null;
-  boot_time_seconds?: Date | null;
+  bandwidth_download: number | null;
 
-  block_production_tracking_delay?: number | null;
-  min_block_production_delay?: number | null;
-  max_block_production_delay?: number | null;
-  max_block_wait_delay?: number | null;
+  bandwidth_upload: number | null;
+
+  cpu_usage: number | null;
+
+  memory_usage: string | null;
+
+  boot_time_seconds: Date | null;
+
+  block_production_tracking_delay: number | null;
+
+  min_block_production_delay: number | null;
+
+  max_block_production_delay: number | null;
+
+  max_block_wait_delay: number | null;
 }
 
 export interface NodesInitializer {
@@ -63,7 +68,6 @@ export interface NodesInitializer {
   /** Primary key. Index: nodes_pkey */
   node_id: NodesId;
 
-  /** Index: nodes_last_seen */
   last_seen: Date;
 
   last_height: string;
@@ -76,7 +80,6 @@ export interface NodesInitializer {
 
   peer_count: string;
 
-  /** Index: nodes_is_validator */
   is_validator: boolean;
 
   last_hash: string;
@@ -92,13 +95,20 @@ export interface NodesInitializer {
   city?: string | null;
 
   bandwidth_download?: number | null;
+
   bandwidth_upload?: number | null;
+
   cpu_usage?: number | null;
-  memory_usage?: number | null;
+
+  memory_usage?: string | null;
+
   boot_time_seconds?: Date | null;
 
   block_production_tracking_delay?: number | null;
+
   min_block_production_delay?: number | null;
+
   max_block_production_delay?: number | null;
+
   max_block_wait_delay?: number | null;
 }

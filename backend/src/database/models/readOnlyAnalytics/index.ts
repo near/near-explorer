@@ -70,6 +70,10 @@ import NearEcosystemEntities, {
 import TransactionsWithConvertedReceipts, {
   TransactionsWithConvertedReceiptsInitializer,
 } from "./transactions-with-converted-receipts";
+import UniqueContracts, {
+  UniqueContractsInitializer,
+  UniqueContractsId,
+} from "./unique-contracts";
 import WeeklyActiveAccountsCount, {
   WeeklyActiveAccountsCountInitializer,
   WeeklyActiveAccountsCountId,
@@ -95,6 +99,7 @@ type Model =
   | DeployedContracts
   | NearEcosystemEntities
   | TransactionsWithConvertedReceipts
+  | UniqueContracts
   | WeeklyActiveAccountsCount;
 
 interface ModelTypeMap {
@@ -117,6 +122,7 @@ interface ModelTypeMap {
   deployed_contracts: DeployedContracts;
   near_ecosystem_entities: NearEcosystemEntities;
   transactions_with_converted_receipts: TransactionsWithConvertedReceipts;
+  unique_contracts: UniqueContracts;
   weekly_active_accounts_count: WeeklyActiveAccountsCount;
 }
 
@@ -133,6 +139,7 @@ type ModelId =
   | DailyTransactionsCountId
   | DeployedContractsId
   | NearEcosystemEntitiesId
+  | UniqueContractsId
   | WeeklyActiveAccountsCountId;
 
 interface ModelIdTypeMap {
@@ -148,6 +155,7 @@ interface ModelIdTypeMap {
   daily_transactions_count: DailyTransactionsCountId;
   deployed_contracts: DeployedContractsId;
   near_ecosystem_entities: NearEcosystemEntitiesId;
+  unique_contracts: UniqueContractsId;
   weekly_active_accounts_count: WeeklyActiveAccountsCountId;
 }
 
@@ -171,6 +179,7 @@ type Initializer =
   | DeployedContractsInitializer
   | NearEcosystemEntitiesInitializer
   | TransactionsWithConvertedReceiptsInitializer
+  | UniqueContractsInitializer
   | WeeklyActiveAccountsCountInitializer;
 
 interface InitializerTypeMap {
@@ -193,6 +202,7 @@ interface InitializerTypeMap {
   deployed_contracts: DeployedContractsInitializer;
   near_ecosystem_entities: NearEcosystemEntitiesInitializer;
   transactions_with_converted_receipts: TransactionsWithConvertedReceiptsInitializer;
+  unique_contracts: UniqueContractsInitializer;
   weekly_active_accounts_count: WeeklyActiveAccountsCountInitializer;
 }
 
@@ -247,6 +257,9 @@ export type {
   NearEcosystemEntitiesId,
   TransactionsWithConvertedReceipts,
   TransactionsWithConvertedReceiptsInitializer,
+  UniqueContracts,
+  UniqueContractsInitializer,
+  UniqueContractsId,
   WeeklyActiveAccountsCount,
   WeeklyActiveAccountsCountInitializer,
   WeeklyActiveAccountsCountId,

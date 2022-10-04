@@ -31,7 +31,10 @@ export default interface AssetsNonFungibleTokenEvents {
    */
   emitted_index_of_event_entry_in_shard: number;
 
-  /** Primary key. Index: assets__non_fungible_token_events_pkey */
+  /**
+   * Index: assets__nft_contract_id_idx
+   * Primary key. Index: assets__non_fungible_token_events_pkey
+   */
   emitted_by_contract_account_id: string;
 
   /** Primary key. Index: assets__non_fungible_token_events_pkey */
@@ -86,7 +89,10 @@ export interface AssetsNonFungibleTokenEventsInitializer {
    */
   emitted_index_of_event_entry_in_shard: number;
 
-  /** Primary key. Index: assets__non_fungible_token_events_pkey */
+  /**
+   * Index: assets__nft_contract_id_idx
+   * Primary key. Index: assets__non_fungible_token_events_pkey
+   */
   emitted_by_contract_account_id: string;
 
   /** Primary key. Index: assets__non_fungible_token_events_pkey */

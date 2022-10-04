@@ -1,11 +1,11 @@
 // @generated
 // Automatically generated. Don't change this file manually.
 
-import { ReceiptsId } from "./receipts";
+import { ExecutionOutcomesId } from "./execution-outcomes";
 
 export default interface ExecutionOutcomeReceipts {
   /** Primary key. Index: execution_outcome_receipt_pk */
-  executed_receipt_id: ReceiptsId;
+  executed_receipt_id: ExecutionOutcomesId;
 
   /** Primary key. Index: execution_outcome_receipt_pk */
   index_in_execution_outcome: number;
@@ -19,7 +19,7 @@ export default interface ExecutionOutcomeReceipts {
 
 export interface ExecutionOutcomeReceiptsInitializer {
   /** Primary key. Index: execution_outcome_receipt_pk */
-  executed_receipt_id: ReceiptsId;
+  executed_receipt_id: ExecutionOutcomesId;
 
   /** Primary key. Index: execution_outcome_receipt_pk */
   index_in_execution_outcome: number;

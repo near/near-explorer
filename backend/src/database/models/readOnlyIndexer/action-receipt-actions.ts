@@ -8,7 +8,10 @@ export default interface ActionReceiptActions {
   /** Primary key. Index: receipt_action_action_pk */
   receipt_id: ReceiptsId;
 
-  /** Primary key. Index: receipt_action_action_pk */
+  /**
+   * Index: action_receipt_actions_receipt_included_in_block_timestamp_inde
+   * Primary key. Index: receipt_action_action_pk
+   */
   index_in_action_receipt: number;
 
   /** Index: action_receipt_actions_action_kind_idx */
@@ -27,6 +30,7 @@ export default interface ActionReceiptActions {
 
   /**
    * Index: action_receipt_actions_receipt_included_in_block_timestamp_idx
+   * Index: action_receipt_actions_receipt_included_in_block_timestamp_inde
    * Index: action_receipt_actions_receiver_and_timestamp_idx
    */
   receipt_included_in_block_timestamp: string;
@@ -36,7 +40,10 @@ export interface ActionReceiptActionsInitializer {
   /** Primary key. Index: receipt_action_action_pk */
   receipt_id: ReceiptsId;
 
-  /** Primary key. Index: receipt_action_action_pk */
+  /**
+   * Index: action_receipt_actions_receipt_included_in_block_timestamp_inde
+   * Primary key. Index: receipt_action_action_pk
+   */
   index_in_action_receipt: number;
 
   /** Index: action_receipt_actions_action_kind_idx */
@@ -55,6 +62,7 @@ export interface ActionReceiptActionsInitializer {
 
   /**
    * Index: action_receipt_actions_receipt_included_in_block_timestamp_idx
+   * Index: action_receipt_actions_receipt_included_in_block_timestamp_inde
    * Index: action_receipt_actions_receiver_and_timestamp_idx
    */
   receipt_included_in_block_timestamp: string;

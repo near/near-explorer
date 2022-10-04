@@ -45,7 +45,7 @@ export const router = trpc.router<Context>().mutation("upsert", {
         bandwidth_download: nodeInfo.system.bandwidth_download,
         bandwidth_upload: nodeInfo.system.bandwidth_upload,
         cpu_usage: nodeInfo.system.cpu_usage,
-        memory_usage: nodeInfo.system.memory_usage,
+        memory_usage: nodeInfo.system.memory_usage.toString(),
         boot_time_seconds: nodeInfo.system.boot_time_seconds
           ? new Date(nodeInfo.system.boot_time_seconds * 1000)
           : null,

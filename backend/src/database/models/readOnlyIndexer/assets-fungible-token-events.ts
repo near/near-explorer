@@ -31,7 +31,10 @@ export default interface AssetsFungibleTokenEvents {
    */
   emitted_index_of_event_entry_in_shard: number;
 
-  /** Primary key. Index: assets__fungible_token_events_pkey */
+  /**
+   * Index: assets__ft_contract_id_idx
+   * Primary key. Index: assets__fungible_token_events_pkey
+   */
   emitted_by_contract_account_id: string;
 
   /** Primary key. Index: assets__fungible_token_events_pkey */
@@ -83,7 +86,10 @@ export interface AssetsFungibleTokenEventsInitializer {
    */
   emitted_index_of_event_entry_in_shard: number;
 
-  /** Primary key. Index: assets__fungible_token_events_pkey */
+  /**
+   * Index: assets__ft_contract_id_idx
+   * Primary key. Index: assets__fungible_token_events_pkey
+   */
   emitted_by_contract_account_id: string;
 
   /** Primary key. Index: assets__fungible_token_events_pkey */
