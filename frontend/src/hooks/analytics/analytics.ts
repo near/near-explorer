@@ -1,4 +1,5 @@
 import Analytics from "analytics-node";
+import { uniqueId } from "lodash";
 import { getConfig } from "../../libraries/config";
 
 export type AnalyticsEvent = {
@@ -12,7 +13,7 @@ const init = () => {
   if (segment) {
     return console.log("Segment Analytics has already been initialized");
   }
-  anonymousId = Math.random().toString().substring(2);
+  anonymousId = uniqueId(Date.now() + "_");
   const {
     publicRuntimeConfig: { segmentWriteKey },
   } = getConfig();
