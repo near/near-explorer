@@ -1,9 +1,9 @@
 import * as React from "react";
-import mixpanel, { Dict } from "mixpanel-browser";
+import analytics, { AnalyticsEvent } from "./analytics";
 
 export const useAnalyticsTrack = () => {
-  return React.useCallback<(event: string, args?: Dict) => void>(
-    (event, args) => mixpanel.track(event, args),
+  return React.useCallback<(event: string, args?: AnalyticsEvent) => void>(
+    (event, args) => analytics.track(event, args),
     []
   );
 };

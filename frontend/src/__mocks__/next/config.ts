@@ -11,6 +11,7 @@ const config: ExplorerConfig & NextConfig = {
     nearNetworks: {},
     backendConfig,
     googleAnalytics: "",
+    segmentWriteKey: "",
   },
   serverRuntimeConfig: {
     backendConfig,

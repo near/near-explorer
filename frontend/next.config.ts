@@ -35,6 +35,7 @@ const config = merge(
     backendSsr: cloneDeep(defaultBackendConfig),
     networks: {} as Partial<Record<NetworkName, NearNetwork>>,
     googleAnalytics: undefined,
+    segmentWriteKey: "",
   },
   getOverrides("NEAR_EXPLORER_CONFIG")
 );
@@ -47,6 +48,7 @@ const nextConfig: ExplorerConfig & NextConfig = {
     nearNetworks: config.networks,
     backendConfig: config.backend,
     googleAnalytics: config.googleAnalytics,
+    segmentWriteKey: config.segmentWriteKey,
   },
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `fs` module

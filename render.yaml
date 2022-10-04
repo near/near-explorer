@@ -60,6 +60,8 @@ services:
 
       - key: NEAR_EXPLORER_CONFIG__GOOGLE_ANALYTICS
         value: UA-100373569-14
+      - key: NEAR_EXPLORER_CONFIG__SEGMENT_WRITE_KEY
+        value: HyPKyainIhsaHvjkOGTIxn3x8JBDpEmy
       - key: NEAR_EXPLORER_CONFIG__NETWORKS
         value: |
           {
