@@ -32,7 +32,7 @@ export const getConfig = (): ExplorerConfig => {
 };
 
 export function getNearNetworkName(
-  query: ParsedUrlQuery,
+  query: ParsedUrlQuery | qs.ParsedQs,
   hostname?: string
 ): NetworkName {
   const config = getConfig();
