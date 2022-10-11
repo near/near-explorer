@@ -9,6 +9,7 @@ import { config } from "./config";
 import { initGlobalState } from "./global-state";
 import { Context } from "./context";
 import { createLogging } from "../../common/src/utils/logging";
+import { startPrometheusPush } from "../../common/src/utils/prometheus";
 
 const backendRegistry = new prometheus.Registry();
 
@@ -45,6 +46,11 @@ async function main(router: AppRouter): Promise<void> {
     createContext: () => context,
   };
 
+  const stopPrometheusPush = await startPrometheusPush(
+    backendRegistry,
+    `explorer-backend-${config.networkName}`
+  );
+
   const app = createApp(trpcOptions, backendRegistry);
 
   const server = app.listen(config.port, () => {
@@ -57,6 +63,7 @@ async function main(router: AppRouter): Promise<void> {
   if (!config.offline) {
     await setupTelemetryDb();
     shutdownHandlers.push(runTasks(context));
+    shutdownHandlers.push(stopPrometheusPush);
   }
 
   const gracefulShutdown = (signal: NodeJS.Signals) => {

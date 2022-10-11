@@ -5,6 +5,7 @@ import {
   createLogging,
   getMetricsHandler,
 } from "../../common/src/utils/logging";
+import { startPrometheusPush } from "../../common/src/utils/prometheus";
 import { getNearNetworkName } from "../src/libraries/config";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -20,6 +21,11 @@ const main = async () => {
   await app.prepare();
   const logging = await createLogging(frontendRegistry);
   const expressApp = express();
+
+  const stopPrometheusPush = await startPrometheusPush(
+    frontendRegistry,
+    "explorer-frontend"
+  );
 
   expressApp.get("/metrics", getMetricsHandler(frontendRegistry));
 
@@ -51,6 +57,7 @@ const main = async () => {
 
   const gracefulShutdown = (signal: NodeJS.Signals) => {
     console.log(`Got ${signal} signal, shutting down`);
+    stopPrometheusPush();
     app.close().catch((err) => {
       if (err) {
         console.error("Error on server close", err);
