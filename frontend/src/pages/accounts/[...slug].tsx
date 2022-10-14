@@ -5,19 +5,19 @@ import * as ReactQuery from "react-query";
 import { useTranslation } from "react-i18next";
 import { GetServerSideProps, NextPage } from "next";
 
-import { Account } from "../../../types/common";
-import { useAnalyticsTrackOnMount } from "../../../hooks/analytics/use-analytics-track-on-mount";
+import { Account } from "../../types/common";
+import { useAnalyticsTrackOnMount } from "../../hooks/analytics/use-analytics-track-on-mount";
 
-import AccountHeader from "../../../components/beta/accounts/AccountHeader";
-import AccountTabs from "../../../components/beta/accounts/AccountTabs";
-import { trpc } from "../../../libraries/trpc";
-import { styled } from "../../../libraries/styles";
+import AccountHeader from "../../components/beta/accounts/AccountHeader";
+import AccountTabs from "../../components/beta/accounts/AccountTabs";
+import { trpc } from "../../libraries/trpc";
+import { styled } from "../../libraries/styles";
 import {
   useAccountPageOptions,
   parseAccountSlug,
   AccountPageOptions,
   buildAccountUrl,
-} from "../../../hooks/use-account-page-options";
+} from "../../hooks/use-account-page-options";
 
 const Wrapper = styled("div", {
   backgroundColor: "#fff",
