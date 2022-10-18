@@ -4,14 +4,10 @@ WORKDIR /near-explorer
 ENV HOME=/tmp
 COPY ./package-lock.json ./package.json ./tsconfig.json ./
 COPY ./patches/ ./patches/
-COPY ./common/package.json ./common/tsconfig.json ./common/
-COPY ./frontend/package.json ./frontend/tsconfig.json ./frontend/
-COPY ./backend/package.json ./backend/tsconfig.json ./backend/
-RUN npm clean-install
-
 COPY ./common ./common
 COPY ./frontend ./frontend
 COPY ./backend ./backend
+RUN npm clean-install
 
 RUN npm run -w frontend build
 RUN npm run -w frontend compile-nextjs-config

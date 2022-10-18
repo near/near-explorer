@@ -4,12 +4,9 @@ WORKDIR /near-explorer
 ENV HOME=/tmp
 COPY ./package-lock.json ./package.json ./tsconfig.json ./
 COPY ./patches/ ./patches/
-COPY ./common/package.json ./common/tsconfig.json ./common/
-COPY ./backend/package.json ./backend/tsconfig.json ./backend/
-RUN npm clean-install
-
 COPY ./common ./common
 COPY ./backend ./backend
+RUN npm clean-install
 
 RUN npm run -w backend build
 
