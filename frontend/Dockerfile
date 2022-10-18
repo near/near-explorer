@@ -29,5 +29,6 @@ COPY --from=build /near-explorer/frontend/public ./frontend/public
 COPY --from=build /near-explorer/frontend/next.config.js ./frontend/
 COPY --from=build /near-explorer/frontend/.next ./frontend/.next
 COPY --from=build /near-explorer/frontend/package.json ./frontend/package.json
+COPY --from=build /near-explorer/frontend/node_modules ./frontend/node_modules
 
 ENTRYPOINT ["npm", "run", "-w", "frontend", "start"]
