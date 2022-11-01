@@ -2,7 +2,7 @@ import { EventEmitter } from "events";
 import { setupTelemetryDb } from "./utils/telemetry";
 import { runTasks } from "./cron";
 import { AppRouter, router } from "./router";
-import { connectWebsocketServer, createApp } from "./server";
+import { connectWebsocketServer, createApp, RouterOptions } from "./server";
 import { config } from "./config";
 import { initGlobalState } from "./global-state";
 import { Context } from "./context";
@@ -19,9 +19,16 @@ async function main(router: AppRouter): Promise<void> {
   // We subscribe to the emitter on every client subscriber
   // Therefore we set max listeners to limit to infinity
   context.subscriptionsEventEmitter.setMaxListeners(0);
-  const trpcOptions = {
+  const trpcOptions: RouterOptions = {
     router,
     createContext: () => context,
+    onError: ({ error, ctx, type, path }) => {
+      if (!ctx) {
+        return;
+      }
+      console.error(`[${error.code}] ${type} "${path}": ${error.message}`);
+    },
+    responseMeta: () => ({ status: 200 }),
   };
 
   const app = createApp(trpcOptions);
