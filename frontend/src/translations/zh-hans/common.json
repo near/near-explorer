@@ -71,7 +71,7 @@
       "no": "否"
     },
     "date_time": {
-      "date_time_format": "Modo, yyyy, aaah:mm:ss",
+      "date_time_format": "yyyy年M月d日, ah:mm:ss",
       "date_format": "Modo, yyyy",
       "time_format": "aaa h:mm:ss",
       "transaction_date_format": "dd/MM/yyyy h:mm"
