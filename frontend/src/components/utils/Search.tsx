@@ -256,9 +256,13 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
     [value, trpcContext, router]
   );
   const onChange = React.useCallback(
-    (event) => setValue(event.currentTarget.value),
+    (event) => {
+      console.log("next value", event.currentTarget.value);
+      setValue(event.currentTarget.value);
+    },
     [setValue]
   );
+  console.log("the value", value);
 
   const compact = !dashboard;
 
@@ -282,7 +286,7 @@ const Search: React.FC<Props> = React.memo(({ dashboard }) => {
             autoCapitalize="none"
             onChange={onChange}
             compact={compact}
-            value={value}
+            value={value || ""}
           />
 
           {dashboard && (
