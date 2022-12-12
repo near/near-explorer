@@ -697,7 +697,7 @@ export const stakingPoolMetadataInfoCheck: RegularCheckFn = {
     ) {
       const metadataInfo = await nearApi.callViewMethod<
         Record<string, PoolMetadataAccountInfo>
-      >("name.near", "get_all_fields", {
+      >("pool-details.near", "get_all_fields", {
         from_index: currentIndex,
         limit: VALIDATOR_DESCRIPTION_QUERY_AMOUNT,
       });
