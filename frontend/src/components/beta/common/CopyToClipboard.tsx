@@ -37,7 +37,6 @@ const CopyToClipboard: React.FC<Props> = React.memo((props) => {
   const stopPropagation = React.useCallback<
     React.MouseEventHandler<HTMLDivElement>
   >((e) => {
-    console.log("STUP");
     e.stopPropagation();
     e.preventDefault();
   }, []);
