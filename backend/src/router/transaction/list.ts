@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Context } from "../../context";
 import { validators } from "../validators";
 import { Indexer, indexerDatabase } from "../../database/databases";
-import { SelectQueryBuilder } from "kysely";
+import { SelectQueryBuilder, sql } from "kysely";
 import { nanosecondsToMilliseconds } from "../../utils/bigint";
 import {
   mapDatabaseTransactionStatus,
@@ -42,28 +42,28 @@ const getTransactionList = async (
   let selection = withCondition(
     indexerDatabase.selectFrom("transactions")
   ).select([
-    "transaction_hash as hash",
-    "signer_account_id as signerId",
-    "receiver_account_id as receiverId",
-    "included_in_block_hash as blockHash",
-    "block_timestamp as timestamp",
-    "index_in_chunk as indexInChunk",
-    "status",
+    sql`distinct transactions.transaction_hash`.castTo<string>().as("hash"),
+    "transactions.signer_account_id as signerId",
+    "transactions.receiver_account_id as receiverId",
+    "transactions.included_in_block_hash as blockHash",
+    "transactions.block_timestamp as timestamp",
+    "transactions.index_in_chunk as indexInChunk",
+    "transactions.status",
   ]);
   if (cursor !== undefined) {
     selection = selection.where((wi) =>
       wi
-        .where("block_timestamp", "<", cursor.timestamp)
+        .where("transactions.block_timestamp", "<", cursor.timestamp)
         .orWhere((wi) =>
           wi
-            .where("block_timestamp", "=", cursor.timestamp)
-            .where("index_in_chunk", "<", cursor.indexInChunk)
+            .where("transactions.block_timestamp", "=", cursor.timestamp)
+            .where("transactions.index_in_chunk", "<", cursor.indexInChunk)
         )
     );
   }
   const transactions = await selection
-    .orderBy("block_timestamp", "desc")
-    .orderBy("index_in_chunk", "desc")
+    .orderBy("transactions.block_timestamp", "desc")
+    .orderBy("transactions.index_in_chunk", "desc")
     .limit(limit)
     .execute();
 
@@ -132,13 +132,19 @@ export const router = trpc
     }),
     resolve: async ({ input: { accountId, limit, cursor } }) => {
       return getTransactionList(limit, cursor, (selection) =>
-        selection.where("transaction_hash", "in", (eb) =>
-          eb
-            .selectFrom("receipts")
-            .select("originated_from_transaction_hash")
-            .where("predecessor_account_id", "=", accountId)
-            .orWhere("receiver_account_id", "=", accountId)
-        )
+        selection
+          .innerJoin("receipts", (jb) =>
+            jb.onRef(
+              "transactions.transaction_hash",
+              "=",
+              "receipts.originated_from_transaction_hash"
+            )
+          )
+          .where((jb) =>
+            jb
+              .where("receipts.predecessor_account_id", "=", accountId)
+              .orWhere("receipts.receiver_account_id", "=", accountId)
+          )
       );
     },
   })
